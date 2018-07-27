@@ -1065,10 +1065,16 @@
       button.set.remove();
     }
     setScrollable(html) {
-      insertHtml(this.scrollable, `beforeEnd`, `<div>${html}</div>`);
+      createElements(this.scrollable, `beforeEnd`, [{
+        type: `div`,
+        children: html
+      }]);
     }
-    getScrollable(html = ``) {
-      return insertHtml(this.scrollable, `beforeEnd`, `<div>${html}</div>`);
+    getScrollable(html) {
+      return createElements(this.scrollable, `beforeEnd`, [{
+        type: `div`,
+        children: html
+      }]);
     }
     setError(message) {
       createElements(this.progress, `inner`, [{
@@ -1222,7 +1228,7 @@
       }
       this.popup.setProgress(`Loading more...`);
       this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-      this.context = this.mainContext ? insertHtml(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
+      this.context = this.mainContext ? createElements(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
       let i = 0;
       while (!this.isCanceled && (i < this.perLoad || (esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
         let url = this.items[this.index];
@@ -1304,15 +1310,24 @@
       }
     }
     addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-      const row = insertHtml(this.rows, `beforeEnd`, `
-        <div class="table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}">
-          <div class="table__row-inner-wrap">
-            ${name && isCollapsible ? `              
-              <i class="fa fa-chevron-right"></i>
-            ` : ``}
-          </div>
-        </div>
-      `).firstElementChild;
+      const row = createElements(this.rows, `beforeEnd`, [{
+        attributes: {
+          class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: name && isCollapsible ? [{
+            attributes: {
+              class: `fa fa-chevron-right`
+            },
+            type: `i`
+          }] : null
+        }]
+      }]).firstElementChild;
       let group = null;
       if (name) {
         if (isCollapsibleGroup) {
@@ -1347,12 +1362,10 @@
         let cell = columns ? columns[i] : ``;
         let additionalClasses = [];
         let alignment = `center`;
-        let attributes = [];
         let size = `small`;
-        if (cell && typeof cell === `object`) {
+        if (cell && typeof cell === `object` && !Array.isArray(cell)) {
           additionalClasses = additionalClasses.concat(cell.additionalClasses);
           alignment = cell.alignment || alignment;
-          attributes = attributes.concat(cell.attributes);
           size = cell.size || size;
           cell = cell.value;
         }
@@ -1368,11 +1381,21 @@
         if (isBold) {
           additionalClasses.push(`esgst-bold`);
         }
-        const column = insertHtml(row, `beforeEnd`, `
-          <div class="table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}" ${attributes.join(` `)}>
-            ${cell}
-          </div>
-        `);
+        const attributes = {
+          class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
+        };
+        if (cell.attributes) {
+          for (const attribute of cell.attribute) {
+            const parts = attribute.match(/(.+?)="(.+?)"/);
+            attributes[parts[1]] = attributes[parts[2]];
+          }
+        }
+        const column = createElements(row, `beforeEnd`, [{
+          attributes,
+          text: Array.isArray(cell) ? `` : cell,
+          type: `div`,
+          children: Array.isArray(cell) ? cell : null
+        }]);
         if (group) {
           group.columns.push(column);
         }
@@ -1446,16 +1469,39 @@
       this.sg = sg;
       this.st = st;
       this.value = value;
-      this.container = insertHtml(context, `beforeEnd`, `
-        <div class="esgst-toggle-switch-container ${inline ? `inline` : ``}">
-          <label class="esgst-toggle-switch">
-            <input type="checkbox">
-            <div class="esgst-toggle-switch-slider"></div>
-          </label>
-          <span>${name}</span>
-          ${tooltip ? `<i class="fa fa-question-circle" title="${tooltip}"></i>` : ``}
-        </div>
-      `);
+      this.container = createElements(context, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-toggle-switch-container ${inline ? `inline` : ``}`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-toggle-switch`
+          },
+          type: `label`,
+          children: [{
+            attributes: {
+              type: `checkbox`
+            },
+            type: `input`
+          }, {
+            attributes: {
+              class: `esgst-toggle-switch-slider`
+            },
+            type: `div`
+          }]
+        }, {
+          text: typeof name === `string` ? name : ``,
+          type: `span`,
+          children: typeof name === `string` ? null : name
+        }, tooltip ? {
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: tooltip
+          },
+          type: `i`
+        } : null]
+      }]);
       this.switch = this.container.firstElementChild;
       this.input = this.switch.firstElementChild;
       this.name = this.switch.nextElementSibling;
@@ -2036,7 +2082,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.1`,
-      devVersion: `7.25.0 (Dev.4)`,
+      devVersion: `7.25.0 (Dev.5)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3121,15 +3167,29 @@
       return;
     }
 
-    esgst.minimizePanel = insertHtml(esgst.pageOuterWrap, `beforeEnd`, `
-      <div class="esgst-minimize-panel">
-        <div class="esgst-minimize-container markdown">
-          <h3>Minimized Popups:</h3>
-          <hr></hr>
-          <ul class="esgst-minimize-list"></ul>
-        </div>
-      </div>
-    `);
+    esgst.minimizePanel = createElements(esgst.pageOuterWrap, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-minimize-panel`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-minimize-container markdown`
+        },
+        type: `div`,
+        children: [{
+          text: `Minimized Popups:`,
+          type: `h3`
+        }, {
+          type: `hr`
+        }, {
+          attributes: {
+            class: `esgst-minimize-list`
+          },
+          type: `ul`
+        }]
+      }]
+    }]);
     esgst.minimizeList = esgst.minimizePanel.firstElementChild.lastElementChild;
   }
 
@@ -3838,21 +3898,48 @@
               width: calc(100% - ${size + 15}px);
             }
           `);
-          panel = insertHtml(esgst.sidebar, `beforeEnd`, `
-            <h3 class="sidebar__heading">
-              <span class="esgst-adots-tab-heading esgst-selected">Discussions</span>
-              <span class="esgst-adots-tab-heading">Deals</span>
-              <a class="esgst-float-right sidebar__navigation__item__name" href="/discussions">More</a>
-            </h3>
-          `);
+          panel = createElements(esgst.sidebar, `beforeEnd`, [{
+            attributes: {
+              class: `sidebar__heading`
+            },
+            type: `h3`,
+            children: [{
+              attributes: {
+                class: `esgst-adots-tab-heading esgst-selected`
+              },
+              text: `Discussions`,
+              type: `span`
+            }, {
+              attributes: {
+                class: `esgst-adots-tab-heading`
+              },
+              text: `Deals`,
+              type: `span`
+            }, {
+              attributes: {
+                class: `esgst-float-right sidebar__navigation__item__name`,
+                href: `/discussions`
+              },
+              text: `More`,
+              type: `a`
+            }]
+          }]);
           tabHeading1 = panel.firstElementChild;
           tabHeading2 = tabHeading1.nextElementSibling;
           if (esgst.radb) {
-            insertHtml(tabHeading2.nextElementSibling, `beforeBegin`, `
-              <div class="esgst-radb-button" title="${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}">
-                <i class="fa fa-refresh"></i>
-              </div>
-            `).addEventListener(`click`, event => {
+            createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
+              attributes: {
+                class: `esgst-radb-button`,
+                title: `${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `fa fa-refresh`
+                },
+                type: `i`
+              }]
+            }]).addEventListener(`click`, event => {
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
               if (esgst.oadd) {
@@ -4504,10 +4591,28 @@
     for (const user of comments) {
       if (entries.indexOf(user) > -1) {
         // user commented and entered
-        both.push(`<a href="/user/${user}">${user}</a>`);
+        both.push({
+          attributes: {
+            href: `/user/${user}`
+          },
+          text: user,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
       } else {
         // user commented but did not enter
-        commented.push(`<a href="/user/${user}">${user}</a>`);
+        commented.push({
+          attributes: {
+            href: `/user/${user}`
+          },
+          text: user,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
       }
     }
     let entered = [];
@@ -4515,27 +4620,60 @@
     for (const user of entries) {
       if (comments.indexOf(user) < 0) {
         // user entered but did not comment
-        entered.push(`<a href="/user/${user}">${user}</a>`);
+        entered.push({
+          attributes: {
+            href: `/user/${user}`
+          },
+          text: user,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
         total += 1;
       }
     }
-    obj.popup.setScrollable(`
-      ${both.length > 0 ? `
-        <div>
-          <span class="esgst-bold">${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%):</span> ${both.join(`, `)}
-        </div>
-      ` : ``}
-      ${commented.length > 0 ? `
-        <div>
-          <span class="esgst-bold">${commented.length} user${commented.length > 1 ? `s` : ``} commented but did not enter (${Math.round(commented.length / total * 10000) / 100}%):</span> ${commented.join(`, `)}
-        </div>
-      ` : ``}
-      ${entered.length > 0 ? `
-        <div>
-          <span class="esgst-bold">${entered.length} user${entered.length > 1 ? `s` : ``} entered but did not comment (${Math.round(entered.length / total * 10000) / 100}%):</span> ${entered.join(`, `)}
-        </div>
-      ` : ``}
-    `);
+    both.pop();
+    commented.pop();
+    entered.pop();
+    const items = [];
+    if (both.length > 0) {
+      items.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: ` ${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%): `,
+          type: `span`
+        }, ...both]
+      });
+    }
+    if (commented.length > 0) {
+      items.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `${commented.length} user${commented.length > 1 ? `s` : ``} commented but did not enter (${Math.round(commented.length / total * 10000) / 100}%): `,
+          type: `span`
+        }, ...commented]
+      });
+    }
+    if (entered.length > 0) {
+      items.push({
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `${entered.length} user${entered.length > 1 ? `s` : ``} entered but did not comment (${Math.round(entered.length / total * 10000) / 100}%): `,
+          type: `span`
+        }, ...entered]
+      });
+    }
+    obj.popup.setScrollable(items);
   }
 
   function cec_stop(obj) {
@@ -4634,7 +4772,34 @@
         options: [
           {
             check: true,
-            description: `Limit search by pages, from <input class="esgst-switch-input" type="number" min="1" name="cs_minPage" value="${esgst.cs_minPage}"> to <input class="esgst-switch-input" name="cs_maxPage" min="1" type="number" value="${esgst.cs_maxPage}">.`,
+            description: [{
+              text: `Limit search by pages, from `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `esgst-switch-input`,
+                min: `i`,
+                name: `cs_minPage`,
+                type: `number`,
+                value: esgst.cs_minPage
+              },
+              type: `input`
+            }, {
+              text: ` to `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `esgst-switch-input`,
+                min: `i`,
+                name: `cs_maxPage`,
+                type: `number`,
+                value: esgst.cs_maxPage
+              },
+              type: `input`
+            }, {
+              text: `.`,
+              type: `node`
+            }],
             id: `cs_limitPages`,
             tooltip: `If unchecked, all pages will be searched.`
           }
@@ -5459,12 +5624,21 @@
           key = `read_messages`;
           url = `/messages`;
         } else {
-          newButton = insertHtml(button, `afterEnd`, `
-            <a class="page_heading_btn green">
-              <i class="fa fa-check-square-o"></i>
-              <span>Mark as Read</span>
-            </a>
-          `);
+          newButton = createElements(button, `afterEnd`, [{
+            attributes: {
+              class: `page_heading_btn green`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-check-square-o`
+              },
+              type: `i`
+            }, {
+              text: `Mark as Read`,
+              type: `span`
+            }]
+          }]);
           key = `mark_as_read`;
           url = `/ajax.php`;
         }
@@ -5545,24 +5719,70 @@
       code,
       count,
       diff,
-      panel: insertHtml(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, `
-        <span>
-          <span class="esgst-ct-count esgst-hidden" title="${getFeatureTooltip(`ct`)}">(+${diff})</span>
-          <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)}">
-            <i class="fa fa-comments-o"></i>
-          </div>
-          <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)}">
-            <i class="fa fa-eye"></i>
-          </div>
-          <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)}">
-            <i class="fa fa-eye-slash"></i>
-          </div>
-          <div class="esgst-heading-button esgst-hidden" title="${getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)}">
-            <i class="fa fa-paint-brush"></i>
-          </div>
-          <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
-        </span>
-      `),
+      panel: createElements(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, [{
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `esgst-ct-count esgst-hidden`,
+            title:getFeatureTooltip(`ct`)
+          },
+          text: `(+${diff})`,
+          type: `span`
+        }, {        
+          attributes: {
+            class: `esgst-heading-button esgst-hidden`,
+            title: getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-comments-o`
+            },
+            type: `i`
+          }]
+        }, {        
+          attributes: {
+            class: `esgst-heading-button esgst-hidden`,
+            title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-eye`
+            },
+            type: `i`
+          }]
+        }, {        
+          attributes: {
+            class: `esgst-heading-button esgst-hidden`,
+            title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-eye-slash`
+            },
+            type: `i`
+          }]
+        }, {        
+          attributes: {
+            class: `esgst-heading-button esgst-hidden`,
+            title: getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-paint-brush`
+            },
+            type: `i`
+          }]
+        }, {
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin esgst-hidden`
+          },
+          type: `i`
+        }]
+      }]),
       url
     };
     obj.diffContainer = obj.panel.firstElementChild;
@@ -5951,7 +6171,7 @@
 
   function dh() {
     new Process({
-      button: insertHtml(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
+      button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
       popup: {
         icon: `fa-star`,
         title: `Highlited Discussions`,
@@ -5978,17 +6198,37 @@
       obj.keys.push(key);
       obj.items.push(`/discussion/${key}/`);
     }
-    obj.mainContext = obj.popup.getScrollable(`
-      <div class="table esgst-text-left">
-        <div class="table__heading">
-          <div class="table__column--width-fill">Summary</div>
-          <div class="table__column--width-small text-center">Comments</div>
-        </div>
-      </div>
-    `).lastElementChild;
-    obj.contextHtml = `
-      <div class="table__rows"></div>
-    `;
+    obj.mainContext = obj.popup.getScrollable([{
+      attributes: {
+        class: `table esgst-text-left`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__heading`
+        },
+        type: `div`,
+        children: [{          
+          attributes: {
+            class: `table__column--width-fill`
+          },
+          text: `Summary`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small text-center`
+          },
+          text: `Comments`,
+          type: `div`
+        }]
+      }]
+    }]).lastElementChild;
+    obj.contextHtml = [{
+      attributes: {
+        class: `table__rows`
+      },
+      type: `div`
+    }];
   }
 
   function dh_requestUrl(obj, details, response, responseHtml) {
@@ -6137,21 +6377,76 @@
     if (obj.popout) return;
     obj.popout = new Popout(`esgst-ds-popout`, obj.button, 0, true);
     new ToggleSwitch(obj.popout.popout, `ds_auto`, false, `Auto Sort`, false, false, `Automatically sorts the discussions by the selected option when loading the page.`, esgst.ds_auto);
-    let options = insertHtml(obj.popout.popout, `beforeEnd`, `
-      <select>
-        <option value="sortIndex_asc">Default</option>
-        <option value="title_asc">Title - Ascending</option>
-        <option value="title_desc">Title - Descending</option>
-        <option value="category_asc">Category - Ascending</option>
-        <option value="category_desc">Category - Descending</option>
-        <option value="createdTimestamp_asc">Created Time - Ascending</option>
-        <option value="createdTimestamp_desc">Created Time - Descending</option>
-        <option value="author_asc">Author - Ascending</option>
-        <option value="author_desc">Author - Descending</option>
-        <option value="comments_asc">Comments - Ascending</option>
-        <option value="comments_desc">Comments - Descending</option>
-      </select>
-    `);
+    let options = createElements(obj.popout.popout, `beforeEnd`, [{
+      type: `select`,
+      children: [{
+        attributes: {
+          value: `sortIndex_asc`
+        },
+        text: `Default`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `title_asc`
+        },
+        text: `Title - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `title_desc`
+        },
+        text: `Title - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `category_asc`
+        },
+        text: `Category - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `category_desc`
+        },
+        text: `Category - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `createdTimestamp_asc`
+        },
+        text: `Created Time - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `createdTimestamp_desc`
+        },
+        text: `Created Time - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `author_asc`
+        },
+        text: `Author - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `author_desc`
+        },
+        text: `Author - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `comments_asc`
+        },
+        text: `Comments - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `comments_desc`
+        },
+        text: `Comments - Descending`,
+        type: `option`
+      }]
+    }]);
     options.value = esgst.ds_option;
     let callback = saveAndSortContent.bind(null, `ds_option`, `mainDiscussions`, options, null);
     options.addEventListener(`change`, callback);
@@ -6229,15 +6524,36 @@
       esgst.endlessFeatures.push(et_getEntries);
     }
     if (!esgst.sg) return;
-    insertHtml(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, `
-      <div class="esgst-header-menu-row" data-link-id="et" data-link-key="account" title="${getFeatureTooltip(`et`)}">
-        <i class="fa fa-fw fa-ticket red"></i>
-        <div>
-          <p class="esgst-header-menu-name">My Entry History</p>
-          <p class="esgst-header-menu-description">View your entry history.</p>
-        </div>
-      </div>
-    `).addEventListener(`click`, et_menu);
+    createElements(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
+      attributes: {
+        class: `esgst-header-menu-row`,
+        [`data-link-id`]: `et`,
+        [`data-link-key`]: `account`,
+        title: getFeatureTooltip(`et`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-fw fa-ticket red`
+        },
+        type: `i`
+      }, {
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-header-menu-name`
+          },
+          text: `My Entry History`,
+          type: `p`
+        }, {
+          attributes: {
+            class: `esgst-header-menu-description`
+          },
+          text: `View your entry history.`,
+          type: `p`
+        }]
+      }]
+    }]).addEventListener(`click`, et_menu);
     if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
       let code, name;
       code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
@@ -6300,17 +6616,49 @@
       }
     }
     let popup = new Popup(`fa-history`, `Entry Tracker`, true);
-    let rows = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-text-left esgst-float-right table" style="width: auto;">
-        <div class="table__heading">
-          <div class="table__column--width-small">Delete</div>
-          <div class="table__column--width-small">Date</div>
-          <div class="table__column--width-small">Entered</div>
-          <div class="table__column--width-small">Left</div>
-        </div>
-        <div class="table__rows"></div>
-      </div>
-    `).lastElementChild;
+    let rows = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left esgst-float-right table`,
+        style: `width: auto;`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Delete`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Date`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Entered`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Left`,
+          type: `div`
+        }]
+      }, {
+        attributes: {
+          class: `table__rows`
+        },
+        type: `div`
+      }]
+    }]).lastElementChild;
     let keys = Object.keys(dates);
     keys.sort();
     let lowest = {
@@ -6324,18 +6672,49 @@
     let total = 0;
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
-      let button = insertHtml(rows, `beforeEnd`, `
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div class="table__column--width-small esgst-text-center">
-              <i class="fa fa-times esgst-clickable" title="Delete"></i>
-            </div>
-            <div class="table__column--width-small">${dates[key].date}</div>
-            <div class="table__column--width-small">${dates[key].entered}</div>
-            <div class="table__column--width-small">${dates[key].left}</div>
-          </div>
-        </div>
-      `).firstElementChild.firstElementChild;
+      let button = createElements(rows, `beforeEnd`, [{
+        attributes: {
+          class: `table__row-outer-wrap`,
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-small esgst-text-center`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-times esgst-clickable`,
+                title: `Delete`
+              },
+              type: `i`
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: dates[key].date,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: dates[key].entered,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: dates[key].left,
+            type: `div`
+          }]
+        }]
+      }]).firstElementChild.firstElementChild;
       button.firstElementChild.addEventListener(`click`, et_deleteEntry.bind(null, button, dates[key].date, popup));
       if (dates[key].entered < lowest.count) {
         lowest.count = dates[key].entered;
@@ -6495,15 +6874,36 @@
 
   function ch() {
     new Process({
-      button: insertHtml(esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, `
-        <div class="esgst-header-menu-row" data-link-id="ch" data-link-key="account" title="${getFeatureTooltip(`ch`)}">
-          <i class="fa fa-fw fa-comments yellow"></i>
-          <div>
-            <p class="esgst-header-menu-name">My Comment History</p>
-            <p class="esgst-header-menu-description">View your comment history.</p>
-          </div>
-        </div>
-      `),
+      button: createElements(esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, [{
+        attributes: {
+          class: `esgst-header-menu-row`,
+          [`data-link-id`]: `ch`,
+          [`data-link-key`]: `account`,
+          title: getFeatureTooltip(`ch`)
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-fw fa-comments yellow`
+          },
+          type: `i`
+        }, {
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-header-menu-name`
+            },
+            text: `My Comment History`,
+            type: `p`
+          }, {
+            attributes: {
+              class: `esgst-header-menu-description`
+            },
+            text: `View your comment history.`,
+            type: `p`
+          }]
+        }]
+      }]),
       popup: {
         icon: `fa-comments`,
         title: `Comment History`,
@@ -6759,14 +7159,28 @@
             element.remove();
           }
           if (key === `footer`) {
-            source.elements[item.id] = insertHtml(source.context, `afterBegin`, `
-              <${esgst.sg ? `div` : `li`} data-link-id="${item.id}" data-link-key="footer" title="${getFeatureTooltip(`chfl`)}">
-                <i class="fa ${item.icon}"></i>
-                <a href="${item.url}">${item.name}</a>
-              </${esgst.sg ? `div` : `li`}>
-            `);
+            source.elements[item.id] = createElements(source.context, `afterBegin`, [{
+              attributes: {
+                [`data-link-id`]: item.id,
+                [`data-link-key`]: `footer`,
+                title: getFeatureTooltip(`chfl`)
+              },
+              type: esgst.sg ? `div` : `li`,
+              children: [{
+                attributes: {
+                  class: `fa ${item.icon}`
+                },
+                type: `i`
+              }, {
+                attributes: {
+                  href: item.url
+                },
+                text: item.name,
+                type: `a`
+              }]
+            }]);
           } else {
-            source.elements[item.id] = insertHtml(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
+            source.elements[item.id] = createElements(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
             source.elements[item.id].title = getFeatureTooltip(`chfl`);
             if (!item.description) {
               source.elements[item.id].classList.add(`esgst-chfl-small`);
@@ -6852,19 +7266,43 @@
       const source = chfl.sources[key];
       if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
-      const button = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
-        <${esgst.sg ? `div` : `li`} class="esgst-chfl-button">
-          <i class="fa fa-plus"></i>
-          <a href="#">Add Custom Link</a>
-        </${esgst.sg ? `div` : `li`}>
-      ` : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
+      const button = createElements(source.context, `beforeEnd`, key === `footer` ? [{
+        attributes: {
+          class: `esgst-chfl-button`
+        },
+        type: esgst.sg ? `div` : `li`,
+        children: [{
+          attributes: {
+            class: `fa fa-plus`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            href: `#`
+          },
+          text: `Add Custom Link`,
+          type: `a`
+        }]
+      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
       button.addEventListener(`click`, chfl_openPopup.bind(null, chfl, null, key));
-      const resetButton = insertHtml(source.context, `beforeEnd`, key === `footer` ? `
-        <${esgst.sg ? `div` : `li`} class="esgst-chfl-button">
-          <i class="fa fa-undo"></i>
-          <a href="#">Reset Links</a>
-        </${esgst.sg ? `div` : `li`}>
-      ` : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
+      const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
+        attributes: {
+          class: `esgst-chfl-button`
+        },
+        type: esgst.sg ? `div` : `li`,
+        children: [{
+          attributes: {
+            class: `fa fa-undo`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            href: `#`
+          },
+          text: `Reset Links`,
+          type: `a`
+        }]
+      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
       resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, chfl_resetLinks.bind(null, chfl, key), null));
       for (const subKey in source.elements) {
         const element = source.elements[subKey],
@@ -7023,12 +7461,25 @@
     }
     esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
     await setValue(`settings`, JSON.stringify(esgst.settings));
-    chfl.sources[key].elements[item.id] = insertHtml(chfl.sources[key].context, `beforeEnd`, key === `footer` ? `
-      <${esgst.sg ? `div` : `li`} data-link-id="${item.id}" data-link-key="footer">
-        <i class="fa ${item.icon}"></i>
-        <a href="${item.url}">${item.name}</a>
-      </${esgst.sg ? `div` : `li`}>
-    ` : generateHeaderMenuItem(item, key));
+    chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
+      attributes: {
+        [`data-link-id`]: item.id,
+        [`data-link-key`]: `footer`
+      },
+      type: esgst.sg ? `div` : `li`,
+      children: [{
+        attributes: {
+          class: `fa ${item.icon}`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          href: item.url
+        },
+        text: item.name,
+        type: `a`
+      }]
+    }] : generateHeaderMenuItem(item, key));
     if (!item.description) {
       chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
     }
@@ -7199,16 +7650,38 @@
     comments = document.getElementsByClassName(`comments`)[0];
     if (comments && comments.children.length) {
       esgst.cerbButtons = [];
-      button = insertHtml(esgst.mainPageHeading, `afterEnd`, `
-        <div class="esgst-cerb-button esgst-clickable">
-          <span>
-            <i class="fa fa-minus-square"></i> Collapse all replies
-          </span>
-          <span class="esgst-hidden">
-            <i class="fa fa-plus-square"></i> Expand all replies
-          </span>
-        </div>
-      `);
+      button = createElements(esgst.mainPageHeading, `afterEnd`, [{
+        attributes: {
+          class: `esgst-cerb-button esgst-clickable`
+        },
+        type: `div`,
+        children: [{
+          type: `span`,
+          children: [{
+            attributes: {
+              class: `fa fa-minus-square`
+            },
+            type: `i`
+          }, {
+            text: ` Collapse all replies`,
+            type: `node`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-hidden`
+          },
+          type: `span`,
+          children: [{
+            attributes: {
+              class: `fa fa-plus-square`
+            },
+            type: `i`
+          }, {
+            text: ` Expand all replies`,
+            type: `node`
+          }]
+        }]
+      }]);
       collapse = button.firstElementChild;
       expand = collapse.nextElementSibling;
       collapse.addEventListener(`click`, cerb_collapseAllReplies.bind(null, collapse, expand));
@@ -7225,16 +7698,34 @@
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);
       if (replies && replies.children.length) {
-        cerb_setButton(insertHtml(reply.firstElementChild, `afterBegin`, `
-          <div class="esgst-cerb-reply-button esgst-clickable">
-            <span title="${getFeatureTooltip(`cerb`, `Collapse all replies`)}">
-              <i class="fa fa-minus-square"></i>
-            </span>
-            <span class="esgst-hidden" title="${getFeatureTooltip(`cerb`, `Expand all replies`)}">
-              <i class="fa fa-plus-square"></i>
-            </span>
-          </div>
-        `), permalink && reply.contains(permalink), reply, replies.children);
+        cerb_setButton(createElements(reply.firstElementChild, `afterBegin`, [{
+          attributes: {
+            class: `esgst-cerb-reply-button esgst-clickable`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              title: getFeatureTooltip(`cerb`, `Collapse all replies`)
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-minus-square`
+              },
+            }]
+          }, {
+            attributes: {
+              class: `esgst-hidden`,
+              title: getFeatureTooltip(`cerb`, `Expand all replies`)
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-plus-square`
+              },
+            }]
+          }]
+        }]), permalink && reply.contains(permalink), reply, replies.children);
       }
     }
     if (esgst.cerb_a) {
@@ -11749,14 +12240,31 @@
   }
 
   async function df_initUrls(obj) {
-    obj. discussions = obj.popup.getScrollable(`
-      <div class="table esgst-text-left">
-        <div class="table__heading">
-          <div class="table__column--width-fill">Summary</div>
-          <div class="table__column--width-small text-center">Comments</div>
-        </div>
-      </div>
-    `);
+    obj. discussions = obj.popup.getScrollable([{
+      attributes: {
+        class: `table esgst-text-left`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__heading`
+        },
+        type: `div`,
+        children: [{          
+          attributes: {
+            class: `table__column--width-fill`
+          },
+          text: `Summary`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small text-center`
+          },
+          text: `Comments`,
+          type: `div`
+        }]
+      }]
+    }]);
     const discussions = JSON.parse(await getValue(`discussions`));
     let hidden = [];
     for (const key in discussions) {
@@ -13261,13 +13769,26 @@
           rule.values = [`true`, `false`];
 
           if (!esgst[`${obj.id}_m_b`]) {
-            context = insertHtml(booleanFilters, `beforeEnd`, `
-              <div ${esgst[`${obj.id}_${key}`] && filter.check ? `` : `class="esgst-hidden"`}>
-                <span></span>
-                <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
-                ${filter.name}
-              </div>
-            `);
+            const attributes = {};
+            if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+              attributes.class = `esgst-hidden`;
+            }
+            context = createElements(booleanFilters, `beforeEnd`, [{
+              attributes,
+              type: `div`,
+              children: [{
+                type: `span`
+              }, {
+                attributes: {
+                  class: `esgst-gf-filter-count`,
+                  title: `Number of items this rule is hiding`
+                },
+                type: `span`
+              }, {
+                text: filter.name,
+                type: `node`
+              }]
+            }]);
             checkbox = new Checkbox(context.firstElementChild, `enabled`, true);
             obj.basicFilters[rule.id] = {
               data: {
@@ -13304,15 +13825,40 @@
             rule.type = `date`;
 
             if (!esgst[`${obj.id}_m_b`]) {
-              context = insertHtml(numberFilters, `beforeEnd`, `
-                <div ${esgst[`${obj.id}_${key}`] && filter.check ? `` : `class="esgst-hidden"`}>
-                  <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
-                  ${filter.name}
-                  <span>
-                    <input type="date">-<input type="date">
-                  </span>
-                </div>
-              `);
+              const attributes = {};
+              if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+                attributes.class = `esgst-hidden`;
+              }
+              context = createElements(numberFilters, `beforeEnd`, [{
+                attributes,
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `esgst-gf-filter-count`,
+                    title: `Number of items this rule is hiding`
+                  },
+                  type: `span`
+                }, {
+                  text: filter.name,
+                  type: `node`
+                }, {
+                  type: `span`,
+                  children: [{
+                    attributes: {
+                      type: `date`
+                    },
+                    type: `input`
+                  }, {
+                    text: `-`,
+                    type: `node`
+                  }, {
+                    attributes: {
+                      type: `date`
+                    },
+                    type: `input`
+                  }]
+                }]
+              }]);
             }
           } else {
             rule.input = `number`;
@@ -13328,15 +13874,40 @@
             };
 
             if (!esgst[`${obj.id}_m_b`]) {
-              context = insertHtml(numberFilters, `beforeEnd`, `
-                <div ${esgst[`${obj.id}_${key}`] && filter.check ? `` : `class="esgst-hidden"`}>
-                  <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
-                  ${filter.name}
-                  <span>
-                    <input type="number">-<input type="number">
-                  </span>
-                </div>
-              `);
+              const attributes = {};
+              if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+                attributes.class = `esgst-hidden`;
+              }
+              context = createElements(numberFilters, `beforeEnd`, [{
+                attributes,
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `esgst-gf-filter-count`,
+                    title: `Number of items this rule is hiding`
+                  },
+                  type: `span`
+                }, {
+                  text: filter.name,
+                  type: `node`
+                }, {
+                  type: `span`,
+                  children: [{
+                    attributes: {
+                      type: `number`
+                    },
+                    type: `input`
+                  }, {
+                    text: `-`,
+                    type: `node`
+                  }, {
+                    attributes: {
+                      type: `number`
+                    },
+                    type: `input`
+                  }]
+                }]
+              }]);
             }
           }
 
@@ -13365,15 +13936,35 @@
           rule.type = `string`;
 
           if (!esgst[`${obj.id}_m_b`]) {
-            context = insertHtml(stringFilters, `beforeEnd`, `
-              <div ${esgst[`${obj.id}_${key}`] && filter.check ? `` : `class="esgst-hidden"`}>
-                <span>
-                  <span></span> ${filter.name}
-                </span>
-                <span class="esgst-gf-filter-count" title="Number of items this rule is hiding"></span>
-                <input placeholder="Item1, Item2, ..." type="text">
-              </div>
-            `);
+            const attributes = {};
+            if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+              attributes.class = `esgst-hidden`;
+            }
+            context = createElements(stringFilters, `beforeEnd`, [{
+              attributes,
+              type: `div`,
+              children: [{
+                type: `span`,
+                children: [{
+                  type: `span`
+                }, {
+                  text: ` ${filter.name}`,
+                  type: `node`
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-gf-filter-count`,
+                  title: `Number of items this rule is hiding`
+                },
+                type: `span`
+              }, {
+                attributes: {
+                  placeholder: `Item1, Item2, ...`,
+                  type: `text`
+                },
+                type: `input`
+              }]
+            }]);
             checkbox = new Checkbox(context.firstElementChild.firstElementChild, `enabled`,  true);
             textInput = context.lastElementChild;
             obj.basicFilters[rule.id] = {
@@ -13662,22 +14253,60 @@
       ].forEach(filter => {
         if (!esgst[`${obj.id}_${filter.key}`]) return;
 
-        const sgFilter = insertHtml(sgFilters, `beforeEnd`, `
-          <div class="esgst-gf-category-filter">
-            <span>${filter.name}
-            ${filter.key === `os` ? `
-              <select>
-                <option value="0">All</option>
-                <option value="1">Windows</option>
-                <option value="2">Linux</option>
-                <option value="3">Mac</option>
-              </select>`
-            : ``}
-            </span>
-            <i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
-            <i class="fa fa-check esgst-green esgst-hidden"></i>
-          </div>
-        `);
+        const children = [{
+          text: filter.name,
+          type: `node`
+        }];
+        if (filter.key === `os`) {
+          children.push({
+            type: `select`,
+            children: [{
+              attributes: {
+                value: `0`
+              },
+              text: `All`,
+              type: `option`
+            }, {
+              attributes: {
+                value: `1`
+              },
+              text: `Windows`,
+              type: `option`
+            }, {
+              attributes: {
+                value: `2`
+              },
+              text: `Linux`,
+              type: `option`
+            }, {
+              attributes: {
+                value: `3`
+              },
+              text: `Mac`,
+              type: `option`
+            }]
+          })
+        }
+        const sgFilter = createElements(sgFilters, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-gf-category-filter`
+          },
+          type: `div`,
+          children: [{
+            type: `span`,
+            children
+          }, {
+            attributes: {
+              class: `fa fa-circle-o-notch fa-spin esgst-hidden`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              class: `fa fa-check esgst-green esgst-hidden`
+            },
+            type: `i`
+          }]
+        }]);
         const check = sgFilter.lastElementChild;
         const spinning = check.previousElementSibling;
         if (filter.key === `os`) {
@@ -13731,69 +14360,265 @@
       title: `Advanced Filters Manual`,
       addScrollable: `left`
     });
-    obj.popup.getScrollable(`
-      <div class="esgst-bold">Interface</div>
-      <br>
-      <div class="markdown">
-        <ul>
-          <li><span class="esgst-bold"><i class="fa fa-square-o"></i> NOT</span> - If checked, only items that do not apply to the group will be shown.</li>
-          <li><span class="esgst-bold">AND</span> - Turns the group into an AND group, which means that only items that apply to every single rule of the group will be shown.</li>
-          <li><span class="esgst-bold">OR</span> - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.</li>
-          <li><span class="esgst-bold"><i class="fa fa-arrows"></i></span> - Allows you reorder/move rules/groups. The order of the rules does not alter the result.</li>
-          <li><span class="esgst-bold"><i class="fa fa-pause"></i> Pause</span> - Allows you to pause the rule/group, so that it does not filter anything until you resume it or refresh the page.</li>
-          <li>The other buttons in the interface should be self-explanatory.</li>
-        </ul>
-      </div>
-      <br>
-      <div class="esgst-bold">Types of Filters</div>
-      <br>
-      <div class="markdown">
-        <ul>
-          <li><span class="esgst-bold">Boolean</span> - Presents a choice between true and false. Set to true if you only want to see items that apply to the filter, and to false otherwise. For example, if you only want to see giveaways that are on your wishlist, set wishlisted to "true"; if you only want to see giveaways that you have not entered, set entered to "false".</li>
-          <li><span class="esgst-bold">Number</span> - Presents a text field and a choice between equal, not equal, less, less or equal, greater, greater or equal, is null and is not null. Enter the value that you want in the text field and choose the option that you want. For example, if you only want to see giveaways above level 5, you can either set level to "greater than 4" or to "greater or equal to 5". The is null and is not null options regard the presence of the filter. For example, some giveaways do not have a rating. If you still want to see those giveaways when filtering by rating, add an additional rule and set rating to "is null".</li>
-          <li><span class="esgst-bold">Text</span> - Presents a text field and a choice between contains and doesn't contain. Enter the values that you want in the text field, separated by a comma followed by a space, and choose the option that you want. For example, if you only want to see giveaways that have the adventure or the action genres, set genres to "contains Adventure, Action". But if you only want to see giveaways that have both the adventure and the action genres, add 2 rules, set one to "contains Adventure" and the other to "contains Action", and turn the group into an AND group.</li>
-        </ul>
-      </div>
-      <br>
-      <div class="esgst-bold">Building the Filters</div>
-      <br>
-      <div class="markdown">
-        <div>The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:</div>
-        <ul>
-          <li>Show me a="true" AND b="false".</li>
-          <li>Show me a="false" OR b="true".</li>
-          <li>Do NOT show me a="true".</li>
-        </ul>
-        <div>The building process for the filters above becomes, respectively:</div>
-        <ul>
-          <li>Turn group into AND, add rule a="true", add rule b="false".</li>
-          <li>Turn group into OR, add rule a="false", add rule b="true".</li>
-          <li>Check NOT option, add rule a="true".</li>
-        </ul>
-        <div>For more advanced filters, think in parenthesis:</div>
-        <ul>
-          <li>Show me (a="true" AND b="false") OR c="greater or equal to 5".</li>
-          <li>Show me (a="false" AND b="true" AND c="false") OR (d="true" AND e="false") OR f="equal to 2".</li>
-          <li>Show me (a="true" AND b="false" AND c="true" AND d="false") AND do NOT show me e="contains Adventure, Action".</li>
-        </ul>
-        <div>Each parenthesis represents a new group. NOT filters also represent a new group, since there isn't a NOT option for rules. So the building process for the filters above becomes, respectively:</div>
-        <ul>
-          <li>Turn group into OR, add group (turn group into AND, add rule a="true", add rule b="false"), add rule c="greater or equal to 5".</li>
-          <li>Turn group into OR, add group (turn group into AND, add rule a="false", add rule b="true", add rule c="false"), add group (turn group into AND, add rule d="true", add rule e="false"), add rule f="equal to 2".</li>
-          <li>Turn group into AND, add group (turn group into AND, add rule a="true", add rule b="false", add rule c="true", add rule d="false"), add group (check NOT option, add rule e="contains Adventure, Action").</li>
-        </ul>
-        <div>Real example: suppose you only want to see giveaways that are for level 5 or more and that have achievements or trading cards. The sentence for that system is:</div>
-        <ul>
-          <li>Show me level="greater or equal to 5" AND (achievements="true" OR tradingCards="true").</li>
-        </ul>
-        <div>And the building process is:</div>
-        <ul>
-          <li>Turn group into AND, add rule level="greater or equal to 5", add group (turn group into OR, add rule achievements="true", add rule tradingCards="true").</li>
-        </ul>
-        <div>The final result is illustrated in the picture below:</div>
-      </div>
-      <img src="https://i.imgur.com/F1UXcKs.png">
-    `);
+    obj.popup.getScrollable([{
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Interface`,
+      type: `div`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        class: `markdown`
+      },
+      type: `div`,
+      children: [{
+        type: `ul`,
+        children: [{
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-square-o`
+              },
+              type: `i`
+            }, {
+              text: ` NOT`,
+              type: `node`
+            }]
+          }, {
+            text: ` - If checked, only items that do not apply to the group will be shown.`,
+            type: `node`
+          }]
+        }, {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `AND`,
+            type: `span`
+          }, {
+            text: ` - Turns the group into an AND group, which means that only items that apply to every single rule of the group will be shown.`,
+            type: `node`
+          }]
+        }, {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `OR`,
+            type: `span`
+          }, {
+            text: ` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`,
+            type: `node`
+          }]
+        }, {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-arrows`
+              },
+              type: `i`
+            }]
+          }, {
+            text: ` - Allows you reorder/move rules/groups. The order of the rules does not alter the result.`,
+            type: `node`
+          }]
+        }, {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-pause`
+              },
+              type: `i`
+            }, {
+              text: ` Pause`,
+              type: `node`
+            }]
+          }, {
+            text: ` - Allows you to pause the rule/group, so that it does not filter anything until you resume it or refresh the page.`,
+            type: `node`
+          }]
+        }, {
+          text: `The other buttons in the interface should be self-explanatory.`,
+          type: `li`
+        }]
+      }]
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Types of Filters`,
+      type: `div`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        class: `markdown`
+      },
+      type: `div`,
+      children: [{
+        type: `ul`,
+        children: [{
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `Boolean`,
+            type: `span`
+          }, {
+            text: ` - Presents a choice between true and false. Set to true if you only want to see items that apply to the filter, and to false otherwise. For example, if you only want to see giveaways that are on your wishlist, set wishlisted to "true"; if you only want to see giveaways that you have not entered, set entered to "false".`,
+            type: `node`
+          }]
+        }, {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `Number`,
+            type: `span`
+          }, {
+            text: ` - Presents a text field and a choice between equal, not equal, less, less or equal, greater, greater or equal, is null and is not null. Enter the value that you want in the text field and choose the option that you want. For example, if you only want to see giveaways above level 5, you can either set level to "greater than 4" or to "greater or equal to 5". The is null and is not null options regard the presence of the filter. For example, some giveaways do not have a rating. If you still want to see those giveaways when filtering by rating, add an additional rule and set rating to "is null".`,
+            type: `node`
+          }]
+        }, {
+          type: `li`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: `Text`,
+            type: `span`
+          }, {
+            text: ` - Presents a text field and a choice between contains and doesn't contain. Enter the values that you want in the text field, separated by a comma followed by a space, and choose the option that you want. For example, if you only want to see giveaways that have the adventure or the action genres, set genres to "contains Adventure, Action". But if you only want to see giveaways that have both the adventure and the action genres, add 2 rules, set one to "contains Adventure" and the other to "contains Action", and turn the group into an AND group.`,
+            type: `node`
+          }]
+        }]
+      }]
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        class: `esgst-bold`
+      },
+      text: `Building the Filters`,
+      type: `div`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        class: `markdown`
+      },
+      type: `div`,
+      children: [{
+        text: `The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`,
+        type: `div`
+      }, {
+        type: `ul`,
+        children: [{
+          text: `Show me a="true" AND b="false".`,
+          type: `li`
+        }, {
+          text: `Show me a="false" OR b="true".`,
+          type: `li`
+        }, {
+          text: `Do NOT show me a="true".`,
+          type: `li`
+        }]
+      }, {
+        text: `The building process for the filters above becomes, respectively:`,
+        type: `div`
+      }, {
+        type: `ul`,
+        children: [{
+          text: `Turn group into AND, add rule a="true", add rule b="false".`,
+          type: `li`
+        }, {
+          text: `Turn group into OR, add rule a="false", add rule b="true".`,
+          type: `li`
+        }, {
+          text: `Check NOT option, add rule a="true".`,
+          type: `li`
+        }]
+      }, {
+        text: `For more advanced filters, think in parenthesis:`,
+        type: `div`
+      }, {
+        type: `ul`,
+        children: [{
+          text: `Show me (a="true" AND b="false") OR c="greater or equal to 5".`,
+          type: `li`
+        }, {
+          text: `Show me (a="false" AND b="true" AND c="false") OR (d="true" AND e="false") OR f="equal to 2".`,
+          type: `li`
+        }, {
+          text: `Show me (a="true" AND b="false" AND c="true" AND d="false") AND do NOT show me e="contains Adventure, Action".`,
+          type: `li`
+        }]
+      }, {
+        text: `Each parenthesis represents a new group. NOT filters also represent a new group, since there isn't a NOT option for rules. So the building process for the filters above becomes, respectively:`,
+        type: `div`
+      }, {
+        type: `ul`,
+        children: [{
+          text: `Turn group into OR, add group (turn group into AND, add rule a="true", add rule b="false"), add rule c="greater or equal to 5".`,
+          type: `li`
+        }, {
+          text: `Turn group into OR, add group (turn group into AND, add rule a="false", add rule b="true", add rule c="false"), add group (turn group into AND, add rule d="true", add rule e="false"), add rule f="equal to 2".`,
+          type: `li`
+        }, {
+          text: `Turn group into AND, add group (turn group into AND, add rule a="true", add rule b="false", add rule c="true", add rule d="false"), add group (check NOT option, add rule e="contains Adventure, Action").`,
+          type: `li`
+        }]
+      }, {
+        text: `Real example: suppose you only want to see giveaways that are for level 5 or more and that have achievements or trading cards. The sentence for that system is:`,
+        type: `div`
+      }, {
+        type: `ul`,
+        children: [{
+          text: `Show me level="greater or equal to 5" AND (achievements="true" OR tradingCards="true").`,
+          type: `li`
+        }]
+      }, {
+        text: `And the building process is:`,
+        type: `div`
+      }, {
+        type: `ul`,
+        children: [{
+          text: `Turn group into AND, add rule level="greater or equal to 5", add group (turn group into OR, add rule achievements="true", add rule tradingCards="true").`,
+          type: `li`
+        }]
+      }, {
+        text: `The final result is illustrated in the picture below:`,
+        type: `div`
+      }]
+    }, {
+      attributes: {
+        src: `https://i.imgur.com/F1UXcKs.png`
+      },
+      type: `img`
+    }]);
     obj.popup.open();
   }
 
@@ -15065,27 +15890,76 @@
           user = glwc.users[k];
           users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
         });
-        createTooltip(insertHtml(libraryResults, `beforeEnd`, `
-          <div class="table__row-outer-wrap">
-            <div class="table__row-inner-wrap">
-              <div class="table__column--width-small text-center">
-                <span class="table__column__rank">${j}.</span>
-              </div>
-              <div>
-                <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-              </div>
-              <div class="table__column--width-fill">
-                <p class="table__column__heading">${game.name}</p>
-                <p>
-                  <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-                </p>
-              </div>
-              <div class="table__column--width-small text-center">
-                <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
-              </div>
-            </div>
-          </div>
-        `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+        createTooltip(createElements(libraryResults, `beforeEnd`, [{
+          attributes: {
+            class: `table__row-outer-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__row-inner-wrap`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column--width-small text-center`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column__rank`
+                },
+                text: `${j}.`,
+                type: `span`
+              }]
+            }, {
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table_image_thumbnail`,
+                  style: `background-image:url(${game.logo});`
+                },
+                type: `div`
+              }]
+            }, {
+              attributes: {
+                class: `table__column--width-fill`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column__heading`
+                },
+                text: game.name,
+                type: `p`
+              }, {
+                type: `p`,
+                children: [{
+                  attributes: {
+                    class: `table__column__secondary-link`,
+                    href: `http://store.steampowered.com/app/${game.id}`,
+                    rel: `nofollow`,
+                    target: `_blank`
+                  },
+                  text: `http://store.steampowered.com/app/${game.id}`,
+                  type: `a`
+                }]
+              }]
+            }, {
+              attributes: {
+                class: `table__column--width--small text-center`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column__secondary-link esgst-clickable`
+                },
+                text: `${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)`,
+                type: `span`
+              }]
+            }]
+          }]
+        }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
       }
     } else {
       createElements(libraryResults, `inner`, [{
@@ -15112,27 +15986,76 @@
         user = glwc.users[k];
         users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
       });
-      createTooltip(insertHtml(wishlistResults, `beforeEnd`, `
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div class="table__column--width-small text-center">
-              <span class="table__column__rank">${j}.</span>
-            </div>
-            <div>
-              <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-            </div>
-            <div class="table__column--width-fill">
-              <p class="table__column__heading">${game.name}</p>
-              <p>
-                <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-              </p>
-            </div>
-            <div class="table__column--width-small text-center">
-              <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)</span>
-            </div>
-          </div>
-        </div>
-      `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+      createTooltip(createElements(wishlistResults, `beforeEnd`, [{
+        attributes: {
+          class: `table__row-outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__rank`
+              },
+              text: `${j}.`,
+              type: `span`
+            }]
+          }, {
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table_image_thumbnail`,
+                style: `background-image:url(${game.logo});`
+              },
+              type: `div`
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__heading`
+              },
+              text: game.name,
+              type: `p`
+            }, {
+              type: `p`,
+              children: [{
+                attributes: {
+                  class: `table__column__secondary-link`,
+                  href: `http://store.steampowered.com/app/${game.id}`,
+                  rel: `nofollow`,
+                  target: `_blank`
+                },
+                text: `http://store.steampowered.com/app/${game.id}`,
+                type: `a`
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width--small text-center`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__secondary-link esgst-clickable`
+              },
+              text: `${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)`,
+              type: `span`
+            }]
+          }]
+        }]
+      }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
     }
     libraryInput.addEventListener(`input`, () => {
       const value = libraryInput.value.toLowerCase();
@@ -15232,27 +16155,76 @@
                 user = glwc.users[k];
                 users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
               });
-              createTooltip(insertHtml(librarySearch, `beforeEnd`, `
-                <div class="table__row-outer-wrap">
-                  <div class="table__row-inner-wrap">
-                    <div class="table__column--width-small text-center">
-                      <span class="table__column__rank">-</span>
-                    </div>
-                    <div>
-                      <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-                    </div>
-                    <div class="table__column--width-fill">
-                      <p class="table__column__heading">${game.name}</p>
-                      <p>
-                        <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-                      </p>
-                    </div>
-                    <div class="table__column--width-small text-center">
-                      <span class="table__column__secondary-link esgst-clickable">${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)</span>
-                    </div>
-                  </div>
-                </div>
-              `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+              createTooltip(createElements(librarySearch, `beforeEnd`, [{
+                attributes: {
+                  class: `table__row-outer-wrap`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `table__row-inner-wrap`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column--width-small text-center`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__rank`
+                      },
+                      text: `-`,
+                      type: `span`
+                    }]
+                  }, {
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table_image_thumbnail`,
+                        style: `background-image:url(${game.logo});`
+                      },
+                      type: `div`
+                    }]
+                  }, {
+                    attributes: {
+                      class: `table__column--width-fill`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__heading`
+                      },
+                      text: game.name,
+                      type: `p`
+                    }, {
+                      type: `p`,
+                      children: [{
+                        attributes: {
+                          class: `table__column__secondary-link`,
+                          href: `http://store.steampowered.com/app/${game.id}`,
+                          rel: `nofollow`,
+                          target: `_blank`
+                        },
+                        text: `http://store.steampowered.com/app/${game.id}`,
+                        type: `a`
+                      }]
+                    }]
+                  }, {
+                    attributes: {
+                      class: `table__column--width--small text-center`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__secondary-link esgst-clickable`
+                      },
+                      text: `${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)`,
+                      type: `span`
+                    }]
+                  }]
+                }]
+              }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
               j += 1;
             }
           }
@@ -15368,27 +16340,76 @@
                 user = glwc.users[k];
                 users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/wishlists">${user.username}</a>`);
               });
-              createTooltip(insertHtml(wishlistSearch, `beforeEnd`, `
-                <div class="table__row-outer-wrap">
-                  <div class="table__row-inner-wrap">
-                    <div class="table__column--width-small text-center">
-                      <span class="table__column__rank">-</span>
-                    </div>
-                    <div>
-                      <div class="table_image_thumbnail" style="background-image:url(${game.logo});"></div>
-                    </div>
-                    <div class="table__column--width-fill">
-                      <p class="table__column__heading">${game.name}</p>
-                      <p>
-                        <a class="table__column__secondary-link" href="http://store.steampowered.com/app/${game.id}" rel="nofollow" target="_blank">http://store.steampowered.com/app/${game.id}</a>
-                      </p>
-                    </div>
-                    <div class="table__column--width-small text-center">
-                      <span class="table__column__secondary-link esgst-clickable">${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)</span>
-                    </div>
-                  </div>
-                </div>
-              `).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+              createTooltip(createElements(wishlistSearch, `beforeEnd`, [{
+                attributes: {
+                  class: `table__row-outer-wrap`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `table__row-inner-wrap`
+                  },
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `table__column--width-small text-center`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__rank`
+                      },
+                      text: `-`,
+                      type: `span`
+                    }]
+                  }, {
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table_image_thumbnail`,
+                        style: `background-image:url(${game.logo});`
+                      },
+                      type: `div`
+                    }]
+                  }, {
+                    attributes: {
+                      class: `table__column--width-fill`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__heading`
+                      },
+                      text: game.name,
+                      type: `p`
+                    }, {
+                      type: `p`,
+                      children: [{
+                        attributes: {
+                          class: `table__column__secondary-link`,
+                          href: `http://store.steampowered.com/app/${game.id}`,
+                          rel: `nofollow`,
+                          target: `_blank`
+                        },
+                        text: `http://store.steampowered.com/app/${game.id}`,
+                        type: `a`
+                      }]
+                    }]
+                  }, {
+                    attributes: {
+                      class: `table__column--width--small text-center`
+                    },
+                    type: `div`,
+                    children: [{
+                      attributes: {
+                        class: `table__column__secondary-link esgst-clickable`
+                      },
+                      text: `${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)`,
+                      type: `span`
+                    }]
+                  }]
+                }]
+              }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
               j += 1;
             }
           }
@@ -15766,19 +16787,62 @@
 
   function gt_createTag(popup, tag) {
     let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, tagBox, tagContainer;
-    container = insertHtml(popup.tags, `beforeEnd`, `
-      <div class="esgst-gt-preview" draggable="true">
-        <div class="esgst-gt-tags">
-          <span class="global__image-outer-wrap author_avatar is_icon">${tag}</span>
-        </div>
-        <input class="esgst-hidden" type="text"/>
-        <input title="Set text color for this tag" type="color"/>
-        <input title="Set background color for this tag" type="color"/>
-        <i class="esgst-clickable fa fa-edit" title="Edit tag"></i>
-        <i class="esgst-clickable fa fa-trash" title="Delete tag"></i>
-        <i class="esgst-clickable fa fa-rotate-left" title="Reset tag color"></i>
-      </div>
-    `);
+    container = createElements(popup.tags, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-gt-preview`,
+        draggable: true
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-gt-tags`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `global__image-outer-wrap author_avatar is_icon`
+          },
+          text: tag,
+          type: `span`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-hidden`,
+          type: `text`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          title: `Set text color for this tag`,
+          type: `color`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          title: `Set background color for this tag`,
+          type: `color`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-edit`,
+          title: `Edit tag`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-trash`,
+          title: `Delete tag`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-rotate-left`,
+          title: `Reset tag color`
+        },
+        type: `i`
+      }]
+    }]);
     tagContainer = container.firstElementChild;
     tagBox = tagContainer.firstElementChild;
     input = tagContainer.nextElementSibling;
@@ -16639,15 +17703,38 @@
         giveaway.outerWrap.style.margin = `${esgst.gv_spacing}px`;
       }
       giveaway.innerWrap.classList.add(`esgst-gv-box`);
-      giveaway.gvIcons = insertHtml(giveaway.innerWrap, `afterBegin`, `
-        <div class="esgst-gv-icons giveaway__columns">
-          <div class="esgst-gv-time" data-columnId="time" draggable="true">
-            <span title="${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}">${getRemainingTime(giveaway.endTime)}</span>
-            <i class="fa fa-clock-o"></i>
-            <span title="Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}">${getRemainingTime(giveaway.startTime)}</span>
-          </div>
-        </div>
-      `);
+      giveaway.gvIcons = createElements(giveaway.innerWrap, `afterBegin`, [{
+        attributes: {
+          class: `esgst-gv-icons giveaway__columns`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-gv-time`,
+            [`data-columnId`]: `time`,
+            draggable: true
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              title: `${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}`
+            },
+            text: getRemainingTime(giveaway.endTime),
+            type: `span`
+          }, {
+            attributes: {
+              class: `fa fa-clock-o`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              title: `Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}`
+            },
+            text: getRemainingTime(giveaway.startTime),
+            type: `span`
+          }]
+        }]
+      }]);
       giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
       if (!esgst.lockGiveawayColumns) {
         giveaway.gvIcons.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
@@ -18525,16 +19612,53 @@
       },
       type: `input`
     }]);
-    let output = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-mgc-preview esgst-text-left markdown">
-        <div>
-          <p>← <a href="#">Previous</a> ← | → <a href="#">Next</a> → </p>
-        </div>
-        <br>
-        <pre><code>[ESGST-P]← [P]Previous[/P] ←[/ESGST-P] | [ESGST-N]→ [N]Next[/N] →[/ESGST-N]</code></pre>
-        <i class="esgst-clickable fa fa-copy"></i>
-      </div>
-    `);
+    let output = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-preview esgst-text-left markdown`
+      },
+      type: `div`,
+      children: [{
+        type: `div`,
+        children: [{
+          type: `p`,
+          children: [{
+            text: `← `,
+            type: `node`
+          }, {
+            attributes: {
+              href: `#`
+            },
+            text: `Previous`,
+            type: `a`
+          }, {
+            text: ` ← | → `,
+            type: `node`
+          }, {
+            attributes: {
+              href: `#`
+            },
+            text: `Next`,
+            type: `a`
+          }, {
+            text: ` →`,
+            type: `node`
+          }]
+        }]
+      }, {
+        type: `br`
+      }, {
+        type: `pre`,
+        children: [{
+          text: `[ESGST-P]← [P]Previous[/P] ←[/ESGST-P] | [ESGST-N]→ [N]Next[/N] →[/ESGST-N]`,
+          type: `code`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-copy`
+        },
+        type: `i`
+      }]
+    }]);
     let outputPreview = output.firstElementChild;
     let outputCopy = output.lastElementChild;
     let outputCode = outputCopy.previousElementSibling.firstElementChild;
@@ -18556,16 +19680,32 @@
       },
       type: `input`
     }]);
-    let counterOutput = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-mgc-preview esgst-text-left markdown">
-        <div>
-          <p>1 of 10</p>
-        </div>
-        <br>
-        <pre><code>[ESGST-C] of [/ESGST-C]</code></pre>
-        <i class="esgst-clickable fa fa-copy"></i>
-      </div>
-    `);
+    let counterOutput = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-preview esgst-text-left markdown`
+      },
+      type: `div`,
+      children: [{
+        type: `div`,
+        children: [{
+          text: `1 of 10`,
+          type: `p`
+        }]
+      }, {
+        type: `br`
+      }, {
+        type: `pre`,
+        children: [{
+          text: `[ESGST-C] of [/ESGST-C]`,
+          type: `code`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-copy`
+        },
+        type: `i`
+      }]
+    }]);
     let counterOutputPreview = counterOutput.firstElementChild;
     let counterOutputCopy = counterOutput.lastElementChild;
     let counterOutputCode = counterOutputCopy.previousElementSibling.firstElementChild;
@@ -18587,16 +19727,38 @@
       },
       type: `input`
     }]);
-    let bumpOutput = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-mgc-preview esgst-text-left markdown">
-        <div>
-          <p><a href="#">Bump</a></p>
-        </div>
-        <br>
-        <pre><code>[ESGST-B]Bump[/ESGST-B]</code></pre>
-        <i class="esgst-clickable fa fa-copy"></i>
-      </div>
-    `);
+    let bumpOutput = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-preview esgst-text-left markdown`
+      },
+      type: `div`,
+      children: [{
+        type: `div`,
+        children: [{
+          type: `p`,
+          children: [{
+            attributes: {
+              href: `#`
+            },
+            text: `Bump`,
+            type: `a`
+          }]
+        }]
+      }, {
+        type: `br`
+      }, {
+        type: `pre`,
+        children: [{
+          text: `[ESGST-B]Bump[/ESGST-B]`,
+          type: `code`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-copy`
+        },
+        type: `i`
+      }]
+    }]);
     let bumpOutputPreview = bumpOutput.firstElementChild;
     let bumpOutputCopy = bumpOutput.lastElementChild;
     let bumpOutputCode = bumpOutputCopy.previousElementSibling.firstElementChild;
@@ -18615,16 +19777,38 @@
       },
       type: `input`
     }]);
-    let trainOutput = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-mgc-preview esgst-text-left markdown">
-        <div>
-          <p><a href="#">Choo choo!</a></p>
-        </div>
-        <br>
-        <pre><code>[ESGST-T]Choo choo![/ESGST-T]</code></pre>
-        <i class="esgst-clickable fa fa-copy"></i>
-      </div>
-    `);
+    let trainOutput = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-mgc-preview esgst-text-left markdown`
+      },
+      type: `div`,
+      children: [{
+        type: `div`,
+        children: [{
+          type: `p`,
+          children: [{
+            attributes: {
+              href: `#`
+            },
+            text: `Choo choo!`,
+            type: `a`
+          }]
+        }]
+      }, {
+        type: `br`
+      }, {
+        type: `pre`,
+        children: [{
+          text: `[ESGST-T]Choo choo![/ESGST-T]`,
+          type: `code`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-copy`
+        },
+        type: `i`
+      }]
+    }]);
     let trainOutputPreview = trainOutput.firstElementChild;
     let trainOutputCopy = trainOutput.lastElementChild;
     let trainOutputCode = trainOutputCopy.previousElementSibling.firstElementChild;
@@ -18925,14 +20109,30 @@
     textArea = createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    progressPanel = insertHtml(popup.description, `beforeEnd`, `
-      <div>
-        <div class="esgst-progress-bar"></div>
-        <div>
-          <span>0</span> of <span>0</span> giveaways imported.
-        </div>
-      </div>
-    `);
+    progressPanel = createElements(popup.description, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-progress-bar`
+        },
+        type: `div`
+      }, {
+        type: `div`,
+        chidlren: [{
+          text: `0`,
+          type: `span`
+        }, {
+          text: ` of `,
+          type: `node`
+        }, {
+          text: `0`,
+          type: `span`
+        }, {
+          text: ` giveaways imported.`,
+          type: `node`
+        }]
+      }]
+    }]);
     progress = {
       bar: progressPanel.firstElementChild,
     };
@@ -19282,22 +20482,78 @@
       return;
     }
     let popup = new Popup(`fa-arrow-circle-right`, `ESGST will create the giveaways below. Are you sure you want to continue?`);
-    let rows = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="table esgst-mgc-table">
-        <div class="table__heading">
-          <div class="table__column--width-small">No.</div>
-          <div class="table__column--width-fill">Game</div>
-          <div class="table__column--width-small">Copies/Keys</div>
-          <div class="table__column--width-small">Start Time</div>
-          <div class="table__column--width-small">End Time</div>
-          <div class="table__column--width-small">Region Restricted</div>
-          <div class="table__column--width-small">Who Can Enter</div>
-          <div class="table__column--width-small">Level</div>
-          <div class="table__column--width-small">Description</div>
-        </div>
-        <div class="table__rows"></div>
-      </div>
-    `).lastElementChild;
+    let rows = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `table esgst-mgc-table`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `No.`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-fill`
+          },
+          text: `Game`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Copies/Keys`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Start Time`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `End Time`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Region Restricted`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Who Can Enter`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Level`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small`
+          },
+          text: `Description`,
+          type: `div`
+        }]
+      }, {
+        attributes: {
+          class: `table__rows`
+        },
+        type: `div`
+      }]
+    }]).lastElementChild;
     for (let i = 0, n = mgc.giveaways.children.length; i < n; i++) {
       let values = mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1];
       let regionRestricted = `No`;
@@ -20291,18 +21547,35 @@
         if (button.key === `searchReplace`) {
           new Process({
             button: element,
-            contextHtml: `
-              <div class="markdown">
-                <ul></ul>
-              </div>
-            `,
+            contextHtml: [{
+              attributes: {
+                class: `markdown`
+              },
+              type: `div`,
+              children: [{
+                type: `ul`
+              }]
+            }],
             popup: {
               icon: `fa-search`,
               title: `Search & Replace`,
               options: [
                 {
                   check: true,
-                  description: `Use <a class="esgst-bold" href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions">regular expression</a>.`,
+                  description: [{
+                    text: `Use `,
+                    type: `text`
+                  }, {
+                    attributes: {
+                      class: `esgst-bold`,
+                      href: `https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions`
+                    },
+                    text: `regular expression`,
+                    type: `a`
+                  }, {
+                    text: `.`,
+                    type: `node`
+                  }],
                   id: `mm_useRegExp`,
                   tooltip: null
                 }
@@ -21242,14 +22515,32 @@
         esgst.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
-        esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
-          <div class="nav__button-container nav__button-container--notification nav__button-container--active">
-            <a class="nav__button" href="https://www.steamtrades.com/messages" title="${getFeatureTooltip(`nm`, `SteamTrades Messages`)}">
-              <i class="fa fa-envelope esgst-nm-icon"></i>
-              <div class="nav__notification">${notification.textContent}</div>
-            </a>
-          </div>
-        `);
+        esgst.altInboxButton = createElements(esgst.inboxButton, `afterEnd`, [{
+          attributes: {
+            class: `nav__button-container nav__button-container--notification nav__button-container--active`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `nav__button`,
+              href: `https://www.steamtrades.com/messages`,
+              title: getFeatureTooltip(`nm`, `SteamTrades Messages`)
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-envelope esgst-nm-icon`
+              },
+              type: `i`
+            }, {
+              attributes: {
+                class: `nav__notification`
+              },
+              text: notification.textContent,
+              type: `div`
+            }]
+          }]
+        }]);
         esgst.altMessageCount = esgst.altInboxButton.firstElementChild.lastElementChild;
       }
     } else {
@@ -21267,14 +22558,38 @@
         esgst.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
-        esgst.altInboxButton = insertHtml(esgst.inboxButton, `afterEnd`, `
-          <div class="nav_btn_container" title="${getFeatureTooltip(`nm`)}">
-            <a class="nav_btn" href="https://www.steamgifts.com/messages">
-              <i class="fa fa-envelope esgst-nm-icon"></i>
-              <span>Messages <span class="message_count">${notification.textContent}</span></span>
-            </a>
-          </div>
-        `);
+        esgst.altInboxButton = createElements(esgst.inboxButton, `afterEnd`, [{
+          attributes: {
+            class: `nav_btn_container`,
+            title: getFeatureTooltip(`nm`)
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `nav_btn`,
+              href: `https://www.steamgifts.com/messages`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-envelope esgst-nm-icon`
+              },
+              type: `i`
+            }, {
+              type: `span`,
+              children: [{
+                text: `Messages `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `message_count`
+                },
+                text: notification.textContent,
+                type: `span`
+              }]
+            }]
+          }]
+        }]);
         esgst.altMessageCount = esgst.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
       }
     }
@@ -22589,19 +23904,19 @@
           createElements(context, `inner`, [{
             type: `table`
           }, {
-            attributs: {
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             title: `Insert Row`,
             type: `div`
           }, {
-            attributs: {
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             title: `Insert Column`,
             type: `div`
           }, {
-            attributs: {
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             title: `Add`,
@@ -22678,12 +23993,29 @@
             } else {
               let emoji, emojis, filter, i;
               popup = new Popup_v2({icon: `fa-smile-o`, title: `Select emojis:`, addScrollable: true});
-              filter = popup.getScrollable(`
-                <input placeholder="Filter emojis..." type="text"/>
-                <div class="esgst-cfh-emojis"></div>
-                <div class="esgst-description">Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.</div>
-                <div class="global__image-outer-wrap page_heading_btn esgst-cfh-emojis"></div>
-              `).firstElementChild;
+              filter = popup.getScrollable([{
+                attributes: {
+                  placeholder: `Filter emojis...`,
+                  type: `text`
+                },
+                type: `input`
+              }, {
+                attributes: {
+                  class: `esgst-cfh-emojis`
+                },
+                type: `div`
+              }, {
+                attributes: {
+                  class: `esgst-description`
+                },
+                text: `Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`,
+                type: `div`
+              }, {
+                attributes: {
+                  class: `global__image-outer-wrap page_heading_btn esgst-cfh-emojis`
+                },
+                type: `div`
+              }]).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
               createElements(savedEmojis, `inner`, await cfh_getEmojis());
@@ -25732,20 +27064,62 @@
 
   function cfh_setReply(replies, savedReply) {
     let editButton, description, name, replaceButton, reply, summary;
-    reply = insertHtml(replies, `beforeEnd`, `
-      <div class="esgst-cfh-sr-box" draggable="true">
-        <div class="esgst-cfh-sr-summary">
-          <div class="esgst-cfh-sr-name">${savedReply.name}</div>
-          <div class="esgst-cfh-sr-description">${savedReply.description}</div>
-        </div>
-        <div class="esgst-cfh-sr-controls">
-          <i class="esgst-clickable fa fa-retweet" title="Replace description with current reply"></i>
-          <i class="esgst-clickable fa fa-edit" title="Edit reply"></i>
-          <i class="esgst-clickable fa fa-trash" title="Delete reply"></i>
-          <i class="fa fa-question-circle" title="Drag the reply to move it"></i>
-        </div>
-      </div>
-    `);
+    reply = createElements(replies, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-cfh-sr-box`,
+        draggable: true
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-cfh-sr-summary`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-cfh-sr-name`
+          },
+          text: savedReply.name,
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-cfh-sr-description`
+          },
+          text: savedReply.description,
+          type: `div`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-cfh-sr-controls`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-clickable fa fa-retweet`,
+            title: `Replace description with current reply`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `esgst-clickable fa fa-edit`,
+            title: `Edit reply`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `esgst-clickable fa fa-trash`,
+            title: `Delete reply`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: `Drag the reply to move it`
+          },
+          type: `i`
+        }]
+      }]
+    }]);
     summary = reply.firstElementChild;
     name = summary.firstElementChild;
     description = name.nextElementSibling;
@@ -25868,18 +27242,31 @@
         type: `node`
       }]
     }]);
-    panel = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div>
-        <div>
-          <div>Name:</div>
-          <input type="text" value="${name || ``}"/>
-        </div>
-        <div>
-          <div>Description:</div>
-          <textarea>${description || ``}</textarea>
-        </div>
-      </div>
-    `);
+    panel = createElements(popup.scrollable, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        type: `div`,
+        children: [{
+          text: `Name`,
+          type: `div`
+        }, {
+          attributes: {
+            type: `text`,
+            value: name || ``
+          },
+          type: `input`
+        }]
+      }, {
+        type: `div`,
+        children: [{
+          text: `Description:`,
+          type: `div`
+        }, {
+          text: description || ``,
+          type: `textarea`
+        }]
+      }]
+    }]);
     nameArea = panel.firstElementChild;
     descriptionArea = nameArea.nextElementSibling;
     nameArea = nameArea.lastElementChild;
@@ -26540,9 +27927,57 @@
     }]);
     new ToggleSwitch(sks.popup.description, `sks_exportKeys`, false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, esgst.sks_exportKeys);
     let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, esgst.sks_searchCurrent);
-    let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, `Limit search by date, from <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_minDate}"> to <input class="esgst-switch-input esgst-switch-input-large" type="date" value="${esgst.sks_maxDate}">.`, false, false, null, esgst.sks_limitDate).name.firstElementChild;
+    let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, [{
+      text: `Limit search by date, from `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input esgst-switch-input-large`,
+        type: `date`,
+        value: esgst.sks_minDate
+      },
+      type: `input`
+    }, {
+      text: ` to `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input esgst-switch-input-large`,
+        type: `date`,
+        value: esgst.sks_maxDate
+      },
+      type: `input`
+    }, {
+      text: `.`,
+      type: `node`
+    }], false, false, null, esgst.sks_limitDate).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
-    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, `Limit search by pages, from <input class="esgst-switch-input" min="1" type="number" value="${esgst.sks_minPage}"> to <input class="esgst-switch-input" min="1" type="number" value="${esgst.sks_maxPage}">.`, false, false, null, esgst.sks_limitPages);
+    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, [{
+      text: `Limit search by pages, from `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        min: `1`,
+        type: `number`,
+        value: esgst.sks_minPage
+      },
+      type: `input`
+    }, {
+      text: ` to `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        min: `1`,
+        type: `number`,
+        value: esgst.sks_maxPage
+      },
+      type: `input`
+    }, {
+      text: `.`,
+      type: `node`
+    }], false, false, null, esgst.sks_limitPages);
     let minPage = limitPages.name.firstElementChild;
     let maxPage = minPage.nextElementSibling;
     searchCurrent.exclusions.push(limitPages.container);
@@ -26803,11 +28238,19 @@
         button.classList.add(`esgst-stbb-button`);
         break;
       case 2:
-        button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
-          <${esgst.sg ? `div` : `li`} class="esgst-stbb-button" title="${getFeatureTooltip(`stbb`, `Scroll to bottom`)}">
-            <i class="fa fa-chevron-down"></i>
-          </${esgst.sg ? `div` : `li`}>
-        `);
+        button = createElements(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-stbb-button`,
+            title: getFeatureTooltip(`stbb`, `Scroll to bottom`)
+          },
+          type: esgst.sg ? `div` : `li`,
+          children: [{
+            attributes: {
+              class: `fa fa-chevron-down`
+            },
+            type: `i`
+          }]
+        }]);
         break;
     }
     button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {
@@ -26868,11 +28311,19 @@
         button.classList.add(`esgst-sttb-button`);
         break;
       case 2:
-        button = insertHtml(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, `
-          <${esgst.sg ? `div` : `li`} class="esgst-sttb-button" title="${getFeatureTooltip(`sttb`, `Scroll to top`)}">
-            <i class="fa fa-chevron-up"></i>
-          </${esgst.sg ? `div` : `li`}>
-        `);
+        button = createElements(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-sttb-button`,
+            title: getFeatureTooltip(`sttb`, `Scroll to top`)
+          },
+          type: esgst.sg ? `div` : `li`,
+          children: [{
+            attributes: {
+              class: `fa fa-chevron-up`
+            },
+            type: `i`
+          }]
+        }]);
         break;
     }
     button.addEventListener(`click`, animateScroll.bind(null, 0, () => {
@@ -27046,7 +28497,21 @@
       ugs.popup = new Popup(`fa-gift`, `Send unsent gifts:`);
       new ToggleSwitch(ugs.popup.description, `ugs_checkRules`, false, `Do not send if the winner has any not activated/multiple wins.`, false, false, `The winners will be checked in real time.`, esgst.ugs_checkRules);
       checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, esgst.ugs_checkMember);
-      checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, `Do not send if the winner has a gift difference lower than <input class="esgst-ugs-difference" step="0.1" type="number" value="${esgst.ugs_difference}"/>.`, false, false, `The winners will be checked in real time.`, esgst.ugs_checkDifference);
+      checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [{
+        text: `Do not send if the winner has a gift difference lower than `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-ugs-difference`,
+          step: `0.1`,
+          type: `number`,
+          value: esgst.ugs_difference
+        },
+        type: `input`
+      }, {
+        text: `.`,
+        type: `node`
+      }], false, false, `The winners will be checked in real time.`, esgst.ugs_checkDifference);
       new ToggleSwitch(ugs.popup.description, `ugs_checkWhitelist`, false, `Do not send if the winner is not on your whitelist.`, false, false, `You must sync your whitelist through the settings menu. Whitelisted winners get a pass for broken rules, so if this option is enabled and the winner is whitelisted, the gift will be sent regardless of whether or not the first option is enabled.`, esgst.ugs_checkWhitelist);
       new ToggleSwitch(ugs.popup.description, `ugs_checkBlacklist`, false, `Do not send if the winner on your blacklist.`, false, false, `You must sync your blacklist through the settings menu. If the winner is blacklisted, but is a member of one of the groups, the gift will be sent anyway.`, esgst.ugs_checkBlacklist);
       if (!esgst.ugs_checkMember) {
@@ -27054,18 +28519,58 @@
       }
       observeNumChange(checkDifferenceSwitch.name.firstElementChild, `ugs_setDifference`);
       checkMemberSwitch.dependencies.push(checkDifferenceSwitch.container);
-      ugs.results = insertHtml(ugs.popup.scrollable, `beforeEnd`, `
-        <div class="esgst-hidden markdown">
-          <ul>
-            <li>
-              <span class="esgst-bold">Successfully sent gifts to <span>0</span> winners:</span> <span></span>
-            </li>
-            <li>
-              <span class="esgst-bold">Failed to send gifts to <span>0</span> winners (check the tooltips to find out the cause of the failures):</span> <span></span>
-            </li>
-          </ul>
-        </div>
-      `);
+      ugs.results = createElements(ugs.popup.scrollable, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden markdown`
+        },
+        type: `div`,
+        children: [{
+          type: `ul`,
+          children: [{
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `esgst-bold`
+              },
+              text: ``,
+              type: `span`,
+              children: [{
+                text: `Successfully sent gifts to `,
+                type: `node`
+              }, {
+                text: `0`,
+                type: `span`
+              }, {
+                text: ` winners:`,
+                type: `node`
+              }, {
+                type: `span`
+              }]
+            }]
+          }, {
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `esgst-bold`
+              },
+              text: ``,
+              type: `span`,
+              children: [{
+                text: `Failed to send gifts to `,
+                type: `node`
+              }, {
+                text: `0`,
+                type: `span`
+              }, {
+                text: ` winners (check the tooltips to find out the cause of the failures):`,
+                type: `node`
+              }, {
+                type: `span`
+              }]
+            }]
+          }]
+        }]
+      }]);
       ugs.sent = ugs.results.firstElementChild.firstElementChild;
       ugs.sentCount = ugs.sent.firstElementChild.firstElementChild;
       ugs.sentGifts = ugs.sent.lastElementChild;
@@ -27837,7 +29342,32 @@
     }
     if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
       checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
-      checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, `Check only pages from <input class="esgst-switch-input" min="1" type="number" value="${esgst.wbc_minPage}"> to <input class="esgst-switch-input" min="1" type="number" value="${esgst.wbc_maxPage}">.`, false, false, null, esgst.wbc_checkPages);
+      checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, [{
+        text: `Check only pages from `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-switch-input`,
+          min: `1`,
+          type: `number`,
+          value: esgst.wbc_minPage
+        },
+        type: `input`
+      }, {
+        text: ` to `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-switch-input`,
+          min: `1`,
+          type: `number`,
+          value: esgst.wbc_maxPage
+        },
+        type: `input`
+      }, {
+        text: `.`,
+        type: `node`
+      }], false, false, null, esgst.wbc_checkPages);
       let minPage = checkPagesSwitch.name.firstElementChild;
       let maxPage = minPage.nextElementSibling;
       let lastPage = lpl_getLastPage(document, true);
@@ -27852,7 +29382,21 @@
       new ToggleSwitch(popup.Options, `wbc_returnBlacklists`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, esgst.wbc_returnBlacklists);
     }
     new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, esgst.wbc_checkNew);
-    observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, `Skip users after <input class="esgst-ugs-difference" type="number" value="${esgst.wbc_pages}"/> pages.`, false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
+    observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [{
+      text: `Skip users after `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-ugs-difference`,
+        type: `number`,
+        value: esgst.wbc_pages
+      },
+      type: `input`
+    },
+    {
+      text: ` pages.`,
+      type: `node`
+    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
     new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, esgst.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {
@@ -28741,40 +30285,127 @@
 
     let popup = new Popup(obj.icon, obj.title, true);
     popup.popup.classList.add(`esgst-wbs-popup`);
-    let table = insertHtml(popup.scrollable, `beforeEnd`, `
-      <div class="esgst-text-left table">
-        <div class="table__heading">
-        <div class="table__column--width-fill">User</div>
-        <div class="table__column--width-small text-center">Added</div>
-          <div class="table__column--width-small text-center">Remove</div>
-        </div>
-        <div class="table__rows"></div>
-      </div>
-    `);
+    let table = createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left table`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__column--width-fill`
+          },
+          text: `User`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small text-center`
+          },
+          text: `Added`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `table__column--width-small text-center`
+          },
+          text: `Remove`,
+          type: `div`
+        }]
+      }, {
+        attributes: {
+          class: `table__rows`
+        },
+        type: `div`
+      }]
+    }]);
     let rows = table.lastElementChild;
     users.forEach(user => {
-      let row = insertHtml(rows, `beforeEnd`, `
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div class="table__column--width-fill">
-              <a class="table__column__heading" href="/user/${user.username}">${user.username}</a>
-            </div>
-            <div class="table__column--width-small text-center">${getTimestamp(user[obj.dateKey])}</div>
-            <div class="table__column--width-small text-center">
-              <div class="table__remove-default esgst-clickable">
-                <i class="icon-red fa fa-times-circle"></i>
-                <span class="table__column__secondary-link">Remove</span>
-              </div>
-              <div class="table__remove-loading esgst-hidden">
-                <i class="fa fa-refresh fa-spin"></i> Removing...
-              </div>
-              <div class="table__remove-complete esgst-hidden">
-                <i class="fa fa-times-circle"></i> Removed
-              </div>
-            </div>
-          </div>
-        </div>
-      `);
+      let row = createElements(rows, `beforeEnd`, [{
+        attributes: {
+          class: `table__row-outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-fill`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__heading`,
+                href: `/user/${user.username}`
+              },
+              text: user.username,
+              type: `a`
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            text: getTimestamp(user[obj.dateKey]),
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small text-center`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__remove-default esgst-clickable`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `icon-red fa fa-times-circle`
+                },
+                type: `i`
+              }, {
+                attributes: {
+                  class: `table__column__secondary-link`
+                },
+                text: `Remove`,
+                type: `span`
+              }]
+            }, {
+              attributes: {
+                class: `table__remove-loading esgst-hidden`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `fa fa-refresh fa-spin`
+                },
+                type: `i`
+              }, {
+                text: ` Removing`,
+                type: `node`
+              }]
+            }, {
+              attributes: {
+                class: `table__remove-complete esgst-hidden`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `fa fa-times-circle`
+                },
+                type: `i`
+              }, {
+                text: ` Removed`,
+                type: `node`
+              }]
+            }]
+          }]
+        }]
+      }]);
       let object = {
         dateKey: obj.dateKey,
         key: obj.key,
@@ -28837,7 +30468,17 @@
     if (!wbm.popup) {
       wbm.popup = new Popup(`fa-gear`, `Manage ${wbm.name}:`);
       new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, esgst.wbm_useCache);
-      new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, `Only clear users who are tagged with these specific tags (separate with comma): <input class="esgst-switch-input esgst-switch-input-large" type="text" value="${esgst.wbm_tags.join(`, `)}">`, false, false, `Uses the User Tags database to remove only users with the specified tags.`, esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
+      new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [{
+        text: `Only clear users who are tagged with these specific tags (separate with comma): `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-switch-input esgst-switch-input-large`,
+          type: `text`,
+          value: esgst.wbm_tags.join(`, `)
+        },
+        type: `input`
+      }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
         let tags = event.currentTarget.value.replace(/(,\s*)+/g, formatTags).split(`, `);
         setSetting(`wbm_tags`, tags);
         esgst.wbm_tags = tags;
@@ -29277,19 +30918,62 @@
 
   function ut_createTag(popup, tag) {
     let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, resetButton, tagBox, tagContainer;
-    container = insertHtml(popup.tags, `beforeEnd`, `
-      <div class="esgst-ut-preview" draggable="true">
-        <div class="esgst-ut-tags">
-          <span class="global__image-outer-wrap author_avatar is_icon">${tag}</span>
-        </div>
-        <input class="esgst-hidden" type="text"/>
-        <input title="Set text color for this tag" type="color"/>
-        <input title="Set background color for this tag" type="color"/>
-        <i class="esgst-clickable fa fa-edit" title="Edit tag"></i>
-        <i class="esgst-clickable fa fa-trash" title="Delete tag"></i>
-        <i class="esgst-clickable fa fa-rotate-left" title="Reset tag color"></i>
-      </div>
-    `);
+    container = createElements(popup.tags, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-ut-preview`,
+        draggable: true
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-ut-tags`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `global__image-outer-wrap author_avatar is_icon`
+          },
+          text: tag,
+          type: `span`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-hidden`,
+          type: `text`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          title: `Set text color for this tag`,
+          type: `color`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          title: `Set background color for this tag`,
+          type: `color`
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-edit`,
+          title: `Edit tag`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-trash`,
+          title: `Delete tag`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-rotate-left`,
+          title: `Reset tag color`
+        },
+        type: `i`
+      }]
+    }]);
     tagContainer = container.firstElementChild;
     tagBox = tagContainer.firstElementChild;
     input = tagContainer.nextElementSibling;
@@ -29943,13 +31627,28 @@
     } else {
       type = `Public`;
     }
-    typeColumn = insertHtml(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, `
-      <div class="table__column--width-small text-center">${type}</div>
-      <div class="table__column--width-small text-center">${details.level}</div>
-      ${esgst.createdPath ? `
-        <div class="table__column--width-small text-center"></div>
-      ` : ``}
-    `);
+    const items2 = [{
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: type,
+      type: `div`
+    }, {
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: details.level,
+      type: `div`
+    }];
+    if (esgst.createdPath) {
+      items2.push({
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        type: `div`
+      });
+    }
+    typeColumn = createElements(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, items2);
     if (esgst.createdPath) {
       let n, winner, winnersColumn;
       winnersColumn = typeColumn.nextElementSibling.nextElementSibling;
@@ -30019,34 +31718,84 @@
       title: `Winners`,
       addScrollable: `left`
     });
-    let html = `
-      <div class="table__heading">
-        <div class="table__column--width-small">Winner</div>
-        <div class="table__column--width-small">Received</div>
-      </div>
-      <div class="table__rows">
-    `;
+    let html = [{
+      attributes: {
+        class: `table__heading`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `table__column--width-small`
+        },
+        text: `Winner`,
+        type: `div`
+      }, {
+        attributes: {
+          class: `table__column--width-small`
+        },
+        text: `Received`,
+        type: `div`
+      }]
+    }, {
+      attributes: {
+        class: `table__rows`
+      },
+      type: `div`,
+      children: []
+    }];
     for (const winner of details.winners) {
-      html += `
-        <div class="table__row-outer-wrap">
-          <div class="table__row-inner-wrap">
-            <div class="table__column--width-small">
-              <a class="table__column__secondary-link" href="/user/${winner.username}">${winner.username}</a>
-            </div>
-            <div class="table__column--width-small">
-            ${{
-              [`Received`]: `<i class="fa fa-check-circle esgst-green"></i>`,
-              [`Not Received`]: `<i class="fa fa-times-circle esgst-red"></i>`,
-              [`Awaiting Feedback`]: `<i class="fa fa-question-circle esgst-grey"></i>`
-            }[winner.status]}
-            </div>
-          </div>
-        </div>
-      `;
+      let className = ``;
+      switch (winner.status) {
+        case `Received`:
+          className = `fa fa-check-circle esgst-green`;
+          break;
+        case `Not Received`:
+          className = `fa fa-times-circle esgst-red`;
+          break;
+        case `Awaiting Feedback`:
+          className = `fa fa-question-circle esgst-grey`;
+          break;
+        default:
+          break;
+      }
+      html[1].children.push({
+        attributes: {
+          class: `table__row-outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `table__row-inner-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__column--width-small`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__secondary-link`,
+                href: `/user/${winner.username}`
+              },
+              text: winner.username,
+              type: `a`
+            }]
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: className
+              },
+              type: `i`
+            }]
+          }]
+        }]
+      });
     }
-    html += `
-      </div>
-    `;
     popup.open();
     endless_load(popup.getScrollable(html));
   }
@@ -30391,7 +32140,14 @@
       if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) return;
       if (((giveaway.inviteOnly && ((main && (esgst.giveawayPath || esgst.enteredPath)) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
         if (giveaway.started) {
-          giveaway.gwcContext = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc" data-columnId="gwc" title="${getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)}">`);
+          giveaway.gwcContext = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+            attributes: {
+              class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc`,
+              [`data-columnId`]: `gwc`,
+              title: getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
+            },
+            type: `div`
+          }]);
           gwc_addChance(giveaway);
           if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
             giveaway.gwcContext.setAttribute(`draggable`, true);
@@ -30611,7 +32367,14 @@
     giveaways.forEach(giveaway => {
       if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) return;
       if (giveaway.started && ((giveaway.inviteOnly && ((main && (esgst.giveawayPath || esgst.enteredPath)) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
-        let context = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr" data-columnId="gwr" title="${getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)}">`);
+        let context = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+          attributes: {
+            class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
+            [`data-columnId`]: `gwr`,
+            title: getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)
+          },
+          type: `div`
+        }]);
         gwr_addRatio(context, giveaway);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
           context.setAttribute(`draggable`, true);
@@ -30766,7 +32529,14 @@
         continue;
       }
       if (giveaway.started) {
-        giveaway.gptwContext = insertHtml(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, `<div class="${esgst.giveawayPath ? `featured__column` : ``} esgst-gptw" data-columnId="gptw" title="${getFeatureTooltip(`gptw`, `Giveaway Points To Win`)}">`);
+        giveaway.gptwContext = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+          attributes: {
+            class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-gptw`,
+            [`data-columnId`]: `gptw`,
+            title: getFeatureTooltip(`gptw`, `Giveaway Points To Win`)
+          },
+          type: `div`
+        }]);
         gptw_addPoint(giveaway);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
           giveaway.gptwContext.setAttribute(`draggable`, true);
@@ -30975,14 +32745,33 @@
           }]);
           break;
         case 2:
-          insertHtml(link, `beforeEnd`, `
-            <span class="esgst-sal esgst-clickable" title="${getFeatureTooltip(`sal`, `Activate on Steam (client)`)}">
-              <i class="fa fa-steam"></i>
-            </span>
-            <a class="esgst-sal esgst-clickable" href="https://store.steampowered.com/account/registerkey?key=${match}" target="_blank" title="${getFeatureTooltip(`sal`, `Activate on Steam (browser)`)}">
-              <i class="fa fa-globe"></i>
-            </a>
-          `).previousElementSibling.addEventListener(`click`, () => {
+          createElements(link, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-sal esgst-clickable`,
+              title: getFeatureTooltip(`sal`, `Activate on Steam (client)`)
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-steam`
+              },
+              type: `i`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-sal esgst-clickable`,
+              href: `https://store.steampowered.com/account/registerkey?key=${match}`,
+              target: `_blank`,
+              title: getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-globe`
+              },
+              type: `i`
+            }]
+          }]).previousElementSibling.addEventListener(`click`, () => {
             textArea = createElements(document.body, `beforeEnd`, [{
               type: `textarea`
             }]);
@@ -31731,7 +33520,9 @@
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          insertHtml(children, `beforeEnd`, saved[id][j].reply).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
+          createElements(children, `beforeEnd`, [{
+            context: parseHtml(saved[id][j].reply).body.firstElementChild
+          }]).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
         }
         children.setAttribute(`data-rfi`, true);
         await endless_load(children, false, null, false, endless);
@@ -32389,28 +34180,88 @@
     let button = giveaway.outerWrap.getElementsByClassName(`table__remove-default`)[0];
     if (!button) return;
     let form = button.parentElement;
-    let errorButton = insertHtml(form.parentElement, `beforeEnd`, `
-      <div class="esgst-clickable esgst-hidden" title="${getFeatureTooltip(`elgb`)}">
-        <i class="fa fa-plus-circle esgst-green"></i>
-        <span class="table__column__secondary-link">Add</span>
-      </div>
-      <div class="esgst-clickable" title="${getFeatureTooltip(`elgb`)}">
-        <i class="fa fa-times-circle esgst-red"></i>
-        <span class="table__column__secondary-link">Remove</span>
-      </div>
-      <div class="esgst-hidden" title="${getFeatureTooltip(`elgb`)}">
-        <i class="fa fa-refresh fa-spin"></i>
-        <span>Adding...</span>
-      </div>
-      <div class="esgst-hidden" title="${getFeatureTooltip(`elgb`)}">
-        <i class="fa fa-refresh fa-spin"></i>
-        <span>Removing...</span>
-      </div>
-      <div class="esgst-hidden" title="${getFeatureTooltip(`elgb`)}">
-        <i class="fa fa-exclamation esgst-red"></i>
-        <span>Error</span>
-      </div>
-    `);
+    let errorButton = createElements(form.parentElement, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-clickable esgst-hidden`,
+        title: getFeatureTooltip(`elgb`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-plus-circle esgst-green`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `table__column__secondary-link`
+        },
+        text: `Add`,
+        type: `span`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-clickable`,
+        title: getFeatureTooltip(`elgb`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-times-circle esgst-red`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `table__column__secondary-link`
+        },
+        text: `Remove`,
+        type: `span`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-hidden`,
+        title: getFeatureTooltip(`elgb`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-refresh fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Adding...`,
+        type: `span`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-hidden`,
+        title: getFeatureTooltip(`elgb`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-refresh fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Removing...`,
+        type: `span`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-hidden`,
+        title: getFeatureTooltip(`elgb`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-exclamation esgst-red`
+        },
+        type: `i`
+      }, {
+        text: `Error`,
+        type: `span`
+      }]
+    }]);
     let removingButton = errorButton.previousElementSibling;
     let addingButton = removingButton.previousElementSibling;
     let removeButton = addingButton.previousElementSibling;
@@ -33366,18 +35217,41 @@
                     groupCount += 1;
                   }
                   if (className !== `esgst-hidden`) {
-                    link = insertHtml(container.firstElementChild.firstElementChild, `beforeEnd`, `
-                      <div class="table__row-outer-wrap ${className}">
-                        <div class="table__row-inner-wrap">
-                          <div>
-                            <a class="table_image_avatar" href="/group/${group.code}/" style="background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)"></a>
-                          </div>
-                          <div class="table__column--width-fill">
-                            <a class="table__column__heading" href="/group/${group.code}/"></a>
-                          </div>
-                        </div>
-                      </div>
-                    `).getElementsByClassName(`table__column__heading`)[0];
+                    link = createElements(container.firstElementChild.firstElementChild, `beforeEnd`, [{
+                      attributes: {
+                        class: `table__row-outer-wrap ${className}`
+                      },
+                      type: `div`,
+                      children: [{
+                        attributes: {
+                          class: `table__row-inner-wrap`
+                        },
+                        type: `div`,
+                        children: [{
+                          type: `div`,
+                          children: [{
+                            attributes: {
+                              class: `table_image_avatar`,
+                              href: `/group/${group.code}/`,
+                              style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`
+                            },
+                            type: `a`
+                          }]
+                        }, {
+                          attributes: {
+                            class: `table__column--width-fill`
+                          },
+                          type: `div`,
+                          children: [{
+                            attributes: {
+                              class: `table__column__heading`,
+                              href: `/group/${group.code}/`
+                            },
+                            type: `a`
+                          }]
+                        }]
+                      }]
+                    }]).getElementsByClassName(`table__column__heading`)[0];
                     link.textContent = group.name;
                   }
                 }
@@ -35031,7 +36905,7 @@
         sg
       });
       if (savedUser) {
-        let html = ``;
+        let html = [];
         if (esgst.namwc && esgst.namwc_h && savedUser.namwc && savedUser.namwc.results && !context.parentElement.querySelector(`.esgst-namwc-highlight, .esgst-namwc-icon`)) {
           let results = savedUser.namwc.results;
           let highlight = null;
@@ -35049,11 +36923,19 @@
           if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
             let title = `${savedUser.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(savedUser.namwc.lastCheck)})`;
             if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
-              html += `
-                <span class="esgst-namwc-icon esgst-user-icon" title="${getFeatureTooltip(`namwc`, title)}">
-                  <i class="fa ${icon} esgst-${highlight}"></i>
-                </span>
-              `;
+              html.push({
+                attributes: {
+                  class: `esgst-namwc-icon esgst-user-icon`,
+                  title: getFeatureTooltip(`namwc`, title)
+                },
+                type: `span`,
+                children: [{
+                  attributes: {
+                    class: `fa ${icon} esgst-${highlight}`
+                  },
+                  type: `i`
+                }]
+              });
             } else {
               element.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
               element.title = getFeatureTooltip(`namwc`, title);
@@ -35063,11 +36945,19 @@
         if (esgst.wbc && esgst.wbc_h && savedUser.wbc && !context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
           let result = savedUser.wbc.result;
           if ((result === `whitelisted`) || ((result === `blacklisted`) && !esgst.wbc_hb)) {
-            html += `
-              <span class="esgst-wbc-icon esgst-user-icon" title="${getFeatureTooltip(`wbc`, `${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck)})`)}">
-                <i class="fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}"></i>
-              </span>
-            `;
+            html.push({
+              attributes: {
+                class: `esgst-wbc-icon esgst-user-icon`,
+                title: getFeatureTooltip(`wbc`, `${savedUser.username} has ${result} you (last checked ${getTimestamp(savedUser.wbc.lastCheck)})`)
+              },
+              type: `span`,
+              children: [{
+                attributes: {
+                  class: `fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}`
+                },
+                type: `i`
+              }]
+            });
           }
         }
         if (esgst.wbh && (savedUser.whitelisted || savedUser.blacklisted) && !context.parentElement.querySelector(`.esgst-wbh-highlight, .esgst-wbh-icon`)) {
@@ -35077,15 +36967,23 @@
             element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
             element.title = getFeatureTooltip(`wbh`, title);
           } else {
-            html += `
-              <span class="esgst-wbh-icon esgst-user-icon" title="${getFeatureTooltip(`wbh`, title)}">
-                <i class="fa ${icon} esgst-${status.slice(0, -2)}"></i>
-              </span>
-            `;
+            html.push({
+              attributes: {
+                class: `esgst-wbh-icon esgst-user-icon`,
+                title: getFeatureTooltip(`wbh`, title)
+              },
+              type: `span`,
+              children: [{
+                attributes: {
+                  class: `fa ${icon} esgst-${status.slice(0, -2)}`
+                },
+                type: `i`
+              }]
+            });
           }
         }
         if (html) {
-          insertHtml(context, `beforeBegin`, html);
+          createElements(context, `beforeBegin`, html);
         }
         if (esgst.ut && !context.parentElement.getElementsByClassName(`esgst-ut-button`)[0]) {
           ut_addButton(context, id, esgst.currentUsers[id].steamId, savedUser.username);
@@ -35368,22 +37266,58 @@
 
   function uh_add(profile) {
     let button, box, container, list;
-    container = insertHtml(profile.heading, `beforeEnd`, `
-      <div class="esgst-uh-container">
-        <a class="esgst-uh-button" title="${getFeatureTooltip(`uh`, `View username history`)}">
-          <i class="fa fa-caret-down"></i>
-        </a>
-        <div class="esgst-uh-box esgst-hidden">
-          <div class="esgst-uh-title">
-            <span>Username History</span>
-            <a href="https://goo.gl/C2wjUh" target="_blank" title="Expand the database">
-              <i class="fa fa-expand"></i>
-            </a>
-          </div>
-          <ul class="esgst-uh-list"></ul>
-        </div>
-      </div>
-    `);
+    container = createElements(profile.heading, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-uh-container`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-uh-button`,
+          title: getFeatureTooltip(`uh`, `View username history`)
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-caret-down`
+          },
+          type: `i`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-uh-box esgst-hidden`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-uh-title`
+          },
+          type: `div`,
+          children: [{
+            text: `Username History`,
+            type: `span`
+          }, {
+            attributes: {
+              href: `https://goo.gl/C2wjUh`,
+              target: `_blank`,
+              title: `Expand the database`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-expand`
+              },
+              type: `i`
+            }]
+          }]
+        }, {
+          attributes: {
+            class: `esgst-uh-list`
+          },
+          type: `ul`
+        }]
+      }]
+    }]);
     button = container.firstElementChild;
     box = button.nextElementSibling;
     list = box.lastElementChild;
@@ -35777,7 +37711,7 @@
       profile.sgcPopup.open();
     } else {
       profile.sgcPopup = new Popup(`fa-users`, `Shared Groups`);
-      profile.sgcProgress = insertHtml(profile.sgcPopup.description, `beforeEnd`, [{
+      profile.sgcProgress = createElements(profile.sgcPopup.description, `beforeEnd`, [{
         type: `div`,
         children: [{
           attributes: {
@@ -35789,28 +37723,77 @@
           type: `span`
         }]
       }]);
-      profile.sgcResults = insertHtml(profile.sgcPopup.scrollable, `beforeEnd`, `
-        <div class="esgst-sgc-results esgst-glwc-results esgst-text-left">
-          <div>
-            <div class="esgst-glwc-heading">Public</div>
-            <div class="table esgst-hidden">
-              <div class="table__heading">
-                <div class="table__column--width-fill">Group</div>
-              </div>
-              <div class="table__rows"></div>
-            </div>
-          </div>
-          <div>
-            <div class="esgst-glwc-heading">Private</div>
-            <div class="table esgst-hidden">
-              <div class="table__heading">
-                <div class="table__column--width-fill">Group</div>
-              </div>
-              <div class="table__rows"></div>
-            </div>
-          </div>
-        </div>
-      `);
+      profile.sgcResults = createElements(profile.sgcPopup.scrollable, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sgc-results esgst-glwc-results esgst-text-left`
+        },
+        type: `div`,
+        children: [{
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-glwc-heading`
+            },
+            text: `Public`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__heading`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column--width-fill`
+                },
+                text: `Group`,
+                type: `div`
+              }]
+            }, {
+              attributes: {
+                class: `table__rows`
+              },
+              type: `div`
+            }]
+          }]
+        }, {
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-glwc-heading`
+            },
+            title: `Private`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__heading`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column--width-fill`
+                },
+                text: `Group`,
+                type: `div`
+              }]
+            }, {
+              attributes: {
+                class: `table__rows`
+              },
+              type: `div`
+            }]
+          }]
+        }]
+      }]);
       profile.sgcPublic = profile.sgcResults.firstElementChild.lastElementChild;
       profile.sgcPublicResults = profile.sgcPublic.lastElementChild;
       profile.sgcPrivate = profile.sgcResults.lastElementChild.lastElementChild;
@@ -35843,18 +37826,41 @@
       const code = i > -1 ? esgst.groups[i].code : ``;
       (element.getElementsByClassName(`pubGroup`)[0] ? publicGroups : privateGroups).push({
         name: name,
-        html: `
-          <div class="table__row-outer-wrap">
-            <div class="table__row-inner-wrap">
-              <div>
-                <a class="table_image_avatar" href="/group/${code}/" style="background-image:url(${avatar})"></a>
-              </div>
-              <div class="table__column--width-fill">
-                <a class="table__column__heading" href="/group/${code}/"></a>
-              </div>
-            </div>
-          </div>
-        `
+        html: [{
+          attributes: {
+            class: `table__row-outer-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__row-inner-wrap`
+            },
+            type: `div`,
+            children: [{
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table_image_avatar`,
+                  href: `/group/${code}/`,
+                  style: `background-image:url(${avatar})`
+                },
+                type: `a`
+              }]
+            }, {
+              attributes: {
+                class: `table__column--width-fill`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `table__column__heading`,
+                  href: `/group/${code}/`
+                },
+                type: `a`
+              }]
+            }]
+          }]
+        }]
       });
     }
     const n1 = publicGroups.length;
@@ -35862,7 +37868,7 @@
     if (n1 || n2) {
       if (n1 > 0) {
         sortArrayByKey(publicGroups, `name`).map(x => {
-          insertHtml(profile.sgcPublicResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
+          createElements(profile.sgcPublicResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
         });
         profile.sgcPublic.classList.remove(`esgst-hidden`);
       } else {
@@ -35873,7 +37879,7 @@
       }
       if (n2 > 0) {
         sortArrayByKey(privateGroups, `name`).map(x => {
-          insertHtml(profile.sgcPrivateResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
+          createElements(profile.sgcPrivateResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
         });
         profile.sgcPrivate.classList.remove(`esgst-hidden`);
       } else {
@@ -36001,22 +38007,97 @@
       return;
     }
     
-    const context = insertHtml(profile.commentsRow, `afterEnd`, `
-      <div class="esgst-ugd featured__table__row" title="${getFeatureTooltip(`ugd`)}">
-        <div class="featured__table__row__left">Won Games Playtime > <input class="esgst-ugd-input" min="0" step="0.1" type="number" value="${esgst.ugd_playtime}">hours</div>
-        <div class="featured__table__row__right"></div>
-      </div>
-      <div class="esgst-ugd featured__table__row" title="${getFeatureTooltip(`ugd`)}">
-        <div class="featured__table__row__left">Won Games Achievements > <input class="esgst-ugd-input" max="100" min="0" step="0.1" type="number" value="${esgst.ugd_achievements}">%</div>
-        <div class="featured__table__row__right"></div>
-      </div>
-      <div class="esgst-ugd featured__table__row">
-        <div class="featured__table__row__left"></div>
-        <div class="featured__table__row__right">
-          <span class="esgst-italic">Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.</span>
-        </div>
-      </div>
-    `);
+    const context = createElements(profile.commentsRow, `afterEnd`, [{
+      attributes: {
+        class: `esgst-ugd featured__table__row`,
+        title: getFeatureTooltip(`ugd`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `featured__table__row__left`
+        },
+        type: `div`,
+        children: [{
+          text: `Won Games Playtime > `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-ugd-input"`,
+            min: `0`,
+            step: `0.1`,
+            type: `number`,
+            value: esgst.ugd_playtime
+          },
+          type: `input`
+        }, {
+          text: `hours`,
+          type: `node`
+        }]
+      }, {
+        attributes: {
+          class: `featured__table__row__right`
+        },
+        type: `div`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-ugd featured__table__row`,
+        title: getFeatureTooltip(`ugd`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `featured__table__row__left`
+        },
+        type: `div`,
+        children: [{
+          text: `Won Games Achievements > `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-ugd-input"`,
+            max: `100`,
+            min: `0`,
+            step: `0.1`,
+            type: `number`,
+            value: esgst.ugd_achievements
+          },
+          type: `input`
+        }, {
+          text: `%`,
+          type: `node`
+        }]
+      }, {
+        attributes: {
+          class: `featured__table__row__right`
+        },
+        type: `div`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-ugd featured__table__row`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `featured__table__row__left`
+        },
+        type: `div`
+      }, {
+        attributes: {
+          class: `featured__table__row__right`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-italic`
+          },
+          text: `Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
+          type: `span`
+        }]
+      }]
+    }]);
     const playtimeInput = context.firstElementChild.lastElementChild;
     const playtimeDisplay = context.lastElementChild;
     const achievementsInput = context.nextElementSibling.firstElementChild.lastElementChild;
@@ -36064,11 +38145,19 @@
   async function ugd_add(context, key, user, mainPopup) {
     let button = null;
     if (context) {
-      button = insertHtml(context, `beforeEnd`, `
-        <span class="esgst-ugd-button" title="${getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)}">
-          <i class="fa fa-bar-chart"></i>
-        </span>
-      `);
+      button = createElements(context, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ugd-button`,
+          title: getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-bar-chart`
+          },
+          type: `i`
+        }]
+      }]);
     }
     const savedUser = await getUser(null, user);
     const ugdCache = savedUser && savedUser.ugdCache;
@@ -36725,7 +38814,14 @@
             attributes: [`data-sort-value="0"`],
             value: `0/0 (0%)`
           },
-          `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
+          [{
+            attributes: {
+              class: `table__column__secondary-link`,
+              href: `/user/${giveaway.creator}`
+            },
+            text: giveaway.creator,
+            type: `a`
+          }]
         ], packageId, true, false, `Hide contents of the package`, `Show contents of the package`);
       }
       group = obj.playtimeTable.getRowGroup(packageId);
@@ -36771,7 +38867,14 @@
         attributes: [`data-sort-value="${achievementsAttributes}"`],
         value: achievements
       },
-      `<a class="table__column__secondary-link" href="/user/${giveaway.creator}">${giveaway.creator}</a>`
+      [{
+        attributes: {
+          class: `table__column__secondary-link`,
+          href: `/user/${giveaway.creator}`
+        },
+        text: giveaway.creator,
+        type: `a`
+      }]
     ], packageId, false, true);
   }
 
@@ -36868,7 +38971,7 @@
             text: `${item.name} - `,
             type: `node`
           }, {
-            atributes: {
+            attributes: {
               class: `esgst-bold`
             },
             text: item.value,
@@ -36966,11 +39069,19 @@
 
   function namwc_addUser(profile) {
     namwc_setPopup({
-      button: insertHtml(profile.wonRowLeft, `beforeEnd`, `
-        <span class="esgst-namwc-button">
-          <i class="fa fa-question-circle" title="${getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)}"></i>
-        </span>
-      `),
+      button: createElements(profile.wonRowLeft, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-namwc-button`
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)
+          },
+          type: `i`
+        }]
+      }]),
       user: {
         id: profile.id,
         steamId: profile.steamId,
@@ -36982,7 +39093,9 @@
   function namwc_setPopup(obj) {
     obj.popup = new Popup(obj.isMenu ? `fa-cog` : `fa-question`, obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ``} not activated / multiple wins:`);
     if (!obj.isMenu) {
-      insertHtml(obj.popup.scrollable, `beforeBegin`, `<div></div>`).appendChild(createOptions([{
+      createElements(obj.popup.scrollable, `beforeBegin`, [{
+        type: `div`
+      }]).appendChild(createOptions([{
         check: true,
         description: `Only check for not activated wins.`,
         exclusions: [`namwc_checkMultiple`],
@@ -37136,9 +39249,18 @@
         obj.popup[key].classList.remove(`esgst-hidden`);
         let count = obj.popup[`${key}Count`];
         count.textContent = parseInt(count.textContent) + 1;
-        elements[key] = insertHtml(obj.popup[`${key}Users`], `beforeEnd`, `
-          <a ${isNew ? `class="esgst-bold esgst-italic" ` : ``}href="http://www.sgtools.info/${key.match(/multiple/i) ? `multiple` : `nonactivated`}/${user.username}" target="_blank">${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}</a>
-        `);
+        const attributes = {
+          href: `http://www.sgtools.info/${key.match(/multiple/i) ? `multiple` : `nonactivated`}/${user.username}`,
+          target: `_blank`
+        };
+        if (isNew) {
+          attributes.class = `esgst-bold esgst-italic`;
+        }
+        elements[key] = createElements(obj.popup[`${key}Users`], `beforeEnd`, [{
+          attributes,
+          text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}`,
+          type: `a`
+        }]);
       }
       if (!obj.isMenu) {
         await saveUser(null, null, user);
@@ -37764,16 +39886,37 @@
 
   function sgpb_add(profile) {
     let button;
-    button = insertHtml(profile.steamButtonContainer, `beforeEnd`, `
-      <div class="esgst-sgpb-container" title="${getFeatureTooltip(`sgpb`)}">
-        <a class="esgst-sgpb-button" href="https://www.steamgifts.com/go/user/${profile.steamId}" rel="nofollow" target="_blank">
-          <i class="fa">
-            <img src="${esgst.sgIcon}">
-          </i>
-          <span>Visit SteamGifts Profile</span>
-        </a>
-      </div>
-    `);
+    button = createElements(profile.steamButtonContainer, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-sgpb-container`,
+        title: getFeatureTooltip(`sgpb`)
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-sgpb-button`,
+          href: `https://www.steamgifts.com/go/user/${profile.steamId}`,
+          rel: `nofollow`,
+          target: `_blank`
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa`
+          },
+          type: `i`,
+          children: [{
+            attributes: {
+              src: esgst.sgIcon
+            },
+            type: `img`
+          }]
+        }, {
+          text: `Visit SteamGifts Profile`,
+          type: `span`
+        }]
+      }]
+    }]);
     button.insertBefore(profile.steamButton, button.firstElementChild);
   }
   
@@ -37798,13 +39941,28 @@
 
   function stpb_add(profile) {
     let button, tooltip;
-    button = insertHtml(profile.steamButtonContainer.firstElementChild, `beforeEnd`, `
-      <a class="esgst-stpb-button" href="https://www.steamtrades.com/user/${profile.steamId}" rel="nofollow" target="_blank" title="${getFeatureTooltip(`stpb`)}">
-        <i class="fa fa-fw">
-          <img src="${esgst.stIcon}">
-        </i>
-      </a>
-    `);
+    button = createElements(profile.steamButtonContainer.firstElementChild, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-stpb-button`,
+        href: `https://www.steamtrades.com/user/${profile.steamId}`,
+        rel: `nofollow`,
+        target: `_blank`,
+        title: getFeatureTooltip(`stpb`)
+      },
+      type: `a`,
+      children: [{
+        attributes: {
+          class: `fa fa-fw`
+        },
+        type: `i`,
+        children: [{
+          attributes: {
+            src: esgst.stIcon
+          },
+          type: `img`
+        }]
+      }]
+    }]);
     tooltip = profile.steamButtonContainer.getElementsByClassName(`js-tooltip`)[0];
     if (tooltip) {
       button.addEventListener(`mouseenter`, stpb_show.bind(null, button, tooltip));
@@ -38225,11 +40383,21 @@
       const firstPage = esgst.qiv.comments.firstElementChild;
       let doContinue = false;
       do {
-        const loading = insertHtml(
+        const loading = createElements(
           esgst.qiv.popout.popout,
-          first || preload ? `afterBegin` : `beforeEnd`, `
-          <span><i class="fa fa-circle-o-notch fa-spin"></i> Loading...</span>
-        `);
+          first || preload ? `afterBegin` : `beforeEnd`, [{
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-circle-o-notch fa-spin`
+              },
+              type: `i`
+            }, {
+              text: ` Loading...`,
+              type: `node`
+            }]
+          }]
+        );
         esgst.qiv.popout.reposition(esgst.inboxButton);
         const context = parseHtml((await request({
           method: `GET`,
@@ -38330,12 +40498,21 @@
       key = `read_messages`;
       url = `/messages`;
     } else {
-      esgst.qiv.markReadButton = insertHtml(esgst.qiv.popout.popout, `afterBegin`, `
-        <a class="page_heading_btn green">
-          <i class="fa fa-check-square-o"></i>
-          <span>Mark as Read</span>
-        </a>
-      `);
+      esgst.qiv.markReadButton = createElements(esgst.qiv.popout.popout, `afterBegin`, [{
+        attributes: {
+          class: `page_heading_btn green`
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-check-square-o`
+          },
+          type: `i`
+        }, {
+          text: `Mark as Read`,
+          type: `span`
+        }]
+      }]);
       key = `mark_as_read`;
       url = `/ajax.php`;
     }
@@ -38572,9 +40749,21 @@
   async function es_loadNext(es, callback, force) {
     if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step)))) {
       es.busy = true;
-      es.progress = insertHtml(esgst.pagination.firstElementChild, `beforeEnd`, `
-        <span class="esgst-bold"><i class="fa fa-circle-o-notch fa-spin"></i> Loading next page...</span>
-      `);
+      es.progress = createElements(esgst.pagination.firstElementChild, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-bold`
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: ` Loading next page...`,
+          type: `node`
+        }]
+      }]);
       es_getNext(es, false, false, callback, await request({method: `GET`, url: `${esgst.searchUrl}${es.nextPage}`}));
     } else if (callback && typeof callback === `function`) {
       callback();
@@ -39058,11 +41247,19 @@
       esgst.noCvButton.remove();
     }
     if (found) {
-      esgst.noCvButton = insertHtml(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, `
-        <span class="esgst-no-cv-button">
-          <i class="fa fa-calendar-times-o esgst-blinking esgst-bold esgst-clickable esgst-red" title="${getFeatureTooltip(null, `Add no CV games to the database`)}"></i>
-        </span>
-      `);
+      esgst.noCvButton = createElements(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-no-cv-button`
+        },
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-calendar-times-o esgst-blinking esgst-bold esgst-clickable esgst-red`,
+            title: getFeatureTooltip(null, `Add no CV games to the database`)
+          },
+          type: `i`
+        }]
+      }]);
       if (esgst.addNoCvGames) {
         addNoCvGames(games);
       } else {
@@ -39697,17 +41894,30 @@
   }
 
   function createHeadingButton(details) {
-    let [key, position] = esgst.leftButtonIds.indexOf(details.orderId || details.id) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
-    let icons = ``;
-    details.icons.forEach(icon => {
-      icons += `<i class="fa ${icon}"></i> `;
-    });
-    return insertHtml(details.context || (esgst.hideButtons && esgst[`hideButtons_${details.orderId || details.id}`] ? esgst[key] : esgst.mainPageHeading), position, `
-    <div class="esgst-heading-button" id="esgst-${details.id}" title="${getFeatureTooltip(details.featureId || details.id, details.title)}">
-      ${details.isSwitch ? `<span></span>` : ``}
-      ${icons}
-    </div>
-    `);
+    const [key, position] = esgst.leftButtonIds.indexOf(details.orderId || details.id) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+    const children = [];
+    if (details.isSwitch) {
+      children.push({
+        type: `span`
+      });
+    }
+    for (const icon of details.icons) {
+      children.push({
+        attributes: {
+          class: `fa ${icon}`
+        },
+        type: `i`
+      });
+    }
+    return createElements(details.context || (esgst.hideButtons && esgst[`hideButtons_${details.orderId || details.id}`] ? esgst[key] : esgst.mainPageHeading), position, [{
+      attributes: {
+        class: `esgst-heading-button`,
+        id: `esgst-${details.id}`,
+        title: getFeatureTooltip(details.featureId || details.id, details.title)
+      },
+      type: `div`,
+      children
+    }]);
   }
 
   function showPatreonNotice() {
@@ -39910,42 +42120,114 @@
         icon += ` icon-${details.color}`;
       }
       if (details.url) {
-        return `
-          <a class="esgst-header-menu-row${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
-            <i class="fa fa-fw ${icon}"></i>
-            <div>
-              <p class="esgst-header-menu-name">${details.name}</p>
-              ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
-            </div>
-          </a>
-        `;
+        return [{
+          attributes: {
+            class: `esgst-header-menu-row${details.className || ``}`,
+            [`data-link-id`]: details.id,
+            [`data-link-key`]: key,
+            href: details.url,
+            title: details.title || ``
+          },
+          type: `a`,
+          children: [{
+            attributes: {
+              class: `fa fa-fw ${icon}`
+            },
+            type: `i`
+          }, {
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-header-menu-name`
+              },
+              text: details.name,
+              type: `p`
+            }, details.description ? {
+              attributes: {
+                class: `esgst-header-menu-description`
+              },
+              text: details.description,
+              type: `p`
+            } : null]
+          }]
+        }];
       }
-      return `
-        <div class="esgst-header-menu-row${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}"${details.title ? ` title="${details.title}"` : ``}>
-          <i class="fa fa-fw ${icon}"></i>
-          <div>
-            <p class="esgst-header-menu-name">${details.name}</p>
-            ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
-          </div>
-        </div>
-
-      `;
+      return [{
+        attributes: {
+          class: `esgst-header-menu-row${details.className || ``}`,
+          [`data-link-id`]: details.id,
+          [`data-link-key`]: key,
+          title: details.title || ``
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `fa fa-fw ${icon}`
+          },
+          type: `i`
+        }, {
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-header-menu-name`
+            },
+            text: details.name,
+            type: `p`
+          }, details.description ? {
+            attributes: {
+              class: `esgst-header-menu-description`
+            },
+            text: details.description,
+            type: `p`
+          } : null]
+        }]
+      }];
     }
     if (esgst.sg) {
-      return `
-        <a class="nav__row${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
-          <div class="nav__row__summary">
-            <p class="nav__row__summary__name">${details.name}</p>
-            ${details.description ? `<p class="esgst-header-menu-description">${details.description}</p>` : ``}
-          </div>
-        </a>
-      `;
+      return [{
+        attributes: {
+          class: `nav__row${details.className || ``}`,
+          [`data-link-id`]: details.id,
+          [`data-link-key`]: key,
+          href: details.url,
+          title: details.title || ``
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `nav__row__summary`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `nav__row__summary__name`
+            },
+            text: details.name,
+            type: `p`
+          }, details.description ? {
+            attributes: {
+              class: `esgst-header-menu-description`
+            },
+            text: details.description,
+            type: `p`
+          } : null]
+        }]
+      }];
     } else {
-      return `
-        <a class="dropdown_btn${details.className || ``}" data-link-id="${details.id}" data-link-key="${key}" href="${details.url}"${details.title ? ` title="${details.title}"` : ``}>
-          <span>${details.name}</p>
-        </a>
-      `;
+      return [{
+        attributes: {
+          class: `dropdown_btn${details.className || ``}`,
+          [`data-link-id`]: details.id,
+          [`data-link-key`]: key,
+          href: details.url,
+          title: details.title || ``
+        },
+        type: `a`,
+        children: [{
+          text: details.name,
+          type: `span`
+        }]
+      }];
     }
   }
 
@@ -40697,12 +42979,20 @@
       }
     } else {
       esgst.mainContext.innerHTML = ``;
-      let description = insertHtml(esgst.mainContext, `beforeEnd`, `
-        <div class="description">
-          <div></div>
-          <div class="esgst-hidden esgst-popup-progress"></div>
-        </div>
-      `);
+      let description = createElements(esgst.mainContext, `beforeEnd`, [{
+        attributes: {
+          class: `description`
+        },
+        type: `div`,
+        children: [{
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-hidden esgst-popup-progress`
+          },
+          type: `div`
+        }]
+      }]);
       syncer.results = description.firstElementChild;
       syncer.progress = description.lastElementChild;
       syncer.parameters = getParameters();
@@ -40714,12 +43004,20 @@
     let html, i, key, select, toggleSwitch;
     key = id.replace(/^sync/, ``);
     toggleSwitch = switches[id];
-    html = `<select class="esgst-auto-sync">`;
+    html = [{
+      attributes: {
+        class: `esgst-auto-sync`
+      },
+      type: `select`,
+      children: []
+    }];
     for (i = 0; i < 31; ++i) {
-      html += `<option>${i}</option>`;
+      html[0].children.push({
+        text: i,
+        type: `option`
+      });
     }
-    html += `</select>`;
-    select = insertHtml(toggleSwitch.name, `beforeEnd`, html);
+    select = createElements(toggleSwitch.name, `beforeEnd`, html);
     select.selectedIndex = esgst[`autoSync${key}`];
     observeNumChange(select, `autoSync${key}`);
     if (esgst[`lastSync${key}`]) {
@@ -42080,10 +44378,24 @@
       popup: new Popup(`fa-gear`, `[${name.toUpperCase()}] ${feature.name}`)
     };
     obj.popup.description.classList.add(`esgst-text-left`);
-    obj.include = insertHtml(obj.popup.scrollable, `beforeEnd`, `
-      <div class="esgst-bold">Include: <i class="fa fa-question-circle" title="Enter the paths where you want the feature to run here. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you want the feature to run and click 'Add Current'. '.*' means that the feature runs everywhere possible."></i></div>
-      <div></div>
-    `);
+    obj.include = createElements(obj.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      type: `div`,
+      children: [{
+        text: `Include: `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Enter the paths where you want the feature to run here. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you want the feature to run and click 'Add Current'. '.*' means that the feature runs everywhere possible.`
+        },
+        type: `i`
+      }]
+    }, {
+      type: `div`
+    }]);
     let group = createElements(obj.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-button-group`
@@ -42092,10 +44404,24 @@
     }]);
     group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: addPath.bind(null, `include`, obj, {enabled: 1, pattern: ``})}).set);
     group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: addPath.bind(null, `include`, obj, {enabled: 1, pattern: `^${escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${escapeRegExp(location.search)}`})}).set);
-    obj.exclude = insertHtml(obj.popup.scrollable, `beforeEnd`, `
-      <div class="esgst-bold">Exclude: <i class="fa fa-question-circle" title="Enter the paths where you do not want the feature to run here. This acts as an exception to the included paths, as in, the feature will run in every included path, except for the excluded paths. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you do not want the feature to run and click 'Add Current'."></i></div>
-      <div></div>
-    `);
+    obj.exclude = createElements(obj.popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-bold`
+      },
+      type: `div`,
+      children: [{
+        text: `Exclude: `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Enter the paths where you do not want the feature to run here. This acts as an exception to the included paths, as in, the feature will run in every included path, except for the excluded paths. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you do not want the feature to run and click 'Add Current'.`
+        },
+        type: `i`
+      }]
+    }, {
+      type: `div`
+    }]);
     group = createElements(obj.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-button-group`
@@ -42525,23 +44851,64 @@
       addColorObserver(bgColorContext, ID, `bgColor`);
       bgColorContext.nextElementSibling.addEventListener(`click`, resetColor.bind(null, bgColorContext, Feature.background ? null : colorContext, ID));
       if (ID === `gc_g`) {
-        let input = insertHtml(SMFeatures, `beforeEnd`, `
-          <div class="esgst-sm-colors">
-            Only show the following genres: <input type="text" value="${esgst.gc_g_filters}">
-            <i class="fa fa-question-circle" title="If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2"></i>
-          </div>
-        `);
+        let input = createElements(SMFeatures, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-sm-colors`
+          },
+          type: `div`,
+          children: [{
+            text: `Only show the following genres: `,
+            type: `node`
+          }, {
+            attributes: {
+              type: `text`,
+              value: esgst.gc_g_filters
+            },
+            type: `input`
+          }, {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2`
+            },
+            type: `i`
+          }]
+        }]);
         observeChange(input.firstElementChild, `gc_g_filters`);
         addGcMenuPanel(SMFeatures);
       }
       if (Feature.input) {
-        let input = insertHtml(SMFeatures, `beforeEnd`, `
-          <div class="esgst-sm-colors">
-            Icon: <input type="text" value="${esgst[`${ID}Icon`]}"> <i class="esgst-clickable fa fa-question-circle"></i>
-            <br/>
-            Label: <input type="text" value="${esgst[`${ID}Label`]}">
-          </div>
-        `);
+        let input = createElements(SMFeatures, `beforeEnd`, [{
+          attributes: {
+            class: `esgst-sm-colors`
+          },
+          type: `div`,
+          children: [{
+            text: `Icon: `,
+            type: `node`
+          }, {
+            attributes: {
+              type: `text`,
+              value: esgst[`${ID}Icon`]
+            },
+            type: `input`
+          }, {
+            attributes: {
+              class: `esgst-clickable fa fa-question-circle`
+            },
+            type: `i`
+          }, {
+            type: `br`
+          }, {
+            text: `Label: `,
+            type: `node`
+          }, {
+            attributes: {
+              type: `text`,
+              value: esgst[`${ID}Label`]
+            },
+            type: `input`
+          }]
+        }]);
         createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
         let icon = input.firstElementChild;
         let label = input.lastElementChild;
@@ -43333,11 +45700,54 @@
 
   function addGwcColorSetting(colors, id, key, panel, background) {
     let bgColor, color, i, lower, n, remove, setting, upper;
-    setting = insertHtml(panel, `beforeEnd`, `
-      <div>
-        From <input step="0.01" type="number" value="${colors.lower}"/> to <input step="0.01" type="number" value="${colors.upper}"/> ${key}, color it as <input type="color" value="${colors.color}"/>${background ? ` with background <input type="color" value="${colors.bgColor}"/>` : ``}. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
-      </div>
-    `);
+    setting = createElements(panel, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        text: `From: `,
+        type: `node`
+      }, {
+        attributes: {
+          step: `0.01`,
+          type: `number`,
+          value: colors.lower
+        },
+        type: `input`
+      }, {
+        text: ` to `,
+        type: `node`
+      }, {
+        attributes: {
+          step: `0.01`,
+          type: `number`,
+          value: colors.upper
+        },
+        type: `input`
+      }, {
+        text: ` ${key}, color it as `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: colors.color
+        },
+        type: `input`
+      }, ...(background ? [{
+        text: ` with the background `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: colors.bgColor
+        },
+        type: `input`
+      }] : []), {
+        attributes: {
+          class: `esgst-clickable fa fa-times`,
+          title: `Delete this setting`
+        },
+        type: `i`
+      }]
+    }]);
     lower = setting.firstElementChild;
     upper = lower.nextElementSibling;
     color = upper.nextElementSibling;
@@ -43418,11 +45828,69 @@
   }
 
   function addGcRatingColorSetting(colors, panel) {
-    let setting = insertHtml(panel, `beforeEnd`, `
-      <div>
-        From <input type="number" value="${colors.lower}"/>% to <input type="number" value="${colors.upper}"/>% rating, color it as <input type="color" value="${colors.color}"/> with the background <input type="color" value="${colors.bgColor}"/> and the icon <input type="text" value="${colors.icon}"/> <i class="fa fa-question-circle"></i>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
-      </div>
-    `);
+    let setting = createElements(panel, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        text: `From: `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `number`,
+          value: colors.lower
+        },
+        type: `input`
+      }, {
+        text: `% to `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `number`,
+          value: colors.upper
+        },
+        type: `input`
+      }, {
+        text: `% rating, color it as `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: colors.color
+        },
+        type: `input`
+      }, {
+        text: ` with the background `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: colors.bgColor
+        },
+        type: `input`
+      }, {
+        text: ` and the icon `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `text`,
+          value: colors.icon
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`
+        },
+        type: `i`
+      }, {
+        text: `.`,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-times`,
+          title: `Delete this setting`
+        },
+        type: `i`
+      }]
+    }]);
     let lower = setting.firstElementChild;
     let upper = lower.nextElementSibling;
     let color = upper.nextElementSibling;
@@ -43505,11 +45973,46 @@
 
   function addGcColorSetting(colorSetting, panel) {
     let bgColor, color, genre, i, n, remove, setting;
-    setting = insertHtml(panel, `beforeEnd`, `
-      <div>
-        For genre <input type="text" value="${colorSetting.genre}"/>, color it as <input type="color" value="${colorSetting.color}"> with background <input type="color" value="${colorSetting.bgColor}">. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
-      </div>
-    `);
+    setting = createElements(panel, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        text: `For genre `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `text`,
+          value: colorSetting.genre
+        },
+        type: `input`
+      }, {
+        text: `, color it as `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: colorSetting.color
+        },
+        type: `input`
+      }, {
+        text: ` with the background `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: colorSetting.bgColor
+        },
+        type: `input`
+      }, {
+        text: `.`,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-times`,
+          title: `Delete this setting`
+        },
+        type: `i`
+      }]
+    }]);
     genre = setting.firstElementChild;
     color = genre.nextElementSibling;
     bgColor = color.nextElementSibling;
@@ -43557,7 +46060,12 @@
       }]
     }]);
     button = panel.firstElementChild;
-    createTooltip(insertHtml(panel, `beforeEnd`, `<i class="fa fa-question-circle"></i>`), `
+    createTooltip(createElements(panel, `beforeEnd`, [{
+      attributes: {
+        class: `fa fa-question-circle`
+      },
+      type: `i`
+    }]), `
       <div>You must sync your owned games normally for the script to pick up the games owned by your alt accounts. Syncing with alt accounts only works with a Steam API Key though, so make sure one is set at the last section of this menu.</div>
       <br/>
       <div>Steam ID is the number that comes after "steamcommunity.com/profiles/" in your alt account's URL. If your alt account has a URL in the format "steamcommunity.com/id/" though, you can get your Steam ID <a href="https://steamid.io/">here</a> by entering your URL in the input (you want the steamID64 one).</div>
@@ -43587,11 +46095,82 @@
 
   function addGcAltSetting(altSetting, panel) {
     let color, bgColor, i, icon, label, n, name, remove, setting, steamId;
-    setting = insertHtml(panel, `beforeEnd`, `
-      <div>
-        For account with Steam ID <input placeholder="0000000000000000" type="text" value="${altSetting.steamId}"/>, using the nickname <input placeholder="alt1" type="text" value="${altSetting.name}"/>, <br/>color it as <input type="color" value="${altSetting.color}"/> with background <input type="color" value="${altSetting.bgColor}"/>, icon <input placeholder="folder" type="text" value="${altSetting.icon}"/> and label <input placeholder="Owned by alt1" type="text" value="${altSetting.label}"/>. <i class="esgst-clickable fa fa-times" title="Delete this setting"></i>
-      </div>
-    `);
+    setting = createElements(panel, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        text: `For account with Steam ID `,
+        type: `node`
+      }, {
+        attributes: {
+          placeholder: `0000000000000000`,
+          type: `text`,
+          value: altSetting.steamId
+        },
+        type: `input`
+      }, {
+        text: `, using the nickname `,
+        type: `node`
+      }, {
+        attributes: {
+          placeholder: `alt1`,
+          type: `text`,
+          value: altSetting.name
+        },
+        type: `input`
+      }, {
+        text: `, `,
+        type: `node`
+      }, {
+        type: `br`
+      }, {
+        text: `color it as `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: altSetting.color
+        },
+        type: `input`
+      }, {
+        text: ` with the background `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `color`,
+          value: altSetting.bgColor
+        },
+        type: `input`
+      }, {
+        text: `, icon `,
+        type: `node`
+      }, {
+        attributes: {
+          placeholder: `folder`,
+          type: `text`,
+          value: altSetting.icon
+        },
+        type: `input`
+      }, {
+        text: ` and label `,
+        type: `node`
+      }, {
+        attributes: {
+          placeholder: `Owned by alt1`,
+          type: `text`,
+          value: altSetting.label
+        },
+        type: `input`
+      }, {
+        text: `.`,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-clickable fa fa-times`,
+          title: `Delete this setting`
+        },
+        type: `i`
+      }]
+    }]);
     steamId = setting.firstElementChild;
     name = steamId.nextElementSibling;
     color = name.nextElementSibling.nextElementSibling;
@@ -44362,7 +46941,25 @@
           }]);
           new ToggleSwitch(container, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, esgst.settings.importAndMerge);
         }
-        let select = new ToggleSwitch(container, `exportBackup`, false, `Backup to <select><option>Computer</option><option>Dropbox</option><option>Google Drive</option><option>OneDrive</option></select>`, false, false, `Backs up the current data to one of the selected places before restoring another backup.`, esgst.settings.exportBackup).name.firstElementChild;
+        let select = new ToggleSwitch(container, `exportBackup`, false, [{
+          text: `Backup to `,
+          type: `node`
+        }, {
+          type: `select`,
+          children: [{
+            text: `Computer`,
+            type: `node`
+          }, {
+            text: `Dropbox`,
+            type: `node`
+          }, {
+            text: `Google Drive`,
+            type: `node`
+          }, {
+            text: `OneDrive`,
+            type: `node`
+          }]
+        }], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
           setSetting(`exportBackupIndex`, select.selectedIndex);
@@ -44447,12 +47044,90 @@
       text: `Make sure to backup your data before using the cleaner.`,
       type: `div`
     }]);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanDiscussions`, false, `Discussions data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanDiscussions_days}"> days.`, false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, `Entries data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanEntries_days}"> days.`, false, false, ``, esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, `Giveaways data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanGiveaways_days}"> days.`, false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, `SteamGifts comment history data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanSgCommentHistory_days}"> days.`, false, false, ``, esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, `Tickets data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTickets_days}"> days.`, false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, `Trades data older than <input class="esgst-switch-input" type="text" value="${esgst.cleanTrades_days}"> days.`, false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
+    observeNumChange(new ToggleSwitch(popup.description, `cleanDiscussions`, false, [{
+      text: `Discussions data older than `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        type: `text`,
+        value: esgst.cleanDiscussions_days
+      },
+      type: `input`
+    }, {
+      text: ` days.`,
+      type: `node`
+    }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`);
+    observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, [{
+      text: `Entries data older than `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        type: `text`,
+        value: esgst.cleanEntries_days
+      },
+      type: `input`
+    }, {
+      text: ` days.`,
+      type: `node`
+    }], false, false, ``, esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
+    observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, [{
+      text: `Giveaways data older than `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        type: `text`,
+        value: esgst.cleanGiveaways_days
+      },
+      type: `input`
+    }, {
+      text: ` days.`,
+      type: `node`
+    }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
+    observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, [{
+      text: `SteamGifts comment history data older than `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        type: `text`,
+        value: esgst.cleanSgCommentHistory_days
+      },
+      type: `input`
+    }, {
+      text: ` days.`,
+      type: `node`
+    }], false, false, ``, esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
+    observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, [{
+      text: `Tickets data older than `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        type: `text`,
+        value: esgst.cleanTickets_days
+      },
+      type: `input`
+    }, {
+      text: ` days.`,
+      type: `node`
+    }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
+    observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, [{
+      text: `Trades data older than `,
+      type: `node`
+    }, {
+      attributes: {
+        class: `esgst-switch-input`,
+        type: `text`,
+        value: esgst.cleanTrades_days
+      },
+      type: `input`
+    }, {
+      text: ` days.`,
+      type: `node`
+    }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
     new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, esgst.cleanDuplicates);
     popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Clean`, title2: `Cleaning...`, callback1: async () => {
       const dm = {};
@@ -50804,9 +53479,12 @@
       addScrollable: true
     });
     obj.popup.onClose = resolve.bind(null, url);
-    let context = obj.popup.getScrollable(`
-      <div class="esgst-sm-colors"></div>
-    `).firstElementChild;
+    let context = obj.popup.getScrollable([{
+      attributes: {
+        class: `esgst-sm-colors`
+      },
+      type: `div`
+    }]).firstElementChild;
     obj.options[key].forEach(option => {
       option.select = createElemens(context, `beforeEnd`, [{
         type: `div`,
@@ -51681,7 +54359,7 @@
       if (!item) {
         continue;
       }
-      if (item.context) {
+      if (isSet(item.context)) {
         context.appendChild(item.context);
         continue;
       }
@@ -51691,18 +54369,18 @@
         continue;
       }
       const element = document.createElement(item.type);
-      if (item.attributes) {
+      if (isSet(item.attributes)) {
         for (const key in item.attributes) {
           element.setAttribute(key, item.attributes[key]);
         }
       }
-      if (item.text) {
+      if (isSet(item.text)) {
         element.textContent = item.text;
       }
-      if (item.children) {
+      if (isSet(item.children)) {
         buildElements(element, item.children);
       }
-      if (item.events) {
+      if (isSet(item.events)) {
         for (const key in item.events) {
           element.addEventListener(key, item.events[key]);
         }
