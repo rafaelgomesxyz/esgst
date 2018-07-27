@@ -2082,7 +2082,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.24.1`,
-      devVersion: `7.25.0 (Dev.5)`,
+      devVersion: `7.25.0 (Dev.6)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2308,84 +2308,294 @@
           position = `afterEnd`;
         }
         context = document.getElementsByClassName(className)[0];
-        menu = insertHtml(context, position, `
-          <div class="esgst-header-menu" id="esgst" title="${getFeatureTooltip()}">
-            <div class="esgst-header-menu-relative-dropdown esgst-hidden">
-              <div class="esgst-header-menu-absolute-dropdown">
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST" target="_blank">
-                  <i class="fa fa-fw fa-github grey"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">GitHub</p>
-                    <p class="esgst-header-menu-description">Visit the GitHub page.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues" target="_blank">
-                  <i class="fa fa-fw fa-bug red"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Bugs/Suggestions</p>
-                    <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones" target="_blank">
-                  <i class="fa fa-fw fa-map-signs blue"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Milestones</p>
-                    <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/" target="_blank">
-                  <i class="fa fa-fw fa-commenting green"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Discussion</p>
-                    <p class="esgst-header-menu-description">Visit the discussion page.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst" target="_blank">
-                  <i class="fa fa-fw fa-steam green"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Steam Group</p>
-                    <p class="esgst-header-menu-description">Visit/join the Steam group.</p>
-                  </div>
-                </a>
-                <div class="esgst-header-menu-row" id="esgst-changelog">
-                  <i class="fa fa-fw fa-file-text-o yellow"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Changelog</p>
-                    <p class="esgst-header-menu-description">Check out the changelog.</p>
-                  </div>
-                </div>
-                <a class="esgst-header-menu-row" href="https://www.patreon.com/revilheart" target="_blank">
-                  <i class="fa fa-fw fa-dollar grey"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Patreon</p>
-                    <p class="esgst-header-menu-description">Become a patron to support ESGST!</p>
-                  </div>
-                </a>
-                <div class="esgst-header-menu-row esgst-version-row">
-                  <i class="fa fa-fw fa-paypal grey"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Paypal (rafaelxgs@gmail.com)</p>
-                    <p class="esgst-header-menu-description">Donate to support ESGST. Thank you!</p>
-                  </div>
-                </div>
-                <div class="esgst-header-menu-row esgst-version-row">
-                  <div>
-                    <p class="esgst-header-menu-description">Current Version: ${esgst.devVersion}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="esgst-header-menu-button">
-              <i class="fa">
-                <img src="${esgst.icon}"/>
-              </i>
-              <span>ESGST</span>
-            </div>
-            <div class="esgst-header-menu-button arrow">
-              <i class="fa fa-angle-down"></i>
-            </div>
-          </div>
-        `);
+        menu = createElements(context, position, [{
+          attributes: {
+            class: `esgst-header-menu`,
+            id: `esgst`,
+            title: getFeatureTooltip()
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-header-menu-relative-dropdown esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-header-menu-absolute-dropdown`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/revilheart/ESGST`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-github grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `GitHub`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the GitHub page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/revilheart/ESGST/issues`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-bug red`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Bugs/Suggestions`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Report bugs and/or make suggestions.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/revilheart/ESGST/milestones`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-map-signs blue`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Milestones`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out what's coming in the next version.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.steamgifts.com/discussion/TDyzv/`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-commenting green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Discussion`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the discussion page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `http://steamcommunity.com/groups/esgst`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-steam green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Steam Group`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit/join the Steam group.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  id: `esgst-changelog`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-file-text-o yellow`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Changelog`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out the changelog.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.patreon.com/revilheart`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-dollar grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Patreon`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Become a patron to support ESGST!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-paypal grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Paypal (rafaelxgs@gmail.com)`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Donate to support ESGST. Thank you!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Current Version: ${esgst.devVersion}`,
+                    type: `p`
+                  }]
+                }]
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa`
+              },
+              type: `i`,
+              children: [{
+                attributes: {
+                  src: esgst.icon
+                },
+                type: `img`
+              }]
+            }, {
+              text: `ESGST`,
+              type: `node`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button arrow`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-angle-down`
+              },
+              type: `i`
+            }]
+          }]
+        }]);
         dropdown = menu.firstElementChild;
         button = dropdown.nextElementSibling;
         arrow = button.nextElementSibling;
@@ -2539,91 +2749,321 @@
           position = `afterEnd`;
         }
         context = document.getElementsByClassName(className)[0];
-        menu = insertHtml(context, position, `
-          <div class="esgst-header-menu" id="esgst" title="${getFeatureTooltip()}">
-            <div class="esgst-header-menu-relative-dropdown esgst-hidden">
-              <div class="esgst-header-menu-absolute-dropdown">
-                <div class="esgst-header-menu-row" id="esgst-update">
-                  <i class="fa fa-fw fa-refresh blue"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Update</p>
-                    <p class="esgst-header-menu-description">Check for updates.</p>
-                  </div>
-                </div>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST" target="_blank">
-                  <i class="fa fa-fw fa-github grey"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">GitHub</p>
-                    <p class="esgst-header-menu-description">Visit the GitHub page.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/issues" target="_blank">
-                  <i class="fa fa-fw fa-bug red"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Bugs/Suggestions</p>
-                    <p class="esgst-header-menu-description">Report bugs and/or make suggestions.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="https://github.com/revilheart/ESGST/milestones" target="_blank">
-                  <i class="fa fa-fw fa-map-signs blue"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Milestones</p>
-                    <p class="esgst-header-menu-description">Check out what's coming in the next version.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="https://www.steamgifts.com/discussion/TDyzv/" target="_blank">
-                  <i class="fa fa-fw fa-commenting green"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Discussion</p>
-                    <p class="esgst-header-menu-description">Visit the discussion page.</p>
-                  </div>
-                </a>
-                <a class="esgst-header-menu-row" href="http://steamcommunity.com/groups/esgst" target="_blank">
-                  <i class="fa fa-fw fa-steam green"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Steam Group</p>
-                    <p class="esgst-header-menu-description">Visit/join the Steam group.</p>
-                  </div>
-                </a>
-                <div class="esgst-header-menu-row" id="esgst-changelog">
-                  <i class="fa fa-fw fa-file-text-o yellow"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Changelog</p>
-                    <p class="esgst-header-menu-description">Check out the changelog.</p>
-                  </div>
-                </div>
-                <a class="esgst-header-menu-row" href="https://www.patreon.com/revilheart" target="_blank">
-                  <i class="fa fa-fw fa-dollar grey"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Patreon</p>
-                    <p class="esgst-header-menu-description">Become a patron to support ESGST!</p>
-                  </div>
-                </a>
-                <div class="esgst-header-menu-row esgst-version-row">
-                  <i class="fa fa-fw fa-paypal grey"></i>
-                  <div>
-                    <p class="esgst-header-menu-name">Paypal (rafaelxgs@gmail.com)</p>
-                    <p class="esgst-header-menu-description">Donate to support ESGST. Thank you!</p>
-                  </div>
-                </div>
-                <div class="esgst-header-menu-row esgst-version-row">
-                  <div>
-                    <p class="esgst-header-menu-description">Current Version: ${esgst.devVersion}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="esgst-header-menu-button">
-              <i class="fa">
-                <img src="${esgst.icon}"/>
-              </i>
-              <span>ESGST</span>
-            </div>
-            <div class="esgst-header-menu-button arrow">
-              <i class="fa fa-angle-down"></i>
-            </div>
-          </div>
-        `);
+        menu = createElements(context, position, [{
+          attributes: {
+            class: `esgst-header-menu`,
+            id: `esgst`,
+            title: getFeatureTooltip()
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-header-menu-relative-dropdown esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-header-menu-absolute-dropdown`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  id: `esgst-update`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-refresh blue`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Update`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check for updates.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/revilheart/ESGST`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-github grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `GitHub`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the GitHub page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/revilheart/ESGST/issues`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-bug red`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Bugs/Suggestions`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Report bugs and/or make suggestions.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/revilheart/ESGST/milestones`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-map-signs blue`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Milestones`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out what's coming in the next version.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.steamgifts.com/discussion/TDyzv/`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-commenting green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Discussion`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the discussion page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `http://steamcommunity.com/groups/esgst`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-steam green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Steam Group`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit/join the Steam group.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  id: `esgst-changelog`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-file-text-o yellow`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Changelog`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out the changelog.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.patreon.com/revilheart`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-dollar grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Patreon`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Become a patron to support ESGST!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-paypal grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Paypal (rafaelxgs@gmail.com)`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Donate to support ESGST. Thank you!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Current Version: ${esgst.devVersion}`,
+                    type: `p`
+                  }]
+                }]
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa`
+              },
+              type: `i`,
+              children: [{
+                attributes: {
+                  src: esgst.icon
+                },
+                type: `img`
+              }]
+            }, {
+              text: `ESGST`,
+              type: `node`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button arrow`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-angle-down`
+              },
+              type: `i`
+            }]
+          }]
+        }])
         dropdown = menu.firstElementChild;
         button = dropdown.nextElementSibling;
         arrow = button.nextElementSibling;
@@ -7333,38 +7773,115 @@
   function chfl_openPopup(chfl, editId, key, event) {
     event.preventDefault();
     let popup = new Popup(editId ? `fa-edit` : `fa-plus`, `${editId ? `Edit` : `Add`} Custom Link`, true);
-    let description = insertHtml(popup.description, `beforeEnd`, `
-      <div>
-        <span>URL:</span>
-        <i class="fa fa-question-circle" title="Instead of entering 'https://www.steamgifts.com/url', you can simply enter '/url'."></i>
-        <input class="esgst-switch-input esgst-switch-input-large" type="text">
-      </div>
-      <div>
-        <span>Color:</span>
-        <select class="esgst-switch-input esgst-switch-input-large">
-          <option value="grey">Grey (Default)</option>
-          <option value="blue">Blue</option>
-          <option value="green">Green</option>
-          <option value="red">Red</option>
-          <option value="yellow">Yellow</option>
-        </select>
-      </div>
-      <div>
-        <span>Icon:</span>
-        <a href="https://fontawesome.com/v4.7.0/icons/">
-          <i class="fa fa-question-circle" title="You must use an icon from FontAwesome (click on this icon to go to the FontAwesome page). The icon must be in the format 'fa-icon', without the quotes."></i>
-        </a>
-        <input class="esgst-switch-input esgst-switch-input-large" type="text">
-      </div>
-      <div>
-        <span>Name:</span>
-        <input class="esgst-switch-input esgst-switch-input-large" type="text">
-      </div>
-      <div>
-        <span>Description:</span>
-        <input class="esgst-switch-input esgst-switch-input-large" type="text">
-      </div>
-    `);
+    let description = createElements(popup.description, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        text: `URL:`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `Instead of entering 'https://www.steamgifts.com/url', you can simply enter '/url'.`
+        },
+        type: `i`
+      }, {
+        attributes: {
+          class: `esgst-switch-input esgst-switch-input-large`,
+          type: `text`
+        },
+        type: `input`
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        text: `Color:`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `esgst-switch-input esgst-switch-input-large`
+        },
+        type: `select`,
+        children: [{
+          attributes: {
+            value: `grey`
+          },
+          text: `Grey (Default)`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `blue`
+          },
+          text: `Blue`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `green`
+          },
+          text: `Green`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `red`
+          },
+          text: `Red`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `yellow`
+          },
+          text: `Yellow`,
+          type: `option`
+        }]
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        text: `Icon:`,
+        type: `span`
+      }, {
+        attributes: {
+          href: `https://fontawesome.com/v4.7.0/icons/`
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: `You must use an icon from FontAwesome (click on this icon to go to the FontAwesome page). The icon must be in the format 'fa-icon', without the quotes.`
+          },
+          type: `i`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-switch-input esgst-switch-input-large`,
+          type: `text`
+        },
+        type: `input`
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        text: `Name:`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `esgst-switch-input esgst-switch-input-large`,
+          type: `text`
+        },
+        type: `input`
+      }]
+    }, {
+      type: `div`,
+      children: [{
+        text: `Description:`,
+        type: `span`
+      }, {
+        attributes: {
+          class: `esgst-switch-input esgst-switch-input-large`,
+          type: `text`
+        },
+        type: `input`
+      }]
+    }]);
     let name = description.previousElementSibling;
     let icon = name.previousElementSibling;
     let color = icon.previousElementSibling;
@@ -7377,7 +7894,7 @@
     if (key === `footer`) {
       color.parentElement.classList.add(`esgst-hidden`);
       description.parentElement.classList.add(`esgst-hidden`);
-      compactSwitch.switch.classList.add(`esgst-hidden`);
+      compactSwitch.container.classList.add(`esgst-hidden`);
     }
     if (esgst.st) {
       description.parentElement.classList.add(`esgst-hidden`);
@@ -7915,57 +8432,223 @@
 
     obj.popout = new Popout(`esgst-gas-popout`, obj.button, 0, true);
     new ToggleSwitch(obj.popout.popout, esgst.gas.autoKey, false, `Auto Sort`, false, false, `Automatically sorts the giveaways by the selected option when loading the page.`, esgst[esgst.gas.autoKey]);
-    let options = insertHtml(obj.popout.popout, `beforeEnd`, `
-      <select>
-        <option value="sortIndex_asc">Default</option>
-        <option value="name_asc">Game Name - Ascending</option>
-        <option value="name_desc">Game Name - Descending</option>
-      ${!esgst.enteredPath ? `
-        <option value="points_asc">Points - Ascending</option>
-        <option value="points_desc">Points - Descending</option>
-      ` : ``}
-      ${esgst.gc && esgst.gc_r && !esgst.enteredPath ? `
-        <option value="rating_asc">Rating - Ascending</option>
-        <option value="rating_desc">Rating - Descending</option>
-      ` : ``}
-        <option value="endTime_asc">End Time - Ascending</option>
-        <option value="endTime_desc">End Time - Descending</option>
-      ${!esgst.enteredPath ? `
-        <option value="startTime_asc">Start Time - Ascending</option>
-        <option value="startTime_desc">Start Time - Descending</option>
-        <option value="creator_asc">Creator - Ascending</option>
-        <option value="creator_desc">Creator - Descending</option>
-        <option value="comments_asc">Comments - Ascending</option>
-        <option value="comments_desc">Comments - Descending</option>
-      ` : ``}
-        <option value="entries_asc">Entries - Ascending</option>
-        <option value="entries_desc">Entries - Descending</option>
-      ${esgst.gwc ? `
-        <option value="chance_asc">Chance - Ascending</option>
-        <option value="chance_desc">Chance - Descending</option>
-        <option value="chancePerPoint_asc">Chance Per Point - Ascending</option>
-        <option value="chancePerPoint_desc">Chance Per Point - Descending</option>
-        ${esgst.gwc_a ? `
-          <option value="projectedChance_asc">Projected Chance - Ascending</option>
-          <option value="projectedChance_desc">Projected Chance - Descending</option>
-          <option value="projectedChancePerPoint_asc">Projected Chance Per Point - Ascending</option>
-          <option value="projectedChancePerPoint_desc">Projected Chance Per Point - Descending</option>
-        ` : ``}
-      ` : ``}
-      ${esgst.gwr ? `
-        <option value="ratio_asc">Ratio - Ascending</option>
-        <option value="ratio_desc">Ratio - Descending</option>
-        ${esgst.gwr_a ? `
-          <option value="projectedRatio_asc">Projected Ratio - Ascending</option>
-          <option value="projectedRatio_desc">Projected Ratio - Descending</option>
-        ` : ``}
-      ` : ``}
-      ${esgst.gptw ? `
-        <option value="pointsToWin_asc">Points To Win - Ascending</option>
-        <option value="pointsToWin_desc">Points To Win - Descending</option>
-      ` : ``}
-      </select>
-    `);
+    const children = [{
+      attributes: {
+        value: `sortIndex_asc`
+      },
+      text: `Default`,
+      type: `option`
+    }, {
+      attributes: {
+        value: `name_asc`
+      },
+      text: `Game Name - Ascending`,
+      type: `option`
+    }, {
+      attributes: {
+        value: `name_desc`
+      },
+      text: `Game Name - Descending`,
+      type: `option`
+    }];
+    if (!esgst.enteredPath) {
+      children.push({
+        attributes: {
+          value: `points_asc`
+        },
+        text: `Points - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `points_desc`
+        },
+        text: `Points - Descending`,
+        type: `option`
+      });
+    }
+    if (esgst.gc && esgst.gc_r && !esgst.enteredPath) {
+      children.push({
+        attributes: {
+          value: `rating_asc`
+        },
+        text: `Rating - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `rating_desc`
+        },
+        text: `Rating - Descending`,
+        type: `option`
+      });
+    }
+    children.push({
+      attributes: {
+        value: `endTime_asc`
+      },
+      text: `End Time - Ascending`,
+      type: `option`
+    }, {
+      attributes: {
+        value: `endTime_desc`
+      },
+      text: `End Time - Descending`,
+      type: `option`
+    });
+    if (!esgst.enteredPath) {
+      children.push({
+        attributes: {
+          value: `startTime_asc`
+        },
+        text: `Start Time - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `startTime_desc`
+        },
+        text: `Start Time - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `creator_asc`
+        },
+        text: `Creator - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `creator_desc`
+        },
+        text: `Creator - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `comments_asc`
+        },
+        text: `Comments - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `comments_desc`
+        },
+        text: `Comments - Descending`,
+        type: `option`
+      });
+    }
+    children.push({
+      attributes: {
+        value: `entries_asc`
+      },
+      text: `Entries - Ascending`,
+      type: `option`
+    }, {
+      attributes: {
+        value: `entries_desc`
+      },
+      text: `Entries - Descending`,
+      type: `option`
+    });
+    if (esgst.gwc) {
+      children.push({
+        attributes: {
+          value: `chance_asc`
+        },
+        text: `Chance - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `chance_desc`
+        },
+        text: `Chance - Descending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `chancePerPoint_asc`
+        },
+        text: `Chance Per Point - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `chancePerPoint_desc`
+        },
+        text: `Chance Per Point - Descending`,
+        type: `option`
+      });
+      if (esgst.gwc_a) {
+        children.push({
+          attributes: {
+            value: `projectedChance_asc`
+          },
+          text: `Projected Chance - Ascending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `projectedChance_desc`
+          },
+          text: `Projected Chance - Descending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `projectedChancePerPoint_asc`
+          },
+          text: `Projected Chance Per Point - Ascending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `projectedChancePerPoint_desc`
+          },
+          text: `Projected Chance Per Point - Descending`,
+          type: `option`
+        });
+      }
+    }
+    if (esgst.gwr) {
+      children.push({
+        attributes: {
+          value: `ratio_asc`
+        },
+        text: `Ratio - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `ratio_desc`
+        },
+        text: `Ratio - Descending`,
+        type: `option`
+      });
+      if (esgst.gwr_a) {
+        children.push({
+          attributes: {
+            value: `projectedRatio_asc`
+          },
+          text: `Projected Ratio - Ascending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `projectedRatio_desc`
+          },
+          text: `Projected Ratio - Descending`,
+          type: `option`
+        });
+      }
+    }
+    if (esgst.gptw) {
+      children.push({
+        attributes: {
+          value: `pointsToWin_asc`
+        },
+        text: `Points To Win - Ascending`,
+        type: `option`
+      }, {
+        attributes: {
+          value: `pointsToWin_desc`
+        },
+        text: `Points To Win - Descending`,
+        type: `option`
+      });
+    }
+    let options = createElements(obj.popout.popout, `beforeEnd`, [{
+      type: `select`,
+      children
+    }]);
     options.value = esgst[esgst.gas.optionKey];
     let callback = saveAndSortContent.bind(null, esgst.gas.optionKey, esgst.gas.mainKey, options, null);
     options.addEventListener(`change`, callback);
@@ -13610,51 +14293,196 @@
     toggleSwitch.onEnabled = filters_filter.bind(null, obj);
     toggleSwitch.onDisabled = filters_filter.bind(null, obj, true);
 
-    obj.container = insertHtml(heading, `afterEnd`, `
-      <div class="esgst-gf-container">
-        <div class="esgst-gf-box">
-          <div class="esgst-gf-filters esgst-hidden">
-            <div class="esgst-gf-left-panel">
-              <div class="esgst-gf-basic-filters">
-                <div class="esgst-gf-number-filters"></div>
-                <div class="esgst-gf-boolean-filters"></div>
-                <div class="esgst-gf-string-filters"></div>
-              </div>
-              <div>
-                Advanced <i class="fa fa-question-circle" title="Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved."></i>
-              </div>
-              <div class="esgst-clickable">
-                Manual <i class="fa fa-book"></i>
-              </div>
-              <div class="esgst-gf-advanced-filters"></div>
-            </div>
-            <div class="esgst-gf-right-panel">
-              <div class="esgst-gf-steamgifts-filters">
-                <div>
-                  <span class="esgst-bold">SteamGifts Filters:</span>
-                </div>
-              </div>
-              <br>
-              <div class="esgst-gf-preset-panel">
-                <div>
-                  <span class="esgst-bold">Preset:</span>
-                  <i class="fa fa-question-circle" title="If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings."></i>
-                </div>
-                <input class="form__input-small" type="text"/>
-                <div class="esgst-description esgst-bold"></div>
-                <div class="form__row__error esgst-hidden">
-                  <i class="fa fa-exclamation-circle"></i> Please enter a name for the preset.
-                </div>
-                <div class="esgst-description">The name of the preset.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="esgst-gf-button">
-          <span>Expand</span><span class="esgst-hidden">Collapse</span> filters (<span>0</span> filtered ${obj.id === `gf` ? `- <span>0</span>P required to enter all unfiltered ` : ``}- <span></span>)
-        </div>
-      </div>
-    `);
+    obj.container = createElements(heading, `afterEnd`, [{
+      attributes: {
+        class: `esgst-gf-container`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-gf-box`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-gf-filters esgst-hidden`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-gf-left-panel`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gf-basic-filters`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-gf-number-filters`
+                },
+                type: `div`
+              }, {
+                attributes: {
+                  class: `esgst-gf-boolean-filters`
+                },
+                type: `div`
+              }, {
+                attributes: {
+                  class: `esgst-gf-string-filters`
+                },
+                type: `div`
+              }]
+            }, {
+              type: `div`,
+              children: [{
+                text: `Advanced `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `fa fa-question-circle`,
+                  title: `Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved.`
+                },
+                type: `i`
+              }]
+            }, {
+              attributes: {
+                class: `esgst-clickable`
+              },
+              type: `div`,
+              children: [{
+                text: `Manual `,
+                type: `node`
+              }, {
+                attributes: {
+                  class: `fa fa-book`
+                },
+                type: `i`
+              }]
+            }, {
+              attributes: {
+                class: `esgst-gf-advanced-filters`
+              },
+              type: `div`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-gf-right-panel`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gf-steamgifts-filters`
+              },
+              type: `div`,
+              children: [{
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `esgst-bold`
+                  },
+                  text: `SteamGifts Filters:`,
+                  type: `span`
+                }]
+              }]
+            }, {
+              type: `br`
+            }, {
+              attributes: {
+                class: `esgst-gf-preset-panel`
+              },
+              type: `div`,
+              children: [{
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `esgst-bold`
+                  },
+                  text: `Preset:`,
+                  type: `span`
+                }, {
+                  attributes: {
+                    class: `fa fa-question-circle`,
+                    title: `If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings.`
+                  },
+                  type: `i`
+                }]
+              }, {
+                attributes: {
+                  class: `form__input-small`,
+                  type: `text`
+                },
+                type: `input`
+              }, {
+                attributes: {
+                  class: `esgst-description esgst-bold`
+                },
+                type: `div`
+              }, {
+                attributes: {
+                  class: `form__row__error esgst-hidden`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-exclamation-circle`
+                  },
+                  type: `i`
+                }, {
+                  text: ` Please enter a name for the preset.`,
+                  type: `node`
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-description`
+                },
+                text: `The name of the preset.`,
+                type: `div`
+              }]
+            }]
+          }]
+        }]
+      }, {
+        attributes: {
+          class: `esgst-gf-button`
+        },
+        type: `div`,
+        children: [{
+          text: `Expand`,
+          type: `span`
+        }, {
+          attributes: {
+            class: `esgst-hidden`
+          },
+          text: `Collapse`,
+          type: `span`
+        }, {
+          text: ` filters (`,
+          type: `node`
+        }, {
+          text: `0`,
+          type: `span`
+        }, {
+          text: ` filtered `,
+          type: `node`,            
+        }, ...(obj.id === `gf` ? [{
+          text: `- `,
+          type: `node`
+        }, {
+          text: `0`,
+          type: `span`
+        }, {
+          text: `P required to enter all unfiltered `,
+          type: `node`
+        }] : []), {
+          text: `- `,
+          type: `node`
+        }, {
+          type: `span`
+        }]
+      }]
+    }]);
 
     if (!obj.popup) {
       esgst.commentsTop += obj.container.offsetHeight;
@@ -15152,21 +15980,64 @@
       type: `div`
     }]);
     for (const preset of esgst[obj.key]) {
-      const row = insertHtml(table, `beforeEnd`, `
-        <div ${obj.presetInput.value === preset.name ? `class="esgst-green-highlight"` : ``} draggable="true">
-          <div class="esgst-float-left">
-            <input class="esgst-hidden" type="text" value="${preset.name}"/>
-            <strong class="esgst-clickable">${preset.name}</strong>
-          </div>
-          <div class="esgst-clickable esgst-float-right">
-            <i class="fa fa-edit" title="Rename preset"></i>
-            <span title="Delete preset">
-              <i class="fa fa-trash"></i>
-            </span>
-          </div>
-          <div class="esgst-clear"></div>
-        </div>
-      `);
+      const attributes = {
+        draggable: true
+      };
+      if (obj.presetInput.value === preset.name) {
+        attributes.class = `esgst-green-highlight`;
+      }
+      const row = createElements(table, `beforeEnd`, [{
+        attributes,
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-float-left`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-hidden`,
+              type: `text`,
+              value: preset.name
+            },
+            type: `input`
+          }, {
+            attributes: {
+              class: `esgst-clickable`
+            },
+            text: preset.name,
+            type: `strong`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-clickable esgst-float-right`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-edit`,
+              title: `Rename preset`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              title: `Delete preset`
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa fa-trash`
+              },
+              type: `i`
+            }]
+          }]
+        }, {
+          attributes: {
+            class: `esgst-clear`
+          },
+          type: `div`
+        }]
+      }]);
       const renameInput = row.firstElementChild.firstElementChild;
       const heading = renameInput.nextElementSibling;
       const renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
@@ -17056,39 +17927,123 @@
     });
     rows.appendChild(createGiveawayButton.set);
     button.addEventListener(`click`, gts_openPopup.bind(null, gts));
-    section = insertHtml(reviewButton, `beforeBegin`, `
-      <div class="esgst-form-row">
-        <div class="esgst-form-heading">
-          <div class="esgst-form-heading-number">9.</div>
-          <div class="esgst-form-heading-text">Template</div>
-        </div>
-        <div class="esgst-gts-section esgst-form-row-indent">
-          <div>
-            <span>Use precise start time.</span>
-            <i class="fa fa-question-circle" title="For example, if you picked 12:00 pm for the start date in section 4, when you apply the template the start date will be set to the next 12:00 pm hour, so if you apply the template on January 1 11:00 pm, the start date will be set to January 1 12:00 pm, and if you apply the template on January 1 13:00 pm, the start date will be set to January 2 12:00 pm. The end date will then be set based on the time range that you picked."></i>
-          </div>
-          <div>
-            <span>Use precise end time.</span>
-            <i class="fa fa-question-circle" title="For example, if you picked 12:00 pm for the end date and a time range of 2 days in section 4, when you apply the template the end date will be set to the next 12:00 pm hour after 2 days, so if you apply the template on January 1 11:00 pm, the end date will be set to January 3 12:00 pm, and if you apply the template on January 1 13:00 pm, the end date will be set to January 4 12:00 pm. The start date will then be set based on the time range that you picked."></i>
-          </div>
-          <div>
-            <span>Use precise start date.</span>
-            <i class="fa fa-question-circle" title="With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin at a specific later date, because the template is not reusable after the date has passed."></i>
-          </div>
-          <div>
-            <span>Use precise end date.</span>
-            <i class="fa fa-question-circle" title="With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end at a specific later date, because the template is not reusable after the date has passed."></i>
-          </div>
-          <div class="esgst-description">By not selecting one of the options above, the template will use the time range that you picked in section 4. For example, if the time range that you picked was 2 days, when you apply the template the start date will be set to your current date and the end date will be set to 2 days later.</div>
-          <input class="form__input-small" type="text"/>
-          <span class="esgst-description esgst-hidden">Saved!</span>
-          <div class="esgst-hidden form__row__error">
-            <i class="fa fa-exclamation-circle"></i> Please enter a name for the template.
-          </div>
-          <div class="esgst-description">The name of the template.</div>
-        </div>
-      </div>
-    `).lastElementChild;
+    section = createElements(reviewButton, `beforeBegin`, [{
+      attributes: {
+        class: `esgst-form-row`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-form-heading`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-form-heading-number`
+          },
+          text: `9.`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-form-heading-text`
+          },
+          text: `Template`,
+          type: `div`
+        }]
+      }, {
+        attributes: {
+          class: `esgst-gts-section esgst-form-row-indent`
+        },
+        type: `div`,
+        children: [{
+          type: `div`,
+          children: [{
+            text: `Use precise start time.`,
+            type: `span`
+          }, {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: `For example, if you picked 12:00 pm for the start date in section 4, when you apply the template the start date will be set to the next 12:00 pm hour, so if you apply the template on January 1 11:00 pm, the start date will be set to January 1 12:00 pm, and if you apply the template on January 1 13:00 pm, the start date will be set to January 2 12:00 pm. The end date will then be set based on the time range that you picked.`
+            },
+            type: `i`
+          }]
+        }, {
+          type: `div`,
+          children: [{
+            text: `Use precise end time.`,
+            type: `span`
+          }, {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: `For example, if you picked 12:00 pm for the end date and a time range of 2 days in section 4, when you apply the template the end date will be set to the next 12:00 pm hour after 2 days, so if you apply the template on January 1 11:00 pm, the end date will be set to January 3 12:00 pm, and if you apply the template on January 1 13:00 pm, the end date will be set to January 4 12:00 pm. The start date will then be set based on the time range that you picked.`
+            },
+            type: `i`
+          }]
+        }, {
+          type: `div`,
+          children: [{
+            text: `Use precise start date.`,
+            type: `span`
+          }, {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: `With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin at a specific later date, because the template is not reusable after the date has passed.`
+            },
+            type: `i`
+          }]
+        }, {
+          type: `div`,
+          children: [{
+            text: `Use precise end date.`,
+            type: `span`
+          }, {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: `With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end at a specific later date, because the template is not reusable after the date has passed.`
+            },
+            type: `i`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-description`
+          },
+          text: `By not selecting one of the options above, the template will use the time range that you picked in section 4. For example, if the time range that you picked was 2 days, when you apply the template the start date will be set to your current date and the end date will be set to 2 days later.`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `form__input-small`,
+            type: `text`
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `esgst-description esgst-hidden`
+          },
+          text: `Saved!`,
+          type: `span`
+        }, {
+          attributes: {
+            class: `esgst-hidden form__row__error`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-exclamation-circle`
+            },
+            type: `i`
+          }, {
+            text: ` Please enter a name for the template.`,
+            type: `node`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-description`
+          },
+          text: `The name of the template.`,
+          type: `div`
+        }]
+      }]
+    }]).lastElementChild;
     preciseStartOption = section.firstElementChild;
     preciseEndOption = preciseStartOption.nextElementSibling;
     preciseStartDateOption = preciseEndOption.nextElementSibling;
@@ -17335,18 +18290,50 @@
         }
       }
       details += `, level ${savedTemplate.level}`;
-      let template = insertHtml(templates, `beforeEnd`, `
-        <div draggable="true">
-          <div class="esgst-clickable" style="float: left;">
-            <span class="esgst-bold">${savedTemplate.name}</span>
-          </div>
-          <div class="esgst-clickable" style="float: right;">
-            <i class="fa fa-trash" title="Delete template"></i>
-          </div>
-          <div style="clear: both;"></div>
-          <div class="esgst-description">${details}</div>
-        </div>
-      `);
+      let template = createElements(templates, `beforeEnd`, [{
+        attributes: {
+          draggable: true
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-clickable`,
+            style: `float: left;`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-bold`
+            },
+            text: savedTemplate.name,
+            type: `span`
+          }]
+        }, {
+          attributes: {
+            class: `esgst-clickable`,
+            style: `float: right;`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `fa fa-trash`,
+              title: `Delete templat`
+            },
+            type: `i`
+          }]
+        }, {
+          attributes: {
+            style: `clear: both;`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-description`
+          },
+          text: details,
+          type: `div`
+        }]
+      }]);
       template.addEventListener(`dragstart`, gts_setSource.bind(null, gts, savedTemplate.name, template));
       template.addEventListener(`dragenter`, gts_getSource.bind(null, gts, template, templates));
       template.addEventListener(`dragend`, gts_saveSource.bind(null, gts));
@@ -19410,24 +20397,59 @@
         mgc.groupNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
       }
       mgc.gameName = mgc.gameId.nextElementSibling;
-      let context = insertHtml(rows, `afterBegin`, `
-        <div class="esgst-form-row" title="${getFeatureTooltip(`mgc`)}">
-          <div class="esgst-form-heading">
-            <div class="esgst-form-heading-number">0.</div>
-            <div class="esgst-form-heading-text">
-              Create Multiple Giveaways <i class="fa fa-question-circle esgst-clickable"></i>
-            </div>
-          </div>
-          <div class="esgst-gm-section esgst-form-row-indent">
-            <div>
-              <div></div>
-              <div class="esgst-hidden">
-                <div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      `);
+      let context = createElements(rows, `afterBegin`, [{
+        attributes: {
+          class: `esgst-form-row`,
+          title: getFeatureTooltip(`mgc`)
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `esgst-form-heading`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-form-heading-number`
+            },
+            text: `0.`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `esgst-form-heading-text`
+            },
+            type: `div`,
+            children: [{
+              text: `Create Multiple Giveaways `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `fa fa-question-circle esgst-clickable`
+              },
+              type: `i`
+            }]
+          }]
+        }, {
+          attributes: {
+            class: `esgst-gm-section esgst-form-row-indent`
+          },
+          type: `div`,
+          children: [{
+            type: `div`,
+            children: [{
+              type: `div`
+            }, {
+              attributes: {
+                class: `esgst-hidden`
+              },
+              type: `div`,
+              children: [{
+                type: `div`
+              }]
+            }]
+          }]
+        }]
+      }]);
       section = context.lastElementChild;
       createTooltip(context.firstElementChild.lastElementChild.lastElementChild, `
         <div class="esgst-bold">How To Use</div>
@@ -19509,14 +20531,36 @@
       detach.addEventListener(`click`, mgc_detachDiscussion.bind(null, mgc));
       mgc.discussionLink = detach.previousElementSibling;
       new ToggleSwitch(mgc.discussionPanel, `mgc_bumpLast`, false, `Only insert the bump link in the last wagon.`, false, false, `If disabled, the bump link will appear on all wagons.`, esgst.mgc_bumpLast);
-      mgc.giveaways = insertHtml(section, `beforeEnd`, `
-        <div class="pinned-giveaways__outer-wrap">
-          <div class="pinned-giveaways__inner-wrap"></div>
-          <i class="fa fa-trash" title="Drag a giveaway here to remove it"></i>
-          <div class="esgst-description">To edit a giveaway, click on it and a "Edit" button will appear. Then make your alterations and click "Edit".</div>
-          <div class="esgst-description">Giveaways successfully created will turn green, giveaways successfully connected will be strikethrough (for train creations) and giveaways that were not successfully created will turn red.</div>
-        </div>
-      `).firstElementChild;
+      mgc.giveaways = createElements(section, `beforeEnd`, [{
+        attributes: {
+          class: `pinned-giveaways__outer-wrap`
+        },
+        type: `div`,
+        children: [{
+          attributes: {
+            class: `pinned-giveaways__inner-wrap`
+          },
+          type: `div`
+        }, {
+          attributes: {
+            class: `fa fa-trash`,
+            title: `Drag a giveaway here to remove it`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `esgst-description`
+          },
+          text: `To edit a giveaway, click on it and a "Edit" button will appear. Then make your alterations and click "Edit".`,
+          type: `div`
+        }, {
+          attributes: {
+            class: `esgst-description`
+          },
+          text: `Giveaways successfully created will turn green, giveaways successfully connected will be strikethrough (for train creations) and giveaways that were not successfully created will turn red.`,
+          type: `div`
+        }]
+      }]).firstElementChild;
       removeIcon = mgc.giveaways.nextElementSibling;
       removeIcon.addEventListener(`dragenter`, mgc_removeGiveaway.bind(null, mgc));
       JSON.parse(getLocalValue(`mgcCache`, `[]`)).forEach(values => {
@@ -44958,16 +46002,51 @@
         ];
       }
       Feature.inputItems.forEach(item => {
+        const children = [];
+        if (item.play) {
+          children.push({
+            attributes: {
+              style: `width: 200px`,
+              type: `file`
+            },
+            type: `input`
+          }, {
+            attributes: {
+              class: `fa fa-play-circle esgst-clickable`
+            },
+            type: `i`
+          });
+        } else {
+          children.push({
+            text: item.prefix || ``,
+            type: `node`
+          }, {
+            attributes: {
+              class: `esgst-switch-input esgst-switch-input-large`,
+              type: `text`,
+              value: esgst[item.id]
+            },
+            type: `input`
+          }, {
+            text: item.suffix || ``,
+            type: `node`
+          });
+          if (item.tooltip) {
+            children.push({
+              attributes: {
+                class: `fa fa-question-circle`,
+                title: item.tooltip
+              },
+              type: `i`
+            });
+          }
+        }
         let input,
           value = ``,
-          context = insertHtml(container, `beforeEnd`, `
-            <div>${item.play ? `
-              <input type="file" style="width: 200px;">
-              <i class="fa fa-play-circle esgst-clickable"></i>
-            ` : `
-              ${item.prefix || ``}<input class="esgst-switch-input esgst-switch-input-large" type="text" value="${esgst[item.id]}">${item.suffix || ``}${item.tooltip ? ` <i class="fa fa-question-circle" title="${item.tooltip}"></i>` : ``}
-            `}</div>
-          `);
+          context = createElements(container, `beforeEnd`, [{
+            type: `div`,
+            children
+          }]);
         input = context.firstElementChild;
         if (item.play) {
           input.nextElementSibling.addEventListener(`click`, async () => (await hr_createPlayer(esgst.settings[item.id] || hr_getDefaultSound())).play());
@@ -45028,18 +46107,55 @@
         SMFeatures.classList.remove(`esgst-hidden`);
       }
     } else if (Feature.theme) {
-      let container = insertHtml(SMFeatures, `beforeEnd`, `
-          <div class="esgst-sm-colors">
-            Enabled from <input type="text" value="${esgst[`${ID}_startTime`]}"> to <input type="text" value="${esgst[`${ID}_endTime`]}"> <i class="fa fa-question-circle" title="You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format."></i>
-            <br/>
-            ${ID === `customTheme` ? `
-              <textarea></textarea>
-            ` : `
-              <div class="form__saving-button esgst-sm-colors-default">Update</div>
-              <span></span>
-            `}
-          </div>
-        `),
+      const children = [{
+        text: `Enabled from `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `text`,
+          value: esgst[`${ID}_startTime`]
+        },
+        type: `input`
+      }, {
+        text: ` to `,
+        type: `node`
+      }, {
+        attributes: {
+          type: `text`,
+          value: esgst[`${ID}_endTime`]
+        },
+        type: `input`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.`
+        },
+        type: `i`
+      }, {
+        type: `br`
+      }];
+      if (ID === `customTheme`) {
+        children.push({
+          type: `textarea`
+        });
+      } else {
+        children.push({
+          attributes: {
+            class: `form__saving-button esgst-sm-colors-default`
+          },
+          text: `Update`,
+          type: `div`
+        }, {
+          type: `span`
+        });
+      }
+      let container = createElements(SMFeatures, `beforeEnd`, [{
+          attributes: {
+            class: ``
+          },
+          type: `div`,
+          children
+        }]),
         startTime = container.firstElementChild,
         endTime = startTime.nextElementSibling;
       observeChange(startTime, `${ID}_startTime`);
@@ -52527,23 +53643,6 @@
       arrow.classList.remove(`selected`);
       dropdown.classList.add(`esgst-hidden`);
     }
-  }
-
-  function insertHtml(context, position, html) {
-    try {
-      context.insertAdjacentHTML(position, html);
-    } catch (error) {
-      console.log(error);
-      console.log(html);
-      return null;
-    }
-    let positions = {
-      beforeBegin: `previousElementSibling`,
-      afterBegin: `firstElementChild`,
-      beforeEnd: `lastElementChild`,
-      afterEnd: `nextElementSibling`
-    };
-    return context[positions[position]];
   }
 
   function sortArray(Array, desc) {
