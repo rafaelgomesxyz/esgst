@@ -236,6 +236,12 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.25.1 (July 28, 2018)**
+
+* [#848](https://github.com/revilheart/ESGST/issues/848) Fix bugs introduced by v7.25.0
+* [#850](https://github.com/revilheart/ESGST/issues/850) Fix the extension's toolbar popup
+* [#852](https://github.com/revilheart/ESGST/issues/852) Add a new game category: HLTB
+
 **7.25.0 (July 27, 2018)**
 
 * [#845](https://github.com/revilheart/ESGST/issues/845) Fix the extension to comply with Mozilla requirements
