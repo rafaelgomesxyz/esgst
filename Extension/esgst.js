@@ -47,6 +47,7 @@
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/js/query-builder-2.5.2.min.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/js/intersection-observer.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/js/encoding.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/js/jsUtils-0.0.1.js
 // @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/css/bootstrap-3.3.7.min.css
 // @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
 // @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.25.1/Extension/css/query-builder-2.5.2.min.css
@@ -2085,12 +2086,11 @@
         wbc_hb_sg: `wbc_b_sg`,
         wbc_checkBlacklist: `wbc_checkWhitelist`
       },
-      domParser: new DOMParser(),
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.25.1`,
-      devVersion: `7.25.1`,
+      devVersion: `7.25.2 (Dev.1)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7068,7 +7068,7 @@
           type: `node`
         }]
       });
-      let date = getDate(`[MMM] [D], [YYYY]`, entry.timestamp);
+      let date = formatDate(`[MMM] [D], [YYYY]`, entry.timestamp);
       let key = new Date(date).getTime();
       if (!dates[key]) {
         dates[key] = {
@@ -7092,7 +7092,7 @@
       currentDate = dateObj.getTime();
       if (!dates[currentDate]) {
         dates[currentDate] = {
-          date: getDate(`[MMM] [D], [YYYY]`, currentDate),
+          date: formatDate(`[MMM] [D], [YYYY]`, currentDate),
           entered: 0,
           left: 0
         };
@@ -7304,7 +7304,7 @@
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
-      if (date !== getDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
+      if (date !== formatDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
       entries.splice(i, 1);
     }
     await setValue(`entries`, JSON.stringify(entries));
@@ -12353,7 +12353,7 @@
       if (ged.button) {
         ged.button.classList.remove(`esgst-hidden`);
       }
-      ged.giveaways = sortArrayByNumberKey(ged.giveaways, `timestamp`);
+      ged.giveaways = sortArray(ged.giveaways, false, `timestamp`);
     }
   }
 
@@ -13113,7 +13113,7 @@
         hidden.push(discussion);
       }
     }
-    hidden = sortArrayByNumberKey(hidden, `hidden`, true);
+    hidden = sortArray(hidden, true, `hidden`);
     obj.ids = [];
     for (const discussion of hidden) {
       obj.ids.push(discussion.code);
@@ -17765,7 +17765,7 @@
       type: `div`
     }]);
     selectedTags = [];
-    tags = sortArrayByNumberKey(tags, `count`, true);
+    tags = sortArray(tags, true, `count`);
     tags.forEach(tag => {
       let checkbox, item;
       tag = tag.tag;
@@ -18581,9 +18581,9 @@
         newEndTime.setDate(newStartTime.getDate() + days);
         newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
         document.querySelector(`[name="start_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else if (savedTemplate.startTime) {
         startTime = new Date(savedTemplate.startTime);
         newStartTime = new Date(currentDate.getTime());
@@ -18593,9 +18593,9 @@
         }
         newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
         document.querySelector(`[name="start_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else if (savedTemplate.endTime) {
         endTime = new Date(savedTemplate.endTime);
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
@@ -18605,30 +18605,30 @@
           newEndTime.setDate(newEndTime.getDate() + 1);
         }
         document.querySelector(`[name="start_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else {
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
         newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
         document.querySelector(`[name="start_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
       if (savedTemplate.startDate) {
         newStartTime.setFullYear(savedTemplate.startDate.year);
         newStartTime.setMonth(savedTemplate.startDate.month);
         newStartTime.setDate(savedTemplate.startDate.day);
         document.querySelector(`[name="start_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
       }
       if (savedTemplate.endDate) {
         newEndTime.setFullYear(savedTemplate.endDate.year);
         newEndTime.setMonth(savedTemplate.endDate.month);
         newEndTime.setDate(savedTemplate.endDate.day);
         document.querySelector(`[name="end_time"]`).value =
-          getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
     }
     if (!savedTemplate.region.match(/^(1|0)$/)) {
@@ -21898,7 +21898,7 @@
   function mgc_correctTime(fullMatch, match1) {
     const offsetTime = Date.now() + 5000;
     if ((new Date(decodeURIComponent(match1)).getTime()) < offsetTime) {
-      return `start_time=${encodeURIComponent(getDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, offsetTime))}&`;
+      return `start_time=${encodeURIComponent(formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, offsetTime))}&`;
     } else {
       return fullMatch;
     }
@@ -23032,7 +23032,7 @@
   }
 
   function mm_formatDate(timestamp, match, p1) {
-    return escapeMarkdown(getDate(p1, timestamp));
+    return escapeMarkdown(formatDate(p1, timestamp));
   }
 
   function mm_initUrls(obj, items) {
@@ -31480,7 +31480,7 @@
       savedUser.steamId = steamId;
       users.push(savedUser);
     }
-    users = sortArrayByNumberKey(users, obj.dateKey, obj.isDescending);
+    users = sortArray(users, obj.isDescending, obj.dateKey);
 
     let popup = new Popup(obj.icon, obj.title, true);
     popup.popup.classList.add(`esgst-wbs-popup`);
@@ -32070,7 +32070,7 @@
       type: `div`
     }]);
     selectedTags = [];
-    tags = sortArrayByNumberKey(tags, `count`, true);
+    tags = sortArray(tags, true, `count`);
     tags.forEach(tag => {
       let checkbox, item;
       tag = tag.tag;
@@ -39091,7 +39091,7 @@
     const n2 = privateGroups.length;
     if (n1 || n2) {
       if (n1 > 0) {
-        sortArrayByKey(publicGroups, `name`).map(x => {
+        sortArray(publicGroups, false, `name`).map(x => {
           createElements(profile.sgcPublicResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
         });
         profile.sgcPublic.classList.remove(`esgst-hidden`);
@@ -39102,7 +39102,7 @@
         }]);
       }
       if (n2 > 0) {
-        sortArrayByKey(privateGroups, `name`).map(x => {
+        sortArray(privateGroups, false, `name`).map(x => {
           createElements(profile.sgcPrivateResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
         });
         profile.sgcPrivate.classList.remove(`esgst-hidden`);
@@ -39317,7 +39317,7 @@
           attributes: {
             class: `esgst-italic`
           },
-          text: `Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
+          text: `Last checked ${formatDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
           type: `span`
         }]
       }]
@@ -39421,7 +39421,7 @@
           attributes: {
             class: `esgst-italic`
           },
-          text: `Last checked ${getDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
+          text: `Last checked ${formatDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
           type: `span`
         }] : null
       },
@@ -39780,7 +39780,7 @@
         item.name = selector;
         array.push(item);
       }
-      list.values = sortArrayByNumberKey(array, `value`, true);
+      list.values = sortArray(array, true, `value`);
     }
 
     if (
@@ -43288,10 +43288,6 @@
         popup.onClose = setSetting.bind(null, `groupPopupDismissed`, true);
       }
     }
-  }
-
-  function parseHtml(string) {
-    return esgst.domParser.parseFromString(string, `text/html`);
   }
 
   function parseMarkdown(string) {
@@ -49164,7 +49160,7 @@
                     }
                   }
                   if (optionKey === `entries`) {
-                    mergedData = sortArrayByNumberKey(mergedData, `timestamp`);
+                    mergedData = sortArray(mergedData, false, `timestamp`);
                   }
                   await setValue(optionKey, JSON.stringify(mergedData));
                 } else {
@@ -53835,39 +53831,14 @@
   function getTimestamp(seconds, is24Clock, isShowSeconds) {
     if (is24Clock) {
       if (isShowSeconds) {
-        return getDate(`[MMM] [D], [YYYY], [H]:[HMM]:[SS]`, seconds);
+        return formatDate(`[MMM] [D], [YYYY], [H]:[HMM]:[SS]`, seconds);
       }
-      return getDate(`[MMM] [D], [YYYY], [H]:[HMM]`, seconds);
+      return formatDate(`[MMM] [D], [YYYY], [H]:[HMM]`, seconds);
     }
     if (isShowSeconds) {
-      return getDate(`[MMM] [D], [YYYY], [H12]:[HMM]:[SS][XX]`, seconds);
-    }
-    return getDate(`[MMM] [D], [YYYY], [H12]:[HMM][XX]`, seconds);
+      return formatDate(`[MMM] [D], [YYYY], [H12]:[HMM]:[SS][XX]`, seconds);
   }
-
-  function getDate(format, param) {
-    let date = typeof param === `number` ? new Date(param) : param,
-      months = [
-        `January`, `February`, `March`, `April`, `May`, `June`,
-        `July`, `August`, `September`, `October`, `November`, `December`
-      ];
-    return format
-      .replace(/\[D\]/i, date.getDate())
-      .replace(/\[DD\]/i, `0${date.getDate()}`.slice(-2))
-      .replace(/\[M\]/i, date.getMonth() + 1)
-      .replace(/\[MM\]/i, `0${date.getMonth() + 1}`.slice(-2))
-      .replace(/\[MMM\]/i, months[date.getMonth()].slice(0, 3))
-      .replace(/\[MMMM\]/i, months[date.getMonth()])
-      .replace(/\[YYYY\]/i, date.getFullYear())
-      .replace(/\[H\]/i, date.getHours())
-      .replace(/\[HH\]/i, `0${date.getHours()}`.slice(-2))
-      .replace(/\[H12\]/i, `${date.getHours() % 12}`.replace(/^0$/, `12`))
-      .replace(/\[HH12\]/i, `0${date.getHours() % 12}`.slice(-2).replace(/^0$/, `12`))
-      .replace(/\[HM\]/i, date.getMinutes())
-      .replace(/\[HMM\]/i, `0${date.getMinutes()}`.slice(-2))
-      .replace(/\[S\]/i, date.getSeconds())
-      .replace(/\[SS\]/i, `0${date.getSeconds()}`.slice(-2))
-      .replace(/\[XX\]/i, date.getHours() < 12 ? `am` : `pm`);
+    return formatDate(`[MMM] [D], [YYYY], [H12]:[HMM][XX]`, seconds);
   }
 
   function getRemainingTime(time) {
@@ -53939,10 +53910,6 @@
     localStorage.removeItem(`esgst_${key}`);
   }
 
-  function isSet(variable) {
-    return typeof variable !== `undefined` && variable !== null;
-  }
-
   function validateValue(value) {
     return typeof value === `undefined` || value;
   }
@@ -53952,42 +53919,6 @@
       arrow.classList.remove(`selected`);
       dropdown.classList.add(`esgst-hidden`);
     }
-  }
-
-  function sortArray(Array, desc) {
-    if (desc) {
-      return Array.sort((A, B) => {
-        return B.localeCompare(A, {
-          sensitivity: `base`
-        });
-      });
-    }
-    return Array.sort((A, B) => {
-      return A.localeCompare(B, {
-        sensitivity: `base`
-      });
-    });
-  }
-
-  function sortArrayByKey(array, key) {
-    return array.sort((a, b) => {
-      return a[key].localeCompare(b[key], {
-        sensitivity: `base`
-      });
-    });
-  }
-
-  function sortArrayByNumberKey(array, numberKey, desc) {
-    let n = desc ? -1 : 1;
-    return array.sort((a, b) => {
-      if (a[numberKey] < b[numberKey]) {
-        return -1 * n;
-      } else if (a[numberKey] > b[numberKey]) {
-        return 1 * n;
-      } else {
-        return 0;
-      }
-    });
   }
 
   function setSiblingsOpacity(element, Opacity) {
