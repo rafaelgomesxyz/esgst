@@ -2090,7 +2090,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.25.1`,
-      devVersion: `7.25.2 (Dev.1)`,
+      devVersion: `7.25.2 (Dev.2)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -31614,7 +31614,7 @@
       object.removeButton = row.firstElementChild.lastElementChild.firstElementChild;
       object.removingButton = object.removeButton.nextElementSibling;
       object.removedButton = object.removingButton.nextElementSibling;
-      object.removeButton.addEventListener(`click`, obj.wbs_removeMember.bind(obj, object));
+      object.removeButton.addEventListener(`click`, wbs_removeMember.bind(null, object));
     });
     popup.open();
     endless_load(table);
@@ -34477,7 +34477,7 @@
                 type: `div`,
                 children: [...(Array.from(ResponseHTML.body.childNodes).map(x => {
                   return {
-                    context: x
+                    context: x.cloneNode(true)
                   };
                 }))]
               }, {
@@ -34489,7 +34489,7 @@
             } else {
               createElements(reply, `inner`, [...(Array.from(ResponseHTML.body.childNodes).map(x => {
                 return {
-                  context: x
+                  context: x.cloneNode(true)
                 };
               })), {
                 attributes: {
@@ -44425,14 +44425,34 @@
       neww = [];
       for (let id in syncer.currentGroups) {
         if (!syncer.newGroups[id]) {
-          missing.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.currentGroups[id]}</a>`);
+          missing.push({
+            attributes: {
+              href: `http://steamcommunity.com/gid/${id}`
+            },
+            text: syncer.currentGroups[id],
+            type: `a`
+          }, {
+            text: `, `,
+            type: `node`
+          });
         }
       }
       for (let id in syncer.newGroups) {
         if (!syncer.currentGroups[id]) {
-          neww.push(`<a href="http://steamcommunity.com/gid/${id}">${syncer.newGroups[id]}</a>`);
+          neww.push({
+            attributes: {
+              href: `http://steamcommunity.com/gid/${id}`
+            },
+            text: syncer.newGroups[id],
+            type: `a`
+          }, {
+            text: `, `,
+            type: `node`
+          });
         }
       }
+      missing.pop();
+      neww.pop();
       syncer.html = [];
       if (missing.length) {
         syncer.html.push({
@@ -44443,10 +44463,7 @@
             },
             text: `Missing groups:`,
             type: `span`
-          }, {
-            text: ` ${missing.join(`, `)}`,
-            type: `node`
-          }]
+          }, ...missing]
         });
       }
       if (neww.length) {
@@ -44458,10 +44475,7 @@
             },
             text: `New groups:`,
             type: `span`
-          }, {
-            text: ` ${neww.join(`, `)}`,
-            type: `node`
-          }]
+          }, ...neww]
         });
       }
       createElements(syncer.results, `afterBegin`, syncer.html);
@@ -44555,7 +44569,7 @@
     // sync wishlisted/owned/ignored games
     if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || esgst.settings.syncGames))) {
       syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
-      syncer.html = null;
+      syncer.html = [];
       let apiResponse = null;
       if (esgst.steamApiKey) {
         apiResponse = await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`});
@@ -44572,7 +44586,7 @@
         }
         await setSetting(`gc_o_altAccounts`, esgst.settings.gc_o_altAccounts);
       }
-      if (syncer.html) {
+      if (syncer.html.length) {
         createElements(syncer.results, `afterBegin`, syncer.html);
         if (esgst.getSyncGameNames) {
           getGameNames(syncer);
@@ -44922,29 +44936,65 @@
     const removedOwned = {
       apps: [],
       subs: []
-        },
-        addedOwned = {
+    };
+    const addedOwned = {
       apps: [],
       subs: []
     };
     oldOwned.apps.forEach(id => {
       if (newOwned.apps.indexOf(id) < 0) {
-        removedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
+        removedOwned.apps.push({
+          attributes: {
+            href: `http://store.steampowered.com/app/${id}`
+          },
+          text: id,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
       }
     });
     oldOwned.subs.forEach(id => {
       if (newOwned.subs.indexOf(id) < 0) {
-        removedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+        removedOwned.subs.push({
+          attributes: {
+            href: `http://store.steampowered.com/sub/${id}`
+          },
+          text: id,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
       }
     });
     newOwned.apps.forEach(id => {
       if (oldOwned.apps.indexOf(id) < 0) {
-        addedOwned.apps.push(`<a href="http://store.steampowered.com/app/${id}">${id}</a>`);
+        addedOwned.apps.push({
+          attributes: {
+            href: `http://store.steampowered.com/app/${id}`
+          },
+          text: id,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
       }
     });
     newOwned.subs.forEach(id => {
       if (oldOwned.subs.indexOf(id) < 0) {
-        addedOwned.subs.push(`<a href="http://store.steampowered.com/sub/${id}">${id}</a>`);
+        addedOwned.subs.push({
+          attributes: {
+            href: `http://store.steampowered.com/sub/${id}`
+          },
+          text: id,
+          type: `a`
+        }, {
+          text: `, `,
+          type: `node`
+        });
       }
     });
     if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 || addedOwned.subs.length > 0)) {
@@ -44960,6 +45010,10 @@
         type: `br`
       });
     }
+    removedOwned.apps.pop();
+    removedOwned.subs.pop();
+    addedOwned.apps.pop();
+    addedOwned.subs.pop();
     if (removedOwned.apps.length > 0) {
       syncer.html.push({
         type: `div`,
@@ -44969,10 +45023,7 @@
           },
           text: `Removed apps:`,
           type: `span`
-        }, {
-          text: ` ${removedOwned.apps.join(`, `)}`,
-          type: `node`
-        }]
+        }, ...removedOwned.apps]
       });
     }
     if (removedOwned.subs.length > 0) {
@@ -44984,10 +45035,7 @@
           },
           text: `Removed packages:`,
           type: `span`
-        }, {
-          text: ` ${removedOwned.subs.join(`, `)}`,
-          type: `node`
-        }]
+        }, ...removedOwned.subs]
       });
     }
     if (addedOwned.apps.length > 0) {
@@ -44999,10 +45047,7 @@
           },
           text: `Added apps:`,
           type: `span`
-        }, {
-          text: ` ${addedOwned.apps.join(`, `)}`,
-          type: `node`
-        }]
+        }, ...addedOwned.apps]
       });
     }
     if (addedOwned.subs.length > 0) {
@@ -45014,10 +45059,7 @@
           },
           text: `Added packages:`,
           type: `span`
-        }, {
-          text: ` ${addedOwned.subs.join(`, `)}`,
-          type: `node`
-        }]
+        }, ...addedOwned.subs]
       });
     }
   }
@@ -53837,7 +53879,7 @@
     }
     if (isShowSeconds) {
       return formatDate(`[MMM] [D], [YYYY], [H12]:[HMM]:[SS][XX]`, seconds);
-  }
+    }
     return formatDate(`[MMM] [D], [YYYY], [H12]:[HMM][XX]`, seconds);
   }
 
