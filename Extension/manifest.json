@@ -40,7 +40,7 @@
         "js/intersection-observer.js",
         "js/encoding.js",
         "js/jsUtils-0.0.1.js",
-        "esgst.min.js"
+        "esgst.js"
       ],
       "run_at": "document_start"
     }
@@ -76,5 +76,5 @@
     "css/steamgifts-v34.min.css",
     "icon.png"
   ],
-  "version": "7.25.1"
+  "version": "7.25.2"
 }
