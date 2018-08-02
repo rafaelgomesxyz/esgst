@@ -236,6 +236,10 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.25.4 (August 2, 2018)**
+
+
+
 **7.25.3 (August 2, 2018)**
 
 
