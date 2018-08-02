@@ -175,7 +175,7 @@ _MODULES.push({
         },
         type: `div`,
         children: [{
-          text: `by`,
+          text: `by `,
           type: `span`
         }]
       }]);
