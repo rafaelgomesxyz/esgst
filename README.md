@@ -236,6 +236,13 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.25.2 (August 2, 2018)**
+
+* [#857](https://github.com/revilheart/ESGST/issues/857) Add option to backup as .zip or .json
+* [#854](https://github.com/revilheart/ESGST/issues/854) Move each module into a separate file
+* [#853](https://github.com/revilheart/ESGST/issues/853) Move some generic functions to a separate file
+
+
 **7.25.1 (July 28, 2018)**
 
 * [#848](https://github.com/revilheart/ESGST/issues/848) Fix bugs introduced by v7.25.0
