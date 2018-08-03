@@ -21,7 +21,7 @@ _MODULES.push({
     let popup = new Popup(`fa-comment`, `Add a comment:`);
     popup.textArea = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
-        name: `Description`
+        name: `description`
       },
       type: `textarea`
     }]);
