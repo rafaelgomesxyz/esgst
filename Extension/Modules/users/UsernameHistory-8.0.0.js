@@ -82,7 +82,7 @@ _MODULES.push({
     box = button.nextElementSibling;
     list = box.lastElementChild;
     button.addEventListener(`click`, uh_toggle.bind(null, box, profile, list));
-    document.addEventListener(`click`, uh_close.bind(null, box, container));
+    esgst.documentEvents.click.push(uh_close.bind(null, box, container));
   }
 
   async function uh_toggle(box, profile, list) {

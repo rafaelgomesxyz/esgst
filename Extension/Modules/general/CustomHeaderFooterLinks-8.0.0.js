@@ -104,11 +104,10 @@ _MODULES.push({
       }
       chfl_reorder(chfl, key, true);
     }
-    document.addEventListener(`keydown`, chfl_checkKey.bind(null, chfl));
+    esgst.documentEvents.keydown.push(chfl_checkKey.bind(null, chfl));
   }
 
   function chfl_checkKey(chfl, event) {
-    event.stopPropagation();
     let value = ``;
     if (event.ctrlKey) {
       value += `ctrlKey + `;
@@ -119,7 +118,10 @@ _MODULES.push({
     }
     value += event.key.toLowerCase();
 
-    if (value !== esgst.chfl_key) return;
+    if (value !== esgst.chfl_key) {
+      return;
+    }
+    event.stopPropagation();
 
     const removedKey = chfl_removeButton(chfl);
     chfl_addButton(chfl, removedKey);

@@ -253,8 +253,7 @@ _MODULES.push({
       };
     }
     if (Object.keys(methods).length > 0) {
-      document.addEventListener(`keydown`, event => {
-        event.stopPropagation();
+      esgst.documentEvents.keydown.push(event => {
         let value = ``;
         if (event.ctrlKey) {
           value += `ctrlKey + `;
@@ -265,6 +264,7 @@ _MODULES.push({
         }
         value += event.key.toLowerCase();
         if (methods[value]) {
+          event.stopPropagation();
           methods[value](event);
         }
       });
