@@ -1588,6 +1588,11 @@
 
     // initialize the global variable
     esgst = {
+      documentEvents: {
+        click: [],
+        keydown: []
+      },
+      windowEvents: {},
       parameters: getParameters(),
       defaultValues: {
         backupZip_sg: false,
@@ -2092,7 +2097,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.25.4`,
-      devVersion: `7.25.5 (Dev.1)`,
+      devVersion: `7.25.5 (Dev.2)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3806,6 +3811,16 @@
     if (!esgst.staticPopups) {
       setTimeout(() => repositionPopups(), 2000);
     }
+
+    for (const key in esgst.documentEvents) {
+      document.addEventListener(key, processEvent.bind(null, esgst.documentEvents[key]), true);
+    }
+  }
+
+  function processEvent(functions, event) {
+    for (const fun of functions) {
+      fun(event);
+    }
   }
 
   async function getElements() {
@@ -4613,7 +4628,7 @@ _MODULES.push({
 
   function aic() {
     esgst.endlessFeatures.push(aic_getImages);
-    document.addEventListener(`keydown`, aic_move);
+    esgst.documentEvents.keydown.push(aic_move);
     if (!esgst.mainPageHeading) return;
     esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
     esgst.aicButton.classList.add(`esgst-hidden`);
@@ -7555,11 +7570,10 @@ _MODULES.push({
       }
       chfl_reorder(chfl, key, true);
     }
-    document.addEventListener(`keydown`, chfl_checkKey.bind(null, chfl));
+    esgst.documentEvents.keydown.push(chfl_checkKey.bind(null, chfl));
   }
 
   function chfl_checkKey(chfl, event) {
-    event.stopPropagation();
     let value = ``;
     if (event.ctrlKey) {
       value += `ctrlKey + `;
@@ -7570,7 +7584,10 @@ _MODULES.push({
     }
     value += event.key.toLowerCase();
 
-    if (value !== esgst.chfl_key) return;
+    if (value !== esgst.chfl_key) {
+      return;
+    }
+    event.stopPropagation();
 
     const removedKey = chfl_removeButton(chfl);
     chfl_addButton(chfl, removedKey);
@@ -17543,394 +17560,497 @@ _MODULES.push({
   }
 
 _MODULES.push({
-    description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
-        <li>You can press Enter to save the tags.</li>
-        <li>Each tag can be colored individually.</li>
-        <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
-        <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
-      </ul>
-    `,
-    id: `gt`,
-    name: `Game Tags`,
-    sg: true,
-    type: `games`
-  });
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
+      <li>You can press Enter to save the tags.</li>
+      <li>Each tag can be colored individually.</li>
+      <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
+      <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
+    </ul>
+  `,
+  id: `gt`,
+  load: gt,
+  name: `Game Tags`,
+  sg: true,
+  type: `games`
+});
 
-  async function gt_openPopup(id, name, type) {
-    let popup = new Popup(`fa-tag`, [{
-      text: `Edit game tags for `,
-      type: `node`
+function gt() {  
+  const tagCount = {};
+  for (const id in esgst.games.apps) {
+    const tags = esgst.games.apps[id].tags;
+    if (!tags) {
+      continue;
+    }
+    for (const tag of tags) {
+      if (!tagCount[tag]) {
+        tagCount[tag] = 0;
+      }
+      tagCount[tag] += 1;
+    }
+  }
+  for (const id in esgst.games.subs) {
+    const tags = esgst.games.subs[id].tags;
+    if (!tags) {
+      continue;
+    }
+    for (const tag of tags) {
+      if (!tagCount[tag]) {
+        tagCount[tag] = 0;
+      }
+      tagCount[tag] += 1;
+    }
+  }
+  esgst.gtTags = [];
+  for (const tag in tagCount) {
+    esgst.gtTags.push({
+      count: tagCount[tag],
+      tag
+    });
+  }
+  esgst.gtTags = sortArray(esgst.gtTags, true, `count`).map(x => x.tag);
+  esgst.documentEvents.keydown.push(function (event) {
+    if (!esgst.gtSelected) {
+      return;
+    }
+    let element = null;
+    if (event.key === `ArrowDown`) {
+      element = esgst.gtSelected.nextElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.nextElementSibling;
+      }
+    } else if (event.key === `ArrowUp`) {
+      element = esgst.gtSelected.previousElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.previousElementSibling;
+      }
+    } else if (event.key === `Enter`) {
+      event.stopPropagation();
+      esgst.gtSelected.click();
+    }
+    if (element) {
+      esgst.gtSelected.classList.remove(`esgst-selected`);
+      esgst.gtSelected = element;
+      esgst.gtSelected.classList.add(`esgst-selected`);
+    }
+  });
+  esgst.documentEvents.click.push(function (event) {
+    if (esgst.gtSuggestions && !esgst.gtSuggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
+      esgst.gtSuggestions.classList.add(`esgst-hidden`);
+    }
+  });
+}
+
+async function gt_openPopup(id, name, type) {
+  let popup = new Popup(`fa-tag`, [{
+    text: `Edit game tags for `,
+    type: `node`
+  }, {
+    text: name,
+    type: `span`
+  }, {
+    text: `:`,
+    type: `node`
+  }]);
+  let set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, gt_saveTags.bind(null, id, popup, type));
+  createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-description`
+    },
+    type: `div`,
+    children: [{
+      text: `Drag the tags to move them.`,
+      type: `p`
     }, {
-      text: name,
-      type: `span`
+      type: `br`
     }, {
-      text: `:`,
-      type: `node`
-    }]);
-    let set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, gt_saveTags.bind(null, id, popup, type));
-    createElements(popup.description, `beforeEnd`, [{
+      text: `When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).`,
+      type: `p`
+    }]
+  }]);
+  popup.tags = createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-gt-tags`
+    },
+    type: `div`
+  }]);
+  popup.input = createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      type: `text`
+    },
+    events: {
+      focus: gt_createTags.bind(null, popup),
+      keydown: triggerSetOnEnter.bind(null, set),
+      input: gt_createTags.bind(null, popup)
+    },
+    type: `input`
+  }]);
+  createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
+      title: `Select from existing tags`
+    },
+    type: `i`
+  }]).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
+  const children = [];
+  esgst.gtSuggestions = popup.suggestions = createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-suggestions esgst-hidden`
+    },
+    type: `div`
+  }]);
+  for (const tag of esgst.gtTags) {
+    children.push({
       attributes: {
-        class: `esgst-description`
+        class: `esgst-hidden`
       },
+      events: {
+        click: gt_addSuggestion.bind(null, popup),
+        mouseenter: gt_selectSuggestion,
+        mouseleave: ut_deselectSuggestion
+      },
+      text: tag,
+      type: `div`
+    });
+  }
+  createElements(popup.suggestions, `inner`, children);
+  createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-description`
+    },
+    text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+    type: `div`
+  }]);
+  popup.description.appendChild(set.set);
+  popup.open();
+  let savedGames = JSON.parse(await getValue(`games`));
+  let game = savedGames[type][id];
+  popup.input.focus();
+  if (game) {
+    let tags = game.tags;
+    if (tags) {
+      popup.tags.innerHTML = ``;
+      for (let i = 0, n = tags.length; i < n; ++i) {
+        gt_createTag(popup, tags[i]);
+      }
+      popup.input.value = tags.join(`, `);
+    }
+  }
+}
+
+async function gt_showExistingTags(mainPopup) {
+  const popup = new Popup(`fa-list`, `Select from existing tags:`, true);
+  const list = createElements(popup.scrollable, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-existing-tags popup__keys__list`
+    },
+    type: `div`
+  }]);
+  const selectedTags = [];
+  for (const tag of esgst.gtTags) {
+    const item = createElements(list, `beforeEnd`, [{
       type: `div`,
       children: [{
-        text: `Drag the tags to move them.`,
-        type: `p`
+        type: `span`
       }, {
-        type: `br`
-      }, {
-        text: `When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).`,
-        type: `p`
+        text: ` ${tag}`,
+        type: `node`
       }]
     }]);
-    popup.tags = createElements(popup.description, `beforeEnd`, [{
+    if (esgst.gt_colors[tag]) {
+      item.style.color = esgst.gt_colors[tag].color;
+      item.style.backgroundColor = esgst.gt_colors[tag].bgColor;
+    }
+    const checkbox = new Checkbox(item);
+    checkbox.onEnabled = () => {
+      selectedTags.push(tag);
+    };
+    checkbox.onDisabled = () => {
+      selectedTags.splice(selectedTags.indexOf(tag), 1);
+    };
+  }
+  popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Add Tags`, ``, callback => {
+    selectedTags.forEach(tag => {
+      gt_createTag(mainPopup, tag);
+    });
+    mainPopup.input.value = mainPopup.input.value ? `${mainPopup.input.value}, ${selectedTags.join(`, `)}` : selectedTags.join(`, `);
+    callback();
+    popup.close();
+  }).set);
+  popup.open();
+}
+
+function gt_createTags(popup) {
+  popup.tags.innerHTML = ``;
+  esgst.gtSelected = null;
+  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
+  if (tags.length) {
+    const lastTag = tags[tags.length - 1].toLowerCase();
+    for (const child of popup.suggestions.children) {
+      const value = child.textContent.toLowerCase();
+      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+        child.classList.remove(`esgst-hidden`);
+        if (!esgst.gtSelected) {
+          child.classList.add(`esgst-selected`);
+          esgst.gtSelected = child;
+        }
+      } else {
+        child.classList.add(`esgst-hidden`);
+      }
+    }
+    if (esgst.gtSelected) {
+      popup.suggestions.classList.remove(`esgst-hidden`);
+    } else {
+      popup.suggestions.classList.add(`esgst-hidden`);
+    }
+    for (const tag of tags) {
+      gt_createTag(popup, tag);
+    }
+  } else {
+    popup.suggestions.classList.add(`esgst-hidden`);
+  }
+}
+
+function gt_addSuggestion(popup, event) {
+  popup.tags.innerHTML = ``;
+  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  const value = event.currentTarget.textContent;
+  tags.pop();
+  tags.push(value);
+  popup.input.value = tags.join(`, `);
+  popup.suggestions.classList.add(`esgst-hidden`);
+  for (const item of popup.suggestions.children) {
+    item.classList.remove(`esgst-selected`);
+  }
+  esgst.gtSelected = null;
+  for (const tag of tags) {
+    gt_createTag(popup, tag);
+  }
+  popup.input.focus();
+}
+
+function gt_selectSuggestion(event) {
+  for (const item of event.currentTarget.parentElement.children) {
+    item.classList.remove(`esgst-selected`);
+  }
+  event.currentTarget.classList.add(`esgst-selected`);
+  esgst.gtSelected = event.currentTarget;
+}
+
+function gt_createTag(popup, tag) {
+  let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, tagBox, tagContainer;
+  container = createElements(popup.tags, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-gt-preview`,
+      draggable: true
+    },
+    type: `div`,
+    children: [{
       attributes: {
         class: `esgst-gt-tags`
       },
-      type: `div`
-    }]);
-    popup.input = createElements(popup.description, `beforeEnd`, [{
-      attributes: {
-        type: `text`
-      },
-      type: `input`
-    }]);
-    createElements(popup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
-        title: `Select from existing tags`
-      },
-      type: `i`
-    }]).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
-    popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
-    popup.input.addEventListener(`input`, gt_createTags.bind(null, popup));
-    createElements(popup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-description`
-      },
-      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-      type: `div`
-    }]);
-    popup.description.appendChild(set.set);
-    popup.open();
-    let savedGames = JSON.parse(await getValue(`games`));
-    let game = savedGames[type][id];
-    popup.input.focus();
-    if (game) {
-      let tags = game.tags;
-      if (tags) {
-        popup.tags.innerHTML = ``;
-        for (let i = 0, n = tags.length; i < n; ++i) {
-          gt_createTag(popup, tags[i]);
-        }
-        popup.input.value = tags.join(`, `);
-      }
-    }
-  }
-
-  async function gt_showExistingTags(mainPopup) {
-    let key, list, popup, savedGames, selectedTags, tag, tagCount, tags;
-    popup = new Popup(`fa-list`, `Select from existing tags:`, true);
-    tagCount = {};
-    savedGames = JSON.parse(await getValue(`games`));
-    for (key in savedGames.apps) {
-      tags = savedGames.apps[key].tags;
-      if (tags) {
-        tags.forEach(tag => {
-          if (!tagCount[tag]) {
-            tagCount[tag] = 0;
-          }
-          tagCount[tag] += 1;
-        });
-      }
-    }
-    for (key in savedGames.subs) {
-      tags = savedGames.subs[key].tags;
-      if (tags) {
-        tags.forEach(tag => {
-          if (!tagCount[tag]) {
-            tagCount[tag] = 0;
-          }
-          tagCount[tag] += 1;
-        });
-      }
-    }
-    tags = [];
-    for (tag in tagCount) {
-      tags.push({
-        count: tagCount[tag],
-        tag: tag
-      });
-    }
-    list = createElements(popup.scrollable, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-ut-existing-tags popup__keys__list`
-      },
-      type: `div`
-    }]);
-    selectedTags = [];
-    tags = sortArray(tags, true, `count`);
-    tags.forEach(tag => {
-      let checkbox, item;
-      tag = tag.tag;
-      item = createElements(list, `beforeEnd`, [{
-        type: `div`,
-        children: [{
-          type: `span`
-        }, {
-          text: ` ${tag}`,
-          type: `node`
-        }]
-      }]);
-      if (esgst.gt_colors[tag]) {
-        item.style.color = esgst.gt_colors[tag].color;
-        item.style.backgroundColor = esgst.gt_colors[tag].bgColor;
-      }
-      checkbox = new Checkbox(item);
-      checkbox.onEnabled = () => {
-        selectedTags.push(tag);
-      };
-      checkbox.onDisabled = () => {
-        selectedTags.splice(selectedTags.indexOf(tag), 1);
-      };
-    });
-    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Add Tags`, ``, callback => {
-      selectedTags.forEach(tag => {
-        gt_createTag(mainPopup, tag);
-      });
-      mainPopup.input.value = mainPopup.input.value ? `${mainPopup.input.value}, ${selectedTags.join(`, `)}` : selectedTags.join(`, `);
-      callback();
-      popup.close();
-    }).set);
-    popup.open();
-  }
-
-  function gt_createTags(popup) {
-    let i, n, tags;
-    tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-    popup.tags.innerHTML = ``;
-    for (i = 0, n = tags.length; i < n; ++i) {
-      gt_createTag(popup, tags[i]);
-    }
-  }
-
-  function gt_createTag(popup, tag) {
-    let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, tagBox, tagContainer;
-    container = createElements(popup.tags, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-gt-preview`,
-        draggable: true
-      },
       type: `div`,
       children: [{
         attributes: {
-          class: `esgst-gt-tags`
+          class: `global__image-outer-wrap author_avatar is_icon`
         },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `global__image-outer-wrap author_avatar is_icon`
-          },
-          text: tag,
-          type: `span`
-        }]
-      }, {
-        attributes: {
-          class: `esgst-hidden`,
-          type: `text`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          title: `Set text color for this tag`,
-          type: `color`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          title: `Set background color for this tag`,
-          type: `color`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `esgst-clickable fa fa-edit`,
-          title: `Edit tag`
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `esgst-clickable fa fa-trash`,
-          title: `Delete tag`
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `esgst-clickable fa fa-rotate-left`,
-          title: `Reset tag color`
-        },
-        type: `i`
+        text: tag,
+        type: `span`
       }]
-    }]);
-    tagContainer = container.firstElementChild;
-    tagBox = tagContainer.firstElementChild;
-    input = tagContainer.nextElementSibling;
-    colorInput = input.nextElementSibling;
-    bgColorInput = colorInput.nextElementSibling;
-    editButton = bgColorInput.nextElementSibling;
-    deleteButton = editButton.nextElementSibling;
-    const resetButton = deleteButton.nextElementSibling;
+    }, {
+      attributes: {
+        class: `esgst-hidden`,
+        type: `text`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        title: `Set text color for this tag`,
+        type: `color`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        title: `Set background color for this tag`,
+        type: `color`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-edit`,
+        title: `Edit tag`
+      },
+      type: `i`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-trash`,
+        title: `Delete tag`
+      },
+      type: `i`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-rotate-left`,
+        title: `Reset tag color`
+      },
+      type: `i`
+    }]
+  }]);
+  tagContainer = container.firstElementChild;
+  tagBox = tagContainer.firstElementChild;
+  input = tagContainer.nextElementSibling;
+  colorInput = input.nextElementSibling;
+  bgColorInput = colorInput.nextElementSibling;
+  editButton = bgColorInput.nextElementSibling;
+  deleteButton = editButton.nextElementSibling;
+  const resetButton = deleteButton.nextElementSibling;
+  colors = esgst.gt_colors[tag];
+  if (colors) {
+    colorInput.value = tagBox.style.color = colors.color;
+    bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
+  }
+  container.addEventListener(`dragstart`, gt_startDrag.bind(null, container, popup));
+  container.addEventListener(`dragenter`, gt_continueDrag.bind(null, container, popup));
+  container.addEventListener(`dragend`, gt_endDrag.bind(null, popup));
+  input.addEventListener(`keydown`, gt_editTag.bind(null, bgColorInput, colorInput, input, popup, tagBox, tagContainer));
+  colorInput.addEventListener(`change`, gt_saveColor.bind(null, colorInput, `color`, `color`, tagBox));
+  bgColorInput.addEventListener(`change`, gt_saveColor.bind(null, bgColorInput, `backgroundColor`, `bgColor`, tagBox));
+  editButton.addEventListener(`click`, gt_showEdit.bind(null, input, tagBox, tagContainer));
+  deleteButton.addEventListener(`click`, gt_deleteTag.bind(null, container, popup));
+  resetButton.addEventListener(`click`, gt_resetColor.bind(null, bgColorInput, colorInput, tagBox));
+}
+
+function gt_startDrag(container, popup, event) {
+  event.dataTransfer.setData(`text/plain`, ``);
+  popup.dragged = container;
+}
+
+function gt_continueDrag(container, popup) {
+  let current;
+  current = popup.dragged;
+  do {
+    current = current.previousElementSibling;
+    if (current && current === container) {
+      popup.tags.insertBefore(popup.dragged, container);
+      return;
+    }
+  } while (current);
+  popup.tags.insertBefore(popup.dragged, container.nextElementSibling);
+}
+
+function gt_endDrag(popup) {
+  let children, i, n, tags;
+  tags = [];
+  children = popup.tags.children;
+  for (i = 0, n = children.length; i < n; ++i) {
+    tags.push(children[i].firstElementChild.firstElementChild.textContent);
+  }
+  popup.input.value = tags.join(`, `);
+}
+
+function gt_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
+  let colors, tag;
+  if (event.key === `Enter`) {
+    tagContainer.classList.remove(`esgst-hidden`);
+    input.classList.add(`esgst-hidden`);
+    tag = input.value;
+    tagBox.textContent = tag;
     colors = esgst.gt_colors[tag];
     if (colors) {
       colorInput.value = tagBox.style.color = colors.color;
       bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
     }
-    container.addEventListener(`dragstart`, gt_startDrag.bind(null, container, popup));
-    container.addEventListener(`dragenter`, gt_continueDrag.bind(null, container, popup));
-    container.addEventListener(`dragend`, gt_endDrag.bind(null, popup));
-    input.addEventListener(`keydown`, gt_editTag.bind(null, bgColorInput, colorInput, input, popup, tagBox, tagContainer));
-    colorInput.addEventListener(`change`, gt_saveColor.bind(null, colorInput, `color`, `color`, tagBox));
-    bgColorInput.addEventListener(`change`, gt_saveColor.bind(null, bgColorInput, `backgroundColor`, `bgColor`, tagBox));
-    editButton.addEventListener(`click`, gt_showEdit.bind(null, input, tagBox, tagContainer));
-    deleteButton.addEventListener(`click`, gt_deleteTag.bind(null, container, popup));
-    resetButton.addEventListener(`click`, gt_resetColor.bind(null, bgColorInput, colorInput, tagBox));
-  }
-
-  function gt_startDrag(container, popup, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
-    popup.dragged = container;
-  }
-
-  function gt_continueDrag(container, popup) {
-    let current;
-    current = popup.dragged;
-    do {
-      current = current.previousElementSibling;
-      if (current && current === container) {
-        popup.tags.insertBefore(popup.dragged, container);
-        return;
-      }
-    } while (current);
-    popup.tags.insertBefore(popup.dragged, container.nextElementSibling);
-  }
-
-  function gt_endDrag(popup) {
-    let children, i, n, tags;
-    tags = [];
-    children = popup.tags.children;
-    for (i = 0, n = children.length; i < n; ++i) {
-      tags.push(children[i].firstElementChild.firstElementChild.textContent);
-    }
-    popup.input.value = tags.join(`, `);
-  }
-
-  function gt_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
-    let colors, tag;
-    if (event.key === `Enter`) {
-      tagContainer.classList.remove(`esgst-hidden`);
-      input.classList.add(`esgst-hidden`);
-      tag = input.value;
-      tagBox.textContent = tag;
-      colors = esgst.gt_colors[tag];
-      if (colors) {
-        colorInput.value = tagBox.style.color = colors.color;
-        bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
-      }
-      gt_endDrag(popup);
-    }
-  }
-
-  function gt_saveColor(input, key, saveKey, tagBox) {
-    let tag;
-    tag = tagBox.textContent;
-    if (!esgst.gt_colors[tag]) {
-      esgst.gt_colors[tag] = {
-        bgColor: ``,
-        color: ``
-      };
-    }
-    esgst.gt_colors[tag][saveKey] = tagBox.style[key] = input.value;
-  }
-
-  function gt_resetColor(bgColorInput, colorInput, tagBox) {
-    bgColorInput.value = ``;
-    colorInput.value = ``;
-    tagBox.style.backgroundColor = ``;
-    tagBox.style.color = ``;
-    delete esgst.gt_colors[tagBox.textContent];
-  }
-
-  function gt_showEdit(input, tagBox, tagContainer) {
-    tagContainer.classList.add(`esgst-hidden`);
-    input.classList.remove(`esgst-hidden`);
-    input.value = tagBox.textContent;
-    input.focus();
-  }
-
-  function gt_deleteTag(container, popup) {
-    container.remove();
     gt_endDrag(popup);
   }
+}
 
-  async function gt_saveTags(id, popup, type, callback) {
-    let tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-    if (tags.length === 1 && !tags[0].trim()) {
-      tags = ``;
-    }
-    let deleteLock = await createLock(`gameLock`, 300);
-    let savedGames = JSON.parse(await getValue(`games`));
-    if (!savedGames[type][id]) {
-      savedGames[type][id] = {};
-    }
-    savedGames[type][id].tags = tags;
-    await setValue(`games`, JSON.stringify(savedGames));
-    deleteLock();
-    await setSetting(`gt_colors`, esgst.gt_colors);
-    gt_addTags(null, id, tags, type);
-    callback();
-    popup.close();
-  }
-
-  function gt_template(text) {
-    return {
-      attributes: {
-        class: `global__image-outer-wrap author_avatar is_icon`
-      },
-      text,
-      type: `span`
+function gt_saveColor(input, key, saveKey, tagBox) {
+  let tag;
+  tag = tagBox.textContent;
+  if (!esgst.gt_colors[tag]) {
+    esgst.gt_colors[tag] = {
+      bgColor: ``,
+      color: ``
     };
   }
+  esgst.gt_colors[tag][saveKey] = tagBox.style[key] = input.value;
+}
 
-  async function gt_addTags(games, id, tags, type) {
-    if (!games) {
-      games = games_get(document, true, JSON.parse(await getValue(`games`)))[type][id];
-    }
-    if (!games) {
-      return;
-    }
-    const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : [{
-      text: ``,
-      type: `node`
-    }];
-    for (const game of games) {
-      const button = game.container.getElementsByClassName(`esgst-gt-button`)[0];
-      button.classList[items ? `remove` : `add`](`esgst-faded`);
-      const tagsContainer = button.lastElementChild;
-      createElements(tagsContainer, `inner`, items);
-      for (const tagsBox of tagsContainer.children) {
-        const colors = esgst.gt_colors[tagsBox.textContent];
-        if (!colors) {
-          continue;
-        }
-        tagsBox.style.color = colors.color;
-        tagsBox.style.backgroundColor = colors.bgColor;
+function gt_resetColor(bgColorInput, colorInput, tagBox) {
+  bgColorInput.value = ``;
+  colorInput.value = ``;
+  tagBox.style.backgroundColor = ``;
+  tagBox.style.color = ``;
+  delete esgst.gt_colors[tagBox.textContent];
+}
+
+function gt_showEdit(input, tagBox, tagContainer) {
+  tagContainer.classList.add(`esgst-hidden`);
+  input.classList.remove(`esgst-hidden`);
+  input.value = tagBox.textContent;
+  input.focus();
+}
+
+function gt_deleteTag(container, popup) {
+  container.remove();
+  gt_endDrag(popup);
+}
+
+async function gt_saveTags(id, popup, type, callback) {
+  let tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  if (tags.length === 1 && !tags[0].trim()) {
+    tags = ``;
+  }
+  let deleteLock = await createLock(`gameLock`, 300);
+  let savedGames = JSON.parse(await getValue(`games`));
+  if (!savedGames[type][id]) {
+    savedGames[type][id] = {};
+  }
+  savedGames[type][id].tags = tags;
+  await setValue(`games`, JSON.stringify(savedGames));
+  deleteLock();
+  await setSetting(`gt_colors`, esgst.gt_colors);
+  gt_addTags(null, id, tags, type);
+  callback();
+  popup.close();
+}
+
+function gt_template(text) {
+  return {
+    attributes: {
+      class: `global__image-outer-wrap author_avatar is_icon`
+    },
+    text,
+    type: `span`
+  };
+}
+
+async function gt_addTags(games, id, tags, type) {
+  if (!games) {
+    games = games_get(document, true, JSON.parse(await getValue(`games`)))[type][id];
+  }
+  if (!games) {
+    return;
+  }
+  const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : [{
+    text: ``,
+    type: `node`
+  }];
+  for (const game of games) {
+    const button = game.container.getElementsByClassName(`esgst-gt-button`)[0];
+    button.classList[items ? `remove` : `add`](`esgst-faded`);
+    const tagsContainer = button.lastElementChild;
+    createElements(tagsContainer, `inner`, items);
+    for (const tagsBox of tagsContainer.children) {
+      const colors = esgst.gt_colors[tagsBox.textContent];
+      if (!colors) {
+        continue;
       }
+      tagsBox.style.color = colors.color;
+      tagsBox.style.backgroundColor = colors.bgColor;
     }
   }
-
-_MODULES.push({
+}_MODULES.push({
     description: `
       <ul>
         <li>Adds a section 9 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.</li>
@@ -23727,7 +23847,7 @@ _MODULES.push({
           }
         }
         if (previous || next) {
-          document.addEventListener(`keydown`, npth_loadGiveaway.bind(null, next, previous));
+          esgst.documentEvents.keydown.push(npth_loadGiveaway.bind(null, next, previous));
         }
       }
     }
@@ -28919,8 +29039,7 @@ _MODULES.push({
       };
     }
     if (Object.keys(methods).length > 0) {
-      document.addEventListener(`keydown`, event => {
-        event.stopPropagation();
+      esgst.documentEvents.keydown.push(event => {
         let value = ``;
         if (event.ctrlKey) {
           value += `ctrlKey + `;
@@ -28931,6 +29050,7 @@ _MODULES.push({
         }
         value += event.key.toLowerCase();
         if (methods[value]) {
+          event.stopPropagation();
           methods[value](event);
         }
       });
@@ -31757,415 +31877,524 @@ _MODULES.push({
   });
 
 _MODULES.push({
-    description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
-        <li>You can press Enter to save the tags.</li>
-        <li>Each tag can be colored individually.</li>
-        <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
-        <li>Adds a button (<i class="fa fa-user"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
-        <li>This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username. For a long text, check [id=un].</li>
-      </ul>
-    `,
-    id: `ut`,
-    name: `User Tags`,
-    sg: true,
-    st: true,
-    type: `users`
-  });
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
+      <li>You can press Enter to save the tags.</li>
+      <li>Each tag can be colored individually.</li>
+      <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
+      <li>Adds a button (<i class="fa fa-user"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
+      <li>This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username. For a long text, check [id=un].</li>
+    </ul>
+  `,
+  id: `ut`,
+  load: ut,
+  name: `User Tags`,
+  sg: true,
+  st: true,
+  type: `users`
+});
 
-  function ut_addButton(context, key, steamId, username) {
-    const isHeading = context.classList.contains(`featured__heading__medium`);
-    const container = context.parentElement;
-    if (container.classList.contains(`comment__username`)) {
-      context = container;
+function ut() {  
+  const tagCount = {};
+  for (const steamId in esgst.users.users) {
+    const tags = esgst.users.users[steamId].tags;
+    if (!tags) {
+      continue;
     }
-    createElements(isHeading ? container : context, isHeading ? `beforeEnd` : `afterEnd`, [{
-      attributes: {
-        class: `esgst-ut-button esgst-faded`,
-        title: getFeatureTooltip(`ut`, `Edit user tags`)
-      },
-      type: `a`,
-      children: [{
-        attributes: {
-          class: `fa fa-tag`
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `esgst-ut-tags`
-        },
-        type: `span`
-      }]
-    }]).addEventListener(`click`, ut_openPopup.bind(null, key, steamId, username));
+    for (const tag of tags) {
+      if (!tagCount[tag]) {
+        tagCount[tag] = 0;
+      }
+      tagCount[tag] += 1;
+    }
   }
+  esgst.utTags = [];
+  for (const tag in tagCount) {
+    esgst.utTags.push({
+      count: tagCount[tag],
+      tag
+    });
+  }
+  esgst.utTags = sortArray(esgst.utTags, true, `count`).map(x => x.tag);
+  esgst.documentEvents.keydown.push(function (event) {
+    if (!esgst.utSelected) {
+      return;
+    }
+    let element = null;
+    if (event.key === `ArrowDown`) {
+      element = esgst.utSelected.nextElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.nextElementSibling;
+      }
+    } else if (event.key === `ArrowUp`) {
+      element = esgst.utSelected.previousElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.previousElementSibling;
+      }
+    } else if (event.key === `Enter`) {
+      event.stopPropagation();
+      esgst.utSelected.click();
+    }
+    if (element) {
+      esgst.utSelected.classList.remove(`esgst-selected`);
+      esgst.utSelected = element;
+      esgst.utSelected.classList.add(`esgst-selected`);
+    }
+  });
+  esgst.documentEvents.click.push(function (event) {
+    if (esgst.utSuggestions && !esgst.utSuggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
+      esgst.utSuggestions.classList.add(`esgst-hidden`);
+    }
+  });
+}
 
-  function ut_openPopup(key, steamId, username) {
-    let popup, set;
-    const user = {
-      steamId: steamId,
-      username: username
-    };
-    popup = new Popup(`fa-tag`, [{
-      text: `Edit user tags for `,
-      type: `node`
-    }, {
-      text: key,
-      type: `span`
-    }, {
-      text: `:`,
-      type: `node`
-    }]);
-    set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, ut_saveTags.bind(null, key, popup, user));
-    createElements(popup.description, `beforeEnd`, [{
+function ut_addButton(context, key, steamId, username) {
+  const isHeading = context.classList.contains(`featured__heading__medium`);
+  const container = context.parentElement;
+  if (container.classList.contains(`comment__username`)) {
+    context = container;
+  }
+  createElements(isHeading ? container : context, isHeading ? `beforeEnd` : `afterEnd`, [{
+    attributes: {
+      class: `esgst-ut-button esgst-faded`,
+      title: getFeatureTooltip(`ut`, `Edit user tags`)
+    },
+    type: `a`,
+    children: [{
       attributes: {
-        class: `esgst-description`
+        class: `fa fa-tag`
       },
-      type: `div`,
-      children: [{
-        text: `Drag the tags to move them.`,
-        type: `p`
-      }, {
-        type: `br`
-      }, {
-        text: `When editing a tag color, it will also alter the color for all users with that tag (you have to refresh the page for it to take effect).`,
-        type: `p`
-      }]
-    }]);
-    popup.tags = createElements(popup.description, `beforeEnd`, [{
+      type: `i`
+    }, {
       attributes: {
         class: `esgst-ut-tags`
       },
-      type: `div`
-    }]);
-    popup.input = createElements(popup.description, `beforeEnd`, [{
-      attributes: {
-        type: `text`
-      },
-      type: `input`
-    }]);
-    createElements(popup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
-        title: `Select from existing tags`
-      },
-      type: `i`
-    }]).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
-    popup.input.addEventListener(`keydown`, triggerSetOnEnter.bind(null, set));
-    popup.input.addEventListener(`input`, ut_createTags.bind(null, popup));
-    createElements(popup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-description`
-      },
-      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-      type: `div`
-    }]);
-    popup.description.appendChild(set.set);
-    popup.open(ut_loadTags.bind(null, popup, user));
-  }
+      type: `span`
+    }]
+  }]).addEventListener(`click`, ut_openPopup.bind(null, key, steamId, username));
+}
 
-  async function ut_showExistingTags(mainPopup) {
-    let key, list, popup, savedUsers, selectedTags, tag, tagCount, tags;
-    popup = new Popup(`fa-list`, `Select from existing tags:`, true);
-    tagCount = {};
-    savedUsers = JSON.parse(await getValue(`users`)).users;
-    for (key in savedUsers) {
-      tags = savedUsers[key].tags;
-      if (tags) {
-        tags.forEach(tag => {
-          if (!tagCount[tag]) {
-            tagCount[tag] = 0;
-          }
-          tagCount[tag] += 1;
-        });
-      }
-    }
-    tags = [];
-    for (tag in tagCount) {
-      tags.push({
-        count: tagCount[tag],
-        tag: tag
-      });
-    }
-    list = createElements(popup.scrollable, `beforeEnd`, [{
+function ut_openPopup(key, steamId, username) {
+  let popup, set;
+  const user = {
+    steamId: steamId,
+    username: username
+  };
+  popup = new Popup(`fa-tag`, [{
+    text: `Edit user tags for `,
+    type: `node`
+  }, {
+    text: key,
+    type: `span`
+  }, {
+    text: `:`,
+    type: `node`
+  }]);
+  set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, ut_saveTags.bind(null, key, popup, user));
+  createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-description`
+    },
+    type: `div`,
+    children: [{
+      text: `Drag the tags to move them.`,
+      type: `p`
+    }, {
+      type: `br`
+    }, {
+      text: `When editing a tag color, it will also alter the color for all users with that tag (you have to refresh the page for it to take effect).`,
+      type: `p`
+    }]
+  }]);
+  popup.tags = createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-tags`
+    },
+    type: `div`
+  }]);
+  popup.input = createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      type: `text`
+    },
+    events: {
+      focus: ut_createTags.bind(null, popup),
+      keydown: triggerSetOnEnter.bind(null, set),
+      input: ut_createTags.bind(null, popup)
+    },
+    type: `input`
+  }]);
+  createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
+      title: `Select from existing tags`
+    },
+    type: `i`
+  }]).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
+  const children = [];
+  esgst.utSuggestions = popup.suggestions = createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-suggestions esgst-hidden`
+    },
+    type: `div`
+  }]);
+  for (const tag of esgst.utTags) {
+    children.push({
       attributes: {
-        class: `esgst-ut-existing-tags popup__keys__list`
+        class: `esgst-hidden`
       },
+      events: {
+        click: ut_addSuggestion.bind(null, popup),
+        mouseenter: ut_selectSuggestion,
+        mouseleave: ut_deselectSuggestion
+      },
+      text: tag,
       type: `div`
-    }]);
-    selectedTags = [];
-    tags = sortArray(tags, true, `count`);
-    tags.forEach(tag => {
-      let checkbox, item;
-      tag = tag.tag;
-      item = createElements(list, `beforeEnd`, [{
-        type: `div`,
-        children: [{
-          type: `span`
-        }, {
-          text: ` ${tag}`,
-          type: `node`
-        }]
-      }]);
-      if (esgst.ut_colors[tag]) {
-        item.style.color = esgst.ut_colors[tag].color;
-        item.style.backgroundColor = esgst.ut_colors[tag].bgColor;
-      }
-      checkbox = new Checkbox(item);
-      checkbox.onEnabled = () => {
-        selectedTags.push(tag);
-      };
-      checkbox.onDisabled = () => {
-        selectedTags.splice(selectedTags.indexOf(tag), 1);
-      };
     });
-    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Add Tags`, ``, callback => {
-      selectedTags.forEach(tag => {
-        ut_createTag(mainPopup, tag);
-      });
-      mainPopup.input.value = mainPopup.input.value ? `${mainPopup.input.value}, ${selectedTags.join(`, `)}` : selectedTags.join(`, `);
-      callback();
-      popup.close();
-    }).set);
-    popup.open();
   }
+  createElements(popup.suggestions, `inner`, children);
+  createElements(popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-description`
+    },
+    text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+    type: `div`
+  }]);
+  popup.description.appendChild(set.set);
+  popup.open(ut_loadTags.bind(null, popup, user));
+}
 
-  function ut_createTags(popup) {
-    let i, n, tags;
-    tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-    popup.tags.innerHTML = ``;
-    for (i = 0, n = tags.length; i < n; ++i) {
-      ut_createTag(popup, tags[i]);
+async function ut_showExistingTags(mainPopup) {
+  const popup = new Popup(`fa-list`, `Select from existing tags:`, true);
+  const list = createElements(popup.scrollable, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-existing-tags popup__keys__list`
+    },
+    type: `div`
+  }]);
+  const selectedTags = [];
+  for (const tag of esgst.utTags) {
+    const item = createElements(list, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        type: `span`
+      }, {
+        text: ` ${tag}`,
+        type: `node`
+      }]
+    }]);
+    if (esgst.ut_colors[tag]) {
+      item.style.color = esgst.ut_colors[tag].color;
+      item.style.backgroundColor = esgst.ut_colors[tag].bgColor;
     }
+    const checkbox = new Checkbox(item);
+    checkbox.onEnabled = () => {
+      selectedTags.push(tag);
+    };
+    checkbox.onDisabled = () => {
+      selectedTags.splice(selectedTags.indexOf(tag), 1);
+    };
   }
+  popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Add Tags`, ``, callback => {
+    selectedTags.forEach(tag => {
+      ut_createTag(mainPopup, tag);
+    });
+    mainPopup.input.value = mainPopup.input.value ? `${mainPopup.input.value}, ${selectedTags.join(`, `)}` : selectedTags.join(`, `);
+    callback();
+    popup.close();
+  }).set);
+  popup.open();
+}
 
-  function ut_createTag(popup, tag) {
-    let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, resetButton, tagBox, tagContainer;
-    container = createElements(popup.tags, `beforeEnd`, [{
+function ut_createTags(popup) {
+  popup.tags.innerHTML = ``;
+  esgst.utSelected = null;
+  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
+  if (tags.length) {
+    const lastTag = tags[tags.length - 1].toLowerCase();
+    for (const child of popup.suggestions.children) {
+      const value = child.textContent.toLowerCase();
+      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+        child.classList.remove(`esgst-hidden`);
+        if (!esgst.utSelected) {
+          child.classList.add(`esgst-selected`);
+          esgst.utSelected = child;
+        }
+      } else {
+        child.classList.add(`esgst-hidden`);
+      }
+    }
+    if (esgst.utSelected) {
+      popup.suggestions.classList.remove(`esgst-hidden`);
+    } else {
+      popup.suggestions.classList.add(`esgst-hidden`);
+    }
+    for (const tag of tags) {
+      ut_createTag(popup, tag);
+    }
+  } else {
+    popup.suggestions.classList.add(`esgst-hidden`);
+  }
+}
+
+function ut_addSuggestion(popup, event) {
+  popup.tags.innerHTML = ``;
+  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  const value = event.currentTarget.textContent;
+  tags.pop();
+  tags.push(value);
+  popup.input.value = tags.join(`, `);
+  popup.suggestions.classList.add(`esgst-hidden`);
+  for (const item of popup.suggestions.children) {
+    item.classList.remove(`esgst-selected`);
+  }
+  esgst.utSelected = null;
+  for (const tag of tags) {
+    ut_createTag(popup, tag);
+  }
+  popup.input.focus();
+}
+
+function ut_selectSuggestion(event) {
+  for (const item of event.currentTarget.parentElement.children) {
+    item.classList.remove(`esgst-selected`);
+  }
+  event.currentTarget.classList.add(`esgst-selected`);
+  esgst.utSelected = event.currentTarget;
+}
+
+function ut_deselectSuggestion(event) {
+  const parent = event.currentTarget.parentElement;
+  if (event.relatedTarget !== parent && parent.contains(event.relatedTarget)) {
+    event.currentTarget.classList.remove(`esgst-selected`);
+  }
+}
+
+function ut_createTag(popup, tag) {
+  let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, resetButton, tagBox, tagContainer;
+  container = createElements(popup.tags, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-ut-preview`,
+      draggable: true
+    },
+    type: `div`,
+    children: [{
       attributes: {
-        class: `esgst-ut-preview`,
-        draggable: true
+        class: `esgst-ut-tags`
       },
       type: `div`,
       children: [{
         attributes: {
-          class: `esgst-ut-tags`
+          class: `global__image-outer-wrap author_avatar is_icon`
         },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `global__image-outer-wrap author_avatar is_icon`
-          },
-          text: tag,
-          type: `span`
-        }]
-      }, {
-        attributes: {
-          class: `esgst-hidden`,
-          type: `text`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          title: `Set text color for this tag`,
-          type: `color`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          title: `Set background color for this tag`,
-          type: `color`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `esgst-clickable fa fa-edit`,
-          title: `Edit tag`
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `esgst-clickable fa fa-trash`,
-          title: `Delete tag`
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `esgst-clickable fa fa-rotate-left`,
-          title: `Reset tag color`
-        },
-        type: `i`
+        text: tag,
+        type: `span`
       }]
-    }]);
-    tagContainer = container.firstElementChild;
-    tagBox = tagContainer.firstElementChild;
-    input = tagContainer.nextElementSibling;
-    colorInput = input.nextElementSibling;
-    bgColorInput = colorInput.nextElementSibling;
-    editButton = bgColorInput.nextElementSibling;
-    deleteButton = editButton.nextElementSibling;
-    resetButton = deleteButton.nextElementSibling;
+    }, {
+      attributes: {
+        class: `esgst-hidden`,
+        type: `text`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        title: `Set text color for this tag`,
+        type: `color`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        title: `Set background color for this tag`,
+        type: `color`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-edit`,
+        title: `Edit tag`
+      },
+      type: `i`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-trash`,
+        title: `Delete tag`
+      },
+      type: `i`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-rotate-left`,
+        title: `Reset tag color`
+      },
+      type: `i`
+    }]
+  }]);
+  tagContainer = container.firstElementChild;
+  tagBox = tagContainer.firstElementChild;
+  input = tagContainer.nextElementSibling;
+  colorInput = input.nextElementSibling;
+  bgColorInput = colorInput.nextElementSibling;
+  editButton = bgColorInput.nextElementSibling;
+  deleteButton = editButton.nextElementSibling;
+  resetButton = deleteButton.nextElementSibling;
+  colors = esgst.ut_colors[tag];
+  if (colors) {
+    colorInput.value = tagBox.style.color = colors.color;
+    bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
+  }
+  container.addEventListener(`dragstart`, ut_startDrag.bind(null, container, popup));
+  container.addEventListener(`dragenter`, ut_continueDrag.bind(null, container, popup));
+  container.addEventListener(`dragend`, ut_endDrag.bind(null, popup));
+  input.addEventListener(`keydown`, ut_editTag.bind(null, bgColorInput, colorInput, input, popup, tagBox, tagContainer));
+  colorInput.addEventListener(`change`, ut_saveColor.bind(null, colorInput, `color`, `color`, tagBox));
+  bgColorInput.addEventListener(`change`, ut_saveColor.bind(null, bgColorInput, `backgroundColor`, `bgColor`, tagBox));
+  editButton.addEventListener(`click`, ut_showEdit.bind(null, input, tagBox, tagContainer));
+  deleteButton.addEventListener(`click`, ut_deleteTag.bind(null, container, popup));
+  resetButton.addEventListener(`click`, ut_resetColor.bind(null, bgColorInput, colorInput, tagBox));
+}
+
+function ut_startDrag(container, popup, event) {
+  event.dataTransfer.setData(`text/plain`, ``);
+  popup.dragged = container;
+}
+
+function ut_continueDrag(container, popup) {
+  let current;
+  current = popup.dragged;
+  do {
+    current = current.previousElementSibling;
+    if (current && current === container) {
+      popup.tags.insertBefore(popup.dragged, container);
+      return;
+    }
+  } while (current);
+  popup.tags.insertBefore(popup.dragged, container.nextElementSibling);
+}
+
+function ut_endDrag(popup) {
+  let children, i, n, tags;
+  tags = [];
+  children = popup.tags.children;
+  for (i = 0, n = children.length; i < n; ++i) {
+    tags.push(children[i].firstElementChild.firstElementChild.textContent);
+  }
+  popup.input.value = tags.join(`, `);
+}
+
+function ut_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
+  let colors, tag;
+  if (event.key === `Enter`) {
+    tagContainer.classList.remove(`esgst-hidden`);
+    input.classList.add(`esgst-hidden`);
+    tag = input.value;
+    tagBox.textContent = tag;
     colors = esgst.ut_colors[tag];
     if (colors) {
       colorInput.value = tagBox.style.color = colors.color;
       bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
     }
-    container.addEventListener(`dragstart`, ut_startDrag.bind(null, container, popup));
-    container.addEventListener(`dragenter`, ut_continueDrag.bind(null, container, popup));
-    container.addEventListener(`dragend`, ut_endDrag.bind(null, popup));
-    input.addEventListener(`keydown`, ut_editTag.bind(null, bgColorInput, colorInput, input, popup, tagBox, tagContainer));
-    colorInput.addEventListener(`change`, ut_saveColor.bind(null, colorInput, `color`, `color`, tagBox));
-    bgColorInput.addEventListener(`change`, ut_saveColor.bind(null, bgColorInput, `backgroundColor`, `bgColor`, tagBox));
-    editButton.addEventListener(`click`, ut_showEdit.bind(null, input, tagBox, tagContainer));
-    deleteButton.addEventListener(`click`, ut_deleteTag.bind(null, container, popup));
-    resetButton.addEventListener(`click`, ut_resetColor.bind(null, bgColorInput, colorInput, tagBox));
-  }
-
-  function ut_startDrag(container, popup, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
-    popup.dragged = container;
-  }
-
-  function ut_continueDrag(container, popup) {
-    let current;
-    current = popup.dragged;
-    do {
-      current = current.previousElementSibling;
-      if (current && current === container) {
-        popup.tags.insertBefore(popup.dragged, container);
-        return;
-      }
-    } while (current);
-    popup.tags.insertBefore(popup.dragged, container.nextElementSibling);
-  }
-
-  function ut_endDrag(popup) {
-    let children, i, n, tags;
-    tags = [];
-    children = popup.tags.children;
-    for (i = 0, n = children.length; i < n; ++i) {
-      tags.push(children[i].firstElementChild.firstElementChild.textContent);
-    }
-    popup.input.value = tags.join(`, `);
-  }
-
-  function ut_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
-    let colors, tag;
-    if (event.key === `Enter`) {
-      tagContainer.classList.remove(`esgst-hidden`);
-      input.classList.add(`esgst-hidden`);
-      tag = input.value;
-      tagBox.textContent = tag;
-      colors = esgst.ut_colors[tag];
-      if (colors) {
-        colorInput.value = tagBox.style.color = colors.color;
-        bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
-      }
-      ut_endDrag(popup);
-    }
-  }
-
-  function ut_saveColor(input, key, saveKey, tagBox) {
-    let tag;
-    tag = tagBox.textContent;
-    if (!esgst.ut_colors[tag]) {
-      esgst.ut_colors[tag] = {
-        bgColor: ``,
-        color: ``
-      };
-    }
-    esgst.ut_colors[tag][saveKey] = tagBox.style[key] = input.value;
-  }
-
-  function ut_resetColor(bgColorInput, colorInput, tagBox) {
-    bgColorInput.value = ``;
-    colorInput.value = ``;
-    tagBox.style.backgroundColor = ``;
-    tagBox.style.color = ``;
-    delete esgst.ut_colors[tagBox.textContent];
-  }
-
-  function ut_showEdit(input, tagBox, tagContainer) {
-    tagContainer.classList.add(`esgst-hidden`);
-    input.classList.remove(`esgst-hidden`);
-    input.value = tagBox.textContent;
-    input.focus();
-  }
-
-  function ut_deleteTag(container, popup) {
-    container.remove();
     ut_endDrag(popup);
   }
+}
 
-  async function ut_saveTags(key, popup, user, callback) {
-    let tags;
-    tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-    if (tags.length === 1 && !tags[0].trim()) {
-      tags = ``;
-    }
-    user.values = {
-      tags: tags
+function ut_saveColor(input, key, saveKey, tagBox) {
+  let tag;
+  tag = tagBox.textContent;
+  if (!esgst.ut_colors[tag]) {
+    esgst.ut_colors[tag] = {
+      bgColor: ``,
+      color: ``
     };
-    await saveUser(null, null, user);
-    ut_completeSave(key, popup, tags, callback);
   }
+  esgst.ut_colors[tag][saveKey] = tagBox.style[key] = input.value;
+}
 
-  async function ut_completeSave(key, popup, tags, callback) {
-    await setSetting(`ut_colors`, esgst.ut_colors);
-    ut_addTags(key, tags);
-    callback();
-    popup.close();
+function ut_resetColor(bgColorInput, colorInput, tagBox) {
+  bgColorInput.value = ``;
+  colorInput.value = ``;
+  tagBox.style.backgroundColor = ``;
+  tagBox.style.color = ``;
+  delete esgst.ut_colors[tagBox.textContent];
+}
+
+function ut_showEdit(input, tagBox, tagContainer) {
+  tagContainer.classList.add(`esgst-hidden`);
+  input.classList.remove(`esgst-hidden`);
+  input.value = tagBox.textContent;
+  input.focus();
+}
+
+function ut_deleteTag(container, popup) {
+  container.remove();
+  ut_endDrag(popup);
+}
+
+async function ut_saveTags(key, popup, user, callback) {
+  let tags;
+  tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  if (tags.length === 1 && !tags[0].trim()) {
+    tags = ``;
   }
+  user.values = {
+    tags: tags
+  };
+  await saveUser(null, null, user);
+  ut_completeSave(key, popup, tags, callback);
+}
 
-  async function ut_loadTags(popup, user) {
-    let i, n, savedUser, tags;
-    savedUser = await getUser(null, user);
-    popup.input.focus();
-    if (savedUser) {
-      tags = savedUser.tags;
-      if (tags) {
-        popup.tags.innerHTML = ``;
-        for (i = 0, n = tags.length; i < n; ++i) {
-          ut_createTag(popup, tags[i]);
-        }
-        popup.input.value = tags.join(`, `);
+async function ut_completeSave(key, popup, tags, callback) {
+  await setSetting(`ut_colors`, esgst.ut_colors);
+  ut_addTags(key, tags);
+  callback();
+  popup.close();
+}
+
+async function ut_loadTags(popup, user) {
+  let i, n, savedUser, tags;
+  savedUser = await getUser(null, user);
+  popup.input.focus();
+  if (savedUser) {
+    tags = savedUser.tags;
+    if (tags) {
+      popup.tags.innerHTML = ``;
+      for (i = 0, n = tags.length; i < n; ++i) {
+        ut_createTag(popup, tags[i]);
+      }
+      popup.input.value = tags.join(`, `);
+    }
+  }
+}
+
+function ut_addTags(key, tags) {
+  const elements = esgst.currentUsers[key].elements;
+  const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : [{
+    text: ``,
+    type: `node`
+  }];
+  for (let context of elements) {
+    const container = context.parentElement;
+    if (!container) {
+      continue;
+    }
+    if (container.classList.contains(`comment__username`)) {
+      context = container;
+    }
+    const button = context.parentElement.getElementsByClassName(`esgst-ut-button`)[0];
+    if (items) {
+      button.classList.remove(`esgst-faded`);
+    } else {
+      button.classList.add(`esgst-faded`);
+    }
+    const tagsContainer = button.lastElementChild;
+    createElements(tagsContainer, `inner`, items);
+    for (const tagsBox of tagsContainer.children) {
+      const colors = esgst.ut_colors[tagsBox.textContent];
+      if (colors) {
+        tagsBox.style.color = colors.color;
+        tagsBox.style.backgroundColor = colors.bgColor;
       }
     }
   }
-
-  function ut_addTags(key, tags) {
-    const elements = esgst.currentUsers[key].elements;
-    const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : [{
-      text: ``,
-      type: `node`
-    }];
-    for (let context of elements) {
-      const container = context.parentElement;
-      if (!container) {
-        continue;
-      }
-      if (container.classList.contains(`comment__username`)) {
-        context = container;
-      }
-      const button = context.parentElement.getElementsByClassName(`esgst-ut-button`)[0];
-      if (items) {
-        button.classList.remove(`esgst-faded`);
-      } else {
-        button.classList.add(`esgst-faded`);
-      }
-      const tagsContainer = button.lastElementChild;
-      createElements(tagsContainer, `inner`, items);
-      for (const tagsBox of tagsContainer.children) {
-        const colors = esgst.ut_colors[tagsBox.textContent];
-        if (colors) {
-          tagsBox.style.color = colors.color;
-          tagsBox.style.backgroundColor = colors.bgColor;
-        }
-      }
-    }
-  }
-  
-_MODULES.push({
+}_MODULES.push({
     description: `
       <ul>
         <li>Replaces a timestamp (in any page) with an accurate timestamp. For example, "2 hours ago" becomes "Jan 1, 2017, 0:00:00 - 2 hours ago".</li>
@@ -38290,7 +38519,7 @@ _MODULES.push({
     box = button.nextElementSibling;
     list = box.lastElementChild;
     button.addEventListener(`click`, uh_toggle.bind(null, box, profile, list));
-    document.addEventListener(`click`, uh_close.bind(null, box, container));
+    esgst.documentEvents.click.push(uh_close.bind(null, box, container));
   }
 
   async function uh_toggle(box, profile, list) {
@@ -50572,6 +50801,32 @@ _MODULES.push({
       `;
     }
     style += `
+      .esgst-ut-suggestions {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        max-height: 200px;
+        overflow: auto;
+        position: absolute;
+        width: 300px;
+      }
+
+      .esgst-ut-suggestions >* {
+        cursor: pointer;
+        font-weight: bold;
+        padding: 5px;
+        text-shadow: none;
+      }
+
+      .esgst-ut-suggestions >*:not(:last-child) {
+        border-bottom: 1px solid #ccc;
+      }  
+
+      .esgst-ut-suggestions .esgst-selected {
+        background-color: #465670;
+        color: #fff;
+      }
+
       .table__row-inner-wrap .esgst-heading-button, .table__row-inner-wrap .esgst-ct-count, .table__row-inner-wrap .esgst-gdttt-button {
         margin-left: 3px !important;
       }
@@ -51879,7 +52134,7 @@ _MODULES.push({
         text-align: left;
       }
 
-      .esgst-popup-description >*, .esgst-popup-scrollable >* {
+      .esgst-popup-description >*:not(.esgst-ut-suggestions), .esgst-popup-scrollable >* {
         margin: 10px 0 0 !important;
       }
 
@@ -54733,6 +54988,7 @@ _MODULES.push({
   function triggerSetOnEnter(set, event) {
     if (event.key === `Enter`) {
       set.trigger();
+      return true;
     }
   }
 
