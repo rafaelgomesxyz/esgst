@@ -24,11 +24,8 @@ _MODULES.push({
         });
       }
     });
-    if (esgst.gc && (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath)) {
-      gc_getGames(games, endless);
-    }
-    if (esgst.mm_enableGames && esgst.mm_enable) {
-      esgst.mm_enable(esgst[main ? `mainGames` : `popupGames`], `Games`);
+    for (const feature of esgst.gameFeatures) {
+      await feature(games, main, source, endless, `apps`);
     }
   }
 
@@ -36,7 +33,8 @@ _MODULES.push({
     let game, games, i, id, info, matches, n, headingQuery, matchesQuery, type;
     games = {
       apps: {},
-      subs: {}
+      subs: {},
+      all: []
     };
     if (esgst.discussionPath && main) {
       matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .markdown table td, .esgst-es-page-${endless}.markdown table td` : `.markdown table td`}`;
@@ -63,6 +61,8 @@ _MODULES.push({
         game.name = game.headingName.textContent;
         id = info.id;
         type = info.type;
+        game.id = id;
+        game.type = type;
         if (esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
           const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
           if (removeButton) {
@@ -72,70 +72,8 @@ _MODULES.push({
         if (!games[type][id]) {
           games[type][id] = [];
         }
-        if (esgst.wishlistPath && main && esgst.cwsl) {
-          let giveawayCount = game.heading.parentElement.nextElementSibling.nextElementSibling;
-          createElements(giveawayCount, `inner`, [{
-            attributes: {
-              class: `table__column__secondary-link`,
-              href: `/giveaways/search?${type.slice(0, -1)}=${id}`
-            },
-            type: `a`,
-            children: [...(Array.from(giveawayCount.childNodes).map(x => {
-              return {
-                context: x
-              };
-            }))]
-          }]);
-        }
-        if (esgst.egh) {
-          if (esgst.giveawayPath) {
-            let button = document.querySelector(`.sidebar__entry-insert`);
-            if (button) {
-              button.addEventListener(`click`, egh_saveGame.bind(null, id, type));
-            }
-          }
-          if (!esgst.menuPath && savedGames[type][id] && savedGames[type][id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
-            createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
-              attributes: {
-                class: `esgst-egh-button`,
-                title: getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-star esgst-egh-icon`
-                },
-                type: `i`
-              }]
-            }]).addEventListener(`click`, egh_unhighlightGame.bind(null, id, type));
-          }
-        }
-        if (esgst.gt) {
-          if (!game.container.getElementsByClassName(`esgst-gt-button`)[0]) {
-            createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, [{
-              attributes: {
-                class: `esgst-faded esgst-gt-button`,
-                title: getFeatureTooltip(`gt`, `Edit game tags`)
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-tag`
-                },
-                type: `i`
-              }, {
-                attributes: {
-                  class: `esgst-gt-tags`
-                },
-                type: `span`
-              }]
-            }]).addEventListener(`click`, gt_openPopup.bind(null, id, game.name, type));
-          }
-          if (savedGames[type][id] && savedGames[type][id].tags) {
-            gt_addTags([game], id, savedGames[type][id].tags, type);
-          }
-        }
         games[type][id].push(game);
+        games.all.push(game);
       }
     }
     return games;

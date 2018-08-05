@@ -49,10 +49,36 @@ _MODULES.push({
   });
 
   function wbc() {
+    if (esgst.wbc_h) {
+      esgst.userFeatures.push(wbc_users);
+    }
     if (!esgst.mainPageHeading) return;
     let [icons, title] = !esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
     esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
     wbc_addButton(true, esgst.wbcButton);
+  }
+
+  function wbc_users(users) {
+    for (const user of users) {    
+      if (user.saved && user.saved.wbc && !user.context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
+        let result = user.saved.wbc.result;
+        if ((result === `whitelisted`) || ((result === `blacklisted`) && !esgst.wbc_hb)) {
+          createElements(user.context, `beforeBegin`, [{
+            attributes: {
+              class: `esgst-wbc-icon esgst-user-icon`,
+              title: getFeatureTooltip(`wbc`, `${user.username} has ${result} you (last checked ${getTimestamp(user.saved.wbc.lastCheck)})`)
+            },
+            type: `span`,
+            children: [{
+              attributes: {
+                class: `fa ${(result === `whitelisted`) ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}`
+              },
+              type: `i`
+            }]
+          }]);
+        }
+      }
+    }
   }
 
   function wbc_addButton(Context, WBCButton) {

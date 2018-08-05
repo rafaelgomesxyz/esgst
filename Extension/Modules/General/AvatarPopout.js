@@ -17,6 +17,15 @@ _MODULES.push({
 
   function ap() {
     esgst.endlessFeatures.push(ap_getAvatars);
+    esgst.userFeatures.push(ap_getUsers);
+  }
+
+  function ap_getUsers(users) {
+    for (const user of users) {
+      if (!user.oldElement.classList.contains(`esgst-ap-avatar`)[0]) {
+        ap_setAvatar(user.oldElement);
+      }
+    }
   }
 
   function ap_getAvatars(context, main, source, endless) {

@@ -56,6 +56,13 @@ _MODULES.push({
     esgst.mm_enable = mm_enable.bind(null, obj);
     esgst.mm_disable = mm_disable.bind(null, obj);
     obj.button.addEventListener(`click`,  mm_openPopout.bind(null, obj, items, itemsKey));
+    if (esgst.mm_enableGames) {
+      esgst.gameFeatures.push(mm_getGames);
+    }
+  }
+
+  function mm_getGames(games, main) {
+    esgst.mm_enable(esgst[main ? `mainGames` : `popupGames`], `Games`);
   }
 
   function mm_openPopout(obj, items, itemsKey) {

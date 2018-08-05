@@ -58,12 +58,56 @@ _MODULES.push({
 
   function namwc() {
     esgst.profileFeatures.push(namwc_addUser);
+    if (esgst.namwc_h) {
+      esgst.userFeatures.push(namwc_getUsers);
+    }
 
     if (!esgst.winnersPath) return;
 
     namwc_setPopup({
       button: createHeadingButton({id: `namwc`, icons: [`fa-trophy`, `fa-question-circle`], title: `Check for not activated/multiple wins`})
     });
+  }
+
+  function namwc_getUsers(users) {
+    for (const user of users) {    
+      if (user.saved && user.saved.namwc && user.saved.namwc.results && !user.context.parentElement.querySelector(`.esgst-namwc-highlight, .esgst-namwc-icon`)) {
+        let results = user.saved.namwc.results;
+        let highlight = null;
+        let icon = null;
+        if (results.activated && (results.notMultiple || esgst.namwc_h_m)) {
+          highlight = `positive`;
+          icon = `fa-thumbs-up`;
+        } else if (results.unknown) {
+          highlight = `unknown`;
+          icon = `fa-warning`;
+        } else {
+          highlight = `negative`;
+          icon = `fa-thumbs-down`;
+        }
+        if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
+          let title = `${user.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
+          if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
+            createElements(user.context, `beforeBegin`, [{
+              attributes: {
+                class: `esgst-namwc-icon esgst-user-icon`,
+                title: getFeatureTooltip(`namwc`, title)
+              },
+              type: `span`,
+              children: [{
+                attributes: {
+                  class: `fa ${icon} esgst-${highlight}`
+                },
+                type: `i`
+              }]
+            }]);
+          } else {
+            user.element.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
+            user.element.title = getFeatureTooltip(`namwc`, title);
+          }
+        }
+      }
+    }
   }
 
   function namwc_addUser(profile) {
