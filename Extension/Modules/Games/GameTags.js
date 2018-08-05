@@ -15,7 +15,8 @@ _MODULES.push({
   type: `games`
 });
 
-function gt() {  
+function gt() {
+  esgst.gameFeatures.push(gt_addButtons);
   const tagCount = {};
   for (const id in esgst.games.apps) {
     const tags = esgst.games.apps[id].tags;
@@ -79,6 +80,34 @@ function gt() {
       esgst.gtSuggestions.classList.add(`esgst-hidden`);
     }
   });
+}
+
+function gt_addButtons(games) {
+  for (const game of games.all) {
+    if (!game.container.getElementsByClassName(`esgst-gt-button`)[0]) {
+      createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, [{
+        attributes: {
+          class: `esgst-faded esgst-gt-button`,
+          title: getFeatureTooltip(`gt`, `Edit game tags`)
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-tag`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `esgst-gt-tags`
+          },
+          type: `span`
+        }]
+      }]).addEventListener(`click`, gt_openPopup.bind(null, game.id, game.name, game.type));
+    }
+    if (esgst.games[game.type][game.id] && esgst.games[game.type][game.id].tags) {
+      gt_addTags([game], game.id, esgst.games[game.type][game.id].tags, game.type);
+    }
+  }
 }
 
 async function gt_openPopup(id, name, type) {

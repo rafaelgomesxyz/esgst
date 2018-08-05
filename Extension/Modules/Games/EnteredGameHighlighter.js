@@ -6,10 +6,41 @@ _MODULES.push({
       </ul>
     `,
     id: `egh`,
+    load: egh,
     name: `Entered Game Highlighter`,
     sg: true,
     type: `games`
   });
+
+  function egh() {
+    esgst.gameFeatures.push(egh_getGames);
+  }
+
+  function egh_getGames(games) {
+    for (const game of games.all) {
+      if (esgst.giveawayPath) {
+        let button = document.querySelector(`.sidebar__entry-insert`);
+        if (button) {
+          button.addEventListener(`click`, egh_saveGame.bind(null, game.id, game.type));
+        }
+      }
+      if (!esgst.menuPath && esgst.games[game.type][game.id] && esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
+        createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
+          attributes: {
+            class: `esgst-egh-button`,
+            title: getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
+          },
+          type: `a`,
+          children: [{
+            attributes: {
+              class: `fa fa-star esgst-egh-icon`
+            },
+            type: `i`
+          }]
+        }]).addEventListener(`click`, egh_unhighlightGame.bind(null, game.id, game.type));
+      }
+    }
+  }
 
   async function egh_saveGame(id, type) {
     let games;

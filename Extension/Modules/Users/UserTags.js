@@ -17,7 +17,8 @@ _MODULES.push({
   type: `users`
 });
 
-function ut() {  
+function ut() {
+  esgst.userFeatures.push(ut_addButtons);
   const tagCount = {};
   for (const steamId in esgst.users.users) {
     const tags = esgst.users.users[steamId].tags;
@@ -69,6 +70,17 @@ function ut() {
       esgst.utSuggestions.classList.add(`esgst-hidden`);
     }
   });
+}
+
+function ut_addButtons(users) {
+  for (const user of users) {
+    if (!user.context.parentElement.getElementsByClassName(`esgst-ut-button`)[0]) {
+      ut_addButton(user.context, user.id, user.steamId, user.username);
+      if (user.saved && user.saved.tags) {
+        ut_addTags(user.id, user.saved.tags);
+      }
+    }
+  }
 }
 
 function ut_addButton(context, key, steamId, username) {
@@ -501,6 +513,9 @@ function ut_addTags(key, tags) {
       context = container;
     }
     const button = context.parentElement.getElementsByClassName(`esgst-ut-button`)[0];
+    if (!button) {
+      return;
+    }
     if (items) {
       button.classList.remove(`esgst-faded`);
     } else {

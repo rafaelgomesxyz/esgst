@@ -705,13 +705,20 @@ _MODULES.push({
       }
     },
     id: `gc`,
+    load: gc,
     name: `Game Categories`,
     sg: true,
     sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
     type: `games`
   });
 
-  async function gc_getGames(games, endless) {
+  function gc() {    
+    if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
+      esgst.gameFeatures.push(gc_getGames);
+    }
+  }
+
+  async function gc_getGames(games, main, source, endless) {
     let gc = {
       apps: Object.keys(games.apps).map(x => parseInt(x)),
       cache: {
