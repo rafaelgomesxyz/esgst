@@ -615,6 +615,35 @@ _MODULES.push({
         name: `Removed`,
         sg: true
       },
+      gc_sp: {
+        colors: true,
+        description: `
+          <ul>
+            <li>Shows if the game is singleplayer.</li>
+          </ul>
+        `,
+        features: {
+          gc_sp_s: {
+            description: `
+              <ul>
+                <li>Shows the category initials instead of its full name.</li>
+                <li>Not compatible with custom labels.</li>
+              </ul>
+            `,
+            features: {
+              gc_sp_s_i: {
+                name: `Use icons instead of initials.`,
+                sg: true
+              }
+            },
+            name: `Enable the simplified version.`,
+            sg: true
+          }
+        },
+        input: true,
+        name: `Singleplayer`,
+        sg: true
+      },
       gc_sc: {
         colors: true,
         description: `
@@ -783,15 +812,15 @@ _MODULES.push({
     }
     const missingApps = [];
     const missingSubs = [];
-    if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 4 }`));
-      if (gc.cache.version !== 4) {
+    if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_sp || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
+      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 5 }`));
+      if (gc.cache.version !== 5) {
         gc.cache = {
           apps: {},
           subs: {},
           hltb: gc.cache.hltb,
           timestamp: 0,
-          version: 4
+          version: 5
         };
       }
       if (!gc.cache.hltb) {
@@ -868,7 +897,7 @@ _MODULES.push({
       }
       gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
     }
-    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
+    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
       if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
@@ -915,6 +944,7 @@ _MODULES.push({
           gc_w: `wishlisted`,
           gc_pw: `won`,
           gc_a: `achievements`,
+          gc_sp: `singleplayer`,
           gc_mp: `multiplayer`,
           gc_sc: `steamCloud`,
           gc_tc: `tradingCards`,
@@ -975,6 +1005,7 @@ _MODULES.push({
           gc_w: `wishlisted`,
           gc_pw: `won`,
           gc_a: `achievements`,
+          gc_sp: `singleplayer`,
           gc_mp: `multiplayer`,
           gc_sc: `steamCloud`,
           gc_tc: `tradingCards`,
@@ -1023,6 +1054,7 @@ _MODULES.push({
         ratingType: ``,
         releaseDate: `?`,
         removed: -1,
+        singleplayer: 0,
         steamCloud: 0,
         tags: ``,
         tradingCards: 0
@@ -1049,6 +1081,9 @@ _MODULES.push({
               switch (data.categories[i].description.toLowerCase()) {
                 case `steam achievements`:
                   categories.achievements = 1;
+                  break;
+                case `single-player`:
+                  categories.singleplayer = 1;
                   break;
                 case `multi-player`:
                 case `online multi-player`:
@@ -1737,6 +1772,26 @@ _MODULES.push({
                 children: esgst.gc_mp_s && esgst.gc_mp_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_mpIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
+            }
+            break;
+          case `gc_sp`:
+            if (cache && cache.singleplayer) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-singleplayer`,
+                  [`data-id`]: `gc_sp`,
+                  href: `http://store.steampowered.com/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_sp`, `Singleplayer`)
+                },
+                text: esgst.gc_sp_s ? (esgst.gc_sp_s_i ? `` : `SP`) : esgst.gc_spLabel,
+                type: `a`,
+                children: esgst.gc_sp_s && esgst.gc_sp_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_spIcon}`
                   },
                   type: `i`
                 }] : null

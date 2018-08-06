@@ -469,6 +469,16 @@ _MODULES.push({
             name: `Achievements`,
             sg: true
           },
+          gf_singleplayer: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways for games that are singleplayer.</li>
+                <li>This option requires [id=gc_sp] enabled to work.</li>
+              </ul>
+            `,
+            name: `Singleplayer`,
+            sg: true
+          },
           gf_multiplayer: {
             description: `
               <ul>
@@ -998,6 +1008,12 @@ _MODULES.push({
         category: `gc_a`,
         check: true,
         name: `Achievements`,
+        type: `boolean`
+      },
+      singleplayer: {
+        category: `gc_sp`,
+        check: true,
+        name: `Singleplayer`,
         type: `boolean`
       },
       multiplayer: {
