@@ -410,6 +410,7 @@ _MODULES.push({
     giveaway.projectedRatio = ratio ? parseFloat(ratio.getAttribute(`data-projectedRatio`)) : 0;
     const pointsToWin = context.getElementsByClassName(`esgst-gptw`)[0];
     giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
+    giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
     if (main) {
       if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = createElements(giveaway.headingName, `beforeBegin`, [{
