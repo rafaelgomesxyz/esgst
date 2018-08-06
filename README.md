@@ -236,6 +236,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.26.0 (August 6, 2018)**
+
+* [#870](https://github.com/revilheart/ESGST/issues/870) Add Learning game category
+* [#869](https://github.com/revilheart/ESGST/issues/869) Add Singleplayer game category
+* [#868](https://github.com/revilheart/ESGST/issues/868) Include online multiplayer, co-op and online co-op in the Multiplayer game category
+* [#867](https://github.com/revilheart/ESGST/issues/867) Link to SGTools pages in the Unsent Gifts Sender results
+* [#866](https://github.com/revilheart/ESGST/issues/866) Add Enterable filter to Giveaway Extractor
+* [#864](https://github.com/revilheart/ESGST/issues/864) Add a feature: Group Tags
+* [#862](https://github.com/revilheart/ESGST/issues/862) Add autocomplete feature to User Tags and Game Tags
+
+
 **7.25.4 (August 2, 2018)**
 
 
