@@ -247,6 +247,15 @@ _MODULES.push({
             name: `Region Restricted`,
             sg: true
           },
+          gf_enterable: {
+            description: `
+              <ul>
+                <li>Allows you filter giveaways that are enterable in [id=ge].</li>
+              </ul>
+            `,
+            name: `Enterable`,
+            sg: true            
+          },
           gf_created: {
             description: `
               <ul>
@@ -864,6 +873,11 @@ _MODULES.push({
       regionRestricted: {
         check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
         name: `Region Restricted`,
+        type: `boolean`
+      },
+      enterable: {
+        check: popup === `Ge`,
+        name: `Enterable`,
         type: `boolean`
       },
       created: {
