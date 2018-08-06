@@ -1850,9 +1850,9 @@
         gas_autoPopup: false,
         gas_optionPopup: `sortIndex_asc`,
         gb_hours: 1,
-        gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+        gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
         gc_indexes: {},
-        gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+        gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
         gc_indexes_gv: {},
         gc_o_altAccounts: [],
         gc_g_colors: [],
@@ -1878,6 +1878,7 @@
         gc_lIcon: `linux`,
         gc_mIcon: `apple`,
         gc_eaIcon: `unlock`,
+        gc_lgIcon: `spinner`,
         gc_rmIcon: `trash`,
         gc_dlcIcon: `download`,
         gc_pIcon: `suitcase`,
@@ -1898,6 +1899,7 @@
         gc_lLabel: `Linux`,
         gc_mLabel: `Mac`,
         gc_eaLabel: `Early Access`,
+        gc_lgLabel: `Learning`,
         gc_rmLabel: `Removed`,
         gc_dlcLabel: `DLC`,
         gc_pLabel: `Package`,
@@ -1912,6 +1914,7 @@
         gc_o_color: `#ffffff`,
         gc_pw_color: `#ffffff`,
         gc_i_color: `#ffffff`,
+        gc_lg_color: `#ffffff`,
         gc_rm_color: `#ffffff`,
         gc_ea_color: `#ffffff`,
         gc_tc_color: `#ffffff`,
@@ -1935,6 +1938,7 @@
         gc_w_bgColor: `#3498db`,
         gc_pw_bgColor: `#16a085`,
         gc_i_bgColor: `#e74c3c`,
+        gc_lg_bgColor: `#555555`,
         gc_rm_bgColor: `#e74c3c`,
         gc_ea_bgColor: `#3498db`,
         gc_tc_bgColor: `#2ecc71`,
@@ -3383,6 +3387,16 @@
     }
     if (esgst.gc_categories_gv.indexOf(`gc_sp`) < 0) {
       esgst.gc_categories_gv.push(`gc_sp`);
+      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories.indexOf(`gc_lg`) < 0) {
+      esgst.gc_categories.push(`gc_lg`);
+      esgst.settings.gc_categories = esgst.gc_categories;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories_gv.indexOf(`gc_lg`) < 0) {
+      esgst.gc_categories_gv.push(`gc_lg`);
       esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
       esgst.settingsChanged = true;
     }
@@ -9584,6 +9598,35 @@ _MODULES.push({
         name: `Ignored`,
         sg: true
       },
+      gc_lg: {
+        colors: true,
+        description: `
+          <ul>
+            <li>Shows if Steam is learning about the game.</li>
+          </ul>
+        `,
+        features: {
+          gc_lg_s: {
+            description: `
+              <ul>
+                <li>Shows the category initials instead of its full name.</li>
+                <li>Not compatible with custom labels.</li>
+              </ul>
+            `,
+            features: {
+              gc_lg_s_i: {
+                name: `Use icons instead of initials.`,
+                sg: true
+              }
+            },
+            name: `Enable the simplified version.`,
+            sg: true
+          }
+        },
+        input: true,
+        name: `Learning`,
+        sg: true
+      },
       gc_l: {
         colors: true,
         description: `
@@ -10084,15 +10127,15 @@ _MODULES.push({
     }
     const missingApps = [];
     const missingSubs = [];
-    if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_sp || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 5 }`));
-      if (gc.cache.version !== 5) {
+    if (esgst.gc_gi || esgst.gc_lg || esgst.gc_r || esgst.gc_a || esgst.gc_sp || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
+      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 6 }`));
+      if (gc.cache.version !== 6) {
         gc.cache = {
           apps: {},
           subs: {},
           hltb: gc.cache.hltb,
           timestamp: 0,
-          version: 5
+          version: 6
         };
       }
       if (!gc.cache.hltb) {
@@ -10169,7 +10212,7 @@ _MODULES.push({
       }
       gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
     }
-    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
+    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
       if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
@@ -10223,6 +10266,7 @@ _MODULES.push({
           gc_l: `linux`,
           gc_m: `mac`,
           gc_ea: `earlyAccess`,
+          gc_lg: `learning`,
           gc_rm: `removed`,
           gc_dlc: `dlc`,
           gc_p: `package`
@@ -10284,6 +10328,7 @@ _MODULES.push({
           gc_l: `linux`,
           gc_m: `mac`,
           gc_ea: `earlyAccess`,
+          gc_lg: `learning`,
           gc_rm: `removed`,
           gc_dlc: `dlc`,
           gc_p: `package`
@@ -10317,6 +10362,7 @@ _MODULES.push({
         earlyAccess: 0,
         genres: ``,
         lastCheck: currentTime,
+        learning: 0,
         linux: 0,
         mac: 0,
         multiplayer: 0,
@@ -10410,7 +10456,7 @@ _MODULES.push({
           }
         }
       }
-      if (esgst.gc_r || esgst.gc_rd || esgst.gc_g_udt) {
+      if (esgst.gc_lg || esgst.gc_r || esgst.gc_rm || esgst.gc_g_udt) {
         let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
         let responseHtml = parseHtml(response.responseText);
         if (response.finalUrl.match(id)) {
@@ -10454,6 +10500,9 @@ _MODULES.push({
             });
           });
           categories.tags = tags.join(`, `);
+          if (responseHtml.querySelector(`.learning_about`)) {
+            categories.learning = 1;
+          }
         } else {
           categories.removed = 1;
         }
@@ -11327,6 +11376,26 @@ _MODULES.push({
                 children: esgst.gc_ea_s && esgst.gc_ea_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_eaIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
+            }
+            break;
+          case `gc_lg`:
+            if (cache && cache.learning === 1) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-learning`,
+                  [`data-id`]: `gc_lg`,
+                  href: `http://steamdb.info/${singularType}/${id}`,
+                  title: getFeatureTooltip(`gc_lg`, `Learning`)
+                },
+                text: esgst.gc_lg_s ? (esgst.gc_lg_s_i ? `` : `LG`) : esgst.gc_lgLabel,
+                type: `a`,
+                children: esgst.gc_lg_s && esgst.gc_lg_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_lgIcon}`
                   },
                   type: `i`
                 }] : null
@@ -13859,6 +13928,16 @@ _MODULES.push({
             name: `Creators`,
             sg: true
           },
+          gf_learning: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways for games that Steam is learning about.</li>
+                <li>This option requires [id=gc_lg] enabled to work.</li>
+              </ul>
+            `,
+            name: `Learning`,
+            sg: true
+          },
           gf_removed: {
             description: `
               <ul>
@@ -14411,6 +14490,12 @@ _MODULES.push({
         list: true,
         name: `Creators`,
         type: `string`
+      },
+      learning: {
+        category: `gc_lg`,
+        check: true,
+        name: `Learning`,
+        type: `boolean`
       },
       removed: {
         category: `gc_rm`,
@@ -38933,14 +39018,14 @@ _MODULES.push({
       await ugd_addGame(obj, id);
       obj.appsTotal--;
     }
-    let gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 5 }`));
-    if (gcCache.version !== 5) {
+    let gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 6 }`));
+    if (gcCache.version !== 6) {
       gcCache = {
         apps: {},
         subs: {},
         hltb: gcCache.hltb,
         timestamp: 0,
-        version: 5
+        version: 6
       };
     }
     if (!gcCache.hltb) {
@@ -44525,14 +44610,14 @@ async function tags_loadTags(obj) {
             hltb[game.steamId] = game;
           }
         }
-        let cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 5 }`));
-        if (cache.version !== 5) {
+        let cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 6 }`));
+        if (cache.version !== 6) {
           cache = {
             apps: {},
             subs: {},
             hltb: cache.hltb,
             timestamp: 0,
-            version: 5
+            version: 6
           };
         }
         cache.hltb = hltb;
@@ -46845,6 +46930,24 @@ async function tags_loadTags(obj) {
             children: esgst.gc_ea_s && esgst.gc_ea_s_i ? [{
               attributes: {
                 class: `fa fa-${esgst.gc_eaIcon}`
+              },
+              type: `i`
+            }] : null
+          });
+          break;
+        case `gc_lg`:
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-learning ${esgst.gc_lg ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_lg`,
+              title: `Learning`
+            },
+            text: esgst.gc_lg_s ? (esgst.gc_lg_s_i ? `` : `LG`) : esgst.gc_lgLabel,
+            type: `div`,
+            children: esgst.gc_lg_s && esgst.gc_lg_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_lgIcon}`
               },
               type: `i`
             }] : null
@@ -50717,6 +50820,11 @@ async function tags_loadTags(obj) {
       {
         id: `gc_i`,
         key: `ignored`,
+        mainKey: `esgst-gc`
+      },
+      {
+        id: `gc_lg`,
+        key: `learning`,
         mainKey: `esgst-gc`
       },
       {
