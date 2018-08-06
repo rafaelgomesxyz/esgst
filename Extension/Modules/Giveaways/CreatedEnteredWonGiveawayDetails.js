@@ -99,6 +99,7 @@ _MODULES.push({
     if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || j < 0) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
       cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
     } else if (esgst.createdPath) {
+      console.log(`Updating winners for ${code}...`);
       let currentGiveaway = null;
       let nextPage = 1;
       let pagination = null;

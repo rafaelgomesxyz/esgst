@@ -3342,7 +3342,9 @@ _MODULES.push({
   }
 
   async function cfh_getEmojis() {
-    return JSON.parse(await getValue(`emojis`, `[]`))
+    const emojis = JSON.parse(await getValue(`emojis`, `[]`));
+    console.log(emojis);
+    return emojis
       .map(emoji => {
         const emojiData = esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData.emoji;
