@@ -72,6 +72,9 @@ _MODULES.push({
         if (!games[type][id]) {
           games[type][id] = [];
         }
+        game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading;
+        game.tagPosition = `afterEnd`;
+        game.saved = esgst.games[type][id];
         games[type][id].push(game);
         games.all.push(game);
       }

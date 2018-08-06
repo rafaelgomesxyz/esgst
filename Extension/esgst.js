@@ -421,6 +421,9 @@
       }
     }
     change(toggle, value, callback, event) {
+      if (event) {
+        event.stopPropagation();
+      }
       if (this.isThreeState) {
         if ((this.value === `disabled` && !value) || (value === `none`)) {
           this.enabled.classList.add(`esgst-hidden`);
@@ -1973,6 +1976,7 @@
         gf_presetGe: null,
         gf_presetGed: null,
         ggl_index: 0,
+        gpt_colors: {},
         gt_colors: {},
         gts_preciseStart: false,
         gts_preciseEnd: false,
@@ -2097,7 +2101,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.25.4`,
-      devVersion: `7.25.5 (Dev.3)`,
+      devVersion: `7.25.5 (Dev.4)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2161,16 +2165,20 @@
       apPopouts: {},
       tsTables: [],
       currentUsers: {},
+      currentGroups: {},
       mainGiveaways: [],
       mainDiscussions: [],
       mainUsers: [],
       mainGames: [],
+      mainGroups: [],
       popupGiveaways: [],
       popupDiscussions: [],
       popupUsers: [],
       popupGames: [],
+      popupGroups: [],
       mmWbcUsers: [],
       gameFeatures: [],
+      groupFeatures: [],
       giveawayFeatures: [],
       discussionFeatures: [],
       profileFeatures: [],
@@ -9962,8 +9970,12 @@ _MODULES.push({
 
   function gc() {    
     if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
-      esgst.gameFeatures.push(gc_getGames);
+      esgst.gameFeatures.push(gc_games);
     }
+  }
+
+  function gc_games(games, main, source, endless) {
+    gc_getGames(games, main, source, endless);
   }
 
   async function gc_getGames(games, main, source, endless) {
@@ -17645,508 +17657,28 @@ _MODULES.push({
 });
 
 function gt() {
-  esgst.gameFeatures.push(gt_addButtons);
-  const tagCount = {};
-  for (const id in esgst.games.apps) {
-    const tags = esgst.games.apps[id].tags;
-    if (!tags) {
-      continue;
-    }
-    for (const tag of tags) {
-      if (!tagCount[tag]) {
-        tagCount[tag] = 0;
-      }
-      tagCount[tag] += 1;
-    }
-  }
-  for (const id in esgst.games.subs) {
-    const tags = esgst.games.subs[id].tags;
-    if (!tags) {
-      continue;
-    }
-    for (const tag of tags) {
-      if (!tagCount[tag]) {
-        tagCount[tag] = 0;
-      }
-      tagCount[tag] += 1;
-    }
-  }
-  esgst.gtTags = [];
-  for (const tag in tagCount) {
-    esgst.gtTags.push({
-      count: tagCount[tag],
-      tag
-    });
-  }
-  esgst.gtTags = sortArray(esgst.gtTags, true, `count`).map(x => x.tag);
-  esgst.documentEvents.keydown.push(function (event) {
-    if (!esgst.gtSelected) {
-      return;
-    }
-    let element = null;
-    if (event.key === `ArrowDown`) {
-      element = esgst.gtSelected.nextElementSibling;
-      while (element && element.classList.contains(`esgst-hidden`)) {
-        element = element.nextElementSibling;
-      }
-    } else if (event.key === `ArrowUp`) {
-      element = esgst.gtSelected.previousElementSibling;
-      while (element && element.classList.contains(`esgst-hidden`)) {
-        element = element.previousElementSibling;
-      }
-    } else if (event.key === `Enter`) {
-      event.stopPropagation();
-      esgst.gtSelected.click();
-    }
-    if (element) {
-      esgst.gtSelected.classList.remove(`esgst-selected`);
-      esgst.gtSelected = element;
-      esgst.gtSelected.classList.add(`esgst-selected`);
-    }
-  });
-  esgst.documentEvents.click.push(function (event) {
-    if (esgst.gtSuggestions && !esgst.gtSuggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
-      esgst.gtSuggestions.classList.add(`esgst-hidden`);
-    }
-  });
-}
+  esgst.gameFeatures.push(tags_addButtons.bind(null, `gt`));
+  tags_getTags(`gt`);
+}_MODULES.push({
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-tag"></i>) next to a group's name (in any page) that allows you to save tags for the group (only visible to you).</li>
+      <li>You can press Enter to save the tags.</li>
+      <li>Each tag can be colored individually.</li>
+      <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
+      <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
+    </ul>
+  `,
+  id: `gpt`,
+  load: gpt,
+  name: `Group Tags`,
+  sg: true,
+  type: `groups`
+});
 
-function gt_addButtons(games) {
-  for (const game of games.all) {
-    if (!game.container.getElementsByClassName(`esgst-gt-button`)[0]) {
-      createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading, `afterEnd`, [{
-        attributes: {
-          class: `esgst-faded esgst-gt-button`,
-          title: getFeatureTooltip(`gt`, `Edit game tags`)
-        },
-        type: `a`,
-        children: [{
-          attributes: {
-            class: `fa fa-tag`
-          },
-          type: `i`
-        }, {
-          attributes: {
-            class: `esgst-gt-tags`
-          },
-          type: `span`
-        }]
-      }]).addEventListener(`click`, gt_openPopup.bind(null, game.id, game.name, game.type));
-    }
-    if (esgst.games[game.type][game.id] && esgst.games[game.type][game.id].tags) {
-      gt_addTags([game], game.id, esgst.games[game.type][game.id].tags, game.type);
-    }
-  }
-}
-
-async function gt_openPopup(id, name, type) {
-  let popup = new Popup(`fa-tag`, [{
-    text: `Edit game tags for `,
-    type: `node`
-  }, {
-    text: name,
-    type: `span`
-  }, {
-    text: `:`,
-    type: `node`
-  }]);
-  let set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, gt_saveTags.bind(null, id, popup, type));
-  createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-description`
-    },
-    type: `div`,
-    children: [{
-      text: `Drag the tags to move them.`,
-      type: `p`
-    }, {
-      type: `br`
-    }, {
-      text: `When editing a tag color, it will also alter the color for all games with that tag (you have to refresh the page for it to take effect).`,
-      type: `p`
-    }]
-  }]);
-  popup.tags = createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-gt-tags`
-    },
-    type: `div`
-  }]);
-  popup.input = createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      type: `text`
-    },
-    events: {
-      focus: gt_createTags.bind(null, popup),
-      keydown: triggerSetOnEnter.bind(null, set),
-      input: gt_createTags.bind(null, popup)
-    },
-    type: `input`
-  }]);
-  createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
-      title: `Select from existing tags`
-    },
-    type: `i`
-  }]).addEventListener(`click`, gt_showExistingTags.bind(null, popup));
-  const children = [];
-  esgst.gtSuggestions = popup.suggestions = createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-suggestions esgst-hidden`
-    },
-    type: `div`
-  }]);
-  for (const tag of esgst.gtTags) {
-    children.push({
-      attributes: {
-        class: `esgst-hidden`
-      },
-      events: {
-        click: gt_addSuggestion.bind(null, popup),
-        mouseenter: gt_selectSuggestion,
-        mouseleave: ut_deselectSuggestion
-      },
-      text: tag,
-      type: `div`
-    });
-  }
-  createElements(popup.suggestions, `inner`, children);
-  createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-description`
-    },
-    text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-    type: `div`
-  }]);
-  popup.description.appendChild(set.set);
-  popup.open();
-  let savedGames = JSON.parse(await getValue(`games`));
-  let game = savedGames[type][id];
-  popup.input.focus();
-  if (game) {
-    let tags = game.tags;
-    if (tags) {
-      popup.tags.innerHTML = ``;
-      for (let i = 0, n = tags.length; i < n; ++i) {
-        gt_createTag(popup, tags[i]);
-      }
-      popup.input.value = tags.join(`, `);
-    }
-  }
-}
-
-async function gt_showExistingTags(mainPopup) {
-  const popup = new Popup(`fa-list`, `Select from existing tags:`, true);
-  const list = createElements(popup.scrollable, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-existing-tags popup__keys__list`
-    },
-    type: `div`
-  }]);
-  const selectedTags = [];
-  for (const tag of esgst.gtTags) {
-    const item = createElements(list, `beforeEnd`, [{
-      type: `div`,
-      children: [{
-        type: `span`
-      }, {
-        text: ` ${tag}`,
-        type: `node`
-      }]
-    }]);
-    if (esgst.gt_colors[tag]) {
-      item.style.color = esgst.gt_colors[tag].color;
-      item.style.backgroundColor = esgst.gt_colors[tag].bgColor;
-    }
-    const checkbox = new Checkbox(item);
-    checkbox.onEnabled = () => {
-      selectedTags.push(tag);
-    };
-    checkbox.onDisabled = () => {
-      selectedTags.splice(selectedTags.indexOf(tag), 1);
-    };
-  }
-  popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Add Tags`, ``, callback => {
-    selectedTags.forEach(tag => {
-      gt_createTag(mainPopup, tag);
-    });
-    mainPopup.input.value = mainPopup.input.value ? `${mainPopup.input.value}, ${selectedTags.join(`, `)}` : selectedTags.join(`, `);
-    callback();
-    popup.close();
-  }).set);
-  popup.open();
-}
-
-function gt_createTags(popup) {
-  popup.tags.innerHTML = ``;
-  esgst.gtSelected = null;
-  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
-  if (tags.length) {
-    const lastTag = tags[tags.length - 1].toLowerCase();
-    for (const child of popup.suggestions.children) {
-      const value = child.textContent.toLowerCase();
-      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-        child.classList.remove(`esgst-hidden`);
-        if (!esgst.gtSelected) {
-          child.classList.add(`esgst-selected`);
-          esgst.gtSelected = child;
-        }
-      } else {
-        child.classList.add(`esgst-hidden`);
-      }
-    }
-    if (esgst.gtSelected) {
-      popup.suggestions.classList.remove(`esgst-hidden`);
-    } else {
-      popup.suggestions.classList.add(`esgst-hidden`);
-    }
-    for (const tag of tags) {
-      gt_createTag(popup, tag);
-    }
-  } else {
-    popup.suggestions.classList.add(`esgst-hidden`);
-  }
-}
-
-function gt_addSuggestion(popup, event) {
-  popup.tags.innerHTML = ``;
-  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-  const value = event.currentTarget.textContent;
-  tags.pop();
-  tags.push(value);
-  popup.input.value = tags.join(`, `);
-  popup.suggestions.classList.add(`esgst-hidden`);
-  for (const item of popup.suggestions.children) {
-    item.classList.remove(`esgst-selected`);
-  }
-  esgst.gtSelected = null;
-  for (const tag of tags) {
-    gt_createTag(popup, tag);
-  }
-  popup.input.focus();
-}
-
-function gt_selectSuggestion(event) {
-  for (const item of event.currentTarget.parentElement.children) {
-    item.classList.remove(`esgst-selected`);
-  }
-  event.currentTarget.classList.add(`esgst-selected`);
-  esgst.gtSelected = event.currentTarget;
-}
-
-function gt_createTag(popup, tag) {
-  let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, tagBox, tagContainer;
-  container = createElements(popup.tags, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-gt-preview`,
-      draggable: true
-    },
-    type: `div`,
-    children: [{
-      attributes: {
-        class: `esgst-gt-tags`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `global__image-outer-wrap author_avatar is_icon`
-        },
-        text: tag,
-        type: `span`
-      }]
-    }, {
-      attributes: {
-        class: `esgst-hidden`,
-        type: `text`
-      },
-      type: `input`
-    }, {
-      attributes: {
-        title: `Set text color for this tag`,
-        type: `color`
-      },
-      type: `input`
-    }, {
-      attributes: {
-        title: `Set background color for this tag`,
-        type: `color`
-      },
-      type: `input`
-    }, {
-      attributes: {
-        class: `esgst-clickable fa fa-edit`,
-        title: `Edit tag`
-      },
-      type: `i`
-    }, {
-      attributes: {
-        class: `esgst-clickable fa fa-trash`,
-        title: `Delete tag`
-      },
-      type: `i`
-    }, {
-      attributes: {
-        class: `esgst-clickable fa fa-rotate-left`,
-        title: `Reset tag color`
-      },
-      type: `i`
-    }]
-  }]);
-  tagContainer = container.firstElementChild;
-  tagBox = tagContainer.firstElementChild;
-  input = tagContainer.nextElementSibling;
-  colorInput = input.nextElementSibling;
-  bgColorInput = colorInput.nextElementSibling;
-  editButton = bgColorInput.nextElementSibling;
-  deleteButton = editButton.nextElementSibling;
-  const resetButton = deleteButton.nextElementSibling;
-  colors = esgst.gt_colors[tag];
-  if (colors) {
-    colorInput.value = tagBox.style.color = colors.color;
-    bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
-  }
-  container.addEventListener(`dragstart`, gt_startDrag.bind(null, container, popup));
-  container.addEventListener(`dragenter`, gt_continueDrag.bind(null, container, popup));
-  container.addEventListener(`dragend`, gt_endDrag.bind(null, popup));
-  input.addEventListener(`keydown`, gt_editTag.bind(null, bgColorInput, colorInput, input, popup, tagBox, tagContainer));
-  colorInput.addEventListener(`change`, gt_saveColor.bind(null, colorInput, `color`, `color`, tagBox));
-  bgColorInput.addEventListener(`change`, gt_saveColor.bind(null, bgColorInput, `backgroundColor`, `bgColor`, tagBox));
-  editButton.addEventListener(`click`, gt_showEdit.bind(null, input, tagBox, tagContainer));
-  deleteButton.addEventListener(`click`, gt_deleteTag.bind(null, container, popup));
-  resetButton.addEventListener(`click`, gt_resetColor.bind(null, bgColorInput, colorInput, tagBox));
-}
-
-function gt_startDrag(container, popup, event) {
-  event.dataTransfer.setData(`text/plain`, ``);
-  popup.dragged = container;
-}
-
-function gt_continueDrag(container, popup) {
-  let current;
-  current = popup.dragged;
-  do {
-    current = current.previousElementSibling;
-    if (current && current === container) {
-      popup.tags.insertBefore(popup.dragged, container);
-      return;
-    }
-  } while (current);
-  popup.tags.insertBefore(popup.dragged, container.nextElementSibling);
-}
-
-function gt_endDrag(popup) {
-  let children, i, n, tags;
-  tags = [];
-  children = popup.tags.children;
-  for (i = 0, n = children.length; i < n; ++i) {
-    tags.push(children[i].firstElementChild.firstElementChild.textContent);
-  }
-  popup.input.value = tags.join(`, `);
-}
-
-function gt_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
-  let colors, tag;
-  if (event.key === `Enter`) {
-    tagContainer.classList.remove(`esgst-hidden`);
-    input.classList.add(`esgst-hidden`);
-    tag = input.value;
-    tagBox.textContent = tag;
-    colors = esgst.gt_colors[tag];
-    if (colors) {
-      colorInput.value = tagBox.style.color = colors.color;
-      bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
-    }
-    gt_endDrag(popup);
-  }
-}
-
-function gt_saveColor(input, key, saveKey, tagBox) {
-  let tag;
-  tag = tagBox.textContent;
-  if (!esgst.gt_colors[tag]) {
-    esgst.gt_colors[tag] = {
-      bgColor: ``,
-      color: ``
-    };
-  }
-  esgst.gt_colors[tag][saveKey] = tagBox.style[key] = input.value;
-}
-
-function gt_resetColor(bgColorInput, colorInput, tagBox) {
-  bgColorInput.value = ``;
-  colorInput.value = ``;
-  tagBox.style.backgroundColor = ``;
-  tagBox.style.color = ``;
-  delete esgst.gt_colors[tagBox.textContent];
-}
-
-function gt_showEdit(input, tagBox, tagContainer) {
-  tagContainer.classList.add(`esgst-hidden`);
-  input.classList.remove(`esgst-hidden`);
-  input.value = tagBox.textContent;
-  input.focus();
-}
-
-function gt_deleteTag(container, popup) {
-  container.remove();
-  gt_endDrag(popup);
-}
-
-async function gt_saveTags(id, popup, type, callback) {
-  let tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-  if (tags.length === 1 && !tags[0].trim()) {
-    tags = ``;
-  }
-  let deleteLock = await createLock(`gameLock`, 300);
-  let savedGames = JSON.parse(await getValue(`games`));
-  if (!savedGames[type][id]) {
-    savedGames[type][id] = {};
-  }
-  savedGames[type][id].tags = tags;
-  await setValue(`games`, JSON.stringify(savedGames));
-  deleteLock();
-  await setSetting(`gt_colors`, esgst.gt_colors);
-  gt_addTags(null, id, tags, type);
-  callback();
-  popup.close();
-}
-
-function gt_template(text) {
-  return {
-    attributes: {
-      class: `global__image-outer-wrap author_avatar is_icon`
-    },
-    text,
-    type: `span`
-  };
-}
-
-async function gt_addTags(games, id, tags, type) {
-  if (!games) {
-    games = games_get(document, true, JSON.parse(await getValue(`games`)))[type][id];
-  }
-  if (!games) {
-    return;
-  }
-  const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : [{
-    text: ``,
-    type: `node`
-  }];
-  for (const game of games) {
-    const button = game.container.getElementsByClassName(`esgst-gt-button`)[0];
-    button.classList[items ? `remove` : `add`](`esgst-faded`);
-    const tagsContainer = button.lastElementChild;
-    createElements(tagsContainer, `inner`, items);
-    for (const tagsBox of tagsContainer.children) {
-      const colors = esgst.gt_colors[tagsBox.textContent];
-      if (!colors) {
-        continue;
-      }
-      tagsBox.style.color = colors.color;
-      tagsBox.style.backgroundColor = colors.bgColor;
-    }
-  }
+function gpt() {
+  esgst.groupFeatures.push(tags_addButtons.bind(null, `gpt`));
+  tags_getTags(`gpt`);
 }_MODULES.push({
     description: `
       <ul>
@@ -22444,6 +21976,7 @@ _MODULES.push({
           <li>Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.</li>
           <li>Tag the selected games with the same tags, if [id=gt], is enabled.</li>
           <li>Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.</li>
+          <li>Tag the selected groups with the same tags, if [id=gpt], is enabled.</li>
         </ul>
         <li>On SteamTrades you can only manage users.</li>
       </ul>
@@ -22469,13 +22002,15 @@ _MODULES.push({
         Giveaways: {},
         Discussions: {},
         Users: {},
-        Games: {}
+        Games: {},
+        Groups: {}
       },
       counters: {
         Giveaways: 0,
         Discussions: 0,
         Users: 0,
-        Games: 0
+        Games: 0,
+        Groups: 0
       },
       counterElements: {},
       scope: context ? `popup` : `main`
@@ -22792,7 +22327,7 @@ _MODULES.push({
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: mm_openTagPopup.bind(null, obj, items, key)
+            callback1: tags_openMmPopup.bind(null, obj, items, key)
           },
           {
             check: esgst.wbc,
@@ -22812,7 +22347,7 @@ _MODULES.push({
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: mm_openTagPopup.bind(null, obj, items, key)
+            callback1: tags_openMmPopup.bind(null, obj, items, key)
           },
           {
             check: true,
@@ -22824,6 +22359,19 @@ _MODULES.push({
         ],
         []
       ],
+      Groups: [
+        [],
+        [
+          {
+            check: esgst.gpt,
+            color1: `green`, color2: `grey`,
+            icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Tag`, title2: ``,
+            callback1: tags_openMmPopup.bind(null, obj, items, key)
+          }
+        ],
+        []
+      ]
     };
     sections.default.forEach((section, i) => {
       let group = createElements(context, `beforeEnd`, [{
@@ -22976,6 +22524,12 @@ _MODULES.push({
         <li>[type] - The Steam type of the game ("app" or "sub").</li>
         <li>[url] - The Steam store URL of the game.</li>
       </ul>
+      <div class="esgst-bold">Groups:</div>
+      <ul>
+        <li>[code] - The 5-character code of the group.</li>
+        <li>[name] - The name of the group.</li>
+        <li>[url] - The short URL of the group (https://www.steamgifts.com/group/XXXXX/).</li>
+      </ul>
       <div class="esgst-bold">Date Templates:</div>
       <ul>
         <li>[d] - The number of the day with no leading zeroes if it is lower than 10.</li>
@@ -23127,6 +22681,16 @@ _MODULES.push({
             .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
             .replace(/\[TYPE\]/ig, item.type.slice(0, -1))
             .replace(/\[URL\]/ig, `https://store.steampowered.com/${item.type.slice(0, -1)}/${item.code}`)
+          );
+        });
+        break;
+      case `Groups`:
+        items.forEach(item => {
+          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
+          links.push(line
+            .replace(/\[CODE\]/ig, item.code)
+            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
+            .replace(/\[URL\]/ig, `https://www.steamgifts.com/group/${item.code}/`)
           );
         });
         break;
@@ -23394,253 +22958,6 @@ _MODULES.push({
     });
     esgst.wbcButton.setAttribute(`data-mm`, true);
     esgst.wbcButton.click();
-  }
-
-  async function mm_openTagPopup(obj, items, key) {
-    obj.tPopup = new Popup(`fa-tags`, [{
-      text: `Tag `,
-      type: `node`
-    }, {
-      text: `0`,
-      type: `span`
-    }, {
-      text: ` ${key}:`,
-      type: `node`
-    }]);
-    createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-description`
-      },
-      type: `div`,
-      children: [{
-        text: `Drag the tags to move them.`,
-        type: `p`
-      }, {
-        type: `br`
-      }, {
-        text: `When editing a tag color, it will also alter the color for all users/games with that tag (you have to refresh the page for it to take effect).`,
-        type: `p`
-      }, {
-        type: `br`
-      }, {
-        text: `[*] means that there are tags that are not shared between all users/games. If you delete the [*] tag, those individual tags will be deleted.`,
-        type: `p`
-      }]
-    }]);
-    obj.tPopup.tags = createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-${key[0].toLowerCase()}t-tags`
-      },
-      type: `div`
-    }]);
-    obj.tPopup.input = createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        type: `text`
-      },
-      type: `input`
-    }]);
-    createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-description`
-      },
-      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-      type: `div`
-    }]);
-    obj.tPopup.description.appendChild(new ButtonSet_v2({
-      color1: `green`, color2: `grey`,
-      icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Save`, title2: `Saving...`,
-      callback1: mm_saveTags.bind(null, obj, items, key),
-      input: obj.tPopup.input
-    }).set);
-    obj.tPopup.open();
-    obj.tIndividualTags = {};
-    obj.tTags = [];
-    switch (key) {
-      case `Users`: {
-        obj.tPopup.input.addEventListener(`input`, ut_createTags.bind(null, obj.tPopup));
-        let savedUsers = JSON.parse(await getValue(`users`));
-        for (let i = 0, n = items.length; i < n; i++) {
-          if (!items[i].mm || !items[i].outerWrap.offsetParent) continue;
-          let username = items[i].code;
-          let savedUser = await getUser(savedUsers, {
-            [items[i].sg ? `username` : `steamId`]: username
-          });
-          if (savedUser) {
-            let tags = savedUser.tags;
-            if (tags) {
-              obj.tIndividualTags[username] = tags;
-              tags.forEach(tag => {
-                if (obj.tTags.indexOf(tag) < 0) {
-                  obj.tTags.push(tag);
-                }
-              });
-            } else {
-              obj.tIndividualTags[username] = [];
-            }
-          } else {
-            obj.tIndividualTags[username] = [];
-          }
-        }
-        let hasIndividual = false;
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let username = item.code;
-          obj.tIndividualTags[username].forEach(tag => {
-            items.forEach(subItem => {
-              if (!subItem.mm || !subItem.outerWrap.offsetParent) return;
-              let subUsername = subItem.code;
-              if (subUsername === username || obj.tIndividualTags[subUsername].indexOf(tag) > -1) return;
-              let index = obj.tTags.indexOf(tag);
-              if (index > -1) {
-                obj.tTags.splice(index, 1);
-              }
-              hasIndividual = true;
-            });
-          });
-        });
-        if (hasIndividual) {
-          obj.tTags.push(`[*]`);
-        }
-        obj.tTags.forEach(tag => {
-          ut_createTag(obj.tPopup, tag);
-        });
-        obj.tPopup.input.value = obj.tTags.join(`, `);
-        break;
-      }
-      case `Games`: {
-        obj.tPopup.input.addEventListener(`input`, gt_createTags.bind(null, obj.tPopup));
-        let savedGames = JSON.parse(await getValue(`games`));
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let savedGame = savedGames[item.type][item.code];
-          let gameKey = `${item.type}_${item.code}`;
-          if (savedGame) {
-            let tags = savedGame.tags;
-            if (tags) {
-              obj.tIndividualTags[gameKey] = tags;
-              tags.forEach(tag => {
-                if (obj.tTags.indexOf(tag) < 0) {
-                  obj.tTags.push(tag);
-                }
-              });
-            } else {
-              obj.tIndividualTags[gameKey] = [];
-            }
-          } else {
-            obj.tIndividualTags[gameKey] = [];
-          }
-        });
-        let hasIndividual = false;
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          obj.tIndividualTags[`${item.type}_${item.code}`].forEach(tag => {
-            items.forEach(subItem => {
-              if (!subItem.mm || !subItem.outerWrap.offsetParent) return;
-              if (subItem.code === item.code || obj.tIndividualTags[`${subItem.type}_${subItem.code}`].indexOf(tag) > -1) return;
-              let index = obj.tTags.indexOf(tag);
-              if (index > -1) {
-                obj.tTags.splice(index, 1);
-              }
-              hasIndividual = true;
-            });
-          });
-        });
-        if (hasIndividual) {
-          obj.tTags.push(`[*]`);
-        }
-        obj.tTags.forEach(tag => {
-          gt_createTag(obj.tPopup, tag);
-        });
-        obj.tPopup.input.value = obj.tTags.join(`, `);
-        break;
-      }
-      default:
-        break;
-    }
-    obj.tPopup.input.focus();
-  }
-
-  async function mm_saveTags(obj, items, key) {
-    switch (key) {
-      case `Users`: {
-        let tags = obj.tPopup.input.value.replace(/(,\s*)+/g, formatTags);
-        let users = [];
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let username = item.code;
-          obj.tTags.forEach(tag => {
-            let index = obj.tIndividualTags[username].indexOf(tag);
-            if (index > -1) {
-              obj.tIndividualTags[username].splice(index, 1);
-            }
-          });
-          if (obj.tIndividualTags[username].length > 0) {
-            obj.tIndividualTags[username] = tags.replace(/\[\*\]/, obj.tIndividualTags[username].join(`, `)).split(/,\s/);
-          } else {
-            obj.tIndividualTags[username] = tags.replace(/\[\*\]|,\s\[\*\]/, ``).split(/,\s/);
-          }
-          for (let i = obj.tIndividualTags[username].length - 1; i > -1; i--) {
-            if (!obj.tIndividualTags[username][i]) {
-              obj.tIndividualTags[username].splice(i, 1);
-            }
-          }
-          users.push({
-            [item.sg ? `username` : `steamId`]: username,
-            values: {
-              tags: Array.from(new Set(obj.tIndividualTags[username]))
-            }
-          });
-        });
-        await saveUsers(users);
-        setSetting(`ut_colors`, esgst.ut_colors);
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          ut_addTags(item.code, obj.tIndividualTags[item.code]);
-        });
-        break;
-      }
-      case `Games`: {
-        let tags = obj.tPopup.input.value.replace(/(,\s*)+/g, formatTags);
-        let games = {
-          apps: {},
-          subs: {}
-        };
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let id = item.code;
-          let type = item.type;
-          let gameKey = `${type}_${id}`;
-          obj.tTags.forEach(tag => {
-            const index = obj.tIndividualTags[gameKey].indexOf(tag);
-            if (index > -1) {
-              obj.tIndividualTags[gameKey].splice(index, 1);
-            }
-          });
-          if (obj.tIndividualTags[gameKey].length > 0) {
-            obj.tIndividualTags[gameKey] = tags.replace(/\[\*\]/, obj.tIndividualTags[gameKey].join(`, `)).split(/,\s/);
-          } else {
-            obj.tIndividualTags[gameKey] = tags.replace(/\[\*\]|,\s\[\*\]/, ``).split(/,\s/);
-          }
-          for (let i = obj.tIndividualTags[gameKey].length - 1; i > -1; i--) {
-            if (!obj.tIndividualTags[gameKey][i]) {
-              obj.tIndividualTags[gameKey].splice(i, 1);
-            }
-          }
-          games[type][id] = {
-            tags: Array.from(new Set(obj.tIndividualTags[gameKey]))
-          };
-        });
-        await lockAndSaveGames(games);
-        setSetting(`gt_colors`, esgst.gt_colors);
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          gt_addTags(null, item.code, obj.tIndividualTags[`${item.type}_${item.code}`], item.type);
-        });
-        break;
-      }
-    }
-    obj.tPopup.close();
   }
 
   async function mm_hideGames(obj, items) {
@@ -32058,519 +31375,8 @@ _MODULES.push({
 });
 
 function ut() {
-  esgst.userFeatures.push(ut_addButtons);
-  const tagCount = {};
-  for (const steamId in esgst.users.users) {
-    const tags = esgst.users.users[steamId].tags;
-    if (!tags) {
-      continue;
-    }
-    for (const tag of tags) {
-      if (!tagCount[tag]) {
-        tagCount[tag] = 0;
-      }
-      tagCount[tag] += 1;
-    }
-  }
-  esgst.utTags = [];
-  for (const tag in tagCount) {
-    esgst.utTags.push({
-      count: tagCount[tag],
-      tag
-    });
-  }
-  esgst.utTags = sortArray(esgst.utTags, true, `count`).map(x => x.tag);
-  esgst.documentEvents.keydown.push(function (event) {
-    if (!esgst.utSelected) {
-      return;
-    }
-    let element = null;
-    if (event.key === `ArrowDown`) {
-      element = esgst.utSelected.nextElementSibling;
-      while (element && element.classList.contains(`esgst-hidden`)) {
-        element = element.nextElementSibling;
-      }
-    } else if (event.key === `ArrowUp`) {
-      element = esgst.utSelected.previousElementSibling;
-      while (element && element.classList.contains(`esgst-hidden`)) {
-        element = element.previousElementSibling;
-      }
-    } else if (event.key === `Enter`) {
-      event.stopPropagation();
-      esgst.utSelected.click();
-    }
-    if (element) {
-      esgst.utSelected.classList.remove(`esgst-selected`);
-      esgst.utSelected = element;
-      esgst.utSelected.classList.add(`esgst-selected`);
-    }
-  });
-  esgst.documentEvents.click.push(function (event) {
-    if (esgst.utSuggestions && !esgst.utSuggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
-      esgst.utSuggestions.classList.add(`esgst-hidden`);
-    }
-  });
-}
-
-function ut_addButtons(users) {
-  for (const user of users) {
-    if (!user.context.parentElement.getElementsByClassName(`esgst-ut-button`)[0]) {
-      ut_addButton(user.context, user.id, user.steamId, user.username);
-      if (user.saved && user.saved.tags) {
-        ut_addTags(user.id, user.saved.tags);
-      }
-    }
-  }
-}
-
-function ut_addButton(context, key, steamId, username) {
-  const isHeading = context.classList.contains(`featured__heading__medium`);
-  const container = context.parentElement;
-  if (container.classList.contains(`comment__username`)) {
-    context = container;
-  }
-  createElements(isHeading ? container : context, isHeading ? `beforeEnd` : `afterEnd`, [{
-    attributes: {
-      class: `esgst-ut-button esgst-faded`,
-      title: getFeatureTooltip(`ut`, `Edit user tags`)
-    },
-    type: `a`,
-    children: [{
-      attributes: {
-        class: `fa fa-tag`
-      },
-      type: `i`
-    }, {
-      attributes: {
-        class: `esgst-ut-tags`
-      },
-      type: `span`
-    }]
-  }]).addEventListener(`click`, ut_openPopup.bind(null, key, steamId, username));
-}
-
-function ut_openPopup(key, steamId, username) {
-  let popup, set;
-  const user = {
-    steamId: steamId,
-    username: username
-  };
-  popup = new Popup(`fa-tag`, [{
-    text: `Edit user tags for `,
-    type: `node`
-  }, {
-    text: key,
-    type: `span`
-  }, {
-    text: `:`,
-    type: `node`
-  }]);
-  set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, ut_saveTags.bind(null, key, popup, user));
-  createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-description`
-    },
-    type: `div`,
-    children: [{
-      text: `Drag the tags to move them.`,
-      type: `p`
-    }, {
-      type: `br`
-    }, {
-      text: `When editing a tag color, it will also alter the color for all users with that tag (you have to refresh the page for it to take effect).`,
-      type: `p`
-    }]
-  }]);
-  popup.tags = createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-tags`
-    },
-    type: `div`
-  }]);
-  popup.input = createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      type: `text`
-    },
-    events: {
-      focus: ut_createTags.bind(null, popup),
-      keydown: triggerSetOnEnter.bind(null, set),
-      input: ut_createTags.bind(null, popup)
-    },
-    type: `input`
-  }]);
-  createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-existing-button esgst-clickable fa fa-list`,
-      title: `Select from existing tags`
-    },
-    type: `i`
-  }]).addEventListener(`click`, ut_showExistingTags.bind(null, popup));
-  const children = [];
-  esgst.utSuggestions = popup.suggestions = createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-suggestions esgst-hidden`
-    },
-    type: `div`
-  }]);
-  for (const tag of esgst.utTags) {
-    children.push({
-      attributes: {
-        class: `esgst-hidden`
-      },
-      events: {
-        click: ut_addSuggestion.bind(null, popup),
-        mouseenter: ut_selectSuggestion,
-        mouseleave: ut_deselectSuggestion
-      },
-      text: tag,
-      type: `div`
-    });
-  }
-  createElements(popup.suggestions, `inner`, children);
-  createElements(popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-description`
-    },
-    text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-    type: `div`
-  }]);
-  popup.description.appendChild(set.set);
-  popup.open(ut_loadTags.bind(null, popup, user));
-}
-
-async function ut_showExistingTags(mainPopup) {
-  const popup = new Popup(`fa-list`, `Select from existing tags:`, true);
-  const list = createElements(popup.scrollable, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-existing-tags popup__keys__list`
-    },
-    type: `div`
-  }]);
-  const selectedTags = [];
-  for (const tag of esgst.utTags) {
-    const item = createElements(list, `beforeEnd`, [{
-      type: `div`,
-      children: [{
-        type: `span`
-      }, {
-        text: ` ${tag}`,
-        type: `node`
-      }]
-    }]);
-    if (esgst.ut_colors[tag]) {
-      item.style.color = esgst.ut_colors[tag].color;
-      item.style.backgroundColor = esgst.ut_colors[tag].bgColor;
-    }
-    const checkbox = new Checkbox(item);
-    checkbox.onEnabled = () => {
-      selectedTags.push(tag);
-    };
-    checkbox.onDisabled = () => {
-      selectedTags.splice(selectedTags.indexOf(tag), 1);
-    };
-  }
-  popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Add Tags`, ``, callback => {
-    selectedTags.forEach(tag => {
-      ut_createTag(mainPopup, tag);
-    });
-    mainPopup.input.value = mainPopup.input.value ? `${mainPopup.input.value}, ${selectedTags.join(`, `)}` : selectedTags.join(`, `);
-    callback();
-    popup.close();
-  }).set);
-  popup.open();
-}
-
-function ut_createTags(popup) {
-  popup.tags.innerHTML = ``;
-  esgst.utSelected = null;
-  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
-  if (tags.length) {
-    const lastTag = tags[tags.length - 1].toLowerCase();
-    for (const child of popup.suggestions.children) {
-      const value = child.textContent.toLowerCase();
-      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-        child.classList.remove(`esgst-hidden`);
-        if (!esgst.utSelected) {
-          child.classList.add(`esgst-selected`);
-          esgst.utSelected = child;
-        }
-      } else {
-        child.classList.add(`esgst-hidden`);
-      }
-    }
-    if (esgst.utSelected) {
-      popup.suggestions.classList.remove(`esgst-hidden`);
-    } else {
-      popup.suggestions.classList.add(`esgst-hidden`);
-    }
-    for (const tag of tags) {
-      ut_createTag(popup, tag);
-    }
-  } else {
-    popup.suggestions.classList.add(`esgst-hidden`);
-  }
-}
-
-function ut_addSuggestion(popup, event) {
-  popup.tags.innerHTML = ``;
-  const tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-  const value = event.currentTarget.textContent;
-  tags.pop();
-  tags.push(value);
-  popup.input.value = tags.join(`, `);
-  popup.suggestions.classList.add(`esgst-hidden`);
-  for (const item of popup.suggestions.children) {
-    item.classList.remove(`esgst-selected`);
-  }
-  esgst.utSelected = null;
-  for (const tag of tags) {
-    ut_createTag(popup, tag);
-  }
-  popup.input.focus();
-}
-
-function ut_selectSuggestion(event) {
-  for (const item of event.currentTarget.parentElement.children) {
-    item.classList.remove(`esgst-selected`);
-  }
-  event.currentTarget.classList.add(`esgst-selected`);
-  esgst.utSelected = event.currentTarget;
-}
-
-function ut_deselectSuggestion(event) {
-  const parent = event.currentTarget.parentElement;
-  if (event.relatedTarget !== parent && parent.contains(event.relatedTarget)) {
-    event.currentTarget.classList.remove(`esgst-selected`);
-  }
-}
-
-function ut_createTag(popup, tag) {
-  let bgColorInput, colorInput, colors, container, deleteButton, editButton, input, resetButton, tagBox, tagContainer;
-  container = createElements(popup.tags, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-ut-preview`,
-      draggable: true
-    },
-    type: `div`,
-    children: [{
-      attributes: {
-        class: `esgst-ut-tags`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `global__image-outer-wrap author_avatar is_icon`
-        },
-        text: tag,
-        type: `span`
-      }]
-    }, {
-      attributes: {
-        class: `esgst-hidden`,
-        type: `text`
-      },
-      type: `input`
-    }, {
-      attributes: {
-        title: `Set text color for this tag`,
-        type: `color`
-      },
-      type: `input`
-    }, {
-      attributes: {
-        title: `Set background color for this tag`,
-        type: `color`
-      },
-      type: `input`
-    }, {
-      attributes: {
-        class: `esgst-clickable fa fa-edit`,
-        title: `Edit tag`
-      },
-      type: `i`
-    }, {
-      attributes: {
-        class: `esgst-clickable fa fa-trash`,
-        title: `Delete tag`
-      },
-      type: `i`
-    }, {
-      attributes: {
-        class: `esgst-clickable fa fa-rotate-left`,
-        title: `Reset tag color`
-      },
-      type: `i`
-    }]
-  }]);
-  tagContainer = container.firstElementChild;
-  tagBox = tagContainer.firstElementChild;
-  input = tagContainer.nextElementSibling;
-  colorInput = input.nextElementSibling;
-  bgColorInput = colorInput.nextElementSibling;
-  editButton = bgColorInput.nextElementSibling;
-  deleteButton = editButton.nextElementSibling;
-  resetButton = deleteButton.nextElementSibling;
-  colors = esgst.ut_colors[tag];
-  if (colors) {
-    colorInput.value = tagBox.style.color = colors.color;
-    bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
-  }
-  container.addEventListener(`dragstart`, ut_startDrag.bind(null, container, popup));
-  container.addEventListener(`dragenter`, ut_continueDrag.bind(null, container, popup));
-  container.addEventListener(`dragend`, ut_endDrag.bind(null, popup));
-  input.addEventListener(`keydown`, ut_editTag.bind(null, bgColorInput, colorInput, input, popup, tagBox, tagContainer));
-  colorInput.addEventListener(`change`, ut_saveColor.bind(null, colorInput, `color`, `color`, tagBox));
-  bgColorInput.addEventListener(`change`, ut_saveColor.bind(null, bgColorInput, `backgroundColor`, `bgColor`, tagBox));
-  editButton.addEventListener(`click`, ut_showEdit.bind(null, input, tagBox, tagContainer));
-  deleteButton.addEventListener(`click`, ut_deleteTag.bind(null, container, popup));
-  resetButton.addEventListener(`click`, ut_resetColor.bind(null, bgColorInput, colorInput, tagBox));
-}
-
-function ut_startDrag(container, popup, event) {
-  event.dataTransfer.setData(`text/plain`, ``);
-  popup.dragged = container;
-}
-
-function ut_continueDrag(container, popup) {
-  let current;
-  current = popup.dragged;
-  do {
-    current = current.previousElementSibling;
-    if (current && current === container) {
-      popup.tags.insertBefore(popup.dragged, container);
-      return;
-    }
-  } while (current);
-  popup.tags.insertBefore(popup.dragged, container.nextElementSibling);
-}
-
-function ut_endDrag(popup) {
-  let children, i, n, tags;
-  tags = [];
-  children = popup.tags.children;
-  for (i = 0, n = children.length; i < n; ++i) {
-    tags.push(children[i].firstElementChild.firstElementChild.textContent);
-  }
-  popup.input.value = tags.join(`, `);
-}
-
-function ut_editTag(bgColorInput, colorInput, input, popup, tagBox, tagContainer, event) {
-  let colors, tag;
-  if (event.key === `Enter`) {
-    tagContainer.classList.remove(`esgst-hidden`);
-    input.classList.add(`esgst-hidden`);
-    tag = input.value;
-    tagBox.textContent = tag;
-    colors = esgst.ut_colors[tag];
-    if (colors) {
-      colorInput.value = tagBox.style.color = colors.color;
-      bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
-    }
-    ut_endDrag(popup);
-  }
-}
-
-function ut_saveColor(input, key, saveKey, tagBox) {
-  let tag;
-  tag = tagBox.textContent;
-  if (!esgst.ut_colors[tag]) {
-    esgst.ut_colors[tag] = {
-      bgColor: ``,
-      color: ``
-    };
-  }
-  esgst.ut_colors[tag][saveKey] = tagBox.style[key] = input.value;
-}
-
-function ut_resetColor(bgColorInput, colorInput, tagBox) {
-  bgColorInput.value = ``;
-  colorInput.value = ``;
-  tagBox.style.backgroundColor = ``;
-  tagBox.style.color = ``;
-  delete esgst.ut_colors[tagBox.textContent];
-}
-
-function ut_showEdit(input, tagBox, tagContainer) {
-  tagContainer.classList.add(`esgst-hidden`);
-  input.classList.remove(`esgst-hidden`);
-  input.value = tagBox.textContent;
-  input.focus();
-}
-
-function ut_deleteTag(container, popup) {
-  container.remove();
-  ut_endDrag(popup);
-}
-
-async function ut_saveTags(key, popup, user, callback) {
-  let tags;
-  tags = popup.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
-  if (tags.length === 1 && !tags[0].trim()) {
-    tags = ``;
-  }
-  user.values = {
-    tags: tags
-  };
-  await saveUser(null, null, user);
-  ut_completeSave(key, popup, tags, callback);
-}
-
-async function ut_completeSave(key, popup, tags, callback) {
-  await setSetting(`ut_colors`, esgst.ut_colors);
-  ut_addTags(key, tags);
-  callback();
-  popup.close();
-}
-
-async function ut_loadTags(popup, user) {
-  let i, n, savedUser, tags;
-  savedUser = await getUser(null, user);
-  popup.input.focus();
-  if (savedUser) {
-    tags = savedUser.tags;
-    if (tags) {
-      popup.tags.innerHTML = ``;
-      for (i = 0, n = tags.length; i < n; ++i) {
-        ut_createTag(popup, tags[i]);
-      }
-      popup.input.value = tags.join(`, `);
-    }
-  }
-}
-
-function ut_addTags(key, tags) {
-  const elements = esgst.currentUsers[key].elements;
-  const items = tags.length && tags[0] ? tags.map(x => gt_template(x)) : [{
-    text: ``,
-    type: `node`
-  }];
-  for (let context of elements) {
-    const container = context.parentElement;
-    if (!container) {
-      continue;
-    }
-    if (container.classList.contains(`comment__username`)) {
-      context = container;
-    }
-    const button = context.parentElement.getElementsByClassName(`esgst-ut-button`)[0];
-    if (!button) {
-      return;
-    }
-    if (items) {
-      button.classList.remove(`esgst-faded`);
-    } else {
-      button.classList.add(`esgst-faded`);
-    }
-    const tagsContainer = button.lastElementChild;
-    createElements(tagsContainer, `inner`, items);
-    for (const tagsBox of tagsContainer.children) {
-      const colors = esgst.ut_colors[tagsBox.textContent];
-      if (colors) {
-        tagsBox.style.color = colors.color;
-        tagsBox.style.backgroundColor = colors.bgColor;
-      }
-    }
-  }
+  esgst.userFeatures.push(tags_addButtons.bind(null, `ut`));
+  tags_getTags(`ut`);
 }_MODULES.push({
     description: `
       <ul>
@@ -38101,6 +36907,9 @@ _MODULES.push({
         if (!games[type][id]) {
           games[type][id] = [];
         }
+        game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading;
+        game.tagPosition = `afterEnd`;
+        game.saved = esgst.games[type][id];
         games[type][id].push(game);
         games.all.push(game);
       }
@@ -38185,6 +36994,89 @@ _MODULES.push({
 
 _MODULES.push({
   endless: true,
+  id: `groups`,
+  load: groups
+});
+
+function groups() {
+  esgst.endlessFeatures.push(groups_load);
+}
+
+async function groups_load(mainContext, main, source, endless) {
+  const elements = mainContext.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*='/group/'], .esgst-es-page-${endless}a[href*='/group/']` : `a[href*='/group/']`}, .form_list_item_summary_name`);
+  if (!elements.length) {
+    return;
+  }
+  const groups = [];
+  for (let i = elements.length - 1; i > -1; i--) {
+    let element = elements[i];
+    let match = null;
+    if (element.getAttribute(`href`)) {
+      match = element.getAttribute(`href`).match(/\/group\/(.+?)\//);
+      if (!match) {
+        continue;
+      }
+    }
+    if (!element.textContent || element.children.length || element.closest(`.markdown`)) {
+      continue;
+    }
+    let savedGroup = null;
+    if (!match) {
+      const avatar = element.parentElement.previousElementSibling.style.backgroundImage;
+      savedGroup = esgst.groups.filter(group => avatar.match(group.avatar))[0];
+    }
+    const id = (match && match[1]) || (savedGroup && savedGroup.code);
+    if (!id) {
+      continue;
+    }
+    if (!esgst.currentGroups[id]) {
+      esgst.currentGroups[id] = {
+        elements: []
+      };
+      if (!savedGroup) {
+        savedGroup = esgst.groups.filter(group => group.code === id)[0];
+      }
+      esgst.currentGroups[id].savedGroup = savedGroup
+    }
+    let j;
+    for (j = esgst.currentGroups[id].elements.length - 1; j > -1 && esgst.currentGroups[id].elements[j] !== element; j--);
+    if (j > -1) {
+      continue;
+    }
+    const name = element.textContent.trim();
+    const container = element.parentElement;
+    const oldElement = element;
+    if (esgst.groupPath && container.classList.contains(`page__heading__breadcrumbs`)) {
+      element = document.getElementsByClassName(`featured__heading__medium`)[0];        
+    }
+    esgst.currentGroups[id].elements.push(element);
+    const context = element;
+    esgst[main ? `mainGroups` : `popupGroups`].push({
+      code: id,
+      innerWrap: context,
+      name,
+      outerWrap: context
+    });
+    const isHeading = context.classList.contains(`featured__heading__medium`);
+    const tagContainer = context.parentElement;
+    let tagContext = context;
+    groups.push({
+      container: tagContainer,
+      context,
+      element,
+      id,
+      name,
+      oldElement,
+      saved: savedGroup,
+      tagContext: isHeading ? tagContainer : tagContext,
+      tagPosition: isHeading ? `beforeEnd` : `afterEnd`
+    });
+  }
+  for (const feature of esgst.groupFeatures) {
+    await feature(groups, main, source, endless);
+  }
+}_MODULES.push({
+  endless: true,
   id: `users`,
   load: users
 });
@@ -38243,13 +37135,22 @@ async function users_load(mainContext, main, source, endless) {
     if (!found) {
       found = true;
     }
+    const isHeading = context.classList.contains(`featured__heading__medium`);
+    const tagContainer = context.parentElement;
+    let tagContext = context;
+    if (tagContainer.classList.contains(`comment__username`)) {
+      tagContext = tagContainer;
+    }
     users.push({
+      container: tagContainer,
       context,
       element,
       id,
       oldElement,
       saved: savedUser,
       steamId: sg ? savedUser && savedUser.steamId : id,
+      tagContext: isHeading ? tagContainer : tagContext,
+      tagPosition: isHeading ? `beforeEnd` : `afterEnd`,
       username: sg ? id : savedUser && savedUser.username
     });
   }
@@ -42473,7 +41374,775 @@ _MODULES.push({
     }
   }
 
+async function tags_load(key) {
+  await tags_getTags(key);
+  esgst.userFeatures.push(tags_addButtons.bind(null, key));
+}
 
+async function tags_getTags(key) {
+  const allTags = [];
+  switch (key) {
+    case `gpt`:
+      const savedGroups = JSON.parse(await getValue(`groups`));
+      for (const group of savedGroups) {
+        const tags = group.tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      break;
+    case `gt`:
+      const savedGames = JSON.parse(await getValue(`games`));
+      for (const id in savedGames.apps) {
+        const tags = savedGames.apps[id].tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      for (const id in savedGames.subs) {
+        const tags = savedGames.subs[id].tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      break;
+    case `ut`:
+      const savedUsers = JSON.parse(await getValue(`users`));
+      for (const id in savedUsers.users) {
+        const tags = savedUsers.users[id].tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      break;
+  }  
+  const tagCount = {};
+  for (const tag of allTags) {
+    if (!tagCount[tag]) {
+      tagCount[tag] = 0;
+    }
+    tagCount[tag] += 1;
+  }
+  esgst[`${key}Tags`] = [];
+  for (const tag in tagCount) {
+    esgst[`${key}Tags`].push({
+      count: tagCount[tag],
+      tag
+    });
+  }
+  esgst[`${key}Tags`] = sortArray(esgst[`${key}Tags`], true, `count`).map(x => x.tag);
+  esgst.documentEvents.keydown.push(tags_navigateSuggestions);
+  esgst.documentEvents.click.push(tags_closeSuggestions);
+}
+
+function tags_navigateSuggestions(event) {
+  if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/)) {
+    return;
+  }
+  const selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+  if (!selected) {
+    return;
+  }
+  let element = null;
+  if (event.key === `ArrowDown`) {
+    element = selected.nextElementSibling;
+    while (element && element.classList.contains(`esgst-hidden`)) {
+      element = element.nextElementSibling;
+    }
+  } else if (event.key === `ArrowUp`) {
+    element = selected.previousElementSibling;
+    while (element && element.classList.contains(`esgst-hidden`)) {
+      element = element.previousElementSibling;
+    }
+  } else if (event.key === `Enter`) {
+    event.stopPropagation();
+    selected.click();
+  }
+  if (element) {
+    selected.classList.remove(`esgst-selected`);
+    element.classList.add(`esgst-selected`);
+  }
+}
+
+function tags_closeSuggestions(event) {
+  const suggestions = document.querySelector(`.esgst-tag-suggestions:not(.esgst-hidden)`);
+  if (suggestions && !suggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
+    tags_hideSuggestions(suggestions);
+  }
+}
+
+function tags_hideSuggestions(suggestions) {
+  suggestions.classList.add(`esgst-hidden`);
+  for (const item of suggestions.children) {
+    item.classList.remove(`esgst-selected`);
+  }
+}
+
+function tags_addButtons(key, items) {
+  items = items.all || items;
+  for (const item of items) {
+    const obj = {item, key};
+    if (!item.container.getElementsByClassName(`esgst-tag-button`)[0]) {
+      createElements(item.tagContext, item.tagPosition, [{
+        attributes: {
+          class: `esgst-tag-button esgst-faded`,
+          title: getFeatureTooltip(key, `Edit tags`)
+        },
+        type: `a`,
+        children: [{
+          attributes: {
+            class: `fa fa-tag`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `esgst-tags`
+          },
+          type: `span`
+        }]
+      }]).addEventListener(`click`, tags_openPopup.bind(null, obj));
+    }
+    if (item.saved && item.saved.tags) {
+      tags_addTags(item, obj, item.saved.tags);
+    }
+  }  
+}
+
+async function tags_openMmPopup(mmObj, items, key) {
+  key = {
+    Games: `gt`,
+    Groups: `gpt`,
+    Users: `ut`
+  }[key];
+  const obj = {items: [], key};
+  obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+  const tags = [];
+  const savedGames = JSON.parse(await getValue(`games`));
+  const savedGroups = JSON.parse(await getValue(`groups`));
+  const savedUsers = JSON.parse(await getValue(`users`));
+  for (const item of obj.items) {
+    item.tags = [];
+    item.uniqueTags = [];
+    switch (key) {
+      case `gpt`:
+        const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
+        if (group && group.tags && Array.isArray(group.tags)) {
+          item.tags = group.tags;
+        }
+        break;
+      case `gt`:
+        const game = savedGames[item.type][item.code];
+        if (game && game.tags && Array.isArray(game.tags)) {
+          item.tags = game.tags;
+        }
+        break;
+      case `ut`:
+        const user = await getUser(savedUsers, {username: item.code});
+        if (user && user.tags && Array.isArray(user.tags)) {
+          item.tags = user.tags;
+        }
+        break;
+    }
+  }
+  obj.hasUnique = false;
+  obj.sharedTags = new Set();
+  for (const item of obj.items) {
+    for (const tag of item.tags) {
+      if (obj.items.length === obj.items.filter(subItem => subItem.tags.indexOf(tag) > -1).length) {
+        obj.sharedTags.add(tag);
+      } else {
+        obj.hasUnique = true;
+        item.uniqueTags.push(tag);
+      }
+    }
+  }
+  if (obj.hasUnique) {
+    obj.sharedTags.add(`[*]`);
+  }
+  obj.sharedTags = Array.from(obj.sharedTags);
+  tags_openPopup(obj);
+}
+
+async function tags_openPopup(obj, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  obj.popup = new Popup_v2({
+    addScrollable: true,
+    buttons: [{
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Save`,
+      title2: `Saving...`,
+      callback1: tags_saveTags.bind(null, obj)
+    }],
+    icon: `fa-tag`,
+    temp: true,
+    title: [{
+      text: `Edit tags for `,
+      type: `node`
+    }, {
+      text: (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id,
+      type: `span`
+    }, {
+      text: `:`,
+      type: `node`
+    }]
+  });
+  createElements(obj.popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-description`
+    },
+    type: `div`,
+    children: [{
+      text: `Drag the tags to move them.`,
+      type: `p`
+    }, {
+      type: `br`
+    }, {
+      text: `When editing a tag color, it will also alter the color for all items with that tag (you have to refresh the page for it to take effect).`,
+      type: `p`
+    }, ...(obj.hasUnique ? [{
+      type: `br`
+    }, {
+      text: `[*] means that there are tags that are not shared between all items. If you delete the [*] tag, those unique tags will be deleted.`,
+      type: `p`
+    }] : [])]
+  }]);
+  obj.tags = createElements(obj.popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-tags`
+    },
+    type: `div`
+  }]);
+  obj.input = createElements(obj.popup.description, `beforeEnd`, [{
+    attributes: {
+      type: `text`
+    },
+    events: {
+      focus: tags_createTags.bind(null, obj),
+      input: tags_createTags.bind(null, obj),
+      keydown: triggerSetOnEnter.bind(null, obj.popup.buttons[0])
+    },
+    type: `input`
+  }]);
+  createElements(obj.popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-tag-list-button esgst-clickable fa fa-list`,
+      title: `Select from existing tags`
+    },
+    type: `i`
+  }]).addEventListener(`click`, tags_showTagList.bind(null, obj));
+  const children = [];
+  obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-tag-suggestions esgst-hidden`
+    },
+    type: `div`
+  }]);
+  for (const tag of esgst[`${obj.key}Tags`]) {
+    children.push({
+      attributes: {
+        class: `esgst-tag-suggestion esgst-hidden`
+      },
+      events: {
+        click: tags_addSuggestion.bind(null, obj),
+        mouseenter: tags_selectSuggestion,
+        mouseleave: tags_unselectSuggestion
+      },
+      text: tag,
+      type: `div`
+    });
+  }
+  createElements(obj.suggestions, `inner`, children);
+  createElements(obj.popup.description, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-description`
+    },
+    text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+    type: `div`
+  }]);
+  obj.popup.description.appendChild(obj.popup.buttons[0].set);
+  obj.popup.open(tags_loadTags.bind(null, obj));
+}
+
+async function tags_saveTags(obj) {
+  let tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  if (tags.length === 1 && !tags[0].trim()) {
+    tags = ``;
+  }
+  switch (obj.key) {
+    case `gpt`:
+      const groups = {};
+      if (obj.items) {
+        for (const item of obj.items) {
+          item.multiTags = tags;
+          if (tags) {
+            const index = tags.indexOf(`[*]`);
+            if (index > -1) {
+              item.multiTags = [...tags];
+              item.multiTags.splice(index, 1, ...item.uniqueTags);
+            }
+          }
+          groups[item.code] = {
+            code: item.code,
+            name: item.name,
+            tags: item.multiTags
+          };
+        }
+      } else {
+        groups[obj.item.id] = {
+          code: obj.item.id,
+          name: obj.item.name,
+          tags
+        };
+      }
+      await lockAndSaveGroups(groups);
+      break;
+    case `gt`:
+      const games = {apps: {}, subs: {}};
+      if (obj.items) {
+        for (const item of obj.items) {
+          item.multiTags = tags;
+          if (tags) {
+            const index = tags.indexOf(`[*]`);
+            if (index > -1) {
+              item.multiTags = [...tags];
+              item.multiTags.splice(index, 1, ...item.uniqueTags);
+            }
+          }
+          games[item.type][item.code] = {tags: item.multiTags};
+        }
+      } else {
+        games[obj.item.type][obj.item.id] = {tags};
+      }
+      await lockAndSaveGames(games);
+      break;
+    case `ut`:
+      if (obj.items) {
+        const users = [];
+        for (const item of obj.items) {
+          item.multiTags = tags;
+          if (tags) {
+            const index = tags.indexOf(`[*]`);
+            if (index > -1) {
+              item.multiTags = [...tags];
+              item.multiTags.splice(index, 1, ...item.uniqueTags);
+            }
+          }
+          users.push({
+            steamId: item.sg ? null : item.code,
+            username: item.sg ? item.code : null,
+            values: {
+              tags: item.multiTags
+            }
+          });
+        }
+        await saveUsers(users);
+      } else {
+        const user = {
+          steamId: obj.item.steamId,
+          username: obj.item.username,
+          values: {tags}
+        };
+        await saveUser(null, null, user);
+      }
+      break;
+  }
+  await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
+  if (obj.items) {
+    for (const item of obj.items) {
+      tags_addTags(item, obj, item.multiTags);
+    }
+  } else {
+    tags_addTags(obj.item, obj, tags);
+  }
+  obj.popup.close();
+}
+
+function tags_addTags(item, obj, tags) {
+  let items = null;
+  switch (obj.key) {
+    case `gpt`:
+      items = esgst.currentGroups[item.code || item.id].elements;
+      break;
+    case `gt`:
+      items = games_get(document, true, esgst.games)[item.type][item.code || item.id];
+      break;
+    case `ut`:
+      items = esgst.currentUsers[item.code || item.id].elements;
+      break;
+  }
+  if (!items) {
+    return;
+  }
+  const elements = tags.length && tags[0] ? tags.map(x => tags_template(x)) : [{
+    text: ``,
+    type: `node`
+  }];
+  for (const subItem of items) {
+    let context = null;
+    switch (obj.key) {
+      case `gpt`:
+        context = subItem.parentElement;
+        break;
+      case `gt`:
+        context = subItem.container;
+        break;
+      case `ut`:
+        const container = subItem.parentElement;
+        if (!container) {
+          break;
+        }
+        context = container.classList.contains(`comment__username`) ? container : subItem;
+        context = context.parentElement;
+        break;
+    }
+    if (!context) {
+      continue;
+    }
+    const button = context.getElementsByClassName(`esgst-tag-button`)[0];
+    if (!button) {
+      continue;
+    }
+    button.classList[elements ? `remove` : `add`](`esgst-faded`);
+    const tagsContainer = button.lastElementChild;
+    createElements(tagsContainer, `inner`, elements);
+    for (const tagsBox of tagsContainer.children) {
+      const colors = esgst[`${obj.key}_colors`][tagsBox.textContent];
+      if (!colors) {
+        continue;
+      }
+      tagsBox.style.color = colors.color;
+      tagsBox.style.backgroundColor = colors.bgColor;
+    }
+  }
+}
+
+function tags_template(text) {
+  return {
+    attributes: {
+      class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
+    },
+    text,
+    type: `span`
+  };
+}
+
+function tags_createTags(obj) {
+  obj.tags.innerHTML = ``;
+  const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
+  if (tags.length) {
+    const lastTag = tags[tags.length - 1].toLowerCase();
+    let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+    if (selected) {
+      selected.classList.remove(`esgst-selected`);
+    }
+    selected = null;
+    for (const child of obj.suggestions.children) {
+      const value = child.textContent.toLowerCase();
+      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+        child.classList.remove(`esgst-hidden`);
+        if (!selected) {
+          child.classList.add(`esgst-selected`);
+          selected = child;
+        }
+      } else {
+        child.classList.add(`esgst-hidden`);
+      }
+    }
+    if (selected) {
+      obj.suggestions.classList.remove(`esgst-hidden`);
+    } else {
+      tags_hideSuggestions(obj.suggestions);
+    }
+    for (const tag of tags) {
+      tags_createTag(obj, tag);
+    }
+  } else {
+    tags_hideSuggestions(obj.suggestions);
+  }
+}
+
+function tags_createTag(obj, tag) {
+  const container = createElements(obj.tags, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-tag-preview`,
+      draggable: true
+    },
+    type: `div`,
+    children: [{
+      attributes: {
+        class: `esgst-tags`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
+        },
+        text: tag,
+        type: `span`
+      }]
+    }, {
+      attributes: {
+        class: `esgst-hidden`,
+        type: `text`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        title: `Set text color for this tag`,
+        type: `color`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        title: `Set background color for this tag`,
+        type: `color`
+      },
+      type: `input`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-edit`,
+        title: `Edit tag`
+      },
+      type: `i`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-trash`,
+        title: `Delete tag`
+      },
+      type: `i`
+    }, {
+      attributes: {
+        class: `esgst-clickable fa fa-rotate-left`,
+        title: `Reset tag color`
+      },
+      type: `i`
+    }]
+  }]);
+  const tagContainer = container.firstElementChild;
+  const tagBox = tagContainer.firstElementChild;
+  const input = tagContainer.nextElementSibling;
+  const colorInput = input.nextElementSibling;
+  const bgColorInput = colorInput.nextElementSibling;
+  const editButton = bgColorInput.nextElementSibling;
+  const deleteButton = editButton.nextElementSibling;
+  const resetButton = deleteButton.nextElementSibling;
+  const colors = esgst[`${obj.key}_colors`][tag];
+  if (colors) {
+    colorInput.value = tagBox.style.color = colors.color;
+    bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
+  }
+  container.addEventListener(`dragstart`, tags_startDrag.bind(null, container, obj));
+  container.addEventListener(`dragenter`, tags_continueDrag.bind(null, container, obj));
+  container.addEventListener(`dragend`, tags_endDrag.bind(null, obj));
+  input.addEventListener(`keydown`, tags_editTag.bind(null, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
+  colorInput.addEventListener(`change`, tags_saveColor.bind(null, colorInput, `color`, obj, `color`, tagBox));
+  bgColorInput.addEventListener(`change`, tags_saveColor.bind(null, bgColorInput, `backgroundColor`, obj, `bgColor`, tagBox));
+  editButton.addEventListener(`click`, tags_showEdit.bind(null, input, tagBox, tagContainer));
+  deleteButton.addEventListener(`click`, tags_deleteTag.bind(null, container, obj));
+  resetButton.addEventListener(`click`, tags_resetColor.bind(null, bgColorInput, colorInput, obj, tagBox));
+}
+
+function tags_startDrag(container, obj, event) {
+  event.dataTransfer.setData(`text/plain`, ``);
+  obj.dragged = container;
+}
+
+function tags_continueDrag(container, obj) {
+  let current;
+  current = obj.dragged;
+  do {
+    current = current.previousElementSibling;
+    if (current && current === container) {
+      obj.tags.insertBefore(obj.dragged, container);
+      return;
+    }
+  } while (current);
+  obj.tags.insertBefore(obj.dragged, container.nextElementSibling);
+}
+
+function tags_endDrag(obj) {
+  const tags = [];
+  for (const element of obj.tags.children) {
+    tags.push(element.firstElementChild.firstElementChild.textContent);
+  }
+  obj.input.value = tags.join(`, `);
+}
+
+function tags_editTag(bgColorInput, colorInput, input, obj, tagBox, tagContainer, event) {
+  if (event.key !== `Enter`) {
+    return;
+  }
+  tagContainer.classList.remove(`esgst-hidden`);
+  input.classList.add(`esgst-hidden`);
+  const tag = input.value;
+  tagBox.textContent = tag;
+  const colors = esgst[`${obj.key}_colors`][tag];
+  if (colors) {
+    colorInput.value = tagBox.style.color = colors.color;
+    bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
+  }
+  tags_endDrag(obj);
+}
+
+function tags_saveColor(input, key, obj, saveKey, tagBox) {
+  const tag = tagBox.textContent;
+  if (!esgst[`${obj.key}_colors`][tag]) {
+    esgst[`${obj.key}_colors`][tag] = {
+      bgColor: ``,
+      color: ``
+    };
+  }
+  esgst[`${obj.key}_colors`][tag][saveKey] = tagBox.style[key] = input.value;
+}
+
+function tags_showEdit(input, tagBox, tagContainer) {
+  tagContainer.classList.add(`esgst-hidden`);
+  input.classList.remove(`esgst-hidden`);
+  input.value = tagBox.textContent;
+  input.focus();
+}
+
+function tags_deleteTag(container, obj) {
+  container.remove();
+  tags_endDrag(obj);
+}
+
+function tags_resetColor(bgColorInput, colorInput, obj, tagBox) {
+  bgColorInput.value = ``;
+  colorInput.value = ``;
+  tagBox.style.backgroundColor = ``;
+  tagBox.style.color = ``;
+  delete esgst[`${obj.key}_colors`][tagBox.textContent];
+}
+
+async function tags_showTagList(obj) {
+  obj.listPopup = new Popup_v2({
+    addScrollable: true,
+    buttons: [{
+      color1: `green`,
+      color2: ``,
+      icon1: `fa-check`,
+      icon2: ``,
+      title1: `Add Tags`,
+      title2: ``,
+      callback1: tags_addTagsFromList.bind(null, obj)
+    }],
+    icon: `fa-list`,
+    temp: true,
+    title: `Select from existing tags:`
+  });
+  const list = createElements(obj.listPopup.scrollable, `beforeEnd`, [{
+    attributes: {
+      class: `esgst-tag-list popup__keys__list`
+    },
+    type: `div`
+  }]);
+  obj.selectedTags = [];
+  for (const tag of esgst[`${obj.key}Tags`]) {
+    const item = createElements(list, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        type: `span`
+      }, {
+        text: ` ${tag}`,
+        type: `node`
+      }]
+    }]);
+    if (esgst[`${obj.key}_colors`][tag]) {
+      item.style.color = esgst[`${obj.key}_colors`][tag].color;
+      item.style.backgroundColor = esgst[`${obj.key}_colors`][tag].bgColor;
+    }
+    const checkbox = new Checkbox(item);
+    checkbox.onEnabled = tags_selectTag.bind(null, obj, tag);
+    checkbox.onDisabled = tag_unselectTag.bind(null, obj, tag);
+  }
+  obj.listPopup.open();
+}
+
+function tags_addTagsFromList(obj) {
+  for (const tag of obj.selectedTags) {
+    tags_createTag(obj, tag);
+  }
+  if (obj.input.value) {
+    obj.selectedTags.unshift(obj.input.value);
+  }
+  obj.input.value = obj.selectedTags.join(`, `);
+  obj.listPopup.close();
+}
+
+function tags_selectTag(obj, tag) {
+  obj.selectedTags.push(tag);
+}
+
+function tag_unselectTag(obj, tag) {
+  obj.selectedTags.splice(obj.selectedTags.indexOf(tag), 1);
+}
+
+function tags_addSuggestion(obj, event) {
+  obj.tags.innerHTML = ``;
+  const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  const value = event.currentTarget.textContent;
+  tags.pop();
+  tags.push(value);
+  obj.input.value = tags.join(`, `);
+  tags_hideSuggestions(obj.suggestions);
+  for (const tag of tags) {
+    tags_createTag(obj, tag);
+  }
+  obj.input.focus();
+}
+
+function tags_selectSuggestion(event) {
+  for (const item of event.currentTarget.parentElement.children) {
+    item.classList.remove(`esgst-selected`);
+  }
+  event.currentTarget.classList.add(`esgst-selected`);
+}
+
+function tags_unselectSuggestion(event) {
+  const parent = event.currentTarget.parentElement;
+  if (event.relatedTarget !== parent && parent.contains(event.relatedTarget)) {
+    event.currentTarget.classList.remove(`esgst-selected`);
+  }
+}
+
+async function tags_loadTags(obj) {
+  let item = null;
+  if (obj.items) {
+    item = {tags: obj.sharedTags};
+  } else {
+    switch (obj.key) {
+      case `gpt`:
+        const savedGroups = JSON.parse(await getValue(`groups`));
+        item = savedGroups.filter(group => group.code === obj.item.id)[0];
+        break;
+      case `gt`:
+        const savedGames = JSON.parse(await getValue(`games`));
+        item = savedGames[obj.item.type][obj.item.id];
+        break;
+      case `ut`:
+        item = await getUser(null, {
+          steamId: obj.item.steamId,
+          username: obj.item.username
+        });
+        break;
+    }
+  }
+  obj.input.focus();
+  if (!item || !item.tags) {
+    return;
+  }
+  obj.tags.innerHTML = ``;
+  for (const tag of item.tags) {
+    tags_createTag(obj, tag);
+  }
+  obj.input.value = item.tags.join(`, `);
+}
   async function checkNewGiveawayInput(context) {
     if (context.style.opacity === `1`) {
       if (!context.getAttribute(`data-esgst`)) {
@@ -45171,34 +44840,37 @@ _MODULES.push({
   }
 
   async function lockAndSaveGroups(groups, sync) {
-    let deleteLock, savedGroups;
-    deleteLock = await createLock(`groupLock`, 300);
-    savedGroups = JSON.parse(await getValue(`groups`, `[]`));
+    const deleteLock = await createLock(`groupLock`, 300);
+    let savedGroups = JSON.parse(await getValue(`groups`, `[]`));
     if (!Array.isArray(savedGroups)) {
-      let newGroups = [];
+      const newGroups = [];
       for (const key in savedGroups) {
         newGroups.push(savedGroups[key]);
       }
       savedGroups = newGroups;
     }
     if (sync) {
-      for (let i = 0, n = savedGroups.length; i < n; ++i) {
-        if (savedGroups[i]) {
-          delete savedGroups[i].member;
+      for (const group of savedGroups) {
+        if (group) {
+          delete group.member;
         }
       }
     }
-    for (let code in groups) {
-      let i, n;
-      for (i = 0, n = savedGroups.length; i < n && savedGroups[i].code !== code; ++i);
-      if (i < n) {
-        for (let key in groups[code]) {
-          if (savedGroups[i]) {
-            savedGroups[i][key] = groups[code][key];
-          }
+    for (const code in groups) {
+      const group = groups[code];
+      const savedGroup = savedGroups.filter(item => item.code === code)[0];
+      if (savedGroup) {
+        for (const key in group) {
+          savedGroup[key] = group[key];
         }
       } else {
-        savedGroups.push(groups[code]);
+        savedGroup = group;
+        savedGroups.push(savedGroup);
+      }
+      if (!savedGroup.avatar || !savedGroup.steamId) {
+        const html = parseHtml((await request({method: `GET`, url: `/group/${code}/`})).responseText);
+        savedGroup.avatar = html.getElementsByClassName(`global__image-inner-wrap`)[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
+        savedGroup.steamId = html.getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
       }
     }
     await setValue(`groups`, JSON.stringify(savedGroups));
@@ -45520,6 +45192,11 @@ _MODULES.push({
       Name: `SMManageGameTags esgst-heading-button`,
       Title: `Manage game tags`
     }, {
+      Check: esgst.gpt,
+      Icons: [`fa-users`, `fa-tags`],
+      Name: `SMManageGroupTags esgst-heading-button`,
+      Title: `Manage group tags`
+    }, {
       Check: esgst.wbc,
       Icons: [`fa-heart`, `fa-ban`, `fa-cog`],
       Name: `esgst-wbc-button esgst-heading-button`,
@@ -45609,6 +45286,7 @@ _MODULES.push({
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
     let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
     let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
+    let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
     let SMViewUsernameChanges = fixed.getElementsByClassName(`SMViewUsernameChanges`)[0];
     if (esgst.wbc) {
       wbc_addButton(null, fixed.getElementsByClassName(`esgst-wbc-button`)[0]);
@@ -45649,6 +45327,9 @@ _MODULES.push({
     }
     if (SMManageGameTags) {
       SMManageGameTags.addEventListener(`click`, openManageGameTagsPopup);
+    }
+    if (SMManageGroupTags) {
+      SMManageGroupTags.addEventListener(`click`, openManageGroupTagsPopup);
     }
     if (SMManageFilteredUsers) {
       setSMManageFilteredUsers(SMManageFilteredUsers);
@@ -46557,7 +46238,7 @@ _MODULES.push({
       }
     }
     if (Feature.options) {
-      const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`index`, [Feature.options]];
+      const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
       for (const [index, option] of options.entries()) {
         const currentKey = key.replace(/\*/, index);
         const selectedIndex = esgst[`${ID}${currentKey}`];
@@ -47797,7 +47478,7 @@ _MODULES.push({
   }
 
   async function openManageUserTagsPopup() {
-    let context, current, input, popup, savedUser, savedUsers, users;
+    let context, input, popup, savedUser, savedUsers, users;
     popup = new Popup(`fa-tags`, `Manage user tags:`, true);
     input = createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -47822,7 +47503,6 @@ _MODULES.push({
       mm(heading);
     }
     savedUsers = JSON.parse(await getValue(`users`));
-    current = {};
     users = {};
     for (const steamId in savedUsers.users) {
       savedUser = savedUsers.users[steamId];
@@ -47843,25 +47523,22 @@ _MODULES.push({
             type: `a`
           }]
         }]);
-        current[savedUser.username || steamId] = {
-          elements: [context.firstElementChild]
-        };
         users[savedUser.username || steamId] = {
           context: context
         };
       }
     }
     await endless_load(popup.scrollable);
-    input.addEventListener(`input`, filterUserTags.bind(null, current, popup, users));
+    input.addEventListener(`input`, filterUserTags.bind(null, users));
     popup.open();
   }
 
-  function filterUserTags(current, popup, users, event) {
+  function filterUserTags(users, event) {
     let i, tags, username, userTags;
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (username in users) {
-        userTags = users[username].context.getElementsByClassName(`esgst-ut-tags`)[0];
+        userTags = users[username].context.getElementsByClassName(`esgst-tags`)[0];
         for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
         if (i < 0) {
           users[username].context.classList.add(`esgst-hidden`);
@@ -47877,7 +47554,7 @@ _MODULES.push({
   }
 
   async function openManageGameTagsPopup() {
-    let context, current, games, input, popup, savedGame, savedGames;
+    let context, games, input, popup, savedGame, savedGames;
     popup = new Popup(`fa-tags`, `Manage game tags:`, true);
     input = createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -47902,10 +47579,6 @@ _MODULES.push({
       mm(heading);
     }
     savedGames = JSON.parse(await getValue(`games`));
-    current = {
-      apps: {},
-      subs: {}
-    };
     games = {
       apps: {},
       subs: {}
@@ -47927,9 +47600,6 @@ _MODULES.push({
             type: `a`
           }]
         }]);
-        current.apps[id] = [{
-          heading: context
-        }];
         games.apps[id] = {
           context: context
         };
@@ -47952,25 +47622,22 @@ _MODULES.push({
             type: `a`
           }]
         }]);
-        current.subs[id] = [{
-          heading: context
-        }];
         games.subs[id] = {
           context: context
         };
       }
     }
     await endless_load(popup.scrollable);
-    input.addEventListener(`input`, filterGameTags.bind(null, current, games, popup));
+    input.addEventListener(`input`, filterGameTags.bind(null, games));
     popup.open();
   }
 
-  function filterGameTags(current, games, popup, event) {
+  function filterGameTags(games, event) {
     let gameTags, i, id, tags;
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (id in games.apps) {
-        gameTags = games.apps[id].context.getElementsByClassName(`esgst-gt-tags`)[0];
+        gameTags = games.apps[id].context.getElementsByClassName(`esgst-tags`)[0];
         for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
         if (i < 0) {
           games.apps[id].context.classList.add(`esgst-hidden`);
@@ -47979,7 +47646,7 @@ _MODULES.push({
         }
       }
       for (id in games.subs) {
-        gameTags = games.subs[id].context.getElementsByClassName(`esgst-gt-tags`)[0];
+        gameTags = games.subs[id].context.getElementsByClassName(`esgst-tags`)[0];
         for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
         if (i < 0) {
           games.subs[id].context.classList.add(`esgst-hidden`);
@@ -47993,6 +47660,76 @@ _MODULES.push({
       }
       for (id in games.subs) {
         games.subs[id].context.classList.remove(`esgst-hidden`);
+      }
+    }
+  }
+
+  async function openManageGroupTagsPopup() {
+    let context, input, popup, savedGroups, groups;
+    popup = new Popup(`fa-tags`, `Manage group tags:`, true);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the groups by.`,
+      type: `div`
+    }]);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
+    if (esgst.mm) {
+      mm(heading);
+    }
+    savedGroups = JSON.parse(await getValue(`groups`));
+    groups = {};
+    for (const savedGroup of savedGroups) {
+      if (!savedGroup || !savedGroup.tags || (savedGroup.tags.length < 2 && (!savedGroup.tags[0] || !savedGroup.tags[0].trim()))) {
+        continue;
+      }
+      context = createElements(popup.scrollable, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          attributes: {
+            href: `https://www.steamgifts.com/group/${savedGroup.code}/`
+          },
+          text: savedGroup.name,
+          type: `a`
+        }]
+      }]);
+      groups[savedGroup.code] = {
+        context: context
+      };
+    }
+    await endless_load(popup.scrollable);
+    input.addEventListener(`input`, filterGroupTags.bind(null, groups));
+    popup.open();
+  }
+
+  function filterGroupTags(groups, event) {
+    let i, tags, code, groupTags;
+    if (event.currentTarget.value) {
+      tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
+      for (code in groups) {
+        groupTags = groups[code].context.getElementsByClassName(`esgst-tags`)[0];
+        for (i = tags.length - 1; i >= 0 && !groupTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        if (i < 0) {
+          groups[code].context.classList.add(`esgst-hidden`);
+        } else {
+          groups[code].context.classList.remove(`esgst-hidden`);
+        }
+      }
+    } else {
+      for (code in groups) {
+        groups[code].context.classList.remove(`esgst-hidden`);
       }
     }
   }
@@ -48267,6 +48004,10 @@ _MODULES.push({
           {
             key: `groups_main`,
             name: `Main`
+          },
+          {
+            key: `groups_gpt`,
+            name: `Group Tags`
           },
           {
             key: `groups_sgg`,
@@ -48731,6 +48472,10 @@ _MODULES.push({
             {
               key: `groups_main`,
               name: `Main`
+            },
+            {
+              key: `groups_gpt`,
+              name: `Group Tags`
             },
             {
               key: `groups_sgg`,
@@ -49520,7 +49265,8 @@ _MODULES.push({
           break;
         case `groups`:
           values = {
-            main: [`avatar`, `code`, `member`, `name`],
+            main: [`avatar`, `code`, `member`, `name`, `steamId`],
+            gpt: [`tags`],
             sgg: [`stickied`]
           };
           mergedData = JSON.parse(await getValue(optionKey, `[]`));
@@ -49534,6 +49280,7 @@ _MODULES.push({
           data[optionKey] = [];
           sizes = {
             main: 0,
+            gpt: 0,
             sgg: 0,
             total: 0
           };
@@ -49619,7 +49366,24 @@ _MODULES.push({
                     if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                       for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
                         let valueKey = values[value][k];
-                        mergedDataValue[valueKey] = newData[j][valueKey];
+                        switch (valueKey) {
+                          case `tags`:
+                            if (mergedDataValue.tags) {
+                              let tags = newData[j].tags;
+                              for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                let tag = tags[k];
+                                if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                  mergedDataValue.tags.push(tag);
+                                }
+                              }
+                            } else {
+                              mergedDataValue.tags = newData[j].tags;
+                            }
+                            break;
+                          default:
+                            mergedDataValue[valueKey] = newData[j][valueKey];
+                            break;
+                        }
                       }
                     }
                   }
@@ -50895,7 +50659,11 @@ _MODULES.push({
       `;
     }
     style += `
-      .esgst-ut-suggestions {
+      .form_list_item_summary_name {
+        display: inline-block;
+      }
+
+      .esgst-tag-suggestions {
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -50905,18 +50673,18 @@ _MODULES.push({
         width: 300px;
       }
 
-      .esgst-ut-suggestions >* {
+      .esgst-tag-suggestion {
         cursor: pointer;
         font-weight: bold;
         padding: 5px;
         text-shadow: none;
       }
 
-      .esgst-ut-suggestions >*:not(:last-child) {
+      .esgst-tag-suggestion:not(:last-child) {
         border-bottom: 1px solid #ccc;
       }  
 
-      .esgst-ut-suggestions .esgst-selected {
+      .esgst-tag-suggestion.esgst-selected {
         background-color: #465670;
         color: #fff;
       }
@@ -52228,7 +51996,7 @@ _MODULES.push({
         text-align: left;
       }
 
-      .esgst-popup-description >*:not(.esgst-ut-suggestions), .esgst-popup-scrollable >* {
+      .esgst-popup-description >*:not(.esgst-tag-suggestions), .esgst-popup-scrollable >* {
         margin: 10px 0 0 !important;
       }
 
@@ -53073,92 +52841,33 @@ _MODULES.push({
         margin: 2px;
       }
 
-      .esgst-gt-preview .esgst-gt-tags {
-        display: inline-block;
-      }
-
-      .esgst-gt-preview input[type=text] {
-        display: inline-block;
-        width: 100px;
-        height: 15px;
-      }
-
-      .esgst-gt-preview input[type=color] {
-        box-sizing: unset;
-        height: 13px;
-        line-height: normal;
-        margin: 0;
-        padding: 0;
-        vertical-align: top;
-        width: 15px;
-      }
-
-      .esgst-gt-button {
-        border: 0! important;
-        cursor: pointer;
-        display: inline-block;
-        line-height: normal;
-        text-decoration: none !important;
-        transition: opacity 0.2s;
-      }
-
-      .esgst-gt-button:hover {
-        opacity: 1;
-      }
-
-      .esgst-gt-button i {
-        margin: 0 !important;
-      }
-
-      .giveaway__row-outer-wrap .esgst-gt-button, .table__row-outer-wrap .esgst-gt-button {
+      .giveaway__row-outer-wrap .esgst-tag-button, .table__row-outer-wrap .esgst-tag-button {
         margin-left: 5px;
       }
 
-      .esgst-gt-tags {
-        font-size: 10px;
-        font-weight: bold;
-      }
-
-      .esgst-gt-tags >* {
-        display: inline-block !important;
-        height: auto;
-        margin: 0;
-        padding: 2px;
-        text-shadow: none;
-        width: auto;
-      }
-
-      .esgst-gt-tags >:not(:first-child) {
-        margin: 0 0 0 5px;
-      }
-
-      .esgst-gv-popout .esgst-gt-tags {
-        display: none;
-      }
-
-      .esgst-ut-existing-button {
+      .esgst-tag-list-button {
         padding: 8px;
         right: 25px;
         position: absolute;
       }
 
-      .esgst-ut-existing-tags {
+      .esgst-tag-list {
         font-weight: bold;
         text-align: left;
         text-shadow: none;
       }
 
-      .esgst-ut-preview .esgst-ut-tags {
+      .esgst-tag-preview .esgst-tags {
         display: inline-block;
       }
 
-      .esgst-ut-preview input[type=text] {
+      .esgst-tag-preview input[type=text] {
         display: inline-block;
         width: 100px;
         height: 15px;
       }
 
-      .esgst-ut-preview input[type=color] {
+      .esgst-tag-preview input[type=color] {
         box-sizing: unset;
         height: 13px;
         line-height: normal;
@@ -53168,7 +52877,7 @@ _MODULES.push({
         width: 15px;
       }
 
-      .esgst-ut-button {
+      .esgst-tag-button {
         border: 0! important;
         cursor: pointer;
         display: inline-block;
@@ -53178,24 +52887,24 @@ _MODULES.push({
         transition: opacity 0.2s;
       }
 
-      .esgst-ut-button:hover {
+      .esgst-tag-button:hover {
         opacity: 1;
       }
 
-      .author_name + .esgst-ut-button {
+      .author_name + .esgst-tag-button {
         margin: 0 5px 0 0;
       }
 
-      .esgst-ut-button i {
+      .esgst-tag-button i {
         margin: 0 !important;
       }
 
-      .esgst-ut-tags {
+      .esgst-tags {
         font-size: 10px;
         font-weight: bold;
       }
 
-      .esgst-ut-tags >* {
+      .esgst-tag {
         display: inline-block !important;
         height: auto;
         margin: 0;
@@ -53204,11 +52913,11 @@ _MODULES.push({
         width: auto;
       }
 
-      .esgst-ut-tags >:not(:first-child) {
+      .esgst-tag:not(:first-child) {
         margin: 0 0 0 5px;
       }
 
-      .esgst-gv-popout .esgst-ut-tags, .esgst-adots .esgst-ut-tags {
+      .esgst-gv-popout .esgst-tags, .esgst-adots .esgst-tags {
         display: none;
       }
     `;

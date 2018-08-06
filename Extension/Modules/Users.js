@@ -58,13 +58,22 @@ async function users_load(mainContext, main, source, endless) {
     if (!found) {
       found = true;
     }
+    const isHeading = context.classList.contains(`featured__heading__medium`);
+    const tagContainer = context.parentElement;
+    let tagContext = context;
+    if (tagContainer.classList.contains(`comment__username`)) {
+      tagContext = tagContainer;
+    }
     users.push({
+      container: tagContainer,
       context,
       element,
       id,
       oldElement,
       saved: savedUser,
       steamId: sg ? savedUser && savedUser.steamId : id,
+      tagContext: isHeading ? tagContainer : tagContext,
+      tagPosition: isHeading ? `beforeEnd` : `afterEnd`,
       username: sg ? id : savedUser && savedUser.username
     });
   }

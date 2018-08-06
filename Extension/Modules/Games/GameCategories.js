@@ -714,8 +714,12 @@ _MODULES.push({
 
   function gc() {    
     if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
-      esgst.gameFeatures.push(gc_getGames);
+      esgst.gameFeatures.push(gc_games);
     }
+  }
+
+  function gc_games(games, main, source, endless) {
+    gc_getGames(games, main, source, endless);
   }
 
   async function gc_getGames(games, main, source, endless) {

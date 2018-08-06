@@ -17,6 +17,7 @@ _MODULES.push({
           <li>Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.</li>
           <li>Tag the selected games with the same tags, if [id=gt], is enabled.</li>
           <li>Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.</li>
+          <li>Tag the selected groups with the same tags, if [id=gpt], is enabled.</li>
         </ul>
         <li>On SteamTrades you can only manage users.</li>
       </ul>
@@ -42,13 +43,15 @@ _MODULES.push({
         Giveaways: {},
         Discussions: {},
         Users: {},
-        Games: {}
+        Games: {},
+        Groups: {}
       },
       counters: {
         Giveaways: 0,
         Discussions: 0,
         Users: 0,
-        Games: 0
+        Games: 0,
+        Groups: 0
       },
       counterElements: {},
       scope: context ? `popup` : `main`
@@ -365,7 +368,7 @@ _MODULES.push({
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: mm_openTagPopup.bind(null, obj, items, key)
+            callback1: tags_openMmPopup.bind(null, obj, items, key)
           },
           {
             check: esgst.wbc,
@@ -385,7 +388,7 @@ _MODULES.push({
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: mm_openTagPopup.bind(null, obj, items, key)
+            callback1: tags_openMmPopup.bind(null, obj, items, key)
           },
           {
             check: true,
@@ -397,6 +400,19 @@ _MODULES.push({
         ],
         []
       ],
+      Groups: [
+        [],
+        [
+          {
+            check: esgst.gpt,
+            color1: `green`, color2: `grey`,
+            icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Tag`, title2: ``,
+            callback1: tags_openMmPopup.bind(null, obj, items, key)
+          }
+        ],
+        []
+      ]
     };
     sections.default.forEach((section, i) => {
       let group = createElements(context, `beforeEnd`, [{
@@ -549,6 +565,12 @@ _MODULES.push({
         <li>[type] - The Steam type of the game ("app" or "sub").</li>
         <li>[url] - The Steam store URL of the game.</li>
       </ul>
+      <div class="esgst-bold">Groups:</div>
+      <ul>
+        <li>[code] - The 5-character code of the group.</li>
+        <li>[name] - The name of the group.</li>
+        <li>[url] - The short URL of the group (https://www.steamgifts.com/group/XXXXX/).</li>
+      </ul>
       <div class="esgst-bold">Date Templates:</div>
       <ul>
         <li>[d] - The number of the day with no leading zeroes if it is lower than 10.</li>
@@ -700,6 +722,16 @@ _MODULES.push({
             .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
             .replace(/\[TYPE\]/ig, item.type.slice(0, -1))
             .replace(/\[URL\]/ig, `https://store.steampowered.com/${item.type.slice(0, -1)}/${item.code}`)
+          );
+        });
+        break;
+      case `Groups`:
+        items.forEach(item => {
+          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
+          links.push(line
+            .replace(/\[CODE\]/ig, item.code)
+            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
+            .replace(/\[URL\]/ig, `https://www.steamgifts.com/group/${item.code}/`)
           );
         });
         break;
@@ -967,253 +999,6 @@ _MODULES.push({
     });
     esgst.wbcButton.setAttribute(`data-mm`, true);
     esgst.wbcButton.click();
-  }
-
-  async function mm_openTagPopup(obj, items, key) {
-    obj.tPopup = new Popup(`fa-tags`, [{
-      text: `Tag `,
-      type: `node`
-    }, {
-      text: `0`,
-      type: `span`
-    }, {
-      text: ` ${key}:`,
-      type: `node`
-    }]);
-    createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-description`
-      },
-      type: `div`,
-      children: [{
-        text: `Drag the tags to move them.`,
-        type: `p`
-      }, {
-        type: `br`
-      }, {
-        text: `When editing a tag color, it will also alter the color for all users/games with that tag (you have to refresh the page for it to take effect).`,
-        type: `p`
-      }, {
-        type: `br`
-      }, {
-        text: `[*] means that there are tags that are not shared between all users/games. If you delete the [*] tag, those individual tags will be deleted.`,
-        type: `p`
-      }]
-    }]);
-    obj.tPopup.tags = createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-${key[0].toLowerCase()}t-tags`
-      },
-      type: `div`
-    }]);
-    obj.tPopup.input = createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        type: `text`
-      },
-      type: `input`
-    }]);
-    createElements(obj.tPopup.description, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-description`
-      },
-      text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-      type: `div`
-    }]);
-    obj.tPopup.description.appendChild(new ButtonSet_v2({
-      color1: `green`, color2: `grey`,
-      icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Save`, title2: `Saving...`,
-      callback1: mm_saveTags.bind(null, obj, items, key),
-      input: obj.tPopup.input
-    }).set);
-    obj.tPopup.open();
-    obj.tIndividualTags = {};
-    obj.tTags = [];
-    switch (key) {
-      case `Users`: {
-        obj.tPopup.input.addEventListener(`input`, ut_createTags.bind(null, obj.tPopup));
-        let savedUsers = JSON.parse(await getValue(`users`));
-        for (let i = 0, n = items.length; i < n; i++) {
-          if (!items[i].mm || !items[i].outerWrap.offsetParent) continue;
-          let username = items[i].code;
-          let savedUser = await getUser(savedUsers, {
-            [items[i].sg ? `username` : `steamId`]: username
-          });
-          if (savedUser) {
-            let tags = savedUser.tags;
-            if (tags) {
-              obj.tIndividualTags[username] = tags;
-              tags.forEach(tag => {
-                if (obj.tTags.indexOf(tag) < 0) {
-                  obj.tTags.push(tag);
-                }
-              });
-            } else {
-              obj.tIndividualTags[username] = [];
-            }
-          } else {
-            obj.tIndividualTags[username] = [];
-          }
-        }
-        let hasIndividual = false;
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let username = item.code;
-          obj.tIndividualTags[username].forEach(tag => {
-            items.forEach(subItem => {
-              if (!subItem.mm || !subItem.outerWrap.offsetParent) return;
-              let subUsername = subItem.code;
-              if (subUsername === username || obj.tIndividualTags[subUsername].indexOf(tag) > -1) return;
-              let index = obj.tTags.indexOf(tag);
-              if (index > -1) {
-                obj.tTags.splice(index, 1);
-              }
-              hasIndividual = true;
-            });
-          });
-        });
-        if (hasIndividual) {
-          obj.tTags.push(`[*]`);
-        }
-        obj.tTags.forEach(tag => {
-          ut_createTag(obj.tPopup, tag);
-        });
-        obj.tPopup.input.value = obj.tTags.join(`, `);
-        break;
-      }
-      case `Games`: {
-        obj.tPopup.input.addEventListener(`input`, gt_createTags.bind(null, obj.tPopup));
-        let savedGames = JSON.parse(await getValue(`games`));
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let savedGame = savedGames[item.type][item.code];
-          let gameKey = `${item.type}_${item.code}`;
-          if (savedGame) {
-            let tags = savedGame.tags;
-            if (tags) {
-              obj.tIndividualTags[gameKey] = tags;
-              tags.forEach(tag => {
-                if (obj.tTags.indexOf(tag) < 0) {
-                  obj.tTags.push(tag);
-                }
-              });
-            } else {
-              obj.tIndividualTags[gameKey] = [];
-            }
-          } else {
-            obj.tIndividualTags[gameKey] = [];
-          }
-        });
-        let hasIndividual = false;
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          obj.tIndividualTags[`${item.type}_${item.code}`].forEach(tag => {
-            items.forEach(subItem => {
-              if (!subItem.mm || !subItem.outerWrap.offsetParent) return;
-              if (subItem.code === item.code || obj.tIndividualTags[`${subItem.type}_${subItem.code}`].indexOf(tag) > -1) return;
-              let index = obj.tTags.indexOf(tag);
-              if (index > -1) {
-                obj.tTags.splice(index, 1);
-              }
-              hasIndividual = true;
-            });
-          });
-        });
-        if (hasIndividual) {
-          obj.tTags.push(`[*]`);
-        }
-        obj.tTags.forEach(tag => {
-          gt_createTag(obj.tPopup, tag);
-        });
-        obj.tPopup.input.value = obj.tTags.join(`, `);
-        break;
-      }
-      default:
-        break;
-    }
-    obj.tPopup.input.focus();
-  }
-
-  async function mm_saveTags(obj, items, key) {
-    switch (key) {
-      case `Users`: {
-        let tags = obj.tPopup.input.value.replace(/(,\s*)+/g, formatTags);
-        let users = [];
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let username = item.code;
-          obj.tTags.forEach(tag => {
-            let index = obj.tIndividualTags[username].indexOf(tag);
-            if (index > -1) {
-              obj.tIndividualTags[username].splice(index, 1);
-            }
-          });
-          if (obj.tIndividualTags[username].length > 0) {
-            obj.tIndividualTags[username] = tags.replace(/\[\*\]/, obj.tIndividualTags[username].join(`, `)).split(/,\s/);
-          } else {
-            obj.tIndividualTags[username] = tags.replace(/\[\*\]|,\s\[\*\]/, ``).split(/,\s/);
-          }
-          for (let i = obj.tIndividualTags[username].length - 1; i > -1; i--) {
-            if (!obj.tIndividualTags[username][i]) {
-              obj.tIndividualTags[username].splice(i, 1);
-            }
-          }
-          users.push({
-            [item.sg ? `username` : `steamId`]: username,
-            values: {
-              tags: Array.from(new Set(obj.tIndividualTags[username]))
-            }
-          });
-        });
-        await saveUsers(users);
-        setSetting(`ut_colors`, esgst.ut_colors);
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          ut_addTags(item.code, obj.tIndividualTags[item.code]);
-        });
-        break;
-      }
-      case `Games`: {
-        let tags = obj.tPopup.input.value.replace(/(,\s*)+/g, formatTags);
-        let games = {
-          apps: {},
-          subs: {}
-        };
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let id = item.code;
-          let type = item.type;
-          let gameKey = `${type}_${id}`;
-          obj.tTags.forEach(tag => {
-            const index = obj.tIndividualTags[gameKey].indexOf(tag);
-            if (index > -1) {
-              obj.tIndividualTags[gameKey].splice(index, 1);
-            }
-          });
-          if (obj.tIndividualTags[gameKey].length > 0) {
-            obj.tIndividualTags[gameKey] = tags.replace(/\[\*\]/, obj.tIndividualTags[gameKey].join(`, `)).split(/,\s/);
-          } else {
-            obj.tIndividualTags[gameKey] = tags.replace(/\[\*\]|,\s\[\*\]/, ``).split(/,\s/);
-          }
-          for (let i = obj.tIndividualTags[gameKey].length - 1; i > -1; i--) {
-            if (!obj.tIndividualTags[gameKey][i]) {
-              obj.tIndividualTags[gameKey].splice(i, 1);
-            }
-          }
-          games[type][id] = {
-            tags: Array.from(new Set(obj.tIndividualTags[gameKey]))
-          };
-        });
-        await lockAndSaveGames(games);
-        setSetting(`gt_colors`, esgst.gt_colors);
-        items.forEach(item => {
-          if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          gt_addTags(null, item.code, obj.tIndividualTags[`${item.type}_${item.code}`], item.type);
-        });
-        break;
-      }
-    }
-    obj.tPopup.close();
   }
 
   async function mm_hideGames(obj, items) {
