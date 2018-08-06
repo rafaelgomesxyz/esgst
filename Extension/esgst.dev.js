@@ -421,6 +421,9 @@
       }
     }
     change(toggle, value, callback, event) {
+      if (event) {
+        event.stopPropagation();
+      }
       if (this.isThreeState) {
         if ((this.value === `disabled` && !value) || (value === `none`)) {
           this.enabled.classList.add(`esgst-hidden`);
@@ -1973,6 +1976,7 @@
         gf_presetGe: null,
         gf_presetGed: null,
         ggl_index: 0,
+        gpt_colors: {},
         gt_colors: {},
         gts_preciseStart: false,
         gts_preciseEnd: false,
@@ -2097,7 +2101,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.25.4`,
-      devVersion: `7.25.5 (Dev.3)`,
+      devVersion: `7.25.5 (Dev.4)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -2161,16 +2165,20 @@
       apPopouts: {},
       tsTables: [],
       currentUsers: {},
+      currentGroups: {},
       mainGiveaways: [],
       mainDiscussions: [],
       mainUsers: [],
       mainGames: [],
+      mainGroups: [],
       popupGiveaways: [],
       popupDiscussions: [],
       popupUsers: [],
       popupGames: [],
+      popupGroups: [],
       mmWbcUsers: [],
       gameFeatures: [],
+      groupFeatures: [],
       giveawayFeatures: [],
       discussionFeatures: [],
       profileFeatures: [],
@@ -6605,34 +6613,37 @@
   }
 
   async function lockAndSaveGroups(groups, sync) {
-    let deleteLock, savedGroups;
-    deleteLock = await createLock(`groupLock`, 300);
-    savedGroups = JSON.parse(await getValue(`groups`, `[]`));
+    const deleteLock = await createLock(`groupLock`, 300);
+    let savedGroups = JSON.parse(await getValue(`groups`, `[]`));
     if (!Array.isArray(savedGroups)) {
-      let newGroups = [];
+      const newGroups = [];
       for (const key in savedGroups) {
         newGroups.push(savedGroups[key]);
       }
       savedGroups = newGroups;
     }
     if (sync) {
-      for (let i = 0, n = savedGroups.length; i < n; ++i) {
-        if (savedGroups[i]) {
-          delete savedGroups[i].member;
+      for (const group of savedGroups) {
+        if (group) {
+          delete group.member;
         }
       }
     }
-    for (let code in groups) {
-      let i, n;
-      for (i = 0, n = savedGroups.length; i < n && savedGroups[i].code !== code; ++i);
-      if (i < n) {
-        for (let key in groups[code]) {
-          if (savedGroups[i]) {
-            savedGroups[i][key] = groups[code][key];
-          }
+    for (const code in groups) {
+      const group = groups[code];
+      const savedGroup = savedGroups.filter(item => item.code === code)[0];
+      if (savedGroup) {
+        for (const key in group) {
+          savedGroup[key] = group[key];
         }
       } else {
-        savedGroups.push(groups[code]);
+        savedGroup = group;
+        savedGroups.push(savedGroup);
+      }
+      if (!savedGroup.avatar || !savedGroup.steamId) {
+        const html = parseHtml((await request({method: `GET`, url: `/group/${code}/`})).responseText);
+        savedGroup.avatar = html.getElementsByClassName(`global__image-inner-wrap`)[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
+        savedGroup.steamId = html.getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
       }
     }
     await setValue(`groups`, JSON.stringify(savedGroups));
@@ -6954,6 +6965,11 @@
       Name: `SMManageGameTags esgst-heading-button`,
       Title: `Manage game tags`
     }, {
+      Check: esgst.gpt,
+      Icons: [`fa-users`, `fa-tags`],
+      Name: `SMManageGroupTags esgst-heading-button`,
+      Title: `Manage group tags`
+    }, {
       Check: esgst.wbc,
       Icons: [`fa-heart`, `fa-ban`, `fa-cog`],
       Name: `esgst-wbc-button esgst-heading-button`,
@@ -7043,6 +7059,7 @@
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
     let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
     let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
+    let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
     let SMViewUsernameChanges = fixed.getElementsByClassName(`SMViewUsernameChanges`)[0];
     if (esgst.wbc) {
       wbc_addButton(null, fixed.getElementsByClassName(`esgst-wbc-button`)[0]);
@@ -7083,6 +7100,9 @@
     }
     if (SMManageGameTags) {
       SMManageGameTags.addEventListener(`click`, openManageGameTagsPopup);
+    }
+    if (SMManageGroupTags) {
+      SMManageGroupTags.addEventListener(`click`, openManageGroupTagsPopup);
     }
     if (SMManageFilteredUsers) {
       setSMManageFilteredUsers(SMManageFilteredUsers);
@@ -7991,7 +8011,7 @@
       }
     }
     if (Feature.options) {
-      const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`index`, [Feature.options]];
+      const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
       for (const [index, option] of options.entries()) {
         const currentKey = key.replace(/\*/, index);
         const selectedIndex = esgst[`${ID}${currentKey}`];
@@ -9231,7 +9251,7 @@
   }
 
   async function openManageUserTagsPopup() {
-    let context, current, input, popup, savedUser, savedUsers, users;
+    let context, input, popup, savedUser, savedUsers, users;
     popup = new Popup(`fa-tags`, `Manage user tags:`, true);
     input = createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -9256,7 +9276,6 @@
       mm(heading);
     }
     savedUsers = JSON.parse(await getValue(`users`));
-    current = {};
     users = {};
     for (const steamId in savedUsers.users) {
       savedUser = savedUsers.users[steamId];
@@ -9277,25 +9296,22 @@
             type: `a`
           }]
         }]);
-        current[savedUser.username || steamId] = {
-          elements: [context.firstElementChild]
-        };
         users[savedUser.username || steamId] = {
           context: context
         };
       }
     }
     await endless_load(popup.scrollable);
-    input.addEventListener(`input`, filterUserTags.bind(null, current, popup, users));
+    input.addEventListener(`input`, filterUserTags.bind(null, users));
     popup.open();
   }
 
-  function filterUserTags(current, popup, users, event) {
+  function filterUserTags(users, event) {
     let i, tags, username, userTags;
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (username in users) {
-        userTags = users[username].context.getElementsByClassName(`esgst-ut-tags`)[0];
+        userTags = users[username].context.getElementsByClassName(`esgst-tags`)[0];
         for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
         if (i < 0) {
           users[username].context.classList.add(`esgst-hidden`);
@@ -9311,7 +9327,7 @@
   }
 
   async function openManageGameTagsPopup() {
-    let context, current, games, input, popup, savedGame, savedGames;
+    let context, games, input, popup, savedGame, savedGames;
     popup = new Popup(`fa-tags`, `Manage game tags:`, true);
     input = createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -9336,10 +9352,6 @@
       mm(heading);
     }
     savedGames = JSON.parse(await getValue(`games`));
-    current = {
-      apps: {},
-      subs: {}
-    };
     games = {
       apps: {},
       subs: {}
@@ -9361,9 +9373,6 @@
             type: `a`
           }]
         }]);
-        current.apps[id] = [{
-          heading: context
-        }];
         games.apps[id] = {
           context: context
         };
@@ -9386,25 +9395,22 @@
             type: `a`
           }]
         }]);
-        current.subs[id] = [{
-          heading: context
-        }];
         games.subs[id] = {
           context: context
         };
       }
     }
     await endless_load(popup.scrollable);
-    input.addEventListener(`input`, filterGameTags.bind(null, current, games, popup));
+    input.addEventListener(`input`, filterGameTags.bind(null, games));
     popup.open();
   }
 
-  function filterGameTags(current, games, popup, event) {
+  function filterGameTags(games, event) {
     let gameTags, i, id, tags;
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (id in games.apps) {
-        gameTags = games.apps[id].context.getElementsByClassName(`esgst-gt-tags`)[0];
+        gameTags = games.apps[id].context.getElementsByClassName(`esgst-tags`)[0];
         for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
         if (i < 0) {
           games.apps[id].context.classList.add(`esgst-hidden`);
@@ -9413,7 +9419,7 @@
         }
       }
       for (id in games.subs) {
-        gameTags = games.subs[id].context.getElementsByClassName(`esgst-gt-tags`)[0];
+        gameTags = games.subs[id].context.getElementsByClassName(`esgst-tags`)[0];
         for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
         if (i < 0) {
           games.subs[id].context.classList.add(`esgst-hidden`);
@@ -9427,6 +9433,76 @@
       }
       for (id in games.subs) {
         games.subs[id].context.classList.remove(`esgst-hidden`);
+      }
+    }
+  }
+
+  async function openManageGroupTagsPopup() {
+    let context, input, popup, savedGroups, groups;
+    popup = new Popup(`fa-tags`, `Manage group tags:`, true);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the groups by.`,
+      type: `div`
+    }]);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
+    if (esgst.mm) {
+      mm(heading);
+    }
+    savedGroups = JSON.parse(await getValue(`groups`));
+    groups = {};
+    for (const savedGroup of savedGroups) {
+      if (!savedGroup || !savedGroup.tags || (savedGroup.tags.length < 2 && (!savedGroup.tags[0] || !savedGroup.tags[0].trim()))) {
+        continue;
+      }
+      context = createElements(popup.scrollable, `beforeEnd`, [{
+        type: `div`,
+        children: [{
+          attributes: {
+            href: `https://www.steamgifts.com/group/${savedGroup.code}/`
+          },
+          text: savedGroup.name,
+          type: `a`
+        }]
+      }]);
+      groups[savedGroup.code] = {
+        context: context
+      };
+    }
+    await endless_load(popup.scrollable);
+    input.addEventListener(`input`, filterGroupTags.bind(null, groups));
+    popup.open();
+  }
+
+  function filterGroupTags(groups, event) {
+    let i, tags, code, groupTags;
+    if (event.currentTarget.value) {
+      tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
+      for (code in groups) {
+        groupTags = groups[code].context.getElementsByClassName(`esgst-tags`)[0];
+        for (i = tags.length - 1; i >= 0 && !groupTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        if (i < 0) {
+          groups[code].context.classList.add(`esgst-hidden`);
+        } else {
+          groups[code].context.classList.remove(`esgst-hidden`);
+        }
+      }
+    } else {
+      for (code in groups) {
+        groups[code].context.classList.remove(`esgst-hidden`);
       }
     }
   }
@@ -9701,6 +9777,10 @@
           {
             key: `groups_main`,
             name: `Main`
+          },
+          {
+            key: `groups_gpt`,
+            name: `Group Tags`
           },
           {
             key: `groups_sgg`,
@@ -10165,6 +10245,10 @@
             {
               key: `groups_main`,
               name: `Main`
+            },
+            {
+              key: `groups_gpt`,
+              name: `Group Tags`
             },
             {
               key: `groups_sgg`,
@@ -10954,7 +11038,8 @@
           break;
         case `groups`:
           values = {
-            main: [`avatar`, `code`, `member`, `name`],
+            main: [`avatar`, `code`, `member`, `name`, `steamId`],
+            gpt: [`tags`],
             sgg: [`stickied`]
           };
           mergedData = JSON.parse(await getValue(optionKey, `[]`));
@@ -10968,6 +11053,7 @@
           data[optionKey] = [];
           sizes = {
             main: 0,
+            gpt: 0,
             sgg: 0,
             total: 0
           };
@@ -11053,7 +11139,24 @@
                     if (esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                       for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
                         let valueKey = values[value][k];
-                        mergedDataValue[valueKey] = newData[j][valueKey];
+                        switch (valueKey) {
+                          case `tags`:
+                            if (mergedDataValue.tags) {
+                              let tags = newData[j].tags;
+                              for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                let tag = tags[k];
+                                if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                  mergedDataValue.tags.push(tag);
+                                }
+                              }
+                            } else {
+                              mergedDataValue.tags = newData[j].tags;
+                            }
+                            break;
+                          default:
+                            mergedDataValue[valueKey] = newData[j][valueKey];
+                            break;
+                        }
                       }
                     }
                   }
@@ -12329,7 +12432,11 @@
       `;
     }
     style += `
-      .esgst-ut-suggestions {
+      .form_list_item_summary_name {
+        display: inline-block;
+      }
+
+      .esgst-tag-suggestions {
         background-color: #fff;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -12339,18 +12446,18 @@
         width: 300px;
       }
 
-      .esgst-ut-suggestions >* {
+      .esgst-tag-suggestion {
         cursor: pointer;
         font-weight: bold;
         padding: 5px;
         text-shadow: none;
       }
 
-      .esgst-ut-suggestions >*:not(:last-child) {
+      .esgst-tag-suggestion:not(:last-child) {
         border-bottom: 1px solid #ccc;
       }  
 
-      .esgst-ut-suggestions .esgst-selected {
+      .esgst-tag-suggestion.esgst-selected {
         background-color: #465670;
         color: #fff;
       }
@@ -13662,7 +13769,7 @@
         text-align: left;
       }
 
-      .esgst-popup-description >*:not(.esgst-ut-suggestions), .esgst-popup-scrollable >* {
+      .esgst-popup-description >*:not(.esgst-tag-suggestions), .esgst-popup-scrollable >* {
         margin: 10px 0 0 !important;
       }
 
@@ -14507,92 +14614,33 @@
         margin: 2px;
       }
 
-      .esgst-gt-preview .esgst-gt-tags {
-        display: inline-block;
-      }
-
-      .esgst-gt-preview input[type=text] {
-        display: inline-block;
-        width: 100px;
-        height: 15px;
-      }
-
-      .esgst-gt-preview input[type=color] {
-        box-sizing: unset;
-        height: 13px;
-        line-height: normal;
-        margin: 0;
-        padding: 0;
-        vertical-align: top;
-        width: 15px;
-      }
-
-      .esgst-gt-button {
-        border: 0! important;
-        cursor: pointer;
-        display: inline-block;
-        line-height: normal;
-        text-decoration: none !important;
-        transition: opacity 0.2s;
-      }
-
-      .esgst-gt-button:hover {
-        opacity: 1;
-      }
-
-      .esgst-gt-button i {
-        margin: 0 !important;
-      }
-
-      .giveaway__row-outer-wrap .esgst-gt-button, .table__row-outer-wrap .esgst-gt-button {
+      .giveaway__row-outer-wrap .esgst-tag-button, .table__row-outer-wrap .esgst-tag-button {
         margin-left: 5px;
       }
 
-      .esgst-gt-tags {
-        font-size: 10px;
-        font-weight: bold;
-      }
-
-      .esgst-gt-tags >* {
-        display: inline-block !important;
-        height: auto;
-        margin: 0;
-        padding: 2px;
-        text-shadow: none;
-        width: auto;
-      }
-
-      .esgst-gt-tags >:not(:first-child) {
-        margin: 0 0 0 5px;
-      }
-
-      .esgst-gv-popout .esgst-gt-tags {
-        display: none;
-      }
-
-      .esgst-ut-existing-button {
+      .esgst-tag-list-button {
         padding: 8px;
         right: 25px;
         position: absolute;
       }
 
-      .esgst-ut-existing-tags {
+      .esgst-tag-list {
         font-weight: bold;
         text-align: left;
         text-shadow: none;
       }
 
-      .esgst-ut-preview .esgst-ut-tags {
+      .esgst-tag-preview .esgst-tags {
         display: inline-block;
       }
 
-      .esgst-ut-preview input[type=text] {
+      .esgst-tag-preview input[type=text] {
         display: inline-block;
         width: 100px;
         height: 15px;
       }
 
-      .esgst-ut-preview input[type=color] {
+      .esgst-tag-preview input[type=color] {
         box-sizing: unset;
         height: 13px;
         line-height: normal;
@@ -14602,7 +14650,7 @@
         width: 15px;
       }
 
-      .esgst-ut-button {
+      .esgst-tag-button {
         border: 0! important;
         cursor: pointer;
         display: inline-block;
@@ -14612,24 +14660,24 @@
         transition: opacity 0.2s;
       }
 
-      .esgst-ut-button:hover {
+      .esgst-tag-button:hover {
         opacity: 1;
       }
 
-      .author_name + .esgst-ut-button {
+      .author_name + .esgst-tag-button {
         margin: 0 5px 0 0;
       }
 
-      .esgst-ut-button i {
+      .esgst-tag-button i {
         margin: 0 !important;
       }
 
-      .esgst-ut-tags {
+      .esgst-tags {
         font-size: 10px;
         font-weight: bold;
       }
 
-      .esgst-ut-tags >* {
+      .esgst-tag {
         display: inline-block !important;
         height: auto;
         margin: 0;
@@ -14638,11 +14686,11 @@
         width: auto;
       }
 
-      .esgst-ut-tags >:not(:first-child) {
+      .esgst-tag:not(:first-child) {
         margin: 0 0 0 5px;
       }
 
-      .esgst-gv-popout .esgst-ut-tags, .esgst-adots .esgst-ut-tags {
+      .esgst-gv-popout .esgst-tags, .esgst-adots .esgst-tags {
         display: none;
       }
     `;
