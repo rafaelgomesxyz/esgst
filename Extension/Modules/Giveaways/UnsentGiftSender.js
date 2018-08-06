@@ -71,12 +71,14 @@ _MODULES.push({
         children: [{
           type: `ul`,
           children: [{
+            attributes: {
+              class: `esgst-inline-list`
+            },
             type: `li`,
             children: [{
               attributes: {
                 class: `esgst-bold`
               },
-              text: ``,
               type: `span`,
               children: [{
                 text: `Successfully sent gifts to `,
@@ -87,17 +89,22 @@ _MODULES.push({
               }, {
                 text: ` winners:`,
                 type: `node`
-              }, {
-                type: `span`
               }]
+            }, {
+              attributes: {
+                class: `esgst-inline-list`
+              },
+              type: `span`
             }]
           }, {
+            attributes: {
+              class: `esgst-inline-list`
+            },
             type: `li`,
             children: [{
               attributes: {
                 class: `esgst-bold`
               },
-              text: ``,
               type: `span`,
               children: [{
                 text: `Failed to send gifts to `,
@@ -108,9 +115,12 @@ _MODULES.push({
               }, {
                 text: ` winners (check the tooltips to find out the cause of the failures):`,
                 type: `node`
-              }, {
-                type: `span`
               }]
+            }, {
+              attributes: {
+                class: `esgst-inline-list`
+              },
+              type: `span`
             }]
           }]
         }]
@@ -359,6 +369,8 @@ _MODULES.push({
               } else if (multiple) {
                 winner.error = `${winner.username} has ${multiple} multiple wins.`;
               }
+              winner.sgToolsErrorNAW = notActivated;
+              winner.sgToolsErrorMW = multiple;
             }
 
             if (esgst.ugs_checkMember && giveaway.group && !winner.error) {
@@ -474,7 +486,39 @@ _MODULES.push({
                 }, {
                   text: `) `,
                   type: `node`
-                }, {
+                }, winner.sgToolsErrorNAW ? {
+                  attributes: {
+                    class: `esgst-red`,
+                    href: `http://www.sgtools.info/nonactivated/${winner.username}`
+                  },
+                  type: `a`,
+                  children: [{
+                    text: `${winner.sgToolsErrorNAW} `,
+                    type: `node`
+                  }, {
+                    attributes: {
+                      class: `fa fa-steam`,
+                      title: `Not activated wins` 
+                    },
+                    type: `i`
+                  }]
+                } : null, winner.sgToolsErrorMW ? {
+                  attributes: {
+                    class: `esgst-red`,
+                    href: `http://www.sgtools.info/multiple/${winner.username}`
+                  },
+                  type: `a`,
+                  children: [{
+                    text: `${winner.sgToolsErrorMW} `,
+                    type: `node`
+                  }, {
+                    attributes: {
+                      class: `fa fa-clone`,
+                      title: `Multiple wins` 
+                    },
+                    type: `i`
+                  }]
+                } : null, {
                   attributes: {
                     class: `fa fa-question-circle`,
                     title: winner.error
