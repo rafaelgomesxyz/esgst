@@ -784,14 +784,14 @@ _MODULES.push({
     const missingApps = [];
     const missingSubs = [];
     if (esgst.gc_gi || esgst.gc_r || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 3 }`));
-      if (gc.cache.version !== 3) {
+      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 4 }`));
+      if (gc.cache.version !== 4) {
         gc.cache = {
           apps: {},
           subs: {},
           hltb: gc.cache.hltb,
           timestamp: 0,
-          version: 3
+          version: 4
         };
       }
       if (!gc.cache.hltb) {
@@ -1046,17 +1046,22 @@ _MODULES.push({
           }
           if (data.categories) {
             for (let i = 0, n = data.categories.length; i < n; ++i) {
-              switch (data.categories[i].description) {
-                case `Steam Achievements`:
+              switch (data.categories[i].description.toLowerCase()) {
+                case `steam achievements`:
                   categories.achievements = 1;
                   break;
-                case `Multi-player`:
+                case `multi-player`:
+                case `online multi-player`:
+                case `co-op`:
+                case `local co-op`:
+                case `online co-op`:
+                case `shared/split screen`:
                   categories.multiplayer = 1;
                   break;
-                case `Steam Cloud`:
+                case `steam cloud`:
                   categories.steamCloud = 1;
                   break;
-                case `Steam Trading Cards`:
+                case `steam trading cards`:
                   categories.tradingCards = 1;
                   break;
                 default:

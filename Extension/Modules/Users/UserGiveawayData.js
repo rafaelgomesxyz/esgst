@@ -683,14 +683,14 @@ _MODULES.push({
       await ugd_addGame(obj, id);
       obj.appsTotal--;
     }
-    let gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 3 }`));
-    if (gcCache.version !== 3) {
+    let gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 4 }`));
+    if (gcCache.version !== 4) {
       gcCache = {
         apps: {},
         subs: {},
         hltb: gcCache.hltb,
         timestamp: 0,
-        version: 3
+        version: 4
       };
     }
     if (!gcCache.hltb) {
