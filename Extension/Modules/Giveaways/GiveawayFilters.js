@@ -439,6 +439,16 @@ _MODULES.push({
             name: `Creators`,
             sg: true
           },
+          gf_learning: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways for games that Steam is learning about.</li>
+                <li>This option requires [id=gc_lg] enabled to work.</li>
+              </ul>
+            `,
+            name: `Learning`,
+            sg: true
+          },
           gf_removed: {
             description: `
               <ul>
@@ -991,6 +1001,12 @@ _MODULES.push({
         list: true,
         name: `Creators`,
         type: `string`
+      },
+      learning: {
+        category: `gc_lg`,
+        check: true,
+        name: `Learning`,
+        type: `boolean`
       },
       removed: {
         category: `gc_rm`,
