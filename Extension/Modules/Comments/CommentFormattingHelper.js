@@ -3342,10 +3342,12 @@ _MODULES.push({
   }
 
   async function cfh_getEmojis() {
-    const emojis = JSON.parse(await getValue(`emojis`, `[]`));
-    console.log(emojis);
+    let emojis = JSON.parse(await getValue(`emojis`, `[]`));
     return emojis
       .map(emoji => {
+        if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
+          emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
+        }
         const emojiData = esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData.emoji;
         return {
