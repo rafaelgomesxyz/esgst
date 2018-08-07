@@ -3555,7 +3555,6 @@
       close();
     } else {
       esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
-      console.log(esgst.logoutButton);
       if (!esgst.logoutButton && !esgst.menuPath) {
         // user is not logged in
         return;
@@ -3617,7 +3616,7 @@
           esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
           esgst.pageOuterWrap = esgst.header.nextElementSibling;
           esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
-          esgst.logoutButton = responseHtml.getElementsByClassName(esgst.sg ? `js__logout` : `js_logout`)[0];
+          esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
           if (esgst.logoutButton) {
             esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
           }
@@ -3940,7 +3939,6 @@
     }
     if (esgst.logoutButton) {
       esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
-      console.log(esgst.xsrfToken);
     }
   }
 _MODULES.push({
