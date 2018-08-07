@@ -9,7 +9,7 @@ _MODULES.push({
       gc_lr: {
         description: `
           <ul>
-            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential and limited to 200ms per request globally (the next game will only be requested when the current game has finished requesting).</li>
+            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).</li>
             <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
           </ul>
         `,
