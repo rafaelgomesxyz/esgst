@@ -9,7 +9,7 @@ _MODULES.push({
       gc_lr: {
         description: `
           <ul>
-            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting).</li>
+            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential and limited to 200ms per request globally (the next game will only be requested when the current game has finished requesting).</li>
             <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
           </ul>
         `,
@@ -1091,7 +1091,7 @@ _MODULES.push({
         tags: ``,
         tradingCards: 0
       };
-      let responseJson = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
+      let responseJson = JSON.parse((await request({method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
       let data;
       if (responseJson && responseJson[id]) {
         data = responseJson[id].data;
@@ -1171,7 +1171,7 @@ _MODULES.push({
         }
       }
       if (esgst.gc_lg || esgst.gc_r || esgst.gc_rm || esgst.gc_g_udt) {
-        let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+        let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
         let responseHtml = parseHtml(response.responseText);
         if (response.finalUrl.match(id)) {
           let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
@@ -1226,7 +1226,7 @@ _MODULES.push({
           categories.freeBase = gc.cache.apps[categories.base].free;
         }
         if (typeof categories.freeBase === `undefined`) {
-          categories.freeBase = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+          categories.freeBase = JSON.parse((await request({method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
         }
       }
       gc.cache[type][id] = categories;
