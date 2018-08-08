@@ -2109,7 +2109,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.0`,
-      devVersion: `7.26.1 (Dev.4)`,
+      devVersion: `7.26.1 (Dev.5)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3817,7 +3817,7 @@
         hideButton.addEventListener(`click`, () => updateHiddenGames(esgst.hidingGame.id, esgst.hidingGame.type, false));
       }
     }
-  
+
     observeStickyChanges(document.body);
 
     if (esgst.newGiveawayPath) {
@@ -40500,7 +40500,7 @@ _MODULES.push({
       const list = [];
       for (const item of section.items) {
         if (!esgst[item.id]) {
-          return;
+          continue;
         }
         list.push({
           attributes: {
@@ -40536,7 +40536,7 @@ _MODULES.push({
         enabled = true;
       }
       if (!enabled) {
-        return;
+        continue;
       }
       items.push({
         attributes: {
@@ -40554,136 +40554,130 @@ _MODULES.push({
       });
     }
     createElements(esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0], `afterEnd`, items);
-  }
+  }_MODULES.push({
+  endless: true,
+  id: `profile`,
+  load: profile
+});
 
-  _MODULES.push({
-    endless: true,
-    id: `profile`,
-    load: profile
-  });
-  
-   async function profile() {
-    if (!esgst.userPath) return;
-    await profile_load(document);
-  }
+ async function profile() {
+  if (!esgst.userPath) return;
+  await profile_load(document);
+}
 
-  async function profile_load(context) {
-    let element, elements, i, input, key, match, profile, rows;
-    profile = {};
-    if (esgst.sg) {
-      profile.heading = context.getElementsByClassName(`featured__heading`)[0];
-      input = context.querySelector(`[name="child_user_id"]`);
-      if (input) {
-        profile.id = input.value;
-      } else {
-        profile.id = ``;
-      }
-      profile.username = profile.heading.textContent.replace(/\s[\s\S]*/, ``);
-      profile.steamButtonContainer = context.getElementsByClassName(`sidebar__shortcut-outer-wrap`)[0];
-      profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
-      profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
-      profile.name = profile.username;
+async function profile_load(context) {
+  let element, elements, i, input, key, match, profile, rows;
+  profile = {};
+  if (esgst.sg) {
+    profile.heading = context.getElementsByClassName(`featured__heading`)[0];
+    input = context.querySelector(`[name="child_user_id"]`);
+    if (input) {
+      profile.id = input.value;
     } else {
-      profile.heading = esgst.mainPageHeading;
       profile.id = ``;
-      profile.username = ``;
-      profile.steamButtonContainer = context.getElementsByClassName(`profile_links`)[0];
-      profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
-      profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
-      profile.name = profile.steamId;
     }
-    elements = context.getElementsByClassName(`featured__table__row__left`);
-    for (i = elements.length - 1; i >= 0; --i) {
-      element = elements[i];
-      match = element.textContent.match(/(Comments|Gifts (Won|Sent)|Contributor Level)/);
-      if (match) {
-        key = match[2];
-        if (key) {
-          if (key === `Won`) {
-            profile.wonRow = element.parentElement;
-            profile.wonRowLeft = element;
-            profile.wonRowRight = element.nextElementSibling;
-            rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
-            profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
-            profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
-            profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
-            profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
-            profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
-            rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
-            profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/\$|,/g, ``));
-            profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
-          } else {
-            profile.sentRow = element.parentElement;
-            profile.sentRowLeft = element;
-            profile.sentRowRight = element.nextElementSibling;
-            rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
-            profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
-            profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
-            profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
-            profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
-            profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
-            profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
-            rows = JSON.parse(profile.sentCvContainer.getAttribute(`data-ui-tooltip`)).rows;
-            profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/\$|,/g, ``));
-            profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
-          }
-        } else if (match[1] === `Comments`) {
-          profile.commentsRow = element.parentElement;
+    profile.username = profile.heading.textContent.replace(/\s[\s\S]*/, ``);
+    profile.steamButtonContainer = context.getElementsByClassName(`sidebar__shortcut-outer-wrap`)[0];
+    profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
+    profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
+    profile.name = profile.username;
+  } else {
+    profile.heading = esgst.mainPageHeading;
+    profile.id = ``;
+    profile.username = ``;
+    profile.steamButtonContainer = context.getElementsByClassName(`profile_links`)[0];
+    profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
+    profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
+    profile.name = profile.steamId;
+  }
+  elements = context.getElementsByClassName(`featured__table__row__left`);
+  for (i = elements.length - 1; i >= 0; --i) {
+    element = elements[i];
+    match = element.textContent.match(/(Comments|Gifts (Won|Sent)|Contributor Level)/);
+    if (match) {
+      key = match[2];
+      if (key) {
+        if (key === `Won`) {
+          profile.wonRow = element.parentElement;
+          profile.wonRowLeft = element;
+          profile.wonRowRight = element.nextElementSibling;
+          rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+          profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
+          profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
+          profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
+          profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
+          profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
+          rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
+          profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/\$|,/g, ``));
+          profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
         } else {
-          profile.levelRow = element.parentElement;
-          profile.levelRowLeft = element;
-          profile.levelRowRight = element.nextElementSibling;
-          rows = JSON.parse(profile.levelRowRight.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
-          profile.level = parseFloat(rows[0].columns[1].name);
+          profile.sentRow = element.parentElement;
+          profile.sentRowLeft = element;
+          profile.sentRowRight = element.nextElementSibling;
+          rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+          profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
+          profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
+          profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
+          profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
+          profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
+          profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
+          rows = JSON.parse(profile.sentCvContainer.getAttribute(`data-ui-tooltip`)).rows;
+          profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/\$|,/g, ``));
+          profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
         }
-      }
-    }
-    profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
-    profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
-    if (profile.whitelistButton) {
-      if (esgst.updateWhitelistBlacklist) {
-        profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
-      }
-    }
-    if (profile.blacklistButton) {
-      if (esgst.updateWhitelistBlacklist) {
-        profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
-      }
-    }
-    let savedUser = esgst.users.users[profile.steamId];
-    if (savedUser) {
-      const user = {
-        steamId: profile.steamId,
-        username: profile.username,
-        values: {}
-      };
-      if (checkUsernameChange(esgst.users, user)) {
-        await saveUser(null, esgst.users, user);
-        savedUser = esgst.users.users[profile.steamId];
-      }
-    }
-    for (const feature of esgst.profileFeatures) {
-      try {
-        await feature(profile, savedUser);
-      } catch (error) {
-        console.log(error);
+      } else if (match[1] === `Comments`) {
+        profile.commentsRow = element.parentElement;
+      } else {
+        profile.levelRow = element.parentElement;
+        profile.levelRowLeft = element;
+        profile.levelRowRight = element.nextElementSibling;
+        rows = JSON.parse(profile.levelRowRight.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+        profile.level = parseFloat(rows[0].columns[1].name);
       }
     }
   }
-
-  _MODULES.push({
-    endless: true,
-    id: `endlessLoad`,
-    load: endlessLoad
-  });
-
-  async function endlessLoad() {    
-    if (!esgst.menuPath) {
-      await endless_load(document, true);
+  profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
+  profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
+  if (profile.whitelistButton) {
+    if (esgst.updateWhitelistBlacklist) {
+      profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
     }
   }
-  
-_MODULES.push({
+  if (profile.blacklistButton) {
+    if (esgst.updateWhitelistBlacklist) {
+      profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
+    }
+  }
+  let savedUser = esgst.users.users[profile.steamId];
+  if (savedUser) {
+    const user = {
+      steamId: profile.steamId,
+      username: profile.username,
+      values: {}
+    };
+    if (checkUsernameChange(esgst.users, user)) {
+      await saveUser(null, esgst.users, user);
+      savedUser = esgst.users.users[profile.steamId];
+    }
+  }
+  for (const feature of esgst.profileFeatures) {
+    try {
+      await feature(profile, savedUser);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}_MODULES.push({
+  endless: true,
+  id: `endlessLoad`,
+  load: endlessLoad
+});
+
+async function endlessLoad() {    
+  if (!esgst.menuPath) {
+    await endless_load(document, true);
+  }
+}_MODULES.push({
     description: `
       <ul>
         <li>If you hover over the inbox icon (<i class="fa fa-envelope"></i>) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.</li>
