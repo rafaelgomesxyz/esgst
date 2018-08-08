@@ -2110,7 +2110,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.0`,
-      devVersion: `7.26.1 (Dev.6)`,
+      devVersion: `7.26.1 (Dev.7)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -30351,10 +30351,6 @@ _MODULES.push({
       Icon: `fa fa-question-circle`,
       Description: `There is not enough information to know if you are whitelisted${WBC.B ? ` or blacklisted` : ``} by`,
       Key: `unknown`
-    }, {
-      Icon: `fa fa-forward`,
-      Description: `Skipped users`,
-      Key: `skipped`
     }]);
     WBCButton.addEventListener(`click`, () => {
       if (WBCButton.getAttribute(`data-mm`)) {
@@ -30417,14 +30413,12 @@ _MODULES.push({
     WBC.none.classList.add(`esgst-hidden`);
     WBC.notBlacklisted.classList.add(`esgst-hidden`);
     WBC.unknown.classList.add(`esgst-hidden`);
-    WBC.skipped.classList.add(`esgst-hidden`);
-    WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = WBC.skippedCount.textContent = `0`;
+    WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = `0`;
     WBC.whitelistedUsers.innerHTML = ``;
     WBC.blacklistedUsers.innerHTML = ``;
     WBC.noneUsers.innerHTML = ``;
     WBC.notBlacklistedUsers.innerHTML = ``;
     WBC.unknownUsers.innerHTML = ``;
-    WBC.skippedUsers.innerHTML = ``;
     WBC.Users = [];
     WBC.Canceled = false;
     if (WBC.Update) {
@@ -30488,60 +30482,44 @@ _MODULES.push({
     }
   }
 
-  function wbc_skipUser(wbc, username) {
-    wbc.manualSkip = false;
-    wbc.skipped.classList.remove(`esgst-hidden`);
-    wbc.skippedCount.textContent = parseInt(wbc.skippedCount.textContent) + 1;
-    createElements(wbc.skippedUsers, `beforeEnd`, [{
-      attributes: {
-        href: `/user/${username}`
-      },
-      text: username,
-      type: `a`
-    }]);
-  }
-
   async function wbc_checkUsers(WBC, I, N, Callback) {
     let User, Result;
     if (!WBC.Canceled) {
       WBC.Progress.innerHTML = ``;
       WBC.OverallProgress.textContent = `${I} of ${N} users checked...`;
       if (I < N) {
+        User = (WBC.User && esgst.wbc_checkSingle) ? WBC.User : {
+          Username: WBC.Users[I]
+        };
+        let user = {
+          steamId: User.SteamID64,
+          id: User.ID,
+          username: User.Username
+        };
+        let notes, whitelisted, blacklisted, wbc;
+        const savedUser = await getUser(null, user);
+        if (savedUser) {
+          notes = savedUser.notes;
+          whitelisted = savedUser.whitelisted;
+          blacklisted = savedUser.blacklisted;
+          wbc = savedUser.wbc;
+        }
+        if (wbc && wbc.result) {
+          Result = wbc.result;
+        }
         if (WBC.manualSkip) {
-          wbc_skipUser(WBC, WBC.Users[I]);
-          setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          if (!wbc) {
+            wbc = {};
+          }
+          setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
+        } else if (!wbc || !esgst.wbc_checkNew) {
+          if (!wbc) {
+            wbc = {};
+          }
+          await wbc_checkUser(wbc, WBC, user.username);
+          setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
         } else {
-          User = (WBC.User && esgst.wbc_checkSingle) ? WBC.User : {
-            Username: WBC.Users[I]
-          };
-          let user = {
-            steamId: User.SteamID64,
-            id: User.ID,
-            username: User.Username
-          };
-          let notes, whitelisted, blacklisted, wbc;
-          const savedUser = await getUser(null, user);
-          if (savedUser) {
-            notes = savedUser.notes;
-            whitelisted = savedUser.whitelisted;
-            blacklisted = savedUser.blacklisted;
-            wbc = savedUser.wbc;
-          }
-          if (wbc && wbc.result) {
-            Result = wbc.result;
-          }
-          if (!wbc || !esgst.wbc_checkNew) {
-            wbc_checkUser(WBC, wbc, user.username, wbc => {
-              if (wbc) {
-                setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
-              } else {
-                wbc_skipUser(WBC, user.username);
-                setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
-              }
-            });
-          } else {
-            setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
-          }
+          setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
         }
       } else if (Callback) {
         Callback();
@@ -30551,21 +30529,43 @@ _MODULES.push({
 
   async function wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, New, I, N, Callback) {
     let Key;
+    const isSkipped = WBC.manualSkip || WBC.autoSkip;
+    WBC.manualSkip = false;
+    WBC.autoSkip = false;
     if (!WBC.Canceled) {
       Key = ((wbc.result === `blacklisted` || wbc.result === `notBlacklisted`) && !WBC.B) ? `unknown` : wbc.result;
       WBC[Key].classList.remove(`esgst-hidden`);
       const attributes = {
-        href: `href="/user/${user.username}`
+        href: `/user/${user.username}`
       };
       if (New) {
         attributes.class = `esgst-bold esgst-italic`;
       }
+      let items = null;
+      if (isSkipped && (wbc.result === `unknown` || wbc.result === `notBlacklisted`)) {
+        items = [{
+          type: `span`,
+          children: [{
+            attributes,
+            text: `${user.username} `,
+            type: `a`
+          }, {
+            attributes: {
+              class: `fa fa-forward`,
+              title: `This user was skipped, so there may actually be enough information available.`
+            },
+            type: `i`
+          }]
+        }];
+      } else {
+        items = [{
+          attributes,
+          text: user.username,
+          type: `a`
+        }];
+      }
       WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
-      createElements(WBC[`${Key}Users`], `beforeEnd`, [{
-        attributes,
-        text: user.username,
-        type: `a`
-      }]);
+      createElements(WBC[`${Key}Users`], `beforeEnd`, items);
       if (!WBC.ShowResults) {
         if ((esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
           if (user.id) {
@@ -30666,315 +30666,288 @@ _MODULES.push({
     }
   }
 
-  function wbc_checkUser(WBC, wbc, username, Callback) {
-    let match;
-    if (!WBC.Canceled) {
-      if (WBC.manualSkip) {
-        Callback();
-      } else {
-        if (esgst.wbc_clearCache) {
-          wbc = null;
-        }
-        if (!wbc) {
-          wbc = {
-            lastCheck: 0,
-            timestamp: 0
-          };
-        }
-        if (wbc.giveaway) {
-          match = wbc.giveaway.match(/\/giveaway\/(.+?)\//);
-          if (match) {
-            delete wbc.giveaway;
-            wbc.ga = match[1];
+  async function wbc_checkUser(data, obj, username) {
+    if (obj.Canceled || obj.manualSkip) {
+      return;
+    }
+    if (esgst.wbc_clearCache) {
+      for (const key in data) {
+        delete data[key];
+      }
+    }
+    if (!data.lastCheck) {
+      data.lastCheck = 0;
+    }
+    if (!data.timestamp) {
+      data.timestamp = 0;
+    }
+    if (data.giveaway) {
+      const match = data.giveaway.match(/\/giveaway\/(.+?)\//);
+      if (match) {
+        delete data.giveaway;
+        data.ga = match[1];
+      }
+    }
+    if (data.whitelistGiveaway) {
+      const match = data.whitelistGiveaway.match(/\/giveaway\/(.+?)\//);
+      if (match) {
+        delete data.whitelistGiveaway;
+        data.wl_ga = match[1];
+      }
+    }
+    if (data.groupGiveaways) {
+      for (const key in data.groupGiveaways) {
+        const match = key.match(/^(.+?)\//);
+        if (match) {
+          if (!data.g_wl_gas) {
+            data.g_wl_gas = {};
           }
-        }
-        if (wbc.whitelistGiveaway) {
-          match = wbc.whitelistGiveaway.match(/\/giveaway\/(.+?)\//);
-          if (match) {
-            delete wbc.whitelistGiveaway;
-            wbc.wl_ga = match[1];
-          }
-        }
-        if (wbc.groupGiveaways) {
-          let key;
-          for (key in wbc.groupGiveaways) {
-            match = key.match(/^(.+?)\//);
-            if (match) {
-              if (!wbc.g_wl_gas) {
-                wbc.g_wl_gas = {};
-              }
-              wbc.g_wl_gas[match[1]] = wbc.groupGiveaways[key];
-              delete wbc.groupGiveaways[key];
-            }
-          }
-          if (Object.keys(wbc.groupGiveaways).length === 0) {
-            delete wbc.groupGiveaways;
-          }
-        }
-        if (((Date.now() - wbc.lastCheck) > 86400000) || WBC.Update) {
-          if (((!esgst.wbc_checkBlacklist || !WBC.B) && (wbc.wl_ga || wbc.g_wl_ga)) || (esgst.wbc_checkBlacklist && WBC.B && wbc.ga)) {
-            WBC.Timestamp = wbc.timestamp;
-            wbc_checkGiveaway(WBC, wbc, username, Callback);
-          } else {
-            WBC.Timestamp = 0;
-            WBC.GroupGiveaways = [];
-            match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-            wbc_getGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
-          }
-        } else {
-          Callback(wbc);
+          data.g_wl_gas[match[1]] = data.groupGiveaways[key];
+          delete data.groupGiveaways[key];
         }
       }
+      if (Object.keys(data.groupGiveaways).length === 0) {
+        delete data.groupGiveaways;
+      }
+    }
+    if (Date.now() - data.lastCheck <= 86400000 && !obj.Update) {
+      return;
+    }
+    if (((!esgst.wbc_checkBlacklist || !obj.B) && (data.wl_ga || data.g_wl_ga)) || (esgst.wbc_checkBlacklist && obj.B && data.ga)) {
+      obj.Timestamp = data.timestamp;
+      await wbc_checkGiveaway(data, obj, username);
+    } else {
+      obj.Timestamp = 0;
+      const match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+      await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
     }
   }
 
-  async function wbc_checkGiveaway(WBC, wbc, username, Callback) {
-    if (WBC.Canceled) return;
-    let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`})).responseText);
+  async function wbc_checkGiveaway(data, obj, username) {
+    if (obj.Canceled) {
+      return;
+    }
+    let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`})).responseText);
     let errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
     let stop;
     if (errorMessage) {
       errorMessage = errorMessage.textContent;
       if (errorMessage.match(/blacklisted the giveaway creator/)) {
-        wbc.result = `notBlacklisted`;
+        data.result = `notBlacklisted`;
         stop = true;
       } else if (errorMessage.match(/blacklisted by the giveaway creator/)) {
-        wbc.result = `blacklisted`;
+        data.result = `blacklisted`;
       } else if (errorMessage.match(/not a member of the giveaway creator's whitelist/)) {
-        wbc.result = `none`;
+        data.result = `none`;
       } else {
-        wbc.result = `notBlacklisted`;
+        data.result = `notBlacklisted`;
       }
-      wbc.lastCheck = Date.now();
-      wbc.timestamp = WBC.Timestamp;
-      Callback(wbc, stop);
-    } else if (wbc.wl_ga) {
-      wbc.result = `whitelisted`;
-      wbc.lastCheck = Date.now();
-      wbc.timestamp = WBC.Timestamp;
-      Callback(wbc, stop);
-    } else if (wbc.g_wl_ga) {
+      data.lastCheck = Date.now();
+      data.timestamp = obj.Timestamp;
+    } else if (data.wl_ga) {
+      data.result = `whitelisted`;
+      data.lastCheck = Date.now();
+      data.timestamp = obj.Timestamp;
+    } else if (data.g_wl_ga) {
       let found, groups, i, j, n;
       found = false;
       groups = JSON.parse(await getValue(`groups`, `[]`));
-      for (i = 0, n = wbc.g_wl_gas[wbc.g_wl_ga].length; i < n && !found; ++i) {
-        for (j = groups.length - 1; j > -1 && groups[j].code !== wbc.g_wl_gas[wbc.g_wl_ga][i]; --j);
+      for (i = 0, n = data.g_wl_gas[data.g_wl_ga].length; i < n && !found; ++i) {
+        for (j = groups.length - 1; j > -1 && groups[j].code !== data.g_wl_gas[data.g_wl_ga][i]; --j);
         if (j > -1 && groups[j].member) {
           found = true;
         }
       }
       if (found) {
-        WBC.Timestamp = 0;
-        WBC.GroupGiveaways = [];
+        obj.Timestamp = 0;
+        obj.GroupGiveaways = [];
         let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-        wbc_getGiveaways(WBC, wbc, username, 1, match ? (match[2] ? parseInt(match[2]) : 1) : 0, `/user/${username}/search?page=`, Callback);
+        await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
       } else {
-        wbc.result = `whitelisted`;
-        wbc.lastCheck = Date.now();
-        wbc.timestamp = WBC.Timestamp;
-        Callback(wbc, stop);
+        data.result = `whitelisted`;
+        data.lastCheck = Date.now();
+        data.timestamp = obj.Timestamp;
       }
     } else {
-      wbc.result = `notBlacklisted`;
-      wbc.lastCheck = Date.now();
-      wbc.timestamp = WBC.Timestamp;
-      Callback(wbc, stop);
+      data.result = `notBlacklisted`;
+      data.lastCheck = Date.now();
+      data.timestamp = obj.Timestamp;
     }
+    return stop;
   }
 
-  async function wbc_getGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callback, Context) {
-    let Giveaway, Pagination;
-    if (WBC.Canceled) return;
-    if (!esgst.wbc_skipUsers || NextPage - 1 <= esgst.wbc_pages) {
-      if (WBC.manualSkip) {
-        Callback();
+  async function wbc_getGiveaways(currentPage, data, obj, username) {
+    if (obj.Canceled) {
+      return;
+    }
+
+    let isStopped = false;
+    let nextPage = 1;
+    let pagination = null;
+    const url = `/user/${username}/search?page=`;
+    do {
+      let context = null;
+      if (currentPage === nextPage) {
+        context = document;
       } else {
-        if (Context) {
-          if (NextPage === 2) {
-            WBC.lastPage = lpl_getLastPage(Context, false, false, true);
-            WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
-          }
-          createElements(WBC.Progress, `inner`, [{
-            attributes: {
-              class: `fa fa-circle-o-notch fa-spin`
-            },
-            type: `i`
-          }, {
-            text: `Retrieving ${username}'s giveaways (page ${NextPage - 1}${WBC.lastPage})...`,
-            type: `span`
-          }]);
-          if (!wbc.ga) {
-            Giveaway = Context.querySelector(`[class="giveaway__heading__name"][href*="/giveaway/"]`);
-            wbc.ga = Giveaway ? Giveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1] : null;
-          }
-          Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-          Giveaway = Context.getElementsByClassName(`giveaway__summary`)[0];
-          if (Giveaway && (WBC.Timestamp === 0)) {
-            WBC.Timestamp = parseInt(Giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
-            if (WBC.Timestamp >= (new Date().getTime())) {
-              WBC.Timestamp = 0;
-            }
-          }
-          if (wbc.ga) {
-            wbc_checkGiveaway(WBC, wbc, username, (wbc, stop) => {
-              let WhitelistGiveaways, I, N, GroupGiveaway;
-              if ((wbc.result === `notBlacklisted`) && !stop && (!esgst.wbc_checkBlacklist || !WBC.B)) {
-                WhitelistGiveaways = Context.getElementsByClassName(`giveaway__column--whitelist`);
-                for (I = 0, N = WhitelistGiveaways.length; (I < N) && !wbc.wl_ga; ++I) {
-                  GroupGiveaway = WhitelistGiveaways[I].parentElement.getElementsByClassName(`giveaway__column--group`)[0];
-                  if (GroupGiveaway) {
-                    WBC.GroupGiveaways.push(GroupGiveaway.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1]);
-                  } else {
-                    wbc.wl_ga = WhitelistGiveaways[I].closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
-                  }
-                }
-                if (wbc.wl_ga) {
-                  wbc_checkGiveaway(WBC, wbc, username, Callback);
-                } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-                  setTimeout(() => wbc_getGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callback), 0);
-                } else if ((wbc.g_wl_gas && Object.keys(wbc.g_wl_gas).length) || WBC.GroupGiveaways.length) {
-                  wbc_getGroupGiveaways(WBC, 0, WBC.GroupGiveaways.length, wbc, username, async (wbc, Result) => {
-                    let Groups, GroupGiveaways, Found;
-                    if (wbc) {
-                      if (Result) {
-                        Callback(wbc);
-                      } else {
-                        Groups = JSON.parse(await getValue(`groups`, `[]`));
-                        for (GroupGiveaway in wbc.g_wl_gas) {
-                          Found = false;
-                          GroupGiveaways = wbc.g_wl_gas[GroupGiveaway];
-                          for (I = 0, N = GroupGiveaways.length; (I < N) && !Found; ++I) {
-                            let i;
-                            for (i = Groups.length - 1; i >= 0 && Groups[i].code !== GroupGiveaways[I]; --i);
-                            if (i >= 0 && Groups[i].member) {
-                              Found = true;
-                            }
-                          }
-                          if (!Found) {
-                            wbc.g_wl_ga = GroupGiveaway;
-                            break;
-                          }
-                        }
-                        if (Found) {
-                          Callback(wbc);
-                        } else {
-                          wbc.result = `whitelisted`;
-                          Callback(wbc);
-                        }
-                      }
-                    } else {
-                      Callback();
-                    }
-                  });
-                } else {
-                  Callback(wbc);
-                }
-              } else {
-                Callback(wbc);
-              }
-            });
-          } else if (((WBC.Timestamp >= wbc.timestamp) || (WBC.Timestamp === 0)) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-            setTimeout(() => wbc_getGiveaways(WBC, wbc, username, NextPage, CurrentPage, URL, Callback), 0);
-          } else {
-            wbc.result = `unknown`;
-            wbc.lastCheck = Date.now();
-            wbc.timestamp = WBC.Timestamp;
-            Callback(wbc);
-          }
-        } else if (!WBC.Canceled) {
-          if (CurrentPage != NextPage) {
-            let Response = await request({method: `GET`, queue: true, url: URL + NextPage});
-            if (Response.finalUrl.match(/\/user\//)) {
-              setTimeout(() => wbc_getGiveaways(WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, parseHtml(Response.responseText)), 0);
-            } else {
-              wbc.result = `unknown`;
-              wbc.lastCheck = Date.now();
-              wbc.timestamp = WBC.Timestamp;
-              Callback(wbc);
-            }
-          } else {
-            setTimeout(() => wbc_getGiveaways(WBC, wbc, username, ++NextPage, CurrentPage, URL, Callback, document), 0);
-          }
-        }
-      }
-    } else {
-      Callback();
-    }
-  }
-
-  function wbc_getGroupGiveaways(WBC, I, N, wbc, username, callback) {
-    if (!WBC.Canceled) {
-      if (I < N) {
-        if (WBC.manualSkip) {
-          callback();
+        const response = await request({
+          method: `GET`,
+          queue: true,
+          url: `${url}${nextPage}`
+        });
+        if (response.finalUrl.match(/\/user\//)) {
+          context = parseHtml(response.responseText);
         } else {
-          createElements(WBC.Progress, `inner`, [{
-            attributes: {
-              class: `fa fa-circle-o-notch`
-            },
-            type: `i`
-          }, {
-            text: `Retrieving ${username}'s group giveaways (${I + 1} of ${N})...`,
-            type: `span`
-          }]);
-          if (wbc.groupGiveaways && wbc.groupGiveaways[WBC.GroupGiveaways[I]]) {
-            setTimeout(() => wbc_getGroupGiveaways(WBC, ++I, N, wbc, username, callback), 0);
-          } else {
-            wbc_getGroups(WBC, `/giveaway/${WBC.GroupGiveaways[I]}/_/groups/search?page=`, 1, wbc, username, (wbc, Result) => {
-              if (wbc) {
-                if (Result) {
-                  callback(wbc, Result);
-                } else {
-                  setTimeout(() => wbc_getGroupGiveaways(WBC, ++I, N, wbc, username, callback), 0);
-                }
-              } else {
-                callback();
-              }
-            });
+          isStopped = true;
+          break;
+        }
+      }
+      if (nextPage === 1) {
+        obj.lastPage = lpl_getLastPage(context, false, false, true);
+        obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
+      }
+      createElements(obj.Progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving ${username}'s giveaways (page ${nextPage}${obj.lastPage})...`,
+        type: `span`
+      }]);
+      if (!data.ga) {
+        const element = context.querySelector(`[class*="giveaway__heading__name"][href*="/giveaway/"]`);
+        data.ga = element ? element.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1] : null;
+      }
+      const giveaway = context.getElementsByClassName(`giveaway__summary`)[0];
+      if (giveaway && obj.Timestamp === 0) {
+        obj.Timestamp = parseInt(giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
+        if (obj.Timestamp >= Date.now()) {
+          obj.Timestamp = 0;
+        }
+      }
+      if (!data.ga) {
+        isStopped = true;
+        break;
+      }
+      const doStop = await wbc_checkGiveaway(data, obj, username);
+      if (data.result !== `notBlacklisted` || doStop || (esgst.wbc_checkBlacklist && obj.B)) {
+        break;
+      }
+      let groupGiveaways = [];
+      const elements = context.getElementsByClassName(`giveaway__column--whitelist`);
+      for (const element of elements) {
+        const groupElement = element.parentElement.getElementsByClassName(`giveaway__column--group`)[0];
+        if (groupElement) {
+          groupGiveaways.push(groupElement.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1]);
+        } else {
+          data.wl_ga = element.closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
+        }
+        if (data.wl_ga) {
+          await wbc_checkGiveaway(data, obj, username);
+          break;
+        }
+      }
+      if ((data.g_wl_gas && Object.keys(data.g_wl_gas).length) || groupGiveaways.length) {
+        if (groupGiveaways.length) {
+          const result = await wbc_getGroupGiveaways(data, groupGiveaways, obj, username);
+          if (result) {
+            break;
           }
         }
-      } else {
-        callback(wbc);
+        const groups = JSON.parse(await getValue(`groups`, `[]`));
+        let found = false;
+        for (const code in data.g_wl_gas) {
+          found = false;
+          const groupCodes = data.g_wl_gas[code];
+          const n = groupCodes.length;
+          for (let i = 0; i < n && !found; i++) {
+            found = groups.filter(item => item.code === groupCodes[i] && item.member)[0];
+          }
+          if (!found) {
+            data.g_wl_ga = code;
+            break;
+          }
+        }
+        if (found) {
+          break;
+        }
+        data.result = `whitelisted`;
+        break;
       }
+      nextPage += 1;
+      pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+      obj.autoSkip = esgst.wbc_skipUsers && nextPage > esgst.wbc_pages;
+    } while (!obj.Canceled && !obj.manualSkip && !obj.autoSkip && (obj.Timestamp >= data.timestamp || obj.Timestamp === 0) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+    if (isStopped) {
+      data.lastCheck = Date.now();
+      data.result = `unknown`;
+      data.timestamp = obj.Timestamp;
     }
   }
 
-  async function wbc_getGroups(WBC, URL, NextPage, wbc, username, Callback) {
-    if (WBC.Canceled) return;
-    if (WBC.manualSkip) {
-      Callback();
-    } else {
-      let Response = await request({method: `GET`, queue: true, url: URL + NextPage});
-      let ResponseText, ResponseHTML, Groups, N, GroupGiveaway, I, Group, Pagination;
-      ResponseText = Response.responseText;
-      ResponseHTML = parseHtml(ResponseText);
-      Groups = ResponseHTML.getElementsByClassName(`table__column__heading`);
-      N = Groups.length;
-      if (N > 0) {
-        if (!wbc.g_wl_gas) {
-          wbc.g_wl_gas = {};
-        }
-        GroupGiveaway = URL.match(/\/giveaway\/(.+?)\//)[1];
-        if (!wbc.g_wl_gas[GroupGiveaway]) {
-          wbc.g_wl_gas[GroupGiveaway] = [];
-        }
-        for (I = 0; I < N; ++I) {
-          Group = Groups[I].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
-          if (wbc.g_wl_gas[GroupGiveaway].indexOf(Group) < 0) {
-            wbc.g_wl_gas[GroupGiveaway].push(Group);
-          }
-        }
-        Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
-        if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-          setTimeout(() => wbc_getGroups(WBC, NextPage === 1 ? `${Response.finalUrl}/search?page=` : URL, ++NextPage, wbc, username, Callback), 0);
-        } else {
-          Callback(wbc);
-        }
-      } else {
-        wbc.result = `none`;
-        Callback(wbc, true);
+  async function wbc_getGroupGiveaways(data, groupGiveaways, obj, username) {
+    for (const groupGiveaway of groupGiveaways) {
+      createElements(obj.Progress, `inner`, [{
+        attributes: {
+          class: `fa fa-circle-o-notch`
+        },
+        type: `i`
+      }, {
+        text: `Retrieving ${username}'s group giveaways (${i + 1} of ${n})...`,
+        type: `span`
+      }]);
+      if (data.groupGiveaways && data.groupGiveaways[groupGiveaway]) {
+        continue;
+      }
+      const result = await wbc_getGroups(data, groupGiveaway, obj);
+      if (result) {
+        return result;
+      }
+      if (obj.Canceled) {
+        break;
       }
     }
+    return false;
+  }
+
+  async function wbc_getGroups(data, groupGiveaway, obj) {
+    let nextPage = 1;
+    let url = `/giveaway/${groupGiveaway}/_/groups/search?page=`;
+    do {
+      const response = await request({
+        method: `GET`,
+        queue: true,
+        url: `${url}${nextPage}`
+      });
+      const context = parseHtml(response.responseText);
+      const groups = context.getElementsByClassName(`table__column__heading`);
+      const n = groups.length;
+      if (n < 1) {
+        data.result = `none`;
+        return true;
+      }
+      if (!data.g_wl_gas) {
+        data.g_wl_gas = {};
+      }
+      if (!data.g_wl_gas[groupGiveaway]) {
+        data.g_wl_gas[groupGiveaway] = [];
+      }
+      for (let i = 0; i < n; i++) {
+        const group = groups[I].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
+        if (data.g_wl_gas[groupGiveaway].indexOf(group) < 0) {
+          data.g_wl_gas[groupGiveaway].push(group);
+        }
+      }
+      const pagination = context.getElementsByClassName(`pagination__navigation`)[0];
+      if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+        url = `${response.finalUrl}/search?page=`;
+      } else {
+        return false;
+      }
+    } while (!obj.Canceled);
+    return false;
   }
 
   async function wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, Context) {
