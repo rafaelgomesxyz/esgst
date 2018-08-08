@@ -45,6 +45,21 @@ _MODULES.push({
         name: `Enable for Giveaway Filters.`,
         sg: true
       },
+      es_cl: {
+        inputItems: [
+          {
+            attributes: {
+              max: 10,
+              min: 0,
+              type: `number`
+            },
+            id: `es_pages`,
+            prefix: `Pages (Max 10): `
+          }
+        ],
+        name: `Continuously load X more pages automatically when visiting any page.`,
+        sg: true
+      },
       es_r: {
         description: `
           <ul>
@@ -190,6 +205,8 @@ _MODULES.push({
       }
       es_setPagination(es);
     }
+    es.isLimited = false;
+    es.limitCount = 0;
     es.busy = false;
     es.paused = await getValue(`esPause`, false);
     esgst.es_loadNext = es_loadNext.bind(null, es);
@@ -206,11 +223,14 @@ _MODULES.push({
     observer.observe(esgst.pagination);
     if (es.paused && es.reversePages) {
       esgst.es_loadNext();
+    } else if (esgst.es_cl) {
+      es_continuouslyLoad(es);
     }
   }
 
   async function es_loadNext(es, callback, force) {
-    if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step)))) {
+    if (!esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step))) && (!es.isLimited || es.limitCount > 0)) {
+      es.limitCount -= 1;
       es.busy = true;
       es.progress = createElements(esgst.pagination.firstElementChild, `beforeEnd`, [{
         attributes: {
@@ -478,7 +498,13 @@ _MODULES.push({
     es.continuous = true;
     const wasPaused = es.paused;
     await es_resume(es);
+    if (esgst.es_cl) {
+      es.isLimited = true;
+      es.limitCount = Math.min(10, parseInt(esgst.es_pages));
+    }
     esgst.es_loadNext(async () => {
+      es.isLimited = false;
+      es.limitCount = 0;
       es.continuous = false;
       if (wasPaused) {
         await es_pause(es);
