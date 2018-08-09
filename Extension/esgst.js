@@ -2110,7 +2110,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.1`,
-      devVersion: `7.26.1`,
+      devVersion: `7.26.2 (Dev.1)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -10061,6 +10061,7 @@ _MODULES.push({
   function gc() {    
     if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
       esgst.gameFeatures.push(gc_games);
+      esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }
 
@@ -10068,7 +10069,7 @@ _MODULES.push({
     gc_getGames(games, main, source, endless);
   }
 
-  async function gc_getGames(games, main, source, endless) {
+  async function gc_getGames(games, main, source, endless, filtersChanged) {
     let gc = {
       apps: Object.keys(games.apps).map(x => parseInt(x)),
       cache: {
@@ -10083,7 +10084,7 @@ _MODULES.push({
       let elements = games.apps[id];
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element = elements[i];
-        if (element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
           continue;
         }
         if (element.container.closest(`.poll`)) {
@@ -10107,7 +10108,7 @@ _MODULES.push({
       let elements = games.subs[id];
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element = elements[i];
-        if (element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
           continue;
         }
         if (element.container.closest(`.poll`)) {
@@ -10146,7 +10147,7 @@ _MODULES.push({
       const currentTime = Date.now();
       for (let id in gc.cache.apps) {
         if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
+          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
             delete gc.cache.apps[id];
           }
         } else {
@@ -10155,7 +10156,7 @@ _MODULES.push({
       }
       for (let id in gc.cache.subs) {
         if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
+          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
             delete gc.cache.subs[id];
           }
         } else {
@@ -10165,17 +10166,21 @@ _MODULES.push({
       setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       for (let i = 0, n = gc.apps.length; i < n; ++i) {
         let id = gc.apps[i];
-        if (gc.cache.apps[id] && gc.cache.apps[id].name) {
+        if (gc.cache.apps[id]) {
           continue;
         }
-        missingApps.push(id);
+        if (games.apps[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          missingApps.push(id);
+        }
       }
       for (let i = 0, n = gc.subs.length; i < n; ++i) {
         let id = gc.subs[i];
-        if (gc.cache.subs[id] && gc.cache.subs[id].name) {
+        if (gc.cache.subs[id]) {
           continue;
         }
-        missingSubs.push(id);
+        if (games.subs[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          missingSubs.push(id);
+        }
       }
       let numApps = missingApps.length;
       let numSubs = missingSubs.length;
@@ -10217,7 +10222,7 @@ _MODULES.push({
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
+      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
@@ -10288,7 +10293,7 @@ _MODULES.push({
     }
     for (let i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
       let giveaway = esgst.popupGiveaways[i];
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
+      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
@@ -10348,11 +10353,13 @@ _MODULES.push({
       }
       giveaway.gcReady = true;
     }
-    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-      filters_filter(esgst.gf, false, endless);
-    }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-      filters_filter(esgst.gfPopup);
+    if (!filtersChanged) {
+      if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+        filters_filter(esgst.gf, false, endless);
+      }
+      if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+        filters_filter(esgst.gfPopup);
+      }
     }
   }
 
@@ -11545,6 +11552,21 @@ _MODULES.push({
       source: null
     };
     for (i = 0, n = games.length; i < n; ++i) {
+      if (games[i].container.classList.contains(`esgst-hidden`)) {
+        if (!esgst.gcToFetch[type][id]) {
+          esgst.gcToFetch[type][id] = [];
+        }
+        if (esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
+          esgst.gcToFetch[type][id].push(games[i]);
+        }
+        continue;
+      }
+      if (esgst.gcToFetch[type][id]) {
+        esgst.gcToFetch[type][id] = esgst.gcToFetch[type][id].filter(item => item !== games[i]);
+        if (!esgst.gcToFetch[type][id].length) {
+          delete esgst.gcToFetch[type][id];
+        }
+      }
       panel = games[i].container.getElementsByClassName(`esgst-gc-panel`)[0];
       if (panel && !panel.getAttribute(`data-gcReady`)) {
         if (esgst.gc_il && !esgst.giveawayPath) {
@@ -16587,6 +16609,9 @@ _MODULES.push({
       }
     }
     filters_updateCount(obj, endless);
+    if (esgst.gcToFetch) {
+      gc_getGames(esgst.gcToFetch, true, null, false, true);
+    }
   }
 
   /**

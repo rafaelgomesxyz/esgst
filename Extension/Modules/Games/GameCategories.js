@@ -773,6 +773,7 @@ _MODULES.push({
   function gc() {    
     if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
       esgst.gameFeatures.push(gc_games);
+      esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }
 
@@ -780,7 +781,7 @@ _MODULES.push({
     gc_getGames(games, main, source, endless);
   }
 
-  async function gc_getGames(games, main, source, endless) {
+  async function gc_getGames(games, main, source, endless, filtersChanged) {
     let gc = {
       apps: Object.keys(games.apps).map(x => parseInt(x)),
       cache: {
@@ -795,7 +796,7 @@ _MODULES.push({
       let elements = games.apps[id];
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element = elements[i];
-        if (element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
           continue;
         }
         if (element.container.closest(`.poll`)) {
@@ -819,7 +820,7 @@ _MODULES.push({
       let elements = games.subs[id];
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element = elements[i];
-        if (element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
           continue;
         }
         if (element.container.closest(`.poll`)) {
@@ -858,7 +859,7 @@ _MODULES.push({
       const currentTime = Date.now();
       for (let id in gc.cache.apps) {
         if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
+          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
             delete gc.cache.apps[id];
           }
         } else {
@@ -867,7 +868,7 @@ _MODULES.push({
       }
       for (let id in gc.cache.subs) {
         if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
+          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
             delete gc.cache.subs[id];
           }
         } else {
@@ -877,17 +878,21 @@ _MODULES.push({
       setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       for (let i = 0, n = gc.apps.length; i < n; ++i) {
         let id = gc.apps[i];
-        if (gc.cache.apps[id] && gc.cache.apps[id].name) {
+        if (gc.cache.apps[id]) {
           continue;
         }
-        missingApps.push(id);
+        if (games.apps[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          missingApps.push(id);
+        }
       }
       for (let i = 0, n = gc.subs.length; i < n; ++i) {
         let id = gc.subs[i];
-        if (gc.cache.subs[id] && gc.cache.subs[id].name) {
+        if (gc.cache.subs[id]) {
           continue;
         }
-        missingSubs.push(id);
+        if (games.subs[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          missingSubs.push(id);
+        }
       }
       let numApps = missingApps.length;
       let numSubs = missingSubs.length;
@@ -929,7 +934,7 @@ _MODULES.push({
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
+      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
@@ -1000,7 +1005,7 @@ _MODULES.push({
     }
     for (let i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
       let giveaway = esgst.popupGiveaways[i];
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
+      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
@@ -1060,11 +1065,13 @@ _MODULES.push({
       }
       giveaway.gcReady = true;
     }
-    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-      filters_filter(esgst.gf, false, endless);
-    }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-      filters_filter(esgst.gfPopup);
+    if (!filtersChanged) {
+      if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+        filters_filter(esgst.gf, false, endless);
+      }
+      if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+        filters_filter(esgst.gfPopup);
+      }
     }
   }
 
@@ -2257,6 +2264,21 @@ _MODULES.push({
       source: null
     };
     for (i = 0, n = games.length; i < n; ++i) {
+      if (games[i].container.classList.contains(`esgst-hidden`)) {
+        if (!esgst.gcToFetch[type][id]) {
+          esgst.gcToFetch[type][id] = [];
+        }
+        if (esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
+          esgst.gcToFetch[type][id].push(games[i]);
+        }
+        continue;
+      }
+      if (esgst.gcToFetch[type][id]) {
+        esgst.gcToFetch[type][id] = esgst.gcToFetch[type][id].filter(item => item !== games[i]);
+        if (!esgst.gcToFetch[type][id].length) {
+          delete esgst.gcToFetch[type][id];
+        }
+      }
       panel = games[i].container.getElementsByClassName(`esgst-gc-panel`)[0];
       if (panel && !panel.getAttribute(`data-gcReady`)) {
         if (esgst.gc_il && !esgst.giveawayPath) {
