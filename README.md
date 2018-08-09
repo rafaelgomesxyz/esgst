@@ -236,6 +236,18 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.26.1 (August 8, 2018)**
+
+* [#877](https://github.com/revilheart/ESGST/issues/877) Fix a bug that does not sync Steam groups
+* [#876](https://github.com/revilheart/ESGST/issues/876) Fix a bug that does not retrieve game categories correctly for non-US users
+* [#873](https://github.com/revilheart/ESGST/issues/873) Implement global 200ms limit to Steam store API requests
+* [#872](https://github.com/revilheart/ESGST/issues/872) Fix a bug where some features don&#39;t work correctly in ESGST-generated pages
+* [#871](https://github.com/revilheart/ESGST/issues/871) Fix a bug that does not load emojis
+* [#859](https://github.com/revilheart/ESGST/issues/859) Fix a bug that does not load Profile Links if one of the sub-options is disabled
+* [#848](https://github.com/revilheart/ESGST/issues/848) Fix bugs introduced by v7.25.0
+* [#806](https://github.com/revilheart/ESGST/issues/806) Add option to continuously load X more pages (max 10) when visiting any page to Endless Scrolling
+
+
 **7.26.0 (August 6, 2018)**
 
 * [#870](https://github.com/revilheart/ESGST/issues/870) Add Learning game category
