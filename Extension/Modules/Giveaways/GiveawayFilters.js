@@ -3096,6 +3096,9 @@ _MODULES.push({
       }
     }
     filters_updateCount(obj, endless);
+    if (esgst.gcToFetch) {
+      gc_getGames(esgst.gcToFetch, true, null, false, true);
+    }
   }
 
   /**
