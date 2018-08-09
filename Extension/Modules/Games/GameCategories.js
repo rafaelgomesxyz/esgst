@@ -842,14 +842,14 @@ _MODULES.push({
     const missingApps = [];
     const missingSubs = [];
     if (esgst.gc_gi || esgst.gc_lg || esgst.gc_r || esgst.gc_a || esgst.gc_sp || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 6 }`));
-      if (gc.cache.version !== 6) {
+      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+      if (gc.cache.version !== 7) {
         gc.cache = {
           apps: {},
           subs: {},
           hltb: gc.cache.hltb,
           timestamp: 0,
-          version: 6
+          version: 7
         };
       }
       if (!gc.cache.hltb) {
@@ -1091,7 +1091,7 @@ _MODULES.push({
         tags: ``,
         tradingCards: 0
       };
-      let responseJson = JSON.parse((await request({method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
+      let responseJson = JSON.parse((await request({anon: true, method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
       let data;
       if (responseJson && responseJson[id]) {
         data = responseJson[id].data;
@@ -1226,7 +1226,7 @@ _MODULES.push({
           categories.freeBase = gc.cache.apps[categories.base].free;
         }
         if (typeof categories.freeBase === `undefined`) {
-          categories.freeBase = JSON.parse((await request({method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+          categories.freeBase = JSON.parse((await request({anon: true, method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
         }
       }
       gc.cache[type][id] = categories;
