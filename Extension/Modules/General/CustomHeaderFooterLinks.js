@@ -104,7 +104,7 @@ _MODULES.push({
       }
       chfl_reorder(chfl, key, true);
     }
-    esgst.documentEvents.keydown.push(chfl_checkKey.bind(null, chfl));
+    esgst.documentEvents.keydown.add(chfl_checkKey.bind(null, chfl));
   }
 
   function chfl_checkKey(chfl, event) {

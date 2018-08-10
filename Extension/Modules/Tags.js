@@ -56,37 +56,41 @@ async function tags_getTags(key) {
   }
   esgst[`${key}Tags`] = sortArray(esgst[`${key}Tags`], true, `count`).map(x => x.tag);
   if (esgst[`${key}_s`]) {
-    esgst.documentEvents.keydown.push(tags_navigateSuggestions);
-    esgst.documentEvents.click.push(tags_closeSuggestions);
+    esgst.documentEvents.keydown.add(tags_navigateSuggestions);
+    esgst.documentEvents.click.add(tags_closeSuggestions);
   }
 }
 
 function tags_navigateSuggestions(event) {
-  if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/)) {
+  if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/) || event.repeat) {
     return;
   }
   const selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-  if (!selected) {
-    return;
-  }
   let element = null;
-  if (event.key === `ArrowDown`) {
-    element = selected.nextElementSibling;
-    while (element && element.classList.contains(`esgst-hidden`)) {
-      element = element.nextElementSibling;
+  if (selected) {
+    if (event.key === `ArrowDown`) {
+      element = selected.nextElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.nextElementSibling;
+      }
+    } else if (event.key === `ArrowUp`) {
+      element = selected.previousElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.previousElementSibling;
+      }
+    } else if (event.key === `Enter`) {
+      event.stopPropagation();
+      selected.click();
     }
-  } else if (event.key === `ArrowUp`) {
-    element = selected.previousElementSibling;
-    while (element && element.classList.contains(`esgst-hidden`)) {
-      element = element.previousElementSibling;
-    }
-  } else if (event.key === `Enter`) {
-    event.stopPropagation();
-    selected.click();
-  }
-  if (element) {
     selected.classList.remove(`esgst-selected`);
-    element.classList.add(`esgst-selected`);
+    if (element) {
+      element.classList.add(`esgst-selected`);
+    }
+  } else if (event.key !== `Enter`) {
+    element = document.querySelector(`.esgst-tag-suggestion:not(.esgst-hidden)`);
+    if (element) {      
+      element.classList.add(`esgst-selected`);
+    }
   }
 }
 
@@ -205,7 +209,7 @@ async function tags_openPopup(obj, event) {
       callback1: tags_saveTags.bind(null, obj)
     }],
     icon: `fa-tag`,
-    temp: true,
+    isTemp: true,
     title: [{
       text: `Edit tags for `,
       type: `node`
@@ -475,7 +479,6 @@ function tags_createTags(obj) {
         if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
           child.classList.remove(`esgst-hidden`);
           if (!selected) {
-            child.classList.add(`esgst-selected`);
             selected = child;
           }
         } else {
@@ -663,7 +666,7 @@ async function tags_showTagList(obj) {
       callback1: tags_addTagsFromList.bind(null, obj)
     }],
     icon: `fa-list`,
-    temp: true,
+    isTemp: true,
     title: `Select from existing tags:`
   });
   const list = createElements(obj.listPopup.scrollable, `beforeEnd`, [{

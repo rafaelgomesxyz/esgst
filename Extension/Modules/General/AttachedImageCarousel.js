@@ -22,7 +22,7 @@ _MODULES.push({
 
   function aic() {
     esgst.endlessFeatures.push(aic_getImages);
-    esgst.documentEvents.keydown.push(aic_move);
+    esgst.documentEvents.keydown.add(aic_move);
     if (!esgst.mainPageHeading) return;
     esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
     esgst.aicButton.classList.add(`esgst-hidden`);
