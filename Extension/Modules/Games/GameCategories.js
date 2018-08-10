@@ -25,6 +25,15 @@ _MODULES.push({
         name: `Show categories in real time.`,
         sg: true
       },
+      gc_si: {
+        description: `
+          <ul>
+            <li>With this option enabled, the following categories appear instantly, since they do not need to be fetched from Steam: Full CV, Hidden, HLTB, Ignored, No CV, Owned, Package, Previously Won, Reduced CV, Wishlisted.</li>
+          </ul>
+        `,
+        name: `Show categories that do not need to be fetched from Steam instantly.`,
+        sg: true
+      },
       gc_lp: {
         description: `
           <ul>
@@ -804,14 +813,28 @@ _MODULES.push({
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         } else {
           createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         }
       }
@@ -828,16 +851,44 @@ _MODULES.push({
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         } else {
           createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         }
+      }
+    }
+    if (esgst.gc_si) {
+      for (const id of gc.apps) {
+        gc_addCategory(null, games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb, true);
+      }
+      for (const id of gc.subs) {
+        gc_addCategory(null, games.subs[id], id, esgst.games.subs[id], `subs`, null, true);
+      }
+      for (const giveaway of esgst.mainGiveaways) {
+        gc_addBorders(giveaway);
+      }
+      for (const giveaway of esgst.popupGiveaways) {
+        gc_addBorders(giveaway);
       }
     }
     const missingApps = [];
@@ -961,46 +1012,7 @@ _MODULES.push({
           giveaway.releaseDate = -1;
         }
       }
-      if (giveaway.grid && esgst.gc_b) {
-        let borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-gc-border`
-          },
-          type: `div`
-        }]);
-        let categoryNames = {
-          gc_fcv: `fullCV`,
-          gc_rcv: `reducedCV`,
-          gc_ncv: `noCV`,
-          gc_h: `hidden`,
-          gc_i: `ignored`,
-          gc_o: `owned`,
-          gc_w: `wishlisted`,
-          gc_pw: `won`,
-          gc_a: `achievements`,
-          gc_sp: `singleplayer`,
-          gc_mp: `multiplayer`,
-          gc_sc: `steamCloud`,
-          gc_tc: `tradingCards`,
-          gc_l: `linux`,
-          gc_m: `mac`,
-          gc_ea: `earlyAccess`,
-          gc_lg: `learning`,
-          gc_rm: `removed`,
-          gc_dlc: `dlc`,
-          gc_p: `package`
-        };
-        esgst.gc_categories_gv.forEach(category => {
-          if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
-            createElements(borders, `beforeEnd`, [{
-              attributes: {
-                class: `esgst-gc-${categoryNames[category]}`
-              },
-              type: `div`
-            }]);
-          }
-        });
-      }
+      gc_addBorders(giveaway);
       giveaway.gcReady = true;
     }
     for (let i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
@@ -1023,46 +1035,7 @@ _MODULES.push({
           giveaway.rating = 0;
         }
       }
-      if (giveaway.grid && esgst.gc_b) {
-        let borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-gc-border`
-          },
-          type: `div`
-        }]);
-        let categoryNames = {
-          gc_fcv: `fullCV`,
-          gc_rcv: `reducedCV`,
-          gc_ncv: `noCV`,
-          gc_h: `hidden`,
-          gc_i: `ignored`,
-          gc_o: `owned`,
-          gc_w: `wishlisted`,
-          gc_pw: `won`,
-          gc_a: `achievements`,
-          gc_sp: `singleplayer`,
-          gc_mp: `multiplayer`,
-          gc_sc: `steamCloud`,
-          gc_tc: `tradingCards`,
-          gc_l: `linux`,
-          gc_m: `mac`,
-          gc_ea: `earlyAccess`,
-          gc_lg: `learning`,
-          gc_rm: `removed`,
-          gc_dlc: `dlc`,
-          gc_p: `package`
-        };
-        esgst.gc_categories_gv.forEach(category => {
-          if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
-            createElements(borders, `beforeEnd`, [{
-              attributes: {
-                class: `esgst-gc-${categoryNames[category]}`
-              },
-              type: `div`
-            }]);
-          }
-        });
-      }
+      gc_addBorders(giveaway);
       giveaway.gcReady = true;
     }
     if (!filtersChanged) {
@@ -1072,6 +1045,57 @@ _MODULES.push({
       if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
         filters_filter(esgst.gfPopup);
       }
+    }
+  }
+
+  function gc_addBorders(giveaway) {
+    if (giveaway.outerWrap.classList.contains(`esgst-hidden`) || !giveaway.grid || !esgst.gc_b) {
+      return;
+    }
+    let borders = giveaway.outerWrap.getElementsByClassName(`esgst-gc-border`)[0];
+    if (borders) {
+      borders.innerHTML = ``;
+    } else {
+      borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-gc-border`
+        },
+        type: `div`
+      }]);
+    }
+    const categoryNames = {
+      gc_fcv: `fullCV`,
+      gc_rcv: `reducedCV`,
+      gc_ncv: `noCV`,
+      gc_h: `hidden`,
+      gc_i: `ignored`,
+      gc_o: `owned`,
+      gc_w: `wishlisted`,
+      gc_pw: `won`,
+      gc_a: `achievements`,
+      gc_sp: `singleplayer`,
+      gc_mp: `multiplayer`,
+      gc_sc: `steamCloud`,
+      gc_tc: `tradingCards`,
+      gc_l: `linux`,
+      gc_m: `mac`,
+      gc_ea: `earlyAccess`,
+      gc_lg: `learning`,
+      gc_rm: `removed`,
+      gc_dlc: `dlc`,
+      gc_p: `package`
+    };
+    for (const category of esgst.gc_categories_gv) {
+      const key = categoryNames[category];
+      if (!key || !giveaway.innerWrap.getElementsByClassName(`esgst-gc-${key}`)[0]) {
+        continue;
+      }
+      createElements(borders, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-gc-${key}`
+        },
+        type: `div`
+      }]);
     }
   }
 
@@ -1249,19 +1273,21 @@ _MODULES.push({
             panel.previousElementSibling.style.display = `inline-block`;
             panel.classList.add(`esgst-gc-panel-inline`);
           }
-          createElements(panel, `inner`, [{
+          const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
+          if (loading) {
+            loading.remove();
+          }
+          createElements(panel, `beforeEnd`, [{
             attributes: {
               class: `esgst-bold esgst-red`
             },
             type: `span`,
             children: [{
               attributes: {
-                class: `fa fa-exclamation`
+                class: `fa fa-exclamation`,
+                title: `An error happened while loading game categories.`
               },
               type: `i`
-            }, {
-              text: ` Error while loading game categories.`,
-              type: `node`
             }]
           }]);
         }
@@ -1337,7 +1363,7 @@ _MODULES.push({
     return count;   
   }
 
-  function gc_addCategory(cache, games, id, savedGame, type, hltb) {
+  function gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
     let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
@@ -2263,6 +2289,15 @@ _MODULES.push({
       indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
       source: null
     };
+    if (esgst.gc_si && isInstant) {
+      elements.push({
+        attributes: {
+          class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+          title: `Loading game categories...`
+        },
+        type: `i`
+      });
+    }
     for (i = 0, n = games.length; i < n; ++i) {
       if (games[i].container.classList.contains(`esgst-hidden`)) {
         if (!esgst.gcToFetch[type][id]) {
@@ -2286,6 +2321,9 @@ _MODULES.push({
           panel.classList.add(`esgst-gc-panel-inline`);
         }
         createElements(panel, `inner`, elements);
+        if (esgst.gc_si && isInstant) {
+          continue;
+        }
         if (!esgst.gc_lp || (!esgst.gc_lp_gv && games[i].grid)) {
           for (j = panel.children.length - 1; j > -1; --j) {
             panel.children[j].removeAttribute(`href`);
