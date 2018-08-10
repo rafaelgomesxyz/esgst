@@ -236,6 +236,14 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.26.2 (August 10, 2018)**
+
+* [#881](https://github.com/revilheart/ESGST/issues/881) Add option to show game categories that do not need to be fetched from Steam instantly
+* [#880](https://github.com/revilheart/ESGST/issues/880) Fix a bug that does not apply some themes
+* [#879](https://github.com/revilheart/ESGST/issues/879) Add the feature to show tag suggestions while typing as an option
+* [#878](https://github.com/revilheart/ESGST/issues/878) Load game categories for filtered giveaways on demand
+
+
 **7.26.1 (August 8, 2018)**
 
 * [#877](https://github.com/revilheart/ESGST/issues/877) Fix a bug that does not sync Steam groups
