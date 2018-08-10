@@ -8,6 +8,13 @@ _MODULES.push({
       <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
     </ul>
   `,
+  features: {
+    gt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `gt`,
   load: gt,
   name: `Game Tags`,
