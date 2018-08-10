@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.26.1
+// @version 7.26.2
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,20 +38,20 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/encoding.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/js/jsUtils-0.0.1.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.26.1/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/encoding.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/js/jsUtils-0.0.1.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.26.2/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -1592,12 +1592,19 @@
     // initialize the global variable
     esgst = {
       documentEvents: {
-        click: [],
-        keydown: []
+        click: new Set(),
+        keydown: new Set()
       },
       windowEvents: {},
       parameters: getParameters(),
       defaultValues: {
+        gt_s_sg: true,
+        gt_s_st: true,
+        gpt_s_sg: true,
+        gpt_s_st: true,
+        ut_s_sg: true,
+        ut_s_st: true,
+        gc_si_sg: true,
         es_pages: 1,
         backupZip_sg: false,
         backupZip_st: false,
@@ -2109,8 +2116,8 @@
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
-      currentVersion: `7.26.1`,
-      devVersion: `7.26.1`,
+      currentVersion: `7.26.2`,
+      devVersion: `7.26.2`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -4670,7 +4677,7 @@ _MODULES.push({
 
   function aic() {
     esgst.endlessFeatures.push(aic_getImages);
-    esgst.documentEvents.keydown.push(aic_move);
+    esgst.documentEvents.keydown.add(aic_move);
     if (!esgst.mainPageHeading) return;
     esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
     esgst.aicButton.classList.add(`esgst-hidden`);
@@ -7671,7 +7678,7 @@ _MODULES.push({
       }
       chfl_reorder(chfl, key, true);
     }
-    esgst.documentEvents.keydown.push(chfl_checkKey.bind(null, chfl));
+    esgst.documentEvents.keydown.add(chfl_checkKey.bind(null, chfl));
   }
 
   function chfl_checkKey(chfl, event) {
@@ -9313,6 +9320,15 @@ _MODULES.push({
         name: `Show categories in real time.`,
         sg: true
       },
+      gc_si: {
+        description: `
+          <ul>
+            <li>With this option enabled, the following categories appear instantly, since they do not need to be fetched from Steam: Full CV, Hidden, HLTB, Ignored, No CV, Owned, Package, Previously Won, Reduced CV, Wishlisted.</li>
+          </ul>
+        `,
+        name: `Show categories that do not need to be fetched from Steam instantly.`,
+        sg: true
+      },
       gc_lp: {
         description: `
           <ul>
@@ -10061,6 +10077,7 @@ _MODULES.push({
   function gc() {    
     if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
       esgst.gameFeatures.push(gc_games);
+      esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }
 
@@ -10068,7 +10085,7 @@ _MODULES.push({
     gc_getGames(games, main, source, endless);
   }
 
-  async function gc_getGames(games, main, source, endless) {
+  async function gc_getGames(games, main, source, endless, filtersChanged) {
     let gc = {
       apps: Object.keys(games.apps).map(x => parseInt(x)),
       cache: {
@@ -10083,7 +10100,7 @@ _MODULES.push({
       let elements = games.apps[id];
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element = elements[i];
-        if (element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
           continue;
         }
         if (element.container.closest(`.poll`)) {
@@ -10091,14 +10108,28 @@ _MODULES.push({
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         } else {
           createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         }
       }
@@ -10107,7 +10138,7 @@ _MODULES.push({
       let elements = games.subs[id];
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element = elements[i];
-        if (element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
           continue;
         }
         if (element.container.closest(`.poll`)) {
@@ -10115,16 +10146,44 @@ _MODULES.push({
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         } else {
           createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
-            type: `div`
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                title: `Loading game categories...`
+              },
+              type: `i`
+            }]
           }]);
         }
+      }
+    }
+    if (esgst.gc_si) {
+      for (const id of gc.apps) {
+        gc_addCategory(null, games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb, true);
+      }
+      for (const id of gc.subs) {
+        gc_addCategory(null, games.subs[id], id, esgst.games.subs[id], `subs`, null, true);
+      }
+      for (const giveaway of esgst.mainGiveaways) {
+        gc_addBorders(giveaway);
+      }
+      for (const giveaway of esgst.popupGiveaways) {
+        gc_addBorders(giveaway);
       }
     }
     const missingApps = [];
@@ -10146,7 +10205,7 @@ _MODULES.push({
       const currentTime = Date.now();
       for (let id in gc.cache.apps) {
         if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
+          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
             delete gc.cache.apps[id];
           }
         } else {
@@ -10155,7 +10214,7 @@ _MODULES.push({
       }
       for (let id in gc.cache.subs) {
         if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
+          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
             delete gc.cache.subs[id];
           }
         } else {
@@ -10165,17 +10224,21 @@ _MODULES.push({
       setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       for (let i = 0, n = gc.apps.length; i < n; ++i) {
         let id = gc.apps[i];
-        if (gc.cache.apps[id] && gc.cache.apps[id].name) {
+        if (gc.cache.apps[id]) {
           continue;
         }
-        missingApps.push(id);
+        if (games.apps[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          missingApps.push(id);
+        }
       }
       for (let i = 0, n = gc.subs.length; i < n; ++i) {
         let id = gc.subs[i];
-        if (gc.cache.subs[id] && gc.cache.subs[id].name) {
+        if (gc.cache.subs[id]) {
           continue;
         }
-        missingSubs.push(id);
+        if (games.subs[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          missingSubs.push(id);
+        }
       }
       let numApps = missingApps.length;
       let numSubs = missingSubs.length;
@@ -10217,7 +10280,7 @@ _MODULES.push({
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
+      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
@@ -10244,51 +10307,12 @@ _MODULES.push({
           giveaway.releaseDate = -1;
         }
       }
-      if (giveaway.grid && esgst.gc_b) {
-        let borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-gc-border`
-          },
-          type: `div`
-        }]);
-        let categoryNames = {
-          gc_fcv: `fullCV`,
-          gc_rcv: `reducedCV`,
-          gc_ncv: `noCV`,
-          gc_h: `hidden`,
-          gc_i: `ignored`,
-          gc_o: `owned`,
-          gc_w: `wishlisted`,
-          gc_pw: `won`,
-          gc_a: `achievements`,
-          gc_sp: `singleplayer`,
-          gc_mp: `multiplayer`,
-          gc_sc: `steamCloud`,
-          gc_tc: `tradingCards`,
-          gc_l: `linux`,
-          gc_m: `mac`,
-          gc_ea: `earlyAccess`,
-          gc_lg: `learning`,
-          gc_rm: `removed`,
-          gc_dlc: `dlc`,
-          gc_p: `package`
-        };
-        esgst.gc_categories_gv.forEach(category => {
-          if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
-            createElements(borders, `beforeEnd`, [{
-              attributes: {
-                class: `esgst-gc-${categoryNames[category]}`
-              },
-              type: `div`
-            }]);
-          }
-        });
-      }
+      gc_addBorders(giveaway);
       giveaway.gcReady = true;
     }
     for (let i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
       let giveaway = esgst.popupGiveaways[i];
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`)) {
+      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
@@ -10306,53 +10330,67 @@ _MODULES.push({
           giveaway.rating = 0;
         }
       }
-      if (giveaway.grid && esgst.gc_b) {
-        let borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-gc-border`
-          },
-          type: `div`
-        }]);
-        let categoryNames = {
-          gc_fcv: `fullCV`,
-          gc_rcv: `reducedCV`,
-          gc_ncv: `noCV`,
-          gc_h: `hidden`,
-          gc_i: `ignored`,
-          gc_o: `owned`,
-          gc_w: `wishlisted`,
-          gc_pw: `won`,
-          gc_a: `achievements`,
-          gc_sp: `singleplayer`,
-          gc_mp: `multiplayer`,
-          gc_sc: `steamCloud`,
-          gc_tc: `tradingCards`,
-          gc_l: `linux`,
-          gc_m: `mac`,
-          gc_ea: `earlyAccess`,
-          gc_lg: `learning`,
-          gc_rm: `removed`,
-          gc_dlc: `dlc`,
-          gc_p: `package`
-        };
-        esgst.gc_categories_gv.forEach(category => {
-          if (categoryNames[category] && giveaway.innerWrap.getElementsByClassName(`esgst-gc-${categoryNames[category]}`)[0]) {
-            createElements(borders, `beforeEnd`, [{
-              attributes: {
-                class: `esgst-gc-${categoryNames[category]}`
-              },
-              type: `div`
-            }]);
-          }
-        });
-      }
+      gc_addBorders(giveaway);
       giveaway.gcReady = true;
     }
-    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-      filters_filter(esgst.gf, false, endless);
+    if (!filtersChanged) {
+      if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+        filters_filter(esgst.gf, false, endless);
+      }
+      if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+        filters_filter(esgst.gfPopup);
+      }
     }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-      filters_filter(esgst.gfPopup);
+  }
+
+  function gc_addBorders(giveaway) {
+    if (giveaway.outerWrap.classList.contains(`esgst-hidden`) || !giveaway.grid || !esgst.gc_b) {
+      return;
+    }
+    let borders = giveaway.outerWrap.getElementsByClassName(`esgst-gc-border`)[0];
+    if (borders) {
+      borders.innerHTML = ``;
+    } else {
+      borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-gc-border`
+        },
+        type: `div`
+      }]);
+    }
+    const categoryNames = {
+      gc_fcv: `fullCV`,
+      gc_rcv: `reducedCV`,
+      gc_ncv: `noCV`,
+      gc_h: `hidden`,
+      gc_i: `ignored`,
+      gc_o: `owned`,
+      gc_w: `wishlisted`,
+      gc_pw: `won`,
+      gc_a: `achievements`,
+      gc_sp: `singleplayer`,
+      gc_mp: `multiplayer`,
+      gc_sc: `steamCloud`,
+      gc_tc: `tradingCards`,
+      gc_l: `linux`,
+      gc_m: `mac`,
+      gc_ea: `earlyAccess`,
+      gc_lg: `learning`,
+      gc_rm: `removed`,
+      gc_dlc: `dlc`,
+      gc_p: `package`
+    };
+    for (const category of esgst.gc_categories_gv) {
+      const key = categoryNames[category];
+      if (!key || !giveaway.innerWrap.getElementsByClassName(`esgst-gc-${key}`)[0]) {
+        continue;
+      }
+      createElements(borders, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-gc-${key}`
+        },
+        type: `div`
+      }]);
     }
   }
 
@@ -10530,19 +10568,21 @@ _MODULES.push({
             panel.previousElementSibling.style.display = `inline-block`;
             panel.classList.add(`esgst-gc-panel-inline`);
           }
-          createElements(panel, `inner`, [{
+          const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
+          if (loading) {
+            loading.remove();
+          }
+          createElements(panel, `beforeEnd`, [{
             attributes: {
               class: `esgst-bold esgst-red`
             },
             type: `span`,
             children: [{
               attributes: {
-                class: `fa fa-exclamation`
+                class: `fa fa-exclamation`,
+                title: `An error happened while loading game categories.`
               },
               type: `i`
-            }, {
-              text: ` Error while loading game categories.`,
-              type: `node`
             }]
           }]);
         }
@@ -10618,7 +10658,7 @@ _MODULES.push({
     return count;   
   }
 
-  function gc_addCategory(cache, games, id, savedGame, type, hltb) {
+  function gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
     let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
@@ -11544,7 +11584,31 @@ _MODULES.push({
       indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
       source: null
     };
+    if (esgst.gc_si && isInstant) {
+      elements.push({
+        attributes: {
+          class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+          title: `Loading game categories...`
+        },
+        type: `i`
+      });
+    }
     for (i = 0, n = games.length; i < n; ++i) {
+      if (games[i].container.classList.contains(`esgst-hidden`)) {
+        if (!esgst.gcToFetch[type][id]) {
+          esgst.gcToFetch[type][id] = [];
+        }
+        if (esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
+          esgst.gcToFetch[type][id].push(games[i]);
+        }
+        continue;
+      }
+      if (esgst.gcToFetch[type][id]) {
+        esgst.gcToFetch[type][id] = esgst.gcToFetch[type][id].filter(item => item !== games[i]);
+        if (!esgst.gcToFetch[type][id].length) {
+          delete esgst.gcToFetch[type][id];
+        }
+      }
       panel = games[i].container.getElementsByClassName(`esgst-gc-panel`)[0];
       if (panel && !panel.getAttribute(`data-gcReady`)) {
         if (esgst.gc_il && !esgst.giveawayPath) {
@@ -11552,6 +11616,9 @@ _MODULES.push({
           panel.classList.add(`esgst-gc-panel-inline`);
         }
         createElements(panel, `inner`, elements);
+        if (esgst.gc_si && isInstant) {
+          continue;
+        }
         if (!esgst.gc_lp || (!esgst.gc_lp_gv && games[i].grid)) {
           for (j = panel.children.length - 1; j > -1; --j) {
             panel.children[j].removeAttribute(`href`);
@@ -16587,6 +16654,9 @@ _MODULES.push({
       }
     }
     filters_updateCount(obj, endless);
+    if (obj.id === `gf` && esgst.gcToFetch) {
+      gc_getGames(esgst.gcToFetch, true, null, false, true);
+    }
   }
 
   /**
@@ -17842,6 +17912,13 @@ _MODULES.push({
       <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
     </ul>
   `,
+  features: {
+    gt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `gt`,
   load: gt,
   name: `Game Tags`,
@@ -17862,6 +17939,13 @@ function gt() {
       <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
     </ul>
   `,
+  features: {
+    gpt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `gpt`,
   load: gpt,
   name: `Group Tags`,
@@ -23461,7 +23545,7 @@ _MODULES.push({
           }
         }
         if (previous || next) {
-          esgst.documentEvents.keydown.push(npth_loadGiveaway.bind(null, next, previous));
+          esgst.documentEvents.keydown.add(npth_loadGiveaway.bind(null, next, previous));
         }
       }
     }
@@ -28657,7 +28741,7 @@ _MODULES.push({
       };
     }
     if (Object.keys(methods).length > 0) {
-      esgst.documentEvents.keydown.push(event => {
+      esgst.documentEvents.keydown.add(event => {
         let value = ``;
         if (event.ctrlKey) {
           value += `ctrlKey + `;
@@ -31580,6 +31664,13 @@ _MODULES.push({
       <li>This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username. For a long text, check [id=un].</li>
     </ul>
   `,
+  features: {
+    ut_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `ut`,
   load: ut,
   name: `User Tags`,
@@ -37686,7 +37777,7 @@ _MODULES.push({
     box = button.nextElementSibling;
     list = box.lastElementChild;
     button.addEventListener(`click`, uh_toggle.bind(null, box, profile, list));
-    esgst.documentEvents.click.push(uh_close.bind(null, box, container));
+    esgst.documentEvents.click.add(uh_close.bind(null, box, container));
   }
 
   async function uh_toggle(box, profile, list) {
@@ -41667,36 +41758,42 @@ async function tags_getTags(key) {
     });
   }
   esgst[`${key}Tags`] = sortArray(esgst[`${key}Tags`], true, `count`).map(x => x.tag);
-  esgst.documentEvents.keydown.push(tags_navigateSuggestions);
-  esgst.documentEvents.click.push(tags_closeSuggestions);
+  if (esgst[`${key}_s`]) {
+    esgst.documentEvents.keydown.add(tags_navigateSuggestions);
+    esgst.documentEvents.click.add(tags_closeSuggestions);
+  }
 }
 
 function tags_navigateSuggestions(event) {
-  if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/)) {
+  if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/) || event.repeat) {
     return;
   }
   const selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-  if (!selected) {
-    return;
-  }
   let element = null;
-  if (event.key === `ArrowDown`) {
-    element = selected.nextElementSibling;
-    while (element && element.classList.contains(`esgst-hidden`)) {
-      element = element.nextElementSibling;
+  if (selected) {
+    if (event.key === `ArrowDown`) {
+      element = selected.nextElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.nextElementSibling;
+      }
+    } else if (event.key === `ArrowUp`) {
+      element = selected.previousElementSibling;
+      while (element && element.classList.contains(`esgst-hidden`)) {
+        element = element.previousElementSibling;
+      }
+    } else if (event.key === `Enter`) {
+      event.stopPropagation();
+      selected.click();
     }
-  } else if (event.key === `ArrowUp`) {
-    element = selected.previousElementSibling;
-    while (element && element.classList.contains(`esgst-hidden`)) {
-      element = element.previousElementSibling;
-    }
-  } else if (event.key === `Enter`) {
-    event.stopPropagation();
-    selected.click();
-  }
-  if (element) {
     selected.classList.remove(`esgst-selected`);
-    element.classList.add(`esgst-selected`);
+    if (element) {
+      element.classList.add(`esgst-selected`);
+    }
+  } else if (event.key !== `Enter`) {
+    element = document.querySelector(`.esgst-tag-suggestion:not(.esgst-hidden)`);
+    if (element) {      
+      element.classList.add(`esgst-selected`);
+    }
   }
 }
 
@@ -41815,7 +41912,7 @@ async function tags_openPopup(obj, event) {
       callback1: tags_saveTags.bind(null, obj)
     }],
     icon: `fa-tag`,
-    temp: true,
+    isTemp: true,
     title: [{
       text: `Edit tags for `,
       type: `node`
@@ -41871,28 +41968,30 @@ async function tags_openPopup(obj, event) {
     },
     type: `i`
   }]).addEventListener(`click`, tags_showTagList.bind(null, obj));
-  const children = [];
-  obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-tag-suggestions esgst-hidden`
-    },
-    type: `div`
-  }]);
-  for (const tag of esgst[`${obj.key}Tags`]) {
-    children.push({
+  const children = [];  
+  if (esgst[`${obj.key}_s`]) {
+    obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
       attributes: {
-        class: `esgst-tag-suggestion esgst-hidden`
+        class: `esgst-tag-suggestions esgst-hidden`
       },
-      events: {
-        click: tags_addSuggestion.bind(null, obj),
-        mouseenter: tags_selectSuggestion,
-        mouseleave: tags_unselectSuggestion
-      },
-      text: tag,
       type: `div`
-    });
+    }]);
+    for (const tag of esgst[`${obj.key}Tags`]) {
+      children.push({
+        attributes: {
+          class: `esgst-tag-suggestion esgst-hidden`
+        },
+        events: {
+          click: tags_addSuggestion.bind(null, obj),
+          mouseenter: tags_selectSuggestion,
+          mouseleave: tags_unselectSuggestion
+        },
+        text: tag,
+        type: `div`
+      });
+    }
+    createElements(obj.suggestions, `inner`, children);
   }
-  createElements(obj.suggestions, `inner`, children);
   createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
@@ -42071,33 +42170,34 @@ function tags_createTags(obj) {
   obj.tags.innerHTML = ``;
   const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
   if (tags.length) {
-    const lastTag = tags[tags.length - 1].toLowerCase();
-    let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-    if (selected) {
-      selected.classList.remove(`esgst-selected`);
-    }
-    selected = null;
-    for (const child of obj.suggestions.children) {
-      const value = child.textContent.toLowerCase();
-      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-        child.classList.remove(`esgst-hidden`);
-        if (!selected) {
-          child.classList.add(`esgst-selected`);
-          selected = child;
-        }
-      } else {
-        child.classList.add(`esgst-hidden`);
+    if (esgst[`${obj.key}_s`]) {
+      const lastTag = tags[tags.length - 1].toLowerCase();
+      let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+      if (selected) {
+        selected.classList.remove(`esgst-selected`);
       }
-    }
-    if (selected) {
-      obj.suggestions.classList.remove(`esgst-hidden`);
-    } else {
-      tags_hideSuggestions(obj.suggestions);
+      selected = null;
+      for (const child of obj.suggestions.children) {
+        const value = child.textContent.toLowerCase();
+        if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+          child.classList.remove(`esgst-hidden`);
+          if (!selected) {
+            selected = child;
+          }
+        } else {
+          child.classList.add(`esgst-hidden`);
+        }
+      }
+      if (selected) {
+        obj.suggestions.classList.remove(`esgst-hidden`);
+      } else {
+        tags_hideSuggestions(obj.suggestions);
+      }
     }
     for (const tag of tags) {
       tags_createTag(obj, tag);
     }
-  } else {
+  } else if (esgst[`${obj.key}_s`]) {
     tags_hideSuggestions(obj.suggestions);
   }
 }
@@ -42269,7 +42369,7 @@ async function tags_showTagList(obj) {
       callback1: tags_addTagsFromList.bind(null, obj)
     }],
     icon: `fa-list`,
-    temp: true,
+    isTemp: true,
     title: `Select from existing tags:`
   });
   const list = createElements(obj.listPopup.scrollable, `beforeEnd`, [{
@@ -44876,7 +44976,7 @@ async function tags_loadTags(obj) {
         }
       } catch (e) { /**/ }
 
-      await setValue(`games`, JSON.stringify(savedGames));
+      await lockAndSaveGames(savedGames);
     }
 
     const removedOwned = {
@@ -54939,7 +55039,7 @@ async function tags_loadTags(obj) {
       type: `div`
     }]).firstElementChild;
     obj.options[key].forEach(option => {
-      option.select = createElemens(context, `beforeEnd`, [{
+      option.select = createElements(context, `beforeEnd`, [{
         type: `div`,
         children: [{
           text: `${option.name} `,
@@ -55266,6 +55366,16 @@ async function tags_loadTags(obj) {
 
   function loadChangelog(version) {
     const changelog = [
+      {
+        date: `August 10, 2018`,
+        version: `7.26.2`,
+        changelog: {
+          881: `Add option to show game categories that do not need to be fetched from Steam instantly`,
+          880: `Fix a bug that does not apply some themes`,
+          879: `Add the feature to show tag suggestions while typing as an option`,
+          878: `Load game categories for filtered giveaways on demand`
+        }
+      },
       {
         date: `August 8, 2018`,
         version: `7.26.1`,
