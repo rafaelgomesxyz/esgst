@@ -55,8 +55,10 @@ async function tags_getTags(key) {
     });
   }
   esgst[`${key}Tags`] = sortArray(esgst[`${key}Tags`], true, `count`).map(x => x.tag);
-  esgst.documentEvents.keydown.push(tags_navigateSuggestions);
-  esgst.documentEvents.click.push(tags_closeSuggestions);
+  if (esgst[`${key}_s`]) {
+    esgst.documentEvents.keydown.push(tags_navigateSuggestions);
+    esgst.documentEvents.click.push(tags_closeSuggestions);
+  }
 }
 
 function tags_navigateSuggestions(event) {
@@ -259,28 +261,30 @@ async function tags_openPopup(obj, event) {
     },
     type: `i`
   }]).addEventListener(`click`, tags_showTagList.bind(null, obj));
-  const children = [];
-  obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-tag-suggestions esgst-hidden`
-    },
-    type: `div`
-  }]);
-  for (const tag of esgst[`${obj.key}Tags`]) {
-    children.push({
+  const children = [];  
+  if (esgst[`${obj.key}_s`]) {
+    obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
       attributes: {
-        class: `esgst-tag-suggestion esgst-hidden`
+        class: `esgst-tag-suggestions esgst-hidden`
       },
-      events: {
-        click: tags_addSuggestion.bind(null, obj),
-        mouseenter: tags_selectSuggestion,
-        mouseleave: tags_unselectSuggestion
-      },
-      text: tag,
       type: `div`
-    });
+    }]);
+    for (const tag of esgst[`${obj.key}Tags`]) {
+      children.push({
+        attributes: {
+          class: `esgst-tag-suggestion esgst-hidden`
+        },
+        events: {
+          click: tags_addSuggestion.bind(null, obj),
+          mouseenter: tags_selectSuggestion,
+          mouseleave: tags_unselectSuggestion
+        },
+        text: tag,
+        type: `div`
+      });
+    }
+    createElements(obj.suggestions, `inner`, children);
   }
-  createElements(obj.suggestions, `inner`, children);
   createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
@@ -459,33 +463,35 @@ function tags_createTags(obj) {
   obj.tags.innerHTML = ``;
   const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
   if (tags.length) {
-    const lastTag = tags[tags.length - 1].toLowerCase();
-    let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-    if (selected) {
-      selected.classList.remove(`esgst-selected`);
-    }
-    selected = null;
-    for (const child of obj.suggestions.children) {
-      const value = child.textContent.toLowerCase();
-      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-        child.classList.remove(`esgst-hidden`);
-        if (!selected) {
-          child.classList.add(`esgst-selected`);
-          selected = child;
-        }
-      } else {
-        child.classList.add(`esgst-hidden`);
+    if (esgst[`${obj.key}_s`]) {
+      const lastTag = tags[tags.length - 1].toLowerCase();
+      let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+      if (selected) {
+        selected.classList.remove(`esgst-selected`);
       }
-    }
-    if (selected) {
-      obj.suggestions.classList.remove(`esgst-hidden`);
-    } else {
-      tags_hideSuggestions(obj.suggestions);
+      selected = null;
+      for (const child of obj.suggestions.children) {
+        const value = child.textContent.toLowerCase();
+        if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+          child.classList.remove(`esgst-hidden`);
+          if (!selected) {
+            child.classList.add(`esgst-selected`);
+            selected = child;
+          }
+        } else {
+          child.classList.add(`esgst-hidden`);
+        }
+      }
+      if (selected) {
+        obj.suggestions.classList.remove(`esgst-hidden`);
+      } else {
+        tags_hideSuggestions(obj.suggestions);
+      }
     }
     for (const tag of tags) {
       tags_createTag(obj, tag);
     }
-  } else {
+  } else if (esgst[`${obj.key}_s`]) {
     tags_hideSuggestions(obj.suggestions);
   }
 }

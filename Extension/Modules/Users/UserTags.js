@@ -9,6 +9,13 @@ _MODULES.push({
       <li>This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username. For a long text, check [id=un].</li>
     </ul>
   `,
+  features: {
+    ut_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `ut`,
   load: ut,
   name: `User Tags`,

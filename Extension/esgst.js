@@ -1598,6 +1598,12 @@
       windowEvents: {},
       parameters: getParameters(),
       defaultValues: {
+        gt_s_sg: true,
+        gt_s_st: true,
+        gpt_s_sg: true,
+        gpt_s_st: true,
+        ut_s_sg: true,
+        ut_s_st: true,
         gc_si_sg: true,
         es_pages: 1,
         backupZip_sg: false,
@@ -2111,7 +2117,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.1`,
-      devVersion: `7.26.2 (Dev.3)`,
+      devVersion: `7.26.2 (Dev.4)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -17906,6 +17912,13 @@ _MODULES.push({
       <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
     </ul>
   `,
+  features: {
+    gt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `gt`,
   load: gt,
   name: `Game Tags`,
@@ -17926,6 +17939,13 @@ function gt() {
       <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
     </ul>
   `,
+  features: {
+    gpt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `gpt`,
   load: gpt,
   name: `Group Tags`,
@@ -31644,6 +31664,13 @@ _MODULES.push({
       <li>This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username. For a long text, check [id=un].</li>
     </ul>
   `,
+  features: {
+    ut_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true,
+      st: true
+    }
+  },
   id: `ut`,
   load: ut,
   name: `User Tags`,
@@ -41731,8 +41758,10 @@ async function tags_getTags(key) {
     });
   }
   esgst[`${key}Tags`] = sortArray(esgst[`${key}Tags`], true, `count`).map(x => x.tag);
-  esgst.documentEvents.keydown.push(tags_navigateSuggestions);
-  esgst.documentEvents.click.push(tags_closeSuggestions);
+  if (esgst[`${key}_s`]) {
+    esgst.documentEvents.keydown.push(tags_navigateSuggestions);
+    esgst.documentEvents.click.push(tags_closeSuggestions);
+  }
 }
 
 function tags_navigateSuggestions(event) {
@@ -41935,28 +41964,30 @@ async function tags_openPopup(obj, event) {
     },
     type: `i`
   }]).addEventListener(`click`, tags_showTagList.bind(null, obj));
-  const children = [];
-  obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
-    attributes: {
-      class: `esgst-tag-suggestions esgst-hidden`
-    },
-    type: `div`
-  }]);
-  for (const tag of esgst[`${obj.key}Tags`]) {
-    children.push({
+  const children = [];  
+  if (esgst[`${obj.key}_s`]) {
+    obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
       attributes: {
-        class: `esgst-tag-suggestion esgst-hidden`
+        class: `esgst-tag-suggestions esgst-hidden`
       },
-      events: {
-        click: tags_addSuggestion.bind(null, obj),
-        mouseenter: tags_selectSuggestion,
-        mouseleave: tags_unselectSuggestion
-      },
-      text: tag,
       type: `div`
-    });
+    }]);
+    for (const tag of esgst[`${obj.key}Tags`]) {
+      children.push({
+        attributes: {
+          class: `esgst-tag-suggestion esgst-hidden`
+        },
+        events: {
+          click: tags_addSuggestion.bind(null, obj),
+          mouseenter: tags_selectSuggestion,
+          mouseleave: tags_unselectSuggestion
+        },
+        text: tag,
+        type: `div`
+      });
+    }
+    createElements(obj.suggestions, `inner`, children);
   }
-  createElements(obj.suggestions, `inner`, children);
   createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
@@ -42135,33 +42166,35 @@ function tags_createTags(obj) {
   obj.tags.innerHTML = ``;
   const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
   if (tags.length) {
-    const lastTag = tags[tags.length - 1].toLowerCase();
-    let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-    if (selected) {
-      selected.classList.remove(`esgst-selected`);
-    }
-    selected = null;
-    for (const child of obj.suggestions.children) {
-      const value = child.textContent.toLowerCase();
-      if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-        child.classList.remove(`esgst-hidden`);
-        if (!selected) {
-          child.classList.add(`esgst-selected`);
-          selected = child;
-        }
-      } else {
-        child.classList.add(`esgst-hidden`);
+    if (esgst[`${obj.key}_s`]) {
+      const lastTag = tags[tags.length - 1].toLowerCase();
+      let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+      if (selected) {
+        selected.classList.remove(`esgst-selected`);
       }
-    }
-    if (selected) {
-      obj.suggestions.classList.remove(`esgst-hidden`);
-    } else {
-      tags_hideSuggestions(obj.suggestions);
+      selected = null;
+      for (const child of obj.suggestions.children) {
+        const value = child.textContent.toLowerCase();
+        if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+          child.classList.remove(`esgst-hidden`);
+          if (!selected) {
+            child.classList.add(`esgst-selected`);
+            selected = child;
+          }
+        } else {
+          child.classList.add(`esgst-hidden`);
+        }
+      }
+      if (selected) {
+        obj.suggestions.classList.remove(`esgst-hidden`);
+      } else {
+        tags_hideSuggestions(obj.suggestions);
+      }
     }
     for (const tag of tags) {
       tags_createTag(obj, tag);
     }
-  } else {
+  } else if (esgst[`${obj.key}_s`]) {
     tags_hideSuggestions(obj.suggestions);
   }
 }
