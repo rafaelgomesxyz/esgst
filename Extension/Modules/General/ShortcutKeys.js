@@ -253,7 +253,7 @@ _MODULES.push({
       };
     }
     if (Object.keys(methods).length > 0) {
-      esgst.documentEvents.keydown.push(event => {
+      esgst.documentEvents.keydown.add(event => {
         let value = ``;
         if (event.ctrlKey) {
           value += `ctrlKey + `;

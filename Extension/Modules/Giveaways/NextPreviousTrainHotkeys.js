@@ -51,7 +51,7 @@ _MODULES.push({
           }
         }
         if (previous || next) {
-          esgst.documentEvents.keydown.push(npth_loadGiveaway.bind(null, next, previous));
+          esgst.documentEvents.keydown.add(npth_loadGiveaway.bind(null, next, previous));
         }
       }
     }
