@@ -985,6 +985,10 @@ _MODULES.push({
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
+      const loading = giveaway.outerWrap.getElementsByClassName(`esgst-gc-loading`)[0];
+      if (loading) {
+        loading.remove();
+      }
       if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
@@ -1017,6 +1021,10 @@ _MODULES.push({
     }
     for (let i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
       let giveaway = esgst.popupGiveaways[i];
+      const loading = giveaway.outerWrap.getElementsByClassName(`esgst-gc-loading`)[0];
+      if (loading) {
+        loading.remove();
+      }
       if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
       }
