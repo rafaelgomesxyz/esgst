@@ -89,6 +89,7 @@ _MODULES.push({
     let code = giveaway.code;
     let j;
     if (esgst.createdPath && cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
+      console.log(`ESGST Log: CEWGD 0`);
       for (j = cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
         let winner = cewgd.savedGiveaways[code].winners[j];
         if (winner.status !== `Received` && winner.status !== `Not Received`) {
@@ -97,9 +98,11 @@ _MODULES.push({
       }
     }
     if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || j < 0) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
+      console.log(`ESGST Log: CEWGD 1`);
       cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
     } else if (esgst.createdPath) {
-      console.log(`Updating winners for ${code}...`);
+      console.log(`ESGST Log: CEWGD 2`);
+      console.log(`ESGST Log: Updating winners for ${code}...`);
       let currentGiveaway = null;
       let nextPage = 1;
       let pagination = null;
@@ -140,6 +143,7 @@ _MODULES.push({
         cewgd_addDetails(giveaway, currentGiveaway);
       }
     } else {
+      console.log(`ESGST Log: CEWGD 3`);
       let response = await request({method: `GET`, url: giveaway.url});
       let responseHtml = parseHtml(response.responseText);
       let currentGiveaways = await giveaways_get(responseHtml, false, response.finalUrl);

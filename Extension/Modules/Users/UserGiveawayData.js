@@ -400,16 +400,20 @@ _MODULES.push({
         games[id].push(code);
         const savedGiveaway = esgst.giveaways[code];
         if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
+          console.log(`ESGST Log: UGD 0`);
           obj.giveaways[code] = giveaway;          
           if (obj.key === `sent`) {
+            console.log(`ESGST Log: UGD 1`);
             giveaway.winners = [];
             if (giveawayRaw.winners > 3) {
+              console.log(`ESGST Log: UGD 2`);
               obj.requests.push({
                 giveaway: giveaway,
                 request: ugd_requestGiveaway,
                 url: `/giveaway/${code}/_/winners/search?page=`
               });
             } else {
+              console.log(`ESGST Log: UGD 3`);
               for (const key in giveawayRaw.winnerColumns) {
                 const column = giveawayRaw.winnerColumns[key];
                 if (!column.status || column.status === `Awaiting Feedback`) {
@@ -970,6 +974,7 @@ _MODULES.push({
   }
 
   async function ugd_requestGiveaway(obj, details, response, responseHtml) {
+    console.log(`ESGST Log: UGD 4`);
     const msg = `Retrieving giveaway winners (${details.giveaway.gameName})...`;
     if (obj.popup) {
       obj.popup.setProgress(msg);
@@ -980,6 +985,7 @@ _MODULES.push({
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
       return true;
     }
+    console.log(`ESGST Log: UGD 5`);
 
     const elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
     const n = elements.length;
