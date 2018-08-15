@@ -6,7 +6,7 @@ async function tags_load(key) {
 async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
-    case `gpt`:
+    case `gpt`: {
       const savedGroups = JSON.parse(await getValue(`groups`));
       for (const group of savedGroups) {
         const tags = group.tags;
@@ -15,7 +15,8 @@ async function tags_getTags(key) {
         }
       }
       break;
-    case `gt`:
+    }      
+    case `gt`: {
       const savedGames = JSON.parse(await getValue(`games`));
       for (const id in savedGames.apps) {
         const tags = savedGames.apps[id].tags;
@@ -30,7 +31,8 @@ async function tags_getTags(key) {
         }
       }
       break;
-    case `ut`:
+    }
+    case `ut`: {
       const savedUsers = JSON.parse(await getValue(`users`));
       for (const id in savedUsers.users) {
         const tags = savedUsers.users[id].tags;
@@ -39,6 +41,7 @@ async function tags_getTags(key) {
         }
       }
       break;
+    }
   }  
   const tagCount = {};
   for (const tag of allTags) {
@@ -146,7 +149,6 @@ async function tags_openMmPopup(mmObj, items, key) {
   }[key];
   const obj = {items: [], key};
   obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
-  const tags = [];
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -154,24 +156,27 @@ async function tags_openMmPopup(mmObj, items, key) {
     item.tags = [];
     item.uniqueTags = [];
     switch (key) {
-      case `gpt`:
+      case `gpt`: {
         const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
         if (group && group.tags && Array.isArray(group.tags)) {
           item.tags = group.tags;
         }
         break;
-      case `gt`:
+      }
+      case `gt`: {
         const game = savedGames[item.type][item.code];
         if (game && game.tags && Array.isArray(game.tags)) {
           item.tags = game.tags;
         }
         break;
-      case `ut`:
+      }
+      case `ut`: {
         const user = await getUser(savedUsers, {username: item.code});
         if (user && user.tags && Array.isArray(user.tags)) {
           item.tags = user.tags;
         }
         break;
+      }
     }
   }
   obj.hasUnique = false;
@@ -306,7 +311,7 @@ async function tags_saveTags(obj) {
     tags = ``;
   }
   switch (obj.key) {
-    case `gpt`:
+    case `gpt`: {
       const groups = {};
       if (obj.items) {
         for (const item of obj.items) {
@@ -333,7 +338,8 @@ async function tags_saveTags(obj) {
       }
       await lockAndSaveGroups(groups);
       break;
-    case `gt`:
+    }
+    case `gt`: {
       const games = {apps: {}, subs: {}};
       if (obj.items) {
         for (const item of obj.items) {
@@ -352,7 +358,8 @@ async function tags_saveTags(obj) {
       }
       await lockAndSaveGames(games);
       break;
-    case `ut`:
+    }
+    case `ut`: {
       if (obj.items) {
         const users = [];
         for (const item of obj.items) {
@@ -382,6 +389,7 @@ async function tags_saveTags(obj) {
         await saveUser(null, null, user);
       }
       break;
+    }
   }
   await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
   if (obj.items) {
@@ -423,7 +431,7 @@ function tags_addTags(item, obj, tags) {
       case `gt`:
         context = subItem.container;
         break;
-      case `ut`:
+      case `ut`: {
         const container = subItem.parentElement;
         if (!container) {
           break;
@@ -431,6 +439,7 @@ function tags_addTags(item, obj, tags) {
         context = container.classList.contains(`comment__username`) ? container : subItem;
         context = context.parentElement;
         break;
+      }
     }
     if (!context) {
       continue;
@@ -750,20 +759,23 @@ async function tags_loadTags(obj) {
     item = {tags: obj.sharedTags};
   } else {
     switch (obj.key) {
-      case `gpt`:
+      case `gpt`: {
         const savedGroups = JSON.parse(await getValue(`groups`));
         item = savedGroups.filter(group => group.code === obj.item.id)[0];
         break;
-      case `gt`:
+      }
+      case `gt`: {
         const savedGames = JSON.parse(await getValue(`games`));
         item = savedGames[obj.item.type][obj.item.id];
         break;
-      case `ut`:
+      }
+      case `ut`: {
         item = await getUser(null, {
           steamId: obj.item.steamId,
           username: obj.item.username
         });
         break;
+      }
     }
   }
   obj.input.focus();

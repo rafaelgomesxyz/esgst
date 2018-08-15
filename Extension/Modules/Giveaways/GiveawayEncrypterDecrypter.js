@@ -139,10 +139,6 @@ _MODULES.push({
       let filtered = true;
       let giveaway = esgst.giveaways[code];
       if (giveaway) {
-        let game = null;
-        if (giveaway.gameType && giveaway.gameSteamId) {
-          game = esgst.games[giveaway.gameType][giveaway.gameSteamId];
-        }
         const name = esgst.gf_presetGed;
         if (name) {
           let i;

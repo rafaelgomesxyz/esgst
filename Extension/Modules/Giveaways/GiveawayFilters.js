@@ -3162,7 +3162,7 @@ _MODULES.push({
       case `date`:
         rules.value = new Date(rules.value).getTime();
       case `integer`:
-      case `double`:
+      case `double`: {
         if (key === `minutesToEnd` && (item.ended || item.deleted)) break;
 
         const value = key === `minutesToEnd`
@@ -3196,6 +3196,7 @@ _MODULES.push({
         }
 
         break;
+      }
       case `boolean`:
         if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
 
@@ -3220,7 +3221,7 @@ _MODULES.push({
         }
 
         break;
-      case `string`:
+      case `string`: {
         const list = rules.value.toLowerCase().split(/,\s/);
 
         if (rules.operator === `contains`) {
@@ -3241,6 +3242,7 @@ _MODULES.push({
         }
 
         break;
+      }
     }
     if (!filtered && rules.data) {
       if (rules.data.count) {

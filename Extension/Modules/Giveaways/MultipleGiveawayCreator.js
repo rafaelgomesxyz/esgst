@@ -1165,7 +1165,7 @@ _MODULES.push({
 
   function mgc_exportGiveaways(mgc, mainCallback) {
     mainCallback();
-    let anchor, file, i, j, n, popup, url, values;
+    let file, i, j, n, popup, values;
     popup = new Popup(`fa-arrow-down`, `Export`);
     new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, esgst.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet(`green`, ``, `fa-arrow-down`, ``, `Export`, ``, callback => {

@@ -815,7 +815,9 @@ _MODULES.push({
   }
 
   async function wbc_getGroupGiveaways(data, groupGiveaways, obj, username) {
-    for (const groupGiveaway of groupGiveaways) {
+    const n = groupGiveaways.length;
+    for (let i = 0; i < n; i++) {
+      const groupGiveaway = groupGiveaways[i];
       createElements(obj.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch`
@@ -862,7 +864,7 @@ _MODULES.push({
         data.g_wl_gas[groupGiveaway] = [];
       }
       for (let i = 0; i < n; i++) {
-        const group = groups[I].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
+        const group = groups[i].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
         if (data.g_wl_gas[groupGiveaway].indexOf(group) < 0) {
           data.g_wl_gas[groupGiveaway].push(group);
         }

@@ -697,9 +697,6 @@ _MODULES.push({
       gcCache.hltb = {};
     }
     for (const id in obj.games.subs) {
-      const giveaways = obj.games.subs[id];
-      const item = giveaways[0];
-      const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
       let apps = gcCache.subs[id] && gcCache.subs[id].apps;
       if (!apps) {
         try {
@@ -714,7 +711,7 @@ _MODULES.push({
             gcCache.subs[id] = {};
           }
           gcCache.subs[id].apps = apps.map(x => parseInt(x.id));
-        } catch (e) {}
+        } catch (e) { /**/ }
       }
       if (apps) {
         for (const app of apps) {
