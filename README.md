@@ -236,6 +236,15 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.26.3 (August 15, 2018)**
+
+* [#889](https://github.com/revilheart/ESGST/issues/889) Fix some bugs in Trade Bumper
+* [#888](https://github.com/revilheart/ESGST/issues/888) Fix a conflict with Do You Even Play, Bro?
+* [#887](https://github.com/revilheart/ESGST/issues/887) Fix a bug that sometimes adds a loading icon to giveaways when it shouldn&#39;t in Game Categories
+* [#886](https://github.com/revilheart/ESGST/issues/886) Fix a few syntax bugs
+* [#885](https://github.com/revilheart/ESGST/issues/885) Fix a bug that happens when loading categories for giveaways that were unfiltered
+
+
 **7.26.2 (August 10, 2018)**
 
 * [#881](https://github.com/revilheart/ESGST/issues/881) Add option to show game categories that do not need to be fetched from Steam instantly
