@@ -3097,7 +3097,14 @@ _MODULES.push({
     }
     filters_updateCount(obj, endless);
     if (obj.id === `gf` && esgst.gcToFetch) {
-      gc_getGames(esgst.gcToFetch, true, null, false, true);
+      const games = {apps: {}, subs: {}};
+      for (const id in esgst.gcToFetch.apps) {
+        games.apps[id] = [...esgst.gcToFetch.apps[id]];
+      }
+      for (const id in esgst.gcToFetch.subs) {
+        games.subs[id] = [...esgst.gcToFetch.subs[id]];
+      }
+      gc_getGames(games, true, null, false, true);
     }
   }
 
