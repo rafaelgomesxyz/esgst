@@ -139,7 +139,7 @@ _MODULES.push({
       }
     }
     giveaway.pinned = giveaway.outerWrap.closest(`.pinned-giveaways__outer-wrap`);
-    thinHeadings = giveaway.innerWrap.querySelectorAll(`.giveaway__heading__thin, .featured__heading__small`);
+    thinHeadings = giveaway.innerWrap.querySelectorAll(`.giveaway__heading__thin:not(.dyegb_playtime):not(.dyegb_achievement), .featured__heading__small`);
     n = thinHeadings.length;
     giveaway.points = 0;
     if (n > 0) {
