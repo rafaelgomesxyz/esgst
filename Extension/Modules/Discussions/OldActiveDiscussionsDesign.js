@@ -29,7 +29,7 @@ _MODULES.push({
   }
 
   async function oadd_load(refresh, callback) {
-    let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements, savedDiscussions;
+    let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements;
     response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
     response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
     esgst.activeDiscussions.classList.add(`esgst-oadd`);
@@ -220,7 +220,6 @@ _MODULES.push({
         }
       }
     }
-    savedDiscussions = JSON.parse(await getValue(`discussions`, `{}`));
     let elements = await discussions_get(response1Html, true);
     if (!esgst.oadd_d) {
       revisedElements = [];

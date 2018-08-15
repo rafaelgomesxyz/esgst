@@ -20,13 +20,13 @@ _MODULES.push({
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .form__key-btn-delete, .esgst-es-page-${endless}.form__key-btn-delete` : `.form__key-btn-delete`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       const element = elements[i];
-          newElement = createElements(element, `afterEnd`, [{
-            attributes: {
-              class: `table__column__secondary-link esgst-clickable`
-            },
-            text: `Delete`,
-            type: `span`
-          }]);
+      const newElement = createElements(element, `afterEnd`, [{
+        attributes: {
+          class: `table__column__secondary-link esgst-clickable`
+        },
+        text: `Delete`,
+        type: `span`
+      }]);
       element.remove();
       newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, dkc_deleteKey.bind(null, newElement), null));
     }

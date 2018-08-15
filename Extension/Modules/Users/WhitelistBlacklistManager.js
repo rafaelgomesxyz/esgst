@@ -135,7 +135,7 @@ _MODULES.push({
   async function wbm_exportList(wbm, list, nextPage, callback) {
     if (wbm.isCanceled) return;
     if (esgst.wbm_useCache) {
-      let file, steamId, url;
+      let steamId;
       for (steamId in esgst.users.users) {
         if (esgst.users.users[steamId][`${wbm.key}ed`]) {
           list.push(esgst.users.users[steamId].id);

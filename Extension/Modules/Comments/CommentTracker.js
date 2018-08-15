@@ -901,7 +901,7 @@ _MODULES.push({
     obj.clean.addEventListener(`click`, ct_clean.bind(null, obj));
   }
 
-  async function ct_clean(obj, event) {
+  async function ct_clean(obj) {
     obj.clean.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.add(`esgst-hidden`);
     obj.markRead.classList.add(`esgst-hidden`);

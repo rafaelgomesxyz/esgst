@@ -636,7 +636,7 @@ _MODULES.push({
                   text: emojiData.emoji,
                   type: `span`
                 }]);
-                emojis.lastElementChild.addEventListener(`click`, event => {
+                emojis.lastElementChild.addEventListener(`click`, () => {
                   createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
                       [`data-id`]: emojiData.emoji,

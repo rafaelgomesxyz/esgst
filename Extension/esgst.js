@@ -2117,7 +2117,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.2`,
-      devVersion: `7.26.3 (Dev.3)`,
+      devVersion: `7.26.3 (Dev.4)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -4116,7 +4116,7 @@ _MODULES.push({
   }
 
   async function oadd_load(refresh, callback) {
-    let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements, savedDiscussions;
+    let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements;
     response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
     response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
     esgst.activeDiscussions.classList.add(`esgst-oadd`);
@@ -4307,7 +4307,6 @@ _MODULES.push({
         }
       }
     }
-    savedDiscussions = JSON.parse(await getValue(`discussions`, `{}`));
     let elements = await discussions_get(response1Html, true);
     if (!esgst.oadd_d) {
       revisedElements = [];
@@ -6341,7 +6340,7 @@ _MODULES.push({
     obj.clean.addEventListener(`click`, ct_clean.bind(null, obj));
   }
 
-  async function ct_clean(obj, event) {
+  async function ct_clean(obj) {
     obj.clean.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.add(`esgst-hidden`);
     obj.markRead.classList.add(`esgst-hidden`);
@@ -10667,7 +10666,7 @@ _MODULES.push({
   }
 
   function gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
-    let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, j, k, n, panel, name, sent, singularType, user, value;
+    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
         gc_checkPackage(subId, savedGame);
@@ -12556,10 +12555,6 @@ _MODULES.push({
       let filtered = true;
       let giveaway = esgst.giveaways[code];
       if (giveaway) {
-        let game = null;
-        if (giveaway.gameType && giveaway.gameSteamId) {
-          game = esgst.games[giveaway.gameType][giveaway.gameSteamId];
-        }
         const name = esgst.gf_presetGed;
         if (name) {
           let i;
@@ -16728,7 +16723,7 @@ _MODULES.push({
       case `date`:
         rules.value = new Date(rules.value).getTime();
       case `integer`:
-      case `double`:
+      case `double`: {
         if (key === `minutesToEnd` && (item.ended || item.deleted)) break;
 
         const value = key === `minutesToEnd`
@@ -16762,6 +16757,7 @@ _MODULES.push({
         }
 
         break;
+      }
       case `boolean`:
         if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
 
@@ -16786,7 +16782,7 @@ _MODULES.push({
         }
 
         break;
-      case `string`:
+      case `string`: {
         const list = rules.value.toLowerCase().split(/,\s/);
 
         if (rules.operator === `contains`) {
@@ -16807,6 +16803,7 @@ _MODULES.push({
         }
 
         break;
+      }
     }
     if (!filtered && rules.data) {
       if (rules.data.count) {
@@ -21553,7 +21550,7 @@ _MODULES.push({
 
   function mgc_exportGiveaways(mgc, mainCallback) {
     mainCallback();
-    let anchor, file, i, j, n, popup, url, values;
+    let file, i, j, n, popup, values;
     popup = new Popup(`fa-arrow-down`, `Export`);
     new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, esgst.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet(`green`, ``, `fa-arrow-down`, ``, `Export`, ``, callback => {
@@ -24916,7 +24913,7 @@ _MODULES.push({
                   text: emojiData.emoji,
                   type: `span`
                 }]);
-                emojis.lastElementChild.addEventListener(`click`, event => {
+                emojis.lastElementChild.addEventListener(`click`, () => {
                   createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
                       [`data-id`]: emojiData.emoji,
@@ -30968,7 +30965,9 @@ _MODULES.push({
   }
 
   async function wbc_getGroupGiveaways(data, groupGiveaways, obj, username) {
-    for (const groupGiveaway of groupGiveaways) {
+    const n = groupGiveaways.length;
+    for (let i = 0; i < n; i++) {
+      const groupGiveaway = groupGiveaways[i];
       createElements(obj.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch`
@@ -31015,7 +31014,7 @@ _MODULES.push({
         data.g_wl_gas[groupGiveaway] = [];
       }
       for (let i = 0; i < n; i++) {
-        const group = groups[I].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
+        const group = groups[i].getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
         if (data.g_wl_gas[groupGiveaway].indexOf(group) < 0) {
           data.g_wl_gas[groupGiveaway].push(group);
         }
@@ -31491,7 +31490,7 @@ _MODULES.push({
   async function wbm_exportList(wbm, list, nextPage, callback) {
     if (wbm.isCanceled) return;
     if (esgst.wbm_useCache) {
-      let file, steamId, url;
+      let steamId;
       for (steamId in esgst.users.users) {
         if (esgst.users.users[steamId][`${wbm.key}ed`]) {
           list.push(esgst.users.users[steamId].id);
@@ -32347,13 +32346,13 @@ _MODULES.push({
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .form__key-btn-delete, .esgst-es-page-${endless}.form__key-btn-delete` : `.form__key-btn-delete`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       const element = elements[i];
-          newElement = createElements(element, `afterEnd`, [{
-            attributes: {
-              class: `table__column__secondary-link esgst-clickable`
-            },
-            text: `Delete`,
-            type: `span`
-          }]);
+      const newElement = createElements(element, `afterEnd`, [{
+        attributes: {
+          class: `table__column__secondary-link esgst-clickable`
+        },
+        text: `Delete`,
+        type: `span`
+      }]);
       element.remove();
       newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, dkc_deleteKey.bind(null, newElement), null));
     }
@@ -39093,9 +39092,6 @@ _MODULES.push({
       gcCache.hltb = {};
     }
     for (const id in obj.games.subs) {
-      const giveaways = obj.games.subs[id];
-      const item = giveaways[0];
-      const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
       let apps = gcCache.subs[id] && gcCache.subs[id].apps;
       if (!apps) {
         try {
@@ -39110,7 +39106,7 @@ _MODULES.push({
             gcCache.subs[id] = {};
           }
           gcCache.subs[id].apps = apps.map(x => parseInt(x.id));
-        } catch (e) {}
+        } catch (e) { /**/ }
       }
       if (apps) {
         for (const app of apps) {
@@ -41702,7 +41698,7 @@ async function tags_load(key) {
 async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
-    case `gpt`:
+    case `gpt`: {
       const savedGroups = JSON.parse(await getValue(`groups`));
       for (const group of savedGroups) {
         const tags = group.tags;
@@ -41711,7 +41707,8 @@ async function tags_getTags(key) {
         }
       }
       break;
-    case `gt`:
+    }      
+    case `gt`: {
       const savedGames = JSON.parse(await getValue(`games`));
       for (const id in savedGames.apps) {
         const tags = savedGames.apps[id].tags;
@@ -41726,7 +41723,8 @@ async function tags_getTags(key) {
         }
       }
       break;
-    case `ut`:
+    }
+    case `ut`: {
       const savedUsers = JSON.parse(await getValue(`users`));
       for (const id in savedUsers.users) {
         const tags = savedUsers.users[id].tags;
@@ -41735,6 +41733,7 @@ async function tags_getTags(key) {
         }
       }
       break;
+    }
   }  
   const tagCount = {};
   for (const tag of allTags) {
@@ -41842,7 +41841,6 @@ async function tags_openMmPopup(mmObj, items, key) {
   }[key];
   const obj = {items: [], key};
   obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
-  const tags = [];
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -41850,24 +41848,27 @@ async function tags_openMmPopup(mmObj, items, key) {
     item.tags = [];
     item.uniqueTags = [];
     switch (key) {
-      case `gpt`:
+      case `gpt`: {
         const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
         if (group && group.tags && Array.isArray(group.tags)) {
           item.tags = group.tags;
         }
         break;
-      case `gt`:
+      }
+      case `gt`: {
         const game = savedGames[item.type][item.code];
         if (game && game.tags && Array.isArray(game.tags)) {
           item.tags = game.tags;
         }
         break;
-      case `ut`:
+      }
+      case `ut`: {
         const user = await getUser(savedUsers, {username: item.code});
         if (user && user.tags && Array.isArray(user.tags)) {
           item.tags = user.tags;
         }
         break;
+      }
     }
   }
   obj.hasUnique = false;
@@ -42002,7 +42003,7 @@ async function tags_saveTags(obj) {
     tags = ``;
   }
   switch (obj.key) {
-    case `gpt`:
+    case `gpt`: {
       const groups = {};
       if (obj.items) {
         for (const item of obj.items) {
@@ -42029,7 +42030,8 @@ async function tags_saveTags(obj) {
       }
       await lockAndSaveGroups(groups);
       break;
-    case `gt`:
+    }
+    case `gt`: {
       const games = {apps: {}, subs: {}};
       if (obj.items) {
         for (const item of obj.items) {
@@ -42048,7 +42050,8 @@ async function tags_saveTags(obj) {
       }
       await lockAndSaveGames(games);
       break;
-    case `ut`:
+    }
+    case `ut`: {
       if (obj.items) {
         const users = [];
         for (const item of obj.items) {
@@ -42078,6 +42081,7 @@ async function tags_saveTags(obj) {
         await saveUser(null, null, user);
       }
       break;
+    }
   }
   await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
   if (obj.items) {
@@ -42119,7 +42123,7 @@ function tags_addTags(item, obj, tags) {
       case `gt`:
         context = subItem.container;
         break;
-      case `ut`:
+      case `ut`: {
         const container = subItem.parentElement;
         if (!container) {
           break;
@@ -42127,6 +42131,7 @@ function tags_addTags(item, obj, tags) {
         context = container.classList.contains(`comment__username`) ? container : subItem;
         context = context.parentElement;
         break;
+      }
     }
     if (!context) {
       continue;
@@ -42446,20 +42451,23 @@ async function tags_loadTags(obj) {
     item = {tags: obj.sharedTags};
   } else {
     switch (obj.key) {
-      case `gpt`:
+      case `gpt`: {
         const savedGroups = JSON.parse(await getValue(`groups`));
         item = savedGroups.filter(group => group.code === obj.item.id)[0];
         break;
-      case `gt`:
+      }
+      case `gt`: {
         const savedGames = JSON.parse(await getValue(`games`));
         item = savedGames[obj.item.type][obj.item.id];
         break;
-      case `ut`:
+      }
+      case `ut`: {
         item = await getUser(null, {
           steamId: obj.item.steamId,
           username: obj.item.username
         });
         break;
+      }
     }
   }
   obj.input.focus();
@@ -45296,7 +45304,6 @@ async function tags_loadTags(obj) {
   }
 
   async function checkMissingDiscussions(refresh, callback) {
-    let savedDiscussions = JSON.parse(await getValue(`discussions`, `{}`));
     let rows = document.getElementsByClassName(`table__rows`);
     let numDiscussions = 0;
     let numDeals = 0;
@@ -45709,7 +45716,7 @@ async function tags_loadTags(obj) {
                 type: `node`
               }]
             }, {
-              type: `Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.`,
+              text: `Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.`,
               type: `node`
             }, {
               type: `li`,

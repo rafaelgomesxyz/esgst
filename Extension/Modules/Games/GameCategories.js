@@ -1372,7 +1372,7 @@ _MODULES.push({
   }
 
   function gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
-    let active, category, colored, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, html, i, j, k, n, panel, name, sent, singularType, user, value;
+    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
         gc_checkPackage(subId, savedGame);
