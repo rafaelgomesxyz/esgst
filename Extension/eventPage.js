@@ -18,7 +18,7 @@ browser.storage.local.get(`settings`, async result => {
   }
   // Go back to the previously active tab.  
   if (currentTab && currentTab.id) {
-    await browser.tabs.update(currentTab.id, {active: true});
+    await updateTab(currentTab.id, {active: true});
   }
 });
 
@@ -274,7 +274,7 @@ async function getTabs(request) {
     }
     let tab = (await queryTabs({url: item.pattern}))[0];
     if (tab && tab.id) {
-      await browser.tabs.update(tab.id, {active: true});
+      await updateTab(tab.id, {active: true});
       if (request.refresh) {
         browser.tabs.reload(tab.id);
       }
@@ -287,7 +287,7 @@ async function getTabs(request) {
   if (any) {
     let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
     if (tab && tab.id) {
-      await browser.tabs.update(tab.id, {active: true});
+      await updateTab(tab.id, {active: true});
     }
   }
 }
@@ -298,9 +298,15 @@ function queryTabs(query) {
   });
 }
 
+function updateTab(id, parameters) {
+  return new Promise(resolve => {
+    browser.tabs.update(id, parameters, resolve);
+  });
+}
+
 async function activateTab(host) {
   const tab = (await queryTabs({url: `*://*.${host}.com/*`}))[0];
   if (tab && tab.id) {
-    await browser.tabs.update(tab.id, {active: true});
+    await updateTab(tab.id, {active: true});
   }
 }
