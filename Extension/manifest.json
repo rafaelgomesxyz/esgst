@@ -1,4 +1,9 @@
 {
+  "applications": {
+    "gecko": {
+      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
+    }
+  },
   "author": "revilheart",
   "background": {
     "scripts": [
@@ -73,4 +78,3 @@
   ],
   "version": "7.26.3"
 }
-
