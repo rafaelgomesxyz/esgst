@@ -14,11 +14,11 @@ browser.storage.local.get(`settings`, async result => {
   }
   if (settings.activateTab_st) {
     // Set the ST tab as active.
-    await activateTab(`steamTrades`);
+    await activateTab(`steamtrades`);
   }
   // Go back to the previously active tab.  
   if (currentTab && currentTab.id) {
-    browser.tabs.update(currentTab.id, {active: true});
+    await browser.tabs.update(currentTab.id, {active: true});
   }
 });
 
@@ -274,7 +274,7 @@ async function getTabs(request) {
     }
     let tab = (await queryTabs({url: item.pattern}))[0];
     if (tab && tab.id) {
-      browser.tabs.update(tab.id, {active: true});
+      await browser.tabs.update(tab.id, {active: true});
       if (request.refresh) {
         browser.tabs.reload(tab.id);
       }
@@ -287,7 +287,7 @@ async function getTabs(request) {
   if (any) {
     let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
     if (tab && tab.id) {
-      browser.tabs.update(tab.id, {active: true});
+      await browser.tabs.update(tab.id, {active: true});
     }
   }
 }
@@ -301,6 +301,6 @@ function queryTabs(query) {
 async function activateTab(host) {
   const tab = (await queryTabs({url: `*://*.${host}.com/*`}))[0];
   if (tab && tab.id) {
-    browser.tabs.update(tab.id, {active: true});
+    await browser.tabs.update(tab.id, {active: true});
   }
 }
