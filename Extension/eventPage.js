@@ -1,6 +1,27 @@
 const browser = (this.chrome && this.chrome.runtime) ? this.chrome : this.browser;
 let storage = null;
 
+browser.storage.local.get(`settings`, async result => {
+  const settings = JSON.parse(result.settings);
+  if (!settings.activateTab_sg && !settings.activateTab_st) {
+    return;
+  }
+  // Get the currently active tab.
+  const currentTab = (await queryTabs({active: true}))[0];
+  if (settings.activateTab_sg) {
+    // Set the SG tab as active.
+    await activateTab(`steamgifts`);
+  }
+  if (settings.activateTab_st) {
+    // Set the ST tab as active.
+    await activateTab(`steamTrades`);
+  }
+  // Go back to the previously active tab.  
+  if (currentTab && currentTab.id) {
+    browser.tabs.update(currentTab.id, {active: true});
+  }
+});
+
 function sendMessage(action, sender, values) {
   browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
     tabs.forEach(tab => {
@@ -275,4 +296,11 @@ function queryTabs(query) {
   return new Promise(resolve => {
     browser.tabs.query(query, resolve);
   });
+}
+
+async function activateTab(host) {
+  const tab = (await queryTabs({url: `*://*.${host}.com/*`}))[0];
+  if (tab && tab.id) {
+    browser.tabs.update(tab.id, {active: true});
+  }
 }
