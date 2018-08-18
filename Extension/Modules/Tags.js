@@ -477,27 +477,31 @@ function tags_createTags(obj) {
   const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
   if (tags.length) {
     if (esgst[`${obj.key}_s`]) {
-      const lastTag = tags[tags.length - 1].toLowerCase();
-      let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-      if (selected) {
-        selected.classList.remove(`esgst-selected`);
-      }
-      selected = null;
-      for (const child of obj.suggestions.children) {
-        const value = child.textContent.toLowerCase();
-        if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-          child.classList.remove(`esgst-hidden`);
-          if (!selected) {
-            selected = child;
-          }
-        } else {
-          child.classList.add(`esgst-hidden`);
-        }
-      }
-      if (selected) {
-        obj.suggestions.classList.remove(`esgst-hidden`);
-      } else {
+      if (obj.input.value.slice(-1).match(/\s|,/)) {
         tags_hideSuggestions(obj.suggestions);
+      } else {
+        const lastTag = tags[tags.length - 1].toLowerCase();
+        let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+        if (selected) {
+          selected.classList.remove(`esgst-selected`);
+        }
+        selected = null;
+        for (const child of obj.suggestions.children) {
+          const value = child.textContent.toLowerCase();
+          if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+            child.classList.remove(`esgst-hidden`);
+            if (!selected) {
+              selected = child;
+            }
+          } else {
+            child.classList.add(`esgst-hidden`);
+          }
+        }
+        if (selected) {
+          obj.suggestions.classList.remove(`esgst-hidden`);
+        } else {
+          tags_hideSuggestions(obj.suggestions);
+        }
       }
     }
     for (const tag of tags) {
