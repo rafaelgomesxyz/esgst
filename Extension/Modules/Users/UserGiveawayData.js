@@ -512,7 +512,16 @@ _MODULES.push({
         values: []
       };
       obj.lists.username = {
-        name: `Most sent to:${obj.user.username === esgst.username ? `` : ` <i class="fa fa-question-circle" title="This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access."></i>`}`,
+        name: [{
+          text: `Most sent to: `,
+          type: `node`
+        }, obj.user.username === esgst.username ? null : {
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.`
+          },
+          type: `i`
+        }],
         values: []
       };
     } else {
@@ -1034,8 +1043,9 @@ _MODULES.push({
           attributes: {
             class: `esgst-bold`
           },
-          text: list.name,
-          type: `div`
+          text: Array.isArray(list.name) ? `` : list.name,
+          type: `div`,
+          children: Array.isArray(list.name) ? list.name : null
         }, {
           type: `ol`,
           children: listItems
