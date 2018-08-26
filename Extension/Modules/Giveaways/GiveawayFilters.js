@@ -906,17 +906,17 @@ _MODULES.push({
         type: `boolean`
       },
       received: {
-        check: esgst.createdPath,
+        check: esgst.createdPath || esgst.wonPath,
         name: `Received`,
         type: `boolean`
       },
       notReceived: {
-        check: esgst.createdPath,
+        check: esgst.createdPath || esgst.wonPath,
         name: `Not Received`,
         type: `boolean`
       },
       awaitingFeedback: {
-        check: esgst.createdPath,
+        check: esgst.createdPath || esgst.wonPath,
         name: `Awaiting Feedback`,
         type: `boolean`
       },

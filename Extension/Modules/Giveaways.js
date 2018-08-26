@@ -226,16 +226,34 @@ _MODULES.push({
     if (giveaway.creator) {
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
-    if (esgst.createdPath && main) {
-      let status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
-      if (status) {
-        if (status.textContent.match(/Not\sReceived/)) {
-          giveaway.notReceived = true;
-        } else if (status.textContent.match(/Received/)) {
-          giveaway.received = true;
-        } else if (status.textContent.match(/Awaiting\sFeedback/)) {
-          giveaway.awaitingFeedback = true;
+    if (main) {
+      if (esgst.createdPath) {
+        let status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
+        if (status) {
+          if (status.textContent.match(/Not\sReceived/)) {
+            giveaway.notReceived = true;
+          } else if (status.textContent.match(/Received/)) {
+            giveaway.received = true;
+          } else if (status.textContent.match(/Awaiting\sFeedback/)) {
+            giveaway.awaitingFeedback = true;
+          }
         }
+      } else if (esgst.wonPath) {
+        giveaway.received = false;
+        giveaway.notReceived = false;
+        const elements = giveaway.outerWrap.querySelectorAll(`.table__column--gift-feedback`);
+        for (const element of elements) {
+          const text = element.textContent.trim();
+          if (text.match(/^Received$/) && element.querySelector(`.icon-green`)) {
+            giveaway.received = true;
+            break;
+          }
+          if (text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) {
+            giveaway.notReceived = true;
+            break;
+          }
+        }
+        giveaway.awaitingFeedback = !giveaway.received && !giveaway.notReceived;
       }
     }
     giveaway.created = giveaway.creator === esgst.username;
