@@ -642,7 +642,7 @@ _MODULES.push({
     }
     if (((!esgst.wbc_checkBlacklist || !obj.B) && (data.wl_ga || data.g_wl_ga)) || (esgst.wbc_checkBlacklist && obj.B && data.ga)) {
       obj.Timestamp = data.timestamp;
-      await wbc_checkGiveaway(data, obj, username);
+      await wbc_checkGiveaway(data, obj, username, true);
     } else {
       obj.Timestamp = 0;
       const match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
@@ -650,7 +650,7 @@ _MODULES.push({
     }
   }
 
-  async function wbc_checkGiveaway(data, obj, username) {
+  async function wbc_checkGiveaway(data, obj, username, cached) {
     if (obj.Canceled) {
       return;
     }
@@ -686,10 +686,16 @@ _MODULES.push({
         }
       }
       if (found) {
-        obj.Timestamp = 0;
-        obj.GroupGiveaways = [];
-        let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-        await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        if (cached) {
+          data.result = `notBlacklisted`;
+          data.lastCheck = Date.now();
+          data.timestamp = obj.Timestamp;
+        } else {
+          obj.Timestamp = 0;
+          obj.GroupGiveaways = [];
+          let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+          await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        }
       } else {
         data.result = `whitelisted`;
         data.lastCheck = Date.now();
@@ -748,7 +754,7 @@ _MODULES.push({
       }
       const giveaway = context.getElementsByClassName(`giveaway__summary`)[0];
       if (giveaway && obj.Timestamp === 0) {
-        obj.Timestamp = parseInt(giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
+        obj.Timestamp = parseInt(giveaway.querySelector(`.giveaway__columns span[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
         if (obj.Timestamp >= Date.now()) {
           obj.Timestamp = 0;
         }
@@ -757,12 +763,13 @@ _MODULES.push({
         isStopped = true;
         break;
       }
-      const doStop = await wbc_checkGiveaway(data, obj, username);
+      let doStop = await wbc_checkGiveaway(data, obj, username);
       if (data.result !== `notBlacklisted` || doStop || (esgst.wbc_checkBlacklist && obj.B)) {
         break;
       }
       let groupGiveaways = [];
       const elements = context.getElementsByClassName(`giveaway__column--whitelist`);
+      doStop = false;
       for (const element of elements) {
         const groupElement = element.parentElement.getElementsByClassName(`giveaway__column--group`)[0];
         if (groupElement) {
@@ -772,8 +779,12 @@ _MODULES.push({
         }
         if (data.wl_ga) {
           await wbc_checkGiveaway(data, obj, username);
+          doStop = true;
           break;
         }
+      }
+      if (doStop) {
+        break;
       }
       if ((data.g_wl_gas && Object.keys(data.g_wl_gas).length) || groupGiveaways.length) {
         if (groupGiveaways.length) {
@@ -796,11 +807,10 @@ _MODULES.push({
             break;
           }
         }
-        if (found) {
+        if (!found) {
+          data.result = `whitelisted`;
           break;
         }
-        data.result = `whitelisted`;
-        break;
       }
       nextPage += 1;
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
