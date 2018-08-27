@@ -236,6 +236,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.26.4 (August 26, 2018)**
+
+* #798 Indicate leftover gifts/keys in Unsent Gifts Sender,
+* #861 Add option to activate the first SG/ST tab if a browser session was restored (extension only),
+* #883 Fix a bug that does not sync games correctly,
+* #891 Fix bugs in Whitelist/Blacklist Checker,
+* #893 Fix HTML in User Giveaway Data,
+* #897 Prevent Cake Day Reminder from notifying about past cake day when installing the script,
+* #900 Fix HTML in the restore and delete menus,
+* #901 Fix a bug that happens when refreshing old active discussions on sidebar
+
 **7.26.3 (August 15, 2018)**
 
 * [#889](https://github.com/revilheart/ESGST/issues/889) Fix some bugs in Trade Bumper
