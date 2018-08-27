@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.26.3
+// @version 7.26.4
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,20 +38,20 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/encoding.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jsUtils-0.0.1.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/encoding.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jsUtils-0.0.1.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -2116,8 +2116,8 @@
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
-      currentVersion: `7.26.3`,
-      devVersion: `7.26.3`,
+      currentVersion: `7.26.4`,
+      devVersion: `7.26.4`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3952,7 +3952,8 @@
       esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
     }
   }
-_MODULES.push({
+
+  _MODULES.push({
     description: `
       <ul>
         <li>If you cannot access a giveaway for blacklist reasons (either because you have blacklisted the creator or the creator has blacklisted you), this feature requests the giveaway in anonymous mode (as if you were not logged in) and loads it to you.</li>
@@ -4035,9 +4036,7 @@ _MODULES.push({
         }]
       }]);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Keeps the sidebar narrowed in all pages.</li>
@@ -4054,9 +4053,7 @@ _MODULES.push({
     if (!esgst.sidebar) return;
     esgst.sidebar.classList.remove(`sidebar--wide`);
     esgst.sidebar.classList.add(`esgst-ns`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Hides the community poll (if there is one) of the main page.</li>
@@ -4083,9 +4080,7 @@ _MODULES.push({
         poll.classList.add(`esgst-hidden`);
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.</li>
@@ -4352,9 +4347,7 @@ _MODULES.push({
     } else if (callback) {
       callback();
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).</li>
@@ -4473,7 +4466,7 @@ _MODULES.push({
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
               if (esgst.oadd) {
-                oadd_load(true, icon.classList.remove.bind(icon, `fa-spin`));
+                oadd_load(true, () => icon.classList.remove(`fa-spin`));
               } else {
                 checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
               }
@@ -4586,8 +4579,7 @@ _MODULES.push({
       button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Allows you to hide elements in any page using CSS selectors.</li>
@@ -4638,9 +4630,7 @@ _MODULES.push({
         }
       } catch (e) { /**/ }
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     endless: true,
     id: `giveaways_addToStorage`,
     load: giveaways_addToStorage
@@ -4650,9 +4640,7 @@ _MODULES.push({
     if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
       addGiveawayToStorage();
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-image"></i>) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.</li>
@@ -4844,9 +4832,7 @@ _MODULES.push({
   function aic_resizeImage(image) {
     image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
     image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-search"></i>) to the main page heading of any <a href="https://www.steamgifts.com/archive">archive</a> page that allows you to search the archive by exact title/app id.</li>
@@ -4935,64 +4921,68 @@ _MODULES.push({
     }
     obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
     await endless_load(context);
-  }
-
-_MODULES.push({
-    description: `
-      <ul>
-        <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
-        <li>You can set it to remind you a specified number of days before your cake day.</li>
-      </ul>
-    `,
-    features: {
-      cdr_b: {
-        inputItems: [
-          {
-            id: `cdr_days`,
-            prefix: `Days: `
-          }
-        ],
-        name: `Remind you a specified number of days before your cake day.`,
-        sg: true
-      },
-      cdr_d: {
-        description: `
-          <ul>
-            <li>With this option enabled, the feature also reminds you if some days have already passed since your cake day and you had not logged in during that time.</li>
-          </ul>
-        `,
-        name: `Remind you on your cake day.`,
-        sg: true
-      }
+  }_MODULES.push({
+  description: `
+    <ul>
+      <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
+      <li>You can set it to remind you a specified number of days before your cake day.</li>
+    </ul>
+  `,
+  features: {
+    cdr_b: {
+      inputItems: [
+        {
+          id: `cdr_days`,
+          prefix: `Days: `
+        }
+      ],
+      name: `Remind you a specified number of days before your cake day.`,
+      sg: true
     },
-    id: `cdr`,
-    load: cdr,
-    name: `Cake Day Reminder`,
-    sg: true,
-    type: `general`
-  });
+    cdr_d: {
+      description: `
+        <ul>
+          <li>With this option enabled, the feature also reminds you if some days have already passed since your cake day and you had not logged in during that time.</li>
+        </ul>
+      `,
+      name: `Remind you on your cake day.`,
+      sg: true
+    }
+  },
+  id: `cdr`,
+  load: cdr,
+  name: `Cake Day Reminder`,
+  sg: true,
+  type: `general`
+});
 
-  function cdr() {
-    let currentDate = new Date();
-    let year = currentDate.getFullYear();
-    let time = currentDate.getTime();
-    let registrationDate = new Date(esgst.registrationDate * 1e3);
-    registrationDate.setFullYear(year);
-    registrationDate = registrationDate.getTime();
-    if (esgst.cdr_b && parseInt(getLocalValue(`cdr_bYear`, 0)) !== year && time < registrationDate && time + (esgst.cdr_days * 86400000) >= registrationDate) {
-      setLocalValue(`cdr_bYear`, year);
-      new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${Math.floor((registrationDate - time) / 86400000)} days.`, true).open();
-    } else if (esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== year && time >= registrationDate) {
-      setLocalValue(`cdr_dYear`, year);
-      if (time >= registrationDate + 86400000) {
-        new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((time - registrationDate) / 86400000)} days ago.`, true).open();
-      } else {
-        new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is today. Happy cake day!`, true).open();
-      }
+function cdr() {
+  let currentDate = new Date();
+  let year = currentDate.getFullYear();
+  let time = currentDate.getTime();
+  let registrationDate = new Date(esgst.registrationDate * 1e3);
+  registrationDate.setFullYear(year);
+  registrationDate = registrationDate.getTime();
+  const bYear = parseInt(getLocalValue(`cdr_bYear`, 0));
+  let dYear = getLocalValue(`cdr_dYear`);
+  if (dYear) {
+    dYear = parseInt(dYear);
+  } else {
+    setLocalValue(`cdr_dYear`, year);
+    dYear = year;
+  }
+  if (esgst.cdr_b && bYear !== year && time < registrationDate && time + (esgst.cdr_days * 86400000) >= registrationDate) {
+    setLocalValue(`cdr_bYear`, year);
+    new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${Math.floor((registrationDate - time) / 86400000)} days.`, true).open();
+  } else if (esgst.cdr_d && dYear !== year && time >= registrationDate) {
+    setLocalValue(`cdr_dYear`, year);
+    if (time >= registrationDate + 86400000) {
+      new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((time - registrationDate) / 86400000)} days ago.`, true).open();
+    } else {
+      new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is today. Happy cake day!`, true).open();
     }
   }
-
-_MODULES.push({
+}_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-ticket"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.</li>
@@ -5198,9 +5188,7 @@ _MODULES.push({
     obj.button.classList.remove(`esgst-busy`);
     obj.popup.clearProgress();
     obj.isCanceled = true;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-lock"></i> if the discussion is open and <i class="fa fa-lock esgst-red"></i> if it is closed) next to the title of a discussion created by yourself (in any <a href="https://www.steamgifts.com/discussions">discussions</a> page) that allows you to close/open the discussion without having to access it.</li>
@@ -5230,9 +5218,7 @@ _MODULES.push({
       return true;
     }
     return false;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Reverses the comments of any <a href="https://www.steamgifts.com/discussion/e9zDo/">discussion</a> page so that they are ordered from newest to oldest.</li>
@@ -5249,9 +5235,7 @@ _MODULES.push({
   function cr() {
     if (!esgst.discussionPath || !esgst.pagination) return;
     reverseComments(esgst.pagination.previousElementSibling);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-search"></i>) to the main page heading of any page that allows you to search for comments made by specific users in the page.</li>
@@ -5435,9 +5419,7 @@ _MODULES.push({
     }
     obj.popup.setOverallProgress(`${obj.results} results found.`);
     await endless_load(context);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.</li>
@@ -6479,8 +6461,7 @@ _MODULES.push({
       await lockAndSaveDiscussions({[code]: discussion});
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Turns the numbers in the "Giveaways" column of any <a href="https://www.steamgifts.com/giveaways/wishlist">community wishlist</a> page into links that allow you to search for all of the active giveaways for the game (that are visible to you).</li>
@@ -6518,9 +6499,7 @@ _MODULES.push({
         }))]
       }]);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.</li>
@@ -6678,9 +6657,7 @@ _MODULES.push({
         obj.callback
       );
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-star"></i> if the discussion is highlighted and <i class="fa fa-star-o"></i> if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.</li>
@@ -6878,9 +6855,7 @@ _MODULES.push({
       context.classList.remove(`esgst-dh-highlighted`);
     }
     return true;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a> page that allows you to sort the discussions in the page by title, category, created time, author and number of comments.</li>
@@ -6982,9 +6957,7 @@ _MODULES.push({
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i>) next to a game's name (in any page) to indicate that you have entered giveaways for the game in the past. Clicking on the icon unhighlights the game.</li>
@@ -7060,9 +7033,7 @@ _MODULES.push({
     await setValue(`games`, JSON.stringify(games));
     icon.remove();
     deleteLock();
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
@@ -7411,9 +7382,7 @@ _MODULES.push({
       timestamp: Date.now()
     });
     setValue(`entries`, JSON.stringify(entries));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments esgst-yellow"></i> My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.</li>
@@ -7569,9 +7538,7 @@ _MODULES.push({
     });
     await setValue(key, JSON.stringify(comments));
     deleteLock();
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
@@ -8167,9 +8134,7 @@ _MODULES.push({
       }
       return (found ? key : null);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Keeps the footer of any page at the bottom of the window while you scroll down the page.</li>
@@ -8189,9 +8154,7 @@ _MODULES.push({
     }
 
     esgst.footer.classList.add(`esgst-ff`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Keeps the header of any page at the top of the window while you scroll down the page.</li>
@@ -8214,9 +8177,7 @@ _MODULES.push({
     const height = esgst.header.offsetHeight;
     esgst.pageTop += height;
     esgst.commentsTop += height;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Keeps the main page heading (usually the first heading of the page, for example, the heading that says "Giveaways" in the main page) of any page at the top of the window while you scroll down the page.</li>
@@ -8244,9 +8205,7 @@ _MODULES.push({
     esgst.mainPageHeading.classList.add(`esgst-fmph`);
     const height = esgst.mainPageHeading.offsetHeight;
     esgst.commentsTop += height;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-plus-square"></i> if all of the replies in the page are collapsed and <i class="fa fa-minus-square"></i> if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.</li>
@@ -8410,9 +8369,7 @@ _MODULES.push({
     }
     collapse.classList.remove(`esgst-hidden`);
     expand.classList.add(`esgst-hidden`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.</li>
@@ -8446,9 +8403,7 @@ _MODULES.push({
     let button = box.getElementsByClassName(esgst.cancelButtonClass)[0];
     if (!button) return;
     button.addEventListener(`click`, setTimeout.bind(null, box.appendChild.bind(box, esgst.replyBox), 0));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Keeps the sidebar of any page at the left side of the window while you scroll down the page.</li>
@@ -8483,9 +8438,7 @@ _MODULES.push({
     `);
 
     esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>
@@ -8755,9 +8708,7 @@ _MODULES.push({
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-bookmark"></i> if the giveaway is bookmarked and <i class="fa fa-bookmark-o"></i> if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.</li>
@@ -9290,9 +9241,7 @@ _MODULES.push({
     await setValue(`giveaways`, JSON.stringify(giveaways));
     deleteLock();
     return true;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).</li>
@@ -11781,8 +11730,7 @@ _MODULES.push({
     await setSetting(gc.categoryKey, esgst[gc.categoryKey]);
     await setSetting(gc.indexKey, esgst[gc.indexKey]);
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Highlights the number of copies next a giveaway's game name (in any page) by coloring it as red and changing the font to bold.</li>
@@ -11792,9 +11740,7 @@ _MODULES.push({
     name: `Giveaway Copy Highlighter`,
     sg: true,
     type: `giveaways`
-  });
-
-_MODULES.push({
+  });_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-check"></i> if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any <a href="https://www.steamgifts.com/discussions">discussions</a>/<a href="https://www.steamgifts.com/support/tickets">tickets</a>/<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.</li>
@@ -12032,9 +11978,7 @@ _MODULES.push({
         gdttt_addMarkVisitedButton(button, code, context, count, type);
       }
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-search"></i>) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.</li>
@@ -12416,9 +12360,7 @@ _MODULES.push({
     createElements(ge.results, `beforeEnd`, items);
     ge.set.set.remove();
     ge.set = null;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i> if the giveaway is open, <i class="fa fa-star esgst-green"></i> if it is open and new, <i class="fa fa-star esgst-yellow"></i> if it is not open yet and <i class="fa fa-star esgst-red"></i> if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.</li>
@@ -12826,9 +12768,7 @@ _MODULES.push({
     await Promise.all(promises);
     await setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
     await lockAndSaveGiveaways(ged.giveaways);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     // by Royalgamer06
     description: `
       <ul>
@@ -12933,9 +12873,7 @@ _MODULES.push({
         }]
       }]
     }]);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to filter comments.</li>
@@ -13055,9 +12993,7 @@ _MODULES.push({
         type: `string`
       }
     };
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to filter discussions.</li>
@@ -13561,9 +13497,7 @@ _MODULES.push({
         type: `string`
       }
     };
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to filter giveaways.</li>
@@ -14471,17 +14405,17 @@ _MODULES.push({
         type: `boolean`
       },
       received: {
-        check: esgst.createdPath,
+        check: esgst.createdPath || esgst.wonPath,
         name: `Received`,
         type: `boolean`
       },
       notReceived: {
-        check: esgst.createdPath,
+        check: esgst.createdPath || esgst.wonPath,
         name: `Not Received`,
         type: `boolean`
       },
       awaitingFeedback: {
-        check: esgst.createdPath,
+        check: esgst.createdPath || esgst.wonPath,
         name: `Awaiting Feedback`,
         type: `boolean`
       },
@@ -16863,9 +16797,7 @@ _MODULES.push({
     if (!obj.popup && obj.paginationFilteredCount) {
       obj.paginationFilteredCount.textContent = paginationFiltered;
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-star"></i>) to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and any <a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.</li>
@@ -17740,9 +17672,7 @@ _MODULES.push({
         wishlistSearch.classList.add(`esgst-hidden`);
       }
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-rotate-left"></i>) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.</li>
@@ -17843,9 +17773,7 @@ _MODULES.push({
     await setValue(`giveaways`, JSON.stringify(giveaways));
     button.remove();
     open(`/giveaways/new`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your <a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some stats about each group.</li>
@@ -17916,9 +17844,7 @@ _MODULES.push({
       text: responseHtml.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent,
       type: `div`
     }]);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
@@ -18693,9 +18619,7 @@ function gpt() {
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     savedTemplates.splice(gts.sourceNewIndex, 0, savedTemplates.splice(gts.sourceIndex, 1)[0]);
     setValue(`templates`, JSON.stringify(savedTemplates));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.</li>
@@ -18879,9 +18803,7 @@ _MODULES.push({
       creator.appendChild(giveaway.creatorContainer);
       new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Hides the blacklist stats of your <a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.</li>
@@ -18911,9 +18833,7 @@ _MODULES.push({
     script.textContent = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, ``);
     document.body.appendChild(script);
     script.remove();
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentaly enter it.</li>
@@ -18952,9 +18872,7 @@ _MODULES.push({
         }]
       }]);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
@@ -19081,9 +18999,7 @@ _MODULES.push({
     hgr.canceled = true;
     hgr.button.classList.remove(`esgst-busy`);
     hgr.progress.innerHTML = ``;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.</li>
@@ -19609,9 +19525,7 @@ _MODULES.push({
       }
       notification.close();
     };
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
@@ -20061,9 +19975,7 @@ _MODULES.push({
     return a.name.localeCompare(b.name, {
       sensitivity: `base`
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a "Last Page" link to the pagination navigation of some pages that do not have it. For example: discussion pages with 100+ pages, user pages, group pages with 100+ pages, etc...</li>
@@ -20222,9 +20134,7 @@ _MODULES.push({
     if (esgst.currentPage !== esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
       createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     conflicts: [
       {id: `pv`, name: `Points Visualizer`}
     ],
@@ -20392,9 +20302,7 @@ _MODULES.push({
       }
     }
     return cv;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a section 0 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to create multiple giveaways at once.</li>
@@ -22248,9 +22156,7 @@ _MODULES.push({
       mgc.source = null;
       mgc_updateCache(mgc);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
@@ -23292,9 +23198,7 @@ _MODULES.push({
     if (notFound.length) {
       alert(`The following games were not found and therefore not hidden: ${notFound.join(`, `)}`);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Hides the main post of a discussion and adds a button (<i class="fa fa-home"></i>) to its main page heading that allows you to open the main post through a popup.</li>
@@ -23370,9 +23274,7 @@ _MODULES.push({
         }
       };
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Skips to the comments of a discussion if you have used the pagination navigation. For example, if you enter a discussion and use the pagination navigation to go to page 2, on page 2 the feature will skip the main post and take you directly to the comments.</li>
@@ -23389,9 +23291,7 @@ _MODULES.push({
     if (!location.hash && esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
       goToComment(``, esgst.pagination.previousElementSibling.firstElementChild.firstElementChild, true);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     // by Royalgamer06
     description: `
       <ul>
@@ -23506,9 +23406,7 @@ _MODULES.push({
         esgst.altMessageCount = esgst.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to navigate through a train using hotkeys.</a>
@@ -23601,9 +23499,7 @@ _MODULES.push({
         }
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Moves the pagination navigation of any page to the main page heading of the page.</li>
@@ -23625,9 +23521,7 @@ _MODULES.push({
     }
     esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
     esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.</li>
@@ -23666,9 +23560,7 @@ _MODULES.push({
     container.classList.toggle(`pinned-giveaways__inner-wrap--minimized`);
     icon.classList.toggle(`fa-angle-down`);
     icon.classList.toggle(`fa-angle-up`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a checkbox in front of a discussion categorized as "Puzzles" (in any page) that changes states (<i class="fa fa-circle-o esgst-grey"></i> by default, <i class="fa fa-times-circle esgst-red"></i> for "unsolved", <i class="fa fa-exclamation-circle esgst-orange"></i> for "in progress" and <i class="fa fa-check-circle esgst-green"></i> for "solved") and allows you to mark the puzzle as unsolved/in progress/solved.</li>
@@ -23703,9 +23595,7 @@ _MODULES.push({
     await setValue(`discussions`, JSON.stringify(discussions));
     deleteLock();
     return true;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     conflicts: [
       {id: `lpv`, name: `Level Progress Visualizer`}
     ],
@@ -23769,9 +23659,7 @@ _MODULES.push({
       }
     `;
     esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.</li>
@@ -23834,8 +23722,7 @@ _MODULES.push({
     event.preventDefault();
     location.href = `/giveaways/search?q=${encodeURIComponent(event.currentTarget.value)}`;
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
@@ -24174,9 +24061,7 @@ _MODULES.push({
       }
     }
     location.href = url;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Turns the magnifying glass icon (<i class="fa fa-search"></i>) in the search field of any page into a button that submits the search when you click on it.</li>
@@ -24204,9 +24089,7 @@ _MODULES.push({
         }
       });
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-refresh"></i>) to the page heading of the active discussions (in the main page) that allows you to refresh the active discussions without having to refresh the entire page.</li>
@@ -24248,9 +24131,7 @@ _MODULES.push({
         }
       });
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comment"></i>) to the main page heading of any page that allows you to add comments to the page through a popup.</li>
@@ -24284,9 +24165,7 @@ _MODULES.push({
     }).set);
     popup.progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' <a href="https://www.steamgifts.com/about/comment-formatting">comment formatting</a>.</li>
@@ -28278,9 +28157,7 @@ _MODULES.push({
         }]
       }]);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     decription: `
       <ul>
         <li>Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).</li>
@@ -28427,9 +28304,7 @@ _MODULES.push({
         });
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the country is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each country in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.</li>
@@ -28500,9 +28375,7 @@ _MODULES.push({
       await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
     }
     return true;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to perform many different tasks by pressing certain keys.</li>
@@ -28773,9 +28646,7 @@ _MODULES.push({
         }
       });
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-key"></i> <i class="fa fa-search"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to search for a key or a set of keys in all of keys that you have ever sent.</li>
@@ -29071,9 +28942,7 @@ _MODULES.push({
     sks.button.classList.remove(`esgst-busy`);
     sks.progress.innerHTML = ``;
     sks.overallProgress.innerHTML = ``;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-down"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.</li>
@@ -29141,9 +29010,7 @@ _MODULES.push({
         es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
       }
     }));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-up"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the top of the page.</li>
@@ -29212,9 +29079,7 @@ _MODULES.push({
         es_changePagination(esgst.es, esgst.es.reverseScrolling ? esgst.es.paginations.length : 1);
       }
     }));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-chevron-circle-up"></i>) to the main page heading of your <a href="https://www.steamtrades.com/trades/search?user=your-steam-id">created trades</a> page that allows you to bump all of your open trades at once.</li>
@@ -29312,9 +29177,7 @@ async function tb_autoBumpTrades(button) {
     name: `Time To Point Cap Calculator`,
     sg: true,
     type: `general`
-  });
-
-_MODULES.push({
+  });_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-send"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to send all of your unsent gifts at once.</li>
@@ -29438,6 +29301,29 @@ _MODULES.push({
               },
               type: `span`
             }]
+          }, {
+            attributes: {
+              class: `esgst-inline-list`
+            },
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `esgst-bold`
+              },
+              type: `span`,
+              children: [{
+                text: `0`,
+                type: `span`
+              }, {
+                text: ` giveaways with leftover gifts/keys:`,
+                type: `node`
+              }]
+            }, {
+              attributes: {
+                class: `esgst-inline-list`
+              },
+              type: `span`
+            }]
           }]
         }]
       }]);
@@ -29447,6 +29333,9 @@ _MODULES.push({
       ugs.unsent = ugs.sent.nextElementSibling;
       ugs.unsentCount = ugs.unsent.firstElementChild.firstElementChild;
       ugs.unsentGifts = ugs.unsent.lastElementChild;
+      ugs.leftover = ugs.unsent.nextElementSibling;
+      ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
+      ugs.leftoverGifts = ugs.leftover.lastElementChild;
       ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: ugs_start.bind(null, ugs), callback2: ugs_cancel.bind(null, ugs)}).set);
       ugs.progress = createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
@@ -29468,9 +29357,11 @@ _MODULES.push({
     ugs.results.classList.add(`esgst-hidden`);
     ugs.sent.classList.add(`esgst-hidden`);
     ugs.unsent.classList.add(`esgst-hidden`);
+    ugs.leftover.classList.add(`esgst-hidden`);
     ugs.sentGifts.innerHTML = ``;
     ugs.unsentGifts.innerHTML = ``;
-    ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
+    ugs.leftoverGifts.innerHTML = ``;
+    ugs.sentCount.textContent = ugs.unsentCount.textContent = ugs.leftoverCount.textContent = `0`;
     ugs.progress.innerHTML = ``;
     ugs.overallProgress.textContent = ``;
 
@@ -29544,9 +29435,11 @@ _MODULES.push({
       let giveaway = giveaways[i];
       ugs.giveaways[giveaway.code] = {
         code: giveaway.code,
+        copies: 0,
         context: giveaway.context,
         name: giveaway.name,
         url: giveaway.url,
+        totalWinners: 0,
         winners: []
       };
 
@@ -29568,8 +29461,16 @@ _MODULES.push({
           text: `Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`,
           type: `span`
         }]);
+        if (!ugs.giveaways[giveaway.code].copies) {
+          const elements = context.querySelectorAll(`.featured__heading__small`);
+          if (elements && elements.length === 2) {
+            ugs.giveaways[giveaway.code].copies = parseInt(elements[0].textContent.replace(/,|\(|\)|Copies/g, ``).trim());
+          }
+        }
         let elements = context.getElementsByClassName(`table__row-outer-wrap`);
-        for (let i = 0, n = elements.length; i < n; i++) {
+        const n = elements.length;
+        ugs.giveaways[giveaway.code].totalWinners += n;
+        for (let i = 0; i < n; i++) {
           let element = elements[i];
           if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
             ugs.giveaways[giveaway.code].winners.push({
@@ -29589,6 +29490,27 @@ _MODULES.push({
         pagination = context.getElementsByClassName(`pagination__navigation`)[0];
         nextPage += 1;
       } while (!ugs.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+      if (!ugs.giveaways[giveaway.code].copies) {
+        ugs.giveaways[giveaway.code].copies = 1;
+      }
+      if (ugs.giveaways[giveaway.code].copies > ugs.giveaways[giveaway.code].totalWinners) {
+        ugs.leftover.classList.remove(`esgst-hidden`);
+        ugs.leftoverCount.textContent = parseInt(ugs.leftoverCount.textContent) + 1;
+        createElements(ugs.leftoverGifts, `beforeEnd`, [{
+          type: `span`,
+          children: [{
+            attributes: {
+              href: giveaway.url
+            },
+            text: giveaway.name,
+            type: `a`
+          }, {
+            text: ` (${ugs.giveaways[giveaway.code].copies - ugs.giveaways[giveaway.code].totalWinners})`,
+            type: `node`
+          }]
+        }]);
+      }
 
       // retrieve the groups of the giveaway
       if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
@@ -29959,8 +29881,7 @@ _MODULES.push({
     ugs.progress.innerHTML = ``;
     ugs.overallProgress.textContent = ``;
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.</li>
@@ -30158,8 +30079,7 @@ _MODULES.push({
       esgst.numUstTickets += 1;
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.</li>
@@ -30803,7 +30723,7 @@ _MODULES.push({
     }
     if (((!esgst.wbc_checkBlacklist || !obj.B) && (data.wl_ga || data.g_wl_ga)) || (esgst.wbc_checkBlacklist && obj.B && data.ga)) {
       obj.Timestamp = data.timestamp;
-      await wbc_checkGiveaway(data, obj, username);
+      await wbc_checkGiveaway(data, obj, username, true);
     } else {
       obj.Timestamp = 0;
       const match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
@@ -30811,7 +30731,7 @@ _MODULES.push({
     }
   }
 
-  async function wbc_checkGiveaway(data, obj, username) {
+  async function wbc_checkGiveaway(data, obj, username, cached) {
     if (obj.Canceled) {
       return;
     }
@@ -30847,10 +30767,16 @@ _MODULES.push({
         }
       }
       if (found) {
-        obj.Timestamp = 0;
-        obj.GroupGiveaways = [];
-        let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-        await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        if (cached) {
+          data.result = `notBlacklisted`;
+          data.lastCheck = Date.now();
+          data.timestamp = obj.Timestamp;
+        } else {
+          obj.Timestamp = 0;
+          obj.GroupGiveaways = [];
+          let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+          await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        }
       } else {
         data.result = `whitelisted`;
         data.lastCheck = Date.now();
@@ -30909,7 +30835,7 @@ _MODULES.push({
       }
       const giveaway = context.getElementsByClassName(`giveaway__summary`)[0];
       if (giveaway && obj.Timestamp === 0) {
-        obj.Timestamp = parseInt(giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
+        obj.Timestamp = parseInt(giveaway.querySelector(`.giveaway__columns span[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
         if (obj.Timestamp >= Date.now()) {
           obj.Timestamp = 0;
         }
@@ -30918,12 +30844,13 @@ _MODULES.push({
         isStopped = true;
         break;
       }
-      const doStop = await wbc_checkGiveaway(data, obj, username);
+      let doStop = await wbc_checkGiveaway(data, obj, username);
       if (data.result !== `notBlacklisted` || doStop || (esgst.wbc_checkBlacklist && obj.B)) {
         break;
       }
       let groupGiveaways = [];
       const elements = context.getElementsByClassName(`giveaway__column--whitelist`);
+      doStop = false;
       for (const element of elements) {
         const groupElement = element.parentElement.getElementsByClassName(`giveaway__column--group`)[0];
         if (groupElement) {
@@ -30933,8 +30860,12 @@ _MODULES.push({
         }
         if (data.wl_ga) {
           await wbc_checkGiveaway(data, obj, username);
+          doStop = true;
           break;
         }
+      }
+      if (doStop) {
+        break;
       }
       if ((data.g_wl_gas && Object.keys(data.g_wl_gas).length) || groupGiveaways.length) {
         if (groupGiveaways.length) {
@@ -30957,11 +30888,10 @@ _MODULES.push({
             break;
           }
         }
-        if (found) {
+        if (!found) {
+          data.result = `whitelisted`;
           break;
         }
-        data.result = `whitelisted`;
-        break;
       }
       nextPage += 1;
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
@@ -31085,9 +31015,7 @@ _MODULES.push({
         Callback();
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-heart esgst-whitelist"></i> if the user is whitelisted and <i class="fa fa-ban esgst-blacklist"></i> if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.</li>
@@ -31158,9 +31086,7 @@ _MODULES.push({
         }
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.</li>
@@ -31362,9 +31288,7 @@ _MODULES.push({
     deleteLock();
     obj.removingButton.classList.add(`esgst-hidden`);
     obj.removedButton.classList.remove(`esgst-hidden`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-arrow-up"></i> <i class="fa fa-arrow-down"></i> <i class="fa fa-trash"></i>) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allows you to import/export/clear your whitelist/blacklist.</li>
@@ -31642,8 +31566,7 @@ _MODULES.push({
       callback();
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".</li>
@@ -31654,9 +31577,7 @@ _MODULES.push({
     sg: true,
     st: true,
     type: `general`
-  });
-
-_MODULES.push({
+  });_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
@@ -31736,8 +31657,7 @@ function ut() {
       }
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.</li>
@@ -31820,9 +31740,7 @@ _MODULES.push({
     } else {
       return null;
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Brings back image borders to SteamGifts.</li>
@@ -31848,9 +31766,7 @@ _MODULES.push({
     for (let i = 0, n = gameElements.length; i < n; ++i) {
       gameElements[i].classList.add(`esgst-ib-game`);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     conflicts: [
       {id: `ail`, name: `Attached Image Loader`}
     ],
@@ -31890,9 +31806,7 @@ _MODULES.push({
       }
       image.classList.remove(`is_hidden`, `is-hidden`);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     conflicts: [
       {id: `vai`, name: `Visible Attached Images`}
     ],
@@ -31923,9 +31837,7 @@ _MODULES.push({
       image.removeAttribute(`src`);
       button.addEventListener(`click`, image.setAttribute.bind(image, `src`, url));
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds more details to each giveaway in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:</li>
@@ -32337,9 +32249,7 @@ _MODULES.push({
     }
     popup.open();
     endless_load(popup.getScrollable(html));
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Shows a confirmation popup if you try to delete a giveaway's key(s) (in any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page).</li>
@@ -32384,9 +32294,7 @@ _MODULES.push({
     row.getElementsByClassName(`form__key-insert`)[0].classList.remove(`is-hidden`);
     row.getElementsByClassName(`js__sent-text`)[0].textContent = `Sent Gift`;
     row.getElementsByClassName(`js__sent-text`)[1].textContent = `Sent Gift`;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the region restricted icon (<i class="fa fa-globe"></i>) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.</li>
@@ -32600,9 +32508,7 @@ _MODULES.push({
       nextPage += 1;
     } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
     return countries;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-area-chart"></i> [Chance]%) below a giveaway's start time (in any page) that shows your chance of winning the giveaway.</li>
@@ -32827,8 +32733,7 @@ _MODULES.push({
       type: `div`
     }]);
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-pie-chart"></i> [Ratio]:1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.</li>
@@ -33015,8 +32920,7 @@ _MODULES.push({
     }
     createElements(context, `inner`, items);
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
@@ -33112,9 +33016,7 @@ _MODULES.push({
       type: `span`
     });
     createElements(giveaway.gptwContext, `inner`, items);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to highlight the end time of a giveaway (in any page) by coloring it based on how many hours there are left.</li>
@@ -33151,8 +33053,7 @@ _MODULES.push({
       }
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds 2 optional icons (<i class="fa fa-steam"></i> for the Steam client and <i class="fa fa-globe"></i> for the browser) next to each key in the "Key" column of your <a href="https://www.steamgifts.com/giveaways/won">won</a> page that allow you to quickly activate a won game on Steam, either through the client or the browser.</li>
@@ -33309,9 +33210,7 @@ _MODULES.push({
           break;
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Removes SteamGifts' default fade for entered giveaways.</li>
@@ -33333,9 +33232,7 @@ _MODULES.push({
     for (let i = 0, n = elements.length; i < n; ++i) {
       elements[i].classList.add(`esgst-ueg`);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the group is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each group in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a>/<a href="https://www.steamgifts.com/account/steam/groups">groups</a> pages that allows you to sticky the group so that it appears at the top of the group list for quick use.</li>
@@ -33464,9 +33361,7 @@ _MODULES.push({
     }
     await lockAndSaveGroups(groups);
     return true;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
@@ -33956,8 +33851,7 @@ _MODULES.push({
       await endless_load(mr.Container);
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
@@ -34063,9 +33957,7 @@ _MODULES.push({
     if (edited) {
       await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a link (@user) next to a reply's "Permalink" (in any page) that mentions the user being replied to and links to their comment.</li>
@@ -34114,9 +34006,7 @@ _MODULES.push({
         }]);
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-trophy"></i>) next to the username of a giveaway comment made by the giveaway's winner(s) (in the <a href="https://www.steamgifts.com/messages">inbox</a> page).</li>
@@ -34185,8 +34075,7 @@ _MODULES.push({
       }
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and the popup from [id=wbs] that show some stats about each user.</li>
@@ -34353,9 +34242,7 @@ _MODULES.push({
       }
     }
     createElements(context, `afterEnd`, html);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a green background to a group that you are a member of (in any page).</li>
@@ -34387,9 +34274,7 @@ _MODULES.push({
         element.closest(`.table__row-outer-wrap`).classList.add(`esgst-gh-highlight`);
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.</li>
@@ -34550,8 +34435,7 @@ _MODULES.push({
       }
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-external-link"></i>) below a giveaway's start time (in any page) that allows you to read the description of the giveaway and/or add a comment to it without having to access it.</li>
@@ -34599,9 +34483,7 @@ _MODULES.push({
         }
       }
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button ("<i class="fa fa-plus-circle"></i> Enter" to enter and "<i class="fa fa-minus-circle"></i> Leave" to leave) below a giveaway's start time (in any page) that allows you to enter/leave the giveaway without having to access it.</li>
@@ -35102,8 +34984,7 @@ _MODULES.push({
       ttec_calculateTime(esgst.mainGiveaways, true);
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
@@ -35303,8 +35184,7 @@ _MODULES.push({
       .replace(/\+/g, `plus`)
       .replace(/[^\d\w]/g, ``);
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye"></i>) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page.</li>
@@ -35349,8 +35229,7 @@ _MODULES.push({
       }
     });
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>When you click on the icon <i class="fa fa-eye-slash"></i> next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.</li>
@@ -35447,8 +35326,7 @@ _MODULES.push({
       }
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page.</li>
@@ -35490,8 +35368,7 @@ _MODULES.push({
       }]);
     });
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-clock-o"></i> [Time]) below the start time of a giveaway that you do not have enough points to enter (in any page) that shows how much time you have to wait until you have enough points to enter the giveaway.</li>
@@ -35571,8 +35448,7 @@ _MODULES.push({
       return `${m}m`;
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the group icon (<i class="fa fa-user"></i>) of a giveaway (in any page) it shows the groups that the giveaway is for. There is also an option to automatically load the groups on page load and show them below the giveaway (which also works in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is enabled).</li>
@@ -35994,9 +35870,7 @@ _MODULES.push({
         setTimeout(callback, 0, groups);
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Pops up a reply box when you mark a giveaway as received (in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page) so that you can add a comment thanking the creator.</li>
@@ -36042,9 +35916,7 @@ _MODULES.push({
     popup.open(() => {
       textArea.focus();
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     endless: true,
     id: `giveaways`,
     load: giveaways
@@ -36272,16 +36144,34 @@ _MODULES.push({
     if (giveaway.creator) {
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
-    if (esgst.createdPath && main) {
-      let status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
-      if (status) {
-        if (status.textContent.match(/Not\sReceived/)) {
-          giveaway.notReceived = true;
-        } else if (status.textContent.match(/Received/)) {
-          giveaway.received = true;
-        } else if (status.textContent.match(/Awaiting\sFeedback/)) {
-          giveaway.awaitingFeedback = true;
+    if (main) {
+      if (esgst.createdPath) {
+        let status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
+        if (status) {
+          if (status.textContent.match(/Not\sReceived/)) {
+            giveaway.notReceived = true;
+          } else if (status.textContent.match(/Received/)) {
+            giveaway.received = true;
+          } else if (status.textContent.match(/Awaiting\sFeedback/)) {
+            giveaway.awaitingFeedback = true;
+          }
         }
+      } else if (esgst.wonPath) {
+        giveaway.received = false;
+        giveaway.notReceived = false;
+        const elements = giveaway.outerWrap.querySelectorAll(`.table__column--gift-feedback`);
+        for (const element of elements) {
+          const text = element.textContent.trim();
+          if (text.match(/^Received$/) && element.querySelector(`.icon-green`)) {
+            giveaway.received = true;
+            break;
+          }
+          if (text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) {
+            giveaway.notReceived = true;
+            break;
+          }
+        }
+        giveaway.awaitingFeedback = !giveaway.received && !giveaway.notReceived;
       }
     }
     giveaway.created = giveaway.creator === esgst.username;
@@ -36763,9 +36653,7 @@ _MODULES.push({
     }
     await setSetting(columnKey, esgst[columnKey]);
     await setSetting(panelKey, esgst[panelKey]);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     endless: true,
     id: `discussions`,
     load: discussions
@@ -36984,9 +36872,7 @@ _MODULES.push({
       }
     }
     return discussion;
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     endless: true,
     id: `discussionPanels`,
     load: discussionPanels
@@ -36996,9 +36882,7 @@ _MODULES.push({
     if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
       esgst.endlessFeatures.push(ct_addDiscussionPanels);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     endless: true,
     id: `comments`,
     load: comments
@@ -37145,9 +37029,7 @@ _MODULES.push({
       comment.code = source[2];
       return comment;
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     endless: true,
     id: `games`,
     load: games
@@ -37304,9 +37186,7 @@ _MODULES.push({
     } else {
       return null;
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
   endless: true,
   id: `groups`,
   load: groups
@@ -37674,8 +37554,7 @@ async function users_load(mainContext, main, source, endless) {
     }
     return array;
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Opens any link in the page in the same tab.</li>
@@ -37698,9 +37577,7 @@ _MODULES.push({
     for (let i = 0, n = elements.length; i < n; ++i) {
       elements[i].removeAttribute(`target`);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-caret-down"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to view their username history ever since they started being tracked.</li>
@@ -37818,9 +37695,7 @@ _MODULES.push({
     if (!box.classList.contains(`esgst-hidden`) && !container.contains(event.target)) {
       box.classList.add(`esgst-hidden`);
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sticky-note"></i> if there are notes saved and <i class="fa fa-sticky-note-o"></i> if there are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to save notes for them (only visible to you).</li>
@@ -37941,9 +37816,7 @@ _MODULES.push({
         profile.unTextArea.value = notes;
       }
     }
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> if the user is being filtered and <i class="fa fa-eye"></i> if they are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).</li>
@@ -38123,8 +37996,7 @@ _MODULES.push({
       }]);
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-users"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to check which groups you are both members of.</li>
@@ -38353,9 +38225,7 @@ _MODULES.push({
       }]);
     }
     endless_load(profile.sgcResults);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Turns "Gifts Won" and "Gifts Sent" in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page into links that take you to their real won/sent CV pages on <a href="https://www.sgtools.info/">SGTools</a>.</li>
@@ -38407,8 +38277,7 @@ _MODULES.push({
       type: `a`
     }]);
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
@@ -38922,7 +38791,16 @@ _MODULES.push({
         values: []
       };
       obj.lists.username = {
-        name: `Most sent to:${obj.user.username === esgst.username ? `` : ` <i class="fa fa-question-circle" title="This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access."></i>`}`,
+        name: [{
+          text: `Most sent to: `,
+          type: `node`
+        }, obj.user.username === esgst.username ? null : {
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.`
+          },
+          type: `i`
+        }],
         values: []
       };
     } else {
@@ -39444,8 +39322,9 @@ _MODULES.push({
           attributes: {
             class: `esgst-bold`
           },
-          text: list.name,
-          type: `div`
+          text: Array.isArray(list.name) ? `` : list.name,
+          type: `div`,
+          children: Array.isArray(list.name) ? list.name : null
         }, {
           type: `ol`,
           children: listItems
@@ -39454,9 +39333,7 @@ _MODULES.push({
     }
     createElements(results, `beforeEnd`, items);
     await endless_load(results);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-question-circle"></i>) to the "Gifts Won" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to check if they have any not activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>).</li>
@@ -39906,8 +39783,7 @@ _MODULES.push({
     user.values.namwc.results.notMultiple = n === 0 ? 1 : 0;
     user.values.namwc.lastCheck = Date.now();
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Sent" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their created giveaways that were marked as not received.</li>
@@ -40150,8 +40026,7 @@ _MODULES.push({
       Callback(Found);
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
@@ -40295,9 +40170,7 @@ _MODULES.push({
         }]
       }]
     }]);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Displays the real sent/won CV next to the raw value in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
@@ -40319,9 +40192,7 @@ _MODULES.push({
   function vrcv_add(profile) {
     profile.sentCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realSentCV.toLocaleString(`en`)}`);
     profile.wonCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realWonCV.toLocaleString(`en`)}`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Adds how much real CV a user needs to level up (calculated using the information from <a href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>) to the "Contributor Level" row of their <a href="https://www.steamgifts.com/user/nobody">profile</a> page.</li>
@@ -40356,8 +40227,7 @@ _MODULES.push({
       }]);
     }
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamtrades.com/user/76561198020696458">profile</a> page that allows you to go to their SteamGifts profile page.</li>
@@ -40410,8 +40280,7 @@ _MODULES.push({
     }]);
     button.insertBefore(profile.steamButton, button.firstElementChild);
   }
-  
-_MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to go to their SteamTrades profile page.</li>
@@ -40462,9 +40331,7 @@ _MODULES.push({
   function stpb_show(button, tooltip) {
     tooltip.textContent = `Visit SteamTrades Profile`;
     setSiblingsOpacity(button, `0.2`);
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Allows you to add links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a>/<a href="https://www.steamgifts.com/account/steam/games">games</a>/<a href="https://www.steamgifts.com/account/steam/games">groups</a>/<a href="https://www.steamgifts.com/account/steam/wishlist">wishlist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/your-username">profile</a> page.</li>
@@ -41010,9 +40877,7 @@ async function endlessLoad() {
         hr_notifyChange(esgst.hr);
       }
     });
-  }
-
-_MODULES.push({
+  }_MODULES.push({
     description: `
       <ul>
         <li>Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.</li>
@@ -41709,9 +41574,7 @@ _MODULES.push({
         }
       });
     }
-  }
-
-async function tags_load(key) {
+  }async function tags_load(key) {
   await tags_getTags(key);
   esgst.userFeatures.push(tags_addButtons.bind(null, key));
 }
@@ -42190,27 +42053,31 @@ function tags_createTags(obj) {
   const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
   if (tags.length) {
     if (esgst[`${obj.key}_s`]) {
-      const lastTag = tags[tags.length - 1].toLowerCase();
-      let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
-      if (selected) {
-        selected.classList.remove(`esgst-selected`);
-      }
-      selected = null;
-      for (const child of obj.suggestions.children) {
-        const value = child.textContent.toLowerCase();
-        if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-          child.classList.remove(`esgst-hidden`);
-          if (!selected) {
-            selected = child;
-          }
-        } else {
-          child.classList.add(`esgst-hidden`);
-        }
-      }
-      if (selected) {
-        obj.suggestions.classList.remove(`esgst-hidden`);
-      } else {
+      if (obj.input.value.slice(-1).match(/\s|,/)) {
         tags_hideSuggestions(obj.suggestions);
+      } else {
+        const lastTag = tags[tags.length - 1].toLowerCase();
+        let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+        if (selected) {
+          selected.classList.remove(`esgst-selected`);
+        }
+        selected = null;
+        for (const child of obj.suggestions.children) {
+          const value = child.textContent.toLowerCase();
+          if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
+            child.classList.remove(`esgst-hidden`);
+            if (!selected) {
+              selected = child;
+            }
+          } else {
+            child.classList.add(`esgst-hidden`);
+          }
+        }
+        if (selected) {
+          obj.suggestions.classList.remove(`esgst-hidden`);
+        } else {
+          tags_hideSuggestions(obj.suggestions);
+        }
       }
     }
     for (const tag of tags) {
@@ -42501,6 +42368,7 @@ async function tags_loadTags(obj) {
   }
   obj.input.value = item.tags.join(`, `);
 }
+
   async function checkNewGiveawayInput(context) {
     if (context.style.opacity === `1`) {
       if (!context.getAttribute(`data-esgst`)) {
@@ -42762,6 +42630,17 @@ async function tags_loadTags(obj) {
       },
       others: {
         features: {
+          activateTab: {
+            description: `
+              <ul>
+                <li>When a browser session is restored, you have to activate a tab so that it can be loaded. With this option enabled, ESGST automatically activates the first SG/ST tab open so that the extension can be injected immediately.</li>
+              </ul>
+            `,
+            extensionOnly: true,
+            name: `Activate the first SG/ST tab if a browser session was restored.`,
+            sg: true,
+            st: true
+          },
           manipulateCookies: {
             description: `
               <ul>
@@ -44890,33 +44769,24 @@ async function tags_loadTags(obj) {
       apps: [],
       subs: []
     };
-    console.log(`ESGST Log: API => ${JSON.stringify(apiJson)}`);
-    console.log(`ESGST Log: Store => ${JSON.stringify(storeJson)}`);
-    console.log(`ESGST Log: Saved => ${JSON.stringify(savedGames)}`);
     for (const id in savedGames.apps) {
       if (savedGames.apps[id].owned) {
         oldOwned.apps.push(id);
-        delete savedGames.apps[id].owned;
+        savedGames.apps[id].owned = null;
       }
       if (hasStore) {
-        delete savedGames.apps[id].wishlisted;
-        delete savedGames.apps[id].ignored;
-      }
-      if (Object.keys(savedGames.apps[id]).length === 0) {
-        delete savedGames.apps[id];
+        savedGames.apps[id].wishlisted = null;
+        savedGames.apps[id].ignored = null;
       }
     }
     if (hasStore) {
       for (const id in savedGames.subs) {
         if (savedGames.subs[id].owned) {
           oldOwned.subs.push(id);
-          delete savedGames.subs[id].owned;
+          savedGames.subs[id].owned = null;
         }
-        delete savedGames.subs[id].wishlisted;
-        delete savedGames.subs[id].ignored;
-        if (Object.keys(savedGames.subs[id]).length === 0) {
-          delete savedGames.subs[id];
-        }
+        savedGames.subs[id].wishlisted = null;
+        savedGames.subs[id].ignored = null;
       }
     }
 
@@ -45012,8 +44882,6 @@ async function tags_loadTags(obj) {
       apps: [],
       subs: []
     };
-    console.log(`ESGST Log: Old => ${JSON.stringify(oldOwned)}`);
-    console.log(`ESGST Log: New => ${JSON.stringify(newOwned)}`);
     oldOwned.apps.forEach(id => {
       if (newOwned.apps.indexOf(id) < 0) {
         removedOwned.apps.push({
@@ -48576,16 +48444,16 @@ async function tags_loadTags(obj) {
           type: `select`,
           children: [{
             text: `Computer`,
-            type: `node`
+            type: `option`
           }, {
             text: `Dropbox`,
-            type: `node`
+            type: `option`
           }, {
             text: `Google Drive`,
-            type: `node`
+            type: `option`
           }, {
             text: `OneDrive`,
-            type: `node`
+            type: `option`
           }]
         }], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = esgst.settings.exportBackupIndex;
@@ -55393,6 +55261,20 @@ async function tags_loadTags(obj) {
   function loadChangelog(version) {
     const changelog = [
       {
+        date: `August 26, 2018`,
+        version: `7.26.4`,
+        changelog: {
+          798: `Indicate leftover gifts/keys in Unsent Gifts Sender`,
+          861: `Add option to activate the first SG/ST tab if a browser session was restored (extension only)`,
+          883: `Fix a bug that does not sync games correctly`,
+          891: `Fix bugs in Whitelist/Blacklist Checker`,
+          893: `Fix HTML in User Giveaway Data`,
+          897: `Prevent Cake Day Reminder from notifying about past cake day when installing the script`,
+          900: `Fix HTML in the restore and delete menus`,
+          901: `Fix a bug that happens when refreshing old active discussions on sidebar`
+        }
+      },
+      {
         date: `August 15, 2018`,
         version: `7.26.3`,
         changelog: {
@@ -56076,4 +55958,3 @@ async function tags_loadTags(obj) {
   // initialize esgst
   init();
 })();
-
