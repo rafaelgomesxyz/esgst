@@ -117,7 +117,7 @@ _MODULES.push({
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
               if (esgst.oadd) {
-                oadd_load(true, icon.classList.remove.bind(icon, `fa-spin`));
+                oadd_load(true, () => icon.classList.remove(`fa-spin`));
               } else {
                 checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
               }
