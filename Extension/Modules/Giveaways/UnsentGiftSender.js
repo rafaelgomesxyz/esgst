@@ -122,6 +122,29 @@ _MODULES.push({
               },
               type: `span`
             }]
+          }, {
+            attributes: {
+              class: `esgst-inline-list`
+            },
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `esgst-bold`
+              },
+              type: `span`,
+              children: [{
+                text: `0`,
+                type: `span`
+              }, {
+                text: ` giveaways with leftover gifts/keys:`,
+                type: `node`
+              }]
+            }, {
+              attributes: {
+                class: `esgst-inline-list`
+              },
+              type: `span`
+            }]
           }]
         }]
       }]);
@@ -131,6 +154,9 @@ _MODULES.push({
       ugs.unsent = ugs.sent.nextElementSibling;
       ugs.unsentCount = ugs.unsent.firstElementChild.firstElementChild;
       ugs.unsentGifts = ugs.unsent.lastElementChild;
+      ugs.leftover = ugs.unsent.nextElementSibling;
+      ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
+      ugs.leftoverGifts = ugs.leftover.lastElementChild;
       ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: ugs_start.bind(null, ugs), callback2: ugs_cancel.bind(null, ugs)}).set);
       ugs.progress = createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
@@ -152,9 +178,11 @@ _MODULES.push({
     ugs.results.classList.add(`esgst-hidden`);
     ugs.sent.classList.add(`esgst-hidden`);
     ugs.unsent.classList.add(`esgst-hidden`);
+    ugs.leftover.classList.add(`esgst-hidden`);
     ugs.sentGifts.innerHTML = ``;
     ugs.unsentGifts.innerHTML = ``;
-    ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
+    ugs.leftoverGifts.innerHTML = ``;
+    ugs.sentCount.textContent = ugs.unsentCount.textContent = ugs.leftoverCount.textContent = `0`;
     ugs.progress.innerHTML = ``;
     ugs.overallProgress.textContent = ``;
 
@@ -228,9 +256,11 @@ _MODULES.push({
       let giveaway = giveaways[i];
       ugs.giveaways[giveaway.code] = {
         code: giveaway.code,
+        copies: 0,
         context: giveaway.context,
         name: giveaway.name,
         url: giveaway.url,
+        totalWinners: 0,
         winners: []
       };
 
@@ -252,8 +282,16 @@ _MODULES.push({
           text: `Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`,
           type: `span`
         }]);
+        if (!ugs.giveaways[giveaway.code].copies) {
+          const elements = context.querySelectorAll(`.featured__heading__small`);
+          if (elements && elements.length === 2) {
+            ugs.giveaways[giveaway.code].copies = parseInt(elements[0].textContent.replace(/,|\(|\)|Copies/g, ``).trim());
+          }
+        }
         let elements = context.getElementsByClassName(`table__row-outer-wrap`);
-        for (let i = 0, n = elements.length; i < n; i++) {
+        const n = elements.length;
+        ugs.giveaways[giveaway.code].totalWinners += n;
+        for (let i = 0; i < n; i++) {
           let element = elements[i];
           if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
             ugs.giveaways[giveaway.code].winners.push({
@@ -273,6 +311,27 @@ _MODULES.push({
         pagination = context.getElementsByClassName(`pagination__navigation`)[0];
         nextPage += 1;
       } while (!ugs.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+      if (!ugs.giveaways[giveaway.code].copies) {
+        ugs.giveaways[giveaway.code].copies = 1;
+      }
+      if (ugs.giveaways[giveaway.code].copies > ugs.giveaways[giveaway.code].totalWinners) {
+        ugs.leftover.classList.remove(`esgst-hidden`);
+        ugs.leftoverCount.textContent = parseInt(ugs.leftoverCount.textContent) + 1;
+        createElements(ugs.leftoverGifts, `beforeEnd`, [{
+          type: `span`,
+          children: [{
+            attributes: {
+              href: giveaway.url
+            },
+            text: giveaway.name,
+            type: `a`
+          }, {
+            text: ` (${ugs.giveaways[giveaway.code].copies - ugs.giveaways[giveaway.code].totalWinners})`,
+            type: `node`
+          }]
+        }]);
+      }
 
       // retrieve the groups of the giveaway
       if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
