@@ -2117,7 +2117,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.3`,
-      devVersion: `7.26.4 (Dev.10)`,
+      devVersion: `7.26.4 (Dev.11)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -29301,6 +29301,29 @@ async function tb_autoBumpTrades(button) {
               },
               type: `span`
             }]
+          }, {
+            attributes: {
+              class: `esgst-inline-list`
+            },
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `esgst-bold`
+              },
+              type: `span`,
+              children: [{
+                text: `0`,
+                type: `span`
+              }, {
+                text: ` giveaways with leftover gifts/keys:`,
+                type: `node`
+              }]
+            }, {
+              attributes: {
+                class: `esgst-inline-list`
+              },
+              type: `span`
+            }]
           }]
         }]
       }]);
@@ -29310,6 +29333,9 @@ async function tb_autoBumpTrades(button) {
       ugs.unsent = ugs.sent.nextElementSibling;
       ugs.unsentCount = ugs.unsent.firstElementChild.firstElementChild;
       ugs.unsentGifts = ugs.unsent.lastElementChild;
+      ugs.leftover = ugs.unsent.nextElementSibling;
+      ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
+      ugs.leftoverGifts = ugs.leftover.lastElementChild;
       ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: ugs_start.bind(null, ugs), callback2: ugs_cancel.bind(null, ugs)}).set);
       ugs.progress = createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
@@ -29331,9 +29357,11 @@ async function tb_autoBumpTrades(button) {
     ugs.results.classList.add(`esgst-hidden`);
     ugs.sent.classList.add(`esgst-hidden`);
     ugs.unsent.classList.add(`esgst-hidden`);
+    ugs.leftover.classList.add(`esgst-hidden`);
     ugs.sentGifts.innerHTML = ``;
     ugs.unsentGifts.innerHTML = ``;
-    ugs.sentCount.textContent = ugs.unsentCount.textContent = `0`;
+    ugs.leftoverGifts.innerHTML = ``;
+    ugs.sentCount.textContent = ugs.unsentCount.textContent = ugs.leftoverCount.textContent = `0`;
     ugs.progress.innerHTML = ``;
     ugs.overallProgress.textContent = ``;
 
@@ -29407,9 +29435,11 @@ async function tb_autoBumpTrades(button) {
       let giveaway = giveaways[i];
       ugs.giveaways[giveaway.code] = {
         code: giveaway.code,
+        copies: 0,
         context: giveaway.context,
         name: giveaway.name,
         url: giveaway.url,
+        totalWinners: 0,
         winners: []
       };
 
@@ -29431,8 +29461,16 @@ async function tb_autoBumpTrades(button) {
           text: `Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`,
           type: `span`
         }]);
+        if (!ugs.giveaways[giveaway.code].copies) {
+          const elements = context.querySelectorAll(`.featured__heading__small`);
+          if (elements && elements.length === 2) {
+            ugs.giveaways[giveaway.code].copies = parseInt(elements[0].textContent.replace(/,|\(|\)|Copies/g, ``).trim());
+          }
+        }
         let elements = context.getElementsByClassName(`table__row-outer-wrap`);
-        for (let i = 0, n = elements.length; i < n; i++) {
+        const n = elements.length;
+        ugs.giveaways[giveaway.code].totalWinners += n;
+        for (let i = 0; i < n; i++) {
           let element = elements[i];
           if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
             ugs.giveaways[giveaway.code].winners.push({
@@ -29452,6 +29490,27 @@ async function tb_autoBumpTrades(button) {
         pagination = context.getElementsByClassName(`pagination__navigation`)[0];
         nextPage += 1;
       } while (!ugs.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+      if (!ugs.giveaways[giveaway.code].copies) {
+        ugs.giveaways[giveaway.code].copies = 1;
+      }
+      if (ugs.giveaways[giveaway.code].copies > ugs.giveaways[giveaway.code].totalWinners) {
+        ugs.leftover.classList.remove(`esgst-hidden`);
+        ugs.leftoverCount.textContent = parseInt(ugs.leftoverCount.textContent) + 1;
+        createElements(ugs.leftoverGifts, `beforeEnd`, [{
+          type: `span`,
+          children: [{
+            attributes: {
+              href: giveaway.url
+            },
+            text: giveaway.name,
+            type: `a`
+          }, {
+            text: ` (${ugs.giveaways[giveaway.code].copies - ugs.giveaways[giveaway.code].totalWinners})`,
+            type: `node`
+          }]
+        }]);
+      }
 
       // retrieve the groups of the giveaway
       if (esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
