@@ -37,13 +37,13 @@ _MODULES.push({
         } else {
           lastPage = 999999999;
         }
-      } else if ((main && esgst.userPath) || user) {
+      } else if ((main && esgst.userPath) || user || userWon) {
         if ((main && location.pathname.match(/\/giveaways\/won/)) || userWon) {
           lastPage = Math.ceil(parseInt(context.querySelector(`.featured__table__row__right a[href*="/giveaways/won"]`).textContent.replace(/,/g, ``)) / 25);
         } else {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[0].textContent.replace(/,/g, ``)) / 25);
         }
-      } else if ((main && esgst.groupPath) || group) {
+      } else if ((main && esgst.groupPath) || group || groupUsers || groupWishlist) {
         if ((main && location.pathname.match(/\/users/)) || groupUsers) {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent.replace(/,/g, ``)) / 25);
         } else if ((main && esgst.groupWishlistPath) || groupWishlist) {

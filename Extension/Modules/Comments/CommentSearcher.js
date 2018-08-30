@@ -69,7 +69,8 @@ _MODULES.push({
       init: cs_init,
       requests: [
         {
-          source: esgst.discussionPath,
+          source: true,
+          sourceDiscussion: true,
           url: esgst.searchUrl,
           request: cs_request
         }

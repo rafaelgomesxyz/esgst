@@ -1135,6 +1135,7 @@
       this.contextHtml = details.contextHtml;
       this.init = details.init;
       this.requests = details.requests;
+      this.requestsBackup = this.requests;
       this.urls = details.urls;
       if (!details.mainPopup) {
         if (details.button) {
@@ -1214,6 +1215,9 @@
           }
         }
       }
+      if (this.onDone) {
+        await this.onDone(this);
+      }
 
       if (this.button) {
         this.button.classList.remove(`esgst-busy`);
@@ -1265,7 +1269,7 @@
         let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
         let responseHtml = parseHtml(response.responseText);
         if (details.source && details.nextPage === backup) {
-          details.lastPage = lpl_getLastPage(responseHtml, false, details.source);
+          details.lastPage = lpl_getLastPage(responseHtml, false, details.sourceDiscussion, details.sourceUser, details.sourceUserWon, details.sourceGroup, details.sourceGroupUsers, details.sourceGroupWishlist);
           details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
         }
         stop = await details.request(this, details, response, responseHtml);
@@ -1598,6 +1602,7 @@
       windowEvents: {},
       parameters: getParameters(),
       defaultValues: {
+        nrf_clearCache: false,
         gt_s_sg: true,
         gt_s_st: true,
         gpt_s_sg: true,
@@ -2117,7 +2122,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.4`,
-      devVersion: `7.26.5 (Dev.1)`,
+      devVersion: `7.26.5 (Dev.2)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -5306,7 +5311,8 @@ function cdr() {
       init: cs_init,
       requests: [
         {
-          source: esgst.discussionPath,
+          source: true,
+          sourceDiscussion: true,
           url: esgst.searchUrl,
           request: cs_request
         }
@@ -20014,13 +20020,13 @@ function gpt() {
         } else {
           lastPage = 999999999;
         }
-      } else if ((main && esgst.userPath) || user) {
+      } else if ((main && esgst.userPath) || user || userWon) {
         if ((main && location.pathname.match(/\/giveaways\/won/)) || userWon) {
           lastPage = Math.ceil(parseInt(context.querySelector(`.featured__table__row__right a[href*="/giveaways/won"]`).textContent.replace(/,/g, ``)) / 25);
         } else {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[0].textContent.replace(/,/g, ``)) / 25);
         }
-      } else if ((main && esgst.groupPath) || group) {
+      } else if ((main && esgst.groupPath) || group || groupUsers || groupWishlist) {
         if ((main && location.pathname.match(/\/users/)) || groupUsers) {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent.replace(/,/g, ``)) / 25);
         } else if ((main && esgst.groupWishlistPath) || groupWishlist) {
@@ -39792,249 +39798,204 @@ async function users_load(mainContext, main, source, endless) {
     user.values.namwc.lastCheck = Date.now();
   }
   _MODULES.push({
-    description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Sent" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their created giveaways that were marked as not received.</li>
-        <li>Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator's profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.</li>
-        <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
-      </ul>
-    `,
-    id: `nrf`,
-    load: nrf,
-    name: `Not Received Finder`,
-    sg: true,
-    type: `users`
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their won/created giveaways that were marked as not received.</li>
+      <li>Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator's profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.</li>
+      <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
+    </ul>
+  `,
+  id: `nrf`,
+  load: nrf,
+  name: `Not Received Finder`,
+  sg: true,
+  type: `users`
+});
+
+function nrf() {
+  esgst.profileFeatures.push(nrf_add.bind(null, `won`));
+  esgst.profileFeatures.push(nrf_add.bind(null, `sent`));
+}
+
+function nrf_add(key, profile) {
+  if (key === `sent` && profile.notSent < 1) {
+    return;
+  }
+  const button = createElements(profile[`${key}RowLeft`], `beforeEnd`, [{
+    attributes: {
+      class: `esgst-nrf-button`
+    },
+    type: `span`,
+    children: [{
+      attributes: {
+        class: `fa fa-times-circle`,
+        title: getFeatureTooltip(`nrf`, `Find not received giveaways`)
+      },
+      type: `i`
+    }]
+  }]);
+  new Process({
+    button,
+    init: nrf_init.bind(null, key, profile),
+    popup: {
+      addProgress: true,
+      addScrollable: `left`,
+      icon: `fa-times`,
+      options: [{
+        check: key === `sent`,
+        description: `Also search inside giveaways with multiple copies.`,
+        id: `nrf_searchMultiple`,
+        tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
+      }, {
+        check: true,
+        description: `Clear cache.`,
+        id: `nrf_clearCache`,
+        tooltip: `If enabled, the cache for this user will be cleared (slower).`
+      }],
+      title: `Find ${profile.username}'s not received giveaways:`
+    },
+    requests: [{
+      url: key === `sent` ? `/user/${profile.username}/search?page=` : `/user/${profile.username}/giveaways/won/search?page=`,
+      onDone: nrf_onRequestDone,
+      request: nrf_request,
+      source: true,
+      [key === `sent` ? `sourceUser` : `sourceUserWon`]: true
+    }]
   });
+}
 
-  function nrf() {
-    esgst.profileFeatures.push(nrf_add);
-  }
-
-  function nrf_add(profile) {
-    let NRF;
-    NRF = {
-      N: profile.notSent
-    };
-    if (NRF.N > 0) {
-      NRF.I = 0;
-      NRF.Multiple = [];
-      createElements(profile.sentRowLeft, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-nrf-button`
-        },
-        type: `span`,
-        children: [{
-          attributes: {
-            class: `fa fa-times-circle`,
-            title: getFeatureTooltip(`nrf`, `Find not received giveaways`)
-          },
-          type: `i`
-        }]
-      }]);
-      nrf_setPopup(NRF, profile.sentRowLeft.lastElementChild, profile);
-    }
-  }
-
-  function nrf_setPopup(NRF, NRFButton, profile) {
-    let popup;
-    popup = new Popup(`fa-times`, `Find ${profile.username}'s not received giveaways:`);
-    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    popup.Options.appendChild(createOptions([{
-      check: true,
-      description: `Also search inside giveaways with multiple copies.`,
-      id: `nrf_searchMultiple`,
-      tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
-    }]));
-    createElements(popup.Options, `afterEnd`, [{
+async function nrf_init(key, profile, obj) {
+  if (profile.username !== esgst.username && !obj.nrfMessage) {
+    obj.nrfMessage = createElements(obj.popup.scrollable, `beforeBegin`, [{
       attributes: {
         class: `esgst-description`
       },
       text: `If you're blacklisted / not whitelisted / not a member of the same Steam groups, not all giveaways will be found.`,
       type: `div`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-search`, `fa-times-circle`, `Find`, `Cancel`, Callback => {
-      NRFButton.classList.add(`esgst-busy`);
-      nrf_setSearch(NRF, profile, () => {
-        NRF.Progress.innerHTML = ``;
-        NRFButton.classList.remove(`esgst-busy`);
-        Callback();
-      });
-    }, () => {
-      clearInterval(NRF.Request);
-      clearInterval(NRF.Save);
-      NRF.Canceled = true;
-      setTimeout(() => {
-        NRF.Progress.innerHTML = ``;
-      }, 500);
-      NRFButton.classList.remove(`esgst-busy`);
-    }).set);
-    NRF.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    NRF.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    NRF.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
-    NRF.popup = popup;
-    NRFButton.addEventListener(`click`, () => {
-      popup.open();
-    });
   }
-
-  async function nrf_setSearch(NRF, profile, Callback) {
-    NRF.Progress.innerHTML = ``;
-    NRF.OverallProgress.innerHTML = ``;
-    NRF.Results.innerHTML = ``;
-    NRF.Canceled = false;
-    let user = {
-      steamId: profile.steamId,
-      id: profile.id,
-      username: profile.username
+  obj.nrfUser = {
+    steamId: profile.steamId,
+    id: profile.id,
+    username: profile.username
+  };
+  const savedUser = await getUser(null, obj.nrfUser);
+  if (savedUser) {
+    obj.nrfData = savedUser[`nrf${key === `sent` ? `` : `Won`}`];
+  }
+  if (esgst.nrf_clearCache || !obj.nrfData) {
+    obj.nrfData = {
+      lastCheck: 0,
+      found: 0,
+      total: 0,
+      results: ``
     };
-    let nrf;
-    const savedUser = await getUser(null, user);
-    if (savedUser) {
-      nrf = savedUser.nrf;
-    }
-    if (!nrf) {
-      nrf = {
-        lastCheck: 0,
-        found: 0,
-        total: 0,
-        results: ``
+  }
+  obj.nrfResults = obj.popup.getScrollable();
+  if ((Date.now() - obj.nrfData.lastCheck) > 604800000) {
+    obj.nrfFound = 0;
+    obj.nrfKey = key;
+    obj.nrfMultiple = 0;
+    obj.nrfResultsRaw = ``;
+    obj.nrfUsername = obj.nrfUser.username;
+    obj.nrfTotal = profile.notSent || 0;
+    obj.onDone = nrf_onDone;
+    obj.requests = obj.requestsBackup;
+  } else {
+    obj.onDone = null;
+    obj.requests = [];
+    createElements(obj.nrfResults, `inner`, [...(Array.from(parseHtml(obj.nrfData.results).body.childNodes).map(x => {
+      return {
+        context: x
       };
-    }
-    if ((Date.now() - nrf.lastCheck) > 604800000) {
-      nrf_searchUser(NRF, user.username, 1, 0, `/user/${user.username}/search?page=`, async () => {
-        nrf.lastCheck = Date.now();
-        nrf.found = NRF.I;
-        nrf.total = NRF.N;
-        nrf.results = NRF.Results.innerHTML;
-        user.values = {
-          nrf: nrf
-        };
-        await saveUser(null, null, user);
-        await endless_load(NRF.Results);
-        NRF.Progress.innerHTML = ``;
-        Callback();
-      });
-    } else {
-      createElements(NRF.Results, `inner`, [...(Array.from(parseHtml(nrf.results).body.childNodes).map(x => {
-        return {
-          context: x
-        };
-      }))]);
-      createElements(NRF.OverallProgress, `inner`, [{
-        text: `${nrf.found} of ${nrf.total} not received giveaways found...`,
-        type: `node`
-      }]);
-      await endless_load(NRF.Results);
-      Callback();
-    }
+    }))]);
+    createElements(obj.popup.overallProgress, `inner`, [{
+      text: `${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`,
+      type: `node`
+    }]);
+    await endless_load(obj.nrfResults);
   }
+}
 
-  async function nrf_searchUser(NRF, username, NextPage, CurrentPage, URL, Callback, Context) {
-    let Matches, I, N, Match, Pagination;
-    if (NRF.Canceled) return;
-    if (Context) {
-      if (NextPage === 2) {
-        NRF.lastPage = lpl_getLastPage(Context, false, false, true);
-        NRF.lastPage = NRF.lastPage === 999999999 ? `` : ` of ${NRF.lastPage}`;
-      }
-      createElements(NRF.Progress, `inner`, [{
-        attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
-        },
-        type: `i`
-      }, {
-        text: `Searching ${username}'s giveaways (page ${NextPage - 1}${NRF.lastPage})...`,
-        type: `span`
-      }]);
-      Matches = Context.querySelectorAll(`div.giveaway__column--negative`);
-      for (I = 0, N = Matches.length; I < N; ++I) {
-        NRF.I += Matches[I].querySelectorAll(`a[href*="/user/"]`).length;
-        NRF.Results.appendChild(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
-      }
-      createElements(NRF.OverallProgress, `inner`, [{
-        text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
-        type: `node`
-      }]);
-      if (NRF.I < NRF.N) {
-        if (esgst.nrf_searchMultiple) {
-          Matches = Context.getElementsByClassName(`giveaway__heading__thin`);
-          for (I = 0, N = Matches.length; I < N; ++I) {
-            Match = Matches[I].textContent.match(/\((.+) Copies\)/);
-            if (Match && (parseInt(Match[1]) > 3)) {
-              NRF.Multiple.push(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
-            }
-          }
-        }
-        Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-        if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-          setTimeout(() => nrf_searchUser(NRF, username, NextPage, CurrentPage, URL, Callback), 0);
-        } else if (esgst.nrf_searchMultiple && NRF.Multiple.length) {
-          setTimeout(() => nrf_searchMultiple(NRF, 0, NRF.Multiple.length, Callback), 0);
-        } else {
-          Callback();
-        }
-      } else {
-        Callback();
-      }
-    } else if (!NRF.Canceled) {
-      setTimeout(async () => nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
-    }
+function nrf_request(obj, details, response, responseHtml) {
+  obj.popup.setProgress(`Searching ${obj.nrfUsername}'s giveaways (page ${details.nextPage}${details.lastPage})...`);
+  const elements = responseHtml.querySelectorAll(`div.giveaway__column--negative`);
+  for (const element of elements) {
+    obj.nrfFound += element.querySelectorAll(`a[href*="/user/"]`).length;
+    const giveaway = element.closest(`.giveaway__row-outer-wrap`).cloneNode(true);
+    obj.nrfResults.appendChild(giveaway);
+    obj.nrfResultsRaw += giveaway.outerHTML;
   }
-
-  function nrf_searchMultiple(NRF, I, N, Callback) {
-    if (!NRF.Canceled) {
-      createElements(NRF.Progress, `inner`, [{
-        attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
-        },
-        type: `i`
-      }, {
-        text: `Searching inside giveaways with multiple copies (${I + 1} of ${N})...`,
-        type: `span`
-      }]);
-      if (I < N) {
-        nrf_searchGiveaway(NRF, `${NRF.Multiple[I].getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`)}/winners/search?page=`, 1, Found => {
-          if (Found) {
-            NRF.Results.appendChild(NRF.Multiple[I].cloneNode(true));
-          }
-          if (NRF.I < NRF.N) {
-            setTimeout(() => nrf_searchMultiple(NRF, ++I, N, Callback), 0);
-          } else {
-            Callback();
-          }
-        });
-      } else {
-        Callback();
-      }
-    }
-  }
-
-  async function nrf_searchGiveaway(NRF, URL, NextPage, Callback) {
-    if (NRF.Canceled) return;
-    let ResponseHTML, Matches, I, N, Found, Pagination;
-    ResponseHTML = parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
-    Matches = ResponseHTML.getElementsByClassName(`table__column--width-small`);
-    for (I = 0, N = Matches.length; I < N; ++I) {
-      if (Matches[I].textContent.match(/Not Received/)) {
-        Found = true;
-        ++NRF.I;
-        createElements(NRF.OverallProgress, `inner`, [{
-          text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
-          type: `node`
-        }]);
-        if (NRF.I >= NRF.N) {
-          break;
+  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfKey === `sent` ? obj.nrfTotal : `?`} not received giveaways found...`);
+  if (esgst.nrf_searchMultiple && obj.nrfKey === `sent` && obj.nrfFound < obj.nrfTotal) {
+    const elements = responseHtml.getElementsByClassName(`giveaway__heading__thin`);
+    for (const element of elements) {
+      const match = element.textContent.match(/\((.+) Copies\)/);
+      if (match && (parseInt(match[1]) > 3)) {
+        const giveaway = element.closest(`.giveaway__row-outer-wrap`);
+        const url = giveaway.getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`);
+        if (url) {
+          obj.nrfMultiple += 1;
+          obj.requests.push({
+            giveaway: giveaway.cloneNode(true),
+            onDone: nrf_onRequestGiveawayDone,
+            request: nrf_requestGiveaway,
+            url: `${url}/winners/search?page=`,
+          });
         }
       }
     }
-    Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
-    if ((NRF.I < NRF.N) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-      setTimeout(() => nrf_searchGiveaway(NRF, URL, ++NextPage, Callback), 0);
-    } else {
-      Callback(Found);
+  }
+  if (obj.nrfKey === `sent` && obj.nrfFound >= obj.nrfTotal) {
+    return true;
+  }
+}
+
+function nrf_onRequestDone(obj) {
+  if (obj.nrfKey === `sent` && obj.nrfFound >= obj.nrfTotal) {
+    obj.requests = [];
+  }
+}
+
+function nrf_requestGiveaway(obj, details, response, responseHtml) {
+  obj.popup.setProgress(`Searching inside giveaways with multiple copies (${obj.nrfMultiple} left)...`);
+  const elements = responseHtml.getElementsByClassName(`table__column--width-small`);
+  details.nrfFound = false;
+  for (const element of elements) {
+    if (!element.textContent.match(/Not Received/)) {
+      continue;
+    }
+    details.nrfFound = true;
+    obj.nrfFound += 1;
+    if (obj.nrfFound >= obj.nrfTotal) {
+      break;
     }
   }
-  _MODULES.push({
+  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfKey === `sent` ? obj.nrfTotal : `?`} not received giveaways found...`);
+}
+
+function nrf_onRequestGiveawayDone(obj, details) {
+  if (!details.nrfFound) {
+    return;
+  }
+  obj.nrfResults.appendChild(details.giveaway);
+  obj.nrfResultsRaw += details.giveaway.outerHTML;
+}
+
+async function nrf_onDone(obj) {
+  if (obj.nrfKey === `won`) {
+    obj.nrfTotal = obj.nrfFound;
+  }
+  obj.nrfData.lastCheck = Date.now();
+  obj.nrfData.found = obj.nrfFound;
+  obj.nrfData.total = obj.nrfTotal;
+  obj.nrfData.results = obj.nrfResultsRaw;
+  obj.nrfUser.values = {
+    [`nrf${obj.nrfKey === `sent` ? `` : `Won`}`]: obj.nrfData
+  };
+  await saveUser(null, null, obj.nrfUser);
+  await endless_load(obj.nrfResults);
+}_MODULES.push({
     description: `
       <ul>
         <li>Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
