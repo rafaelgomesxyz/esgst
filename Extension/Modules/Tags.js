@@ -1,11 +1,21 @@
 async function tags_load(key) {
   await tags_getTags(key);
-  esgst.userFeatures.push(tags_addButtons.bind(null, key));
+  esgst.discussionFeatures.push(tags_addButtons.bind(null, key));
 }
 
 async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
+    case `dt`: {
+      const savedDiscussions = JSON.parse(await getValue(`discussions`));
+      for (const id in savedDiscussions) {
+        const tags = savedDiscussions[id].tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      break;
+    };
     case `gpt`: {
       const savedGroups = JSON.parse(await getValue(`groups`));
       for (const group of savedGroups) {
@@ -111,7 +121,7 @@ function tags_hideSuggestions(suggestions) {
   }
 }
 
-function tags_addButtons(key, items) {
+async function tags_addButtons(key, items) {
   items = items.all || items;
   for (const item of items) {
     const obj = {item, key};
@@ -136,19 +146,21 @@ function tags_addButtons(key, items) {
       }]).addEventListener(`click`, tags_openPopup.bind(null, obj));
     }
     if (item.saved && item.saved.tags) {
-      tags_addTags(item, obj, item.saved.tags);
+      await tags_addTags(item, obj, item.saved.tags);
     }
   }  
 }
 
 async function tags_openMmPopup(mmObj, items, key) {
   key = {
+    Discussions: `dt`,
     Games: `gt`,
     Groups: `gpt`,
     Users: `ut`
   }[key];
   const obj = {items: [], key};
   obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+  const savedDiscussions = JSON.parse(await getValue(`discussions`));
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -156,6 +168,13 @@ async function tags_openMmPopup(mmObj, items, key) {
     item.tags = [];
     item.uniqueTags = [];
     switch (key) {
+      case `dt`: {
+        const discussion = savedDiscussions[item.code];
+        if (discussion && discussion.tags && Array.isArray(discussion.tags)) {
+          item.tags = discussion.tags;
+        }
+        break;
+      }
       case `gpt`: {
         const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
         if (group && group.tags && Array.isArray(group.tags)) {
@@ -311,6 +330,32 @@ async function tags_saveTags(obj) {
     tags = ``;
   }
   switch (obj.key) {
+    case `dt`: {
+      const discussions = {};
+      if (obj.items) {
+        for (const item of obj.items) {
+          item.multiTags = tags;
+          if (tags) {
+            const index = tags.indexOf(`[*]`);
+            if (index > -1) {
+              item.multiTags = [...tags];
+              item.multiTags.splice(index, 1, ...item.uniqueTags);
+            }
+          }
+          discussions[item.code] = {
+            name: item.name,
+            tags: item.multiTags
+          };
+        }
+      } else {
+        discussions[obj.item.id] = {
+          name: obj.item.name,
+          tags
+        };
+      }
+      await lockAndSaveDiscussions(discussions);
+      break;
+    }
     case `gpt`: {
       const groups = {};
       if (obj.items) {
@@ -394,17 +439,20 @@ async function tags_saveTags(obj) {
   await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
   if (obj.items) {
     for (const item of obj.items) {
-      tags_addTags(item, obj, item.multiTags);
+      await tags_addTags(item, obj, item.multiTags);
     }
   } else {
-    tags_addTags(obj.item, obj, tags);
+    await tags_addTags(obj.item, obj, tags);
   }
   obj.popup.close();
 }
 
-function tags_addTags(item, obj, tags) {
+async function tags_addTags(item, obj, tags) {
   let items = null;
   switch (obj.key) {
+    case `dt`:
+      items = esgst.mainDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id).concat(esgst.popupDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+      break;
     case `gpt`:
       items = esgst.currentGroups[item.code || item.id].elements;
       break;
@@ -425,6 +473,9 @@ function tags_addTags(item, obj, tags) {
   for (const subItem of items) {
     let context = null;
     switch (obj.key) {
+      case `dt`:
+        context = subItem.container;
+        break;
       case `gpt`:
         context = subItem.parentElement;
         break;
@@ -763,6 +814,11 @@ async function tags_loadTags(obj) {
     item = {tags: obj.sharedTags};
   } else {
     switch (obj.key) {
+      case `dt`: {
+        const savedDiscussions = JSON.parse(await getValue(`discussions`));
+        item = savedDiscussions[obj.item.id];
+        break;
+      }
       case `gpt`: {
         const savedGroups = JSON.parse(await getValue(`groups`));
         item = savedGroups.filter(group => group.code === obj.item.id)[0];

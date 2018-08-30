@@ -1603,6 +1603,7 @@
       parameters: getParameters(),
       defaultValues: {
         nrf_clearCache: false,
+        dt_s_sg: true,
         gt_s_sg: true,
         gt_s_st: true,
         gpt_s_sg: true,
@@ -1997,6 +1998,7 @@
         gf_presetGe: null,
         gf_presetGed: null,
         ggl_index: 0,
+        dt_colors: {},
         gpt_colors: {},
         gt_colors: {},
         gts_preciseStart: false,
@@ -2122,7 +2124,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.26.4`,
-      devVersion: `7.26.5 (Dev.3)`,
+      devVersion: `7.27.0 (Dev.1)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -7009,6 +7011,11 @@
       Name: `SMManageFilteredDiscussions esgst-heading-button`,
       Title: `Manage hidden discussions`
     }, {
+      Check: esgst.sg && esgst.dt,
+      Icons: [`fa-comments`, `fa-tags`],
+      Name: `SMManageDiscussionTags esgst-heading-button`,
+      Title: `Manage discussion tags`
+    }, {
       Check: esgst.sg && esgst.ut,
       Icons: [`fa-user`, `fa-tags`],
       Name: `SMManageUserTags esgst-heading-button`,
@@ -7111,6 +7118,7 @@
     SMManageFilteredUsers = fixed.getElementsByClassName(`SMManageFilteredUsers`)[0];
     let SMManageFilteredGiveaways = fixed.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
+    let SMManageDiscussionTags = fixed.getElementsByClassName(`SMManageDiscussionTags`)[0];
     let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
     let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
     let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
@@ -7148,6 +7156,9 @@
       }
     } else {
       heading.lastElementChild.classList.add(`esgst-hidden`);
+    }
+    if (SMManageDiscussionTags) {
+      SMManageDiscussionTags.addEventListener(`click`, openManageDiscussionTagsPopup);
     }
     if (SMManageUserTags) {
       SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
@@ -9338,6 +9349,76 @@
       callback(i);
     }
   }
+  async function openManageDiscussionTagsPopup() {
+    let context, input, popup, savedDiscussion, savedDiscussions, discussions;
+    popup = new Popup(`fa-tags`, `Manage discussion tags:`, true);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the discussions by.`,
+      type: `div`
+    }]);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
+    if (esgst.mm) {
+      mm(heading);
+    }
+    savedDiscussions = JSON.parse(await getValue(`discussions`));
+    discussions = {};
+    for (const key in savedDiscussions) {
+      savedDiscussion = savedDiscussions[key];
+      if (savedDiscussion.tags && (savedDiscussion.tags.length > 1 || (savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))) {
+        context = createElements(popup.scrollable, `beforeEnd`, [{
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-dt-menu`,
+              href: `https://www.steamgifts.com/discussion/${key}/`
+            },
+            text: savedDiscussion.name || key,
+            type: `a`
+          }]
+        }]);
+        discussions[key] = {
+          context: context
+        };
+      }
+    }
+    await endless_load(popup.scrollable);
+    input.addEventListener(`input`, filterUserTags.bind(null, discussions));
+    popup.open();
+  }
+
+  function filterDiscussionTags(discussions, event) {
+    let i, tags, key, userTags;
+    if (event.currentTarget.value) {
+      tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
+      for (key in discussions) {
+        userTags = discussions[key].context.getElementsByClassName(`esgst-tags`)[0];
+        for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        if (i < 0) {
+          discussions[key].context.classList.add(`esgst-hidden`);
+        } else {
+          discussions[key].context.classList.remove(`esgst-hidden`);
+        }
+      }
+    } else {
+      for (key in discussions) {
+        discussions[key].context.classList.remove(`esgst-hidden`);
+      }
+    }
+  }
 
   async function openManageUserTagsPopup() {
     let context, input, popup, savedUser, savedUsers, users;
@@ -9783,6 +9864,10 @@
           {
             key: `discussions_dh`,
             name: `Discussion Highlighter`
+          },
+          {
+            key: `discussions_dt`,
+            name: `Discussion Tags`
           },
           {
             key: `discussions_gdttt`,
@@ -10253,6 +10338,10 @@
               name: `Discussion Highlighter`
             },
             {
+              key: `discussions_dt`,
+              name: `Discussion Tags`
+            },
+            {
               key: `discussions_gdttt`,
               name: `Giveaway/Discussion/Ticket/Trade Tracker`
             },
@@ -10637,6 +10726,7 @@
               ct: [`count`, `readComments`],
               df: [`hidden`],
               dh: [`highlighted`],
+              dt: [`tags`],
               gdttt: [`visited`],
               pm: [`status`]
             };
@@ -10675,6 +10765,7 @@
             ct: 0,
             df: 0,
             dh: 0,
+            dt: 0,
             gb: 0,
             gdttt: 0,
             gf: 0,
@@ -10748,18 +10839,34 @@
                       if (esgst.settings.importAndMerge) {
                         for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                           let valueKey = values[value][j];
-                          if (valueKey === `readComments`) {
-                            if (mergedData[newDataKey].readComments) {
-                              for (let id in mergedData[newDataKey].readComments) {
-                                if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                  mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                          switch (valueKey) {
+                            case `tags`:
+                              if (mergedData[newDataKey].tags) {
+                                let tags = newData[newDataKey].tags;
+                                for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                  let tag = tags[k];
+                                  if (mergedData[newDataKey].tags.indexOf(tag) < 0) {
+                                    mergedData[newDataKey].tags.push(tag);
+                                  }
                                 }
+                              } else {
+                                mergedData[newDataKey].tags = newData[newDataKey].tags;
                               }
-                            } else {
-                              mergedData[newDataKey].readComments = newData[newDataKey].readComments;
-                            }
-                          } else {
-                            mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
+                            case `readComments`:
+                              if (mergedData[newDataKey].readComments) {
+                                for (let id in mergedData[newDataKey].readComments) {
+                                  if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                  }
+                                }
+                              } else {
+                                mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                              }
+                              break;
+                            default:
+                              mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
                           }
                         }
                       } else {

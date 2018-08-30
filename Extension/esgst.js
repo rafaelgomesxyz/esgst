@@ -1603,6 +1603,7 @@
       parameters: getParameters(),
       defaultValues: {
         nrf_clearCache: false,
+        dt_s_sg: true,
         gt_s_sg: true,
         gt_s_st: true,
         gpt_s_sg: true,
@@ -1997,6 +1998,7 @@
         gf_presetGe: null,
         gf_presetGed: null,
         ggl_index: 0,
+        dt_colors: {},
         gpt_colors: {},
         gt_colors: {},
         gts_preciseStart: false,
@@ -17851,6 +17853,32 @@ function cdr() {
       type: `div`
     }]);
   }_MODULES.push({
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-tag"></i>) next a discussion's title (in any page) that allows you to save tags for the discussion (only visible to you).</li>
+      <li>You can press Enter to save the tags.</li>
+      <li>Each tag can be colored individually.</li>
+      <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
+      <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
+    </ul>
+  `,
+  features: {
+    dt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true
+    }
+  },
+  id: `dt`,
+  load: dt,
+  name: `Discussion Tags`,
+  sg: true,
+  type: `discussions`
+});
+
+function dt() {
+  esgst.discussionFeatures.push(tags_addButtons.bind(null, `dt`));
+  tags_getTags(`dt`);
+}_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
@@ -36694,11 +36722,29 @@ function ut() {
     if (esgst.mm_enableDiscussions && esgst.mm_enable) {
       esgst.mm_enable(esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
     }
+    for (const feature of esgst.discussionFeatures) {
+      await feature(discussions);
+    }
   }
 
   async function discussions_get(context, main, endless) {
     let discussions = [];
-    let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
+    let elements = context.querySelectorAll(`.esgst-dt-menu`);
+    for (const element of elements) {
+      const id = element.getAttribute(`href`).match(/\/discussion\/(.+?)\//)[1];
+      discussions.push({
+        code: id,
+        container: element.parentElement,
+        context: element,
+        id,
+        menu: true,
+        name: element.textContent.trim(),
+        saved: esgst.discussions[id],
+        tagContext: element,
+        tagPosition: `afterEnd`
+      });
+    }
+    elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       let discussion = await discussions_getInfo(elements[i], main);
       if (!discussion) continue;
@@ -36716,6 +36762,9 @@ function ut() {
       discussions.push(discussion);
     }
     discussions.forEach(discussion => {
+      if (discussion.menu) {
+        return;
+      }
       let savedDiscussion = esgst.discussions[discussion.code];
       if (esgst.codb && discussion.author === esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
         if (discussion.closed) {
@@ -36856,6 +36905,12 @@ function ut() {
       discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
       discussion.lastPostTime = discussion.lastPostTime.textContent;
     }
+    discussion.id = discussion.code;
+    discussion.name = discussion.title;
+    discussion.container = discussion.headingContainer;
+    discussion.tagContext = discussion.headingContainer;
+    discussion.tagPosition = `beforeEnd`;
+    discussion.saved = esgst.discussions[discussion.code];
     if (esgst.uf) {
       savedUser = await getUser(esgst.users, {
         username: discussion.author
@@ -41545,12 +41600,22 @@ async function endlessLoad() {
     }
   }async function tags_load(key) {
   await tags_getTags(key);
-  esgst.userFeatures.push(tags_addButtons.bind(null, key));
+  esgst.discussionFeatures.push(tags_addButtons.bind(null, key));
 }
 
 async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
+    case `dt`: {
+      const savedDiscussions = JSON.parse(await getValue(`discussions`));
+      for (const id in savedDiscussions) {
+        const tags = savedDiscussions[id].tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      break;
+    };
     case `gpt`: {
       const savedGroups = JSON.parse(await getValue(`groups`));
       for (const group of savedGroups) {
@@ -41656,7 +41721,7 @@ function tags_hideSuggestions(suggestions) {
   }
 }
 
-function tags_addButtons(key, items) {
+async function tags_addButtons(key, items) {
   items = items.all || items;
   for (const item of items) {
     const obj = {item, key};
@@ -41681,19 +41746,21 @@ function tags_addButtons(key, items) {
       }]).addEventListener(`click`, tags_openPopup.bind(null, obj));
     }
     if (item.saved && item.saved.tags) {
-      tags_addTags(item, obj, item.saved.tags);
+      await tags_addTags(item, obj, item.saved.tags);
     }
   }  
 }
 
 async function tags_openMmPopup(mmObj, items, key) {
   key = {
+    Discussions: `dt`,
     Games: `gt`,
     Groups: `gpt`,
     Users: `ut`
   }[key];
   const obj = {items: [], key};
   obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+  const savedDiscussions = JSON.parse(await getValue(`discussions`));
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -41701,6 +41768,13 @@ async function tags_openMmPopup(mmObj, items, key) {
     item.tags = [];
     item.uniqueTags = [];
     switch (key) {
+      case `dt`: {
+        const discussion = savedDiscussions[item.code];
+        if (discussion && discussion.tags && Array.isArray(discussion.tags)) {
+          item.tags = discussion.tags;
+        }
+        break;
+      }
       case `gpt`: {
         const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
         if (group && group.tags && Array.isArray(group.tags)) {
@@ -41856,6 +41930,32 @@ async function tags_saveTags(obj) {
     tags = ``;
   }
   switch (obj.key) {
+    case `dt`: {
+      const discussions = {};
+      if (obj.items) {
+        for (const item of obj.items) {
+          item.multiTags = tags;
+          if (tags) {
+            const index = tags.indexOf(`[*]`);
+            if (index > -1) {
+              item.multiTags = [...tags];
+              item.multiTags.splice(index, 1, ...item.uniqueTags);
+            }
+          }
+          discussions[item.code] = {
+            name: item.name,
+            tags: item.multiTags
+          };
+        }
+      } else {
+        discussions[obj.item.id] = {
+          name: obj.item.name,
+          tags
+        };
+      }
+      await lockAndSaveDiscussions(discussions);
+      break;
+    }
     case `gpt`: {
       const groups = {};
       if (obj.items) {
@@ -41939,17 +42039,20 @@ async function tags_saveTags(obj) {
   await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
   if (obj.items) {
     for (const item of obj.items) {
-      tags_addTags(item, obj, item.multiTags);
+      await tags_addTags(item, obj, item.multiTags);
     }
   } else {
-    tags_addTags(obj.item, obj, tags);
+    await tags_addTags(obj.item, obj, tags);
   }
   obj.popup.close();
 }
 
-function tags_addTags(item, obj, tags) {
+async function tags_addTags(item, obj, tags) {
   let items = null;
   switch (obj.key) {
+    case `dt`:
+      items = esgst.mainDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id).concat(esgst.popupDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+      break;
     case `gpt`:
       items = esgst.currentGroups[item.code || item.id].elements;
       break;
@@ -41970,6 +42073,9 @@ function tags_addTags(item, obj, tags) {
   for (const subItem of items) {
     let context = null;
     switch (obj.key) {
+      case `dt`:
+        context = subItem.container;
+        break;
       case `gpt`:
         context = subItem.parentElement;
         break;
@@ -42308,6 +42414,11 @@ async function tags_loadTags(obj) {
     item = {tags: obj.sharedTags};
   } else {
     switch (obj.key) {
+      case `dt`: {
+        const savedDiscussions = JSON.parse(await getValue(`discussions`));
+        item = savedDiscussions[obj.item.id];
+        break;
+      }
       case `gpt`: {
         const savedGroups = JSON.parse(await getValue(`groups`));
         item = savedGroups.filter(group => group.code === obj.item.id)[0];
@@ -45387,6 +45498,11 @@ async function tags_loadTags(obj) {
       Name: `SMManageFilteredDiscussions esgst-heading-button`,
       Title: `Manage hidden discussions`
     }, {
+      Check: esgst.sg && esgst.dt,
+      Icons: [`fa-comments`, `fa-tags`],
+      Name: `SMManageDiscussionTags esgst-heading-button`,
+      Title: `Manage discussion tags`
+    }, {
       Check: esgst.sg && esgst.ut,
       Icons: [`fa-user`, `fa-tags`],
       Name: `SMManageUserTags esgst-heading-button`,
@@ -45489,6 +45605,7 @@ async function tags_loadTags(obj) {
     SMManageFilteredUsers = fixed.getElementsByClassName(`SMManageFilteredUsers`)[0];
     let SMManageFilteredGiveaways = fixed.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
+    let SMManageDiscussionTags = fixed.getElementsByClassName(`SMManageDiscussionTags`)[0];
     let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
     let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
     let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
@@ -45526,6 +45643,9 @@ async function tags_loadTags(obj) {
       }
     } else {
       heading.lastElementChild.classList.add(`esgst-hidden`);
+    }
+    if (SMManageDiscussionTags) {
+      SMManageDiscussionTags.addEventListener(`click`, openManageDiscussionTagsPopup);
     }
     if (SMManageUserTags) {
       SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
@@ -47716,6 +47836,76 @@ async function tags_loadTags(obj) {
       callback(i);
     }
   }
+  async function openManageDiscussionTagsPopup() {
+    let context, input, popup, savedDiscussion, savedDiscussions, discussions;
+    popup = new Popup(`fa-tags`, `Manage discussion tags:`, true);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the discussions by.`,
+      type: `div`
+    }]);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
+    if (esgst.mm) {
+      mm(heading);
+    }
+    savedDiscussions = JSON.parse(await getValue(`discussions`));
+    discussions = {};
+    for (const key in savedDiscussions) {
+      savedDiscussion = savedDiscussions[key];
+      if (savedDiscussion.tags && (savedDiscussion.tags.length > 1 || (savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))) {
+        context = createElements(popup.scrollable, `beforeEnd`, [{
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-dt-menu`,
+              href: `https://www.steamgifts.com/discussion/${key}/`
+            },
+            text: savedDiscussion.name || key,
+            type: `a`
+          }]
+        }]);
+        discussions[key] = {
+          context: context
+        };
+      }
+    }
+    await endless_load(popup.scrollable);
+    input.addEventListener(`input`, filterUserTags.bind(null, discussions));
+    popup.open();
+  }
+
+  function filterDiscussionTags(discussions, event) {
+    let i, tags, key, userTags;
+    if (event.currentTarget.value) {
+      tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
+      for (key in discussions) {
+        userTags = discussions[key].context.getElementsByClassName(`esgst-tags`)[0];
+        for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        if (i < 0) {
+          discussions[key].context.classList.add(`esgst-hidden`);
+        } else {
+          discussions[key].context.classList.remove(`esgst-hidden`);
+        }
+      }
+    } else {
+      for (key in discussions) {
+        discussions[key].context.classList.remove(`esgst-hidden`);
+      }
+    }
+  }
 
   async function openManageUserTagsPopup() {
     let context, input, popup, savedUser, savedUsers, users;
@@ -48161,6 +48351,10 @@ async function tags_loadTags(obj) {
           {
             key: `discussions_dh`,
             name: `Discussion Highlighter`
+          },
+          {
+            key: `discussions_dt`,
+            name: `Discussion Tags`
           },
           {
             key: `discussions_gdttt`,
@@ -48631,6 +48825,10 @@ async function tags_loadTags(obj) {
               name: `Discussion Highlighter`
             },
             {
+              key: `discussions_dt`,
+              name: `Discussion Tags`
+            },
+            {
               key: `discussions_gdttt`,
               name: `Giveaway/Discussion/Ticket/Trade Tracker`
             },
@@ -49015,6 +49213,7 @@ async function tags_loadTags(obj) {
               ct: [`count`, `readComments`],
               df: [`hidden`],
               dh: [`highlighted`],
+              dt: [`tags`],
               gdttt: [`visited`],
               pm: [`status`]
             };
@@ -49053,6 +49252,7 @@ async function tags_loadTags(obj) {
             ct: 0,
             df: 0,
             dh: 0,
+            dt: 0,
             gb: 0,
             gdttt: 0,
             gf: 0,
@@ -49126,18 +49326,34 @@ async function tags_loadTags(obj) {
                       if (esgst.settings.importAndMerge) {
                         for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                           let valueKey = values[value][j];
-                          if (valueKey === `readComments`) {
-                            if (mergedData[newDataKey].readComments) {
-                              for (let id in mergedData[newDataKey].readComments) {
-                                if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                  mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                          switch (valueKey) {
+                            case `tags`:
+                              if (mergedData[newDataKey].tags) {
+                                let tags = newData[newDataKey].tags;
+                                for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                  let tag = tags[k];
+                                  if (mergedData[newDataKey].tags.indexOf(tag) < 0) {
+                                    mergedData[newDataKey].tags.push(tag);
+                                  }
                                 }
+                              } else {
+                                mergedData[newDataKey].tags = newData[newDataKey].tags;
                               }
-                            } else {
-                              mergedData[newDataKey].readComments = newData[newDataKey].readComments;
-                            }
-                          } else {
-                            mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
+                            case `readComments`:
+                              if (mergedData[newDataKey].readComments) {
+                                for (let id in mergedData[newDataKey].readComments) {
+                                  if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                  }
+                                }
+                              } else {
+                                mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                              }
+                              break;
+                            default:
+                              mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
                           }
                         }
                       } else {
