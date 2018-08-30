@@ -1,8 +1,3 @@
-async function tags_load(key) {
-  await tags_getTags(key);
-  esgst.discussionFeatures.push(tags_addButtons.bind(null, key));
-}
-
 async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
