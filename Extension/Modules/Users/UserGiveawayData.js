@@ -972,10 +972,12 @@ _MODULES.push({
               values[value] = {
                 gameSteamId: giveaway.gameSteamId,
                 gameType: giveaway.gameType,
-                value: 0
+                value: 0,
+                values: []
               };
             }
             values[value].value += (key === `username` ? 1 : copies);
+            values[value].values.push(giveaway.gameName);
           }
         }
       }
@@ -1034,7 +1036,13 @@ _MODULES.push({
             },
             text: item.value,
             type: `span`
-          }]
+          }, key === `username` ? {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: item.values.join(`, `)
+            },
+            type: `i`
+          } : null]
         });
       }
       items[0].children.push({
