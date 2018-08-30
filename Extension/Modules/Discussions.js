@@ -67,6 +67,12 @@ _MODULES.push({
         heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
         headingContainer: document.getElementsByClassName(`page__heading`)[0]
       };
+      discussion.id = discussion.code;
+      discussion.container = discussion.headingContainer;
+      discussion.tagContext = discussion.container.querySelector(`[href*="/discussion/"]`);
+      discussion.name = discussion.tagContext.textContent.trim();
+      discussion.tagPosition = `afterEnd`;
+      discussion.saved = esgst.discussions[discussion.code];
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
       checkVersion(discussion);
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
