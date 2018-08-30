@@ -33,11 +33,29 @@ _MODULES.push({
     if (esgst.mm_enableDiscussions && esgst.mm_enable) {
       esgst.mm_enable(esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
     }
+    for (const feature of esgst.discussionFeatures) {
+      await feature(discussions);
+    }
   }
 
   async function discussions_get(context, main, endless) {
     let discussions = [];
-    let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
+    let elements = context.querySelectorAll(`.esgst-dt-menu`);
+    for (const element of elements) {
+      const id = element.getAttribute(`href`).match(/\/discussion\/(.+?)\//)[1];
+      discussions.push({
+        code: id,
+        container: element.parentElement,
+        context: element,
+        id,
+        menu: true,
+        name: element.textContent.trim(),
+        saved: esgst.discussions[id],
+        tagContext: element,
+        tagPosition: `afterEnd`
+      });
+    }
+    elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       let discussion = await discussions_getInfo(elements[i], main);
       if (!discussion) continue;
@@ -55,6 +73,9 @@ _MODULES.push({
       discussions.push(discussion);
     }
     discussions.forEach(discussion => {
+      if (discussion.menu) {
+        return;
+      }
       let savedDiscussion = esgst.discussions[discussion.code];
       if (esgst.codb && discussion.author === esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
         if (discussion.closed) {
@@ -195,6 +216,12 @@ _MODULES.push({
       discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
       discussion.lastPostTime = discussion.lastPostTime.textContent;
     }
+    discussion.id = discussion.code;
+    discussion.name = discussion.title;
+    discussion.container = discussion.headingContainer;
+    discussion.tagContext = discussion.headingContainer;
+    discussion.tagPosition = `beforeEnd`;
+    discussion.saved = esgst.discussions[discussion.code];
     if (esgst.uf) {
       savedUser = await getUser(esgst.users, {
         username: discussion.author

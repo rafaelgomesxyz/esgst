@@ -41,6 +41,7 @@ Giveaways/GiveawayFilters
 Groups/GroupLibraryWishlistChecker
 Giveaways/GiveawayRecreator
 Groups/GroupStats
+Discussions/DiscussionTags
 Games/GameTags
 Groups/GroupTags
 Giveaways/GiveawayTemplates
