@@ -106,7 +106,7 @@ _MODULES.push({
     es.paginations = [esgst.paginationNavigation ? esgst.paginationNavigation.innerHTML : ``];
     es.reverseScrolling = esgst.es_r && esgst.discussionPath;
     if (es.reverseScrolling) {
-      if (esgst.currentPage === 1 && esgst.paginationNavigation && ((document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/) && !location.hash) || location.hash === `#esgst_reverse`)) {
+      if (esgst.currentPage === 1 && esgst.paginationNavigation && !esgst.parameters.page) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
           es.mainContext.children[0].remove();
         }
