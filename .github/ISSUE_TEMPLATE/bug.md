@@ -23,7 +23,7 @@ Always check the browser console for errors (by pressing Ctrl + Shift + J) when 
 If applicable, add screenshots to help explain your problem.
 
 **System (please complete the following information):**
-- ESGST: [e.g. Extension v7.27.0, Userscript v7.27.0, Extension v7.27.0 (Dev.1)]
+- ESGST: [e.g. Extension v7.27.0, Extension v7.27.0 (Dev.1), Userscript v7.27.0 (Greasemonkey), Userscript v7.27.0 (Tampermonkey), ]
 - Browser: [e.g. Firefox v60, Chrome v60]
 
 **Additional Context**
