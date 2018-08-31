@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.26.4
+// @version 7.27.0
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,20 +38,20 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/encoding.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/js/jsUtils-0.0.1.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.26.4/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/encoding.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/js/jsUtils-0.0.1.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.27.0/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -1135,6 +1135,7 @@
       this.contextHtml = details.contextHtml;
       this.init = details.init;
       this.requests = details.requests;
+      this.requestsBackup = this.requests;
       this.urls = details.urls;
       if (!details.mainPopup) {
         if (details.button) {
@@ -1214,6 +1215,9 @@
           }
         }
       }
+      if (this.onDone) {
+        await this.onDone(this);
+      }
 
       if (this.button) {
         this.button.classList.remove(`esgst-busy`);
@@ -1265,7 +1269,7 @@
         let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
         let responseHtml = parseHtml(response.responseText);
         if (details.source && details.nextPage === backup) {
-          details.lastPage = lpl_getLastPage(responseHtml, false, details.source);
+          details.lastPage = lpl_getLastPage(responseHtml, false, details.sourceDiscussion, details.sourceUser, details.sourceUserWon, details.sourceGroup, details.sourceGroupUsers, details.sourceGroupWishlist);
           details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
         }
         stop = await details.request(this, details, response, responseHtml);
@@ -1598,6 +1602,8 @@
       windowEvents: {},
       parameters: getParameters(),
       defaultValues: {
+        nrf_clearCache: false,
+        dt_s_sg: true,
         gt_s_sg: true,
         gt_s_st: true,
         gpt_s_sg: true,
@@ -1658,6 +1664,7 @@
         filter_giveaways_level: 0,
         filter_giveaways_additional_games: 0,
         dismissedOptions: [],
+        toDismiss: [],
         hr_g_format: `🏆`,
         hr_w_format: `(#❤)`,
         hr_p_format: `(#P)`,
@@ -1992,6 +1999,7 @@
         gf_presetGe: null,
         gf_presetGed: null,
         ggl_index: 0,
+        dt_colors: {},
         gpt_colors: {},
         gt_colors: {},
         gts_preciseStart: false,
@@ -2116,8 +2124,8 @@
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
-      currentVersion: `7.26.4`,
-      devVersion: `7.26.4`,
+      currentVersion: `7.27.0`,
+      devVersion: `7.27.0`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3328,6 +3336,7 @@
     esgst.features = getFeatures();
     for (let type in esgst.features) {
       for (let id in esgst.features[type].features) {
+        dismissFeature(esgst.features[type].features[id], id);
         getFeatureSetting(esgst.features[type].features[id], id);
       }
     }
@@ -5306,7 +5315,8 @@ function cdr() {
       init: cs_init,
       requests: [
         {
-          source: esgst.discussionPath,
+          source: true,
+          sourceDiscussion: true,
           url: esgst.searchUrl,
           request: cs_request
         }
@@ -10122,10 +10132,10 @@ function cdr() {
     }
     if (esgst.gc_si) {
       for (const id of gc.apps) {
-        gc_addCategory(null, games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb, true);
+        gc_addCategory(gc, null, games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb, true);
       }
       for (const id of gc.subs) {
-        gc_addCategory(null, games.subs[id], id, esgst.games.subs[id], `subs`, null, true);
+        gc_addCategory(gc, null, games.subs[id], id, esgst.games.subs[id], `subs`, null, true);
       }
       for (const giveaway of esgst.mainGiveaways) {
         gc_addBorders(giveaway);
@@ -10217,13 +10227,13 @@ function cdr() {
       if (missingApps.indexOf(id) > -1 && esgst.gc_rt) {
         continue;
       }
-      gc_addCategory(gc.cache.apps[id], games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb);
+      gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb);
     }
     for (const id of gc.subs) {
       if (missingSubs.indexOf(id) > -1 && esgst.gc_rt) {
         continue;
       }
-      gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
+      gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
     }
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
@@ -10393,6 +10403,24 @@ function cdr() {
               esgst.games.subs[id] = {};
             }
             esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
+            for (const appId of esgst.games.subs[id].apps) {
+              if (gc.cache.apps[appId]) {
+                if (gc.cache.apps[appId].lastCheck) {
+                  if (currentTime - gc.cache.apps[appId].lastCheck > 604800000 || ((!gc.cache.apps[appId].name || gc.cache.apps[appId].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[appId].tags) || (esgst.gc_r && !gc.cache.apps[appId].rating) || (esgst.gc_rd && gc.cache.apps[appId].removed === -1)) && currentTime - gc.cache.apps[appId].lastCheck > 86400000)) {
+                    delete gc.cache.apps[appId];
+                  }
+                } else {
+                  gc.cache.apps[appId].lastCheck = currentTime;
+                }
+              }
+              if (!gc.cache.apps[appId]) {
+                if (esgst.gc_lr) {
+                  await gc_getCategories(gc, currentTime, games, appId, `apps`);
+                } else {
+                  promises.push(gc_getCategories(gc, currentTime, games, appId, `apps`));
+                }
+              }
+            }
           }
           if (data.categories) {
             for (let i = 0, n = data.categories.length; i < n; ++i) {
@@ -10517,7 +10545,7 @@ function cdr() {
       }
       gc.cache[type][id] = categories;
       if (esgst.gc_rt) {
-        gc_addCategory(gc.cache[type][id], games[type][id], id, esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
+        gc_addCategory(gc, gc.cache[type][id], games[type][id], id, esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
       }
     } catch (error) {
       console.log(error);
@@ -10618,8 +10646,11 @@ function cdr() {
     return count;   
   }
 
-  function gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
-    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, i, j, k, n, panel, name, sent, singularType, user, value;
+  function gc_addCategory(gc, cache, games, id, savedGame, type, hltb, isInstant) {
+    if (!games) {
+      return;
+    }
+    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, hltbTimes, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
         gc_checkPackage(subId, savedGame);
@@ -10699,128 +10730,177 @@ function cdr() {
             }
             break;
           case `gc_hltb`:
-            if (hltb) {
-              const hltbTimes = hltb[id];
-              if (hltbTimes) {
-                let time = ``;
-                if (hltbTimes.mainStory && hltbTimes.mainExtra && hltbTimes.completionist) {
-                  // singleplayer
-                  switch (esgst.gc_hltb_index_0) {
-                    case 0:
-                      time = hltbTimes.mainStory;
-                      break;
-                    case 1:
-                      time = hltbTimes.mainExtra;
-                      break;
-                    case 2:
-                      time = hltbTimes.completionist;
-                      break;
-                  }
-                } else if (hltbTimes.solo && hltbTimes.coOp && hltbTimes.vs) {
-                  // singleplayer/multiplayer
-                  switch (esgst.gc_hltb_index_2) {
-                    case 0:
-                      time = hltbTimes.solo;
-                      break;
-                    case 1:
-                      time = hltbTimes.coOp;
-                      break;
-                    case 2:
-                      time = hltbTimes.vs;
-                      break;
-                  }
-                } else if (hltbTimes.coOp && hltbTimes.vs) {
-                  // singleplayer/multiplayer
-                  switch (esgst.gc_hltb_index_1) {
-                    case 0:
-                      time = hltbTimes.coOp;
-                      break;
-                    case 1:
-                      time = hltbTimes.vs;
-                      break;
-                  }
-                } else {
-                  time = hltbTimes.mainStory || hltbTimes.mainExtra || hltbTimes.completionist || hltbTimes.solo || hltbTimes.coOp || hltbTimes.vs;
+            hltbTimes = {
+              mainStory: 0,
+              mainExtra: 0,
+              completionist: 0,
+              solo: 0,
+              coOp: 0,
+              vs: 0
+            };
+            if (savedGame && savedGame.apps && gc.cache.hltb) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.hltb[id]) {
+                  hltbTimes.mainStory += parseFloat(gc.cache.hltb[id].mainStory || 0);
+                  hltbTimes.mainExtra += parseFloat(gc.cache.hltb[id].mainExtra || 0);
+                  hltbTimes.completionist += parseFloat(gc.cache.hltb[id].completionist || 0);
+                  hltbTimes.solo += parseFloat(gc.cache.hltb[id].solo || 0);
+                  hltbTimes.coOp += parseFloat(gc.cache.hltb[id].coOp || 0);
+                  hltbTimes.vs += parseFloat(gc.cache.hltb[id].vs || 0);
                 }
-                if (time) {
-                  let title = `Average time to beat based on HowLongToBeat:\n\n`;
-                  if (hltbTimes.mainStory) {
-                    title += `Main Story: ${hltbTimes.mainStory}\n`;
-                  }
-                  if (hltbTimes.mainExtra) {
-                    title += `Main + Extra: ${hltbTimes.mainExtra}\n`;
-                  }
-                  if (hltbTimes.completionist) {
-                    title += `Completionist: ${hltbTimes.completionist}\n`;
-                  }
-                  if (hltbTimes.solo) {
-                    title += `Solo: ${hltbTimes.solo}\n`;
-                  }
-                  if (hltbTimes.coOp) {
-                    title += `Co-Op: ${hltbTimes.coOp}\n`;
-                  }
-                  if (hltbTimes.vs) {
-                    title += `Vs.: ${hltbTimes.vs}\n`;
-                  }
-                  elements.push({
+              }
+              hltbTimes.mainStory = isNaN(hltbTimes.mainStory) ? `-` : `${hltbTimes.mainStory}h`;
+              hltbTimes.mainExtra = isNaN(hltbTimes.mainExtra) ? `-` : `${hltbTimes.mainExtra}h`;
+              hltbTimes.completionist = isNaN(hltbTimes.completionist) ? `-` : `${hltbTimes.completionist}h`;
+              hltbTimes.solo = isNaN(hltbTimes.solo) ? `-` : `${hltbTimes.solo}h`;
+              hltbTimes.coOp = isNaN(hltbTimes.coOp) ? `-` : `${hltbTimes.coOp}h`;
+              hltbTimes.vs = isNaN(hltbTimes.vs) ? `-` : `${hltbTimes.vs}h`;
+            } else {
+              hltbTimes = hltb && hltb[id];
+            }
+            if (hltbTimes) {
+              let time = ``;
+              if (hltbTimes.mainStory && hltbTimes.mainExtra && hltbTimes.completionist) {
+                // singleplayer
+                switch (esgst.gc_hltb_index_0) {
+                  case 0:
+                    time = hltbTimes.mainStory;
+                    break;
+                  case 1:
+                    time = hltbTimes.mainExtra;
+                    break;
+                  case 2:
+                    time = hltbTimes.completionist;
+                    break;
+                }
+              } else if (hltbTimes.solo && hltbTimes.coOp && hltbTimes.vs) {
+                // singleplayer/multiplayer
+                switch (esgst.gc_hltb_index_2) {
+                  case 0:
+                    time = hltbTimes.solo;
+                    break;
+                  case 1:
+                    time = hltbTimes.coOp;
+                    break;
+                  case 2:
+                    time = hltbTimes.vs;
+                    break;
+                }
+              } else if (hltbTimes.coOp && hltbTimes.vs) {
+                // singleplayer/multiplayer
+                switch (esgst.gc_hltb_index_1) {
+                  case 0:
+                    time = hltbTimes.coOp;
+                    break;
+                  case 1:
+                    time = hltbTimes.vs;
+                    break;
+                }
+              } else {
+                time = hltbTimes.mainStory || hltbTimes.mainExtra || hltbTimes.completionist || hltbTimes.solo || hltbTimes.coOp || hltbTimes.vs;
+              }
+              if (time) {
+                let title = `Average time to beat based on HowLongToBeat:\n\n`;
+                if (hltbTimes.mainStory) {
+                  title += `Main Story: ${hltbTimes.mainStory}\n`;
+                }
+                if (hltbTimes.mainExtra) {
+                  title += `Main + Extra: ${hltbTimes.mainExtra}\n`;
+                }
+                if (hltbTimes.completionist) {
+                  title += `Completionist: ${hltbTimes.completionist}\n`;
+                }
+                if (hltbTimes.solo) {
+                  title += `Solo: ${hltbTimes.solo}\n`;
+                }
+                if (hltbTimes.coOp) {
+                  title += `Co-Op: ${hltbTimes.coOp}\n`;
+                }
+                if (hltbTimes.vs) {
+                  title += `Vs.: ${hltbTimes.vs}\n`;
+                }
+                elements.push({
+                  attributes: {
+                    class: `esgst-gc esgst-gc-hltb`,
+                    [`data-id`]: `gc_hltb`,
+                    href: `https://howlongtobeat.com/game.php?id=${hltb && hltb[id] && hltb[id].id}`,
+                    title: getFeatureTooltip(`gc_hltb`, title)
+                  },
+                  type: `a`,
+                  children: [{
                     attributes: {
-                      class: `esgst-gc esgst-gc-hltb`,
-                      [`data-id`]: `gc_hltb`,
-                      href: `https://howlongtobeat.com/game.php?id=${hltb[id].id}`,
-                      title: getFeatureTooltip(`gc_hltb`, title)
+                      class: `fa fa-gamepad`
                     },
-                    type: `a`,
-                    children: [{
-                      attributes: {
-                        class: `fa fa-gamepad`
-                      },
-                      type: `i`
-                    }, {
-                      text: time,
-                      type: `node`
-                    }]
-                  });
-                }
+                    type: `i`
+                  }, {
+                    text: time,
+                    type: `node`
+                  }]
+                });
               }
             }
             break;
           case `gc_h`:
-            if (savedGame && savedGame.hidden) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (esgst.games.apps[id] && esgst.games.apps[id].hidden) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((savedGame && savedGame.hidden) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-hidden`,
                   [`data-id`]: `gc_h`,
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_h`, `Hidden`)
+                  title: getFeatureTooltip(`gc_h`, `Hidden${count}`)
                 },
-                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H`) : esgst.gc_hLabel,
+                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H${count}`) : `${esgst.gc_hLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_hIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_i`:
-            if (savedGame && savedGame.ignored) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (esgst.games.apps[id] && esgst.games.apps[id].ignored) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((savedGame && savedGame.ignored) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-ignored`,
                   [`data-id`]: `gc_i`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_i`, `Ignored`)
+                  title: getFeatureTooltip(`gc_i`, `Ignored${count}`)
                 },
-                text: esgst.gc_i_s ? (esgst.gc_i_s_i ? `` : `I`) : esgst.gc_iLabel,
+                text: esgst.gc_i_s ? (esgst.gc_i_s_i ? `` : `I${count}`) : `${esgst.gc_iLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_i_s && esgst.gc_i_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_iIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
@@ -11062,142 +11142,226 @@ function cdr() {
             }
             break;
           case `gc_a`:
-            if (cache && cache.achievements) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].achievements) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.achievements) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-achievements`,
                   [`data-id`]: `gc_a`,
                   href: `http://steamcommunity.com/stats/${id}/achievements`,
-                  title: getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)
+                  title: getFeatureTooltip(`gc_a`, `Achievements${count || ` (${cache.achievements})`}`)
                 },
-                text: esgst.gc_a_s ? (esgst.gc_a_s_i ? `` : `A`) : esgst.gc_aLabel,
+                text: esgst.gc_a_s ? (esgst.gc_a_s_i ? `` : `A${count}`) : `${esgst.gc_aLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_a_s && esgst.gc_a_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_aIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_mp`:
-            if (cache && cache.multiplayer) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].multiplayer) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.multiplayer) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-multiplayer`,
                   [`data-id`]: `gc_mp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_mp`, `Multiplayer`)
+                  title: getFeatureTooltip(`gc_mp`, `Multiplayer${count}`)
                 },
-                text: esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `` : `MP`) : esgst.gc_mpLabel,
+                text: esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `` : `MP${count}`) : `${esgst.gc_mpLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_mp_s && esgst.gc_mp_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_mpIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_sp`:
-            if (cache && cache.singleplayer) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].singleplayer) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.singleplayer) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-singleplayer`,
                   [`data-id`]: `gc_sp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_sp`, `Singleplayer`)
+                  title: getFeatureTooltip(`gc_sp`, `Singleplayer${count}`)
                 },
-                text: esgst.gc_sp_s ? (esgst.gc_sp_s_i ? `` : `SP`) : esgst.gc_spLabel,
+                text: esgst.gc_sp_s ? (esgst.gc_sp_s_i ? `` : `SP${count}`) : `${esgst.gc_spLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_sp_s && esgst.gc_sp_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_spIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_sc`:
-            if (cache && cache.steamCloud) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].steamCloud) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.steamCloud) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-steamCloud`,
                   [`data-id`]: `gc_sc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_sc`, `Steam Cloud`)
+                  title: getFeatureTooltip(`gc_sc`, `Steam Cloud${count}`)
                 },
-                text: esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `` : `SC`) : esgst.gc_scLabel,
+                text: esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `` : `SC${count}`) : `${esgst.gc_scLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_sc_s && esgst.gc_sc_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_scIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_tc`:
-            if (cache && cache.tradingCards) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].tradingCards) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.tradingCards) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-tradingCards`,
                   [`data-id`]: `gc_tc`,
                   href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
-                  title: getFeatureTooltip(`gc_tc`, `Trading Cards`)
+                  title: getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
                 },
-                text: esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `` : `TC`) : esgst.gc_tcLabel,
+                text: esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `` : `TC${count}`) : `${esgst.gc_tcLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_tc_s && esgst.gc_tc_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_tcIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_l`:
-            if (cache && cache.linux) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].linux) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.linux) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-linux`,
                   [`data-id`]: `gc_l`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_l`, `Linux`)
+                  title: getFeatureTooltip(`gc_l`, `Linux${count}`)
                 },
-                text: esgst.gc_l_s ? (esgst.gc_l_s_i ? `` : `L`) : esgst.gc_lLabel,
+                text: esgst.gc_l_s ? (esgst.gc_l_s_i ? `` : `L${count}`) : `${esgst.gc_lLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_l_s && esgst.gc_l_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_lIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_m`:
-            if (cache && cache.mac) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].mac) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.mac) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-mac`,
                   [`data-id`]: `gc_m`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_m`, `Mac`)
+                  title: getFeatureTooltip(`gc_m`, `Mac${count}`)
                 },
-                text: esgst.gc_m_s ? (esgst.gc_m_s_i ? `` : `M`) : esgst.gc_mLabel,
+                text: esgst.gc_m_s ? (esgst.gc_m_s_i ? `` : `M${count}`) : `${esgst.gc_mLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_m_s && esgst.gc_m_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_mIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
@@ -11365,62 +11529,98 @@ function cdr() {
             }
             break;
           case `gc_ea`:
-            if (cache && cache.earlyAccess) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].earlyAccess) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.earlyAccess) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-earlyAccess`,
                   [`data-id`]: `gc_ea`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_ea`, `Early Access`)
+                  title: getFeatureTooltip(`gc_ea`, `Early Access${count}`)
                 },
-                text: esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `` : `EA`) : esgst.gc_eaLabel,
+                text: esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `` : `EA${count}`) : `${esgst.gc_eaLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_ea_s && esgst.gc_ea_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_eaIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_lg`:
-            if (cache && cache.learning === 1) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].learning === 1) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.learning === 1) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-learning`,
                   [`data-id`]: `gc_lg`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_lg`, `Learning`)
+                  title: getFeatureTooltip(`gc_lg`, `Learning${count}`)
                 },
-                text: esgst.gc_lg_s ? (esgst.gc_lg_s_i ? `` : `LG`) : esgst.gc_lgLabel,
+                text: esgst.gc_lg_s ? (esgst.gc_lg_s_i ? `` : `LG${count}`) : `${esgst.gc_lgLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_lg_s && esgst.gc_lg_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_lgIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_rm`:
-            if (cache && cache.removed === 1) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].removed === 1) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.removed === 1) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-removed`,
                   [`data-id`]: `gc_rm`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_rm`, `Removed`)
+                  title: getFeatureTooltip(`gc_rm`, `Removed${count}`)
                 },
-                text: esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `` : `RM`) : esgst.gc_rmLabel,
+                text: esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `` : `RM${count}`) : `${esgst.gc_rmLabel}${count}`,
                 type: `a`,
                 children: esgst.gc_rm_s && esgst.gc_rm_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_rmIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
@@ -11448,9 +11648,19 @@ function cdr() {
             }
             break;
           case `gc_g`:
-            if (cache && cache.genres) {
-              let filters;
+            genres = ``;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].genres) {
+                  genres += `${esgst.gc_g_udt && gc.cache.apps[id].tags ? `${gc.cache.apps[id].genres}, ${gc.cache.apps[id].tags}` : gc.cache.apps[id].genres}, `;
+                }
+              }
+              genres = genres.slice(0, -2);
+            } else if (cache && cache.genres) {
               genres = esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
+            }            
+            if (genres) {
+              let filters;
               genreList = sortArray(Array.from(new Set(genres.split(/,\s/))));
               genres = genreList.join(`, `);
               if (esgst.gc_g_filters.trim()) {
@@ -11539,7 +11749,7 @@ function cdr() {
         }
       }
     }
-    let gc = {
+    let gcObj = {
       categoryKey: games[0].grid ? `gc_categories_gv` : `gc_categories`,
       indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
       source: null
@@ -11587,21 +11797,21 @@ function cdr() {
         if (games[i].columns) {
           for (j = games[i].columns.children.length - 1; j > -1; j--) {
             let item = games[i].columns.children[j];
-            item.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, j, item, null, false));
+            item.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, j, item, null, false));
           }
-          games[i].columns.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, 0, null, games[i].columns, true));
+          games[i].columns.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, 0, null, games[i].columns, true));
           if (games[i].gvIcons) {
-            games[i].gvIcons.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, 0, null, games[i].gvIcons, true));
+            games[i].gvIcons.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, 0, null, games[i].gvIcons, true));
           }
-          panel.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, -1, null, panel, false));
+          panel.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, -1, null, panel, false));
           for (j = panel.children.length - 1; j > -1; j--) {
             let item = panel.children[j];
             item.setAttribute(`draggable`, true);
-            item.addEventListener(`dragstart`, gc_setSource.bind(null, gc, item, panel, games[i].columns, games[i].gvIcons));
-            item.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, -1, item, null, false));
-            item.addEventListener(`dragend`, gc_saveSource.bind(null, gc, panel, games[i].columns, games[i].gvIcons));
+            item.addEventListener(`dragstart`, gc_setSource.bind(null, gcObj, item, panel, games[i].columns, games[i].gvIcons));
+            item.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, -1, item, null, false));
+            item.addEventListener(`dragend`, gc_saveSource.bind(null, gcObj, panel, games[i].columns, games[i].gvIcons));
             let id = item.getAttribute(`data-id`);
-            let index = esgst[gc.indexKey][id];
+            let index = esgst[gcObj.indexKey][id];
             if (isSet(index) && index !== -1) {
               item.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
               if (item.getAttribute(`data-color`)) {
@@ -17847,6 +18057,32 @@ function cdr() {
   }_MODULES.push({
   description: `
     <ul>
+      <li>Adds a button (<i class="fa fa-tag"></i>) next a discussion's title (in any page) that allows you to save tags for the discussion (only visible to you).</li>
+      <li>You can press Enter to save the tags.</li>
+      <li>Each tag can be colored individually.</li>
+      <li>There is a button (<i class="fa fa-list"></i>) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.</li>
+      <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
+    </ul>
+  `,
+  features: {
+    dt_s: {
+      name: `Show tag suggestions while typing.`,
+      sg: true
+    }
+  },
+  id: `dt`,
+  load: dt,
+  name: `Discussion Tags`,
+  sg: true,
+  type: `discussions`
+});
+
+function dt() {
+  esgst.discussionFeatures.push(tags_addButtons.bind(null, `dt`));
+  tags_getTags(`dt`);
+}_MODULES.push({
+  description: `
+    <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
       <li>You can press Enter to save the tags.</li>
       <li>Each tag can be colored individually.</li>
@@ -20014,13 +20250,13 @@ function gpt() {
         } else {
           lastPage = 999999999;
         }
-      } else if ((main && esgst.userPath) || user) {
+      } else if ((main && esgst.userPath) || user || userWon) {
         if ((main && location.pathname.match(/\/giveaways\/won/)) || userWon) {
           lastPage = Math.ceil(parseInt(context.querySelector(`.featured__table__row__right a[href*="/giveaways/won"]`).textContent.replace(/,/g, ``)) / 25);
         } else {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[0].textContent.replace(/,/g, ``)) / 25);
         }
-      } else if ((main && esgst.groupPath) || group) {
+      } else if ((main && esgst.groupPath) || group || groupUsers || groupWishlist) {
         if ((main && location.pathname.match(/\/users/)) || groupUsers) {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent.replace(/,/g, ``)) / 25);
         } else if ((main && esgst.groupWishlistPath) || groupWishlist) {
@@ -36688,11 +36924,29 @@ function ut() {
     if (esgst.mm_enableDiscussions && esgst.mm_enable) {
       esgst.mm_enable(esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
     }
+    for (const feature of esgst.discussionFeatures) {
+      await feature(discussions);
+    }
   }
 
   async function discussions_get(context, main, endless) {
     let discussions = [];
-    let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
+    let elements = context.querySelectorAll(`.esgst-dt-menu`);
+    for (const element of elements) {
+      const id = element.getAttribute(`href`).match(/\/discussion\/(.+?)\//)[1];
+      discussions.push({
+        code: id,
+        container: element.parentElement,
+        context: element,
+        id,
+        menu: true,
+        name: element.textContent.trim(),
+        saved: esgst.discussions[id],
+        tagContext: element,
+        tagPosition: `afterEnd`
+      });
+    }
+    elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       let discussion = await discussions_getInfo(elements[i], main);
       if (!discussion) continue;
@@ -36704,12 +36958,21 @@ function ut() {
         heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
         headingContainer: document.getElementsByClassName(`page__heading`)[0]
       };
+      discussion.id = discussion.code;
+      discussion.container = discussion.headingContainer;
+      discussion.tagContext = discussion.container.querySelector(`[href*="/discussion/"]`);
+      discussion.name = discussion.tagContext.textContent.trim();
+      discussion.tagPosition = `afterEnd`;
+      discussion.saved = esgst.discussions[discussion.code];
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
       checkVersion(discussion);
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
       discussions.push(discussion);
     }
     discussions.forEach(discussion => {
+      if (discussion.menu) {
+        return;
+      }
       let savedDiscussion = esgst.discussions[discussion.code];
       if (esgst.codb && discussion.author === esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
         if (discussion.closed) {
@@ -36850,6 +37113,12 @@ function ut() {
       discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
       discussion.lastPostTime = discussion.lastPostTime.textContent;
     }
+    discussion.id = discussion.code;
+    discussion.name = discussion.title;
+    discussion.container = discussion.headingContainer;
+    discussion.tagContext = discussion.headingContainer;
+    discussion.tagPosition = `beforeEnd`;
+    discussion.saved = esgst.discussions[discussion.code];
     if (esgst.uf) {
       savedUser = await getUser(esgst.users, {
         username: discussion.author
@@ -39251,10 +39520,12 @@ async function users_load(mainContext, main, source, endless) {
               values[value] = {
                 gameSteamId: giveaway.gameSteamId,
                 gameType: giveaway.gameType,
-                value: 0
+                value: 0,
+                values: []
               };
             }
             values[value].value += (key === `username` ? 1 : copies);
+            values[value].values.push(giveaway.gameName);
           }
         }
       }
@@ -39313,7 +39584,13 @@ async function users_load(mainContext, main, source, endless) {
             },
             text: item.value,
             type: `span`
-          }]
+          }, key === `username` ? {
+            attributes: {
+              class: `fa fa-question-circle`,
+              title: item.values.join(`, `)
+            },
+            type: `i`
+          } : null]
         });
       }
       items[0].children.push({
@@ -39784,249 +40061,204 @@ async function users_load(mainContext, main, source, endless) {
     user.values.namwc.lastCheck = Date.now();
   }
   _MODULES.push({
-    description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Sent" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their created giveaways that were marked as not received.</li>
-        <li>Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator's profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.</li>
-        <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
-      </ul>
-    `,
-    id: `nrf`,
-    load: nrf,
-    name: `Not Received Finder`,
-    sg: true,
-    type: `users`
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their won/created giveaways that were marked as not received.</li>
+      <li>Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator's profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.</li>
+      <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
+    </ul>
+  `,
+  id: `nrf`,
+  load: nrf,
+  name: `Not Received Finder`,
+  sg: true,
+  type: `users`
+});
+
+function nrf() {
+  esgst.profileFeatures.push(nrf_add.bind(null, `won`));
+  esgst.profileFeatures.push(nrf_add.bind(null, `sent`));
+}
+
+function nrf_add(key, profile) {
+  if (key === `sent` && profile.notSent < 1) {
+    return;
+  }
+  const button = createElements(profile[`${key}RowLeft`], `beforeEnd`, [{
+    attributes: {
+      class: `esgst-nrf-button`
+    },
+    type: `span`,
+    children: [{
+      attributes: {
+        class: `fa fa-times-circle`,
+        title: getFeatureTooltip(`nrf`, `Find not received giveaways`)
+      },
+      type: `i`
+    }]
+  }]);
+  new Process({
+    button,
+    init: nrf_init.bind(null, key, profile),
+    popup: {
+      addProgress: true,
+      addScrollable: `left`,
+      icon: `fa-times`,
+      options: [{
+        check: key === `sent`,
+        description: `Also search inside giveaways with multiple copies.`,
+        id: `nrf_searchMultiple`,
+        tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
+      }, {
+        check: true,
+        description: `Clear cache.`,
+        id: `nrf_clearCache`,
+        tooltip: `If enabled, the cache for this user will be cleared (slower).`
+      }],
+      title: `Find ${profile.username}'s not received giveaways:`
+    },
+    requests: [{
+      url: key === `sent` ? `/user/${profile.username}/search?page=` : `/user/${profile.username}/giveaways/won/search?page=`,
+      onDone: nrf_onRequestDone,
+      request: nrf_request,
+      source: true,
+      [key === `sent` ? `sourceUser` : `sourceUserWon`]: true
+    }]
   });
+}
 
-  function nrf() {
-    esgst.profileFeatures.push(nrf_add);
-  }
-
-  function nrf_add(profile) {
-    let NRF;
-    NRF = {
-      N: profile.notSent
-    };
-    if (NRF.N > 0) {
-      NRF.I = 0;
-      NRF.Multiple = [];
-      createElements(profile.sentRowLeft, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-nrf-button`
-        },
-        type: `span`,
-        children: [{
-          attributes: {
-            class: `fa fa-times-circle`,
-            title: getFeatureTooltip(`nrf`, `Find not received giveaways`)
-          },
-          type: `i`
-        }]
-      }]);
-      nrf_setPopup(NRF, profile.sentRowLeft.lastElementChild, profile);
-    }
-  }
-
-  function nrf_setPopup(NRF, NRFButton, profile) {
-    let popup;
-    popup = new Popup(`fa-times`, `Find ${profile.username}'s not received giveaways:`);
-    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    popup.Options.appendChild(createOptions([{
-      check: true,
-      description: `Also search inside giveaways with multiple copies.`,
-      id: `nrf_searchMultiple`,
-      tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
-    }]));
-    createElements(popup.Options, `afterEnd`, [{
+async function nrf_init(key, profile, obj) {
+  if (profile.username !== esgst.username && !obj.nrfMessage) {
+    obj.nrfMessage = createElements(obj.popup.scrollable, `beforeBegin`, [{
       attributes: {
         class: `esgst-description`
       },
       text: `If you're blacklisted / not whitelisted / not a member of the same Steam groups, not all giveaways will be found.`,
       type: `div`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-search`, `fa-times-circle`, `Find`, `Cancel`, Callback => {
-      NRFButton.classList.add(`esgst-busy`);
-      nrf_setSearch(NRF, profile, () => {
-        NRF.Progress.innerHTML = ``;
-        NRFButton.classList.remove(`esgst-busy`);
-        Callback();
-      });
-    }, () => {
-      clearInterval(NRF.Request);
-      clearInterval(NRF.Save);
-      NRF.Canceled = true;
-      setTimeout(() => {
-        NRF.Progress.innerHTML = ``;
-      }, 500);
-      NRFButton.classList.remove(`esgst-busy`);
-    }).set);
-    NRF.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    NRF.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    NRF.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
-    NRF.popup = popup;
-    NRFButton.addEventListener(`click`, () => {
-      popup.open();
-    });
   }
-
-  async function nrf_setSearch(NRF, profile, Callback) {
-    NRF.Progress.innerHTML = ``;
-    NRF.OverallProgress.innerHTML = ``;
-    NRF.Results.innerHTML = ``;
-    NRF.Canceled = false;
-    let user = {
-      steamId: profile.steamId,
-      id: profile.id,
-      username: profile.username
+  obj.nrfUser = {
+    steamId: profile.steamId,
+    id: profile.id,
+    username: profile.username
+  };
+  const savedUser = await getUser(null, obj.nrfUser);
+  if (savedUser) {
+    obj.nrfData = savedUser[`nrf${key === `sent` ? `` : `Won`}`];
+  }
+  if (esgst.nrf_clearCache || !obj.nrfData) {
+    obj.nrfData = {
+      lastCheck: 0,
+      found: 0,
+      total: 0,
+      results: ``
     };
-    let nrf;
-    const savedUser = await getUser(null, user);
-    if (savedUser) {
-      nrf = savedUser.nrf;
-    }
-    if (!nrf) {
-      nrf = {
-        lastCheck: 0,
-        found: 0,
-        total: 0,
-        results: ``
+  }
+  obj.nrfResults = obj.popup.getScrollable();
+  if ((Date.now() - obj.nrfData.lastCheck) > 604800000) {
+    obj.nrfFound = 0;
+    obj.nrfKey = key;
+    obj.nrfMultiple = 0;
+    obj.nrfResultsRaw = ``;
+    obj.nrfUsername = obj.nrfUser.username;
+    obj.nrfTotal = profile.notSent || 0;
+    obj.onDone = nrf_onDone;
+    obj.requests = obj.requestsBackup;
+  } else {
+    obj.onDone = null;
+    obj.requests = [];
+    createElements(obj.nrfResults, `inner`, [...(Array.from(parseHtml(obj.nrfData.results).body.childNodes).map(x => {
+      return {
+        context: x
       };
-    }
-    if ((Date.now() - nrf.lastCheck) > 604800000) {
-      nrf_searchUser(NRF, user.username, 1, 0, `/user/${user.username}/search?page=`, async () => {
-        nrf.lastCheck = Date.now();
-        nrf.found = NRF.I;
-        nrf.total = NRF.N;
-        nrf.results = NRF.Results.innerHTML;
-        user.values = {
-          nrf: nrf
-        };
-        await saveUser(null, null, user);
-        await endless_load(NRF.Results);
-        NRF.Progress.innerHTML = ``;
-        Callback();
-      });
-    } else {
-      createElements(NRF.Results, `inner`, [...(Array.from(parseHtml(nrf.results).body.childNodes).map(x => {
-        return {
-          context: x
-        };
-      }))]);
-      createElements(NRF.OverallProgress, `inner`, [{
-        text: `${nrf.found} of ${nrf.total} not received giveaways found...`,
-        type: `node`
-      }]);
-      await endless_load(NRF.Results);
-      Callback();
-    }
+    }))]);
+    createElements(obj.popup.overallProgress, `inner`, [{
+      text: `${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`,
+      type: `node`
+    }]);
+    await endless_load(obj.nrfResults);
   }
+}
 
-  async function nrf_searchUser(NRF, username, NextPage, CurrentPage, URL, Callback, Context) {
-    let Matches, I, N, Match, Pagination;
-    if (NRF.Canceled) return;
-    if (Context) {
-      if (NextPage === 2) {
-        NRF.lastPage = lpl_getLastPage(Context, false, false, true);
-        NRF.lastPage = NRF.lastPage === 999999999 ? `` : ` of ${NRF.lastPage}`;
-      }
-      createElements(NRF.Progress, `inner`, [{
-        attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
-        },
-        type: `i`
-      }, {
-        text: `Searching ${username}'s giveaways (page ${NextPage - 1}${NRF.lastPage})...`,
-        type: `span`
-      }]);
-      Matches = Context.querySelectorAll(`div.giveaway__column--negative`);
-      for (I = 0, N = Matches.length; I < N; ++I) {
-        NRF.I += Matches[I].querySelectorAll(`a[href*="/user/"]`).length;
-        NRF.Results.appendChild(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
-      }
-      createElements(NRF.OverallProgress, `inner`, [{
-        text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
-        type: `node`
-      }]);
-      if (NRF.I < NRF.N) {
-        if (esgst.nrf_searchMultiple) {
-          Matches = Context.getElementsByClassName(`giveaway__heading__thin`);
-          for (I = 0, N = Matches.length; I < N; ++I) {
-            Match = Matches[I].textContent.match(/\((.+) Copies\)/);
-            if (Match && (parseInt(Match[1]) > 3)) {
-              NRF.Multiple.push(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
-            }
-          }
-        }
-        Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
-        if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-          setTimeout(() => nrf_searchUser(NRF, username, NextPage, CurrentPage, URL, Callback), 0);
-        } else if (esgst.nrf_searchMultiple && NRF.Multiple.length) {
-          setTimeout(() => nrf_searchMultiple(NRF, 0, NRF.Multiple.length, Callback), 0);
-        } else {
-          Callback();
-        }
-      } else {
-        Callback();
-      }
-    } else if (!NRF.Canceled) {
-      setTimeout(async () => nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
-    }
+function nrf_request(obj, details, response, responseHtml) {
+  obj.popup.setProgress(`Searching ${obj.nrfUsername}'s giveaways (page ${details.nextPage}${details.lastPage})...`);
+  const elements = responseHtml.querySelectorAll(`div.giveaway__column--negative`);
+  for (const element of elements) {
+    obj.nrfFound += element.querySelectorAll(`a[href*="/user/"]`).length;
+    const giveaway = element.closest(`.giveaway__row-outer-wrap`).cloneNode(true);
+    obj.nrfResults.appendChild(giveaway);
+    obj.nrfResultsRaw += giveaway.outerHTML;
   }
-
-  function nrf_searchMultiple(NRF, I, N, Callback) {
-    if (!NRF.Canceled) {
-      createElements(NRF.Progress, `inner`, [{
-        attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
-        },
-        type: `i`
-      }, {
-        text: `Searching inside giveaways with multiple copies (${I + 1} of ${N})...`,
-        type: `span`
-      }]);
-      if (I < N) {
-        nrf_searchGiveaway(NRF, `${NRF.Multiple[I].getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`)}/winners/search?page=`, 1, Found => {
-          if (Found) {
-            NRF.Results.appendChild(NRF.Multiple[I].cloneNode(true));
-          }
-          if (NRF.I < NRF.N) {
-            setTimeout(() => nrf_searchMultiple(NRF, ++I, N, Callback), 0);
-          } else {
-            Callback();
-          }
-        });
-      } else {
-        Callback();
-      }
-    }
-  }
-
-  async function nrf_searchGiveaway(NRF, URL, NextPage, Callback) {
-    if (NRF.Canceled) return;
-    let ResponseHTML, Matches, I, N, Found, Pagination;
-    ResponseHTML = parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
-    Matches = ResponseHTML.getElementsByClassName(`table__column--width-small`);
-    for (I = 0, N = Matches.length; I < N; ++I) {
-      if (Matches[I].textContent.match(/Not Received/)) {
-        Found = true;
-        ++NRF.I;
-        createElements(NRF.OverallProgress, `inner`, [{
-          text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
-          type: `node`
-        }]);
-        if (NRF.I >= NRF.N) {
-          break;
+  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfKey === `sent` ? obj.nrfTotal : `?`} not received giveaways found...`);
+  if (esgst.nrf_searchMultiple && obj.nrfKey === `sent` && obj.nrfFound < obj.nrfTotal) {
+    const elements = responseHtml.getElementsByClassName(`giveaway__heading__thin`);
+    for (const element of elements) {
+      const match = element.textContent.match(/\((.+) Copies\)/);
+      if (match && (parseInt(match[1]) > 3)) {
+        const giveaway = element.closest(`.giveaway__row-outer-wrap`);
+        const url = giveaway.getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`);
+        if (url) {
+          obj.nrfMultiple += 1;
+          obj.requests.push({
+            giveaway: giveaway.cloneNode(true),
+            onDone: nrf_onRequestGiveawayDone,
+            request: nrf_requestGiveaway,
+            url: `${url}/winners/search?page=`,
+          });
         }
       }
     }
-    Pagination = ResponseHTML.getElementsByClassName(`pagination__navigation`)[0];
-    if ((NRF.I < NRF.N) && Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-      setTimeout(() => nrf_searchGiveaway(NRF, URL, ++NextPage, Callback), 0);
-    } else {
-      Callback(Found);
+  }
+  if (obj.nrfKey === `sent` && obj.nrfFound >= obj.nrfTotal) {
+    return true;
+  }
+}
+
+function nrf_onRequestDone(obj) {
+  if (obj.nrfKey === `sent` && obj.nrfFound >= obj.nrfTotal) {
+    obj.requests = [];
+  }
+}
+
+function nrf_requestGiveaway(obj, details, response, responseHtml) {
+  obj.popup.setProgress(`Searching inside giveaways with multiple copies (${obj.nrfMultiple} left)...`);
+  const elements = responseHtml.getElementsByClassName(`table__column--width-small`);
+  details.nrfFound = false;
+  for (const element of elements) {
+    if (!element.textContent.match(/Not Received/)) {
+      continue;
+    }
+    details.nrfFound = true;
+    obj.nrfFound += 1;
+    if (obj.nrfFound >= obj.nrfTotal) {
+      break;
     }
   }
-  _MODULES.push({
+  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfKey === `sent` ? obj.nrfTotal : `?`} not received giveaways found...`);
+}
+
+function nrf_onRequestGiveawayDone(obj, details) {
+  if (!details.nrfFound) {
+    return;
+  }
+  obj.nrfResults.appendChild(details.giveaway);
+  obj.nrfResultsRaw += details.giveaway.outerHTML;
+}
+
+async function nrf_onDone(obj) {
+  if (obj.nrfKey === `won`) {
+    obj.nrfTotal = obj.nrfFound;
+  }
+  obj.nrfData.lastCheck = Date.now();
+  obj.nrfData.found = obj.nrfFound;
+  obj.nrfData.total = obj.nrfTotal;
+  obj.nrfData.results = obj.nrfResultsRaw;
+  obj.nrfUser.values = {
+    [`nrf${obj.nrfKey === `sent` ? `` : `Won`}`]: obj.nrfData
+  };
+  await saveUser(null, null, obj.nrfUser);
+  await endless_load(obj.nrfResults);
+}_MODULES.push({
     description: `
       <ul>
         <li>Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
@@ -40985,7 +41217,7 @@ async function endlessLoad() {
     es.paginations = [esgst.paginationNavigation ? esgst.paginationNavigation.innerHTML : ``];
     es.reverseScrolling = esgst.es_r && esgst.discussionPath;
     if (es.reverseScrolling) {
-      if (esgst.currentPage === 1 && esgst.paginationNavigation && ((document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/) && !location.hash) || location.hash === `#esgst_reverse`)) {
+      if (esgst.currentPage === 1 && esgst.paginationNavigation && !esgst.parameters.page) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
           es.mainContext.children[0].remove();
         }
@@ -41574,14 +41806,19 @@ async function endlessLoad() {
         }
       });
     }
-  }async function tags_load(key) {
-  await tags_getTags(key);
-  esgst.userFeatures.push(tags_addButtons.bind(null, key));
-}
-
-async function tags_getTags(key) {
+  }async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
+    case `dt`: {
+      const savedDiscussions = JSON.parse(await getValue(`discussions`));
+      for (const id in savedDiscussions) {
+        const tags = savedDiscussions[id].tags;
+        if (tags && Array.isArray(tags)) {
+          allTags.push(...tags);
+        }
+      }
+      break;
+    };
     case `gpt`: {
       const savedGroups = JSON.parse(await getValue(`groups`));
       for (const group of savedGroups) {
@@ -41687,7 +41924,7 @@ function tags_hideSuggestions(suggestions) {
   }
 }
 
-function tags_addButtons(key, items) {
+async function tags_addButtons(key, items) {
   items = items.all || items;
   for (const item of items) {
     const obj = {item, key};
@@ -41712,19 +41949,21 @@ function tags_addButtons(key, items) {
       }]).addEventListener(`click`, tags_openPopup.bind(null, obj));
     }
     if (item.saved && item.saved.tags) {
-      tags_addTags(item, obj, item.saved.tags);
+      await tags_addTags(item, obj, item.saved.tags);
     }
   }  
 }
 
 async function tags_openMmPopup(mmObj, items, key) {
   key = {
+    Discussions: `dt`,
     Games: `gt`,
     Groups: `gpt`,
     Users: `ut`
   }[key];
   const obj = {items: [], key};
   obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+  const savedDiscussions = JSON.parse(await getValue(`discussions`));
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -41732,6 +41971,13 @@ async function tags_openMmPopup(mmObj, items, key) {
     item.tags = [];
     item.uniqueTags = [];
     switch (key) {
+      case `dt`: {
+        const discussion = savedDiscussions[item.code];
+        if (discussion && discussion.tags && Array.isArray(discussion.tags)) {
+          item.tags = discussion.tags;
+        }
+        break;
+      }
       case `gpt`: {
         const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
         if (group && group.tags && Array.isArray(group.tags)) {
@@ -41887,6 +42133,32 @@ async function tags_saveTags(obj) {
     tags = ``;
   }
   switch (obj.key) {
+    case `dt`: {
+      const discussions = {};
+      if (obj.items) {
+        for (const item of obj.items) {
+          item.multiTags = tags;
+          if (tags) {
+            const index = tags.indexOf(`[*]`);
+            if (index > -1) {
+              item.multiTags = [...tags];
+              item.multiTags.splice(index, 1, ...item.uniqueTags);
+            }
+          }
+          discussions[item.code] = {
+            name: item.name,
+            tags: item.multiTags
+          };
+        }
+      } else {
+        discussions[obj.item.id] = {
+          name: obj.item.name,
+          tags
+        };
+      }
+      await lockAndSaveDiscussions(discussions);
+      break;
+    }
     case `gpt`: {
       const groups = {};
       if (obj.items) {
@@ -41970,17 +42242,20 @@ async function tags_saveTags(obj) {
   await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
   if (obj.items) {
     for (const item of obj.items) {
-      tags_addTags(item, obj, item.multiTags);
+      await tags_addTags(item, obj, item.multiTags);
     }
   } else {
-    tags_addTags(obj.item, obj, tags);
+    await tags_addTags(obj.item, obj, tags);
   }
   obj.popup.close();
 }
 
-function tags_addTags(item, obj, tags) {
+async function tags_addTags(item, obj, tags) {
   let items = null;
   switch (obj.key) {
+    case `dt`:
+      items = esgst.mainDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id).concat(esgst.popupDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+      break;
     case `gpt`:
       items = esgst.currentGroups[item.code || item.id].elements;
       break;
@@ -42001,6 +42276,9 @@ function tags_addTags(item, obj, tags) {
   for (const subItem of items) {
     let context = null;
     switch (obj.key) {
+      case `dt`:
+        context = subItem.container;
+        break;
       case `gpt`:
         context = subItem.parentElement;
         break;
@@ -42339,6 +42617,11 @@ async function tags_loadTags(obj) {
     item = {tags: obj.sharedTags};
   } else {
     switch (obj.key) {
+      case `dt`: {
+        const savedDiscussions = JSON.parse(await getValue(`discussions`));
+        item = savedDiscussions[obj.item.id];
+        break;
+      }
       case `gpt`: {
         const savedGroups = JSON.parse(await getValue(`groups`));
         item = savedGroups.filter(group => group.code === obj.item.id)[0];
@@ -43166,6 +43449,8 @@ async function tags_loadTags(obj) {
     if (esgst.version !== esgst.currentVersion) {
       if (typeof esgst.version === `undefined`) {
         esgst.firstInstall = true;
+        setSetting(`dismissedOptions`, esgst.toDismiss);
+        esgst.dismissedOptions = esgst.toDismiss;
         let popup = new Popup(`fa-smile-o`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
@@ -43734,11 +44019,33 @@ async function tags_loadTags(obj) {
     return setting;
   }
 
+  function dismissFeature(feature, id) {
+    esgst.toDismiss.push(id);
+    if (id.match(/^(chfl|sk_)/)) {
+      esgst.toDismiss.push(feature.inputItems);
+    }
+    if (id.match(/^hr_.+_s$/)) {
+      esgst.toDismiss.push(`${id}_sound`);
+    }
+    if (Array.isArray(feature.inputItems)) {
+      for (const item of feature.inputItems) {
+        esgst.toDismiss.push(item.id);
+      }
+    }
+    if (feature.features) {
+      for (const subId in feature.features) {
+        dismissFeature(feature.features[subId], subId);
+      }
+    }
+  }
+
   function getFeatureSetting(feature, id) {
     esgst[id] = false;
     if (feature[esgst.name]) {
       let setting = getFeaturePath(feature, id, esgst.name);
-      if (!setting.enabled) return;
+      if (!setting.enabled) {
+        return;
+      }
       let check = false;
       let path = `${location.pathname}${location.search}`;
       let i = setting.include.length - 1;
@@ -43753,7 +44060,9 @@ async function tags_loadTags(obj) {
       }
       esgst[id] = check;
     }
-    if (!esgst[id]) return;
+    if (!esgst[id]) {
+      return;
+    }
     if (feature.features) {
       for (id in feature.features) {
         getFeatureSetting(feature.features[id], id);
@@ -44836,9 +45145,16 @@ async function tags_loadTags(obj) {
             type: `subs`
           }
         ].forEach(item => {
-          const key = item.key,
-              type = item.type;
-          storeJson[item.jsonKey].forEach(id => {
+          const jsonKey = item.jsonKey;
+          const key = item.key;
+          const type = item.type;
+          let ids = [];
+          if (Array.isArray(storeJson[jsonKey])) {
+            ids = storeJson[jsonKey];
+          } else {
+            ids = Object.keys(storeJson[jsonKey]);
+          }
+          for (const id of ids) {
             if (!savedGames[type][id]) {
               savedGames[type][id] = {};
             }
@@ -44848,7 +45164,7 @@ async function tags_loadTags(obj) {
               newOwned[type].push(id.toString());
               numOwned += 1;
             }
-          });
+          }
         });
       }
 
@@ -45411,6 +45727,11 @@ async function tags_loadTags(obj) {
       Name: `SMManageFilteredDiscussions esgst-heading-button`,
       Title: `Manage hidden discussions`
     }, {
+      Check: esgst.sg && esgst.dt,
+      Icons: [`fa-comments`, `fa-tags`],
+      Name: `SMManageDiscussionTags esgst-heading-button`,
+      Title: `Manage discussion tags`
+    }, {
       Check: esgst.sg && esgst.ut,
       Icons: [`fa-user`, `fa-tags`],
       Name: `SMManageUserTags esgst-heading-button`,
@@ -45513,6 +45834,7 @@ async function tags_loadTags(obj) {
     SMManageFilteredUsers = fixed.getElementsByClassName(`SMManageFilteredUsers`)[0];
     let SMManageFilteredGiveaways = fixed.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
+    let SMManageDiscussionTags = fixed.getElementsByClassName(`SMManageDiscussionTags`)[0];
     let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
     let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
     let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
@@ -45550,6 +45872,9 @@ async function tags_loadTags(obj) {
       }
     } else {
       heading.lastElementChild.classList.add(`esgst-hidden`);
+    }
+    if (SMManageDiscussionTags) {
+      SMManageDiscussionTags.addEventListener(`click`, openManageDiscussionTagsPopup);
     }
     if (SMManageUserTags) {
       SMManageUserTags.addEventListener(`click`, openManageUserTagsPopup);
@@ -47740,6 +48065,76 @@ async function tags_loadTags(obj) {
       callback(i);
     }
   }
+  async function openManageDiscussionTagsPopup() {
+    let context, input, popup, savedDiscussion, savedDiscussions, discussions;
+    popup = new Popup(`fa-tags`, `Manage discussion tags:`, true);
+    input = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
+    createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the discussions by.`,
+      type: `div`
+    }]);
+    let heading = createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
+    if (esgst.mm) {
+      mm(heading);
+    }
+    savedDiscussions = JSON.parse(await getValue(`discussions`));
+    discussions = {};
+    for (const key in savedDiscussions) {
+      savedDiscussion = savedDiscussions[key];
+      if (savedDiscussion.tags && (savedDiscussion.tags.length > 1 || (savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))) {
+        context = createElements(popup.scrollable, `beforeEnd`, [{
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-dt-menu`,
+              href: `https://www.steamgifts.com/discussion/${key}/`
+            },
+            text: savedDiscussion.name || key,
+            type: `a`
+          }]
+        }]);
+        discussions[key] = {
+          context: context
+        };
+      }
+    }
+    await endless_load(popup.scrollable);
+    input.addEventListener(`input`, filterUserTags.bind(null, discussions));
+    popup.open();
+  }
+
+  function filterDiscussionTags(discussions, event) {
+    let i, tags, key, userTags;
+    if (event.currentTarget.value) {
+      tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
+      for (key in discussions) {
+        userTags = discussions[key].context.getElementsByClassName(`esgst-tags`)[0];
+        for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        if (i < 0) {
+          discussions[key].context.classList.add(`esgst-hidden`);
+        } else {
+          discussions[key].context.classList.remove(`esgst-hidden`);
+        }
+      }
+    } else {
+      for (key in discussions) {
+        discussions[key].context.classList.remove(`esgst-hidden`);
+      }
+    }
+  }
 
   async function openManageUserTagsPopup() {
     let context, input, popup, savedUser, savedUsers, users;
@@ -48185,6 +48580,10 @@ async function tags_loadTags(obj) {
           {
             key: `discussions_dh`,
             name: `Discussion Highlighter`
+          },
+          {
+            key: `discussions_dt`,
+            name: `Discussion Tags`
           },
           {
             key: `discussions_gdttt`,
@@ -48655,6 +49054,10 @@ async function tags_loadTags(obj) {
               name: `Discussion Highlighter`
             },
             {
+              key: `discussions_dt`,
+              name: `Discussion Tags`
+            },
+            {
               key: `discussions_gdttt`,
               name: `Giveaway/Discussion/Ticket/Trade Tracker`
             },
@@ -49039,6 +49442,7 @@ async function tags_loadTags(obj) {
               ct: [`count`, `readComments`],
               df: [`hidden`],
               dh: [`highlighted`],
+              dt: [`tags`],
               gdttt: [`visited`],
               pm: [`status`]
             };
@@ -49077,6 +49481,7 @@ async function tags_loadTags(obj) {
             ct: 0,
             df: 0,
             dh: 0,
+            dt: 0,
             gb: 0,
             gdttt: 0,
             gf: 0,
@@ -49150,18 +49555,34 @@ async function tags_loadTags(obj) {
                       if (esgst.settings.importAndMerge) {
                         for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                           let valueKey = values[value][j];
-                          if (valueKey === `readComments`) {
-                            if (mergedData[newDataKey].readComments) {
-                              for (let id in mergedData[newDataKey].readComments) {
-                                if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                  mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                          switch (valueKey) {
+                            case `tags`:
+                              if (mergedData[newDataKey].tags) {
+                                let tags = newData[newDataKey].tags;
+                                for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                  let tag = tags[k];
+                                  if (mergedData[newDataKey].tags.indexOf(tag) < 0) {
+                                    mergedData[newDataKey].tags.push(tag);
+                                  }
                                 }
+                              } else {
+                                mergedData[newDataKey].tags = newData[newDataKey].tags;
                               }
-                            } else {
-                              mergedData[newDataKey].readComments = newData[newDataKey].readComments;
-                            }
-                          } else {
-                            mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
+                            case `readComments`:
+                              if (mergedData[newDataKey].readComments) {
+                                for (let id in mergedData[newDataKey].readComments) {
+                                  if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                  }
+                                }
+                              } else {
+                                mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                              }
+                              break;
+                            default:
+                              mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
                           }
                         }
                       } else {
@@ -55261,6 +55682,20 @@ async function tags_loadTags(obj) {
   function loadChangelog(version) {
     const changelog = [
       {
+        date: `August 31, 2018`,
+        version: `7.27.0`,
+        changeLog: {
+          906: `Always reverse discussions regardless of where the user came from`,
+          786: `Show game categories for packages of the items from the package`,
+          905: `Fix a bug that shows the loading icon forever in Game Categories`,
+          899: `Prevent the script from marking all features as new on first install`,
+          884: `Add a feature: Discussion Tags`,
+          903: `Fix a bug that happens when syncing ignored games`,
+          895: `Extend Not Received Finder to won giveaways`,
+          894: `Show the games won under "Most sent to" in User Giveaway Data`
+        }
+      },
+      {
         date: `August 26, 2018`,
         version: `7.26.4`,
         changelog: {
@@ -55875,6 +56310,9 @@ async function tags_loadTags(obj) {
   }
 
   function createElements(context, position, items) {
+    if (position === `inner`) {
+      context.innerHTML = ``;
+    }
     if (!items || !items.length) {
       return;
     }
@@ -55899,7 +56337,6 @@ async function tags_loadTags(obj) {
         element = context.nextElementSibling;
         break;
       case `inner`:
-        context.innerHTML = ``;
         context.appendChild(fragment);
         element = context.firstElementChild;
         break;
