@@ -19,7 +19,7 @@ function nrf() {
 }
 
 function nrf_add(key, profile) {
-  if (key === `sent` && profile.notSent < 1) {
+  if (profile[`${key}NotReceived`] < 1) {
     return;
   }
   const button = createElements(profile[`${key}RowLeft`], `beforeEnd`, [{
@@ -99,7 +99,7 @@ async function nrf_init(key, profile, obj) {
     obj.nrfMultiple = 0;
     obj.nrfResultsRaw = ``;
     obj.nrfUsername = obj.nrfUser.username;
-    obj.nrfTotal = profile.notSent || 0;
+    obj.nrfTotal = profile[`${key}NotReceived`];
     obj.onDone = nrf_onDone;
     obj.requests = obj.requestsBackup;
   } else {
@@ -127,7 +127,7 @@ function nrf_request(obj, details, response, responseHtml) {
     obj.nrfResults.appendChild(giveaway);
     obj.nrfResultsRaw += giveaway.outerHTML;
   }
-  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfKey === `sent` ? obj.nrfTotal : `?`} not received giveaways found...`);
+  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`);
   if (esgst.nrf_searchMultiple && obj.nrfKey === `sent` && obj.nrfFound < obj.nrfTotal) {
     const elements = responseHtml.getElementsByClassName(`giveaway__heading__thin`);
     for (const element of elements) {
@@ -147,13 +147,13 @@ function nrf_request(obj, details, response, responseHtml) {
       }
     }
   }
-  if (obj.nrfKey === `sent` && obj.nrfFound >= obj.nrfTotal) {
+  if (obj.nrfFound >= obj.nrfTotal) {
     return true;
   }
 }
 
 function nrf_onRequestDone(obj) {
-  if (obj.nrfKey === `sent` && obj.nrfFound >= obj.nrfTotal) {
+  if (obj.nrfFound >= obj.nrfTotal) {
     obj.requests = [];
   }
 }
@@ -172,7 +172,7 @@ function nrf_requestGiveaway(obj, details, response, responseHtml) {
       break;
     }
   }
-  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfKey === `sent` ? obj.nrfTotal : `?`} not received giveaways found...`);
+  obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`);
 }
 
 function nrf_onRequestGiveawayDone(obj, details) {
@@ -184,9 +184,6 @@ function nrf_onRequestGiveawayDone(obj, details) {
 }
 
 async function nrf_onDone(obj) {
-  if (obj.nrfKey === `won`) {
-    obj.nrfTotal = obj.nrfFound;
-  }
   obj.nrfData.lastCheck = Date.now();
   obj.nrfData.found = obj.nrfFound;
   obj.nrfData.total = obj.nrfTotal;

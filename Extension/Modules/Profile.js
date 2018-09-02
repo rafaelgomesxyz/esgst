@@ -50,6 +50,8 @@ async function profile_load(context) {
           profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
           profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
           profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
+          profile.notWon = parseInt(rows[4].columns[1].name.replace(/,/g, ``));
+          profile.wonNotReceived = profile.notWon;
           profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
           rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
           profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/\$|,/g, ``));
@@ -64,6 +66,7 @@ async function profile_load(context) {
           profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
           profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
           profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
+          profile.sentNotReceived = profile.notSent;
           profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
           rows = JSON.parse(profile.sentCvContainer.getAttribute(`data-ui-tooltip`)).rows;
           profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/\$|,/g, ``));
