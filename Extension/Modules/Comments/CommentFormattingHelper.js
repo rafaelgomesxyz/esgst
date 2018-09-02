@@ -256,6 +256,16 @@ _MODULES.push({
         name: `Comment Formatting`,
         sg: true,
         st: true
+      },
+      cfh_ghwsgi: {
+        description: `
+          <ul>
+            <li>Adds a button (<i class="fa fa-github"></i>) to the panel that allows you to easily generate links for <a href="https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration">GitHub Wiki SteamGifts Integration</a>.</li>
+          </ul>
+        `,
+        name: `GitHub Wiki SteamGifts Integration`,
+        sg: true,
+        st: true
       }
     },
     id: `cfh`,
@@ -403,7 +413,7 @@ _MODULES.push({
               type: `input`
             }]
           }, {
-            attributes :{
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             text: `Add`,
@@ -419,9 +429,17 @@ _MODULES.push({
           });
         },
         callback: popout => {
-          let title = popout.firstElementChild.nextElementSibling.firstElementChild;
+          let title, url;
+          url = popout.firstElementChild.firstElementChild;
+          title = popout.firstElementChild.nextElementSibling.firstElementChild;
           title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
-          title.focus();
+          if (url.value && title.value) {
+            popout.lastElementChild.click();
+          } else if (url.value) {
+            title.focus();
+          } else {
+            url.focus();
+          }
         }
       },
       {
@@ -460,7 +478,7 @@ _MODULES.push({
               type: `input`
             }]
           }, {
-            attributes :{
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             text: `Add`,
@@ -787,6 +805,44 @@ _MODULES.push({
         },
         callback: popout => {
           popout.firstElementChild.firstElementChild.focus();
+        }
+      }, {
+        id: `cfh_ghwsgi`,
+        icons: [`fa-github`],
+        name: `GitHub Wiki SteamGifts Integration`,
+        setPopout: popout => {
+          let url;
+          createElements(popout.popout, `inner`, [{
+            type: `div`,
+            children: [{
+              text: `Wiki URL: `,
+              type: `node`
+            }, {
+              attributes: {
+                placeholder: `https://github.com/username/repository/wiki`,
+                type:  `text`
+              },
+              type: `input`
+            }]
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
+            text: `Add`,
+            type: `div`
+          }]);
+          url = popout.popout.firstElementChild.firstElementChild;
+          popout.popout.lastElementChild.addEventListener(`click`, () => {
+            const ghwsgiLink = `wiki-gh/${url.value.replace(/https?:\/\/(www\.)?github\.com\//, ``)}`;
+            cfh_formatItem(`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`);
+            cfh_formatLink(``, ghwsgiLink);
+            url.value = ``;
+            popout.close();
+          });
+        },
+        callback: popout => {
+          let url = popout.firstElementChild.firstElementChild;
+          url.focus();
         }
       }, {
         icons: [`fa-paste`],
