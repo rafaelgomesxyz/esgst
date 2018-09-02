@@ -236,6 +236,14 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.27.1 (September 2, 2018)**
+
+* #914 Remove detailed hidden game category for packages
+* #913 Add support for GitHub Wiki SteamGifts Integration to Comment Formatting Helper
+* #912 Fix HTML of group names in Multiple Giveaway Creator
+* #910 Only show Not Received Finder button for won gifts if the user has won gifts marked as not received
+* #909 Fix counter in User Giveaway Data
+
 **7.27.0 (August 31, 2018)**
 
 * #906 Always reverse discussions regardless of where the user came from

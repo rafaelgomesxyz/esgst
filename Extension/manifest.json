@@ -1,9 +1,4 @@
 {
-  "applications": {
-    "gecko": {
-      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
-    }
-  },
   "author": "revilheart",
   "background": {
     "scripts": [
@@ -76,5 +71,5 @@
     "css/steamgifts-v34.min.css",
     "icon.png"
   ],
-  "version": "7.26.4"
+  "version": "7.27.1"
 }
