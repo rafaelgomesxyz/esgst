@@ -1308,7 +1308,7 @@ _MODULES.push({
         }
         if (values.groups) {
           values.groups.split(/\s/).forEach(id => {
-            whoCanEnter += `${escapeHtml(mgc.groupNames[id])}, `;
+            whoCanEnter += `${mgc.groupNames[id]}, `;
           });
         }
         whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
