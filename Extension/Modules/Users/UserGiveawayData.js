@@ -954,7 +954,7 @@ _MODULES.push({
         const level = giveaway.level;
         const isArrayWinners = Array.isArray(giveaway.winners);
         const winners = isArrayWinners ? giveaway.winners.filter(x => x.status === `Received`) : giveaway.winners;
-        const copies = obj.key === `sent` ? isArrayWinners ? winners.length : giveaway.copies : 1;
+        const copies = obj.key === `sent` ? (winners.length || (isArrayWinners ? Math.min(giveaway.copies, giveaway.entries) : Math.min(giveaway.copies, giveaway.entries, winners))) : 1;
         obj.perType[selector][level] += copies;
         obj.typeTotal[selector] += copies;
         obj.levelTotal[level] += copies;
