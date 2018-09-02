@@ -1588,34 +1588,22 @@ _MODULES.push({
             }
             break;
           case `gc_h`:
-            count = 0;
-            if (savedGame && savedGame.apps) {
-              for (const id of savedGame.apps) {
-                if (esgst.games.apps[id] && esgst.games.apps[id].hidden) {
-                  count += 1;
-                }
-              }
-            }
-            count = count ? ` (${count})` : ``;
-            if ((savedGame && savedGame.hidden) || count) {
+            if (savedGame && savedGame.hidden) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-hidden`,
                   [`data-id`]: `gc_h`,
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_h`, `Hidden${count}`)
+                  title: getFeatureTooltip(`gc_h`, `Hidden`)
                 },
-                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H${count}`) : `${esgst.gc_hLabel}${count}`,
+                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H$`) : esgst.gc_hLabel,
                 type: `a`,
                 children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_hIcon}`
                   },
                   type: `i`
-                }, count ? {
-                  text: count,
-                  type: `node`
-                } : null] : null
+                }] : null
               });
             }
             break;
