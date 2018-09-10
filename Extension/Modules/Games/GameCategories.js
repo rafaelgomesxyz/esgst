@@ -1596,7 +1596,7 @@ _MODULES.push({
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_h`, `Hidden`)
                 },
-                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H$`) : esgst.gc_hLabel,
+                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H`) : esgst.gc_hLabel,
                 type: `a`,
                 children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
                   attributes: {
