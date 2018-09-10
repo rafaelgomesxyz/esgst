@@ -245,11 +245,11 @@ _MODULES.push({
         const elements = giveaway.outerWrap.querySelectorAll(`.table__column--gift-feedback`);
         for (const element of elements) {
           const text = element.textContent.trim();
-          if (text.match(/^Received$/) && element.querySelector(`.icon-green`)) {
+          if ((text.match(/^Received$/) && element.querySelector(`.icon-green`)) || element.querySelector(`.table__gift-feedback-received:not(.is-hidden)`)) {
             giveaway.received = true;
             break;
           }
-          if (text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) {
+          if ((text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) || element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden)`)) {
             giveaway.notReceived = true;
             break;
           }
