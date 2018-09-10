@@ -127,7 +127,7 @@ _MODULES.push({
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -153,7 +153,7 @@ _MODULES.push({
         cewgd_addDetails(giveaway, currentGiveaway);
         cewgd.count += 1;
       } else {
-        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },
