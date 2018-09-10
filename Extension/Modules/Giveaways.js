@@ -183,7 +183,7 @@ _MODULES.push({
       giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
       giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
-      giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
+      giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
       if (!main || !esgst.userPath || (ugd && ugdType === `won`) || ged) {
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
@@ -209,10 +209,11 @@ _MODULES.push({
         giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
         giveaway.deleted = giveaway.endTimeColumn.parentElement.textContent.match(/Deleted/);
         giveaway.endTime = parseInt(giveaway.endTime.getAttribute(`data-timestamp`)) * 1e3;
+        giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.parentElement.textContent.match(/Ended/));
       } else {
         giveaway.endTime = 0;
+        giveaway.ended = true;
       }
-      giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
     }
     if (ugd) {
       if (ugdType === `sent`) {
