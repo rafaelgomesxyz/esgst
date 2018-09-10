@@ -2125,7 +2125,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.27.1`,
-      devVersion: `7.27.1`,
+      devVersion: `7.27.2 (Dev.1)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -32246,7 +32246,7 @@ function ut() {
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -32272,7 +32272,7 @@ function ut() {
         cewgd_addDetails(giveaway, currentGiveaway);
         cewgd.count += 1;
       } else {
-        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },
@@ -37674,200 +37674,199 @@ async function users_load(mainContext, main, source, endless) {
     }
   }
 }_MODULES.push({
-    description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-sort"></i> if the table is sorted by the default order, <i class="fa fa-sort-asc"></i> if it is sorted by ascending order and <i class="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.</li>
-      </ul>
-    `,
-    id: `ts`,
-    load: ts,
-    name: `Table Sorter`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-sort"></i> if the table is sorted by the default order, <i class="fa fa-sort-asc"></i> if it is sorted by ascending order and <i class="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.</li>
+    </ul>
+  `,
+  id: `ts`,
+  load: ts,
+  name: `Table Sorter`,
+  sg: true,
+  st: true,
+  type: `general`
+});
 
-  function ts() {
-    esgst.endlessFeatures.push(ts_getTables);
+function ts() {
+  esgst.endlessFeatures.push(ts_getTables);
+}
+
+function ts_getTables(context, main, source, endless) {
+  const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : `table`}`);
+  for (let i = 0, n = tables.length; i < n; ++i) {
+    ts_setTable(tables[i]);
   }
-
-  function ts_getTables(context, main, source, endless) {
-    const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : `table`}`);
-    for (let i = 0, n = tables.length; i < n; ++i) {
-      ts_setTable(tables[i]);
-    }
-    if (!endless && !esgst.us) {
-      ts_sortTables();
-    }
+  if (!endless && !esgst.us) {
+    ts_sortTables();
   }
+}
 
-  function ts_sortTables() {
-    let i, tsTable;
-    for (i = esgst.tsTables.length - 1; i > -1; --i) {
-      tsTable = esgst.tsTables[i];
-      if (tsTable.columnName) {
-        sortContent(ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
-      }
-    }
-  }
-
-  function ts_setTable(table) {
-    let button, columnName, columns, heading, tsTable;
-    heading = table.querySelector(`.table__heading, .header, thead`);
-    if (!heading) return;
-    tsTable = {
-      columnName: ``,
-      key: `sortIndex`,
-      name: `asc`,
-      outerWrap: table,
-      table: table
-    };
-    esgst.tsTables.push(tsTable);
-    columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, th`);
-    for (let i = 0, n = columns.length; i < n; ++i) {
-      let column = columns[i];
-      columnName = column.textContent.trim();
-      if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
-        button = createElements(column, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-ts-button esgst-clickable`
-          },
-          type: `span`
-        }]);
-        ts_addDescButton(button, columnName, i, table, tsTable);
-      }
+function ts_sortTables() {
+  let i, tsTable;
+  for (i = esgst.tsTables.length - 1; i > -1; --i) {
+    tsTable = esgst.tsTables[i];
+    if (tsTable.columnName) {
+      sortContent(ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
     }
   }
+}
 
-  function ts_addAscButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
-      attributes: {
-        class: `fa fa-sort-desc`,
-        title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
-      },
-      type: `i`
-    }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
-  }
-
-  function ts_addDescButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
-      attributes: {
-        class: `fa fa-sort`,
-        title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
-      },
-      type: `i`
-    }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
-  }
-
-  function ts_addDefButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
-      attributes: {
-        class: `fa fa-sort-asc`,
-        title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
-      },
-      type: `i`
-    }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
-  }
-
-  function ts_sortTable(button, columnName, i, key, table, tsTable) {
-    tsTable.columnName = columnName;
-    tsTable.columnIndex = i;
-    tsTable.key = key === `def` ? `sortIndex` : `value`;
-    tsTable.name = key;
-    if (key === `desc`) {
-      sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
-      ts_addAscButton(button, columnName, i, table, tsTable);
-    } else if (key === `asc`) {
-      sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
-      ts_addDefButton(button, columnName, i, table, tsTable);
-    } else {
-      sortContent(ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+function ts_setTable(table) {
+  let button, columnName, columns, heading, tsTable;
+  heading = table.querySelector(`.table__heading, .header, thead`);
+  if (!heading) return;
+  tsTable = {
+    columnName: ``,
+    key: `sortIndex`,
+    name: `asc`,
+    outerWrap: table,
+    table: table
+  };
+  esgst.tsTables.push(tsTable);
+  columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, th`);
+  for (let i = 0, n = columns.length; i < n; ++i) {
+    let column = columns[i];
+    columnName = column.textContent.trim();
+    if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
+      button = createElements(column, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ts-button esgst-clickable`
+        },
+        type: `span`
+      }]);
       ts_addDescButton(button, columnName, i, table, tsTable);
     }
   }
+}
 
-  function ts_getArray(columnName, i, table) {
-    let array, column, element, j, match, n, row, rows, value;
-    array = [];
-    rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap, tbody tr`);
-    let isNumeric = false;
-    for (j = 0, n = rows.length; j < n; ++j) {
-      row = rows[j];
-      column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, td`)[i];
-      value = column && column.textContent.trim();
-      element = {
-        outerWrap: row
-      };
-      if (row.hasAttribute(`data-sort-index`)) {
-        element.sortIndex = parseInt(row.getAttribute(`data-sort-index`));
+function ts_addAscButton(button, columnName, i, table, tsTable) {
+  createElements(button, `inner`, [{
+    attributes: {
+      class: `fa fa-sort-desc`,
+      title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
+    },
+    type: `i`
+  }]);
+  button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
+}
+
+function ts_addDescButton(button, columnName, i, table, tsTable) {
+  createElements(button, `inner`, [{
+    attributes: {
+      class: `fa fa-sort`,
+      title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
+    },
+    type: `i`
+  }]);
+  button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
+}
+
+function ts_addDefButton(button, columnName, i, table, tsTable) {
+  createElements(button, `inner`, [{
+    attributes: {
+      class: `fa fa-sort-asc`,
+      title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
+    },
+    type: `i`
+  }]);
+  button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
+}
+
+function ts_sortTable(button, columnName, i, key, table, tsTable) {
+  tsTable.columnName = columnName;
+  tsTable.columnIndex = i;
+  tsTable.key = key === `def` ? `sortIndex` : `value`;
+  tsTable.name = key;
+  if (key === `desc`) {
+    sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
+    ts_addAscButton(button, columnName, i, table, tsTable);
+  } else if (key === `asc`) {
+    sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
+    ts_addDefButton(button, columnName, i, table, tsTable);
+  } else {
+    sortContent(ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+    ts_addDescButton(button, columnName, i, table, tsTable);
+  }
+}
+
+function ts_getArray(columnName, i, table) {
+  let array, column, element, j, match, n, row, rows, value;
+  array = [];
+  rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap, tbody tr`);
+  let isNumeric = false;
+  for (j = 0, n = rows.length; j < n; ++j) {
+    row = rows[j];
+    column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, td`)[i];
+    value = column && column.textContent.trim();
+    element = {
+      outerWrap: row
+    };
+    if (row.hasAttribute(`data-sort-index`)) {
+      element.sortIndex = parseInt(row.getAttribute(`data-sort-index`));
+    } else {
+      element.sortIndex = j;
+      row.setAttribute(`data-sort-index`, j);
+    }
+    if (value.length > 0 || columnName === `Trending`) {
+      if (column.hasAttribute(`data-sort-value`)) {
+        element.value = parseFloat(column.getAttribute(`data-sort-value`));
       } else {
-        element.sortIndex = j;
-        row.setAttribute(`data-sort-index`, j);
-      }
-      if (value.length > 0 || columnName === `Trending`) {
-        if (column.hasAttribute(`data-sort-value`)) {
-          element.value = parseFloat(column.getAttribute(`data-sort-value`));
-        } else {
-          switch (columnName) {
-            case `Trending`:
-              element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
-              break;
-            case `Added`:
-            case `Date Entered`:
-            case `Last Online`:
-            case `Last Post`:
-            case `Last Update`:
-              element.value = value.match(/Online\sNow/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
-              break;
-            case `Game`:
-            case `Giveaway`:
-            case `Group`:
-            case `Status`:
-            case `Summary`:
-            case `Type`:
-            case `User`:
-            case `Winner(s)`:
-              element.value = value;
-              break;
-            default:
-              if (value.match(/\d+\.\d+/)) {
-                element.value = parseFloat(value.replace(/\$/g, ``));
-                if (isNaN(element.value)) {
-                  element.value = value;
-                } else {
-                  isNumeric = true;
-                }
+        switch (columnName) {
+          case `Trending`:
+            element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
+            break;
+          case `Added`:
+          case `Date Entered`:
+          case `Last Online`:
+          case `Last Post`:
+          case `Last Update`:
+            element.value = value.match(/Online\sNow/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+            break;
+          case `Game`:
+          case `Giveaway`:
+          case `Group`:
+          case `Status`:
+          case `Summary`:
+          case `Type`:
+          case `User`:
+          case `Winner(s)`:
+            element.value = value;
+            break;
+          default:
+            if (value.match(/\d+\.\d+/)) {
+              element.value = parseFloat(value.replace(/,|\$/g, ``));
+              if (isNaN(element.value)) {
+                element.value = value;
               } else {
-                match = value.replace(/,/g, ``).match(/\d+/);
-                if (match) {
-                  element.value = parseFloat(match[0]);
-                  isNumeric = true;
-                } else {
-                  element.value = value;
-                }
+                isNumeric = true;
               }
-              break;
-          }
+            } else {
+              match = value.replace(/,/g, ``).match(/\d+/);
+              if (match) {
+                element.value = parseFloat(match[0]);
+                isNumeric = true;
+              } else {
+                element.value = value;
+              }
+            }
+            break;
         }
-      } else {
+      }
+    } else {
+      element.value = 0;
+    }
+    array.push(element);
+  }
+  if (isNumeric) {
+    for (let i = array.length - 1; i > -1; i--) {
+      let element = array[i];
+      if (typeof element.value === `string`) {
         element.value = 0;
       }
-      array.push(element);
     }
-    if (isNumeric) {
-      for (let i = array.length - 1; i > -1; i--) {
-        let element = array[i];
-        if (typeof element.value === `string`) {
-          element.value = 0;
-        }
-      }
-    }
-    return array;
   }
-  _MODULES.push({
+  return array;
+}_MODULES.push({
     description: `
       <ul>
         <li>Opens any link in the page in the same tab.</li>
