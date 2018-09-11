@@ -3223,7 +3223,7 @@ _MODULES.push({
 
         filtered = false;
 
-        if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
+        if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath || esgst.groupPath)) {
           esgst.stopEs = true;
         }
 
