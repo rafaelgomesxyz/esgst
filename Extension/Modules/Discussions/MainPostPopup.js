@@ -55,7 +55,7 @@ _MODULES.push({
       Hidden = true;
       scrollTo(0, 0);
     }
-    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`);
+    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`, `esgst-text-left`);
     button.addEventListener(`click`, () => {
       if (!Hidden) {
         MPPPost.classList.remove(`esgst-mpp-visible`);
