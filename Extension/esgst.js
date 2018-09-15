@@ -32240,7 +32240,13 @@ function ut() {
       }
     }
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
-    deleteLock();
+    deleteLock();    
+    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+      filters_filter(esgst.gf);
+    }
+    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+      filters_filter(esgst.gfPopup);
+    }
   }
 
   async function cewgd_getDetail(cewgd, giveaways, i) {
@@ -32369,6 +32375,7 @@ function ut() {
     giveaway.regionRestricted = details.regionRestricted;
     giveaway.group = details.group;
     giveaway.whitelist = details.whitelist;
+    giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
     if (details.inviteOnly) {
       if (details.regionRestricted) {
         type = `Invite + Region`;
