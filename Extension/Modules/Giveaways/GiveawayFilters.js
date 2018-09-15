@@ -183,6 +183,16 @@ _MODULES.push({
             name: `Rating`,
             sg: true
           },
+          gf_reviews: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by the number of reviews that the game has.</li>
+                <li>This option requires [id=gc_r] enabled to work.</li>
+              </ul>
+            `,
+            name: `Reviews`,
+            sg: true
+          },
           gf_releaseDate: {
             description: `
               <ul>
@@ -856,6 +866,13 @@ _MODULES.push({
         maxValue: 100,
         minValue: 0,
         name: `Rating`,
+        type: `number`
+      },
+      reviews: {
+        category: `gc_r`,
+        check: true,
+        minValue: 0,
+        name: `Reviews`,
         type: `number`
       },
       releaseDate: {
@@ -2329,6 +2346,7 @@ _MODULES.push({
       chancePerPoint: 0,
       ratio: 0,
       rating: 0,
+      reviews: 0,
       releaseDate: 0
     };
     const maxValues = {
