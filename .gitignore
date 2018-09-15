@@ -1,1 +1,5 @@
+extension.zip
 manifest.json.bkp
+node_modules/
+package.json
+package-lock.json
