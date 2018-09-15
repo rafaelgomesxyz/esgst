@@ -1,6 +1,6 @@
 // Parsedown (Javascript version of https://github.com/erusev/parsedown made specifically for SteamGifts)
 
-Parsedown = (() => {
+let Parsedown = (() => {
     // functions taken from http://locutus.io/
 
     function rtrim(string, charList) {
@@ -1032,3 +1032,7 @@ Parsedown = (() => {
 
     return Parsedown;
 })();
+
+module.exports = {
+    default: Parsedown
+};
