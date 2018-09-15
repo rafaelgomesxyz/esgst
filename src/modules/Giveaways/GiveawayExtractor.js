@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayExtractor extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-search"></i>) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.</li>
@@ -56,234 +60,234 @@ _MODULES.push({
       }
     },
     id: `ge`,
-    load: ge,
+    load: this.ge,
     name: `Giveaway Extractor`,
     sg: true,
     type: `giveaways`
   });
 
-  async function ge() {
-    if (((esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
+  async ge() {
+    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
       let ge = {
-        button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
+        button: this.esgst.modules.common.createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
       };
-      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, ge_openPopup.bind(null, ge));
-    } else if (esgst.gePath) {
+      this.esgst.modules.common.setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(null, this.ge));
+    } else if (this.esgst.gePath) {
       let ge = {
-        context: parseHtml((await request({method: `GET`, url: getParameters().url})).responseText)
+        context: utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.modules.common.getParameters().url})).responseText)
       };
-      ge_openPopup(ge);
+      this.ge_openPopup(ge);
     }
   }
 
-  function ge_openPopup(ge) {
+  ge_openPopup(ge) {
     if (ge.popup) {
-      ge.popup.open();
+      this.ge.popup.open();
       return;
     }
-    ge.count = 0;
-    ge.total = 0;
-    ge.extracted = [];
-    ge.bumpLink = ``;
-    ge.points = 0;
-    ge.sgToolsCount = 0;
-    ge.isDivided = esgst.gc_gi || esgst.gc_r || esgst.gc_rm || esgst.gc_ea || esgst.gc_tc || esgst.gc_a || esgst.gc_mp || esgst.gc_sc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_rd || esgst.gc_g;
-    if (esgst.gePath) {
-      ge.popup = {
-        description: esgst.mainContext,
-        scrollable: esgst.mainContext,
+    this.ge.count = 0;
+    this.ge.total = 0;
+    this.ge.extracted = [];
+    this.ge.bumpLink = ``;
+    this.ge.points = 0;
+    this.ge.sgToolsCount = 0;
+    this.ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
+    if (this.esgst.gePath) {
+      this.ge.popup = {
+        description: this.esgst.mainContext,
+        scrollable: this.esgst.mainContext,
         open: () => {},
         reposition: () => {}
       };
     } else {
-      ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
+      this.ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
     }
-    ge.results = createElements(ge.popup.scrollable, `beforeEnd`, [{
+    this.ge.results = this.esgst.modules.common.createElements(ge.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left`
       },
       type: `div`
     }]);
-    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
-      let heading = createElements(ge.popup.scrollable, `afterBegin`, [{
+    if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
+      let heading = this.esgst.modules.common.createElements(ge.popup.scrollable, `afterBegin`, [{
         attributes: {
           class: `page__heading`
         },
         type: `div`
       }]);
-      if (esgst.gas) {
-        gas(heading);
+      if (this.esgst.gas) {
+        this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
-      if (esgst.gf && esgst.gf_m) {
+      if (this.esgst.gf && this.esgst.gf_m) {
         heading.appendChild(filters_addContainer(`gf`, heading, `Ge`));
       }
-      if (esgst.mm) {
-        mm(heading);
+      if (this.esgst.mm) {
+        this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
-    ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
+    this.ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
       if (ge.callback) {
-        createElements(ge.results, `beforeEnd`, [{
+        this.esgst.modules.common.createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
-        ge.callback();
+        this.ge.callback();
       } else {
-        ge.isCanceled = false;
+        this.ge.isCanceled = false;
         if (ge.button) {
-          ge.button.classList.add(`esgst-busy`);
+          this.ge.button.classList.add(`esgst-busy`);
         }
-        createElements(ge.progress, `inner`, [{
+        this.esgst.modules.common.createElements(ge.progress, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
           type: `i`
         }, {
-          text: ge.total,
+          text: this.ge.total,
           type: `span`
         }, {
           text: ` giveaways extracted.`,
           type: `node`
         }]);
-        createElements(ge.results, `beforeEnd`, [{
+        this.esgst.modules.common.createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
-        ge.mainCallback = callback;
-        let giveaways = ge_getGiveaways(ge, esgst.gePath ? ge.context : esgst.pageOuterWrap);
-        ge_extractGiveaways(ge, giveaways, 0, giveaways.length, ge_completeExtraction.bind(null, ge, callback));
+        this.ge.mainCallback = callback;
+        let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? this.ge.context : this.esgst.pageOuterWrap);
+        this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(null, this.ge, callback));
       }
     }, () => {
-      ge.isCanceled = true;
-      ge_completeExtraction(ge);
+      this.ge.isCanceled = true;
+      this.ge_completeExtraction(ge);
     });
-    ge.popup.description.appendChild(ge.set.set);
-    ge.progress = createElements(ge.popup.description, `beforeEnd`, [{
+    this.ge.popup.description.appendChild(ge.set.set);
+    this.ge.progress = this.esgst.modules.common.createElements(ge.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
-    if (esgst.es_ge) {
-      ge.popup.scrollable.addEventListener(`scroll`, () => {
-        if (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
-          ge.set.trigger();
+    if (this.esgst.es_ge) {
+      this.ge.popup.scrollable.addEventListener(`scroll`, () => {
+        if (ge.popup.scrollable.scrollTop + this.ge.popup.scrollable.offsetHeight >= this.ge.popup.scrollable.scrollHeight && this.ge.set && !ge.set.busy) {
+          this.ge.set.trigger();
         }
       });
     }
-    ge.set.trigger();
-    ge.popup.open();
+    this.ge.set.trigger();
+    this.ge.popup.open();
   }
 
-  function ge_extractGiveaways(ge, giveaways, i, n, callback) {
+  ge_extractGiveaways(ge, giveaways, i, n, callback) {
     if (!ge.isCanceled) {
       if (i < n) {
-        ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, ge_extractGiveaways, 0, ge, giveaways, ++i, n, callback));
+        this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, this.ge_extractGiveaways, 0, this.ge, giveaways, ++i, n, callback));
       } else {
         callback();
       }
     }
   }
 
-  async function ge_extractGiveaway(ge, code, callback) {
+  async ge_extractGiveaway(ge, code, callback) {
     if (!ge.isCanceled) {
-      if (ge.isDivided && ge.count === 50) {
+      if (ge.isDivided && this.ge.count === 50) {
         let children, filtered, i;
-        ge.mainCallback();
-        ge.count = 0;
-        await endless_load(ge.results.lastElementChild, false, `ge`);
-        ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
-        ge.progress.firstElementChild.remove();
-        ge.callback = ge_extractGiveaway.bind(null, ge, code, callback);
+        this.ge.mainCallback();
+        this.ge.count = 0;
+        await this.esgst.modules.common.endless_load(ge.results.lastElementChild, false, `ge`);
+        this.ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
+        this.ge.progress.firstElementChild.remove();
+        this.ge.callback = this.ge_extractGiveaway.bind(null, this.ge, code, callback);
         filtered = false;
-        children = ge.results.lastElementChild.children;
+        children = this.ge.results.lastElementChild.children;
         for (i = children.length - 1; i > -1 && !filtered; --i) {
           if (children[i].firstElementChild.classList.contains(`esgst-hidden`)) {
             filtered = true;
           }
         }
-        if ((esgst.es_ge && ge.popup.scrollable.scrollHeight <= ge.popup.scrollable.offsetHeight) || filtered) {
-          ge.set.trigger();
+        if ((this.esgst.es_ge && this.ge.popup.scrollable.scrollHeight <= this.ge.popup.scrollable.offsetHeight) || filtered) {
+          this.ge.set.trigger();
         }
       } else {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
-          if (sgTools && esgst.ge_sgt && (!esgst.ge_sgt_l || ge.sgToolsCount < esgst.ge_sgt_limit)) {
+          if (sgTools && this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || this.ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
             open(`https://www.sgtools.info/giveaways/${code}`);
-            ge.extracted.push(code);
-            ge.sgToolsCount += 1;
+            this.ge.extracted.push(code);
+            this.ge.sgToolsCount += 1;
             callback();
             return;
           }
-          let response = await request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
+          let response = await this.esgst.modules.common.request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
           let bumpLink, button, giveaway, giveaways, n, responseHtml;
-          responseHtml = parseHtml(response.responseText);
+          responseHtml = utils.parseHtml(response.responseText);
           button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
-          giveaway = buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
+          giveaway = this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           if (giveaway) {
-            createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
-            ge.points += giveaway.points;
-            ge.count += 1;
-            ge.total += 1;
-            createElements(ge.progress, `inner`, [{
+            this.esgst.modules.common.createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
+            this.ge.points += giveaway.points;
+            this.ge.count += 1;
+            this.ge.total += 1;
+            this.esgst.modules.common.createElements(ge.progress, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
               type: `i`
             }, {
-              text: ge.total,
+              text: this.ge.total,
               type: `span`
             }, {
               text: ` giveaways extracted.`,
               type: `node`
             }]);
-            ge.extracted.push(code);
+            this.ge.extracted.push(code);
             if (sgTools) {
               callback();
             } else {
               if (!ge.bumpLink) {
                 bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
                 if (bumpLink) {
-                  ge.bumpLink = bumpLink.getAttribute(`href`);
+                  this.ge.bumpLink = bumpLink.getAttribute(`href`);
                 }
               }
-              giveaways = ge_getGiveaways(ge, responseHtml);
+              giveaways = this.ge_getGiveaways(ge, responseHtml);
               n = giveaways.length;
               if (n > 0) {
-                setTimeout(() => ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+                setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
               } else {
                 callback();
               }
             }
           } else if (!sgTools) {
-            let response = await request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
+            let response = await this.esgst.modules.common.request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
             let bumpLink, giveaway, giveaways, n, responseHtml;
-            responseHtml = parseHtml(response.responseText);
-            giveaway = buildGiveaway(responseHtml, response.finalUrl, null, true);
+            responseHtml = utils.parseHtml(response.responseText);
+            giveaway = this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl, null, true);
             if (giveaway) {
-              createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
-              ge.points += giveaway.points;
+              this.esgst.modules.common.createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
+              this.ge.points += giveaway.points;
             }
-            ge.count += 1;
-            ge.total += 1;
-            createElements(ge.progress, `inner`, [{
+            this.ge.count += 1;
+            this.ge.total += 1;
+            this.esgst.modules.common.createElements(ge.progress, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
               type: `i`
             }, {
-              text: ge.total,
+              text: this.ge.total,
               type: `span`
             }, {
               text: ` giveaways extracted.`,
               type: `node`
             }]);
-            ge.extracted.push(code);
+            this.ge.extracted.push(code);
             if (!ge.bumpLink) {
               bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
               if (bumpLink) {
-                ge.bumpLink = bumpLink.getAttribute(`href`);
+                this.ge.bumpLink = bumpLink.getAttribute(`href`);
               }
             }
-            giveaways = ge_getGiveaways(ge, responseHtml);
+            giveaways = this.ge_getGiveaways(ge, responseHtml);
             n = giveaways.length;
             if (n > 0) {
-              setTimeout(() => ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+              setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
             } else {
               callback();
             }
@@ -297,15 +301,15 @@ _MODULES.push({
     }
   }
 
-  function ge_getGiveaways(ge, context) {
+  ge_getGiveaways(ge, context) {
     let elements = context.querySelectorAll(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
     let giveaways = [];
-    if (context === ge.context) {
-      let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
+    if (context === this.ge.context) {
+      let match = this.esgst.modules.common.getParameters().url.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
       }
-    } else if (context === esgst.pageOuterWrap && esgst.giveawayPath) {
+    } else if (context === this.esgst.pageOuterWrap && this.esgst.giveawayPath) {
       let match = location.href.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
@@ -323,7 +327,7 @@ _MODULES.push({
         if (!match) continue;
       }
       let code = match[1];
-      if (!esgst.ge_o || esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
+      if (!this.esgst.ge_o || this.esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
         if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
           giveaways.push(code);
         }
@@ -331,7 +335,7 @@ _MODULES.push({
         match = element.textContent.match(/\d+/);
         if (match) {
           let count = parseInt(match[0]);
-          if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+          if (count > next.count && this.ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
             next.code = code;
             next.count = count;
           }
@@ -344,15 +348,15 @@ _MODULES.push({
     return giveaways;
   }
 
-  async function ge_completeExtraction(ge, callback) {
+  async ge_completeExtraction(ge, callback) {
     if (ge.button) {
-      ge.button.classList.remove(`esgst-busy`);
+      this.ge.button.classList.remove(`esgst-busy`);
     }
-    ge.progress.firstElementChild.remove();
+    this.ge.progress.firstElementChild.remove();
     if (callback) {
       callback();
     }
-    await endless_load(ge.results.lastElementChild, false, `ge`);
+    await this.esgst.modules.common.endless_load(ge.results.lastElementChild, false, `ge`);
     const items = [{
       attributes: {
         class: `markdown esgst-text-center`
@@ -360,12 +364,12 @@ _MODULES.push({
       type: `div`,
       children: []
     }];
-    if (ge.bumpLink && !esgst.discussionPath) {
+    if (ge.bumpLink && !this.esgst.discussionPath) {
       items[0].children.push({
         type: `h2`,
         children: [{
           attributes: {
-            href: ge.bumpLink
+            href: this.ge.bumpLink
           },
           text: `Bump`,
           type: `a`
@@ -376,9 +380,11 @@ _MODULES.push({
       text: `${ge.points}P required to enter all giveaways.`,
       type: `node`
     });
-    createElements(ge.results, `afterBegin`, items);
-    createElements(ge.results, `beforeEnd`, items);
-    ge.set.set.remove();
-    ge.set = null;
+    this.esgst.modules.common.createElements(ge.results, `afterBegin`, items);
+    this.esgst.modules.common.createElements(ge.results, `beforeEnd`, items);
+    this.ge.set.set.remove();
+    this.ge.set = null;
   }
+}
 
+export default GiveawaysGiveawayExtractor;

@@ -1,11 +1,14 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralScrollToBottomButton extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-down"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.</li>
       </ul>
     `,
     id: `stbb`,
-    load: stbb,
+    load: this.stbb,
     name: `Scroll To Bottom Button`,
     options: {
       title: `Show in:`,
@@ -16,11 +19,11 @@ _MODULES.push({
     type: `general`
   });
 
-  function stbb() {
+  stbb() {
     let button;
-    switch (esgst.stbb_index) {
+    switch (this.esgst.stbb_index) {
       case 0:
-        button = createElements(document.body, `beforeEnd`, [{
+        button = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
           attributes: {
             class: `esgst-stbb-button esgst-stbb-button-fixed`,
             title: `${getFeatureTooltip(`stbb`, `Scroll to bottom`)}`
@@ -42,16 +45,16 @@ _MODULES.push({
         });
         break;
       case 1:
-        button = createHeadingButton({id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom`});
+        button = this.esgst.modules.common.createHeadingButton({id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom`});
         button.classList.add(`esgst-stbb-button`);
         break;
       case 2:
-        button = createElements(esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
+        button = this.esgst.modules.common.createElements(this.esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
           attributes: {
             class: `esgst-stbb-button`,
-            title: getFeatureTooltip(`stbb`, `Scroll to bottom`)
+            title: this.esgst.modules.common.getFeatureTooltip(`stbb`, `Scroll to bottom`)
           },
-          type: esgst.sg ? `div` : `li`,
+          type: this.esgst.sg ? `div` : `li`,
           children: [{
             attributes: {
               class: `fa fa-chevron-down`
@@ -61,10 +64,12 @@ _MODULES.push({
         }]);
         break;
     }
-    button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {
-      if (esgst.es && esgst.es.paginations) {
-        es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
+    button.addEventListener(`click`, () => this.esgst.modules.common.animateScroll(document.documentElement.offsetHeight, () => {
+      if (this.esgst.es && this.esgst.es.paginations) {
+        this.esgst.modules.generalEndlessScrolling.es_changePagination(this.esgst.es, this.esgst.es.reverseScrolling ? 1 : this.esgst.es.paginations.length);
       }
     }));
   }
+}
 
+export default GeneralScrollToBottomButton;

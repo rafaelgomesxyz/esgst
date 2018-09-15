@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysSentKeySearcher extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-key"></i> <i class="fa fa-search"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to search for a key or a set of keys in all of keys that you have ever sent.</li>
@@ -6,25 +10,25 @@ _MODULES.push({
       </ul>
     `,
     id: `sks`,
-    load: sks,
+    load: this.sks,
     name: `Sent Key Searcher`,
     sg: true,
     type: `giveaways`
   });
 
-  function sks() {
-    if (!esgst.createdPath) return;
-    let button = createHeadingButton({id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys`});
-    button.addEventListener(`click`, sks_openPopup.bind(null, {button}));
+  sks() {
+    if (!this.esgst.createdPath) return;
+    let button = this.esgst.modules.common.createHeadingButton({id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys`});
+    button.addEventListener(`click`, this.sks_openPopup.bind(null, {button}));
   }
 
-  function sks_openPopup(sks) {
+  sks_openPopup(sks) {
     if (sks.popup) {
-      sks.popup.open();
+      this.sks.popup.open();
       return;
     }
-    sks.popup = new Popup(`fa-key`, `Search for keys:`);
-    sks.textArea = createElements(sks.popup.scrollable, `beforeEnd`, [{
+    this.sks.popup = new Popup(`fa-key`, `Search for keys:`);
+    this.sks.textArea = this.esgst.modules.common.createElements(sks.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -33,8 +37,8 @@ _MODULES.push({
     }, {
       type: `textarea`
     }]);
-    new ToggleSwitch(sks.popup.description, `sks_exportKeys`, false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, esgst.sks_exportKeys);
-    let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, esgst.sks_searchCurrent);
+    new ToggleSwitch(sks.popup.description, `sks_exportKeys`, false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, this.esgst.sks_exportKeys);
+    let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, this.esgst.sks_searchCurrent);
     let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, [{
       text: `Limit search by date, from `,
       type: `node`
@@ -42,7 +46,7 @@ _MODULES.push({
       attributes: {
         class: `esgst-switch-input esgst-switch-input-large`,
         type: `date`,
-        value: esgst.sks_minDate
+        value: this.esgst.sks_minDate
       },
       type: `input`
     }, {
@@ -52,13 +56,13 @@ _MODULES.push({
       attributes: {
         class: `esgst-switch-input esgst-switch-input-large`,
         type: `date`,
-        value: esgst.sks_maxDate
+        value: this.esgst.sks_maxDate
       },
       type: `input`
     }, {
       text: `.`,
       type: `node`
-    }], false, false, null, esgst.sks_limitDate).name.firstElementChild;
+    }], false, false, null, this.esgst.sks_limitDate).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
     let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, [{
       text: `Limit search by pages, from `,
@@ -68,7 +72,7 @@ _MODULES.push({
         class: `esgst-switch-input`,
         min: `1`,
         type: `number`,
-        value: esgst.sks_minPage
+        value: this.esgst.sks_minPage
       },
       type: `input`
     }, {
@@ -79,88 +83,88 @@ _MODULES.push({
         class: `esgst-switch-input`,
         min: `1`,
         type: `number`,
-        value: esgst.sks_maxPage
+        value: this.esgst.sks_maxPage
       },
       type: `input`
     }, {
       text: `.`,
       type: `node`
-    }], false, false, null, esgst.sks_limitPages);
+    }], false, false, null, this.esgst.sks_limitPages);
     let minPage = limitPages.name.firstElementChild;
     let maxPage = minPage.nextElementSibling;
     searchCurrent.exclusions.push(limitPages.container);
     limitPages.exclusions.push(searchCurrent.container);
-    if (esgst.sks_searchCurrent) {
+    if (this.esgst.sks_searchCurrent) {
       limitPages.container.classList.add(`esgst-hidden`);
-    } else if (esgst.sks_limitPages) {
+    } else if (this.esgst.sks_limitPages) {
       searchCurrent.container.classList.add(`esgst-hidden`);
     }
-    observeChange(minDate, `sks_minDate`);
-    observeChange(maxDate, `sks_maxDate`);
-    observeNumChange(minPage, `sks_minPage`);
-    observeNumChange(maxPage, `sks_maxPage`);
-    sks.results = createElements(sks.popup.scrollable, `beforeEnd`, [{
+    this.esgst.modules.common.observeChange(minDate, `sks_minDate`);
+    this.esgst.modules.common.observeChange(maxDate, `sks_maxDate`);
+    this.esgst.modules.common.observeNumChange(minPage, `sks_minPage`);
+    this.esgst.modules.common.observeNumChange(maxPage, `sks_maxPage`);
+    this.sks.results = this.esgst.modules.common.createElements(sks.popup.scrollable, `beforeEnd`, [{
       type: `div`
     }]);
-    sks.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times`, title1: `Search`, title2: `Cancel`, callback1: sks_searchGiveaways.bind(null, sks), callback2: sks_cancelSearch.bind(null, sks)}).set);
-    sks.progress = createElements(sks.popup.description, `beforeEnd`, [{
+    this.sks.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times`, title1: `Search`, title2: `Cancel`, callback1: this.sks_searchGiveaways.bind(null, this.sks), callback2: this.sks_cancelSearch.bind(null, this.sks)}).set);
+    this.sks.progress = this.esgst.modules.common.createElements(sks.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
-    sks.overallProgress = createElements(sks.popup.description, `beforeEnd`, [{
+    this.sks.overallProgress = this.esgst.modules.common.createElements(sks.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
-    sks.popup.open();
+    this.sks.popup.open();
   }
 
-  async function sks_searchGiveaways(sks) {
+  async sks_searchGiveaways(sks) {
     // initialize stuff
-    sks.button.classList.add(`esgst-busy`);
-    sks.canceled = false;
-    sks.count = 0;
-    sks.giveaways = {};
-    sks.allKeys = [];
-    sks.keys = [];
-    sks.progress.innerHTML = ``;
-    sks.overallProgress.innerHTML = ``;
-    sks.results.innerHTML = ``;
-    let keys = sks.textArea.value.trim().split(/\n/);
+    this.sks.button.classList.add(`esgst-busy`);
+    this.sks.canceled = false;
+    this.sks.count = 0;
+    this.sks.giveaways = {};
+    this.sks.allKeys = [];
+    this.sks.keys = [];
+    this.sks.progress.innerHTML = ``;
+    this.sks.overallProgress.innerHTML = ``;
+    this.sks.results.innerHTML = ``;
+    let keys = this.sks.textArea.value.trim().split(/\n/);
     let n = keys.length;
-    if (!esgst.sks_exportKeys && n < 1) {
+    if (!this.esgst.sks_exportKeys && n < 1) {
       return;
     }
     for (let i = 0; i < n; i++) {
       let key = keys[i].trim();
       if (key) {
-        sks.keys.push(key);
-        sks.count += 1;
+        this.sks.keys.push(key);
+        this.sks.count += 1;
       }
     }
-    sks.textArea.value = sks.keys.join(`\n`);
+    this.sks.textArea.value = this.sks.keys.join(`\n`);
 
     // search keys
-    let [nextPage, maxPage] = esgst.sks_limitPages ? [esgst.sks_minPage, esgst.sks_maxPage + 1] : (esgst.sks_searchCurrent ? [esgst.currentPage, esgst.currentPage + 1] : [esgst.currentPage, null]);
-    let [minDate, maxDate] = esgst.sks_limitDate ? [new Date(esgst.sks_minDate).getTime() - 1, new Date(esgst.sks_maxDate).getTime() + 1] : [null, null];
+    let [nextPage, maxPage] = this.esgst.sks_limitPages ? [this.esgst.sks_minPage, this.esgst.sks_maxPage + 1] : (this.esgst.sks_searchCurrent ? [this.esgst.currentPage, this.esgst.currentPage + 1] : [this.esgst.currentPage, null]);
+    let [minDate, maxDate] = this.esgst.sks_limitDate ? [new Date(this.esgst.sks_minDate).getTime() - 1, new Date(this.esgst.sks_maxDate).getTime() + 1] : [null, null];
     let pagination = null;
     let skipped = false;
     let stopped = false;
     do {
       let context = null;
       skipped = false;
-      if (nextPage === esgst.currentPage) {
+      if (nextPage === this.esgst.currentPage) {
         context = document;
-        sks.lastPage = lpl_getLastPage(context);
-        sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
+        this.sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        this.sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
       } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}`)[0]) {
         skipped = true;
         continue;
       } else {
-        context = parseHtml((await request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
+        context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
         if (!sks.lastPage) {
-          sks.lastPage = lpl_getLastPage(context);
-          sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
+          this.sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+          this.sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
         }
       }
-      createElements(sks.overallProgress, `inner`, [{
+      this.esgst.modules.common.createElements(sks.overallProgress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -171,7 +175,7 @@ _MODULES.push({
       }]);
       let elements = context.getElementsByClassName(`trigger-popup--keys`);
       for (let i = 0, n = elements.length; !sks.canceled && i < n; i++) {
-        createElements(sks.progress, `inner`, [{
+        this.esgst.modules.common.createElements(sks.progress, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
@@ -197,7 +201,7 @@ _MODULES.push({
           code: element.parentElement.querySelector(`[name=code]`).value,
           name: element.getAttribute(`data-name`)
         };
-        let heading = parseHtml(JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`)[0];
+        let heading = utils.parseHtml(JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`)[0];
         if (!heading || (heading.textContent !== `Assigned` && !giveaway.active)) {
           continue;
         }
@@ -205,16 +209,16 @@ _MODULES.push({
         for (let j = keys.length - 1; !sks.canceled && j > -1; j--) {
           let key = keys[j].textContent;
           if (sks.keys.indexOf(key) > -1) {
-            sks.giveaways[key] = giveaway;
-            sks.count -= 1;
+            this.sks.giveaways[key] = giveaway;
+            this.sks.count -= 1;
           }
-          if (esgst.sks_exportKeys) {
-            sks.allKeys.push(`${giveaway.active ? `[UNASSIGNED] ` : ``}${key} ${giveaway.name} https://www.steamgifts.com/giveaway/${giveaway.code}/`);
+          if (this.esgst.sks_exportKeys) {
+            this.sks.allKeys.push(`${giveaway.active ? `[UNASSIGNED] ` : ``}${key} ${giveaway.name} https://www.steamgifts.com/giveaway/${giveaway.code}/`);
           }
         }
       }
       nextPage += 1;
-      pagination = (sks.count > 0 || esgst.sks_exportKeys) ? context.getElementsByClassName(`pagination__navigation`)[0] : null;
+      pagination = (sks.count > 0 || this.esgst.sks_exportKeys) ? context.getElementsByClassName(`pagination__navigation`)[0] : null;
     } while (!sks.canceled && !stopped && (!maxPage || nextPage < maxPage) && (skipped || (pagination && !pagination.lastElementChild.classList.contains(`is-selected`))));
 
     if (sks.canceled) {
@@ -225,9 +229,9 @@ _MODULES.push({
     // finish the search
     let found = [];
     let notFound = [];
-    for (let i = 0, n = sks.keys.length; i < n; i++) {
-      let key = sks.keys[i];
-      let giveaway = sks.giveaways[key];
+    for (let i = 0, n = this.sks.keys.length; i < n; i++) {
+      let key = this.sks.keys[i];
+      let giveaway = this.sks.giveaways[key];
       if (giveaway) {
         found.push({
           type: `li`,
@@ -261,7 +265,7 @@ _MODULES.push({
       if (n < 1) {
         continue;
       }
-      createElements(sks.results, `beforeEnd`, [{
+      this.esgst.modules.common.createElements(sks.results, `beforeEnd`, [{
         attributes: {
           class: `markdown`
         },
@@ -281,18 +285,20 @@ _MODULES.push({
         }]
       }]);
     }
-    if (esgst.sks_exportKeys) {
-      downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
+    if (this.esgst.sks_exportKeys) {
+      this.esgst.modules.common.downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
     }
-    sks.progress.innerHTML = ``;
-    sks.overallProgress.innerHTML = ``;
-    sks.button.classList.remove(`esgst-busy`);
+    this.sks.progress.innerHTML = ``;
+    this.sks.overallProgress.innerHTML = ``;
+    this.sks.button.classList.remove(`esgst-busy`);
   }
 
-  function sks_cancelSearch(sks) {
-    sks.canceled = true;
-    sks.button.classList.remove(`esgst-busy`);
-    sks.progress.innerHTML = ``;
-    sks.overallProgress.innerHTML = ``;
+  sks_cancelSearch(sks) {
+    this.sks.canceled = true;
+    this.sks.button.classList.remove(`esgst-busy`);
+    this.sks.progress.innerHTML = ``;
+    this.sks.overallProgress.innerHTML = ``;
   }
+}
 
+export default GiveawaysSentKeySearcher;

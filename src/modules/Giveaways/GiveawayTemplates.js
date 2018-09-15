@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayTemplates extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a section 9 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.</li>
@@ -6,27 +10,27 @@ _MODULES.push({
       </ul>
     `,
     id: `gts`,
-    load: gts,
+    load: this.gts,
     name: `Giveaway Templates`,
     sg: true,
     type: `giveaways`
   });
 
-  function gts() {
-    if (!esgst.newGiveawayPath) return;
+  gts() {
+    if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;
-    gts_addButtonSection(createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
+    this.gts_addButtonSection(createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
   }
 
-  function gts_addButtonSection(button, rows) {
+  gts_addButtonSection(button, rows) {
     let createGiveawayButton, delay, endTime, message, preciseEndCheckbox, preciseEndDateCheckbox, preciseEndOption, preciseEndDateOption, preciseStartCheckbox, preciseStartDateCheckbox, preciseStartOption, preciseStartDateOption, reviewButton, section, set, startTime, warning;
     if (!rows) return;
     let gts = {};
-    gts.deletedTemplates = [];
+    this.gts.deletedTemplates = [];
     reviewButton = rows.lastElementChild;
     createGiveawayButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Create Giveaway`, `Creating...`, async callback => {
-      let data = `xsrf_token=${esgst.xsrfToken}&next_step=3&`;
+      let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
       data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
       data += `type=${document.querySelector(`[name="type"]`).value}&`;
       data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
@@ -41,10 +45,10 @@ _MODULES.push({
       data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
       data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
       data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
-      const response = await request({data: data.replace(/start_time=(.+?)&/, mgc_correctTime), method: `POST`, url: `/giveaways/new`});
+      const response = await this.esgst.modules.common.request({data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime), method: `POST`, url: `/giveaways/new`});
       if (response.finalUrl.match(/\/giveaways\/new/)) {
         callback();
-        const errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
+        const errors = utils.parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
         let message = `Unable to create giveaway because of the following errors:\n\n`;
         for (const error of errors) {
           message += `* ${error.textContent.trim()}`;
@@ -55,8 +59,8 @@ _MODULES.push({
       }
     });
     rows.appendChild(createGiveawayButton.set);
-    button.addEventListener(`click`, gts_openPopup.bind(null, gts));
-    section = createElements(reviewButton, `beforeBegin`, [{
+    button.addEventListener(`click`, this.gts_openPopup.bind(null, this.gts));
+    section = this.esgst.modules.common.createElements(reviewButton, `beforeBegin`, [{
       attributes: {
         class: `esgst-form-row`
       },
@@ -116,7 +120,7 @@ _MODULES.push({
           }, {
             attributes: {
               class: `fa fa-question-circle`,
-              title: `With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin at a specific later date, because the template is not reusable after the date has passed.`
+              title: `With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin this.esgst.modules.generalAccurateTimestamp.at a specific later date, because the template is not reusable after the date has passed.`
             },
             type: `i`
           }]
@@ -128,7 +132,7 @@ _MODULES.push({
           }, {
             attributes: {
               class: `fa fa-question-circle`,
-              title: `With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end at a specific later date, because the template is not reusable after the date has passed.`
+              title: `With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end this.esgst.modules.generalAccurateTimestamp.at a specific later date, because the template is not reusable after the date has passed.`
             },
             type: `i`
           }]
@@ -177,28 +181,28 @@ _MODULES.push({
     preciseEndOption = preciseStartOption.nextElementSibling;
     preciseStartDateOption = preciseEndOption.nextElementSibling;
     preciseEndDateOption = preciseStartDateOption.nextElementSibling;
-    gts.input = preciseEndDateOption.nextElementSibling.nextElementSibling;
-    message = gts.input.nextElementSibling;
+    this.gts.input = preciseEndDateOption.nextElementSibling.nextElementSibling;
+    message = this.gts.input.nextElementSibling;
     warning = message.nextElementSibling;
-    preciseStartCheckbox = new Checkbox(preciseStartOption, esgst.gts_preciseStart);
-    preciseEndCheckbox = new Checkbox(preciseEndOption, esgst.gts_preciseEnd);
-    preciseStartDateCheckbox = new Checkbox(preciseStartDateOption, esgst.gts_preciseStartDate);
-    preciseEndDateCheckbox = new Checkbox(preciseEndDateOption, esgst.gts_preciseEndDate);
+    preciseStartCheckbox = new Checkbox(preciseStartOption, this.esgst.gts_preciseStart);
+    preciseEndCheckbox = new Checkbox(preciseEndOption, this.esgst.gts_preciseEnd);
+    preciseStartDateCheckbox = new Checkbox(preciseStartDateOption, this.esgst.gts_preciseStartDate);
+    preciseEndDateCheckbox = new Checkbox(preciseEndDateOption, this.esgst.gts_preciseEndDate);
     preciseStartOption.addEventListener(`click`, () => {
-      setSetting(`gts_preciseStart`, preciseStartCheckbox.input.checked);
-      esgst.gts_preciseStart = preciseStartCheckbox.input.checked;
+      this.esgst.modules.common.setSetting(`gts_preciseStart`, preciseStartCheckbox.input.checked);
+      this.esgst.gts_preciseStart = preciseStartCheckbox.input.checked;
     });
     preciseEndOption.addEventListener(`click`, () => {
-      setSetting(`gts_preciseEnd`, preciseEndCheckbox.input.checked);
-      esgst.gts_preciseEnd = preciseEndCheckbox.input.checked;
+      this.esgst.modules.common.setSetting(`gts_preciseEnd`, preciseEndCheckbox.input.checked);
+      this.esgst.gts_preciseEnd = preciseEndCheckbox.input.checked;
     });
     preciseStartDateOption.addEventListener(`click`, () => {
-      setSetting(`gts_preciseStartDate`, preciseStartDateCheckbox.input.checked);
-      esgst.gts_preciseStartDate = preciseStartDateCheckbox.input.checked;
+      this.esgst.modules.common.setSetting(`gts_preciseStartDate`, preciseStartDateCheckbox.input.checked);
+      this.esgst.gts_preciseStartDate = preciseStartDateCheckbox.input.checked;
     });
     preciseEndDateOption.addEventListener(`click`, () => {
-      setSetting(`gts_preciseEndDate`, preciseEndDateCheckbox.input.checked);
-      esgst.gts_preciseEndDate = preciseEndDateCheckbox.input.checked;
+      this.esgst.modules.common.setSetting(`gts_preciseEndDate`, preciseEndDateCheckbox.input.checked);
+      this.esgst.gts_preciseEndDate = preciseEndDateCheckbox.input.checked;
     });
     set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save Template`, `Saving...`, async callback => {
       let i, n, template, savedTemplates, startDate, endDate;
@@ -220,12 +224,12 @@ _MODULES.push({
           gameType: document.querySelector(`[name="type"]`).value,
           groups: document.querySelector(`[name="group_item_string"]`).value.trim(),
           level: document.querySelector(`[name="contributor_level"]`).value,
-          name: gts.input.value,
+          name: this.gts.input.value,
           region: document.querySelector(`[name="region_restricted"]`).value,
           whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
           whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value,
-          createTrain: esgst.mgc_createTrain,
-          removeLinks: esgst.mgc_removeLinks
+          createTrain: this.esgst.mgc_createTrain,
+          removeLinks: this.esgst.mgc_removeLinks
         };
         if (preciseStartCheckbox.input.checked) {
           template.startTime = startTime;
@@ -247,7 +251,7 @@ _MODULES.push({
             year: endDate.getFullYear()
           };
         }
-        let deleteLock = await createLock(`templateLock`, 300);
+        let deleteLock = await this.esgst.modules.common.createLock(`templateLock`, 300);
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
         for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i);
         if (i < n) {
@@ -309,16 +313,16 @@ _MODULES.push({
     });
   }
 
-  async function gts_openPopup(gts) {
+  async gts_openPopup(gts) {
     let popup = new Popup(`fa-file`, `View/apply templates:`, true);
-    createElements(popup.description, `afterBegin`, [{
+    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
       text: `Drag and drop templates to move them.`,
       type: `div`
     }]);
-    gts.undo = createElements(popup.description, `beforeEnd`, [{
+    this.gts.undo = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-clickable esgst-hidden`
       },
@@ -333,8 +337,8 @@ _MODULES.push({
         type: `span`
       }]
     }]);
-    gts.undo.addEventListener(`click`, gts_undoDelete.bind(null, gts));
-    let templates = createElements(popup.scrollable, `beforeEnd`, [{
+    this.gts.undo.addEventListener(`click`, this.gts_undoDelete.bind(null, this.gts));
+    let templates = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
       },
@@ -419,7 +423,7 @@ _MODULES.push({
         }
       }
       details += `, level ${savedTemplate.level}`;
-      let template = createElements(templates, `beforeEnd`, [{
+      let template = this.esgst.modules.common.createElements(templates, `beforeEnd`, [{
         attributes: {
           draggable: true
         },
@@ -463,66 +467,66 @@ _MODULES.push({
           type: `div`
         }]
       }]);
-      template.addEventListener(`dragstart`, gts_setSource.bind(null, gts, savedTemplate.name, template));
-      template.addEventListener(`dragenter`, gts_getSource.bind(null, gts, template, templates));
-      template.addEventListener(`dragend`, gts_saveSource.bind(null, gts));
-      gts_setTemplate(gts, popup, template, savedTemplate);
+      template.addEventListener(`dragstart`, this.gts_setSource.bind(null, this.gts, savedTemplate.name, template));
+      template.addEventListener(`dragenter`, this.gts_getSource.bind(null, this.gts, template, templates));
+      template.addEventListener(`dragend`, this.gts_saveSource.bind(null, this.gts));
+      this.gts_setTemplate(gts, popup, template, savedTemplate);
     }
     popup.open();
   }
 
-  function gts_setTemplate(gts, popup, template, savedTemplate) {
+  gts_setTemplate(gts, popup, template, savedTemplate) {
     let applyButton = template.firstElementChild,
       deleteButton = applyButton.nextElementSibling;
     applyButton.addEventListener(`click`, () => {
-      gts_applyTemplate(savedTemplate);
-      gts.input.value = savedTemplate.name;
-      gts.edit = true;
+      this.gts_applyTemplate(savedTemplate);
+      this.gts.input.value = savedTemplate.name;
+      this.gts.edit = true;
       popup.close();
     });
     deleteButton.addEventListener(`click`, async () => {
-      createElements(deleteButton, `inner`, [{
+      this.esgst.modules.common.createElements(deleteButton, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
         type: `i`
       }]);
-      let deleteLock = await createLock(`templateLock`, 300),
+      let deleteLock = await this.esgst.modules.common.createLock(`templateLock`, 300),
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`)),
         i = 0;
       for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i);
       savedTemplates.splice(i, 1);
       await setValue(`templates`, JSON.stringify(savedTemplates));
       deleteLock();
-      createElements(deleteButton, `inner`, [{
+      this.esgst.modules.common.createElements(deleteButton, `inner`, [{
         attributes: {
           class: `fa fa-trash`
         },
         type: `i`
       }]);
       template.classList.add(`esgst-hidden`);
-      gts.deletedTemplates.push({
+      this.gts.deletedTemplates.push({
         template: template,
         savedTemplate: savedTemplate
       });
-      gts.undo.classList.remove(`esgst-hidden`);
-      gts.edit = false;
+      this.gts.undo.classList.remove(`esgst-hidden`);
+      this.gts.edit = false;
     });
   }
 
-  async function gts_undoDelete(gts) {
-    let deletedTemplate = gts.deletedTemplates.pop();
+  async gts_undoDelete(gts) {
+    let deletedTemplate = this.gts.deletedTemplates.pop();
     deletedTemplate.template.classList.remove(`esgst-hidden`);
     deletedTemplate.template.parentElement.appendChild(deletedTemplate.template);
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     savedTemplates.push(deletedTemplate.savedTemplate);
     await setValue(`templates`, JSON.stringify(savedTemplates));
     if (gts.deletedTemplates.length === 0) {
-      gts.undo.classList.add(`esgst-hidden`);
+      this.gts.undo.classList.add(`esgst-hidden`);
     }
   }
 
-  function gts_applyTemplate(savedTemplate) {
+  gts_applyTemplate(savedTemplate) {
     let context, countries, currentDate, days, endTime, groups, i, id, j, matches, newEndTime, newStartTime, startTime, selected;
     if (!savedTemplate.gameType) {
       savedTemplate.gameType = `gift`;
@@ -553,9 +557,9 @@ _MODULES.push({
         newEndTime.setDate(newStartTime.getDate() + days);
         newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else if (savedTemplate.startTime) {
         startTime = new Date(savedTemplate.startTime);
         newStartTime = new Date(currentDate.getTime());
@@ -565,9 +569,9 @@ _MODULES.push({
         }
         newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else if (savedTemplate.endTime) {
         endTime = new Date(savedTemplate.endTime);
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
@@ -577,30 +581,30 @@ _MODULES.push({
           newEndTime.setDate(newEndTime.getDate() + 1);
         }
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else {
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
         newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
       if (savedTemplate.startDate) {
         newStartTime.setFullYear(savedTemplate.startDate.year);
         newStartTime.setMonth(savedTemplate.startDate.month);
         newStartTime.setDate(savedTemplate.startDate.day);
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
       }
       if (savedTemplate.endDate) {
         newEndTime.setFullYear(savedTemplate.endDate.year);
         newEndTime.setMonth(savedTemplate.endDate.month);
         newEndTime.setDate(savedTemplate.endDate.day);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
     }
     if (!savedTemplate.region.match(/^(1|0)$/)) {
@@ -671,53 +675,55 @@ _MODULES.push({
     document.getElementsByClassName(`ui-slider-handle`)[0].style.left = `${savedTemplate.level * 10}%`;
     document.querySelector(`[name="contributor_level"]`).value = savedTemplate.level;
     document.querySelector(`[name="description"]`).value = savedTemplate.description;
-    if (esgst.mgc_createTrainSwitch) {
+    if (this.esgst.mgc_createTrainSwitch) {
       if (savedTemplate.createTrain) {
-        esgst.mgc_createTrainSwitch.enable();
+        this.esgst.mgc_createTrainSwitch.enable();
       } else {
-        esgst.mgc_createTrainSwitch.disable();
+        this.esgst.mgc_createTrainSwitch.disable();
       }
     }
-    if (esgst.mgc_removeLinksSwitch) {
+    if (this.esgst.mgc_removeLinksSwitch) {
       if (savedTemplate.removeLinks) {
-        esgst.mgc_removeLinksSwitch.enable();
+        this.esgst.mgc_removeLinksSwitch.enable();
       } else {
-        esgst.mgc_removeLinksSwitch.disable();
+        this.esgst.mgc_removeLinksSwitch.disable();
       }
     }
   }
 
-  async function gts_setSource(gts, name, template, event) {
+  async gts_setSource(gts, name, template, event) {
     let i, n, savedTemplates;
     event.dataTransfer.setData(`text/plain`, ``);
-    gts.source = template;
+    this.gts.source = template;
     savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i);
     if (i < n) {
-      gts.sourceIndex = i;
+      this.gts.sourceIndex = i;
     }
   }
 
-  function gts_getSource(gts, template, templates) {
+  gts_getSource(gts, template, templates) {
     let current, i;
-    current = gts.source;
+    current = this.gts.source;
     i = 0;
     do {
       current = current.previousElementSibling;
       if (current && current === template) {
-        gts.sourceNewIndex = i;
+        this.gts.sourceNewIndex = i;
         templates.insertBefore(gts.source, template);
         return;
       }
       ++i;
     } while (current);
-    gts.sourceNewIndex = i - 1;
+    this.gts.sourceNewIndex = i - 1;
     templates.insertBefore(gts.source, template.nextElementSibling);
   }
 
-  async function gts_saveSource(gts) {
+  async gts_saveSource(gts) {
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     savedTemplates.splice(gts.sourceNewIndex, 0, savedTemplates.splice(gts.sourceIndex, 1)[0]);
     setValue(`templates`, JSON.stringify(savedTemplates));
   }
+}
 
+export default GiveawaysGiveawayTemplates;

@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersUserTags extends Module {
+info = ({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
@@ -17,14 +20,17 @@ _MODULES.push({
     }
   },
   id: `ut`,
-  load: ut,
+  load: this.ut,
   name: `User Tags`,
   sg: true,
   st: true,
   type: `users`
 });
 
-function ut() {
-  esgst.userFeatures.push(tags_addButtons.bind(null, `ut`));
-  tags_getTags(`ut`);
+ut() {
+  this.esgst.userFeatures.push(tags_addButtons.bind(null, `ut`));
+  this.esgst.modules.tags.tags_getTags(`ut`);
 }
+}
+
+export default UsersUserTags;

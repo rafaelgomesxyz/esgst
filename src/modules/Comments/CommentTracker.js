@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class CommentsCommentTracker extends Module {
+info = ({
     description: `
       <ul>
         <li>Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.</li>
@@ -77,33 +81,33 @@ _MODULES.push({
       }
     },
     id: `ct`,
-    load: ct,
+    load: this.ct,
     name: `Comment Tracker`,
     sg: true,
     st: true,
     type: `comments`
   });
 
-  async function ct() {
-    if (((esgst.commentsPath && (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || esgst.inboxPath) && !esgst.ct_s) {
-      if (!esgst.ct_s) {
-        let button3 = createHeadingButton({featureId: `ct`, id: `ctUnread`, icons: [`fa-eye-slash`], title: `Mark all comments in this page as unread`});
-        let button2 = createHeadingButton({featureId: `ct`, id: `ctRead`, icons: [`fa-eye`], title: `Mark all comments in this page as read`});
-        let button1 = createHeadingButton({featureId: `ct`, id: `ctGo`, icons: [`fa-comments-o`], title: `Go to the first unread comment of this page`});
-        ct_addCommentPanel(button1, button2, button3);
+  async ct() {
+    if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || this.esgst.inboxPath) && !this.esgst.ct_s) {
+      if (!this.esgst.ct_s) {
+        let button3 = this.esgst.modules.common.createHeadingButton({featureId: `ct`, id: `ctUnread`, icons: [`fa-eye-slash`], title: `Mark all comments in this page as unread`});
+        let button2 = this.esgst.modules.common.createHeadingButton({featureId: `ct`, id: `ctRead`, icons: [`fa-eye`], title: `Mark all comments in this page as read`});
+        let button1 = this.esgst.modules.common.createHeadingButton({featureId: `ct`, id: `ctGo`, icons: [`fa-comments-o`], title: `Go to the first unread comment of this page`});
+        this.ct_addCommentPanel(button1, button2, button3);
       }
       let match = location.pathname.match(/\/(giveaway|discussion|ticket|trade)\/(.+?)\//);
       if (match) {
         let code, count, diff, comments, element, type;
-        element = esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`).firstElementChild;
+        element = this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`).firstElementChild;
         type = `${match[1]}s`;
         code = match[2];
         comments = JSON.parse(await getValue(type));
         count = parseInt(element.textContent.replace(/,/g, ``).match(/\d+/)[0]);
         if (comments[code]) {
           let id, read;
-          if (esgst.ct_s) {
-            read = comments[code].count || (esgst.ct_s_h ? count : 0);
+          if (this.esgst.ct_s) {
+            read = comments[code].count || (this.esgst.ct_s_h ? count : 0);
           } else {
             read = 0;
             for (id in comments[code].readComments) {
@@ -113,15 +117,15 @@ _MODULES.push({
             }
           }
           diff = count === read ? 0 : count - read;
-        } else if (esgst.ct_s && esgst.ct_s_h) {
+        } else if (this.esgst.ct_s && this.esgst.ct_s_h) {
           diff = 0;
         } else {
           diff = count;
         }
-        createElements(element, `beforeEnd`, [{
+        this.esgst.modules.common.createElements(element, `beforeEnd`, [{
           attributes: {
             class: `esgst-ct-count`,
-            title: getFeatureTooltip(`ct`, `Unread comments`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Unread comments`)
           },
           text: ` (+${diff})`,
           type: `span`
@@ -130,15 +134,15 @@ _MODULES.push({
     }
   }
 
-  async function ct_addDiscussionPanels(context, main, source, endless, dh) {
+  async ct_addDiscussionPanels(context, main, source, endless, this.esgst.modules.discussionsDiscussionHighlighter.dh) {
     let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
     matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);
     if (!matches.length) return;
-    if (esgst.discussionsPath || dh) {
+    if (this.esgst.discussionsPath || this.esgst.modules.discussionsDiscussionHighlighter.dh) {
       key = `discussions`;
-    } else if (esgst.ticketsPath) {
+    } else if (this.esgst.ticketsPath) {
       key = `tickets`;
-    } else if (esgst.tradesPath) {
+    } else if (this.esgst.tradesPath) {
       key = `trades`;
     } else {
       key = `discussions`;
@@ -155,13 +159,13 @@ _MODULES.push({
           code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
           if (code) {
             code = code[1];
-            if (esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
-              ust_addCheckbox(code, match);
+            if (this.esgst.ust && key === `tickets` && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
+              this.esgst.modules.usersUserSuspensionTracker.ust_addCheckbox(code, match);
             }
-            if (esgst.gdttt || esgst.ct) {
+            if (this.esgst.gdttt || this.esgst.ct) {
               if (comments[code]) {
-                if (esgst.ct_s) {
-                  read = comments[code].count || (esgst.ct_s_h ? count : 0);
+                if (this.esgst.ct_s) {
+                  read = comments[code].count || (this.esgst.ct_s_h ? count : 0);
                 } else {
                   read = 0;
                   for (id in comments[code].readComments) {
@@ -171,47 +175,47 @@ _MODULES.push({
                   }
                 }
                 diff = count === read ? 0 : count - read;
-              } else if (esgst.ct_s && esgst.ct_s_h) {
+              } else if (this.esgst.ct_s && this.esgst.ct_s_h) {
                 diff = 0;
               } else {
                 diff = count;
               }
               let discussion = null;
-              for (j = esgst.mainDiscussions.length - 1; j > -1 && esgst.mainDiscussions[j].code !== code; --j);
+              for (j = this.esgst.mainDiscussions.length - 1; j > -1 && this.esgst.mainDiscussions[j].code !== code; --j);
                 if (j > -1) {
-                discussion = esgst.mainDiscussions[j];
+                discussion = this.esgst.mainDiscussions[j];
                 }
               if (key === `discussions` && diff > 0 && discussion) {
                 discussion.unread = true;
               }
-              ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh, discussion);
+              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, this.esgst.modules.discussionsDiscussionHighlighter.dh, discussion);
             }
           }
         }
       }
     }
-    if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-      filters_filter(esgst.df, false, endless);
+    if (this.esgst.df && this.esgst.df.filteredCount && this.esgst[`df_enable${this.esgst.df.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.df, false, endless);
     }
-    if (esgst.ustButton) {
-      if (esgst.numUstTickets > 0) {
-        esgst.ustButton.classList.remove(`esgst-hidden`);
+    if (this.esgst.ustButton) {
+      if (this.esgst.numUstTickets > 0) {
+        this.esgst.ustButton.classList.remove(`esgst-hidden`);
       } else {
-        esgst.ustButton.classList.add(`esgst-hidden`);
+        this.esgst.ustButton.classList.add(`esgst-hidden`);
       }
     }
   }
 
-  async function ct_getComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
+  async ct_getComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
     let found = false;
     if (goToUnread) {
-      found = await ct_checkComments(count, comments, index, true, false, false, endless);
+      found = await this.ct_checkComments(count, comments, index, true, false, false, endless);
     } else {
       let deleteLock;
       if (!endless) {
-        deleteLock = await createLock(`commentLock`, 300);
+        deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
       }
-      found = await ct_checkComments(count, comments, index, false, markRead, markUnread, endless);
+      found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread, endless);
       if (deleteLock) {
         deleteLock();
       }
@@ -219,20 +223,20 @@ _MODULES.push({
     return found;
   }
 
-  async function ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
+  async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
     let code, comment, found, i, n, saved, source, type, unread;
-    esgst.ctGoToUnread = false;
+    this.esgst.ctGoToUnread = false;
     let values;
     if (endless) {
-      if (esgst.sg) {
+      if (this.esgst.sg) {
         saved = {
-          giveaways: esgst.giveaways,
-          discussions: esgst.discussions,
-          tickets: esgst.tickets
+          giveaways: this.esgst.giveaways,
+          discussions: this.esgst.discussions,
+          tickets: this.esgst.tickets
         };
       } else {
         saved = {
-          trades: esgst.trades
+          trades: this.esgst.trades
         };
       }
     } else {
@@ -242,7 +246,7 @@ _MODULES.push({
         tickets: `{}`,
         trades: `{}`
       });
-      if (esgst.sg) {
+      if (this.esgst.sg) {
         saved = {
           giveaways: JSON.parse(values.giveaways),
           discussions: JSON.parse(values.discussions),
@@ -270,7 +274,7 @@ _MODULES.push({
           if (count > 0) {
             saved[comment.type][comment.code].count = count;
           }
-          if (esgst.gdttt && esgst[`gdttt_v${{
+          if (this.esgst.gdttt && this.esgst[`gdttt_v${{
             giveaways: `g`,
             discussions: `d`,
             tickets: `t`,
@@ -280,51 +284,51 @@ _MODULES.push({
             let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
             if (cache[comment.type].indexOf(comment.code) < 0) {
               cache[comment.type].push(comment.code);
-              setLocalValue(`gdtttCache`, JSON.stringify(cache));
+              this.esgst.modules.common.setLocalValue(`gdtttCache`, JSON.stringify(cache));
             }
           }
           saved[comment.type][comment.code].lastUsed = Date.now();
-          esgst.edited[comment.type] = true;
-          if (!esgst.ct_s) {
+          this.esgst.edited[comment.type] = true;
+          if (!this.esgst.ct_s) {
             let buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
-            if (comment.author === esgst.username) {
-              if (esgst.ct_c) {
+            if (comment.author === this.esgst.username) {
+              if (this.esgst.ct_c) {
                 if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
                   if (markRead) {
-                    ct_markCommentRead(comment, saved);
-                    ct_addUnreadCommentButton(buttons[0], comment);
+                    this.ct_markCommentRead(comment, saved);
+                    this.ct_addUnreadCommentButton(buttons[0], comment);
                   } else {
-                    ct_markCommentUnread(comment, saved);
-                    ct_addReadCommentButton(buttons[0], comment);
+                    this.ct_markCommentUnread(comment, saved);
+                    this.ct_addReadCommentButton(buttons[0], comment);
                   }
                 } else {
                   if (markUnread) {
-                    ct_markCommentUnread(comment, saved);
-                    ct_addReadCommentButton(buttons[0], comment);
+                    this.ct_markCommentUnread(comment, saved);
+                    this.ct_addReadCommentButton(buttons[0], comment);
                   } else {
-                    ct_markCommentRead(comment, saved);
-                    ct_addUnreadCommentButton(buttons[0], comment);
+                    this.ct_markCommentRead(comment, saved);
+                    this.ct_addUnreadCommentButton(buttons[0], comment);
                   }
                 }
-                ct_addReadUntilHereButton(buttons[1], comment);
-                ct_addUnreadUntilHereButton(buttons[2], comment);
+                this.ct_addReadUntilHereButton(buttons[1], comment);
+                this.ct_addUnreadUntilHereButton(buttons[2], comment);
               }
-              if (esgst.ct_o) {
-                ct_markCommentRead(comment, saved);
-                if (esgst.ct_c) {
-                  ct_addUnreadCommentButton(buttons[0], comment);
+              if (this.esgst.ct_o) {
+                this.ct_markCommentRead(comment, saved);
+                if (this.esgst.ct_c) {
+                  this.ct_addUnreadCommentButton(buttons[0], comment);
                 }
               }
             } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-              if (goToUnread && (!esgst.ctGoToUnread || ((((esgst.ct_r && !esgst.cr) || (!esgst.ct_r && esgst.cr)) && comment.comment.offsetTop <  scrollY + esgst.commentsTop) || (((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr)) && comment.comment.offsetTop >  scrollY + esgst.commentsTop)))) {
-                esgst.ctGoToUnread = true;
-                if ((esgst.discussionPath && ((!esgst.ct_r && !esgst.cr) || (esgst.ct_r && esgst.cr))) || (!esgst.discussionPath && !esgst.ct_r)) {
+              if (goToUnread && (!this.esgst.ctGoToUnread || ((((this.esgst.ct_r && !this.esgst.cr) || (!this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop <  scrollY + this.esgst.commentsTop) || (((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop >  scrollY + this.esgst.commentsTop)))) {
+                this.esgst.ctGoToUnread = true;
+                if ((this.esgst.discussionPath && ((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr))) || (!this.esgst.discussionPath && !this.esgst.ct_r)) {
                   unread = comment;
                   found = true;
                 } else {
-                  if (esgst.discussionsPath) {
-                    esgst.ctUnreadFound = true;
-                    if (!esgst.ctNewTab && esgst.sto) {
+                  if (this.esgst.discussionsPath) {
+                    this.esgst.ctUnreadFound = true;
+                    if (!this.esgst.ctNewTab && this.esgst.sto) {
                       if (comment.id) {
                         location.href = `/go/comment/${comment.id}`;
                       } else {
@@ -338,41 +342,41 @@ _MODULES.push({
                       }
                     }
                   } else {
-                    goToComment(comment.id, comment.comment);
+                    this.esgst.modules.common.goToComment(comment.id, comment.comment);
                   }
                   found = true;
                   break;
                 }
               } else {
                 if (markRead) {
-                  ct_markCommentRead(comment, saved);
-                  ct_addUnreadCommentButton(buttons[0], comment);
+                  this.ct_markCommentRead(comment, saved);
+                  this.ct_addUnreadCommentButton(buttons[0], comment);
                 } else {
-                  ct_markCommentUnread(comment, saved);
-                  ct_addReadCommentButton(buttons[0], comment);
+                  this.ct_markCommentUnread(comment, saved);
+                  this.ct_addReadCommentButton(buttons[0], comment);
                 }
-                ct_addReadUntilHereButton(buttons[1], comment);
-                ct_addUnreadUntilHereButton(buttons[2], comment);
+                this.ct_addReadUntilHereButton(buttons[1], comment);
+                this.ct_addUnreadUntilHereButton(buttons[2], comment);
               }
             } else {
               if (markUnread) {
-                ct_markCommentUnread(comment, saved);
-                ct_addReadCommentButton(buttons[0], comment);
+                this.ct_markCommentUnread(comment, saved);
+                this.ct_addReadCommentButton(buttons[0], comment);
               } else {
-                ct_markCommentRead(comment, saved);
-                ct_addUnreadCommentButton(buttons[0], comment);
+                this.ct_markCommentRead(comment, saved);
+                this.ct_addUnreadCommentButton(buttons[0], comment);
               }
-              ct_addReadUntilHereButton(buttons[1], comment);
-              ct_addUnreadUntilHereButton(buttons[2], comment);
+              this.ct_addReadUntilHereButton(buttons[1], comment);
+              this.ct_addUnreadUntilHereButton(buttons[2], comment);
             }
           }
         }
       }
-      if (!esgst.ct_s && goToUnread) {
+      if (!this.esgst.ct_s && goToUnread) {
         if (unread) {
-          if (esgst.discussionsPath) {
-            esgst.ctUnreadFound = true;
-            if (!esgst.ctNewTab && esgst.sto) {
+          if (this.esgst.discussionsPath) {
+            this.esgst.ctUnreadFound = true;
+            if (!this.esgst.ctNewTab && this.esgst.sto) {
               if (unread.id) {
                 location.href = `/go/comment/${unread.id}`;
               } else {
@@ -386,11 +390,11 @@ _MODULES.push({
               }
             }
           } else {
-            goToComment(unread.id, unread.comment);
+            this.esgst.modules.common.goToComment(unread.id, unread.comment);
           }
         }
       } else if (!endless) {
-        if (esgst.sg) {
+        if (this.esgst.sg) {
           await setValues({
             giveaways: JSON.stringify(saved.giveaways),
             discussions: JSON.stringify(saved.discussions),
@@ -415,9 +419,9 @@ _MODULES.push({
           saved[type][code].count = count;
         }
         saved[type][code].lastUsed = Date.now();
-        esgst.edited[type] = true;
+        this.esgst.edited[type] = true;
         if (!endless) {
-          if (esgst.sg) {
+          if (this.esgst.sg) {
             await setValues({
               giveaways: JSON.stringify(saved.giveaways),
               discussions: JSON.stringify(saved.discussions),
@@ -432,77 +436,77 @@ _MODULES.push({
     return found;
   }
 
-  async function ct_markCommentRead(comment, comments, save) {
+  async ct_markCommentRead(comment, comments, save) {
     let count;
     if (save) {
-      let deleteLock = await createLock(`commentLock`, 300);
+      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
       comments = JSON.parse(await getValue(comment.type));
-      if (comment.id && !comments[comment.code].readComments[comment.id] && esgst.commentsPath) {
+      if (comment.id && !comments[comment.code].readComments[comment.id] && this.esgst.commentsPath) {
         count = document.getElementsByClassName(`esgst-ct-count`)[0];
         count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) - 1})`;
       }
       comments[comment.code].readComments[comment.id] = comment.timestamp;
       await setValue(comment.type, JSON.stringify(comments));
       deleteLock();
-      if (esgst.ct_f) {
+      if (this.esgst.ct_f) {
         comment.comment.classList.add(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `0.5`;
-        setHoverOpacity(comment.comment, `1`, `0.5`);
+        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `0.5`);
       }
     } else {
       if (comments) {
-        if (comment.id && !comments[comment.type][comment.code].readComments[comment.id] && esgst.commentsPath) {
+        if (comment.id && !comments[comment.type][comment.code].readComments[comment.id] && this.esgst.commentsPath) {
           count = document.getElementsByClassName(`esgst-ct-count`)[0];
           count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) - 1})`;
         }
         comments[comment.type][comment.code].readComments[comment.id] = comment.timestamp;
       }
-      if (esgst.ct_f) {
+      if (this.esgst.ct_f) {
         comment.comment.classList.add(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `0.5`;
-        setHoverOpacity(comment.comment, `1`, `0.5`);
+        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `0.5`);
       }
     }
   }
 
-  async function ct_markCommentUnread(comment, comments, save) {
+  async ct_markCommentUnread(comment, comments, save) {
     let count;
     if (save) {
-      let deleteLock = await createLock(`commentLock`, 300);
+      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
       comments = JSON.parse(await getValue(comment.type));
       if (comments[comment.code].readComments[comment.id]) {
         delete comments[comment.code].readComments[comment.id];
-        if (comment.id && esgst.commentsPath) {
+        if (comment.id && this.esgst.commentsPath) {
           count = document.getElementsByClassName(`esgst-ct-count`)[0];
           count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) + 1})`;
         }
       }
       await setValue(comment.type, JSON.stringify(comments));
       deleteLock();
-      if (esgst.ct_f) {
+      if (this.esgst.ct_f) {
         comment.comment.classList.remove(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `1`;
-        setHoverOpacity(comment.comment, `1`, `1`);
+        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `1`);
       }
     } else {
       if (comments && comments[comment.type][comment.code].readComments[comment.id]) {
-        if (comment.id && esgst.commentsPath) {
+        if (comment.id && this.esgst.commentsPath) {
           count = document.getElementsByClassName(`esgst-ct-count`)[0];
           count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) + 1})`;
         }
         delete comments[comment.type][comment.code].readComments[comment.id];
       }
-      if (esgst.ct_f) {
+      if (this.esgst.ct_f) {
         comment.comment.classList.remove(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `1`;
-        setHoverOpacity(comment.comment, `1`, `1`);
+        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `1`);
       }
     }
   }
 
-  function ct_addReadUntilHereButton(button, comment) {
+  ct_addReadUntilHereButton(button, comment) {
     if (!button) {
-      button = createElements(comment.actions, `beforeEnd`, [{
+      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`,
           title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}`
@@ -510,7 +514,7 @@ _MODULES.push({
         type: `div`
       }]);
     }
-    createElements(button, `inner`, [{
+    this.esgst.modules.common.createElements(button, `inner`, [{
       type: `span`,
       children: [{
         attributes: {
@@ -524,23 +528,23 @@ _MODULES.push({
         type: `i`
       }]
     }]);
-    button.firstElementChild.addEventListener(`click`, ct_readUntilHere.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_readUntilHere.bind(null, button, comment));
   }
 
-  async function ct_readUntilHere(button, comment) {
-    createElements(button, `inner`, [{
+  async ct_readUntilHere(button, comment) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_getComments(0, esgst.mainComments, comment.index, false, true, false);
-    ct_addReadUntilHereButton(button, comment);
+    await this.ct_getComments(0, this.esgst.mainComments, comment.index, false, true, false);
+    this.ct_addReadUntilHereButton(button, comment);
   }
 
-  function ct_addUnreadUntilHereButton(button, comment) {
+  ct_addUnreadUntilHereButton(button, comment) {
     if (!button) {
-      button = createElements(comment.actions, `beforeEnd`, [{
+      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`,
           title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}`
@@ -548,7 +552,7 @@ _MODULES.push({
         type: `div`
       }]);
     }
-    createElements(button, `inner`, [{
+    this.esgst.modules.common.createElements(button, `inner`, [{
       type: `span`,
       children: [{
         attributes: {
@@ -562,38 +566,38 @@ _MODULES.push({
         type: `i`
       }]
     }]);
-    button.firstElementChild.addEventListener(`click`, ct_unreadUntilHere.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_unreadUntilHere.bind(null, button, comment));
   }
 
-  async function ct_unreadUntilHere(button, comment) {
-    createElements(button, `inner`, [{
+  async ct_unreadUntilHere(button, comment) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_getComments(0, esgst.mainComments, comment.index, false, false, true);
-    ct_addUnreadUntilHereButton(button, comment);
+    await this.ct_getComments(0, this.esgst.mainComments, comment.index, false, false, true);
+    this.ct_addUnreadUntilHereButton(button, comment);
   }
 
-  function ct_addReadCommentButton(button, comment) {
+  ct_addReadCommentButton(button, comment) {
     if (!button) {
-      button = createElements(comment.actions, `beforeEnd`, [{
+      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`
         },
         type: `div`
       }]);
     }
-    createElements(button, `inner`, [{
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-eye`,
-        title: getFeatureTooltip(`ct`, `Mark this comment as read`)
+        title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark this comment as read`)
       },
       type: `i`
     }, {
       attributes: {
-        title: getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)
+        title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)
       },
       type: `span`,
       children: [{
@@ -608,76 +612,76 @@ _MODULES.push({
         type: `i`
       }]
     }]);
-    button.firstElementChild.addEventListener(`click`, ct_readComment.bind(null, button, comment));
-    button.lastElementChild.addEventListener(`click`, ct_readCommentAndGo.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_readComment.bind(null, button, comment));
+    button.lastElementChild.addEventListener(`click`, this.ct_readCommentAndGo.bind(null, button, comment));
   }
 
-  async function ct_readComment(button, comment) {
-    createElements(button, `inner`, [{
+  async ct_readComment(button, comment) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_markCommentRead(comment, null, true);
+    await this.ct_markCommentRead(comment, null, true);
     button.innerHTML = ``;
-    ct_addUnreadCommentButton(button, comment);
+    this.ct_addUnreadCommentButton(button, comment);
   }
 
-  async function ct_readCommentAndGo(button, comment) {
-    createElements(button, `inner`, [{
+  async ct_readCommentAndGo(button, comment) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_markCommentRead(comment, null, true);
+    await this.ct_markCommentRead(comment, null, true);
     button.innerHTML = ``;
-    ct_addUnreadCommentButton(button, comment);
-    ct_getComments(0, esgst.mainComments, null, true);
+    this.ct_addUnreadCommentButton(button, comment);
+    this.ct_getComments(0, this.esgst.mainComments, null, true);
   }
 
-  function ct_addUnreadCommentButton(button, comment) {
+  ct_addUnreadCommentButton(button, comment) {
     if (!button) {
-      button = createElements(comment.actions, `beforeEnd`, [{
+      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`
         },
         type: `div`
       }]);
     }
-    createElements(button, `inner`, [{
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-eye-slash`,
         title: `${getFeatureTooltip(`ct`, `Mark comment as unread`)}`
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, ct_unreadComment.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_unreadComment.bind(null, button, comment));
   }
 
-  async function ct_unreadComment(button, comment) {
-    createElements(button, `inner`, [{
+  async ct_unreadComment(button, comment) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_markCommentUnread(comment, null, true);
+    await this.ct_markCommentUnread(comment, null, true);
     button.innerHTML = ``;
-    ct_addReadCommentButton(button, comment);
+    this.ct_addReadCommentButton(button, comment);
   }
 
-  function ct_addCommentPanel(goToUnread, markRead, markUnread) {
+  ct_addCommentPanel(goToUnread, markRead, markUnread) {
     let button, key, newButton, url;
-    goToUnread.addEventListener(`click`, ct_goToUnread.bind(null, goToUnread));
-    markRead.addEventListener(`click`, ct_markCommentsRead.bind(null, markRead));
-    markUnread.addEventListener(`click`, ct_markCommentsUnread.bind(null, markUnread));
-    if (esgst.ct_a && esgst.inboxPath) {
+    goToUnread.addEventListener(`click`, this.ct_goToUnread.bind(null, goToUnread));
+    markRead.addEventListener(`click`, this.ct_markCommentsRead.bind(null, markRead));
+    markUnread.addEventListener(`click`, this.ct_markCommentsUnread.bind(null, markUnread));
+    if (this.esgst.ct_a && this.esgst.inboxPath) {
       button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
       if (button) {
-        if (esgst.sg) {
-          newButton = createElements(button, `afterEnd`, [{
+        if (this.esgst.sg) {
+          newButton = this.esgst.modules.common.createElements(button, `afterEnd`, [{
             attributes: {
               class: `sidebar__action-button`
             },
@@ -695,7 +699,7 @@ _MODULES.push({
           key = `read_messages`;
           url = `/messages`;
         } else {
-          newButton = createElements(button, `afterEnd`, [{
+          newButton = this.esgst.modules.common.createElements(button, `afterEnd`, [{
             attributes: {
               class: `page_heading_btn green`
             },
@@ -714,18 +718,18 @@ _MODULES.push({
           url = `/ajax.php`;
         }
         button.remove();
-        newButton.addEventListener(`click`, ct_markMessagesRead.bind(null, key, markRead, url));
+        newButton.addEventListener(`click`, this.ct_markMessagesRead.bind(null, key, markRead, url));
       }
     }
   }
 
-  async function ct_markMessagesRead(key, markRead, url, event) {
-    await request({data: `xsrf_token=${esgst.xsrfToken}&do=${key}`, method: `POST`, url});
-    await ct_markCommentsRead(markRead);
-    ct_completeInboxRead(event.currentTarget);
+  async ct_markMessagesRead(key, markRead, url, event) {
+    await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url});
+    await this.ct_markCommentsRead(markRead);
+    this.ct_completeInboxRead(event.currentTarget);
   }
 
-  function ct_completeInboxRead(newButton) {
+  ct_completeInboxRead(newButton) {
     let elements, i, n;
     elements = document.querySelectorAll(`.comment__envelope, .comment_unread`);
     for (i = 0, n = elements.length; i < n; ++i) {
@@ -734,34 +738,34 @@ _MODULES.push({
     newButton.remove();
   }
 
-  async function ct_goToUnread(goToUnread) {
-    createElements(goToUnread, `inner`, [{
+  async ct_goToUnread(goToUnread) {
+    this.esgst.modules.common.createElements(goToUnread, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    const found = await ct_getComments(0, esgst.mainComments, null, true, false, false);
-    createElements(goToUnread, `inner`, [{
+    const found = await this.ct_getComments(0, this.esgst.mainComments, null, true, false, false);
+    this.esgst.modules.common.createElements(goToUnread, `inner`, [{
       attributes: {
         class: `fa fa-comments-o`
       },
       type: `i`
     }]);
     if (!found) {
-      createAlert(`No unread comments were found.`);
+      this.esgst.modules.common.createAlert(`No unread comments were found.`);
     }
   }
 
-  async function ct_markCommentsRead(markRead) {
-    createElements(markRead, `inner`, [{
+  async ct_markCommentsRead(markRead) {
+    this.esgst.modules.common.createElements(markRead, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_getComments(0, esgst.mainComments, null, false, true, false);
-    createElements(markRead, `inner`, [{
+    await this.ct_getComments(0, this.esgst.mainComments, null, false, true, false);
+    this.esgst.modules.common.createElements(markRead, `inner`, [{
       attributes: {
         class: `fa fa-eye`
       },
@@ -769,15 +773,15 @@ _MODULES.push({
     }]);
   }
 
-  async function ct_markCommentsUnread(markUnread) {
-    createElements(markUnread, `inner`, [{
+  async ct_markCommentsUnread(markUnread) {
+    this.esgst.modules.common.createElements(markUnread, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    await ct_getComments(0, esgst.mainComments, null, false, false, true);
-    createElements(markUnread, `inner`, [{
+    await this.ct_getComments(0, this.esgst.mainComments, null, false, false, true);
+    this.esgst.modules.common.createElements(markUnread, `inner`, [{
       attributes: {
         class: `fa fa-eye-slash`
       },
@@ -785,12 +789,12 @@ _MODULES.push({
     }]);
   }
 
-  function ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion) {
+  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, this.esgst.modules.discussionsDiscussionHighlighter.dh, discussion) {
     const obj = {
       code,
       count,
       diff,
-      panel: createElements(context, esgst.giveawaysPath && !esgst.oadd ? `afterEnd` : `beforeEnd`, [{
+      panel: this.esgst.modules.common.createElements(context, this.esgst.giveawaysPath && !this.esgst.oadd ? `afterEnd` : `beforeEnd`, [{
         type: `span`,
         children: [{
           attributes: {
@@ -802,7 +806,7 @@ _MODULES.push({
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)
           },
           type: `div`,
           children: [{
@@ -814,7 +818,7 @@ _MODULES.push({
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)
           },
           type: `div`,
           children: [{
@@ -826,7 +830,7 @@ _MODULES.push({
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)
           },
           type: `div`,
           children: [{
@@ -838,7 +842,7 @@ _MODULES.push({
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)
           },
           type: `div`,
           children: [{
@@ -862,9 +866,9 @@ _MODULES.push({
     obj.markUnread = obj.markRead.nextElementSibling;
     obj.clean = obj.markUnread.nextElementSibling;
     obj.loadingIcon = obj.clean.nextElementSibling;
-    if (esgst.gdttt) {
+    if (this.esgst.gdttt) {
       const button = new Button(obj.panel, `beforeEnd`, {
-        callbacks: [gdttt_markVisited.bind(null, code, container, count, obj.diffContainer, type), null, gdttt_markUnvisited.bind(null, code, container, count, obj.diffContainer, type), null],
+        callbacks: [gdttt_markVisited.bind(null, code, container, count, obj.diffContainer, type), null, this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markUnvisited.bind(null, code, container, count, obj.diffContainer, type), null],
         className: `esgst-gdttt-button`,
         icons: [`fa-check esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-times esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `gdttt`,
@@ -876,8 +880,8 @@ _MODULES.push({
         discussion.count = count;
       }
     }
-    if (esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath || dh)) {
-      if (esgst.ct_s) {
+    if (this.esgst.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.modules.discussionsDiscussionHighlighter.dh)) {
+      if (this.esgst.ct_s) {
         if (diff > 0) {
           obj.diffContainer.classList.remove(`esgst-hidden`);
         }
@@ -895,19 +899,19 @@ _MODULES.push({
         obj.clean.classList.remove(`esgst-hidden`);
       }
     }
-    obj.goToUnread.addEventListener(`mousedown`, ct_goToUnreadPanel.bind(null, obj));
-    obj.markRead.addEventListener(`click`, ct_markReadPanel.bind(null, obj));
-    obj.markUnread.addEventListener(`click`, ct_markUnreadPanel.bind(null, obj));
-    obj.clean.addEventListener(`click`, ct_clean.bind(null, obj));
+    obj.goToUnread.addEventListener(`mousedown`, this.ct_goToUnreadPanel.bind(null, obj));
+    obj.markRead.addEventListener(`click`, this.ct_markReadPanel.bind(null, obj));
+    obj.markUnread.addEventListener(`click`, this.ct_markUnreadPanel.bind(null, obj));
+    obj.clean.addEventListener(`click`, this.ct_clean.bind(null, obj));
   }
 
-  async function ct_clean(obj) {
+  async ct_clean(obj) {
     obj.clean.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.add(`esgst-hidden`);
     obj.markRead.classList.add(`esgst-hidden`);
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
-    await ct_markCommentsReadUnread(false, false, false, obj.code, `${obj.url}/search?page=`);
+    await this.ct_markCommentsReadUnread(false, false, false, obj.code, `${obj.url}/search?page=`);
     obj.loadingIcon.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.remove(`esgst-hidden`);
     obj.markRead.classList.remove(`esgst-hidden`);
@@ -917,11 +921,11 @@ _MODULES.push({
     }
   }
 
-  async function ct_goToUnreadPanel(obj, event) {
-    esgst.ctNewTab = false;
+  async ct_goToUnreadPanel(obj, event) {
+    this.esgst.ctNewTab = false;
     if (event.button === 1) {
       event.preventDefault();
-      esgst.ctNewTab = true;
+      this.esgst.ctNewTab = true;
     } else if (event.button === 2) {
       return;
     }
@@ -930,8 +934,8 @@ _MODULES.push({
     obj.markRead.classList.add(`esgst-hidden`);
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
-    esgst.ctUnreadFound = false;
-    await ct_markCommentsReadUnread(true, false, false, null, `${obj.url}/search?page=`);
+    this.esgst.ctUnreadFound = false;
+    await this.ct_markCommentsReadUnread(true, false, false, null, `${obj.url}/search?page=`);
     obj.loadingIcon.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.remove(`esgst-hidden`);
     obj.markRead.classList.remove(`esgst-hidden`);
@@ -941,26 +945,26 @@ _MODULES.push({
     }
   }
 
-  async function ct_markReadPanel(obj) {
+  async ct_markReadPanel(obj) {
     obj.clean.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.add(`esgst-hidden`);
     obj.markRead.classList.add(`esgst-hidden`);
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
-    await ct_markCommentsReadUnread(false, true, false, null, `${obj.url}/search?page=`);
+    await this.ct_markCommentsReadUnread(false, true, false, null, `${obj.url}/search?page=`);
     obj.loadingIcon.classList.add(`esgst-hidden`);
     obj.diffContainer.classList.add(`esgst-hidden`);
     obj.markUnread.classList.remove(`esgst-hidden`);
     obj.clean.classList.remove(`esgst-hidden`);
   }
 
-  async function ct_markUnreadPanel(obj) {
+  async ct_markUnreadPanel(obj) {
     obj.clean.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.add(`esgst-hidden`);
     obj.markRead.classList.add(`esgst-hidden`);
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
-    const deleteLock = await createLock(`commentLock`, 300);
+    const deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
     const comments = JSON.parse(await getValue(`discussions`));
     for (const key in comments[obj.code].readComments) {
       delete comments[obj.code].readComments[key];
@@ -976,7 +980,7 @@ _MODULES.push({
     obj.clean.classList.remove(`esgst-hidden`);
   }
 
-  async function ct_markCommentsReadUnread(goToUnread, markRead, markUnread, code, url) {
+  async ct_markCommentsReadUnread(goToUnread, markRead, markUnread, code, url) {
     let firstRun = true;
     let lastPageMissing = false;
     let nextPage = 1;
@@ -989,7 +993,7 @@ _MODULES.push({
       }
     }
     while (true) {
-      const context = parseHtml((await request({
+      const context = utils.parseHtml((await this.esgst.modules.common.request({
         method: `GET`,
         queue: true,
         url: `${url}${nextPage}`
@@ -1000,17 +1004,17 @@ _MODULES.push({
           comments.push(element.getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1]);
         }
       } else {
-        await ct_getComments(0, await comments_get(context, context, true), null, goToUnread, markRead, markUnread);
+        await this.ct_getComments(0, await this.esgst.modules.comments.comments_get(context, context, true), null, goToUnread, markRead, markUnread);
       }
 
-      if (goToUnread && esgst.ctUnreadFound) break;
+      if (goToUnread && this.esgst.ctUnreadFound) break;
 
       nextPage += 1;
       const pagination = context.getElementsByClassName(`pagination__navigation`)[0];
 
-      if (!pagination || ((!goToUnread || ((!esgst.ct_r || nextPage <= 1) && (esgst.ct_r || pagination.lastElementChild.classList.contains(`is-selected`)))) && (goToUnread || pagination.lastElementChild.classList.contains(`is-selected`)))) break;
+      if (!pagination || ((!goToUnread || ((!this.esgst.ct_r || nextPage <= 1) && (this.esgst.ct_r || pagination.lastElementChild.classList.contains(`is-selected`)))) && (goToUnread || pagination.lastElementChild.classList.contains(`is-selected`)))) break;
 
-      if (!goToUnread || !esgst.ct_r) continue;
+      if (!goToUnread || !this.esgst.ct_r) continue;
 
       if (firstRun) {
         firstRun = !firstRun;
@@ -1037,7 +1041,9 @@ _MODULES.push({
           delete discussion.readComments[id];
         }
       }
-      await lockAndSaveDiscussions({[code]: discussion});
+      await this.esgst.modules.common.lockAndSaveDiscussions({[code]: discussion});
     }
   }
-  
+}
+
+export default CommentsCommentTracker;

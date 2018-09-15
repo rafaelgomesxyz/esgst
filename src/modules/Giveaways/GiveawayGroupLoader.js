@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayGroupLoader extends Module {
+info = ({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the group icon (<i class="fa fa-user"></i>) of a giveaway (in any page) it shows the groups that the giveaway is for. There is also an option to automatically load the groups on page load and show them below the giveaway (which also works in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is enabled).</li>
@@ -12,38 +16,38 @@ _MODULES.push({
       }
     },
     id: `ggl`,
-    load: ggl,
+    load: this.ggl,
     name: `Giveaway Group Loader`,
     options: {
       title: `Load as:`,
       values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
     },
     sg: true,
-    sync: `Steam Groups`,
+    this.esgst.modules.common.sync: `Steam Groups`,
     type: `giveaways`
   });
 
-  function ggl() {
-    esgst.giveawayFeatures.push(
-      esgst.ggl_index === 0 ?
-      ggl_getGiveaways :
-      ggl_setButtons
+  ggl() {
+    this.esgst.giveawayFeatures.push(
+      this.esgst.ggl_index === 0 ?
+      this.ggl_getGiveaways :
+      this.ggl_setButtons
     );
   }
 
-  function ggl_setButtons(giveaways, main) {
+  ggl_setButtons(giveaways, main) {
     let i, n;
-    if ((main && !esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || !main) {
+    if ((main && !this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) || !main) {
       for (i = 0, n = giveaways.length; i < n; ++i) {
-        ggl_setButton(giveaways[i]);
+        this.ggl_setButton(giveaways[i]);
       }
     }
   }
 
-  function ggl_setButton(giveaway) {
-    let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways, savedGroups, timeout;
+  ggl_setButton(giveaway) {
+    let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways, savedGroups, this.esgst.modules.common.timeout;
     if (giveaway.group) {
-      switch (esgst.ggl_index) {
+      switch (this.esgst.ggl_index) {
         case 1:
           eventType = `mouseenter`;
           onClick = false;
@@ -51,7 +55,7 @@ _MODULES.push({
           giveaway.group.addEventListener(`mouseleave`, event => {
             if (timeout) {
               clearTimeout(timeout);
-              timeout = null;
+              this.esgst.modules.common.timeout = null;
             }
             exitTimeout = setTimeout(() => {
               if (context && !container.contains(event.relatedTarget)) {
@@ -62,7 +66,7 @@ _MODULES.push({
           giveaway.group.addEventListener(`click`, () => {
             if (timeout) {
               clearTimeout(timeout);
-              timeout = null;
+              this.esgst.modules.common.timeout = null;
             }
           });
           break;
@@ -81,9 +85,9 @@ _MODULES.push({
           break;
       }
       giveaway.group.addEventListener(eventType, () => {
-        timeout = setTimeout(async () => {
+        this.esgst.modules.common.timeout = setTimeout(async () => {
           if (context) {
-            switch (esgst.ggl_index) {
+            switch (this.esgst.ggl_index) {
               case 1:
                 context.open(giveaway.group);
                 break;
@@ -99,7 +103,7 @@ _MODULES.push({
                 break;
             }
           } else {
-            if (esgst.ggl_index === 3) {
+            if (this.esgst.ggl_index === 3) {
               context = new Popup(`fa-user`, [{
                 attributes: {
                   href: `${giveaway.url}/groups`
@@ -114,7 +118,7 @@ _MODULES.push({
               container = context.popout;
               context.open(giveaway.group);
             }
-            createElements(container, `inner`, [{
+            this.esgst.modules.common.createElements(container, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
@@ -131,10 +135,10 @@ _MODULES.push({
             });
             savedGiveaways = JSON.parse(values.giveaways);
             savedGroups = JSON.parse(values.groups);
-            ggl_loadGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, groups => {
+            this.ggl_loadGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, groups => {
               let className, code, group, groupCount, i, j, n, link;
               if (groups) {
-                createElements(container, `inner`, [{
+                this.esgst.modules.common.createElements(container, `inner`, [{
                   attributes: {
                     class: `esgst-text-left table esgst-hidden`
                   },
@@ -158,14 +162,14 @@ _MODULES.push({
                   if (group && group.member) {
                     className = `esgst-ggl-member`;
                     groupCount += 1;
-                  } else if (esgst.ggl_m) {
+                  } else if (this.esgst.ggl_m) {
                     className = `esgst-hidden`;
                   } else {
                     className = ``;
                     groupCount += 1;
                   }
                   if (className !== `esgst-hidden`) {
-                    link = createElements(container.firstElementChild.firstElementChild, `beforeEnd`, [{
+                    link = this.esgst.modules.common.createElements(container.firstElementChild.firstElementChild, `beforeEnd`, [{
                       attributes: {
                         class: `table__row-outer-wrap ${className}`
                       },
@@ -204,7 +208,7 @@ _MODULES.push({
                   }
                 }
                 if (groupCount === 0) {
-                  createElements(container, `inner`, [{
+                  this.esgst.modules.common.createElements(container, `inner`, [{
                     attributes: {
                       class: `fa fa-exclamation-mark`
                     },
@@ -215,10 +219,10 @@ _MODULES.push({
                   }]);
                 } else {
                   container.firstElementChild.classList.remove(`esgst-hidden`);
-                  endless_load(container);
+                  this.esgst.modules.common.endless_load(container);
                 }
-                if (esgst.ggl_index === 2) {
-                  createElements(container, `afterBegin`, [{
+                if (this.esgst.ggl_index === 2) {
+                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
                     type: `div`,
                     children: [{
                       attributes: {
@@ -232,7 +236,7 @@ _MODULES.push({
                 }
                 context.reposition();
               } else {
-                createElements(container, `inner`, [{
+                this.esgst.modules.common.createElements(container, `inner`, [{
                   attributes: {
                     class: `fa fa-times-circle`
                   },
@@ -241,8 +245,8 @@ _MODULES.push({
                   text: `An error ocurred.`,
                   type: `span`
                 }]);
-                if (esgst.ggl_index === 2) {
-                  createElements(container, `afterBegin`, [{
+                if (this.esgst.ggl_index === 2) {
+                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
                     type: `div`,
                     children: [{
                       attributes: {
@@ -258,7 +262,7 @@ _MODULES.push({
               }
             });
           }
-          if (esgst.ggl_index === 1) {
+          if (this.esgst.ggl_index === 1) {
             container.onmouseenter = () => {
               if (exitTimeout) {
                 clearTimeout(exitTimeout);
@@ -271,7 +275,7 @@ _MODULES.push({
     }
   }
 
-  async function ggl_getGiveaways(giveaways) {
+  async ggl_getGiveaways(giveaways) {
     let newGiveaways = {};
     let newGroups = {};
     let values = await getValues({
@@ -280,10 +284,10 @@ _MODULES.push({
     });
     let savedGiveaways = JSON.parse(values.giveaways);
     let savedGroups = JSON.parse(values.groups);
-    ggl_loadGroups(giveaways, 0, giveaways.length, newGiveaways, newGroups, savedGiveaways, savedGroups);
+    this.ggl_loadGroups(giveaways, 0, giveaways.length, newGiveaways, newGroups, savedGiveaways, savedGroups);
   }
 
-  async function ggl_loadGroups(giveaways, i, n, newGiveaways, newGroups, savedGiveaways, savedGroups, callback) {
+  async ggl_loadGroups(giveaways, i, n, newGiveaways, newGroups, savedGiveaways, savedGroups, callback) {
     let giveaway, found, j, k;
     if (i < n) {
       giveaway = giveaways[i];
@@ -291,7 +295,7 @@ _MODULES.push({
         if (savedGiveaways[giveaway.code] && Array.isArray(savedGiveaways[giveaway.code].groups) && savedGiveaways[giveaway.code].groups.length) {
           found = true;
           for (j = savedGiveaways[giveaway.code].groups.length - 1; j > -1 && found; --j) {
-            for (k = esgst.groups.length - 1; k > -1 && esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k);
+            for (k = this.esgst.groups.length - 1; k > -1 && this.esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k);
             if (k <= -1) {
               found = false;
             }
@@ -301,11 +305,11 @@ _MODULES.push({
           if (callback) {
             callback(savedGiveaways[giveaway.code].groups);
           } else {
-            ggl_addPanel(giveaway, savedGiveaways[giveaway.code].groups, newGroups, savedGroups);
+            this.ggl_addPanel(giveaway, savedGiveaways[giveaway.code].groups, newGroups, savedGroups);
           }
-          setTimeout(() => ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
+          setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
         } else {
-          ggl_getGroups([], 1, newGroups, `${giveaway.url}/groups/search?page=`, groups => {
+          this.ggl_getGroups([], 1, newGroups, `${giveaway.url}/groups/search?page=`, groups => {
             if (groups) {
               newGiveaways[giveaway.code] = {
                 groups: groups
@@ -313,29 +317,29 @@ _MODULES.push({
               if (callback) {
                 callback(groups);
               } else {
-                ggl_addPanel(giveaway, groups, newGroups, savedGroups);
+                this.ggl_addPanel(giveaway, groups, newGroups, savedGroups);
               }
-              setTimeout(() => ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
+              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
             } else if (callback) {
               callback(null);
             } else {
-              setTimeout(() => ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
+              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
             }
           });
         }
       } else {
-        setTimeout(() => ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
+        setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
       }
     } else {
-      await lockAndSaveGiveaways(newGiveaways);
-      await lockAndSaveGroups(newGroups);
+      await this.esgst.modules.common.lockAndSaveGiveaways(newGiveaways);
+      await this.esgst.modules.common.lockAndSaveGroups(newGroups);
     }
   }
 
-  function ggl_addPanel(giveaway, groups, newGroups, savedGroups) {
+  ggl_addPanel(giveaway, groups, newGroups, savedGroups) {
     let className, code, group, groupCount, i, j, link, n, panel;
     if (!giveaway.summary.getElementsByClassName(`esgst-ggl-panel`)[0]) {
-      panel = createElements(giveaway.summary, `beforeEnd`, [{
+      panel = this.esgst.modules.common.createElements(giveaway.summary, `beforeEnd`, [{
         attributes: {
           class: `esgst-ggl-panel`
         },
@@ -355,14 +359,14 @@ _MODULES.push({
         if (group && group.member) {
           className = `esgst-ggl-member`;
           groupCount += 1;
-        } else if (esgst.ggl_m) {
+        } else if (this.esgst.ggl_m) {
           className = `esgst-hidden`;
         } else {
           className = ``;
           groupCount += 1;
         }
         if (className !== `esgst-hidden`) {
-          link = createElements(panel, `beforeEnd`, [{
+          link = this.esgst.modules.common.createElements(panel, `beforeEnd`, [{
             attributes: {
               class: className
             },
@@ -382,8 +386,8 @@ _MODULES.push({
             }]
           }]).lastElementChild;
           link.textContent = group.name;
-          if (esgst.ap) {
-            ap_getAvatars(panel);
+          if (this.esgst.ap) {
+            this.esgst.modules.generalAvatarPopout.ap_getAvatars(panel);
           }
         }
       }
@@ -393,9 +397,9 @@ _MODULES.push({
     }
   }
 
-  async function ggl_getGroups(groups, nextPage, newGroups, url, callback) {
+  async ggl_getGroups(groups, nextPage, newGroups, url, callback) {
     let code, element, elements, error, heading, i, match, n, pagination, responseHtml;
-    responseHtml = parseHtml((await request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+    responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
     error = responseHtml.getElementsByClassName(`table--summary`)[0];
     if (error) {
       setTimeout(callback, 0, null);
@@ -415,10 +419,12 @@ _MODULES.push({
       }
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
       if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => ggl_getGroups(groups, ++nextPage, newGroups, url, callback), 0);
+        setTimeout(() => this.ggl_getGroups(groups, ++nextPage, newGroups, url, callback), 0);
       } else {
         setTimeout(callback, 0, groups);
       }
     }
   }
+}
 
+export default GiveawaysGiveawayGroupLoader;

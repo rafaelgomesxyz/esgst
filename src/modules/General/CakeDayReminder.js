@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralCakeDayReminder extends Module {
+info = ({
     description: `
       <ul>
         <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
@@ -27,24 +30,24 @@ _MODULES.push({
       }
     },
     id: `cdr`,
-    load: cdr,
+    load: this.cdr,
     name: `Cake Day Reminder`,
     sg: true,
     type: `general`
   });
 
-  function cdr() {
+  cdr() {
     let currentDate = new Date();
     let year = currentDate.getFullYear();
     let time = currentDate.getTime();
-    let registrationDate = new Date(esgst.registrationDate * 1e3);
+    let registrationDate = new Date(this.esgst.registrationDate * 1e3);
     registrationDate.setFullYear(year);
     registrationDate = registrationDate.getTime();
-    if (esgst.cdr_b && parseInt(getLocalValue(`cdr_bYear`, 0)) !== year && time < registrationDate && time + (esgst.cdr_days * 86400000) >= registrationDate) {
-      setLocalValue(`cdr_bYear`, year);
+    if (this.esgst.cdr_b && parseInt(getLocalValue(`cdr_bYear`, 0)) !== year && time < registrationDate && time + (this.esgst.cdr_days * 86400000) >= registrationDate) {
+      this.esgst.modules.common.setLocalValue(`cdr_bYear`, year);
       new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${Math.floor((registrationDate - time) / 86400000)} days.`, true).open();
-    } else if (esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== year && time >= registrationDate) {
-      setLocalValue(`cdr_dYear`, year);
+    } else if (this.esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== year && time >= registrationDate) {
+      this.esgst.modules.common.setLocalValue(`cdr_dYear`, year);
       if (time >= registrationDate + 86400000) {
         new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((time - registrationDate) / 86400000)} days ago.`, true).open();
       } else {
@@ -52,4 +55,6 @@ _MODULES.push({
       }
     }
   }
+}
 
+export default GeneralCakeDayReminder;

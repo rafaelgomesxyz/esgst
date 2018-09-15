@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class DiscussionsDiscussionsSorter extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a> page that allows you to sort the discussions in the page by title, category, created time, author and number of comments.</li>
@@ -6,26 +9,26 @@ _MODULES.push({
       </ul>
     `,
     id: `ds`,
-    load: ds,
+    load: this.ds,
     name: `Discussions Sorter`,
     sg: true,
     type: `discussions`
   });
 
-  function ds() {
-    if (!esgst.discussionsPath) return;
+  ds() {
+    if (!this.esgst.discussionsPath) return;
 
     let object = {
-      button: createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
+      button: this.esgst.modules.common.createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
     };
-    object.button.addEventListener(`click`, ds_openPopout.bind(null, object));
+    object.button.addEventListener(`click`, this.ds_openPopout.bind(null, object));
   }
 
-  function ds_openPopout(obj) {
+  ds_openPopout(obj) {
     if (obj.popout) return;
     obj.popout = new Popout(`esgst-ds-popout`, obj.button, 0, true);
-    new ToggleSwitch(obj.popout.popout, `ds_auto`, false, `Auto Sort`, false, false, `Automatically sorts the discussions by the selected option when loading the page.`, esgst.ds_auto);
-    let options = createElements(obj.popout.popout, `beforeEnd`, [{
+    new ToggleSwitch(obj.popout.popout, `ds_auto`, false, `Auto Sort`, false, false, `Automatically sorts the discussions by the selected option when loading the page.`, this.esgst.ds_auto);
+    let options = this.esgst.modules.common.createElements(obj.popout.popout, `beforeEnd`, [{
       type: `select`,
       children: [{
         attributes: {
@@ -95,10 +98,12 @@ _MODULES.push({
         type: `option`
       }]
     }]);
-    options.value = esgst.ds_option;
-    let callback = saveAndSortContent.bind(null, `ds_option`, `mainDiscussions`, options, null);
+    options.value = this.esgst.ds_option;
+    let callback = this.esgst.modules.common.saveAndSortContent.bind(null, `ds_option`, `mainDiscussions`, options, null);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();
   }
+}
 
+export default DiscussionsDiscussionsSorter;

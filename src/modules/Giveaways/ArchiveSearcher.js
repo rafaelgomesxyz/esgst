@@ -1,18 +1,22 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysArchiveSearcher extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-search"></i>) to the main page heading of any <a href="https://www.steamgifts.com/archive">archive</a> page that allows you to search the archive by exact title/app id.</li>
       </ul>
     `,
     id: `as`,
-    load: as_load,
+    load: this.as_load,
     name: `Archive Searcher`,
     sg: true,
     type: `giveaways`
   });
 
-  function as_load() {
-    if (!esgst.archivePath) return;
+  as_load() {
+    if (!this.esgst.archivePath) return;
 
     let category = location.pathname.match(/^\/archive\/(coming-soon|open|closed|deleted)/);
     new Process({
@@ -40,16 +44,16 @@ _MODULES.push({
         addProgress: true,
         addScrollable: `left`
       },
-      init: as_init,
+      init: this.as_init,
       requests: [
         {
-          request: as_request
+          this.esgst.modules.common.request: this.as_request
         }
       ]
     });
   }
 
-  async function as_init(obj) {
+  async as_init(obj) {
     obj.query = obj.popup.getTextInputValue(0);
     if (!obj.query) {
       obj.popup.setError(`Please enter a title/app id.`);
@@ -57,9 +61,9 @@ _MODULES.push({
     }
 
     // retrieve the game title from Steam
-    if (esgst.as_searchAppId) {
+    if (this.esgst.as_searchAppId) {
       obj.popup.setProgress(`Retrieving game title...`);
-      let title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${obj.query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
+      let title = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `https://steamcommunity.com/app/${obj.query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
       if (title) {
         obj.query = title.textContent;
       } else {
@@ -73,7 +77,7 @@ _MODULES.push({
     obj.requests[0].url = `${location.href.match(/(.+?)(\/search.+?)?$/)[1]}/search?q=${encodeURIComponent(obj.query)}&page=`;
   }
 
-  async function as_request(obj, details, response, responseHtml) {
+  async as_request(obj, details, response, responseHtml) {
     obj.popup.setProgress(`Loading page ${details.nextPage}...`);
     obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
     let context = obj.popup.getScrollable();
@@ -86,6 +90,8 @@ _MODULES.push({
       }
     }
     obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
-    await endless_load(context);
+    await this.esgst.modules.common.endless_load(context);
   }
+}
 
+export default GiveawaysArchiveSearcher;

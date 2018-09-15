@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersWhitelistBlacklistHighlighter extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-heart esgst-whitelist"></i> if the user is whitelisted and <i class="fa fa-ban esgst-blacklist"></i> if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.</li>
@@ -32,31 +35,31 @@ _MODULES.push({
       }
     },
     id: `wbh`,
-    load: wbh,
+    load: this.wbh,
     name: `Whitelist/Blacklist Highlighter`,
     sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/account/manage/(whitelist|blacklist)`}]},
     st: true,
-    sync: `Whitelist and Blacklist`,
+    this.esgst.modules.common.sync: `Whitelist and Blacklist`,
     type: `users`
   });
 
-  function wbh() {
-    esgst.userFeatures.push(wbh_getUsers);
+  wbh() {
+    this.esgst.userFeatures.push(wbh_getUsers);
   }
 
-  function wbh_getUsers(users) {
+  wbh_getUsers(users) {
     for (const user of users) {    
       if (user.saved && (user.saved.whitelisted || user.saved.blacklisted) && !user.context.parentElement.querySelector(`.esgst-wbh-highlight, .esgst-wbh-icon`)) {
         let [icon, status] = user.saved.whitelisted ? [`fa-heart sidebar__shortcut__whitelist`, `whitelisted`] : [`fa-ban sidebar__shortcut__blacklist`, `blacklisted`];
         let title = `You ${status} ${user.username} on ${getTimestamp(user.saved[`${status}Date`])}`;
-        if ((esgst.wbh_w && user.saved.whitelisted) || (esgst.wbh_b && user.saved.blacklisted)) {
+        if ((this.esgst.wbh_w && user.saved.whitelisted) || (this.esgst.wbh_b && user.saved.blacklisted)) {
           user.element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
-          user.element.title = getFeatureTooltip(`wbh`, title);
+          user.element.title = this.esgst.modules.common.getFeatureTooltip(`wbh`, title);
         } else {
-          createElements(user.context, `beforeBegin`, [{
+          this.esgst.modules.common.createElements(user.context, `beforeBegin`, [{
             attributes: {
               class: `esgst-wbh-icon esgst-user-icon`,
-              title: getFeatureTooltip(`wbh`, title)
+              title: this.esgst.modules.common.getFeatureTooltip(`wbh`, title)
             },
             type: `span`,
             children: [{
@@ -70,4 +73,6 @@ _MODULES.push({
       }
     }
   }
+}
 
+export default UsersWhitelistBlacklistHighlighter;

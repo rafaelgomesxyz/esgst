@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersUserNotes extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sticky-note"></i> if there are notes saved and <i class="fa fa-sticky-note-o"></i> if there are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to save notes for them (only visible to you).</li>
@@ -13,38 +16,38 @@ _MODULES.push({
       }
     },
     id: `un`,
-    load: un,
+    load: this.un,
     name: `User Notes`,
     sg: true,
     st: true,
     type: `users`
   });
 
-  function un() {
-    esgst.profileFeatures.push(un_add);
+  un() {
+    this.esgst.profileFeatures.push(un_add);
   }
 
-  function un_add(profile, savedUser) {
+  un_add(profile, savedUser) {
     let blacklistButton, position, whitelistButton;
-    if (esgst.sg) {
+    if (this.esgst.sg) {
       position = `beforeEnd`;
-      if (esgst.un_p) {
+      if (this.esgst.un_p) {
         whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
         if (whitelistButton) {
-          whitelistButton.addEventListener(`click`, un_open.bind(null, profile));
+          whitelistButton.addEventListener(`click`, this.un_open.bind(null, profile));
         }
         blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
         if (blacklistButton) {
-          blacklistButton.addEventListener(`click`, un_open.bind(null, profile));
+          blacklistButton.addEventListener(`click`, this.un_open.bind(null, profile));
         }
       }
     } else {
       position = `afterBegin`;
     }
-    profile.unButton = createElements(profile.heading, position, [{
+    profile.unButton = this.esgst.modules.common.createElements(profile.heading, position, [{
       attributes: {
         class: `esgst-un-button`,
-        title: getFeatureTooltip(`un`, `Edit user notes`)
+        title: this.esgst.modules.common.getFeatureTooltip(`un`, `Edit user notes`)
       },
       type: `a`,
       children: [{
@@ -60,10 +63,10 @@ _MODULES.push({
     } else {
       profile.unIcon.classList.add(`fa-sticky-note-o`);
     }
-    profile.unButton.addEventListener(`click`, un_open.bind(null, profile));
+    profile.unButton.addEventListener(`click`, this.un_open.bind(null, profile));
   }
 
-  function un_open(profile) {
+  un_open(profile) {
     let set;
     profile.unPopup = new Popup(`fa-sticky-note`, [{
       text: `Edit user notes for `,
@@ -75,10 +78,10 @@ _MODULES.push({
       text: `:`,
       type: `node`
     }], true);
-    profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
+    profile.unTextArea = this.esgst.modules.common.createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: un_save.bind(null, profile)});
+    set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.un_save.bind(null, profile)});
     profile.unTextArea.addEventListener(`keydown`, event => {
       if (event.ctrlKey && event.key === `Enter`) {
         set.trigger();
@@ -88,8 +91,8 @@ _MODULES.push({
     profile.unPopup.open(un_get.bind(null, profile));
   }
 
-  async function un_save(profile) {
-    let notes = removeDuplicateNotes(profile.unTextArea.value.trim());
+  async un_save(profile) {
+    let notes = this.esgst.modules.common.removeDuplicateNotes(profile.unTextArea.value.trim());
     let user = {
       steamId: profile.steamId,
       id: profile.id,
@@ -105,11 +108,11 @@ _MODULES.push({
       profile.unIcon.classList.remove(`fa-sticky-note`);
       profile.unIcon.classList.add(`fa-sticky-note-o`);
     }
-    await saveUser(null, null, user);
+    await this.esgst.modules.common.saveUser(null, null, user);
     profile.unPopup.close();
   }
 
-  async function un_get(profile) {
+  async un_get(profile) {
     profile.unTextArea.focus();
     let savedUsers = JSON.parse(await getValue(`users`));
     let savedUser = savedUsers.users[profile.steamId];
@@ -120,4 +123,6 @@ _MODULES.push({
       }
     }
   }
+}
 
+export default UsersUserNotes;

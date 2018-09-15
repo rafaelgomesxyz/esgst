@@ -1,28 +1,31 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysStickiedGiveawayGroups extends Module {
+info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the group is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each group in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a>/<a href="https://www.steamgifts.com/account/steam/groups">groups</a> pages that allows you to sticky the group so that it appears at the top of the group list for quick use.</li>
+        <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the group is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each group in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a>/<a href="https://www.steamgifts.com/account/steam/groups">groups</a> pages that allows you to sticky the group so that it appears this.esgst.modules.generalAccurateTimestamp.at the top of the group list for quick use.</li>
       </ul>
     `,
     id: `sgg`,
-    load: sgg,
+    load: this.sgg,
     name: `Stickied Giveaway Groups`,
     sg: true,
     type: `giveaways`
   });
 
-  function sgg() {
-    if (esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
-      sgg_setGiveawayGroups();
+  sgg() {
+    if (this.esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
+      this.sgg_setGiveawayGroups();
     }
-    if (esgst.groupsPath) {
-      esgst.endlessFeatures.push(sgg_setGroups);
+    if (this.esgst.groupsPath) {
+      this.esgst.endlessFeatures.push(sgg_setGroups);
     }
   }
 
-  function sgg_setGiveawayGroups() {
+  sgg_setGiveawayGroups() {
     let avatar, code, container, context, elements, i, id, j, n, savedGroups, separator, stickied;
-    savedGroups = JSON.parse(esgst.storage.groups);
+    savedGroups = JSON.parse(this.esgst.storage.groups);
     container = document.querySelector(`.form_list[data-input="group_item_string"]`);
     separator = container.firstElementChild.nextElementSibling;
     elements = container.children;
@@ -49,7 +52,7 @@ _MODULES.push({
           container.insertBefore(context, separator);
         }
         new Button(context, `afterBegin`, {
-          callbacks: [sgg_stickyGroup.bind(null, code, container, context, id, separator), null, sgg_unstickyGroup.bind(null, code, container, context, id, separator), null],
+          callbacks: [sgg_stickyGroup.bind(null, code, container, context, id, separator), null, this.sgg_unstickyGroup.bind(null, code, container, context, id, separator), null],
           className: `esgst-sgg-button`,
           icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `sgg`,
@@ -60,7 +63,7 @@ _MODULES.push({
     }
   }
 
-  async function sgg_setGroups(context, main, source, endless) {
+  async sgg_setGroups(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
     if (!elements.length) return;
     const savedGroups = JSON.parse(await getValue(`groups`, `[]`));
@@ -83,7 +86,7 @@ _MODULES.push({
         continue;
       }
       new Button(element, `afterBegin`, {
-        callbacks: [sgg_stickyGroup.bind(null, code, null, element, null, null), null, sgg_unstickyGroup.bind(null, code, null, element, null, null), null],
+        callbacks: [sgg_stickyGroup.bind(null, code, null, element, null, null), null, this.sgg_unstickyGroup.bind(null, code, null, element, null, null), null],
         className: `esgst-sgg-button`,
         icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `sgg`,
@@ -93,7 +96,7 @@ _MODULES.push({
     }
   }
 
-  async function sgg_stickyGroup(code, container, context, id, separator, event) {
+  async sgg_stickyGroup(code, container, context, id, separator, event) {
     event.stopPropagation();
     if (container) {
       if (context === separator) {
@@ -108,11 +111,11 @@ _MODULES.push({
     if (id) {
       groups[code].id = id;
     }
-    await lockAndSaveGroups(groups);
+    await this.esgst.modules.common.lockAndSaveGroups(groups);
     return true;
   }
 
-  async function sgg_unstickyGroup(code, container, context, id, separator, event) {
+  async sgg_unstickyGroup(code, container, context, id, separator, event) {
     event.stopPropagation();
     if (container) {
       container.insertBefore(context, separator);
@@ -125,7 +128,9 @@ _MODULES.push({
     if (id) {
       groups[code].id = id;
     }
-    await lockAndSaveGroups(groups);
+    await this.esgst.modules.common.lockAndSaveGroups(groups);
     return true;
   }
+}
 
+export default GiveawaysStickiedGiveawayGroups;

@@ -1,7 +1,10 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysGridView extends Module {
+info = ({
     description: `
       <ul>
-        <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.</li>
+        <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page this.esgst.modules.generalAccurateTimestamp.at a single glance.</li>
         <li>Also adds a button (<i class="fa fa-th-large"></i>) to the main page heading of the same page that allows you to set the size of the space between each box.</li>
       </ul>
     `,
@@ -20,35 +23,35 @@ _MODULES.push({
       }
     },
     id: `gv`,
-    load: gv,
+    load: this.gv,
     name: `Grid View`,
     sg: true,
     type: `giveaways`
   });
 
-  function gv() {
-    if (esgst.giveawaysPath || esgst.gv_gb || esgst.gv_ged || esgst.gv_ge) {
-      esgst.giveawayFeatures.push(gv_setContainer);
-      esgst.style.insertAdjacentText(`beforeEnd`, `
+  gv() {
+    if (this.esgst.giveawaysPath || this.esgst.gv_gb || this.esgst.gv_ged || this.esgst.gv_ge) {
+      this.esgst.giveawayFeatures.push(gv_setContainer);
+      this.esgst.style.insertAdjacentText(`beforeEnd`, `
         .esgst-gv-creator {
-          margin: ${esgst.ib ? 10 : 5}px 5px 5px;
-          width: ${esgst.ib ? 127 : 132}px;
+          margin: ${this.esgst.ib ? 10 : 5}px 5px 5px;
+          width: ${this.esgst.ib ? 127 : 132}px;
         }
 
         .esgst-gv-popout .giveaway__links {
           display: block;
           height: auto;
-          margin: 5px 5px ${esgst.ib ? 10 : 5}px;
+          margin: 5px 5px ${this.esgst.ib ? 10 : 5}px;
           text-align: center;
-          width: ${esgst.ib ? 127 : 132}px;
+          width: ${this.esgst.ib ? 127 : 132}px;
         }
       `);
-      if (esgst.giveawaysPath) {
+      if (this.esgst.giveawaysPath) {
         let button, display, element, elements, i, n, popout, spacing, slider;
-        button = createHeadingButton({id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing`});
+        button = this.esgst.modules.common.createHeadingButton({id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing`});
         popout = new Popout(`esgst-gv-spacing`, button, 0, true);
-        spacing = esgst.gv_spacing;
-        element = createElements(popout.popout, `beforeEnd`, [{
+        spacing = this.esgst.gv_spacing;
+        element = this.esgst.modules.common.createElements(popout.popout, `beforeEnd`, [{
           type: `div`,
           children: [{
             type: `div`
@@ -68,8 +71,8 @@ _MODULES.push({
             }
             popout.reposition();
             display.textContent = `${spacing}px`;
-            setSetting(`gv_spacing`, spacing);
-            esgst.gv_spacing = spacing;
+            this.esgst.modules.common.setSetting(`gv_spacing`, spacing);
+            this.esgst.gv_spacing = spacing;
           },
           max: 10,
           value: spacing
@@ -78,23 +81,23 @@ _MODULES.push({
     }
   }
 
-  function gv_setContainer(giveaways, main, source) {
-    if ((!main || !esgst.giveawaysPath) && (main || ((source !== `gb` || !esgst.gv_gb) && (source !== `ged` || !esgst.gv_ged) && (source !== `ge` || !esgst.gv_ge)))) return;
+  gv_setContainer(giveaways, main, source) {
+    if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== `gb` || !this.esgst.gv_gb) && (source !== `ged` || !this.esgst.gv_ged) && (source !== `ge` || !this.esgst.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
-      let popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || esgst.menuPath;
+      let popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || this.esgst.menuPath;
       if (popup) {
         giveaway.outerWrap.parentElement.parentElement.classList.add(`esgst-gv-view`);
         giveaway.outerWrap.parentElement.style.display = `inline-block`;
         giveaway.outerWrap.classList.add(`esgst-gv-container`);
-        giveaway.outerWrap.style.margin = `${esgst.gv_spacing}px`;
+        giveaway.outerWrap.style.margin = `${this.esgst.gv_spacing}px`;
       } else {
         giveaway.outerWrap.parentElement.classList.add(`esgst-gv-view`);
         giveaway.outerWrap.classList.add(`esgst-gv-container`);
-        giveaway.outerWrap.style.margin = `${esgst.gv_spacing}px`;
+        giveaway.outerWrap.style.margin = `${this.esgst.gv_spacing}px`;
       }
       giveaway.innerWrap.classList.add(`esgst-gv-box`);
-      giveaway.gvIcons = createElements(giveaway.innerWrap, `afterBegin`, [{
+      giveaway.gvIcons = this.esgst.modules.common.createElements(giveaway.innerWrap, `afterBegin`, [{
         attributes: {
           class: `esgst-gv-icons giveaway__columns`
         },
@@ -110,7 +113,7 @@ _MODULES.push({
             attributes: {
               title: `${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}`
             },
-            text: getRemainingTime(giveaway.endTime),
+            text: this.esgst.modules.common.getRemainingTime(giveaway.endTime),
             type: `span`
           }, {
             attributes: {
@@ -121,18 +124,18 @@ _MODULES.push({
             attributes: {
               title: `Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}`
             },
-            text: getRemainingTime(giveaway.startTime),
+            text: this.esgst.modules.common.getRemainingTime(giveaway.startTime),
             type: `span`
           }]
         }]
       }]);
       giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
-      if (!esgst.lockGiveawayColumns) {
-        giveaway.gvIcons.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
+      if (!this.esgst.lockGiveawayColumns) {
+        giveaway.gvIcons.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
         let item = giveaway.gvIcons.firstElementChild;
-        item.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-        item.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        item.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        item.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
+        item.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
+        item.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
       }
       if (giveaway.inviteOnly) {
         giveaway.gvIcons.appendChild(giveaway.inviteOnly);
@@ -153,23 +156,23 @@ _MODULES.push({
       giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
       giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
       giveaway.summary.insertBefore(giveaway.avatar, giveaway.links);
-      createElements(giveaway.avatar, `afterEnd`, [{
+      this.esgst.modules.common.createElements(giveaway.avatar, `afterEnd`, [{
         attributes: {
           style: `clear: both;`
         },
         type: `div`
       }]);
-      createElements(giveaway.headingName, `afterEnd`, [{
+      this.esgst.modules.common.createElements(giveaway.headingName, `afterEnd`, [{
         type: `br`
       }]);
-      createElements(giveaway.pointsContainer, `afterEnd`, [{
+      this.esgst.modules.common.createElements(giveaway.pointsContainer, `afterEnd`, [{
         type: `br`
       }]);
       giveaway.endTimeColumn.classList.add(`esgst-hidden`);
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);
       giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);
       giveaway.commentsLink.lastElementChild.textContent = giveaway.commentsLink.textContent.replace(/[^\d,]+/g, ``);
-      let creator = createElements(giveaway.links, `beforeBegin`, [{
+      let creator = this.esgst.modules.common.createElements(giveaway.links, `beforeBegin`, [{
         attributes: {
           class: `esgst-gv-creator`
         },
@@ -183,4 +186,6 @@ _MODULES.push({
       new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
     });
   }
+}
 
+export default GiveawaysGridView;

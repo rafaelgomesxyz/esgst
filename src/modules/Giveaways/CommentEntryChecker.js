@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysCommentEntryChecker extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-ticket"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.</li>
@@ -6,22 +10,22 @@ _MODULES.push({
       </ul>
     `,
     id: `cec`,
-    load: cec,
+    load: this.cec,
     name: `Comment/Entry Checker`,
     sg: true,
     type: `giveaways`
   });
 
-  function cec() {
-    if (!esgst.giveawayPath || !esgst.mainPageHeading) return;
+  cec() {
+    if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
 
     let obj = {
-      button: createHeadingButton({id: `cec`, icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`], title: `Check comments/entries`})
+      button: this.esgst.modules.common.createHeadingButton({id: `cec`, icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`], title: `Check comments/entries`})
     };
-    obj.button.addEventListener(`click`, cec_openPopup.bind(null, obj));
+    obj.button.addEventListener(`click`, this.cec_openPopup.bind(null, obj));
   }
 
-  function cec_openPopup(obj) {
+  cec_openPopup(obj) {
     if (obj.popup) {
       obj.popup.open();
       return;
@@ -37,8 +41,8 @@ _MODULES.push({
           icon2: `fa-times`,
           title1: `Check`,
           title2: `Cancel`,
-          callback1: cec_start.bind(null, obj),
-          callback2: cec_stop.bind(null, obj)
+          callback1: this.cec_start.bind(null, obj),
+          callback2: this.cec_stop.bind(null, obj)
         }
       ],
       addProgress: true,
@@ -48,7 +52,7 @@ _MODULES.push({
     obj.popup.triggerButton(0);
   }
 
-  async function cec_start(obj) {
+  async cec_start(obj) {
     obj.isCanceled = false;
     obj.button.classList.add(`esgst-busy`);
 
@@ -61,8 +65,8 @@ _MODULES.push({
       let url = urls[i];
       do {
         obj.popup.setProgress(`Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...</span>`);
-        let response = await request({method: `GET`, queue: true, url: `${url}${nextPage}`});
-        let responseHtml = parseHtml(response.responseText);
+        let response = await this.esgst.modules.common.request({method: `GET`, queue: true, url: `${url}${nextPage}`});
+        let responseHtml = utils.parseHtml(response.responseText);
         let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
         for (let j = elements.length - 1; j > -1; j--) {
           comments.push(elements[j].textContent.trim());
@@ -92,7 +96,7 @@ _MODULES.push({
     let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
     do {
       obj.popup.setProgress(`Retrieving entries (page ${nextPage})...`);
-      let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
+      let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
       let elements = responseHtml.getElementsByClassName(`table__column__heading`);
       for (let i = elements.length - 1; i > -1; i--) {
         entries.push(elements[i].textContent.trim());
@@ -108,8 +112,8 @@ _MODULES.push({
     obj.popup.clearProgress();
 
     // calculate data
-    comments = sortArray(Array.from(new Set(comments)));
-    entries = sortArray(Array.from(new Set(entries)));
+    comments = utils.sortArray(Array.from(new Set(comments)));
+    entries = utils.sortArray(Array.from(new Set(entries)));
     let both = [];
     let commented = [];
     for (const user of comments) {
@@ -200,9 +204,11 @@ _MODULES.push({
     obj.popup.setScrollable(items);
   }
 
-  function cec_stop(obj) {
+  cec_stop(obj) {
     obj.button.classList.remove(`esgst-busy`);
     obj.popup.clearProgress();
     obj.isCanceled = true;
   }
+}
 
+export default GiveawaysCommentEntryChecker;

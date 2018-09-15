@@ -1,14 +1,17 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class Groups extends Module {
+info = ({
   endless: true,
   id: `groups`,
   load: groups
 });
 
-function groups() {
-  esgst.endlessFeatures.push(groups_load);
+groups() {
+  this.esgst.endlessFeatures.push(groups_load);
 }
 
-async function groups_load(mainContext, main, source, endless) {
+async groups_load(mainContext, main, source, endless) {
   const elements = mainContext.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*='/group/'], .esgst-es-page-${endless}a[href*='/group/']` : `a[href*='/group/']`}, .form_list_item_summary_name`);
   if (!elements.length) {
     return;
@@ -29,35 +32,35 @@ async function groups_load(mainContext, main, source, endless) {
     let savedGroup = null;
     if (!match) {
       const avatar = element.parentElement.previousElementSibling.style.backgroundImage;
-      savedGroup = esgst.groups.filter(group => avatar.match(group.avatar))[0];
+      savedGroup = this.esgst.groups.filter(group => avatar.match(group.avatar))[0];
     }
     const id = (match && match[1]) || (savedGroup && savedGroup.code);
     if (!id) {
       continue;
     }
-    if (!esgst.currentGroups[id]) {
-      esgst.currentGroups[id] = {
+    if (!this.esgst.currentGroups[id]) {
+      this.esgst.currentGroups[id] = {
         elements: []
       };
       if (!savedGroup) {
-        savedGroup = esgst.groups.filter(group => group.code === id)[0];
+        savedGroup = this.esgst.groups.filter(group => group.code === id)[0];
       }
-      esgst.currentGroups[id].savedGroup = savedGroup
+      this.esgst.currentGroups[id].savedGroup = savedGroup
     }
     let j;
-    for (j = esgst.currentGroups[id].elements.length - 1; j > -1 && esgst.currentGroups[id].elements[j] !== element; j--);
+    for (j = this.esgst.currentGroups[id].elements.length - 1; j > -1 && this.esgst.currentGroups[id].elements[j] !== element; j--);
     if (j > -1) {
       continue;
     }
     const name = element.textContent.trim();
     const container = element.parentElement;
     const oldElement = element;
-    if (esgst.groupPath && container.classList.contains(`page__heading__breadcrumbs`)) {
+    if (this.esgst.groupPath && container.classList.contains(`page__heading__breadcrumbs`)) {
       element = document.getElementsByClassName(`featured__heading__medium`)[0];        
     }
-    esgst.currentGroups[id].elements.push(element);
+    this.esgst.currentGroups[id].elements.push(element);
     const context = element;
-    esgst[main ? `mainGroups` : `popupGroups`].push({
+    this.esgst[main ? `mainGroups` : `popupGroups`].push({
       code: id,
       innerWrap: context,
       name,
@@ -78,7 +81,10 @@ async function groups_load(mainContext, main, source, endless) {
       tagPosition: isHeading ? `beforeEnd` : `afterEnd`
     });
   }
-  for (const feature of esgst.groupFeatures) {
+  for (const feature of this.esgst.groupFeatures) {
     await feature(groups, main, source, endless);
   }
 }
+}
+
+export default Groups;

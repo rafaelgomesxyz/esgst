@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GamesGameTags extends Module {
+info = ({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
@@ -16,13 +19,16 @@ _MODULES.push({
     }
   },
   id: `gt`,
-  load: gt,
+  load: this.gt,
   name: `Game Tags`,
   sg: true,
   type: `games`
 });
 
-function gt() {
-  esgst.gameFeatures.push(tags_addButtons.bind(null, `gt`));
-  tags_getTags(`gt`);
+gt() {
+  this.esgst.gameFeatures.push(tags_addButtons.bind(null, `gt`));
+  this.esgst.modules.tags.tags_getTags(`gt`);
 }
+}
+
+export default GamesGameTags;

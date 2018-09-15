@@ -1,27 +1,31 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class UsersUserStats extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and the popup from [id=wbs] that show some stats about each user.</li>
       </ul>
     `,
     id: `us`,
-    load: us,
+    load: this.us,
     name: `User Stats`,
     sg: true,
     type: `users`
   });
 
-  function us() {
-    if (!esgst.whitelistPath && !esgst.blacklistPath) return;
-    esgst.endlessFeatures.push(us_get);
+  us() {
+    if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
+    this.esgst.endlessFeatures.push(us_get);
   }
 
-  async function us_get(context, main, source, endless) {
+  async us_get(context, main, source, endless) {
     if (!main && !context.closest(`.esgst-wbs-popup`)) {
       return;
     }
     if (context === document || !main) {
-      createElements(context.getElementsByClassName(`table__heading`)[0].firstElementChild, `afterEnd`, [{
+      this.esgst.modules.common.createElements(context.getElementsByClassName(`table__heading`)[0].firstElementChild, `afterEnd`, [{
         attributes: {
           class: `table__column--width-small text-center`
         },
@@ -61,18 +65,18 @@ _MODULES.push({
     }
     let promises = [];
     for (let username in users) {
-      let promise = request({method: `GET`, url: `/user/${username}`});
+      let promise = this.esgst.modules.common.request({method: `GET`, url: `/user/${username}`});
       promise.then(us_load.bind(null, users[username], username));
       promises.push(promise);
     }
     Promise.all(promises).then(ts_sortTables);
   }
 
-  function us_load(context, username, response) {
+  us_load(context, username, response) {
     let element, elements, html, i, n, profile, cvrow, rows;
     html = [];
     profile = {};
-    elements = parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
+    elements = utils.parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
     for (i = 0, n = elements.length; i < n; ++i) {
       element = elements[i];
       switch (element.textContent) {
@@ -143,7 +147,7 @@ _MODULES.push({
           });
           break;
         case `Contributor Level`:
-          swr_add(profile);
+          this.esgst.modules.usersSentWonRatio.swr_add(profile);
           html.push({
             attributes: {
               class: `table__column--width-small text-center`
@@ -164,6 +168,8 @@ _MODULES.push({
           break;
       }
     }
-    createElements(context, `afterEnd`, html);
+    this.esgst.modules.common.createElements(context, `afterEnd`, html);
   }
+}
 
+export default UsersUserStats;

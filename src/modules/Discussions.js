@@ -1,68 +1,71 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class Discussions extends Module {
+info = ({
     endless: true,
     id: `discussions`,
     load: discussions
   });
   
-  function discussions() {
-    esgst.endlessFeatures.push(discussions_load);
+  discussions() {
+    this.esgst.endlessFeatures.push(discussions_load);
   }
 
-  async function discussions_load(context, main, source, endless) {
-    let discussions = await discussions_get(context, main, endless);
+  async discussions_load(context, main, source, endless) {
+    let discussions = await this.discussions_get(context, main, endless);
     if (!discussions.length) return;
     if (main) {
       for (let i = discussions.length - 1; i > -1; --i) {
-        discussions[i].sortIndex = esgst.mainDiscussions.length;
-        esgst.mainDiscussions.push(discussions[i]);
+        discussions[i].sortIndex = this.esgst.mainDiscussions.length;
+        this.esgst.mainDiscussions.push(discussions[i]);
       }
     } else {
       for (let i = discussions.length - 1; i > -1; --i) {
-        discussions[i].sortIndex = esgst.popupDiscussions.length;
-        esgst.popupDiscussions.push(discussions[i]);
+        discussions[i].sortIndex = this.esgst.popupDiscussions.length;
+        this.esgst.popupDiscussions.push(discussions[i]);
       }
     }
-    if (!main || esgst.discussionsPath) {
-      if (esgst.df && esgst.df.filteredCount && esgst[`df_enable${esgst.df.type}`]) {
-        filters_filter(esgst.df, false, endless);
+    if (!main || this.esgst.discussionsPath) {
+      if (this.esgst.df && this.esgst.df.filteredCount && this.esgst[`df_enable${this.esgst.df.type}`]) {
+        this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.df, false, endless);
       }
-      if (esgst.ds && esgst.ds_auto) {
-        sortContent(esgst.mainDiscussions, null, esgst.ds_option);
+      if (this.esgst.ds && this.esgst.ds_auto) {
+        this.esgst.modules.common.sortContent(this.esgst.mainDiscussions, null, this.esgst.ds_option);
       }
     }
-    if (esgst.mm_enableDiscussions && esgst.mm_enable) {
-      esgst.mm_enable(esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
+    if (this.esgst.mm_enableDiscussions && this.esgst.mm_enable) {
+      this.esgst.mm_enable(this.esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
     }
   }
 
-  async function discussions_get(context, main, endless) {
+  async discussions_get(context, main, endless) {
     let discussions = [];
     let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
     for (let i = elements.length - 1; i > -1; --i) {
-      let discussion = await discussions_getInfo(elements[i], main);
+      let discussion = await this.discussions_getInfo(elements[i], main);
       if (!discussion) continue;
       discussions.push(discussion);
     }
-    if (context === document && main && esgst.discussionPath) {
+    if (context === document && main && this.esgst.discussionPath) {
       let discussion = {
         code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
         heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
         headingContainer: document.getElementsByClassName(`page__heading`)[0]
       };
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
-      checkVersion(discussion);
+      this.esgst.modules.common.checkVersion(discussion);
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
       discussions.push(discussion);
     }
     discussions.forEach(discussion => {
-      let savedDiscussion = esgst.discussions[discussion.code];
-      if (esgst.codb && discussion.author === esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
+      let savedDiscussion = this.esgst.discussions[discussion.code];
+      if (this.esgst.codb && discussion.author === this.esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
         if (discussion.closed) {
           discussion.closed.remove();
           discussion.closed = true;
         }
         new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [codb_close.bind(null, discussion), null, codb_open.bind(null, discussion), null],
+          callbacks: [codb_close.bind(null, discussion), null, this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_open.bind(null, discussion), null],
           className: `esgst-codb-button`,
           icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
           id: `codb`,
@@ -70,9 +73,9 @@ _MODULES.push({
           titles: [`Close discussion`, `Closing discussion...`, `Open discussion`, `Opening discussion...`]
         });
       }
-      if (esgst.df && esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
+      if (this.esgst.df && this.esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
         new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [df_hideDiscussion.bind(null, discussion, main), null, df_unhideDiscussion.bind(null, discussion, main), null],
+          callbacks: [df_hideDiscussion.bind(null, discussion, main), null, this.esgst.modules.discussionsDiscussionFilters.df_unhideDiscussion.bind(null, discussion, main), null],
           className: `esgst-df-button`,
           icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `df_s`,
@@ -80,19 +83,19 @@ _MODULES.push({
           titles: [`Hide discussion`, `Hiding discussion...`, `Unhide discussion`, `Unhiding discussion...`]
         });
       }
-      if (esgst.dh && !discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) {
-        let context = main && esgst.discussionPath ? discussion.heading : discussion.outerWrap;
+      if (this.esgst.dh && !discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) {
+        let context = main && this.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
         let index = 0;
         if (savedDiscussion && savedDiscussion.highlighted) {
-          dh_highlightDiscussion(discussion.code, context);
-          if (esgst.dh_t && main && esgst.discussionsPath) {
+          this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion(discussion.code, context);
+          if (this.esgst.dh_t && main && this.esgst.discussionsPath) {
             discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
             discussion.isPinned = true;
           }
           index = 2;
         }
         discussion.dhButton = new Button(discussion.heading.parentElement, `afterBegin`, {
-          callbacks: [dh_highlightDiscussion.bind(null, discussion.code, context, true), null, dh_unhighlightDiscussion.bind(null, discussion.code, context, true), null],
+          callbacks: [dh_highlightDiscussion.bind(null, discussion.code, context, true), null, this.esgst.modules.discussionsDiscussionHighlighter.dh_unhighlightDiscussion.bind(null, discussion.code, context, true), null],
           className: `esgst-dh-button`,
           icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `dh`,
@@ -100,12 +103,12 @@ _MODULES.push({
           titles: [`Click to highlight this discussion`, `Highlighting discussion...`, `Click to unhighlight this discussion`, `Unhighlighting discussion...`]
         });
       }
-      if (esgst.pm && (esgst.pm_a || discussion.category === `Puzzles`)) {
-        let context = main && esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
+      if (this.esgst.pm && (this.esgst.pm_a || discussion.category === `Puzzles`)) {
+        let context = main && this.esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
         if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
           context.classList.add(`esgst-relative`);
           new Button(context, `afterBegin`, {
-            callbacks: [pm_change.bind(null, discussion.code, `unsolved`), null, pm_change.bind(null, discussion.code, `in progress`), null, pm_change.bind(null, discussion.code, `solved`), null, pm_change.bind(null, discussion.code, `off`), null],
+            callbacks: [pm_change.bind(null, discussion.code, `unsolved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `in progress`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `solved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `off`), null],
             className: `esgst-pm-button`,
             icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
             id: `pm`,
@@ -118,8 +121,8 @@ _MODULES.push({
     return discussions;
   }
 
-  async function discussions_getInfo(context, main) {
-    let match, discussion, savedUser, uf;
+  async discussions_getInfo(context, main) {
+    let match, discussion, savedUser, this.esgst.modules.usersUserFilters.uf;
     if (context.closest(`.poll`)) return;
     discussion = {};
     discussion.outerWrap = context;
@@ -148,14 +151,14 @@ _MODULES.push({
       return;
     }
     discussion.code = match[1];
-    checkVersion(discussion);
-    if (main && esgst.df && esgst.df_s && esgst.discussions[discussion.code] && esgst.discussions[discussion.code].hidden) {
+    this.esgst.modules.common.checkVersion(discussion);
+    if (main && this.esgst.df && this.esgst.df_s && this.esgst.discussions[discussion.code] && this.esgst.discussions[discussion.code].hidden) {
       discussion.outerWrap.remove();
       return;
     }
-    if (esgst.discussions[discussion.code]) {
-      discussion.highlighted = esgst.discussions[discussion.code].highlighted;
-      discussion.visited = esgst.discussions[discussion.code].visited;
+    if (this.esgst.discussions[discussion.code]) {
+      discussion.highlighted = this.esgst.discussions[discussion.code].highlighted;
+      discussion.visited = this.esgst.discussions[discussion.code].visited;
     }
     discussion.categoryContainer = discussion.info.firstElementChild;
     if (discussion.headingColumn.nextElementSibling) {
@@ -168,7 +171,7 @@ _MODULES.push({
     if (discussion.createdContainer) {
       discussion.createdTime = discussion.createdContainer.textContent;
       discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
-      if (esgst.giveawaysPath) {
+      if (this.esgst.giveawaysPath) {
         discussion.author = discussion.avatar.getAttribute(`href`).match(/\/user\/(.+)/)[1];
       } else {
         discussion.author = discussion.createdContainer.nextElementSibling.textContent;
@@ -176,12 +179,12 @@ _MODULES.push({
     }
     if (!discussion.author) return;
     discussion.authors = [discussion.author.toLowerCase()];
-    discussion.created = discussion.author === esgst.username;
+    discussion.created = discussion.author === this.esgst.username;
     discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
     discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
     if (discussion.commentsColumn) {
       discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
-      if (esgst.giveawaysPath && esgst.adots && esgst.adots_index === 1 && esgst.ns) {
+      if (this.esgst.giveawaysPath && this.esgst.adots && this.esgst.adots_index === 1 && this.esgst.ns) {
         discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, ``);
       }
     }
@@ -195,21 +198,21 @@ _MODULES.push({
       discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
       discussion.lastPostTime = discussion.lastPostTime.textContent;
     }
-    if (esgst.uf) {
-      savedUser = await getUser(esgst.users, {
+    if (this.esgst.uf) {
+      savedUser = await this.esgst.modules.common.getUser(this.esgst.users, {
         username: discussion.author
       });
       if (savedUser) {
-        uf = savedUser.uf;
-        if (esgst.uf_d && savedUser.blacklisted && !uf) {
-          if (!esgst.giveawaysPath) {
-            uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+        this.esgst.modules.usersUserFilters.uf = savedUser.uf;
+        if (this.esgst.uf_d && savedUser.blacklisted && !uf) {
+          if (!this.esgst.giveawaysPath) {
+            this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
           }
           discussion.outerWrap.remove();
           return;
-        } else if (uf && uf.discussions) {
-          if (!esgst.giveawaysPath) {
-            uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+        } else if (uf && this.esgst.modules.usersUserFilters.uf.discussions) {
+          if (!this.esgst.giveawaysPath) {
+            this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
           }
           discussion.outerWrap.remove();
           return;
@@ -218,4 +221,6 @@ _MODULES.push({
     }
     return discussion;
   }
+}
 
+export default Discussions;

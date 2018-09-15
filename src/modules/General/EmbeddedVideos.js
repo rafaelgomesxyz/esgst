@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralEmbeddedVideos extends Module {
+info = ({
     description: `
       <ul>
         <li>Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.</li>
@@ -6,18 +9,18 @@ _MODULES.push({
       </ul>
     `,
     id: `ev`,
-    load: ev,
+    load: this.ev,
     name: `Embedded Videos`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function ev() {
-    esgst.endlessFeatures.push(ev_getVideos);
+  ev() {
+    this.esgst.endlessFeatures.push(ev_getVideos);
   }
 
-  function ev_getVideos(context, main, source, endless) {
+  ev_getVideos(context, main, source, endless) {
     let types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
     types = [`youtube.com`, `youtu.be`, `vimeo.com`];
     for (i = 0, numTypes = types.length; i < numTypes; ++i) {
@@ -30,7 +33,7 @@ _MODULES.push({
         if ((!previous || !previous.textContent.trim()) && (!next || !next.textContent.trim())) {
           // video is the only content in the line
           url = video.getAttribute(`href`);
-          embedUrl = ev_getEmbedUrl(i, url);
+          embedUrl = this.ev_getEmbedUrl(i, url);
           if (embedUrl) {
             text = video.textContent;
             if (url !== text) {
@@ -38,7 +41,7 @@ _MODULES.push({
             } else {
               title = ``;
             }
-            createElements(video, `outer`, [{
+            this.esgst.modules.common.createElements(video, `outer`, [{
               type: `div`,
               children: [{
                 text: title,
@@ -60,7 +63,7 @@ _MODULES.push({
     }
   }
 
-  function ev_getEmbedUrl(i, url) {
+  ev_getEmbedUrl(i, url) {
     let regExps, regExp, match, baseUrls, baseUrl, code;
     regExps = [
       /youtube.com\/watch\?v=(.+?)(\/.*)?(&.*)?$/,
@@ -82,4 +85,6 @@ _MODULES.push({
       return null;
     }
   }
+}
 
+export default GeneralEmbeddedVideos;

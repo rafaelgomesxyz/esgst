@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralShortcutKeys extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to perform many different tasks by pressing certain keys.</li>
@@ -87,17 +90,17 @@ _MODULES.push({
       }
     },
     id: `sk`,
-    load: sk,
+    load: this.sk,
     name: `Shortcut Keys`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function sk() {
+  sk() {
     let methods = {};
-    if (esgst.sk_cp) {
-      methods[esgst.sk_closePopups] = event => {
+    if (this.esgst.sk_cp) {
+      methods[this.esgst.sk_closePopups] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let buttons = document.querySelectorAll(`.b-close, .esgst-popup-close`), i;
           for (i = buttons.length - 1; i > -1; --i) {
@@ -107,8 +110,8 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_sb) {
-      methods[esgst.sk_searchBox] = event => {
+    if (this.esgst.sk_sb) {
+      methods[this.esgst.sk_searchBox] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let search = document.getElementsByClassName(`sidebar__search-input`)[0];
           if (search) {
@@ -118,40 +121,40 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_fp) {
-      methods[esgst.sk_firstPage] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.paginationNavigation && esgst.currentPage > 1) {
-          location.href = `${esgst.searchUrl}1`;
+    if (this.esgst.sk_fp) {
+      methods[this.esgst.sk_firstPage] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage > 1) {
+          location.href = `${this.esgst.searchUrl}1`;
           event.preventDefault();
         }
       };
     }
-    if (esgst.sk_pp) {
-      methods[esgst.sk_previousPage] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.paginationNavigation && esgst.currentPage > 1) {
-          location.href = `${esgst.searchUrl}${esgst.currentPage - 1}`;
+    if (this.esgst.sk_pp) {
+      methods[this.esgst.sk_previousPage] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage > 1) {
+          location.href = `${this.esgst.searchUrl}${this.esgst.currentPage - 1}`;
           event.preventDefault();
         }
       };
     }
-    if (esgst.sk_np) {
-      methods[esgst.sk_nextPage] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.paginationNavigation && esgst.currentPage < esgst.lastPage) {
-          location.href = `${esgst.searchUrl}${esgst.currentPage + 1}`;
+    if (this.esgst.sk_np) {
+      methods[this.esgst.sk_nextPage] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage < this.esgst.lastPage) {
+          location.href = `${this.esgst.searchUrl}${this.esgst.currentPage + 1}`;
           event.preventDefault();
         }
       };
     }
-    if (esgst.sk_lp) {
-      methods[esgst.sk_lastPage] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.paginationNavigation && esgst.currentPage < esgst.lastPage && esgst.lastPage !== 999999999) {
-          location.href = `${esgst.searchUrl}${esgst.lastPage}`;
+    if (this.esgst.sk_lp) {
+      methods[this.esgst.sk_lastPage] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage < this.esgst.lastPage && this.esgst.lastPage !== 999999999) {
+          location.href = `${this.esgst.searchUrl}${this.esgst.lastPage}`;
           event.preventDefault();
         }
       };
     }
-    if (esgst.sk_tf) {
-      methods[esgst.sk_toggleFilters] = event => {
+    if (this.esgst.sk_tf) {
+      methods[this.esgst.sk_toggleFilters] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let toggle = document.querySelector(`.esgst-gf-toggle-switch`);
           if (toggle) {
@@ -161,9 +164,9 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_hg) {
-      methods[esgst.sk_hideGame] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.giveawayPath) {
+    if (this.esgst.sk_hg) {
+      methods[this.esgst.sk_hideGame] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
           let button = (document.getElementsByClassName(`popup--hide-games`)[0].style.display && document.getElementsByClassName(`popup--hide-games`)[0].style.display !== `none` && document.getElementsByClassName(`js__submit-hide-games`)[0]) || document.querySelector(`.esgst-ochgb, .giveaway__hide, .featured__giveaway__hide`);
           if (button) {
             (button.classList.contains(`esgst-ochgb`) ? button.firstElementChild : button).click();
@@ -172,9 +175,9 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_hga) {
-      methods[esgst.sk_hideGiveaway] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.giveawayPath) {
+    if (this.esgst.sk_hga) {
+      methods[this.esgst.sk_hideGiveaway] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
           let button = document.querySelector(`.esgst-gf-hide-button, .esgst-gf-unhide-button`);
           if (button) {
             button.firstElementChild.click();
@@ -183,20 +186,20 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_ge) {
-      methods[esgst.sk_giveawayEntry] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.enterGiveawayButton) {
-          if (esgst.enterGiveawayButton.classList.contains(`is-hidden`)) {
-            esgst.leaveGiveawayButton.click();
+    if (this.esgst.sk_ge) {
+      methods[this.esgst.sk_giveawayEntry] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.enterGiveawayButton) {
+          if (this.esgst.enterGiveawayButton.classList.contains(`is-hidden`)) {
+            this.esgst.leaveGiveawayButton.click();
           } else {
-            esgst.enterGiveawayButton.click();
+            this.esgst.enterGiveawayButton.click();
           }
           event.preventDefault();
         }
       };
     }
-    if (esgst.sk_c) {
-      methods[esgst.sk_creator] = event => {
+    if (this.esgst.sk_c) {
+      methods[this.esgst.sk_creator] = event => {
         if (event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let text = event.target.value;
           let end = event.target.selectionEnd;
@@ -212,16 +215,16 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_rb) {
-      methods[esgst.sk_replyBox] = event => {
-        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && esgst.replyBox) {
-          esgst.replyBox.getElementsByTagName(`textarea`)[0].focus();
+    if (this.esgst.sk_rb) {
+      methods[this.esgst.sk_replyBox] = event => {
+        if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.replyBox) {
+          this.esgst.replyBox.getElementsByTagName(`textarea`)[0].focus();
           event.preventDefault();
         }
       };
     }
-    if (esgst.sk_ru) {
-      methods[esgst.sk_replyUser] = event => {
+    if (this.esgst.sk_ru) {
+      methods[this.esgst.sk_replyUser] = event => {
         if (event.target.tagName === `TEXTAREA`) {
           let text = event.target.value;
           let end = event.target.selectionEnd;
@@ -238,8 +241,8 @@ _MODULES.push({
         }
       };
     }
-    if (esgst.sk_sr) {
-      methods[esgst.sk_submitReply] = event => {
+    if (this.esgst.sk_sr) {
+      methods[this.esgst.sk_submitReply] = event => {
         if (event.target.tagName === `TEXTAREA`) {
           let reply = event.target.closest(`.comment, .reply_form, .esgst-popup`);
           if (reply) {
@@ -253,7 +256,7 @@ _MODULES.push({
       };
     }
     if (Object.keys(methods).length > 0) {
-      esgst.documentEvents.keydown.add(event => {
+      this.esgst.documentEvents.keydown.add(event => {
         let value = ``;
         if (event.ctrlKey) {
           value += `ctrlKey + `;
@@ -270,4 +273,6 @@ _MODULES.push({
       });
     }
   }
+}
 
+export default GeneralShortcutKeys;

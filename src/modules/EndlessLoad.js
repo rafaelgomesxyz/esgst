@@ -1,11 +1,17 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class EndlessLoad extends Module {
+info = ({
   endless: true,
   id: `endlessLoad`,
   load: endlessLoad
 });
 
-async function endlessLoad() {    
-  if (!esgst.menuPath) {
-    await endless_load(document, true);
+async endlessLoad() {    
+  if (!this.esgst.menuPath) {
+    await this.esgst.modules.common.endless_load(document, true);
   }
 }
+}
+
+export default EndlessLoad;

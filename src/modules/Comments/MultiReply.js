@@ -1,69 +1,73 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class CommentsMultiReply extends Module {
+info = ({
     description: `
       <ul>
-        <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
+        <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments this.esgst.modules.generalAccurateTimestamp.at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
         <li>Has [id=ded] built-in.</li>
       </ul>
     `,
     id: `mr`,
-    load: mr,
+    load: this.mr,
     name: `Multi-Reply`,
     sg: true,
     st: true,
     type: `comments`
   });
 
-  function mr() {
-    esgst.endlessFeatures.push(mr_getButtons);
+  mr() {
+    this.esgst.endlessFeatures.push(mr_getButtons);
   }
 
-  function mr_getButtons(context, main, source, endless) {
-    if ((!esgst.mr || esgst.inboxPath) && (!esgst.rfi || (!esgst.inboxPath && main))) return;
+  mr_getButtons(context, main, source, endless) {
+    if ((!this.esgst.mr || this.esgst.inboxPath) && (!this.esgst.rfi || (!this.esgst.inboxPath && main))) return;
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__actions, .esgst-es-page-${endless}.comment__actions` : `.comment__actions`}, ${endless ? `.esgst-es-page-${endless} .action_list, .esgst-es-page-${endless}.action_list` : `.action_list`}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
-      mr_addButton(elements[i], main);
+      this.mr_addButton(elements[i], main);
     }
   }
 
-  function mr_addButton(Context, main) {
+  mr_addButton(Context, main) {
     let MR, Parent, ReplyButton, Permalink;
     MR = {
       Context: Context,
-      Comment: Context.closest(esgst.sg ? `.comment` : `.comment_outer`)
+      Comment: Context.closest(this.esgst.sg ? `.comment` : `.comment_outer`)
     };
     if (MR.Comment) {
-      Parent = MR.Comment.closest(esgst.sg ? `.comment` : `.comment_outer`);
-      MR.Container = MR.Comment.getElementsByClassName(esgst.sg ? `comment__summary` : `comment_inner`)[0];
+      Parent = MR.Comment.closest(this.esgst.sg ? `.comment` : `.comment_outer`);
+      MR.Container = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__summary` : `comment_inner`)[0];
       MR.Timestamp = MR.Context.firstElementChild;
-      ReplyButton = MR.Context.getElementsByClassName(esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
+      ReplyButton = MR.Context.getElementsByClassName(this.esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
       Permalink = MR.Context.querySelectorAll(`[href*="/go/comment/"]`);
       Permalink = Permalink[Permalink.length - 1];
-      if (ReplyButton || !main || esgst.inboxPath) {
+      if (ReplyButton || !main || this.esgst.inboxPath) {
         if (ReplyButton) {
           ReplyButton.remove();
-          MR.ParentID = Parent.getAttribute(esgst.sg ? `data-comment-id` : `data-id`);
-          if (!main || esgst.inboxPath) {
+          MR.ParentID = Parent.getAttribute(this.esgst.sg ? `data-comment-id` : `data-id`);
+          if (!main || this.esgst.inboxPath) {
             MR.URL = Permalink.getAttribute(`href`);
           }
           MR.url = Permalink.getAttribute(`href`);
         } else {
           MR.url = MR.URL = Permalink.getAttribute(`href`);
-          createElements(MR.Comment, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(MR.Comment, `beforeEnd`, [{
             attributes: {
               class: `comment__children comment_children`
             },
             type: `div`
           }]);
         }
-        if (esgst.sg) {
+        if (this.esgst.sg) {
           MR.TradeCode = ``;
         } else {
-          if (main && !esgst.inboxPath) {
+          if (main && !this.esgst.inboxPath) {
             MR.TradeCode = location.pathname.match(/^\/trade\/(.+?)\//)[1];
           }
           MR.Username = MR.Comment.getElementsByClassName(`author_name`)[0].textContent;
         }
-        createElements(MR.Timestamp, `afterEnd`, [{
+        this.esgst.modules.common.createElements(MR.Timestamp, `afterEnd`, [{
           attributes: {
             class: `comment__actions__button esgst-mr-reply`
           },
@@ -72,22 +76,22 @@ _MODULES.push({
         }]);
         MR.Timestamp.nextElementSibling.addEventListener(`click`, () => {
           if (!MR.Box) {
-            mr_addBox(MR);
+            this.mr_addBox(MR);
           } else {
             MR.Description.focus();
           }
         });
       }
-      MR.Children = MR.Comment.getElementsByClassName(esgst.sg ? `comment__children` : `comment_children`)[0];
-      mr_setEdit(MR);
-      mr_setDelete(MR);
-      mr_setUndelete(MR);
+      MR.Children = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__children` : `comment_children`)[0];
+      this.mr_setEdit(MR);
+      this.mr_setDelete(MR);
+      this.mr_setUndelete(MR);
     }
   }
 
-  function mr_addBox(MR) {
+  mr_addBox(MR) {
     let Username;
-    Username = esgst.username;
+    Username = this.esgst.username;
     const items = [{
       attributes: {
         class: `comment reply_form MRBox`
@@ -132,7 +136,7 @@ _MODULES.push({
         }]
       }]
     }];
-    if (esgst.sg) {
+    if (this.esgst.sg) {
       items[0].children = [{
         attributes: {
           class: `comment__child`
@@ -147,7 +151,7 @@ _MODULES.push({
           children: [{
             attributes: {
               class: `global__image-inner-wrap`,
-              style: `background-image: url(${esgst.avatar});`
+              style: `background-image: url(${this.esgst.avatar});`
             },
             type: `div`
           }]
@@ -193,32 +197,32 @@ _MODULES.push({
       basicItems[2].attributes.placeholder = `Write a reply to ${MR.Username}...`;
       items[0].children = basicItems;
     }
-    createElements(MR.Children, `afterBegin`, items);
+    this.esgst.modules.common.createElements(MR.Children, `afterBegin`, items);
     MR.Box = MR.Children.firstElementChild;
     MR.Description = MR.Box.getElementsByClassName(`esgst-mr-description`)[0];
     MR.Cancel = MR.Box.getElementsByClassName(`esgst-mr-cancel`)[0];
-    if (esgst.cfh) {
-      cfh_addPanel(MR.Description);
+    if (this.esgst.cfh) {
+      this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(MR.Description);
     }
     MR.Description.focus();
-    ded_addButton(MR.Box, MR.URL, async (id, Response, DEDStatus) => {
+    this.esgst.modules.discussionsDiscussionEditDetector.ded_addButton(MR.Box, MR.URL, async (id, Response, DEDStatus) => {
       let Reply;
-      if (esgst.sg) {
+      if (this.esgst.sg) {
         if (id) {
-          Reply = parseHtml(Response.responseText).getElementById(id).closest(`.comment`);
-          if (esgst.rfi && esgst.rfi_s) {
-            await rfi_saveReply(id, Reply.outerHTML, MR.url);
+          Reply = utils.parseHtml(Response.responseText).getElementById(id).closest(`.comment`);
+          if (this.esgst.rfi && this.esgst.rfi_s) {
+            await this.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
-          rml_addLink(MR.Container, [Reply]);
-          await endless_load(Reply);
+          this.esgst.modules.commentsReplyMentionLink.rml_addLink(MR.Container, [Reply]);
+          await this.esgst.modules.common.endless_load(Reply);
           MR.Box.remove();
           MR.Box = null;
           MR.Children.appendChild(Reply);
-          if (!esgst.qiv.comments || !esgst.qiv.comments.contains(Reply)) {
+          if (!this.esgst.qiv.comments || !this.esgst.qiv.comments.contains(Reply)) {
             location.hash = id;
           }
         } else {
-          createElements(DEDStatus, `inner`, [{
+          this.esgst.modules.common.createElements(DEDStatus, `inner`, [{
             attributes: {
               class: `fa fa-times`
             },
@@ -230,20 +234,20 @@ _MODULES.push({
         }
       } else {
         if (id) {
-          Reply = parseHtml(JSON.parse(Response.responseText).html).getElementById(id);
-          if (esgst.rfi && esgst.rfi_s) {
-            await rfi_saveReply(id, Reply.outerHTML, MR.url);
+          Reply = utils.parseHtml(JSON.parse(Response.responseText).html).getElementById(id);
+          if (this.esgst.rfi && this.esgst.rfi_s) {
+            await this.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
-          rml_addLink(MR.Container, [Reply]);
-          await endless_load(Reply);
+          this.esgst.modules.commentsReplyMentionLink.rml_addLink(MR.Container, [Reply]);
+          await this.esgst.modules.common.endless_load(Reply);
           MR.Box.remove();
           MR.Box = null;
           MR.Children.appendChild(Reply);
-          if (!esgst.qiv.comments || !esgst.qiv.comments.contains(Reply)) {
+          if (!this.esgst.qiv.comments || !this.esgst.qiv.comments.contains(Reply)) {
             location.hash = id;
           }
         } else {
-          createElements(DEDStatus, `inner`, [{
+          this.esgst.modules.common.createElements(DEDStatus, `inner`, [{
             attributes: {
               class: `fa fa-times`
             },
@@ -261,11 +265,11 @@ _MODULES.push({
     });
   }
 
-  function mr_setEdit(MR) {
+  mr_setEdit(MR) {
     let DisplayState, EditState, EditSave, ID, AllowReplies, Description;
-    MR.Edit = MR.Context.getElementsByClassName(esgst.sg ? `js__comment-edit` : `js_comment_edit`)[0];
+    MR.Edit = MR.Context.getElementsByClassName(this.esgst.sg ? `js__comment-edit` : `js_comment_edit`)[0];
     if (MR.Edit) {
-      createElements(MR.Edit, `afterEnd`, [{
+      this.esgst.modules.common.createElements(MR.Edit, `afterEnd`, [{
         attributes: {
           class: `comment__actions__button esgst-mr-edit`
         },
@@ -274,10 +278,10 @@ _MODULES.push({
       }]);
       MR.Edit = MR.Edit.nextElementSibling;
       MR.Edit.previousElementSibling.remove();
-      DisplayState = MR.Comment.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0];
-      EditState = MR.Comment.getElementsByClassName(esgst.sg ? `comment__edit-state` : `edit_form`)[0];
+      DisplayState = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__display-state` : `comment_body_default`)[0];
+      EditState = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__edit-state` : `edit_form`)[0];
       EditSave = EditState.querySelector(`.js__comment-edit-save, .js_submit, .EditSave`);
-      createElements(EditSave, `afterEnd`, [{
+      this.esgst.modules.common.createElements(EditSave, `afterEnd`, [{
         attributes: {
           class: `comment__submit-button btn_action white EditSave`
         },
@@ -295,17 +299,17 @@ _MODULES.push({
       EditSave = EditSave.nextElementSibling;
       EditSave.previousElementSibling.remove();
       ID = EditState.querySelector(`[name="comment_id"]`).value;
-      AllowReplies = esgst.sg ? EditState.querySelector(`[name="allow_replies"]`).value : ``;
+      AllowReplies = this.esgst.sg ? EditState.querySelector(`[name="allow_replies"]`).value : ``;
       Description = EditState.querySelector(`[name="description"]`);
       MR.Edit.addEventListener(`click`, () => {
         let Temp;
-        if (esgst.sg) {
+        if (this.esgst.sg) {
           DisplayState.classList.add(`is-hidden`);
           MR.Context.classList.add(`is-hidden`);
         } else {
           MR.Container.classList.add(`is_hidden`);
         }
-        EditState.classList.remove(esgst.sg ? `is-hidden` : `is_hidden`);
+        EditState.classList.remove(this.esgst.sg ? `is-hidden` : `is_hidden`);
         Temp = Description.value;
         Description.focus();
         Description.value = ``;
@@ -313,13 +317,13 @@ _MODULES.push({
       });
       EditSave.addEventListener(`click`, async () => {
         let ResponseJSON, ResponseHTML;
-        ResponseJSON = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, method: `POST`, url: `/ajax.php`})).responseText);
+        ResponseJSON = JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, method: `POST`, url: `/ajax.php`})).responseText);
         if (ResponseJSON.type === `success` || ResponseJSON.success) {
-          ResponseHTML = parseHtml(ResponseJSON[esgst.sg ? `comment` : `html`]);
-          if (esgst.rfi && esgst.rfi_s) {
+          ResponseHTML = utils.parseHtml(ResponseJSON[this.esgst.sg ? `comment` : `html`]);
+          if (this.esgst.rfi && this.esgst.rfi_s) {
             let reply = MR.Comment.cloneNode(true);
-            if (esgst.sg) {
-              createElements(reply, `inner`, [{
+            if (this.esgst.sg) {
+              this.esgst.modules.common.createElements(reply, `inner`, [{
                 attributes: {
                   class: `ajax comment__child`
                 },
@@ -336,7 +340,7 @@ _MODULES.push({
                 type: `div`
               }]);
             } else {
-              createElements(reply, `inner`, [...(Array.from(ResponseHTML.body.childNodes).map(x => {
+              this.esgst.modules.common.createElements(reply, `inner`, [...(Array.from(ResponseHTML.body.childNodes).map(x => {
                 return {
                   context: x.cloneNode(true)
                 };
@@ -347,31 +351,31 @@ _MODULES.push({
                 type: `div`
               }]);
             }
-            await rfi_saveReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
+            await this.esgst.modules.commentsReplyFromInbox.rfi_saveReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
           }
-          createElements(DisplayState, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(esgst.sg ? `comment__display-state` : `comment_body_default`)[0].childNodes).map(x => {
+          this.esgst.modules.common.createElements(DisplayState, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(this.esgst.sg ? `comment__display-state` : `comment_body_default`)[0].childNodes).map(x => {
             return {
               context: x
             };
           }))]);
-          EditState.classList.add(esgst.sg ? `is-hidden` : `is_hidden`);
-          createElements(MR.Timestamp, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.childNodes).map(x => {
+          EditState.classList.add(this.esgst.sg ? `is-hidden` : `is_hidden`);
+          this.esgst.modules.common.createElements(MR.Timestamp, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(this.esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.childNodes).map(x => {
             return {
               context: x
             };
           }))]);
-          if (esgst.at) {
-            at_getTimestamps(MR.Timestamp);
+          if (this.esgst.at) {
+            this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(MR.Timestamp);
           }
-          if (esgst.ged) {
-            await esgst.ged_addIcons([{
-              actions: MR.Container.getElementsByClassName(esgst.sg ? `comment__actions` : `action_list`)[0],
+          if (this.esgst.ged) {
+            await this.esgst.ged_addIcons([{
+              actions: MR.Container.getElementsByClassName(this.esgst.sg ? `comment__actions` : `action_list`)[0],
               displayState: DisplayState,
               comment: MR.Container,
               id: MR.url.match(/\/comment\/(.+)/)[1]
             }]);
           }
-          if (esgst.sg) {
+          if (this.esgst.sg) {
             DisplayState.classList.remove(`is-hidden`);
             MR.Context.classList.remove(`is-hidden`);
           } else {
@@ -382,80 +386,80 @@ _MODULES.push({
     }
   }
 
-  function mr_setDelete(mr) {
+  mr_setDelete(mr) {
     let allowReplies, data, id;
-    mr.delete = mr.Context.getElementsByClassName(esgst.sg ? `js__comment-delete` : `js_comment_delete`)[0];
+    this.mr.delete = this.mr.Context.getElementsByClassName(this.esgst.sg ? `js__comment-delete` : `js_comment_delete`)[0];
     if (mr.delete) {
-      if (esgst.sg) {
-        allowReplies = mr.delete.parentElement.querySelector(`[name="allow_replies"]`).value;
-        id = mr.delete.parentElement.querySelector(`[name="comment_id"]`).value;
-        data = `xsrf_token=${esgst.xsrfToken}&do=comment_delete&allow_replies=${allowReplies}&comment_id=${id}`;
+      if (this.esgst.sg) {
+        allowReplies = this.mr.delete.parentElement.querySelector(`[name="allow_replies"]`).value;
+        id = this.mr.delete.parentElement.querySelector(`[name="comment_id"]`).value;
+        data = `xsrf_token=${this.esgst.xsrfToken}&do=comment_delete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
-        data = mr.delete.getAttribute(`data-form`);
+        data = this.mr.delete.getAttribute(`data-form`);
       }
-      createElements(mr.delete, `afterEnd`, [{
+      this.esgst.modules.common.createElements(mr.delete, `afterEnd`, [{
         attributes: {
           class: `comment__actions__button esgst-mr-delete`
         },
         text: `Delete`,
         type: `a`
       }]);
-      mr.delete = mr.delete.nextElementSibling;
-      mr.delete.previousElementSibling.remove();
-      mr.delete.addEventListener(`click`, async () => {
-        mr_editReply(mr, await request({data, method: `POST`, url: `/ajax.php`}));
+      this.mr.delete = this.mr.delete.nextElementSibling;
+      this.mr.delete.previousElementSibling.remove();
+      this.mr.delete.addEventListener(`click`, async () => {
+        this.mr_editReply(mr, await this.esgst.modules.common.request({data, method: `POST`, url: `/ajax.php`}));
       });
     }
   }
 
-  function mr_setUndelete(mr) {
+  mr_setUndelete(mr) {
     let allowReplies, data, id;
-    mr.undelete = mr.Context.getElementsByClassName(esgst.sg ? `js__comment-undelete` : `js_comment_undelete`)[0];
+    this.mr.undelete = this.mr.Context.getElementsByClassName(this.esgst.sg ? `js__comment-undelete` : `js_comment_undelete`)[0];
     if (mr.undelete) {
-      if (esgst.sg) {
-        allowReplies = mr.undelete.parentElement.querySelector(`[name="allow_replies"]`).value;
-        id = mr.undelete.parentElement.querySelector(`[name="comment_id"]`).value;
-        data = `xsrf_token=${esgst.xsrfToken}&do=comment_undelete&allow_replies=${allowReplies}&comment_id=${id}`;
+      if (this.esgst.sg) {
+        allowReplies = this.mr.undelete.parentElement.querySelector(`[name="allow_replies"]`).value;
+        id = this.mr.undelete.parentElement.querySelector(`[name="comment_id"]`).value;
+        data = `xsrf_token=${this.esgst.xsrfToken}&do=comment_undelete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
-        data = mr.undelete.getAttribute(`data-form`);
+        data = this.mr.undelete.getAttribute(`data-form`);
       }
-      createElements(mr.undelete, `afterEnd`, [{
+      this.esgst.modules.common.createElements(mr.undelete, `afterEnd`, [{
         attributes: {
           class: `comment__actions__button esgst-mr-undelete`
         },
         text: `Undelete`,
         type: `a`
       }]);
-      mr.undelete = mr.undelete.nextElementSibling;
-      mr.undelete.previousElementSibling.remove();
-      mr.undelete.addEventListener(`click`, async () => {
-        mr_editReply(mr, await request({data, method: `POST`, url: `/ajax.php`}));
+      this.mr.undelete = this.mr.undelete.nextElementSibling;
+      this.mr.undelete.previousElementSibling.remove();
+      this.mr.undelete.addEventListener(`click`, async () => {
+        this.mr_editReply(mr, await this.esgst.modules.common.request({data, method: `POST`, url: `/ajax.php`}));
       });
     }
   }
 
-  async function mr_editReply(mr, response) {
+  async mr_editReply(mr, response) {
     let responseHtml, responseJson;
     responseJson = JSON.parse(response.responseText);
     if (responseJson.type === `success` || responseJson.success) {
-      responseHtml = parseHtml(responseJson[esgst.sg ? `comment` : `html`]);
-      if (esgst.sg) {
-        createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment__summary`)[0].childNodes).map(x => {
+      responseHtml = utils.parseHtml(responseJson[this.esgst.sg ? `comment` : `html`]);
+      if (this.esgst.sg) {
+        this.esgst.modules.common.createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment__summary`)[0].childNodes).map(x => {
           return {
             context: x
           };
         }))]);
       } else {
-        createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment_inner`)[0].childNodes).map(x => {
+        this.esgst.modules.common.createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment_inner`)[0].childNodes).map(x => {
           return {
             context: x
           };
         }))]);
       }
-      if (esgst.rfi && esgst.rfi_s) {
-        let reply = mr.Comment.cloneNode(true);
-        if (esgst.sg) {
-          createElements(reply, `inner`, [{
+      if (this.esgst.rfi && this.esgst.rfi_s) {
+        let reply = this.mr.Comment.cloneNode(true);
+        if (this.esgst.sg) {
+          this.esgst.modules.common.createElements(reply, `inner`, [{
             attributes: {
               class: `ajax comment__child`
             },
@@ -472,7 +476,7 @@ _MODULES.push({
             type: `div`
           }]);
         } else {
-          createElements(reply, `inner`, [...(Array.from(responseHtml.body.childNodes).map(x => {
+          this.esgst.modules.common.createElements(reply, `inner`, [...(Array.from(responseHtml.body.childNodes).map(x => {
             return {
               context: x
             };
@@ -483,9 +487,11 @@ _MODULES.push({
             type: `div`
           }]);
         }
-        await rfi_saveReply(mr.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
+        await this.esgst.modules.commentsReplyFromInbox.rfi_saveReply(mr.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
       }
-      await endless_load(mr.Container);
+      await this.esgst.modules.common.endless_load(mr.Container);
     }
   }
-  
+}
+
+export default CommentsMultiReply;

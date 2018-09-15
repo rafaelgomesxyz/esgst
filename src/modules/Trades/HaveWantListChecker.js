@@ -1,31 +1,34 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class TradesHaveWantListChecker extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
       </ul>
     `,
     id: `hwlc`,
-    load: hwlc,
+    load: this.hwlc,
     name: `Have/Want List Checker`,
     st: true,
     type: `trades`
   });
 
-  function hwlc() {
-    if (!esgst.tradePath) {
+  hwlc() {
+    if (!this.esgst.tradePath) {
       return;
     }
     let obj = {
-      button: createHeadingButton({
+      button: this.esgst.modules.common.createHeadingButton({
         context: document.getElementsByClassName(`page_heading`)[0],
         id: `hwlc`,
         icons: [`fa-list`]
       })
     };
-    obj.button.addEventListener(`click`, hwlc_openPopup.bind(null, obj));
+    obj.button.addEventListener(`click`, this.hwlc_openPopup.bind(null, obj));
   }
 
-  function hwlc_openPopup(obj) {
+  hwlc_openPopup(obj) {
     if (obj.popup) {
       obj.popup.open();
       return;
@@ -35,22 +38,22 @@ _MODULES.push({
       title: `Have/Want List Checker`,
       addScrollable: `left`
     });
-    hwlc_addPanel(obj);
+    this.hwlc_addPanel(obj);
     obj.popup.open();
-    setTimeout(() => hwlc_getGames(obj), 1000);
+    setTimeout(() => this.hwlc_getGames(obj), 1000);
   }
 
-  function hwlc_addPanel(obj) {
+  hwlc_addPanel(obj) {
     obj.panel = obj.popup.getScrollable();
     obj.panel.classList.add(`esgst-hwlc-panel`, `markdown`);
     obj.sections = {};
-    hwlc_addSection(obj, `have`, `want`);
-    hwlc_addSection(obj, `want`, `have`);
+    this.hwlc_addSection(obj, `have`, `want`);
+    this.hwlc_addSection(obj, `want`, `have`);
   }
 
-  function hwlc_addSection(obj, key, counterKey) {
+  hwlc_addSection(obj, key, counterKey) {
     obj[key] = document.querySelector(`.${key}`);
-    createElements(obj.panel, `beforeEnd`, [{
+    this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
       attributes: {
         class: `esgst-hwlc-section`
       },
@@ -132,16 +135,16 @@ _MODULES.push({
       games: document.getElementById(`esgst-hwlc-${key}-games`),
       unidentified: document.getElementById(`esgst-hwlc-${key}-unidentified`)
     };
-    obj.sections[key].textArea.addEventListener(`input`, hwlc_filter.bind(null, obj, key, null));
+    obj.sections[key].textArea.addEventListener(`input`, this.hwlc_filter.bind(null, obj, key, null));
   }
 
-  async function hwlc_getGames(obj) {
+  async hwlc_getGames(obj) {
     const currentTime = Date.now();
     let cache = JSON.parse(getLocalValue(`hwlcCache`, `{"lastUpdate": 0}`));
     let json = null;
     if (currentTime - cache.lastUpdate > 604800000) {
       try {
-        const response = await request({
+        const response = await this.esgst.modules.common.request({
           method: `GET`,
           url: `https://api.steampowered.com/ISteamApps/GetAppList/v2/`
         });
@@ -149,24 +152,24 @@ _MODULES.push({
           data: response.responseText,
           lastUpdate: currentTime
         };
-        setLocalValue(`hwlcCache`, JSON.stringify(cache));
+        this.esgst.modules.common.setLocalValue(`hwlcCache`, JSON.stringify(cache));
       } catch (error) {
         alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
       }
     }
     json = JSON.parse(cache.data);
     obj.games = {};
-    hwlc_addGames(obj, `have`, json);
-    hwlc_addGames(obj, `want`, json);
+    this.hwlc_addGames(obj, `have`, json);
+    this.hwlc_addGames(obj, `want`, json);
   }
 
-  async function hwlc_addGames(obj, key, json) {
+  async hwlc_addGames(obj, key, json) {
     obj.games[key] = {
       apps: [],
       subs: []
     };
     const unidentified = [];
-    const elements = getTextNodesIn(obj[key]);
+    const elements = this.esgst.modules.common.getTextNodesIn(obj[key]);
     for (const element of elements) {
       const parent = element.parentElement;
       const striked = parent.closest(`del`);
@@ -192,7 +195,7 @@ _MODULES.push({
         continue;
       }
       if (json) {
-        const matches = json.applist.apps.filter(x => hwlc_formatName(x.name) === hwlc_formatName(name));
+        const matches = json.applist.apps.filter(x => this.hwlc_formatName(x.name) === this.hwlc_formatName(name));
         if (matches.length) {
           obj.games[key].apps.push({
             id: matches[0].appid,
@@ -211,7 +214,7 @@ _MODULES.push({
     if (key === `want`) {
       try {
         const steamId = document.querySelector(`.author_name`).getAttribute(`href`).match(/\d+/)[0];
-        const response = await request({
+        const response = await this.esgst.modules.common.request({
           method: `GET`,
           url: `http://store.steampowered.com/wishlist/profiles/${steamId}`
         });
@@ -262,8 +265,8 @@ _MODULES.push({
         };
         return game;
       }
-      if (esgst.games.apps[game.id]) {
-        if (esgst.games.apps[game.id].owned) {
+      if (this.esgst.games.apps[game.id]) {
+        if (this.esgst.games.apps[game.id].owned) {
           game.owned = true;
           game.html = {
             type: `li`,
@@ -282,7 +285,7 @@ _MODULES.push({
             }]
           };
           return game;
-        } else if (esgst.games.apps[game.id].wishlisted) {
+        } else if (this.esgst.games.apps[game.id].wishlisted) {
           game.wishlisted = true;
           game.html = {
             type: `li`,
@@ -320,7 +323,7 @@ _MODULES.push({
     for (const game of obj.games[key].apps) {
       appItems.push(game.html);
     }
-    createElements(obj.sections[key].games, `beforeEnd`, appItems);
+    this.esgst.modules.common.createElements(obj.sections[key].games, `beforeEnd`, appItems);
     const subItems = [];
     for (const game of obj.games[key].subs) {
       subItems.push({
@@ -340,7 +343,7 @@ _MODULES.push({
         }]
       });
     }
-    createElements(obj.sections[key].games, `beforeEnd`, subItems);
+    this.esgst.modules.common.createElements(obj.sections[key].games, `beforeEnd`, subItems);
     const unidentifiedItems = [];
     for (const game of unidentified) {
       unidentifiedItems.push({
@@ -348,27 +351,27 @@ _MODULES.push({
         type: `li`
       });
     }
-    createElements(obj.sections[key].unidentified, `beforeEnd`, unidentifiedItems);
+    this.esgst.modules.common.createElements(obj.sections[key].unidentified, `beforeEnd`, unidentifiedItems);
     for (const section in obj.sections[key]) {
       if (section === `textArea` || obj.sections[key][section].innerHTML) {
         continue;
       }
-      createElements(obj.sections[key][section], `inner`, [{
+      this.esgst.modules.common.createElements(obj.sections[key][section], `inner`, [{
         text: `None.`,
         type: `node`
       }]);
     }
-    const query = getLocalValue(`hwlc_${key}`);
+    const query = this.esgst.modules.common.getLocalValue(`hwlc_${key}`);
     if (query) {
       obj.sections[key].textArea.value = query;
-      hwlc_filter(obj, key);
+      this.hwlc_filter(obj, key);
     }
   }
 
-  function hwlc_filter(obj, key) {
+  hwlc_filter(obj, key) {
     obj.sections[key].matches.innerHTML = ``;
     const query = obj.sections[key].textArea.value;
-    setLocalValue(`hwlc_${key}`, query);
+    this.esgst.modules.common.setLocalValue(`hwlc_${key}`, query);
     let found = [];
     const values = query.split(/\n/);
     for (let value of values) {
@@ -411,28 +414,28 @@ _MODULES.push({
         }]
       });
     }
-    createElements(obj.sections[key].matches, `beforeEnd`, items);
+    this.esgst.modules.common.createElements(obj.sections[key].matches, `beforeEnd`, items);
     if (!obj.sections[key].matches.innerHTML) {
-      createElements(obj.sections[key].matches, `inner`, [{
+      this.esgst.modules.common.createElements(obj.sections[key].matches, `inner`, [{
         text: `None.`,
         type: `node`
       }]);
     }
   }
 
-  function hwlc_tidyName(name) {
+  hwlc_tidyName(name) {
     return name
       .replace(/[^\w]/g, ``).toLowerCase()
       .replace(/steamkeys/, ``);
   }
 
-  function hwlc_formatName(name) {
+  hwlc_formatName(name) {
     return name
       .replace(/[^\w]/g, ``).toLowerCase()
       .replace(/windowsedition/, ``);
   }
 
-  function hwlc_sortGames(a, b) {
+  hwlc_sortGames(a, b) {
     if (a.wishlisted && !b.wishlisted) {
       return -1;
     }
@@ -449,4 +452,6 @@ _MODULES.push({
       sensitivity: `base`
     });
   }
+}
 
+export default TradesHaveWantListChecker;

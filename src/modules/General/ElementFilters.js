@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralElementFilters extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to hide elements in any page using CSS selectors.</li>
@@ -6,8 +9,8 @@ _MODULES.push({
         <li>Here are some quick examples:</li>
         <ul>
           <li>To hide the "Redeem" button in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page, use: <code>.table__column__key__redeem</code></li>
-          <li>To hide the featured giveaway container (the big giveaway) in the main page, use: <code>[esgst.giveawaysPath].featured__container</code></li>
-          <li>To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: <code>[esgst.giveawaysPath].pinned-giveaways__outer-wrap</code></li>
+          <li>To hide the featured giveaway container (the big giveaway) in the main page, use: <code>[this.esgst.giveawaysPath].featured__container</code></li>
+          <li>To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: <code>[this.esgst.giveawaysPath].pinned-giveaways__outer-wrap</code></li>
         </ul>
       </ul>
     `,
@@ -19,28 +22,28 @@ _MODULES.push({
       }
     ],
     id: `ef`,
-    load: ef,
+    load: this.ef,
     name: `Element Filters`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function ef() {
-    ef_hideElements(document);
-    esgst.endlessFeatures.push(ef_hideElements);
-    if (esgst.sal || !esgst.wonPath) return;
-    esgst.endlessFeatures.push(sal_addObservers);
+  ef() {
+    this.ef_hideElements(document);
+    this.esgst.endlessFeatures.push(ef_hideElements);
+    if (this.esgst.sal || !this.esgst.wonPath) return;
+    this.esgst.endlessFeatures.push(sal_addObservers);
   }
 
-  function ef_hideElements(context, main, source, endless) {
+  ef_hideElements(context, main, source, endless) {
     if (context === document && main) return;
-    esgst.ef_filters.split(`, `).forEach(filter => {
+    this.esgst.ef_filters.split(`, `).forEach(filter => {
       if (!filter) return;
       try {
         const property = filter.match(/\[esgst\.(.+)\]/);
         if (property) {
-          if (!esgst[property[1]]) return;
+          if (!this.esgst[property[1]]) return;
           filter = filter.replace(/\[esgst\..+\]/, ``);
         }
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} ${filter}, .esgst-es-page-${endless}${filter}` : `${filter}`}`);
@@ -50,4 +53,6 @@ _MODULES.push({
       } catch (e) { /**/ }
     });
   }
+}
 
+export default GeneralElementFilters;

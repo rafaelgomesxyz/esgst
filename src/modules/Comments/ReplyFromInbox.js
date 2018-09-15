@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class CommentsReplyFromInbox extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
@@ -30,24 +34,24 @@ _MODULES.push({
       }
     },
     id: `rfi`,
-    load: rfi,
+    load: this.rfi,
     name: `Reply From Inbox`,
     sg: true,
     st: true,
     type: `comments`
   });
 
-  function rfi() {
-    if (esgst.mr) return;
-    esgst.endlessFeatures.push(mr_getButtons);
+  rfi() {
+    if (this.esgst.mr) return;
+    this.esgst.endlessFeatures.push(mr_getButtons);
   }
 
-  async function rfi_saveReply(id, reply, url, edit) {
+  async rfi_saveReply(id, reply, url, edit) {
     let i, n, source, saved;
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
     }
-    saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(await getValue(`${this.esgst.name}RfiCache`, `{}`));
     if (edit) {
       for (const key in saved) {
         for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i);
@@ -66,24 +70,24 @@ _MODULES.push({
         timestamp: Date.now()
       });
     }
-    await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+    await setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
   }
 
-  async function rfi_getReplies(comments, endless) {
+  async rfi_getReplies(comments, endless) {
     let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
-    saved = JSON.parse(await getValue(`${esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(await getValue(`${this.esgst.name}RfiCache`, `{}`));
     for (i = 0, n = comments.length; i < n; ++i) {
       comment = comments[i];
       id = comment.id;
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          createElements(children, `beforeEnd`, [{
-            context: parseHtml(saved[id][j].reply).body.firstElementChild
-          }]).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
+          this.esgst.modules.common.createElements(children, `beforeEnd`, [{
+            context: utils.parseHtml(saved[id][j].reply).body.firstElementChild
+          }]).querySelector(`[data-timestamp]`).textContent = this.esgst.modules.common.getTimeSince(saved[id][j].timestamp);
         }
         children.setAttribute(`data-rfi`, true);
-        await endless_load(children, false, null, false, endless);
+        await this.esgst.modules.common.endless_load(children, false, null, false, endless);
         children.removeAttribute(`data-rfi`);
       }
     }
@@ -102,7 +106,9 @@ _MODULES.push({
       }
     }
     if (edited) {
-      await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
+      await setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
     }
   }
+}
 
+export default CommentsReplyFromInbox;

@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class DiscussionsDiscussionFilters extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to filter discussions.</li>
@@ -201,34 +205,34 @@ _MODULES.push({
       }
     },
     id: `df`,
-    load: df,
+    load: this.df,
     name: `Discussion Filters`,
     sg: true,
     type: `discussions`
   });
 
-  async function df() {
-    if (esgst.df_m && esgst.discussionsPath && !esgst.editDiscussionPath) {
-      esgst.style.insertAdjacentText(`beforeEnd`, `
+  async df() {
+    if (this.esgst.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
+      this.esgst.style.insertAdjacentText(`beforeEnd`, `
         .esgst-gf-container {
-          top: ${esgst.commentsTop - 5}px;
+          top: ${this.esgst.commentsTop - 5}px;
         }
       `);
-      if (esgst.hideButtons && esgst.hideButtons_df) {
-        if (esgst.leftButtonIds.indexOf(`df`) > -1) {
-          esgst.leftButtons.insertBefore(filters_addContainer(`df`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+      if (this.esgst.hideButtons && this.esgst.hideButtons_df) {
+        if (this.esgst.leftButtonIds.indexOf(`df`) > -1) {
+          this.esgst.leftButtons.insertBefore(filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          esgst.rightButtons.appendChild(filters_addContainer(`df`, esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(filters_addContainer(`df`, this.esgst.mainPageHeading));
         }
       } else {
-        esgst.mainPageHeading.insertBefore(filters_addContainer(`df`, esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
-    if (!esgst.giveawaysPath || !esgst.activeDiscussions || esgst.adots || esgst.oadd) return;
-    await checkMissingDiscussions();
+    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.adots || this.esgst.oadd) return;
+    await this.esgst.modules.common.checkMissingDiscussions();
   }
 
-  function df_menu(obj, event) {
+  df_menu(obj, event) {
     if (obj.process) return;
 
     obj.process = new Process({
@@ -241,17 +245,17 @@ _MODULES.push({
       },
       urls: {
         id: `df`,
-        init: df_initUrls,
+        init: this.df_initUrls,
         perLoad: 5,
-        request: {
-          request: df_requestUrl
+        this.esgst.modules.common.request: {
+          this.esgst.modules.common.request: this.df_requestUrl
         }
       }
     });
     obj.process.openPopup();
   }
 
-  async function df_initUrls(obj) {
+  async df_initUrls(obj) {
     obj. discussions = obj.popup.getScrollable([{
       attributes: {
         class: `table esgst-text-left`
@@ -288,7 +292,7 @@ _MODULES.push({
         hidden.push(discussion);
       }
     }
-    hidden = sortArray(hidden, true, `hidden`);
+    hidden = utils.sortArray(hidden, true, `hidden`);
     obj.ids = [];
     for (const discussion of hidden) {
       obj.ids.push(discussion.code);
@@ -296,11 +300,11 @@ _MODULES.push({
     }
   }
 
-  async function df_requestUrl(obj, details, response, responseHtml) {
+  async df_requestUrl(obj, details, response, responseHtml) {
     const breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
     const categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
     const usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
-    createElements(obj.discussions, `beforeEnd`, [{
+    this.esgst.modules.common.createElements(obj.discussions, `beforeEnd`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -375,20 +379,20 @@ _MODULES.push({
         }]
       }]
     }]);
-    await endless_load(obj.discussions.lastElementChild);
-    if (!esgst.giveawaysPath && !esgst.discussionsPath) {
-      if (esgst.gdttt) {
-        await ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
-        await gdttt_checkVisited(obj.discussions.lastElementChild);
-      } else if (esgst.ct) {
-        await ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
+    await this.esgst.modules.common.endless_load(obj.discussions.lastElementChild);
+    if (!this.esgst.giveawaysPath && !this.esgst.discussionsPath) {
+      if (this.esgst.gdttt) {
+        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
+        await this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.discussions.lastElementChild);
+      } else if (this.esgst.ct) {
+        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
       }
-      await discussions_load(obj.discussions.lastElementChild);
+      await this.esgst.modules.discussions.discussions_load(obj.discussions.lastElementChild);
     }
   }
 
-  async function df_hideDiscussion(discussion, main) {
-    let deleteLock = await createLock(`discussionLock`, 300);
+  async df_hideDiscussion(discussion, main) {
+    let deleteLock = await this.esgst.modules.common.createLock(`discussionLock`, 300);
     let discussions = JSON.parse(await getValue(`discussions`, `{}`));
     if (!discussions[discussion.code]) {
       discussions[discussion.code] = {};
@@ -396,14 +400,14 @@ _MODULES.push({
     discussions[discussion.code].hidden = discussions[discussion.code].lastUsed = Date.now();
     await setValue(`discussions`, JSON.stringify(discussions));
     deleteLock();
-    if (!main || !esgst.discussionPath) {
+    if (!main || !this.esgst.discussionPath) {
       discussion.outerWrap.remove();
     }
     return true;
   }
 
-  async function df_unhideDiscussion(discussion, main) {
-    let deleteLock = await createLock(`discussionLock`, 300);
+  async df_unhideDiscussion(discussion, main) {
+    let deleteLock = await this.esgst.modules.common.createLock(`discussionLock`, 300);
     let discussions = JSON.parse(await getValue(`discussions`, `{}`));
     if (discussions[discussion.code]) {
       delete discussions[discussion.code].hidden;
@@ -411,13 +415,13 @@ _MODULES.push({
     }
     await setValue(`discussions`, JSON.stringify(discussions));
     deleteLock();
-    if (!main || !esgst.discussionPath) {
+    if (!main || !this.esgst.discussionPath) {
       discussion.outerWrap.remove();
     }
     return true;
   }
 
-  function df_getFilters() {
+  df_getFilters() {
     return {
       comments: {
         check: true,
@@ -481,17 +485,17 @@ _MODULES.push({
         type: `boolean`
       },
       highlighted: {
-        check: esgst.dh,
+        check: this.esgst.dh,
         name: `Highlighted`,
         type: `boolean`
       },
       visited: {
-        check: esgst.gdttt,
+        check: this.esgst.gdttt,
         name: `Visited`,
         type: `boolean`
       },
       unread: {
-        check: esgst.ct,
+        check: this.esgst.ct,
         name: `Unread`,
         type: `boolean`
       },
@@ -503,4 +507,6 @@ _MODULES.push({
       }
     };
   }
+}
 
+export default DiscussionsDiscussionFilters;

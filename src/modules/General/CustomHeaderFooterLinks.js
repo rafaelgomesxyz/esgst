@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralCustomHeaderFooterLinks extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
@@ -17,18 +20,18 @@ _MODULES.push({
     `,
     inputItems: `chfl_key`,
     id: `chfl`,
-    load: chfl,
+    load: this.chfl,
     name: `Custom Header/Footer Links`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function chfl() {
+  chfl() {
     let chfl = null;
-    if (esgst.sg) {
+    if (this.esgst.sg) {
       let elements = document.getElementsByClassName(`nav__relative-dropdown`);
-      chfl = {
+      this.chfl = {
         sources: {
           giveaways: {
             container: elements[0],
@@ -56,15 +59,15 @@ _MODULES.push({
             elements: {}
           },
           footer: {
-            container: esgst.footer,
-            context: esgst.footer.firstElementChild.lastElementChild,
+            container: this.esgst.footer,
+            context: this.esgst.footer.firstElementChild.lastElementChild,
             elements: {}
           }
         }
       };
     } else {
       let elements = document.getElementsByClassName(`dropdown`);
-      chfl = {
+      this.chfl = {
         sources: {
           trades: {
             container: elements[0],
@@ -77,15 +80,15 @@ _MODULES.push({
             elements: {}
           },
           footer: {
-            container: esgst.footer,
-            context: esgst.footer.firstElementChild.lastElementChild,
+            container: this.esgst.footer,
+            context: this.esgst.footer.firstElementChild.lastElementChild,
             elements: {}
           }
         }
       };
     }
-    for (let key in chfl.sources) {
-      let source = chfl.sources[key];
+    for (let key in this.chfl.sources) {
+      let source = this.chfl.sources[key];
       for (let i = source.context.children.length - 1; i > -1; i--) {
         let element = source.context.children[i];
         let id = element.getAttribute(`data-link-id`);
@@ -97,17 +100,17 @@ _MODULES.push({
         }
         if ((!element.getAttribute(`href`) || element.getAttribute(`href`).match(/^javascript/)) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
         id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*(\/|\?)(.+)$/)[2];
-        id = id.replace(/\[steamId\]/, esgst.steamId);
+        id = id.replace(/\[steamId\]/, this.esgst.steamId);
         element.setAttribute(`data-link-id`, id);
         element.setAttribute(`data-link-key`, key);
         source.elements[id] = element;
       }
-      chfl_reorder(chfl, key, true);
+      this.chfl_reorder(chfl, key, true);
     }
-    esgst.documentEvents.keydown.add(chfl_checkKey.bind(null, chfl));
+    this.esgst.documentEvents.keydown.add(chfl_checkKey.bind(null, this.chfl));
   }
 
-  function chfl_checkKey(chfl, event) {
+  chfl_checkKey(chfl, event) {
     let value = ``;
     if (event.ctrlKey) {
       value += `ctrlKey + `;
@@ -118,20 +121,20 @@ _MODULES.push({
     }
     value += event.key.toLowerCase();
 
-    if (value !== esgst.chfl_key) {
+    if (value !== this.esgst.chfl_key) {
       return;
     }
     event.stopPropagation();
 
-    const removedKey = chfl_removeButton(chfl);
-    chfl_addButton(chfl, removedKey);
+    const removedKey = this.chfl_removeButton(chfl);
+    this.chfl_addButton(chfl, removedKey);
   }
 
-  function chfl_reorder(chfl, key, firstRun) {
-    let source = chfl.sources[key];
+  chfl_reorder(chfl, key, firstRun) {
+    let source = this.chfl.sources[key];
     let ids = [];
-    for (let i = esgst[`chfl_${key}`].length - 1; i > -1; i--) {
-      let item = esgst[`chfl_${key}`][i];
+    for (let i = this.esgst[`chfl_${key}`].length - 1; i > -1; i--) {
+      let item = this.esgst[`chfl_${key}`][i];
       if (item.id) {
         let element = source.elements[item.id];
         if (element && !firstRun) {
@@ -141,13 +144,13 @@ _MODULES.push({
             element.remove();
           }
           if (key === `footer`) {
-            source.elements[item.id] = createElements(source.context, `afterBegin`, [{
+            source.elements[item.id] = this.esgst.modules.common.createElements(source.context, `afterBegin`, [{
               attributes: {
                 [`data-link-id`]: item.id,
                 [`data-link-key`]: `footer`,
-                title: getFeatureTooltip(`chfl`)
+                title: this.esgst.modules.common.getFeatureTooltip(`chfl`)
               },
-              type: esgst.sg ? `div` : `li`,
+              type: this.esgst.sg ? `div` : `li`,
               children: [{
                 attributes: {
                   class: `fa ${item.icon}`
@@ -162,8 +165,8 @@ _MODULES.push({
               }]
             }]);
           } else {
-            source.elements[item.id] = createElements(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
-            source.elements[item.id].title = getFeatureTooltip(`chfl`);
+            source.elements[item.id] = this.esgst.modules.common.createElements(source.context, `afterBegin`, this.esgst.modules.common.generateHeaderMenuItem(item, key));
+            source.elements[item.id].title = this.esgst.modules.common.getFeatureTooltip(`chfl`);
             if (!item.description) {
               source.elements[item.id].classList.add(`esgst-chfl-small`);
             }
@@ -172,13 +175,13 @@ _MODULES.push({
             }
           }
         }
-        chfl_makeDraggable(chfl, source.elements[item.id]);
+        this.chfl_makeDraggable(chfl, source.elements[item.id]);
         ids.push(item.id);
       } else {
         let element = source.elements[item];
         if (element) {
           source.context.insertBefore(element, source.context.firstElementChild);
-          chfl_makeDraggable(chfl, element);
+          this.chfl_makeDraggable(chfl, element);
         }
         ids.push(item);
       }
@@ -189,25 +192,25 @@ _MODULES.push({
       delete source.elements[key];
     }
     if (!firstRun) {
-      chfl_removeButton(chfl, key);
-      chfl_addButton(chfl, null, key);
+      this.chfl_removeButton(chfl, key);
+      this.chfl_addButton(chfl, null, key);
     }
   }
 
-  function chfl_makeDraggable(chfl, element) {
+  chfl_makeDraggable(chfl, element) {
     element.setAttribute(`draggable`, true);
-    element.addEventListener(`dragstart`, chfl_startDrag.bind(null, chfl));
-    element.addEventListener(`dragenter`, chfl_enterDrag.bind(null, chfl));
-    element.addEventListener(`dragend`, chfl_saveOrder.bind(null, chfl));
+    element.addEventListener(`dragstart`, this.chfl_startDrag.bind(null, this.chfl));
+    element.addEventListener(`dragenter`, this.chfl_enterDrag.bind(null, this.chfl));
+    element.addEventListener(`dragend`, this.chfl_saveOrder.bind(null, this.chfl));
   }
 
-  function chfl_startDrag(chfl, event) {
+  chfl_startDrag(chfl, event) {
     event.dataTransfer.setData(`text/plain`, ``);
-    chfl.source = event.currentTarget;
+    this.chfl.source = event.currentTarget;
   }
 
-  function chfl_enterDrag(chfl, event) {
-    let current = chfl.source;
+  chfl_enterDrag(chfl, event) {
+    let current = this.chfl.source;
     let element = event.currentTarget;
     if (current.getAttribute(`data-link-key`) !== element.getAttribute(`data-link-key`)) return;
     do {
@@ -220,39 +223,39 @@ _MODULES.push({
     element.parentElement.insertBefore(chfl.source, element.nextElementSibling);
   }
 
-  function chfl_saveOrder(chfl) {
-    for (let key in chfl.sources) {
+  chfl_saveOrder(chfl) {
+    for (let key in this.chfl.sources) {
       let elements = {};
-      for (const item of esgst.settings[`chfl_${key}_${esgst.name}`]) {
+      for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
         if (item.id) {
           elements[item.id] = item;
         }
       }
-      esgst.settings[`chfl_${key}_${esgst.name}`] = [];
-      let source = chfl.sources[key];
+      this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = [];
+      let source = this.chfl.sources[key];
       for (let i = 0, n = source.context.children.length; i < n; i++) {
         let element = source.context.children[i];
         let id = element.getAttribute(`data-link-id`);
         if (!id) continue;
-        esgst.settings[`chfl_${key}_${esgst.name}`].push(elements[id] || id);
+        this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(elements[id] || id);
       }
-      esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
+      this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
     }
-    setValue(`settings`, JSON.stringify(esgst.settings));
+    setValue(`settings`, JSON.stringify(this.esgst.settings));
   }
 
-  function chfl_addButton(chfl, removedKey, forceKey) {
-    for (const key in chfl.sources) {
+  chfl_addButton(chfl, removedKey, forceKey) {
+    for (const key in this.chfl.sources) {
       if (key === removedKey) return;
 
-      const source = chfl.sources[key];
+      const source = this.chfl.sources[key];
       if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
-      const button = createElements(source.context, `beforeEnd`, key === `footer` ? [{
+      const button = this.esgst.modules.common.createElements(source.context, `beforeEnd`, key === `footer` ? [{
         attributes: {
           class: `esgst-chfl-button`
         },
-        type: esgst.sg ? `div` : `li`,
+        type: this.esgst.sg ? `div` : `li`,
         children: [{
           attributes: {
             class: `fa fa-plus`
@@ -265,13 +268,13 @@ _MODULES.push({
           text: `Add Custom Link`,
           type: `a`
         }]
-      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
-      button.addEventListener(`click`, chfl_openPopup.bind(null, chfl, null, key));
-      const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
+      }] : this.esgst.modules.common.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
+      button.addEventListener(`click`, this.chfl_openPopup.bind(null, this.chfl, null, key));
+      const resetButton = this.esgst.modules.common.createElements(source.context, `beforeEnd`, key === `footer` ? [{
         attributes: {
           class: `esgst-chfl-button`
         },
-        type: esgst.sg ? `div` : `li`,
+        type: this.esgst.sg ? `div` : `li`,
         children: [{
           attributes: {
             class: `fa fa-undo`
@@ -284,11 +287,11 @@ _MODULES.push({
           text: `Reset Links`,
           type: `a`
         }]
-      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-      resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, chfl_resetLinks.bind(null, chfl, key), null));
+      }] : this.esgst.modules.common.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
+      resetButton.addEventListener(`click`, this.esgst.modules.common.createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, this.chfl, key), null));
       for (const subKey in source.elements) {
         const element = source.elements[subKey],
-            panel = createElements(element, `beforeEnd`, [{
+            panel = this.esgst.modules.common.createElements(element, `beforeEnd`, [{
               attributes: {
                 class: `esgst-chfl-panel`
               },
@@ -305,17 +308,17 @@ _MODULES.push({
                 type: `i`
               }]
             }]);
-        panel.firstElementChild.addEventListener(`click`, chfl_openPopup.bind(null, chfl, subKey, key));
-        panel.lastElementChild.addEventListener(`click`, chfl_removeLink.bind(null, chfl, subKey, key));
+        panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(null, this.chfl, subKey, key));
+        panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(null, this.chfl, subKey, key));
       }
       return;
     }
   }
 
-  function chfl_openPopup(chfl, editId, key, event) {
+  chfl_openPopup(chfl, editId, key, event) {
     event.preventDefault();
     let popup = new Popup(editId ? `fa-edit` : `fa-plus`, `${editId ? `Edit` : `Add`} Custom Link`, true);
-    let description = createElements(popup.description, `beforeEnd`, [{
+    let description = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
       type: `div`,
       children: [{
         text: `URL:`,
@@ -438,12 +441,12 @@ _MODULES.push({
       description.parentElement.classList.add(`esgst-hidden`);
       compactSwitch.container.classList.add(`esgst-hidden`);
     }
-    if (esgst.st) {
+    if (this.esgst.st) {
       description.parentElement.classList.add(`esgst-hidden`);
     }
     if (editId) {
-      for (let i = esgst[`chfl_${key}`].length - 1; i > -1; i--) {
-        let item = esgst[`chfl_${key}`][i];
+      for (let i = this.esgst[`chfl_${key}`].length - 1; i > -1; i--) {
+        let item = this.esgst[`chfl_${key}`][i];
         if (item !== editId && (!item.id || item.id !== editId)) continue;
         if (item.id) {
           description.value = item.description || ``;
@@ -455,9 +458,9 @@ _MODULES.push({
             compactSwitch.enable();
           }
         } else {
-          let element = chfl.sources[key].elements[item];
+          let element = this.chfl.sources[key].elements[item];
           let context = element.firstElementChild;
-          if (esgst.sg) {
+          if (this.esgst.sg) {
             if (key === `footer`) {
               name.value = context.nextElementSibling.textContent.trim();
               icon.value = context.className.match(/.+(fa-.+)$/)[1];
@@ -485,11 +488,11 @@ _MODULES.push({
         break;
       }
     }
-    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: chfl_addLink.bind(null, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)}).set);
+    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: this.chfl_addLink.bind(null, this.chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)}).set);
     popup.open();
   }
 
-  async function chfl_addLink(chfl, color, compactSwitch, description, editId, icon, key, name, popup, url) {
+  async chfl_addLink(chfl, color, compactSwitch, description, editId, icon, key, name, popup, url) {
     let match = url.value.match(/\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//) || url.value.match(/.*(\/|\?)(.+)$/);
     let item = {
       color: color.value,
@@ -501,31 +504,31 @@ _MODULES.push({
       url: url.value
     };
     if (editId) {
-      chfl.sources[key].elements[editId].remove();
-      delete chfl.sources[key].elements[editId];
-      for (let i = esgst.settings[`chfl_${key}_${esgst.name}`].length - 1; i > -1; i--) {
-        let subItem = esgst.settings[`chfl_${key}_${esgst.name}`][i];
+      this.chfl.sources[key].elements[editId].remove();
+      delete this.chfl.sources[key].elements[editId];
+      for (let i = this.esgst.settings[`chfl_${key}_${this.esgst.name}`].length - 1; i > -1; i--) {
+        let subItem = this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i];
         if (subItem.id) {
           if (subItem.id !== editId) continue;
-          esgst.settings[`chfl_${key}_${esgst.name}`][i] = item;
+          this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i] = item;
           break;
         } else {
           if (subItem !== editId) continue;
-          esgst.settings[`chfl_${key}_${esgst.name}`][i] = item;
+          this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i] = item;
           break;
         }
       }
     } else {
-      esgst.settings[`chfl_${key}_${esgst.name}`].push(item);
+      this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(item);
     }
-    esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
-    await setValue(`settings`, JSON.stringify(esgst.settings));
-    chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
+    this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
+    await setValue(`settings`, JSON.stringify(this.esgst.settings));
+    this.chfl.sources[key].elements[item.id] = this.esgst.modules.common.createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
       attributes: {
         [`data-link-id`]: item.id,
         [`data-link-key`]: `footer`
       },
-      type: esgst.sg ? `div` : `li`,
+      type: this.esgst.sg ? `div` : `li`,
       children: [{
         attributes: {
           class: `fa ${item.icon}`
@@ -538,45 +541,45 @@ _MODULES.push({
         text: item.name,
         type: `a`
       }]
-    }] : generateHeaderMenuItem(item, key));
+    }] : this.esgst.modules.common.generateHeaderMenuItem(item, key));
     if (!item.description) {
-      chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
+      this.chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
     }
     if (item.compact) {
-      chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-compact`);
+      this.chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-compact`);
     }
-    chfl_makeDraggable(chfl, chfl.sources[key].elements[item.id]);
-    chfl_reorder(chfl, key);
+    this.chfl_makeDraggable(chfl, this.chfl.sources[key].elements[item.id]);
+    this.chfl_reorder(chfl, key);
     popup.close();
   }
 
-  function chfl_resetLinks(chfl, key, event) {
+  chfl_resetLinks(chfl, key, event) {
     event.preventDefault();
     event.stopPropagation();
-    for (const item of esgst.settings[`chfl_${key}_${esgst.name}`]) {
+    for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
       if (!item.id) continue;
-      let element = chfl.sources[key].elements[item.id];
+      let element = this.chfl.sources[key].elements[item.id];
       if (!element) continue;
       element.remove();
-      delete chfl.sources[key].elements[item.id];
+      delete this.chfl.sources[key].elements[item.id];
     }
-    esgst.settings[`chfl_${key}_${esgst.name}`] = esgst.defaultValues[`chfl_${key}_${esgst.name}`];
-    esgst[`chfl_${key}`] = esgst.settings[`chfl_${key}_${esgst.name}`];
-    chfl_reorder(chfl, key);
-    setValue(`settings`, JSON.stringify(esgst.settings));
+    this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`];
+    this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
+    this.chfl_reorder(chfl, key);
+    setValue(`settings`, JSON.stringify(this.esgst.settings));
   }
 
-  function chfl_removeLink(chfl, id, key, event) {
+  chfl_removeLink(chfl, id, key, event) {
     event.preventDefault();
     event.stopPropagation();
-    chfl.sources[key].elements[id].remove();
-    delete chfl.sources[key].elements[id];
-    chfl_saveOrder(chfl);
+    this.chfl.sources[key].elements[id].remove();
+    delete this.chfl.sources[key].elements[id];
+    this.chfl_saveOrder(chfl);
   }
 
-  function chfl_removeButton(chfl, forceKey) {
-    for (const key in chfl.sources) {
-      const source = chfl.sources[key];
+  chfl_removeButton(chfl, forceKey) {
+    for (const key in this.chfl.sources) {
+      const source = this.chfl.sources[key];
       if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
       const buttons = source.context.getElementsByClassName(`esgst-chfl-button`);
@@ -595,4 +598,6 @@ _MODULES.push({
       return (found ? key : null);
     }
   }
+}
 
+export default GeneralCustomHeaderFooterLinks;

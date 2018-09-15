@@ -1,55 +1,58 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysTimeToEnterCalculator extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-clock-o"></i> [Time]) below the start time of a giveaway that you do not have enough points to enter (in any page) that shows how much time you have to wait until you have enough points to enter the giveaway.</li>
-        <li>The time is calculated by rounding up the result (which is in milliseconds) of the following formula: next_refresh_in_milliseconds + (15 * ⌊(number_of_points_to_enter - number_of_points_you_have) / 6⌋), where next_refresh_in_milliseconds = the time that the next point refresh will happen (you get 6 points every 15 minutes of the hour on SteamGifts, so if it is currently 12:10pm, the next refresh will be at 12:15pm)</li>
+        <li>The time is calculated by rounding up the result (which is in milliseconds) of the following formula: next_refresh_in_milliseconds + (15 * ⌊(number_of_points_to_enter - number_of_points_you_have) / 6⌋), where next_refresh_in_milliseconds = the time that the next point refresh will happen (you get 6 points every 15 minutes of the hour on SteamGifts, so if it is currently 12:10pm, the next refresh will be this.esgst.modules.generalAccurateTimestamp.at 12:15pm)</li>
         <li>You can move the element around by dragging and dropping it.</li>
       </ul>
     `,
     id: `ttec`,
-    load: ttec,
+    load: this.ttec,
     name: `Time To Enter Calculator`,
     sg: true,
     type: `giveaways`
   });
 
-  function ttec() {
-    esgst.giveawayFeatures.push(ttec_calculateTime);
+  ttec() {
+    this.esgst.giveawayFeatures.push(ttec_calculateTime);
   }
 
-  function ttec_calculateTime(giveaways, main, source) {
+  ttec_calculateTime(giveaways, main, source) {
     let nextRefresh;
-    if (!main || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath && !esgst.newGiveawayPath)) {
+    if (!main || (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath && !this.esgst.newGiveawayPath)) {
       nextRefresh = 60 - new Date().getMinutes();
       while (nextRefresh > 15) {
         nextRefresh -= 15;
       }
       giveaways.forEach(giveaway => {
-        if (!giveaway.ended && !giveaway.entered && giveaway.points > esgst.points) {
+        if (!giveaway.ended && !giveaway.entered && giveaway.points > this.esgst.points) {
           if (!giveaway.ttec) {
-            giveaway.ttec = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
+            giveaway.ttec = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
               attributes: {
-                class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-ttec`,
+                class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-ttec`,
                 [`data-columnId`]: `ttec`,
-                title: getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)
+                title: this.esgst.modules.common.getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)
               },
               type: `div`
             }]);
-            if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
+            if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
               giveaway.ttec.setAttribute(`draggable`, true);
-              giveaway.ttec.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-              giveaway.ttec.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-              giveaway.ttec.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+              giveaway.ttec.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
+              giveaway.ttec.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
+              giveaway.ttec.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
             }
           }
           giveaway.ttec.classList.remove(`esgst-hidden`);
-          createElements(giveaway.ttec, `inner`, [{
+          this.esgst.modules.common.createElements(giveaway.ttec, `inner`, [{
             attributes: {
               class: `fa fa-clock-o`
             },
             type: `i`
           }, {
-            text: ` ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - esgst.points) / 6))) * 100) / 100)}`,
+            text: ` ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - this.esgst.points) / 6))) * 100) / 100)}`,
             type: `node`
           }]);
         } else if (giveaway.ttec) {
@@ -59,7 +62,7 @@ _MODULES.push({
     }
   }
 
-  function ttec_getTime(m) {
+  ttec_getTime(m) {
     let d, h, w;
     h = Math.round(m / 60 * 10) / 10;
     if (Math.floor(h) > 0) {
@@ -78,4 +81,6 @@ _MODULES.push({
       return `${m}m`;
     }
   }
-  
+}
+
+export default GiveawaysTimeToEnterCalculator;

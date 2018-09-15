@@ -1,19 +1,23 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GroupsGroupStats extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your <a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some stats about each group.</li>
       </ul>
     `,
     id: `gs`,
-    load: gs,
+    load: this.gs,
     name: `Group Stats`,
     sg: true,
     type: `groups`
   });
 
-  function gs() {
-    if (!esgst.groupsPath) return;
-    createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
+  gs() {
+    if (!this.esgst.groupsPath) return;
+    this.esgst.modules.common.createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
       attributes: {
         class: `table__column--width-small text-center`
       },
@@ -44,25 +48,25 @@ _MODULES.push({
       text: `Users`,
       type: `div`
     }]);
-    esgst.endlessFeatures.push(gs_getGroups);
+    this.esgst.endlessFeatures.push(gs_getGroups);
   }
 
-  function gs_getGroups(context, main, source, endless) {
+  gs_getGroups(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
     for (let i = 0, n = elements.length; i < n; i++) {
-      gs_addStatus(elements[i]);
+      this.gs_addStatus(elements[i]);
     }
   }
 
-  async function gs_addStatus(context) {
-    let responseHtml = parseHtml((await request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${esgst.username}`})).responseText);
+  async gs_addStatus(context) {
+    let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${this.esgst.username}`})).responseText);
     let element = responseHtml.getElementsByClassName(`table__row-inner-wrap`)[0];
-    if (!element || element.getElementsByClassName(`table__column__heading`)[0].textContent !== esgst.username) return;
+    if (!element || element.getElementsByClassName(`table__column__heading`)[0].textContent !== this.esgst.username) return;
     let elements = element.getElementsByClassName(`table__column--width-small`);
     for (let i = 0, n = elements.length; i < n; i++) {
       context.appendChild(elements[0]);
     }
-    createElements(context, `beforeEnd`, [{
+    this.esgst.modules.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `table__column--width-small text-center`
       },
@@ -70,4 +74,6 @@ _MODULES.push({
       type: `div`
     }]);
   }
+}
 
+export default GroupsGroupStats;

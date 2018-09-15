@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
+info = ({
     description: `
       <ul>
         <li>Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).</li>
@@ -12,7 +15,7 @@ _MODULES.push({
       </ul>
     `,
     id: `adots`,
-    load: adots,
+    load: this.adots,
     name: `Active Discussions On Top/Sidebar`,
     options: {
       title: `Move to:`,
@@ -22,36 +25,36 @@ _MODULES.push({
     type: `discussions`
   });
 
-  async function adots() {
-    if (!esgst.giveawaysPath || !esgst.activeDiscussions || esgst.oadd) return;
-    await checkMissingDiscussions();
+  async adots() {
+    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.oadd) return;
+    await this.esgst.modules.common.checkMissingDiscussions();
   }
 
-  function adots_load(refresh) {
+  adots_load(refresh) {
     let parent, panel, size, tabHeading1, tabHeading2, activeDiscussions, discussions, deals, element, elements, i, icon, n, comments, rows;
-    if (esgst.activeDiscussions) {
+    if (this.esgst.activeDiscussions) {
       if (!refresh) {
-        esgst.activeDiscussions.classList.remove(`widget-container--margin-top`);
-        esgst.activeDiscussions.classList.add(`esgst-adots`);
+        this.esgst.activeDiscussions.classList.remove(`widget-container--margin-top`);
+        this.esgst.activeDiscussions.classList.add(`esgst-adots`);
       }
-      if (esgst.adots_index === 0) {
+      if (this.esgst.adots_index === 0) {
         if (!refresh) {
-          parent = esgst.activeDiscussions.parentElement;
-          parent.insertBefore(esgst.activeDiscussions, parent.firstElementChild);
-          if (esgst.radb) {
-            radb_addButtons();
+          parent = this.esgst.activeDiscussions.parentElement;
+          parent.insertBefore(this.esgst.activeDiscussions, parent.firstElementChild);
+          if (this.esgst.radb) {
+            this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
           }
-        } else if (esgst.oadd && esgst.radb) {
-          radb_addButtons();
+        } else if (this.esgst.oadd && this.esgst.radb) {
+          this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
         }
       } else {
         if (!refresh) {
-          if (esgst.ib) {
+          if (this.esgst.ib) {
             size = 45;
           } else {
             size = 35;
           }
-          esgst.style.insertAdjacentText(`beforeEnd`, `
+          this.esgst.style.insertAdjacentText(`beforeEnd`, `
             .esgst-adots .table__row-inner-wrap >:first-child {
               float: left;
               width: ${size}px;
@@ -72,7 +75,7 @@ _MODULES.push({
               width: calc(100% - ${size + 15}px);
             }
           `);
-          panel = createElements(esgst.sidebar, `beforeEnd`, [{
+          panel = this.esgst.modules.common.createElements(this.esgst.sidebar, `beforeEnd`, [{
             attributes: {
               class: `sidebar__heading`
             },
@@ -100,8 +103,8 @@ _MODULES.push({
           }]);
           tabHeading1 = panel.firstElementChild;
           tabHeading2 = tabHeading1.nextElementSibling;
-          if (esgst.radb) {
-            createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
+          if (this.esgst.radb) {
+            this.esgst.modules.common.createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
               attributes: {
                 class: `esgst-radb-button`,
                 title: `${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}`
@@ -116,22 +119,22 @@ _MODULES.push({
             }]).addEventListener(`click`, event => {
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
-              if (esgst.oadd) {
-                oadd_load(true, icon.classList.remove.bind(icon, `fa-spin`));
+              if (this.esgst.oadd) {
+                this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, icon.classList.remove.bind(icon, `fa-spin`));
               } else {
-                checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
+                this.esgst.modules.common.checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
               }
             });
           }
         }
-        if (esgst.oadd) {
-          discussions = esgst.activeDiscussions.firstElementChild;
-          deals = esgst.activeDiscussions.lastElementChild;
+        if (this.esgst.oadd) {
+          discussions = this.esgst.activeDiscussions.firstElementChild;
+          deals = this.esgst.activeDiscussions.lastElementChild;
           discussions.firstElementChild.remove();
           discussions.firstElementChild.firstElementChild.remove();
           deals.firstElementChild.remove();
           deals.firstElementChild.firstElementChild.remove();
-          elements = esgst.activeDiscussions.getElementsByClassName(`table__column--last-comment`);
+          elements = this.esgst.activeDiscussions.getElementsByClassName(`table__column--last-comment`);
           for (i = 0, n = elements.length; i < n; ++i) {
             icon = elements[0].getElementsByClassName(`table__last-comment-icon`)[0];
             if (icon) {
@@ -150,15 +153,15 @@ _MODULES.push({
             discussions = rows[0];
             deals = rows[1];
           } else {
-            discussions = esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
-            deals = esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
+            discussions = this.esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
+            deals = this.esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
           }
           elements = discussions.getElementsByClassName(`table__row-outer-wrap`);
           for (i = 0, n = elements.length; i < n; ++i) {
             element = elements[i];
             comments = element.getElementsByClassName(`table__column__secondary-link`)[0];
             parent = comments.parentElement;
-            panel = createElements(parent, `afterEnd`, [{
+            panel = this.esgst.modules.common.createElements(parent, `afterEnd`, [{
               type: `p`
             }, {
               attributes: {
@@ -178,7 +181,7 @@ _MODULES.push({
             element = elements[i];
             comments = element.getElementsByClassName(`table__column__secondary-link`)[0];
             parent = comments.parentElement;
-            panel = createElements(parent, `afterEnd`, [{
+            panel = this.esgst.modules.common.createElements(parent, `afterEnd`, [{
               type: `p`
             }, {
               attributes: {
@@ -208,21 +211,21 @@ _MODULES.push({
           deals.classList.remove(`esgst-hidden`);
         }
         if (!refresh) {
-          activeDiscussions = createElements(esgst.sidebar, `beforeEnd`, [{
+          activeDiscussions = this.esgst.modules.common.createElements(this.esgst.sidebar, `beforeEnd`, [{
             type: `div`
           }]);
           activeDiscussions.appendChild(discussions);
           activeDiscussions.appendChild(deals);
-          tabHeading1.addEventListener(`click`, adots_changeTab.bind(null, tabHeading1, tabHeading2));
-          tabHeading2.addEventListener(`click`, adots_changeTab.bind(null, tabHeading1, tabHeading2));
-          esgst.activeDiscussions.remove();
-          esgst.activeDiscussions = activeDiscussions;
+          tabHeading1.addEventListener(`click`, this.adots_changeTab.bind(null, tabHeading1, tabHeading2));
+          tabHeading2.addEventListener(`click`, this.adots_changeTab.bind(null, tabHeading1, tabHeading2));
+          this.esgst.activeDiscussions.remove();
+          this.esgst.activeDiscussions = activeDiscussions;
         }
       }
     }
   }
 
-  function adots_changeTab(button1, button2, event) {
+  adots_changeTab(button1, button2, event) {
     if ((button1.classList.contains(`esgst-selected`) && event.currentTarget === button2) || (button2.classList.contains(`esgst-selected`) && event.currentTarget === button1)) {
       button1.classList.toggle(`esgst-selected`);
       button2.classList.toggle(`esgst-selected`);
@@ -230,4 +233,6 @@ _MODULES.push({
       button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
     }
   }
-  
+}
+
+export default DiscussionsActiveDiscussionsOnTopSidebar;

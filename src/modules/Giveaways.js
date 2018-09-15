@@ -1,52 +1,55 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class Giveaways extends Module {
+info = ({
     endless: true,
     id: `giveaways`,
     load: giveaways
   });
   
-  function giveaways() {
-    esgst.endlessFeatures.push(giveaways_load);
+  giveaways() {
+    this.esgst.endlessFeatures.push(giveaways_load);
   }
 
-  async function giveaways_load(context, main, source, endless) {
+  async giveaways_load(context, main, source, endless) {
     if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
-    let giveaways = await giveaways_get(context, main, null, false, null, false, endless, source);
+    let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless, source);
     if (!giveaways.length) return;
     if (main) {
       for (let i = giveaways.length - 1; i > -1; --i) {
-        giveaways[i].sortIndex = esgst.mainGiveaways.length;
-        esgst.mainGiveaways.push(giveaways[i]);
+        giveaways[i].sortIndex = this.esgst.mainGiveaways.length;
+        this.esgst.mainGiveaways.push(giveaways[i]);
       }
     } else {
       for (let i = giveaways.length - 1; i > -1; --i) {
-        giveaways[i].sortIndex = esgst.popupGiveaways.length;
-        esgst.popupGiveaways.push(giveaways[i]);
+        giveaways[i].sortIndex = this.esgst.popupGiveaways.length;
+        this.esgst.popupGiveaways.push(giveaways[i]);
       }
     }
-    for (let feature of esgst.giveawayFeatures) {
+    for (let feature of this.esgst.giveawayFeatures) {
       await feature(giveaways, main, source);
     }
-    if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
-      giveaways.forEach(giveaway => giveaways_reorder(giveaway));
+    if (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath) {
+      giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
     }
-    if (esgst.gas && esgst[esgst.gas.autoKey]) {
-      sortContent(esgst[esgst.gas.mainKey], esgst.gas.mainKey, esgst[esgst.gas.optionKey]);
+    if (this.esgst.gas && this.esgst[this.esgst.gas.autoKey]) {
+      this.esgst.modules.common.sortContent(this.esgst[this.esgst.gas.mainKey], this.esgst.gas.mainKey, this.esgst[this.esgst.gas.optionKey]);
     }
-    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-      filters_filter(esgst.gf, false, endless);
+    if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
     }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-      filters_filter(esgst.gfPopup);
+    if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
     }
-    if (esgst.mm_enableGiveaways && esgst.mm_enable) {
-      esgst.mm_enable(esgst[main ? `mainGiveaways` : `popupGiveaways`], `Giveaways`);
+    if (this.esgst.mm_enableGiveaways && this.esgst.mm_enable) {
+      this.esgst.mm_enable(this.esgst[main ? `mainGiveaways` : `popupGiveaways`], `Giveaways`);
     }
   }
 
-  async function giveaways_get(context, main, mainUrl, hr, key, ged, endless, source) {
+  async giveaways_get(context, main, mainUrl, this.esgst.modules.generalHeaderRefresher.hr, key, this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged, endless, source) {
     let giveaway, giveaways, i, mainContext, matches, query;
     giveaways = [];
-    if (!hr && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.archivePath)) {
+    if (!hr && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.archivePath)) {
       query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.table:not(.table--summary) .esgst-es-page-${endless} .table__row-outer-wrap, .table:not(.table--summary) .esgst-es-page-${endless}.table__row-outer-wrap` : `.table:not(.table--summary) .table__row-outer-wrap`}`;
     } else {
       query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}`;
@@ -64,7 +67,7 @@ _MODULES.push({
     }
     matches = context.querySelectorAll(query);
     for (i = matches.length - 1; i > -1; --i) {
-      giveaway = await giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, ged, endless, source);
+      giveaway = await this.giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged, endless, source);
       if (giveaway) {
         giveaways.push(giveaway[key]);
       }
@@ -72,29 +75,29 @@ _MODULES.push({
     return giveaways;
   }
 
-  async function giveaways_getInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless, source) {
-    let chance, giveaway, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
+  async giveaways_getInfo(context, mainContext, this.esgst.modules.usersUserGiveawayData.ugd, ugdType, main, mainUrl, this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged, endless, source) {
+    let chance, giveaway, i, info, key, keys, match, n, savedUser, this.esgst.modules.usersUserFilters.uf, thinHeadings;
     giveaway = {
       creators: [],
       groups: []
     };
     giveaway.outerWrap = context;
     giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
-    info = games_getInfo(giveaway.outerWrap);
+    info = this.esgst.modules.games.games_getInfo(giveaway.outerWrap);
     if (info) {
       giveaway.id = info.id;
       giveaway.type = info.type;
-      if (esgst.games && esgst.games[giveaway.type][giveaway.id]) {
+      if (this.esgst.games && this.esgst.games[giveaway.type][giveaway.id]) {
         keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
-          if (esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+          if (this.esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
             giveaway[key] = true;
           }
         }
       }
     }
-    if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && esgst.giveawayPath) {
+    if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && this.esgst.giveawayPath) {
       return;
     }
     giveaway.innerWrap = giveaway.outerWrap.querySelector(`.giveaway__row-inner-wrap, .featured__inner-wrap, .table__row-inner-wrap`);
@@ -103,12 +106,12 @@ _MODULES.push({
     giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
     if (source === `gb`) {
       giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
-    } else if (esgst.giveawayPath && main) {
+    } else if (this.esgst.giveawayPath && main) {
       let button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
       if (button) {
         giveaway.entered = !button.classList.contains(`is-hidden`);
       }
-    } else if (esgst.enteredPath && main) {
+    } else if (this.esgst.enteredPath && main) {
       giveaway.entered = true;
     } else {
       giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
@@ -122,7 +125,7 @@ _MODULES.push({
     } else {
       giveaway.copies = 1;
     }
-    giveaway.url = esgst.giveawayPath && main && !ugd ? location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
+    giveaway.url = this.esgst.giveawayPath && main && !ugd ? location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
     if (giveaway.url) {
       giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, ``);
       match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
@@ -145,9 +148,9 @@ _MODULES.push({
     if (n > 0) {
       if (n > 1) {
         giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
-        if (esgst.gch && !giveaway.pinned) {
+        if (this.esgst.gch && !giveaway.pinned) {
           let color, bgColor;
-          for (const colors of esgst.gch_colors) {
+          for (const colors of this.esgst.gch_colors) {
             if (giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper)) {
               color = colors.color;
               bgColor = colors.bgColor;
@@ -174,7 +177,7 @@ _MODULES.push({
       }
     }
     giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
-    if (giveaway.columns && (!esgst.archivePath || !main)) {
+    if (giveaway.columns && (!this.esgst.archivePath || !main)) {
       giveaway.endTimeColumn = giveaway.columns.firstElementChild;
       if (giveaway.endTimeColumn.classList.contains(`esgst-ged-source`)) {
         giveaway.sourceColumn = giveaway.endTimeColumn;
@@ -185,14 +188,14 @@ _MODULES.push({
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
-      if (!main || !esgst.userPath || (ugd && ugdType === `won`) || ged) {
+      if (!main || !this.esgst.userPath || (ugd && ugdType === `won`) || this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged) {
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
         giveaway.creator = giveaway.creatorContainer.textContent;
       }
     } else {
       giveaway.started = true;
     }
-    if (main && esgst.archivePath) {
+    if (main && this.esgst.archivePath) {
       giveaway.startTimeColumn = giveaway.innerWrap.querySelector(`[data-timestamp]`);
       if (giveaway.startTimeColumn) {
         giveaway.startTime = parseInt(giveaway.startTimeColumn.getAttribute(`data-timestamp`)) * 1e3;
@@ -202,7 +205,7 @@ _MODULES.push({
         giveaway.startTime = 0;
       }
     }
-    if (!giveaway.endTime && main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) {
+    if (!giveaway.endTime && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath)) {
       giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
       if (giveaway.endTime) {
         giveaway.endTimeColumn = giveaway.endTime.parentElement;
@@ -216,17 +219,17 @@ _MODULES.push({
     }
     if (ugd) {
       if (ugdType === `sent`) {
-        giveaway.creator = ugd;
+        giveaway.creator = this.esgst.modules.usersUserGiveawayData.ugd;
       }
-    } else if (esgst.userPath && main && !ged) {
+    } else if (this.esgst.userPath && main && !ged) {
       giveaway.creator = location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
-    } else if (esgst.createdPath && main) {
-      giveaway.creator = esgst.username;
+    } else if (this.esgst.createdPath && main) {
+      giveaway.creator = this.esgst.username;
     }
     if (giveaway.creator) {
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
-    if (esgst.createdPath && main) {
+    if (this.esgst.createdPath && main) {
       let status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
       if (status) {
         if (status.textContent.match(/Not\sReceived/)) {
@@ -238,27 +241,27 @@ _MODULES.push({
         }
       }
     }
-    giveaway.created = giveaway.creator === esgst.username;
-    if (esgst.uf && esgst.giveawaysPath && main) {
-      savedUser = await getUser(esgst.users, {
+    giveaway.created = giveaway.creator === this.esgst.username;
+    if (this.esgst.uf && this.esgst.giveawaysPath && main) {
+      savedUser = await this.esgst.modules.common.getUser(this.esgst.users, {
         username: giveaway.creator
       });
       if (savedUser) {
-        uf = savedUser.uf;
-        if (esgst.uf_g && savedUser.blacklisted && !uf) {
-          uf_updateCount(giveaway.outerWrap.parentElement.nextElementSibling);
+        this.esgst.modules.usersUserFilters.uf = savedUser.uf;
+        if (this.esgst.uf_g && savedUser.blacklisted && !uf) {
+          this.esgst.modules.usersUserFilters.uf_updateCount(giveaway.outerWrap.parentElement.nextElementSibling);
           giveaway.outerWrap.remove();
           return;
-        } else if (uf && uf.giveaways) {
-          uf_updateCount(giveaway.outerWrap.parentElement.nextElementSibling);
+        } else if (uf && this.esgst.modules.usersUserFilters.uf.giveaways) {
+          this.esgst.modules.usersUserFilters.uf_updateCount(giveaway.outerWrap.parentElement.nextElementSibling);
           giveaway.outerWrap.remove();
           return;
         }
       }
     }
-    if (esgst.gf && esgst.gf_s && main) {
-      let savedGiveaway = esgst.giveaways[giveaway.code];
-      if ((esgst.giveawaysPath || esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
+    if (this.esgst.gf && this.esgst.gf_s && main) {
+      let savedGiveaway = this.esgst.giveaways[giveaway.code];
+      if ((this.esgst.giveawaysPath || this.esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
         giveaway.outerWrap.remove();
         return;
       }
@@ -277,9 +280,9 @@ _MODULES.push({
       giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
     }
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
-    if (!giveaway.panel && (esgst.gwc || esgst.gwr || esgst.gptw || esgst.gp || esgst.elgb || esgst.cewgd)) {
+    if (!giveaway.panel && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw || this.esgst.gp || this.esgst.elgb || this.esgst.cewgd)) {
       if (giveaway.links) {
-        giveaway.panel = createElements(giveaway.links, `afterEnd`, [{
+        giveaway.panel = this.esgst.modules.common.createElements(giveaway.links, `afterEnd`, [{
           attributes: {
             class: `giveaway__columns esgst-giveaway-panel`
           },
@@ -291,24 +294,24 @@ _MODULES.push({
           type: `div`
         }]);
       } else if (giveaway.columns) {
-        if (esgst.archivePath) {
+        if (this.esgst.archivePath) {
           giveaway.columns.style.justifyContent = `right`;
-          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
+          giveaway.panel = this.esgst.modules.common.createElements(giveaway.columns, `afterEnd`, [{
             attributes: {
               class: `giveaway__columns esgst-giveaway-panel`
             },
             type: `div`
           }]);
         } else {
-          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
+          giveaway.panel = this.esgst.modules.common.createElements(giveaway.columns, `afterEnd`, [{
             attributes: {
               class: `featured__columns esgst-giveaway-panel`
             },
             type: `div`
           }]);
         }
-      } else if (esgst.enteredPath && (esgst.gwc || esgst.gwr || esgst.gptw)) {
-        giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
+      } else if (this.esgst.enteredPath && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw)) {
+        giveaway.panel = this.esgst.modules.common.createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
           attributes: {
             class: `table__column--width-small text-center esgst-giveaway-panel`
           },
@@ -317,7 +320,7 @@ _MODULES.push({
       }
     }
     if (giveaway.sgTools && !giveaway.summary.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
-      const sgTools = createElements(giveaway.summary, `beforeEnd`, [{
+      const sgTools = this.esgst.modules.common.createElements(giveaway.summary, `beforeEnd`, [{
         attributes: {
           class: `esgst-ge-sgt-button esgst-giveaway-column-button`,
           href: `https://www.sgtools.info/giveaways/${giveaway.code}`,
@@ -333,16 +336,16 @@ _MODULES.push({
         }]
       }]);
       sgTools.setAttribute(`data-columnId`, `sgTools`);
-      if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
+      if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
         sgTools.setAttribute(`draggable`, true);
-        sgTools.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-        sgTools.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        sgTools.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        sgTools.addEventListener(`dragstart`, this.giveaways_setSource.bind(null, giveaway));
+        sgTools.addEventListener(`dragenter`, this.giveaways_getSource.bind(null, giveaway, false));
+        sgTools.addEventListener(`dragend`, this.giveaways_saveSource.bind(null, giveaway));
       }
     }
     giveaway.elgbPanel = giveaway.panel;
     if (!giveaway.entriesLink) {
-      let ct = giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
+      let esgst.modules.commentsCommentTracker.ct = giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
         giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
       }
@@ -355,9 +358,9 @@ _MODULES.push({
     giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
     giveaway.public = !giveaway.sgTools && !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
     giveaway.touhouBox = giveaway.outerWrap.querySelector(`.touhou_giveaway_points`);
-    if (!main || !esgst.giveawayPath) {
+    if (!main || !this.esgst.giveawayPath) {
       if (giveaway.inviteOnly) {
-        createElements(giveaway.inviteOnly, `inner`, [{
+        this.esgst.modules.common.createElements(giveaway.inviteOnly, `inner`, [{
           attributes: {
             class: `fa fa-lock`
           },
@@ -365,7 +368,7 @@ _MODULES.push({
         }]);
       }
       if (giveaway.group) {
-        createElements(giveaway.group, `inner`, [{
+        this.esgst.modules.common.createElements(giveaway.group, `inner`, [{
           attributes: {
             class: `fa fa-user`
           },
@@ -373,7 +376,7 @@ _MODULES.push({
         }]);
       }
       if (giveaway.whitelist) {
-        createElements(giveaway.whitelist, `inner`, [{
+        this.esgst.modules.common.createElements(giveaway.whitelist, `inner`, [{
           attributes: {
             class: `fa fa-heart`
           },
@@ -383,16 +386,16 @@ _MODULES.push({
     }
     if (source === `ge`) {
       if (giveaway.outerWrap.getAttribute(`data-blacklist`)) {
-        if (esgst.ge_b) {
+        if (this.esgst.ge_b) {
           giveaway.outerWrap.classList.add(`esgst-ge-blacklist`);
           giveaway.summary.classList.add(`esgst-ge-blacklist`);
         }
       } else {
-        if (giveaway.public && esgst.ge_p) {
+        if (giveaway.public && this.esgst.ge_p) {
           giveaway.outerWrap.classList.add(`esgst-ge-public`);
           giveaway.summary.classList.add(`esgst-ge-public`);
         }
-        if ((giveaway.group || giveaway.whitelist) && esgst.ge_g) {
+        if ((giveaway.group || giveaway.whitelist) && this.esgst.ge_g) {
           giveaway.outerWrap.classList.add(`esgst-ge-group`);
           giveaway.summary.classList.add(`esgst-ge-group`);
         }
@@ -412,8 +415,8 @@ _MODULES.push({
     giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
     giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
     if (main) {
-      if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
-        let button = createElements(giveaway.headingName, `beforeBegin`, [{
+      if (this.esgst.gr && giveaway.creator === this.esgst.username && (this.esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!this.esgst.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
+        let button = this.esgst.modules.common.createElements(giveaway.headingName, `beforeBegin`, [{
           attributes: {
             class: `esgst-gr-button`,
             title: `${getFeatureTooltip(`gr`, `Recreate giveaway`)}`
@@ -426,7 +429,7 @@ _MODULES.push({
             type: `i`
           }]
         }]);
-        button.firstElementChild.addEventListener(`click`, gr_recreateGiveaway.bind(null, button, giveaway));
+        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(null, button, giveaway));
       }
     }
     let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
@@ -436,18 +439,18 @@ _MODULES.push({
           hideButton = hideButton.parentElement;
         }
         let temp = hideButton.previousElementSibling;
-        createElements(hideButton, `outer`, [{
+        this.esgst.modules.common.createElements(hideButton, `outer`, [{
           attributes: {
             class: `fa fa-eye-slash giveaway__hide giveaway__icon`,
-            title: getFeatureTooltip(null, `Hide all giveaways for this game`)
+            title: this.esgst.modules.common.getFeatureTooltip(null, `Hide all giveaways for this game`)
           },
           type: `i`
         }])
         hideButton = temp.nextElementSibling;
-        hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
-      } else if (esgst.updateHiddenGames) {
+        hideButton.addEventListener(`click`, this.esgst.modules.common.hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+      } else if (this.esgst.updateHiddenGames) {
         hideButton.addEventListener(`click`, () => {
-          esgst.hidingGame = {
+          this.esgst.hidingGame = {
             id: giveaway.id,
             type: giveaway.type
           };
@@ -478,7 +481,7 @@ _MODULES.push({
       }
     }
     giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
-    if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+    if (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath) {
       if (giveaway.endTimeColumn) {
         giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
       }
@@ -506,21 +509,21 @@ _MODULES.push({
       if (giveaway.touhouBox) {
         giveaway.touhouBox.setAttribute(`data-columnId`, `touhou`);
       }
-      if (!esgst.lockGiveawayColumns) {
+      if (!this.esgst.lockGiveawayColumns) {
         if (giveaway.columns) {
           for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
             let item = giveaway.columns.children[i];
             item.setAttribute(`draggable`, true);
-            item.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-            item.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-            item.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+            item.addEventListener(`dragstart`, this.giveaways_setSource.bind(null, giveaway));
+            item.addEventListener(`dragenter`, this.giveaways_getSource.bind(null, giveaway, false));
+            item.addEventListener(`dragend`, this.giveaways_saveSource.bind(null, giveaway));
           }
         }
         if (giveaway.columns) {
-          giveaway.columns.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
+          giveaway.columns.addEventListener(`dragenter`, this.giveaways_getSource.bind(null, giveaway, false));
         }
         if (giveaway.panel) {
-          giveaway.panel.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, true));
+          giveaway.panel.addEventListener(`dragenter`, this.giveaways_getSource.bind(null, giveaway, true));
         }
       }
     }
@@ -552,9 +555,9 @@ _MODULES.push({
     };
   }
 
-  function giveaways_reorder(giveaway) {
+  giveaways_reorder(giveaway) {
     if (giveaway.columns) {
-      (giveaway.gvIcons ? esgst.giveawayColumns_gv : esgst.giveawayColumns).forEach(id => {
+      (giveaway.gvIcons ? this.esgst.giveawayColumns_gv : this.esgst.giveawayColumns).forEach(id => {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
         for (const element of elements) {
           (giveaway.gvIcons || giveaway.columns).appendChild(element);
@@ -565,7 +568,7 @@ _MODULES.push({
       });
     }
     if (giveaway.panel) {
-      (giveaway.gvIcons ? esgst.giveawayPanel_gv : esgst.giveawayPanel).forEach(id => {
+      (giveaway.gvIcons ? this.esgst.giveawayPanel_gv : this.esgst.giveawayPanel).forEach(id => {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
         for (const element of elements) {
           giveaway.panel.appendChild(element);
@@ -577,7 +580,7 @@ _MODULES.push({
     }
   }
 
-  function giveaways_setSource(giveaway, event) {
+  giveaways_setSource(giveaway, event) {
     event.dataTransfer.setData(`text/plain`, ``);
     giveaway.sourceItem = event.currentTarget;
     giveaway.newSourceItem = null;
@@ -599,7 +602,7 @@ _MODULES.push({
     }, 0);
   }
 
-  function giveaways_getSource(giveaway, panel, event) {
+  giveaways_getSource(giveaway, panel, event) {
     if (!giveaway.sourceItem) return;
     if (panel) {
       if (giveaway.panel.children.length < 1) {
@@ -663,38 +666,38 @@ _MODULES.push({
     giveaway.newSourcePos = 1;
   }
 
-  async function giveaways_saveSource(giveaway) {
+  async giveaways_saveSource(giveaway) {
     let [columnKey, panelKey] = giveaway.gvIcons ? [`giveawayColumns_gv`, `giveawayPanel_gv`] : [`giveawayColumns`, `giveawayPanel`];
     if (giveaway.panelSource) {
-      let index = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+      let index = this.esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
       if (index > -1) {
-        esgst[columnKey].splice(index, 1);
+        this.esgst[columnKey].splice(index, 1);
       }
-      esgst[panelKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
+      this.esgst[panelKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
     } else if (giveaway.columnSource) {
-      let index = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+      let index = this.esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
       if (index > -1) {
-        esgst[panelKey].splice(index, 1);
+        this.esgst[panelKey].splice(index, 1);
       }
-      esgst[columnKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
+      this.esgst[columnKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
     } else if (giveaway.newSourceItem) {
-      let columnsIndex = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-      let panelIndex = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+      let columnsIndex = this.esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
+      let panelIndex = this.esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
       if (giveaway.newSourceItem.parentElement === giveaway.columns || giveaway.newSourceItem.parentElement === giveaway.gvIcons) {
         if (columnsIndex > -1) {
-          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
-          esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+          let id = this.esgst[columnKey].splice(columnsIndex, 1)[0];
+          this.esgst[columnKey].splice(this.esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
         } else {
-          let id = esgst[panelKey].splice(panelIndex, 1)[0];
-          esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+          let id = this.esgst[panelKey].splice(panelIndex, 1)[0];
+          this.esgst[columnKey].splice(this.esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
         }
       } else {
         if (columnsIndex > -1) {
-          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
-          esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+          let id = this.esgst[columnKey].splice(columnsIndex, 1)[0];
+          this.esgst[panelKey].splice(this.esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
         } else {
-          let id = esgst[panelKey].splice(panelIndex, 1)[0];
-          esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
+          let id = this.esgst[panelKey].splice(panelIndex, 1)[0];
+          this.esgst[panelKey].splice(this.esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
         }
       }
     }
@@ -715,7 +718,9 @@ _MODULES.push({
       giveaway.panel.style.height = ``;
       giveaway.panel.style.width = ``;
     }
-    await setSetting(columnKey, esgst[columnKey]);
-    await setSetting(panelKey, esgst[panelKey]);
+    await this.esgst.modules.common.setSetting(columnKey, this.esgst[columnKey]);
+    await this.esgst.modules.common.setSetting(panelKey, this.esgst[panelKey]);
   }
+}
 
+export default Giveaways;

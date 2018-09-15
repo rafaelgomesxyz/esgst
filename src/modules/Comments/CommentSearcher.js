@@ -1,19 +1,22 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class CommentsCommentSearcher extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-search"></i>) to the main page heading of any page that allows you to search for comments made by specific users in the page.</li>
       </ul>
     `,
     id: `cs`,
-    load: cs,
+    load: this.cs,
     name: `Comment Searcher`,
     sg: true,
     st: true,
     type: `comments`
   });
 
-  function cs() {
-    if (!esgst.commentsPath || (esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
+  cs() {
+    if (!this.esgst.commentsPath || (this.esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
     new Process({
       headingButton: {
         id: `cs`,
@@ -40,7 +43,7 @@ _MODULES.push({
                 min: `i`,
                 name: `cs_minPage`,
                 type: `number`,
-                value: esgst.cs_minPage
+                value: this.esgst.cs_minPage
               },
               type: `input`
             }, {
@@ -52,7 +55,7 @@ _MODULES.push({
                 min: `i`,
                 name: `cs_maxPage`,
                 type: `number`,
-                value: esgst.cs_maxPage
+                value: this.esgst.cs_maxPage
               },
               type: `input`
             }, {
@@ -66,38 +69,38 @@ _MODULES.push({
         addProgress: true,
         addScrollable: `left`
       },
-      init: cs_init,
+      init: this.cs_init,
       requests: [
         {
-          source: esgst.discussionPath,
-          url: esgst.searchUrl,
-          request: cs_request
+          source: this.esgst.discussionPath,
+          url: this.esgst.searchUrl,
+          this.esgst.modules.common.request: this.cs_request
         }
       ]
     });
   }
 
-  function cs_init(obj) {
+  cs_init(obj) {
     obj.usernames = obj.popup.getTextInputValue(0)
       .toLowerCase()
-      .replace(/(,\s*)+/g, cs_format)
+      .replace(/(,\s*)+/g, this.cs_format)
       .split(`, `);
     let match = location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
     obj.code = match[2];
     obj.type = match[1];
-    obj.title = esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
+    obj.title = this.esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
     obj.results = 0;
-    if (esgst.cs_limitPages) {
-      obj.requests[0].nextPage = esgst.cs_minPage;
-      obj.requests[0].maxPage = esgst.cs_maxPage;
+    if (this.esgst.cs_limitPages) {
+      obj.requests[0].nextPage = this.esgst.cs_minPage;
+      obj.requests[0].maxPage = this.esgst.cs_maxPage;
     }
   }
 
-  function cs_format(match, p1, offset, string) {
+  cs_format(match, p1, offset, string) {
     return (((offset === 0) || (offset === (string.length - match.length))) ? `` : `, `);
   }
 
-  async function cs_request(obj, details, response, responseHtml) {
+  async cs_request(obj, details, response, responseHtml) {
     obj.popup.setProgress(`Searching comments (page ${details.nextPage}${details.maxPage ? ` of ${details.maxPage}` : details.lastPage})..`);
     obj.popup.setOverallProgress(`${obj.results} results found.`);
     let comments = responseHtml.getElementsByClassName(`comments`);
@@ -105,7 +108,7 @@ _MODULES.push({
     let context = obj.popup.getScrollable();
     for (let i = 0, n = elements.length; i < n; i++) {
       let element = elements[i];
-      if (esgst.sg) {
+      if (this.esgst.sg) {
         element.firstElementChild.classList.remove(`comment__parent`);
         element.firstElementChild.classList.add(`comment__child`);
       }
@@ -122,7 +125,7 @@ _MODULES.push({
       if (parent) {
         parent = parent.cloneNode(true);
         parent.lastElementChild.remove();
-        createElements(parent, `beforeEnd`, [{
+        this.esgst.modules.common.createElements(parent, `beforeEnd`, [{
           attributes: {
             class: `comment__children comment_children`
           },
@@ -135,8 +138,8 @@ _MODULES.push({
           context: parent
         });
       } else {
-        if (esgst.st) {
-          createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+        if (this.esgst.st) {
+          this.esgst.modules.common.createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
             attributes: {
               href: `/${obj.type}/${obj.code}/`
             },
@@ -144,7 +147,7 @@ _MODULES.push({
             type: `a`
           }]);
         }
-        if (esgst.sg) {
+        if (this.esgst.sg) {
           items[0].children.push({
             attributes: {
               class: `comments__entity`
@@ -176,11 +179,13 @@ _MODULES.push({
         });
       }
       if (obj.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
-        createElements(context, `beforeEnd`, items);
+        this.esgst.modules.common.createElements(context, `beforeEnd`, items);
         obj.results += 1;
       }
     }
     obj.popup.setOverallProgress(`${obj.results} results found.`);
-    await endless_load(context);
+    await this.esgst.modules.common.endless_load(context);
   }
+}
 
+export default CommentsCommentSearcher;

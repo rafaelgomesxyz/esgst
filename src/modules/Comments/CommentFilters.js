@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class CommentsCommentFilters extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to filter comments.</li>
@@ -72,33 +75,33 @@ _MODULES.push({
       }
     },
     id: `cf`,
-    load: cf,
+    load: this.cf,
     name: `Comment Filters`,
     sg: true,
     st: true,
     type: `comments`
   });
 
-  async function cf() {
-    if (esgst.cf_m && (esgst.commentsPath || esgst.inboxPath)) {
-      esgst.style.insertAdjacentText(`beforeEnd`, `
+  async cf() {
+    if (this.esgst.cf_m && (this.esgst.commentsPath || this.esgst.inboxPath)) {
+      this.esgst.style.insertAdjacentText(`beforeEnd`, `
         .esgst-gf-container {
-          top: ${esgst.commentsTop - 5}px;
+          top: ${this.esgst.commentsTop - 5}px;
         }
       `);
-      if (esgst.hideButtons && esgst.hideButtons_cf) {
-        if (esgst.leftButtonIds.indexOf(`cf`) > -1) {
-          esgst.leftButtons.insertBefore(filters_addContainer(`cf`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+      if (this.esgst.hideButtons && this.esgst.hideButtons_cf) {
+        if (this.esgst.leftButtonIds.indexOf(`cf`) > -1) {
+          this.esgst.leftButtons.insertBefore(filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          esgst.rightButtons.appendChild(filters_addContainer(`cf`, esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(filters_addContainer(`cf`, this.esgst.mainPageHeading));
         }
       } else {
-        esgst.mainPageHeading.insertBefore(filters_addContainer(`cf`, esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
   }
 
-  function cf_getFilters() {
+  cf_getFilters() {
     return {
       bump: {
         check: true,
@@ -119,4 +122,6 @@ _MODULES.push({
       }
     };
   }
+}
 
+export default CommentsCommentFilters;

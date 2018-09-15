@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class DiscussionsMainPostPopup extends Module {
+info = ({
     description: `
       <ul>
         <li>Hides the main post of a discussion and adds a button (<i class="fa fa-home"></i>) to its main page heading that allows you to open the main post through a popup.</li>
@@ -17,30 +20,30 @@ _MODULES.push({
       }
     },
     id: `mpp`,
-    load: mpp,
+    load: this.mpp,
     name: `Main Post Popup`,
     sg: true,
     type: `discussions`
   });
 
-  function mpp() {
-    if (!esgst.discussionPath) {
+  mpp() {
+    if (!this.esgst.discussionPath) {
       return;
     }
-    let button = createHeadingButton({id: `mpp`, icons: [`fa-home`], title: `Open the main post`});
+    let button = this.esgst.modules.common.createHeadingButton({id: `mpp`, icons: [`fa-home`], title: `Open the main post`});
     let MPPPost = document.createElement(`div`);
     MPPPost.className = `page__outer-wrap`;
     let Sibling;
     do {
-      Sibling = esgst.mainPageHeading.previousElementSibling;
+      Sibling = this.esgst.mainPageHeading.previousElementSibling;
       if (Sibling) {
         MPPPost.insertBefore(Sibling, MPPPost.firstElementChild);
       }
     } while (Sibling);
-    esgst.mainPageHeading.parentElement.insertBefore(MPPPost, esgst.mainPageHeading);
+    this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
     let Hidden;
-    if (esgst.mpp_r) {
-      let discussion = JSON.parse(esgst.storage.discussions)[location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
+    if (this.esgst.mpp_r) {
+      let discussion = JSON.parse(this.esgst.storage.discussions)[location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
       if (discussion) {
         if (discussion.readComments && discussion.readComments[``]) {
           Hidden = true;
@@ -70,9 +73,11 @@ _MODULES.push({
           MPPPost.classList.remove(`esgst-mpp-hidden`);
           MPPPost.classList.add(`esgst-mpp-visible`);
           MPPPost.removeAttribute(`style`);
-          esgst.mainPageHeading.parentElement.insertBefore(MPPPost, esgst.mainPageHeading);
+          this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
         }
       };
     });
   }
+}
 
+export default DiscussionsMainPostPopup;

@@ -1,28 +1,32 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysEntryTracker extends Module {
+info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
+        <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
         <li>An entry only appears in the history if you entered/left the giveaway after this feature was enabled.</li>
       </ul>
     `,
     id: `et`,
-    load: et,
+    load: this.et,
     name: `Entry Tracker`,
     sg: true,
     type: `giveaways`
   });
 
-  function et() {
-    if (esgst.enteredPath) {
-      esgst.endlessFeatures.push(et_getEntries);
+  et() {
+    if (this.esgst.enteredPath) {
+      this.esgst.endlessFeatures.push(et_getEntries);
     }
-    if (!esgst.sg) return;
-    createElements(esgst.sg ? esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
+    if (!this.esgst.sg) return;
+    this.esgst.modules.common.createElements(this.esgst.sg ? this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
       attributes: {
         class: `esgst-header-menu-row`,
         [`data-link-id`]: `et`,
         [`data-link-key`]: `account`,
-        title: getFeatureTooltip(`et`)
+        title: this.esgst.modules.common.getFeatureTooltip(`et`)
       },
       type: `div`,
       children: [{
@@ -46,17 +50,17 @@ _MODULES.push({
           type: `p`
         }]
       }]
-    }]).addEventListener(`click`, et_menu);
-    if (esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && esgst.enterGiveawayButton) {
+    }]).addEventListener(`click`, this.et_menu);
+    if (this.esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && this.esgst.enterGiveawayButton) {
       let code, name;
       code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
       name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
-      esgst.enterGiveawayButton.addEventListener(`click`, et_setEntry.bind(null, code, true, name));
-      esgst.leaveGiveawayButton.addEventListener(`click`, et_setEntry.bind(null, code, false, name));
+      this.esgst.enterGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(null, code, true, name));
+      this.esgst.leaveGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(null, code, false, name));
     }
   }
 
-  async function et_menu() {
+  async et_menu() {
     let dates = {};
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     const items = [];
@@ -74,11 +78,11 @@ _MODULES.push({
           text: entry.name,
           type: `a`
         }, {
-          text: `on ${getTimestamp(entry.timestamp, esgst.at_24, esgst.at_s)}`,
+          text: `on ${getTimestamp(entry.timestamp, this.esgst.at_24, this.esgst.at_s)}`,
           type: `node`
         }]
       });
-      let date = formatDate(`[MMM] [D], [YYYY]`, entry.timestamp);
+      let date = utils.formatDate(`[MMM] [D], [YYYY]`, entry.timestamp);
       let key = new Date(date).getTime();
       if (!dates[key]) {
         dates[key] = {
@@ -102,14 +106,14 @@ _MODULES.push({
       currentDate = dateObj.getTime();
       if (!dates[currentDate]) {
         dates[currentDate] = {
-          date: formatDate(`[MMM] [D], [YYYY]`, currentDate),
+          date: utils.formatDate(`[MMM] [D], [YYYY]`, currentDate),
           entered: 0,
           left: 0
         };
       }
     }
     let popup = new Popup(`fa-history`, `Entry Tracker`, true);
-    let rows = createElements(popup.scrollable, `beforeEnd`, [{
+    let rows = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left esgst-float-right table`,
         style: `width: auto;`
@@ -165,7 +169,7 @@ _MODULES.push({
     let total = 0;
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
-      let button = createElements(rows, `beforeEnd`, [{
+      let button = this.esgst.modules.common.createElements(rows, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`,
         },
@@ -208,7 +212,7 @@ _MODULES.push({
           }]
         }]
       }]).firstElementChild.firstElementChild;
-      button.firstElementChild.addEventListener(`click`, et_deleteEntry.bind(null, button, dates[key].date, popup));
+      button.firstElementChild.addEventListener(`click`, this.et_deleteEntry.bind(null, button, dates[key].date, popup));
       if (dates[key].entered < lowest.count) {
         lowest.count = dates[key].entered;
         lowest.date = dates[key].date;
@@ -220,7 +224,7 @@ _MODULES.push({
       total += dates[key].entered;
     }
     let average = Math.round(total / keys.length * 100) / 100;
-    createElements(popup.description, `afterBegin`, [{
+    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
       type: `div`,
       children: [{
         text: `You enter on average `,
@@ -284,7 +288,7 @@ _MODULES.push({
         type: `node`
       }]
     }]);
-    createElements(popup.scrollable, `beforeEnd`, [{
+    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left esgst-float-left markdown`,
         style: `border-right: 1px solid #ccc;`
@@ -303,9 +307,9 @@ _MODULES.push({
     popup.open();
   }
 
-  async function et_deleteEntry(button, date, popup) {
+  async et_deleteEntry(button, date, popup) {
     if (! confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
-    createElements(button, `inner`, [{
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -314,31 +318,31 @@ _MODULES.push({
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
-      if (date !== formatDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
+      if (date !== utils.formatDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
       entries.splice(i, 1);
     }
     await setValue(`entries`, JSON.stringify(entries));
     popup.close();
-    et_menu();
+    this.et_menu();
   }
 
-  function et_getEntries(context, main, source, endless) {
+  et_getEntries(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__remove-default:not(.is-hidden), .esgst-es-page-${endless}.table__remove-default:not(.is-hidden)` : `.table__remove-default:not(.is-hidden)`}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
-      et_setObserver(elements[i]);
+      this.et_setObserver(elements[i]);
     }
   }
 
-  function et_setObserver(element) {
+  et_setObserver(element) {
     let code, container, heading, name;
     container = element.closest(`.table__row-inner-wrap`);
     heading = container.getElementsByClassName(`table__column__heading`)[0];
     code = heading.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
     name = heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1];
-    element.addEventListener(`click`, et_setEntry.bind(null, code, false, name));
+    element.addEventListener(`click`, this.et_setEntry.bind(null, code, false, name));
   }
 
-  async function et_setEntry(code, entry, name) {
+  async et_setEntry(code, entry, name) {
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     entries.push({
       code: code,
@@ -348,4 +352,6 @@ _MODULES.push({
     });
     setValue(`entries`, JSON.stringify(entries));
   }
+}
 
+export default GiveawaysEntryTracker;

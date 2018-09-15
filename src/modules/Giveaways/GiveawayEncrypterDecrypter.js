@@ -1,10 +1,14 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayEncrypterDecrypter extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i> if the giveaway is open, <i class="fa fa-star esgst-green"></i> if it is open and new, <i class="fa fa-star esgst-yellow"></i> if it is not open yet and <i class="fa fa-star esgst-red"></i> if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.</li>
         <li>Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.</li>
         <li>To add encrypted giveaways to your comments, check [id=cfh_g].</li>
-        <li>Adds a button (<i class="fa fa-star"></i>) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).</li>
+        <li>Adds a button (<i class="fa fa-star"></i>) next to the ESGST button this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).</li>
       </ul>
     `,
     features: {
@@ -23,24 +27,24 @@ _MODULES.push({
       }
     },
     id: `ged`,
-    load: ged,
+    load: this.ged,
     name: `Giveaway Encrypter/Decrypter`,
     sg: true,
     type: `giveaways`
   });
 
-  function ged() {
-    if (!esgst.sg) return;
+  ged() {
+    if (!this.esgst.sg) return;
     let ged = {
       newGiveaways: []
     };
-    if (esgst.gedPath) {
-      ged_openPopup(ged);
+    if (this.esgst.gedPath) {
+      this.ged_openPopup(ged);
     } else {
-      ged.button = createElements(esgst.headerNavigationLeft, `beforeEnd`, [{
+      this.ged.button = this.esgst.modules.common.createElements(this.esgst.headerNavigationLeft, `beforeEnd`, [{
         attributes: {
           class: `nav__button-container esgst-hidden`,
-          title: getFeatureTooltip(`ged`, `View your decrypted giveaways`)
+          title: this.esgst.modules.common.getFeatureTooltip(`ged`, `View your decrypted giveaways`)
         },
         type: `div`,
         children: [{
@@ -56,28 +60,28 @@ _MODULES.push({
           }]
         }]
       }]);
-      ged.button.addEventListener(`mousedown`, ged_openPopup.bind(null, ged));
-      ged_getGiveaways(ged, true);
+      this.ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(null, this.ged));
+      this.ged_getGiveaways(ged, true);
     }
-    esgst.ged_addIcons = ged_addIcons.bind(null, ged);
+    this.esgst.ged_addIcons = this.ged_addIcons.bind(null, this.ged);
   }
 
-  async function ged_openPopup(ged, event) {
+  async ged_openPopup(ged, event) {
     if (event) {
       if (event.button === 2) return;
       event.preventDefault();
     }
-    if (esgst.gedPath) {
-      ged.container = ged.context = esgst.mainContext;
-    } else if (esgst.ged_t || (event && event.button === 1)) {
+    if (this.esgst.gedPath) {
+      this.ged.container = this.ged.context = this.esgst.mainContext;
+    } else if (this.esgst.ged_t || (event && event.button === 1)) {
       open(`/esgst/decrypted-giveaways`);
     } else {
-      ged.popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
-      ged.container = ged.popup.description;
-      ged.context = ged.popup.scrollable;
-      ged.popup.open();
+      this.ged.popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
+      this.ged.container = this.ged.popup.description;
+      this.ged.context = this.ged.popup.scrollable;
+      this.ged.popup.open();
     }
-    createElements(ged.context, `inner`, [{
+    this.esgst.modules.common.createElements(ged.context, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -86,131 +90,131 @@ _MODULES.push({
       text: `Loading...`,
       type: `node`
     }]);
-    await ged_getGiveaways(ged);
-    ged.context.innerHTML = ``;
-    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
-      let heading = createElements(ged.context, `afterBegin`, [{
+    await this.ged_getGiveaways(ged);
+    this.ged.context.innerHTML = ``;
+    if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
+      let heading = this.esgst.modules.common.createElements(ged.context, `afterBegin`, [{
         attributes: {
           class: `page__heading`
         },
         type: `div`
       }]);
-      if (esgst.gas) {
-        gas(heading);
+      if (this.esgst.gas) {
+        this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
-      if (esgst.gf && esgst.gf_m) {
+      if (this.esgst.gf && this.esgst.gf_m) {
         heading.appendChild(filters_addContainer(`gf`, heading, `Ged`));
       }
-      if (esgst.mm) {
-        mm(heading);
+      if (this.esgst.mm) {
+        this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
-    ged.results = createElements(ged.context, `beforeEnd`, [{
+    this.ged.results = this.esgst.modules.common.createElements(ged.context, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left`
       },
       type: `div`
     }]);
-    ged.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus`, icon2: `fa-circle-o-notch fa-spin`, title1: `Load More`, title2: `Loading more...`, callback1: ged_loadGiveaways.bind(null, ged)});
-    ged.container.appendChild(ged.set.set);
-    ged.set.trigger();
-    if (esgst.es_ged) {
-      ged.context.addEventListener(`scroll`, ged_checkEndless.bind(null, ged));
+    this.ged.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus`, icon2: `fa-circle-o-notch fa-spin`, title1: `Load More`, title2: `Loading more...`, callback1: this.ged_loadGiveaways.bind(null, this.ged)});
+    this.ged.container.appendChild(ged.set.set);
+    this.ged.set.trigger();
+    if (this.esgst.es_ged) {
+      this.ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(null, this.ged));
     }
   }
 
-  async function ged_getGiveaways(ged, firstRun) {
-    ged.giveaways = [];
-    ged.i = 0;
+  async ged_getGiveaways(ged, firstRun) {
+    this.ged.giveaways = [];
+    this.ged.i = 0;
     let currentGiveaways = {};
     let currentTime = Date.now();
     let deleteLock;
     if (!firstRun) {
-      deleteLock = await createLock(`gedLock`, 300);
-      esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
+      deleteLock = await this.esgst.modules.common.createLock(`gedLock`, 300);
+      this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
     }
-    delete esgst.edited.decryptedGiveaways;
-    for (let code in esgst.decryptedGiveaways) {
-      if (esgst.decryptedGiveaways[code].html) {
-        delete esgst.decryptedGiveaways[code].html;
-        esgst.edited.decryptedGiveaways = true;
+    delete this.esgst.edited.decryptedGiveaways;
+    for (let code in this.esgst.decryptedGiveaways) {
+      if (this.esgst.decryptedGiveaways[code].html) {
+        delete this.esgst.decryptedGiveaways[code].html;
+        this.esgst.edited.decryptedGiveaways = true;
       }
-      let isEnded = esgst.decryptedGiveaways[code].timestamp <= currentTime;
+      let isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
       let filtered = true;
-      let giveaway = esgst.giveaways[code];
+      let giveaway = this.esgst.giveaways[code];
       if (giveaway) {
-        const name = esgst.gf_presetGed;
+        const name = this.esgst.gf_presetGed;
         if (name) {
           let i;
-          for (i = esgst.gf_presets.length - 1; i > -1 && esgst.gf_presets[i].name !== name; i--);
+          for (i = this.esgst.gf_presets.length - 1; i > -1 && this.esgst.gf_presets[i].name !== name; i--);
           if (i > -1) {
-            const preset = esgst.gf_presets[i];
-            filtered = filters_filterItem(`gf`, gf_getFilters(true), giveaway, preset.rules);
+            const preset = this.esgst.gf_presets[i];
+            filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`gf`, this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(true), giveaway, preset.rules);
           }
         }
         if (filtered && isEnded && !giveaway.started) {
-          await ged_getGiveaway(code, currentGiveaways, true);
-          isEnded = esgst.decryptedGiveaways[code].timestamp <= currentTime;
+          await this.ged_getGiveaway(code, currentGiveaways, true);
+          isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
         }
       }
       if (filtered && !isEnded) {
-        ged.giveaways.push({
+        this.ged.giveaways.push({
           code: code,
-          source: esgst.decryptedGiveaways[code].source,
-          timestamp: esgst.decryptedGiveaways[code].timestamp
+          source: this.esgst.decryptedGiveaways[code].source,
+          timestamp: this.esgst.decryptedGiveaways[code].timestamp
         });
       }
     }
-    await lockAndSaveGiveaways(currentGiveaways, firstRun);
-    if (esgst.edited.decryptedGiveaways && !firstRun) {
-      await setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
+    await this.esgst.modules.common.lockAndSaveGiveaways(currentGiveaways, firstRun);
+    if (this.esgst.edited.decryptedGiveaways && !firstRun) {
+      await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));
     }
     if (deleteLock) {
       deleteLock();
     }
-    ged.n = ged.giveaways.length;
+    this.ged.n = this.ged.giveaways.length;
     if (ged.n > 0) {
       if (ged.button) {
-        ged.button.classList.remove(`esgst-hidden`);
+        this.ged.button.classList.remove(`esgst-hidden`);
       }
-      ged.giveaways = sortArray(ged.giveaways, false, `timestamp`);
+      this.ged.giveaways = utils.sortArray(ged.giveaways, false, `timestamp`);
     }
   }
 
-  async function ged_getGiveaway(code, currentGiveaways, isEnded, source) {
-    let response = await request({method: `GET`, url: `/giveaway/${code}/`});
-    let giveaway = (await giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
+  async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
+    let response = await this.esgst.modules.common.request({method: `GET`, url: `/giveaway/${code}/`});
+    let giveaway = (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
     if (giveaway) {
       currentGiveaways[code] = giveaway;
       if (giveaway.started && isEnded) {
-        esgst.decryptedGiveaways[code].timestamp = giveaway.endTime;
-        esgst.edited.decryptedGiveaways = true;
+        this.esgst.decryptedGiveaways[code].timestamp = giveaway.endTime;
+        this.esgst.edited.decryptedGiveaways = true;
       }
     }
     if (source) {
-      esgst.decryptedGiveaways[code] = {
+      this.esgst.decryptedGiveaways[code] = {
         source: source,
         timestamp: (giveaway && giveaway.endTime) || 0
       };
-      esgst.edited.decryptedGiveaways = true;
+      this.esgst.edited.decryptedGiveaways = true;
     }
     return giveaway;
   }
 
-  async function ged_loadGiveaways(ged) {
+  async ged_loadGiveaways(ged) {
     let i = 0;
-    while ((i < 5 || (esgst.es_ged && ged.context.scrollHeight <= ged.context.offsetHeight) || ((ged.results.children.length - ((esgst.gfPopup && parseInt(esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && ged.i < ged.n) {
+    while ((i < 5 || (this.esgst.es_ged && this.ged.context.scrollHeight <= this.ged.context.offsetHeight) || ((ged.results.children.length - ((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && this.ged.i < this.ged.n) {
       i += 1;
-      let giveaway = ged.giveaways[ged.i];
-      ged.i += 1;
-      let response = await request({method: `GET`, url: `/giveaway/${giveaway.code}/`});
-      let builtGiveaway = buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+      let giveaway = this.ged.giveaways[ged.i];
+      this.ged.i += 1;
+      let response = await this.esgst.modules.common.request({method: `GET`, url: `/giveaway/${giveaway.code}/`});
+      let builtGiveaway = this.esgst.modules.common.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
       if (!builtGiveaway || !builtGiveaway.started) {
         continue;
       }
-      let context = createElements(ged.results, `beforeEnd`, builtGiveaway.html);
+      let context = this.esgst.modules.common.createElements(ged.results, `beforeEnd`, builtGiveaway.html);
       if (giveaway.source) {
-        createElements(context.getElementsByClassName(`giveaway__columns`)[0], `afterBegin`, [{
+        this.esgst.modules.common.createElements(context.getElementsByClassName(`giveaway__columns`)[0], `afterBegin`, [{
           attributes: {
             class: `esgst-ged-source`,
             href: `${giveaway.source.match(/\/discussion\//) ? giveaway.source : `/go/comment/${giveaway.source}`}`
@@ -219,23 +223,23 @@ _MODULES.push({
           type: `a`
         }]);
       }
-      await endless_load(context, false, `ged`);
+      await this.esgst.modules.common.endless_load(context, false, `ged`);
       if (ged.newGiveaways.indexOf(giveaway.code) > -1) {
         context.getElementsByClassName(`giveaway__heading__name`)[0].insertAdjacentText(`afterBegin`, `[NEW] `);
       }
     }
-    if (ged.i >= ged.n) {
-      ged.set.set.remove();
+    if (ged.i >= this.ged.n) {
+      this.ged.set.set.remove();
     }
   }
 
-  function ged_checkEndless(ged) {
-    if ((ged.context.scrollTop + ged.context.offsetHeight) >= ged.context.scrollHeight && !ged.set.busy) {
-      ged.set.trigger();
+  ged_checkEndless(ged) {
+    if ((ged.context.scrollTop + this.ged.context.offsetHeight) >= this.ged.context.scrollHeight && !ged.set.busy) {
+      this.ged.set.trigger();
     }
   }
 
-  async function ged_addIcons(ged, comments) {
+  async ged_addIcons(ged, comments) {
     let currentGiveaways = {};
     let currentTime = Date.now();
     let deleteLock = null;
@@ -255,33 +259,33 @@ _MODULES.push({
           continue;
         }
         if (!deleteLock) {
-          deleteLock = await createLock(`gedLock`, 300);
-          esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
+          deleteLock = await this.esgst.modules.common.createLock(`gedLock`, 300);
+          this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
         }
-        code = ged_decryptCode(code);
-        let isEnded = esgst.decryptedGiveaways[code] && currentTime > esgst.decryptedGiveaways[code].timestamp;
+        code = this.ged_decryptCode(code);
+        let isEnded = this.esgst.decryptedGiveaways[code] && currentTime > this.esgst.decryptedGiveaways[code].timestamp;
         let isNew = false;
-        let isStarted = esgst.giveaways[code] && esgst.giveaways[code].started;
-        if (!esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
-          let giveaway = await ged_getGiveaway(code, currentGiveaways, false, comment.id || location.href);
-          ged.newGiveaways.push(code);
+        let isStarted = this.esgst.giveaways[code] && this.esgst.giveaways[code].started;
+        if (!this.esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
+          let giveaway = await this.ged_getGiveaway(code, currentGiveaways, false, comment.id || location.href);
+          this.ged.newGiveaways.push(code);
           if (giveaway) {
             isEnded = giveaway.ended;
             isStarted = giveaway.started;
           }
         }
         if (isEnded) {
-          if (esgst.ged_b) {
+          if (this.esgst.ged_b) {
             hasEnded = true;
           }
         } else {
           hasNew = isNew = true;
         }
-        createElements(comment.actions, `beforeEnd`, [{
+        this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
           attributes: {
             class: `esgst-ged-icon${isEnded ? ` esgst-red` : (isStarted ? (isNew ? ` esgst-green` : ``) : ` esgst-yellow`)}`,
             href: `/giveaway/${code}/`,
-            title: getFeatureTooltip(`ged`, `ESGST Decrypted Giveaway`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ged`, `ESGST Decrypted Giveaway`)
           },
           type: `a`,
           children: [{
@@ -294,33 +298,33 @@ _MODULES.push({
       }
     }
     if (deleteLock) {
-      await lockAndSaveGiveaways(currentGiveaways);
+      await this.esgst.modules.common.lockAndSaveGiveaways(currentGiveaways);
       deleteLock();
     }
-    if (esgst.edited.decryptedGiveaways) {
-      await setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
+    if (this.esgst.edited.decryptedGiveaways) {
+      await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));
     }
     if (ged.button && (hasEnded || hasNew)) {
-      ged.button.classList.remove(`esgst-hidden`);
+      this.ged.button.classList.remove(`esgst-hidden`);
       if (hasNew) {
-        ged.button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
+        this.ged.button.firstElementChild.firstElementChild.classList.add(`esgst-positive`);
       }
     }
   }
 
-  function ged_encryptCode(code) {
+  ged_encryptCode(code) {
     let alphabet, encrypted, i, n, rotated, rotation;
     alphabet = `NOPQRSTUVWXYZABCDEFGHIJKLM`;
     switch (Math.floor(Math.random() * 4)) {
       case 0:
-        rotated = rot(code, 13);
+        rotated = this.esgst.modules.common.rot(code, 13);
         encrypted = ``;
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
         }
         return encrypted;
       case 1:
-        rotated = rot(code, 13);
+        rotated = this.esgst.modules.common.rot(code, 13);
         encrypted = ``;
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
@@ -331,7 +335,7 @@ _MODULES.push({
         return encrypted;
       case 2:
         rotation = Math.ceil(Math.random() * 25);
-        rotated = rot(code, rotation);
+        rotated = this.esgst.modules.common.rot(code, rotation);
         encrypted = ``;
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
@@ -340,7 +344,7 @@ _MODULES.push({
         return encrypted;
       case 3:
         rotation = Math.ceil(Math.random() * 25);
-        rotated = rot(code, rotation);
+        rotated = this.esgst.modules.common.rot(code, rotation);
         encrypted = ``;
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
@@ -353,7 +357,7 @@ _MODULES.push({
     }
   }
 
-  function ged_decryptCode(encrypted) {
+  ged_decryptCode(encrypted) {
     let alphabet, code, rotation;
     alphabet = `NOPQRSTUVWXYZABCDEFGHIJKLM`;
     encrypted = encrypted.replace(/-/g, ``).replace(/[A-Z]/g, n => {
@@ -369,10 +373,10 @@ _MODULES.push({
     encrypted.slice(0, 10).match(/../g).forEach(n => {
       code += String.fromCharCode(parseInt(n, 16));
     });
-    return rot(code, 26 - rotation);
+    return this.esgst.modules.common.rot(code, 26 - rotation);
   }
 
-  async function ged_saveGiveaways(context, source) {
+  async ged_saveGiveaways(context, source) {
     let codes = [];
     let elements = context.querySelectorAll(`[href^="ESGST-"]`);
     for (let i = 0, n = elements.length; i < n; i++) {
@@ -387,24 +391,26 @@ _MODULES.push({
     let ged = {
       giveaways: {}
     };
-    esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
+    this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
     let promises = [];
     codes.forEach(code => {
-      if (esgst.decryptedGiveaways[code]) {
+      if (this.esgst.decryptedGiveaways[code]) {
         return;
       }
-      let giveaway = esgst.giveaways[code];
+      let giveaway = this.esgst.giveaways[code];
       if (giveaway && giveaway.endTime) {
-        esgst.decryptedGiveaways[code] = {
+        this.esgst.decryptedGiveaways[code] = {
           source: source,
           timestamp: giveaway.endTime
         };
         return;
       }
-      promises.push(ged_getGiveaway(code, ged.giveaways, false, source));
+      promises.push(ged_getGiveaway(code, this.ged.giveaways, false, source));
     });
     await Promise.all(promises);
-    await setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
-    await lockAndSaveGiveaways(ged.giveaways);
+    await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));
+    await this.esgst.modules.common.lockAndSaveGiveaways(ged.giveaways);
   }
+}
 
+export default GiveawaysGiveawayEncrypterDecrypter;

@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GamesGameCategories extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).</li>
@@ -9,8 +13,8 @@ _MODULES.push({
       gc_lr: {
         description: `
           <ul>
-            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).</li>
-            <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
+            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per this.esgst.modules.common.request globally (across all open tabs).</li>
+            <li>With this option disabled, all of the requests happen this.esgst.modules.generalAccurateTimestamp.at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
           </ul>
         `,
         name: `Limit requests to the Steam store.`,
@@ -19,7 +23,7 @@ _MODULES.push({
       gc_rt: {
         description: `
           <ul>
-            <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
+            <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page this.esgst.modules.generalAccurateTimestamp.at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
           </ul>
         `,
         name: `Show categories in real time.`,
@@ -290,7 +294,7 @@ _MODULES.push({
         }],
         name: `HLTB`,
         sg: true,
-        sync: `HLTB Times`
+        this.esgst.modules.common.sync: `HLTB Times`
       },
       gc_i: {
         colors: true,
@@ -772,25 +776,25 @@ _MODULES.push({
       }
     },
     id: `gc`,
-    load: gc,
+    load: this.gc,
     name: `Game Categories`,
     sg: true,
-    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
+    this.esgst.modules.common.sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
     type: `games`
   });
 
-  function gc() {    
-    if (!esgst.menuPath || esgst.gbPath || esgst.gedPath || esgst.gePath) {
-      esgst.gameFeatures.push(gc_games);
-      esgst.gcToFetch = {apps: {}, subs: {}};
+  gc() {    
+    if (!this.esgst.menuPath || this.esgst.gbPath || this.esgst.gedPath || this.esgst.gePath) {
+      this.esgst.gameFeatures.push(gc_games);
+      this.esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }
 
-  function gc_games(games, main, source, endless) {
-    gc_getGames(games, main, source, endless);
+  gc_games(games, main, source, endless) {
+    this.gc_getGames(games, main, source, endless);
   }
 
-  async function gc_getGames(games, main, source, endless, filtersChanged) {
+  async gc_getGames(games, main, source, endless, filtersChanged) {
     let gc = {
       apps: Object.keys(games.apps).map(x => parseInt(x)),
       cache: {
@@ -809,7 +813,7 @@ _MODULES.push({
           continue;
         }
         if (element.container.closest(`.poll`)) {
-          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
+          this.esgst.modules.common.createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -823,7 +827,7 @@ _MODULES.push({
             }]
           }]);
         } else {
-          createElements(element.heading, `afterEnd`, [{
+          this.esgst.modules.common.createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -847,7 +851,7 @@ _MODULES.push({
           continue;
         }
         if (element.container.closest(`.poll`)) {
-          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
+          this.esgst.modules.common.createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -861,7 +865,7 @@ _MODULES.push({
             }]
           }]);
         } else {
-          createElements(element.heading, `afterEnd`, [{
+          this.esgst.modules.common.createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -877,58 +881,58 @@ _MODULES.push({
         }
       }
     }
-    if (esgst.gc_si) {
-      for (const id of gc.apps) {
-        gc_addCategory(null, games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb, true);
+    if (this.esgst.gc_si) {
+      for (const id of this.gc.apps) {
+        this.gc_addCategory(null, games.apps[id], id, this.esgst.games.apps[id], `apps`, this.gc.cache.hltb, true);
       }
-      for (const id of gc.subs) {
-        gc_addCategory(null, games.subs[id], id, esgst.games.subs[id], `subs`, null, true);
+      for (const id of this.gc.subs) {
+        this.gc_addCategory(null, games.subs[id], id, this.esgst.games.subs[id], `subs`, null, true);
       }
-      for (const giveaway of esgst.mainGiveaways) {
-        gc_addBorders(giveaway);
+      for (const giveaway of this.esgst.mainGiveaways) {
+        this.gc_addBorders(giveaway);
       }
-      for (const giveaway of esgst.popupGiveaways) {
-        gc_addBorders(giveaway);
+      for (const giveaway of this.esgst.popupGiveaways) {
+        this.gc_addBorders(giveaway);
       }
     }
     const missingApps = [];
     const missingSubs = [];
-    if (esgst.gc_gi || esgst.gc_lg || esgst.gc_r || esgst.gc_a || esgst.gc_sp || esgst.gc_mp || esgst.gc_sc || esgst.gc_tc || esgst.gc_l || esgst.gc_m || esgst.gc_dlc || esgst.gc_ea || esgst.gc_rm || esgst.gc_rd || esgst.gc_g || esgst.gc_p) {
-      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+    if (this.esgst.gc_gi || this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_a || this.esgst.gc_sp || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_tc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_ea || this.esgst.gc_rm || this.esgst.gc_rd || this.esgst.gc_g || this.esgst.gc_p) {
+      this.gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
       if (gc.cache.version !== 7) {
-        gc.cache = {
+        this.gc.cache = {
           apps: {},
           subs: {},
-          hltb: gc.cache.hltb,
+          hltb: this.gc.cache.hltb,
           timestamp: 0,
           version: 7
         };
       }
       if (!gc.cache.hltb) {
-        gc.cache.hltb = {};
+        this.gc.cache.hltb = {};
       }
       const currentTime = Date.now();
-      for (let id in gc.cache.apps) {
+      for (let id in this.gc.cache.apps) {
         if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (esgst.gc_g_udt && !gc.cache.apps[id].tags) || (esgst.gc_r && !gc.cache.apps[id].rating) || (esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
-            delete gc.cache.apps[id];
+          if (currentTime - this.gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || this.gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && this.gc.cache.apps[id].removed === -1)) && currentTime - this.gc.cache.apps[id].lastCheck > 86400000)) {
+            delete this.gc.cache.apps[id];
           }
         } else {
-          gc.cache.apps[id].lastCheck = currentTime;
+          this.gc.cache.apps[id].lastCheck = currentTime;
         }
       }
-      for (let id in gc.cache.subs) {
+      for (let id in this.gc.cache.subs) {
         if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
-            delete gc.cache.subs[id];
+          if (currentTime - this.gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || this.gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && this.gc.cache.subs[id].removed === -1)) && currentTime - this.gc.cache.subs[id].lastCheck > 86400000)) {
+            delete this.gc.cache.subs[id];
           }
         } else {
-          gc.cache.subs[id].lastCheck = currentTime;
+          this.gc.cache.subs[id].lastCheck = currentTime;
         }
       }
-      setLocalValue(`gcCache`, JSON.stringify(gc.cache));
-      for (let i = 0, n = gc.apps.length; i < n; ++i) {
-        let id = gc.apps[i];
+      this.esgst.modules.common.setLocalValue(`gcCache`, JSON.stringify(gc.cache));
+      for (let i = 0, n = this.gc.apps.length; i < n; ++i) {
+        let id = this.gc.apps[i];
         if (gc.cache.apps[id]) {
           continue;
         }
@@ -936,8 +940,8 @@ _MODULES.push({
           missingApps.push(id);
         }
       }
-      for (let i = 0, n = gc.subs.length; i < n; ++i) {
-        let id = gc.subs[i];
+      for (let i = 0, n = this.gc.subs.length; i < n; ++i) {
+        let id = this.gc.subs[i];
         if (gc.cache.subs[id]) {
           continue;
         }
@@ -950,41 +954,41 @@ _MODULES.push({
       if (numApps || numSubs) {
         let promises = [];
         for (let i = 0, n = missingApps.length; i < n; ++i) {
-          if (esgst.gc_lr) {
-            await gc_getCategories(gc, currentTime, games, missingApps[i], `apps`);
+          if (this.esgst.gc_lr) {
+            await this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`);
           } else {
             promises.push(gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
           }
         }
         for (let i = 0, n = missingSubs.length; i < n; ++i) {
-          if (esgst.gc_lr) {
-            await gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`);
+          if (this.esgst.gc_lr) {
+            await this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`);
           } else {
             promises.push(gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
           }
         }
         await Promise.all(promises);
-        await lockAndSaveGames(esgst.games);
-        setLocalValue(`gcCache`, JSON.stringify(gc.cache));
+        await this.esgst.modules.common.lockAndSaveGames(this.esgst.games);
+        this.esgst.modules.common.setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       }
     }
 
     // add categories
-    for (const id of gc.apps) {
-      if (missingApps.indexOf(id) > -1 && esgst.gc_rt) {
+    for (const id of this.gc.apps) {
+      if (missingApps.indexOf(id) > -1 && this.esgst.gc_rt) {
         continue;
       }
-      gc_addCategory(gc.cache.apps[id], games.apps[id], id, esgst.games.apps[id], `apps`, gc.cache.hltb);
+      this.gc_addCategory(gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, this.gc.cache.hltb);
     }
-    for (const id of gc.subs) {
-      if (missingSubs.indexOf(id) > -1 && esgst.gc_rt) {
+    for (const id of this.gc.subs) {
+      if (missingSubs.indexOf(id) > -1 && this.esgst.gc_rt) {
         continue;
       }
-      gc_addCategory(gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
+      this.gc_addCategory(gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`);
     }
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
-    for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
-      let giveaway = esgst.mainGiveaways[i];
+    for (let i = 0, n = this.esgst.mainGiveaways.length; i < n; ++i) {
+      let giveaway = this.esgst.mainGiveaways[i];
       if ((giveaway.type === `apps` && missingApps.indexOf(giveaway.id) < 0) || (giveaway.type === `subs` && missingSubs.indexOf(giveaway.id) < 0)) {
         const loading = giveaway.outerWrap.getElementsByClassName(`esgst-gc-loading`)[0];
         if (loading) {
@@ -1018,11 +1022,11 @@ _MODULES.push({
           giveaway.releaseDate = -1;
         }
       }
-      gc_addBorders(giveaway);
+      this.gc_addBorders(giveaway);
       giveaway.gcReady = true;
     }
-    for (let i = 0, n = esgst.popupGiveaways.length; i < n; ++i) {
-      let giveaway = esgst.popupGiveaways[i];
+    for (let i = 0, n = this.esgst.popupGiveaways.length; i < n; ++i) {
+      let giveaway = this.esgst.popupGiveaways[i];
       if ((giveaway.type === `apps` && missingApps.indexOf(giveaway.id) < 0) || (giveaway.type === `subs` && missingSubs.indexOf(giveaway.id) < 0)) {
         const loading = giveaway.outerWrap.getElementsByClassName(`esgst-gc-loading`)[0];
         if (loading) {
@@ -1047,28 +1051,28 @@ _MODULES.push({
           giveaway.rating = 0;
         }
       }
-      gc_addBorders(giveaway);
+      this.gc_addBorders(giveaway);
       giveaway.gcReady = true;
     }
     if (!filtersChanged) {
-      if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-        filters_filter(esgst.gf, false, endless);
+      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+        this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
       }
-      if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-        filters_filter(esgst.gfPopup);
+      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
+        this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
       }
     }
   }
 
-  function gc_addBorders(giveaway) {
-    if (giveaway.outerWrap.classList.contains(`esgst-hidden`) || !giveaway.grid || !esgst.gc_b) {
+  gc_addBorders(giveaway) {
+    if (giveaway.outerWrap.classList.contains(`esgst-hidden`) || !giveaway.grid || !this.esgst.gc_b) {
       return;
     }
     let borders = giveaway.outerWrap.getElementsByClassName(`esgst-gc-border`)[0];
     if (borders) {
       borders.innerHTML = ``;
     } else {
-      borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
+      borders = this.esgst.modules.common.createElements(giveaway.outerWrap, `beforeEnd`, [{
         attributes: {
           class: `esgst-gc-border`
         },
@@ -1097,12 +1101,12 @@ _MODULES.push({
       gc_dlc: `dlc`,
       gc_p: `package`
     };
-    for (const category of esgst.gc_categories_gv) {
+    for (const category of this.esgst.gc_categories_gv) {
       const key = categoryNames[category];
       if (!key || !giveaway.innerWrap.getElementsByClassName(`esgst-gc-${key}`)[0]) {
         continue;
       }
-      createElements(borders, `beforeEnd`, [{
+      this.esgst.modules.common.createElements(borders, `beforeEnd`, [{
         attributes: {
           class: `esgst-gc-${key}`
         },
@@ -1111,7 +1115,7 @@ _MODULES.push({
     }
   }
 
-  async function gc_getCategories(gc, currentTime, games, id, type) {
+  async gc_getCategories(gc, currentTime, games, id, type) {
     try {
       let categories = {
         achievements: 0,
@@ -1134,22 +1138,22 @@ _MODULES.push({
         tags: ``,
         tradingCards: 0
       };
-      let responseJson = JSON.parse((await request({anon: true, method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
+      let responseJson = JSON.parse((await this.esgst.modules.common.request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
       let data;
       if (responseJson && responseJson[id]) {
         data = responseJson[id].data;
         if (data) {
           if (type === `apps` && data.packages) {
-            if (!esgst.games.apps[id]) {
-              esgst.games.apps[id] = {};
+            if (!this.esgst.games.apps[id]) {
+              this.esgst.games.apps[id] = {};
             }
-            esgst.games.apps[id].packages = data.packages.map(x => parseInt(x));
+            this.esgst.games.apps[id].packages = data.packages.map(x => parseInt(x));
           }
           if (type === `subs` && data.apps) {
-            if (!esgst.games.subs[id]) {
-              esgst.games.subs[id] = {};
+            if (!this.esgst.games.subs[id]) {
+              this.esgst.games.subs[id] = {};
             }
-            esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
+            this.esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
           }
           if (data.categories) {
             for (let i = 0, n = data.categories.length; i < n; ++i) {
@@ -1213,9 +1217,9 @@ _MODULES.push({
           }
         }
       }
-      if (esgst.gc_lg || esgst.gc_r || esgst.gc_rm || esgst.gc_g_udt) {
-        let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
-        let responseHtml = parseHtml(response.responseText);
+      if (this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_g_udt) {
+        let response = await this.esgst.modules.common.request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+        let responseHtml = utils.parseHtml(response.responseText);
         if (response.finalUrl.match(id)) {
           let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
           let n = elements.length;
@@ -1264,24 +1268,24 @@ _MODULES.push({
           categories.removed = 1;
         }
       }
-      if (esgst.gc_dlc_b && categories.dlc && categories.base) {
+      if (this.esgst.gc_dlc_b && categories.dlc && categories.base) {
         if (gc.cache.apps[categories.base]) {
-          categories.freeBase = gc.cache.apps[categories.base].free;
+          categories.freeBase = this.gc.cache.apps[categories.base].free;
         }
         if (typeof categories.freeBase === `undefined`) {
-          categories.freeBase = JSON.parse((await request({anon: true, method: `GET`, notLimited: !esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+          categories.freeBase = JSON.parse((await this.esgst.modules.common.request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
         }
       }
-      gc.cache[type][id] = categories;
-      if (esgst.gc_rt) {
-        gc_addCategory(gc.cache[type][id], games[type][id], id, esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
+      this.gc.cache[type][id] = categories;
+      if (this.esgst.gc_rt) {
+        this.gc_addCategory(gc.cache[type][id], games[type][id], id, this.esgst.games[type][id], type, type === `apps` ? this.gc.cache.hltb : null);
       }
     } catch (error) {
       console.log(error);
       for (const game of games[type][id]) {
         const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
         if (panel && !panel.getAttribute(`data-gcReady`)) {
-          if (esgst.gc_il && !esgst.giveawayPath) {
+          if (this.esgst.gc_il && !this.esgst.giveawayPath) {
             panel.previousElementSibling.style.display = `inline-block`;
             panel.classList.add(`esgst-gc-panel-inline`);
           }
@@ -1289,7 +1293,7 @@ _MODULES.push({
           if (loading) {
             loading.remove();
           }
-          createElements(panel, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(panel, `beforeEnd`, [{
             attributes: {
               class: `esgst-bold esgst-red`
             },
@@ -1307,8 +1311,8 @@ _MODULES.push({
     }
   }
 
-  function gc_checkPackage(id, savedGame) {
-    const packg = esgst.games.subs[id];
+  gc_checkPackage(id, savedGame) {
+    const packg = this.esgst.games.subs[id];
     if (!packg || !packg.apps) {
       return;
     }
@@ -1316,7 +1320,7 @@ _MODULES.push({
     const games = packg.apps
       .map(x => {
         x = parseInt(x);
-        const y = esgst.games.apps[x];
+        const y = this.esgst.games.apps[x];
         if (!y) {
           return;
         }
@@ -1328,11 +1332,11 @@ _MODULES.push({
         return y;
       })
       .concat(
-        Object.keys(esgst.games.apps)
-        .filter(x => esgst.games.apps[x].packages && esgst.games.apps[x].packages.indexOf(id) > -1)
+        Object.keys(this.esgst.games.apps)
+        .filter(x => this.esgst.games.apps[x].packages && this.esgst.games.apps[x].packages.indexOf(id) > -1)
         .map(x => {
           x = parseInt(x);
-          const y = esgst.games.apps[x];
+          const y = this.esgst.games.apps[x];
           if (!y) {
             return;
           }
@@ -1375,25 +1379,25 @@ _MODULES.push({
     return count;   
   }
 
-  function gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
+  gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
     let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
-        gc_checkPackage(subId, savedGame);
+        this.gc_checkPackage(subId, savedGame);
       }
     }
     let packageCount = null;
     if (type === `subs` && savedGame && savedGame.apps) {
-      packageCount = gc_checkPackage(id, savedGame);
+      packageCount = this.gc_checkPackage(id, savedGame);
     }
     singularType = type.slice(0, -1);
     name = cache ? cache.name : games[0].name;
     encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
     elements = [];
-    let categories = games[0].grid ? esgst.gc_categories_gv : esgst.gc_categories;
+    let categories = games[0].grid ? this.esgst.gc_categories_gv : this.esgst.gc_categories;
     for (i = 0, n = categories.length; i < n; ++i) {
       category = categories[i];
-      if (esgst[category]) {
+      if (this.esgst[category]) {
         switch (category) {
           case `gc_fcv`:
             if ((savedGame && !savedGame.reducedCV && !savedGame.noCV) || !savedGame) {
@@ -1402,13 +1406,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-fullCV`,
                   [`data-id`]: `gc_fcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_fcv`, `Full CV`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_fcv`, `Full CV`)
                 },
-                text: esgst.gc_fcv_s ? (esgst.gc_fcv_s_i ? `` : `FCV`) : esgst.gc_fcvLabel,
+                text: this.esgst.gc_fcv_s ? (this.esgst.gc_fcv_s_i ? `` : `FCV`) : this.esgst.gc_fcvLabel,
                 type: `a`,
-                children: esgst.gc_fcv_s && esgst.gc_fcv_s_i ? [{
+                children: this.esgst.gc_fcv_s && this.esgst.gc_fcv_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_fcvIcon}`
+                    class: `fa fa-${this.esgst.gc_fcvIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1416,19 +1420,19 @@ _MODULES.push({
             }
             break;
           case `gc_rcv`:
-            if (savedGame && savedGame.reducedCV && (!esgst.gc_ncv_o || !savedGame.noCV)) {
+            if (savedGame && savedGame.reducedCV && (!this.esgst.gc_ncv_o || !savedGame.noCV)) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-reducedCV`,
                   [`data-id`]: `gc_rcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
                 },
-                text: esgst.gc_rcv_s ? (esgst.gc_rcv_s_i ? `` : `RCV`) : esgst.gc_rcvLabel,
+                text: this.esgst.gc_rcv_s ? (this.esgst.gc_rcv_s_i ? `` : `RCV`) : this.esgst.gc_rcvLabel,
                 type: `a`,
-                children: esgst.gc_rcv_s && esgst.gc_rcv_s_i ? [{
+                children: this.esgst.gc_rcv_s && this.esgst.gc_rcv_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_rcvIcon}`
+                    class: `fa fa-${this.esgst.gc_rcvIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1442,13 +1446,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-noCV`,
                   [`data-id`]: `gc_ncv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
                 },
-                text: esgst.gc_ncv_s ? (esgst.gc_ncv_s_i ? `` : `NCV`) : esgst.gc_ncvLabel,
+                text: this.esgst.gc_ncv_s ? (this.esgst.gc_ncv_s_i ? `` : `NCV`) : this.esgst.gc_ncvLabel,
                 type: `a`,
-                children: esgst.gc_ncv_s && esgst.gc_ncv_s_i ? [{
+                children: this.esgst.gc_ncv_s && this.esgst.gc_ncv_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_ncvIcon}`
+                    class: `fa fa-${this.esgst.gc_ncvIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1462,7 +1466,7 @@ _MODULES.push({
                 let time = ``;
                 if (hltbTimes.mainStory && hltbTimes.mainExtra && hltbTimes.completionist) {
                   // singleplayer
-                  switch (esgst.gc_hltb_index_0) {
+                  switch (this.esgst.gc_hltb_index_0) {
                     case 0:
                       time = hltbTimes.mainStory;
                       break;
@@ -1475,7 +1479,7 @@ _MODULES.push({
                   }
                 } else if (hltbTimes.solo && hltbTimes.coOp && hltbTimes.vs) {
                   // singleplayer/multiplayer
-                  switch (esgst.gc_hltb_index_2) {
+                  switch (this.esgst.gc_hltb_index_2) {
                     case 0:
                       time = hltbTimes.solo;
                       break;
@@ -1488,7 +1492,7 @@ _MODULES.push({
                   }
                 } else if (hltbTimes.coOp && hltbTimes.vs) {
                   // singleplayer/multiplayer
-                  switch (esgst.gc_hltb_index_1) {
+                  switch (this.esgst.gc_hltb_index_1) {
                     case 0:
                       time = hltbTimes.coOp;
                       break;
@@ -1524,7 +1528,7 @@ _MODULES.push({
                       class: `esgst-gc esgst-gc-hltb`,
                       [`data-id`]: `gc_hltb`,
                       href: `https://howlongtobeat.com/game.php?id=${hltb[id].id}`,
-                      title: getFeatureTooltip(`gc_hltb`, title)
+                      title: this.esgst.modules.common.getFeatureTooltip(`gc_hltb`, title)
                     },
                     type: `a`,
                     children: [{
@@ -1548,13 +1552,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-hidden`,
                   [`data-id`]: `gc_h`,
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_h`, `Hidden`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_h`, `Hidden`)
                 },
-                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H`) : esgst.gc_hLabel,
+                text: this.esgst.gc_h_s ? (this.esgst.gc_h_s_i ? `` : `H`) : this.esgst.gc_hLabel,
                 type: `a`,
-                children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
+                children: this.esgst.gc_h_s && this.esgst.gc_h_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_hIcon}`
+                    class: `fa fa-${this.esgst.gc_hIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1568,13 +1572,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-ignored`,
                   [`data-id`]: `gc_i`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_i`, `Ignored`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_i`, `Ignored`)
                 },
-                text: esgst.gc_i_s ? (esgst.gc_i_s_i ? `` : `I`) : esgst.gc_iLabel,
+                text: this.esgst.gc_i_s ? (this.esgst.gc_i_s_i ? `` : `I`) : this.esgst.gc_iLabel,
                 type: `a`,
-                children: esgst.gc_i_s && esgst.gc_i_s_i ? [{
+                children: this.esgst.gc_i_s && this.esgst.gc_i_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_iIcon}`
+                    class: `fa fa-${this.esgst.gc_iIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1588,20 +1592,20 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-owned`,
                   [`data-id`]: `gc_o`,
                   href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_o`, `Owned`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_o`, `Owned`)
                 },
-                text: esgst.gc_o_s ? (esgst.gc_o_s_i ? `` : `O`) : esgst.gc_oLabel,
+                text: this.esgst.gc_o_s ? (this.esgst.gc_o_s_i ? `` : `O`) : this.esgst.gc_oLabel,
                 type: `a`,
-                children: esgst.gc_o_s && esgst.gc_o_s_i ? [{
+                children: this.esgst.gc_o_s && this.esgst.gc_o_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_oIcon}`
+                    class: `fa fa-${this.esgst.gc_oIcon}`
                   },
                   type: `i`
                 }] : null
               });
             }
-            if (esgst.gc_o_a) {
-              for (const account of esgst.gc_o_altAccounts) {
+            if (this.esgst.gc_o_a) {
+              for (const account of this.esgst.gc_o_altAccounts) {
                 let game = account.games[type][id];
                 if (game && game.owned) {
                   elements.push({
@@ -1612,11 +1616,11 @@ _MODULES.push({
                       [`data-id`]: `gc_o`,
                       href: `http://steamcommunity.com/profiles/${account.steamId}/games`,
                       style: `background-color: ${account.bgColor}; color: ${account.color};`,
-                      title: getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
+                      title: this.esgst.modules.common.getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
                     },
-                    text: esgst.gc_o_s ? (esgst.gc_o_s_i ? `` : `O`) : account.label,
+                    text: this.esgst.gc_o_s ? (this.esgst.gc_o_s_i ? `` : `O`) : account.label,
                     type: `a`,
-                    children: esgst.gc_o_s && esgst.gc_o_s_i ? [{
+                    children: this.esgst.gc_o_s && this.esgst.gc_o_s_i ? [{
                       attributes: {
                         class: `fa fa-${account.icon}`
                       },
@@ -1634,13 +1638,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-wishlisted`,
                   [`data-id`]: `gc_w`,
                   href: `https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
                 },
-                text: esgst.gc_w_s ? (esgst.gc_w_s_i ? `` : `W`) : esgst.gc_wLabel,
+                text: this.esgst.gc_w_s ? (this.esgst.gc_w_s_i ? `` : `W`) : this.esgst.gc_wLabel,
                 type: `a`,
-                children: esgst.gc_w_s && esgst.gc_w_s_i ? [{
+                children: this.esgst.gc_w_s && this.esgst.gc_w_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_wIcon}`
+                    class: `fa fa-${this.esgst.gc_wIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1648,19 +1652,19 @@ _MODULES.push({
             }
             break;
           case `gc_pw`:
-            if (savedGame && savedGame.won && (!esgst.gc_pw_o || !esgst.gc_o || !savedGame.owned)) {
+            if (savedGame && savedGame.won && (!this.esgst.gc_pw_o || !this.esgst.gc_o || !savedGame.owned)) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-won`,
                   [`data-id`]: `gc_pw`,
-                  href: `https://www.steamgifts.com/user/${esgst.usename}/won/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_pw`, `Previously Won`)
+                  href: `https://www.steamgifts.com/user/${this.esgst.usename}/won/search?q=${encodedName}`,
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_pw`, `Previously Won`)
                 },
-                text: esgst.gc_pw_s ? (esgst.gc_pw_s_i ? `` : `PW`) : esgst.gc_pwLabel,
+                text: this.esgst.gc_pw_s ? (this.esgst.gc_pw_s_i ? `` : `PW`) : this.esgst.gc_pwLabel,
                 type: `a`,
-                children: esgst.gc_pw_s && esgst.gc_pw_s_i ? [{
+                children: this.esgst.gc_pw_s && this.esgst.gc_pw_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_pwIcon}`
+                    class: `fa fa-${this.esgst.gc_pwIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1677,7 +1681,7 @@ _MODULES.push({
                   price = parseInt(points[1]);
                 }
               }
-              user = esgst.users.users[esgst.steamId];
+              user = this.esgst.users.users[this.esgst.steamId];
               if (user) {
                 giveaways = user.giveaways;
                 if (giveaways) {
@@ -1689,7 +1693,7 @@ _MODULES.push({
                     let currentDate = Date.now();
                     let numGiveaways;
                     for (j = 0, numGiveaways = giveaways.length; j < numGiveaways; ++j) {
-                      giveaway = esgst.giveaways[giveaways[j]];
+                      giveaway = this.esgst.giveaways[giveaways[j]];
                       if (giveaway) {
                         if (Array.isArray(giveaway.winners)) {
                           if (giveaway.winners.length > 0) {
@@ -1742,8 +1746,8 @@ _MODULES.push({
                     attributes: {
                       class: `esgst-gc esgst-gc-giveawayInfo`,
                       [`data-id`]: `gc_gi`,
-                      href: `https://www.steamgifts.com/user/${esgst.username}`,
-                      title: getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
+                      href: `https://www.steamgifts.com/user/${this.esgst.username}`,
+                      title: this.esgst.modules.common.getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
                     },
                     type: `a`,
                     children: [{
@@ -1772,8 +1776,8 @@ _MODULES.push({
             if (cache && cache.rating) {
               let colors = null;
               let percentage = parseInt(cache.rating.match(/(\d+)%/)[1]);
-              for (let i = 0, n = esgst.gc_r_colors.length; i < n; i++) {
-                colors = esgst.gc_r_colors[i];
+              for (let i = 0, n = this.esgst.gc_r_colors.length; i < n; i++) {
+                colors = this.esgst.gc_r_colors[i];
                 if (percentage >= colors.lower && percentage <= colors.upper) {
                   break;
                 }
@@ -1797,7 +1801,7 @@ _MODULES.push({
                   [`data-id`]: `gc_r`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   style: `background-color: ${colors.bgColor}; color: ${colors.color};`,
-                  title: getFeatureTooltip(`gc_r`, cache.rating)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_r`, cache.rating)
                 },
                 type: `a`,
                 children: [colors.icon.match(/\w/) ? {
@@ -1812,7 +1816,7 @@ _MODULES.push({
                   text: colors.icon,
                   type: `span`
                 }, {
-                  text: esgst.gc_r_s ? ` ${cache.rating}` : ``,
+                  text: this.esgst.gc_r_s ? ` ${cache.rating}` : ``,
                   type: `node`
                 }]
               });
@@ -1825,13 +1829,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-achievements`,
                   [`data-id`]: `gc_a`,
                   href: `http://steamcommunity.com/stats/${id}/achievements`,
-                  title: getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)
                 },
-                text: esgst.gc_a_s ? (esgst.gc_a_s_i ? `` : `A`) : esgst.gc_aLabel,
+                text: this.esgst.gc_a_s ? (this.esgst.gc_a_s_i ? `` : `A`) : this.esgst.gc_aLabel,
                 type: `a`,
-                children: esgst.gc_a_s && esgst.gc_a_s_i ? [{
+                children: this.esgst.gc_a_s && this.esgst.gc_a_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_aIcon}`
+                    class: `fa fa-${this.esgst.gc_aIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1845,13 +1849,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-multiplayer`,
                   [`data-id`]: `gc_mp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_mp`, `Multiplayer`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_mp`, `Multiplayer`)
                 },
-                text: esgst.gc_mp_s ? (esgst.gc_mp_s_i ? `` : `MP`) : esgst.gc_mpLabel,
+                text: this.esgst.gc_mp_s ? (this.esgst.gc_mp_s_i ? `` : `MP`) : this.esgst.gc_mpLabel,
                 type: `a`,
-                children: esgst.gc_mp_s && esgst.gc_mp_s_i ? [{
+                children: this.esgst.gc_mp_s && this.esgst.gc_mp_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_mpIcon}`
+                    class: `fa fa-${this.esgst.gc_mpIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1865,13 +1869,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-singleplayer`,
                   [`data-id`]: `gc_sp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_sp`, `Singleplayer`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sp`, `Singleplayer`)
                 },
-                text: esgst.gc_sp_s ? (esgst.gc_sp_s_i ? `` : `SP`) : esgst.gc_spLabel,
+                text: this.esgst.gc_sp_s ? (this.esgst.gc_sp_s_i ? `` : `SP`) : this.esgst.gc_spLabel,
                 type: `a`,
-                children: esgst.gc_sp_s && esgst.gc_sp_s_i ? [{
+                children: this.esgst.gc_sp_s && this.esgst.gc_sp_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_spIcon}`
+                    class: `fa fa-${this.esgst.gc_spIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1885,13 +1889,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-steamCloud`,
                   [`data-id`]: `gc_sc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_sc`, `Steam Cloud`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sc`, `Steam Cloud`)
                 },
-                text: esgst.gc_sc_s ? (esgst.gc_sc_s_i ? `` : `SC`) : esgst.gc_scLabel,
+                text: this.esgst.gc_sc_s ? (this.esgst.gc_sc_s_i ? `` : `SC`) : this.esgst.gc_scLabel,
                 type: `a`,
-                children: esgst.gc_sc_s && esgst.gc_sc_s_i ? [{
+                children: this.esgst.gc_sc_s && this.esgst.gc_sc_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_scIcon}`
+                    class: `fa fa-${this.esgst.gc_scIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1905,13 +1909,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-tradingCards`,
                   [`data-id`]: `gc_tc`,
                   href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
-                  title: getFeatureTooltip(`gc_tc`, `Trading Cards`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_tc`, `Trading Cards`)
                 },
-                text: esgst.gc_tc_s ? (esgst.gc_tc_s_i ? `` : `TC`) : esgst.gc_tcLabel,
+                text: this.esgst.gc_tc_s ? (this.esgst.gc_tc_s_i ? `` : `TC`) : this.esgst.gc_tcLabel,
                 type: `a`,
-                children: esgst.gc_tc_s && esgst.gc_tc_s_i ? [{
+                children: this.esgst.gc_tc_s && this.esgst.gc_tc_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_tcIcon}`
+                    class: `fa fa-${this.esgst.gc_tcIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1925,13 +1929,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-linux`,
                   [`data-id`]: `gc_l`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_l`, `Linux`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_l`, `Linux`)
                 },
-                text: esgst.gc_l_s ? (esgst.gc_l_s_i ? `` : `L`) : esgst.gc_lLabel,
+                text: this.esgst.gc_l_s ? (this.esgst.gc_l_s_i ? `` : `L`) : this.esgst.gc_lLabel,
                 type: `a`,
-                children: esgst.gc_l_s && esgst.gc_l_s_i ? [{
+                children: this.esgst.gc_l_s && this.esgst.gc_l_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_lIcon}`
+                    class: `fa fa-${this.esgst.gc_lIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1945,13 +1949,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-mac`,
                   [`data-id`]: `gc_m`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_m`, `Mac`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_m`, `Mac`)
                 },
-                text: esgst.gc_m_s ? (esgst.gc_m_s_i ? `` : `M`) : esgst.gc_mLabel,
+                text: this.esgst.gc_m_s ? (this.esgst.gc_m_s_i ? `` : `M`) : this.esgst.gc_mLabel,
                 type: `a`,
-                children: esgst.gc_m_s && esgst.gc_m_s_i ? [{
+                children: this.esgst.gc_m_s && this.esgst.gc_m_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_mIcon}`
+                    class: `fa fa-${this.esgst.gc_mIcon}`
                   },
                   type: `i`
                 }] : null
@@ -1961,29 +1965,29 @@ _MODULES.push({
           case `gc_dlc`:
             if (cache && cache.dlc) {
               let baseOwned;
-              if (esgst.gc_dlc_o) {
-                if (cache.base && esgst.games.apps[cache.base]) {
-                  baseOwned = esgst.games.apps[cache.base].owned;
+              if (this.esgst.gc_dlc_o) {
+                if (cache.base && this.esgst.games.apps[cache.base]) {
+                  baseOwned = this.esgst.games.apps[cache.base].owned;
                 }
               }
               const children = [];
-              if (esgst.gc_dlc_s) {
-                if (esgst.gc_dlc_s_i) {
+              if (this.esgst.gc_dlc_s) {
+                if (this.esgst.gc_dlc_s_i) {
                   children.push({
                     attributes: {
-                      class: `fa fa-${esgst.gc_dlcIcon}`
+                      class: `fa fa-${this.esgst.gc_dlcIcon}`
                     },
                     type: `i`
                   });
-                  if (esgst.gc_dlc_o && baseOwned) {
+                  if (this.esgst.gc_dlc_o && baseOwned) {
                     children.push({
                       attributes: {
-                        class: `fa fa-${esgst.gc_oIcon} esgst-gc-dlcOwned`
+                        class: `fa fa-${this.esgst.gc_oIcon} esgst-gc-dlcOwned`
                       },
                       type: `i`
                     });
                   }
-                  if (esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
+                  if (this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
                     if (cache.freeBase) {
                       children.push({
                         attributes: {
@@ -2005,7 +2009,7 @@ _MODULES.push({
                     text: `DLC`,
                     type: `node`
                   });
-                  if (esgst.gc_dlc_o && baseOwned) {
+                  if (this.esgst.gc_dlc_o && baseOwned) {
                     children.push({
                       attributes: {
                         class: `esgst-gc-dlcOwned`
@@ -2014,7 +2018,7 @@ _MODULES.push({
                       type: `span`
                     });
                   }
-                  if (esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
+                  if (this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
                     if (cache.freeBase) {
                       children.push({
                         attributes: {
@@ -2036,10 +2040,10 @@ _MODULES.push({
                 }
               } else {
                 children.push({
-                  text: esgst.gc_dlcLabel,
+                  text: this.esgst.gc_dlcLabel,
                   type: `node`
                 });
-                if (esgst.gc_dlc_o && baseOwned) {
+                if (this.esgst.gc_dlc_o && baseOwned) {
                   children.push({
                     attributes: {
                       class: `esgst-gc-dlcOwned`
@@ -2048,7 +2052,7 @@ _MODULES.push({
                     type: `span`
                   });
                 }
-                if (esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
+                if (this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined`) {
                   if (cache.freeBase) {
                     children.push({
                       attributes: {
@@ -2073,7 +2077,7 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-dlc`,
                   [`data-id`]: `gc_dlc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_dlc`, `DLC${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_dlc`, `DLC${this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
                 },
                 type: `a`,
                 children
@@ -2083,11 +2087,11 @@ _MODULES.push({
           case `gc_p`:
             if (type === `subs`) {
               const children = [];
-              if (esgst.gc_p_s) {
-                if (esgst.gc_p_s_i) {
+              if (this.esgst.gc_p_s) {
+                if (this.esgst.gc_p_s_i) {
                   children.push({
                     attributes: {
-                      class: `fa fa-${esgst.gc_pIcon}`
+                      class: `fa fa-${this.esgst.gc_pIcon}`
                     },
                     type: `i`
                   });
@@ -2099,7 +2103,7 @@ _MODULES.push({
                 }
               } else {
                 children.push({
-                  text: esgst.gc_pLabel,
+                  text: this.esgst.gc_pLabel,
                   type: `node`
                 });
               }
@@ -2114,7 +2118,7 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-package`,
                   [`data-id`]: `gc_p`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
                 },
                 type: `a`,
                 children
@@ -2128,13 +2132,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-earlyAccess`,
                   [`data-id`]: `gc_ea`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_ea`, `Early Access`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_ea`, `Early Access`)
                 },
-                text: esgst.gc_ea_s ? (esgst.gc_ea_s_i ? `` : `EA`) : esgst.gc_eaLabel,
+                text: this.esgst.gc_ea_s ? (this.esgst.gc_ea_s_i ? `` : `EA`) : this.esgst.gc_eaLabel,
                 type: `a`,
-                children: esgst.gc_ea_s && esgst.gc_ea_s_i ? [{
+                children: this.esgst.gc_ea_s && this.esgst.gc_ea_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_eaIcon}`
+                    class: `fa fa-${this.esgst.gc_eaIcon}`
                   },
                   type: `i`
                 }] : null
@@ -2148,13 +2152,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-learning`,
                   [`data-id`]: `gc_lg`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_lg`, `Learning`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_lg`, `Learning`)
                 },
-                text: esgst.gc_lg_s ? (esgst.gc_lg_s_i ? `` : `LG`) : esgst.gc_lgLabel,
+                text: this.esgst.gc_lg_s ? (this.esgst.gc_lg_s_i ? `` : `LG`) : this.esgst.gc_lgLabel,
                 type: `a`,
-                children: esgst.gc_lg_s && esgst.gc_lg_s_i ? [{
+                children: this.esgst.gc_lg_s && this.esgst.gc_lg_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_lgIcon}`
+                    class: `fa fa-${this.esgst.gc_lgIcon}`
                   },
                   type: `i`
                 }] : null
@@ -2168,13 +2172,13 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-removed`,
                   [`data-id`]: `gc_rm`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_rm`, `Removed`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rm`, `Removed`)
                 },
-                text: esgst.gc_rm_s ? (esgst.gc_rm_s_i ? `` : `RM`) : esgst.gc_rmLabel,
+                text: this.esgst.gc_rm_s ? (this.esgst.gc_rm_s_i ? `` : `RM`) : this.esgst.gc_rmLabel,
                 type: `a`,
-                children: esgst.gc_rm_s && esgst.gc_rm_s_i ? [{
+                children: this.esgst.gc_rm_s && this.esgst.gc_rm_s_i ? [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_rmIcon}`
+                    class: `fa fa-${this.esgst.gc_rmIcon}`
                   },
                   type: `i`
                 }] : null
@@ -2189,12 +2193,12 @@ _MODULES.push({
                   [`data-id`]: `gc_rd`,
                   [`data-timestamp`]: cache.releaseDate === `?` ? cache.releaseDate : cache.releaseDate / 1e3,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_rd`, `Release Date`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rd`, `Release Date`)
                 },
                 type: `a`,
                 children: [{
                   attributes: {
-                    class: `fa fa-${esgst.gc_rdIcon}`
+                    class: `fa fa-${this.esgst.gc_rdIcon}`
                   },
                   type: `i`
                 }, {
@@ -2207,24 +2211,24 @@ _MODULES.push({
           case `gc_g`:
             if (cache && cache.genres) {
               let filters;
-              genres = esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
-              genreList = sortArray(Array.from(new Set(genres.split(/,\s/))));
+              genres = this.esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
+              genreList = utils.sortArray(Array.from(new Set(genres.split(/,\s/))));
               genres = genreList.join(`, `);
-              if (esgst.gc_g_filters.trim()) {
-                filters = esgst.gc_g_filters.trim().toLowerCase().split(/\s*,\s*/);
+              if (this.esgst.gc_g_filters.trim()) {
+                filters = this.esgst.gc_g_filters.trim().toLowerCase().split(/\s*,\s*/);
               }
               for (j = genreList.length - 1; j >= 0; --j) {
                 genre = genreList[j].toLowerCase();
                 if (!filters || filters.indexOf(genre) > -1) {
-                  for (k = esgst.gc_g_colors.length - 1; k >= 0 && esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k);
+                  for (k = this.esgst.gc_g_colors.length - 1; k >= 0 && this.esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k);
                   if (k >= 0) {
-                    if (esgst.gc_g_s) {
+                    if (this.esgst.gc_g_s) {
                       genreList[j] = {
                         attributes: {
                           class: `esgst-gc esgst-gc-genres`,
                           href: `http://store.steampowered.com/${singularType}/${id}`,
-                          style: `background-color: ${esgst.gc_g_colors[k].bgColor}; color: ${esgst.gc_g_colors[k].color};`,
-                          title: getFeatureTooltip(`gc_g_s`, genreList[j])
+                          style: `background-color: ${this.esgst.gc_g_colors[k].bgColor}; color: ${this.esgst.gc_g_colors[k].color};`,
+                          title: this.esgst.modules.common.getFeatureTooltip(`gc_g_s`, genreList[j])
                         },
                         text: genreList[j],
                         type: `a`
@@ -2232,7 +2236,7 @@ _MODULES.push({
                     } else {
                       genreList[j] = {
                         attributes: {
-                          style: `color: ${esgst.gc_g_colors[k].color}`
+                          style: `color: ${this.esgst.gc_g_colors[k].color}`
                         },
                         text: genreList[j],
                         type: `span`
@@ -2244,12 +2248,12 @@ _MODULES.push({
                         });
                       }
                     }
-                  } else if (esgst.gc_g_s) {
+                  } else if (this.esgst.gc_g_s) {
                     genreList[j] = {
                       attributes: {
                         class: `esgst-gc esgst-gc-genres`,
                         href: `http://store.steampowered.com/${singularType}/${id}`,
-                        title: getFeatureTooltip(`gc_g_s`, genreList[j])
+                        title: this.esgst.modules.common.getFeatureTooltip(`gc_g_s`, genreList[j])
                       },
                       text: genreList[j],
                       type: `a`
@@ -2270,7 +2274,7 @@ _MODULES.push({
                   genreList.splice(j, 1);
                 }
               }
-              if (esgst.gc_g_s) {
+              if (this.esgst.gc_g_s) {
                 elements.push({
                   attributes: {
                     class: `esgst-gc esgst-gc-genres`,
@@ -2285,7 +2289,7 @@ _MODULES.push({
                     class: `esgst-gc esgst-gc-genres`,
                     [`data-id`]: `gc_g`,
                     href: `http://store.steampowered.com/${singularType}/${id}`,
-                    title: getFeatureTooltip(`gc_g`, genres)
+                    title: this.esgst.modules.common.getFeatureTooltip(`gc_g`, genres)
                   },
                   type: `a`,
                   children: genreList
@@ -2301,7 +2305,7 @@ _MODULES.push({
       indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
       source: null
     };
-    if (esgst.gc_si && isInstant) {
+    if (this.esgst.gc_si && isInstant) {
       elements.push({
         attributes: {
           class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
@@ -2312,31 +2316,31 @@ _MODULES.push({
     }
     for (i = 0, n = games.length; i < n; ++i) {
       if (games[i].container.classList.contains(`esgst-hidden`)) {
-        if (!esgst.gcToFetch[type][id]) {
-          esgst.gcToFetch[type][id] = [];
+        if (!this.esgst.gcToFetch[type][id]) {
+          this.esgst.gcToFetch[type][id] = [];
         }
-        if (esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
-          esgst.gcToFetch[type][id].push(games[i]);
+        if (this.esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
+          this.esgst.gcToFetch[type][id].push(games[i]);
         }
         continue;
       }
-      if (esgst.gcToFetch[type][id]) {
-        esgst.gcToFetch[type][id] = esgst.gcToFetch[type][id].filter(item => item !== games[i]);
-        if (!esgst.gcToFetch[type][id].length) {
-          delete esgst.gcToFetch[type][id];
+      if (this.esgst.gcToFetch[type][id]) {
+        this.esgst.gcToFetch[type][id] = this.esgst.gcToFetch[type][id].filter(item => item !== games[i]);
+        if (!this.esgst.gcToFetch[type][id].length) {
+          delete this.esgst.gcToFetch[type][id];
         }
       }
       panel = games[i].container.getElementsByClassName(`esgst-gc-panel`)[0];
       if (panel && !panel.getAttribute(`data-gcReady`)) {
-        if (esgst.gc_il && !esgst.giveawayPath) {
+        if (this.esgst.gc_il && !this.esgst.giveawayPath) {
           panel.previousElementSibling.style.display = `inline-block`;
           panel.classList.add(`esgst-gc-panel-inline`);
         }
-        createElements(panel, `inner`, elements);
-        if (esgst.gc_si && isInstant) {
+        this.esgst.modules.common.createElements(panel, `inner`, elements);
+        if (this.esgst.gc_si && isInstant) {
           continue;
         }
-        if (!esgst.gc_lp || (!esgst.gc_lp_gv && games[i].grid)) {
+        if (!this.esgst.gc_lp || (!this.esgst.gc_lp_gv && games[i].grid)) {
           for (j = panel.children.length - 1; j > -1; --j) {
             panel.children[j].removeAttribute(`href`);
           }
@@ -2344,23 +2348,23 @@ _MODULES.push({
         if (games[i].columns) {
           for (j = games[i].columns.children.length - 1; j > -1; j--) {
             let item = games[i].columns.children[j];
-            item.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, j, item, null, false));
+            item.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, j, item, null, false));
           }
-          games[i].columns.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, 0, null, games[i].columns, true));
+          games[i].columns.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, 0, null, games[i].columns, true));
           if (games[i].gvIcons) {
-            games[i].gvIcons.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, 0, null, games[i].gvIcons, true));
+            games[i].gvIcons.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, 0, null, games[i].gvIcons, true));
           }
-          panel.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, -1, null, panel, false));
+          panel.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, -1, null, panel, false));
           for (j = panel.children.length - 1; j > -1; j--) {
             let item = panel.children[j];
             item.setAttribute(`draggable`, true);
-            item.addEventListener(`dragstart`, gc_setSource.bind(null, gc, item, panel, games[i].columns, games[i].gvIcons));
-            item.addEventListener(`dragenter`, gc_getSource.bind(null, gc, games[i].columns, -1, item, null, false));
-            item.addEventListener(`dragend`, gc_saveSource.bind(null, gc, panel, games[i].columns, games[i].gvIcons));
+            item.addEventListener(`dragstart`, this.gc_setSource.bind(null, this.gc, item, panel, games[i].columns, games[i].gvIcons));
+            item.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, -1, item, null, false));
+            item.addEventListener(`dragend`, this.gc_saveSource.bind(null, this.gc, panel, games[i].columns, games[i].gvIcons));
             let id = item.getAttribute(`data-id`);
-            let index = esgst[gc.indexKey][id];
+            let index = this.esgst[gc.indexKey][id];
             if (isSet(index) && index !== -1) {
-              item.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+              item.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
               if (item.getAttribute(`data-color`)) {
                 item.firstElementChild.style.color = item.getAttribute(`data-bgColor`);
                 item.style.color = ``;
@@ -2375,15 +2379,15 @@ _MODULES.push({
     }
   }
 
-  function gc_formatDate(timestamp) {
+  gc_formatDate(timestamp) {
     if (timestamp === `?`) return timestamp;
     let date = new Date(timestamp);
-    return esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
+    return this.esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
   }
 
-  function gc_setSource(gc, item, panel, columns, gvIcons, event) {
+  gc_setSource(gc, item, panel, columns, gvIcons, event) {
     event.dataTransfer.setData(`text/plain`, ``);
-    gc.source = item;
+    this.gc.source = item;
     setTimeout(() => {
       if (!panel.children.length) {
         panel.style.height = `28px`;
@@ -2400,21 +2404,21 @@ _MODULES.push({
     }, 0);
   }
 
-  function gc_getSource(gc, context, index, item, panel, column) {
-    let current = gc.source;
-    if (!gc.source || gc.source === item) return;
+  gc_getSource(gc, context, index, item, panel, column) {
+    let current = this.gc.source;
+    if (!gc.source || this.gc.source === item) return;
     if (panel) {
       if (!panel.children.length) {
         panel.appendChild(gc.source);
-        esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
+        this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
         if (column) {
-          gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          this.gc.source.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
         } else {
-          gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          this.gc.source.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (gc.source.getAttribute(`data-color`)) {
-            gc.source.firstElementChild.style.color = ``;
-            gc.source.style.color = gc.source.getAttribute(`data-color`);
-            gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+            this.gc.source.firstElementChild.style.color = ``;
+            this.gc.source.style.color = this.gc.source.getAttribute(`data-color`);
+            this.gc.source.style.backgroundColor = this.gc.source.getAttribute(`data-bgColor`);
           }
         }
       }
@@ -2424,56 +2428,56 @@ _MODULES.push({
       current = current.previousElementSibling;
       if (current && current === item) {
         if (context.contains(item)) {
-          gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          this.gc.source.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (gc.source.getAttribute(`data-color`)) {
-            gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
-            gc.source.style.color = ``;
-            gc.source.style.background = ``;
+            this.gc.source.firstElementChild.style.color = this.gc.source.getAttribute(`data-bgColor`);
+            this.gc.source.style.color = ``;
+            this.gc.source.style.background = ``;
           }
         } else {
-          gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          this.gc.source.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (gc.source.getAttribute(`data-color`)) {
-            gc.source.firstElementChild.style.color = ``;
-            gc.source.style.color = gc.source.getAttribute(`data-color`);
-            gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+            this.gc.source.firstElementChild.style.color = ``;
+            this.gc.source.style.color = this.gc.source.getAttribute(`data-color`);
+            this.gc.source.style.backgroundColor = this.gc.source.getAttribute(`data-bgColor`);
           }
         }
         if (item.getAttribute(`data-id`)) {
-          esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-          esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = isSet(esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
+          this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
+          this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = utils.isSet(this.esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? this.esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
         } else {
-          esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
+          this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
         }
         item.parentElement.insertBefore(gc.source, item);
         return;
       }
     } while (current);
     if (context.contains(item)) {
-      gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+      this.gc.source.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
       if (gc.source.getAttribute(`data-color`)) {
-        gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
-        gc.source.style.color = ``;
-        gc.source.style.background = ``;
+        this.gc.source.firstElementChild.style.color = this.gc.source.getAttribute(`data-bgColor`);
+        this.gc.source.style.color = ``;
+        this.gc.source.style.background = ``;
       }
     } else {
-      gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+      this.gc.source.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
       if (gc.source.getAttribute(`data-color`)) {
-        gc.source.firstElementChild.style.color = ``;
-        gc.source.style.color = gc.source.getAttribute(`data-color`);
-        gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
+        this.gc.source.firstElementChild.style.color = ``;
+        this.gc.source.style.color = this.gc.source.getAttribute(`data-color`);
+        this.gc.source.style.backgroundColor = this.gc.source.getAttribute(`data-bgColor`);
       }
     }
     if (item.getAttribute(`data-id`)) {
-      esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-      esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = isSet(esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
+      this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
+      this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = utils.isSet(this.esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? this.esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
     } else {
-      esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index + 1;
+      this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index + 1;
     }
     item.parentElement.insertBefore(gc.source, item.nextElementSibling);
   }
 
-  async function gc_saveSource(gc, panel, columns, gvIcons) {
-    gc.source = null;
+  async gc_saveSource(gc, panel, columns, gvIcons) {
+    this.gc.source = null;
     panel.style.height = ``;
     panel.style.width = ``;
     if (columns) {
@@ -2484,7 +2488,9 @@ _MODULES.push({
       gvIcons.style.height = ``;
       gvIcons.style.width = ``;
     }
-    await setSetting(gc.categoryKey, esgst[gc.categoryKey]);
-    await setSetting(gc.indexKey, esgst[gc.indexKey]);
+    await this.esgst.modules.common.setSetting(gc.categoryKey, this.esgst[gc.categoryKey]);
+    await this.esgst.modules.common.setSetting(gc.indexKey, this.esgst[gc.indexKey]);
   }
-  
+}
+
+export default GamesGameCategories;

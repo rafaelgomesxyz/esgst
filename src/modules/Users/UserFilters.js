@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersUserFilters extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> if the user is being filtered and <i class="fa fa-eye"></i> if they are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).</li>
@@ -21,22 +24,22 @@ _MODULES.push({
       }
     },
     id: `uf`,
-    load: uf,
+    load: this.uf,
     name: `User Filters`,
     sg: true,
     type: `users`
   });
 
-  function uf() {
-    esgst.profileFeatures.push(uf_add);
+  uf() {
+    this.esgst.profileFeatures.push(uf_add);
   }
 
-  function uf_add(profile, savedUser) {
-    if (profile.username !== esgst.username) {
-      profile.ufButton = createElements(profile.heading, `beforeEnd`, [{
+  uf_add(profile, savedUser) {
+    if (profile.username !== this.esgst.username) {
+      profile.ufButton = this.esgst.modules.common.createElements(profile.heading, `beforeEnd`, [{
         attributes: {
           class: `esgst-uf-button`,
-          title: getFeatureTooltip(`uf`, `Edit user filters`)
+          title: this.esgst.modules.common.getFeatureTooltip(`uf`, `Edit user filters`)
         },
         type: `a`,
         children: [{
@@ -67,11 +70,11 @@ _MODULES.push({
           posts: false
         };
       }
-      profile.ufButton.addEventListener(`click`, uf_open.bind(null, profile));
+      profile.ufButton.addEventListener(`click`, this.uf_open.bind(null, profile));
     }
   }
 
-  function uf_open(profile) {
+  uf_open(profile) {
     let resetSet, saveSet;
     profile.ufPopup = new Popup(`fa-eye`, [{
       text: `Apply user filters for `,
@@ -83,14 +86,14 @@ _MODULES.push({
       text: `:`,
       type: `node`
     }], true);
-    profile.ufOptions = createElements(profile.ufPopup.description, `beforeEnd`, [{
+    profile.ufOptions = this.esgst.modules.common.createElements(profile.ufPopup.description, `beforeEnd`, [{
       type: `div`
     }]);
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
     profile.ufPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's posts.`, false, false, `Hides the user's posts everywhere.`, profile.ufValues.posts);
-    saveSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save Settings`, title2: `Saving...`, callback1: uf_save.bind(null, profile, false)});
-    resetSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset Settings`, title2: `Resetting...`, callback1: uf_save.bind(null, profile, true)});
+    saveSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save Settings`, title2: `Saving...`, callback1: this.uf_save.bind(null, profile, false)});
+    resetSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset Settings`, title2: `Resetting...`, callback1: this.uf_save.bind(null, profile, true)});
     saveSet.dependencies.push(resetSet.set);
     resetSet.dependencies.push(saveSet.set);
     profile.ufPopup.description.appendChild(saveSet.set);
@@ -98,7 +101,7 @@ _MODULES.push({
     profile.ufPopup.open();
   }
 
-  async function uf_save(profile, reset) {
+  async uf_save(profile, reset) {
     let user;
     if (reset) {
       profile.ufGiveawaysOption.input.checked = false;
@@ -121,7 +124,7 @@ _MODULES.push({
       id: profile.id,
       username: profile.username,
       values: {
-        uf: profile.ufValues
+        this.uf: profile.ufValues
       }
     };
     if (profile.ufValues && (profile.ufValues.giveaways || profile.ufValues.discussions || profile.ufValues.posts)) {
@@ -131,11 +134,11 @@ _MODULES.push({
       profile.ufIcon.classList.remove(`fa-eye-slash`);
       profile.ufIcon.classList.add(`fa-eye`);
     }
-    await saveUser(null, null, user);
+    await this.esgst.modules.common.saveUser(null, null, user);
     profile.ufPopup.close();
   }
 
-  function uf_updateCount(context, extraCount) {
+  uf_updateCount(context, extraCount) {
     let count;
     count = context.getElementsByClassName(`esgst-uf-count`)[0];
     context = context.firstElementChild;
@@ -143,7 +146,7 @@ _MODULES.push({
       extraCount = 0;
     }
     if (count) {
-      createElements(count, `inner`, [{
+      this.esgst.modules.common.createElements(count, `inner`, [{
         text: `(`,
         type: `node`
       }, {
@@ -157,7 +160,7 @@ _MODULES.push({
         type: `node`
       }]);
     } else {
-      createElements(context, `beforeEnd`, [{
+      this.esgst.modules.common.createElements(context, `beforeEnd`, [{
         attributes: {
           class: `esgst-uf-count`
         },
@@ -178,4 +181,6 @@ _MODULES.push({
       }]);
     }
   }
-  
+}
+
+export default UsersUserFilters;

@@ -1,42 +1,45 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralTableSorter extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i> if the table is sorted by the default order, <i class="fa fa-sort-asc"></i> if it is sorted by ascending order and <i class="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.</li>
       </ul>
     `,
     id: `ts`,
-    load: ts,
+    load: this.ts,
     name: `Table Sorter`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function ts() {
-    esgst.endlessFeatures.push(ts_getTables);
+  ts() {
+    this.esgst.endlessFeatures.push(ts_getTables);
   }
 
-  function ts_getTables(context, main, source, endless) {
+  ts_getTables(context, main, source, endless) {
     const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : `table`}`);
     for (let i = 0, n = tables.length; i < n; ++i) {
-      ts_setTable(tables[i]);
+      this.ts_setTable(tables[i]);
     }
-    if (!endless && !esgst.us) {
-      ts_sortTables();
+    if (!endless && !this.esgst.us) {
+      this.ts_sortTables();
     }
   }
 
-  function ts_sortTables() {
+  ts_sortTables() {
     let i, tsTable;
-    for (i = esgst.tsTables.length - 1; i > -1; --i) {
-      tsTable = esgst.tsTables[i];
+    for (i = this.esgst.tsTables.length - 1; i > -1; --i) {
+      tsTable = this.esgst.tsTables[i];
       if (tsTable.columnName) {
-        sortContent(ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
+        this.esgst.modules.common.sortContent(ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
       }
     }
   }
 
-  function ts_setTable(table) {
+  ts_setTable(table) {
     let button, columnName, columns, heading, tsTable;
     heading = table.querySelector(`.table__heading, .header, thead`);
     if (!heading) return;
@@ -47,74 +50,74 @@ _MODULES.push({
       outerWrap: table,
       table: table
     };
-    esgst.tsTables.push(tsTable);
+    this.esgst.tsTables.push(tsTable);
     columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, th`);
     for (let i = 0, n = columns.length; i < n; ++i) {
       let column = columns[i];
       columnName = column.textContent.trim();
-      if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
-        button = createElements(column, `beforeEnd`, [{
+      if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!this.esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
+        button = this.esgst.modules.common.createElements(column, `beforeEnd`, [{
           attributes: {
             class: `esgst-ts-button esgst-clickable`
           },
           type: `span`
         }]);
-        ts_addDescButton(button, columnName, i, table, tsTable);
+        this.ts_addDescButton(button, columnName, i, table, tsTable);
       }
     }
   }
 
-  function ts_addAscButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
+  ts_addAscButton(button, columnName, i, table, tsTable) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-sort-desc`,
         title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
+    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
   }
 
-  function ts_addDescButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
+  ts_addDescButton(button, columnName, i, table, tsTable) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-sort`,
         title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
+    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
   }
 
-  function ts_addDefButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
+  ts_addDefButton(button, columnName, i, table, tsTable) {
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-sort-asc`,
         title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
+    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
   }
 
-  function ts_sortTable(button, columnName, i, key, table, tsTable) {
+  ts_sortTable(button, columnName, i, key, table, tsTable) {
     tsTable.columnName = columnName;
     tsTable.columnIndex = i;
     tsTable.key = key === `def` ? `sortIndex` : `value`;
     tsTable.name = key;
     if (key === `desc`) {
-      sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
-      ts_addAscButton(button, columnName, i, table, tsTable);
+      this.esgst.modules.common.sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
+      this.ts_addAscButton(button, columnName, i, table, tsTable);
     } else if (key === `asc`) {
-      sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
-      ts_addDefButton(button, columnName, i, table, tsTable);
+      this.esgst.modules.common.sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
+      this.ts_addDefButton(button, columnName, i, table, tsTable);
     } else {
-      sortContent(ts_getArray(columnName, i, table), null, `sortIndex_asc`);
-      ts_addDescButton(button, columnName, i, table, tsTable);
+      this.esgst.modules.common.sortContent(ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+      this.ts_addDescButton(button, columnName, i, table, tsTable);
     }
   }
 
-  function ts_getArray(columnName, i, table) {
+  ts_getArray(columnName, i, table) {
     let array, column, element, j, match, n, row, rows, value;
     array = [];
     rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap, tbody tr`);
@@ -192,4 +195,6 @@ _MODULES.push({
     }
     return array;
   }
-  
+}
+
+export default GeneralTableSorter;

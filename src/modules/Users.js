@@ -1,14 +1,17 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class Users extends Module {
+info = ({
   endless: true,
   id: `users`,
   load: users
 });
 
-function users() {
-  esgst.endlessFeatures.push(users_load);
+users() {
+  this.esgst.endlessFeatures.push(users_load);
 }
 
-async function users_load(mainContext, main, source, endless) {
+async users_load(mainContext, main, source, endless) {
   const elements = mainContext.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*='/user/'], .esgst-es-page-${endless}a[href*='/user/']` : `a[href*='/user/']`}`);
   if (!elements.length) {
     return;
@@ -17,7 +20,7 @@ async function users_load(mainContext, main, source, endless) {
   const users = [];
   for (let i = elements.length - 1; i > -1; i--) {
     let element = elements[i];
-    const sg = (esgst.sg && !element.getAttribute(`data-st`)) || element.getAttribute(`data-sg`);
+    const sg = (this.esgst.sg && !element.getAttribute(`data-st`)) || element.getAttribute(`data-sg`);
     const match = element.getAttribute(`href`).match(/\/user\/(.+)/);
     if (!match) {
       continue;
@@ -26,30 +29,30 @@ async function users_load(mainContext, main, source, endless) {
     if (((!sg || element.textContent !== id) && (sg || !element.textContent || element.children.length)) || element.closest(`.markdown`)) {
       continue;
     }
-    if (!esgst.currentUsers[id]) {
-      esgst.currentUsers[id] = {
+    if (!this.esgst.currentUsers[id]) {
+      this.esgst.currentUsers[id] = {
         elements: []
       };
-      const steamId = sg ? esgst.users.steamIds[id] : id;
-      esgst.currentUsers[id].savedUser = esgst.users.users[steamId];
-      if (esgst.currentUsers[id].savedUser) {
-        esgst.currentUsers[id].steamId = steamId;
+      const steamId = sg ? this.esgst.users.steamIds[id] : id;
+      this.esgst.currentUsers[id].savedUser = this.esgst.users.users[steamId];
+      if (this.esgst.currentUsers[id].savedUser) {
+        this.esgst.currentUsers[id].steamId = steamId;
       }
     }
     let j;
-    for (j = esgst.currentUsers[id].elements.length - 1; j > -1 && esgst.currentUsers[id].elements[j] !== element; j--);
+    for (j = this.esgst.currentUsers[id].elements.length - 1; j > -1 && this.esgst.currentUsers[id].elements[j] !== element; j--);
     if (j > -1) {
       continue;
     }
-    const savedUser = esgst.currentUsers[id].savedUser;
+    const savedUser = this.esgst.currentUsers[id].savedUser;
     const container = element.parentElement;
     const oldElement = element;
-    if (esgst.userPath && container.classList.contains(`page__heading__breadcrumbs`)) {
+    if (this.esgst.userPath && container.classList.contains(`page__heading__breadcrumbs`)) {
       element = document.getElementsByClassName(`featured__heading__medium`)[0];        
     }
-    esgst.currentUsers[id].elements.push(element);
+    this.esgst.currentUsers[id].elements.push(element);
     const context = container.classList.contains(`comment__username`) ? container : element;
-    esgst[main ? `mainUsers` : `popupUsers`].push({
+    this.esgst[main ? `mainUsers` : `popupUsers`].push({
       code: id,
       innerWrap: context,
       outerWrap: context,
@@ -77,16 +80,19 @@ async function users_load(mainContext, main, source, endless) {
       username: sg ? id : savedUser && savedUser.username
     });
   }
-  for (const feature of esgst.userFeatures) {
+  for (const feature of this.esgst.userFeatures) {
     await feature(users, main, source, endless);
   }
   if (found) {
-    if (esgst.wbcButton && mainContext === document && !esgst.aboutPath) {
-      esgst.wbcButton.classList.remove(`esgst-hidden`);
-      esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
+    if (this.esgst.wbcButton && mainContext === document && !this.esgst.aboutPath) {
+      this.esgst.wbcButton.classList.remove(`esgst-hidden`);
+      this.esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
     }
-    if (esgst.mm_enableUsers && esgst.mm_enable) {
-      esgst.mm_enable(esgst[main ? `mainUsers` : `popupUsers`], `Users`);
+    if (this.esgst.mm_enableUsers && this.esgst.mm_enable) {
+      this.esgst.mm_enable(this.esgst[main ? `mainUsers` : `popupUsers`], `Users`);
     }
   }
 }
+}
+
+export default Users;

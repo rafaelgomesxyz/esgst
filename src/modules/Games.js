@@ -1,20 +1,24 @@
-_MODULES.push({
+import {utils} from '../lib/jsUtils'
+import Module from '../class/Module';
+
+class Games extends Module {
+info = ({
     endless: true,
     id: `games`,
     load: games
   });
 
-  function games() {
-    esgst.endlessFeatures.push(games_load);
+  games() {
+    this.esgst.endlessFeatures.push(games_load);
   }
 
-  async function games_load(context, main, source, endless) {
-    let games = games_get(context, main, endless ? esgst.games : JSON.parse(await getValue(`games`)), endless);
+  async games_load(context, main, source, endless) {
+    let games = this.games_get(context, main, endless ? this.esgst.games : JSON.parse(await getValue(`games`)), endless);
     if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
     [`apps`, `subs`].forEach(type => {
       for (let id in games[type]) {
         games[type][id].forEach(game => {
-          esgst[main ? `mainGames` : `popupGames`].push({
+          this.esgst[main ? `mainGames` : `popupGames`].push({
             code: id,
             innerWrap: game.headingName,
             name: game.name,
@@ -24,19 +28,19 @@ _MODULES.push({
         });
       }
     });
-    for (const feature of esgst.gameFeatures) {
+    for (const feature of this.esgst.gameFeatures) {
       await feature(games, main, source, endless, `apps`);
     }
   }
 
-  function games_get(context, main, savedGames, endless) {
+  games_get(context, main, savedGames, endless) {
     let game, games, i, id, info, matches, n, headingQuery, matchesQuery, type;
     games = {
       apps: {},
       subs: {},
       all: []
     };
-    if (esgst.discussionPath && main) {
+    if (this.esgst.discussionPath && main) {
       matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .markdown table td, .esgst-es-page-${endless}.markdown table td` : `.markdown table td`}`;
       headingQuery = `.featured__heading, .giveaway__heading, .table__column__heading, a`;
     } else {
@@ -54,7 +58,7 @@ _MODULES.push({
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
       }
-      info = games_getInfo(game.container);
+      info = this.games_getInfo(game.container);
       game.heading = game.container.querySelector(headingQuery);
       if (info && game.heading) {
         game.headingName = game.heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || game.heading;
@@ -63,10 +67,10 @@ _MODULES.push({
         type = info.type;
         game.id = id;
         game.type = type;
-        if (esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
+        if (this.esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
           const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
           if (removeButton) {
-            removeButton.addEventListener(`click`, updateHiddenGames.bind(null, id, type, true));
+            removeButton.addEventListener(`click`, this.esgst.modules.common.updateHiddenGames.bind(null, id, type, true));
           }
         }
         if (!games[type][id]) {
@@ -74,7 +78,7 @@ _MODULES.push({
         }
         game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading;
         game.tagPosition = `afterEnd`;
-        game.saved = esgst.games[type][id];
+        game.saved = this.esgst.games[type][id];
         games[type][id].push(game);
         games.all.push(game);
       }
@@ -82,7 +86,7 @@ _MODULES.push({
     return games;
   }
 
-  function games_getInfo(context) {
+  games_getInfo(context) {
     const missing = context.querySelector(`.table_image_thumbnail_missing`);
     const link = context.querySelector(`[href*="/app/"], [href*="/sub/"]`);
     const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"]`);
@@ -103,25 +107,25 @@ _MODULES.push({
         return null;
       }
       const name = heading.textContent.trim();
-      for (const id in esgst.games.apps) {
-        if (esgst.games.apps[id].name === name) {
+      for (const id in this.esgst.games.apps) {
+        if (this.esgst.games.apps[id].name === name) {
           return {
             type: `apps`,
             id: id
           };
         }
       }
-      for (const id in esgst.games.subs) {
-        if (esgst.games.subs[id].name === name) {
+      for (const id in this.esgst.games.subs) {
+        if (this.esgst.games.subs[id].name === name) {
           return {
             type: `subs`,
             id: id
           };
         }
       }
-      request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {
-        const html = parseHtml(response.responseText);
-        const giveaway = (await giveaways_get(html, false, response.finalUrl))[0];
+      this.esgst.modules.common.request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {
+        const html = utils.parseHtml(response.responseText);
+        const giveaway = (await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl))[0];
         if (giveaway && giveaway.gameType && giveaway.gameSteamId) {
           const games = {
             apps: {},
@@ -130,30 +134,32 @@ _MODULES.push({
           games[giveaway.gameType][giveaway.gameSteamId] = {
             name
           };
-          esgst.mainGiveaways.map(x => {
+          this.esgst.mainGiveaways.map(x => {
             if (x.name !== name || x.id) {
               return x;
             }
             x.id = giveaway.gameSteamId;
             x.type = giveaway.gameType;
-            if (esgst.games && esgst.games[x.type][x.id]) {
+            if (this.esgst.games && this.esgst.games[x.type][x.id]) {
               const keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
               for (const key of keys) {
-                if (esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+                if (this.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
                   x[key] = true;
                 }
               }
             }
             return x;
           });
-          if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-            filters_filter(esgst.gf);
+          if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+            this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
           }
-          lockAndSaveGames(games);
+          this.esgst.modules.common.lockAndSaveGames(games);
         }
       });
     } else {
       return null;
     }
   }
+}
 
+export default Games;

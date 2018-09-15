@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralHiddenCommunityPoll extends Module {
+info = ({
     description: `
       <ul>
         <li>Hides the community poll (if there is one) of the main page.</li>
@@ -11,19 +14,21 @@ _MODULES.push({
       }
     },
     id: `hcp`,
-    load: hcp,
+    load: this.hcp,
     name: `Hidden Community Poll`,
     sg: true,
     type: `general`
   });
 
-  function hcp() {
-    if (!esgst.giveawaysPath || !esgst.activeDiscussions) return;
-    let poll = esgst.activeDiscussions.previousElementSibling;
+  hcp() {
+    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions) return;
+    let poll = this.esgst.activeDiscussions.previousElementSibling;
     if (poll && poll.classList.contains(`widget-container`)) {
-      if (!esgst.hcp_v || poll.querySelector(`.table__row-outer-wrap.is-selected`)) {
+      if (!this.esgst.hcp_v || poll.querySelector(`.table__row-outer-wrap.is-selected`)) {
         poll.classList.add(`esgst-hidden`);
       }
     }
   }
+}
 
+export default GeneralHiddenCommunityPoll;

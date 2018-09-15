@@ -1,7 +1,11 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class TradesTradeBumper extends Module {
+info = ({
   description: `
     <ul>
-      <li>Adds a button (<i class="fa fa-chevron-circle-up"></i>) to the main page heading of your <a href="https://www.steamtrades.com/trades/search?user=your-steam-id">created trades</a> page that allows you to bump all of your open trades at once.</li>
+      <li>Adds a button (<i class="fa fa-chevron-circle-up"></i>) to the main page heading of your <a href="https://www.steamtrades.com/trades/search?user=your-steam-id">created trades</a> page that allows you to bump all of your open trades this.esgst.modules.generalAccurateTimestamp.at once.</li>
     </ul>
   `,
   features: {
@@ -18,32 +22,32 @@ _MODULES.push({
     }
   },
   id: `tb`,
-  load: tb,
+  load: this.tb,
   name: `Trade Bumper`,
   sg: true,
   st: true,
   type: `trades`
 });
 
-function tb() {
-  if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
-    const button = createHeadingButton({
+tb() {
+  if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    const button = this.esgst.modules.common.createHeadingButton({
       id: `tb`,
       icons: [`fa-chevron-circle-up`],
       title: `Bump trades`
     });
-    button.addEventListener(`click`, tb_getTrades.bind(null, button, document));
-    if (esgst.tb_a) {
-      tb_setAutoBump(button);
+    button.addEventListener(`click`, this.tb_getTrades.bind(null, button, document));
+    if (this.esgst.tb_a) {
+      this.tb_setAutoBump(button);
     }
-  } else if (esgst.tb_a) {
-    tb_setAutoBump();
+  } else if (this.esgst.tb_a) {
+    this.tb_setAutoBump();
   }
 }
 
-async function tb_getTrades(button, context) {
+async tb_getTrades(button, context) {
   if (button) {
-    createElements(button, `inner`, [{
+    this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -52,8 +56,8 @@ async function tb_getTrades(button, context) {
   }
   const elements = context.querySelectorAll(`.row_inner_wrap:not(.is_faded)`);
   for (const element of elements) {
-    await request({
-      data: `xsrf_token=${esgst.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`,
+    await this.esgst.modules.common.request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`,
       method: `POST`,
       url: `https://www.steamtrades.com/ajax.php`
     });
@@ -65,25 +69,28 @@ async function tb_getTrades(button, context) {
   }
 }
 
-async function tb_setAutoBump(button) {
+async tb_setAutoBump(button) {
   const currentTime = Date.now();
   const diff = currentTime - (await getValue(`lastBump`, 0));
   if (diff > 3600000) {
     await setValue(`lastBump`, currentTime);
-    tb_autoBumpTrades(button);
+    this.tb_autoBumpTrades(button);
   } else {
     setTimeout(tb_setAutoBump, 3600000 - diff, button);
   }
 }
 
-async function tb_autoBumpTrades(button) {
-  if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${esgst.steamId}`))) {
-    tb_getTrades(button, document);
+async tb_autoBumpTrades(button) {
+  if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    this.tb_getTrades(button, document);
   } else {
-    tb_getTrades(null, parseHtml((await request({
+    this.tb_getTrades(null, utils.parseHtml((await this.esgst.modules.common.request({
       method: `GET`,
       queue: true,
-      url: `https://www.steamtrades.com/trades/search?user=${esgst.steamId}`
+      url: `https://www.steamtrades.com/trades/search?user=${this.esgst.steamId}`
     })).responseText));
   }
 }
+}
+
+export default TradesTradeBumper;
