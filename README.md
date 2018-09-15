@@ -236,6 +236,20 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**7.27.2 (September 15, 2018)**
+
+* [#915](https://github.com/revilheart/ESGST/issues/915) Fix Received and Not Received filters
+* [#916](https://github.com/revilheart/ESGST/issues/916) Improve the detection of ended giveaways
+* [#917](https://github.com/revilheart/ESGST/issues/917) Fix a bug that does not sort some columns correctly in Table Sorter
+* [#918](https://github.com/revilheart/ESGST/issues/918) Fix a bug that doesn't stop Endless Scrolling on group pages if the Ended filter is set to false and an ended giveaway was found
+* [#920](https://github.com/revilheart/ESGST/issues/920) Fix a typo in the simplified label for the Hidden game category
+* [#921](https://github.com/revilheart/ESGST/issues/921) Do not sync list of reduced CV games if the database has failed to update
+* [#923](https://github.com/revilheart/ESGST/issues/923) Increase priority of Hidden Game's Enter Button Disabler over default buttons
+* [#924](https://github.com/revilheart/ESGST/issues/924) Fix a bug that centers posts in Main Post Popup
+* [#926](https://github.com/revilheart/ESGST/issues/926) Fix a bug that happens when cleaning old data
+* [#930](https://github.com/revilheart/ESGST/issues/930) Fix a bug that does not filter public giveaways in the entered page
+* [#931](https://github.com/revilheart/ESGST/issues/931) Add "Reviews" filter
+
 **7.27.1 (September 2, 2018)**
 
 * #914 Remove detailed hidden game category for packages

@@ -976,7 +976,7 @@ _MODULES.push({
                 values: []
               };
             }
-            values[value].value += (key === `username` ? 1 : copies);
+            values[value].value += (key === `username` ? 1 : (copies || 1));
             values[value].values.push(giveaway.gameName);
           }
         }

@@ -3,7 +3,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.27.1
+// @version 7.27.2
 // @author revilheart
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
@@ -38,20 +38,20 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/encoding.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/js/jsUtils-0.0.1.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.27.1/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/encoding.js
+// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jsUtils-0.0.1.js
+// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -2124,8 +2124,8 @@
       markdownParser: new Parsedown(),
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
-      currentVersion: `7.27.1`,
-      devVersion: `7.27.1`,
+      currentVersion: `7.27.2`,
+      devVersion: `7.27.2`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3944,6 +3944,7 @@
     if (esgst.sidebar) {
       esgst.enterGiveawayButton = esgst.sidebar.getElementsByClassName(`sidebar__entry-insert`)[0];
       esgst.leaveGiveawayButton = esgst.sidebar.getElementsByClassName(`sidebar__entry-delete`)[0];
+      esgst.giveawayErrorButton = esgst.sidebar.getElementsByClassName(`sidebar__error`)[0];
     }
     esgst.activeDiscussions = document.querySelector(`.widget-container--margin-top:last-of-type`);
     esgst.pinnedGiveaways = document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
@@ -10235,7 +10236,7 @@ function cdr() {
       }
       gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, esgst.games.subs[id], `subs`);
     }
-    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
+    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `reviews`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = esgst.mainGiveaways[i];
       if ((giveaway.type === `apps` && missingApps.indexOf(giveaway.id) < 0) || (giveaway.type === `subs` && missingSubs.indexOf(giveaway.id) < 0)) {
@@ -10249,7 +10250,7 @@ function cdr() {
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
         let id = categories[j];
-        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
+        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
         if (category) {
           if (id === `releaseDate`) {
             giveaway.releaseDate = category.getAttribute(`data-timestamp`);
@@ -10262,6 +10263,8 @@ function cdr() {
             giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
           } else if (id === `rating`) {
             giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+          } else if (id === `reviews`) {
+            giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
           } else {
             giveaway[id] = true;
           }
@@ -10269,6 +10272,8 @@ function cdr() {
           giveaway.rating = -1;
         } else if (id === `releaseDate`) {
           giveaway.releaseDate = -1;
+        } else if (id === `reviews`) {
+          giveaway.reviews = -1;
         }
       }
       gc_addBorders(giveaway);
@@ -10287,17 +10292,30 @@ function cdr() {
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
         let id = categories[j];
-        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
+        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
         if (category) {
-          if (id === `genres`) {
+          if (id === `releaseDate`) {
+            giveaway.releaseDate = category.getAttribute(`data-timestamp`);
+            if (giveaway.releaseDate === `?`) {
+              giveaway.releaseDate = -1;
+            } else {
+              giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
+            }
+          } else if (id === `genres`) {
             giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
           } else if (id === `rating`) {
             giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+          } else if (id === `reviews`) {
+            giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
           } else {
             giveaway[id] = true;
           }
         } else if (id === `rating`) {
-          giveaway.rating = 0;
+          giveaway.rating = -1;
+        } else if (id === `releaseDate`) {
+          giveaway.releaseDate = -1;
+        } else if (id === `reviews`) {
+          giveaway.reviews = -1;
         }
       }
       gc_addBorders(giveaway);
@@ -10849,7 +10867,7 @@ function cdr() {
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_h`, `Hidden`)
                 },
-                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H$`) : esgst.gc_hLabel,
+                text: esgst.gc_h_s ? (esgst.gc_h_s_i ? `` : `H`) : esgst.gc_hLabel,
                 type: `a`,
                 children: esgst.gc_h_s && esgst.gc_h_s_i ? [{
                   attributes: {
@@ -13880,6 +13898,16 @@ function cdr() {
             name: `Rating`,
             sg: true
           },
+          gf_reviews: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by the number of reviews that the game has.</li>
+                <li>This option requires [id=gc_r] enabled to work.</li>
+              </ul>
+            `,
+            name: `Reviews`,
+            sg: true
+          },
           gf_releaseDate: {
             description: `
               <ul>
@@ -14553,6 +14581,13 @@ function cdr() {
         maxValue: 100,
         minValue: 0,
         name: `Rating`,
+        type: `number`
+      },
+      reviews: {
+        category: `gc_r`,
+        check: true,
+        minValue: 0,
+        name: `Reviews`,
         type: `number`
       },
       releaseDate: {
@@ -16026,6 +16061,7 @@ function cdr() {
       chancePerPoint: 0,
       ratio: 0,
       rating: 0,
+      reviews: 0,
       releaseDate: 0
     };
     const maxValues = {
@@ -16920,7 +16956,7 @@ function cdr() {
 
         filtered = false;
 
-        if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
+        if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath || esgst.groupPath)) {
           esgst.stopEs = true;
         }
 
@@ -19058,45 +19094,49 @@ function gpt() {
     document.body.appendChild(script);
     script.remove();
   }_MODULES.push({
-    description: `
-      <ul>
-        <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentaly enter it.</li>
-      </ul>
-    `,
-    id: `hgebd`,
-    load: hgebd,
-    name: `Hidden Game's Enter Button Disabler`,
-    sg: true,
-    sync: `Hidden Games`,
-    type: `giveaways`
-  });
+  description: `
+    <ul>
+      <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentaly enter it.</li>
+    </ul>
+  `,
+  id: `hgebd`,
+  load: hgebd,
+  name: `Hidden Game's Enter Button Disabler`,
+  sg: true,
+  sync: `Hidden Games`,
+  type: `giveaways`
+});
 
-  function hgebd() {
-    if (!esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) return;
-    let hideButton;
-    hideButton = document.getElementsByClassName(`featured__giveaway__hide`)[0];
-    if (esgst.enterGiveawayButton && !hideButton) {
-      let parent = esgst.enterGiveawayButton.parentElement;
-      if (esgst.enterGiveawayButton) {
-        esgst.enterGiveawayButton.remove();
-      }
-      createElements(parent, `afterBegin`, [{
-        attributes: {
-          class: `sidebar__error is-disabled`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `fa fa-exclamation-circle`
-          },
-          type: `i`
-        }, {
-          text: ` Hidden Game`,
-          type: `node`
-        }]
-      }]);
+function hgebd() {
+  if (!esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) {
+    return;
+  }
+  const hideButton = document.getElementsByClassName(`featured__giveaway__hide`)[0];
+  if ((esgst.enterGiveawayButton || (esgst.giveawayErrorButton && !esgst.giveawayErrorButton.textContent.match(/Exists\sin\sAccount/))) && !hideButton) {
+    const parent = (esgst.enterGiveawayButton || esgst.giveawayErrorButton).parentElement;
+    if (esgst.enterGiveawayButton) {
+      esgst.enterGiveawayButton.remove();
     }
-  }_MODULES.push({
+    if (esgst.giveawayErrorButton) {
+      esgst.giveawayErrorButton.remove();
+    }
+    createElements(parent, `afterBegin`, [{
+      attributes: {
+        class: `sidebar__error is-disabled`
+      },
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-exclamation-circle`
+        },
+        type: `i`
+      }, {
+        text: ` Hidden Game`,
+        type: `node`
+      }]
+    }]);
+  }
+}_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
@@ -23479,7 +23519,7 @@ function gpt() {
       Hidden = true;
       scrollTo(0, 0);
     }
-    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`);
+    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`, `esgst-text-left`);
     button.addEventListener(`click`, () => {
       if (!Hidden) {
         MPPPost.classList.remove(`esgst-mpp-visible`);
@@ -32200,7 +32240,13 @@ function ut() {
       }
     }
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
-    deleteLock();
+    deleteLock();    
+    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+      filters_filter(esgst.gf);
+    }
+    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+      filters_filter(esgst.gfPopup);
+    }
   }
 
   async function cewgd_getDetail(cewgd, giveaways, i) {
@@ -32246,7 +32292,7 @@ function ut() {
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -32272,7 +32318,7 @@ function ut() {
         cewgd_addDetails(giveaway, currentGiveaway);
         cewgd.count += 1;
       } else {
-        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },
@@ -32329,6 +32375,7 @@ function ut() {
     giveaway.regionRestricted = details.regionRestricted;
     giveaway.group = details.group;
     giveaway.whitelist = details.whitelist;
+    giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
     if (details.inviteOnly) {
       if (details.regionRestricted) {
         type = `Invite + Region`;
@@ -36381,7 +36428,7 @@ function ut() {
       giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
       giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
-      giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
+      giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
       if (!main || !esgst.userPath || (ugd && ugdType === `won`) || ged) {
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
@@ -36407,10 +36454,11 @@ function ut() {
         giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
         giveaway.deleted = giveaway.endTimeColumn.parentElement.textContent.match(/Deleted/);
         giveaway.endTime = parseInt(giveaway.endTime.getAttribute(`data-timestamp`)) * 1e3;
+        giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.parentElement.textContent.match(/Ended/));
       } else {
         giveaway.endTime = 0;
+        giveaway.ended = true;
       }
-      giveaway.ended = Boolean(giveaway.deleted || giveaway.endTime < Date.now());
     }
     if (ugd) {
       if (ugdType === `sent`) {
@@ -36442,11 +36490,11 @@ function ut() {
         const elements = giveaway.outerWrap.querySelectorAll(`.table__column--gift-feedback`);
         for (const element of elements) {
           const text = element.textContent.trim();
-          if (text.match(/^Received$/) && element.querySelector(`.icon-green`)) {
+          if ((text.match(/^Received$/) && element.querySelector(`.icon-green`)) || element.querySelector(`.table__gift-feedback-received:not(.is-hidden)`)) {
             giveaway.received = true;
             break;
           }
-          if (text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) {
+          if ((text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) || element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden)`)) {
             giveaway.notReceived = true;
             break;
           }
@@ -37674,200 +37722,199 @@ async function users_load(mainContext, main, source, endless) {
     }
   }
 }_MODULES.push({
-    description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-sort"></i> if the table is sorted by the default order, <i class="fa fa-sort-asc"></i> if it is sorted by ascending order and <i class="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.</li>
-      </ul>
-    `,
-    id: `ts`,
-    load: ts,
-    name: `Table Sorter`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+  description: `
+    <ul>
+      <li>Adds a button (<i class="fa fa-sort"></i> if the table is sorted by the default order, <i class="fa fa-sort-asc"></i> if it is sorted by ascending order and <i class="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.</li>
+    </ul>
+  `,
+  id: `ts`,
+  load: ts,
+  name: `Table Sorter`,
+  sg: true,
+  st: true,
+  type: `general`
+});
 
-  function ts() {
-    esgst.endlessFeatures.push(ts_getTables);
+function ts() {
+  esgst.endlessFeatures.push(ts_getTables);
+}
+
+function ts_getTables(context, main, source, endless) {
+  const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : `table`}`);
+  for (let i = 0, n = tables.length; i < n; ++i) {
+    ts_setTable(tables[i]);
   }
-
-  function ts_getTables(context, main, source, endless) {
-    const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : `table`}`);
-    for (let i = 0, n = tables.length; i < n; ++i) {
-      ts_setTable(tables[i]);
-    }
-    if (!endless && !esgst.us) {
-      ts_sortTables();
-    }
+  if (!endless && !esgst.us) {
+    ts_sortTables();
   }
+}
 
-  function ts_sortTables() {
-    let i, tsTable;
-    for (i = esgst.tsTables.length - 1; i > -1; --i) {
-      tsTable = esgst.tsTables[i];
-      if (tsTable.columnName) {
-        sortContent(ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
-      }
-    }
-  }
-
-  function ts_setTable(table) {
-    let button, columnName, columns, heading, tsTable;
-    heading = table.querySelector(`.table__heading, .header, thead`);
-    if (!heading) return;
-    tsTable = {
-      columnName: ``,
-      key: `sortIndex`,
-      name: `asc`,
-      outerWrap: table,
-      table: table
-    };
-    esgst.tsTables.push(tsTable);
-    columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, th`);
-    for (let i = 0, n = columns.length; i < n; ++i) {
-      let column = columns[i];
-      columnName = column.textContent.trim();
-      if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
-        button = createElements(column, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-ts-button esgst-clickable`
-          },
-          type: `span`
-        }]);
-        ts_addDescButton(button, columnName, i, table, tsTable);
-      }
+function ts_sortTables() {
+  let i, tsTable;
+  for (i = esgst.tsTables.length - 1; i > -1; --i) {
+    tsTable = esgst.tsTables[i];
+    if (tsTable.columnName) {
+      sortContent(ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
     }
   }
+}
 
-  function ts_addAscButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
-      attributes: {
-        class: `fa fa-sort-desc`,
-        title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
-      },
-      type: `i`
-    }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
-  }
-
-  function ts_addDescButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
-      attributes: {
-        class: `fa fa-sort`,
-        title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
-      },
-      type: `i`
-    }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
-  }
-
-  function ts_addDefButton(button, columnName, i, table, tsTable) {
-    createElements(button, `inner`, [{
-      attributes: {
-        class: `fa fa-sort-asc`,
-        title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
-      },
-      type: `i`
-    }]);
-    button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
-  }
-
-  function ts_sortTable(button, columnName, i, key, table, tsTable) {
-    tsTable.columnName = columnName;
-    tsTable.columnIndex = i;
-    tsTable.key = key === `def` ? `sortIndex` : `value`;
-    tsTable.name = key;
-    if (key === `desc`) {
-      sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
-      ts_addAscButton(button, columnName, i, table, tsTable);
-    } else if (key === `asc`) {
-      sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
-      ts_addDefButton(button, columnName, i, table, tsTable);
-    } else {
-      sortContent(ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+function ts_setTable(table) {
+  let button, columnName, columns, heading, tsTable;
+  heading = table.querySelector(`.table__heading, .header, thead`);
+  if (!heading) return;
+  tsTable = {
+    columnName: ``,
+    key: `sortIndex`,
+    name: `asc`,
+    outerWrap: table,
+    table: table
+  };
+  esgst.tsTables.push(tsTable);
+  columns = heading.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, th`);
+  for (let i = 0, n = columns.length; i < n; ++i) {
+    let column = columns[i];
+    columnName = column.textContent.trim();
+    if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
+      button = createElements(column, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-ts-button esgst-clickable`
+        },
+        type: `span`
+      }]);
       ts_addDescButton(button, columnName, i, table, tsTable);
     }
   }
+}
 
-  function ts_getArray(columnName, i, table) {
-    let array, column, element, j, match, n, row, rows, value;
-    array = [];
-    rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap, tbody tr`);
-    let isNumeric = false;
-    for (j = 0, n = rows.length; j < n; ++j) {
-      row = rows[j];
-      column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, td`)[i];
-      value = column && column.textContent.trim();
-      element = {
-        outerWrap: row
-      };
-      if (row.hasAttribute(`data-sort-index`)) {
-        element.sortIndex = parseInt(row.getAttribute(`data-sort-index`));
+function ts_addAscButton(button, columnName, i, table, tsTable) {
+  createElements(button, `inner`, [{
+    attributes: {
+      class: `fa fa-sort-desc`,
+      title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
+    },
+    type: `i`
+  }]);
+  button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
+}
+
+function ts_addDescButton(button, columnName, i, table, tsTable) {
+  createElements(button, `inner`, [{
+    attributes: {
+      class: `fa fa-sort`,
+      title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
+    },
+    type: `i`
+  }]);
+  button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
+}
+
+function ts_addDefButton(button, columnName, i, table, tsTable) {
+  createElements(button, `inner`, [{
+    attributes: {
+      class: `fa fa-sort-asc`,
+      title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
+    },
+    type: `i`
+  }]);
+  button.firstElementChild.addEventListener(`click`, ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
+}
+
+function ts_sortTable(button, columnName, i, key, table, tsTable) {
+  tsTable.columnName = columnName;
+  tsTable.columnIndex = i;
+  tsTable.key = key === `def` ? `sortIndex` : `value`;
+  tsTable.name = key;
+  if (key === `desc`) {
+    sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
+    ts_addAscButton(button, columnName, i, table, tsTable);
+  } else if (key === `asc`) {
+    sortContent(ts_getArray(columnName, i, table), null, `value_${key}`);
+    ts_addDefButton(button, columnName, i, table, tsTable);
+  } else {
+    sortContent(ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+    ts_addDescButton(button, columnName, i, table, tsTable);
+  }
+}
+
+function ts_getArray(columnName, i, table) {
+  let array, column, element, j, match, n, row, rows, value;
+  array = [];
+  rows = table.querySelectorAll(`.table__row-outer-wrap, .row_outer_wrap, tbody tr`);
+  let isNumeric = false;
+  for (j = 0, n = rows.length; j < n; ++j) {
+    row = rows[j];
+    column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, td`)[i];
+    value = column && column.textContent.trim();
+    element = {
+      outerWrap: row
+    };
+    if (row.hasAttribute(`data-sort-index`)) {
+      element.sortIndex = parseInt(row.getAttribute(`data-sort-index`));
+    } else {
+      element.sortIndex = j;
+      row.setAttribute(`data-sort-index`, j);
+    }
+    if (value.length > 0 || columnName === `Trending`) {
+      if (column.hasAttribute(`data-sort-value`)) {
+        element.value = parseFloat(column.getAttribute(`data-sort-value`));
       } else {
-        element.sortIndex = j;
-        row.setAttribute(`data-sort-index`, j);
-      }
-      if (value.length > 0 || columnName === `Trending`) {
-        if (column.hasAttribute(`data-sort-value`)) {
-          element.value = parseFloat(column.getAttribute(`data-sort-value`));
-        } else {
-          switch (columnName) {
-            case `Trending`:
-              element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
-              break;
-            case `Added`:
-            case `Date Entered`:
-            case `Last Online`:
-            case `Last Post`:
-            case `Last Update`:
-              element.value = value.match(/Online\sNow/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
-              break;
-            case `Game`:
-            case `Giveaway`:
-            case `Group`:
-            case `Status`:
-            case `Summary`:
-            case `Type`:
-            case `User`:
-            case `Winner(s)`:
-              element.value = value;
-              break;
-            default:
-              if (value.match(/\d+\.\d+/)) {
-                element.value = parseFloat(value.replace(/\$/g, ``));
-                if (isNaN(element.value)) {
-                  element.value = value;
-                } else {
-                  isNumeric = true;
-                }
+        switch (columnName) {
+          case `Trending`:
+            element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
+            break;
+          case `Added`:
+          case `Date Entered`:
+          case `Last Online`:
+          case `Last Post`:
+          case `Last Update`:
+            element.value = value.match(/Online\sNow/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+            break;
+          case `Game`:
+          case `Giveaway`:
+          case `Group`:
+          case `Status`:
+          case `Summary`:
+          case `Type`:
+          case `User`:
+          case `Winner(s)`:
+            element.value = value;
+            break;
+          default:
+            if (value.match(/\d+\.\d+/)) {
+              element.value = parseFloat(value.replace(/,|\$/g, ``));
+              if (isNaN(element.value)) {
+                element.value = value;
               } else {
-                match = value.replace(/,/g, ``).match(/\d+/);
-                if (match) {
-                  element.value = parseFloat(match[0]);
-                  isNumeric = true;
-                } else {
-                  element.value = value;
-                }
+                isNumeric = true;
               }
-              break;
-          }
+            } else {
+              match = value.replace(/,/g, ``).match(/\d+/);
+              if (match) {
+                element.value = parseFloat(match[0]);
+                isNumeric = true;
+              } else {
+                element.value = value;
+              }
+            }
+            break;
         }
-      } else {
+      }
+    } else {
+      element.value = 0;
+    }
+    array.push(element);
+  }
+  if (isNumeric) {
+    for (let i = array.length - 1; i > -1; i--) {
+      let element = array[i];
+      if (typeof element.value === `string`) {
         element.value = 0;
       }
-      array.push(element);
     }
-    if (isNumeric) {
-      for (let i = array.length - 1; i > -1; i--) {
-        let element = array[i];
-        if (typeof element.value === `string`) {
-          element.value = 0;
-        }
-      }
-    }
-    return array;
   }
-  _MODULES.push({
+  return array;
+}_MODULES.push({
     description: `
       <ul>
         <li>Opens any link in the page in the same tab.</li>
@@ -39568,7 +39615,7 @@ async function users_load(mainContext, main, source, endless) {
                 values: []
               };
             }
-            values[value].value += (key === `username` ? 1 : copies);
+            values[value].value += (key === `username` ? 1 : (copies || 1));
             values[value].values.push(giveaway.gameName);
           }
         }
@@ -44913,26 +44960,34 @@ async function tags_loadTags(obj) {
     // sync reduced cv games
     if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && esgst.settings.syncReducedCvGames))) {
       syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-      for (const id in esgst.games.apps) {
-        esgst.games.apps[id].reducedCV = null;
-      }
-      for (const id in esgst.games.subs) {
-        esgst.games.subs[id].reducedCV = null;
-      }
-      const result = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText).success;
-      for (const id in result.apps) {
-        if (!esgst.games.apps[id]) {
-          esgst.games.apps[id] = {};
+      let result = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText);
+      if (result.error) {
+        createElements(syncer.results, `afterBegin`, [{
+          text: `Unable to sync reduced CV games: ${result.error}`,
+          type: `node`
+        }]);
+      } else {
+        result = result.success;
+        for (const id in esgst.games.apps) {
+          esgst.games.apps[id].reducedCV = null;
         }
-        esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
-      }
-      for (const id in result.subs) {
-        if (!esgst.games.subs[id]) {
-          esgst.games.subs[id] = {};
+        for (const id in esgst.games.subs) {
+          esgst.games.subs[id].reducedCV = null;
         }
-        esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
+        for (const id in result.apps) {
+          if (!esgst.games.apps[id]) {
+            esgst.games.apps[id] = {};
+          }
+          esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
+        }
+        for (const id in result.subs) {
+          if (!esgst.games.subs[id]) {
+            esgst.games.subs[id] = {};
+          }
+          esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
+        }
+        await lockAndSaveGames(esgst.games);
       }
-      await lockAndSaveGames(esgst.games);
     }
 
     // if sync has been canceled stop
@@ -49400,9 +49455,9 @@ async function tags_loadTags(obj) {
           text: `Success! The selected data was cleaned.`,
           type: `node`
         }, {
-          type: `<br>`
+          type: `br`
         }, {
-          type: `<br>`
+          type: `br`
         }, {
           text: `Size before cleaning: `,
           type: `node`
@@ -55713,6 +55768,23 @@ async function tags_loadTags(obj) {
 
   function loadChangelog(version) {
     const changelog = [
+      {
+        date: `September 15, 2018`,
+        version: `7.27.2`,
+        changelog: {
+          915: `Fix Received and Not Received filters`,
+          916: `Improve the detection of ended giveaways`,
+          917: `Fix a bug that does not sort some columns correctly in Table Sorter`,
+          918: `Fix a bug that doesn't stop Endless Scrolling on group pages if the Ended filter is set to false and an ended giveaway was found`,
+          920: `Fix a typo in the simplified label for the Hidden game category`,
+          921: `Do not sync list of reduced CV games if the database has failed to update`,
+          923: `Increase priority of Hidden Game's Enter Button Disabler over default buttons`,
+          924: `Fix a bug that centers posts in Main Post Popup`,
+          926: `Fix a bug that happens when cleaning old data`,
+          930: `Fix a bug that does not filter public giveaways in the entered page`,
+          931: `Add "Reviews" filter`
+        }
+      },
       {
         date: `September 2, 2018`,
         version: `7.27.1`,
