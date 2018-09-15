@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayFilters extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to filter giveaways.</li>
@@ -650,34 +654,34 @@ _MODULES.push({
       }
     },
     id: `gf`,
-    load: gf,
+    load: this.gf,
     name: `Giveaway Filters`,
     sg: true,
-    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
+    this.esgst.modules.common.sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
     type: `giveaways`
   });
 
-  function gf() {
-    if (esgst.gf_s) {
-      esgst.giveawayFeatures.push(gf_getGiveaways);
+  gf() {
+    if (this.esgst.gf_s) {
+      this.esgst.giveawayFeatures.push(gf_getGiveaways);
     }
-    if (esgst.gf_m && (esgst.giveawaysPath || esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.groupPath || esgst.userPath)) {
-      esgst.style.insertAdjacentText(`beforeEnd`, `
+    if (this.esgst.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
+      this.esgst.style.insertAdjacentText(`beforeEnd`, `
         .esgst-gf-container {
-          top: ${esgst.commentsTop - 5}px;
+          top: ${this.esgst.commentsTop - 5}px;
         }
       `);
-      if (esgst.hideButtons && esgst.hideButtons_gf) {
-        if (esgst.leftButtonIds.indexOf(`gf`) > -1) {
-          esgst.leftButtons.insertBefore(filters_addContainer(`gf`, esgst.mainPageHeading), esgst.leftButtons.firstElementChild);
+      if (this.esgst.hideButtons && this.esgst.hideButtons_gf) {
+        if (this.esgst.leftButtonIds.indexOf(`gf`) > -1) {
+          this.esgst.leftButtons.insertBefore(filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          esgst.rightButtons.appendChild(filters_addContainer(`gf`, esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(filters_addContainer(`gf`, this.esgst.mainPageHeading));
         }
       } else {
-        esgst.mainPageHeading.insertBefore(filters_addContainer(`gf`, esgst.mainPageHeading), esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
-    if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (esgst.gf_os || esgst.gf_alreadyOwned || esgst.gf_dlcMissingBase || esgst.gf_aboveLevel || esgst.gf_manuallyFiltered)) {
+    if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (this.esgst.gf_os || this.esgst.gf_alreadyOwned || this.esgst.gf_dlcMissingBase || this.esgst.gf_aboveLevel || this.esgst.gf_manuallyFiltered)) {
       let key,
         inputs = {
           filter_os: null,
@@ -691,20 +695,20 @@ _MODULES.push({
       }
       document.getElementsByClassName(`form__submit-button js__submit-form`)[0].addEventListener(`click`, () => {
         for (key in inputs) {
-          esgst.settings[key] = parseInt(inputs[key].value);
+          this.esgst.settings[key] = parseInt(inputs[key].value);
         }
-        setValue(`settings`, JSON.stringify(esgst.settings));
+        setValue(`settings`, JSON.stringify(this.esgst.settings));
       });
     }
   }
 
-  function gf_getGiveaways(giveaways, main, source) {
+  gf_getGiveaways(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.creator !== esgst.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
-        if (source === `gf` || esgst.giveawayPath) {
-          if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].hidden) {
+      if (giveaway.creator !== this.esgst.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
+        if (source === `gf` || this.esgst.giveawayPath) {
+          if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].hidden) {
             new Button(giveaway.headingName, `beforeBegin`, {
-              callbacks: [gf_hideGiveaway.bind(null, giveaway, main), null, gf_unhideGiveaway.bind(null, giveaway, main), null],
+              callbacks: [gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
               className: `esgst-gf-unhide-button`,
               icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
               id: `gf_s`,
@@ -713,10 +717,10 @@ _MODULES.push({
             });
           }
         }
-        if ((source !== `gc` && (esgst.giveawaysPath || esgst.groupPath)) || esgst.giveawayPath) {
-          if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].hidden || !esgst.giveaways[giveaway.code].code)) {
+        if ((source !== `gc` && (this.esgst.giveawaysPath || this.esgst.groupPath)) || this.esgst.giveawayPath) {
+          if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].hidden || !this.esgst.giveaways[giveaway.code].code)) {
             new Button(giveaway.headingName, `beforeBegin`, {
-              callbacks: [gf_hideGiveaway.bind(null, giveaway, main), null, gf_unhideGiveaway.bind(null, giveaway, main), null],
+              callbacks: [gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
               className: `esgst-gf-hide-button`,
               icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
               id: `gf_s`,
@@ -729,8 +733,8 @@ _MODULES.push({
     });
   }
 
-  async function gf_hideGiveaway(giveaway, main) {
-    let deleteLock = await createLock(`giveawayLock`, 300);
+  async gf_hideGiveaway(giveaway, main) {
+    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
@@ -740,68 +744,68 @@ _MODULES.push({
     giveaways[giveaway.code].hidden = Date.now();
     await setValue(`giveaways`, JSON.stringify(giveaways));
     deleteLock();
-    if (!main || !esgst.giveawayPath) {
+    if (!main || !this.esgst.giveawayPath) {
       giveaway.outerWrap.remove();
     }
     return true;
   }
 
-  async function gf_unhideGiveaway(giveaway, main) {
-    let deleteLock = await createLock(`giveawayLock`, 300);
+  async gf_unhideGiveaway(giveaway, main) {
+    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].hidden;
     }
     await setValue(`giveaways`, JSON.stringify(giveaways));
     deleteLock();
-    if (!main || !esgst.giveawayPath) {
+    if (!main || !this.esgst.giveawayPath) {
       giveaway.outerWrap.remove();
     }
     return true;
   }
 
-  function gf_getFilters(popup) {
+  gf_getFilters(popup) {
     return {
       level: {
-        check: (!esgst.parameters.level_min && !esgst.parameters.level_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+        check: (!this.esgst.parameters.level_min && !this.esgst.parameters.level_max) && (((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup),
         maxValue: 10,
         minValue: 0,
         name: `Level`,
         type: `number`
       },
       entries: {
-        check: (!esgst.parameters.entry_min && !esgst.parameters.entry_max) && (!esgst.wonPath || popup),
+        check: (!this.esgst.parameters.entry_min && !this.esgst.parameters.entry_max) && (!this.esgst.wonPath || popup),
         minValue: 0,
         name: `Entries`,
         type: `number`
       },
       copies: {
-        check: (!esgst.parameters.copy_min && !esgst.parameters.copy_max) && (!esgst.wonPath || popup),
+        check: (!this.esgst.parameters.copy_min && !this.esgst.parameters.copy_max) && (!this.esgst.wonPath || popup),
         minValue: 1,
         name: `Copies`,
         type: `number`
       },
       points: {
-        check: (!esgst.parameters.point_min && !esgst.parameters.point_max) && (((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup),
+        check: (!this.esgst.parameters.point_min && !this.esgst.parameters.point_max) && (((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Points`,
         type: `number`
       },
       comments: {
-        check: popup || (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath),
+        check: popup || (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath),
         minValue: 0,
         name: `Comments`,
         type: `number`
       },
       minutesToEnd: {
-        check: !esgst.wonPath || popup,
+        check: !this.esgst.wonPath || popup,
         minValue: 0,
         name: `Minutes To End`,
         type: `number`
       },
       chance: {
-        check: esgst.gwc && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gwc && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance`,
@@ -809,7 +813,7 @@ _MODULES.push({
         type: `number`
       },
       projectedChance: {
-        check: esgst.gwc && esgst.gwc_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gwc && this.esgst.gwc_a && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Projected Chance`,
@@ -817,7 +821,7 @@ _MODULES.push({
         type: `number`
       },
       chancePerPoint: {
-        check: esgst.gwc && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gwc && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance Per Point`,
@@ -825,7 +829,7 @@ _MODULES.push({
         type: `number`
       },
       projectedChancePerPoint: {
-        check: esgst.gwc && esgst.gwc_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gwc && this.esgst.gwc_a && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Projected Chance Per Point`,
@@ -833,19 +837,19 @@ _MODULES.push({
         type: `number`
       },
       ratio: {
-        check: esgst.gwr && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gwr && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
         name: `Ratio`,
         type: `number`
       },
       projectedRatio: {
-        check: esgst.gwr && esgst.gwr_a && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gwr && this.esgst.gwr_a && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
         name: `Projected Ratio`,
         type: `number`
       },
       pointsToWin: {
-        check: esgst.gptw && (((!esgst.enteredPath || esgst.cewgd) && !esgst.createdPath && !esgst.wonPath) || popup),
+        check: this.esgst.gptw && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
         name: `Points To Win`,
         type: `number`
@@ -860,38 +864,38 @@ _MODULES.push({
       },
       releaseDate: {
         category: `gc_rd`,
-        check: !esgst.parameters.release_date_min && !esgst.parameters.release_date_max,
+        check: !this.esgst.parameters.release_date_min && !this.esgst.parameters.release_date_max,
         date: true,
         name: `Release Date`,
         type: `number`
       },
       pinned: {
-        check: esgst.giveawaysPath,
+        check: this.esgst.giveawaysPath,
         name: `Pinned`,
         type: `boolean`
       },
       public: {
-        check: !esgst.giveawaysPath,
+        check: !this.esgst.giveawaysPath,
         name: `Public`,
         type: `boolean`
       },
       inviteOnly: {
-        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
         name: `Invite Only`,
         type: `boolean`
       },
       group: {
-        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
         name: `Group`,
         type: `boolean`
       },
       whitelist: {
-        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
         name: `Whitelist`,
         type: `boolean`
       },
       regionRestricted: {
-        check: ((!esgst.createdPath || esgst.cewgd) && (!esgst.enteredPath || esgst.cewgd) && (!esgst.wonPath || esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
         name: `Region Restricted`,
         type: `boolean`
       },
@@ -901,42 +905,42 @@ _MODULES.push({
         type: `boolean`
       },
       created: {
-        check: (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) || popup,
+        check: (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) || popup,
         name: `Created`,
         type: `boolean`
       },
       received: {
-        check: esgst.createdPath,
+        check: this.esgst.createdPath,
         name: `Received`,
         type: `boolean`
       },
       notReceived: {
-        check: esgst.createdPath,
+        check: this.esgst.createdPath,
         name: `Not Received`,
         type: `boolean`
       },
       awaitingFeedback: {
-        check: esgst.createdPath,
+        check: this.esgst.createdPath,
         name: `Awaiting Feedback`,
         type: `boolean`
       },
       entered: {
-        check: (!esgst.createdPath && !esgst.enteredPah && !esgst.wonPath) || popup,
+        check: (!this.esgst.createdPath && !this.esgst.enteredPah && !this.esgst.wonPath) || popup,
         name: `Entered`,
         type: `boolean`
       },
       started: {
-        check: (!esgst.enteredPath && !esgst.wonPath) || popup,
+        check: (!this.esgst.enteredPath && !this.esgst.wonPath) || popup,
         name: `Started`,
         type: `boolean`
       },
       ended: {
-        check: !esgst.wonPath || popup,
+        check: !this.esgst.wonPath || popup,
         name: `Ended`,
         type: `boolean`
       },
       deleted: {
-        check: esgst.createdPath || esgst.enteredPath,
+        check: this.esgst.createdPath || this.esgst.enteredPath,
         name: `Deleted`,
         type: `boolean`
       },
@@ -986,12 +990,12 @@ _MODULES.push({
         type: `boolean`
       },
       sgTools: {
-        check: esgst.ge,
+        check: this.esgst.ge,
         name: `SGTools`,
         type: `boolean`
       },
       groups: {
-        check: esgst.ggl && esgst.ggl_index === 0,
+        check: this.esgst.ggl && this.esgst.ggl_index === 0,
         list: true,
         name: `Groups`,
         type: `string`
@@ -1102,38 +1106,38 @@ _MODULES.push({
     };
   }
 
-  function filters_addContainer(id, heading, popup) {
+  filters_addContainer(id, heading, popup) {
     const obj = {
       basicFilters: {},
       id: id,
       key: `${id}_presets`,
       popup: popup,
       rules: null,
-      type: popup || (esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (esgst.createdPath ? `Created` : (esgst.enteredPath ? `Entered` : (esgst.wonPath ? `Won` : (esgst.userPath ? `User` : ``))))))
+      type: popup || (this.esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? `Created` : (this.esgst.enteredPath ? `Entered` : (this.esgst.wonPath ? `Won` : (this.esgst.userPath ? `User` : ``))))))
     };
     switch (id) {
       case `gf`:
-        obj.filters = gf_getFilters(popup);
+        obj.filters = this.gf_getFilters(popup);
         break;
       case `df`:
-        obj.filters = df_getFilters(popup);
+        obj.filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters(popup);
         break;
       case `cf`:
-        obj.filters = cf_getFilters(popup);
+        obj.filters = this.esgst.modules.commentsCommentFilters.cf_getFilters(popup);
         break;
       default:
         break;
     } 
     if (popup) {
-      esgst[`${id}Popup`] = obj;
+      this.esgst[`${id}Popup`] = obj;
     } else {
-      esgst[id] = obj;
+      this.esgst[id] = obj;
     }
 
     const headingButton = document.createElement(`div`);
     headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
     headingButton.id = `esgst-${obj.id}`;
-    createElements(headingButton, `inner`, [{
+    this.esgst.modules.common.createElements(headingButton, `inner`, [{
       attributes: {
         class: `esgst-gf-toggle-switch`
       },
@@ -1141,7 +1145,7 @@ _MODULES.push({
     }, {
       attributes: {
         class: `fa fa-sliders`,
-        title: getFeatureTooltip(obj.id, `Manage presets`)
+        title: this.esgst.modules.common.getFeatureTooltip(obj.id, `Manage presets`)
       },
       type: `i`
     }]);
@@ -1153,14 +1157,14 @@ _MODULES.push({
       false,
       false,
       null,
-      esgst[`${obj.id}_enable${obj.type}`]
+      this.esgst[`${obj.id}_enable${obj.type}`]
     );
     const presetButton = headingButton.lastElementChild;
 
-    toggleSwitch.onEnabled = filters_filter.bind(null, obj);
-    toggleSwitch.onDisabled = filters_filter.bind(null, obj, true);
+    toggleSwitch.onEnabled = this.filters_filter.bind(null, obj);
+    toggleSwitch.onDisabled = this.filters_filter.bind(null, obj, true);
 
-    obj.container = createElements(heading, `afterEnd`, [{
+    obj.container = this.esgst.modules.common.createElements(heading, `afterEnd`, [{
       attributes: {
         class: `esgst-gf-container`
       },
@@ -1352,7 +1356,7 @@ _MODULES.push({
     }]);
 
     if (!obj.popup) {
-      esgst.commentsTop += obj.container.offsetHeight;
+      this.esgst.commentsTop += obj.container.offsetHeight;
     }
 
     const box = obj.container.firstElementChild;
@@ -1380,7 +1384,7 @@ _MODULES.push({
       obj.presetDisplay = obj.filteredCount.nextElementSibling;
     }
 
-    advancedFilters.previousElementSibling.addEventListener(`click`, filter_manual.bind(null, {}));
+    advancedFilters.previousElementSibling.addEventListener(`click`, this.filter_manual.bind(null, {}));
 
     presetPanel.appendChild(new ButtonSet_v2({
       color1: `green`,
@@ -1389,15 +1393,15 @@ _MODULES.push({
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save`,
       title2: `Saving...`,
-      callback1: filters_savePreset.bind(null, obj)
+      callback1: this.filters_savePreset.bind(null, obj)
     }).set);
 
-    let name = esgst[`${obj.id}_preset${obj.type}`];
+    let name = this.esgst[`${obj.id}_preset${obj.type}`];
     if (name) {
       let i;
-      for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== name; i--);
+      for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--);
       if (i > -1) {
-        obj.rules = esgst[obj.key][i].rules;
+        obj.rules = this.esgst[obj.key][i].rules;
       }
     }
     if (!obj.rules) {
@@ -1406,15 +1410,15 @@ _MODULES.push({
         name,
         rules: {}
       };
-      esgst[obj.key].push(preset);
-      setSetting([
+      this.esgst[obj.key].push(preset);
+      this.esgst.modules.common.setSetting([
         {
           id: `${obj.id}_preset${obj.type}`,
           value: name
         },
         {
           id: obj.key,
-          value: esgst[obj.key]
+          value: this.esgst[obj.key]
         }
       ]);
       obj.rules = {};
@@ -1422,8 +1426,8 @@ _MODULES.push({
     obj.rules_save = obj.rules;
     obj.presetDisplay.textContent = obj.presetInput.value = name;
 
-    if (!obj.popup && esgst.pagination) {
-      obj.paginationFilteredCount = createElements(esgst.pagination.firstElementChild, `beforeEnd`, [{
+    if (!obj.popup && this.esgst.pagination) {
+      obj.paginationFilteredCount = this.esgst.modules.common.createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
         type: `span`,
         children: [{
           text: `(`,
@@ -1441,8 +1445,8 @@ _MODULES.push({
       }]).firstElementChild;
     }
 
-    presetButton.addEventListener(`click`, filters_openPresetPopup.bind(null, obj));
-    button.addEventListener(`click`, filters_toggleFilters.bind(null, obj));
+    presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(null, obj));
+    button.addEventListener(`click`, this.filters_toggleFilters.bind(null, obj));
 
     const filters = [];
     for (const key in obj.filters) {
@@ -1463,12 +1467,12 @@ _MODULES.push({
           rule.type = `boolean`;
           rule.values = [`true`, `false`];
 
-          if (!esgst[`${obj.id}_m_b`]) {
+          if (!this.esgst[`${obj.id}_m_b`]) {
             const attributes = {};
-            if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+            if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
               attributes.class = `esgst-hidden`;
             }
-            context = createElements(booleanFilters, `beforeEnd`, [{
+            context = this.esgst.modules.common.createElements(booleanFilters, `beforeEnd`, [{
               attributes,
               type: `div`,
               children: [{
@@ -1495,7 +1499,7 @@ _MODULES.push({
               filterType: `boolean`,
               checkbox: checkbox
             };
-            checkbox.onChange = filters_basicToAdv.bind(null, obj);
+            checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
           }
           break;
         case `number`:
@@ -1519,12 +1523,12 @@ _MODULES.push({
             };
             rule.type = `date`;
 
-            if (!esgst[`${obj.id}_m_b`]) {
+            if (!this.esgst[`${obj.id}_m_b`]) {
               const attributes = {};
-              if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+              if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
-              context = createElements(numberFilters, `beforeEnd`, [{
+              context = this.esgst.modules.common.createElements(numberFilters, `beforeEnd`, [{
                 attributes,
                 type: `div`,
                 children: [{
@@ -1568,12 +1572,12 @@ _MODULES.push({
               step: filter.step
             };
 
-            if (!esgst[`${obj.id}_m_b`]) {
+            if (!this.esgst[`${obj.id}_m_b`]) {
               const attributes = {};
-              if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+              if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
-              context = createElements(numberFilters, `beforeEnd`, [{
+              context = this.esgst.modules.common.createElements(numberFilters, `beforeEnd`, [{
                 attributes,
                 type: `div`,
                 children: [{
@@ -1606,7 +1610,7 @@ _MODULES.push({
             }
           }
 
-          if (!esgst[`${obj.id}_m_b`]) {
+          if (!this.esgst[`${obj.id}_m_b`]) {
             minInput = context.lastElementChild.firstElementChild;
             maxInput = minInput.nextElementSibling;
             obj.basicFilters[rule.id] = {
@@ -1619,8 +1623,8 @@ _MODULES.push({
               maxInput: maxInput,
               minInput: minInput
             };
-            maxInput.addEventListener(`change`, filters_basicToAdv.bind(null, obj));
-            minInput.addEventListener(`change`, filters_basicToAdv.bind(null, obj));
+            maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
+            minInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
           }
 
           break;
@@ -1630,12 +1634,12 @@ _MODULES.push({
           rule.placeholder =  `Item1, Item2, ...`;
           rule.type = `string`;
 
-          if (!esgst[`${obj.id}_m_b`]) {
+          if (!this.esgst[`${obj.id}_m_b`]) {
             const attributes = {};
-            if (!esgst[`${obj.id}_${key}`] || !filter.check) {
+            if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
               attributes.class = `esgst-hidden`;
             }
-            context = createElements(stringFilters, `beforeEnd`, [{
+            context = this.esgst.modules.common.createElements(stringFilters, `beforeEnd`, [{
               attributes,
               type: `div`,
               children: [{
@@ -1673,20 +1677,20 @@ _MODULES.push({
               checkbox: checkbox,
               textInput: textInput
             };
-            checkbox.onChange = filters_basicToAdv.bind(null, obj);
-            textInput.addEventListener(`change`, filters_basicToAdv.bind(null, obj));
+            checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
+            textInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
           }
           break;
       }
       if (!rule.data) {
         rule.data = {};
       }
-      rule.data.check = esgst[`${obj.id}_${rule.id}`] && filter.check;
+      rule.data.check = this.esgst[`${obj.id}_${rule.id}`] && filter.check;
       filters.push(rule);
     }
 
-    if (!esgst[`${obj.id}_m_b`]) {
-      createElements(stringFilters, `beforeEnd`, [{
+    if (!this.esgst[`${obj.id}_m_b`]) {
+      this.esgst.modules.common.createElements(stringFilters, `beforeEnd`, [{
         attributes: {
           class: `esgst-gf-legend-panel`
         },
@@ -1733,10 +1737,10 @@ _MODULES.push({
         }]
       }]);
       if (obj.rules.rules && obj.rules.rules.length) {
-        filters_applyBasic(obj, obj.rules);
+        this.filters_applyBasic(obj, obj.rules);
       }
     }
-    if (!esgst[`${obj.id}_m_a`]) {
+    if (!this.esgst[`${obj.id}_m_a`]) {
       const templates = {
         group : `
           <div id="{{= it.group_id }}" class="rules-group-container">
@@ -1866,54 +1870,54 @@ _MODULES.push({
       }
       $(advancedFilters).queryBuilder(options);
       obj.builder = $(advancedFilters)[0].queryBuilder;
-      [obj.rules, obj.rules_save] = filters_changeRules(obj);
+      [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
 
       obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
         const group = event.currentTarget.closest(`.rules-group-container`);
         group.setAttribute(`data-esgst-paused`, true);
-        [obj.rules, obj.rules_save] = filters_changeRules(obj, {});
-        filters_filter(obj);
+        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
+        this.filters_filter(obj);
       });
       obj.builder.$el.on(`click.queryBuilder`, `[data-resume=group]`, event => {
         const group = event.currentTarget.closest(`.rules-group-container`);
         group.removeAttribute(`data-esgst-paused`);
-        [obj.rules, obj.rules_save] = filters_changeRules(obj, {});
-        filters_filter(obj);
+        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
+        this.filters_filter(obj);
       });
       obj.builder.$el.on(`click.queryBuilder`, `[data-pause=rule]`, event => {
         const rule = event.currentTarget.closest(`.rule-container`);
         rule.setAttribute(`data-esgst-paused`, true);
-        [obj.rules, obj.rules_save] = filters_changeRules(obj, {});
-        filters_filter(obj);
+        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
+        this.filters_filter(obj);
       });
       obj.builder.$el.on(`click.queryBuilder`, `[data-resume=rule]`, event => {
         const rule = event.currentTarget.closest(`.rule-container`);
         rule.removeAttribute(`data-esgst-paused`);
-        [obj.rules, obj.rules_save] = filters_changeRules(obj, {});
-        filters_filter(obj);
+        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
+        this.filters_filter(obj);
       });
 
       obj.builder.on(`rulesChanged.queryBuilder`, () => {
         try {
-          [obj.rules, obj.rules_save] = filters_changeRules(obj, {});
-          if (!obj.basicApplied && !esgst[`${obj.id}_m_b`]) {
-            filters_resetBasic(obj);
-            filters_applyBasic(obj, obj.rules);
+          [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
+          if (!obj.basicApplied && !this.esgst[`${obj.id}_m_b`]) {
+            this.filters_resetBasic(obj);
+            this.filters_applyBasic(obj, obj.rules);
           }
-          filters_filter(obj);
+          this.filters_filter(obj);
         } catch (e) {
           console.log(e);
         }
         obj.basicApplied = false;
       });
-      obj.builder.on(`getRules.queryBuilder.filter`, filters_changeRules.bind(null, obj));
+      obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(null, obj));
     }
 
-    if (esgst[`${obj.id}_m_b`]) {
+    if (this.esgst[`${obj.id}_m_b`]) {
       basicFilters.classList.add(`esgst-hidden`);
       basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
     }
-    if (esgst[`${obj.id}_m_a`]) {
+    if (this.esgst[`${obj.id}_m_a`]) {
       advancedFilters.classList.add(`esgst-hidden`);
       basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
     }
@@ -1946,7 +1950,7 @@ _MODULES.push({
           name: `Manually Filtered`
         }
       ].forEach(filter => {
-        if (!esgst[`${obj.id}_${filter.key}`]) return;
+        if (!this.esgst[`${obj.id}_${filter.key}`]) return;
 
         const children = [{
           text: filter.name,
@@ -1982,7 +1986,7 @@ _MODULES.push({
             }]
           })
         }
-        const sgFilter = createElements(sgFilters, `beforeEnd`, [{
+        const sgFilter = this.esgst.modules.common.createElements(sgFilters, `beforeEnd`, [{
           attributes: {
             class: `esgst-gf-category-filter`
           },
@@ -2006,14 +2010,14 @@ _MODULES.push({
         const spinning = check.previousElementSibling;
         if (filter.key === `os`) {
           const select = sgFilter.firstElementChild.firstElementChild;
-          select.value = esgst[filter.id];
+          select.value = this.esgst[filter.id];
           select.addEventListener(`change`, async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
-            await setSetting(filter.id, select.value);
-            esgst[filter.id] = select.value;
-            await request({
-              data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`,
+            await this.esgst.modules.common.setSetting(filter.id, select.value);
+            this.esgst[filter.id] = select.value;
+            await this.esgst.modules.common.request({
+              data: `filter_os=${this.esgst.filter_os}&filter_giveaways_exist_in_account=${this.esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${this.esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${this.esgst.filter_giveaways_level}&filter_giveaways_additional_games=${this.esgst.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: `POST`,
               url: `/account/settings/giveaways`
             });
@@ -2021,14 +2025,14 @@ _MODULES.push({
             check.classList.remove(`esgst-hidden`);
           });
         } else {
-          const checkbox = new Checkbox(sgFilter, esgst[filter.id] ? true : false);
+          const checkbox = new Checkbox(sgFilter, this.esgst[filter.id] ? true : false);
           checkbox.onChange = async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
-            await setSetting(filter.id, checkbox.value ? 1 : 0);
-            esgst[filter.id] = checkbox.value ? 1 : 0;
-            await request({
-              data: `filter_os=${esgst.filter_os}&filter_giveaways_exist_in_account=${esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${esgst.filter_giveaways_level}&filter_giveaways_additional_games=${esgst.filter_giveaways_additional_games}&xsrf_token=${esgst.xsrfToken}`,
+            await this.esgst.modules.common.setSetting(filter.id, checkbox.value ? 1 : 0);
+            this.esgst[filter.id] = checkbox.value ? 1 : 0;
+            await this.esgst.modules.common.request({
+              data: `filter_os=${this.esgst.filter_os}&filter_giveaways_exist_in_account=${this.esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${this.esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${this.esgst.filter_giveaways_level}&filter_giveaways_additional_games=${this.esgst.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: `POST`,
               url: `/account/settings/giveaways`
             });
@@ -2045,7 +2049,7 @@ _MODULES.push({
     return headingButton;
   }
 
-  function filter_manual(obj) {
+  filter_manual(obj) {
     if (obj.popup) {
       obj.popup.open();
       return;
@@ -2111,7 +2115,7 @@ _MODULES.push({
             text: `OR`,
             type: `span`
           }, {
-            text: ` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`,
+            text: ` - Turns the group into an OR group, which means that only items that apply to this.esgst.modules.generalAccurateTimestamp.at least one rule of the group will be shown.`,
             type: `node`
           }]
         }, {
@@ -2227,7 +2231,7 @@ _MODULES.push({
       },
       type: `div`,
       children: [{
-        text: `The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`,
+        text: `The process of building the filters might seem intimidating this.esgst.modules.generalAccurateTimestamp.at first, but it is actually quite simple. Just think of it like this:`,
         type: `div`
       }, {
         type: `ul`,
@@ -2317,7 +2321,7 @@ _MODULES.push({
     obj.popup.open();
   }
 
-  function filters_convert(presets) {
+  filters_convert(presets) {
     const minValues = {
       level: 0,
       entries: 0,
@@ -2527,7 +2531,7 @@ _MODULES.push({
     return newPresets;
   }
 
-  function filters_changeRules(obj, event) {
+  filters_changeRules(obj, event) {
     let out = [{
       condition: `AND`,
       not: false,
@@ -2552,7 +2556,7 @@ _MODULES.push({
       return out;
     }
 
-    out = (function parse(group) {
+    out = (parse(group) {
       const groupData = {
         condition: group.condition,
         data: {
@@ -2611,7 +2615,7 @@ _MODULES.push({
           groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
         }
         groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData_save, rule));
-      }, function (model) {
+      }, (model) {
         if (!event) {
           if (model.data && model.data.paused) {
             model.$el[0].setAttribute(`data-esgst-paused`, true);
@@ -2620,7 +2624,7 @@ _MODULES.push({
           }
         }
 
-        const [data, data_save] = parse(model);
+        const [data, data_save] = this.parse(model);
         if (data.rules.length !== 0) {
           if (model.$el[0].getAttribute(`data-esgst-paused`)) {
             data_save.data = {
@@ -2649,7 +2653,7 @@ _MODULES.push({
     return out;
   }
 
-  function filters_basicToAdv(obj) {
+  filters_basicToAdv(obj) {
     const adv = {
       condition: `AND`,
       not: false,
@@ -2715,9 +2719,9 @@ _MODULES.push({
     }
     obj.rules = adv;
     if (obj.rules.rules) {
-      if (esgst[`${obj.id}_m_a`]) {
+      if (this.esgst[`${obj.id}_m_a`]) {
         obj.rules_save = obj.rules;
-        filters_filter(obj);
+        this.filters_filter(obj);
       } else {
         if (!obj.rules.rules.length) {
           obj.rules = {
@@ -2734,7 +2738,7 @@ _MODULES.push({
     }
   }
 
-  function filters_applyBasic(obj, rules) {
+  filters_applyBasic(obj, rules) {
     if (rules.condition !== `AND`) return;
 
     for (const rule of rules.rules) {
@@ -2762,7 +2766,7 @@ _MODULES.push({
     }
   }
 
-  function filters_resetBasic(obj) {
+  filters_resetBasic(obj) {
     for (const id in obj.basicFilters) {
       const filter = obj.basicFilters[id];
       switch (filter.filterType) {
@@ -2781,7 +2785,7 @@ _MODULES.push({
     }
   }
 
-  async function filters_savePreset(obj) {
+  async filters_savePreset(obj) {
     const name = obj.presetInput.value;
 
     if (!name) {
@@ -2795,28 +2799,28 @@ _MODULES.push({
       rules: obj.rules_save
     };
     let i;
-    for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== name; i--);
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--);
     if (i > -1) {
-      esgst[obj.key][i] = preset;
+      this.esgst[obj.key][i] = preset;
     } else {
-      esgst[obj.key].push(preset);
+      this.esgst[obj.key].push(preset);
     }
-    await setSetting([
+    await this.esgst.modules.common.setSetting([
       {
         id: `${obj.id}_preset${obj.type}`,
         value: name
       },
       {
         id: obj.key,
-        value: esgst[obj.key]
+        value: this.esgst[obj.key]
       }
     ]);
-    createFadeMessage(obj.presetMessage, `Saved!`);
+    this.esgst.modules.common.createFadeMessage(obj.presetMessage, `Saved!`);
   }
 
-  async function filters_openPresetPopup(obj) {
+  async filters_openPresetPopup(obj) {
     const popup = new Popup(`fa-sliders`, `Manage presets:`, true);
-    createElements(popup.description, `afterBegin`, [{
+    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -2824,7 +2828,7 @@ _MODULES.push({
       type: `div`
     }]);
     let deleted = [];
-    const undoButton = createElements(popup.description, `beforeEnd`, [{
+    const undoButton = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-clickable esgst-hidden`
       },
@@ -2839,21 +2843,21 @@ _MODULES.push({
         type: `span`
       }]
     }]);
-    undoButton.addEventListener(`click`, filters_undoDeletePreset.bind(null, obj, deleted, undoButton));
-    const table = createElements(popup.scrollable, `beforeEnd`, [{
+    undoButton.addEventListener(`click`, this.filters_undoDeletePreset.bind(null, obj, deleted, undoButton));
+    const table = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
       },
       type: `div`
     }]);
-    for (const preset of esgst[obj.key]) {
+    for (const preset of this.esgst[obj.key]) {
       const attributes = {
         draggable: true
       };
       if (obj.presetInput.value === preset.name) {
         attributes.class = `esgst-green-highlight`;
       }
-      const row = createElements(table, `beforeEnd`, [{
+      const row = this.esgst.modules.common.createElements(table, `beforeEnd`, [{
         attributes,
         type: `div`,
         children: [{
@@ -2909,26 +2913,26 @@ _MODULES.push({
       const heading = renameInput.nextElementSibling;
       const renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
 
-      row.addEventListener(`dragstart`, filters_setSource.bind(null, obj, preset, row));
-      row.addEventListener(`dragenter`, filters_getSource.bind(null, obj, row, table));
-      row.addEventListener(`dragend`, filters_saveSource.bind(null, obj));
-      renameInput.addEventListener(`keypress`, filters_renamePreset.bind(null, obj, heading, preset));
-      heading.addEventListener(`click`, filters_applyPreset.bind(null, obj, popup, preset));
-      renameButton.addEventListener(`click`, filters_showRenameInput.bind(null, heading, renameInput));
-      renameButton.nextElementSibling.addEventListener(`click`, filters_deletePreset.bind(null, obj, deleted, preset, row, undoButton));
+      row.addEventListener(`dragstart`, this.filters_setSource.bind(null, obj, preset, row));
+      row.addEventListener(`dragenter`, this.filters_getSource.bind(null, obj, row, table));
+      row.addEventListener(`dragend`, this.filters_saveSource.bind(null, obj));
+      renameInput.addEventListener(`keypress`, this.filters_renamePreset.bind(null, obj, heading, preset));
+      heading.addEventListener(`click`, this.filters_applyPreset.bind(null, obj, popup, preset));
+      renameButton.addEventListener(`click`, this.filters_showRenameInput.bind(null, heading, renameInput));
+      renameButton.nextElementSibling.addEventListener(`click`, this.filters_deletePreset.bind(null, obj, deleted, preset, row, undoButton));
     }
     popup.open();
   }
 
-  async function filters_setSource(obj, preset, row, event) {
+  async filters_setSource(obj, preset, row, event) {
     event.dataTransfer.setData(`text/plain`, ``);
     obj.source = row;
     let i;
-    for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== preset.name; i--);
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--);
     obj.sourceIndex = i;
   }
 
-  function filters_getSource(obj, row, table) {
+  filters_getSource(obj, row, table) {
     let current = obj.source;
     let i = 0;
     do {
@@ -2944,12 +2948,12 @@ _MODULES.push({
     table.insertBefore(obj.source, row.nextElementSibling);
   }
 
-  async function filters_saveSource(obj) {
-    esgst[obj.key].splice(obj.sourceNewIndex, 0, esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
-    await setSetting(obj.key, esgst[obj.key]);
+  async filters_saveSource(obj) {
+    this.esgst[obj.key].splice(obj.sourceNewIndex, 0, this.esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
+    await this.esgst.modules.common.setSetting(obj.key, this.esgst[obj.key]);
   }
 
-  async function filters_applyPreset(obj, popup, preset) {
+  async filters_applyPreset(obj, popup, preset) {
     if (!preset.rules || !preset.rules.rules || !preset.rules.rules.length) {
       preset.rules = {
         condition: `AND`,
@@ -2960,21 +2964,21 @@ _MODULES.push({
       };
     }
 
-    if (!esgst[`${obj.id}_m_b`]) {
-      filters_resetBasic(obj);
-      filters_applyBasic(obj, preset.rules);
+    if (!this.esgst[`${obj.id}_m_b`]) {
+      this.filters_resetBasic(obj);
+      this.filters_applyBasic(obj, preset.rules);
     }
-    if (!esgst[`${obj.id}_m_a`]) {
+    if (!this.esgst[`${obj.id}_m_a`]) {
       obj.builder.setRules(preset.rules);
-      [obj.rules, obj.rules_save] = filters_changeRules(obj);
+      [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
     }
     popup.close();
     obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
-    filters_filter(obj);
-    setSetting(`${obj.id}_preset${obj.type}`, preset.name);
+    this.filters_filter(obj);
+    this.esgst.modules.common.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
   }
 
-  function filters_showRenameInput(heading, renameInput) {
+  filters_showRenameInput(heading, renameInput) {
     heading.classList.add(`esgst-hidden`);
     renameInput.classList.remove(`esgst-hidden`);
     const value = renameInput.value;
@@ -2983,17 +2987,17 @@ _MODULES.push({
     renameInput.value = value;
   }
 
-  async function filters_renamePreset(obj, heading, preset, event) {
+  async filters_renamePreset(obj, heading, preset, event) {
     if (event.key !== `Enter`) return;
 
     const oldName = preset.name;
     const newName = event.currentTarget.value;
     let i;
-    for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== oldName; i--);
-    preset.name = esgst[obj.key][i].name = newName;
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== oldName; i--);
+    preset.name = this.esgst[obj.key][i].name = newName;
     const values = [{
       id: obj.key,
-      value: esgst[obj.key]
+      value: this.esgst[obj.key]
     }];
     heading.textContent = newName;
     if (obj.presetInput.value === oldName) {
@@ -3001,7 +3005,7 @@ _MODULES.push({
     }
     const types = [``, `Wishlist`, `Recommended`, `Group`, `New`, `Created`, `Entered`, `Won`, `Groups`, `User`, `Gb`, `Ge`, `Ged`];
     for (const type of types) {
-      if (esgst[`${obj.id}_preset${type}`] === oldName) {
+      if (this.esgst[`${obj.id}_preset${type}`] === oldName) {
         values.push({
           id: `${obj.id}_preset${type}`,
           value: newName
@@ -3010,22 +3014,22 @@ _MODULES.push({
     }
     event.currentTarget.classList.add(`esgst-hidden`);
     heading.classList.remove(`esgst-hidden`);
-    await setSetting(values);
+    await this.esgst.modules.common.setSetting(values);
   }
 
-  async function filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
+  async filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
     const deleteButton = event.currentTarget;
-    createElements(deleteButton, `inner`, [{
+    this.esgst.modules.common.createElements(deleteButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
     let i;
-    for (i = esgst[obj.key].length - 1; i > -1 && esgst[obj.key][i].name !== preset.name; i--);
-    esgst[obj.key].splice(i, 1);
-    await setSetting(obj.key, esgst[obj.key]);
-    createElements(deleteButton, `inner`, [{
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--);
+    this.esgst[obj.key].splice(i, 1);
+    await this.esgst.modules.common.setSetting(obj.key, this.esgst[obj.key]);
+    this.esgst.modules.common.createElements(deleteButton, `inner`, [{
       attributes: {
         class: `fa fa-trash`
       },
@@ -3039,33 +3043,33 @@ _MODULES.push({
     undoButton.classList.remove(`esgst-hidden`);
   }
 
-  async function filters_undoDeletePreset(obj, deleted, undoButton) {
+  async filters_undoDeletePreset(obj, deleted, undoButton) {
     const preset = deleted.pop();
     preset.row.classList.remove(`esgst-hidden`);
     preset.row.parentElement.appendChild(preset.row);
-    esgst[obj.key].push(preset.details);
-    await setSetting(obj.key, esgst[obj.key]);
+    this.esgst[obj.key].push(preset.details);
+    await this.esgst.modules.common.setSetting(obj.key, this.esgst[obj.key]);
     if (deleted.length === 0) {
       undoButton.classList.add(`esgst-hidden`);
     }
   }
 
-  function filters_toggleFilters(obj) {
+  filters_toggleFilters(obj) {
     obj.collapseButton.classList.toggle(`esgst-hidden`);
     obj.expandButton.classList.toggle(`esgst-hidden`);
     obj.filtersPanel.classList.toggle(`esgst-hidden`);
   }
 
-  function filters_filter(obj, unfilter, endless) {
-    if (!unfilter && !esgst[`${obj.id}_enable${obj.type}`]) return;
+  filters_filter(obj, unfilter, endless) {
+    if (!unfilter && !this.esgst[`${obj.id}_enable${obj.type}`]) return;
 
     let items;
     if (obj.id === `gf`) {
-      items = obj.popup ? esgst.popupGiveaways : esgst.mainGiveaways;
+      items = obj.popup ? this.esgst.popupGiveaways : this.esgst.mainGiveaways;
     } else if (obj.id === `df`) {
-      items = obj.popup ? esgst.popupDiscussions : esgst.mainDiscussions;
+      items = obj.popup ? this.esgst.popupDiscussions : this.esgst.mainDiscussions;
     } else {
-      items = obj.popup ? esgst.popupComments : esgst.mainComments;
+      items = obj.popup ? this.esgst.popupComments : this.esgst.mainComments;
     }
     const counters = document.getElementsByClassName(`esgst-gf-filter-count`);
     for (const counter of counters) {
@@ -3095,16 +3099,16 @@ _MODULES.push({
         }
       }
     }
-    filters_updateCount(obj, endless);
-    if (obj.id === `gf` && esgst.gcToFetch) {
+    this.filters_updateCount(obj, endless);
+    if (obj.id === `gf` && this.esgst.gcToFetch) {
       const games = {apps: {}, subs: {}};
-      for (const id in esgst.gcToFetch.apps) {
-        games.apps[id] = [...esgst.gcToFetch.apps[id]];
+      for (const id in this.esgst.gcToFetch.apps) {
+        games.apps[id] = [...this.esgst.gcToFetch.apps[id]];
       }
-      for (const id in esgst.gcToFetch.subs) {
-        games.subs[id] = [...esgst.gcToFetch.subs[id]];
+      for (const id in this.esgst.gcToFetch.subs) {
+        games.subs[id] = [...this.esgst.gcToFetch.subs[id]];
       }
-      gc_getGames(games, true, null, false, true);
+      this.esgst.modules.gamesGameCategories.gc_getGames(games, true, null, false, true);
     }
   }
 
@@ -3115,11 +3119,11 @@ _MODULES.push({
   * @param {object} rules An object containing the rules to check.
   * @returns {boolean} True if the item passed the filters and false otherwise.
   */
-  function filters_filterItem(id, filters, item, rules) {
+  filters_filterItem(id, filters, item, rules) {
     if (
       !rules ||
       (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
-      (rules.id && !esgst[`${id}_${rules.id}`])
+      (rules.id && !this.esgst[`${id}_${rules.id}`])
     ) {
       return true;
     }
@@ -3131,15 +3135,15 @@ _MODULES.push({
         // The giveaway must be filtered by all rules.
         filtered = true;
         for (const rule of rules.rules) {
-          filtered = filtered && filters_filterItem(id, filters, item, rule);
+          filtered = filtered && this.filters_filterItem(id, filters, item, rule);
           if (!filtered) break;
         }
       } else {
-        // The giveaway must be filtered by at least 1 rule.
+        // The giveaway must be filtered by this.esgst.modules.generalAccurateTimestamp.at least 1 rule.
         filtered = false;
         if (rules.rules.length) {
           for (const rule of rules.rules) {
-            filtered = filtered || filters_filterItem(id, filters, item, rule);
+            filtered = filtered || this.filters_filterItem(id, filters, item, rule);
             if (filtered) break;
           }
         } else {
@@ -3159,7 +3163,7 @@ _MODULES.push({
 
     if (
       !filter.check ||
-      (filter.category && (!esgst.gc || !esgst[filter.category] || !item.gcReady)) ||
+      (filter.category && (!this.esgst.gc || !this.esgst[filter.category] || !item.gcReady)) ||
       (item.sgTools && key.match(/^(chance|chancePerPoint|comments|entries|ratio)$/))
     ) {
       return filtered;
@@ -3198,14 +3202,14 @@ _MODULES.push({
             filtered = !isSet(value) || value < 0;
             break;
           case `is_not_null`:
-            filtered = isSet(value) && value > -1;
+            filtered = utils.isSet(value) && value > -1;
             break;
         }
 
         break;
       }
       case `boolean`:
-        if (key === `regionRestricted` && esgst.parameters.region_restricted) break;
+        if (key === `regionRestricted` && this.esgst.parameters.region_restricted) break;
 
         if (
           (
@@ -3223,8 +3227,8 @@ _MODULES.push({
 
         filtered = false;
 
-        if (!item.deleted && key === `ended` && !rules.value && (esgst.createdPath || esgst.enteredPath || esgst.wonPath || esgst.userPath)) {
-          esgst.stopEs = true;
+        if (!item.deleted && key === `ended` && !rules.value && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.userPath)) {
+          this.esgst.stopEs = true;
         }
 
         break;
@@ -3262,7 +3266,7 @@ _MODULES.push({
     return filtered;
   }
 
-  function filters_updateCount(obj, endless) {
+  filters_updateCount(obj, endless) {
     let filtered = 0;
     let points = 0;
     let paginationFiltered = 0;
@@ -3274,10 +3278,10 @@ _MODULES.push({
     } else {
       key = obj.popup ? `popupComments` : `mainComments`;
     }
-    for (let i = esgst[key].length - 1; i > -1; i--) {
-      const item = esgst[key][i];
+    for (let i = this.esgst[key].length - 1; i > -1; i--) {
+      const item = this.esgst[key][i];
       if (document.body.contains(item.outerWrap) || endless) {
-        if (!item.pinned || !esgst.pinnedGiveaways.classList.contains(`esgst-hidden`)) {
+        if (!item.pinned || !this.esgst.pinnedGiveaways.classList.contains(`esgst-hidden`)) {
           if (item.outerWrap.classList.contains(`esgst-hidden`)) {
             if (!item.pinned) {
               paginationFiltered += 1;
@@ -3288,7 +3292,7 @@ _MODULES.push({
           }
         }
       } else {
-        esgst[key].splice(i, 1);
+        this.esgst[key].splice(i, 1);
       }
     }
     obj.filteredCount.textContent = filtered;
@@ -3299,4 +3303,6 @@ _MODULES.push({
       obj.paginationFilteredCount.textContent = paginationFiltered;
     }
   }
+}
 
+export default GiveawaysGiveawayFilters;

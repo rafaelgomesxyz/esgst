@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class DiscussionsRefreshActiveDiscussionsButton extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-refresh"></i>) to the page heading of the active discussions (in the main page) that allows you to refresh the active discussions without having to refresh the entire page.</li>
@@ -10,14 +13,14 @@ _MODULES.push({
     type: `discussions`
   });
 
-  function radb_addButtons() {
+  radb_addButtons() {
     let elements, i;
-    elements = esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
+    elements = this.esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
     for (i = elements.length - 1; i > -1; --i) {
-      createElements(elements[i], `beforeBegin`, [{
+      this.esgst.modules.common.createElements(elements[i], `beforeBegin`, [{
         attributes: {
-          class: `esgst-radb-button${esgst.oadd ? `` : ` homepage_heading`}`,
-          title: getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
+          class: `esgst-radb-button${this.esgst.oadd ? `` : ` homepage_heading`}`,
+          title: this.esgst.modules.common.getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
         },
         type: `div`,
         children: [{
@@ -29,16 +32,18 @@ _MODULES.push({
       }]).addEventListener(`click`, event => {
         let icon = event.currentTarget.firstElementChild;
         icon.classList.add(`fa-spin`);
-        if (esgst.oadd) {
-          oadd_load(true, () => {
+        if (this.esgst.oadd) {
+          this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => {
             icon.classList.remove(`fa-spin`);
           });
         } else {
-          checkMissingDiscussions(true, () => {
+          this.esgst.modules.common.checkMissingDiscussions(true, () => {
             icon.classList.remove(`fa-spin`);
           });
         }
       });
     }
   }
+}
 
+export default DiscussionsRefreshActiveDiscussionsButton;

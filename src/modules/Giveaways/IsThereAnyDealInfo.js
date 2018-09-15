@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysIsThereAnyDealInfo extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
@@ -6,37 +10,37 @@ _MODULES.push({
       </ul>
     `,
     id: `itadi`,
-    load: itadi,
+    load: this.itadi,
     name: `IsThereAnyDeal Info`,
     sg: true,
     type: `giveaways`
   });
 
-  function itadi() {
-    if (!esgst.giveawayPath) {
+  itadi() {
+    if (!this.esgst.giveawayPath) {
       return;
     }
-    esgst.giveawayFeatures.push(itadi_getGiveaways);
+    this.esgst.giveawayFeatures.push(itadi_getGiveaways);
   }
 
-  function itadi_getGiveaways(giveaways, main) {
+  itadi_getGiveaways(giveaways, main) {
     if (!main) {
       return;
     }
     const currentTime = Date.now();
     for (const giveaway of giveaways) {
-      itadi_getInfo(currentTime, giveaway);
+      this.itadi_getInfo(currentTime, giveaway);
     }
   }
 
-  async function itadi_getInfo(currentTime, giveaway) {
-    const game = esgst.games[giveaway.type][giveaway.id];
+  async itadi_getInfo(currentTime, giveaway) {
+    const game = this.esgst.games[giveaway.type][giveaway.id];
     let itadi = null;
-    const plain = itadi_getPlain(giveaway.name);
+    const plain = this.itadi_getPlain(giveaway.name);
     if (game && game.itadi && game.itadi.version === 2 && (currentTime - game.itadi.lastCheck < 86400000)) {
-      itadi = game.itadi;
+      this.itadi = game.itadi;
     } else {
-      const loading = createElements(esgst.sidebar, `beforeEnd`, [{
+      const loading = this.esgst.modules.common.createElements(this.esgst.sidebar, `beforeEnd`, [{
         attributes: {
           class: `sidebar__heading`
         },
@@ -51,13 +55,13 @@ _MODULES.push({
           type: `node`
         }]
       }]);
-      itadi = await itadi_loadInfo(giveaway, plain);
+      this.itadi = await this.itadi_loadInfo(giveaway, plain);
       loading.remove();
     }
-    itadi_addInfo(itadi, plain);
+    this.itadi_addInfo(itadi, plain);
   }
 
-  async function itadi_loadInfo(giveaway, plain) {
+  async itadi_loadInfo(giveaway, plain) {
     const itadi = {
       bundles: [],
       current: null,
@@ -65,19 +69,19 @@ _MODULES.push({
       lastCheck: Date.now(),
       version: 2
     };
-    const response = await request({
+    const response = await this.esgst.modules.common.request({
       method: `GET`,
       queue: true,
       url: `https://isthereanydeal.com/game/${plain}/info/`
     });
-    const html = parseHtml(response.responseText);
+    const html = utils.parseHtml(response.responseText);
     const deals = html.querySelectorAll(`#gh-po tr`);
     for (const deal of deals) {
       const match = deal.firstElementChild.textContent.trim().match(/(Current\sBest|Historical\sLow)/);
       if (!match) {
         continue;
       }
-      itadi[match[1] === `Current Best` ? `current` : `historical`] = {
+      this.itadi[match[1] === `Current Best` ? `current` : `historical`] = {
         cut: deal.querySelector(`.gh-po__cut`).textContent.trim(),
         date: deal.querySelector(`.date`).textContent.trim(),
         price: deal.querySelector(`.gh-po__price`).textContent.trim(),
@@ -87,7 +91,7 @@ _MODULES.push({
     const bundles = html.querySelectorAll(`.bundleTable tr:not(:first-child)`);
     for (const bundle of bundles) {
       const link = bundle.querySelector(`.t-st3--link`);
-      itadi.bundles.push({
+      this.itadi.bundles.push({
         expiry: bundle.querySelector(`.bundleTable__expiry`).textContent.trim(),
         id: link.getAttribute(`href`).match(/id\/(.+)/)[1],
         name: link.textContent.trim(),
@@ -95,18 +99,18 @@ _MODULES.push({
         source: bundle.querySelector(`.shopTitle`).textContent.trim()
       });
     }
-    const deleteLock = await createLock(`gameLock`, 300);
+    const deleteLock = await this.esgst.modules.common.createLock(`gameLock`, 300);
     const games = JSON.parse(await getValue(`games`));
     if (!games[giveaway.type][giveaway.id]) {
       games[giveaway.type][giveaway.id] = {};
     }
-    games[giveaway.type][giveaway.id].itadi = itadi;
+    games[giveaway.type][giveaway.id].itadi = this.itadi;
     await setValue(`games`, JSON.stringify(games));
     deleteLock();
-    return itadi;
+    return this.itadi;
   }
 
-  function itadi_template(text) {
+  itadi_template(text) {
     return [{
       attributes: {
         class: `sidebar__heading`
@@ -122,7 +126,7 @@ _MODULES.push({
     }];
   }
 
-  function itadi_itemTemplate(text1, text2, url) {
+  itadi_itemTemplate(text1, text2, url) {
     return {
       attributes: {
         class: `sidebar__navigation__item`
@@ -156,14 +160,14 @@ _MODULES.push({
     };
   }
 
-  function itadi_noItemTemplate(text) {
+  itadi_noItemTemplate(text) {
     return {
       text,
       type: `node`
     };
   }
 
-  function itadi_addInfo(itadi, plain) {
+  itadi_addInfo(itadi, plain) {
     const items = [
       ...itadi_template(`Best Current Deal`),
       ...itadi_template(`Historical Lowest Price`),
@@ -179,17 +183,17 @@ _MODULES.push({
     } else {
       items[3].children.push(itadi_noItemTemplate(`There is no price history for this game.`));
     }
-    if (itadi.bundles && itadi.bundles.length) {
-      for (const bundle of itadi.bundles) {
+    if (itadi.bundles && this.itadi.bundles.length) {
+      for (const bundle of this.itadi.bundles) {
         items[5].children.push(itadi_itemTemplate(`${bundle.name} (${bundle.source})`, `${bundle.price} (${bundle.expiry})`, `https://isthereanydeal.com/specials/#/filter:id/${bundle.id}`));
       }
     } else {
       items[5].children.push(itadi_noItemTemplate(`This game has never been in a bundle.`));
     }
-    createElements(esgst.sidebar, `beforeEnd`, items);
+    this.esgst.modules.common.createElements(this.esgst.sidebar, `beforeEnd`, items);
   }
 
-  function itadi_getPlain(name) {
+  itadi_getPlain(name) {
     return name.toLowerCase()
       .replace(/\sthe|the\s/g, ``)
       .replace(/\s/g, ``)
@@ -198,4 +202,6 @@ _MODULES.push({
       .replace(/\+/g, `plus`)
       .replace(/[^\d\w]/g, ``);
   }
-  
+}
+
+export default GiveawaysIsThereAnyDealInfo;

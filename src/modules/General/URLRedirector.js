@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralURLRedirector extends Module {
+info = ({
     description: `
       <ul>
         <li>Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".</li>
@@ -10,4 +13,6 @@ _MODULES.push({
     st: true,
     type: `general`
   });
+}
 
+export default GeneralURLRedirector;

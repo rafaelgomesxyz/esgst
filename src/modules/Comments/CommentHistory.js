@@ -1,25 +1,28 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class CommentsCommentHistory extends Module {
+info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-comments esgst-yellow"></i> My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.</li>
+        <li>Adds a button (<i class="fa fa-comments esgst-yellow"></i> My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view your comment history.</li>
         <li>A comment only appears in the history if it was submitted through the comment box of any of the following features: [id=ded], [id=mr], [id=rrbp], [id=rbp] and [id=rfi]. If you submit the comment through SteamGifts' native comment box it will not be added to the history.</li>
       </ul>
     `,
     id: `ch`,
-    load: ch,
+    load: this.ch,
     name: `Comment History`,
     sg: true,
     type: `comments`
   });
 
-  function ch() {
+  ch() {
     new Process({
-      button: createElements(esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, [{
+      button: this.esgst.modules.common.createElements(this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, [{
         attributes: {
           class: `esgst-header-menu-row`,
           [`data-link-id`]: `ch`,
           [`data-link-key`]: `account`,
-          title: getFeatureTooltip(`ch`)
+          title: this.esgst.modules.common.getFeatureTooltip(`ch`)
         },
         type: `div`,
         children: [{
@@ -52,27 +55,27 @@ _MODULES.push({
       },
       urls: {
         id: `ch`,
-        init: ch_initUrls,
+        init: this.ch_initUrls,
         perLoad: 5,
-        request: {
-          request: ch_requestUrl
+        this.esgst.modules.common.request: {
+          this.esgst.modules.common.request: this.ch_requestUrl
         }
       }
     });
   }
 
-  async function ch_initUrls(obj) {
+  async ch_initUrls(obj) {
     obj.ids = [];
-    let comments = JSON.parse(await getValue(`${esgst.name}CommentHistory`, `[]`));
+    let comments = JSON.parse(await getValue(`${this.esgst.name}CommentHistory`, `[]`));
     for (let i = 0, n = comments.length; i < n; i++) {
       obj.ids.push(comments[i].id);
       obj.items.push(`https://${location.hostname}/go/comment/${comments[i].id}`);
     }
   }
 
-  function ch_requestUrl(obj, details, response, responseHtml) {
+  ch_requestUrl(obj, details, response, responseHtml) {
     let comment = responseHtml.getElementById(obj.ids[obj.index]);
-    if (esgst.sg) {
+    if (this.esgst.sg) {
       comment = comment.closest(`.comment`);
       comment.firstElementChild.classList.remove(`comment__parent`);
       comment.firstElementChild.classList.add(`comment__child`);
@@ -88,7 +91,7 @@ _MODULES.push({
     }];
     if (parent) {
       parent.lastElementChild.remove();
-      createElements(parent, `beforeEnd`, [{
+      this.esgst.modules.common.createElements(parent, `beforeEnd`, [{
         attributes: {
           class: `comment__children comment_children`
         },
@@ -101,8 +104,8 @@ _MODULES.push({
         context: parent
       });
     } else {
-      if (esgst.st) {
-        createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+      if (this.esgst.st) {
+        this.esgst.modules.common.createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
           attributes: {
             href: response.finalUrl
           },
@@ -110,7 +113,7 @@ _MODULES.push({
           type: `a`
         }]);
       }
-      if (esgst.sg) {
+      if (this.esgst.sg) {
         items[0].children.push({
           attributes: {
             class: `comments__entity`
@@ -141,12 +144,12 @@ _MODULES.push({
         }]
       });
     }
-    createElements(obj.context, `beforeEnd`, items);
+    this.esgst.modules.common.createElements(obj.context, `beforeEnd`, items);
   }
 
-  async function ch_saveComment(id, timestamp) {
-    let deleteLock = await createLock(`${esgst.name}CommentHistoryLock`, 300);
-    let key = `${esgst.name}CommentHistory`;
+  async ch_saveComment(id, timestamp) {
+    let deleteLock = await this.esgst.modules.common.createLock(`${this.esgst.name}CommentHistoryLock`, 300);
+    let key = `${this.esgst.name}CommentHistory`;
     let comments = JSON.parse(await getValue(key, `[]`));
     comments.unshift({
       id: id,
@@ -155,4 +158,6 @@ _MODULES.push({
     await setValue(key, JSON.stringify(comments));
     deleteLock();
   }
+}
 
+export default CommentsCommentHistory;

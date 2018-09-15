@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralAttachedImageLoader extends Module {
+info = ({
     conflicts: [
       {id: `vai`, name: `Visible Attached Images`}
     ],
@@ -8,19 +11,19 @@ _MODULES.push({
       </ul>
     `,
     id: `ail`,
-    load: ail,
+    load: this.ail,
     name: `Attached Image Loader`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function ail() {
-    if (esgst.vai) return;
-    esgst.endlessFeatures.push(ail_getImages);
+  ail() {
+    if (this.esgst.vai) return;
+    this.esgst.endlessFeatures.push(ail_getImages);
   }
 
-  function ail_getImages(context, main, source, endless) {
+  ail_getImages(context, main, source, endless) {
     const buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
     for (let i = 0, n = buttons.length; i < n; i++) {
       const button = buttons[i],
@@ -30,4 +33,6 @@ _MODULES.push({
       button.addEventListener(`click`, image.setAttribute.bind(image, `src`, url));
     }
   }
+}
 
+export default GeneralAttachedImageLoader;

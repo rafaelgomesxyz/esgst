@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersVisibleRealCV extends Module {
+info = ({
     description: `
       <ul>
         <li>Displays the real sent/won CV next to the raw value in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
@@ -7,18 +10,20 @@ _MODULES.push({
       </ul>
     `,
     id: `vrcv`,
-    load: vrcv,
+    load: this.vrcv,
     name: `Visible Real CV`,
     sg: true,
     type: `users`
   });
 
-  function vrcv() {
-    esgst.profileFeatures.push(vrcv_add);
+  vrcv() {
+    this.esgst.profileFeatures.push(vrcv_add);
   }
 
-  function vrcv_add(profile) {
+  vrcv_add(profile) {
     profile.sentCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realSentCV.toLocaleString(`en`)}`);
     profile.wonCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realWonCV.toLocaleString(`en`)}`);
   }
+}
 
+export default UsersVisibleRealCV;

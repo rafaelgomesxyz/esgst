@@ -1,9 +1,13 @@
-async function tags_load(key) {
-  await tags_getTags(key);
-  esgst.userFeatures.push(tags_addButtons.bind(null, key));
+import {utils} from '../lib/jsUtils'
+import Module from '../class/Module';
+
+class Tags extends Module {
+async tags_load(key) {
+  await this.tags_getTags(key);
+  this.esgst.userFeatures.push(tags_addButtons.bind(null, key));
 }
 
-async function tags_getTags(key) {
+async tags_getTags(key) {
   const allTags = [];
   switch (key) {
     case `gpt`: {
@@ -50,21 +54,21 @@ async function tags_getTags(key) {
     }
     tagCount[tag] += 1;
   }
-  esgst[`${key}Tags`] = [];
+  this.esgst[`${key}Tags`] = [];
   for (const tag in tagCount) {
-    esgst[`${key}Tags`].push({
+    this.esgst[`${key}Tags`].push({
       count: tagCount[tag],
       tag
     });
   }
-  esgst[`${key}Tags`] = sortArray(esgst[`${key}Tags`], true, `count`).map(x => x.tag);
-  if (esgst[`${key}_s`]) {
-    esgst.documentEvents.keydown.add(tags_navigateSuggestions);
-    esgst.documentEvents.click.add(tags_closeSuggestions);
+  this.esgst[`${key}Tags`] = utils.sortArray(this.esgst[`${key}Tags`], true, `count`).map(x => x.tag);
+  if (this.esgst[`${key}_s`]) {
+    this.esgst.documentEvents.keydown.add(tags_navigateSuggestions);
+    this.esgst.documentEvents.click.add(tags_closeSuggestions);
   }
 }
 
-function tags_navigateSuggestions(event) {
+tags_navigateSuggestions(event) {
   if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/) || event.repeat) {
     return;
   }
@@ -97,29 +101,29 @@ function tags_navigateSuggestions(event) {
   }
 }
 
-function tags_closeSuggestions(event) {
+tags_closeSuggestions(event) {
   const suggestions = document.querySelector(`.esgst-tag-suggestions:not(.esgst-hidden)`);
   if (suggestions && !suggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
-    tags_hideSuggestions(suggestions);
+    this.tags_hideSuggestions(suggestions);
   }
 }
 
-function tags_hideSuggestions(suggestions) {
+tags_hideSuggestions(suggestions) {
   suggestions.classList.add(`esgst-hidden`);
   for (const item of suggestions.children) {
     item.classList.remove(`esgst-selected`);
   }
 }
 
-function tags_addButtons(key, items) {
+tags_addButtons(key, items) {
   items = items.all || items;
   for (const item of items) {
     const obj = {item, key};
     if (!item.container.getElementsByClassName(`esgst-tag-button`)[0]) {
-      createElements(item.tagContext, item.tagPosition, [{
+      this.esgst.modules.common.createElements(item.tagContext, item.tagPosition, [{
         attributes: {
           class: `esgst-tag-button esgst-faded`,
-          title: getFeatureTooltip(key, `Edit tags`)
+          title: this.esgst.modules.common.getFeatureTooltip(key, `Edit tags`)
         },
         type: `a`,
         children: [{
@@ -133,22 +137,22 @@ function tags_addButtons(key, items) {
           },
           type: `span`
         }]
-      }]).addEventListener(`click`, tags_openPopup.bind(null, obj));
+      }]).addEventListener(`click`, this.tags_openPopup.bind(null, obj));
     }
     if (item.saved && item.saved.tags) {
-      tags_addTags(item, obj, item.saved.tags);
+      this.tags_addTags(item, obj, item.saved.tags);
     }
   }  
 }
 
-async function tags_openMmPopup(mmObj, items, key) {
+async tags_openMmPopup(mmObj, items, key) {
   key = {
     Games: `gt`,
     Groups: `gpt`,
     Users: `ut`
   }[key];
   const obj = {items: [], key};
-  obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+  obj.items = utils.sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -171,7 +175,7 @@ async function tags_openMmPopup(mmObj, items, key) {
         break;
       }
       case `ut`: {
-        const user = await getUser(savedUsers, {username: item.code});
+        const user = await this.esgst.modules.common.getUser(savedUsers, {username: item.code});
         if (user && user.tags && Array.isArray(user.tags)) {
           item.tags = user.tags;
         }
@@ -195,10 +199,10 @@ async function tags_openMmPopup(mmObj, items, key) {
     obj.sharedTags.add(`[*]`);
   }
   obj.sharedTags = Array.from(obj.sharedTags);
-  tags_openPopup(obj);
+  this.tags_openPopup(obj);
 }
 
-async function tags_openPopup(obj, event) {
+async tags_openPopup(obj, event) {
   if (event) {
     event.stopPropagation();
   }
@@ -211,7 +215,7 @@ async function tags_openPopup(obj, event) {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save`,
       title2: `Saving...`,
-      callback1: tags_saveTags.bind(null, obj)
+      callback1: this.tags_saveTags.bind(null, obj)
     }],
     icon: `fa-tag`,
     isTemp: true,
@@ -226,7 +230,7 @@ async function tags_openPopup(obj, event) {
       type: `node`
     }]
   });
-  createElements(obj.popup.description, `beforeEnd`, [{
+  this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
     },
@@ -246,55 +250,55 @@ async function tags_openPopup(obj, event) {
       type: `p`
     }] : [])]
   }]);
-  obj.tags = createElements(obj.popup.description, `beforeEnd`, [{
+  obj.tags = this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-tags`
     },
     type: `div`
   }]);
-  obj.input = createElements(obj.popup.description, `beforeEnd`, [{
+  obj.input = this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       type: `text`
     },
     events: {
-      focus: tags_createTags.bind(null, obj),
-      input: tags_createTags.bind(null, obj),
-      keydown: triggerSetOnEnter.bind(null, obj.popup.buttons[0])
+      focus: this.tags_createTags.bind(null, obj),
+      input: this.tags_createTags.bind(null, obj),
+      keydown: this.esgst.modules.common.triggerSetOnEnter.bind(null, obj.popup.buttons[0])
     },
     type: `input`
   }]);
-  createElements(obj.popup.description, `beforeEnd`, [{
+  this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-tag-list-button esgst-clickable fa fa-list`,
       title: `Select from existing tags`
     },
     type: `i`
-  }]).addEventListener(`click`, tags_showTagList.bind(null, obj));
+  }]).addEventListener(`click`, this.tags_showTagList.bind(null, obj));
   const children = [];  
-  if (esgst[`${obj.key}_s`]) {
-    obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
+  if (this.esgst[`${obj.key}_s`]) {
+    obj.suggestions = this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-tag-suggestions esgst-hidden`
       },
       type: `div`
     }]);
-    for (const tag of esgst[`${obj.key}Tags`]) {
+    for (const tag of this.esgst[`${obj.key}Tags`]) {
       children.push({
         attributes: {
           class: `esgst-tag-suggestion esgst-hidden`
         },
         events: {
-          click: tags_addSuggestion.bind(null, obj),
-          mouseenter: tags_selectSuggestion,
-          mouseleave: tags_unselectSuggestion
+          click: this.tags_addSuggestion.bind(null, obj),
+          mouseenter: this.tags_selectSuggestion,
+          mouseleave: this.tags_unselectSuggestion
         },
         text: tag,
         type: `div`
       });
     }
-    createElements(obj.suggestions, `inner`, children);
+    this.esgst.modules.common.createElements(obj.suggestions, `inner`, children);
   }
-  createElements(obj.popup.description, `beforeEnd`, [{
+  this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
     },
@@ -305,8 +309,8 @@ async function tags_openPopup(obj, event) {
   obj.popup.open(tags_loadTags.bind(null, obj));
 }
 
-async function tags_saveTags(obj) {
-  let tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+async tags_saveTags(obj) {
+  let tags = obj.input.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `);
   if (tags.length === 1 && !tags[0].trim()) {
     tags = ``;
   }
@@ -336,7 +340,7 @@ async function tags_saveTags(obj) {
           tags
         };
       }
-      await lockAndSaveGroups(groups);
+      await this.esgst.modules.common.lockAndSaveGroups(groups);
       break;
     }
     case `gt`: {
@@ -356,7 +360,7 @@ async function tags_saveTags(obj) {
       } else {
         games[obj.item.type][obj.item.id] = {tags};
       }
-      await lockAndSaveGames(games);
+      await this.esgst.modules.common.lockAndSaveGames(games);
       break;
     }
     case `ut`: {
@@ -379,46 +383,46 @@ async function tags_saveTags(obj) {
             }
           });
         }
-        await saveUsers(users);
+        await this.esgst.modules.common.saveUsers(users);
       } else {
         const user = {
           steamId: obj.item.steamId,
           username: obj.item.username,
           values: {tags}
         };
-        await saveUser(null, null, user);
+        await this.esgst.modules.common.saveUser(null, null, user);
       }
       break;
     }
   }
-  await setSetting(`${obj.key}_colors`, esgst[`${obj.key}_colors`]);
+  await this.esgst.modules.common.setSetting(`${obj.key}_colors`, this.esgst[`${obj.key}_colors`]);
   if (obj.items) {
     for (const item of obj.items) {
-      tags_addTags(item, obj, item.multiTags);
+      this.tags_addTags(item, obj, item.multiTags);
     }
   } else {
-    tags_addTags(obj.item, obj, tags);
+    this.tags_addTags(obj.item, obj, tags);
   }
   obj.popup.close();
 }
 
-function tags_addTags(item, obj, tags) {
+tags_addTags(item, obj, tags) {
   let items = null;
   switch (obj.key) {
     case `gpt`:
-      items = esgst.currentGroups[item.code || item.id].elements;
+      items = this.esgst.currentGroups[item.code || item.id].elements;
       break;
     case `gt`:
-      items = games_get(document, true, esgst.games)[item.type][item.code || item.id];
+      items = this.esgst.modules.games.games_get(document, true, this.esgst.games)[item.type][item.code || item.id];
       break;
     case `ut`:
-      items = esgst.currentUsers[item.code || item.id].elements;
+      items = this.esgst.currentUsers[item.code || item.id].elements;
       break;
   }
   if (!items) {
     return;
   }
-  const elements = tags.length && tags[0] ? tags.map(x => tags_template(x)) : [{
+  const elements = tags.length && tags[0] ? tags.map(x => this.tags_template(x)) : [{
     text: ``,
     type: `node`
   }];
@@ -450,9 +454,9 @@ function tags_addTags(item, obj, tags) {
     }
     button.classList[elements ? `remove` : `add`](`esgst-faded`);
     const tagsContainer = button.lastElementChild;
-    createElements(tagsContainer, `inner`, elements);
+    this.esgst.modules.common.createElements(tagsContainer, `inner`, elements);
     for (const tagsBox of tagsContainer.children) {
-      const colors = esgst[`${obj.key}_colors`][tagsBox.textContent];
+      const colors = this.esgst[`${obj.key}_colors`][tagsBox.textContent];
       if (!colors) {
         continue;
       }
@@ -462,7 +466,7 @@ function tags_addTags(item, obj, tags) {
   }
 }
 
-function tags_template(text) {
+tags_template(text) {
   return {
     attributes: {
       class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
@@ -472,13 +476,13 @@ function tags_template(text) {
   };
 }
 
-function tags_createTags(obj) {
+tags_createTags(obj) {
   obj.tags.innerHTML = ``;
-  const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
+  const tags = obj.input.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `).filter(x => x);
   if (tags.length) {
-    if (esgst[`${obj.key}_s`]) {
+    if (this.esgst[`${obj.key}_s`]) {
       if (obj.input.value.slice(-1).match(/\s|,/)) {
-        tags_hideSuggestions(obj.suggestions);
+        this.tags_hideSuggestions(obj.suggestions);
       } else {
         const lastTag = tags[tags.length - 1].toLowerCase();
         let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
@@ -500,20 +504,20 @@ function tags_createTags(obj) {
         if (selected) {
           obj.suggestions.classList.remove(`esgst-hidden`);
         } else {
-          tags_hideSuggestions(obj.suggestions);
+          this.tags_hideSuggestions(obj.suggestions);
         }
       }
     }
     for (const tag of tags) {
-      tags_createTag(obj, tag);
+      this.tags_createTag(obj, tag);
     }
-  } else if (esgst[`${obj.key}_s`]) {
-    tags_hideSuggestions(obj.suggestions);
+  } else if (this.esgst[`${obj.key}_s`]) {
+    this.tags_hideSuggestions(obj.suggestions);
   }
 }
 
-function tags_createTag(obj, tag) {
-  const container = createElements(obj.tags, `beforeEnd`, [{
+tags_createTag(obj, tag) {
+  const container = this.esgst.modules.common.createElements(obj.tags, `beforeEnd`, [{
     attributes: {
       class: `esgst-tag-preview`,
       draggable: true
@@ -577,28 +581,28 @@ function tags_createTag(obj, tag) {
   const editButton = bgColorInput.nextElementSibling;
   const deleteButton = editButton.nextElementSibling;
   const resetButton = deleteButton.nextElementSibling;
-  const colors = esgst[`${obj.key}_colors`][tag];
+  const colors = this.esgst[`${obj.key}_colors`][tag];
   if (colors) {
     colorInput.value = tagBox.style.color = colors.color;
     bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
   }
-  container.addEventListener(`dragstart`, tags_startDrag.bind(null, container, obj));
-  container.addEventListener(`dragenter`, tags_continueDrag.bind(null, container, obj));
-  container.addEventListener(`dragend`, tags_endDrag.bind(null, obj));
-  input.addEventListener(`keydown`, tags_editTag.bind(null, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
-  colorInput.addEventListener(`change`, tags_saveColor.bind(null, colorInput, `color`, obj, `color`, tagBox));
-  bgColorInput.addEventListener(`change`, tags_saveColor.bind(null, bgColorInput, `backgroundColor`, obj, `bgColor`, tagBox));
-  editButton.addEventListener(`click`, tags_showEdit.bind(null, input, tagBox, tagContainer));
-  deleteButton.addEventListener(`click`, tags_deleteTag.bind(null, container, obj));
-  resetButton.addEventListener(`click`, tags_resetColor.bind(null, bgColorInput, colorInput, obj, tagBox));
+  container.addEventListener(`dragstart`, this.tags_startDrag.bind(null, container, obj));
+  container.addEventListener(`dragenter`, this.tags_continueDrag.bind(null, container, obj));
+  container.addEventListener(`dragend`, this.tags_endDrag.bind(null, obj));
+  input.addEventListener(`keydown`, this.tags_editTag.bind(null, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
+  colorInput.addEventListener(`change`, this.tags_saveColor.bind(null, colorInput, `color`, obj, `color`, tagBox));
+  bgColorInput.addEventListener(`change`, this.tags_saveColor.bind(null, bgColorInput, `backgroundColor`, obj, `bgColor`, tagBox));
+  editButton.addEventListener(`click`, this.tags_showEdit.bind(null, input, tagBox, tagContainer));
+  deleteButton.addEventListener(`click`, this.tags_deleteTag.bind(null, container, obj));
+  resetButton.addEventListener(`click`, this.tags_resetColor.bind(null, bgColorInput, colorInput, obj, tagBox));
 }
 
-function tags_startDrag(container, obj, event) {
+tags_startDrag(container, obj, event) {
   event.dataTransfer.setData(`text/plain`, ``);
   obj.dragged = container;
 }
 
-function tags_continueDrag(container, obj) {
+tags_continueDrag(container, obj) {
   let current;
   current = obj.dragged;
   do {
@@ -611,7 +615,7 @@ function tags_continueDrag(container, obj) {
   obj.tags.insertBefore(obj.dragged, container.nextElementSibling);
 }
 
-function tags_endDrag(obj) {
+tags_endDrag(obj) {
   const tags = [];
   for (const element of obj.tags.children) {
     tags.push(element.firstElementChild.firstElementChild.textContent);
@@ -619,7 +623,7 @@ function tags_endDrag(obj) {
   obj.input.value = tags.join(`, `);
 }
 
-function tags_editTag(bgColorInput, colorInput, input, obj, tagBox, tagContainer, event) {
+tags_editTag(bgColorInput, colorInput, input, obj, tagBox, tagContainer, event) {
   if (event.key !== `Enter`) {
     return;
   }
@@ -627,46 +631,46 @@ function tags_editTag(bgColorInput, colorInput, input, obj, tagBox, tagContainer
   input.classList.add(`esgst-hidden`);
   const tag = input.value;
   tagBox.textContent = tag;
-  const colors = esgst[`${obj.key}_colors`][tag];
+  const colors = this.esgst[`${obj.key}_colors`][tag];
   if (colors) {
     colorInput.value = tagBox.style.color = colors.color;
     bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
   }
-  tags_endDrag(obj);
+  this.tags_endDrag(obj);
 }
 
-function tags_saveColor(input, key, obj, saveKey, tagBox) {
+tags_saveColor(input, key, obj, saveKey, tagBox) {
   const tag = tagBox.textContent;
-  if (!esgst[`${obj.key}_colors`][tag]) {
-    esgst[`${obj.key}_colors`][tag] = {
+  if (!this.esgst[`${obj.key}_colors`][tag]) {
+    this.esgst[`${obj.key}_colors`][tag] = {
       bgColor: ``,
       color: ``
     };
   }
-  esgst[`${obj.key}_colors`][tag][saveKey] = tagBox.style[key] = input.value;
+  this.esgst[`${obj.key}_colors`][tag][saveKey] = tagBox.style[key] = input.value;
 }
 
-function tags_showEdit(input, tagBox, tagContainer) {
+tags_showEdit(input, tagBox, tagContainer) {
   tagContainer.classList.add(`esgst-hidden`);
   input.classList.remove(`esgst-hidden`);
   input.value = tagBox.textContent;
   input.focus();
 }
 
-function tags_deleteTag(container, obj) {
+tags_deleteTag(container, obj) {
   container.remove();
-  tags_endDrag(obj);
+  this.tags_endDrag(obj);
 }
 
-function tags_resetColor(bgColorInput, colorInput, obj, tagBox) {
+tags_resetColor(bgColorInput, colorInput, obj, tagBox) {
   bgColorInput.value = ``;
   colorInput.value = ``;
   tagBox.style.backgroundColor = ``;
   tagBox.style.color = ``;
-  delete esgst[`${obj.key}_colors`][tagBox.textContent];
+  delete this.esgst[`${obj.key}_colors`][tagBox.textContent];
 }
 
-async function tags_showTagList(obj) {
+async tags_showTagList(obj) {
   obj.listPopup = new Popup_v2({
     addScrollable: true,
     buttons: [{
@@ -676,21 +680,21 @@ async function tags_showTagList(obj) {
       icon2: ``,
       title1: `Add Tags`,
       title2: ``,
-      callback1: tags_addTagsFromList.bind(null, obj)
+      callback1: this.tags_addTagsFromList.bind(null, obj)
     }],
     icon: `fa-list`,
     isTemp: true,
     title: `Select from existing tags:`
   });
-  const list = createElements(obj.listPopup.scrollable, `beforeEnd`, [{
+  const list = this.esgst.modules.common.createElements(obj.listPopup.scrollable, `beforeEnd`, [{
     attributes: {
       class: `esgst-tag-list popup__keys__list`
     },
     type: `div`
   }]);
   obj.selectedTags = [];
-  for (const tag of esgst[`${obj.key}Tags`]) {
-    const item = createElements(list, `beforeEnd`, [{
+  for (const tag of this.esgst[`${obj.key}Tags`]) {
+    const item = this.esgst.modules.common.createElements(list, `beforeEnd`, [{
       type: `div`,
       children: [{
         type: `span`
@@ -699,20 +703,20 @@ async function tags_showTagList(obj) {
         type: `node`
       }]
     }]);
-    if (esgst[`${obj.key}_colors`][tag]) {
-      item.style.color = esgst[`${obj.key}_colors`][tag].color;
-      item.style.backgroundColor = esgst[`${obj.key}_colors`][tag].bgColor;
+    if (this.esgst[`${obj.key}_colors`][tag]) {
+      item.style.color = this.esgst[`${obj.key}_colors`][tag].color;
+      item.style.backgroundColor = this.esgst[`${obj.key}_colors`][tag].bgColor;
     }
     const checkbox = new Checkbox(item);
-    checkbox.onEnabled = tags_selectTag.bind(null, obj, tag);
-    checkbox.onDisabled = tag_unselectTag.bind(null, obj, tag);
+    checkbox.onEnabled = this.tags_selectTag.bind(null, obj, tag);
+    checkbox.onDisabled = this.tag_unselectTag.bind(null, obj, tag);
   }
   obj.listPopup.open();
 }
 
-function tags_addTagsFromList(obj) {
+tags_addTagsFromList(obj) {
   for (const tag of obj.selectedTags) {
-    tags_createTag(obj, tag);
+    this.tags_createTag(obj, tag);
   }
   if (obj.input.value) {
     obj.selectedTags.unshift(obj.input.value);
@@ -721,43 +725,43 @@ function tags_addTagsFromList(obj) {
   obj.listPopup.close();
 }
 
-function tags_selectTag(obj, tag) {
+tags_selectTag(obj, tag) {
   obj.selectedTags.push(tag);
 }
 
-function tag_unselectTag(obj, tag) {
+tag_unselectTag(obj, tag) {
   obj.selectedTags.splice(obj.selectedTags.indexOf(tag), 1);
 }
 
-function tags_addSuggestion(obj, event) {
+tags_addSuggestion(obj, event) {
   obj.tags.innerHTML = ``;
-  const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+  const tags = obj.input.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `);
   const value = event.currentTarget.textContent;
   tags.pop();
   tags.push(value);
   obj.input.value = tags.join(`, `);
-  tags_hideSuggestions(obj.suggestions);
+  this.tags_hideSuggestions(obj.suggestions);
   for (const tag of tags) {
-    tags_createTag(obj, tag);
+    this.tags_createTag(obj, tag);
   }
   obj.input.focus();
 }
 
-function tags_selectSuggestion(event) {
+tags_selectSuggestion(event) {
   for (const item of event.currentTarget.parentElement.children) {
     item.classList.remove(`esgst-selected`);
   }
   event.currentTarget.classList.add(`esgst-selected`);
 }
 
-function tags_unselectSuggestion(event) {
+tags_unselectSuggestion(event) {
   const parent = event.currentTarget.parentElement;
   if (event.relatedTarget !== parent && parent.contains(event.relatedTarget)) {
     event.currentTarget.classList.remove(`esgst-selected`);
   }
 }
 
-async function tags_loadTags(obj) {
+async tags_loadTags(obj) {
   let item = null;
   if (obj.items) {
     item = {tags: obj.sharedTags};
@@ -774,7 +778,7 @@ async function tags_loadTags(obj) {
         break;
       }
       case `ut`: {
-        item = await getUser(null, {
+        item = await this.esgst.modules.common.getUser(null, {
           steamId: obj.item.steamId,
           username: obj.item.username
         });
@@ -788,7 +792,10 @@ async function tags_loadTags(obj) {
   }
   obj.tags.innerHTML = ``;
   for (const tag of item.tags) {
-    tags_createTag(obj, tag);
+    this.tags_createTag(obj, tag);
   }
   obj.input.value = item.tags.join(`, `);
 }
+}
+
+export default Tags;

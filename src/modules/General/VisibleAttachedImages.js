@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralVisibleAttachedImages extends Module {
+info = ({
     conflicts: [
       {id: `ail`, name: `Attached Image Loader`}
     ],
@@ -15,28 +18,30 @@ _MODULES.push({
       }
     },
     id: `vai`,
-    load: vai,
+    load: this.vai,
     name: `Visible Attached Images`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function vai() {
-    esgst.endlessFeatures.push(vai_getImages);
+  vai() {
+    this.esgst.endlessFeatures.push(vai_getImages);
   }
 
-  function vai_getImages(context, main, source, endless) {
+  vai_getImages(context, main, source, endless) {
     let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
     for (let i = 0, n = buttons.length; i < n; i++) {
       let button = buttons[i];
       let image = button.nextElementSibling.firstElementChild;
       let url = image.getAttribute(`src`);
-      if (url && esgst.vai_gifv) {
+      if (url && this.esgst.vai_gifv) {
         url = url.replace(/\.gifv/, `.gif`);
         image.setAttribute(`src`, url);
       }
       image.classList.remove(`is_hidden`, `is-hidden`);
     }
   }
+}
 
+export default GeneralVisibleAttachedImages;

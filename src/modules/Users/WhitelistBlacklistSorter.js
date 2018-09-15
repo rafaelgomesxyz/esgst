@@ -1,21 +1,25 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class UsersWhitelistBlacklistSorter extends Module {
+info = ({
     description: `
       <ul>
-        <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.</li>
+        <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist this.esgst.modules.generalAccurateTimestamp.at once sorted by added date.</li>
       </ul>
     `,
     id: `wbs`,
-    load: wbs,
+    load: this.wbs,
     name: `Whitelist/Blacklist Sorter`,
     sg: true,
-    sync: `Whitelist and Blacklist`,
+    this.esgst.modules.common.sync: `Whitelist and Blacklist`,
     type: `users`
   });
 
-  function wbs() {
-    if (!esgst.whitelistPath && !esgst.blacklistPath) return;
+  wbs() {
+    if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
 
-    let [dateKey, mainKey, saveKey] = esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];
+    let [dateKey, mainKey, saveKey] = this.esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];
 
     // add ascending button
     let object = {
@@ -25,7 +29,7 @@ _MODULES.push({
       saveKey,
       title: `Oldest to newest ${saveKey} users:`
     };
-    createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, wbs_sort.bind(null, object));
+    this.esgst.modules.common.createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
 
     // add descending button
     object = {
@@ -36,10 +40,10 @@ _MODULES.push({
       saveKey,
       title: `Newest to oldest ${saveKey} users:`
     };
-    createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, wbs_sort.bind(null, object));
+    this.esgst.modules.common.createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
   }
 
-  async function wbs_sort(obj) {
+  async wbs_sort(obj) {
     let savedUsers = JSON.parse(await getValue(`users`)).users;
     let users = [];
     for (let steamId in savedUsers) {
@@ -48,11 +52,11 @@ _MODULES.push({
       savedUser.steamId = steamId;
       users.push(savedUser);
     }
-    users = sortArray(users, obj.isDescending, obj.dateKey);
+    users = utils.sortArray(users, obj.isDescending, obj.dateKey);
 
     let popup = new Popup(obj.icon, obj.title, true);
     popup.popup.classList.add(`esgst-wbs-popup`);
-    let table = createElements(popup.scrollable, `beforeEnd`, [{
+    let table = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left table`
       },
@@ -90,7 +94,7 @@ _MODULES.push({
     }]);
     let rows = table.lastElementChild;
     users.forEach(user => {
-      let row = createElements(rows, `beforeEnd`, [{
+      let row = this.esgst.modules.common.createElements(rows, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`
         },
@@ -117,7 +121,7 @@ _MODULES.push({
             attributes: {
               class: `table__column--width-small text-center`
             },
-            text: getTimestamp(user[obj.dateKey]),
+            text: this.esgst.modules.common.getTimestamp(user[obj.dateKey]),
             type: `div`
           }, {
             attributes: {
@@ -182,17 +186,17 @@ _MODULES.push({
       object.removeButton = row.firstElementChild.lastElementChild.firstElementChild;
       object.removingButton = object.removeButton.nextElementSibling;
       object.removedButton = object.removingButton.nextElementSibling;
-      object.removeButton.addEventListener(`click`, wbs_removeMember.bind(null, object));
+      object.removeButton.addEventListener(`click`, this.wbs_removeMember.bind(null, object));
     });
     popup.open();
-    endless_load(table);
+    this.esgst.modules.common.endless_load(table);
   }
 
-  async function wbs_removeMember(obj) {
+  async wbs_removeMember(obj) {
     obj.removeButton.classList.add(`esgst-hidden`);
     obj.removingButton.classList.remove(`esgst-hidden`);
-    await request({data: `xsrf_token=${esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`, method: `POST`, url: `/ajax.php`});
-    let deleteLock = await createLock(`userLock`, 300);
+    await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`, method: `POST`, url: `/ajax.php`});
+    let deleteLock = await this.esgst.modules.common.createLock(`userLock`, 300);
     let savedUsers = JSON.parse(await getValue(`users`));
     delete savedUsers.users[obj.user.steamId][obj.dateKey];
     delete savedUsers.users[obj.user.steamId][obj.saveKey];
@@ -201,4 +205,6 @@ _MODULES.push({
     obj.removingButton.classList.add(`esgst-hidden`);
     obj.removedButton.classList.remove(`esgst-hidden`);
   }
+}
 
+export default UsersWhitelistBlacklistSorter;

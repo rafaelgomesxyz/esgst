@@ -1,8 +1,12 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class DiscussionsOldActiveDiscussionsDesign extends Module {
+info = ({
     description: `
       <ul>
         <li>Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.</li>
-        <li>Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (<i class="fa fa-retweet"></i>) in the page heading of the active discussions that allows you to switch sections.</li>
+        <li>Only one section ("Discussions" or "Deals") can be shown this.esgst.modules.generalAccurateTimestamp.at a time. There is a button (<i class="fa fa-retweet"></i>) in the page heading of the active discussions that allows you to switch sections.</li>
       </ul>
     `,
     features: {
@@ -17,23 +21,23 @@ _MODULES.push({
       }
     },
     id: `oadd`,
-    load: oadd,
+    load: this.oadd,
     name: `Old Active Discussions Design`,
     sg: true,
     type: `discussions`
   });
 
-  async function oadd() {
-    if (!esgst.giveawaysPath || !esgst.activeDiscussions) return;
-    await oadd_load();
+  async oadd() {
+    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions) return;
+    await this.oadd_load();
   }
 
-  async function oadd_load(refresh, callback) {
+  async oadd_load(refresh, callback) {
     let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements;
-    response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
-    response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
-    esgst.activeDiscussions.classList.add(`esgst-oadd`);
-    createElements(esgst.activeDiscussions, `inner`, [{
+    response1Html = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/discussions`})).responseText);
+    response2Html = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/discussions/deals`})).responseText);
+    this.esgst.activeDiscussions.classList.add(`esgst-oadd`);
+    this.esgst.modules.common.createElements(this.esgst.activeDiscussions, `inner`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -203,25 +207,25 @@ _MODULES.push({
         }]
       }]
     }]);
-    discussions = esgst.activeDiscussions.firstElementChild;
+    discussions = this.esgst.activeDiscussions.firstElementChild;
     deals = discussions.nextElementSibling;
     discussionsSwitch = discussions.firstElementChild.firstElementChild;
     discussionsRows = discussions.lastElementChild.lastElementChild;
     dealsSwitch = deals.firstElementChild.firstElementChild;
     dealsRows = deals.lastElementChild.lastElementChild;
     let preset = null;
-    if (esgst.df && esgst.df_m && esgst.df_enable) {
-      let name = esgst.df_preset;
+    if (this.esgst.df && this.esgst.df_m && this.esgst.df_enable) {
+      let name = this.esgst.df_preset;
       if (name) {
         let i;
-        for (i = esgst.df_presets.length - 1; i > -1 && esgst.df_presets[i].name !== name; i--);
+        for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--);
         if (i > -1) {
-          preset = esgst.df_presets[i];
+          preset = this.esgst.df_presets[i];
         }
       }
     }
-    let elements = await discussions_get(response1Html, true);
-    if (!esgst.oadd_d) {
+    let elements = await this.esgst.modules.discussions.discussions_get(response1Html, true);
+    if (!this.esgst.oadd_d) {
       revisedElements = [];
       elements.forEach(element => {
         if (element.category !== `Deals`) {
@@ -230,16 +234,16 @@ _MODULES.push({
       });
       elements = revisedElements;
     }
-    const filters = df_getFilters();
+    const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-      if (!preset || filters_filterItem(`df`, filters, elements[j], preset.rules)) {
+      if (!preset || this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
         discussionsRows.appendChild(elements[j].outerWrap);
         i += 1;
       }
     }
-    elements = await discussions_get(response2Html, true);
+    elements = await this.esgst.modules.discussions.discussions_get(response2Html, true);
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-      if (!preset || filters_filterItem(`df`, filters, elements[j], preset.rules)) {
+      if (!preset || this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
         dealsRows.appendChild(elements[j].outerWrap);
         i += 1;
       }
@@ -252,13 +256,13 @@ _MODULES.push({
       discussions.classList.remove(`esgst-hidden`);
       deals.classList.add(`esgst-hidden`);
     });
-    if (esgst.adots) {
-      adots_load(refresh);
-    } else if (esgst.radb) {
-      radb_addButtons();
+    if (this.esgst.adots) {
+      this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load(refresh);
+    } else if (this.esgst.radb) {
+      this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
     }
     if (refresh) {
-      await endless_load(esgst.activeDiscussions);
+      await this.esgst.modules.common.endless_load(this.esgst.activeDiscussions);
       if (callback) {
         callback();
       }
@@ -266,4 +270,6 @@ _MODULES.push({
       callback();
     }
   }
+}
 
+export default DiscussionsOldActiveDiscussionsDesign;

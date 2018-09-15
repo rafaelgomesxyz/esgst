@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayErrorSearchLinks extends Module {
+info = ({
     // by Royalgamer06
     description: `
       <ul>
@@ -11,19 +14,19 @@ _MODULES.push({
       </ul>
     `,
     id: `gesl`,
-    load: gesl,
+    load: this.gesl,
     name: `Giveaway Error Search Links`,
     sg: true,
     type: `giveaways`
   });
 
-  function gesl() {
-    if (!esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;
+  gesl() {
+    if (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;
     let name = encodeURIComponent(document.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
-    createElements(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [{
+    this.esgst.modules.common.createElements(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [{
       attributes: {
         class: `table__row-outer-wrap`,
-        title: getFeatureTooltip(`gesl`)
+        title: this.esgst.modules.common.getFeatureTooltip(`gesl`)
       },
       type: `div`,
       children: [{
@@ -62,7 +65,7 @@ _MODULES.push({
               type: `i`,
               children: [{
                 attributes: {
-                  src: esgst.sgIcon
+                  src: this.esgst.sgIcon
                 },
                 type: `img`
               }]
@@ -104,4 +107,6 @@ _MODULES.push({
       }]
     }]);
   }
+}
 
+export default GiveawaysGiveawayErrorSearchLinks;

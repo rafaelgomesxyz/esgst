@@ -1,12 +1,17 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class Giveaways_addToStorage extends Module {
+info = ({
     endless: true,
     id: `giveaways_addToStorage`,
     load: giveaways_addToStorage
   });
   
-  function giveaways_addToStorage() {
-    if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-      addGiveawayToStorage();
+  giveaways_addToStorage() {
+    if ((this.esgst.lpv || this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi)) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+      this.esgst.modules.common.addGiveawayToStorage();
     }
   }
+}
 
+export default Giveaways_addToStorage;

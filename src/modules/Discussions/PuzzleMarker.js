@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class DiscussionsPuzzleMarker extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a checkbox in front of a discussion categorized as "Puzzles" (in any page) that changes states (<i class="fa fa-circle-o esgst-grey"></i> by default, <i class="fa fa-times-circle esgst-red"></i> for "unsolved", <i class="fa fa-exclamation-circle esgst-orange"></i> for "in progress" and <i class="fa fa-check-circle esgst-green"></i> for "solved") and allows you to mark the puzzle as unsolved/in progress/solved.</li>
@@ -16,8 +19,8 @@ _MODULES.push({
     type: `discussions`
   });
 
-  async function pm_change(code, status) {
-    let deleteLock = await createLock(`commentLock`, 300);
+  async pm_change(code, status) {
+    let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
     let discussions = JSON.parse(await getValue(`discussions`));
     if (!discussions[code]) {
       discussions[code] = {
@@ -34,4 +37,6 @@ _MODULES.push({
     deleteLock();
     return true;
   }
+}
 
+export default DiscussionsPuzzleMarker;

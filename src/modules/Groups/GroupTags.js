@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GroupsGroupTags extends Module {
+info = ({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next to a group's name (in any page) that allows you to save tags for the group (only visible to you).</li>
@@ -16,13 +19,16 @@ _MODULES.push({
     }
   },
   id: `gpt`,
-  load: gpt,
+  load: this.gpt,
   name: `Group Tags`,
   sg: true,
   type: `groups`
 });
 
-function gpt() {
-  esgst.groupFeatures.push(tags_addButtons.bind(null, `gpt`));
-  tags_getTags(`gpt`);
+gpt() {
+  this.esgst.groupFeatures.push(tags_addButtons.bind(null, `gpt`));
+  this.esgst.modules.tags.tags_getTags(`gpt`);
 }
+}
+
+export default GroupsGroupTags;

@@ -1,18 +1,21 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class Profile extends Module {
+info = ({
   endless: true,
   id: `profile`,
   load: profile
 });
 
- async function profile() {
-  if (!esgst.userPath) return;
-  await profile_load(document);
+ async profile() {
+  if (!this.esgst.userPath) return;
+  await this.profile_load(document);
 }
 
-async function profile_load(context) {
+async profile_load(context) {
   let element, elements, i, input, key, match, profile, rows;
   profile = {};
-  if (esgst.sg) {
+  if (this.esgst.sg) {
     profile.heading = context.getElementsByClassName(`featured__heading`)[0];
     input = context.querySelector(`[name="child_user_id"]`);
     if (input) {
@@ -26,7 +29,7 @@ async function profile_load(context) {
     profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
     profile.name = profile.username;
   } else {
-    profile.heading = esgst.mainPageHeading;
+    profile.heading = this.esgst.mainPageHeading;
     profile.id = ``;
     profile.username = ``;
     profile.steamButtonContainer = context.getElementsByClassName(`profile_links`)[0];
@@ -83,28 +86,28 @@ async function profile_load(context) {
   profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
   profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
   if (profile.whitelistButton) {
-    if (esgst.updateWhitelistBlacklist) {
-      profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
+    if (this.esgst.updateWhitelistBlacklist) {
+      profile.whitelistButton.addEventListener(`click`, this.esgst.modules.common.updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
     }
   }
   if (profile.blacklistButton) {
-    if (esgst.updateWhitelistBlacklist) {
-      profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
+    if (this.esgst.updateWhitelistBlacklist) {
+      profile.blacklistButton.addEventListener(`click`, this.esgst.modules.common.updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
     }
   }
-  let savedUser = esgst.users.users[profile.steamId];
+  let savedUser = this.esgst.users.users[profile.steamId];
   if (savedUser) {
     const user = {
       steamId: profile.steamId,
       username: profile.username,
       values: {}
     };
-    if (checkUsernameChange(esgst.users, user)) {
-      await saveUser(null, esgst.users, user);
-      savedUser = esgst.users.users[profile.steamId];
+    if (checkUsernameChange(this.esgst.users, user)) {
+      await this.esgst.modules.common.saveUser(null, this.esgst.users, user);
+      savedUser = this.esgst.users.users[profile.steamId];
     }
   }
-  for (const feature of esgst.profileFeatures) {
+  for (const feature of this.esgst.profileFeatures) {
     try {
       await feature(profile, savedUser);
     } catch (error) {
@@ -112,3 +115,6 @@ async function profile_load(context) {
     }
   }
 }
+}
+
+export default Profile;

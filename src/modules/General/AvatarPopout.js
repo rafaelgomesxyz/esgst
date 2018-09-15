@@ -1,11 +1,15 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GeneralAvatarPopout extends Module {
+info = ({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.</li>
       </ul>
     `,
     id: `ap`,
-    load: ap,
+    load: this.ap,
     name: `Avatar Popout`,
     options: {
       title: `Open on:`,
@@ -15,39 +19,39 @@ _MODULES.push({
     type: `general`
   });
 
-  function ap() {
-    esgst.endlessFeatures.push(ap_getAvatars);
-    esgst.userFeatures.push(ap_getUsers);
+  ap() {
+    this.esgst.endlessFeatures.push(ap_getAvatars);
+    this.esgst.userFeatures.push(ap_getUsers);
   }
 
-  function ap_getUsers(users) {
+  ap_getUsers(users) {
     for (const user of users) {
       if (!user.oldElement.classList.contains(`esgst-ap-avatar`)[0]) {
-        ap_setAvatar(user.oldElement);
+        this.ap_setAvatar(user.oldElement);
       }
     }
   }
 
-  function ap_getAvatars(context, main, source, endless) {
+  ap_getAvatars(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .global__image-outer-wrap--avatar-small, .esgst-es-page-${endless}.global__image-outer-wrap--avatar-small` : `.global__image-outer-wrap--avatar-small`}, ${endless ? `.esgst-es-page-${endless} .giveaway_image_avatar, .esgst-es-page-${endless}.giveaway_image_avatar` : `.giveaway_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .table_image_avatar, .esgst-es-page-${endless}.table_image_avatar` : `.table_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .featured_giveaway_image_avatar, .esgst-es-page-${endless}.featured_giveaway_image_avatar` : `.featured_giveaway_image_avatar`}, ${endless ? `.esgst-es-page-${endless} .nav__avatar-outer-wrap, .esgst-es-page-${endless}.nav__avatar-outer-wrap` : `.nav__avatar-outer-wrap`}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
-      ap_setAvatar(elements[i]);
+      this.ap_setAvatar(elements[i]);
     }
   }
 
-  function ap_setAvatar(apAvatar) {
-    let delay, eventType, exitTimeout, id, match, onClick, popout, timeout, type, url;
+  ap_setAvatar(apAvatar) {
+    let delay, eventType, exitTimeout, id, match, onClick, popout, this.esgst.modules.common.timeout, type, url;
     apAvatar.classList.add(`esgst-ap-avatar`);
     url = apAvatar.getAttribute(`href`);
     if (url) {
-      if (esgst.ap_index === 0) {
+      if (this.esgst.ap_index === 0) {
         eventType = `mouseenter`;
         onClick = false;
         delay = 1000;
         apAvatar.addEventListener(`mouseleave`, event => {
           if (timeout) {
             clearTimeout(timeout);
-            timeout = null;
+            this.esgst.modules.common.timeout = null;
           }
           exitTimeout = setTimeout(() => {
             if (popout && !popout.popout.contains(event.relatedTarget)) {
@@ -58,7 +62,7 @@ _MODULES.push({
         apAvatar.addEventListener(`click`, () => {
           if (timeout) {
             clearTimeout(timeout);
-            timeout = null;
+            this.esgst.modules.common.timeout = null;
           }
         });
       } else {
@@ -73,17 +77,17 @@ _MODULES.push({
         type = match[1];
         apAvatar.addEventListener(eventType, event => {
           event.preventDefault();
-          timeout = setTimeout(async () => {
-            popout = esgst.apPopouts[id];
+          this.esgst.modules.common.timeout = setTimeout(async () => {
+            popout = this.esgst.apPopouts[id];
             if (popout) {
-              if (esgst.ap_index === 1 && popout.isOpen) {
+              if (this.esgst.ap_index === 1 && popout.isOpen) {
                 popout.close();
               } else {
                 popout.open(apAvatar);
               }
             } else {
-              esgst.apPopouts[id] = popout = new Popout(`esgst-ap-popout`, null, 1000, onClick);
-              createElements(popout.popout, `inner`, [{
+              this.esgst.apPopouts[id] = popout = new Popout(`esgst-ap-popout`, null, 1000, onClick);
+              this.esgst.modules.common.createElements(popout.popout, `inner`, [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
@@ -94,11 +98,11 @@ _MODULES.push({
               }]);
               popout.open(apAvatar);
               let avatar, columns, i, link, n, reportButton, responseHtml, table;
-              responseHtml = parseHtml((await request({method: `GET`, url})).responseText);
+              responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url})).responseText);
               popout.popout.innerHTML = ``;
               popout.popout.appendChild(responseHtml.getElementsByClassName(`featured__outer-wrap`)[0]);
               avatar = popout.popout.getElementsByClassName(`global__image-outer-wrap--avatar-large`)[0];
-              link = createElements(avatar, `afterEnd`, [{
+              link = this.esgst.modules.common.createElements(avatar, `afterEnd`, [{
                 attributes: {
                   class: `esgst-ap-link`
                 },
@@ -120,7 +124,7 @@ _MODULES.push({
               }
               const suspension = responseHtml.getElementsByClassName(`sidebar__suspension`)[0];
               if (suspension) {
-                createElements(columns[0], `beforeEnd`, [{
+                this.esgst.modules.common.createElements(columns[0], `beforeEnd`, [{
                   attributes: {
                     class: `esgst-ap-suspended featured__table__row`
                   },
@@ -142,11 +146,11 @@ _MODULES.push({
               }
               columns[1].remove();
               if (type === `user`) {
-                await profile_load(popout.popout);
+                await this.esgst.modules.profile.profile_load(popout.popout);
               }
               popout.reposition();
             }
-            if (esgst.ap_index === 0) {
+            if (this.esgst.ap_index === 0) {
               popout.popout.onmouseenter = () => {
                 if (exitTimeout) {
                   clearTimeout(exitTimeout);
@@ -159,4 +163,6 @@ _MODULES.push({
       }
     }
   }
-  
+}
+
+export default GeneralAvatarPopout;

@@ -1,22 +1,27 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralFixedFooter extends Module {
+info = ({
     description: `
       <ul>
-        <li>Keeps the footer of any page at the bottom of the window while you scroll down the page.</li>
+        <li>Keeps the footer of any page this.esgst.modules.generalAccurateTimestamp.at the bottom of the window while you scroll down the page.</li>
       </ul>
     `,
     id: `ff`,
-    load: ff,
+    load: this.ff,
     name: `Fixed Footer`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function ff() {
-    if (!esgst.footer) {
+  ff() {
+    if (!this.esgst.footer) {
       return;
     }
 
-    esgst.footer.classList.add(`esgst-ff`);
+    this.esgst.footer.classList.add(`esgst-ff`);
   }
+}
 
+export default GeneralFixedFooter;

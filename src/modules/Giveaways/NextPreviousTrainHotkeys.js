@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysNextPreviousTrainHotkeys extends Module {
+info = ({
     description: `
       <ul>
         <li>Allows you to navigate through a train using hotkeys.</a>
@@ -8,7 +11,7 @@ _MODULES.push({
       </ul>
     `,
     id: `npth`,
-    load: npth,
+    load: this.npth,
     name: `Next/Previous Train Hotkeys`,
     inputItems: [
       {
@@ -26,9 +29,9 @@ _MODULES.push({
     type: `giveaways`
   });
 
-  function npth() {
+  npth() {
     let description, element, elements, i, n, next, previous, text;
-    if (esgst.giveawayCommentsPath) {
+    if (this.esgst.giveawayCommentsPath) {
       description = document.getElementsByClassName(`page__description`)[0];
       if (description) {
         elements = description.querySelectorAll(`[href*="/giveaway/"]`);
@@ -51,16 +54,16 @@ _MODULES.push({
           }
         }
         if (previous || next) {
-          esgst.documentEvents.keydown.add(npth_loadGiveaway.bind(null, next, previous));
+          this.esgst.documentEvents.keydown.add(npth_loadGiveaway.bind(null, next, previous));
         }
       }
     }
   }
 
-  function npth_loadGiveaway(next, previous, event) {
+  npth_loadGiveaway(next, previous, event) {
     let referrer;
     if (!event.target.closest(`input, textarea`)) {
-      if (event.key === esgst.npth_previousKey) {
+      if (event.key === this.esgst.npth_previousKey) {
         if (previous) {
           if (event.ctrlKey) {
             open(previous.getAttribute(`href`));
@@ -76,10 +79,10 @@ _MODULES.push({
               location.href = referrer;
             }
           } else {
-            createAlert(`No previous link found.`);
+            this.esgst.modules.common.createAlert(`No previous link found.`);
           }
         }
-      } else if (event.key === esgst.npth_nextKey) {
+      } else if (event.key === this.esgst.npth_nextKey) {
         if (next) {
           if (event.ctrlKey) {
             open(next.getAttribute(`href`));
@@ -87,9 +90,11 @@ _MODULES.push({
             location.href = next.getAttribute(`href`);
           }
         } else {
-          createAlert(`No next link found.`);
+          this.esgst.modules.common.createAlert(`No next link found.`);
         }
       }
     }
   }
+}
 
+export default GiveawaysNextPreviousTrainHotkeys;

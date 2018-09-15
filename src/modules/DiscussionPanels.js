@@ -1,12 +1,17 @@
-_MODULES.push({
+import Module from '../class/Module';
+
+class DiscussionPanels extends Module {
+info = ({
     endless: true,
     id: `discussionPanels`,
     load: discussionPanels
   });
 
-  function discussionPanels() {
-    if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
-      esgst.endlessFeatures.push(ct_addDiscussionPanels);
+  discussionPanels() {
+    if ((this.esgst.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (this.esgst.gdttt && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (this.esgst.ust && this.esgst.ticketsPath)) {
+      this.esgst.endlessFeatures.push(ct_addDiscussionPanels);
     }
   }
+}
 
+export default DiscussionPanels;

@@ -1,7 +1,11 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GeneralMultiManager extends Module {
+info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
+        <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games this.esgst.modules.generalAccurateTimestamp.at once.</li>
         <li>When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.</li>
         <li>You can:</li>
         <ul>
@@ -23,17 +27,17 @@ _MODULES.push({
       </ul>
     `,
     id: `mm`,
-    load: mm,
+    load: this.mm,
     name: `Multi-Manager`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function mm(context, items, itemsKey) {
-    if (!context && !esgst.mainPageHeading) return;
+  mm(context, items, itemsKey) {
+    if (!context && !this.esgst.mainPageHeading) return;
     let obj = {
-      button: createHeadingButton({
+      button: this.esgst.modules.common.createHeadingButton({
         context,
         id: `mm`,
         icons: [`fa-gears`],
@@ -56,22 +60,22 @@ _MODULES.push({
       counterElements: {},
       scope: context ? `popup` : `main`
     };
-    esgst.mm_enable = mm_enable.bind(null, obj);
-    esgst.mm_disable = mm_disable.bind(null, obj);
-    obj.button.addEventListener(`click`,  mm_openPopout.bind(null, obj, items, itemsKey));
-    if (esgst.mm_enableGames) {
-      esgst.gameFeatures.push(mm_getGames);
+    this.esgst.mm_enable = this.mm_enable.bind(null, obj);
+    this.esgst.mm_disable = this.mm_disable.bind(null, obj);
+    obj.button.addEventListener(`click`,  this.mm_openPopout.bind(null, obj, items, itemsKey));
+    if (this.esgst.mm_enableGames) {
+      this.esgst.gameFeatures.push(mm_getGames);
     }
   }
 
-  function mm_getGames(games, main) {
-    esgst.mm_enable(esgst[main ? `mainGames` : `popupGames`], `Games`);
+  mm_getGames(games, main) {
+    this.esgst.mm_enable(this.esgst[main ? `mainGames` : `popupGames`], `Games`);
   }
 
-  function mm_openPopout(obj, items, itemsKey) {
+  mm_openPopout(obj, items, itemsKey) {
     if (obj.popout) return;
     obj.popout = new Popout(`esgst-mm-popout`, obj.button, 0, true);
-    obj.headings = createElements(obj.popout.popout, `afterBegin`, [{
+    obj.headings = this.esgst.modules.common.createElements(obj.popout.popout, `afterBegin`, [{
       attributes: {
         class: `esgst-mm-headings`
       },
@@ -85,8 +89,8 @@ _MODULES.push({
     obj.sections = obj.headings.nextElementSibling;
     let activeIndex = 0;
     Object.keys(obj.checkboxes).forEach((key, i) => {
-      if (!esgst.sg && key !== `Users`) return;
-      let heading = createElements(obj.headings, `beforeEnd`, [{
+      if (!this.esgst.sg && key !== `Users`) return;
+      let heading = this.esgst.modules.common.createElements(obj.headings, `beforeEnd`, [{
         type: `div`,
         children: [{
           type: `span`
@@ -107,24 +111,24 @@ _MODULES.push({
         }]
       }]);
       obj.counterElements[key] = heading.lastElementChild;
-      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, esgst[`mm_enable${key}`]);
-      toggleSwitch.onEnabled = mm_enable.bind(null, obj, itemsKey === key ? items : null, key);
-      toggleSwitch.onDisabled = mm_disable.bind(null, obj, itemsKey === key ? items : null, key);
-      mm_setSection(obj, createElements(obj.sections, `beforeEnd`, [{
+      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, this.esgst[`mm_enable${key}`]);
+      toggleSwitch.onEnabled = this.mm_enable.bind(null, obj, itemsKey === key ? items : null, key);
+      toggleSwitch.onDisabled = this.mm_disable.bind(null, obj, itemsKey === key ? items : null, key);
+      this.mm_setSection(obj, this.esgst.modules.common.createElements(obj.sections, `beforeEnd`, [{
         type: `div`
       }]), itemsKey === key ? items : null, key);
-      if (esgst.sg) {
-        heading.addEventListener(`click`, mm_changeActiveSection.bind(null, obj, i));
+      if (this.esgst.sg) {
+        heading.addEventListener(`click`, this.mm_changeActiveSection.bind(null, obj, i));
       }
-      if (esgst[`mm_enable${key}`]) {
+      if (this.esgst[`mm_enable${key}`]) {
         activeIndex = i;
       }
     });
-    mm_changeActiveSection(obj, esgst.sg ? activeIndex : 0);
+    this.mm_changeActiveSection(obj, this.esgst.sg ? activeIndex : 0);
     obj.popout.open();
   }
 
-  function mm_changeActiveSection(obj, i) {
+  mm_changeActiveSection(obj, i) {
     for (let j = obj.headings.children.length - 1; j > -1; j--) {
       obj.headings.children[j].classList.remove(`esgst-selected`);
     }
@@ -135,12 +139,12 @@ _MODULES.push({
     obj.sections.children[i].classList.add(`esgst-selected`);
   }
 
-  function mm_enable(obj, items, key) {
+  mm_enable(obj, items, key) {
     if (!items) {
-      items = esgst[obj.scope + key];
+      items = this.esgst[obj.scope + key];
     }
     items.forEach(item => {
-      let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
+      let checkbox = this.esgst.modules.common.getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || this.esgst.modules.common.getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
       if (checkbox) return;
       checkbox = new Checkbox(createElements(item.innerWrap, key.match(/Giveaways|Discussions/) ? `afterBegin` : `beforeBegin`, [{
         attributes: {
@@ -151,33 +155,33 @@ _MODULES.push({
         select: `Add item to Multi-Manager selection`,
         unselect: `Remove item from Multi-Manager selection`
       });
-      checkbox.onPreEnabled = mm_selectItem.bind(null, obj, item, key, 1);
-      checkbox.onPreDisabled = mm_selectItem.bind(null, obj, item, key, 0);
+      checkbox.onPreEnabled = this.mm_selectItem.bind(null, obj, item, key, 1);
+      checkbox.onPreDisabled = this.mm_selectItem.bind(null, obj, item, key, 0);
       let itemKey = item.type ? `${item.type}_${item.code}` : item.code;
       if (!obj.checkboxes[key][itemKey]) {
         obj.checkboxes[key][itemKey] = [];
       }
       obj.checkboxes[key][itemKey].push(checkbox);
     });
-    mm_resetCounters(obj);
+    this.mm_resetCounters(obj);
   }
 
-  function mm_disable(obj, items, key) {
+  mm_disable(obj, items, key) {
     obj.checkboxes[key] = {};
     if (!items) {
-      items = esgst[obj.scope + key];
+      items = this.esgst[obj.scope + key];
     }
     items.forEach(item => {
-      let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
+      let checkbox = this.esgst.modules.common.getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || this.esgst.modules.common.getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
       if (checkbox) {
         checkbox.remove();
       }
       item.mm = 0;
     });
-    mm_resetCounters(obj);
+    this.mm_resetCounters(obj);
   }
 
-  function mm_selectItem(obj, item, key, value) {
+  mm_selectItem(obj, item, key, value) {
     let isNew = false;
     item.mm = value;
     obj.checkboxes[key][item.type ? `${item.type}_${item.code}` : item.code].forEach(checkbox => {
@@ -205,7 +209,7 @@ _MODULES.push({
     }
   }
 
-  function mm_resetCounters(obj) {
+  mm_resetCounters(obj) {
     for (let key in obj.counters) {
       obj.counters[key] = 0;
       if (obj.counterElements[key]) {
@@ -214,9 +218,9 @@ _MODULES.push({
     }
   }
 
-  function mm_setSection(obj, context, items, key) {
+  mm_setSection(obj, context, items, key) {
     if (!items) {
-      items = esgst[`${obj.scope}${key}`];
+      items = this.esgst[`${obj.scope}${key}`];
     }
     let sections = {
       default: [
@@ -227,21 +231,21 @@ _MODULES.push({
               color1: `grey`, color2: `grey`,
               icon1: `fa-square`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `All`, title2: ``,
-              callback1: selectSwitches.bind(null, obj.checkboxes[key], `check`, null)
+              callback1: this.esgst.modules.common.selectSwitches.bind(null, obj.checkboxes[key], `check`, null)
             },
             {
               check: true,
               color1: `grey`, color2: `grey`,
               icon1: `fa-square-o`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `None`, title2: ``,
-              callback1: selectSwitches.bind(null, obj.checkboxes[key], `uncheck`, null)
+              callback1: this.esgst.modules.common.selectSwitches.bind(null, obj.checkboxes[key], `uncheck`, null)
             },
             {
               check: true,
               color1: `grey`, color2: `grey`,
               icon1: `fa-plus-square-o`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Inverse`, title2: ``,
-              callback1: selectSwitches.bind(null, obj.checkboxes[key], `toggle`, null)
+              callback1: this.esgst.modules.common.selectSwitches.bind(null, obj.checkboxes[key], `toggle`, null)
             }
           ],
           name: `Select:`
@@ -257,14 +261,14 @@ _MODULES.push({
               color1: `green`, color2: `grey`,
               icon1: `fa-globe`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Links`, title2: ``,
-              callback1: mm_exportLinks.bind(null, obj, items, key)
+              callback1: this.mm_exportLinks.bind(null, obj, items, key)
             },
             {
               check: true,
               color1: `green`, color2: `grey`,
               icon1: `fa-pencil`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Custom`, title2: ``,
-              callback1: mm_exportCustom.bind(null, obj, items, key)
+              callback1: this.mm_exportCustom.bind(null, obj, items, key)
             }
           ],
           name: `Export to:`
@@ -281,41 +285,41 @@ _MODULES.push({
             title1: `Replace`, title2: ``
           },
           {
-            check: esgst.gf && esgst.gf_s,
+            check: this.esgst.gf && this.esgst.gf_s,
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
-            callback1: mm_hideGiveaways.bind(null, obj, items)
+            callback1: this.mm_hideGiveaways.bind(null, obj, items)
           },
           {
-            check: esgst.gb,
+            check: this.esgst.gb,
             color1: `green`, color2: `grey`,
             icon1: `fa-bookmark`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Bookmark`, title2: ``,
-            callback1: mm_bookmarkGiveaways.bind(null, obj, items)
+            callback1: this.mm_bookmarkGiveaways.bind(null, obj, items)
           },
           {
-            check: esgst.gb,
+            check: this.esgst.gb,
             color1: `green`, color2: `grey`,
             icon1: `fa-bookmark-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unbookmark`, title2: ``,
-            callback1: mm_unbookmarkGiveaways.bind(null, obj, items)
+            callback1: this.mm_unbookmarkGiveaways.bind(null, obj, items)
           },
           {
-            check: esgst.ttec,
+            check: this.esgst.ttec,
             color1: `green`, color2: `grey`,
             icon1: `fa-clock-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Calculate`, title2: ``,
-            callback1: mm_calculateGiveaways.bind(null, obj, items)
+            callback1: this.mm_calculateGiveaways.bind(null, obj, items)
           }
         ],
         [
           {
-            check: esgst.ged,
+            check: this.esgst.ged,
             color1: `green`, color2: `grey`,
             icon1: `fa-puzzle-piece`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Encrypted`, title2: ``,
-            callback1: mm_exportEncryptedGiveaways.bind(null, obj, items)
+            callback1: this.mm_exportEncryptedGiveaways.bind(null, obj, items)
           }
         ]
       ],
@@ -323,39 +327,39 @@ _MODULES.push({
         [],
         [
           {
-            check: esgst.df && esgst.df_s,
+            check: this.esgst.df && this.esgst.df_s,
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
-            callback1: mm_hideDiscussions.bind(null, obj, items)
+            callback1: this.mm_hideDiscussions.bind(null, obj, items)
           },
           {
-            check: esgst.dh,
+            check: this.esgst.dh,
             color1: `green`, color2: `grey`,
             icon1: `fa-star`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Highlight`, title2: ``,
-            callback1: mm_highlightDiscussions.bind(null, obj, items)
+            callback1: this.mm_highlightDiscussions.bind(null, obj, items)
           },
           {
-            check: esgst.dh,
+            check: this.esgst.dh,
             color1: `green`, color2: `grey`,
             icon1: `fa-star-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unhighlight`, title2: ``,
-            callback1: mm_unhighlightDiscussions.bind(null, obj, items)
+            callback1: this.mm_unhighlightDiscussions.bind(null, obj, items)
           },
           {
-            check: esgst.gdttt,
+            check: this.esgst.gdttt,
             color1: `green`, color2: `grey`,
             icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Visit`, title2: ``,
-            callback1: mm_visitDiscussions.bind(null, obj, items)
+            callback1: this.mm_visitDiscussions.bind(null, obj, items)
           },
           {
-            check: esgst.gdttt,
+            check: this.esgst.gdttt,
             color1: `green`, color2: `grey`,
             icon1: `fa-times`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unvisit`, title2: ``,
-            callback1: mm_unvisitDiscussions.bind(null, obj, items)
+            callback1: this.mm_unvisitDiscussions.bind(null, obj, items)
           }
         ],
         []
@@ -364,18 +368,18 @@ _MODULES.push({
         [],
         [
           {
-            check: esgst.ut,
+            check: this.esgst.ut,
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: tags_openMmPopup.bind(null, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(null, obj, items, key)
           },
           {
-            check: esgst.wbc,
+            check: this.esgst.wbc,
             color1: `green`, color2: `grey`,
             icon1: `fa-question-circle`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Check WL/BL`, title2: ``,
-            callback1: mm_selectWbcUsers.bind(null, obj, items)
+            callback1: this.mm_selectWbcUsers.bind(null, obj, items)
           }
         ],
         []
@@ -384,18 +388,18 @@ _MODULES.push({
         [],
         [
           {
-            check: esgst.gt,
+            check: this.esgst.gt,
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: tags_openMmPopup.bind(null, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(null, obj, items, key)
           },
           {
             check: true,
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
-            callback1: mm_hideGames.bind(null, obj, items)
+            callback1: this.mm_hideGames.bind(null, obj, items)
           }
         ],
         []
@@ -404,18 +408,18 @@ _MODULES.push({
         [],
         [
           {
-            check: esgst.gpt,
+            check: this.esgst.gpt,
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: tags_openMmPopup.bind(null, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(null, obj, items, key)
           }
         ],
         []
       ]
     };
     sections.default.forEach((section, i) => {
-      let group = createElements(context, `beforeEnd`, [{
+      let group = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
         attributes: {
           class: `esgst-button-group`
         },
@@ -430,7 +434,7 @@ _MODULES.push({
         if (!button.check) return;
         let element = new ButtonSet_v2(button).set;
         if (group.children.length === 4) {
-          group = createElements(context, `beforeEnd`, [{
+          group = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
             attributes: {
               class: `esgst-button-group`
             },
@@ -495,9 +499,9 @@ _MODULES.push({
               arguments: [items],
               doNotTrigger: true,
               id: `mm`,
-              init: mm_initUrls,
-              request: {
-                request: mm_getSearchReplaceUrlRequest
+              init: this.mm_initUrls,
+              this.esgst.modules.common.request: {
+                this.esgst.modules.common.request: this.mm_getSearchReplaceUrlRequest
               },
               restart: true
             }
@@ -505,7 +509,7 @@ _MODULES.push({
         }
       });
     });
-    createTooltip(createElements(context, `beforeEnd`, [{
+    this.esgst.modules.common.createTooltip(createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -528,13 +532,13 @@ _MODULES.push({
         <li>[comments] - The current number of comments that the giveaway has.</li>
         <li>[copies] - The number of copies being given away.</li>
         <li>[creator] - The creator of the giveaway.</li>
-        <li>[end-time="$"] - When the giveaway ended/will end. Replace $ with the date templates specified at the end of this tooltip.</li>
+        <li>[end-time="$"] - When the giveaway ended/will end. Replace $ with the date templates specified this.esgst.modules.generalAccurateTimestamp.at the end of this tooltip.</li>
         <li>[entries] - The current number of entries that the giveaway has.</li>
         <li>[level] - The level of the giveaway.</li>
         <li>[name] - The name of the game being given away.</li>
         <li>[points] - The number of points that the giveaway is worth.</li>
         <li>[short-url] - The short URL of the giveaway (https://www.steamgifts.com/giveaway/XXXXX/).</li>
-        <li>[start-time="$"] - When the giveaway started. Replace $ with the date templates specified at the end of this tooltip.</li>
+        <li>[start-time="$"] - When the giveaway started. Replace $ with the date templates specified this.esgst.modules.generalAccurateTimestamp.at the end of this tooltip.</li>
         <li>[steam-id] - The Steam app/sub id of the game being given away.</li>
         <li>[steam-type] - The Steam type of the game being given away ("app" or "sub").</li>
         <li>[steam-url] - The Steam store URL of the game being given away.</li>
@@ -547,7 +551,7 @@ _MODULES.push({
         <li>[category] - The category of the discussion.</li>
         <li>[code] - The 5-character code of the discussion.</li>
         <li>[comments] - The current number of comments that the discussion has.</li>
-        <li>[created-time="$"] - When the discussion was created. Replace $ with the date templates specified at the end of this tooltip.</li>
+        <li>[created-time="$"] - When the discussion was created. Replace $ with the date templates specified this.esgst.modules.generalAccurateTimestamp.at the end of this tooltip.</li>
         <li>[poll] - "Yes" if the discussion has a poll and "No" otherwise.</li>
         <li>[short-url] - The short URL of the discussion (https://www.steamgifts.com/discussion/XXXXX/).</li>
         <li>[title] - The title of the discussion.</li>
@@ -600,7 +604,7 @@ _MODULES.push({
       <br/>
       <br/>
     `);
-    obj[`textArea${key}`] = createElements(context, `beforeEnd`, [{
+    obj[`textArea${key}`] = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `page_outer_wrap`
       },
@@ -609,10 +613,10 @@ _MODULES.push({
         type: `textarea`
       }]
     }]).firstElementChild;
-    if (esgst.cfh) {
-      cfh_addPanel(obj[`textArea${key}`]);
+    if (this.esgst.cfh) {
+      this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(obj[`textArea${key}`]);
     }
-    obj[`message${key}`] = createElements(context, `beforeEnd`, [{
+    obj[`message${key}`] = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -622,11 +626,11 @@ _MODULES.push({
       color1: `grey`, color2: `grey`,
       icon1: `fa-copy`, icon2: `fa-circle-o-notch fa-spin`,
       title1: `Copy`, title2: `Copying...`,
-      callback1: mm_copyOutput.bind(null, obj, key)
+      callback1: this.mm_copyOutput.bind(null, obj, key)
     }).set);
   }
 
-  function mm_exportLinks(obj, items, key) {
+  mm_exportLinks(obj, items, key) {
     let links = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
@@ -635,7 +639,7 @@ _MODULES.push({
     obj[`textArea${key}`].value = links.join(`\n`);
   }
 
-  function mm_exportCustom(obj, items, key) {
+  mm_exportCustom(obj, items, key) {
     let match = obj[`textArea${key}`].value.match(/\[LINE(.*?)\](.+)\[\/LINE\]/i),
       links = [];
     if (!match) return;
@@ -674,13 +678,13 @@ _MODULES.push({
             .replace(/\[COMMENTS\]/ig, item.comments)
             .replace(/\[COPIES\]/ig, item.copies)
             .replace(/\[CREATOR\]/ig, item.creator)
-            .replace(/\[END-TIME="(.+?)"\]/ig, mm_formatDate.bind(null, item.endTime))
+            .replace(/\[END-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.endTime))
             .replace(/\[ENTRIES\]/ig, item.entries)
             .replace(/\[LEVEL\]/ig, item.level)
-            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
+            .replace(/\[NAME\]/ig, this.esgst.modules.common.escapeMarkdown(item.name))
             .replace(/\[POINTS\]/ig, item.points)
             .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/giveaway/${item.code}/`)
-            .replace(/\[START-TIME="(.+?)"\]/ig, mm_formatDate.bind(null, item.startTime))
+            .replace(/\[START-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.startTime))
             .replace(/\[STEAM-ID\]/ig, item.id)
             .replace(/\[STEAM-TYPE\]/ig, item.type.slice(0, -1))
             .replace(/\[STEAM-URL\]/ig, `http://store.steampowered.com/${item.type.slice(0, -1)}/${item.id}`)
@@ -694,13 +698,13 @@ _MODULES.push({
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
             .replace(/\[AUTHOR\]/ig, item.author)
-            .replace(/\[CATEGORY\]/ig, escapeMarkdown(item.category))
+            .replace(/\[CATEGORY\]/ig, this.esgst.modules.common.escapeMarkdown(item.category))
             .replace(/\[CODE\]/ig, item.code)
             .replace(/\[COMMENTS\]/ig, item.comments)
-            .replace(/\[CREATED-TIME="(.+?)"\]/ig, mm_formatDate.bind(null, item.createdTimestamp))
+            .replace(/\[CREATED-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.createdTimestamp))
             .replace(/\[POLL\]/ig, item.poll ? `Yes` : `No`)
             .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/discussion/${item.code}/`)
-            .replace(/\[TITLE\]/ig, escapeMarkdown(item.title))
+            .replace(/\[TITLE\]/ig, this.esgst.modules.common.escapeMarkdown(item.title))
             .replace(/\[URL\]/ig, `https://www.steamgifts.com${item.url.match(/\/discussion\/.+/)[0]}`)
           );
         });
@@ -719,7 +723,7 @@ _MODULES.push({
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
             .replace(/\[ID\]/ig, item.code)
-            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
+            .replace(/\[NAME\]/ig, this.esgst.modules.common.escapeMarkdown(item.name))
             .replace(/\[TYPE\]/ig, item.type.slice(0, -1))
             .replace(/\[URL\]/ig, `https://store.steampowered.com/${item.type.slice(0, -1)}/${item.code}`)
           );
@@ -730,7 +734,7 @@ _MODULES.push({
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
             .replace(/\[CODE\]/ig, item.code)
-            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
+            .replace(/\[NAME\]/ig, this.esgst.modules.common.escapeMarkdown(item.name))
             .replace(/\[URL\]/ig, `https://www.steamgifts.com/group/${item.code}/`)
           );
         });
@@ -739,16 +743,16 @@ _MODULES.push({
         break;
     }
     if (sorting) {
-      links = sortArray(links, sorting === `-desc`);
+      links = utils.sortArray(links, sorting === `-desc`);
     }
     obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?\].+\[\/LINE\]/i, links.join(`\n`));
   }
 
-  function mm_formatDate(timestamp, match, p1) {
-    return escapeMarkdown(formatDate(p1, timestamp));
+  mm_formatDate(timestamp, match, p1) {
+    return this.esgst.modules.common.escapeMarkdown(formatDate(p1, timestamp));
   }
 
-  function mm_initUrls(obj, items) {
+  mm_initUrls(obj, items) {
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
       obj.items.push({
@@ -759,9 +763,9 @@ _MODULES.push({
     obj.perLoad = obj.items.length;
   }
 
-  async function mm_getSearchReplaceUrlRequest(obj, details, response, responseHtml) {
+  async mm_getSearchReplaceUrlRequest(obj, details, response, responseHtml) {
     let replaceValue, searchValue;
-    if (esgst.mm_useRegExp) {
+    if (this.esgst.mm_useRegExp) {
       try {
         let parts = obj.popup.getTextInputValue(0).match(/^\/(.+)\/(.*)$/);
         searchValue = new RegExp(parts[1], parts[2]);
@@ -778,11 +782,11 @@ _MODULES.push({
       name = obj.items[obj.index].name,
       url = obj.items[obj.index].url;
     if (description) {
-      let match = esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
+      let match = this.esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
       if (match) {
-        let responseJson = JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
+        let responseJson = JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
         if (responseJson.type === `success`) {
-          createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
             type: `li`,
             children: [{
               text: `Found and replaced in `,
@@ -796,7 +800,7 @@ _MODULES.push({
             }]
           }]);
         } else {
-          createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
             type: `li`,
             children: [{
               text: `Found, but failed to replace, in `,
@@ -811,7 +815,7 @@ _MODULES.push({
           }]);
         }
       } else {
-        createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+        this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
           type: `li`,
           children: [{
             text: `Not found in `,
@@ -826,7 +830,7 @@ _MODULES.push({
         }]);
       }
     } else {
-      createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+      this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
         type: `li`,
         children: [{
           text: `Not found in `,
@@ -842,7 +846,7 @@ _MODULES.push({
     }
   }
 
-  async function mm_hideGiveaways(obj, items) {
+  async mm_hideGiveaways(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
@@ -851,14 +855,14 @@ _MODULES.push({
         endTime: item.endTime,
         hidden: true
       };
-      if (obj.source !== `main` || !esgst.giveawayPath) {
+      if (obj.source !== `main` || !this.esgst.giveawayPath) {
         item.outerWrap.remove();
       }
     });
-    await lockAndSaveGiveaways(newItems);
+    await this.esgst.modules.common.lockAndSaveGiveaways(newItems);
   }
 
-  async function mm_bookmarkGiveaways(obj, items) {
+  async mm_bookmarkGiveaways(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.gbButton || item.gbButton.index !== 1) return;
@@ -871,10 +875,10 @@ _MODULES.push({
       };
       item.gbButton.change(null, 2);
     });
-    await lockAndSaveGiveaways(newItems);
+    await this.esgst.modules.common.lockAndSaveGiveaways(newItems);
   }
 
-  async function mm_unbookmarkGiveaways(obj, items) {
+  async mm_unbookmarkGiveaways(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.gbButton || item.gbButton.index !== 3) return;
@@ -883,10 +887,10 @@ _MODULES.push({
       };
       item.gbButton.change(null, 0);
     });
-    await lockAndSaveGiveaways(newItems);
+    await this.esgst.modules.common.lockAndSaveGiveaways(newItems);
   }
 
-  function mm_calculateGiveaways(obj, items) {
+  mm_calculateGiveaways(obj, items) {
     let points = 0;
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || item.ended) return;
@@ -894,14 +898,14 @@ _MODULES.push({
     });
     let nextRefresh = 60 - new Date().getMinutes();
     while (nextRefresh > 15) nextRefresh -= 15;
-    if (points > esgst.points) {
-      obj.textAreaGiveaways.value = `You will need to wait ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ``}`;
+    if (points > this.esgst.points) {
+      obj.textAreaGiveaways.value = `You will need to wait ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ``}`;
     } else {
       obj.textAreaGiveaways.value = `You have enough points to enter all giveaways right now.`;
     }
   }
 
-  function mm_exportEncryptedGiveaways(obj, items) {
+  mm_exportEncryptedGiveaways(obj, items) {
     let encrypted = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
@@ -910,13 +914,13 @@ _MODULES.push({
     obj.textAreaGiveaways.value = encrypted.join(` `);
   }
 
-  function mm_copyOutput(obj, key) {
+  mm_copyOutput(obj, key) {
     obj[`textArea${key}`].select();
     document.execCommand(`copy`);
-    createFadeMessage(obj[`message${key}`], `Copied!`);
+    this.esgst.modules.common.createFadeMessage(obj[`message${key}`], `Copied!`);
   }
 
-  async function mm_hideDiscussions(obj, items) {
+  async mm_hideDiscussions(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
@@ -925,14 +929,14 @@ _MODULES.push({
         hidden: currentDate,
         lastUsed: currentDate
       };
-      if (obj.source !== `main` || !esgst.discussionPath) {
+      if (obj.source !== `main` || !this.esgst.discussionPath) {
         item.outerWrap.remove();
       }
     });
-    await lockAndSaveDiscussions(newItems);
+    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
   }
 
-  async function mm_highlightDiscussions(obj, items) {
+  async mm_highlightDiscussions(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.dhButton || item.dhButton.index !== 1) return;
@@ -942,10 +946,10 @@ _MODULES.push({
       };
       item.dhButton.change(null, 2);
     });
-    await lockAndSaveDiscussions(newItems);
+    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
   }
 
-  async function mm_unhighlightDiscussions(obj, items) {
+  async mm_unhighlightDiscussions(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.dhButton || item.dhButton.index !== 3) return;
@@ -955,10 +959,10 @@ _MODULES.push({
       };
       item.dhButton.change(null, 0);
     });
-    await lockAndSaveDiscussions(newItems);
+    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
   }
 
-  async function mm_visitDiscussions(obj, items) {
+  async mm_visitDiscussions(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.gdtttButton || item.gdtttButton.index !== 1) return;
@@ -966,16 +970,16 @@ _MODULES.push({
         visited: true,
         lastUsed: Date.now()
       };
-      if (esgst.ct_s) {
+      if (this.esgst.ct_s) {
         newItems[item.code].count = item.count;
       }
       item.gdtttButton.callbacks[0]();
       item.gdtttButton.change(null, 2);
     });
-    await lockAndSaveDiscussions(newItems);
+    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
   }
 
-  async function mm_unvisitDiscussions(obj, items) {
+  async mm_unvisitDiscussions(obj, items) {
     let newItems = {};
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.gdtttButton || item.gdtttButton.index !== 3) return;
@@ -987,21 +991,21 @@ _MODULES.push({
       item.gdtttButton.callbacks[2]();
       item.gdtttButton.change(null, 0);
     });
-    await lockAndSaveDiscussions(newItems);
+    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
   }
 
-  function mm_selectWbcUsers(obj, items) {
-    if (!esgst.wbcButton) return;
-    esgst.mmWbcUsers = [];
+  mm_selectWbcUsers(obj, items) {
+    if (!this.esgst.wbcButton) return;
+    this.esgst.mmWbcUsers = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-      esgst.mmWbcUsers.push(item.code);
+      this.esgst.mmWbcUsers.push(item.code);
     });
-    esgst.wbcButton.setAttribute(`data-mm`, true);
-    esgst.wbcButton.click();
+    this.esgst.wbcButton.setAttribute(`data-mm`, true);
+    this.esgst.wbcButton.click();
   }
 
-  async function mm_hideGames(obj, items) {
+  async mm_hideGames(obj, items) {
     const newItems = {
           apps: {},
           subs: {}
@@ -1010,7 +1014,7 @@ _MODULES.push({
     for (const item of items) {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) continue;
 
-      const elements = parseHtml(JSON.parse((await request({
+      const elements = utils.parseHtml(JSON.parse((await this.esgst.modules.common.request({
         data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(item.code)}`,
         method: `POST`,
         url: `/ajax.php`
@@ -1018,10 +1022,10 @@ _MODULES.push({
       let found = false;
       for (let i = elements.length - 1; i > -1; i--) {
         const element = elements[i],
-            info = games_getInfo(element);
+            info = this.esgst.modules.games.games_getInfo(element);
         if (info && info.type === item.type && info.id === item.code) {
-          await request({
-            data: `xsrf_token=${esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${element.getAttribute(`data-autocomplete-id`)}`,
+          await this.esgst.modules.common.request({
+            data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${element.getAttribute(`data-autocomplete-id`)}`,
             method: `POST`,
             url: `/ajax.php`
           });
@@ -1036,9 +1040,11 @@ _MODULES.push({
         notFound.push(item.name);
       }
     }
-    await lockAndSaveGames(newItems);
+    await this.esgst.modules.common.lockAndSaveGames(newItems);
     if (notFound.length) {
       alert(`The following games were not found and therefore not hidden: ${notFound.join(`, `)}`);
     }
   }
+}
 
+export default GeneralMultiManager;

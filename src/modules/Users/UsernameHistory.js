@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersUsernameHistory extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-caret-down"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to view their username history ever since they started being tracked.</li>
@@ -14,19 +17,19 @@ _MODULES.push({
       </ul>
     `,
     id: `uh`,
-    load: uh,
+    load: this.uh,
     name: `Username History`,
     sg: true,
     type: `users`
   });
 
-  function uh() {
-    esgst.profileFeatures.push(uh_add);
+  uh() {
+    this.esgst.profileFeatures.push(uh_add);
   }
 
-  function uh_add(profile) {
+  uh_add(profile) {
     let button, box, container, list;
-    container = createElements(profile.heading, `beforeEnd`, [{
+    container = this.esgst.modules.common.createElements(profile.heading, `beforeEnd`, [{
       attributes: {
         class: `esgst-uh-container`
       },
@@ -34,7 +37,7 @@ _MODULES.push({
       children: [{
         attributes: {
           class: `esgst-uh-button`,
-          title: getFeatureTooltip(`uh`, `View username history`)
+          title: this.esgst.modules.common.getFeatureTooltip(`uh`, `View username history`)
         },
         type: `a`,
         children: [{
@@ -81,14 +84,14 @@ _MODULES.push({
     button = container.firstElementChild;
     box = button.nextElementSibling;
     list = box.lastElementChild;
-    button.addEventListener(`click`, uh_toggle.bind(null, box, profile, list));
-    esgst.documentEvents.click.add(uh_close.bind(null, box, container));
+    button.addEventListener(`click`, this.uh_toggle.bind(null, box, profile, list));
+    this.esgst.documentEvents.click.add(uh_close.bind(null, box, container));
   }
 
-  async function uh_toggle(box, profile, list) {
+  async uh_toggle(box, profile, list) {
     box.classList.toggle(`esgst-hidden`);
     if (!list.innerHTML) {
-      createElements(list, `inner`, [{
+      this.esgst.modules.common.createElements(list, `inner`, [{
         type: `div`,
         children: [{
           attributes: {
@@ -100,7 +103,7 @@ _MODULES.push({
           type: `span`
         }]
       }]);
-      createElements(list, `inner`, JSON.parse((await request({
+      this.esgst.modules.common.createElements(list, `inner`, JSON.parse((await this.esgst.modules.common.request({
         method: `GET`,
         url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`
       })).responseText).Usernames.map(x => {
@@ -112,9 +115,11 @@ _MODULES.push({
     }
   }
 
-  function uh_close(box, container, event) {
+  uh_close(box, container, event) {
     if (!box.classList.contains(`esgst-hidden`) && !container.contains(event.target)) {
       box.classList.add(`esgst-hidden`);
     }
   }
+}
 
+export default UsersUsernameHistory;

@@ -1,8 +1,12 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayBookmarks extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-bookmark"></i> if the giveaway is bookmarked and <i class="fa fa-bookmark-o"></i> if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.</li>
-        <li>Adds a button (<i class="fa fa-bookmark"></i>) next to the ESGST button at the header of any page that allows you to view all of the giveaways that have been bookmarked.</li>
+        <li>Adds a button (<i class="fa fa-bookmark"></i>) next to the ESGST button this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view all of the giveaways that have been bookmarked.</li>
       </ul>
     `,
     features: {
@@ -43,20 +47,20 @@ _MODULES.push({
       }
     },
     id: `gb`,
-    load: gb,
+    load: this.gb,
     name: `Giveaway Bookmarks`,
     sg: true,
     type: `giveaways`
   });
 
-  function gb() {
-    esgst.giveawayFeatures.push(gb_getGiveaways);
+  gb() {
+    this.esgst.giveawayFeatures.push(gb_getGiveaways);
     let button = null;
-    if (!esgst.gbPath) {
-      button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
+    if (!this.esgst.gbPath) {
+      button = this.esgst.modules.common.createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
         attributes: {
           class: `nav__button-container esgst-hidden`,
-          title: getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
+          title: this.esgst.modules.common.getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
         },
         type: `div`,
         children: [{
@@ -73,23 +77,23 @@ _MODULES.push({
         }]
       }]);
     }
-    gb_addButton(button);
-    if (esgst.gb_ue && esgst.enterGiveawayButton) {
-      esgst.enterGiveawayButton.onclick = () => {
-        let giveaway = esgst.mainGiveaways[0];
+    this.gb_addButton(button);
+    if (this.esgst.gb_ue && this.esgst.enterGiveawayButton) {
+      this.esgst.enterGiveawayButton.onclick = () => {
+        let giveaway = this.esgst.mainGiveaways[0];
         if (giveaway && giveaway.gbButton) {
           if (giveaway.gbButton.index === 3) {
             giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
           }
-          if (!esgst.gb_se) {
+          if (!this.esgst.gb_se) {
             giveaway.gbButton.button.classList.add(`esgst-hidden`);
           }
         }
       };
     }
-    if (esgst.leaveGiveawayButton) {
-      esgst.leaveGiveawayButton.onclick = () => {
-        let giveaway = esgst.mainGiveaways[0];
+    if (this.esgst.leaveGiveawayButton) {
+      this.esgst.leaveGiveawayButton.onclick = () => {
+        let giveaway = this.esgst.mainGiveaways[0];
         if (giveaway && giveaway.gbButton) {
           giveaway.gbButton.button.classList.remove(`esgst-hidden`);
         }
@@ -97,38 +101,38 @@ _MODULES.push({
     }
   }
 
-  async function gb_addButton(button) {
+  async gb_addButton(button) {
     let i, n;
     let bookmarked = [], endingSoon = 1, started = 0, ending = 0;
-    if (esgst.gb_h && button) {
+    if (this.esgst.gb_h && button) {
       button.classList.add(`esgst-gb-highlighted`);
     }
-    for (let key in esgst.giveaways) {
-      const giveaway = esgst.giveaways[key];
+    for (let key in this.esgst.giveaways) {
+      const giveaway = this.esgst.giveaways[key];
       if (giveaway.bookmarked) {
         if (typeof giveaway.started === `undefined`) {
           giveaway.started = true;
-          esgst.edited.giveaways = true;
+          this.esgst.edited.giveaways = true;
         }
         if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
           if (giveaway.started) {
-            if (esgst.gb_u) {
+            if (this.esgst.gb_u) {
               delete giveaway.bookmarked;
-              esgst.edited.giveaways = true;
+              this.esgst.edited.giveaways = true;
             } else {
               bookmarked.push(giveaway);
             }
           } else {
             bookmarked.push(giveaway);
             ++started;
-            if (esgst.gb_h && button) {
+            if (this.esgst.gb_h && button) {
               button.classList.add(`started`);
             }
           }
         } else {
           if (giveaway.started) {
             bookmarked.push(giveaway);
-            endingSoon = giveaway.endTime - Date.now() - (esgst.gb_hours * 3600000);
+            endingSoon = giveaway.endTime - Date.now() - (this.esgst.gb_hours * 3600000);
             if (endingSoon <= 0) {
               ++ending;
             }
@@ -151,7 +155,7 @@ _MODULES.push({
       title = ``;
     }
     if (button) {
-      button.title = getFeatureTooltip(`gb`, `View your bookmarked giveaways ${title}`);
+      button.title = this.esgst.modules.common.getFeatureTooltip(`gb`, `View your bookmarked giveaways ${title}`);
     }
     if (bookmarked.length) {
       bookmarked.sort((a, b) => {
@@ -172,57 +176,57 @@ _MODULES.push({
       }
       if (button) {
         button.classList.remove(`esgst-hidden`);
-        if (esgst.gb_h && ending > 0) {
+        if (this.esgst.gb_h && ending > 0) {
           button.classList.add(`ending`);
         }
       }
     }
-    if (esgst.gbPath) {
-      gb_loadGibs(bookmarked, esgst.mainContext, createElements(esgst.mainContext, `beforeEnd`, [{
+    if (this.esgst.gbPath) {
+      this.gb_loadGibs(bookmarked, this.esgst.mainContext, this.esgst.modules.common.createElements(this.esgst.mainContext, `beforeEnd`, [{
         type: `div`
       }]));
     }
-    if (!esgst.gbPath && button) {
+    if (!this.esgst.gbPath && button) {
       button.addEventListener(`mousedown`, event => {
         if (event.button === 2) return;
         event.preventDefault();
-        if (esgst.gb_t || event.button === 1) {
+        if (this.esgst.gb_t || event.button === 1) {
           open(`/esgst/bookmarked-giveaways`);
         } else {
           let popup = new Popup(`fa-bookmark`, `Bookmarked Giveaways`, true);
-          gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
+          this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
         }
       });
     }
   }
 
-  function gb_loadGibs(bookmarked, container, context, popup) {
+  gb_loadGibs(bookmarked, container, context, popup) {
     let info;
     let i = 0;
     let n = bookmarked.length;
-    let gbGiveaways = createElements(context, `beforeEnd`, [{
+    let gbGiveaways = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left`
       },
       type: `div`
     }]);
     let set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
-      gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
+      this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
         i = value;
         if (i > n) {
           set.set.remove();
-        } else if (esgst.es_gb && context.scrollHeight <= context.offsetHeight) {
+        } else if (this.esgst.es_gb && context.scrollHeight <= context.offsetHeight) {
           set.trigger();
         }
         callback();
       });
     });
-    container.insertBefore(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-list`, icon2: ``, title1: `View Raw List`, title2: ``, callback1: gb_openList.bind(null, {bookmarked})}).set, context);
+    container.insertBefore(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-list`, icon2: ``, title1: `View Raw List`, title2: ``, callback1: this.gb_openList.bind(null, {bookmarked})}).set, context);
     container.insertBefore(set.set, context);
     if (popup) {
       popup.open();
     }
-    info = createElements(context, `beforeBegin`, [{
+    info = this.esgst.modules.common.createElements(context, `beforeBegin`, [{
       type: `div`,
       children: [{
         text: `0`,
@@ -238,25 +242,25 @@ _MODULES.push({
         type: `node`
       }]
     }]);
-    if (esgst.gas || (esgst.gf && esgst.gf_m) || esgst.mm) {
-      let heading = createElements(context, `beforeBegin`, [{
+    if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
+      let heading = this.esgst.modules.common.createElements(context, `beforeBegin`, [{
         attributes: {
           class: `page__heading`
         },
         type: `div`
       }]);
-      if (esgst.gas) {
-        gas(heading);
+      if (this.esgst.gas) {
+        this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
-      if (esgst.gf && esgst.gf_m) {
+      if (this.esgst.gf && this.esgst.gf_m) {
         heading.appendChild(filters_addContainer(`gf`, heading, `Gb`));
       }
-      if (esgst.mm) {
-        mm(heading);
+      if (this.esgst.mm) {
+        this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
     set.trigger();
-    if (esgst.es_gb) {
+    if (this.esgst.es_gb) {
       context.addEventListener(`scroll`, () => {
         if ((context.scrollTop + context.offsetHeight) >= context.scrollHeight && !set.busy) {
           set.trigger();
@@ -265,13 +269,13 @@ _MODULES.push({
     }
   }
 
-  function gb_openList(gb) {
+  gb_openList(gb) {
     if (gb.popup) {
-      gb.popup.open();
+      this.gb.popup.open();
       return;
     }
-    gb.popup = new Popup(`fa-list`, `Bookmarked Giveaways (Raw List)`);
-    for (const giveaway of gb.bookmarked) {
+    this.gb.popup = new Popup(`fa-list`, `Bookmarked Giveaways (Raw List)`);
+    for (const giveaway of this.gb.bookmarked) {
       const attributes = {
         class: `table__column__secondary-link`,
         href: `/giveaway/${giveaway.code}/`
@@ -279,7 +283,7 @@ _MODULES.push({
       if (giveaway.name) {
         attributes[`data-esgst`] = true;
       }
-      createElements(gb.popup.scrollable, `beforeEnd`, [{
+      this.esgst.modules.common.createElements(gb.popup.scrollable, `beforeEnd`, [{
         type: `div`,
         children: [{
           attributes,
@@ -288,31 +292,31 @@ _MODULES.push({
         }]
       }]);
     }
-    gb.popup.open();
-    gb_loadNames(gb);
+    this.gb.popup.open();
+    this.gb_loadNames(gb);
   }
 
-  async function gb_loadNames(gb) {
+  async gb_loadNames(gb) {
     let giveaways = {};
-    for (let i = 0, n = gb.popup.scrollable.children.length; i < n; i++) {
-      let element = gb.popup.scrollable.children[i].firstElementChild;
+    for (let i = 0, n = this.gb.popup.scrollable.children.length; i < n; i++) {
+      let element = this.gb.popup.scrollable.children[i].firstElementChild;
       if (!element.getAttribute(`data-esgst`)) {
         let code = element.textContent;
-        element.textContent = parseHtml((await request({method: `GET`, queue: true, url: element.getAttribute(`href`)})).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;
+        element.textContent = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: element.getAttribute(`href`)})).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;
         giveaways[code] = {
           name: element.textContent
         };
       }
     }
-    lockAndSaveGiveaways(giveaways);
+    this.esgst.modules.common.lockAndSaveGiveaways(giveaways);
   }
 
-  async function gb_loadGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
+  async gb_loadGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
     if (i < n) {
       if (bookmarked[i]) {
-        let response = await request({method: `GET`, queue: true, url: `/giveaway/${bookmarked[i].code}/`});
+        let response = await this.esgst.modules.common.request({method: `GET`, queue: true, url: `/giveaway/${bookmarked[i].code}/`});
         let endTime;
-        let responseHtml = parseHtml(response.responseText);
+        let responseHtml = utils.parseHtml(response.responseText);
         let container = responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
         if (container) {
           let heading = responseHtml.getElementsByClassName(`featured__heading`)[0];
@@ -330,7 +334,7 @@ _MODULES.push({
             anchors[j].classList.add(`giveaway__icon`);
           }
           let headingName = heading.firstElementChild;
-          createElements(headingName, `outer`, [{
+          this.esgst.modules.common.createElements(headingName, `outer`, [{
             attributes: {
               class: `giveaway__heading__name`,
               href: url
@@ -347,7 +351,7 @@ _MODULES.push({
           info.firstElementChild.textContent = parseInt(info.firstElementChild.textContent) + parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
           info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
           for (j = 0; j < numT; ++j) {
-            createElements(thinHeadings[0], `outer`, [{
+            this.esgst.modules.common.createElements(thinHeadings[0], `outer`, [{
               attributes: {
                 class: `giveaway__heading__thin`
               },
@@ -463,21 +467,21 @@ _MODULES.push({
               }]
             }]
           });
-          createElements(gbGiveaways, `beforeEnd`, items);
-          await endless_load(gbGiveaways.lastElementChild, false, `gb`);
+          this.esgst.modules.common.createElements(gbGiveaways, `beforeEnd`, items);
+          await this.esgst.modules.common.endless_load(gbGiveaways.lastElementChild, false, `gb`);
           if (endTime > 0) {
-            let deleteLock = await createLock(`giveawayLock`, 300);
+            let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
             let giveaways = JSON.parse(await getValue(`giveaways`));
             giveaways[bookmarked[i].code].started = true;
             giveaways[bookmarked[i].code].endTime = endTime;
             await setValue(`giveaways`, JSON.stringify(giveaways));
             deleteLock();
-            setTimeout(() => gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
+            setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
           } else {
-            setTimeout(() => gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
+            setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
           }
         } else {
-          setTimeout(() => gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
+          setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
         }
       } else {
         callback(i + 1);
@@ -487,27 +491,27 @@ _MODULES.push({
     }
   }
 
-  function gb_getGiveaways(giveaways, main) {
+  gb_getGiveaways(giveaways, main) {
     giveaways.forEach(giveaway => {
-      if (main && esgst.wonPath) return;
-      if ((!main || !esgst.archivePath) && giveaway.creator !== esgst.username && giveaway.url && !giveaway.gbButton) {
+      if (main && this.esgst.wonPath) return;
+      if ((!main || !this.esgst.archivePath) && giveaway.creator !== this.esgst.username && giveaway.url && !giveaway.gbButton) {
         giveaway.gbButton = new Button(giveaway.headingName, `beforeBegin`, {
-          callbacks: [gb_bookmarkGiveaway.bind(null, giveaway, main), null, gb_unbookmarkGiveaway.bind(null, giveaway, main), null],
+          callbacks: [gb_bookmarkGiveaway.bind(null, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(null, giveaway, main), null],
           className: `esgst-gb-button`,
           icons: [`fa-bookmark-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-bookmark`, `fa-circle-o-notch fa-spin`],
           id: `gb`,
-          index: esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
+          index: this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
           titles: [`Bookmark giveaway`, `Bookmarking giveaway...`, `Unbookmark giveaway`, `Unbookmarking giveaway...`]
         });
-        if ((giveaway.entered || (esgst.enteredPath && main)) && !esgst.gb_se) {
+        if ((giveaway.entered || (this.esgst.enteredPath && main)) && !this.esgst.gb_se) {
           giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }
       }
     });
   }
 
-  async function gb_bookmarkGiveaway(giveaway) {
-    let deleteLock = await createLock(`giveawayLock`, 300);
+  async gb_bookmarkGiveaway(giveaway) {
+    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
@@ -522,8 +526,8 @@ _MODULES.push({
     return true;
   }
 
-  async function gb_unbookmarkGiveaway(giveaway) {
-    let deleteLock = await createLock(`giveawayLock`, 300);
+  async gb_unbookmarkGiveaway(giveaway) {
+    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].bookmarked;
@@ -532,4 +536,6 @@ _MODULES.push({
     deleteLock();
     return true;
   }
+}
 
+export default GiveawaysGiveawayBookmarks;

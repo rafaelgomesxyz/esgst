@@ -1,23 +1,26 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GroupsGroupHighlighter extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a green background to a group that you are a member of (in any page).</li>
       </ul>
     `,
     id: `gh`,
-    load: gh,
+    load: this.gh,
     name: `Group Highlighter`,
     sg: true,
-    sync: `Steam Groups`,
+    this.esgst.modules.common.sync: `Steam Groups`,
     type: `groups`
   });
 
-  function gh() {
-    if (esgst.groupsPath) return;
-    esgst.endlessFeatures.push(gh_highlightGroups);
+  gh() {
+    if (this.esgst.groupsPath) return;
+    this.esgst.endlessFeatures.push(gh_highlightGroups);
   }
 
-  async function gh_highlightGroups(context, main, source, endless) {
+  async gh_highlightGroups(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__column__heading[href*="/group/"], .esgst-es-page-${endless}.table__column__heading[href*="/group/"]` : `.table__column__heading[href*="/group/"]`}`);
     if (!elements.length) return;
     const savedGroups = JSON.parse(await getValue(`groups`, `[]`));
@@ -31,4 +34,6 @@ _MODULES.push({
       }
     }
   }
+}
 
+export default GroupsGroupHighlighter;

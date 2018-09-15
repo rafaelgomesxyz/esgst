@@ -1,8 +1,12 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class UsersNotActivatedMultipleWinChecker extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-question-circle"></i>) to the "Gifts Won" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to check if they have any not activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>).</li>
-        <li>Adds a button (<i class="fa fa-trophy"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page that allows you to check all of the winners in the page at once. You cannot check more than that at once due to certain limitations when requesting the data to SGTools.</li>
+        <li>Adds a button (<i class="fa fa-trophy"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page that allows you to check all of the winners in the page this.esgst.modules.generalAccurateTimestamp.at once. You cannot check more than that this.esgst.modules.generalAccurateTimestamp.at once due to certain limitations when requesting the data to SGTools.</li>
         <li>Adds a button (<i class="fa fa-trophy"></i> <i class="fa fa-gear"></i>) to the page heading of this menu that allows you to view all of the users that have been checked.</li>
         <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
       </ul>
@@ -50,32 +54,32 @@ _MODULES.push({
       }
     },
     id: `namwc`,
-    load: namwc,
+    load: this.namwc,
     name: `Not Activated/Multiple Win Checker`,
     sg: true,
     type: `users`
   });
 
-  function namwc() {
-    esgst.profileFeatures.push(namwc_addUser);
-    if (esgst.namwc_h) {
-      esgst.userFeatures.push(namwc_getUsers);
+  namwc() {
+    this.esgst.profileFeatures.push(namwc_addUser);
+    if (this.esgst.namwc_h) {
+      this.esgst.userFeatures.push(namwc_getUsers);
     }
 
-    if (!esgst.winnersPath) return;
+    if (!this.esgst.winnersPath) return;
 
-    namwc_setPopup({
-      button: createHeadingButton({id: `namwc`, icons: [`fa-trophy`, `fa-question-circle`], title: `Check for not activated/multiple wins`})
+    this.namwc_setPopup({
+      button: this.esgst.modules.common.createHeadingButton({id: `namwc`, icons: [`fa-trophy`, `fa-question-circle`], title: `Check for not activated/multiple wins`})
     });
   }
 
-  function namwc_getUsers(users) {
+  namwc_getUsers(users) {
     for (const user of users) {    
       if (user.saved && user.saved.namwc && user.saved.namwc.results && !user.context.parentElement.querySelector(`.esgst-namwc-highlight, .esgst-namwc-icon`)) {
         let results = user.saved.namwc.results;
         let highlight = null;
         let icon = null;
-        if (results.activated && (results.notMultiple || esgst.namwc_h_m)) {
+        if (results.activated && (results.notMultiple || this.esgst.namwc_h_m)) {
           highlight = `positive`;
           icon = `fa-thumbs-up`;
         } else if (results.unknown) {
@@ -85,13 +89,13 @@ _MODULES.push({
           highlight = `negative`;
           icon = `fa-thumbs-down`;
         }
-        if (((highlight === `positive` || highlight === `unknown`) && !esgst.namwc_h_f) || highlight === `negative`) {
+        if (((highlight === `positive` || highlight === `unknown`) && !this.esgst.namwc_h_f) || highlight === `negative`) {
           let title = `${user.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
-          if (esgst.namwc_h_i || (esgst.wbh && (esgst.wbh_w || esgst.wbh_b))) {
-            createElements(user.context, `beforeBegin`, [{
+          if (this.esgst.namwc_h_i || (this.esgst.wbh && (this.esgst.wbh_w || this.esgst.wbh_b))) {
+            this.esgst.modules.common.createElements(user.context, `beforeBegin`, [{
               attributes: {
                 class: `esgst-namwc-icon esgst-user-icon`,
-                title: getFeatureTooltip(`namwc`, title)
+                title: this.esgst.modules.common.getFeatureTooltip(`namwc`, title)
               },
               type: `span`,
               children: [{
@@ -103,16 +107,16 @@ _MODULES.push({
             }]);
           } else {
             user.element.classList.add(`esgst-namwc-highlight`, `esgst-${highlight}`);
-            user.element.title = getFeatureTooltip(`namwc`, title);
+            user.element.title = this.esgst.modules.common.getFeatureTooltip(`namwc`, title);
           }
         }
       }
     }
   }
 
-  function namwc_addUser(profile) {
-    namwc_setPopup({
-      button: createElements(profile.wonRowLeft, `beforeEnd`, [{
+  namwc_addUser(profile) {
+    this.namwc_setPopup({
+      button: this.esgst.modules.common.createElements(profile.wonRowLeft, `beforeEnd`, [{
         attributes: {
           class: `esgst-namwc-button`
         },
@@ -120,7 +124,7 @@ _MODULES.push({
         children: [{
           attributes: {
             class: `fa fa-question-circle`,
-            title: getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)
+            title: this.esgst.modules.common.getFeatureTooltip(`namwc`, `Check for not activated/multiple wins`)
           },
           type: `i`
         }]
@@ -133,10 +137,10 @@ _MODULES.push({
     });
   }
 
-  function namwc_setPopup(obj) {
+  namwc_setPopup(obj) {
     obj.popup = new Popup(obj.isMenu ? `fa-cog` : `fa-question`, obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ``} not activated / multiple wins:`);
     if (!obj.isMenu) {
-      createElements(obj.popup.scrollable, `beforeBegin`, [{
+      this.esgst.modules.common.createElements(obj.popup.scrollable, `beforeBegin`, [{
         type: `div`
       }]).appendChild(createOptions([{
         check: true,
@@ -151,25 +155,25 @@ _MODULES.push({
         id: `namwc_checkMultiple`,
         tooltip: `If enabled, not activated wins will not be checked (faster).`
       }]));
-      createElements(obj.popup.scrollable, `beforeBegin`, [{
+      this.esgst.modules.common.createElements(obj.popup.scrollable, `beforeBegin`, [{
         attributes: {
           class: `esgst-description`
         },
         text: `If a user is highlighted, that means that they have been either checked for the first time or updated`,
         type: `div`
       }]);
-      obj.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-question-circle`, icon2: `fa-times-circle`, title1: `Check`, title2: `Cancel`, callback1: namwc_start.bind(null, obj), callback2: namwc_stop.bind(null, obj)}).set, obj.popup.scrollable);
+      obj.popup.description.insertBefore(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-question-circle`, icon2: `fa-times-circle`, title1: `Check`, title2: `Cancel`, callback1: this.namwc_start.bind(null, obj), callback2: this.namwc_stop.bind(null, obj)}).set, obj.popup.scrollable);
     }
-    obj.popup.progress = createElements(obj.popup.scrollable, `beforeBegin`, [{
+    obj.popup.progress = this.esgst.modules.common.createElements(obj.popup.scrollable, `beforeBegin`, [{
       type: `div`
     }]);
-    obj.popup.overallProgress = createElements(obj.popup.scrollable, `beforeBegin`, [{
+    obj.popup.overallProgress = this.esgst.modules.common.createElements(obj.popup.scrollable, `beforeBegin`, [{
       type: `div`
     }]);
-    obj.popup.results = createElements(obj.popup.scrollable, `beforeEnd`, [{
+    obj.popup.results = this.esgst.modules.common.createElements(obj.popup.scrollable, `beforeEnd`, [{
       type: `div`
     }]);
-    createResults(obj.popup.results, obj.popup, [{
+    this.esgst.modules.common.createResults(obj.popup.results, obj.popup, [{
       Icon: `fa fa-check-circle esgst-positive`,
       Description: `Users with 0 not activated wins`,
       Key: `activated`
@@ -190,10 +194,10 @@ _MODULES.push({
       Description: `Users who cannot be checked for not activated wins either because they have a private profile or SteamCommunity is down`,
       Key: `unknown`
     }]);
-    obj.button.addEventListener(`click`, obj.popup.open.bind(obj.popup, obj.isMenu ? namwc_start.bind(null, obj) : null));
+    obj.button.addEventListener(`click`, obj.popup.open.bind(obj.popup, obj.isMenu ? this.namwc_start.bind(null, obj) : null));
   }
 
-  async function namwc_start(obj) {
+  async namwc_start(obj) {
     obj.isCanceled = false;
     obj.button.classList.add(`esgst-busy`);
     obj.popup.progress.innerHTML = ``;
@@ -222,12 +226,12 @@ _MODULES.push({
     } else if (obj.user) {
       users.push(obj.user.username);
     } else {
-      let elements = esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
+      let elements = this.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
       for (let element of elements) {
         let match = element.getAttribute(`href`).match(/\/user\/(.+)/);
         if (!match) continue;
         let username = match[1];
-        if (users.indexOf(username) > -1 || username === esgst.username || username !== element.textContent || element.closest(`.markdown`)) continue;
+        if (users.indexOf(username) > -1 || username === this.esgst.username || username !== element.textContent || element.closest(`.markdown`)) continue;
         users.push(username);
         if (users.length > 25) break;
       }
@@ -239,7 +243,7 @@ _MODULES.push({
     }
 
     // check users
-    users = sortArray(users);
+    users = utils.sortArray(users);
     let steamIds = [];
     let userElements = {
       activated: {},
@@ -252,9 +256,9 @@ _MODULES.push({
       obj.popup.progress.innerHTML = ``;
       obj.popup.overallProgress.textContent = `${i} of ${n} users checked...`;
       let user = obj.user || {username: users[i]};
-      let savedUser = await getUser(null, user);
+      let savedUser = await this.esgst.modules.common.getUser(null, user);
       user.values = {
-        namwc: savedUser && savedUser.namwc
+        this.namwc: savedUser && savedUser.namwc
       };
       let isNew = false;
       if (!obj.isMenu) {
@@ -266,13 +270,13 @@ _MODULES.push({
           };
         }
         if (Date.now() - user.values.namwc.lastCheck > 6.048 * 1e8) {
-          if (esgst.namwc_checkNotActivated) {
-            await namwc_checkNotActivated(obj, user);
-          } else if (esgst.namwc_checkMultiple) {
-            await namwc_checkMultiple(obj, user);
+          if (this.esgst.namwc_checkNotActivated) {
+            await this.namwc_checkNotActivated(obj, user);
+          } else if (this.esgst.namwc_checkMultiple) {
+            await this.namwc_checkMultiple(obj, user);
           } else {
-            await namwc_checkNotActivated(obj, user);
-            await namwc_checkMultiple(obj, user);
+            await this.namwc_checkNotActivated(obj, user);
+            await this.namwc_checkMultiple(obj, user);
           }
         }
         if (resultsBackup) {
@@ -299,14 +303,14 @@ _MODULES.push({
         if (isNew) {
           attributes.class = `esgst-bold esgst-italic`;
         }
-        elements[key] = createElements(obj.popup[`${key}Users`], `beforeEnd`, [{
+        elements[key] = this.esgst.modules.common.createElements(obj.popup[`${key}Users`], `beforeEnd`, [{
           attributes,
           text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}`,
           type: `a`
         }]);
       }
       if (!obj.isMenu) {
-        await saveUser(null, null, user);
+        await this.esgst.modules.common.saveUser(null, null, user);
         steamIds.push(user.steamId);
         userElements[user.steamId] = elements;
       }
@@ -318,7 +322,7 @@ _MODULES.push({
       return;
     }
 
-    if (!esgst.ust || obj.isMenu) {
+    if (!this.esgst.ust || obj.isMenu) {
       obj.button.classList.remove(`esgst-busy`);
       obj.popup.progress.innerHTML = ``;
       obj.popup.setDone();
@@ -329,12 +333,12 @@ _MODULES.push({
     obj.popup.progress.textContent = `Checking suspensions...`;
     users = [];
     let savedUsers = JSON.parse(await getValue(`users`));
-    let suspensions = JSON.parse((await request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${steamIds.join(`,`)}`})).responseText).suspensions;
+    let suspensions = JSON.parse((await this.esgst.modules.common.request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${steamIds.join(`,`)}`})).responseText).suspensions;
     for (let steamId in suspensions) {
       let suspension = suspensions[steamId];
       let user = {steamId};
       user.values = {
-        namwc: (await getUser(savedUsers, user)).namwc
+        this.namwc: (await this.esgst.modules.common.getUser(savedUsers, user)).namwc
       };
       user.values.namwc.suspension = suspension;
       users.push(user);
@@ -342,17 +346,17 @@ _MODULES.push({
         let i, n;
         for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++);
         if (i > 0) {
-          createElements(userElements[steamId].notActivated, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(userElements[steamId].notActivated, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension, true, true)})`)
+              title: this.esgst.modules.common.getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension, true, true)})`)
             },
             text: `[-${i}]`,
             type: `span`
           }]);
         } else if (userElements[steamId].activated) {
-          createElements(userElements[steamId].activated, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(userElements[steamId].activated, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension, true, true)}`)
+              title: this.esgst.modules.common.getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension, true, true)}`)
             },
             text: `[x]`,
             type: `span`
@@ -363,17 +367,17 @@ _MODULES.push({
         let i, n;
         for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++);
         if (i > 0) {
-          createElements(userElements[steamId].multiple, `beforeEnd`,[{
+          this.esgst.modules.common.createElements(userElements[steamId].multiple, `beforeEnd`,[{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)
+              title: this.esgst.modules.common.getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)
             },
             text: `[-${i}]`,
             type: `span`
           }]);
         } else if (userElements[steamId].notMultiple) {
-          createElements(userElements[steamId].notMultiple, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(userElements[steamId].notMultiple, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension, true, true)}`)
+              title: this.esgst.modules.common.getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension, true, true)}`)
             },
             text: `[x]`,
             type: `span`
@@ -381,23 +385,23 @@ _MODULES.push({
         }
       }
     }
-    await saveUsers(users);
+    await this.esgst.modules.common.saveUsers(users);
     obj.button.classList.remove(`esgst-busy`);
     obj.popup.progress.innerHTML = ``;
     obj.popup.setDone();
   }
 
-  function namwc_stop(obj) {
+  namwc_stop(obj) {
     obj.button.classList.remove(`esgst-busy`);
     obj.popup.progress.innerHTML = ``;
     obj.isCanceled = true;
   }
 
-  async function namwc_checkNotActivated(obj, user) {
+  async namwc_checkNotActivated(obj, user) {
     if (obj.isCanceled) return;
 
     if (obj.popup.progress) {
-      createElements(obj.popup.progress, `inner`, [{
+      this.esgst.modules.common.createElements(obj.popup.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -407,14 +411,14 @@ _MODULES.push({
         type: `span`
       }]);
     }
-    let responseText = (await request({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
+    let responseText = (await this.esgst.modules.common.request({method: `GET`, queue: true, url: `http://www.sgtools.info/nonactivated/${user.username}`})).responseText;
     if (responseText.match(/has a private profile/)) {
       user.values.namwc.results.activated = 0;
       user.values.namwc.results.notActivated = [];
       user.values.namwc.results.unknown = 1;
     } else {
       user.values.namwc.results.notActivated = [];
-      let elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
+      let elements = utils.parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
       let n = elements.length;
       for (let i = 0; i < n; ++i) {
         user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
@@ -425,11 +429,11 @@ _MODULES.push({
     user.values.namwc.lastCheck = Date.now();
   }
 
-  async function namwc_checkMultiple(obj, user) {
+  async namwc_checkMultiple(obj, user) {
     if (obj.isCanceled) return;
 
     if (obj.popup.progress) {
-      createElements(obj.popup.progress, `inner`, [{
+      this.esgst.modules.common.createElements(obj.popup.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -440,7 +444,7 @@ _MODULES.push({
       }]);
     }
     user.values.namwc.results.multiple = [];
-    let elements = parseHtml((await request({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
+    let elements = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: `http://www.sgtools.info/multiple/${user.username}`})).responseText).getElementsByClassName(`multiplewins`);
     let n = elements.length;
     for (let i = 0; i < n; ++i) {
       user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
@@ -448,4 +452,6 @@ _MODULES.push({
     user.values.namwc.results.notMultiple = n === 0 ? 1 : 0;
     user.values.namwc.lastCheck = Date.now();
   }
-  
+}
+
+export default UsersNotActivatedMultipleWinChecker;

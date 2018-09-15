@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralAttachedImageCarousel extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-image"></i>) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.</li>
@@ -13,86 +16,86 @@ _MODULES.push({
       }
     },
     id: `aic`,
-    load: aic,
+    load: this.aic,
     name: `Attached Image Carousel`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function aic() {
-    esgst.endlessFeatures.push(aic_getImages);
-    esgst.documentEvents.keydown.add(aic_move);
-    if (!esgst.mainPageHeading) return;
-    esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
-    esgst.aicButton.classList.add(`esgst-hidden`);
-    esgst.aicButton.addEventListener(`click`, aic_openCarousel.bind(null, 0, null));
+  aic() {
+    this.esgst.endlessFeatures.push(aic_getImages);
+    this.esgst.documentEvents.keydown.add(aic_move);
+    if (!this.esgst.mainPageHeading) return;
+    this.esgst.aicButton = this.esgst.modules.common.createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
+    this.esgst.aicButton.classList.add(`esgst-hidden`);
+    this.esgst.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(null, 0, null));
   }
 
-  function aic_move(event) {
-    if (event.key === `ArrowLeft` && esgst.aicPrevious) {
-      esgst.aicPrevious.click();
+  aic_move(event) {
+    if (event.key === `ArrowLeft` && this.esgst.aicPrevious) {
+      this.esgst.aicPrevious.click();
     }
-    if (event.key === `ArrowRight` && esgst.aicNext) {
-      esgst.aicNext.click();
+    if (event.key === `ArrowRight` && this.esgst.aicNext) {
+      this.esgst.aicNext.click();
     }
   }
 
-  function aic_getImages(context, main, source, endless) {
+  aic_getImages(context, main, source, endless) {
     let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
     let found = false;
     for (let i = 0, n = buttons.length; i < n; i++) {
       let button = buttons[i];
       let image = button.nextElementSibling.firstElementChild;
       let url = image.getAttribute(`src`);
-      let index = esgst.attachedImages.length;
-      if (!esgst.aic_b) {
-        image.addEventListener(`click`, aic_openCarousel.bind(null, index));
+      let index = this.esgst.attachedImages.length;
+      if (!this.esgst.aic_b) {
+        image.addEventListener(`click`, this.aic_openCarousel.bind(null, index));
       }
       let comment = button.closest(`.comment`);
-      esgst.attachedImages.push({
+      this.esgst.attachedImages.push({
         button: button,
         image: image,
         outerWrap: button,
-        qiv: context.getAttribute && context.getAttribute(`data-esgst-qiv`),
+        this.esgst.modules.generalQuickInboxView.qiv: context.getAttribute && context.getAttribute(`data-esgst-qiv`),
         source: comment && comment.querySelector(`.comment__summary`).id,
         url: url
       });
       found = true;
     }
-    if (!found || !esgst.aicButton) {
+    if (!found || !this.esgst.aicButton) {
       return;
     }
-    esgst.aicButton.classList.remove(`esgst-hidden`);
+    this.esgst.aicButton.classList.remove(`esgst-hidden`);
   }
 
-  function aic_openCarousel(i, event) {
+  aic_openCarousel(i, event) {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    let carousel = createElements(document.body, `beforeEnd`, [{
+    let carousel = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: `esgst-popup-modal esgst-aic-carousel`
       },
       type: `div`
     }]);
     carousel.style.zIndex = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    carousel.addEventListener(`click`, aic_removeCarousel);
-    aic_showImage(carousel, i);
+    carousel.addEventListener(`click`, this.aic_removeCarousel);
+    this.aic_showImage(carousel, i);
   }
 
-  function aic_removeCarousel(event) {
+  aic_removeCarousel(event) {
     if (event.target.closest(`.esgst-aic-panel`) || event.target.closest(`img`)) return;
 
     event.currentTarget.remove();
   }
 
-  function aic_showImage(carousel, i) {
+  aic_showImage(carousel, i) {
     let attachedImage, height, image, n, panel;
-    n = esgst.attachedImages.length;
-    attachedImage = esgst.attachedImages[i];
-    if (esgst.ail) {
+    n = this.esgst.attachedImages.length;
+    attachedImage = this.esgst.attachedImages[i];
+    if (this.esgst.ail) {
       attachedImage.image.setAttribute(`src`, attachedImage.url);
     }
     const items = [{
@@ -142,7 +145,7 @@ _MODULES.push({
     if (imageClass) {
       imageNode.classList.remove(`is_hidden`, `is-hidden`);
     }
-    createElements(carousel, `inner`, [{
+    this.esgst.modules.common.createElements(carousel, `inner`, [{
       attributes: {
         class: `esgst-aic-panel`
       },
@@ -164,31 +167,33 @@ _MODULES.push({
     height = panel.offsetHeight + 25;
     image.style.maxHeight = `calc(90% - ${height}px)`;
     image.style.marginTop = `${height}px`;
-    image.firstElementChild.onload = aic_resizeImage.bind(null, image);
-    esgst.aicPrevious = panel.firstElementChild;
-    esgst.aicNext = esgst.aicPrevious.nextElementSibling;
+    image.firstElementChild.onload = this.aic_resizeImage.bind(null, image);
+    this.esgst.aicPrevious = panel.firstElementChild;
+    this.esgst.aicNext = this.esgst.aicPrevious.nextElementSibling;
     if (i > 0) {
-      esgst.aicPrevious.addEventListener(`click`, aic_showImage.bind(null, carousel, i - 1));
+      this.esgst.aicPrevious.addEventListener(`click`, this.aic_showImage.bind(null, carousel, i - 1));
     } else {
-      esgst.aicPrevious.classList.add(`esgst-disabled`);
+      this.esgst.aicPrevious.classList.add(`esgst-disabled`);
     }
     if (i < n - 1) {
-      esgst.aicNext.addEventListener(`click`, aic_showImage.bind(null, carousel, i + 1));
+      this.esgst.aicNext.addEventListener(`click`, this.aic_showImage.bind(null, carousel, i + 1));
     } else {
-      esgst.aicNext.classList.add(`esgst-disabled`);
+      this.esgst.aicNext.classList.add(`esgst-disabled`);
     }
     if (attachedImage.source) {
       panel.lastElementChild.addEventListener(`click`, () => {
         carousel.remove();
-        if (attachedImage.qiv && esgst.qiv.popout) {
-          esgst.qiv.popout.open();
+        if (attachedImage.qiv && this.esgst.qiv.popout) {
+          this.esgst.qiv.popout.open();
         }
       });
     }
   }
 
-  function aic_resizeImage(image) {
+  aic_resizeImage(image) {
     image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
     image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
   }
+}
 
+export default GeneralAttachedImageCarousel;

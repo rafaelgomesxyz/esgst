@@ -1,21 +1,24 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersSentWonRatio extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
       </ul>
     `,
     id: `swr`,
-    load: swr,
+    load: this.swr,
     name: `Sent/Won Ratio`,
     sg: true,
     type: `users`
   });
 
-  function swr() {
-    esgst.profileFeatures.push(swr_add);
+  swr() {
+    this.esgst.profileFeatures.push(swr_add);
   }
 
-  function swr_add(profile) {
+  swr_add(profile) {
     let ratio, fullRatio, reducedRatio, zeroRatio, cvRatio, realCVRatio;
     ratio = profile.wonCount > 0 ? Math.round(profile.sentCount / profile.wonCount * 100) / 100 : 0;
     fullRatio = profile.wonFull > 0 ? Math.round(profile.sentFull / profile.wonFull * 100) / 100 : 0;
@@ -104,10 +107,10 @@ _MODULES.push({
         }
       ]
     };
-    createElements(profile.sentRow, `afterEnd`, [{
+    this.esgst.modules.common.createElements(profile.sentRow, `afterEnd`, [{
       attributes: {
         class: `esgst-swr-ratio featured__table__row`,
-        title: getFeatureTooltip(`swr`)
+        title: this.esgst.modules.common.getFeatureTooltip(`swr`)
       },
       type: `div`,
       children: [{
@@ -134,7 +137,7 @@ _MODULES.push({
           attributes: {
             [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
           },
-          text: esgst.vrcv ? `${cvRatio} / $${realCVRatio.toLocaleString(`en`)}` : cvRatio,
+          text: this.esgst.vrcv ? `${cvRatio} / $${realCVRatio.toLocaleString(`en`)}` : cvRatio,
           type: `span`
         }, {
           text: `)`,
@@ -143,4 +146,6 @@ _MODULES.push({
       }]
     }]);
   }
+}
 
+export default UsersSentWonRatio;

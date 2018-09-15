@@ -1,17 +1,20 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralHiddenBlacklistStats extends Module {
+info = ({
     description: `
       <ul>
         <li>Hides the blacklist stats of your <a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.</li>
       </ul>
     `,
     id: `hbs`,
-    load: hbs,
+    load: this.hbs,
     name: `Hidden Blacklist Stats`,
     sg: true,
     type: `general`
   });
 
-  function hbs() {
+  hbs() {
     if (!location.pathname.match(/^\/stats\/personal\/community/)) return;
 
     let chart = document.getElementsByClassName(`chart`)[4];
@@ -29,4 +32,6 @@ _MODULES.push({
     document.body.appendChild(script);
     script.remove();
   }
+}
 
+export default GeneralHiddenBlacklistStats;

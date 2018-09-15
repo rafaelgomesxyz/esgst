@@ -1,9 +1,12 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class DiscussionsDiscussionHighlighter extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-star"></i> if the discussion is highlighted and <i class="fa fa-star-o"></i> if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.</li>
         <li>Highlighted discussions have a green background.</li>
-        <li>Adds a button (<i class="fa fa-star esgst-yellow"></i> View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box at the header of any page that allows you to view all of the discussions that have been highlighted.</li>
+        <li>Adds a button (<i class="fa fa-star esgst-yellow"></i> View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view all of the discussions that have been highlighted.</li>
       </ul>
     `,
     features: {
@@ -13,15 +16,15 @@ _MODULES.push({
       }
     },
     id: `dh`,
-    load: dh,
+    load: this.dh,
     name: `Discussion Highlighter`,
     sg: true,
     type: `discussions`
   });
 
-  function dh() {
+  dh() {
     new Process({
-      button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
+      button: this.esgst.modules.common.createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, this.esgst.modules.common.generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: this.esgst.modules.common.getFeatureTooltip(`dh`)})),
       popup: {
         icon: `fa-star`,
         title: `Highlited Discussions`,
@@ -30,16 +33,16 @@ _MODULES.push({
       },
       urls: {
         id: `dh`,
-        init: dh_initUrls,
+        init: this.dh_initUrls,
         perLoad: 5,
-        request: {
-          request: dh_requestUrl
+        this.esgst.modules.common.request: {
+          this.esgst.modules.common.request: this.dh_requestUrl
         }
       }
     });
   }
 
-  async function dh_initUrls(obj) {
+  async dh_initUrls(obj) {
     let discussions = JSON.parse(await getValue(`discussions`));
     obj.keys = [];
     for (let key in discussions) {
@@ -81,12 +84,12 @@ _MODULES.push({
     }];
   }
 
-  function dh_requestUrl(obj, details, response, responseHtml) {
+  dh_requestUrl(obj, details, response, responseHtml) {
     let key = obj.keys[obj.index];
     let breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
     let categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
     let usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
-    createElements(obj.context, `beforeEnd`, [{
+    this.esgst.modules.common.createElements(obj.context, `beforeEnd`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -163,9 +166,9 @@ _MODULES.push({
     }]);
   }
 
-  async function dh_highlightDiscussion(code, context, save) {
+  async dh_highlightDiscussion(code, context, save) {
     if (save) {
-      let deleteLock = await createLock(`commentLock`, 300);
+      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
       const comments = JSON.parse(await getValue(`discussions`));
       if (!comments[code]) {
         comments[code] = {
@@ -183,9 +186,9 @@ _MODULES.push({
     return true;
   }
 
-  async function dh_unhighlightDiscussion(code, context, save) {
+  async dh_unhighlightDiscussion(code, context, save) {
     if (save) {
-      let deleteLock = await createLock(`commentLock`, 300);
+      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
       const comments = JSON.parse(await getValue(`discussions`));
       delete comments[code].highlighted;
       comments[code].lastUsed = Date.now();
@@ -197,4 +200,6 @@ _MODULES.push({
     }
     return true;
   }
+}
 
+export default DiscussionsDiscussionHighlighter;

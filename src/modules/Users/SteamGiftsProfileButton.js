@@ -1,27 +1,30 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class UsersSteamGiftsProfileButton extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamtrades.com/user/76561198020696458">profile</a> page that allows you to go to their SteamGifts profile page.</li>
       </ul>
     `,
     id: `sgpb`,
-    load: sgpb,
+    load: this.sgpb,
     name: `SteamGifts Profile Button`,
     st: true,
     type: `users`
   });
 
-  function sgpb() {
-    if (!esgst.userPath) return;
-    esgst.profileFeatures.push(sgpb_add);
+  sgpb() {
+    if (!this.esgst.userPath) return;
+    this.esgst.profileFeatures.push(sgpb_add);
   }
 
-  function sgpb_add(profile) {
+  sgpb_add(profile) {
     let button;
-    button = createElements(profile.steamButtonContainer, `beforeEnd`, [{
+    button = this.esgst.modules.common.createElements(profile.steamButtonContainer, `beforeEnd`, [{
       attributes: {
         class: `esgst-sgpb-container`,
-        title: getFeatureTooltip(`sgpb`)
+        title: this.esgst.modules.common.getFeatureTooltip(`sgpb`)
       },
       type: `div`,
       children: [{
@@ -39,7 +42,7 @@ _MODULES.push({
           type: `i`,
           children: [{
             attributes: {
-              src: esgst.sgIcon
+              src: this.esgst.sgIcon
             },
             type: `img`
           }]
@@ -51,4 +54,6 @@ _MODULES.push({
     }]);
     button.insertBefore(profile.steamButton, button.firstElementChild);
   }
-  
+}
+
+export default UsersSteamGiftsProfileButton;

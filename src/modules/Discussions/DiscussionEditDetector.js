@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class DiscussionsDiscussionEditDetector extends Module {
+info = ({
     description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.</li>
@@ -6,20 +10,20 @@ _MODULES.push({
       </ul>
     `,
     id: `ded`,
-    load: ded,
+    load: this.ded,
     name: `Discussion Edit Detector`,
     sg: true,
     st: true,
     type: `discussions`
   });
 
-  function ded() {
-    if (esgst.replyBox && !esgst.userPath) {
-      ded_addButton(esgst.replyBox);
+  ded() {
+    if (this.esgst.replyBox && !this.esgst.userPath) {
+      this.ded_addButton(this.esgst.replyBox);
     }
   }
 
-  function ded_addButton(context, commentUrl, callback) {
+  ded_addButton(context, commentUrl, callback) {
     const obj = {
       callback,
       checked: false,
@@ -28,20 +32,20 @@ _MODULES.push({
       description: context.querySelector(`[name="description"]`),
       parentId: context.querySelector(`[name="parent_id"]`),
       tradeCode: (context.querySelector(`[name="trade_code"]`) || {value: ``}).value,
-      url: esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
+      url: this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
     };
-    const container = context.getElementsByClassName(esgst.sg
+    const container = context.getElementsByClassName(this.esgst.sg
       ? `align-button-container`
       : `btn_actions`
     )[0];
     container.firstElementChild.remove();
-    obj.button = createElements(container, `afterBegin`, [{
+    obj.button = this.esgst.modules.common.createElements(container, `afterBegin`, [{
       attributes: {
         class: `esgst-ded-button`
       },
       type: `div`
     }]);
-    obj.status = createElements(container, `beforeEnd`, [{
+    obj.status = this.esgst.modules.common.createElements(container, `beforeEnd`, [{
       attributes: {
         class: `comment__actions action_list esgst-ded-status`
       },
@@ -54,16 +58,16 @@ _MODULES.push({
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Submit`,
       title2: `Saving...`,
-      callback1: ded_submitComment.bind(null, obj)
+      callback1: this.ded_submitComment.bind(null, obj)
     });
     obj.button.appendChild(obj.set.set);
   }
 
-  async function ded_submitComment(obj) {
+  async ded_submitComment(obj) {
     obj.status.innerHTML = ``;
 
     if (!obj.commentUrl) {
-      saveComment(
+      this.esgst.modules.common.saveComment(
         obj.tradeCode,
         obj.parentId.value,
         obj.description.value,
@@ -75,24 +79,24 @@ _MODULES.push({
       return;
     }
 
-    const response = await request({
+    const response = await this.esgst.modules.common.request({
           method: `GET`,
           url: obj.commentUrl
         }),
-        responseHtml = parseHtml(response.responseText),
+        responseHtml = utils.parseHtml(response.responseText),
         comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
-    obj.parentId = esgst.sg
+    obj.parentId = this.esgst.sg
       ? comment.closest(`.comment`).getAttribute(`data-comment-id`)
       : comment.getAttribute(`data-id`);
-    obj.tradeCode = esgst.sg
+    obj.tradeCode = this.esgst.sg
       ? ``
       : response.finalUrl.match(/\/trade\/(.+?)\//)[1];
-    obj.url = esgst.sg
+    obj.url = this.esgst.sg
       ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1]
       : `/ajax.php`;
 
-    if (obj.checked || !esgst.rfi_c) {
-      saveComment(
+    if (obj.checked || !this.esgst.rfi_c) {
+      this.esgst.modules.common.saveComment(
         obj.tradeCode,
         obj.parentId,
         obj.description.value,
@@ -104,7 +108,7 @@ _MODULES.push({
       return;
     }
 
-    const comments = esgst.sg
+    const comments = this.esgst.sg
       ? comment.closest(`.comment`).getElementsByClassName(`comment__children`)[0]
       : comment.getElementsByClassName(`comment_children`)[0];
     for (let i = comments.children.length - 1; i > -1; i--) {
@@ -118,13 +122,13 @@ _MODULES.push({
     }
     if (comments.children.length) {
       obj.context.appendChild(comments);
-      await endless_load(comments);
+      await this.esgst.modules.common.endless_load(comments);
       for (let i = comments.children.length - 1; i > -1; i--) {
         obj.context.appendChild(comments.children[i]);
       }
       comments.remove();
       obj.set.changeButton(1).setTitle(`Confirm`);
-      createElements(obj.status, `inner`, [{
+      this.esgst.modules.common.createElements(obj.status, `inner`, [{
         attributes: {
           class: `esgst-bold esgst-warning`
         },
@@ -146,7 +150,7 @@ _MODULES.push({
       }]);
       obj.checked = true;
     } else {
-      saveComment(
+      this.esgst.modules.common.saveComment(
         obj.tradeCode,
         obj.parentId,
         obj.description.value,
@@ -157,4 +161,6 @@ _MODULES.push({
       );
     }
   }
+}
 
+export default DiscussionsDiscussionEditDetector;

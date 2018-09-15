@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayWinningChance extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-area-chart"></i> [Chance]%) below a giveaway's start time (in any page) that shows your chance of winning the giveaway.</li>
@@ -52,37 +55,37 @@ _MODULES.push({
       }
     },
     id: `gwc`,
-    load: gwc,
+    load: this.gwc,
     name: `Giveaway Winning Chance`,
     sg: true,
     type: `giveaways`
   });
 
-  function gwc() {
-    esgst.giveawayFeatures.push(gwc_addChances);
-    if (esgst.gptw || !esgst.enteredPath) return;
-    esgst.endlessFeatures.push(gwc_addHeading);
+  gwc() {
+    this.esgst.giveawayFeatures.push(gwc_addChances);
+    if (this.esgst.gptw || !this.esgst.enteredPath) return;
+    this.esgst.endlessFeatures.push(gwc_addHeading);
   }
 
-  function gwc_addChances(giveaways, main, source) {
+  gwc_addChances(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.sgTools || (main && (esgst.createdPath || esgst.wonPath || esgst.newGiveawayPath || esgst.archivePath))) return;
-      if (((giveaway.inviteOnly && ((main && (esgst.giveawayPath || esgst.enteredPath)) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
+      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath)) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
         if (giveaway.started) {
-          giveaway.gwcContext = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+          giveaway.gwcContext = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
             attributes: {
-              class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc`,
+              class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwc`,
               [`data-columnId`]: `gwc`,
-              title: getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
+              title: this.esgst.modules.common.getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
             },
             type: `div`
           }]);
-          gwc_addChance(giveaway);
-          if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
+          this.gwc_addChance(giveaway);
+          if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
             giveaway.gwcContext.setAttribute(`draggable`, true);
-            giveaway.gwcContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-            giveaway.gwcContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-            giveaway.gwcContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+            giveaway.gwcContext.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
+            giveaway.gwcContext.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
+            giveaway.gwcContext.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
           }
         } else {
           giveaway.chance = 100;
@@ -94,12 +97,12 @@ _MODULES.push({
     });
   }
 
-  function gwc_addChance(giveaway) {
+  gwc_addChance(giveaway) {
     let advancedChance = 0, advancedColor, basicChance, basicColor, colors, entries, i;
-    entries = giveaway.entered || giveaway.ended || giveaway.created || !esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
+    entries = giveaway.entered || giveaway.ended || giveaway.created || !this.esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
     basicChance = entries > 0 ? Math.round(giveaway.copies / entries * 10000) / 100 : 100;
     basicChance = basicChance > 100 ? 100 : (basicChance <= 0 ? 0.01 : basicChance);
-    if (esgst.gwc_a && !giveaway.ended && giveaway.startTime) {
+    if (this.esgst.gwc_a && !giveaway.ended && giveaway.startTime) {
       advancedChance = entries > 0 ? Math.round(giveaway.copies / (entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) * 10000) / 100 : 100;
       advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
     }
@@ -108,38 +111,38 @@ _MODULES.push({
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
     giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
     if (giveaway.points) {
-      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
+      giveaway.gwcContext.title = this.esgst.modules.common.getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
     }
     giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
     giveaway.gwcContext.setAttribute(`data-projectedChance`, giveaway.projectedChance);
-    for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
-      colors = esgst.gwc_colors[i];
+    for (i = this.esgst.gwc_colors.length - 1; i > -1; --i) {
+      colors = this.esgst.gwc_colors[i];
       if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
         basicColor = colors.color;
         break;
       }
     }
-    for (i = esgst.gwc_colors.length - 1; i > -1; --i) {
-      colors = esgst.gwc_colors[i];
+    for (i = this.esgst.gwc_colors.length - 1; i > -1; --i) {
+      colors = this.esgst.gwc_colors[i];
       if (advancedChance >= parseFloat(colors.lower) && advancedChance <= parseFloat(colors.upper)) {
         advancedColor = colors.color;
         break;
       }
     }
-    if (esgst.gwc_h) {
+    if (this.esgst.gwc_h) {
       giveaway.headingName.classList.add(`esgst-gwc-highlight`);
-      giveaway.headingName.style.color = esgst.gwc_a && !esgst.gwc_a_b ? advancedColor : basicColor;
+      giveaway.headingName.style.color = this.esgst.gwc_a && !this.esgst.gwc_a_b ? advancedColor : basicColor;
       if (giveaway.image) {
         giveaway.image.classList.add(`esgst-gwc-highlight`);
-        giveaway.image.style.color = `${esgst.gwc_a && !esgst.gwc_a_b ? advancedColor : basicColor}`;
-        giveaway.image.style.boxShadow = `${esgst.gwc_a && !esgst.gwc_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwc-highlight-width, 3px) inset`;
+        giveaway.image.style.color = `${this.esgst.gwc_a && !this.esgst.gwc_a_b ? advancedColor : basicColor}`;
+        giveaway.image.style.boxShadow = `${this.esgst.gwc_a && !this.esgst.gwc_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwc-highlight-width, 3px) inset`;
       }
     }
-    if (esgst.enteredPath) {
+    if (this.esgst.enteredPath) {
       giveaway.gwcContext.style.display = `inline-block`;
     }
     const items = [];
-    if (!esgst.enteredPath) {
+    if (!this.esgst.enteredPath) {
       items.push({
         attributes: {
           class: `fa fa-area-chart`
@@ -156,8 +159,8 @@ _MODULES.push({
     if (advancedColor) {
       advancedAttributes.style = `color: ${advancedColor}; font-weight: bold;`
     }
-    if (esgst.gwc_a && advancedChance) {
-      if (esgst.gwc_a_b) {
+    if (this.esgst.gwc_a && advancedChance) {
+      if (this.esgst.gwc_a_b) {
         children.push({
           attributes: basicAttributes,
           text: `${basicChance}%`,
@@ -191,31 +194,31 @@ _MODULES.push({
       type: `span`,
       children
     });
-    if (esgst.enteredPath && esgst.gwr) {
+    if (this.esgst.enteredPath && this.esgst.gwr) {
       items.push({
         text: ` / `,
         type: `node`
       });
     }
-    createElements(giveaway.gwcContext, `inner`, items);
+    this.esgst.modules.common.createElements(giveaway.gwcContext, `inner`, items);
   }
 
-  function gwc_addHeading(context, main, source, endless) {
-    if (esgst.createdPath || esgst.wonPath || !main) return;
+  gwc_addHeading(context, main, source, endless) {
+    if (this.esgst.createdPath || this.esgst.wonPath || !main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
     if (!table || table.getElementsByClassName(`esgst-gwcr-heading`)[0]) return;
     let title = ``;
-    if (esgst.gwc) {
+    if (this.esgst.gwc) {
       title += `Chance / `;
     }
-    if (esgst.gwr) {
+    if (this.esgst.gwr) {
       title += `Ratio / `;
     }
-    if (esgst.gptw) {
+    if (this.esgst.gptw) {
       title += `Points To Win / `;
     }
     title = title.slice(0, -3);
-    createElements(table.firstElementChild, `afterEnd`, [{
+    this.esgst.modules.common.createElements(table.firstElementChild, `afterEnd`, [{
       attributes: {
         class: `table__column--width-small text-center esgst-gwcr-heading`
       },
@@ -223,4 +226,6 @@ _MODULES.push({
       type: `div`
     }]);
   }
-  
+}
+
+export default GiveawaysGiveawayWinningChance;

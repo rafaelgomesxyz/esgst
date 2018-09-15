@@ -1,37 +1,42 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralFixedSidebar extends Module {
+info = ({
     description: `
       <ul>
-        <li>Keeps the sidebar of any page at the left side of the window while you scroll down the page.</li>
+        <li>Keeps the sidebar of any page this.esgst.modules.generalAccurateTimestamp.at the left side of the window while you scroll down the page.</li>
       </ul>
     `,
     id: `fs`,
-    load: fs,
+    load: this.fs,
     name: `Fixed Sidebar`,
     sg: true,
     type: `general`
   });
 
-  function fs() {
-    if (!esgst.sidebar) {
+  fs() {
+    if (!this.esgst.sidebar) {
       return;
     }
 
-    const top = esgst.pageTop + 25;
-    esgst.style.insertAdjacentText(`beforeEnd`, `
+    const top = this.esgst.pageTop + 25;
+    this.esgst.style.insertAdjacentText(`beforeEnd`, `
       .esgst-fs {
-        max-height: calc(100vh - ${top + 30 + (esgst.ff ? 39 : 0)}px);
+        max-height: calc(100vh - ${top + 30 + (this.esgst.ff ? 39 : 0)}px);
         top: ${top}px;
       }
 
       .esgst-fs.stuck {
-        height: calc(100vh - ${top + 30 + (esgst.ff ? 39 : 0)}px);
+        height: calc(100vh - ${top + 30 + (this.esgst.ff ? 39 : 0)}px);
       }
 
       .sticky_sentinel--top {
-        top: ${esgst.sidebar.offsetTop - top - 1}px;
+        top: ${this.esgst.sidebar.offsetTop - top - 1}px;
       }
     `);
 
-    esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
+    this.esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
   }
+}
 
+export default GeneralFixedSidebar;

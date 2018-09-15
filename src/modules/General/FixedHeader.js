@@ -1,25 +1,30 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralFixedHeader extends Module {
+info = ({
     description: `
       <ul>
-        <li>Keeps the header of any page at the top of the window while you scroll down the page.</li>
+        <li>Keeps the header of any page this.esgst.modules.generalAccurateTimestamp.at the top of the window while you scroll down the page.</li>
       </ul>
     `,
     id: `fh`,
-    load: fh,
+    load: this.fh,
     name: `Fixed Header`,
     sg: true,
     st: true,
     type: `general`
   });
 
-  function fh() {
-    if (!esgst.header) {
+  fh() {
+    if (!this.esgst.header) {
       return;
     }
 
-    esgst.header.classList.add(`esgst-fh`);
-    const height = esgst.header.offsetHeight;
-    esgst.pageTop += height;
-    esgst.commentsTop += height;
+    this.esgst.header.classList.add(`esgst-fh`);
+    const height = this.esgst.header.offsetHeight;
+    this.esgst.pageTop += height;
+    this.esgst.commentsTop += height;
   }
+}
 
+export default GeneralFixedHeader;

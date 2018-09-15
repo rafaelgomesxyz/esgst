@@ -1,4 +1,7 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class CommentsCommentFormattingHelper extends Module {
+info = ({
     description: `
       <ul>
         <li>When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' <a href="https://www.steamgifts.com/about/comment-formatting">comment formatting</a>.</li>
@@ -259,23 +262,23 @@ _MODULES.push({
       }
     },
     id: `cfh`,
-    load: cfh,
+    load: this.cfh,
     name: `Comment Formatting Helper`,
     sg: true,
     st: true,
     type: `comments`
   });
 
-  async function cfh() {
-    esgst.cfhEmojis = cfh_emojis();
-    esgst.endlessFeatures.push(cfh_setTextAreas);
-    esgst.cfh = {
+  async cfh() {
+    this.esgst.cfhEmojis = this.cfh_emojis();
+    this.esgst.endlessFeatures.push(cfh_setTextAreas);
+    this.esgst.cfh = {
       backup: [],
       history: [],
       panel: document.createElement(`div`),
       preview: document.createElement(`div`)
     };
-    esgst.cfh.panel.className = `esgst-cfh-panel`;
+    this.esgst.cfh.panel.className = `esgst-cfh-panel`;
     let items = [
       {
         id: `cfh_i`,
@@ -378,7 +381,7 @@ _MODULES.push({
         name: `Link`,
         setPopout: popout => {
           let title, url;
-          createElements(popout.popout, `inner`, [{
+          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `URL: `,
@@ -412,7 +415,7 @@ _MODULES.push({
           url = popout.popout.firstElementChild.firstElementChild;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           popout.popout.lastElementChild.addEventListener(`click`, () => {
-            cfh_formatLink(title.value, url.value);
+            this.cfh_formatLink(title.value, url.value);
             url.value = ``;
             title.value = ``;
             popout.close();
@@ -420,7 +423,7 @@ _MODULES.push({
         },
         callback: popout => {
           let title = popout.firstElementChild.nextElementSibling.firstElementChild;
-          title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
+          title.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
           title.focus();
         }
       },
@@ -430,7 +433,7 @@ _MODULES.push({
         name: `Image`,
         setPopout: popout => {
           let title, url;
-          createElements(popout.popout, `inner`, [{
+          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `URL: `,
@@ -470,14 +473,14 @@ _MODULES.push({
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           imgur.addEventListener(`click`, () => {
-            multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, cfh_uploadImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
+            this.esgst.modules.common.multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
               await delValue(`imgurToken`);
-              openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
-              cfh_checkImgur(popout, url);
+              this.esgst.modules.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
+              this.cfh_checkImgur(popout, url);
             });
           });
           popout.popout.lastElementChild.addEventListener(`click`, () => {
-            cfh_formatLink(title.value, url.value, true);
+            this.cfh_formatLink(title.value, url.value, true);
             url.value = ``;
             title.value = ``;
             popout.close();
@@ -487,7 +490,7 @@ _MODULES.push({
           let title, url;
           url = popout.firstElementChild.firstElementChild;
           title = popout.firstElementChild.nextElementSibling.firstElementChild;
-          title.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
+          title.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
           if (url.value && title.value) {
             popout.lastElementChild.click();
           } else if (url.value) {
@@ -504,7 +507,7 @@ _MODULES.push({
         setPopup: popup => {
           let context, insertColumn, insertRow, table;
           context = popup.scrollable;
-          createElements(context, `inner`, [{
+          this.esgst.modules.common.createElements(context, `inner`, [{
             type: `table`
           }, {
             attributes: {
@@ -528,13 +531,13 @@ _MODULES.push({
           table = context.firstElementChild;
           insertRow = table.nextElementSibling;
           insertColumn = insertRow.nextElementSibling;
-          cfh_insertTableRows(4, table);
-          cfh_insertTableColumns(2, table);
+          this.cfh_insertTableRows(4, table);
+          this.cfh_insertTableColumns(2, table);
           insertRow.addEventListener(`click`, () => {
-            cfh_insertTableRows(1, table);
+            this.cfh_insertTableRows(1, table);
           });
           insertColumn.addEventListener(`click`, () => {
-            cfh_insertTableColumns(1, table);
+            this.cfh_insertTableColumns(1, table);
           });
           insertColumn.nextElementSibling.addEventListener(`click`, () => {
             let end, i, j, numColumns, numRows, rows, start, value;
@@ -556,11 +559,11 @@ _MODULES.push({
                 }
               }
               value = value.replace(/^\n/, ``);
-              start = esgst.cfh.textArea.selectionStart;
-              end = esgst.cfh.textArea.selectionEnd;
-              esgst.cfh.textArea.value = `${esgst.cfh.textArea.value.slice(0, start)}${value}${esgst.cfh.textArea.value.slice(end)}`;
-              esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
-              esgst.cfh.textArea.focus();
+              start = this.esgst.cfh.textArea.selectionStart;
+              end = this.esgst.cfh.textArea.selectionEnd;
+              this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
+              this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
+              this.esgst.cfh.textArea.focus();
               popup.close();
             }
           });
@@ -572,12 +575,12 @@ _MODULES.push({
         name: `Emojis`,
         setPopout: async popout => {
           let emojis, popup;
-          createElements(popout.popout, `inner`, [{
+          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
             attributes: {
               class: `esgst-cfh-emojis`
             },
             type: `div`,
-            children: await cfh_getEmojis()
+            children: await this.cfh_getEmojis()
           }, {
             attributes: {
               class: `form__saving-button btn_action white`
@@ -586,8 +589,8 @@ _MODULES.push({
             type: `div`
           }]);
           emojis = popout.popout.firstElementChild;
-          draggable_set({context: emojis, id: `emojis`});
-          cfh_setEmojis(emojis);
+          this.esgst.modules.common.draggable_set({context: emojis, id: `emojis`});
+          this.cfh_setEmojis(emojis);
           emojis.nextElementSibling.addEventListener(`click`, async () => {
             if (popup) {
               popup.open(() => {
@@ -621,14 +624,14 @@ _MODULES.push({
               }]).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
-              createElements(savedEmojis, `inner`, await cfh_getEmojis());
+              this.esgst.modules.common.createElements(savedEmojis, `inner`, await this.cfh_getEmojis());
               const obj = {
                 context: savedEmojis,
                 id: `emojid`
               };
-              draggable_set(obj);
-              for (const emojiData of esgst.cfhEmojis) {
-                createElements(emojis, `beforeEnd`, [{
+              this.esgst.modules.common.draggable_set(obj);
+              for (const emojiData of this.esgst.cfhEmojis) {
+                this.esgst.modules.common.createElements(emojis, `beforeEnd`, [{
                   attributes: {
                     [`data-id`]: emojiData.emoji,
                     title: emojiData.name
@@ -637,7 +640,7 @@ _MODULES.push({
                   type: `span`
                 }]);
                 emojis.lastElementChild.addEventListener(`click`, () => {
-                  createElements(savedEmojis, `beforeEnd`, [{
+                  this.esgst.modules.common.createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
                       [`data-id`]: emojiData.emoji,
                       title: emojiData.name
@@ -645,7 +648,7 @@ _MODULES.push({
                     text: emojiData.emoji,
                     type: `span`
                   }]);
-                  draggable_set(obj);
+                  this.esgst.modules.common.draggable_set(obj);
                 });
               }
               popup.onClose = () => {
@@ -679,9 +682,9 @@ _MODULES.push({
         },
         callback: async popout => {
           let emojis = popout.firstElementChild;
-          createElements(emojis, `inner`, await cfh_getEmojis());
-          draggable_set({context: emojis, id: `emojis`});
-          cfh_setEmojis(emojis);
+          this.esgst.modules.common.createElements(emojis, `inner`, await this.cfh_getEmojis());
+          this.esgst.modules.common.draggable_set({context: emojis, id: `emojis`});
+          this.cfh_setEmojis(emojis);
         }
       },
       {
@@ -689,7 +692,7 @@ _MODULES.push({
         icons: [`fa-star`],
         name: `Giveaway Encrypter`,
         setPopout: popout => {
-          createElements(popout.popout, `inner`, [{
+          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
             text: `Giveaway Code: `,
             type: `node`
           }, {
@@ -708,8 +711,8 @@ _MODULES.push({
           let code = popout.popout.firstElementChild;
           code.nextElementSibling.addEventListener(`click`, () => {
             if (code.value.match(/^[\d\w]{5}$/)) {
-              let encodedCode = ged_encryptCode(code.value);
-              cfh_formatLink(``, `ESGST-${encodedCode}`);
+              let encodedCode = this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(code.value);
+              this.cfh_formatLink(``, `ESGST-${encodedCode}`);
               code.value = ``;
               popout.close();
             } else {
@@ -719,7 +722,7 @@ _MODULES.push({
         },
         callback: popout => {
           let code = popout.firstElementChild;
-          code.value = esgst.cfh.textArea.value.slice(esgst.cfh.textArea.selectionStart, esgst.cfh.textArea.selectionEnd);
+          code.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
           code.focus();
         }
       },
@@ -729,9 +732,9 @@ _MODULES.push({
         name: `Saved Replies`,
         setPopout: async popout => {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
-          esgst.cfh.deletedReplies = [];
+          this.esgst.cfh.deletedReplies = [];
           savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
-          createElements(popout.popout, `inner`, [{
+          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               attributes: {
@@ -773,17 +776,17 @@ _MODULES.push({
             }]
           }]);
           filter = popout.popout.firstElementChild.firstElementChild;
-          esgst.cfh.undoDelete = popout.popout.lastElementChild;
-          saveButton = esgst.cfh.undoDelete.previousElementSibling;
+          this.esgst.cfh.undoDelete = popout.popout.lastElementChild;
+          saveButton = this.esgst.cfh.undoDelete.previousElementSibling;
           addButton = saveButton.previousElementSibling;
           replies = addButton.previousElementSibling;
           for (i = 0, n = savedReplies.length; i < n; ++i) {
-            cfh_setReply(replies, savedReplies[i]);
+            this.cfh_setReply(replies, savedReplies[i]);
           }
-          filter.addEventListener(`input`, cfh_filterReplies.bind(null, replies));
-          esgst.cfh.undoDelete.addEventListener(`click`, cfh_undoDelete);
-          addButton.addEventListener(`click`, cfh_openReplyPopup.bind(null, null, null, replies, null));
-          saveButton.addEventListener(`click`, () => cfh_saveReply(esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null, null));
+          filter.addEventListener(`input`, this.cfh_filterReplies.bind(null, replies));
+          this.esgst.cfh.undoDelete.addEventListener(`click`, this.cfh_undoDelete);
+          addButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(null, null, null, replies, null));
+          saveButton.addEventListener(`click`, () => this.cfh_saveReply(this.esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null, null));
         },
         callback: popout => {
           popout.firstElementChild.firstElementChild.focus();
@@ -792,65 +795,65 @@ _MODULES.push({
         icons: [`fa-paste`],
         name: `Automatic Links / Images Paste Formatting: OFF`,
         callback: context => {
-          esgst.cfh.alipf = context.firstElementChild;
-          cfh_setAlipf(esgst.cfh_pasteFormatting, true);
+          this.esgst.cfh.alipf = context.firstElementChild;
+          this.cfh_setAlipf(this.esgst.cfh_pasteFormatting, true);
         },
-        onClick: cfh_setAlipf
+        onClick: this.cfh_setAlipf
       }, {
         icons: [`fa-rotate-left`],
         name: `Undo Formatting`,
         callback: context => {
-          esgst.cfh.undo = context.firstElementChild;
-          esgst.cfh.undo.classList.add(`esgst-faded`);
+          this.esgst.cfh.undo = context.firstElementChild;
+          this.esgst.cfh.undo.classList.add(`esgst-faded`);
         },
         onClick: () => {
           let end, value;
-          if (esgst.cfh.history.length) {
-            cfh_redo(esgst.cfh.textArea, esgst.cfh.textArea.value);
-            value = esgst.cfh.history.pop();
-            end = esgst.cfh.textArea.selectionEnd - (esgst.cfh.textArea.value.length - value.length);
-            esgst.cfh.textArea.value = value;
-            esgst.cfh.textArea.setSelectionRange(end, end);
-            if (!esgst.cfh.history.length) {
-              esgst.cfh.undo.classList.add(`esgst-faded`);
+          if (this.esgst.cfh.history.length) {
+            this.cfh_redo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
+            value = this.esgst.cfh.history.pop();
+            end = this.esgst.cfh.textArea.selectionEnd - (this.esgst.cfh.textArea.value.length - value.length);
+            this.esgst.cfh.textArea.value = value;
+            this.esgst.cfh.textArea.setSelectionRange(end, end);
+            if (!this.esgst.cfh.history.length) {
+              this.esgst.cfh.undo.classList.add(`esgst-faded`);
             }
-            esgst.cfh.textArea.focus();
+            this.esgst.cfh.textArea.focus();
           }
         }
       }, {
         icons: [`fa-rotate-right`],
         name: `Redo Formatting`,
         callback: context => {
-          esgst.cfh.redo = context.firstElementChild;
-          esgst.cfh.redo.classList.add(`esgst-faded`);
+          this.esgst.cfh.redo = context.firstElementChild;
+          this.esgst.cfh.redo.classList.add(`esgst-faded`);
         },
         onClick: () => {
           let end, value;
-          if (esgst.cfh.backup.length) {
-            cfh_undo(esgst.cfh.textArea, esgst.cfh.textArea.value);
-            value = esgst.cfh.backup.pop();
-            end = esgst.cfh.textArea.selectionEnd + (value.length - esgst.cfh.textArea.value.length);
-            esgst.cfh.textArea.value = value;
-            esgst.cfh.textArea.setSelectionRange(end, end);
-            if (!esgst.cfh.backup.length) {
-              esgst.cfh.redo.classList.add(`esgst-faded`);
+          if (this.esgst.cfh.backup.length) {
+            this.cfh_undo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
+            value = this.esgst.cfh.backup.pop();
+            end = this.esgst.cfh.textArea.selectionEnd + (value.length - this.esgst.cfh.textArea.value.length);
+            this.esgst.cfh.textArea.value = value;
+            this.esgst.cfh.textArea.setSelectionRange(end, end);
+            if (!this.esgst.cfh.backup.length) {
+              this.esgst.cfh.redo.classList.add(`esgst-faded`);
             }
-            esgst.cfh.textArea.focus();
+            this.esgst.cfh.textArea.focus();
           }
         }
       }
     ];
     for (let i = 0, n = items.length; i < n; i++) {
       let item = items[i];
-      if (!item.id || esgst[item.id]) {
-        let button = createElements(esgst.cfh.panel, `beforeEnd`, [{
+      if (!item.id || this.esgst[item.id]) {
+        let button = this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
           attributes: {
             title: `${getFeatureTooltip(item.id || `cfh`, item.name)}`
           },
           type: `div`
         }]);
         item.icons.forEach(icon => {
-          createElements(button, `beforeEnd`, [{
+          this.esgst.modules.common.createElements(button, `beforeEnd`, [{
             attributes: {
               class: `fa ${icon}`
             },
@@ -881,17 +884,17 @@ _MODULES.push({
             if (item.onClick) {
               item.onClick();
             } else {
-              cfh_formatItem(item.prefix, item.suffix, item.multiline);
+              this.cfh_formatItem(item.prefix, item.suffix, item.multiline);
             }
           });
         }
       }
     }
-    if (esgst.cfh_cf) {
-      createElements(esgst.cfh.panel, `beforeEnd`, [{
+    if (this.esgst.cfh_cf) {
+      this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
           href: `/about/comment-formatting`,
-          title: getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
+          title: this.esgst.modules.common.getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
         },
         type: `a`,
         children: [{
@@ -902,10 +905,10 @@ _MODULES.push({
         }]
       }]);
     }
-    if (esgst.cfh_p && !esgst.cfh_p_a) {
-      createElements(esgst.cfh.panel, `beforeEnd`, [{
+    if (this.esgst.cfh_p && !this.esgst.cfh_p_a) {
+      this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
-          title: getFeatureTooltip(`cfh_p`, `Preview`)
+          title: this.esgst.modules.common.getFeatureTooltip(`cfh_p`, `Preview`)
         },
         type: `div`,
         children: [{
@@ -914,14 +917,14 @@ _MODULES.push({
           }
         }]
       }]).addEventListener(`click`, () => {
-        createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
-        cfh_formatImages(esgst.cfh.preview);
+        this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(this.esgst.cfh.textArea.value));
+        this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
-    esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
+    this.esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
   }
 
-  function cfh_emojis() {
+  cfh_emojis() {
     return [
       { emoji: `\u{AF}\u{5C}\u{5C}\u{5C}\u{5F}\u{28}\u{30C4}\u{29}\u{5F}\u{2F}\u{AF}`, entity: `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`, name: `` },
       { emoji: `\u{28}\u{20}\u{361}\u{B0}\u{20}\u{35C}\u{296}\u{20}\u{361}\u{B0}\u{29}`, entity: `&#x28&#x20&#x361&#xB0&#x20&#x35C&#x296&#x20&#x361&#xB0&#x29`, name: `` },
@@ -3341,14 +3344,14 @@ _MODULES.push({
     ];
   }
 
-  async function cfh_getEmojis() {
+  async cfh_getEmojis() {
     let emojis = JSON.parse(await getValue(`emojis`, `[]`));
     return emojis
       .map(emoji => {
         if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
           emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
         }
-        const emojiData = esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
+        const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData.emoji;
         return {
           attributes: {
@@ -3361,83 +3364,83 @@ _MODULES.push({
       });
   }
 
-  function cfh_setTextAreas(context, main, source, endless) {
+  cfh_setTextAreas(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
     for (let i = elements.length - 1; i > -1; --i) {
-      elements[i].onfocus = cfh_addPanel.bind(null, elements[i]);
+      elements[i].onfocus = this.cfh_addPanel.bind(null, elements[i]);
     }
   }
 
-  function cfh_addPanel(textArea) {
-    if (textArea === esgst.cfh.textArea) return;
+  cfh_addPanel(textArea) {
+    if (textArea === this.esgst.cfh.textArea) return;
 
     const isNotMain = textArea.closest(`.esgst-popup, .esgst-popout`);
     if (isNotMain) {
-      esgst.cfh.panel.style.top = `0px`;
+      this.esgst.cfh.panel.style.top = `0px`;
     } else {
-      esgst.cfh.panel.style.top = `${esgst.commentsTop}px`;
+      this.esgst.cfh.panel.style.top = `${this.esgst.commentsTop}px`;
     }
 
-    textArea.parentElement.insertBefore(esgst.cfh.panel, textArea);
-    textArea.onfocus = cfh_addPanel.bind(null, textArea);
+    textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
+    textArea.onfocus = this.cfh_addPanel.bind(null, textArea);
     textArea.onpaste = event => {
-      if (esgst.cfh_pasteFormatting) {
+      if (this.esgst.cfh_pasteFormatting) {
         let clipboard, value;
         clipboard = event.clipboardData.getData(`text/plain`);
         if (clipboard.match(/^https?:/)) {
           event.preventDefault();
           value = textArea.value;
-          cfh_undo(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-          cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
+          this.cfh_undo(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
+          this.cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
         }
       }
     };
     textArea.onkeydown = event => {
-      if (event.key === `Backspace` && esgst.cfh.recent) {
+      if (event.key === `Backspace` && this.esgst.cfh.recent) {
         event.preventDefault();
-        esgst.cfh.undo.click();
+        this.esgst.cfh.undo.click();
       }
-      esgst.cfh.recent = false;
+      this.esgst.cfh.recent = false;
       if (!event.ctrlKey) {
         return;
       }
-      if (event.key === `y` && (esgst.cfh.backup.length || esgst.cfh.history.length)) {
+      if (event.key === `y` && (this.esgst.cfh.backup.length || this.esgst.cfh.history.length)) {
         event.preventDefault();
-        esgst.cfh.redo.click();
-      } else if (event.key === `z` && esgst.cfh.history.length) {
+        this.esgst.cfh.redo.click();
+      } else if (event.key === `z` && this.esgst.cfh.history.length) {
         event.preventDefault();
-        esgst.cfh.undo.click();
+        this.esgst.cfh.undo.click();
       }
     };
-    if (esgst.cfh_p) {
-      esgst.cfh.preview.innerHTML = ``;
-      textArea.parentElement.insertBefore(esgst.cfh.preview, textArea.nextElementSibling);
-      if (esgst.cfh_p_a) {
+    if (this.esgst.cfh_p) {
+      this.esgst.cfh.preview.innerHTML = ``;
+      textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
+      if (this.esgst.cfh_p_a) {
         textArea.oninput = () => {
-          createElements(esgst.cfh.preview, `inner`, parseMarkdown(textArea.value));
-          cfh_formatImages(esgst.cfh.preview);
+          this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(textArea.value));
+          this.cfh_formatImages(this.esgst.cfh.preview);
         };
       }
     }
-    esgst.cfh.textArea = textArea;
+    this.esgst.cfh.textArea = textArea;
   }
 
-  function cfh_undo(textArea, value) {
-    esgst.cfh.history.push(value);
-    esgst.cfh.undo.classList.remove(`esgst-faded`);
+  cfh_undo(textArea, value) {
+    this.esgst.cfh.history.push(value);
+    this.esgst.cfh.undo.classList.remove(`esgst-faded`);
   }
 
-  function cfh_redo(textArea, value) {
-    esgst.cfh.backup.push(value);
-    esgst.cfh.redo.classList.remove(`esgst-faded`);
+  cfh_redo(textArea, value) {
+    this.esgst.cfh.backup.push(value);
+    this.esgst.cfh.redo.classList.remove(`esgst-faded`);
   }
 
-  function cfh_formatItem(prefix = ``, suffix = ``, multiline) {
+  cfh_formatItem(prefix = ``, suffix = ``, multiline) {
     let end, n, range, start, text, value;
-    value = esgst.cfh.textArea.value;
-    cfh_undo(esgst.cfh.textArea, value);
-    start = esgst.cfh.textArea.selectionStart;
-    end = esgst.cfh.textArea.selectionEnd;
+    value = this.esgst.cfh.textArea.value;
+    this.cfh_undo(this.esgst.cfh.textArea, value);
+    start = this.esgst.cfh.textArea.selectionStart;
+    end = this.esgst.cfh.textArea.selectionEnd;
     text = value.slice(start, end);
     range = text.length;
     if (multiline) {
@@ -3449,57 +3452,57 @@ _MODULES.push({
       text = `${prefix}${text}${suffix}`;
     }
     range += range > 0 ? start + text.length - range : start + text.length - range - suffix.length;
-    esgst.cfh.textArea.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
-    esgst.cfh.textArea.setSelectionRange(range, range);
-    esgst.cfh.textArea.focus();
-    if (esgst.cfh_p && esgst.cfh_p_a) {
-      createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
-      cfh_formatImages(esgst.cfh.preview);
+    this.esgst.cfh.textArea.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
+    this.esgst.cfh.textArea.setSelectionRange(range, range);
+    this.esgst.cfh.textArea.focus();
+    if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
+      this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(this.esgst.cfh.textArea.value));
+      this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
 
-  function cfh_formatLink(title, url, isImage, isPaste) {
+  cfh_formatLink(title, url, isImage, isPaste) {
     let end, start, value;
     if (isPaste) {
-      esgst.cfh.recent = true;
+      this.esgst.cfh.recent = true;
     } else {
-      cfh_undo(esgst.cfh.textArea, esgst.cfh.textArea.value);
+      this.cfh_undo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
     }
-    start = esgst.cfh.textArea.selectionStart;
-    end = esgst.cfh.textArea.selectionEnd;
+    start = this.esgst.cfh.textArea.selectionStart;
+    end = this.esgst.cfh.textArea.selectionEnd;
     value = isImage ? `![${title}](${url})` : `[${title}](${url})`;
-    esgst.cfh.textArea.value = `${esgst.cfh.textArea.value.slice(0, start)}${value}${esgst.cfh.textArea.value.slice(end)}`;
+    this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
     if (title) {
-      esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
+      this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
     } else {
-      esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
+      this.esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
     }
-    esgst.cfh.textArea.focus();
-    if (esgst.cfh_p && esgst.cfh_p_a) {
-      createElements(esgst.cfh.preview, `inner`, parseMarkdown(esgst.cfh.textArea.value));
-      cfh_formatImages(esgst.cfh.preview);
+    this.esgst.cfh.textArea.focus();
+    if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
+      this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(this.esgst.cfh.textArea.value));
+      this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
 
-  async function cfh_checkImgur(popout, url) {
+  async cfh_checkImgur(popout, url) {
     let value = await getValue(`imgurToken`);
     if (value) {
-      cfh_uploadImage(`Bearer ${value}`, popout, url);
+      this.cfh_uploadImage(`Bearer ${value}`, popout, url);
     } else {
-      setTimeout(() => cfh_checkImgur(popout, url), 250);
+      setTimeout(() => this.cfh_checkImgur(popout, url), 250);
     }
   }
 
-  function cfh_uploadImage(authorization, popout, url) {
+  cfh_uploadImage(authorization, popout, url) {
     let input, popup, warning;
     popup = new Popup(`fa-upload`, `Upload Image`, true);
-    input = createElements(popup.description, `beforeEnd`, [{
+    input = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         type: `file`
       },
       type: `input`
     }]);
-    warning = createElements(popup.description, `beforeEnd`, [{
+    warning = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-description esgst-warning`
       },
@@ -3512,50 +3515,50 @@ _MODULES.push({
           if (file.size / 1024 / 1024 <= 10) {
             let reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = cfh_readImgur.bind(null, authorization, popout, popup, reader, url, warning, callback);
+            reader.onload = this.cfh_readImgur.bind(null, authorization, popout, popup, reader, url, warning, callback);
           } else {
-            createFadeMessage(warning, `Image is larger than 10 MB!`);
+            this.esgst.modules.common.createFadeMessage(warning, `Image is larger than 10 MB!`);
             callback();
           }
         } else {
-          createFadeMessage(warning, `File is not an image!`);
+          this.esgst.modules.common.createFadeMessage(warning, `File is not an image!`);
           callback();
         }
       } else {
-        createFadeMessage(warning, `No file was loaded!`);
+        this.esgst.modules.common.createFadeMessage(warning, `No file was loaded!`);
         callback();
       }
     }).set);
-    if (esgst.cfh_img_remember) {
+    if (this.esgst.cfh_img_remember) {
       popup.description.appendChild(new ButtonSet_v2({color1: `grey`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset`, title2: `Resetting...`, callback1: async () => {
-        await setSetting(`cfh_img_remember`, false);
-        esgst.cfh_img_remember = false;
+        await this.esgst.modules.common.setSetting(`cfh_img_remember`, false);
+        this.esgst.cfh_img_remember = false;
         popup.close();
       }}).set);
     }
     popup.open();
   }
 
-  async function cfh_readImgur(authorization, popout, popup, reader, url, warning, callback) {
-    let responseJson = JSON.parse((await request({data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`, headers: {authorization}, method: `POST`, url: `https://api.imgur.com/3/image`})).responseText);
+  async cfh_readImgur(authorization, popout, popup, reader, url, warning, callback) {
+    let responseJson = JSON.parse((await this.esgst.modules.common.request({data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`, headers: {authorization}, method: `POST`, url: `https://api.imgur.com/3/image`})).responseText);
     if (responseJson.success) {
       callback();
       popup.close();
       url.value = responseJson.data.link;
       popout.open();
     } else {
-      createFadeMessage(warning, `Could not upload image!`);
+      this.esgst.modules.common.createFadeMessage(warning, `Could not upload image!`);
       callback();
     }
   }
 
-  function cfh_insertTableRows(rows, table) {
+  cfh_insertTableRows(rows, table) {
     let deleteRow, i, j, n, row;
     while (rows > 0) {
       n = table.rows.length;
       row = table.insertRow(n);
       for (i = 0, j = table.rows[0].cells.length - 1; i < j; ++i) {
-        createElements(row.insertCell(0), `inner`, [{
+        this.esgst.modules.common.createElements(row.insertCell(0), `inner`, [{
           attributes: {
             placeholder: `Value`,
             type: `text`
@@ -3565,7 +3568,7 @@ _MODULES.push({
       }
       deleteRow = row.insertCell(0);
       if (n > 2) {
-        createElements(deleteRow, `inner`, [{
+        this.esgst.modules.common.createElements(deleteRow, `inner`, [{
           type: `a`,
           children: [{
             attributes: {
@@ -3588,13 +3591,13 @@ _MODULES.push({
     }
   }
 
-  function cfh_insertTableColumns(columns, table) {
+  cfh_insertTableColumns(columns, table) {
     let column, deleteColumn, i, j, n, rows;
     while (columns > 0) {
       rows = table.rows;
       n = rows[0].cells.length;
       for (i = 3, j = rows.length; i < j; ++i) {
-        createElements(rows[i].insertCell(n), `inner`, [{
+        this.esgst.modules.common.createElements(rows[i].insertCell(n), `inner`, [{
           attributes: {
             placeholder: `Value`,
             type: `text`
@@ -3602,7 +3605,7 @@ _MODULES.push({
           type: `input`
         }]);
       }
-      createElements(rows[2].insertCell(n), `inner`, [{
+      this.esgst.modules.common.createElements(rows[2].insertCell(n), `inner`, [{
         type: `select`,
         children: [{
           attributes: {
@@ -3625,7 +3628,7 @@ _MODULES.push({
         }]
       }]);
       column = rows[1].insertCell(n);
-      createElements(column, `inner`, [{
+      this.esgst.modules.common.createElements(column, `inner`, [{
         attributes: {
           placeholder: `Header`,
           type: `text`
@@ -3633,7 +3636,7 @@ _MODULES.push({
         type: `input`
       }]);
       deleteColumn = rows[0].insertCell(n);
-      createElements(deleteColumn, `inner`, [{
+      this.esgst.modules.common.createElements(deleteColumn, `inner`, [{
         type: `a`,
         children: [{
           attributes: {
@@ -3654,24 +3657,24 @@ _MODULES.push({
             rows[i].deleteCell(n);
           }
         } else {
-            alert(`A table must have at least one row and two columns.`);
+            alert(`A table must have this.esgst.modules.generalAccurateTimestamp.at least one row and two columns.`);
         }
       });
       --columns;
     }
   }
 
-  function cfh_setEmojis(emojis) {
+  cfh_setEmojis(emojis) {
     let emoji, i;
     for (i = emojis.children.length - 1; i > -1; --i) {
       emoji = emojis.children[i];
-      emoji.addEventListener(`click`, cfh_formatItem.bind(null, emoji.textContent, ``));
+      emoji.addEventListener(`click`, this.cfh_formatItem.bind(null, emoji.textContent, ``));
     }
   }
 
-  function cfh_setReply(replies, savedReply) {
+  cfh_setReply(replies, savedReply) {
     let editButton, description, name, replaceButton, reply, summary;
-    reply = createElements(replies, `beforeEnd`, [{
+    reply = this.esgst.modules.common.createElements(replies, `beforeEnd`, [{
       attributes: {
         class: `esgst-cfh-sr-box`,
         draggable: true
@@ -3732,13 +3735,13 @@ _MODULES.push({
     description = name.nextElementSibling;
     replaceButton = summary.nextElementSibling.firstElementChild;
     editButton = replaceButton.nextElementSibling;
-    reply.addEventListener(`dragstart`, cfh_setSource.bind(null, description, name, reply));
-    reply.addEventListener(`dragenter`, cfh_getSource.bind(null, reply, replies));
-    reply.addEventListener(`dragend`, cfh_saveSource);
+    reply.addEventListener(`dragstart`, this.cfh_setSource.bind(null, description, name, reply));
+    reply.addEventListener(`dragenter`, this.cfh_getSource.bind(null, reply, replies));
+    reply.addEventListener(`dragend`, this.cfh_saveSource);
     summary.addEventListener(`click`, () => {
-      cfh_undo(esgst.cfh.textArea, esgst.cfh.textArea.value);
+      this.cfh_undo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
       let end, i, matches, n, value;
-      end = esgst.cfh.textArea.selectionEnd;
+      end = this.esgst.cfh.textArea.selectionEnd;
       value = savedReply.description;
       matches = value.match(/\[ESGST-R\][\s\S]+?\[\/ESGST-R\]/g);
       if (matches) {
@@ -3746,12 +3749,12 @@ _MODULES.push({
         i = Math.floor(Math.random() * n);
         value = matches[i].match(/\[ESGST-R\]([\s\S]+?)\[\/ESGST-R\]/)[1];
       }
-      esgst.cfh.textArea.value = `${esgst.cfh.textArea.value.slice(0, esgst.cfh.textArea.selectionStart)}${value}${esgst.cfh.textArea.value.slice(end)}`;
-      esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
-      esgst.cfh.textArea.focus();
+      this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, this.esgst.cfh.textArea.selectionStart)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
+      this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
+      this.esgst.cfh.textArea.focus();
     });
-    editButton.addEventListener(`click`, cfh_openReplyPopup.bind(null, savedReply.description, savedReply.name, replies, summary));
-    replaceButton.addEventListener(`click`, () => cfh_saveReply(savedReply.description, esgst.cfh.textArea, savedReply.name, null, null, replies, summary, null));
+    editButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(null, savedReply.description, savedReply.name, replies, summary));
+    replaceButton.addEventListener(`click`, () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary, null));
     editButton.nextElementSibling.addEventListener(`click`, async () => {
       let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
       let i;
@@ -3760,59 +3763,59 @@ _MODULES.push({
         savedReplies.splice(i, 1);
         setValue(`savedReplies`, JSON.stringify(savedReplies));
         reply.classList.add(`esgst-hidden`);
-        esgst.cfh.deletedReplies.push({
+        this.esgst.cfh.deletedReplies.push({
           reply: reply,
           savedReply: savedReply
         });
-        esgst.cfh.undoDelete.classList.remove(`esgst-hidden`);
+        this.esgst.cfh.undoDelete.classList.remove(`esgst-hidden`);
       }
     });
   }
 
-  async function cfh_setSource(description, name, reply, event) {
+  async cfh_setSource(description, name, reply, event) {
     let i, savedReplies;
     event.dataTransfer.setData(`text/plain`, ``);
-    esgst.cfh.source = reply;
+    this.esgst.cfh.source = reply;
     savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
     for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i);
     if (i > -1) {
-      esgst.cfh.sourceIndex = i;
+      this.esgst.cfh.sourceIndex = i;
     }
   }
 
-  function cfh_getSource(reply, replies) {
+  cfh_getSource(reply, replies) {
     let current, i;
-    current = esgst.cfh.source;
+    current = this.esgst.cfh.source;
     i = 0;
     do {
       current = current.previousElementSibling;
       if (current && current === reply) {
-        esgst.cfh.sourceNewIndex = i;
-        replies.insertBefore(esgst.cfh.source, reply);
+        this.esgst.cfh.sourceNewIndex = i;
+        replies.insertBefore(this.esgst.cfh.source, reply);
         return;
       }
       ++i;
     } while (current);
-    esgst.cfh.sourceNewIndex = i - 1;
-    replies.insertBefore(esgst.cfh.source, reply.nextElementSibling);
+    this.esgst.cfh.sourceNewIndex = i - 1;
+    replies.insertBefore(this.esgst.cfh.source, reply.nextElementSibling);
   }
 
-  async function cfh_saveSource() {
+  async cfh_saveSource() {
     let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
-    savedReplies.splice(esgst.cfh.sourceNewIndex, 0, savedReplies.splice(esgst.cfh.sourceIndex, 1)[0]);
+    savedReplies.splice(this.esgst.cfh.sourceNewIndex, 0, savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]);
     setValue(`savedReplies`, JSON.stringify(savedReplies));
   }
 
-  function cfh_openReplyPopup(description, name, replies, summary) {
+  cfh_openReplyPopup(description, name, replies, summary) {
     let descriptionArea, nameArea, panel, popup;
     popup = new Popup(`fa-floppy-o`, summary ? `Edit reply:` : `Save new reply:`, true);
-    createElements(popup.scrollable, `beforeEnd`, [{
+    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
       type: `div`,
       children: [{
-        text: `You can save a defined list of replies to be picked at random when using it. To do so, enclose each option with `,
+        text: `You can save a defined list of replies to be picked this.esgst.modules.generalAccurateTimestamp.at random when using it. To do so, enclose each option with `,
         type: `node`
       }, {
         attributes: {
@@ -3849,7 +3852,7 @@ _MODULES.push({
         type: `node`
       }]
     }]);
-    panel = createElements(popup.scrollable, `beforeEnd`, [{
+    panel = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       type: `div`,
       children: [{
         type: `div`,
@@ -3878,14 +3881,14 @@ _MODULES.push({
     descriptionArea = nameArea.nextElementSibling;
     nameArea = nameArea.lastElementChild;
     descriptionArea = descriptionArea.lastElementChild;
-    if (esgst.cfh) {
-      cfh_addPanel(descriptionArea);
+    if (this.esgst.cfh) {
+      this.cfh_addPanel(descriptionArea);
     }
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, cfh_saveReply.bind(null, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(null, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
     popup.open();
   }
 
-  async function cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary, callback) {
+  async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary, callback) {
     let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
     if (descVal && nameVal) {
       let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
@@ -3903,7 +3906,7 @@ _MODULES.push({
         }
       } else {
         savedReplies.push(savedReply);
-        cfh_setReply(replies, savedReply);
+        this.cfh_setReply(replies, savedReply);
       }
       await setValue(`savedReplies`, JSON.stringify(savedReplies));
       if (callback) {
@@ -3912,11 +3915,11 @@ _MODULES.push({
       }
     } else if (callback) {
       callback();
-      createAlert(`Both fields are required.`);
+      this.esgst.modules.common.createAlert(`Both fields are required.`);
     }
   }
 
-  function cfh_filterReplies(replies, event) {
+  cfh_filterReplies(replies, event) {
     let i, reply, value;
     value = event.currentTarget.value;
     for (i = replies.children.length - 1; i > -1; --i) {
@@ -3929,51 +3932,51 @@ _MODULES.push({
     }
   }
 
-  async function cfh_undoDelete() {
+  async cfh_undoDelete() {
     let deleted, saved;
-    deleted = esgst.cfh.deletedReplies.pop();
+    deleted = this.esgst.cfh.deletedReplies.pop();
     deleted.reply.classList.remove(`esgst-hidden`);
     deleted.reply.parentElement.appendChild(deleted.reply);
     saved = JSON.parse(await getValue(`savedReplies`, `[]`));
     saved.push(deleted.savedReply);
     setValue(`savedReplies`, JSON.stringify(saved));
-    if (esgst.cfh.deletedReplies.length === 0) {
-      esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
+    if (this.esgst.cfh.deletedReplies.length === 0) {
+      this.esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
     }
   }
 
-  function cfh_setAlipf(value, firstTime) {
+  cfh_setAlipf(value, firstTime) {
     if (typeof value === `undefined`) {
-      value = esgst.cfh_pasteFormatting ? false : true;
+      value = this.esgst.cfh_pasteFormatting ? false : true;
     }
     if (!firstTime) {
-      setSetting(`cfh_pasteFormatting`, value);
+      this.esgst.modules.common.setSetting(`cfh_pasteFormatting`, value);
     }
-    esgst.cfh_pasteFormatting = value;
+    this.esgst.cfh_pasteFormatting = value;
     if (value) {
-      esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
-      esgst.cfh.alipf.classList.remove(`esgst-faded`);
+      this.esgst.cfh.alipf.title = this.esgst.modules.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
+      this.esgst.cfh.alipf.classList.remove(`esgst-faded`);
     } else {
-      esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
-      esgst.cfh.alipf.classList.add(`esgst-faded`);
+      this.esgst.cfh.alipf.title = this.esgst.modules.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
+      this.esgst.cfh.alipf.classList.add(`esgst-faded`);
     }
-    if (esgst.cfh.textArea) {
-      esgst.cfh.textArea.focus();
+    if (this.esgst.cfh.textArea) {
+      this.esgst.cfh.textArea.focus();
     }
   }
 
-  function cfh_formatImages(context) {
+  cfh_formatImages(context) {
     let i, images, n;
     images = context.getElementsByTagName(`img`);
     for (i = 0, n = images.length; i < n; ++i) {
       const image = images[0];
       context.appendChild(image);
       image.classList.add(`is-hidden`, `is_hidden`);
-      createElements(image, `outer`, [{
+      this.esgst.modules.common.createElements(image, `outer`, [{
         type: `div`,
         children: [{
           attributes: {
-            class: `${esgst.sg ? `comment__toggle-attached` : `view_attached`}`
+            class: `${this.esgst.sg ? `comment__toggle-attached` : `view_attached`}`
           },
           text: `View attached image.`,
           type: `div`
@@ -3991,4 +3994,6 @@ _MODULES.push({
       }]);
     }
   }
+}
 
+export default CommentsCommentFormattingHelper;

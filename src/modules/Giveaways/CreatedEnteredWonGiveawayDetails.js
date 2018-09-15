@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds more details to each giveaway in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:</li>
@@ -13,19 +17,19 @@ _MODULES.push({
       </ul>
     `,
     id: `cewgd`,
-    load: cewgd,
+    load: this.cewgd,
     name: `Created/Entered/Won Giveaway Details`,
     sg: true,
     type: `giveaways`
   });
 
-  function cewgd() {
-    if (!esgst.createdPath && !esgst.enteredPath && !esgst.wonPath) return;
-    esgst.endlessFeatures.push(cewgd_addHeading);
-    esgst.giveawayFeatures.push(cewgd_getDetails_pre);
+  cewgd() {
+    if (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) return;
+    this.esgst.endlessFeatures.push(cewgd_addHeading);
+    this.esgst.giveawayFeatures.push(cewgd_getDetails_pre);
   }
 
-  function cewgd_addHeading(context, main, source, endless) {
+  cewgd_addHeading(context, main, source, endless) {
     if (!main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
     if (!table || table.getElementsByClassName(`esgst-cewgd-heading`)[0]) return;
@@ -42,7 +46,7 @@ _MODULES.push({
       text: `Level`,
       type: `div`
     }];
-    if (esgst.createdPath) {
+    if (this.esgst.createdPath) {
       items.push({
         attributes: {
           class: `table__column--width-small text-center esgst-cewgd-heading`
@@ -51,14 +55,14 @@ _MODULES.push({
         type: `div`
       });
     }
-    createElements(table.firstElementChild, `afterEnd`, items);
+    this.esgst.modules.common.createElements(table.firstElementChild, `afterEnd`, items);
   }
 
-  function cewgd_getDetails_pre(giveaways, main) {
-    cewgd_getDetails(giveaways, main);
+  cewgd_getDetails_pre(giveaways, main) {
+    this.cewgd_getDetails(giveaways, main);
   }
 
-  async function cewgd_getDetails(giveaways, main) {
+  async cewgd_getDetails(giveaways, main) {
     if (!main) return;
     let cewgd = {
       giveaways: [],
@@ -69,48 +73,48 @@ _MODULES.push({
       promises.push(cewgd_getDetail(cewgd, giveaways, i));
     }
     await Promise.all(promises);
-    let deleteLock = await createLock(`giveawayLock`, 300);
-    for (let i = 0, n = cewgd.giveaways.length; i < n; ++i) {
-      let currentGiveaway = cewgd.giveaways[i];
+    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
+    for (let i = 0, n = this.cewgd.giveaways.length; i < n; ++i) {
+      let currentGiveaway = this.cewgd.giveaways[i];
       if (cewgd.savedGiveaways[currentGiveaway.code]) {
         for (let key in currentGiveaway) {
-          cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
+          this.cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
         }
       } else {
-        cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
+        this.cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
       }
     }
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
     deleteLock();
   }
 
-  async function cewgd_getDetail(cewgd, giveaways, i) {
+  async cewgd_getDetail(cewgd, giveaways, i) {
     let giveaway = giveaways[i];
     let code = giveaway.code;
     let j;
-    if (esgst.createdPath && cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
+    if (this.esgst.createdPath && this.cewgd.savedGiveaways[code] && this.cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
       console.log(`ESGST Log: CEWGD 0`);
-      for (j = cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
-        let winner = cewgd.savedGiveaways[code].winners[j];
+      for (j = this.cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
+        let winner = this.cewgd.savedGiveaways[code].winners[j];
         if (winner.status !== `Received` && winner.status !== `Not Received`) {
           break;
         }
       }
     }
-    if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!esgst.createdPath || j < 0) && (!esgst.wonPath || cewgd.savedGiveaways[code].creator !== esgst.username)) {
+    if (cewgd.savedGiveaways[code] && this.cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || this.cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
       console.log(`ESGST Log: CEWGD 1`);
-      cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
-    } else if (esgst.createdPath) {
+      this.cewgd_addDetails(giveaway, this.cewgd.savedGiveaways[code]);
+    } else if (this.esgst.createdPath) {
       console.log(`ESGST Log: CEWGD 2`);
       console.log(`ESGST Log: Updating winners for ${code}...`);
       let currentGiveaway = null;
       let nextPage = 1;
       let pagination = null;
       do {
-        let response = await request({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`});
-        let responseHtml = parseHtml(response.responseText);
+        let response = await this.esgst.modules.common.request({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`});
+        let responseHtml = utils.parseHtml(response.responseText);
         if (!currentGiveaway) {
-          let currentGiveaways = await giveaways_get(responseHtml, false, response.finalUrl);
+          let currentGiveaways = await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
           if (currentGiveaways.length > 0) {
             currentGiveaway = currentGiveaways[0];
             currentGiveaway.winners = [];
@@ -127,7 +131,7 @@ _MODULES.push({
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+          this.esgst.modules.common.createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -139,21 +143,21 @@ _MODULES.push({
         nextPage += 1;
       } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
       if (currentGiveaway) {
-        cewgd.giveaways.push(currentGiveaway);
-        cewgd_addDetails(giveaway, currentGiveaway);
+        this.cewgd.giveaways.push(currentGiveaway);
+        this.cewgd_addDetails(giveaway, currentGiveaway);
       }
     } else {
       console.log(`ESGST Log: CEWGD 3`);
-      let response = await request({method: `GET`, url: giveaway.url});
-      let responseHtml = parseHtml(response.responseText);
-      let currentGiveaways = await giveaways_get(responseHtml, false, response.finalUrl);
+      let response = await this.esgst.modules.common.request({method: `GET`, url: giveaway.url});
+      let responseHtml = utils.parseHtml(response.responseText);
+      let currentGiveaways = await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
       if (currentGiveaways.length > 0) {
         let currentGiveaway = currentGiveaways[0];
-        cewgd.giveaways.push(currentGiveaway);
-        cewgd_addDetails(giveaway, currentGiveaway);
-        cewgd.count += 1;
+        this.cewgd.giveaways.push(currentGiveaway);
+        this.cewgd_addDetails(giveaway, currentGiveaway);
+        this.cewgd.count += 1;
       } else {
-        createElements(giveaway.panel || (esgst.gm_enable && esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+        this.esgst.modules.common.createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },
@@ -164,15 +168,15 @@ _MODULES.push({
     }
   }
 
-  function cewgd_addDetails(giveaway, details) {
+  cewgd_addDetails(giveaway, details) {
     let type, typeColumn;
     if (!giveaway.id) {
       giveaway.id = details.gameSteamId;
       giveaway.type = details.gameType;
-      if (esgst.games && esgst.games[giveaway.type][giveaway.id]) {
+      if (this.esgst.games && this.esgst.games[giveaway.type][giveaway.id]) {
         const keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
         for (const key of keys) {
-          if (esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+          if (this.esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
             giveaway[key] = true;
           }
         }
@@ -182,7 +186,7 @@ _MODULES.push({
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
       giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
-      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+      giveaway.gwcContext.title = this.esgst.modules.common.getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     giveaway.level = details.level;
     const items = [{
@@ -205,7 +209,7 @@ _MODULES.push({
         }]
       });
     }
-    createElements(giveaway.headingName, `beforeEnd`, items);
+    this.esgst.modules.common.createElements(giveaway.headingName, `beforeEnd`, items);
     giveaway.inviteOnly = details.inviteOnly;
     giveaway.regionRestricted = details.regionRestricted;
     giveaway.group = details.group;
@@ -252,7 +256,7 @@ _MODULES.push({
       text: details.level,
       type: `div`
     }];
-    if (esgst.createdPath) {
+    if (this.esgst.createdPath) {
       items2.push({
         attributes: {
           class: `table__column--width-small text-center`
@@ -260,15 +264,15 @@ _MODULES.push({
         type: `div`
       });
     }
-    typeColumn = createElements(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, items2);
-    if (esgst.createdPath) {
+    typeColumn = this.esgst.modules.common.createElements(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, items2);
+    if (this.esgst.createdPath) {
       let n, winner, winnersColumn;
       winnersColumn = typeColumn.nextElementSibling.nextElementSibling;
       n = details.winners.length;
       if (n > 0) {
         if (n > 1) {
           winner = details.winners[0].username;
-          createElements(winnersColumn, `inner`, [{
+          this.esgst.modules.common.createElements(winnersColumn, `inner`, [{
             attributes: {
               class: `table__column__secondary-link`,
               href: `/user/${winner}`
@@ -282,7 +286,7 @@ _MODULES.push({
             text: ` (+${n - 1} more)`,
             type: `span`
           }]);
-          winnersColumn.lastElementChild.addEventListener(`click`, cewgd_openWinnersPopup.bind(null, details));
+          winnersColumn.lastElementChild.addEventListener(`click`, this.cewgd_openWinnersPopup.bind(null, details));
           let received = 0;
           for (const winner of details.winners) {
             if (winner.status === `Received`) {
@@ -292,7 +296,7 @@ _MODULES.push({
           giveaway.innerWrap.lastElementChild.insertAdjacentText(`beforeEnd`, ` (${received}/${n})`);
         } else {
           winner = details.winners[0].username;
-          createElements(winnersColumn, `inner`, [{
+          this.esgst.modules.common.createElements(winnersColumn, `inner`, [{
             attributes: {
               class: `table__column__secondary-link`,
               href: `/user/${winner}`
@@ -304,8 +308,8 @@ _MODULES.push({
       } else {
         winnersColumn.textContent = `-`;
       }
-    } else if (esgst.enteredPath || esgst.wonPath) {
-      createElements(giveaway.endTimeColumn, `beforeEnd`, [{
+    } else if (this.esgst.enteredPath || this.esgst.wonPath) {
+      this.esgst.modules.common.createElements(giveaway.endTimeColumn, `beforeEnd`, [{
         text: ` by `,
         type: `node`
       }, {
@@ -319,12 +323,12 @@ _MODULES.push({
       giveaway.creator = details.creator;
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
-    if (giveaway.group && esgst.ggl) {
-      ggl_getGiveaways([giveaway]);
+    if (giveaway.group && this.esgst.ggl) {
+      this.esgst.modules.giveawaysGiveawayGroupLoader.ggl_getGiveaways([giveaway]);
     }
   }
 
-  function cewgd_openWinnersPopup(details) {
+  cewgd_openWinnersPopup(details) {
     const popup = new Popup_v2({
       icon: `fa-users`,
       title: `Winners`,
@@ -409,6 +413,8 @@ _MODULES.push({
       });
     }
     popup.open();
-    endless_load(popup.getScrollable(html));
+    this.esgst.modules.common.endless_load(popup.getScrollable(html));
   }
+}
 
+export default GiveawaysCreatedEnteredWonGiveawayDetails;

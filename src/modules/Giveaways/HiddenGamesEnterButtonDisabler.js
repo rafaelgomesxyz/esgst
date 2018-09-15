@@ -1,27 +1,30 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
+info = ({
     description: `
       <ul>
         <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentaly enter it.</li>
       </ul>
     `,
     id: `hgebd`,
-    load: hgebd,
+    load: this.hgebd,
     name: `Hidden Game's Enter Button Disabler`,
     sg: true,
-    sync: `Hidden Games`,
+    this.esgst.modules.common.sync: `Hidden Games`,
     type: `giveaways`
   });
 
-  function hgebd() {
-    if (!esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) return;
+  hgebd() {
+    if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) return;
     let hideButton;
     hideButton = document.getElementsByClassName(`featured__giveaway__hide`)[0];
-    if (esgst.enterGiveawayButton && !hideButton) {
-      let parent = esgst.enterGiveawayButton.parentElement;
-      if (esgst.enterGiveawayButton) {
-        esgst.enterGiveawayButton.remove();
+    if (this.esgst.enterGiveawayButton && !hideButton) {
+      let parent = this.esgst.enterGiveawayButton.parentElement;
+      if (this.esgst.enterGiveawayButton) {
+        this.esgst.enterGiveawayButton.remove();
       }
-      createElements(parent, `afterBegin`, [{
+      this.esgst.modules.common.createElements(parent, `afterBegin`, [{
         attributes: {
           class: `sidebar__error is-disabled`
         },
@@ -38,4 +41,6 @@ _MODULES.push({
       }]);
     }
   }
+}
 
+export default GiveawaysHiddenGamesEnterButtonDisabler;

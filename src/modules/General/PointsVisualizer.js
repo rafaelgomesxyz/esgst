@@ -1,38 +1,41 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GeneralPointsVisualizer extends Module {
+info = ({
     conflicts: [
       {id: `lpv`, name: `Level Progress Visualizer`}
     ],
     description: `
       <ul>
-        <li>Displays a green bar in the account button at the header of any page that represents the amount of points that you have.</li>
+        <li>Displays a green bar in the account button this.esgst.modules.generalAccurateTimestamp.at the header of any page that represents the amount of points that you have.</li>
       </ul>
     `,
     id: `pv`,
-    load: pv,
+    load: this.pv,
     name: `Points Visualizer`,
     sg: true,
     type: `general`
   });
 
-  function pv() {
-    pv_setStyle();
+  pv() {
+    this.pv_setStyle();
   }
 
-  function pv_setStyle() {
-    const points = Math.min(400, esgst.points);
+  pv_setStyle() {
+    const points = Math.min(400, this.esgst.points);
     const percentage = points / 400 * 100;
     const progress = parseInt(percentage * 1.86); // 186px is the width of the button
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - 157)}px`; // 157px is the width of the button without the arrow
-    if (!esgst.pvStyle) {
-      esgst.pvStyle = createElements(esgst.style, `afterEnd`, [{
+    if (!this.esgst.pvStyle) {
+      this.esgst.pvStyle = this.esgst.modules.common.createElements(this.esgst.style, `afterEnd`, [{
         attributes: {
           id: `esgst-pv-style`
         },
         type: `style`
       }]);
     }
-    esgst.pvStyle.textContent = `
+    this.esgst.pvStyle.textContent = `
       .esgst-lpv-container {
         background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
       }
@@ -61,6 +64,8 @@ _MODULES.push({
         background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
       }
     `;
-    esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
+    this.esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
   }
+}
 
+export default GeneralPointsVisualizer;

@@ -1,19 +1,22 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysRealCVCalculator extends Module {
+info = ({
     decription: `
       <ul>
         <li>Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).</li>
       </ul>
     `,
     id: `rcvc`,
-    load: rcvc,
+    load: this.rcvc,
     name: `Real CV Calculator`,
     sg: true,
-    sync: `Giveaways, Reduced CV Games and No CV Games`,
+    this.esgst.modules.common.sync: `Giveaways, Reduced CV Games and No CV Games`,
     type: `giveaways`
   });
 
-  async function rcvc() {
-    if (esgst.newGiveawayPath) {
+  async rcvc() {
+    if (this.esgst.newGiveawayPath) {
       let table = document.getElementsByClassName(`table--summary`)[0], button;
       if (table) {
         let game = await getValue(`rcvcGame`);
@@ -24,7 +27,7 @@ _MODULES.push({
           let headings = document.getElementsByClassName(`featured__heading__small`);
           let copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
           try {
-            let responseJson = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
+            let responseJson = JSON.parse((await this.esgst.modules.common.request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
             let value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
             let games, user;
             games = JSON.parse(await getValue(`games`));
@@ -36,8 +39,8 @@ _MODULES.push({
               }
             }
             user = {
-              Username: esgst.username,
-              SteamID64: esgst.steamId
+              Username: this.esgst.username,
+              SteamID64: this.esgst.steamId
             };
             let users = JSON.parse(await getValue(`users`));
             let savedUser = users.users[user.SteamID64];
@@ -46,7 +49,7 @@ _MODULES.push({
             if (savedUser && savedUser.giveaways && savedUser.giveaways.sent && savedUser.giveaways.sent[type][id]) {
               let giveaways = savedUser.giveaways.sent[type][id];
               for (i = 0, n = giveaways.length; i < n; ++i) {
-                let giveaway = esgst.giveaways[giveaways[i]];
+                let giveaway = this.esgst.giveaways[giveaways[i]];
                 if (giveaway) {
                   if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
                     if (Array.isArray(giveaway.winners)) {
@@ -92,7 +95,7 @@ _MODULES.push({
               cv = value;
             }
             cv = Math.round(cv * 100) / 100;
-            createElements(table, `beforeEnd`, [{
+            this.esgst.modules.common.createElements(table, `beforeEnd`, [{
               attributes: {
                 class: `table__row-outer-wrap`
               },
@@ -137,7 +140,7 @@ _MODULES.push({
         button.addEventListener(`click`, () => {
           let selectedId = input.value;
           let selected = document.querySelector(`[data-autocomplete-id="${selectedId}"]`);
-          let info = games_getInfo(selected);
+          let info = this.esgst.modules.games.games_getInfo(selected);
           setValue(`rcvcGame`, {
             type: info.type,
             id: info.id
@@ -146,4 +149,6 @@ _MODULES.push({
       }
     }
   }
+}
 
+export default GiveawaysRealCVCalculator;

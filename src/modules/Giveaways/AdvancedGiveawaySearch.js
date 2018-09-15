@@ -1,38 +1,41 @@
-_MODULES.push({
+import Module from '../../class/Module';
+
+class GiveawaysAdvancedGiveawaySearch extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
       </ul>
     `,
     id: `ags`,
-    load: ags,
+    load: this.ags,
     name: `Advanced Giveaway Search`,
     sg: true,
     type: `giveaways`
   });
 
-  function ags() {
+  ags() {
     let query = ``;
-    if (esgst.giveawaysPath) {
+    if (this.esgst.giveawaysPath) {
       query += `.sidebar__search-container, `;
     }
-    if (esgst.qgs) {
+    if (this.esgst.qgs) {
       query += `.esgst-qgs-container, `;
     }
     if (!query) return;
     const elements = document.querySelectorAll(query.slice(0, -2));
     for (const element of elements) {
-      ags_addPanel(element);
+      this.ags_addPanel(element);
     }
   }
 
-  function ags_addPanel(context) {
-    const qgs = context.classList.contains(`esgst-qgs-container`);
+  ags_addPanel(context) {
+    const esgst.modules.giveawaysQuickGiveawaySearch.qgs = context.classList.contains(`esgst-qgs-container`);
     let obj = {
-      qgs
+      this.esgst.modules.giveawaysQuickGiveawaySearch.qgs
     };
     context.firstElementChild.remove();
-    obj.input = createElements(context, `afterBegin`, [{
+    obj.input = this.esgst.modules.common.createElements(context, `afterBegin`, [{
       attributes: {
         class: `${qgs ? `esgst-qgs-input` : `sidebar__search-input`}`,
         placeholder: `Search...`,
@@ -42,15 +45,15 @@ _MODULES.push({
     }]);
     let icon = obj.input.nextElementSibling;
     icon.classList.add(`esgst-clickable`);
-    icon.title = getFeatureTooltip(`ags`, `Use advanced search`);
+    icon.title = this.esgst.modules.common.getFeatureTooltip(`ags`, `Use advanced search`);
     if (!qgs) {
       let match = location.search.match(/q=(.*?)(&.*?)?$/);
       if (match) {
         obj.input.value = decodeURIComponent(match[1]);
       }
     }
-    if (!qgs && ((esgst.adots && esgst.adots_index === 0) || !esgst.adots)) {
-      obj.panel = createElements(context, `afterEnd`, [{
+    if (!qgs && ((this.esgst.adots && this.esgst.adots_index === 0) || !this.esgst.adots)) {
+      obj.panel = this.esgst.modules.common.createElements(context, `afterEnd`, [{
         attributes: {
           class: `esgst-ags-panel`
         },
@@ -163,20 +166,20 @@ _MODULES.push({
     ];
     obj.filters = [];
     for (let i = 0, n = filterDetails.length; i < n; ++i) {
-      ags_createFilter(obj, filterDetails[i]);
+      this.ags_createFilter(obj, filterDetails[i]);
     }
     obj.input.addEventListener(`keydown`,
-      triggerOnEnter.bind(null, ags_searchQuery.bind(null, obj))
+      this.esgst.modules.common.triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
     );
-    icon.addEventListener(`click`, ags_searchQuery.bind(null, obj));
+    icon.addEventListener(`click`, this.ags_searchQuery.bind(null, obj));
   }
 
-  function ags_createFilter(obj, details) {
+  ags_createFilter(obj, details) {
     if (details.key === `ags_type` && !obj.qgs) {
       return;
     }
     if (details.type === `checkbox`) {
-      let element = createElements(obj.panel, `beforeEnd`, [{
+      let element = this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
           attributes: {
             class: `esgst-ags-checkbox-filter`
           },
@@ -188,9 +191,9 @@ _MODULES.push({
         }]),
         filter = new Checkbox(
           element,
-          esgst[details.key]
+          this.esgst[details.key]
         ).input;
-      observeChange(filter, details.key, `checked`, `click`);
+      this.esgst.modules.common.observeChange(filter, details.key, `checked`, `click`);
       obj.filters.push({
         filter: filter,
         key: `checked`,
@@ -210,7 +213,7 @@ _MODULES.push({
           type: `option`
          });
       });
-      let element = createElements(obj.panel, `beforeEnd`, [{
+      let element = this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
           attributes: {
             style: `display: block;`
           },
@@ -227,8 +230,8 @@ _MODULES.push({
           }]
         }]),
         filter = element.firstElementChild.firstElementChild;
-      filter.value = esgst[details.key];
-      observeNumChange(filter, details.key);
+      filter.value = this.esgst[details.key];
+      this.esgst.modules.common.observeNumChange(filter, details.key);
       obj.filters.push({
         filter: filter,
         key: `value`,
@@ -264,7 +267,7 @@ _MODULES.push({
           type: `input`
         }];
       }
-      let element = createElements(obj.panel, `beforeEnd`, [{
+      let element = this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
         type: `div`,
         children: [{
           text: `${details.name} `,
@@ -284,17 +287,17 @@ _MODULES.push({
         }]
       }]);
       let maxFilter = element.lastElementChild.lastElementChild;
-      maxFilter.value = esgst[details.maxKey];
-      observeNumChange(maxFilter, details.maxKey);
+      maxFilter.value = this.esgst[details.maxKey];
+      this.esgst.modules.common.observeNumChange(maxFilter, details.maxKey);
       let minFilter = element.firstElementChild.lastElementChild;
-      minFilter.value = esgst[details.minKey];
-      observeNumChange(minFilter, details.minKey);
+      minFilter.value = this.esgst[details.minKey];
+      this.esgst.modules.common.observeNumChange(minFilter, details.minKey);
       if (details.type === `input`) {
         maxFilter.addEventListener(`keypress`,
-          triggerOnEnter.bind(null, ags_searchQuery.bind(null, obj))
+          this.esgst.modules.common.triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
         );
         minFilter.addEventListener(`keypress`,
-          triggerOnEnter.bind(null, ags_searchQuery.bind(null, obj))
+          this.esgst.modules.common.triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
         );
       }
       obj.filters.push({
@@ -310,9 +313,9 @@ _MODULES.push({
     }
   }
 
-  function ags_searchQuery(obj) {
+  ags_searchQuery(obj) {
     let url;
-    if (esgst.ags_app || esgst.ags_sub) {
+    if (this.esgst.ags_app || this.esgst.ags_sub) {
       url = `https://www.steamgifts.com/giveaways/search?q=`;
     } else {
       url = `https://www.steamgifts.com/giveaways/search?q=${encodeURIComponent(obj.input.value)}`;
@@ -338,4 +341,6 @@ _MODULES.push({
     }
     location.href = url;
   }
+}
 
+export default GiveawaysAdvancedGiveawaySearch;

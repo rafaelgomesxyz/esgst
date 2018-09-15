@@ -1,11 +1,15 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class GiveawaysGiveawayCountryLoader extends Module {
+info = ({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the region restricted icon (<i class="fa fa-globe"></i>) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.</li>
       </ul>
     `,
     id: `gcl`,
-    load: gcl,
+    load: this.gcl,
     name: `Giveaway Country Loader`,
     options: {
       title: `Load as:`,
@@ -15,16 +19,16 @@ _MODULES.push({
     type: `giveaways`
   });
 
-  function gcl() {
-    esgst.giveawayFeatures.push(gcl_setButton);
+  gcl() {
+    this.esgst.giveawayFeatures.push(gcl_setButton);
   }
 
-  function gcl_setButton(giveaways, main) {
-    if (main && (esgst.createdPath || esgst.enteredPath || esgst.wonPath)) return;
+  gcl_setButton(giveaways, main) {
+    if (main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath)) return;
     giveaways.forEach(giveaway => {
-      let container, context, delay, eventType, exitTimeout, onClick, timeout;
+      let container, context, delay, eventType, exitTimeout, onClick, this.esgst.modules.common.timeout;
       if (giveaway.regionRestricted) {
-        switch (esgst.gcl_index) {
+        switch (this.esgst.gcl_index) {
           case 0:
             eventType = `mouseenter`;
             onClick = false;
@@ -32,7 +36,7 @@ _MODULES.push({
             giveaway.regionRestricted.addEventListener(`mouseleave`, event => {
               if (timeout) {
                 clearTimeout(timeout);
-                timeout = null;
+                this.esgst.modules.common.timeout = null;
               }
               exitTimeout = setTimeout(() => {
                 if (context && !container.contains(event.relatedTarget)) {
@@ -43,7 +47,7 @@ _MODULES.push({
             giveaway.regionRestricted.addEventListener(`click`, () => {
               if (timeout) {
                 clearTimeout(timeout);
-                timeout = null;
+                this.esgst.modules.common.timeout = null;
               }
             });
             break;
@@ -62,9 +66,9 @@ _MODULES.push({
             break;
         }
         giveaway.regionRestricted.addEventListener(eventType, () => {
-          timeout = setTimeout(async () => {
+          this.esgst.modules.common.timeout = setTimeout(async () => {
             if (context) {
-              switch (esgst.gcl_index) {
+              switch (this.esgst.gcl_index) {
                 case 0:
                   context.open(giveaway.regionRestricted);
                   break;
@@ -80,7 +84,7 @@ _MODULES.push({
                   break;
               }
             } else {
-              if (esgst.gcl_index === 2) {
+              if (this.esgst.gcl_index === 2) {
                 context = new Popup(`fa-globe`, [{
                   attributes :{
                     href: `${giveaway.url}/region-restrictions`
@@ -95,7 +99,7 @@ _MODULES.push({
                 container = context.popout;
                 context.open(giveaway.regionRestricted);
               }
-              createElements(container, `inner`, [{
+              this.esgst.modules.common.createElements(container, `inner`, [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
@@ -104,9 +108,9 @@ _MODULES.push({
                 text: `Loading countries...`,
                 type: `span`
               }]);
-              const countries = await gcl_getCountries(1, `${giveaway.url}/region-restrictions/search?page=`);
+              const countries = await this.gcl_getCountries(1, `${giveaway.url}/region-restrictions/search?page=`);
               if (countries) {
-                createElements(container, `inner`, [{
+                this.esgst.modules.common.createElements(container, `inner`, [{
                   attributes: {
                     placeholder: `Search country...`,
                     type: `text`
@@ -147,9 +151,9 @@ _MODULES.push({
                 for (const country of countries) {
                   container.lastElementChild.firstElementChild.appendChild(country);
                 }
-                await endless_load(container);
-                if (esgst.gcl_index === 1) {
-                  createElements(container, `afterBegin`, [{
+                await this.esgst.modules.common.endless_load(container);
+                if (this.esgst.gcl_index === 1) {
+                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
                     attributes: {
                       class: `esgst-ggl-heading`,
                       href: `${giveaway.url}/region-restrictions`
@@ -160,7 +164,7 @@ _MODULES.push({
                 }
                 context.reposition();
               } else {
-                createElements(container, `inner`, [{
+                this.esgst.modules.common.createElements(container, `inner`, [{
                   attributes: {
                     class: `fa fa-times-circle`
                   },
@@ -169,8 +173,8 @@ _MODULES.push({
                   text: `An error ocurred.`,
                   type: `span`
                 }]);
-                if (esgst.gcl_index === 1) {
-                  createElements(container, `afterBegin`, [{
+                if (this.esgst.gcl_index === 1) {
+                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
                     attributes: {
                       class: `esgst-ggl-heading`,
                       href: `${giveaway.url}/region-restrictions`
@@ -182,7 +186,7 @@ _MODULES.push({
                 context.reposition();
               }
             }
-            if (esgst.gcl_index === 0) {
+            if (this.esgst.gcl_index === 0) {
               container.onmouseenter = () => {
                 if (exitTimeout) {
                   clearTimeout(exitTimeout);
@@ -196,11 +200,11 @@ _MODULES.push({
     });
   }
 
-  async function gcl_getCountries(nextPage, url) {
+  async gcl_getCountries(nextPage, url) {
     const countries = [];
     let pagination = null;
     do {
-      const responseHtml = parseHtml((await request({
+      const responseHtml = utils.parseHtml((await this.esgst.modules.common.request({
         method: `GET`,
         url: `${url}${nextPage}`
       })).responseText);
@@ -213,4 +217,6 @@ _MODULES.push({
     } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
     return countries;
   }
+}
 
+export default GiveawaysGiveawayCountryLoader;

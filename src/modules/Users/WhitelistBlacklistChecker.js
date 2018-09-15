@@ -1,4 +1,8 @@
-_MODULES.push({
+import {utils} from '../../lib/jsUtils'
+import Module from '../../class/Module';
+
+class UsersWhitelistBlacklistChecker extends Module {
+info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.</li>
@@ -41,32 +45,32 @@ _MODULES.push({
       }
     },
     id: `wbc`,
-    load: wbc,
+    load: this.wbc,
     name: `Whitelist/Blacklist Checker`,
     sg: true,
-    sync: `Steam Groups`,
+    this.esgst.modules.common.sync: `Steam Groups`,
     type: `users`
   });
 
-  function wbc() {
-    if (esgst.wbc_h) {
-      esgst.userFeatures.push(wbc_users);
+  wbc() {
+    if (this.esgst.wbc_h) {
+      this.esgst.userFeatures.push(wbc_users);
     }
-    if (!esgst.mainPageHeading) return;
-    let [icons, title] = !esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
-    esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
-    wbc_addButton(true, esgst.wbcButton);
+    if (!this.esgst.mainPageHeading) return;
+    let [icons, title] = !this.esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
+    this.esgst.wbcButton = this.esgst.modules.common.createHeadingButton({id: `wbc`, icons, title});
+    this.wbc_addButton(true, this.esgst.wbcButton);
   }
 
-  function wbc_users(users) {
+  wbc_users(users) {
     for (const user of users) {    
       if (user.saved && user.saved.wbc && !user.context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
         let result = user.saved.wbc.result;
-        if ((result === `whitelisted`) || ((result === `blacklisted`) && !esgst.wbc_hb)) {
-          createElements(user.context, `beforeBegin`, [{
+        if ((result === `whitelisted`) || ((result === `blacklisted`) && !this.esgst.wbc_hb)) {
+          this.esgst.modules.common.createElements(user.context, `beforeBegin`, [{
             attributes: {
               class: `esgst-wbc-icon esgst-user-icon`,
-              title: getFeatureTooltip(`wbc`, `${user.username} has ${result} you (last checked ${getTimestamp(user.saved.wbc.lastCheck)})`)
+              title: this.esgst.modules.common.getFeatureTooltip(`wbc`, `${user.username} has ${result} you (last checked ${getTimestamp(user.saved.wbc.lastCheck)})`)
             },
             type: `span`,
             children: [{
@@ -81,12 +85,12 @@ _MODULES.push({
     }
   }
 
-  function wbc_addButton(Context, WBCButton) {
+  wbc_addButton(Context, WBCButton) {
     let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip, WBC;
     WBC = {
       Update: (Context ? false : true),
-      B: !esgst.wbc_hb,
-      Username: esgst.username
+      B: !this.esgst.wbc_hb,
+      Username: this.esgst.username
     };
     popup = new Popup(WBC.Update ? `fa-cog` : `fa-question`, WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`);
     if (location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
@@ -96,17 +100,17 @@ _MODULES.push({
         SteamID64: document.querySelector(`a[href*="/profiles/"]`).href.match(/\d+/)[0],
       };
     }
-    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Options = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     if (WBC.User) {
-      checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, esgst.wbc_checkSingle);
+      checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, this.esgst.wbc_checkSingle);
     }
-    let feat = getFeatureNumber(`mm`);
-    let checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `Use ${feat.number} ${feat.name} to select the users that you want to check. Then click the button 'Check WL/BL' in the Multi-Manager popout and you will be redirected here.`, esgst.wbc_checkSelected);
+    let feat = this.esgst.modules.common.getFeatureNumber(`mm`);
+    let checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `Use ${feat.number} ${feat.name} to select the users that you want to check. Then click the button 'Check WL/BL' in the Multi-Manager popout and you will be redirected here.`, this.esgst.wbc_checkSelected);
     if (WBC.B) {
-      new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, esgst.wbc_checkBlacklist);
+      new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, this.esgst.wbc_checkBlacklist);
     }
     if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
-      checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, esgst.wbc_checkAll);
+      checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, this.esgst.wbc_checkAll);
       checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, [{
         text: `Check only pages from `,
         type: `node`
@@ -115,7 +119,7 @@ _MODULES.push({
           class: `esgst-switch-input`,
           min: `1`,
           type: `number`,
-          value: esgst.wbc_minPage
+          value: this.esgst.wbc_minPage
         },
         type: `input`
       }, {
@@ -126,43 +130,43 @@ _MODULES.push({
           class: `esgst-switch-input`,
           min: `1`,
           type: `number`,
-          value: esgst.wbc_maxPage
+          value: this.esgst.wbc_maxPage
         },
         type: `input`
       }, {
         text: `.`,
         type: `node`
-      }], false, false, null, esgst.wbc_checkPages);
+      }], false, false, null, this.esgst.wbc_checkPages);
       let minPage = checkPagesSwitch.name.firstElementChild;
       let maxPage = minPage.nextElementSibling;
-      let lastPage = lpl_getLastPage(document, true);
+      let lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
       if (lastPage !== 999999999) {
         maxPage.setAttribute(`max`, lastPage);
       }
-      observeNumChange(minPage, `wbc_minPage`);
-      observeNumChange(maxPage, `wbc_maxPage`);
+      this.esgst.modules.common.observeNumChange(minPage, `wbc_minPage`);
+      this.esgst.modules.common.observeNumChange(maxPage, `wbc_maxPage`);
     }
-    new ToggleSwitch(popup.Options, `wbc_returnWhitelists`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, esgst.wbc_returnWhitelists);
+    new ToggleSwitch(popup.Options, `wbc_returnWhitelists`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, this.esgst.wbc_returnWhitelists);
     if (WBC.B) {
-      new ToggleSwitch(popup.Options, `wbc_returnBlacklists`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, esgst.wbc_returnBlacklists);
+      new ToggleSwitch(popup.Options, `wbc_returnBlacklists`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, this.esgst.wbc_returnBlacklists);
     }
-    new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, esgst.wbc_checkNew);
-    observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [{
+    new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, this.esgst.wbc_checkNew);
+    this.esgst.modules.common.observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [{
       text: `Skip users after `,
       type: `node`
     }, {
       attributes: {
         class: `esgst-ugs-difference`,
         type: `number`,
-        value: esgst.wbc_pages
+        value: this.esgst.wbc_pages
       },
       type: `input`
     },
     {
       text: ` pages.`,
       type: `node`
-    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
-    new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, esgst.wbc_clearCache);
+    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
+    new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, this.esgst.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {
         if (checkAllSwitch) {
@@ -173,7 +177,7 @@ _MODULES.push({
         }
         checkSingleSwitch.exclusions.push(checkSelectedSwitch.container);
         checkSelectedSwitch.exclusions.push(checkSingleSwitch.container);
-        if (esgst.wbc_checkSingle) {
+        if (this.esgst.wbc_checkSingle) {
           if (checkAllSwitch) {
             checkAllSwitch.container.classList.add(`esgst-hidden`);
           }
@@ -181,7 +185,7 @@ _MODULES.push({
             checkPagesSwitch.container.classList.add(`esgst-hidden`);
           }
           checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-        } else if (esgst.wbc_checkSelected) {
+        } else if (this.esgst.wbc_checkSelected) {
           checkSingleSwitch.container.classList.add(`esgst-hidden`);
         }
       }
@@ -194,7 +198,7 @@ _MODULES.push({
         }
         checkSelectedSwitch.exclusions.push(checkAllSwitch.container);
         checkAllSwitch.exclusions.push(checkSelectedSwitch.container);
-        if (esgst.wbc_checkAll) {
+        if (this.esgst.wbc_checkAll) {
           if (checkSingleSwitch) {
             checkSingleSwitch.container.classList.add(`esgst-hidden`);
           }
@@ -202,7 +206,7 @@ _MODULES.push({
             checkPagesSwitch.container.classList.add(`esgst-hidden`);
           }
           checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-        } else if (esgst.wbc_checkSelected) {
+        } else if (this.esgst.wbc_checkSelected) {
           checkAllSwitch.container.classList.add(`esgst-hidden`);
         }
       }
@@ -215,7 +219,7 @@ _MODULES.push({
         }
         checkSelectedSwitch.exclusions.push(checkPagesSwitch.container);
         checkPagesSwitch.exclusions.push(checkSelectedSwitch.container);
-        if (esgst.wbc_checkPages) {
+        if (this.esgst.wbc_checkPages) {
           if (checkSingleSwitch) {
             checkSingleSwitch.container.classList.add(`esgst-hidden`);
           }
@@ -223,12 +227,12 @@ _MODULES.push({
             checkAllSwitch.container.classList.add(`esgst-hidden`);
           }
           checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-        } else if (esgst.wbc_checkSelected) {
+        } else if (this.esgst.wbc_checkSelected) {
           checkPagesSwitch.container.classList.add(`esgst-hidden`);
         }
       }
     }
-    createElements(popup.Options, `afterEnd`, [{
+    this.esgst.modules.common.createElements(popup.Options, `afterEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -238,7 +242,7 @@ _MODULES.push({
     popup.description.appendChild(new ButtonSet(`green`, `grey`, WBC.Update ? `fa-refresh` : `fa-question-circle`, `fa-times-circle`, WBC.Update ? `Update` : `Check`, `Cancel`, Callback => {
       WBC.ShowResults = false;
       WBCButton.classList.add(`esgst-busy`);
-      wbc_setCheck(WBC, skip, () => {
+      this.wbc_setCheck(WBC, skip, () => {
         skip.innerHTML = ``;
         WBCButton.classList.remove(`esgst-busy`);
         Callback();
@@ -254,11 +258,11 @@ _MODULES.push({
       }, 500);
       WBCButton.classList.remove(`esgst-busy`);
     }).set);
-    skip = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    WBC.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
-    createResults(popup.Results, WBC, [{
+    skip = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.Progress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.OverallProgress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Results = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
+    this.esgst.modules.common.createResults(popup.Results, WBC, [{
       Icon: `fa fa-heart esgst-whitelist`,
       Description: `You are whitelisted by`,
       Key: `whitelisted`
@@ -281,9 +285,9 @@ _MODULES.push({
     }]);
     WBCButton.addEventListener(`click`, () => {
       if (WBCButton.getAttribute(`data-mm`)) {
-        if (!esgst.wbc_checkSelected) {
-          if (esgst.wbc_checkSingle && checkSingleSwitch) {
-            let element = createElements(checkSingleSwitch.container, `afterBegin`, [{
+        if (!this.esgst.wbc_checkSelected) {
+          if (this.esgst.wbc_checkSingle && checkSingleSwitch) {
+            let element = this.esgst.modules.common.createElements(checkSingleSwitch.container, `afterBegin`, [{
               attributes: {
                 class: `esgst-bold esgst-red`
               },
@@ -291,8 +295,8 @@ _MODULES.push({
               type: `span`
             }]);
             setTimeout(() => element.remove(), 5000);
-          } else if (esgst.wbc_checkAll) {
-            let element = createElements(checkAllSwitch.container, `afterBegin`, [{
+          } else if (this.esgst.wbc_checkAll) {
+            let element = this.esgst.modules.common.createElements(checkAllSwitch.container, `afterBegin`, [{
               attributes: {
                 class: `esgst-bold esgst-red`
               },
@@ -300,8 +304,8 @@ _MODULES.push({
               type: `span`
             }]);
             setTimeout(() => element.remove(), 5000);
-          } else if (esgst.wbc_checkPages) {
-            let element = createElements(checkPagesSwitch.container, `afterBegin`, [{
+          } else if (this.esgst.wbc_checkPages) {
+            let element = this.esgst.modules.common.createElements(checkPagesSwitch.container, `afterBegin`, [{
               attributes: {
                 class: `esgst-bold esgst-red`
               },
@@ -310,7 +314,7 @@ _MODULES.push({
             }]);
             setTimeout(() => element.remove(), 5000);
           }
-          let element = createElements(checkSelectedSwitch.container, `afterBegin`, [{
+          let element = this.esgst.modules.common.createElements(checkSelectedSwitch.container, `afterBegin`, [{
             attributes: {
               class: `esgst-bold esgst-red`
             },
@@ -325,13 +329,13 @@ _MODULES.push({
       popup.open(() => {
         if (WBC.Update) {
           WBC.ShowResults = true;
-          wbc_setCheck(WBC, skip);
+          this.wbc_setCheck(WBC, skip);
         }
       });
     });
   }
 
-  async function wbc_setCheck(WBC, skip, Callback) {
+  async wbc_setCheck(WBC, skip, Callback) {
     let SavedUsers, I, N;
     WBC.Progress.innerHTML = ``;
     WBC.OverallProgress.innerHTML = ``;
@@ -355,7 +359,7 @@ _MODULES.push({
           WBC.Users.push(SavedUsers.users[I].username);
         }
       }
-      WBC.Users = sortArray(WBC.Users);
+      WBC.Users = utils.sortArray(WBC.Users);
       if (WBC.ShowResults) {
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
           let user = {
@@ -363,59 +367,59 @@ _MODULES.push({
             id: SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].id,
             username: WBC.Users[I]
           };
-          wbc_setResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
+          this.wbc_setResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
         }
       } else {
         skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
           callback();
           WBC.manualSkip = true;
         }).set);
-        wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
+        this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
-    } else if (WBC.User && esgst.wbc_checkSingle) {
+    } else if (WBC.User && this.esgst.wbc_checkSingle) {
       WBC.Users.push(WBC.User.Username);
-      wbc_checkUsers(WBC, 0, 1, Callback);
+      this.wbc_checkUsers(WBC, 0, 1, Callback);
     } else {
-      if (esgst.wbc_checkSelected) {
-        WBC.Users = Array.from(esgst.mmWbcUsers);
-      } else if (!esgst.wbc_checkPages) {
-        let elements = esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
+      if (this.esgst.wbc_checkSelected) {
+        WBC.Users = Array.from(this.esgst.mmWbcUsers);
+      } else if (!this.esgst.wbc_checkPages) {
+        let elements = this.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
         for (let element of elements) {
           let match = element.getAttribute(`href`).match(/\/user\/(.+)/);
           if (!match) continue;
           let username = match[1];
-          if (WBC.Users.indexOf(username) > -1 || username === esgst.username || username !== element.textContent || element.closest(`.markdown`)) continue;
+          if (WBC.Users.indexOf(username) > -1 || username === this.esgst.username || username !== element.textContent || element.closest(`.markdown`)) continue;
           WBC.Users.push(username);
         }
       }
-      if ((esgst.wbc_checkAll || esgst.wbc_checkPages) && ((((WBC.User && !esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
-        WBC.lastPage = esgst.wbc_checkPages ? `of ${esgst.wbc_maxPage}` : ``;
-        wbc_getUsers(WBC, esgst.wbc_checkPages ? (esgst.wbc_minPage - 1) : 0, esgst.currentPage, esgst.searchUrl, () => {
+      if ((this.esgst.wbc_checkAll || this.esgst.wbc_checkPages) && ((((WBC.User && !this.esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
+        WBC.lastPage = this.esgst.wbc_checkPages ? `of ${this.esgst.wbc_maxPage}` : ``;
+        this.wbc_getUsers(WBC, this.esgst.wbc_checkPages ? (this.esgst.wbc_minPage - 1) : 0, this.esgst.currentPage, this.esgst.searchUrl, () => {
           skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
             callback();
             WBC.manualSkip = true;
           }).set);
-          WBC.Users = sortArray(WBC.Users);
-          wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
+          WBC.Users = utils.sortArray(WBC.Users);
+          this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
         });
       } else {
         skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
           callback();
           WBC.manualSkip = true;
         }).set);
-        WBC.Users = sortArray(WBC.Users);
-        wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
+        WBC.Users = utils.sortArray(WBC.Users);
+        this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
     }
   }
 
-  async function wbc_checkUsers(WBC, I, N, Callback) {
+  async wbc_checkUsers(WBC, I, N, Callback) {
     let User, Result;
     if (!WBC.Canceled) {
       WBC.Progress.innerHTML = ``;
       WBC.OverallProgress.textContent = `${I} of ${N} users checked...`;
       if (I < N) {
-        User = (WBC.User && esgst.wbc_checkSingle) ? WBC.User : {
+        User = (WBC.User && this.esgst.wbc_checkSingle) ? WBC.User : {
           Username: WBC.Users[I]
         };
         let user = {
@@ -423,30 +427,30 @@ _MODULES.push({
           id: User.ID,
           username: User.Username
         };
-        let notes, whitelisted, blacklisted, wbc;
-        const savedUser = await getUser(null, user);
+        let notes, whitelisted, blacklisted, this.wbc;
+        const savedUser = await this.esgst.modules.common.getUser(null, user);
         if (savedUser) {
           notes = savedUser.notes;
           whitelisted = savedUser.whitelisted;
           blacklisted = savedUser.blacklisted;
-          wbc = savedUser.wbc;
+          this.wbc = savedUser.wbc;
         }
-        if (wbc && wbc.result) {
-          Result = wbc.result;
+        if (wbc && this.wbc.result) {
+          Result = this.wbc.result;
         }
         if (WBC.manualSkip) {
           if (!wbc) {
-            wbc = {};
+            this.wbc = {};
           }
-          setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
-        } else if (!wbc || !esgst.wbc_checkNew) {
+          setTimeout(() => this.wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, (Result != this.wbc.result) ? true : false, I, N, Callback), 0);
+        } else if (!wbc || !this.esgst.wbc_checkNew) {
           if (!wbc) {
-            wbc = {};
+            this.wbc = {};
           }
-          await wbc_checkUser(wbc, WBC, user.username);
-          setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
+          await this.wbc_checkUser(wbc, WBC, user.username);
+          setTimeout(() => this.wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, (Result != this.wbc.result) ? true : false, I, N, Callback), 0);
         } else {
-          setTimeout(() => wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, (Result != this.wbc.result) ? true : false, I, N, Callback), 0);
         }
       } else if (Callback) {
         Callback();
@@ -454,13 +458,13 @@ _MODULES.push({
     }
   }
 
-  async function wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, New, I, N, Callback) {
+  async wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, New, I, N, Callback) {
     let Key;
     const isSkipped = WBC.manualSkip || WBC.autoSkip;
     WBC.manualSkip = false;
     WBC.autoSkip = false;
     if (!WBC.Canceled) {
-      Key = ((wbc.result === `blacklisted` || wbc.result === `notBlacklisted`) && !WBC.B) ? `unknown` : wbc.result;
+      Key = ((wbc.result === `blacklisted` || this.wbc.result === `notBlacklisted`) && !WBC.B) ? `unknown` : this.wbc.result;
       WBC[Key].classList.remove(`esgst-hidden`);
       const attributes = {
         href: `/user/${user.username}`
@@ -469,7 +473,7 @@ _MODULES.push({
         attributes.class = `esgst-bold esgst-italic`;
       }
       let items = null;
-      if (isSkipped && (wbc.result === `unknown` || wbc.result === `notBlacklisted`)) {
+      if (isSkipped && (wbc.result === `unknown` || this.wbc.result === `notBlacklisted`)) {
         items = [{
           type: `span`,
           children: [{
@@ -492,14 +496,14 @@ _MODULES.push({
         }];
       }
       WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
-      createElements(WBC[`${Key}Users`], `beforeEnd`, items);
+      this.esgst.modules.common.createElements(WBC[`${Key}Users`], `beforeEnd`, items);
       if (!WBC.ShowResults) {
-        if ((esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
+        if ((this.esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && this.esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
           if (user.id) {
-            wbc_returnWlBl(WBC, wbc, user.username, user.id, notes, async (success, notes) => {
+            this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
-                  wbc: wbc,
+                  this.wbc: this.wbc,
                   whitelisted: false,
                   blacklisted: false
                 };
@@ -509,15 +513,15 @@ _MODULES.push({
                 user.values[wbc.result] = true;
                 user.values[`${wbc.result}Date`] = Date.now();
               }
-              await saveUser(null, null, user);
-              setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
+              await this.esgst.modules.common.saveUser(null, null, user);
+              setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           } else {
-            await getUserId(user);
-            wbc_returnWlBl(WBC, wbc, user.username, user.id, notes, async (success, notes) => {
+            await this.esgst.modules.common.getUserId(user);
+            this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
-                  wbc: wbc,
+                  this.wbc: this.wbc,
                   whitelisted: false,
                   blacklisted: false
                 };
@@ -527,35 +531,35 @@ _MODULES.push({
                 user.values[wbc.result] = true;
                 user.values[`${wbc.result}Date`] = Date.now();
               }
-              await saveUser(null, null, user);
-              setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
+              await this.esgst.modules.common.saveUser(null, null, user);
+              setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           }
-        } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted` || whitelisted || blacklisted) {
+        } else if (wbc.result === `whitelisted` || this.wbc.result === `blacklisted` || whitelisted || blacklisted) {
           user.values = {
-            wbc: wbc
+            this.wbc: this.wbc
           };
-          await saveUser(null, null, user);
-          setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          await this.esgst.modules.common.saveUser(null, null, user);
+          setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else if (New) {
           user.values = {
-            wbc: null
+            this.wbc: null
           };
-          await saveUser(null, null, user);
-          setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          await this.esgst.modules.common.saveUser(null, null, user);
+          setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else {
-          setTimeout(() => wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         }
       }
     }
   }
 
-  async function wbc_returnWlBl(WBC, wbc, username, id, notes, Callback) {
+  async wbc_returnWlBl(WBC, this.wbc, username, id, notes, Callback) {
     let Key, Type;
     if (!WBC.Canceled) {
-      Key = wbc.result;
+      Key = this.wbc.result;
       Type = Key.match(/(.+)ed/)[1];
-      createElements(WBC.Progress, `inner`, [{
+      this.esgst.modules.common.createElements(WBC.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -566,7 +570,7 @@ _MODULES.push({
       }]);
       if (location.pathname.match(new RegExp(`^/user/${username}`))) {
         document.getElementsByClassName(`sidebar__shortcut__${Type}`)[0].click();
-        if (esgst.wbc_n) {
+        if (this.esgst.wbc_n) {
           let msg = `Returned ${Type}.`;
           if (notes) {
             notes = `${msg}\n\n${notes}`;
@@ -577,9 +581,9 @@ _MODULES.push({
         Callback(true, notes);
       } else {
         let success = false;
-        if (JSON.parse((await request({data: `xsrf_token=${esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, method: `POST`, queue: true, url: `/ajax.php`})).responseText).type === `success`) {
+        if (JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, method: `POST`, queue: true, url: `/ajax.php`})).responseText).type === `success`) {
           success = true;
-          if (esgst.wbc_n) {
+          if (this.esgst.wbc_n) {
             let msg = `${Key} in return.`;
             if (notes) {
               notes = `${msg}\n\n${notes}`;
@@ -593,11 +597,11 @@ _MODULES.push({
     }
   }
 
-  async function wbc_checkUser(data, obj, username) {
+  async wbc_checkUser(data, obj, username) {
     if (obj.Canceled || obj.manualSkip) {
       return;
     }
-    if (esgst.wbc_clearCache) {
+    if (this.esgst.wbc_clearCache) {
       for (const key in data) {
         delete data[key];
       }
@@ -640,21 +644,21 @@ _MODULES.push({
     if (Date.now() - data.lastCheck <= 86400000 && !obj.Update) {
       return;
     }
-    if (((!esgst.wbc_checkBlacklist || !obj.B) && (data.wl_ga || data.g_wl_ga)) || (esgst.wbc_checkBlacklist && obj.B && data.ga)) {
+    if (((!this.esgst.wbc_checkBlacklist || !obj.B) && (data.wl_ga || data.g_wl_ga)) || (this.esgst.wbc_checkBlacklist && obj.B && data.ga)) {
       obj.Timestamp = data.timestamp;
-      await wbc_checkGiveaway(data, obj, username);
+      await this.wbc_checkGiveaway(data, obj, username);
     } else {
       obj.Timestamp = 0;
       const match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-      await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+      await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
     }
   }
 
-  async function wbc_checkGiveaway(data, obj, username) {
+  async wbc_checkGiveaway(data, obj, username) {
     if (obj.Canceled) {
       return;
     }
-    let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`})).responseText);
+    let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`})).responseText);
     let errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
     let stop;
     if (errorMessage) {
@@ -689,7 +693,7 @@ _MODULES.push({
         obj.Timestamp = 0;
         obj.GroupGiveaways = [];
         let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-        await wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
       } else {
         data.result = `whitelisted`;
         data.lastCheck = Date.now();
@@ -703,7 +707,7 @@ _MODULES.push({
     return stop;
   }
 
-  async function wbc_getGiveaways(currentPage, data, obj, username) {
+  async wbc_getGiveaways(currentPage, data, obj, username) {
     if (obj.Canceled) {
       return;
     }
@@ -717,23 +721,23 @@ _MODULES.push({
       if (currentPage === nextPage) {
         context = document;
       } else {
-        const response = await request({
+        const response = await this.esgst.modules.common.request({
           method: `GET`,
           queue: true,
           url: `${url}${nextPage}`
         });
         if (response.finalUrl.match(/\/user\//)) {
-          context = parseHtml(response.responseText);
+          context = utils.parseHtml(response.responseText);
         } else {
           isStopped = true;
           break;
         }
       }
       if (nextPage === 1) {
-        obj.lastPage = lpl_getLastPage(context, false, false, true);
+        obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, false, false, true);
         obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
       }
-      createElements(obj.Progress, `inner`, [{
+      this.esgst.modules.common.createElements(obj.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -757,8 +761,8 @@ _MODULES.push({
         isStopped = true;
         break;
       }
-      const doStop = await wbc_checkGiveaway(data, obj, username);
-      if (data.result !== `notBlacklisted` || doStop || (esgst.wbc_checkBlacklist && obj.B)) {
+      const doStop = await this.wbc_checkGiveaway(data, obj, username);
+      if (data.result !== `notBlacklisted` || doStop || (this.esgst.wbc_checkBlacklist && obj.B)) {
         break;
       }
       let groupGiveaways = [];
@@ -771,13 +775,13 @@ _MODULES.push({
           data.wl_ga = element.closest(`.giveaway__summary`).getElementsByClassName(`giveaway__heading__name`)[0].getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
         }
         if (data.wl_ga) {
-          await wbc_checkGiveaway(data, obj, username);
+          await this.wbc_checkGiveaway(data, obj, username);
           break;
         }
       }
       if ((data.g_wl_gas && Object.keys(data.g_wl_gas).length) || groupGiveaways.length) {
         if (groupGiveaways.length) {
-          const result = await wbc_getGroupGiveaways(data, groupGiveaways, obj, username);
+          const result = await this.wbc_getGroupGiveaways(data, groupGiveaways, obj, username);
           if (result) {
             break;
           }
@@ -804,7 +808,7 @@ _MODULES.push({
       }
       nextPage += 1;
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-      obj.autoSkip = esgst.wbc_skipUsers && nextPage > esgst.wbc_pages;
+      obj.autoSkip = this.esgst.wbc_skipUsers && nextPage > this.esgst.wbc_pages;
     } while (!obj.Canceled && !obj.manualSkip && !obj.autoSkip && (obj.Timestamp >= data.timestamp || obj.Timestamp === 0) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
     if (isStopped) {
@@ -814,11 +818,11 @@ _MODULES.push({
     }
   }
 
-  async function wbc_getGroupGiveaways(data, groupGiveaways, obj, username) {
+  async wbc_getGroupGiveaways(data, groupGiveaways, obj, username) {
     const n = groupGiveaways.length;
     for (let i = 0; i < n; i++) {
       const groupGiveaway = groupGiveaways[i];
-      createElements(obj.Progress, `inner`, [{
+      this.esgst.modules.common.createElements(obj.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch`
         },
@@ -830,7 +834,7 @@ _MODULES.push({
       if (data.groupGiveaways && data.groupGiveaways[groupGiveaway]) {
         continue;
       }
-      const result = await wbc_getGroups(data, groupGiveaway, obj);
+      const result = await this.wbc_getGroups(data, groupGiveaway, obj);
       if (result) {
         return result;
       }
@@ -841,16 +845,16 @@ _MODULES.push({
     return false;
   }
 
-  async function wbc_getGroups(data, groupGiveaway, obj) {
+  async wbc_getGroups(data, groupGiveaway, obj) {
     let nextPage = 1;
     let url = `/giveaway/${groupGiveaway}/_/groups/search?page=`;
     do {
-      const response = await request({
+      const response = await this.esgst.modules.common.request({
         method: `GET`,
         queue: true,
         url: `${url}${nextPage}`
       });
-      const context = parseHtml(response.responseText);
+      const context = utils.parseHtml(response.responseText);
       const groups = context.getElementsByClassName(`table__column__heading`);
       const n = groups.length;
       if (n < 1) {
@@ -879,15 +883,15 @@ _MODULES.push({
     return false;
   }
 
-  async function wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, Context) {
+  async wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, Context) {
     let Matches, I, N, Match, Username, Pagination;
     if (WBC.Canceled) return;
     if (Context) {
       if (!WBC.lastPage) {
-        WBC.lastPage = lpl_getLastPage(Context, true);
+        WBC.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(Context, true);
         WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
       }
-      createElements(WBC.Progress, `inner`, [{
+      this.esgst.modules.common.createElements(WBC.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -908,21 +912,23 @@ _MODULES.push({
       }
       Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
       if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback), 0);
+        setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback), 0);
       } else {
         Callback();
       }
     } else if (!WBC.Canceled) {
-      if (!esgst.wbc_checkPages || NextPage <= esgst.wbc_maxPage) {
+      if (!this.esgst.wbc_checkPages || NextPage <= this.esgst.wbc_maxPage) {
         NextPage += 1;
         if (CurrentPage != NextPage) {
-          setTimeout(async () => wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
+          setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
         } else {
-          setTimeout(() => wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, esgst.pageOuterWrap), 0);
+          setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.esgst.pageOuterWrap), 0);
         }
       } else {
         Callback();
       }
     }
   }
+}
 
+export default UsersWhitelistBlacklistChecker;
