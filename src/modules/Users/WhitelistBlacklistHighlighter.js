@@ -39,7 +39,7 @@ info = ({
     name: `Whitelist/Blacklist Highlighter`,
     sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/account/manage/(whitelist|blacklist)`}]},
     st: true,
-    this.esgst.modules.common.sync: `Whitelist and Blacklist`,
+    sync: `Whitelist and Blacklist`,
     type: `users`
   });
 

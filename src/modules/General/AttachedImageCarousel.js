@@ -57,7 +57,7 @@ info = ({
         button: button,
         image: image,
         outerWrap: button,
-        this.esgst.modules.generalQuickInboxView.qiv: context.getAttribute && context.getAttribute(`data-esgst-qiv`),
+        qiv: context.getAttribute && context.getAttribute(`data-esgst-qiv`),
         source: comment && comment.querySelector(`.comment__summary`).id,
         url: url
       });

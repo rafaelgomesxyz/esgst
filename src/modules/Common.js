@@ -8324,7 +8324,7 @@ class Common extends Module {
     }
   }
 
-  async this.createLock(key, threshold) {
+  async createLock(key, threshold) {
     let lock = {
       key: key,
       threshold: threshold,
