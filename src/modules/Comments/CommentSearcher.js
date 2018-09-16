@@ -74,7 +74,7 @@ info = ({
         {
           source: this.esgst.discussionPath,
           url: this.esgst.searchUrl,
-          this.esgst.modules.common.request: this.cs_request
+          request: this.cs_request
         }
       ]
     });

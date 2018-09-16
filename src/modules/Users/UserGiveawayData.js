@@ -1,5 +1,12 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import {common} from "../Common";
+import Process from "../../class/Process";
+import Table from "../../class/Table";
+
+const
+  {getLocalValue, createElements, saveUser} = common,
+  {formatDate} = utils;
 
 class UsersUserGiveawayData extends Module {
 info = ({
@@ -53,7 +60,7 @@ info = ({
       return;
     }
     
-    const context = this.esgst.modules.common.createElements(profile.commentsRow, `afterEnd`, [{
+    const context = createElements(profile.commentsRow, `afterEnd`, [{
       attributes: {
         class: `esgst-ugd featured__table__row`,
         title: this.esgst.modules.common.getFeatureTooltip(`ugd`)
@@ -191,7 +198,7 @@ info = ({
   async ugd_add(context, key, user, mainPopup) {
     let button = null;
     if (context) {
-      button = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+      button = createElements(context, `beforeEnd`, [{
         attributes: {
           class: `esgst-ugd-button`,
           title: this.esgst.modules.common.getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)
@@ -252,7 +259,7 @@ info = ({
       requests: [
         {
           url: `/user/${user.username}${key === `won` ? `/giveaways/won` : ``}/search?page=`,
-          this.esgst.modules.common.request: this.ugd_requestGiveaways
+          request: this.ugd_requestGiveaways
         },
         this.ugd_requestGiveawaysDone
       ]
@@ -413,7 +420,7 @@ info = ({
               console.log(`ESGST Log: UGD 2`);
               obj.requests.push({
                 giveaway: giveaway,
-                this.esgst.modules.common.request: this.ugd_requestGiveaway,
+                request: this.ugd_requestGiveaway,
                 url: `/giveaway/${code}/_/winners/search?page=`
               });
             } else {
@@ -474,7 +481,7 @@ info = ({
             }
             obj.requests.push({
               giveaway: giveaway,
-              this.esgst.modules.common.request: this.ugd_requestGiveaway,
+              request: this.ugd_requestGiveaway,
               url: `/giveaway/${code}/_/winners/search?page=`
             });
           }
@@ -494,11 +501,11 @@ info = ({
 
     obj.user.values = {
       giveaways: obj.userGiveaways,
-      this.ugd: null
+      ugd: null
     };
 
     if (!obj.popup) {
-      await this.esgst.modules.common.saveUser(null, null, obj.user);
+      await saveUser(null, null, obj.user);
       return;
     }
 
@@ -752,7 +759,7 @@ info = ({
         type: `div`
       });
     }
-    this.esgst.modules.common.createElements(results, `beforeEnd`, items);
+    createElements(results, `beforeEnd`, items);
 
     await this.ugd_complete(obj, results);
 
@@ -1046,7 +1053,7 @@ info = ({
         }]
       });
     }
-    this.esgst.modules.common.createElements(results, `beforeEnd`, items);
+    createElements(results, `beforeEnd`, items);
     await this.esgst.modules.common.endless_load(results);
   }
 }

@@ -47,7 +47,7 @@ info = ({
       init: this.as_init,
       requests: [
         {
-          this.esgst.modules.common.request: this.as_request
+          request: this.as_request
         }
       ]
     });

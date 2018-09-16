@@ -48,7 +48,7 @@ info = ({
     load: this.wbc,
     name: `Whitelist/Blacklist Checker`,
     sg: true,
-    this.esgst.modules.common.sync: `Steam Groups`,
+    sync: `Steam Groups`,
     type: `users`
   });
 
@@ -427,7 +427,7 @@ info = ({
           id: User.ID,
           username: User.Username
         };
-        let notes, whitelisted, blacklisted, this.wbc;
+        let notes, whitelisted, blacklisted, wbc;
         const savedUser = await this.esgst.modules.common.getUser(null, user);
         if (savedUser) {
           notes = savedUser.notes;
@@ -458,7 +458,7 @@ info = ({
     }
   }
 
-  async wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, New, I, N, Callback) {
+  async wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, New, I, N, Callback) {
     let Key;
     const isSkipped = WBC.manualSkip || WBC.autoSkip;
     WBC.manualSkip = false;
@@ -503,7 +503,7 @@ info = ({
             this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
-                  this.wbc: this.wbc,
+                  wbc: this.wbc,
                   whitelisted: false,
                   blacklisted: false
                 };
@@ -521,7 +521,7 @@ info = ({
             this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
-                  this.wbc: this.wbc,
+                  wbc: this.wbc,
                   whitelisted: false,
                   blacklisted: false
                 };
@@ -537,13 +537,13 @@ info = ({
           }
         } else if (wbc.result === `whitelisted` || this.wbc.result === `blacklisted` || whitelisted || blacklisted) {
           user.values = {
-            this.wbc: this.wbc
+            wbc: this.wbc
           };
           await this.esgst.modules.common.saveUser(null, null, user);
           setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else if (New) {
           user.values = {
-            this.wbc: null
+            wbc: null
           };
           await this.esgst.modules.common.saveUser(null, null, user);
           setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
@@ -554,7 +554,7 @@ info = ({
     }
   }
 
-  async wbc_returnWlBl(WBC, this.wbc, username, id, notes, Callback) {
+  async wbc_returnWlBl(WBC, wbc, username, id, notes, Callback) {
     let Key, Type;
     if (!WBC.Canceled) {
       Key = this.wbc.result;
