@@ -500,8 +500,8 @@ info = ({
               doNotTrigger: true,
               id: `mm`,
               init: this.mm_initUrls,
-              this.esgst.modules.common.request: {
-                this.esgst.modules.common.request: this.mm_getSearchReplaceUrlRequest
+              request: {
+                request: this.mm_getSearchReplaceUrlRequest
               },
               restart: true
             }

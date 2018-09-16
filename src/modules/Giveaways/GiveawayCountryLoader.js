@@ -1,5 +1,6 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popout from "../../class/Popout";
 
 class GiveawaysGiveawayCountryLoader extends Module {
 info = ({
@@ -26,7 +27,7 @@ info = ({
   gcl_setButton(giveaways, main) {
     if (main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath)) return;
     giveaways.forEach(giveaway => {
-      let container, context, delay, eventType, exitTimeout, onClick, this.esgst.modules.common.timeout;
+      let container, context, delay, eventType, exitTimeout, onClick, timeout;
       if (giveaway.regionRestricted) {
         switch (this.esgst.gcl_index) {
           case 0:
@@ -66,7 +67,7 @@ info = ({
             break;
         }
         giveaway.regionRestricted.addEventListener(eventType, () => {
-          this.esgst.modules.common.timeout = setTimeout(async () => {
+          timeout = setTimeout(async () => {
             if (context) {
               switch (this.esgst.gcl_index) {
                 case 0:

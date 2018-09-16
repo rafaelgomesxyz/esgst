@@ -1,3 +1,4 @@
+/** module interface */
 export default class Module {
   info = {
     id: 'string',
@@ -5,5 +6,5 @@ export default class Module {
     type: 'string',
     endless: 'boolean'
   };
-  init();
+  init() {}
 }

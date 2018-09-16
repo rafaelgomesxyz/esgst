@@ -118,7 +118,7 @@ info = ({
         this.nrf.total = NRF.N;
         this.nrf.results = NRF.Results.innerHTML;
         user.values = {
-          this.nrf: this.nrf
+          nrf: this.nrf
         };
         await this.esgst.modules.common.saveUser(null, null, user);
         await this.esgst.modules.common.endless_load(NRF.Results);

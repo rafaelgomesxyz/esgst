@@ -11,7 +11,7 @@ info = ({
     load: this.hgebd,
     name: `Hidden Game's Enter Button Disabler`,
     sg: true,
-    this.esgst.modules.common.sync: `Hidden Games`,
+    sync: `Hidden Games`,
     type: `giveaways`
   });
 

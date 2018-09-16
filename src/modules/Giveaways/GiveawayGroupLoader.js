@@ -1,5 +1,6 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popup from "../../class/Popup";
 
 class GiveawaysGiveawayGroupLoader extends Module {
 info = ({
@@ -23,7 +24,7 @@ info = ({
       values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
     },
     sg: true,
-    this.esgst.modules.common.sync: `Steam Groups`,
+    sync: `Steam Groups`,
     type: `giveaways`
   });
 
@@ -45,7 +46,7 @@ info = ({
   }
 
   ggl_setButton(giveaway) {
-    let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways, savedGroups, this.esgst.modules.common.timeout;
+    let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways, savedGroups, timeout;
     if (giveaway.group) {
       switch (this.esgst.ggl_index) {
         case 1:
@@ -55,7 +56,7 @@ info = ({
           giveaway.group.addEventListener(`mouseleave`, event => {
             if (timeout) {
               clearTimeout(timeout);
-              this.esgst.modules.common.timeout = null;
+              timeout = null;
             }
             exitTimeout = setTimeout(() => {
               if (context && !container.contains(event.relatedTarget)) {
@@ -66,7 +67,7 @@ info = ({
           giveaway.group.addEventListener(`click`, () => {
             if (timeout) {
               clearTimeout(timeout);
-              this.esgst.modules.common.timeout = null;
+              timeout = null;
             }
           });
           break;
@@ -85,7 +86,7 @@ info = ({
           break;
       }
       giveaway.group.addEventListener(eventType, () => {
-        this.esgst.modules.common.timeout = setTimeout(async () => {
+        timeout = setTimeout(async () => {
           if (context) {
             switch (this.esgst.ggl_index) {
               case 1:

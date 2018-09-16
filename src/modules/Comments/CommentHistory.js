@@ -57,8 +57,8 @@ info = ({
         id: `ch`,
         init: this.ch_initUrls,
         perLoad: 5,
-        this.esgst.modules.common.request: {
-          this.esgst.modules.common.request: this.ch_requestUrl
+        request: {
+          request: this.ch_requestUrl
         }
       }
     });

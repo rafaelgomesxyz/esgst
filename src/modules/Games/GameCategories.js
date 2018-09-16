@@ -294,7 +294,7 @@ info = ({
         }],
         name: `HLTB`,
         sg: true,
-        this.esgst.modules.common.sync: `HLTB Times`
+        sync: `HLTB Times`
       },
       gc_i: {
         colors: true,
@@ -779,7 +779,7 @@ info = ({
     load: this.gc,
     name: `Game Categories`,
     sg: true,
-    this.esgst.modules.common.sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
+    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
     type: `games`
   });
 
