@@ -46,7 +46,7 @@ info = ({
     }
   }
 
-  async giveaways_get(context, main, mainUrl, this.esgst.modules.generalHeaderRefresher.hr, key, this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged, endless, source) {
+  async giveaways_get(context, main, mainUrl, hr, key, ged, endless, source) {
     let giveaway, giveaways, i, mainContext, matches, query;
     giveaways = [];
     if (!hr && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.archivePath)) {
@@ -67,7 +67,7 @@ info = ({
     }
     matches = context.querySelectorAll(query);
     for (i = matches.length - 1; i > -1; --i) {
-      giveaway = await this.giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged, endless, source);
+      giveaway = await this.giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, ged, endless, source);
       if (giveaway) {
         giveaways.push(giveaway[key]);
       }
@@ -75,8 +75,8 @@ info = ({
     return giveaways;
   }
 
-  async giveaways_getInfo(context, mainContext, this.esgst.modules.usersUserGiveawayData.ugd, ugdType, main, mainUrl, this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged, endless, source) {
-    let chance, giveaway, i, info, key, keys, match, n, savedUser, this.esgst.modules.usersUserFilters.uf, thinHeadings;
+  async giveaways_getInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless, source) {
+    let chance, giveaway, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
     giveaway = {
       creators: [],
       groups: []
@@ -345,7 +345,7 @@ info = ({
     }
     giveaway.elgbPanel = giveaway.panel;
     if (!giveaway.entriesLink) {
-      let esgst.modules.commentsCommentTracker.ct = giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
+      let ct = giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
         giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
       }

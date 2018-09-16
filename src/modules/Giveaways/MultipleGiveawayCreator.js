@@ -1,5 +1,15 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popup from "../../class/Popup";
+import ToggleSwitch from "../../class/ToggleSwitch";
+import Popup_v2 from "../../class/Popup_v2";
+import ButtonSet_v2 from "../../class/ButtonSet_v2";
+import {common} from "../Common";
+import ButtonSet from "../../class/ButtonSet";
+
+const
+  {getLocalValue, createElements} = common,
+  {formatDate} = utils;
 
 class GiveawaysMultipleGiveawayCreator extends Module {
 info = ({
@@ -25,7 +35,7 @@ info = ({
       this.mgc_addSection();
     }
     if (this.esgst.newDiscussionPath) {
-      if ((getLocalValue(`mgcAttach_step1`) || this.esgst.modules.common.getLocalValue(`mgcAttach_step2`))) {
+      if ((getLocalValue(`mgcAttach_step1`) || getLocalValue(`mgcAttach_step2`))) {
         this.esgst.modules.common.delLocalValue(`mgcAttach_step1`);
         this.esgst.modules.common.delLocalValue(`mgcAttach_step2`);
         this.mgc_addCreateAndAttachButton();
@@ -55,10 +65,10 @@ info = ({
   }
 
   mgc_addSection() {
-    let addButton, attachButton, createButton, createTrainDescription, createTrainOption, detach, emptyButton, exportButton, importButton, this.mgc, removeIcon, rows, section, shuffleButton, viewButton;
+    let addButton, attachButton, createButton, createTrainDescription, createTrainOption, detach, emptyButton, exportButton, importButton, mgc, removeIcon, rows, section, shuffleButton, viewButton;
     rows = document.getElementsByClassName(`form__rows`)[0];
     if (rows) {
-      this.mgc = {
+      mgc = {
         countries: document.querySelector(`[name="country_item_string"]`),
         gameId: document.querySelector(`[name="game_id"]`),
         gameType: document.querySelector(`[name="type"]`),
@@ -82,15 +92,15 @@ info = ({
       let elements = document.querySelector(`[data-input="country_item_string"]`).querySelectorAll(`[data-item-id]`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
-        this.mgc.countryNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
+        mgc.countryNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
       }
       elements = document.querySelector(`[data-input="group_item_string"]`).querySelectorAll(`[data-item-id]`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
-        this.mgc.groupNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
+        mgc.groupNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
       }
-      this.mgc.gameName = this.mgc.gameId.nextElementSibling;
-      let context = this.esgst.modules.common.createElements(rows, `afterBegin`, [{
+      mgc.gameName = mgc.gameId.nextElementSibling;
+      let context = createElements(rows, `afterBegin`, [{
         attributes: {
           class: `esgst-form-row`,
           title: this.esgst.modules.common.getFeatureTooltip(`mgc`)
@@ -174,20 +184,20 @@ info = ({
       this.esgst.mgc_createTrainSwitch.dependencies.push(createTrainDescription);
       this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, `mgc_removeLinks`, false, `Remove previous/next links from the first/last wagons.`, false, false, `Disabling this keeps the links as plain text.`, this.esgst.mgc_removeLinks);
       let generateButton = new ButtonSet(`green`, `grey`, `fa-gear`, `fa-circle-o-notch fa-spin`, `Generate`, `Generating...`, this.mgc_generateFormat);
-      this.mgc.editButton = new ButtonSet(`green`, `grey`, `fa-edit`, `fa-circle-o-notch fa-spin`, `Edit`, `Editing...`, this.mgc_getValues.bind(null, true, this.mgc));
-      this.mgc.editButton.set.classList.add(`esgst-hidden`);
-      addButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Add`, `Adding...`, this.mgc_getValues.bind(null, false, this.mgc));
-      importButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_importGiveaways.bind(null, this.mgc));
-      exportButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-down`, `fa-circle-o-notch fa-spin`, `Export`, `Exporting...`, this.mgc_exportGiveaways.bind(null, this.mgc));
-      shuffleButton = new ButtonSet(`green`, `grey`, `fa-random`, `fa-circle-o-notch fa-spin`, `Shuffle`, `Shuffling...`, this.mgc_shuffleGiveaways.bind(null, this.mgc));
-      emptyButton = new ButtonSet(`green`, `grey`, `fa-trash`, `fa-circle-o-notch fa-spin`, `Empty`, `Emptying...`, this.mgc_emptyGiveaways.bind(null, this.mgc));
-      attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach`, `Attaching...`, this.mgc_attachDiscussion.bind(null, this.mgc));
+      mgc.editButton = new ButtonSet(`green`, `grey`, `fa-edit`, `fa-circle-o-notch fa-spin`, `Edit`, `Editing...`, this.mgc_getValues.bind(null, true, mgc));
+      mgc.editButton.set.classList.add(`esgst-hidden`);
+      addButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Add`, `Adding...`, this.mgc_getValues.bind(null, false, mgc));
+      importButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_importGiveaways.bind(null, mgc));
+      exportButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-down`, `fa-circle-o-notch fa-spin`, `Export`, `Exporting...`, this.mgc_exportGiveaways.bind(null, mgc));
+      shuffleButton = new ButtonSet(`green`, `grey`, `fa-random`, `fa-circle-o-notch fa-spin`, `Shuffle`, `Shuffling...`, this.mgc_shuffleGiveaways.bind(null, mgc));
+      emptyButton = new ButtonSet(`green`, `grey`, `fa-trash`, `fa-circle-o-notch fa-spin`, `Empty`, `Emptying...`, this.mgc_emptyGiveaways.bind(null, mgc));
+      attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach`, `Attaching...`, this.mgc_attachDiscussion.bind(null, mgc));
       this.esgst.mgc_createTrainSwitch.dependencies.push(attachButton.set);
       if (!this.esgst.mgc_createTrain) {
         attachButton.set.classList.add(`esgst-hidden`);
       }
-      viewButton = new ButtonSet(`green`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `View Results`, `Opening...`, this.mgc_viewResults.bind(null, this.mgc));
-      createButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Create`, `Creating...`, this.mgc_createGiveaways.bind(null, this.mgc, viewButton));
+      viewButton = new ButtonSet(`green`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `View Results`, `Opening...`, this.mgc_viewResults.bind(null, mgc));
+      createButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Create`, `Creating...`, this.mgc_createGiveaways.bind(null, mgc, viewButton));
       viewButton.set.classList.add(`esgst-hidden`);
       section.appendChild(generateButton.set);
       section.appendChild(mgc.editButton.set);
@@ -199,7 +209,7 @@ info = ({
       section.appendChild(attachButton.set);
       section.appendChild(createButton.set);
       section.appendChild(viewButton.set);
-      this.mgc.discussionPanel = this.esgst.modules.common.createElements(section, `beforeEnd`, [{
+      mgc.discussionPanel = createElements(section, `beforeEnd`, [{
         attributes: {
           class: `esgst-hidden`
         },
@@ -220,11 +230,11 @@ info = ({
           type: `i`
         }]
       }]);
-      detach = this.mgc.discussionPanel.lastElementChild;
-      detach.addEventListener(`click`, this.mgc_detachDiscussion.bind(null, this.mgc));
-      this.mgc.discussionLink = detach.previousElementSibling;
+      detach = mgc.discussionPanel.lastElementChild;
+      detach.addEventListener(`click`, this.mgc_detachDiscussion.bind(null, mgc));
+      mgc.discussionLink = detach.previousElementSibling;
       new ToggleSwitch(mgc.discussionPanel, `mgc_bumpLast`, false, `Only insert the bump link in the last wagon.`, false, false, `If disabled, the bump link will appear on all wagons.`, this.esgst.mgc_bumpLast);
-      this.mgc.giveaways = this.esgst.modules.common.createElements(section, `beforeEnd`, [{
+      mgc.giveaways = createElements(section, `beforeEnd`, [{
         attributes: {
           class: `pinned-giveaways__outer-wrap`
         },
@@ -254,10 +264,10 @@ info = ({
           type: `div`
         }]
       }]).firstElementChild;
-      removeIcon = this.mgc.giveaways.nextElementSibling;
-      removeIcon.addEventListener(`dragenter`, this.mgc_removeGiveaway.bind(null, this.mgc));
+      removeIcon = mgc.giveaways.nextElementSibling;
+      removeIcon.addEventListener(`dragenter`, this.mgc_removeGiveaway.bind(null, mgc));
       JSON.parse(getLocalValue(`mgcCache`, `[]`)).forEach(values => {
-        this.mgc_addGiveaway(false, this.mgc, values);
+        this.mgc_addGiveaway(false, mgc, values);
       });
     }
   }
@@ -265,7 +275,7 @@ info = ({
   mgc_generateFormat(callback) {
     callback();
     let popup = new Popup(`fa-gear`, `Generate formats:`);
-    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
+    createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -286,14 +296,14 @@ info = ({
       }]
     }]);
     let inputs = {};
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
       text: `Next/previous links`,
       type: `div`
     }]);
-    inputs.previousPrefix = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.previousPrefix = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: `← `,
@@ -301,7 +311,7 @@ info = ({
       },
       type: `input`
     }]);
-    inputs.previous = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.previous = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: `Previous`,
@@ -309,7 +319,7 @@ info = ({
       },
       type: `input`
     }]);
-    inputs.previousSuffix = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.previousSuffix = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: ` ←`,
@@ -317,7 +327,7 @@ info = ({
       },
       type: `input`
     }]);
-    inputs.separator = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.separator = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: ` | `,
@@ -325,7 +335,7 @@ info = ({
       },
       type: `input`
     }]);
-    inputs.nextPrefix = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.nextPrefix = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: `→ `,
@@ -333,7 +343,7 @@ info = ({
       },
       type: `input`
     }]);
-    inputs.next = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.next = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: `Next`,
@@ -341,7 +351,7 @@ info = ({
       },
       type: `input`
     }]);
-    inputs.nextSuffix = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.nextSuffix = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: ` →`,
@@ -349,7 +359,7 @@ info = ({
       },
       type: `input`
     }]);
-    let output = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let output = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-preview esgst-text-left markdown`
       },
@@ -402,14 +412,14 @@ info = ({
     outputCopy.addEventListener(`click`, () => {
       this.esgst.modules.common.copyValue(outputCopy, outputCode.textContent);
     });
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
       text: `Counter`,
       type: `div`
     }]);
-    inputs.counter = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.counter = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: ` of `,
@@ -417,7 +427,7 @@ info = ({
       },
       type: `input`
     }]);
-    let counterOutput = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let counterOutput = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-preview esgst-text-left markdown`
       },
@@ -449,14 +459,14 @@ info = ({
     counterOutputCopy.addEventListener(`click`, () => {
       this.esgst.modules.common.copyValue(counterOutputCopy, counterOutputCode.textContent);
     });
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
       text: `Bump link (for attached discussions)`,
       type: `div`
     }]);
-    inputs.bump = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.bump = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: `Bump`,
@@ -464,7 +474,7 @@ info = ({
       },
       type: `input`
     }]);
-    let bumpOutput = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let bumpOutput = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-preview esgst-text-left markdown`
       },
@@ -499,14 +509,14 @@ info = ({
     let bumpOutputPreview = bumpOutput.firstElementChild;
     let bumpOutputCopy = bumpOutput.lastElementChild;
     let bumpOutputCode = bumpOutputCopy.previousElementSibling.firstElementChild;
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
       text: `First train wagon link (for attached discussions)`,
       type: `div`
     }]);
-    inputs.train = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    inputs.train = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-input`,
         placeholder: `Choo choo!`,
@@ -514,7 +524,7 @@ info = ({
       },
       type: `input`
     }]);
-    let trainOutput = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let trainOutput = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-mgc-preview esgst-text-left markdown`
       },
@@ -557,13 +567,13 @@ info = ({
       input.addEventListener(`input`, () => {
         if (key === `counter`) {
           counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
-          this.esgst.modules.common.createElements(counterOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`1${input.value}10`));
+          createElements(counterOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`1${input.value}10`));
         } else if (key === `bump`) {
           bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          this.esgst.modules.common.createElements(bumpOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`[${input.value}](#)`));
+          createElements(bumpOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`[${input.value}](#)`));
         } else if (key === `train`) {
           trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          this.esgst.modules.common.createElements(trainOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`[${input.value}](#)`));
+          createElements(trainOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`[${input.value}](#)`));
         } else {
           let markdown = ``;
           let text = ``;
@@ -586,7 +596,7 @@ info = ({
             markdown += `[${inputs.next.value}](#)`;
           }
           outputCode.textContent = text;
-          this.esgst.modules.common.createElements(outputPreview, `inner`, this.esgst.modules.common.parseMarkdown(markdown));
+          createElements(outputPreview, `inner`, this.esgst.modules.common.parseMarkdown(markdown));
         }
         input.style.width = `${input.value.length + 75}px`;
       });
@@ -594,33 +604,32 @@ info = ({
     popup.open();
   }
 
-  mgc_getValues(edit, this.mgc, callback) {
-    let values;
-    values = {
-      gameId: this.mgc.gameId.value,
-      gameType: this.mgc.gameType.value,
-      copies: this.mgc.copies.value,
-      keys: this.mgc.keys.value
+  mgc_getValues(edit, mgc, callback) {
+    let values = {
+      gameId: mgc.gameId.value,
+      gameType: mgc.gameType.value,
+      copies: mgc.copies.value,
+      keys: mgc.keys.value
     };
     if (values.gameId && ((values.gameType === `gift` && parseInt(values.copies) > 0) || (values.gameType === `key` && values.keys))) {
       this.esgst.busy = true;
-      values.countries = this.mgc.countries.value.trim();
-      values.gameName = this.mgc.gameName.value;
-      values.startTime = this.mgc.startTime.value;
-      values.endTime = this.mgc.endTime.value;
-      values.region = this.mgc.region.value;
-      values.whoCanEnter = this.mgc.whoCanEnter.value;
-      values.whitelist = this.mgc.whitelist.value;
-      values.groups = this.mgc.groups.value.trim();
-      values.level = this.mgc.level.value;
-      values.description = this.mgc.description.value;
+      values.countries = mgc.countries.value.trim();
+      values.gameName = mgc.gameName.value;
+      values.startTime = mgc.startTime.value;
+      values.endTime = mgc.endTime.value;
+      values.region = mgc.region.value;
+      values.whoCanEnter = mgc.whoCanEnter.value;
+      values.whitelist = mgc.whitelist.value;
+      values.groups = mgc.groups.value.trim();
+      values.level = mgc.level.value;
+      values.description = mgc.description.value;
       values.steam = this.esgst.modules.games.games_getInfo(document.querySelector(`[data-autocomplete-id="${values.gameId}"]`));
-      if ((this.esgst.mgc_createTrain && this.mgc.description.value.match(/\[ESGST-P\]|\[ESGST-N\]/)) || !this.esgst.mgc_createTrain) {
-        if ((mgc.discussion && this.mgc.description.value.match(/\[ESGST-B\]/)) || !mgc.discussion) {
-          this.mgc_addGiveaway(edit, this.mgc, values);
+      if ((this.esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P|\[ESGST-N/)) || !this.esgst.mgc_createTrain) {
+        if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B]/)) || !mgc.discussion) {
+          this.mgc_addGiveaway(edit, mgc, values);
           this.mgc_updateCache(mgc);
-          this.mgc.copies.value = `1`;
-          this.mgc.keys.value = ``;
+          mgc.copies.value = `1`;
+          mgc.keys.value = ``;
         } else {
           this.esgst.modules.common.createAlert(`The bump link format is missing from the description.`);
         }
@@ -633,7 +642,7 @@ info = ({
     callback();
   }
 
-  mgc_addGiveaway(edit, this.mgc, values) {
+  mgc_addGiveaway(edit, mgc, values) {
     let data, details;
     details = `${values.gameName.replace(/"/g, `&quot;`)}\n`;
     if (values.gameType === `gift`) {
@@ -658,80 +667,80 @@ info = ({
       }
     }
     values.description = values.description
-      .replace(/\[ESGST-LEVEL\]/ig, values.level)
-      .replace(/\[ESGST-NAME\]/ig, values.gameName)
-      .replace(/\[ESGST-STEAM-ID\]/ig, values.steam.id)
-      .replace(/\[ESGST-STEAM-TYPE\]/ig, values.steam.type.slice(0, -1))
-      .replace(/\[ESGST-STEAM-URL\]/ig, `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`);
+      .replace(/\[ESGST-LEVEL]/ig, values.level)
+      .replace(/\[ESGST-NAME]/ig, values.gameName)
+      .replace(/\[ESGST-STEAM-ID]/ig, values.steam.id)
+      .replace(/\[ESGST-STEAM-TYPE]/ig, values.steam.type.slice(0, -1))
+      .replace(/\[ESGST-STEAM-URL]/ig, `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`);
     details += `Level ${values.level}\n\n${values.description}`;
     data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${encodeURIComponent(values.keys)}&timezone=${mgc.timezone}&start_time=${encodeURIComponent(values.startTime)}&end_time=${encodeURIComponent(values.endTime)}&region_restricted=${values.region}&country_item_string=${encodeURIComponent(values.countries)}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${encodeURIComponent(values.groups)}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
     if (edit) {
-      this.mgc.datas[mgc.editPos] = data;
-      this.mgc.values[mgc.editPos] = values;
-      this.mgc.giveaways.children[mgc.editPos].title = details;
-      this.mgc.editButton.set.classList.add(`esgst-hidden`);
+      mgc.datas[mgc.editPos] = data;
+      mgc.values[mgc.editPos] = values;
+      mgc.giveaways.children[mgc.editPos].title = details;
+      mgc.editButton.set.classList.add(`esgst-hidden`);
     } else {
-      this.mgc.datas.push(data);
-      this.mgc.values.push(values);
+      mgc.datas.push(data);
+      mgc.values.push(values);
       this.mgc_setGiveaway(createElements(mgc.giveaways, `beforeEnd`, [{
         attributes: {
           class: `esgst-gm-giveaway`,
           draggable: true,
           title: details
         },
-        text: this.mgc.datas.length,
+        text: mgc.datas.length,
         type: `div`
-      }]), this.mgc);
+      }]), mgc);
     }
   }
 
-  mgc_setGiveaway(giveaway, this.mgc) {
-    giveaway.addEventListener(`click`, this.mgc_setValues.bind(null, giveaway, this.mgc))
-    giveaway.addEventListener(`dragstart`, this.mgc_setSource.bind(null, giveaway, this.mgc));
-    giveaway.addEventListener(`dragenter`, this.mgc_getSource.bind(null, giveaway, this.mgc));
+  mgc_setGiveaway(giveaway, mgc) {
+    giveaway.addEventListener(`click`, this.mgc_setValues.bind(null, giveaway, mgc));
+    giveaway.addEventListener(`dragstart`, this.mgc_setSource.bind(null, giveaway, mgc));
+    giveaway.addEventListener(`dragenter`, this.mgc_getSource.bind(null, giveaway, mgc));
   }
 
-  mgc_setValues(giveaway, this.mgc) {
+  mgc_setValues(giveaway, mgc) {
     let pos, values;
     pos = parseInt(giveaway.textContent) - 1;
-    values = this.mgc.values[pos];
-    this.mgc.countries.value = values.countries;
-    this.mgc.gameId.value = values.gameId;
-    this.mgc.gameType.value = values.gameType;
-    this.mgc.copies.value = values.copies;
-    this.mgc.keys.value = values.keys;
-    this.mgc.gameName.value = values.gameName;
-    this.mgc.startTime.value = values.startTime;
-    this.mgc.endTime.value = values.endTime;
-    this.mgc.region.value = values.region;
-    this.mgc.whoCanEnter.value = values.whoCanEnter;
-    this.mgc.whitelist.value = values.whitelist;
-    this.mgc.groups.value = values.groups;
-    this.mgc.level.value = values.level;
-    this.mgc.description.value = values.description;
+    values = mgc.values[pos];
+    mgc.countries.value = values.countries;
+    mgc.gameId.value = values.gameId;
+    mgc.gameType.value = values.gameType;
+    mgc.copies.value = values.copies;
+    mgc.keys.value = values.keys;
+    mgc.gameName.value = values.gameName;
+    mgc.startTime.value = values.startTime;
+    mgc.endTime.value = values.endTime;
+    mgc.region.value = values.region;
+    mgc.whoCanEnter.value = values.whoCanEnter;
+    mgc.whitelist.value = values.whitelist;
+    mgc.groups.value = values.groups;
+    mgc.level.value = values.level;
+    mgc.description.value = values.description;
     values.edit = true;
     this.esgst.modules.giveawaysGiveawayTemplates.gts_applyTemplate(values);
-    this.mgc.editPos = pos;
-    this.mgc.editButton.set.classList.remove(`esgst-hidden`);
+    mgc.editPos = pos;
+    mgc.editButton.set.classList.remove(`esgst-hidden`);
   }
 
-  mgc_setSource(giveaway, this.mgc, event) {
-    this.mgc.source = giveaway;
+  mgc_setSource(giveaway, mgc, event) {
+    mgc.source = giveaway;
     event.dataTransfer.setData(`text/plain`, ``);
   }
 
-  mgc_getSource(giveaway, this.mgc) {
+  mgc_getSource(giveaway, mgc) {
     let current;
-    current = this.mgc.source;
+   current = mgc.source;
     do {
       current = current.previousElementSibling;
       if (current && current === giveaway) {
-        this.mgc.giveaways.insertBefore(mgc.source, giveaway);
+        mgc.giveaways.insertBefore(mgc.source, giveaway);
         this.mgc_updateCache(mgc);
         return;
       }
     } while (current);
-    this.mgc.giveaways.insertBefore(mgc.source, giveaway.nextElementSibling);
+    mgc.giveaways.insertBefore(mgc.source, giveaway.nextElementSibling);
     this.mgc_updateCache(mgc);
   }
 
@@ -740,7 +749,7 @@ info = ({
     let counter, popup, progress, progressPanel, textArea;
     popup = new Popup(`fa-arrow-up`, `Import Giveaways`, true);
     popup.popup.classList.add(`esgst-popup-large`);
-    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
+    createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -756,7 +765,7 @@ info = ({
       }]
     }]);
     this.esgst.modules.common.createTooltip(popup.description.firstElementChild.lastElementChild, `
-      <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
+      <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${this.esgst.modules.common.getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
       <ul>
         <li><span class="esgst-bold">[countries="..."]</span> (Replace the 3 dots with the ids of the countries that the giveaway must be restricted to, separated by a comma followed by a space. The ids must be exactly how they appear in the country selection list. For example, "BR, US". If you do not want the giveaway to be region restricted, use the id "*", for example, [countries="*"].)</li>
         <li><span class="esgst-bold">[startTime="..."]</span> (Replace the 3 dots with the date that the giveaway must start, in the format "Mon D, YYYY H:MM xm". For example, "Jan 15, 2018 12:00 am". For the names of the months, use "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" and "Dec". For single-digit days/hours, do not put a 0 this.esgst.modules.generalAccurateTimestamp.at the beginning. For example, use "Jan 1" instead of "Jan 01" and "9:00 am" instead of "09:00 am".)</li>
@@ -843,10 +852,10 @@ info = ({
     } else if (this.esgst.mgc_groupAllKeys) {
       groupKeys.container.classList.add(`esgst-hidden`);
     }
-    textArea = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    textArea = createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    progressPanel = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    progressPanel = createElements(popup.description, `beforeEnd`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -876,7 +885,7 @@ info = ({
     counter = progressPanel.lastElementChild;
     progress.current = counter.firstElementChild;
     progress.total = progress.current.nextElementSibling;
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_getGiveaways.bind(null, this.mgc, popup, progress, textArea)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_getGiveaways.bind(null, mgc, popup, progress, textArea)).set);
     popup.open(mgc_focusTextArea.bind(null, textArea));
     textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
@@ -924,28 +933,28 @@ info = ({
       });
       progress.total.textContent = n;
     }
-    this.mgc_importGiveaway(giveaways, 0, this.mgc, n, popup, progress, textArea, () => {
+    this.mgc_importGiveaway(giveaways, 0, mgc, n, popup, progress, textArea, () => {
       this.mgc_updateCache(mgc);
       popup.close();
     }, callback);
   }
 
-  async mgc_importGiveaway(giveaways, i, this.mgc, n, popup, progress, textArea, mainCallback, callback) {
+  async mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback) {
     let copies, found, giveaway, key, keyPos, match, name, namePos, values;
     if (i < n) {
-      let countries = giveaways[i].match(/\[countries="(.+?)"\]/);
-      let startTime = giveaways[i].match(/\[startTime="(.+?)"\]/);
-      let endTime = giveaways[i].match(/\[endTime="(.+?)"\]/);
-      let whoCanEnter = giveaways[i].match(/\[whoCanEnter="(.+?)"\]/);
-      let groups = giveaways[i].match(/\[groups="(.+?)"\]/);
-      let level = giveaways[i].match(/\[level="(.+?)"\]/);
-      let description = giveaways[i].match(/\[description="(.+?)"\]/);
-      if (this.esgst.mgc_createTrain && !((description && description[1]) || this.mgc.description.value || ``).match(/\[ESGST-P\]|\[ESGST-N\]/)) {
+      let countries = giveaways[i].match(/\[countries="(.+?)"]/);
+      let startTime = giveaways[i].match(/\[startTime="(.+?)"]/);
+      let endTime = giveaways[i].match(/\[endTime="(.+?)"]/);
+      let whoCanEnter = giveaways[i].match(/\[whoCanEnter="(.+?)"]/);
+      let groups = giveaways[i].match(/\[groups="(.+?)"]/);
+      let level = giveaways[i].match(/\[level="(.+?)"]/);
+      let description = giveaways[i].match(/\[description="(.+?)"]/);
+      if (this.esgst.mgc_createTrain && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-P]|\[ESGST-N]/)) {
         this.esgst.modules.common.createAlert(`The next/previous links format is missing from the description.`);
         callback();
         return;
       }
-      if (mgc.discussion && !((description && description[1]) || this.mgc.description.value || ``).match(/\[ESGST-B\]/)) {
+      if (mgc.discussion && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-B]/)) {
         this.esgst.modules.common.createAlert(`The bump link format is missing from the description.`);
         callback();
         return;
@@ -987,7 +996,7 @@ info = ({
           type: `${steamLink[1]}s`
         };
       }
-      giveaways[i] = giveaways[i].replace(/\[(.+?)="(.+?)"\]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
+      giveaways[i] = giveaways[i].replace(/\[(.+?)="(.+?)"]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
       match = giveaways[i].match(/^(([\d\w]{5}(-[\d\w]{5}){2,}\s?|https?:\/\/.+?\s?)+)\s(.+)$/);
       if (match) {
         key = true;
@@ -1008,16 +1017,16 @@ info = ({
         }
       }
       if (match) {
-        name = match[namePos].replace(/\[ESGST\]/, ``).trim().toLowerCase();
+        name = match[namePos].replace(/\[ESGST]/, ``).trim().toLowerCase();
         values = {
-          countries: (countries === `*` ? `` : (countries || this.mgc.countries.value || ``)).trim(),
-          startTime: (startTime && startTime[1]) || this.mgc.startTime.value || ``,
-          endTime: (endTime && endTime[1]) || this.mgc.endTime.value || ``,
+          countries: (countries === `*` ? `` : (countries || mgc.countries.value || ``)).trim(),
+          startTime: (startTime && startTime[1]) || mgc.startTime.value || ``,
+          endTime: (endTime && endTime[1]) || mgc.endTime.value || ``,
           region: countries === `*` ? `0` : (countries ? `1` : (mgc.region.value || `0`)),
-          whoCanEnter: (whoCanEnter && whoCanEnter[1]) || this.mgc.whoCanEnter.value || `everyone`,
-          whitelist: whitelist || this.mgc.whitelist.value || `0`,
-          groups: (groups || this.mgc.groups.value || ``).trim(),
-          level: (level && level[1]) || this.mgc.level.value || `0`,
+          whoCanEnter: (whoCanEnter && whoCanEnter[1]) || mgc.whoCanEnter.value || `everyone`,
+          whitelist: whitelist || mgc.whitelist.value || `0`,
+          groups: (groups || mgc.groups.value || ``).trim(),
+          level: (level && level[1]) || mgc.level.value || `0`,
           description: description ? description[1].replace(/\\n/g, `\n`) : (mgc.description.value || ``)
         };
         if (key) {
@@ -1047,7 +1056,7 @@ info = ({
                   type: `${nextSteamLink[1]}s`
                 };
               }
-              giveaway = giveaway.replace(/\[(.+?)="(.+?)"\]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
+              giveaway = giveaway.replace(/\[(.+?)="(.+?)"]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
               match = giveaway.match(/^(([\d\w]{5}(-[\d\w]{5}){2,}\s?|https?:\/\/.+?\s?)+)\s(.+)$/);
               if (match) {
                 key = true;
@@ -1063,7 +1072,7 @@ info = ({
                   key = false;
                 }
               }
-              if (match && key && (match[namePos].replace(/\[ESGST\]/, ``).trim().toLowerCase() === name || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
+              if (match && key && (match[namePos].replace(/\[ESGST]/, ``).trim().toLowerCase() === name || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
                 found = true;
                 values.keys += `\n${match[keyPos].replace(/\s/g, `\n`)}`;
                 toRemove.push(giveaways.splice(k + 1, 1)[0]);
@@ -1074,7 +1083,7 @@ info = ({
             k++;
           } while ((this.esgst.mgc_groupKeys && found) || (this.esgst.mgc_groupAllKeys && giveaways[k + 1]));
         }
-        this.mgc_getGiveaway(giveaways, i + 1, toRemove, this.mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await this.esgst.modules.common.request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
+        this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await this.esgst.modules.common.request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
       } else {
         this.esgst.modules.common.createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
         callback();
@@ -1084,7 +1093,7 @@ info = ({
     }
   }
 
-  mgc_getGiveaway(giveaways, i, toRemove, this.mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
+  mgc_getGiveaway(giveaways, i, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
     let button, conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
     elements = utils.parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
     exactMatch = null;
@@ -1116,14 +1125,14 @@ info = ({
       values.gameName = exactMatch.getAttribute(`data-autocomplete-name`);
       values.gameId = exactMatch.getAttribute(`data-autocomplete-id`);
       values.steam = this.esgst.modules.games.games_getInfo(exactMatch);
-      this.mgc_addGiveaway(false, this.mgc, values);
+      this.mgc_addGiveaway(false, mgc, values);
       value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
       $(progress.bar).progressbar(`option`, `value`, value);
       progress.current.textContent = value;
       toRemove.forEach(line => {
         textArea.value = textArea.value.replace(`${line}\n`, ``);
       });
-      setTimeout(() => this.mgc_importGiveaway(giveaways, i, this.mgc, n, popup, progress, textArea, mainCallback, callback), 0);
+      setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
     } else if (matches.length > 0) {
       conflictPopup = new Popup_v2({
         icon: `fa-exclamation`,
@@ -1133,7 +1142,7 @@ info = ({
       });
       context = conflictPopup.getScrollable();
       matches.forEach(match => {
-        let element = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+        let element = createElements(context, `beforeEnd`, [{
           context: match.cloneNode(true)
         }]);
         element.classList.remove(`is-clickable`);
@@ -1142,14 +1151,14 @@ info = ({
           values.gameName = element.getAttribute(`data-autocomplete-name`);
           values.gameId = element.getAttribute(`data-autocomplete-id`);
           values.steam = this.esgst.modules.games.games_getInfo(element);
-          this.mgc_addGiveaway(false, this.mgc, values);
+          this.mgc_addGiveaway(false, mgc, values);
           value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
           $(progress.bar).progressbar(`option`, `value`, value);
           progress.current.textContent = value;
           toRemove.forEach(line => {
             textArea.value = textArea.value.replace(`${line}\n`, ``);
           });
-          setTimeout(() => this.mgc_importGiveaway(giveaways, i, this.mgc, n, popup, progress, textArea, mainCallback, callback), 0);
+          setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
         }});
         button.set.style.position = `absolute`;
         button.set.style.right = `50px`;
@@ -1174,8 +1183,8 @@ info = ({
     new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, this.esgst.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet(`green`, ``, `fa-arrow-down`, ``, `Export`, ``, callback => {
       file = ``;
-      for (i = 0, n = this.mgc.giveaways.children.length; i < n; ++i) {
-        values = this.mgc.giveaways.children[i].title.split(/\n/);
+      for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
+        values = mgc.giveaways.children[i].title.split(/\n/);
         if (values[1] === `Gift`) {
           if (parseInt(values[2].match(/\d+/)[0]) > 1) {
             file += `${values[0]} (${values[2]})\r\n`;
@@ -1202,12 +1211,12 @@ info = ({
     if (confirm(`Are you sure you want to empty the creator?`)) {
       this.esgst.modules.common.delLocalValue(`mgcCache`);
       this.esgst.busy = false;
-      this.mgc.datas = [];
-      this.mgc.values = [];
-      this.mgc.created = [];
-      this.mgc.giveaways.innerHTML = ``;
-      this.mgc.copies.value = `1`;
-      this.mgc.keys.value = ``;
+      mgc.datas = [];
+      mgc.values = [];
+      mgc.created = [];
+      mgc.giveaways.innerHTML = ``;
+      mgc.copies.value = `1`;
+      mgc.keys.value = ``;
     }
     callback();
   }
@@ -1219,7 +1228,7 @@ info = ({
       return;
     }
     let popup = new Popup(`fa-arrow-circle-right`, `ESGST will create the giveaways below. Are you sure you want to continue?`);
-    let rows = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let rows = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `table esgst-mgc-table`
       },
@@ -1291,13 +1300,13 @@ info = ({
         type: `div`
       }]
     }]).lastElementChild;
-    for (let i = 0, n = this.mgc.giveaways.children.length; i < n; i++) {
-      let values = this.mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1];
+    for (let i = 0, n = mgc.giveaways.children.length; i < n; i++) {
+      let values = mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1];
       let regionRestricted = `No`;
       if (values.region === `1`) {
         regionRestricted = `Yes (`;
         values.countries.split(/\s/).forEach(id => {
-          console.log(id, this.mgc.countryNames[id]);
+          console.log(id, mgc.countryNames[id]);
           regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
         });
         regionRestricted = `${regionRestricted.slice(0, -2)})`;
@@ -1312,12 +1321,12 @@ info = ({
         }
         if (values.groups) {
           values.groups.split(/\s/).forEach(id => {
-            whoCanEnter += `${escapeHtml(mgc.groupNames[id])}, `;
+            whoCanEnter += `${this.esgst.modules.common.escapeHtml(mgc.groupNames[id])}, `;
           });
         }
         whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
       }
-      this.esgst.modules.common.createElements(rows, `beforeEnd`, [{
+      createElements(rows, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`
         },
@@ -1396,7 +1405,7 @@ info = ({
         }]
       }]);
     }
-    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: this.mgc_createGiveaways_2.bind(null, this.mgc, viewButton, popup, callback)}).set);
+    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: this.mgc_createGiveaways_2.bind(null, mgc, viewButton, popup, callback)}).set);
     popup.description.appendChild(new ButtonSet_v2({color1: `red`, color2: ``, icon1: `fa-times`, icon2: ``, title1: `No`, title2: ``, callback1: popup.close.bind(popup)}).set);
     popup.onClose = () => {
       if (popup.isOpen) {
@@ -1409,23 +1418,23 @@ info = ({
   mgc_createGiveaways_2(mgc, viewButton, popup, callback) {
     popup.onClose = null;
     popup.close();
-    this.mgc.copies.value = `1`;
-    this.mgc.keys.value = ``;
+    mgc.copies.value = `1`;
+    mgc.keys.value = ``;
     viewButton.set.classList.add(`esgst-hidden`);
-    this.mgc.saveGiveaways = {};
-    this.mgc_createGiveaway(0, this.mgc, this.mgc.giveaways.children.length, this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc ? this.mgc_saveGiveaways.bind(null, this.mgc, this.mgc_completeCreation.bind(null, this.mgc, viewButton, callback)) : this.mgc_completeCreation.bind(null, this.mgc, viewButton, callback));
+    mgc.saveGiveaways = {};
+    this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc ? this.mgc_saveGiveaways.bind(null, mgc, this.mgc_completeCreation.bind(null, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(null, mgc, viewButton, callback));
   }
 
-  async mgc_createGiveaway(i, this.mgc, n, callback) {
+  async mgc_createGiveaway(i, mgc, n, callback) {
     if (i < n) {
       if (!mgc.giveaways.children[i].classList.contains(`success`)) {
         const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-        this.mgc_checkCreation(i, this.mgc, n, callback, await this.esgst.modules.common.request({data: this.mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
+        mgc_checkCreation(i, mgc, n, callback, await this.esgst.modules.common.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
       } else {
-        setTimeout(() => this.mgc_createGiveaway(i + 1, this.mgc, n, callback), 0);
+        setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }
     } else if (this.esgst.mgc_createTrain) {
-      this.mgc_createTrain(0, this.mgc, this.mgc.created.length, callback);
+      this.mgc_createTrain(0, mgc, mgc.created.length, callback);
     } else {
       callback();
     }
@@ -1440,9 +1449,9 @@ info = ({
     }
   }
 
-  async mgc_checkCreation(i, this.mgc, n, callback, response) {
+  async mgc_checkCreation(i, mgc, n, callback, response) {
     let errors, errorsTitle, giveaway, j, numErrors, responseHtml;
-    giveaway = this.mgc.giveaways.children[i];
+    giveaway = mgc.giveaways.children[i];
     if (response.finalUrl.match(/\/giveaways\/new/)) {
       if (response.responseText.match(/Error\.\sYou\salready\sposted\san\sidentical\sgiveaway\swithin\sthe\spast\s2\sminutes\.\sTo\sprevent\sdouble\sposts,\sit's\sbeen\sblocked\./)) {
         const popup = new Popup(`fa-circle-o-notch fa-spin`, [{
@@ -1458,7 +1467,7 @@ info = ({
         this.esgst.modules.common.setCountdown(popup.title.firstElementChild, 120, async () => {
           popup.close();
           const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-          setTimeout(async () => this.mgc_checkCreation(i, this.mgc, n, callback, await this.esgst.modules.common.request({data: this.mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`})), 0);
+          setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await this.esgst.modules.common.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`})), 0);
         });
       } else {
         giveaway.classList.add(`error`);
@@ -1469,12 +1478,12 @@ info = ({
         }
         errorsTitle += `\n`;
         giveaway.title = `${errorsTitle}${giveaway.title}`;
-        setTimeout(() => this.mgc_createGiveaway(++i, this.mgc, n, callback), 0);
+        setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       }
     } else {
       giveaway.classList.add(`success`);
       responseHtml = utils.parseHtml(response.responseText);
-      this.mgc.created.push({
+      mgc.created.push({
         giveaway: giveaway,
         html: this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl).html,
         url: response.finalUrl
@@ -1482,11 +1491,11 @@ info = ({
       if (this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc) {
         giveaway = (await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
         if (giveaway) {
-          this.mgc.saveGiveaways[giveaway.code] = giveaway;
+          mgc.saveGiveaways[giveaway.code] = giveaway;
         }
-        setTimeout(() => this.mgc_createGiveaway(++i, this.mgc, n, callback), 0);
+        setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       } else {
-        setTimeout(() => this.mgc_createGiveaway(++i, this.mgc, n, callback), 0);
+        setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       }
     }
   }
@@ -1496,7 +1505,7 @@ info = ({
       steamId: this.esgst.steamId,
       username: this.esgst.username
     };
-    let esgst.modules.usersUserGiveawayData.ugd;
+    let ugd;
     const savedUser = await this.esgst.modules.common.getUser(null, user);
     let giveaways = null;
     if (savedUser) {
@@ -1516,47 +1525,47 @@ info = ({
         wonTimestamp: 0
       };
       if (savedUser) {
-        this.esgst.modules.usersUserGiveawayData.ugd = savedUser.ugd;
+        ugd = savedUser.ugd;
         if (ugd) {
           if (ugd.sent) {
-            for (let key in this.esgst.modules.usersUserGiveawayData.ugd.sent.apps) {
+            for (let key in ugd.sent.apps) {
               giveaways.sent.apps[key] = [];
-              for (let i = 0, n = this.esgst.modules.usersUserGiveawayData.ugd.sent.apps[key].length; i < n; ++i) {
-                this.mgc.saveGiveaways[ugd.sent.apps[key][i].code] = this.esgst.modules.usersUserGiveawayData.ugd.sent.apps[key][i];
+              for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
+                mgc.saveGiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
                 giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
               }
             }
-            for (let key in this.esgst.modules.usersUserGiveawayData.ugd.sent.subs) {
+            for (let key in ugd.sent.subs) {
               giveaways.sent.subs[key] = [];
-              for (let i = 0, n = this.esgst.modules.usersUserGiveawayData.ugd.sent.subs[key].length; i < n; ++i) {
-                this.mgc.saveGiveaways[ugd.sent.subs[key][i].code] = this.esgst.modules.usersUserGiveawayData.ugd.sent.subs[key][i];
+              for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
+                mgc.saveGiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
                 giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
               }
             }
-            giveaways.sentTimestamp = this.esgst.modules.usersUserGiveawayData.ugd.sentTimestamp;
+            giveaways.sentTimestamp = ugd.sentTimestamp;
           }
           if (ugd.won) {
-            for (let key in this.esgst.modules.usersUserGiveawayData.ugd.won.apps) {
+            for (let key in ugd.won.apps) {
               giveaways.won.apps[key] = [];
-              for (let i = 0, n = this.esgst.modules.usersUserGiveawayData.ugd.won.apps[key].length; i < n; ++i) {
-                this.mgc.saveGiveaways[ugd.won.apps[key][i].code] = this.esgst.modules.usersUserGiveawayData.ugd.won.apps[key][i];
+              for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
+                mgc.saveGiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
                 giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
               }
             }
-            for (let key in this.esgst.modules.usersUserGiveawayData.ugd.won.subs) {
+            for (let key in ugd.won.subs) {
               giveaways.won.subs[key] = [];
-              for (let i = 0, n = this.esgst.modules.usersUserGiveawayData.ugd.won.subs[key].length; i < n; ++i) {
-                this.mgc.saveGiveaways[ugd.won.subs[key][i].code] = this.esgst.modules.usersUserGiveawayData.ugd.won.subs[key][i];
+              for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
+                mgc.saveGiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
                 giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
               }
             }
-            giveaways.wonTimestamp = this.esgst.modules.usersUserGiveawayData.ugd.wonTimestamp;
+            giveaways.wonTimestamp = ugd.wonTimestamp;
           }
         }
       }
     }
-    for (const key in this.mgc.saveGiveaways) {
-      let giveaway = this.mgc.saveGiveaways[key];
+    for (const key in mgc.saveGiveaways) {
+      let giveaway = mgc.saveGiveaways[key];
       if (!giveaways.sent[giveaway.gameType][giveaway.gameSteamId]) {
         giveaways.sent[giveaway.gameType][giveaway.gameSteamId] = [];
       }
@@ -1572,40 +1581,40 @@ info = ({
     callback();
   }
 
-  async mgc_createTrain(i, this.mgc, n, callback) {
+  async mgc_createTrain(i, mgc, n, callback) {
     if (i >= n || n - 1 === 0) {
       callback();
     } else {
-      let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.mgc.created[i].url})).responseText);
+      let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: mgc.created[i].url})).responseText);
       let id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
       let description = responseHtml.querySelector(`[name="description"]`).value;
       let replaceCallback = null;
       if (i === 0) {
-        this.mgc.firstWagon = this.mgc.created[i].url;
+        mgc.firstWagon = mgc.created[i].url;
         replaceCallback = this.mgc_getNext;
       } else if (i === n - 1) {
         replaceCallback = this.mgc_getPrevious;
       } else {
         replaceCallback = this.mgc_getBoth;
       }
-      description = description.replace(/\[ESGST-P\](.+?)\[\/ESGST-P\](.+?)\[ESGST-N\](.+?)\[\/ESGST-N\]/g, replaceCallback.bind(null, i, this.mgc, false));
-      description = description.replace(/\[ESGST-P\](.+?)\[\/ESGST-P\]|\[ESGST-N\](.+?)\[\/ESGST-N\]/g, replaceCallback.bind(null, i, this.mgc, true));
-      description = description.replace(/\[ESGST-C\](.+?)\[\/ESGST-C\]/g, this.mgc_getCounter.bind(null, i, n));
+      description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P](.+?)\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(null, i, mgc, false));
+      description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P]|\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(null, i, mgc, true));
+      description = description.replace(/\[ESGST-C](.+?)\[\/ESGST-C]/g, this.mgc_getCounter.bind(null, i, n));
       if (mgc.discussion && (!this.esgst.mgc_bumpLast || i === n - 1)) {
-        description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, `[$1](/discussion/${mgc.discussion}/)`);
+        description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, `[$1](/discussion/${mgc.discussion}/)`);
       } else {
-        description = description.replace(/\[ESGST-B\](.+?)\[\/ESGST-B\]/g, ``);
+        description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, ``);
       }
       await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`});
-      this.mgc.created[i].giveaway.classList.add(`connected`);
-      setTimeout(() => this.mgc_createTrain(i + 1, this.mgc, n, callback), 0);
+      mgc.created[i].giveaway.classList.add(`connected`);
+      setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
     }
   }
 
-  mgc_getNext(i, this.mgc, single, fullMatch, match1, match2, match3) {
+  mgc_getNext(i, mgc, single, fullMatch, match1, match2, match3) {
     let match, next, nextPref, nextSuf;
     if ((single && match2) || !single) {
-      match = (single ? match2 : match3).match(/(.*?)\[N\](.+?)\[\/N\](.*?)$/);
+      match = (single ? match2 : match3).match(/(.*?)\[N](.+?)\[\/N](.*?)$/);
       if (match) {
         nextPref = match[1];
         next = match[2];
@@ -1625,10 +1634,10 @@ info = ({
     }
   }
 
-  mgc_getPrevious(i, this.mgc, single, fullMatch, match1, match2, match3) {
+  mgc_getPrevious(i, mgc, single, fullMatch, match1, match2, match3) {
     let match, prev, prevPref, prevSuf;
     if ((single && match1) || !single) {
-      match = match1.match(/(.*?)\[P\](.+?)\[\/P\](.*?)$/);
+      match = match1.match(/(.*?)\[P(.+?)\[\/P(.*?)$/);
       if (match) {
         prevPref = match[1];
         prev = match[2];
@@ -1648,16 +1657,16 @@ info = ({
     }
   }
 
-  mgc_getBoth(i, this.mgc, single, fullMatch, match1, match2, match3) {
+  mgc_getBoth(i, mgc, single, fullMatch, match1, match2, match3) {
     let match, next, nextPref, nextSuf, prev, prevPref, prevSuf;
     if (single) {
       if (match1) {
-        return this.mgc_getPrevious(i, this.mgc, true, fullMatch, match1);
+        return this.mgc_getPrevious(i, mgc, true, fullMatch, match1);
       } else {
-        return this.mgc_getNext(i, this.mgc, true, fullMatch, null, match2);
+        return this.mgc_getNext(i, mgc, true, fullMatch, null, match2);
       }
     } else {
-      match = match1.match(/(.*?)\[P\](.+?)\[\/P\](.*?)$/);
+      match = match1.match(/(.*?)\[P(.+?)\[\/P(.*?)$/);
       if (match) {
         prevPref = match[1];
         prev = match[2];
@@ -1667,7 +1676,7 @@ info = ({
         prev = match1;
         prevSuf = ``;
       }
-      match = match3.match(/(.*?)\[N\](.+?)\[\/N\](.*?)$/);
+      match = match3.match(/(.*?)\[N(.+?)\[\/N(.*?)$/);
       if (match) {
         nextPref = match[1];
         next = match[2];
@@ -1689,7 +1698,7 @@ info = ({
     if (mgc.discussion) {
       if (mgc.created.length) {
         this.esgst.modules.common.delLocalValue(`mgcCache`);
-        this.esgst.modules.common.setLocalValue(`mgcAttach_step4`, this.mgc.firstWagon);
+        this.esgst.modules.common.setLocalValue(`mgcAttach_step4`, mgc.firstWagon);
         open(`/discussion/${mgc.discussion}/`);
         viewButton.set.classList.remove(`esgst-hidden`);
       }
@@ -1710,8 +1719,8 @@ info = ({
       return;
     }
     let i;
-    for (i = this.mgc.giveaways.children.length; i > -1; --i) {
-      this.mgc.giveaways.appendChild(mgc.giveaways.children[Math.random() * i | 0]);
+    for (i = mgc.giveaways.children.length; i > -1; --i) {
+      mgc.giveaways.appendChild(mgc.giveaways.children[Math.random() * i | 0]);
     }
     this.mgc_updateCache(mgc);
     callback();
@@ -1720,7 +1729,7 @@ info = ({
   mgc_updateCache(mgc) {
     let cache, i, n;
     cache = [];
-    for (i = 0, n = this.mgc.giveaways.children.length; i < n; ++i) {
+    for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
       cache.push(mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1]);
     }
     this.esgst.modules.common.setLocalValue(`mgcCache`, JSON.stringify(cache));
@@ -1730,7 +1739,7 @@ info = ({
     let input, popup;
     callback();
     popup = new Popup(`fa-comments`, `Attach discussion:`);
-    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
+    createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -1757,23 +1766,23 @@ info = ({
         type: `br`
       }]
     }]);
-    input = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    input = createElements(popup.description, `beforeEnd`, [{
       attributes: {
         placeholder: `XXXXX`,
         type: `text`
       },
       type: `input`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Existing`, `Attaching...`, this.mgc_attachExistingDiscussion.bind(null, input, this.mgc, popup)).set);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach New`, `Attaching...`, this.mgc_attachNewDiscussion.bind(null, this.mgc, popup)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Existing`, `Attaching...`, this.mgc_attachExistingDiscussion.bind(null, input, mgc, popup)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach New`, `Attaching...`, this.mgc_attachNewDiscussion.bind(null, mgc, popup)).set);
     popup.open();
   }
 
-  mgc_attachExistingDiscussion(input, this.mgc, popup, callback) {
-    this.mgc.discussion = input.value;
-    this.mgc.discussionPanel.classList.remove(`esgst-hidden`);
-    this.mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
-    this.mgc.discussionLink.textContent = this.mgc.discussion;
+  mgc_attachExistingDiscussion(input, mgc, popup, callback) {
+    mgc.discussion = input.value;
+    mgc.discussionPanel.classList.remove(`esgst-hidden`);
+    mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
+    mgc.discussionLink.textContent = mgc.discussion;
     callback();
     popup.close();
   }
@@ -1787,11 +1796,11 @@ info = ({
 
   mgc_checkAttached(mgc, popup, win, callback) {
     if (win.closed) {
-      this.mgc.discussion = this.esgst.modules.common.getLocalValue(`mgcAttach_step3`);
+      mgc.discussion = this.esgst.modules.common.getLocalValue(`mgcAttach_step3`);
       this.esgst.modules.common.delLocalValue(`mgcAttach_step3`);
-      this.mgc.discussionPanel.classList.remove(`esgst-hidden`);
-      this.mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
-      this.mgc.discussionLink.textContent = this.mgc.discussion;
+      mgc.discussionPanel.classList.remove(`esgst-hidden`);
+      mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
+      mgc.discussionLink.textContent = mgc.discussion;
       callback();
       popup.close();
     } else {
@@ -1812,24 +1821,24 @@ info = ({
 
   mgc_editDiscussion() {
     const description = document.querySelector(`[name=description]`);
-    description.value = description.value.replace(/\[ESGST-T\](.+?)\[\/ESGST-T\]/g, `[$1](${getLocalValue(`mgcAttach_step4`)})`);
+    description.value = description.value.replace(/\[ESGST-T(.+?)\[\/ESGST-T/g, `[$1](${getLocalValue(`mgcAttach_step4`)})`);
     this.esgst.modules.common.delLocalValue(`mgcAttach_step4`);
     this.esgst.modules.common.setLocalValue(`mgcAttach_step5`, true);
     document.getElementsByClassName(`js__submit-form`)[0].click();
   }
 
   mgc_detachDiscussion(mgc) {
-    this.mgc.discussion = null;
-    this.mgc.discussionPanel.classList.add(`esgst-hidden`);
+    mgc.discussion = null;
+    mgc.discussionPanel.classList.add(`esgst-hidden`);
   }
 
   async mgc_viewResults(mgc, callback) {
     const popup = new Popup(`fa-eye`, `Results`);
     const items = [];
-    for (const item of this.mgc.created) {
+    for (const item of mgc.created) {
       items.push(...item.html);
     }
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `popup__keys__list`
       },
@@ -1838,7 +1847,7 @@ info = ({
     }]);
     const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
     if (this.esgst.mm) {
-      const heading = this.esgst.modules.common.createElements(popup.scrollable, `afterBegin`, [{
+      const heading = createElements(popup.scrollable, `afterBegin`, [{
         attributes: {
           class: `esgst-page-heading`
         },
@@ -1852,8 +1861,8 @@ info = ({
 
   mgc_removeGiveaway(mgc) {
     if (confirm(`Are you sure you want to remove this giveaway?`)) {
-      this.mgc.source.remove();
-      this.mgc.source = null;
+      mgc.source.remove();
+      mgc.source = null;
       this.mgc_updateCache(mgc);
     }
   }

@@ -30,9 +30,9 @@ info = ({
   }
 
   ags_addPanel(context) {
-    const esgst.modules.giveawaysQuickGiveawaySearch.qgs = context.classList.contains(`esgst-qgs-container`);
+    const qgs = context.classList.contains(`esgst-qgs-container`);
     let obj = {
-      this.esgst.modules.giveawaysQuickGiveawaySearch.qgs
+      qgs
     };
     context.firstElementChild.remove();
     obj.input = this.esgst.modules.common.createElements(context, `afterBegin`, [{

@@ -247,8 +247,8 @@ info = ({
         id: `df`,
         init: this.df_initUrls,
         perLoad: 5,
-        this.esgst.modules.common.request: {
-          this.esgst.modules.common.request: this.df_requestUrl
+        request: {
+          request: this.df_requestUrl
         }
       }
     });

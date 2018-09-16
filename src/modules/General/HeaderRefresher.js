@@ -252,7 +252,7 @@ info = ({
     }
   }
 
-  async hr_refreshHeader(cache, this.hr, notify) {
+  async hr_refreshHeader(cache, hr, notify) {
     await this.hr_refreshHeaderElements(document);
     this.esgst.modules.common.createElements(this.esgst.mainButton, `outer`, [{
       context: utils.parseHtml(cache.mainButton).body.firstElementChild

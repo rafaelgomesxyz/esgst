@@ -657,7 +657,7 @@ info = ({
     load: this.gf,
     name: `Giveaway Filters`,
     sg: true,
-    this.esgst.modules.common.sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
+    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
     type: `giveaways`
   });
 
@@ -2556,7 +2556,7 @@ info = ({
       return out;
     }
 
-    out = (parse(group) {
+    out = (function parse(group) {
       const groupData = {
         condition: group.condition,
         data: {
@@ -2568,7 +2568,7 @@ info = ({
         condition: group.condition,
         rules: []
       };
-      group.each(function(rule) {
+      group.each(rule => {
         if (!event) {
           if (rule.data && rule.data.paused) {
             rule.$el[0].setAttribute(`data-esgst-paused`, true);
@@ -2615,7 +2615,7 @@ info = ({
           groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
         }
         groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData_save, rule));
-      }, (model) {
+      }, (model) => {
         if (!event) {
           if (model.data && model.data.paused) {
             model.$el[0].setAttribute(`data-esgst-paused`, true);

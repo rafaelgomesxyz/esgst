@@ -74,7 +74,7 @@ info = ({
         username: comment.author
       });
       if (savedUser) {
-        let esgst.modules.usersUserFilters.uf = savedUser.uf, comments, extraCount;
+        let uf = savedUser.uf, comments, extraCount;
         if (this.esgst.uf_p && savedUser.blacklisted && !uf) {
           comments = comment.comment.closest(`.comments`);
           if (!main || this.esgst.inboxPath) {

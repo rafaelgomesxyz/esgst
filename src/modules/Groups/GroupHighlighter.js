@@ -11,7 +11,7 @@ info = ({
     load: this.gh,
     name: `Group Highlighter`,
     sg: true,
-    this.esgst.modules.common.sync: `Steam Groups`,
+    sync: `Steam Groups`,
     type: `groups`
   });
 

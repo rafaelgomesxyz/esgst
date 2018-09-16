@@ -35,8 +35,8 @@ info = ({
         id: `dh`,
         init: this.dh_initUrls,
         perLoad: 5,
-        this.esgst.modules.common.request: {
-          this.esgst.modules.common.request: this.dh_requestUrl
+        request: {
+          request: this.dh_requestUrl
         }
       }
     });

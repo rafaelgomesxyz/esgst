@@ -1,5 +1,6 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Button from "../../class/Button";
 
 class CommentsCommentTracker extends Module {
 info = ({
@@ -134,11 +135,11 @@ info = ({
     }
   }
 
-  async ct_addDiscussionPanels(context, main, source, endless, this.esgst.modules.discussionsDiscussionHighlighter.dh) {
+  async ct_addDiscussionPanels(context, main, source, endless, dh) {
     let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
     matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);
     if (!matches.length) return;
-    if (this.esgst.discussionsPath || this.esgst.modules.discussionsDiscussionHighlighter.dh) {
+    if (this.esgst.discussionsPath || dh) {
       key = `discussions`;
     } else if (this.esgst.ticketsPath) {
       key = `tickets`;
@@ -188,7 +189,7 @@ info = ({
               if (key === `discussions` && diff > 0 && discussion) {
                 discussion.unread = true;
               }
-              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, this.esgst.modules.discussionsDiscussionHighlighter.dh, discussion);
+              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh, discussion);
             }
           }
         }
@@ -789,7 +790,7 @@ info = ({
     }]);
   }
 
-  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, this.esgst.modules.discussionsDiscussionHighlighter.dh, discussion) {
+  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion) {
     const obj = {
       code,
       count,
@@ -880,7 +881,7 @@ info = ({
         discussion.count = count;
       }
     }
-    if (this.esgst.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.modules.discussionsDiscussionHighlighter.dh)) {
+    if (this.esgst.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath || dh)) {
       if (this.esgst.ct_s) {
         if (diff > 0) {
           obj.diffContainer.classList.remove(`esgst-hidden`);

@@ -258,7 +258,7 @@ info = ({
       let user = obj.user || {username: users[i]};
       let savedUser = await this.esgst.modules.common.getUser(null, user);
       user.values = {
-        this.namwc: savedUser && savedUser.namwc
+        namwc: savedUser && savedUser.namwc
       };
       let isNew = false;
       if (!obj.isMenu) {
@@ -338,7 +338,7 @@ info = ({
       let suspension = suspensions[steamId];
       let user = {steamId};
       user.values = {
-        this.namwc: (await this.esgst.modules.common.getUser(savedUsers, user)).namwc
+        namwc: (await this.esgst.modules.common.getUser(savedUsers, user)).namwc
       };
       user.values.namwc.suspension = suspension;
       users.push(user);

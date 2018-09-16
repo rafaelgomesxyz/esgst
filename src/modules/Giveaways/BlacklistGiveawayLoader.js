@@ -2,9 +2,6 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class GiveawaysBlacklistGiveawayLoader extends Module {
-modules.export = {
-
-}
 
 info = ({
     description: `

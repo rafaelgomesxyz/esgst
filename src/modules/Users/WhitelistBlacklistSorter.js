@@ -12,7 +12,7 @@ info = ({
     load: this.wbs,
     name: `Whitelist/Blacklist Sorter`,
     sg: true,
-    this.esgst.modules.common.sync: `Whitelist and Blacklist`,
+    sync: `Whitelist and Blacklist`,
     type: `users`
   });
 

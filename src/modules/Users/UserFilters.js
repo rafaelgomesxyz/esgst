@@ -124,7 +124,7 @@ info = ({
       id: profile.id,
       username: profile.username,
       values: {
-        this.uf: profile.ufValues
+        uf: profile.ufValues
       }
     };
     if (profile.ufValues && (profile.ufValues.giveaways || profile.ufValues.discussions || profile.ufValues.posts)) {

@@ -15,7 +15,7 @@ info = ({
     load: this.lpv,
     name: `Level Progress Visualizer`,
     sg: true,
-    this.esgst.modules.common.sync: `Giveaways, Reduced CV Games and No CV Games`,
+    sync: `Giveaways, Reduced CV Games and No CV Games`,
     type: `general`
   });
 

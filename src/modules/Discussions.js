@@ -122,7 +122,7 @@ info = ({
   }
 
   async discussions_getInfo(context, main) {
-    let match, discussion, savedUser, this.esgst.modules.usersUserFilters.uf;
+    let match, discussion, savedUser, uf;
     if (context.closest(`.poll`)) return;
     discussion = {};
     discussion.outerWrap = context;

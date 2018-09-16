@@ -1,5 +1,6 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popout from "../../class/Popout";
 
 class GeneralAvatarPopout extends Module {
 info = ({
@@ -40,7 +41,7 @@ info = ({
   }
 
   ap_setAvatar(apAvatar) {
-    let delay, eventType, exitTimeout, id, match, onClick, popout, this.esgst.modules.common.timeout, type, url;
+    let delay, eventType, exitTimeout, id, match, onClick, popout, timeout, type, url;
     apAvatar.classList.add(`esgst-ap-avatar`);
     url = apAvatar.getAttribute(`href`);
     if (url) {
@@ -51,7 +52,7 @@ info = ({
         apAvatar.addEventListener(`mouseleave`, event => {
           if (timeout) {
             clearTimeout(timeout);
-            this.esgst.modules.common.timeout = null;
+            timeout = null;
           }
           exitTimeout = setTimeout(() => {
             if (popout && !popout.popout.contains(event.relatedTarget)) {
@@ -62,7 +63,7 @@ info = ({
         apAvatar.addEventListener(`click`, () => {
           if (timeout) {
             clearTimeout(timeout);
-            this.esgst.modules.common.timeout = null;
+            timeout = null;
           }
         });
       } else {
@@ -77,7 +78,7 @@ info = ({
         type = match[1];
         apAvatar.addEventListener(eventType, event => {
           event.preventDefault();
-          this.esgst.modules.common.timeout = setTimeout(async () => {
+          timeout = setTimeout(async () => {
             popout = this.esgst.apPopouts[id];
             if (popout) {
               if (this.esgst.ap_index === 1 && popout.isOpen) {
