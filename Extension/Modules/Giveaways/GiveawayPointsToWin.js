@@ -50,10 +50,11 @@ _MODULES.push({
         }]);
         gptw_addPoint(giveaway);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          giveaway.gptwContext.setAttribute(`draggable`, true);
-          giveaway.gptwContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-          giveaway.gptwContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-          giveaway.gptwContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+          draggable_set({
+            context: giveaway.panel,
+            id: `giveawayPanel`,
+            source: giveaway
+          });
         }
       } else {
         giveaway.pointsToWin = 0;

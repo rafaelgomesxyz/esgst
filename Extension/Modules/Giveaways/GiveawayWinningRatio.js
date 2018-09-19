@@ -78,10 +78,11 @@ _MODULES.push({
         }]);
         gwr_addRatio(context, giveaway);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          context.setAttribute(`draggable`, true);
-          context.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-          context.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-          context.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+          draggable_set({
+            context: giveaway.panel,
+            id: `giveawayPanel`,
+            source: giveaway
+          });
         }
       }
     });

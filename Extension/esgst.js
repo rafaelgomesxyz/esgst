@@ -1602,6 +1602,8 @@
       windowEvents: {},
       parameters: getParameters(),
       defaultValues: {
+        giveawayHeading: [`gr`, `gb`, `df`, `egh`, `name`, `points`, `copies`, `steam`, `search`, `hideGame`],
+        giveawayHeading_gv: [`gr`, `gb`, `df`, `egh`, `name`, `points`, `copies`, `steam`, `search`, `hideGame`],
         nrf_clearCache: false,
         dt_s_sg: true,
         gt_s_sg: true,
@@ -2125,7 +2127,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.27.2`,
-      devVersion: `7.27.3 (Dev.2)`,
+      devVersion: `7.27.3 (Dev.3)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -4046,7 +4048,8 @@
         }]
       }]);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Keeps the sidebar narrowed in all pages.</li>
@@ -4063,7 +4066,8 @@
     if (!esgst.sidebar) return;
     esgst.sidebar.classList.remove(`sidebar--wide`);
     esgst.sidebar.classList.add(`esgst-ns`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Hides the community poll (if there is one) of the main page.</li>
@@ -4090,7 +4094,8 @@
         poll.classList.add(`esgst-hidden`);
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.</li>
@@ -4357,7 +4362,8 @@
     } else if (callback) {
       callback();
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).</li>
@@ -4589,7 +4595,7 @@
       button1.parentElement.nextElementSibling.lastElementChild.classList.toggle(`esgst-hidden`);
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Allows you to hide elements in any page using CSS selectors.</li>
@@ -4640,7 +4646,8 @@
         }
       } catch (e) { /**/ }
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     endless: true,
     id: `giveaways_addToStorage`,
     load: giveaways_addToStorage
@@ -4650,7 +4657,8 @@
     if ((esgst.lpv || esgst.cewgd || (esgst.gc && esgst.gc_gi)) && esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
       addGiveawayToStorage();
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-image"></i>) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.</li>
@@ -4842,7 +4850,8 @@
   function aic_resizeImage(image) {
     image.firstElementChild.style.maxHeight = `${image.offsetHeight - 10}px`;
     image.firstElementChild.style.maxWidth = `${image.offsetWidth - 10}px`;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-search"></i>) to the main page heading of any <a href="https://www.steamgifts.com/archive">archive</a> page that allows you to search the archive by exact title/app id.</li>
@@ -4931,7 +4940,8 @@
     }
     obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
     await endless_load(context);
-  }_MODULES.push({
+  }
+_MODULES.push({
   description: `
     <ul>
       <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
@@ -5198,7 +5208,8 @@ function cdr() {
     obj.button.classList.remove(`esgst-busy`);
     obj.popup.clearProgress();
     obj.isCanceled = true;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-lock"></i> if the discussion is open and <i class="fa fa-lock esgst-red"></i> if it is closed) next to the title of a discussion created by yourself (in any <a href="https://www.steamgifts.com/discussions">discussions</a> page) that allows you to close/open the discussion without having to access it.</li>
@@ -5228,7 +5239,8 @@ function cdr() {
       return true;
     }
     return false;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Reverses the comments of any <a href="https://www.steamgifts.com/discussion/e9zDo/">discussion</a> page so that they are ordered from newest to oldest.</li>
@@ -5245,7 +5257,8 @@ function cdr() {
   function cr() {
     if (!esgst.discussionPath || !esgst.pagination) return;
     reverseComments(esgst.pagination.previousElementSibling);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-search"></i>) to the main page heading of any page that allows you to search for comments made by specific users in the page.</li>
@@ -5430,7 +5443,8 @@ function cdr() {
     }
     obj.popup.setOverallProgress(`${obj.results} results found.`);
     await endless_load(context);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.</li>
@@ -6472,7 +6486,7 @@ function cdr() {
       await lockAndSaveDiscussions({[code]: discussion});
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Turns the numbers in the "Giveaways" column of any <a href="https://www.steamgifts.com/giveaways/wishlist">community wishlist</a> page into links that allow you to search for all of the active giveaways for the game (that are visible to you).</li>
@@ -6510,7 +6524,8 @@ function cdr() {
         }))]
       }]);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.</li>
@@ -6668,7 +6683,8 @@ function cdr() {
         obj.callback
       );
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-star"></i> if the discussion is highlighted and <i class="fa fa-star-o"></i> if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.</li>
@@ -6866,7 +6882,8 @@ function cdr() {
       context.classList.remove(`esgst-dh-highlighted`);
     }
     return true;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a> page that allows you to sort the discussions in the page by title, category, created time, author and number of comments.</li>
@@ -6968,7 +6985,8 @@ function cdr() {
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i>) next to a game's name (in any page) to indicate that you have entered giveaways for the game in the past. Clicking on the icon unhighlights the game.</li>
@@ -6997,6 +7015,7 @@ function cdr() {
       if (!esgst.menuPath && esgst.games[game.type][game.id] && esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
         createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
           attributes: {
+            [`data-id`]: `egh`,
             class: `esgst-egh-button`,
             title: getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
           },
@@ -7044,7 +7063,8 @@ function cdr() {
     await setValue(`games`, JSON.stringify(games));
     icon.remove();
     deleteLock();
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
@@ -7393,7 +7413,8 @@ function cdr() {
       timestamp: Date.now()
     });
     setValue(`entries`, JSON.stringify(entries));
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments esgst-yellow"></i> My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.</li>
@@ -7549,7 +7570,8 @@ function cdr() {
     });
     await setValue(key, JSON.stringify(comments));
     deleteLock();
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
@@ -8145,7 +8167,8 @@ function cdr() {
       }
       return (found ? key : null);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Keeps the footer of any page at the bottom of the window while you scroll down the page.</li>
@@ -8165,7 +8188,8 @@ function cdr() {
     }
 
     esgst.footer.classList.add(`esgst-ff`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Keeps the header of any page at the top of the window while you scroll down the page.</li>
@@ -8188,7 +8212,8 @@ function cdr() {
     const height = esgst.header.offsetHeight;
     esgst.pageTop += height;
     esgst.commentsTop += height;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Keeps the main page heading (usually the first heading of the page, for example, the heading that says "Giveaways" in the main page) of any page at the top of the window while you scroll down the page.</li>
@@ -8216,7 +8241,8 @@ function cdr() {
     esgst.mainPageHeading.classList.add(`esgst-fmph`);
     const height = esgst.mainPageHeading.offsetHeight;
     esgst.commentsTop += height;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-plus-square"></i> if all of the replies in the page are collapsed and <i class="fa fa-minus-square"></i> if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.</li>
@@ -8380,7 +8406,8 @@ function cdr() {
     }
     collapse.classList.remove(`esgst-hidden`);
     expand.classList.add(`esgst-hidden`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.</li>
@@ -8414,7 +8441,8 @@ function cdr() {
     let button = box.getElementsByClassName(esgst.cancelButtonClass)[0];
     if (!button) return;
     button.addEventListener(`click`, setTimeout.bind(null, box.appendChild.bind(box, esgst.replyBox), 0));
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Keeps the sidebar of any page at the left side of the window while you scroll down the page.</li>
@@ -8449,7 +8477,8 @@ function cdr() {
     `);
 
     esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>
@@ -8719,7 +8748,8 @@ function cdr() {
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-bookmark"></i> if the giveaway is bookmarked and <i class="fa fa-bookmark-o"></i> if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.</li>
@@ -9220,6 +9250,12 @@ function cdr() {
           index: esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
           titles: [`Bookmark giveaway`, `Bookmarking giveaway...`, `Unbookmark giveaway`, `Unbookmarking giveaway...`]
         });
+        giveaway.gbButton.button.setAttribute(`data-id`, `gb`);
+        draggable_set({
+          context: giveaway.headingName.parentElement,
+          id: `giveawayHeading`,
+          source: giveaway
+        });
         if ((giveaway.entered || (esgst.enteredPath && main)) && !esgst.gb_se) {
           giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }
@@ -9252,7 +9288,8 @@ function cdr() {
     await setValue(`giveaways`, JSON.stringify(giveaways));
     deleteLock();
     return true;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).</li>
@@ -11946,7 +11983,7 @@ function cdr() {
     await setSetting(gc.categoryKey, esgst[gc.categoryKey]);
     await setSetting(gc.indexKey, esgst[gc.indexKey]);
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Highlights the number of copies next a giveaway's game name (in any page) by coloring it as red and changing the font to bold.</li>
@@ -11956,7 +11993,8 @@ function cdr() {
     name: `Giveaway Copy Highlighter`,
     sg: true,
     type: `giveaways`
-  });_MODULES.push({
+  });
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-check"></i> if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any <a href="https://www.steamgifts.com/discussions">discussions</a>/<a href="https://www.steamgifts.com/support/tickets">tickets</a>/<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.</li>
@@ -12194,7 +12232,8 @@ function cdr() {
         gdttt_addMarkVisitedButton(button, code, context, count, type);
       }
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-search"></i>) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.</li>
@@ -12576,7 +12615,8 @@ function cdr() {
     createElements(ge.results, `beforeEnd`, items);
     ge.set.set.remove();
     ge.set = null;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i> if the giveaway is open, <i class="fa fa-star esgst-green"></i> if it is open and new, <i class="fa fa-star esgst-yellow"></i> if it is not open yet and <i class="fa fa-star esgst-red"></i> if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.</li>
@@ -12984,7 +13024,8 @@ function cdr() {
     await Promise.all(promises);
     await setValue(`decryptedGiveaways`, JSON.stringify(esgst.decryptedGiveaways));
     await lockAndSaveGiveaways(ged.giveaways);
-  }_MODULES.push({
+  }
+_MODULES.push({
     // by Royalgamer06
     description: `
       <ul>
@@ -13089,7 +13130,8 @@ function cdr() {
         }]
       }]
     }]);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to filter comments.</li>
@@ -13209,7 +13251,8 @@ function cdr() {
         type: `string`
       }
     };
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to filter discussions.</li>
@@ -13713,7 +13756,8 @@ function cdr() {
         type: `string`
       }
     };
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to filter giveaways.</li>
@@ -14435,6 +14479,11 @@ function cdr() {
               id: `gf_s`,
               index: 2,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+            }).button.setAttribute(`data-id`, `gf`);
+            draggable_set({
+              context: giveaway.headingName.parentElement,
+              id: `giveawayHeading`,
+              source: giveaway
             });
           }
         }
@@ -14447,6 +14496,11 @@ function cdr() {
               id: `gf_s`,
               index: 0,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+            }).button.setAttribute(`data-id`, `gf`);
+            draggable_set({
+              context: giveaway.headingName.parentElement,
+              id: `giveawayHeading`,
+              source: giveaway
             });
           }
         }
@@ -17031,7 +17085,8 @@ function cdr() {
     if (!obj.popup && obj.paginationFilteredCount) {
       obj.paginationFilteredCount.textContent = paginationFiltered;
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-star"></i>) to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and any <a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.</li>
@@ -17906,7 +17961,8 @@ function cdr() {
         wishlistSearch.classList.add(`esgst-hidden`);
       }
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-rotate-left"></i>) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.</li>
@@ -18007,7 +18063,8 @@ function cdr() {
     await setValue(`giveaways`, JSON.stringify(giveaways));
     button.remove();
     open(`/giveaways/new`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your <a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some stats about each group.</li>
@@ -18078,7 +18135,8 @@ function cdr() {
       text: responseHtml.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent,
       type: `div`
     }]);
-  }_MODULES.push({
+  }
+_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next a discussion's title (in any page) that allows you to save tags for the discussion (only visible to you).</li>
@@ -18879,7 +18937,8 @@ function gpt() {
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     savedTemplates.splice(gts.sourceNewIndex, 0, savedTemplates.splice(gts.sourceIndex, 1)[0]);
     setValue(`templates`, JSON.stringify(savedTemplates));
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.</li>
@@ -19063,7 +19122,8 @@ function gpt() {
       creator.appendChild(giveaway.creatorContainer);
       new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Hides the blacklist stats of your <a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.</li>
@@ -19093,7 +19153,8 @@ function gpt() {
     script.textContent = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, ``);
     document.body.appendChild(script);
     script.remove();
-  }_MODULES.push({
+  }
+_MODULES.push({
   description: `
     <ul>
       <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentaly enter it.</li>
@@ -19136,7 +19197,8 @@ function hgebd() {
       }]
     }]);
   }
-}_MODULES.push({
+}
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
@@ -19263,7 +19325,8 @@ function hgebd() {
     hgr.canceled = true;
     hgr.button.classList.remove(`esgst-busy`);
     hgr.progress.innerHTML = ``;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.</li>
@@ -19789,7 +19852,8 @@ function hgebd() {
       }
       notification.close();
     };
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
@@ -20239,7 +20303,8 @@ function hgebd() {
     return a.name.localeCompare(b.name, {
       sensitivity: `base`
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a "Last Page" link to the pagination navigation of some pages that do not have it. For example: discussion pages with 100+ pages, user pages, group pages with 100+ pages, etc...</li>
@@ -20398,7 +20463,8 @@ function hgebd() {
     if (esgst.currentPage !== esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
       createElements(esgst.paginationNavigation, `beforeEnd`, esgst.lastPageLink);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     conflicts: [
       {id: `pv`, name: `Points Visualizer`}
     ],
@@ -20566,7 +20632,8 @@ function hgebd() {
       }
     }
     return cv;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a section 0 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to create multiple giveaways at once.</li>
@@ -22435,7 +22502,8 @@ function hgebd() {
       mgc.source = null;
       mgc_updateCache(mgc);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
@@ -23477,7 +23545,8 @@ function hgebd() {
     if (notFound.length) {
       alert(`The following games were not found and therefore not hidden: ${notFound.join(`, `)}`);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Hides the main post of a discussion and adds a button (<i class="fa fa-home"></i>) to its main page heading that allows you to open the main post through a popup.</li>
@@ -23553,7 +23622,8 @@ function hgebd() {
         }
       };
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Skips to the comments of a discussion if you have used the pagination navigation. For example, if you enter a discussion and use the pagination navigation to go to page 2, on page 2 the feature will skip the main post and take you directly to the comments.</li>
@@ -23570,7 +23640,8 @@ function hgebd() {
     if (!location.hash && esgst.discussionPath && esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
       goToComment(``, esgst.pagination.previousElementSibling.firstElementChild.firstElementChild, true);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     // by Royalgamer06
     description: `
       <ul>
@@ -23685,7 +23756,8 @@ function hgebd() {
         esgst.altMessageCount = esgst.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to navigate through a train using hotkeys.</a>
@@ -23778,7 +23850,8 @@ function hgebd() {
         }
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Moves the pagination navigation of any page to the main page heading of the page.</li>
@@ -23800,7 +23873,8 @@ function hgebd() {
     }
     esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
     esgst.mainPageHeading.appendChild(esgst.paginationNavigation);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.</li>
@@ -23839,7 +23913,8 @@ function hgebd() {
     container.classList.toggle(`pinned-giveaways__inner-wrap--minimized`);
     icon.classList.toggle(`fa-angle-down`);
     icon.classList.toggle(`fa-angle-up`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a checkbox in front of a discussion categorized as "Puzzles" (in any page) that changes states (<i class="fa fa-circle-o esgst-grey"></i> by default, <i class="fa fa-times-circle esgst-red"></i> for "unsolved", <i class="fa fa-exclamation-circle esgst-orange"></i> for "in progress" and <i class="fa fa-check-circle esgst-green"></i> for "solved") and allows you to mark the puzzle as unsolved/in progress/solved.</li>
@@ -23874,7 +23949,8 @@ function hgebd() {
     await setValue(`discussions`, JSON.stringify(discussions));
     deleteLock();
     return true;
-  }_MODULES.push({
+  }
+_MODULES.push({
     conflicts: [
       {id: `lpv`, name: `Level Progress Visualizer`}
     ],
@@ -23938,7 +24014,8 @@ function hgebd() {
       }
     `;
     esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.</li>
@@ -24001,7 +24078,7 @@ function hgebd() {
     event.preventDefault();
     location.href = `/giveaways/search?q=${encodeURIComponent(event.currentTarget.value)}`;
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
@@ -24340,7 +24417,8 @@ function hgebd() {
       }
     }
     location.href = url;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Turns the magnifying glass icon (<i class="fa fa-search"></i>) in the search field of any page into a button that submits the search when you click on it.</li>
@@ -24368,7 +24446,8 @@ function hgebd() {
         }
       });
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-refresh"></i>) to the page heading of the active discussions (in the main page) that allows you to refresh the active discussions without having to refresh the entire page.</li>
@@ -24410,7 +24489,8 @@ function hgebd() {
         }
       });
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comment"></i>) to the main page heading of any page that allows you to add comments to the page through a popup.</li>
@@ -24444,7 +24524,8 @@ function hgebd() {
     }).set);
     popup.progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' <a href="https://www.steamgifts.com/about/comment-formatting">comment formatting</a>.</li>
@@ -28492,7 +28573,8 @@ function hgebd() {
         }]
       }]);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     decription: `
       <ul>
         <li>Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).</li>
@@ -28639,7 +28721,8 @@ function hgebd() {
         });
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the country is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each country in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.</li>
@@ -28710,7 +28793,8 @@ function hgebd() {
       await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
     }
     return true;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to perform many different tasks by pressing certain keys.</li>
@@ -28981,7 +29065,8 @@ function hgebd() {
         }
       });
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-key"></i> <i class="fa fa-search"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to search for a key or a set of keys in all of keys that you have ever sent.</li>
@@ -29277,7 +29362,8 @@ function hgebd() {
     sks.button.classList.remove(`esgst-busy`);
     sks.progress.innerHTML = ``;
     sks.overallProgress.innerHTML = ``;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-down"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.</li>
@@ -29345,7 +29431,8 @@ function hgebd() {
         es_changePagination(esgst.es, esgst.es.reverseScrolling ? 1 : esgst.es.paginations.length);
       }
     }));
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-up"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the top of the page.</li>
@@ -29414,7 +29501,8 @@ function hgebd() {
         es_changePagination(esgst.es, esgst.es.reverseScrolling ? esgst.es.paginations.length : 1);
       }
     }));
-  }_MODULES.push({
+  }
+_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-chevron-circle-up"></i>) to the main page heading of your <a href="https://www.steamtrades.com/trades/search?user=your-steam-id">created trades</a> page that allows you to bump all of your open trades at once.</li>
@@ -29512,7 +29600,8 @@ async function tb_autoBumpTrades(button) {
     name: `Time To Point Cap Calculator`,
     sg: true,
     type: `general`
-  });_MODULES.push({
+  });
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-send"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to send all of your unsent gifts at once.</li>
@@ -30216,7 +30305,7 @@ async function tb_autoBumpTrades(button) {
     ugs.progress.innerHTML = ``;
     ugs.overallProgress.textContent = ``;
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.</li>
@@ -30414,7 +30503,7 @@ async function tb_autoBumpTrades(button) {
       esgst.numUstTickets += 1;
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.</li>
@@ -31350,7 +31439,8 @@ async function tb_autoBumpTrades(button) {
         Callback();
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-heart esgst-whitelist"></i> if the user is whitelisted and <i class="fa fa-ban esgst-blacklist"></i> if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.</li>
@@ -31421,7 +31511,8 @@ async function tb_autoBumpTrades(button) {
         }
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.</li>
@@ -31623,7 +31714,8 @@ async function tb_autoBumpTrades(button) {
     deleteLock();
     obj.removingButton.classList.add(`esgst-hidden`);
     obj.removedButton.classList.remove(`esgst-hidden`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-arrow-up"></i> <i class="fa fa-arrow-down"></i> <i class="fa fa-trash"></i>) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allows you to import/export/clear your whitelist/blacklist.</li>
@@ -31901,7 +31993,7 @@ async function tb_autoBumpTrades(button) {
       callback();
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".</li>
@@ -31912,7 +32004,8 @@ async function tb_autoBumpTrades(button) {
     sg: true,
     st: true,
     type: `general`
-  });_MODULES.push({
+  });
+_MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
@@ -31992,7 +32085,7 @@ function ut() {
       }
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.</li>
@@ -32075,7 +32168,8 @@ function ut() {
     } else {
       return null;
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Brings back image borders to SteamGifts.</li>
@@ -32101,7 +32195,8 @@ function ut() {
     for (let i = 0, n = gameElements.length; i < n; ++i) {
       gameElements[i].classList.add(`esgst-ib-game`);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     conflicts: [
       {id: `ail`, name: `Attached Image Loader`}
     ],
@@ -32141,7 +32236,8 @@ function ut() {
       }
       image.classList.remove(`is_hidden`, `is-hidden`);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     conflicts: [
       {id: `vai`, name: `Visible Attached Images`}
     ],
@@ -32172,7 +32268,8 @@ function ut() {
       image.removeAttribute(`src`);
       button.addEventListener(`click`, image.setAttribute.bind(image, `src`, url));
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds more details to each giveaway in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:</li>
@@ -32591,7 +32688,8 @@ function ut() {
     }
     popup.open();
     endless_load(popup.getScrollable(html));
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Shows a confirmation popup if you try to delete a giveaway's key(s) (in any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page).</li>
@@ -32636,7 +32734,8 @@ function ut() {
     row.getElementsByClassName(`form__key-insert`)[0].classList.remove(`is-hidden`);
     row.getElementsByClassName(`js__sent-text`)[0].textContent = `Sent Gift`;
     row.getElementsByClassName(`js__sent-text`)[1].textContent = `Sent Gift`;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the region restricted icon (<i class="fa fa-globe"></i>) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.</li>
@@ -32850,7 +32949,8 @@ function ut() {
       nextPage += 1;
     } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
     return countries;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-area-chart"></i> [Chance]%) below a giveaway's start time (in any page) that shows your chance of winning the giveaway.</li>
@@ -32931,10 +33031,11 @@ function ut() {
           }]);
           gwc_addChance(giveaway);
           if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-            giveaway.gwcContext.setAttribute(`draggable`, true);
-            giveaway.gwcContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-            giveaway.gwcContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-            giveaway.gwcContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+            draggable_set({
+              context: giveaway.panel,
+              id: `giveawayPanel`,
+              source: giveaway
+            });
           }
         } else {
           giveaway.chance = 100;
@@ -33075,7 +33176,7 @@ function ut() {
       type: `div`
     }]);
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-pie-chart"></i> [Ratio]:1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.</li>
@@ -33155,10 +33256,11 @@ function ut() {
         }]);
         gwr_addRatio(context, giveaway);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          context.setAttribute(`draggable`, true);
-          context.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-          context.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-          context.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+          draggable_set({
+            context: giveaway.panel,
+            id: `giveawayPanel`,
+            source: giveaway
+          });
         }
       }
     });
@@ -33262,7 +33364,7 @@ function ut() {
     }
     createElements(context, `inner`, items);
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
@@ -33314,10 +33416,11 @@ function ut() {
         }]);
         gptw_addPoint(giveaway);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          giveaway.gptwContext.setAttribute(`draggable`, true);
-          giveaway.gptwContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-          giveaway.gptwContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-          giveaway.gptwContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+          draggable_set({
+            context: giveaway.panel,
+            id: `giveawayPanel`,
+            source: giveaway
+          });
         }
       } else {
         giveaway.pointsToWin = 0;
@@ -33358,7 +33461,8 @@ function ut() {
       type: `span`
     });
     createElements(giveaway.gptwContext, `inner`, items);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to highlight the end time of a giveaway (in any page) by coloring it based on how many hours there are left.</li>
@@ -33395,7 +33499,7 @@ function ut() {
       }
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds 2 optional icons (<i class="fa fa-steam"></i> for the Steam client and <i class="fa fa-globe"></i> for the browser) next to each key in the "Key" column of your <a href="https://www.steamgifts.com/giveaways/won">won</a> page that allow you to quickly activate a won game on Steam, either through the client or the browser.</li>
@@ -33552,7 +33656,8 @@ function ut() {
           break;
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Removes SteamGifts' default fade for entered giveaways.</li>
@@ -33574,7 +33679,8 @@ function ut() {
     for (let i = 0, n = elements.length; i < n; ++i) {
       elements[i].classList.add(`esgst-ueg`);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the group is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each group in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a>/<a href="https://www.steamgifts.com/account/steam/groups">groups</a> pages that allows you to sticky the group so that it appears at the top of the group list for quick use.</li>
@@ -33703,7 +33809,8 @@ function ut() {
     }
     await lockAndSaveGroups(groups);
     return true;
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
@@ -34193,7 +34300,7 @@ function ut() {
       await endless_load(mr.Container);
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
@@ -34299,7 +34406,8 @@ function ut() {
     if (edited) {
       await setValue(`${esgst.name}RfiCache`, JSON.stringify(saved));
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a link (@user) next to a reply's "Permalink" (in any page) that mentions the user being replied to and links to their comment.</li>
@@ -34348,7 +34456,8 @@ function ut() {
         }]);
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-trophy"></i>) next to the username of a giveaway comment made by the giveaway's winner(s) (in the <a href="https://www.steamgifts.com/messages">inbox</a> page).</li>
@@ -34417,7 +34526,7 @@ function ut() {
       }
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and the popup from [id=wbs] that show some stats about each user.</li>
@@ -34584,7 +34693,8 @@ function ut() {
       }
     }
     createElements(context, `afterEnd`, html);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a green background to a group that you are a member of (in any page).</li>
@@ -34616,7 +34726,8 @@ function ut() {
         element.closest(`.table__row-outer-wrap`).classList.add(`esgst-gh-highlight`);
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.</li>
@@ -34777,7 +34888,7 @@ function ut() {
       }
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-external-link"></i>) below a giveaway's start time (in any page) that allows you to read the description of the giveaway and/or add a comment to it without having to access it.</li>
@@ -34818,14 +34929,16 @@ function ut() {
         buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
         giveaway.panel.appendChild(buttonSet);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          buttonSet.setAttribute(`draggable`, true);
-          buttonSet.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-          buttonSet.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-          buttonSet.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+          draggable_set({
+            context: giveaway.panel,
+            id: `giveawayPanel`,
+            source: giveaway
+          });
         }
       }
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button ("<i class="fa fa-plus-circle"></i> Enter" to enter and "<i class="fa fa-minus-circle"></i> Leave" to leave) below a giveaway's start time (in any page) that allows you to enter/leave the giveaway without having to access it.</li>
@@ -35075,10 +35188,11 @@ function ut() {
       }
       giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
       if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-        giveaway.elgbButton.setAttribute(`draggable`, true);
-        giveaway.elgbButton.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-        giveaway.elgbButton.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        giveaway.elgbButton.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        draggable_set({
+          context: giveaway.panel,
+          id: `giveawayPanel`,
+          source: giveaway
+        });
       }
     }
   }
@@ -35326,7 +35440,7 @@ function ut() {
       ttec_calculateTime(esgst.mainGiveaways, true);
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
@@ -35526,7 +35640,7 @@ function ut() {
       .replace(/\+/g, `plus`)
       .replace(/[^\d\w]/g, ``);
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye"></i>) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page.</li>
@@ -35571,7 +35685,7 @@ function ut() {
       }
     });
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>When you click on the icon <i class="fa fa-eye-slash"></i> next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.</li>
@@ -35616,6 +35730,12 @@ function ut() {
         id: `ochgb`,
         index: unhide ? 2 : 0,
         titles: [`Hide all giveaways for this game`, `Hiding giveaways...`, `Unhide all giveaways for this game`, `Unhiding giveaways...`]
+      });
+      giveaway.ochgbButton.button.setAttribute(`data-id`, `hideGame`);
+      draggable_set({
+        context: giveaway.ochgbButton.button.parentElement,
+        id: `giveawayHeading`,
+        source: giveaway
       });
       button.remove();
     });
@@ -35668,7 +35788,7 @@ function ut() {
       }
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page.</li>
@@ -35710,7 +35830,7 @@ function ut() {
       }]);
     });
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-clock-o"></i> [Time]) below the start time of a giveaway that you do not have enough points to enter (in any page) that shows how much time you have to wait until you have enough points to enter the giveaway.</li>
@@ -35748,10 +35868,11 @@ function ut() {
               type: `div`
             }]);
             if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-              giveaway.ttec.setAttribute(`draggable`, true);
-              giveaway.ttec.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-              giveaway.ttec.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-              giveaway.ttec.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+              draggable_set({
+                context: giveaway.panel,
+                id: `giveawayPanel`,
+                source: giveaway
+              });
             }
           }
           giveaway.ttec.classList.remove(`esgst-hidden`);
@@ -35790,7 +35911,7 @@ function ut() {
       return `${m}m`;
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the group icon (<i class="fa fa-user"></i>) of a giveaway (in any page) it shows the groups that the giveaway is for. There is also an option to automatically load the groups on page load and show them below the giveaway (which also works in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is enabled).</li>
@@ -36212,7 +36333,8 @@ function ut() {
         setTimeout(callback, 0, groups);
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Pops up a reply box when you mark a giveaway as received (in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page) so that you can add a comment thanking the creator.</li>
@@ -36258,7 +36380,8 @@ function ut() {
     popup.open(() => {
       textArea.focus();
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     endless: true,
     id: `giveaways`,
     load: giveaways
@@ -36374,6 +36497,7 @@ function ut() {
       giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
     }
     giveaway.headingName = giveaway.innerWrap.querySelector(`.giveaway__heading__name, .featured__heading__medium, .table__column__heading`);
+    giveaway.heading = giveaway.headingName.parentElement;
     giveaway.name = giveaway.headingName.textContent;
     match = giveaway.name.match(/\s\((.+) Copies\)/);
     if (match) {
@@ -36613,10 +36737,11 @@ function ut() {
       }]);
       sgTools.setAttribute(`data-columnId`, `sgTools`);
       if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-        sgTools.setAttribute(`draggable`, true);
-        sgTools.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-        sgTools.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        sgTools.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        draggable_set({
+          context: giveaway.summary,
+          id: `giveawayPanel`,
+          source: giveaway
+        });
       }
     }
     giveaway.elgbPanel = giveaway.panel;
@@ -36691,9 +36816,10 @@ function ut() {
     giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
     giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
     if (main) {
-      if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
+      if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = createElements(giveaway.headingName, `beforeBegin`, [{
           attributes: {
+            [`data-id`]: `gr`,
             class: `esgst-gr-button`,
             title: `${getFeatureTooltip(`gr`, `Recreate giveaway`)}`
           },
@@ -36733,6 +36859,36 @@ function ut() {
         });
       }
     }
+    if (hideButton) {
+      hideButton.setAttribute(`data-id`, `hideGame`);
+    }
+    for (const child of giveaway.heading.children) {
+      if (child.classList.contains(`giveaway__heading__name`)) {
+        child.setAttribute(`data-id`, `name`);
+        continue;
+      }
+      if (child.textContent.match(/\(.+?\sCopies\)/)) {
+        child.setAttribute(`data-id`, `copies`);
+        continue;
+      }
+      if (child.textContent.match(/\(.+?P\)/)) {
+        child.setAttribute(`data-id`, `points`);
+        continue;
+      }
+      if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/store.steampowered.com/)) {
+        child.setAttribute(`data-id`, `steam`);
+        continue;
+      }
+      if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/\/giveaways\/search/)) {
+        child.setAttribute(`data-id`, `search`);
+        continue;
+      }
+    }
+    draggable_set({
+      context: giveaway.heading,
+      id: `giveawayHeading`,
+      source: giveaway
+    });
     giveaway.winnerColumns = {};
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
@@ -36789,17 +36945,21 @@ function ut() {
         if (giveaway.columns) {
           for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
             let item = giveaway.columns.children[i];
-            item.setAttribute(`draggable`, true);
-            item.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-            item.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-            item.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+            draggable_set({
+              context: giveaway.columns,
+              id: `giveawayColumns`,
+              source: giveaway
+            });
           }
         }
         if (giveaway.columns) {
-          giveaway.columns.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
+          giveaway.columns.addEventListener(`dragenter`, draggable_enter.bind(null, {source: giveaway}, false));
         }
         if (giveaway.panel) {
-          giveaway.panel.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, true));
+          giveaway.panel.addEventListener(`dragenter`, draggable_enter.bind(null, {source: giveaway}, true));
+        }
+        if (giveaway.heading) {
+          giveaway.heading.addEventListener(`dragenter`, draggable_enter.bind(null, {source: giveaway}, false));
         }
       }
     }
@@ -36840,6 +37000,7 @@ function ut() {
           if (id.match(/^elgb|gp|ttec$/)) {
             element.classList.add(`esgst-giveaway-column-button`);
           }
+          element.classList.remove(`giveaway__icon`);
         }
       });
     }
@@ -36851,152 +37012,25 @@ function ut() {
           if (id.match(/^elgb|gp|ttec$/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
+          element.classList.remove(`giveaway__icon`);
+        }
+      });
+    }
+    if (giveaway.heading) {
+      (giveaway.gvIcons ? esgst.giveawayHeading_gv : esgst.giveawayHeading).forEach(id => {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+        for (const element of elements) {
+          giveaway.heading.appendChild(element);
+          if (id.match(/^elgb|gp|ttec$/)) {
+            element.classList.remove(`esgst-giveaway-column-button`);
+          }
         }
       });
     }
   }
 
-  function giveaways_setSource(giveaway, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
-    giveaway.sourceItem = event.currentTarget;
-    giveaway.newSourceItem = null;
-    giveaway.newSourcePos = 0;
-    giveaway.columnSource = false;
-    giveaway.panelSource = false;
-    setTimeout(() => {
-      if (giveaway.gvIcons && giveaway.gvIcons.children.length < 1) {
-        giveaway.gvIcons.style.height = `25px`;
-        giveaway.gvIcons.style.width = `100%`;
-      } else if (giveaway.columns && giveaway.columns.children.length < 1) {
-        giveaway.columns.style.height = `25px`;
-        giveaway.columns.style.width = `100%`;
-      }
-      if (giveaway.panel && giveaway.panel.children.length < 1) {
-        giveaway.panel.style.height = `25px`;
-        giveaway.panel.style.width = `100%`;
-      }
-    }, 0);
-  }
 
-  function giveaways_getSource(giveaway, panel, event) {
-    if (!giveaway.sourceItem) return;
-    if (panel) {
-      if (giveaway.panel.children.length < 1) {
-        giveaway.panel.appendChild(giveaway.sourceItem);
-        if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-          giveaway.sourceItem.classList.remove(`esgst-giveaway-column-button`);
-        }
-        giveaway.panelSource = true;
-      }
-      return;
-    }
-    let item = event.currentTarget;
-    if (item === giveaway.sourceItem) return;
-    if (item.getAttribute(`data-columnId`) === giveaway.sourceItem.getAttribute(`data-columnId`)) return;
-    if (item === giveaway.gvIcons) {
-      if (giveaway.gvIcons.children.length < 1) {
-        giveaway.gvIcons.appendChild(giveaway.sourceItem);
-        if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-          giveaway.sourceItem.classList.add(`esgst-giveaway-column-button`);
-        }
-        giveaway.columnSource = true;
-      }
-      return;
-    }
-    if (item === giveaway.columns) {
-      if (giveaway.columns.children.length < 1) {
-        giveaway.columns.appendChild(giveaway.columns);
-        if (giveaway.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-          giveaway.sourceItem.classList.add(`esgst-giveaway-column-button`);
-        }
-        giveaway.columnSource = true;
-      }
-      return;
-    }
-    let current = giveaway.sourceItem;
-    do {
-      current = current.previousElementSibling;
-      if (current && current === item) {
-        item.parentElement.insertBefore(giveaway.sourceItem, item);
-        if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-          if (item.parentElement === giveaway.columns || item.parentElement === giveaway.gvIcons) {
-            item.classList.add(`esgst-giveaway-column-button`);
-          } else {
-            item.classList.remove(`esgst-giveaway-column-button`);
-          }
-        }
-        giveaway.newSourceItem = item;
-        giveaway.newSourcePos = 0;
-        return;
-      }
-    } while (current);
-    item.parentElement.insertBefore(giveaway.sourceItem, item.nextElementSibling);
-    if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
-      if (item.parentElement === giveaway.columns || item.parentElement === giveaway.gvIcons) {
-        item.classList.add(`esgst-giveaway-column-button`);
-      } else {
-        item.classList.remove(`esgst-giveaway-column-button`);
-      }
-    }
-    giveaway.newSourceItem = item;
-    giveaway.newSourcePos = 1;
-  }
-
-  async function giveaways_saveSource(giveaway) {
-    let [columnKey, panelKey] = giveaway.gvIcons ? [`giveawayColumns_gv`, `giveawayPanel_gv`] : [`giveawayColumns`, `giveawayPanel`];
-    if (giveaway.panelSource) {
-      let index = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-      if (index > -1) {
-        esgst[columnKey].splice(index, 1);
-      }
-      esgst[panelKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
-    } else if (giveaway.columnSource) {
-      let index = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-      if (index > -1) {
-        esgst[panelKey].splice(index, 1);
-      }
-      esgst[columnKey].push(giveaway.sourceItem.getAttribute(`data-columnId`));
-    } else if (giveaway.newSourceItem) {
-      let columnsIndex = esgst[columnKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-      let panelIndex = esgst[panelKey].indexOf(giveaway.sourceItem.getAttribute(`data-columnId`));
-      if (giveaway.newSourceItem.parentElement === giveaway.columns || giveaway.newSourceItem.parentElement === giveaway.gvIcons) {
-        if (columnsIndex > -1) {
-          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
-          esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
-        } else {
-          let id = esgst[panelKey].splice(panelIndex, 1)[0];
-          esgst[columnKey].splice(esgst[columnKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
-        }
-      } else {
-        if (columnsIndex > -1) {
-          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
-          esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
-        } else {
-          let id = esgst[panelKey].splice(panelIndex, 1)[0];
-          esgst[panelKey].splice(esgst[panelKey].indexOf(giveaway.newSourceItem.getAttribute(`data-columnId`)) + giveaway.newSourcePos, 0, id);
-        }
-      }
-    }
-    giveaway.sourceItem = null;
-    giveaway.newSourceItem = null;
-    giveaway.newSourcePos = 0;
-    giveaway.columnSource = false;
-    giveaway.panelSource = false;
-    if (giveaway.gvIcons) {
-      giveaway.gvIcons.style.height = ``;
-      giveaway.gvIcons.style.width = ``;
-    }
-    if (giveaway.columns) {
-      giveaway.columns.style.height = ``;
-      giveaway.columns.style.width = ``;
-    }
-    if (giveaway.panel) {
-      giveaway.panel.style.height = ``;
-      giveaway.panel.style.width = ``;
-    }
-    await setSetting(columnKey, esgst[columnKey]);
-    await setSetting(panelKey, esgst[panelKey]);
-  }_MODULES.push({
+_MODULES.push({
     endless: true,
     id: `discussions`,
     load: discussions
@@ -37248,7 +37282,8 @@ function ut() {
       }
     }
     return discussion;
-  }_MODULES.push({
+  }
+_MODULES.push({
     endless: true,
     id: `discussionPanels`,
     load: discussionPanels
@@ -37258,7 +37293,8 @@ function ut() {
     if ((esgst.ct && (esgst.giveawaysPath || esgst.discussionsPath)) || (esgst.gdttt && (esgst.giveawaysPath || esgst.discussionsPath || esgst.discussionsTicketsTradesPath)) || (esgst.ust && esgst.ticketsPath)) {
       esgst.endlessFeatures.push(ct_addDiscussionPanels);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     endless: true,
     id: `comments`,
     load: comments
@@ -37405,7 +37441,8 @@ function ut() {
       comment.code = source[2];
       return comment;
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     endless: true,
     id: `games`,
     load: games
@@ -37562,7 +37599,8 @@ function ut() {
     } else {
       return null;
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
   endless: true,
   id: `groups`,
   load: groups
@@ -37929,7 +37967,8 @@ function ts_getArray(columnName, i, table) {
     }
   }
   return array;
-}_MODULES.push({
+}
+_MODULES.push({
     description: `
       <ul>
         <li>Opens any link in the page in the same tab.</li>
@@ -37952,7 +37991,8 @@ function ts_getArray(columnName, i, table) {
     for (let i = 0, n = elements.length; i < n; ++i) {
       elements[i].removeAttribute(`target`);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-caret-down"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to view their username history ever since they started being tracked.</li>
@@ -38070,7 +38110,8 @@ function ts_getArray(columnName, i, table) {
     if (!box.classList.contains(`esgst-hidden`) && !container.contains(event.target)) {
       box.classList.add(`esgst-hidden`);
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sticky-note"></i> if there are notes saved and <i class="fa fa-sticky-note-o"></i> if there are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to save notes for them (only visible to you).</li>
@@ -38191,7 +38232,8 @@ function ts_getArray(columnName, i, table) {
         profile.unTextArea.value = notes;
       }
     }
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> if the user is being filtered and <i class="fa fa-eye"></i> if they are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).</li>
@@ -38371,7 +38413,7 @@ function ts_getArray(columnName, i, table) {
       }]);
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-users"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to check which groups you are both members of.</li>
@@ -38600,7 +38642,8 @@ function ts_getArray(columnName, i, table) {
       }]);
     }
     endless_load(profile.sgcResults);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Turns "Gifts Won" and "Gifts Sent" in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page into links that take you to their real won/sent CV pages on <a href="https://www.sgtools.info/">SGTools</a>.</li>
@@ -38652,7 +38695,7 @@ function ts_getArray(columnName, i, table) {
       type: `a`
     }]);
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
@@ -39716,7 +39759,8 @@ function ts_getArray(columnName, i, table) {
     }
     createElements(results, `beforeEnd`, items);
     await endless_load(results);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-question-circle"></i>) to the "Gifts Won" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to check if they have any not activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>).</li>
@@ -40166,7 +40210,7 @@ function ts_getArray(columnName, i, table) {
     user.values.namwc.results.notMultiple = n === 0 ? 1 : 0;
     user.values.namwc.lastCheck = Date.now();
   }
-  _MODULES.push({
+  _MODULES.push({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their won/created giveaways that were marked as not received.</li>
@@ -40505,7 +40549,8 @@ async function nrf_onDone(obj) {
         }]
       }]
     }]);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Displays the real sent/won CV next to the raw value in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
@@ -40527,7 +40572,8 @@ async function nrf_onDone(obj) {
   function vrcv_add(profile) {
     profile.sentCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realSentCV.toLocaleString(`en`)}`);
     profile.wonCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realWonCV.toLocaleString(`en`)}`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Adds how much real CV a user needs to level up (calculated using the information from <a href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>) to the "Contributor Level" row of their <a href="https://www.steamgifts.com/user/nobody">profile</a> page.</li>
@@ -40562,7 +40608,7 @@ async function nrf_onDone(obj) {
       }]);
     }
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamtrades.com/user/76561198020696458">profile</a> page that allows you to go to their SteamGifts profile page.</li>
@@ -40615,7 +40661,7 @@ async function nrf_onDone(obj) {
     }]);
     button.insertBefore(profile.steamButton, button.firstElementChild);
   }
-  _MODULES.push({
+  _MODULES.push({
     description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to go to their SteamTrades profile page.</li>
@@ -40666,7 +40712,8 @@ async function nrf_onDone(obj) {
   function stpb_show(button, tooltip) {
     tooltip.textContent = `Visit SteamTrades Profile`;
     setSiblingsOpacity(button, `0.2`);
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Allows you to add links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a>/<a href="https://www.steamgifts.com/account/steam/games">games</a>/<a href="https://www.steamgifts.com/account/steam/games">groups</a>/<a href="https://www.steamgifts.com/account/steam/wishlist">wishlist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/your-username">profile</a> page.</li>
@@ -41215,7 +41262,8 @@ async function endlessLoad() {
         hr_notifyChange(esgst.hr);
       }
     });
-  }_MODULES.push({
+  }
+_MODULES.push({
     description: `
       <ul>
         <li>Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.</li>
@@ -41912,7 +41960,8 @@ async function endlessLoad() {
         }
       });
     }
-  }async function tags_getTags(key) {
+  }
+async function tags_getTags(key) {
   const allTags = [];
   switch (key) {
     case `dt`: {
@@ -46530,6 +46579,12 @@ async function tags_loadTags(obj) {
             type: `option`
           }, {
             attributes: {
+              value: `giveawayHeading`
+            },
+            text: `Giveaway Heading [${esgst.giveawayHeading.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
               value: `giveawayColumns_gv`
             },
             text: `Giveaway Columns (Grid View) [${esgst.giveawayColumns_gv.join(`, `)}]`,
@@ -46539,6 +46594,12 @@ async function tags_loadTags(obj) {
               value: `giveawayPanel_gv`
             },
             text: `Giveaway Panel (Grid View) [${esgst.giveawayPanel_gv.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayHeading_gv`
+            },
+            text: `Giveaway Heading (Grid View) [${esgst.giveawayHeading_gv.join(`, `)}]`,
             type: `option`
           }]
         }, {
@@ -54219,32 +54280,134 @@ async function tags_loadTags(obj) {
   function draggable_set(obj) {
     obj.context.setAttribute(`data-dragid`, obj.id);
     for (const element of obj.context.children) {
-      if (element.getAttribute(`draggable`)) continue;
+      if (element.getAttribute(`draggable`) || (!element.getAttribute(`data-id`) && !element.getAttribute(`data-columnId`))) {
+        continue;
+      }
+      if (!element.getAttribute(`data-columnId`)) {
+        element.setAttribute(`data-columnId`, element.getAttribute(`data-id`));
+      }
       element.setAttribute(`draggable`, true);
-      element.addEventListener(`dragstart`, draggable_start.bind(null, obj, element));
-      element.addEventListener(`dragenter`, draggable_enter.bind(null, obj, element));
+      element.addEventListener(`dragstart`, draggable_start.bind(null, obj));
+      element.addEventListener(`dragenter`, draggable_enter.bind(null, obj, false));
       element.addEventListener(`dragend`, draggable_end.bind(null, obj));
     }
   }
 
-  function draggable_start(obj, element, event) {
+  function draggable_start(obj, event) {
     event.dataTransfer.setData(`text/plain`, ``);
-    obj.dragging = element;
-    draggable_setTrash(obj);
+    obj.source.sourceItem = event.currentTarget;
+    obj.source.newSourceItem = null;
+    obj.source.newSourcePos = 0;
+    obj.source.columnSource = false;
+    obj.source.panelSource = false;
+    obj.source.headingSource = false;
+    if (obj.addTrash) {
+      draggable_setTrash(obj);
+    }
+    setTimeout(() => {
+      if (obj.source.gvIcons && obj.source.gvIcons.children.length < 1) {
+        obj.source.gvIcons.style.height = `25px`;
+        obj.source.gvIcons.style.width = `100%`;
+      } else if (obj.source.columns && obj.source.columns.children.length < 1) {
+        obj.source.columns.style.height = `25px`;
+        obj.source.columns.style.width = `100%`;
+      }
+      if (obj.source.panel && obj.source.panel.children.length < 1) {
+        obj.source.panel.style.height = `25px`;
+        obj.source.panel.style.width = `100%`;
+      }
+    }, 0);
   }
 
-  function draggable_enter(obj, element) {
-    if (obj.context !== element.parentElement) return;
-    let current = obj.dragging;
-    if (!current) return;
+  function draggable_enter(obj, panel, event) {
+    if (!obj.source.sourceItem) {
+      return;
+    }
+    if (obj.source.sourceItem.parentElement === obj.source.columns || obj.source.sourceItem.parentElement === obj.source.gvIcons) {
+      obj.source.sourceKey = obj.source.gvIcons ? `giveawayColumns_gv` : `giveawayColumns`;     
+    } else if (obj.source.sourceItem.parentElement === obj.source.panel) {
+      obj.source.sourceKey = obj.source.gvIcons ? `giveawayPanel_gv` : `giveawayPanel`; 
+    } else {
+      obj.source.sourceKey = obj.source.gvIcons ? `giveawayHeading_gv` : `giveawayHeading`; 
+    }
+    if (panel) {
+      if (obj.source.panel.children.length < 1) {
+        obj.source.panel.appendChild(obj.source.sourceItem);
+        if (obj.source.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+          obj.source.sourceItem.classList.remove(`esgst-giveaway-column-button`);
+        }
+        obj.source.sourceItem.classList.remove(`giveaway__icon`);
+        obj.source.panelSource = true;
+      }
+      return;
+    }
+    let item = event.currentTarget;
+    if (item === obj.source.sourceItem) {
+      return;
+    }
+    if (item.getAttribute(`data-columnId`) === obj.source.sourceItem.getAttribute(`data-columnId`)) {
+      return;
+    }
+    if (item === obj.source.gvIcons) {
+      if (obj.source.gvIcons.children.length < 1) {
+        obj.source.gvIcons.appendChild(obj.source.sourceItem);
+        if (obj.source.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+          obj.source.sourceItem.classList.add(`esgst-giveaway-column-button`);
+        }
+        obj.source.sourceItem.classList.remove(`giveaway__icon`);
+        obj.source.columnSource = true;
+      }
+      return;
+    }
+    if (item === obj.source.columns) {
+      if (obj.source.columns.children.length < 1) {
+        obj.source.columns.appendChild(obj.source.sourceItem);
+        if (obj.source.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+          obj.source.sourceItem.classList.add(`esgst-giveaway-column-button`);
+        }
+        obj.source.sourceItem.classList.remove(`giveaway__icon`);
+        obj.source.columnSource = true;
+      }
+      return;
+    }
+    if (item === obj.source.heading) {
+      if (obj.source.heading.children.length < 1) {
+        obj.source.heading.appendChild(obj.source.sourceItem);
+        if (obj.source.sourceItem.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+          obj.source.sourceItem.classList.remove(`esgst-giveaway-column-button`);
+        }
+        obj.source.headingSource = true;
+      }
+      return;
+    }
+    let current = obj.source.sourceItem;
     do {
       current = current.previousElementSibling;
-      if (current && current === element) {
-        obj.context.insertBefore(obj.dragging, element);
+      if (current && current === item) {
+        item.parentElement.insertBefore(obj.source.sourceItem, item);
+        if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+          if (item.parentElement === obj.source.columns || item.parentElement === obj.source.gvIcons) {
+            item.classList.add(`esgst-giveaway-column-button`);
+          } else {
+            item.classList.remove(`esgst-giveaway-column-button`);
+          }
+        }
+        obj.source.newSourceItem = item;
+        obj.source.newSourcePos = 0;
         return;
       }
     } while (current);
-    obj.context.insertBefore(obj.dragging, element.nextElementSibling);
+    item.parentElement.insertBefore(obj.source.sourceItem, item.nextElementSibling);
+    if (item.getAttribute(`data-columnId`).match(/^elgb|gp|ttec$/)) {
+      if (item.parentElement === obj.source.columns || item.parentElement === obj.source.gvIcons) {
+        item.classList.add(`esgst-giveaway-column-button`);
+      } else {
+        item.classList.remove(`esgst-giveaway-column-button`);
+      }
+    }
+    item.classList.remove(`giveaway__icon`);
+    obj.source.newSourceItem = item;
+    obj.source.newSourcePos = 1;
   }
 
   async function draggable_end(obj) {
@@ -54252,11 +54415,85 @@ async function tags_loadTags(obj) {
       obj.trash.remove();
       obj.trash = null;
     }
-    const array = [];
-    for (const element of obj.context.children) {
-      array.push(decodeURIComponent(element.getAttribute(`data-id`)));
+    let [columnKey, panelKey, headingKey] = obj.source.gvIcons ? [`giveawayColumns_gv`, `giveawayPanel_gv`, `giveawayHeading_gv`] : [`giveawayColumns`, `giveawayPanel`, `giveawayHeading`];
+    if (obj.source.panelSource) {
+      let index = esgst[obj.source.sourceKey].indexOf(obj.source.sourceItem.getAttribute(`data-columnId`));
+      if (index > -1) {
+        esgst[obj.source.sourceKey].splice(index, 1);
+      }
+      esgst[panelKey].push(obj.source.sourceItem.getAttribute(`data-columnId`));
+    } else if (obj.source.columnSource) {
+      let index = esgst[obj.source.sourceKey].indexOf(obj.source.sourceItem.getAttribute(`data-columnId`));
+      if (index > -1) {
+        esgst[obj.source.sourceKey].splice(index, 1);
+      }
+      esgst[columnKey].push(obj.source.sourceItem.getAttribute(`data-columnId`));
+    } else if (obj.source.headingSource) {
+      let index = esgst[obj.source.sourceKey].indexOf(obj.source.sourceItem.getAttribute(`data-columnId`));
+      if (index > -1) {
+        esgst[obj.source.sourceKey].splice(index, 1);
+      }
+      esgst[headingKey].push(obj.source.sourceItem.getAttribute(`data-columnId`));
+    } else if (obj.source.newSourceItem) {
+      let columnsIndex = esgst[columnKey].indexOf(obj.source.sourceItem.getAttribute(`data-columnId`));
+      let panelIndex = esgst[panelKey].indexOf(obj.source.sourceItem.getAttribute(`data-columnId`));
+      let headingIndex = esgst[headingKey].indexOf(obj.source.sourceItem.getAttribute(`data-columnId`));
+      if (obj.source.newSourceItem.parentElement === obj.source.columns || obj.source.newSourceItem.parentElement === obj.source.gvIcons) {
+        if (columnsIndex > -1) {
+          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
+          esgst[columnKey].splice(esgst[columnKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        } else if (panelIndex > -1) {
+          let id = esgst[panelKey].splice(panelIndex, 1)[0];
+          esgst[columnKey].splice(esgst[columnKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        } else {
+          let id = esgst[headingKey].splice(headingIndex, 1)[0];
+          esgst[columnKey].splice(esgst[columnKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        }
+      } else if (obj.source.newSourceItem.parentElement === obj.source.panel) {
+        if (columnsIndex > -1) {
+          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
+          esgst[panelKey].splice(esgst[panelKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        } else if (panelIndex > -1) {
+          let id = esgst[panelKey].splice(panelIndex, 1)[0];
+          esgst[panelKey].splice(esgst[panelKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        } else {
+          let id = esgst[headingKey].splice(headingIndex, 1)[0];
+          esgst[panelKey].splice(esgst[panelKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        }
+      } else {
+        if (columnsIndex > -1) {
+          let id = esgst[columnKey].splice(columnsIndex, 1)[0];
+          esgst[headingKey].splice(esgst[headingKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        } else if (panelIndex > -1) {
+          let id = esgst[panelKey].splice(panelIndex, 1)[0];
+          esgst[headingKey].splice(esgst[headingKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        } else {
+          let id = esgst[headingKey].splice(headingIndex, 1)[0];
+          esgst[headingKey].splice(esgst[headingKey].indexOf(obj.source.newSourceItem.getAttribute(`data-columnId`)) + obj.source.newSourcePos, 0, id);
+        }
+      }
     }
-    setValue(obj.id, JSON.stringify(array));
+    obj.source.sourceItem = null;
+    obj.source.newSourceItem = null;
+    obj.source.newSourcePos = 0;
+    obj.source.columnSource = false;
+    obj.source.panelSource = false;
+    obj.source.headingSource = false;
+    if (obj.source.gvIcons) {
+      obj.source.gvIcons.style.height = ``;
+      obj.source.gvIcons.style.width = ``;
+    }
+    if (obj.source.columns) {
+      obj.source.columns.style.height = ``;
+      obj.source.columns.style.width = ``;
+    }
+    if (obj.source.panel) {
+      obj.source.panel.style.height = ``;
+      obj.source.panel.style.width = ``;
+    }
+    await setSetting(columnKey, esgst[columnKey]);
+    await setSetting(panelKey, esgst[panelKey]);
+    await setSetting(headingKey, esgst[headingKey]);
   }
 
   function draggable_setTrash(obj) {
@@ -54274,11 +54511,15 @@ async function tags_loadTags(obj) {
     }]);
     obj.trash.style.width = `${obj.context.offsetWidth}px`;
     obj.trash.addEventListener(`dragenter`, () => {
-      if (!obj.dragging) return;
-      if (!confirm(`Are you sure you want to delete this item?`)) return;
+      if (!obj.source.sourceItem) {
+        return;
+      }
+      if (!confirm(`Are you sure you want to delete this item?`)) {
+        return;
+      }
 
-      obj.dragging.remove();
-      obj.dragging = null;
+      obj.source.sourceItem.remove();
+      obj.source.sourceItem = null;
       const array = [];
       for (const element of obj.context.children) {
         array.push(decodeURIComponent(element.getAttribute(`data-id`)));

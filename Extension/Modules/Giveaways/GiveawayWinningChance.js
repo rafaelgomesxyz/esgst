@@ -79,10 +79,11 @@ _MODULES.push({
           }]);
           gwc_addChance(giveaway);
           if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-            giveaway.gwcContext.setAttribute(`draggable`, true);
-            giveaway.gwcContext.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-            giveaway.gwcContext.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-            giveaway.gwcContext.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+            draggable_set({
+              context: giveaway.panel,
+              id: `giveawayPanel`,
+              source: giveaway
+            });
           }
         } else {
           giveaway.chance = 100;
