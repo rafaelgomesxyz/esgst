@@ -4,10 +4,10 @@
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
 // @version 7.27.2
-// @author revilheart
+// @author gsrafael01
 // @contributor Royalgamer06
-// @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
-// @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
+// @downloadURL https://github.com/gsrafael01/ESGST/raw/master/ESGST.user.js
+// @updateURL https://github.com/gsrafael01/ESGST/raw/master/ESGST.meta.js
 // @match https://www.steamgifts.com/*
 // @match https://www.steamtrades.com/*
 // @connect raw.githubusercontent.com
@@ -38,20 +38,20 @@
 // @grant GM.listValues
 // @grant GM.xmlHttpRequest
 // @grant GM.getResourceUrl
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jquery-3.3.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jquery-ui-1.12.1.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/bootstrap-3.3.7.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/parsedown-0.0.1.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/query-builder-2.5.2.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/intersection-observer.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/encoding.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/js/jsUtils-0.0.1.js
-// @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/bootstrap-3.3.7.min.css
-// @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
-// @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.27.2/Extension/css/steamgifts-v34.min.css
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/jquery-3.3.1.min.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/jquery-ui-1.12.1.min.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/bootstrap-3.3.7.min.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/interact-1.3.4.min.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/jszip-3.1.5.min.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/parsedown-0.0.1.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/query-builder-2.5.2.min.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/intersection-observer.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/encoding.js
+// @require https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/js/jsUtils-0.0.1.js
+// @resource bs https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/css/bootstrap-3.3.7.min.css
+// @resource abc https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
+// @resource qb https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/css/query-builder-2.5.2.min.css
+// @resource sg https://raw.githubusercontent.com/gsrafael01/ESGST/7.27.2/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==
@@ -2296,7 +2296,7 @@
         };
         if (_USER_INFO.extension !== `firefox`) {
           details.buttons = [
-            {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
+            {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)},
             {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(browser.runtime, {action: `reload`}, location.reload.bind(location))}
           ];
         }
@@ -2381,7 +2381,7 @@
               children: [{
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST`,
+                  href: `https://github.com/gsrafael01/ESGST`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -2409,7 +2409,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/issues`,
+                  href: `https://github.com/gsrafael01/ESGST/issues`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -2437,7 +2437,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/milestones`,
+                  href: `https://github.com/gsrafael01/ESGST/milestones`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -2548,7 +2548,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://www.patreon.com/revilheart`,
+                  href: `https://www.patreon.com/gsrafael01`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -2855,7 +2855,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST`,
+                  href: `https://github.com/gsrafael01/ESGST`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -2883,7 +2883,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/issues`,
+                  href: `https://github.com/gsrafael01/ESGST/issues`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -2911,7 +2911,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/milestones`,
+                  href: `https://github.com/gsrafael01/ESGST/milestones`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -3022,7 +3022,7 @@
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://www.patreon.com/revilheart`,
+                  href: `https://www.patreon.com/gsrafael01`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -43526,9 +43526,9 @@ async function tags_loadTags(obj) {
         type: `node`
       }, {
         attributes: {
-          href: `https://www.patreon.com/revilheart`
+          href: `https://www.patreon.com/gsrafael01`
         },
-        text: `https://www.patreon.com/revilheart`,
+        text: `https://www.patreon.com/gsrafael01`,
         type: `a`
       }], true);
       popup.onClose = setValue.bind(null, `patreonNotice`, true);
@@ -46025,7 +46025,7 @@ async function tags_loadTags(obj) {
                 type: `node`
               }, {
                 attributes: {
-                  href: `https://github.com/revilheart/ESGST/issues`
+                  href: `https://github.com/gsrafael01/ESGST/issues`
                 },
                 text: `GitHub page`,
                 type: `a`
@@ -54193,9 +54193,9 @@ async function tags_loadTags(obj) {
   }
 
   async function checkUpdate() {
-    let version = (await request({method: `GET`,url: `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.meta.js`})).responseText.match(/@version (.+)/);
+    let version = (await request({method: `GET`,url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.meta.js`})).responseText.match(/@version (.+)/);
     if (version && version[1] != esgst.version) {
-      location.href = `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.user.js`;
+      location.href = `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.user.js`;
     } else {
         alert(`No ESGST updates found!`);
     }
@@ -56390,7 +56390,7 @@ async function tags_loadTags(obj) {
         } else {
           item.children.push({
             attributes: {
-              href: `https://github.com/revilheart/ESGST/issues/${key}`
+              href: `https://github.com/gsrafael01/ESGST/issues/${key}`
             },
             text: `#${key}`,
             type: `a`

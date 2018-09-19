@@ -1,5 +1,10 @@
 {
-  "author": "revilheart",
+  "applications": {
+    "gecko": {
+      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
+    }
+  },
+  "author": "gsrafael01",
   "background": {
     "scripts": [
       "js/jszip-3.1.5.min.js",
