@@ -39,10 +39,11 @@ _MODULES.push({
         buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
         giveaway.panel.appendChild(buttonSet);
         if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          buttonSet.setAttribute(`draggable`, true);
-          buttonSet.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-          buttonSet.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-          buttonSet.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+          draggable_set({
+            context: giveaway.panel,
+            id: `giveawayPanel`,
+            source: giveaway
+          });
         }
       }
     });

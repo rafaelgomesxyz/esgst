@@ -36,10 +36,11 @@ _MODULES.push({
               type: `div`
             }]);
             if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-              giveaway.ttec.setAttribute(`draggable`, true);
-              giveaway.ttec.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-              giveaway.ttec.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-              giveaway.ttec.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+              draggable_set({
+                context: giveaway.panel,
+                id: `giveawayPanel`,
+                source: giveaway
+              });
             }
           }
           giveaway.ttec.classList.remove(`esgst-hidden`);

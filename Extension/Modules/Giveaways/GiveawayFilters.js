@@ -720,6 +720,11 @@ _MODULES.push({
               id: `gf_s`,
               index: 2,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+            }).button.setAttribute(`data-id`, `gf`);
+            draggable_set({
+              context: giveaway.headingName.parentElement,
+              id: `giveawayHeading`,
+              source: giveaway
             });
           }
         }
@@ -732,6 +737,11 @@ _MODULES.push({
               id: `gf_s`,
               index: 0,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
+            }).button.setAttribute(`data-id`, `gf`);
+            draggable_set({
+              context: giveaway.headingName.parentElement,
+              id: `giveawayHeading`,
+              source: giveaway
             });
           }
         }

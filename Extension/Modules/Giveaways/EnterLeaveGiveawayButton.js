@@ -248,10 +248,11 @@ _MODULES.push({
       }
       giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
       if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-        giveaway.elgbButton.setAttribute(`draggable`, true);
-        giveaway.elgbButton.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-        giveaway.elgbButton.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        giveaway.elgbButton.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        draggable_set({
+          context: giveaway.panel,
+          id: `giveawayPanel`,
+          source: giveaway
+        });
       }
     }
   }
