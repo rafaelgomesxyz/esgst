@@ -1313,6 +1313,20 @@ _MODULES.push({
         }
         whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
       }
+      let keys = [];
+      if (values.keys) {
+        for (const key of values.keys.split(/\n/)) {
+          if (!key) {
+            continue;
+          }
+          keys.push({
+            text: key,
+            type: `node`
+          }, {
+            type: `br`
+          });
+        }
+      }
       createElements(rows, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`
@@ -1349,8 +1363,9 @@ _MODULES.push({
             attributes: {
               class: `table__column--width-small`
             },
-            text: values.keys ? values.keys.replace(/\n/g, `<br>`) : `${values.copies} Copies`,
-            type: `div`
+            text: keys.length ? null : `${values.copies} Copies`,
+            type: `div`,
+            children: keys.length ? keys : null
           }, {
             attributes: {
               class: `table__column--width-small`
