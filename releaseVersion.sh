@@ -14,8 +14,8 @@ for ((i=${#array[@]}-1; i>-1; i--)); do
   number=$(echo $issue | grep -Po '(?<=href="/gsrafael01/ESGST/issues/)\d+(?=")')
   title=$(echo $issue | grep -Po '(?<=>).+?(?=<)' | sed -e 's/^\s*//g' -e 's/\s*$//g' -e 's/&quot;/"/g' -e "s/&#39;/'/g")
   changeLog+="          $number: \`$title\`"
-  markdown+="* [#$number](https://github.com/revilheart/ESGST/issues/$number) $title"
-  steamLog+="  [*] [url=https://github.com/revilheart/ESGST/issues/$number]#$number[/url] $title"$'\n'
+  markdown+="* [#$number](https://github.com/gsrafael01/ESGST/issues/$number) $title"
+  steamLog+="  [*] [url=https://github.com/gsrafael01/ESGST/issues/$number]#$number[/url] $title"$'\n'
   if [[ $i>0 ]]; then
     changeLog+=$',\n'
     markdown+=$'\n'
