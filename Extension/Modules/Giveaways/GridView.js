@@ -102,7 +102,7 @@ _MODULES.push({
         children: [{
           attributes: {
             class: `esgst-gv-time`,
-            [`data-columnId`]: `time`,
+            [`data-draggable-id`]: `time`,
             draggable: true
           },
           type: `div`,
@@ -128,11 +128,10 @@ _MODULES.push({
       }]);
       giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
       if (!esgst.lockGiveawayColumns) {
-        giveaway.gvIcons.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        let item = giveaway.gvIcons.firstElementChild;
-        item.addEventListener(`dragstart`, giveaways_setSource.bind(null, giveaway));
-        item.addEventListener(`dragenter`, giveaways_getSource.bind(null, giveaway, false));
-        item.addEventListener(`dragend`, giveaways_saveSource.bind(null, giveaway));
+        giveaway.gvIcons.addEventListener(`dragenter`, draggable_enter.bind(null, {
+          context: giveaway.gvIcons,
+          item: giveaway
+        }));
       }
       if (giveaway.inviteOnly) {
         giveaway.gvIcons.appendChild(giveaway.inviteOnly);

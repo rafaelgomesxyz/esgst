@@ -720,12 +720,7 @@ _MODULES.push({
               id: `gf_s`,
               index: 2,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
-            }).button.setAttribute(`data-id`, `gf`);
-            draggable_set({
-              context: giveaway.headingName.parentElement,
-              id: `giveawayHeading`,
-              source: giveaway
-            });
+            }).button.setAttribute(`data-draggable-id`, `gf`);
           }
         }
         if ((source !== `gc` && (esgst.giveawaysPath || esgst.groupPath)) || esgst.giveawayPath) {
@@ -737,12 +732,7 @@ _MODULES.push({
               id: `gf_s`,
               index: 0,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
-            }).button.setAttribute(`data-id`, `gf`);
-            draggable_set({
-              context: giveaway.headingName.parentElement,
-              id: `giveawayHeading`,
-              source: giveaway
-            });
+            }).button.setAttribute(`data-draggable-id`, `gf`);
           }
         }
       }

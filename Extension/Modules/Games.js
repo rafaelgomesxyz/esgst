@@ -27,6 +27,12 @@ _MODULES.push({
     for (const feature of esgst.gameFeatures) {
       await feature(games, main, source, endless, `apps`);
     }
+    for (const id in games.apps) {
+      games.apps[id].forEach(game => giveaways_reorder(game));
+    }
+    for (const id in games.subs) {
+      games.subs[id].forEach(game => giveaways_reorder(game));
+    }
   }
 
   function games_get(context, main, savedGames, endless) {
@@ -48,12 +54,14 @@ _MODULES.push({
       game = {
         container: matches[i]
       };
+      game.outerWrap = game.container;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
       game.table = game.container.closest(`table`) ? true : false;
       game.grid = game.container.closest(`.esgst-gv-view`);
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
       }
+      game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
       info = games_getInfo(game.container);
       game.heading = game.container.querySelector(headingQuery);
       if (info && game.heading) {

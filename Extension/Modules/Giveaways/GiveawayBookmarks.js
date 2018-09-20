@@ -499,12 +499,7 @@ _MODULES.push({
           index: esgst.giveaways[giveaway.code] && esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
           titles: [`Bookmark giveaway`, `Bookmarking giveaway...`, `Unbookmark giveaway`, `Unbookmarking giveaway...`]
         });
-        giveaway.gbButton.button.setAttribute(`data-id`, `gb`);
-        draggable_set({
-          context: giveaway.headingName.parentElement,
-          id: `giveawayHeading`,
-          source: giveaway
-        });
+        giveaway.gbButton.button.setAttribute(`data-draggable-id`, `gb`);
         if ((giveaway.entered || (esgst.enteredPath && main)) && !esgst.gb_se) {
           giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }

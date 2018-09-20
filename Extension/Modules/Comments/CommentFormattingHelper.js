@@ -604,7 +604,12 @@ _MODULES.push({
             type: `div`
           }]);
           emojis = popout.popout.firstElementChild;
-          draggable_set({context: emojis, id: `emojis`});
+          draggable_set({
+            addTrash: true,
+            context: emojis,
+            id: `emojis`,
+            item: {}
+          });
           cfh_setEmojis(emojis);
           emojis.nextElementSibling.addEventListener(`click`, async () => {
             if (popup) {
@@ -641,14 +646,16 @@ _MODULES.push({
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
               createElements(savedEmojis, `inner`, await cfh_getEmojis());
               const obj = {
+                addTrash: true,
                 context: savedEmojis,
-                id: `emojid`
+                id: `emojis`,
+                item: {}
               };
               draggable_set(obj);
               for (const emojiData of esgst.cfhEmojis) {
                 createElements(emojis, `beforeEnd`, [{
                   attributes: {
-                    [`data-id`]: emojiData.emoji,
+                    [`data-draggable-id`]: emojiData.emoji,
                     title: emojiData.name
                   },
                   text: emojiData.emoji,
@@ -657,7 +664,7 @@ _MODULES.push({
                 emojis.lastElementChild.addEventListener(`click`, () => {
                   createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
-                      [`data-id`]: emojiData.emoji,
+                      [`data-draggable-id`]: emojiData.emoji,
                       title: emojiData.name
                     },
                     text: emojiData.emoji,
@@ -669,7 +676,7 @@ _MODULES.push({
               popup.onClose = () => {
                 const emojArr = [];
                 for (const element of savedEmojis.children) {
-                  emojArr.push(element.getAttribute(`data-id`));
+                  emojArr.push(element.getAttribute(`data-draggable-id`));
                 }
                 setValue(`emojis`, JSON.stringify(emojArr));
               };
@@ -697,8 +704,13 @@ _MODULES.push({
         },
         callback: async popout => {
           let emojis = popout.firstElementChild;
-          createElements(emojis, `inner`, await cfh_getEmojis());
-          draggable_set({context: emojis, id: `emojis`});
+          createElements(emojis, `inner`, await cfh_getEmojis());          
+          draggable_set({
+            addTrash: true,
+            context: emojis,
+            id: `emojis`,
+            item: {}
+          });
           cfh_setEmojis(emojis);
         }
       },
@@ -3408,7 +3420,7 @@ _MODULES.push({
         emoji = emojiData.emoji;
         return {
           attributes: {
-            [`data-id`]: emoji,
+            [`data-draggable-id`]: emoji,
             title: emojiData.name
           },
           text: emoji,

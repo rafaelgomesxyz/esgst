@@ -71,19 +71,12 @@ _MODULES.push({
         let context = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
-            [`data-columnId`]: `gwr`,
+            [`data-draggable-id`]: `gwr`,
             title: getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)
           },
           type: `div`
         }]);
         gwr_addRatio(context, giveaway);
-        if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          draggable_set({
-            context: giveaway.panel,
-            id: `giveawayPanel`,
-            source: giveaway
-          });
-        }
       }
     });
   }

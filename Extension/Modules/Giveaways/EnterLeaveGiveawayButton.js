@@ -246,14 +246,7 @@ _MODULES.push({
       } else {
         giveaway.elgbPanel.appendChild(giveaway.elgbButton);
       }
-      giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
-      if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-        draggable_set({
-          context: giveaway.panel,
-          id: `giveawayPanel`,
-          source: giveaway
-        });
-      }
+      giveaway.elgbButton.setAttribute(`data-draggable-id`, `elgb`);
     }
   }
 

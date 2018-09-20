@@ -1428,7 +1428,7 @@ _MODULES.push({
     name = cache ? cache.name : games[0].name;
     encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
     elements = [];
-    let categories = games[0].grid ? esgst.gc_categories_gv : esgst.gc_categories;
+    let categories = esgst.gc_categories_ids;
     for (i = 0, n = categories.length; i < n; ++i) {
       category = categories[i];
       if (esgst[category]) {
@@ -1438,7 +1438,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-fullCV`,
-                  [`data-id`]: `gc_fcv`,
+                  [`data-draggable-id`]: `gc_fcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_fcv`, `Full CV`)
                 },
@@ -1458,7 +1458,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-reducedCV`,
-                  [`data-id`]: `gc_rcv`,
+                  [`data-draggable-id`]: `gc_rcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
                 },
@@ -1478,7 +1478,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-noCV`,
-                  [`data-id`]: `gc_ncv`,
+                  [`data-draggable-id`]: `gc_ncv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
                 },
@@ -1586,7 +1586,7 @@ _MODULES.push({
                 elements.push({
                   attributes: {
                     class: `esgst-gc esgst-gc-hltb`,
-                    [`data-id`]: `gc_hltb`,
+                    [`data-draggable-id`]: `gc_hltb`,
                     href: `https://howlongtobeat.com/game.php?id=${hltb && hltb[id] && hltb[id].id}`,
                     title: getFeatureTooltip(`gc_hltb`, title)
                   },
@@ -1609,7 +1609,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-hidden`,
-                  [`data-id`]: `gc_h`,
+                  [`data-draggable-id`]: `gc_h`,
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_h`, `Hidden`)
                 },
@@ -1638,7 +1638,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-ignored`,
-                  [`data-id`]: `gc_i`,
+                  [`data-draggable-id`]: `gc_i`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_i`, `Ignored${count}`)
                 },
@@ -1661,7 +1661,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-owned`,
-                  [`data-id`]: `gc_o`,
+                  [`data-draggable-id`]: `gc_o`,
                   href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_o`, `Owned`)
                 },
@@ -1684,7 +1684,7 @@ _MODULES.push({
                       class: `esgst-gc esgst-gc-owned`,
                       [`data-bgColor`]: account.bgColor,
                       [`data-color`]: account.color,
-                      [`data-id`]: `gc_o`,
+                      [`data-draggable-id`]: `gc_o`,
                       href: `http://steamcommunity.com/profiles/${account.steamId}/games`,
                       style: `background-color: ${account.bgColor}; color: ${account.color};`,
                       title: getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
@@ -1707,7 +1707,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-wishlisted`,
-                  [`data-id`]: `gc_w`,
+                  [`data-draggable-id`]: `gc_w`,
                   href: `https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
                 },
@@ -1727,7 +1727,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-won`,
-                  [`data-id`]: `gc_pw`,
+                  [`data-draggable-id`]: `gc_pw`,
                   href: `https://www.steamgifts.com/user/${esgst.usename}/won/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_pw`, `Previously Won`)
                 },
@@ -1816,7 +1816,7 @@ _MODULES.push({
                   elements.push({
                     attributes: {
                       class: `esgst-gc esgst-gc-giveawayInfo`,
-                      [`data-id`]: `gc_gi`,
+                      [`data-draggable-id`]: `gc_gi`,
                       href: `https://www.steamgifts.com/user/${esgst.username}`,
                       title: getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
                     },
@@ -1869,7 +1869,7 @@ _MODULES.push({
                   class: `esgst-gc esgst-gc-rating`,
                   [`data-bgColor`]: colors.bgColor,
                   [`data-color`]: colors.color,
-                  [`data-id`]: `gc_r`,
+                  [`data-draggable-id`]: `gc_r`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   style: `background-color: ${colors.bgColor}; color: ${colors.color};`,
                   title: getFeatureTooltip(`gc_r`, cache.rating)
@@ -1907,7 +1907,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-achievements`,
-                  [`data-id`]: `gc_a`,
+                  [`data-draggable-id`]: `gc_a`,
                   href: `http://steamcommunity.com/stats/${id}/achievements`,
                   title: getFeatureTooltip(`gc_a`, `Achievements${count || ` (${cache.achievements})`}`)
                 },
@@ -1939,7 +1939,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-multiplayer`,
-                  [`data-id`]: `gc_mp`,
+                  [`data-draggable-id`]: `gc_mp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_mp`, `Multiplayer${count}`)
                 },
@@ -1971,7 +1971,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-singleplayer`,
-                  [`data-id`]: `gc_sp`,
+                  [`data-draggable-id`]: `gc_sp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_sp`, `Singleplayer${count}`)
                 },
@@ -2003,7 +2003,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-steamCloud`,
-                  [`data-id`]: `gc_sc`,
+                  [`data-draggable-id`]: `gc_sc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_sc`, `Steam Cloud${count}`)
                 },
@@ -2035,7 +2035,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-tradingCards`,
-                  [`data-id`]: `gc_tc`,
+                  [`data-draggable-id`]: `gc_tc`,
                   href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
                   title: getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
                 },
@@ -2067,7 +2067,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-linux`,
-                  [`data-id`]: `gc_l`,
+                  [`data-draggable-id`]: `gc_l`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_l`, `Linux${count}`)
                 },
@@ -2099,7 +2099,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-mac`,
-                  [`data-id`]: `gc_m`,
+                  [`data-draggable-id`]: `gc_m`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_m`, `Mac${count}`)
                 },
@@ -2230,7 +2230,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-dlc`,
-                  [`data-id`]: `gc_dlc`,
+                  [`data-draggable-id`]: `gc_dlc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_dlc`, `DLC${esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
                 },
@@ -2271,7 +2271,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-package`,
-                  [`data-id`]: `gc_p`,
+                  [`data-draggable-id`]: `gc_p`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
                 },
@@ -2294,7 +2294,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-earlyAccess`,
-                  [`data-id`]: `gc_ea`,
+                  [`data-draggable-id`]: `gc_ea`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_ea`, `Early Access${count}`)
                 },
@@ -2326,7 +2326,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-learning`,
-                  [`data-id`]: `gc_lg`,
+                  [`data-draggable-id`]: `gc_lg`,
                   href: `http://steamdb.info/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_lg`, `Learning${count}`)
                 },
@@ -2358,7 +2358,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-removed`,
-                  [`data-id`]: `gc_rm`,
+                  [`data-draggable-id`]: `gc_rm`,
                   href: `http://steamdb.info/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_rm`, `Removed${count}`)
                 },
@@ -2381,7 +2381,7 @@ _MODULES.push({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-releaseDate`,
-                  [`data-id`]: `gc_rd`,
+                  [`data-draggable-id`]: `gc_rd`,
                   [`data-timestamp`]: cache.releaseDate === `?` ? cache.releaseDate : cache.releaseDate / 1e3,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_rd`, `Release Date`)
@@ -2479,7 +2479,7 @@ _MODULES.push({
                 elements.push({
                   attributes: {
                     class: `esgst-gc esgst-gc-genres`,
-                    [`data-id`]: `gc_g`
+                    [`data-draggable-id`]: `gc_g`
                   },
                   type: `span`,
                   children: genreList
@@ -2488,7 +2488,7 @@ _MODULES.push({
                 elements.push({
                   attributes: {
                     class: `esgst-gc esgst-gc-genres`,
-                    [`data-id`]: `gc_g`,
+                    [`data-draggable-id`]: `gc_g`,
                     href: `http://store.steampowered.com/${singularType}/${id}`,
                     title: getFeatureTooltip(`gc_g`, genres)
                   },
@@ -2501,11 +2501,6 @@ _MODULES.push({
         }
       }
     }
-    let gcObj = {
-      categoryKey: games[0].grid ? `gc_categories_gv` : `gc_categories`,
-      indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
-      source: null
-    };
     if (esgst.gc_si && isInstant) {
       elements.push({
         attributes: {
@@ -2546,37 +2541,14 @@ _MODULES.push({
             panel.children[j].removeAttribute(`href`);
           }
         }
-        if (games[i].columns) {
-          for (j = games[i].columns.children.length - 1; j > -1; j--) {
-            let item = games[i].columns.children[j];
-            item.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, j, item, null, false));
-          }
-          games[i].columns.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, 0, null, games[i].columns, true));
-          if (games[i].gvIcons) {
-            games[i].gvIcons.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, 0, null, games[i].gvIcons, true));
-          }
-          panel.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, -1, null, panel, false));
-          for (j = panel.children.length - 1; j > -1; j--) {
-            let item = panel.children[j];
-            item.setAttribute(`draggable`, true);
-            item.addEventListener(`dragstart`, gc_setSource.bind(null, gcObj, item, panel, games[i].columns, games[i].gvIcons));
-            item.addEventListener(`dragenter`, gc_getSource.bind(null, gcObj, games[i].columns, -1, item, null, false));
-            item.addEventListener(`dragend`, gc_saveSource.bind(null, gcObj, panel, games[i].columns, games[i].gvIcons));
-            let id = item.getAttribute(`data-id`);
-            let index = esgst[gcObj.indexKey][id];
-            if (isSet(index) && index !== -1) {
-              item.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-              if (item.getAttribute(`data-color`)) {
-                item.firstElementChild.style.color = item.getAttribute(`data-bgColor`);
-                item.style.color = ``;
-                item.style.background = ``;
-              }
-              games[i].columns.insertBefore(item, games[i].columns.children[index]);
-            }
-          }
-        }
+        panel.addEventListener(`dragenter`, draggable_enter.bind(null, {
+          context: panel,
+          item: games[i]
+        }));
         panel.setAttribute(`data-gcReady`, 1);
       }
+      games[i].gcPanel = panel;
+      giveaways_reorder(games[i]);
     }
   }
 
@@ -2585,111 +2557,3 @@ _MODULES.push({
     let date = new Date(timestamp);
     return esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
   }
-
-  function gc_setSource(gc, item, panel, columns, gvIcons, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
-    gc.source = item;
-    setTimeout(() => {
-      if (!panel.children.length) {
-        panel.style.height = `28px`;
-        panel.style.width = `100%`;
-      }
-      if (columns && !columns.children.length) {
-        columns.style.height = `25px`;
-        columns.style.width = `100%`;
-      }
-      if (gvIcons && !gvIcons.children.length) {
-        gvIcons.style.height = `28px`;
-        gvIcons.style.width = `100%`;
-      }
-    }, 0);
-  }
-
-  function gc_getSource(gc, context, index, item, panel, column) {
-    let current = gc.source;
-    if (!gc.source || gc.source === item) return;
-    if (panel) {
-      if (!panel.children.length) {
-        panel.appendChild(gc.source);
-        esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
-        if (column) {
-          gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-        } else {
-          gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (gc.source.getAttribute(`data-color`)) {
-            gc.source.firstElementChild.style.color = ``;
-            gc.source.style.color = gc.source.getAttribute(`data-color`);
-            gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
-          }
-        }
-      }
-      return;
-    }
-    do {
-      current = current.previousElementSibling;
-      if (current && current === item) {
-        if (context.contains(item)) {
-          gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (gc.source.getAttribute(`data-color`)) {
-            gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
-            gc.source.style.color = ``;
-            gc.source.style.background = ``;
-          }
-        } else {
-          gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (gc.source.getAttribute(`data-color`)) {
-            gc.source.firstElementChild.style.color = ``;
-            gc.source.style.color = gc.source.getAttribute(`data-color`);
-            gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
-          }
-        }
-        if (item.getAttribute(`data-id`)) {
-          esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-          esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = isSet(esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
-        } else {
-          esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
-        }
-        item.parentElement.insertBefore(gc.source, item);
-        return;
-      }
-    } while (current);
-    if (context.contains(item)) {
-      gc.source.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-      if (gc.source.getAttribute(`data-color`)) {
-        gc.source.firstElementChild.style.color = gc.source.getAttribute(`data-bgColor`);
-        gc.source.style.color = ``;
-        gc.source.style.background = ``;
-      }
-    } else {
-      gc.source.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-      if (gc.source.getAttribute(`data-color`)) {
-        gc.source.firstElementChild.style.color = ``;
-        gc.source.style.color = gc.source.getAttribute(`data-color`);
-        gc.source.style.backgroundColor = gc.source.getAttribute(`data-bgColor`);
-      }
-    }
-    if (item.getAttribute(`data-id`)) {
-      esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, esgst[gc.categoryKey].splice(esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-      esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = isSet(esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
-    } else {
-      esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index + 1;
-    }
-    item.parentElement.insertBefore(gc.source, item.nextElementSibling);
-  }
-
-  async function gc_saveSource(gc, panel, columns, gvIcons) {
-    gc.source = null;
-    panel.style.height = ``;
-    panel.style.width = ``;
-    if (columns) {
-      columns.style.height = ``;
-      columns.style.width = ``;
-    }
-    if (gvIcons) {
-      gvIcons.style.height = ``;
-      gvIcons.style.width = ``;
-    }
-    await setSetting(gc.categoryKey, esgst[gc.categoryKey]);
-    await setSetting(gc.indexKey, esgst[gc.indexKey]);
-  }
-  

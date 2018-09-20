@@ -44,12 +44,7 @@ _MODULES.push({
         index: unhide ? 2 : 0,
         titles: [`Hide all giveaways for this game`, `Hiding giveaways...`, `Unhide all giveaways for this game`, `Unhiding giveaways...`]
       });
-      giveaway.ochgbButton.button.setAttribute(`data-id`, `hideGame`);
-      draggable_set({
-        context: giveaway.ochgbButton.button.parentElement,
-        id: `giveawayHeading`,
-        source: giveaway
-      });
+      giveaway.ochgbButton.button.setAttribute(`data-draggable-id`, `hideGame`);
       button.remove();
     });
   }

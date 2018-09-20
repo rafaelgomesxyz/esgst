@@ -25,8 +25,8 @@ _MODULES.push({
     }
     for (let feature of esgst.giveawayFeatures) {
       await feature(giveaways, main, source);
-    }
-    if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
+    }    
+    if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
       giveaways.forEach(giveaway => giveaways_reorder(giveaway));
     }
     if (esgst.gas && esgst[esgst.gas.autoKey]) {
@@ -336,10 +336,11 @@ _MODULES.push({
         }]);
       }
     }
-    if (giveaway.sgTools && !giveaway.summary.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
-      const sgTools = createElements(giveaway.summary, `beforeEnd`, [{
+    if (giveaway.sgTools && !giveaway.panel.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
+      createElements(giveaway.panel, `beforeEnd`, [{
         attributes: {
           class: `esgst-ge-sgt-button esgst-giveaway-column-button`,
+          [`data-graggable-id`]: `sgTools`,
           href: `https://www.sgtools.info/giveaways/${giveaway.code}`,
           target: `_blank`
         },
@@ -352,14 +353,6 @@ _MODULES.push({
           type: `div`
         }]
       }]);
-      sgTools.setAttribute(`data-columnId`, `sgTools`);
-      if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-        draggable_set({
-          context: giveaway.summary,
-          id: `giveawayPanel`,
-          source: giveaway
-        });
-      }
     }
     giveaway.elgbPanel = giveaway.panel;
     if (!giveaway.entriesLink) {
@@ -436,8 +429,8 @@ _MODULES.push({
       if (esgst.gr && giveaway.creator === esgst.username && (esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!esgst.gr_r || !esgst.giveaways[giveaway.code] || !esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = createElements(giveaway.headingName, `beforeBegin`, [{
           attributes: {
-            [`data-id`]: `gr`,
             class: `esgst-gr-button`,
+            [`data-draggable-id`]: `gr`,
             title: `${getFeatureTooltip(`gr`, `Recreate giveaway`)}`
           },
           type: `div`,
@@ -477,35 +470,30 @@ _MODULES.push({
       }
     }
     if (hideButton) {
-      hideButton.setAttribute(`data-id`, `hideGame`);
+      hideButton.setAttribute(`data-draggable-id`, `hideGame`);
     }
     for (const child of giveaway.heading.children) {
       if (child.classList.contains(`giveaway__heading__name`)) {
-        child.setAttribute(`data-id`, `name`);
+        child.setAttribute(`data-draggable-id`, `name`);
         continue;
       }
       if (child.textContent.match(/\(.+?\sCopies\)/)) {
-        child.setAttribute(`data-id`, `copies`);
+        child.setAttribute(`data-draggable-id`, `copies`);
         continue;
       }
       if (child.textContent.match(/\(.+?P\)/)) {
-        child.setAttribute(`data-id`, `points`);
+        child.setAttribute(`data-draggable-id`, `points`);
         continue;
       }
       if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/store.steampowered.com/)) {
-        child.setAttribute(`data-id`, `steam`);
+        child.setAttribute(`data-draggable-id`, `steam`);
         continue;
       }
       if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/\/giveaways\/search/)) {
-        child.setAttribute(`data-id`, `search`);
+        child.setAttribute(`data-draggable-id`, `search`);
         continue;
       }
     }
-    draggable_set({
-      context: giveaway.heading,
-      id: `giveawayHeading`,
-      source: giveaway
-    });
     giveaway.winnerColumns = {};
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
@@ -525,58 +513,57 @@ _MODULES.push({
         }
         const winners = column.textContent.trim().split(/,\s/).filter(x => x);
         giveaway.winnerColumns[key] = { column, status, winners };
-        column.setAttribute(`data-columnId`, `winners`);
+        column.setAttribute(`data-draggable-id`, `winners`);
         column = column.nextElementSibling;
       }
     }
     giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
     if (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath) {
       if (giveaway.endTimeColumn) {
-        giveaway.endTimeColumn.setAttribute(`data-columnId`, `endTime`);
+        giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
       }
       if (giveaway.startTimeColumn) {
-        giveaway.startTimeColumn.setAttribute(`data-columnId`, `startTime`);
+        giveaway.startTimeColumn.setAttribute(`data-draggable-id`, `startTime`);
       }
       if (giveaway.inviteOnly) {
-        giveaway.inviteOnly.setAttribute(`data-columnId`, `inviteOnly`);
+        giveaway.inviteOnly.setAttribute(`data-draggable-id`, `inviteOnly`);
       }
       if (giveaway.whitelist) {
-        giveaway.whitelist.setAttribute(`data-columnId`, `whitelist`);
+        giveaway.whitelist.setAttribute(`data-draggable-id`, `whitelist`);
       }
       if (giveaway.group) {
-        giveaway.group.setAttribute(`data-columnId`, `group`);
+        giveaway.group.setAttribute(`data-draggable-id`, `group`);
       }
       if (giveaway.regionRestricted) {
-        giveaway.regionRestricted.setAttribute(`data-columnId`, `regionRestricted`);
+        giveaway.regionRestricted.setAttribute(`data-draggable-id`, `regionRestricted`);
       }
       if (giveaway.levelColumn) {
-        giveaway.levelColumn.setAttribute(`data-columnId`, `level`);
+        giveaway.levelColumn.setAttribute(`data-draggable-id`, `level`);
       }
       if (giveaway.sourceColumn) {
-        giveaway.sourceColumn.setAttribute(`data-columnId`, `ged`);
+        giveaway.sourceColumn.setAttribute(`data-draggable-id`, `ged`);
       }
       if (giveaway.touhouBox) {
-        giveaway.touhouBox.setAttribute(`data-columnId`, `touhou`);
+        giveaway.touhouBox.setAttribute(`data-draggable-id`, `touhou`);
       }
       if (!esgst.lockGiveawayColumns) {
         if (giveaway.columns) {
-          for (let i = giveaway.columns.children.length - 1; i > -1; i--) {
-            let item = giveaway.columns.children[i];
-            draggable_set({
-              context: giveaway.columns,
-              id: `giveawayColumns`,
-              source: giveaway
-            });
-          }
-        }
-        if (giveaway.columns) {
-          giveaway.columns.addEventListener(`dragenter`, draggable_enter.bind(null, {source: giveaway}, false));
+          giveaway.columns.addEventListener(`dragenter`, draggable_enter.bind(null, {
+            context: giveaway.columns,
+            item: giveaway
+          }));
         }
         if (giveaway.panel) {
-          giveaway.panel.addEventListener(`dragenter`, draggable_enter.bind(null, {source: giveaway}, true));
+          giveaway.panel.addEventListener(`dragenter`, draggable_enter.bind(null, {
+            context: giveaway.panel,
+            item: giveaway
+          }));
         }
         if (giveaway.heading) {
-          giveaway.heading.addEventListener(`dragenter`, draggable_enter.bind(null, {source: giveaway}, false));
+          giveaway.heading.addEventListener(`dragenter`, draggable_enter.bind(null, {
+            context: giveaway.heading,
+            item: giveaway
+          }));
         }
       }
     }
@@ -609,39 +596,157 @@ _MODULES.push({
   }
 
   function giveaways_reorder(giveaway) {
-    if (giveaway.columns) {
-      (giveaway.gvIcons ? esgst.giveawayColumns_gv : esgst.giveawayColumns).forEach(id => {
-        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+    if (giveaway.columns || giveaway.gvIcons) {
+      for (const id of (giveaway.gvIcons ? esgst.giveawayColumns_gv : esgst.giveawayColumns)) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
+          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
+            element.remove();
+            continue;
+          }
           (giveaway.gvIcons || giveaway.columns).appendChild(element);
-          if (id.match(/^elgb|gp|ttec$/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.add(`esgst-giveaway-column-button`);
           }
-          element.classList.remove(`giveaway__icon`);
+          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+            element.classList.remove(`giveaway__icon`);
+          }
+          if (element.getAttribute(`data-color`)) {
+            element.classList.add(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            element.firstElementChild.style.color = element.getAttribute(`data-bgColor`);
+            element.style.color = ``;
+            element.style.backgroundColor = ``;
+          }
         }
+        if (!elements.length) {
+          createElements(giveaway.gvIcons || giveaway.columns, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-draggable-placeholder esgst-hidden`,
+              [`data-draggable-id`]: id
+            },
+            text: id,
+            type: `span`
+          }]);
+        }
+      }
+      draggable_set({
+        context: giveaway.gvIcons || giveaway.columns,
+        id: `giveawayColumns`,
+        item: giveaway
       });
     }
     if (giveaway.panel) {
-      (giveaway.gvIcons ? esgst.giveawayPanel_gv : esgst.giveawayPanel).forEach(id => {
-        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+      for (const id of (giveaway.gvIcons ? esgst.giveawayPanel_gv : esgst.giveawayPanel)) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
+          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
+            element.remove();
+            continue;
+          }
           giveaway.panel.appendChild(element);
-          if (id.match(/^elgb|gp|ttec$/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          element.classList.remove(`giveaway__icon`);
+          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+            element.classList.remove(`giveaway__icon`);
+          }
+          if (element.getAttribute(`data-color`)) {
+            element.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            element.style.color = element.getAttribute(`data-color`);
+            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          }
         }
+        if (!elements.length) {
+          createElements(giveaway.panel, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-draggable-placeholder esgst-hidden`,
+              [`data-draggable-id`]: id
+            },
+            text: id,
+            type: `span`
+          }]);
+        }
+      }
+      draggable_set({
+        context: giveaway.panel,
+        id: `giveawayPanel`,
+        item: giveaway
       });
     }
     if (giveaway.heading) {
-      (giveaway.gvIcons ? esgst.giveawayHeading_gv : esgst.giveawayHeading).forEach(id => {
-        const elements = giveaway.outerWrap.querySelectorAll(`[data-columnId="${id}"]`);
+      for (const id of (giveaway.gvIcons ? esgst.giveawayHeading_gv : esgst.giveawayHeading)) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
+          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
+            element.remove();
+            continue;
+          }
           giveaway.heading.appendChild(element);
-          if (id.match(/^elgb|gp|ttec$/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
+          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+            element.classList.add(`giveaway__icon`);
+          }
+          if (element.getAttribute(`data-color`)) {
+            element.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            element.style.color = element.getAttribute(`data-color`);
+            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          }
         }
+        if (!elements.length) {
+          createElements(giveaway.heading, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-draggable-placeholder esgst-hidden`,
+              [`data-draggable-id`]: id
+            },
+            text: id,
+            type: `span`
+          }]);
+        }
+      }
+      draggable_set({
+        context: giveaway.heading,
+        id: `giveawayHeading`,
+        item: giveaway
+      });
+    }
+    if (giveaway.gcPanel) {
+      for (const id of (giveaway.gvIcons ? esgst.gc_categories_gv : esgst.gc_categories)) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
+        for (const element of elements) {
+          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
+            element.remove();
+            continue;
+          }
+          giveaway.gcPanel.appendChild(element);
+          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+            element.classList.remove(`esgst-giveaway-column-button`);
+          }
+          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+            element.classList.remove(`giveaway__icon`);
+          }
+          if (element.getAttribute(`data-color`)) {
+            element.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            element.style.color = element.getAttribute(`data-color`);
+            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          }
+        }
+        if (!elements.length) {
+          createElements(giveaway.gcPanel, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-draggable-placeholder esgst-hidden`,
+              [`data-draggable-id`]: id
+            },
+            text: id,
+            type: `span`
+          }]);
+        }
+      }
+      draggable_set({
+        context: giveaway.gcPanel,
+        id: `gc_categories`,
+        item: giveaway
       });
     }
   }

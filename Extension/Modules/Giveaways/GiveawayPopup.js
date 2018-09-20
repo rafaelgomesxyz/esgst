@@ -35,16 +35,9 @@ _MODULES.push({
           });
         }).set;
         buttonSet.classList.add(`esgst-gp-button`);
-        buttonSet.setAttribute(`data-columnId`, `gp`);
+        buttonSet.setAttribute(`data-draggable-id`, `gp`);
         buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
         giveaway.panel.appendChild(buttonSet);
-        if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-          draggable_set({
-            context: giveaway.panel,
-            id: `giveawayPanel`,
-            source: giveaway
-          });
-        }
       }
     });
   }
