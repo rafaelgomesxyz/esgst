@@ -124,6 +124,7 @@ async function tags_addButtons(key, items) {
       createElements(item.tagContext, item.tagPosition, [{
         attributes: {
           class: `esgst-tag-button esgst-faded`,
+          [`data-draggable-id`]: key,
           title: getFeatureTooltip(key, `Edit tags`)
         },
         type: `a`,

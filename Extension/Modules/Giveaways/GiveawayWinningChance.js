@@ -72,19 +72,12 @@ _MODULES.push({
           giveaway.gwcContext = createElements(giveaway.panel, (esgst.gv && ((main && esgst.giveawaysPath) || (source === `gb` && esgst.gv_gb) || (source === `ged` && esgst.gv_ged) || (source === `ge` && esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
             attributes: {
               class: `${esgst.giveawayPath ? `featured__column` : ``} esgst-gwc`,
-              [`data-columnId`]: `gwc`,
+              [`data-draggable-id`]: `gwc`,
               title: getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
             },
             type: `div`
           }]);
           gwc_addChance(giveaway);
-          if (!esgst.lockGiveawayColumns && (!main || esgst.giveawaysPath || esgst.userPath || esgst.groupPath)) {
-            draggable_set({
-              context: giveaway.panel,
-              id: `giveawayPanel`,
-              source: giveaway
-            });
-          }
         } else {
           giveaway.chance = 100;
           giveaway.projectedChance = 100;

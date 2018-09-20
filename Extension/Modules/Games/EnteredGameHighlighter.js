@@ -27,7 +27,7 @@ _MODULES.push({
       if (!esgst.menuPath && esgst.games[game.type][game.id] && esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
         createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
           attributes: {
-            [`data-id`]: `egh`,
+            [`data-draggable-id`]: `egh`,
             class: `esgst-egh-button`,
             title: getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
           },
