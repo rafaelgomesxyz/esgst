@@ -145,7 +145,7 @@ _MODULES.push({
             x.id = giveaway.gameSteamId;
             x.type = giveaway.gameType;
             if (esgst.games && esgst.games[x.type][x.id]) {
-              const keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+              const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
               for (const key of keys) {
                 if (esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
                   x[key] = true;
