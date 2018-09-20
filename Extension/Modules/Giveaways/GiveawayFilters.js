@@ -356,6 +356,15 @@ _MODULES.push({
             name: `Wishlisted`,
             sg: true
           },
+          gf_followed: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways for games that you have followed on Steam.</li>
+              </ul>
+            `,
+            name: `Followed`,
+            sg: true
+          },
           gf_hidden: {
             description: `
               <ul>
@@ -965,6 +974,11 @@ _MODULES.push({
       wishlisted: {
         check: true,
         name: `Wishlisted`,
+        type: `boolean`
+      },
+      followed: {
+        check: true,
+        name: `Followed`,
         type: `boolean`
       },
       hidden: {

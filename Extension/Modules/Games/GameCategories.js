@@ -171,6 +171,35 @@ _MODULES.push({
         name: `Early Access`,
         sg: true
       },
+      gc_f: {
+        colors: true,
+        description: `
+          <ul>
+            <li>Shows if you have followed the game on Steam.</li>
+          </ul>
+        `,
+        features: {
+          gc_f_s: {
+            description: `
+              <ul>
+                <li>Shows the category initials instead of its full name.</li>
+                <li>Not compatible with custom labels.</li>
+              </ul>
+            `,
+            features: {
+              gc_f_s_i: {
+                name: `Use icons instead of initials.`,
+                sg: true
+              }
+            },
+            name: `Enable the simplified version.`,
+            sg: true
+          }
+        },
+        input: true,
+        name: `Followed`,
+        sg: true
+      },
       gc_fcv: {
         colors: true,
         description: `
@@ -1100,6 +1129,7 @@ _MODULES.push({
       gc_i: `ignored`,
       gc_o: `owned`,
       gc_w: `wishlisted`,
+      gc_f: `followed`,
       gc_pw: `won`,
       gc_a: `achievements`,
       gc_sp: `singleplayer`,
@@ -1716,6 +1746,26 @@ _MODULES.push({
                 children: esgst.gc_w_s && esgst.gc_w_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_wIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
+            }
+            break;
+          case `gc_f`:
+            if (savedGame && savedGame.followed) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-followed`,
+                  [`data-draggable-id`]: `gc_f`,
+                  href: `https://steamcommunity.com/my/followedgames/`,
+                  title: getFeatureTooltip(`gc_f`, `Followed`)
+                },
+                text: esgst.gc_f_s ? (esgst.gc_f_s_i ? `` : `F`) : esgst.gc_fLabel,
+                type: `a`,
+                children: esgst.gc_f_s && esgst.gc_f_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_fIcon}`
                   },
                   type: `i`
                 }] : null

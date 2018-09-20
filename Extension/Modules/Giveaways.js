@@ -85,7 +85,7 @@ _MODULES.push({
       giveaway.id = info.id;
       giveaway.type = info.type;
       if (esgst.games && esgst.games[giveaway.type][giveaway.id]) {
-        keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+        keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
           if (esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {

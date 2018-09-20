@@ -1814,6 +1814,7 @@
         autoSyncBlacklist: 0,
         autoSyncHiddenGames: 0,
         autoSyncGames: 0,
+        autoSyncFollowedGames: 0,
         autoSyncWonGames: 0,
         autoSyncReducedCvGames: 0,
         autoSyncNoCvGames: 0,
@@ -1870,9 +1871,9 @@
         gas_autoPopup: false,
         gas_optionPopup: `sortIndex_asc`,
         gb_hours: 1,
-        gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
-        gc_categories_ids: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
-        gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+        gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+        gc_categories_ids: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+        gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
         gc_o_altAccounts: [],
         gc_g_colors: [],
         gc_g_filters: ``,
@@ -1888,6 +1889,7 @@
         gc_iIcon: `ban`,
         gc_oIcon: `folder`,
         gc_wIcon: `heart`,
+        gc_fIcon: `plus`,
         gc_pwIcon: `gift`,
         gc_aIcon: `trophy`,
         gc_spIcon: `user`,
@@ -1909,6 +1911,7 @@
         gc_iLabel: `Ignored`,
         gc_oLabel: `Owned`,
         gc_wLabel: `Wishlisted`,
+        gc_fLabel: `Followed`,
         gc_pwLabel: `Previously Won`,
         gc_aLabel: `Achievements`,
         gc_spLabel: `Singleplayer`,
@@ -1930,6 +1933,7 @@
         gc_rcv_color: `#ffffff`,
         gc_ncv_color: `#ffffff`,
         gc_w_color: `#ffffff`,
+        gc_f_color: `#ffffff`,
         gc_o_color: `#ffffff`,
         gc_pw_color: `#ffffff`,
         gc_i_color: `#ffffff`,
@@ -1955,6 +1959,7 @@
         gc_ncv_bgColor: `#641e16`,
         gc_o_bgColor: `#16a085`,
         gc_w_bgColor: `#3498db`,
+        gc_f_bgColor: `#2084C7`,
         gc_pw_bgColor: `#16a085`,
         gc_i_bgColor: `#e74c3c`,
         gc_lg_bgColor: `#555555`,
@@ -2024,6 +2029,7 @@
         lastSyncBlacklist: 0,
         lastSyncHiddenGames: 0,
         lastSyncGames: 0,
+        lastSyncFollowedGames: 0,
         lastSyncWonGames: 0,
         lastSyncReducedCvGames: 0,
         lastSyncNoCvGames: 0,
@@ -2072,6 +2078,7 @@
         syncBlacklist: true,
         syncHiddenGames: true,
         syncGames: true,
+        syncFollowedGames: false,
         syncWonGames: true,
         syncReducedCvGames: true,
         syncNoCvGames: true,
@@ -2129,7 +2136,7 @@
       sg: location.hostname.match(/www.steamgifts.com/),
       st: location.hostname.match(/www.steamtrades.com/),
       currentVersion: `7.27.2`,
-      devVersion: `7.27.3 (Dev.7)`,
+      devVersion: `7.27.3 (Dev.8)`,
       icon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`,
       sgIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIUAAAD5AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAPoAAACFAAAAAAAAAAAAAAD8AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA+QAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAAAAAAAAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/wAAAP8AAAD/AAAAAAAAAAAAAAD/AAAA/wAAAP8AAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHAAAAP8AAAD/AAAA/wAAAAAAAAAAAAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAAAAAAAAAAAAPwAAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAAAAAAAAAAACFAAAA+QAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD5AAAAhQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAP//AADAAwAAwAMAAMfjAADP8wAAz/MAAM/zAADP8wAAz/MAAM/zAADH4wAAwAMAAMADAAD//wAA//8AAA==`,
       stIcon: `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAQAQAABMLAAATCwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SgWw+ucFsPrkBbD6SgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWw+uYFsPr/BbD6/wWw+ucAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFsPrmBbD6/wWw+v8FsPrmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABbD6SQWw+uYFsPrmBbD6SQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFKRLShSkS+cUpEvkFKRLSgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4EpMYuDnTGLg5Exi4EoAAAAAAAAAABSkS+YUpEv/FKRL/xSkS+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMYuDmTGLg/0xi4P9MYuDnAAAAAAAAAAAUpEvmFKRL/xSkS/8UpEvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATGLg5kxi4P9MYuD/TGLg5gAAAAAAAAAAFKRLSRSkS+YUpEvmFKRLSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAExi4ElMYuDmTGLg5kxi4EkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0rGfRPnxn0T5MZ9E0oAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGfRPmxn0T/8Z9E//GfRPnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAxn0T5sZ9E//GfRP/xn0T5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMZ9E0nGfRPmxn0T5sZ9E0kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPw/AAD8PwAA/D8AAPw/AAD//wAAh+EAAIfhAACH4QAAh+EAAP//AAD8PwAA/D8AAPw/AAD8PwAA//8AAA==`,
@@ -3425,7 +3432,22 @@
       esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
       esgst.settingsChanged = true;
     }
-    [`gc_categories`, `gc_categories_gv`].forEach(key => {
+    if (esgst.gc_categories.indexOf(`gc_f`) < 0) {
+      esgst.gc_categories.push(`gc_f`);
+      esgst.settings.gc_categories = esgst.gc_categories;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories_gv.indexOf(`gc_f`) < 0) {
+      esgst.gc_categories_gv.push(`gc_f`);
+      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories_ids.indexOf(`gc_f`) < 0) {
+      esgst.gc_categories_ids.push(`gc_f`);
+      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+      esgst.settingsChanged = true;
+    }
+    [`gc_categories`, `gc_categories_gv`, `gc_categories_ids`].forEach(key => {
       let bkpLength = esgst[key].length;
       esgst[key] = Array.from(new Set(esgst[key]));
       if (bkpLength !== esgst[key].length) {
@@ -9460,6 +9482,35 @@ function cdr() {
         name: `Early Access`,
         sg: true
       },
+      gc_f: {
+        colors: true,
+        description: `
+          <ul>
+            <li>Shows if you have followed the game on Steam.</li>
+          </ul>
+        `,
+        features: {
+          gc_f_s: {
+            description: `
+              <ul>
+                <li>Shows the category initials instead of its full name.</li>
+                <li>Not compatible with custom labels.</li>
+              </ul>
+            `,
+            features: {
+              gc_f_s_i: {
+                name: `Use icons instead of initials.`,
+                sg: true
+              }
+            },
+            name: `Enable the simplified version.`,
+            sg: true
+          }
+        },
+        input: true,
+        name: `Followed`,
+        sg: true
+      },
       gc_fcv: {
         colors: true,
         description: `
@@ -10389,6 +10440,7 @@ function cdr() {
       gc_i: `ignored`,
       gc_o: `owned`,
       gc_w: `wishlisted`,
+      gc_f: `followed`,
       gc_pw: `won`,
       gc_a: `achievements`,
       gc_sp: `singleplayer`,
@@ -11005,6 +11057,26 @@ function cdr() {
                 children: esgst.gc_w_s && esgst.gc_w_s_i ? [{
                   attributes: {
                     class: `fa fa-${esgst.gc_wIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
+            }
+            break;
+          case `gc_f`:
+            if (savedGame && savedGame.followed) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-followed`,
+                  [`data-draggable-id`]: `gc_f`,
+                  href: `https://steamcommunity.com/my/followedgames/`,
+                  title: getFeatureTooltip(`gc_f`, `Followed`)
+                },
+                text: esgst.gc_f_s ? (esgst.gc_f_s_i ? `` : `F`) : esgst.gc_fLabel,
+                type: `a`,
+                children: esgst.gc_f_s && esgst.gc_f_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${esgst.gc_fIcon}`
                   },
                   type: `i`
                 }] : null
@@ -13977,6 +14049,15 @@ function cdr() {
             name: `Wishlisted`,
             sg: true
           },
+          gf_followed: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways for games that you have followed on Steam.</li>
+              </ul>
+            `,
+            name: `Followed`,
+            sg: true
+          },
           gf_hidden: {
             description: `
               <ul>
@@ -14586,6 +14667,11 @@ function cdr() {
       wishlisted: {
         check: true,
         name: `Wishlisted`,
+        type: `boolean`
+      },
+      followed: {
+        check: true,
+        name: `Followed`,
         type: `boolean`
       },
       hidden: {
@@ -27794,6 +27880,7 @@ function hgebd() {
         if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
           emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
         }
+        console.log(emoji);
         const emojiData = esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData.emoji;
         return {
@@ -36285,7 +36372,7 @@ function ut() {
       giveaway.id = info.id;
       giveaway.type = info.type;
       if (esgst.games && esgst.games[giveaway.type][giveaway.id]) {
-        keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+        keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
           if (esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
@@ -37551,7 +37638,7 @@ function ut() {
             x.id = giveaway.gameSteamId;
             x.type = giveaway.gameType;
             if (esgst.games && esgst.games[x.type][x.id]) {
-              const keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+              const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
               for (const key of keys) {
                 if (esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
                   x[key] = true;
@@ -44539,7 +44626,7 @@ async function tags_loadTags(obj) {
       if (esgst.openSyncInTab) {
         let parameters = ``;
         setLocalValue(`isSyncing`, currentDate);
-        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
+        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
           if (esgst[`autoSync${key}`] && currentDate - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
             parameters += `${key}=1&`;
           }
@@ -44556,7 +44643,7 @@ async function tags_loadTags(obj) {
       } else {
         let parameters = {};
         setLocalValue(`isSyncing`, currentDate);
-        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
+        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
           if (esgst[`autoSync${key}`] && currentDate - esgst[`lastSync${key}`] > esgst[`autoSync${key}`] * 86400000) {
             parameters[key] = 1;
           }
@@ -44593,6 +44680,7 @@ async function tags_loadTags(obj) {
           syncBlacklist: new ToggleSwitch(syncer.popup.scrollable, `syncBlacklist`, false, `Blacklist`, false, false, null, esgst.syncBlacklist),
           syncHiddenGames: new ToggleSwitch(syncer.popup.scrollable, `syncHiddenGames`, false, `Hidden Games`, false, false, null, esgst.syncHiddenGames),
           syncGames: new ToggleSwitch(syncer.popup.scrollable, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, esgst.syncGames),
+          syncFollowedGames: new ToggleSwitch(syncer.popup.scrollable, `syncFollowedGames`, false, `Followed Games`, false, false, null, esgst.syncFollowedGames),
           syncWonGames: new ToggleSwitch(syncer.popup.scrollable, `syncWonGames`, false, `Won Games`, false, false, null, esgst.syncWonGames),
           syncReducedCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, esgst.syncReducedCvGames),
           syncNoCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncNoCvGames`, false, `No CV Games`, false, false, null, esgst.syncNoCvGames),
@@ -44959,9 +45047,7 @@ async function tags_loadTags(obj) {
         apiResponse = await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${esgst.steamApiKey}&steamid=${esgst.steamId}&format=json`});
       }
       let storeResponse = await request({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
-      let deleteLock = await createLock(`gameLock`, 300);
       await syncGames(null, syncer, apiResponse, storeResponse);
-      deleteLock();
       if (esgst.settings.gc_o_altAccounts) {
         for (let i = 0, n = esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
           let altAccount = esgst.settings.gc_o_altAccounts[i];
@@ -44976,6 +45062,34 @@ async function tags_loadTags(obj) {
           getGameNames(syncer);
         }
       }
+    }
+
+    // if sync has been canceled stop
+    if (syncer.canceled) {
+      return;
+    }
+
+    // sync followed games
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && esgst.settings.syncFollowedGames))) {
+      syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
+      const response = await request({
+        method: `GET`,
+        url: `https://steamcommunity.com/my/followedgames/`
+      });
+      const responseHtml = parseHtml(response.responseText);
+      const elements = responseHtml.querySelectorAll(`.gameListRow.followed`);
+      const savedGames = JSON.parse(await getValue(`games`));
+      for (const id in savedGames.apps) {
+        savedGames.apps[id].followed = null;
+      }
+      for (const element of elements) {
+        const id = parseInt(element.getAttribute(`data-appid`));
+        if (!savedGames.apps[id]) {
+          savedGames.apps[id] = {};
+        }
+        savedGames.apps[id].followed = true;
+      }
+      await lockAndSaveGames(savedGames);
     }
 
     // if sync has been canceled stop
@@ -45099,7 +45213,7 @@ async function tags_loadTags(obj) {
         esgst.lastSyncGames = currentTime;
       } else {
         let string = currentDate.toLocaleString();
-        let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
+        let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
         for (let i = keys.length - 1; i > -1; i--) {
           let key = keys[i];
           let id = `sync${key}`;
@@ -47158,6 +47272,24 @@ async function tags_loadTags(obj) {
             children: esgst.gc_w_s && esgst.gc_w_s_i ? [{
               attributes: {
                 class: `fa fa-${esgst.gc_wIcon}`
+              },
+              type: `i`
+            }] : null
+          });
+          break;
+        case `gc_f`:
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-followed ${esgst.gc_f ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_f`,
+              title: `Followed`
+            },
+            text: esgst.gc_f_s ? (esgst.gc_f_s_i ? `` : `F`) : esgst.gc_fLabel,
+            type: `div`,
+            children: esgst.gc_f_s && esgst.gc_f_s_i ? [{
+              attributes: {
+                class: `fa fa-${esgst.gc_fIcon}`
               },
               type: `i`
             }] : null
@@ -49854,7 +49986,7 @@ async function tags_loadTags(obj) {
           break;
         case `games`:
           values = {
-            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
+            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`, `followed`],
             gt: [`tags`],
             egh: [`entered`],
             itadi: [`itadi`]
@@ -51375,6 +51507,11 @@ async function tags_loadTags(obj) {
       {
         id: `gc_w`,
         key: `wishlisted`,
+        mainKey: `esgst-gc`
+      },
+      {
+        id: `gc_f`,
+        key: `followed`,
         mainKey: `esgst-gc`
       },
       {
