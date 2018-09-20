@@ -688,8 +688,10 @@ _MODULES.push({
         if (responseJson.type === `success`) {
           Context.classList.add(`is-faded`);
           Complete.classList.toggle(`is-hidden`);
-          esgst.pointsContainer.textContent = responseJson.points;
-          esgst.points = parseInt(esgst.pointsContainer.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+          if (responseJson.points) {
+            esgst.pointsContainer.textContent = responseJson.points;
+            esgst.points = parseInt(esgst.pointsContainer.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+          }
         } else {
           Default.classList.toggle(`is-hidden`);
         }
