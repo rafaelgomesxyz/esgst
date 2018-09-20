@@ -20,7 +20,8 @@ _MODULES.push({
     giveaways.forEach(giveaway => {
       if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || !giveaway.ended) return;
       const attributes = {
-        class: `esgst-gwl`
+        class: `esgst-gwl`,
+        [`data-draggable-id`]: `winners_count`
       };
       if (giveaway.url) {
         attributes.href = `${giveaway.url}/winners`;

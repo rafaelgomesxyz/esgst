@@ -293,6 +293,8 @@ _MODULES.push({
       giveaway.commentsLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[0];
     }
     if (giveaway.entriesLink && giveaway.commentsLink) {
+      giveaway.entriesLink.setAttribute(`data-draggable-id`, `entries`);
+      giveaway.commentsLink.setAttribute(`data-draggable-id`, `comments`);
       giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
       giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
     }
@@ -708,6 +710,44 @@ _MODULES.push({
       draggable_set({
         context: giveaway.heading,
         id: `giveawayHeading`,
+        item: giveaway
+      });
+    }
+    if (giveaway.links) {
+      for (const id of (giveaway.gvIcons ? esgst.giveawayLinks_gv : esgst.giveawayLinks)) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
+        for (const element of elements) {
+          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
+            element.remove();
+            continue;
+          }
+          giveaway.links.appendChild(element);
+          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+            element.classList.remove(`esgst-giveaway-column-button`);
+          }
+          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+            element.classList.remove(`giveaway__icon`);
+          }
+          if (element.getAttribute(`data-color`)) {
+            element.classList.remove(esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            element.style.color = element.getAttribute(`data-color`);
+            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          }
+        }
+        if (!elements.length) {
+          createElements(giveaway.links, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-draggable-placeholder esgst-hidden`,
+              [`data-draggable-id`]: id
+            },
+            text: id,
+            type: `span`
+          }]);
+        }
+      }
+      draggable_set({
+        context: giveaway.links,
+        id: `giveawayLinks`,
         item: giveaway
       });
     }
