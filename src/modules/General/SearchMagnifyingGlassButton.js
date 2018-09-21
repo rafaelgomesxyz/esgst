@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralSearchMagnifyingGlassButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Turns the magnifying glass icon (<i class="fa fa-search"></i>) in the search field of any page into a button that submits the search when you click on it.</li>

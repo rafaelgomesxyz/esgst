@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralElementFilters extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to hide elements in any page using CSS selectors.</li>
@@ -9,8 +9,8 @@ info = ({
         <li>Here are some quick examples:</li>
         <ul>
           <li>To hide the "Redeem" button in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page, use: <code>.table__column__key__redeem</code></li>
-          <li>To hide the featured giveaway container (the big giveaway) in the main page, use: <code>[this.esgst.giveawaysPath].featured__container</code></li>
-          <li>To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: <code>[this.esgst.giveawaysPath].pinned-giveaways__outer-wrap</code></li>
+          <li>To hide the featured giveaway container (the big giveaway) in the main page, use: <code>[esgst.giveawaysPath].featured__container</code></li>
+          <li>To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: <code>[esgst.giveawaysPath].pinned-giveaways__outer-wrap</code></li>
         </ul>
       </ul>
     `,
@@ -31,9 +31,9 @@ info = ({
 
   ef() {
     this.ef_hideElements(document);
-    this.esgst.endlessFeatures.push(ef_hideElements);
+    this.esgst.endlessFeatures.push(this.ef_hideElements);
     if (this.esgst.sal || !this.esgst.wonPath) return;
-    this.esgst.endlessFeatures.push(sal_addObservers);
+    this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysSteamActivationLinks.sal_addObservers);
   }
 
   ef_hideElements(context, main, source, endless) {

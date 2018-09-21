@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralHiddenCommunityPoll extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Hides the community poll (if there is one) of the main page.</li>

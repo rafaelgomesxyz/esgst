@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralScrollToBottomButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-down"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.</li>
@@ -26,7 +26,7 @@ info = ({
         button = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
           attributes: {
             class: `esgst-stbb-button esgst-stbb-button-fixed`,
-            title: `${getFeatureTooltip(`stbb`, `Scroll to bottom`)}`
+            title: `${this.esgst.modules.common.getFeatureTooltip(`stbb`, `Scroll to bottom`)}`
           },
           type: `div`,
           children: [{

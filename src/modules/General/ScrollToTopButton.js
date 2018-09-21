@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralScrollToTopButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-up"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the top of the page.</li>
@@ -26,7 +26,7 @@ info = ({
         button = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
           attributes: {
             class: `esgst-sttb-button esgst-sttb-button-fixed`,
-            title: `${getFeatureTooltip(`sttb`, `Scroll to top`)}`
+            title: `${this.esgst.modules.common.getFeatureTooltip(`sttb`, `Scroll to top`)}`
           },
           type: `div`,
           children: [{

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralAttachedImageLoader extends Module {
-info = ({
+  info = ({
     conflicts: [
       {id: `vai`, name: `Visible Attached Images`}
     ],
@@ -20,7 +20,7 @@ info = ({
 
   ail() {
     if (this.esgst.vai) return;
-    this.esgst.endlessFeatures.push(ail_getImages);
+    this.esgst.endlessFeatures.push(this.ail_getImages);
   }
 
   ail_getImages(context, main, source, endless) {

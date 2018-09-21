@@ -2,7 +2,7 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class GeneralHeaderRefresher extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.</li>
@@ -171,12 +171,12 @@ info = ({
       points: this.esgst.points,
       wins: 0
     };
-    this.esgst.hr = this.hr;
+    this.esgst.hr = hr;
     this.hr_notifyChange(hr);
     this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(hr_getCache()));
     this.hr_startRefresher(hr);
     if (!this.esgst.hr_b) {
-      addEventListener(`focus`, this.hr_startRefresher.bind(null, this.hr));
+      addEventListener(`focus`, this.hr_startRefresher.bind(null, hr));
       addEventListener(`blur`, () => clearTimeout(hr.refresher));
     }
   }
@@ -231,20 +231,20 @@ info = ({
     await this.hr_refreshHeaderElements(parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
     let cache = this.hr_getCache();
     this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(cache));
-    await this.hr_refreshHeader(cache, this.hr);
-    this.hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+    await this.hr_refreshHeader(cache, hr);
+    hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
   }
 
   async hr_continueRefresher(hr) {
-    let cache = JSON.parse(getLocalValue(`hrCache`));
+    let cache = JSON.parse(this.esgst.modules.common.getLocalValue(`hrCache`));
     if (cache.username !== this.esgst.username || Date.now() - cache.timestamp  > this.esgst.hr_minutes * 60000) {
       cache.timestamp = Date.now();
       this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(cache));
       await this.hr_refreshHeaderElements(parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
       cache = this.hr_getCache();
       this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(cache));
-      await this.hr_refreshHeader(cache, this.hr, true);
-      this.hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+      await this.hr_refreshHeader(cache, hr, true);
+      hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
     } else {
       this.esgst.wishlist = cache.wishlist;
       await this.hr_refreshHeader(cache, this.hr);
@@ -302,7 +302,7 @@ info = ({
         while (nextRefresh > 15) {
           nextRefresh -= 15;
         }
-        this.esgst.pointsContainer.title = this.esgst.modules.common.getFeatureTooltip(`ttpcc`, `${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100)} to 400P`);
+        this.esgst.pointsContainer.title = this.esgst.modules.common.getFeatureTooltip(`ttpcc`, `${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100)} to 400P`);
       }
       this.esgst.levelContainer = this.esgst.mainButton.lastElementChild;
       this.esgst.level = parseInt(this.esgst.levelContainer.textContent.match(/\d+/)[0]);
@@ -321,7 +321,7 @@ info = ({
       if (this.esgst.hr_g && context !== document) {
         this.esgst.wishlist = 0;
         this.esgst.wishlistNew = 0;
-        let cache = JSON.parse(getLocalValue(`hrWishlistCache`, `[]`));
+        let cache = JSON.parse(this.esgst.modules.common.getLocalValue(`hrWishlistCache`, `[]`));
         let codes = [];
         let currentTime = Date.now();
         let giveaways = await this.esgst.modules.giveaways.giveaways_get(context, false, null, true);
@@ -369,12 +369,12 @@ info = ({
   hr_notifyChange(hr, notify) {
     let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification, pointsNotification, title;
     messageCount = this.esgst.messageCount;
-    if (messageCount !== this.hr.messageCount) {
-      messageNotification = messageCount - this.hr.messageCount;
+    if (messageCount !== hr.messageCount) {
+      messageNotification = messageCount - hr.messageCount;
       if (messageNotification < 0) {
         messageNotification = 0;
       }
-      this.hr.messageCount = messageCount;
+      hr.messageCount = messageCount;
     } else {
       messageNotification = 0;
     }
@@ -404,7 +404,7 @@ info = ({
     }
     if (this.esgst.sg) {
       if (hr.points !== this.esgst.points) {
-        this.hr.points = this.esgst.points;
+        hr.points = this.esgst.points;
         this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_updateButtons(hr.points);
         if (this.esgst.points >= 400) {
           pointsNotification = true;
@@ -415,12 +415,12 @@ info = ({
       if (delivered) {
         if (!hr.delivered) {
           deliveredNotification = true;
-          this.hr.delivered = true;
+          hr.delivered = true;
         } else {
           deliveredNotification = false;
         }
       } else {
-        this.hr.delivered = deliveredNotification = false;
+        hr.delivered = deliveredNotification = false;
       }
       if (this.esgst.hr_g && delivered) {
         title += `${this.esgst.hr_g_format} `;
@@ -485,7 +485,7 @@ info = ({
               promises.push(null);
               return;
             }
-            promises.push(hr_createPlayer(this.esgst.settings[`${id}_sound`] || this.hr_getDefaultSound()));
+            promises.push(this.hr_createPlayer(this.esgst.settings[`${id}_sound`] || this.hr_getDefaultSound()));
           });
           [this.esgst.hr.pointsPlayer, this.esgst.hr.wonPlayer, this.esgst.hr.inboxPlayer, this.esgst.hr.wishlistPlayer] = await Promise.all(promises);
         }

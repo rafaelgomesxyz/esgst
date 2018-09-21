@@ -1,7 +1,10 @@
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GeneralCustomHeaderFooterLinks extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
@@ -31,7 +34,7 @@ info = ({
     let chfl = null;
     if (this.esgst.sg) {
       let elements = document.getElementsByClassName(`nav__relative-dropdown`);
-      this.chfl = {
+      chfl = {
         sources: {
           giveaways: {
             container: elements[0],
@@ -67,7 +70,7 @@ info = ({
       };
     } else {
       let elements = document.getElementsByClassName(`dropdown`);
-      this.chfl = {
+      chfl = {
         sources: {
           trades: {
             container: elements[0],
@@ -87,8 +90,8 @@ info = ({
         }
       };
     }
-    for (let key in this.chfl.sources) {
-      let source = this.chfl.sources[key];
+    for (let key in chfl.sources) {
+      let source = chfl.sources[key];
       for (let i = source.context.children.length - 1; i > -1; i--) {
         let element = source.context.children[i];
         let id = element.getAttribute(`data-link-id`);
@@ -107,7 +110,7 @@ info = ({
       }
       this.chfl_reorder(chfl, key, true);
     }
-    this.esgst.documentEvents.keydown.add(chfl_checkKey.bind(null, this.chfl));
+    this.esgst.documentEvents.keydown.add(this.chfl_checkKey.bind(null, chfl));
   }
 
   chfl_checkKey(chfl, event) {
@@ -131,7 +134,7 @@ info = ({
   }
 
   chfl_reorder(chfl, key, firstRun) {
-    let source = this.chfl.sources[key];
+    let source = chfl.sources[key];
     let ids = [];
     for (let i = this.esgst[`chfl_${key}`].length - 1; i > -1; i--) {
       let item = this.esgst[`chfl_${key}`][i];
@@ -199,18 +202,18 @@ info = ({
 
   chfl_makeDraggable(chfl, element) {
     element.setAttribute(`draggable`, true);
-    element.addEventListener(`dragstart`, this.chfl_startDrag.bind(null, this.chfl));
-    element.addEventListener(`dragenter`, this.chfl_enterDrag.bind(null, this.chfl));
-    element.addEventListener(`dragend`, this.chfl_saveOrder.bind(null, this.chfl));
+    element.addEventListener(`dragstart`, this.chfl_startDrag.bind(null, chfl));
+    element.addEventListener(`dragenter`, this.chfl_enterDrag.bind(null, chfl));
+    element.addEventListener(`dragend`, this.chfl_saveOrder.bind(null, chfl));
   }
 
   chfl_startDrag(chfl, event) {
     event.dataTransfer.setData(`text/plain`, ``);
-    this.chfl.source = event.currentTarget;
+    chfl.source = event.currentTarget;
   }
 
   chfl_enterDrag(chfl, event) {
-    let current = this.chfl.source;
+    let current = chfl.source;
     let element = event.currentTarget;
     if (current.getAttribute(`data-link-key`) !== element.getAttribute(`data-link-key`)) return;
     do {
@@ -224,7 +227,7 @@ info = ({
   }
 
   chfl_saveOrder(chfl) {
-    for (let key in this.chfl.sources) {
+    for (let key in chfl.sources) {
       let elements = {};
       for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
         if (item.id) {
@@ -232,7 +235,7 @@ info = ({
         }
       }
       this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = [];
-      let source = this.chfl.sources[key];
+      let source = chfl.sources[key];
       for (let i = 0, n = source.context.children.length; i < n; i++) {
         let element = source.context.children[i];
         let id = element.getAttribute(`data-link-id`);
@@ -245,10 +248,10 @@ info = ({
   }
 
   chfl_addButton(chfl, removedKey, forceKey) {
-    for (const key in this.chfl.sources) {
+    for (const key in chfl.sources) {
       if (key === removedKey) return;
 
-      const source = this.chfl.sources[key];
+      const source = chfl.sources[key];
       if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
       const button = this.esgst.modules.common.createElements(source.context, `beforeEnd`, key === `footer` ? [{
@@ -269,7 +272,7 @@ info = ({
           type: `a`
         }]
       }] : this.esgst.modules.common.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
-      button.addEventListener(`click`, this.chfl_openPopup.bind(null, this.chfl, null, key));
+      button.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, null, key));
       const resetButton = this.esgst.modules.common.createElements(source.context, `beforeEnd`, key === `footer` ? [{
         attributes: {
           class: `esgst-chfl-button`
@@ -288,7 +291,7 @@ info = ({
           type: `a`
         }]
       }] : this.esgst.modules.common.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-      resetButton.addEventListener(`click`, this.esgst.modules.common.createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, this.chfl, key), null));
+      resetButton.addEventListener(`click`, this.esgst.modules.common.createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
       for (const subKey in source.elements) {
         const element = source.elements[subKey],
             panel = this.esgst.modules.common.createElements(element, `beforeEnd`, [{
@@ -308,8 +311,8 @@ info = ({
                 type: `i`
               }]
             }]);
-        panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(null, this.chfl, subKey, key));
-        panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(null, this.chfl, subKey, key));
+        panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, subKey, key));
+        panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(null, chfl, subKey, key));
       }
       return;
     }
@@ -458,7 +461,7 @@ info = ({
             compactSwitch.enable();
           }
         } else {
-          let element = this.chfl.sources[key].elements[item];
+          let element = chfl.sources[key].elements[item];
           let context = element.firstElementChild;
           if (this.esgst.sg) {
             if (key === `footer`) {
@@ -488,7 +491,7 @@ info = ({
         break;
       }
     }
-    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: this.chfl_addLink.bind(null, this.chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)}).set);
+    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: this.chfl_addLink.bind(null, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)}).set);
     popup.open();
   }
 
@@ -504,8 +507,8 @@ info = ({
       url: url.value
     };
     if (editId) {
-      this.chfl.sources[key].elements[editId].remove();
-      delete this.chfl.sources[key].elements[editId];
+      chfl.sources[key].elements[editId].remove();
+      delete chfl.sources[key].elements[editId];
       for (let i = this.esgst.settings[`chfl_${key}_${this.esgst.name}`].length - 1; i > -1; i--) {
         let subItem = this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i];
         if (subItem.id) {
@@ -523,7 +526,7 @@ info = ({
     }
     this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
     await setValue(`settings`, JSON.stringify(this.esgst.settings));
-    this.chfl.sources[key].elements[item.id] = this.esgst.modules.common.createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
+    chfl.sources[key].elements[item.id] = this.esgst.modules.common.createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
       attributes: {
         [`data-link-id`]: item.id,
         [`data-link-key`]: `footer`
@@ -543,12 +546,12 @@ info = ({
       }]
     }] : this.esgst.modules.common.generateHeaderMenuItem(item, key));
     if (!item.description) {
-      this.chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
+      chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
     }
     if (item.compact) {
-      this.chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-compact`);
+      chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-compact`);
     }
-    this.chfl_makeDraggable(chfl, this.chfl.sources[key].elements[item.id]);
+    this.chfl_makeDraggable(chfl, chfl.sources[key].elements[item.id]);
     this.chfl_reorder(chfl, key);
     popup.close();
   }
@@ -558,10 +561,10 @@ info = ({
     event.stopPropagation();
     for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
       if (!item.id) continue;
-      let element = this.chfl.sources[key].elements[item.id];
+      let element = chfl.sources[key].elements[item.id];
       if (!element) continue;
       element.remove();
-      delete this.chfl.sources[key].elements[item.id];
+      delete chfl.sources[key].elements[item.id];
     }
     this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`];
     this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
@@ -572,14 +575,14 @@ info = ({
   chfl_removeLink(chfl, id, key, event) {
     event.preventDefault();
     event.stopPropagation();
-    this.chfl.sources[key].elements[id].remove();
-    delete this.chfl.sources[key].elements[id];
+    chfl.sources[key].elements[id].remove();
+    delete chfl.sources[key].elements[id];
     this.chfl_saveOrder(chfl);
   }
 
   chfl_removeButton(chfl, forceKey) {
-    for (const key in this.chfl.sources) {
-      const source = this.chfl.sources[key];
+    for (const key in chfl.sources) {
+      const source = chfl.sources[key];
       if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
       const buttons = source.context.getElementsByClassName(`esgst-chfl-button`);

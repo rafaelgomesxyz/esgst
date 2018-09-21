@@ -1,10 +1,10 @@
 import Module from '../../class/Module';
 
 class GeneralFixedHeader extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Keeps the header of any page this.esgst.modules.generalAccurateTimestamp.at the top of the window while you scroll down the page.</li>
+        <li>Keeps the header of any page at the top of the window while you scroll down the page.</li>
       </ul>
     `,
     id: `fh`,

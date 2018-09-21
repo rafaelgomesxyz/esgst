@@ -1,13 +1,13 @@
 import Module from '../../class/Module';
 
 class GeneralPointsVisualizer extends Module {
-info = ({
+  info = ({
     conflicts: [
       {id: `lpv`, name: `Level Progress Visualizer`}
     ],
     description: `
       <ul>
-        <li>Displays a green bar in the account button this.esgst.modules.generalAccurateTimestamp.at the header of any page that represents the amount of points that you have.</li>
+        <li>Displays a green bar in the account button at the header of any page that represents the amount of points that you have.</li>
       </ul>
     `,
     id: `pv`,

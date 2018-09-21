@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralAttachedImageCarousel extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-image"></i>) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.</li>
@@ -24,8 +24,8 @@ info = ({
   });
 
   aic() {
-    this.esgst.endlessFeatures.push(aic_getImages);
-    this.esgst.documentEvents.keydown.add(aic_move);
+    this.esgst.endlessFeatures.push(this.aic_getImages);
+    this.esgst.documentEvents.keydown.add(this.aic_move);
     if (!this.esgst.mainPageHeading) return;
     this.esgst.aicButton = this.esgst.modules.common.createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
     this.esgst.aicButton.classList.add(`esgst-hidden`);

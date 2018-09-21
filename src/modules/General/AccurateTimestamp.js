@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralAccurateTimestamp extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Replaces a timestamp (in any page) with an accurate timestamp. For example, "2 hours ago" becomes "Jan 1, 2017, 0:00:00 - 2 hours ago".</li>
@@ -29,7 +29,7 @@ info = ({
   });
 
   at() {
-    this.esgst.endlessFeatures.push(at_getTimestamps);
+    this.esgst.endlessFeatures.push(this.at_getTimestamps);
   }
 
   at_getTimestamps(context, main, source, endless) {

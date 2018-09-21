@@ -1,11 +1,12 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popout from '../../class/Popout';
 
 class GeneralQuickInboxView extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>If you hover over the inbox icon (<i class="fa fa-envelope"></i>) this.esgst.modules.generalAccurateTimestamp.at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.</li>
+        <li>If you hover over the inbox icon (<i class="fa fa-envelope"></i>) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.</li>
         <li>You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.</li>
       </ul>
     `,
