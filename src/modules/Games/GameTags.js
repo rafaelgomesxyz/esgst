@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GamesGameTags extends Module {
-info = ({
+  info = ({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
@@ -26,7 +26,7 @@ info = ({
 });
 
 gt() {
-  this.esgst.gameFeatures.push(tags_addButtons.bind(null, `gt`));
+  this.esgst.gameFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(null, `gt`));
   this.esgst.modules.tags.tags_getTags(`gt`);
 }
 }

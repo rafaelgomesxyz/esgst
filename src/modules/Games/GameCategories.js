@@ -2,7 +2,7 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class GamesGameCategories extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).</li>
@@ -13,8 +13,8 @@ info = ({
       gc_lr: {
         description: `
           <ul>
-            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per this.esgst.modules.common.request globally (across all open tabs).</li>
-            <li>With this option disabled, all of the requests happen this.esgst.modules.generalAccurateTimestamp.at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
+            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).</li>
+            <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
           </ul>
         `,
         name: `Limit requests to the Steam store.`,
@@ -23,7 +23,7 @@ info = ({
       gc_rt: {
         description: `
           <ul>
-            <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page this.esgst.modules.generalAccurateTimestamp.at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
+            <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
           </ul>
         `,
         name: `Show categories in real time.`,
@@ -173,6 +173,35 @@ info = ({
         },
         input: true,
         name: `Early Access`,
+        sg: true
+      },
+      gc_f: {
+        colors: true,
+        description: `
+          <ul>
+            <li>Shows if you have followed the game on Steam.</li>
+          </ul>
+        `,
+        features: {
+          gc_f_s: {
+            description: `
+              <ul>
+                <li>Shows the category initials instead of its full name.</li>
+                <li>Not compatible with custom labels.</li>
+              </ul>
+            `,
+            features: {
+              gc_f_s_i: {
+                name: `Use icons instead of initials.`,
+                sg: true
+              }
+            },
+            name: `Enable the simplified version.`,
+            sg: true
+          }
+        },
+        input: true,
+        name: `Followed`,
         sg: true
       },
       gc_fcv: {
@@ -785,7 +814,7 @@ info = ({
 
   gc() {    
     if (!this.esgst.menuPath || this.esgst.gbPath || this.esgst.gedPath || this.esgst.gePath) {
-      this.esgst.gameFeatures.push(gc_games);
+      this.esgst.gameFeatures.push(this.gc_games);
       this.esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }
@@ -882,11 +911,11 @@ info = ({
       }
     }
     if (this.esgst.gc_si) {
-      for (const id of this.gc.apps) {
-        this.gc_addCategory(null, games.apps[id], id, this.esgst.games.apps[id], `apps`, this.gc.cache.hltb, true);
+      for (const id of gc.apps) {
+        gc_addCategory(gc, null, games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb, true);
       }
-      for (const id of this.gc.subs) {
-        this.gc_addCategory(null, games.subs[id], id, this.esgst.games.subs[id], `subs`, null, true);
+      for (const id of gc.subs) {
+        gc_addCategory(gc, null, games.subs[id], id, this.esgst.games.subs[id], `subs`, null, true);
       }
       for (const giveaway of this.esgst.mainGiveaways) {
         this.gc_addBorders(giveaway);
@@ -898,41 +927,41 @@ info = ({
     const missingApps = [];
     const missingSubs = [];
     if (this.esgst.gc_gi || this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_a || this.esgst.gc_sp || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_tc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_ea || this.esgst.gc_rm || this.esgst.gc_rd || this.esgst.gc_g || this.esgst.gc_p) {
-      this.gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+      gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
       if (gc.cache.version !== 7) {
-        this.gc.cache = {
+        gc.cache = {
           apps: {},
           subs: {},
-          hltb: this.gc.cache.hltb,
+          hltb: gc.cache.hltb,
           timestamp: 0,
           version: 7
         };
       }
       if (!gc.cache.hltb) {
-        this.gc.cache.hltb = {};
+        gc.cache.hltb = {};
       }
       const currentTime = Date.now();
-      for (let id in this.gc.cache.apps) {
+      for (let id in gc.cache.apps) {
         if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - this.gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || this.gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && this.gc.cache.apps[id].removed === -1)) && currentTime - this.gc.cache.apps[id].lastCheck > 86400000)) {
-            delete this.gc.cache.apps[id];
+          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
+            delete gc.cache.apps[id];
           }
         } else {
-          this.gc.cache.apps[id].lastCheck = currentTime;
+          gc.cache.apps[id].lastCheck = currentTime;
         }
       }
-      for (let id in this.gc.cache.subs) {
+      for (let id in gc.cache.subs) {
         if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - this.gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || this.gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && this.gc.cache.subs[id].removed === -1)) && currentTime - this.gc.cache.subs[id].lastCheck > 86400000)) {
-            delete this.gc.cache.subs[id];
+          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
+            delete gc.cache.subs[id];
           }
         } else {
-          this.gc.cache.subs[id].lastCheck = currentTime;
+          gc.cache.subs[id].lastCheck = currentTime;
         }
       }
       this.esgst.modules.common.setLocalValue(`gcCache`, JSON.stringify(gc.cache));
-      for (let i = 0, n = this.gc.apps.length; i < n; ++i) {
-        let id = this.gc.apps[i];
+      for (let i = 0, n = gc.apps.length; i < n; ++i) {
+        let id = gc.apps[i];
         if (gc.cache.apps[id]) {
           continue;
         }
@@ -940,8 +969,8 @@ info = ({
           missingApps.push(id);
         }
       }
-      for (let i = 0, n = this.gc.subs.length; i < n; ++i) {
-        let id = this.gc.subs[i];
+      for (let i = 0, n = gc.subs.length; i < n; ++i) {
+        let id = gc.subs[i];
         if (gc.cache.subs[id]) {
           continue;
         }
@@ -957,14 +986,14 @@ info = ({
           if (this.esgst.gc_lr) {
             await this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`);
           } else {
-            promises.push(gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
+            promises.push(this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
           }
         }
         for (let i = 0, n = missingSubs.length; i < n; ++i) {
           if (this.esgst.gc_lr) {
             await this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`);
           } else {
-            promises.push(gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
+            promises.push(this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
           }
         }
         await Promise.all(promises);
@@ -974,19 +1003,19 @@ info = ({
     }
 
     // add categories
-    for (const id of this.gc.apps) {
+    for (const id of gc.apps) {
       if (missingApps.indexOf(id) > -1 && this.esgst.gc_rt) {
         continue;
       }
-      this.gc_addCategory(gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, this.gc.cache.hltb);
+      this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb);
     }
-    for (const id of this.gc.subs) {
+    for (const id of gc.subs) {
       if (missingSubs.indexOf(id) > -1 && this.esgst.gc_rt) {
         continue;
       }
-      this.gc_addCategory(gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`);
+      this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`);
     }
-    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
+    let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `reviews`, `learning`, `removed`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = this.esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = this.esgst.mainGiveaways[i];
       if ((giveaway.type === `apps` && missingApps.indexOf(giveaway.id) < 0) || (giveaway.type === `subs` && missingSubs.indexOf(giveaway.id) < 0)) {
@@ -1000,7 +1029,7 @@ info = ({
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
         let id = categories[j];
-        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
+        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
         if (category) {
           if (id === `releaseDate`) {
             giveaway.releaseDate = category.getAttribute(`data-timestamp`);
@@ -1013,6 +1042,8 @@ info = ({
             giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
           } else if (id === `rating`) {
             giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+          } else if (id === `reviews`) {
+            giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
           } else {
             giveaway[id] = true;
           }
@@ -1020,6 +1051,8 @@ info = ({
           giveaway.rating = -1;
         } else if (id === `releaseDate`) {
           giveaway.releaseDate = -1;
+        } else if (id === `reviews`) {
+          giveaway.reviews = -1;
         }
       }
       this.gc_addBorders(giveaway);
@@ -1038,17 +1071,30 @@ info = ({
       }
       for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
         let id = categories[j];
-        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id}`)[0];
+        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
         if (category) {
-          if (id === `genres`) {
+          if (id === `releaseDate`) {
+            giveaway.releaseDate = category.getAttribute(`data-timestamp`);
+            if (giveaway.releaseDate === `?`) {
+              giveaway.releaseDate = -1;
+            } else {
+              giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
+            }
+          } else if (id === `genres`) {
             giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
           } else if (id === `rating`) {
             giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+          } else if (id === `reviews`) {
+            giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
           } else {
             giveaway[id] = true;
           }
         } else if (id === `rating`) {
-          giveaway.rating = 0;
+          giveaway.rating = -1;
+        } else if (id === `releaseDate`) {
+          giveaway.releaseDate = -1;
+        } else if (id === `reviews`) {
+          giveaway.reviews = -1;
         }
       }
       this.gc_addBorders(giveaway);
@@ -1087,6 +1133,7 @@ info = ({
       gc_i: `ignored`,
       gc_o: `owned`,
       gc_w: `wishlisted`,
+      gc_f: `followed`,
       gc_pw: `won`,
       gc_a: `achievements`,
       gc_sp: `singleplayer`,
@@ -1154,6 +1201,24 @@ info = ({
               this.esgst.games.subs[id] = {};
             }
             this.esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
+            for (const appId of this.esgst.games.subs[id].apps) {
+              if (gc.cache.apps[appId]) {
+                if (gc.cache.apps[appId].lastCheck) {
+                  if (currentTime - gc.cache.apps[appId].lastCheck > 604800000 || ((!gc.cache.apps[appId].name || gc.cache.apps[appId].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[appId].tags) || (this.esgst.gc_r && !gc.cache.apps[appId].rating) || (this.esgst.gc_rd && gc.cache.apps[appId].removed === -1)) && currentTime - gc.cache.apps[appId].lastCheck > 86400000)) {
+                    delete gc.cache.apps[appId];
+                  }
+                } else {
+                  gc.cache.apps[appId].lastCheck = currentTime;
+                }
+              }
+              if (!gc.cache.apps[appId]) {
+                if (esgst.gc_lr) {
+                  await this.gc_getCategories(gc, currentTime, games, appId, `apps`);
+                } else {
+                  promises.push(this.gc_getCategories(gc, currentTime, games, appId, `apps`));
+                }
+              }
+            }
           }
           if (data.categories) {
             for (let i = 0, n = data.categories.length; i < n; ++i) {
@@ -1270,15 +1335,15 @@ info = ({
       }
       if (this.esgst.gc_dlc_b && categories.dlc && categories.base) {
         if (gc.cache.apps[categories.base]) {
-          categories.freeBase = this.gc.cache.apps[categories.base].free;
+          categories.freeBase = gc.cache.apps[categories.base].free;
         }
         if (typeof categories.freeBase === `undefined`) {
           categories.freeBase = JSON.parse((await this.esgst.modules.common.request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
         }
       }
-      this.gc.cache[type][id] = categories;
+      gc.cache[type][id] = categories;
       if (this.esgst.gc_rt) {
-        this.gc_addCategory(gc.cache[type][id], games[type][id], id, this.esgst.games[type][id], type, type === `apps` ? this.gc.cache.hltb : null);
+        this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, this.esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
       }
     } catch (error) {
       console.log(error);
@@ -1379,8 +1444,11 @@ info = ({
     return count;   
   }
 
-  gc_addCategory(cache, games, id, savedGame, type, hltb, isInstant) {
-    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, i, j, k, n, panel, name, sent, singularType, user, value;
+  gc_addCategory(gc, cache, games, id, savedGame, type, hltb, isInstant) {
+    if (!games) {
+      return;
+    }
+    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, hltbTimes, i, j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
         this.gc_checkPackage(subId, savedGame);
@@ -1394,7 +1462,7 @@ info = ({
     name = cache ? cache.name : games[0].name;
     encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
     elements = [];
-    let categories = games[0].grid ? this.esgst.gc_categories_gv : this.esgst.gc_categories;
+    let categories = this.esgst.gc_categories_ids;
     for (i = 0, n = categories.length; i < n; ++i) {
       category = categories[i];
       if (this.esgst[category]) {
@@ -1404,7 +1472,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-fullCV`,
-                  [`data-id`]: `gc_fcv`,
+                  [`data-draggable-id`]: `gc_fcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_fcv`, `Full CV`)
                 },
@@ -1424,7 +1492,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-reducedCV`,
-                  [`data-id`]: `gc_rcv`,
+                  [`data-draggable-id`]: `gc_rcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
                 },
@@ -1444,7 +1512,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-noCV`,
-                  [`data-id`]: `gc_ncv`,
+                  [`data-draggable-id`]: `gc_ncv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
                 },
@@ -1460,88 +1528,113 @@ info = ({
             }
             break;
           case `gc_hltb`:
-            if (hltb) {
-              const hltbTimes = hltb[id];
-              if (hltbTimes) {
-                let time = ``;
-                if (hltbTimes.mainStory && hltbTimes.mainExtra && hltbTimes.completionist) {
-                  // singleplayer
-                  switch (this.esgst.gc_hltb_index_0) {
-                    case 0:
-                      time = hltbTimes.mainStory;
-                      break;
-                    case 1:
-                      time = hltbTimes.mainExtra;
-                      break;
-                    case 2:
-                      time = hltbTimes.completionist;
-                      break;
-                  }
-                } else if (hltbTimes.solo && hltbTimes.coOp && hltbTimes.vs) {
-                  // singleplayer/multiplayer
-                  switch (this.esgst.gc_hltb_index_2) {
-                    case 0:
-                      time = hltbTimes.solo;
-                      break;
-                    case 1:
-                      time = hltbTimes.coOp;
-                      break;
-                    case 2:
-                      time = hltbTimes.vs;
-                      break;
-                  }
-                } else if (hltbTimes.coOp && hltbTimes.vs) {
-                  // singleplayer/multiplayer
-                  switch (this.esgst.gc_hltb_index_1) {
-                    case 0:
-                      time = hltbTimes.coOp;
-                      break;
-                    case 1:
-                      time = hltbTimes.vs;
-                      break;
-                  }
-                } else {
-                  time = hltbTimes.mainStory || hltbTimes.mainExtra || hltbTimes.completionist || hltbTimes.solo || hltbTimes.coOp || hltbTimes.vs;
+            hltbTimes = {
+              mainStory: 0,
+              mainExtra: 0,
+              completionist: 0,
+              solo: 0,
+              coOp: 0,
+              vs: 0
+            };
+            if (savedGame && savedGame.apps && gc.cache.hltb) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.hltb[id]) {
+                  hltbTimes.mainStory += parseFloat(gc.cache.hltb[id].mainStory || 0);
+                  hltbTimes.mainExtra += parseFloat(gc.cache.hltb[id].mainExtra || 0);
+                  hltbTimes.completionist += parseFloat(gc.cache.hltb[id].completionist || 0);
+                  hltbTimes.solo += parseFloat(gc.cache.hltb[id].solo || 0);
+                  hltbTimes.coOp += parseFloat(gc.cache.hltb[id].coOp || 0);
+                  hltbTimes.vs += parseFloat(gc.cache.hltb[id].vs || 0);
                 }
-                if (time) {
-                  let title = `Average time to beat based on HowLongToBeat:\n\n`;
-                  if (hltbTimes.mainStory) {
-                    title += `Main Story: ${hltbTimes.mainStory}\n`;
-                  }
-                  if (hltbTimes.mainExtra) {
-                    title += `Main + Extra: ${hltbTimes.mainExtra}\n`;
-                  }
-                  if (hltbTimes.completionist) {
-                    title += `Completionist: ${hltbTimes.completionist}\n`;
-                  }
-                  if (hltbTimes.solo) {
-                    title += `Solo: ${hltbTimes.solo}\n`;
-                  }
-                  if (hltbTimes.coOp) {
-                    title += `Co-Op: ${hltbTimes.coOp}\n`;
-                  }
-                  if (hltbTimes.vs) {
-                    title += `Vs.: ${hltbTimes.vs}\n`;
-                  }
-                  elements.push({
+              }
+              hltbTimes.mainStory = isNaN(hltbTimes.mainStory) ? `-` : `${hltbTimes.mainStory}h`;
+              hltbTimes.mainExtra = isNaN(hltbTimes.mainExtra) ? `-` : `${hltbTimes.mainExtra}h`;
+              hltbTimes.completionist = isNaN(hltbTimes.completionist) ? `-` : `${hltbTimes.completionist}h`;
+              hltbTimes.solo = isNaN(hltbTimes.solo) ? `-` : `${hltbTimes.solo}h`;
+              hltbTimes.coOp = isNaN(hltbTimes.coOp) ? `-` : `${hltbTimes.coOp}h`;
+              hltbTimes.vs = isNaN(hltbTimes.vs) ? `-` : `${hltbTimes.vs}h`;
+            } else {
+              hltbTimes = hltb && hltb[id];
+            }
+            if (hltbTimes) {
+              let time = ``;
+              if (hltbTimes.mainStory && hltbTimes.mainExtra && hltbTimes.completionist) {
+                // singleplayer
+                switch (this.esgst.gc_hltb_index_0) {
+                  case 0:
+                    time = hltbTimes.mainStory;
+                    break;
+                  case 1:
+                    time = hltbTimes.mainExtra;
+                    break;
+                  case 2:
+                    time = hltbTimes.completionist;
+                    break;
+                }
+              } else if (hltbTimes.solo && hltbTimes.coOp && hltbTimes.vs) {
+                // singleplayer/multiplayer
+                switch (this.esgst.gc_hltb_index_2) {
+                  case 0:
+                    time = hltbTimes.solo;
+                    break;
+                  case 1:
+                    time = hltbTimes.coOp;
+                    break;
+                  case 2:
+                    time = hltbTimes.vs;
+                    break;
+                }
+              } else if (hltbTimes.coOp && hltbTimes.vs) {
+                // singleplayer/multiplayer
+                switch (this.esgst.gc_hltb_index_1) {
+                  case 0:
+                    time = hltbTimes.coOp;
+                    break;
+                  case 1:
+                    time = hltbTimes.vs;
+                    break;
+                }
+              } else {
+                time = hltbTimes.mainStory || hltbTimes.mainExtra || hltbTimes.completionist || hltbTimes.solo || hltbTimes.coOp || hltbTimes.vs;
+              }
+              if (time) {
+                let title = `Average time to beat based on HowLongToBeat:\n\n`;
+                if (hltbTimes.mainStory) {
+                  title += `Main Story: ${hltbTimes.mainStory}\n`;
+                }
+                if (hltbTimes.mainExtra) {
+                  title += `Main + Extra: ${hltbTimes.mainExtra}\n`;
+                }
+                if (hltbTimes.completionist) {
+                  title += `Completionist: ${hltbTimes.completionist}\n`;
+                }
+                if (hltbTimes.solo) {
+                  title += `Solo: ${hltbTimes.solo}\n`;
+                }
+                if (hltbTimes.coOp) {
+                  title += `Co-Op: ${hltbTimes.coOp}\n`;
+                }
+                if (hltbTimes.vs) {
+                  title += `Vs.: ${hltbTimes.vs}\n`;
+                }
+                elements.push({
+                  attributes: {
+                    class: `esgst-gc esgst-gc-hltb`,
+                    [`data-draggable-id`]: `gc_hltb`,
+                    href: `https://howlongtobeat.com/game.php?id=${hltb && hltb[id] && hltb[id].id}`,
+                    title: this.esgst.modules.common.getFeatureTooltip(`gc_hltb`, title)
+                  },
+                  type: `a`,
+                  children: [{
                     attributes: {
-                      class: `esgst-gc esgst-gc-hltb`,
-                      [`data-id`]: `gc_hltb`,
-                      href: `https://howlongtobeat.com/game.php?id=${hltb[id].id}`,
-                      title: this.esgst.modules.common.getFeatureTooltip(`gc_hltb`, title)
+                      class: `fa fa-gamepad`
                     },
-                    type: `a`,
-                    children: [{
-                      attributes: {
-                        class: `fa fa-gamepad`
-                      },
-                      type: `i`
-                    }, {
-                      text: time,
-                      type: `node`
-                    }]
-                  });
-                }
+                    type: `i`
+                  }, {
+                    text: time,
+                    type: `node`
+                  }]
+                });
               }
             }
             break;
@@ -1550,7 +1643,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-hidden`,
-                  [`data-id`]: `gc_h`,
+                  [`data-draggable-id`]: `gc_h`,
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_h`, `Hidden`)
                 },
@@ -1565,23 +1658,35 @@ info = ({
               });
             }
             break;
-          case `gc_i`:
-            if (savedGame && savedGame.ignored) {
-              elements.push({
+          case `gc_i`:            
+          count = 0;
+          if (savedGame && savedGame.apps) {
+            for (const id of savedGame.apps) {
+              if (this.esgst.games.apps[id] && this.esgst.games.apps[id].ignored) {
+                count += 1;
+              }
+            }
+          }
+          count = count ? ` (${count})` : ``;
+          if ((savedGame && savedGame.ignored) || count) {
+            elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-ignored`,
-                  [`data-id`]: `gc_i`,
+                  [`data-draggable-id`]: `gc_i`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_i`, `Ignored`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_i`, `Ignored${count}`)
                 },
-                text: this.esgst.gc_i_s ? (this.esgst.gc_i_s_i ? `` : `I`) : this.esgst.gc_iLabel,
+                text: this.esgst.gc_i_s ? (this.esgst.gc_i_s_i ? `` : `I${count}`) : `${this.esgst.gc_iLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_i_s && this.esgst.gc_i_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_iIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
@@ -1590,7 +1695,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-owned`,
-                  [`data-id`]: `gc_o`,
+                  [`data-draggable-id`]: `gc_o`,
                   href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_o`, `Owned`)
                 },
@@ -1613,7 +1718,7 @@ info = ({
                       class: `esgst-gc esgst-gc-owned`,
                       [`data-bgColor`]: account.bgColor,
                       [`data-color`]: account.color,
-                      [`data-id`]: `gc_o`,
+                      [`data-draggable-id`]: `gc_o`,
                       href: `http://steamcommunity.com/profiles/${account.steamId}/games`,
                       style: `background-color: ${account.bgColor}; color: ${account.color};`,
                       title: this.esgst.modules.common.getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
@@ -1636,9 +1741,9 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-wishlisted`,
-                  [`data-id`]: `gc_w`,
+                  [`data-draggable-id`]: `gc_w`,
                   href: `https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
                 },
                 text: this.esgst.gc_w_s ? (this.esgst.gc_w_s_i ? `` : `W`) : this.esgst.gc_wLabel,
                 type: `a`,
@@ -1651,12 +1756,32 @@ info = ({
               });
             }
             break;
+          case `gc_f`:
+            if (savedGame && savedGame.followed) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-followed`,
+                  [`data-draggable-id`]: `gc_f`,
+                  href: `https://steamcommunity.com/my/followedgames/`,
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_f`, `Followed`)
+                },
+                text: this.esgst.gc_f_s ? (this.esgst.gc_f_s_i ? `` : `F`) : this.esgst.gc_fLabel,
+                type: `a`,
+                children: this.esgst.gc_f_s && this.esgst.gc_f_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${this.esgst.gc_fIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
+            }
+            break;
           case `gc_pw`:
             if (savedGame && savedGame.won && (!this.esgst.gc_pw_o || !this.esgst.gc_o || !savedGame.owned)) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-won`,
-                  [`data-id`]: `gc_pw`,
+                  [`data-draggable-id`]: `gc_pw`,
                   href: `https://www.steamgifts.com/user/${this.esgst.usename}/won/search?q=${encodedName}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_pw`, `Previously Won`)
                 },
@@ -1745,7 +1870,7 @@ info = ({
                   elements.push({
                     attributes: {
                       class: `esgst-gc esgst-gc-giveawayInfo`,
-                      [`data-id`]: `gc_gi`,
+                      [`data-draggable-id`]: `gc_gi`,
                       href: `https://www.steamgifts.com/user/${this.esgst.username}`,
                       title: this.esgst.modules.common.getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
                     },
@@ -1798,7 +1923,7 @@ info = ({
                   class: `esgst-gc esgst-gc-rating`,
                   [`data-bgColor`]: colors.bgColor,
                   [`data-color`]: colors.color,
-                  [`data-id`]: `gc_r`,
+                  [`data-draggable-id`]: `gc_r`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   style: `background-color: ${colors.bgColor}; color: ${colors.color};`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_r`, cache.rating)
@@ -1823,142 +1948,226 @@ info = ({
             }
             break;
           case `gc_a`:
-            if (cache && cache.achievements) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].achievements) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.achievements) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-achievements`,
-                  [`data-id`]: `gc_a`,
+                  [`data-draggable-id`]: `gc_a`,
                   href: `http://steamcommunity.com/stats/${id}/achievements`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_a`, `Achievements (${cache.achievements})`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_a`, `Achievements${count || ` (${cache.achievements})`}`)
                 },
-                text: this.esgst.gc_a_s ? (this.esgst.gc_a_s_i ? `` : `A`) : this.esgst.gc_aLabel,
+                text: this.esgst.gc_a_s ? (this.esgst.gc_a_s_i ? `` : `A${count}`) : `${this.esgst.gc_aLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_a_s && this.esgst.gc_a_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_aIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_mp`:
-            if (cache && cache.multiplayer) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].multiplayer) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.multiplayer) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-multiplayer`,
-                  [`data-id`]: `gc_mp`,
+                  [`data-draggable-id`]: `gc_mp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_mp`, `Multiplayer`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_mp`, `Multiplayer${count}`)
                 },
-                text: this.esgst.gc_mp_s ? (this.esgst.gc_mp_s_i ? `` : `MP`) : this.esgst.gc_mpLabel,
+                text: this.esgst.gc_mp_s ? (this.esgst.gc_mp_s_i ? `` : `MP${count}`) : `${this.esgst.gc_mpLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_mp_s && this.esgst.gc_mp_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_mpIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_sp`:
-            if (cache && cache.singleplayer) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].singleplayer) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.singleplayer) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-singleplayer`,
-                  [`data-id`]: `gc_sp`,
+                  [`data-draggable-id`]: `gc_sp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sp`, `Singleplayer`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sp`, `Singleplayer${count}`)
                 },
-                text: this.esgst.gc_sp_s ? (this.esgst.gc_sp_s_i ? `` : `SP`) : this.esgst.gc_spLabel,
+                text: this.esgst.gc_sp_s ? (this.esgst.gc_sp_s_i ? `` : `SP${count}`) : `${this.esgst.gc_spLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_sp_s && this.esgst.gc_sp_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_spIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_sc`:
-            if (cache && cache.steamCloud) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].steamCloud) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.steamCloud) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-steamCloud`,
-                  [`data-id`]: `gc_sc`,
+                  [`data-draggable-id`]: `gc_sc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sc`, `Steam Cloud`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sc`, `Steam Cloud${count}`)
                 },
-                text: this.esgst.gc_sc_s ? (this.esgst.gc_sc_s_i ? `` : `SC`) : this.esgst.gc_scLabel,
+                text: this.esgst.gc_sc_s ? (this.esgst.gc_sc_s_i ? `` : `SC${count}`) : `${this.esgst.gc_scLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_sc_s && this.esgst.gc_sc_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_scIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_tc`:
-            if (cache && cache.tradingCards) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].tradingCards) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.tradingCards) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-tradingCards`,
-                  [`data-id`]: `gc_tc`,
+                  [`data-draggable-id`]: `gc_tc`,
                   href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_tc`, `Trading Cards`)
+                  itle: this.esgst.modules.common.getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
                 },
-                text: this.esgst.gc_tc_s ? (this.esgst.gc_tc_s_i ? `` : `TC`) : this.esgst.gc_tcLabel,
+                text: this.esgst.gc_tc_s ? (this.esgst.gc_tc_s_i ? `` : `TC${count}`) : `${this.esgst.gc_tcLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_tc_s && this.esgst.gc_tc_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_tcIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_l`:
-            if (cache && cache.linux) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].linux) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.linux) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-linux`,
-                  [`data-id`]: `gc_l`,
+                  [`data-draggable-id`]: `gc_l`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_l`, `Linux`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_l`, `Linux${count}`)
                 },
-                text: this.esgst.gc_l_s ? (this.esgst.gc_l_s_i ? `` : `L`) : this.esgst.gc_lLabel,
+                text: this.esgst.gc_l_s ? (this.esgst.gc_l_s_i ? `` : `L${count}`) : `${this.esgst.gc_lLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_l_s && this.esgst.gc_l_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_lIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_m`:
-            if (cache && cache.mac) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].mac) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.mac) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-mac`,
-                  [`data-id`]: `gc_m`,
+                  [`data-draggable-id`]: `gc_m`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_m`, `Mac`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_m`, `Mac${count}`)
                 },
-                text: this.esgst.gc_m_s ? (this.esgst.gc_m_s_i ? `` : `M`) : this.esgst.gc_mLabel,
+                text: this.esgst.gc_m_s ? (this.esgst.gc_m_s_i ? `` : `M${count}`) : `${this.esgst.gc_mLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_m_s && this.esgst.gc_m_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_mIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
@@ -2075,7 +2284,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-dlc`,
-                  [`data-id`]: `gc_dlc`,
+                  [`data-draggable-id`]: `gc_dlc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_dlc`, `DLC${this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
                 },
@@ -2116,7 +2325,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-package`,
-                  [`data-id`]: `gc_p`,
+                  [`data-draggable-id`]: `gc_p`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
                 },
@@ -2126,62 +2335,98 @@ info = ({
             }
             break;
           case `gc_ea`:
-            if (cache && cache.earlyAccess) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].earlyAccess) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.earlyAccess) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-earlyAccess`,
-                  [`data-id`]: `gc_ea`,
+                  [`data-draggable-id`]: `gc_ea`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_ea`, `Early Access`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_ea`, `Early Access${count}`)
                 },
-                text: this.esgst.gc_ea_s ? (this.esgst.gc_ea_s_i ? `` : `EA`) : this.esgst.gc_eaLabel,
+                text: this.esgst.gc_ea_s ? (this.esgst.gc_ea_s_i ? `` : `EA${count}`) : `${this.esgst.gc_eaLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_ea_s && this.esgst.gc_ea_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_eaIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_lg`:
-            if (cache && cache.learning === 1) {
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].learning === 1) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.learning === 1) || count) {
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-learning`,
-                  [`data-id`]: `gc_lg`,
+                  [`data-draggable-id`]: `gc_lg`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_lg`, `Learning`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_lg`, `Learning${count}`)
                 },
-                text: this.esgst.gc_lg_s ? (this.esgst.gc_lg_s_i ? `` : `LG`) : this.esgst.gc_lgLabel,
+                text: this.esgst.gc_lg_s ? (this.esgst.gc_lg_s_i ? `` : `LG${count}`) : `${this.esgst.gc_lgLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_lg_s && this.esgst.gc_lg_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_lgIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
           case `gc_rm`:
-            if (cache && cache.removed === 1) {
-              elements.push({
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].removed === 1) {
+                  count += 1;
+                }
+              }
+            }
+            count = count ? ` (${count})` : ``;
+            if ((cache && cache.removed === 1) || count) {
+            elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-removed`,
-                  [`data-id`]: `gc_rm`,
+                  [`data-draggable-id`]: `gc_rm`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rm`, `Removed`)
+                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rm`, `Removed${count}`)
                 },
-                text: this.esgst.gc_rm_s ? (this.esgst.gc_rm_s_i ? `` : `RM`) : this.esgst.gc_rmLabel,
+                text: this.esgst.gc_rm_s ? (this.esgst.gc_rm_s_i ? `` : `RM${count}`) : `${this.esgst.gc_rmLabel}${count}`,
                 type: `a`,
                 children: this.esgst.gc_rm_s && this.esgst.gc_rm_s_i ? [{
                   attributes: {
                     class: `fa fa-${this.esgst.gc_rmIcon}`
                   },
                   type: `i`
-                }] : null
+                }, count ? {
+                  text: count,
+                  type: `node`
+                } : null] : null
               });
             }
             break;
@@ -2190,7 +2435,7 @@ info = ({
               elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-releaseDate`,
-                  [`data-id`]: `gc_rd`,
+                  [`data-draggable-id`]: `gc_rd`,
                   [`data-timestamp`]: cache.releaseDate === `?` ? cache.releaseDate : cache.releaseDate / 1e3,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: this.esgst.modules.common.getFeatureTooltip(`gc_rd`, `Release Date`)
@@ -2202,16 +2447,26 @@ info = ({
                   },
                   type: `i`
                 }, {
-                  text: ` ${gc_formatDate(cache.releaseDate)}`,
+                  text: ` ${this.gc_formatDate(cache.releaseDate)}`,
                   type: `node`
                 }]
               });
             }
             break;
           case `gc_g`:
-            if (cache && cache.genres) {
-              let filters;
+            genres = ``;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (gc.cache.apps[id] && gc.cache.apps[id].genres) {
+                  genres += `${this.esgst.gc_g_udt && gc.cache.apps[id].tags ? `${gc.cache.apps[id].genres}, ${gc.cache.apps[id].tags}` : gc.cache.apps[id].genres}, `;
+                }
+              }
+              genres = genres.slice(0, -2);
+            } else if (cache && cache.genres) {
               genres = this.esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
+            }            
+            if (genres) {
+              let filters;
               genreList = utils.sortArray(Array.from(new Set(genres.split(/,\s/))));
               genres = genreList.join(`, `);
               if (this.esgst.gc_g_filters.trim()) {
@@ -2278,7 +2533,7 @@ info = ({
                 elements.push({
                   attributes: {
                     class: `esgst-gc esgst-gc-genres`,
-                    [`data-id`]: `gc_g`
+                    [`data-draggable-id`]: `gc_g`
                   },
                   type: `span`,
                   children: genreList
@@ -2287,7 +2542,7 @@ info = ({
                 elements.push({
                   attributes: {
                     class: `esgst-gc esgst-gc-genres`,
-                    [`data-id`]: `gc_g`,
+                    [`data-draggable-id`]: `gc_g`,
                     href: `http://store.steampowered.com/${singularType}/${id}`,
                     title: this.esgst.modules.common.getFeatureTooltip(`gc_g`, genres)
                   },
@@ -2300,11 +2555,6 @@ info = ({
         }
       }
     }
-    let gc = {
-      categoryKey: games[0].grid ? `gc_categories_gv` : `gc_categories`,
-      indexKey: games[0].grid ? `gc_indexes_gv` : `gc_indexes`,
-      source: null
-    };
     if (this.esgst.gc_si && isInstant) {
       elements.push({
         attributes: {
@@ -2345,37 +2595,14 @@ info = ({
             panel.children[j].removeAttribute(`href`);
           }
         }
-        if (games[i].columns) {
-          for (j = games[i].columns.children.length - 1; j > -1; j--) {
-            let item = games[i].columns.children[j];
-            item.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, j, item, null, false));
-          }
-          games[i].columns.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, 0, null, games[i].columns, true));
-          if (games[i].gvIcons) {
-            games[i].gvIcons.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, 0, null, games[i].gvIcons, true));
-          }
-          panel.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, -1, null, panel, false));
-          for (j = panel.children.length - 1; j > -1; j--) {
-            let item = panel.children[j];
-            item.setAttribute(`draggable`, true);
-            item.addEventListener(`dragstart`, this.gc_setSource.bind(null, this.gc, item, panel, games[i].columns, games[i].gvIcons));
-            item.addEventListener(`dragenter`, this.gc_getSource.bind(null, this.gc, games[i].columns, -1, item, null, false));
-            item.addEventListener(`dragend`, this.gc_saveSource.bind(null, this.gc, panel, games[i].columns, games[i].gvIcons));
-            let id = item.getAttribute(`data-id`);
-            let index = this.esgst[gc.indexKey][id];
-            if (isSet(index) && index !== -1) {
-              item.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-              if (item.getAttribute(`data-color`)) {
-                item.firstElementChild.style.color = item.getAttribute(`data-bgColor`);
-                item.style.color = ``;
-                item.style.background = ``;
-              }
-              games[i].columns.insertBefore(item, games[i].columns.children[index]);
-            }
-          }
-        }
+        panel.addEventListener(`dragenter`, this.esgst.modules.common.draggable_enter.bind(null, {
+          context: panel,
+          item: games[i]
+        }));
         panel.setAttribute(`data-gcReady`, 1);
       }
+      games[i].gcPanel = panel;
+      this.esgst.modules.giveaways.giveaways_reorder(games[i]);
     }
   }
 
@@ -2383,113 +2610,6 @@ info = ({
     if (timestamp === `?`) return timestamp;
     let date = new Date(timestamp);
     return this.esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
-  }
-
-  gc_setSource(gc, item, panel, columns, gvIcons, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
-    this.gc.source = item;
-    setTimeout(() => {
-      if (!panel.children.length) {
-        panel.style.height = `28px`;
-        panel.style.width = `100%`;
-      }
-      if (columns && !columns.children.length) {
-        columns.style.height = `25px`;
-        columns.style.width = `100%`;
-      }
-      if (gvIcons && !gvIcons.children.length) {
-        gvIcons.style.height = `28px`;
-        gvIcons.style.width = `100%`;
-      }
-    }, 0);
-  }
-
-  gc_getSource(gc, context, index, item, panel, column) {
-    let current = this.gc.source;
-    if (!gc.source || this.gc.source === item) return;
-    if (panel) {
-      if (!panel.children.length) {
-        panel.appendChild(gc.source);
-        this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
-        if (column) {
-          this.gc.source.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-        } else {
-          this.gc.source.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (gc.source.getAttribute(`data-color`)) {
-            this.gc.source.firstElementChild.style.color = ``;
-            this.gc.source.style.color = this.gc.source.getAttribute(`data-color`);
-            this.gc.source.style.backgroundColor = this.gc.source.getAttribute(`data-bgColor`);
-          }
-        }
-      }
-      return;
-    }
-    do {
-      current = current.previousElementSibling;
-      if (current && current === item) {
-        if (context.contains(item)) {
-          this.gc.source.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (gc.source.getAttribute(`data-color`)) {
-            this.gc.source.firstElementChild.style.color = this.gc.source.getAttribute(`data-bgColor`);
-            this.gc.source.style.color = ``;
-            this.gc.source.style.background = ``;
-          }
-        } else {
-          this.gc.source.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (gc.source.getAttribute(`data-color`)) {
-            this.gc.source.firstElementChild.style.color = ``;
-            this.gc.source.style.color = this.gc.source.getAttribute(`data-color`);
-            this.gc.source.style.backgroundColor = this.gc.source.getAttribute(`data-bgColor`);
-          }
-        }
-        if (item.getAttribute(`data-id`)) {
-          this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-          this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = utils.isSet(this.esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? this.esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
-        } else {
-          this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index;
-        }
-        item.parentElement.insertBefore(gc.source, item);
-        return;
-      }
-    } while (current);
-    if (context.contains(item)) {
-      this.gc.source.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-      if (gc.source.getAttribute(`data-color`)) {
-        this.gc.source.firstElementChild.style.color = this.gc.source.getAttribute(`data-bgColor`);
-        this.gc.source.style.color = ``;
-        this.gc.source.style.background = ``;
-      }
-    } else {
-      this.gc.source.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-      if (gc.source.getAttribute(`data-color`)) {
-        this.gc.source.firstElementChild.style.color = ``;
-        this.gc.source.style.color = this.gc.source.getAttribute(`data-color`);
-        this.gc.source.style.backgroundColor = this.gc.source.getAttribute(`data-bgColor`);
-      }
-    }
-    if (item.getAttribute(`data-id`)) {
-      this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(item.getAttribute(`data-id`)), 0, this.esgst[gc.categoryKey].splice(this.esgst[gc.categoryKey].indexOf(gc.source.getAttribute(`data-id`)), 1)[0]);
-      this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = utils.isSet(this.esgst[gc.indexKey][item.getAttribute(`data-id`)]) ? this.esgst[gc.indexKey][item.getAttribute(`data-id`)] : -1;
-    } else {
-      this.esgst[gc.indexKey][gc.source.getAttribute(`data-id`)] = index + 1;
-    }
-    item.parentElement.insertBefore(gc.source, item.nextElementSibling);
-  }
-
-  async gc_saveSource(gc, panel, columns, gvIcons) {
-    this.gc.source = null;
-    panel.style.height = ``;
-    panel.style.width = ``;
-    if (columns) {
-      columns.style.height = ``;
-      columns.style.width = ``;
-    }
-    if (gvIcons) {
-      gvIcons.style.height = ``;
-      gvIcons.style.width = ``;
-    }
-    await this.esgst.modules.common.setSetting(gc.categoryKey, this.esgst[gc.categoryKey]);
-    await this.esgst.modules.common.setSetting(gc.indexKey, this.esgst[gc.indexKey]);
   }
 }
 

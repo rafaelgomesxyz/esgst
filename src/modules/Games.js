@@ -2,14 +2,14 @@ import {utils} from '../lib/jsUtils'
 import Module from '../class/Module';
 
 class Games extends Module {
-info = ({
+  info = ({
     endless: true,
     id: `games`,
-    load: games
+    load: this.games
   });
 
   games() {
-    this.esgst.endlessFeatures.push(games_load);
+    this.esgst.endlessFeatures.push(this.games_load);
   }
 
   async games_load(context, main, source, endless) {
@@ -30,6 +30,12 @@ info = ({
     });
     for (const feature of this.esgst.gameFeatures) {
       await feature(games, main, source, endless, `apps`);
+    }
+    for (const id in games.apps) {
+      games.apps[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
+    }
+    for (const id in games.subs) {
+      games.subs[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
     }
   }
 
@@ -52,12 +58,14 @@ info = ({
       game = {
         container: matches[i]
       };
+      game.outerWrap = game.container;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
       game.table = game.container.closest(`table`) ? true : false;
       game.grid = game.container.closest(`.esgst-gv-view`);
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
       }
+      game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
       info = this.games_getInfo(game.container);
       game.heading = game.container.querySelector(headingQuery);
       if (info && game.heading) {
@@ -141,7 +149,7 @@ info = ({
             x.id = giveaway.gameSteamId;
             x.type = giveaway.gameType;
             if (this.esgst.games && this.esgst.games[x.type][x.id]) {
-              const keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+              const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
               for (const key of keys) {
                 if (this.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
                   x[key] = true;
