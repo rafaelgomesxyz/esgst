@@ -1,5 +1,6 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
 import Popup_v2 from '../../class/Popup_v2';

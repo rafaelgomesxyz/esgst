@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).</li>
@@ -107,7 +107,7 @@ info = ({
             this.esgst.modules.common.createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
               attributes: {
                 class: `esgst-radb-button`,
-                title: `${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}`
+                title: `${this.esgst.modules.common.getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}`
               },
               type: `div`,
               children: [{
@@ -120,7 +120,7 @@ info = ({
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
               if (this.esgst.oadd) {
-                this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, icon.classList.remove.bind(icon, `fa-spin`));
+                this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => icon.classList.remove(`fa-spin`));
               } else {
                 this.esgst.modules.common.checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
               }

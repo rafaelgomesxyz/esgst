@@ -1,8 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Process from '../../class/Process';
 
 class DiscussionsDiscussionFilters extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to filter discussions.</li>
@@ -220,12 +221,12 @@ info = ({
       `);
       if (this.esgst.hideButtons && this.esgst.hideButtons_df) {
         if (this.esgst.leftButtonIds.indexOf(`df`) > -1) {
-          this.esgst.leftButtons.insertBefore(filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
+          this.esgst.leftButtons.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          this.esgst.rightButtons.appendChild(filters_addContainer(`df`, this.esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`df`, this.esgst.mainPageHeading));
         }
       } else {
-        this.esgst.mainPageHeading.insertBefore(filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.adots || this.esgst.oadd) return;
@@ -256,7 +257,7 @@ info = ({
   }
 
   async df_initUrls(obj) {
-    obj. discussions = obj.popup.getScrollable([{
+    obj.discussions = obj.popup.getScrollable([{
       attributes: {
         class: `table esgst-text-left`
       },

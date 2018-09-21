@@ -2,11 +2,11 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class DiscussionsOldActiveDiscussionsDesign extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.</li>
-        <li>Only one section ("Discussions" or "Deals") can be shown this.esgst.modules.generalAccurateTimestamp.at a time. There is a button (<i class="fa fa-retweet"></i>) in the page heading of the active discussions that allows you to switch sections.</li>
+        <li>Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (<i class="fa fa-retweet"></i>) in the page heading of the active discussions that allows you to switch sections.</li>
       </ul>
     `,
     features: {

@@ -1,14 +1,15 @@
 import Module from '../class/Module';
+import Button from '../class/Button';
 
 class Discussions extends Module {
-info = ({
+  info = ({
     endless: true,
     id: `discussions`,
-    load: discussions
+    load: this.discussions
   });
   
   discussions() {
-    this.esgst.endlessFeatures.push(discussions_load);
+    this.esgst.endlessFeatures.push(this.discussions_load);
   }
 
   async discussions_load(context, main, source, endless) {
@@ -36,11 +37,29 @@ info = ({
     if (this.esgst.mm_enableDiscussions && this.esgst.mm_enable) {
       this.esgst.mm_enable(this.esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
     }
+    for (const feature of this.esgst.discussionFeatures) {
+      await feature(discussions);
+    }
   }
 
   async discussions_get(context, main, endless) {
     let discussions = [];
-    let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
+    let elements = context.querySelectorAll(`.esgst-dt-menu`);
+    for (const element of elements) {
+      const id = element.getAttribute(`href`).match(/\/discussion\/(.+?)\//)[1];
+      discussions.push({
+        code: id,
+        container: element.parentElement,
+        context: element,
+        id,
+        menu: true,
+        name: element.textContent.trim(),
+        saved: this.esgst.discussions[id],
+        tagContext: element,
+        tagPosition: `afterEnd`
+      });
+    }
+    elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       let discussion = await this.discussions_getInfo(elements[i], main);
       if (!discussion) continue;
@@ -52,12 +71,21 @@ info = ({
         heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
         headingContainer: document.getElementsByClassName(`page__heading`)[0]
       };
+      discussion.id = discussion.code;
+      discussion.container = discussion.headingContainer;
+      discussion.tagContext = discussion.container.querySelector(`[href*="/discussion/"]`);
+      discussion.name = discussion.tagContext.textContent.trim();
+      discussion.tagPosition = `afterEnd`;
+      discussion.saved = this.esgst.discussions[discussion.code];
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
       this.esgst.modules.common.checkVersion(discussion);
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
       discussions.push(discussion);
     }
     discussions.forEach(discussion => {
+      if (discussion.menu) {
+        return;
+      }
       let savedDiscussion = this.esgst.discussions[discussion.code];
       if (this.esgst.codb && discussion.author === this.esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
         if (discussion.closed) {
@@ -65,7 +93,7 @@ info = ({
           discussion.closed = true;
         }
         new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [codb_close.bind(null, discussion), null, this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_open.bind(null, discussion), null],
+          callbacks: [this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_close.bind(null, discussion), null, this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_open.bind(null, discussion), null],
           className: `esgst-codb-button`,
           icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
           id: `codb`,
@@ -75,7 +103,7 @@ info = ({
       }
       if (this.esgst.df && this.esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
         new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [df_hideDiscussion.bind(null, discussion, main), null, this.esgst.modules.discussionsDiscussionFilters.df_unhideDiscussion.bind(null, discussion, main), null],
+          callbacks: [this.esgst.modules.discussionsDiscussionFilters.df_hideDiscussion.bind(null, discussion, main), null, this.esgst.modules.discussionsDiscussionFilters.df_unhideDiscussion.bind(null, discussion, main), null],
           className: `esgst-df-button`,
           icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `df_s`,
@@ -95,7 +123,7 @@ info = ({
           index = 2;
         }
         discussion.dhButton = new Button(discussion.heading.parentElement, `afterBegin`, {
-          callbacks: [dh_highlightDiscussion.bind(null, discussion.code, context, true), null, this.esgst.modules.discussionsDiscussionHighlighter.dh_unhighlightDiscussion.bind(null, discussion.code, context, true), null],
+          callbacks: [this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion.bind(null, discussion.code, context, true), null, this.esgst.modules.discussionsDiscussionHighlighter.dh_unhighlightDiscussion.bind(null, discussion.code, context, true), null],
           className: `esgst-dh-button`,
           icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `dh`,
@@ -108,7 +136,7 @@ info = ({
         if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
           context.classList.add(`esgst-relative`);
           new Button(context, `afterBegin`, {
-            callbacks: [pm_change.bind(null, discussion.code, `unsolved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `in progress`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `solved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `off`), null],
+            callbacks: [this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `unsolved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `in progress`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `solved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `off`), null],
             className: `esgst-pm-button`,
             icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
             id: `pm`,
@@ -198,19 +226,25 @@ info = ({
       discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
       discussion.lastPostTime = discussion.lastPostTime.textContent;
     }
+    discussion.id = discussion.code;
+    discussion.name = discussion.title;
+    discussion.container = discussion.headingContainer;
+    discussion.tagContext = discussion.headingContainer;
+    discussion.tagPosition = `beforeEnd`;
+    discussion.saved = this.esgst.discussions[discussion.code];
     if (this.esgst.uf) {
       savedUser = await this.esgst.modules.common.getUser(this.esgst.users, {
         username: discussion.author
       });
       if (savedUser) {
-        this.esgst.modules.usersUserFilters.uf = savedUser.uf;
+        uf = savedUser.uf;
         if (this.esgst.uf_d && savedUser.blacklisted && !uf) {
           if (!this.esgst.giveawaysPath) {
             this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
           }
           discussion.outerWrap.remove();
           return;
-        } else if (uf && this.esgst.modules.usersUserFilters.uf.discussions) {
+        } else if (uf && uf.discussions) {
           if (!this.esgst.giveawaysPath) {
             this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
           }
