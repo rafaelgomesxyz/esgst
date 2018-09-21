@@ -1,11 +1,16 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Checkbox from '../../class/Checkbox';
+import Popout from '../../class/Popout';
+import Process from '../../class/Process';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GeneralMultiManager extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games this.esgst.modules.generalAccurateTimestamp.at once.</li>
+        <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
         <li>When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.</li>
         <li>You can:</li>
         <ul>
@@ -64,7 +69,7 @@ info = ({
     this.esgst.mm_disable = this.mm_disable.bind(null, obj);
     obj.button.addEventListener(`click`,  this.mm_openPopout.bind(null, obj, items, itemsKey));
     if (this.esgst.mm_enableGames) {
-      this.esgst.gameFeatures.push(mm_getGames);
+      this.esgst.gameFeatures.push(this.mm_getGames);
     }
   }
 
@@ -509,7 +514,7 @@ info = ({
         }
       });
     });
-    this.esgst.modules.common.createTooltip(createElements(context, `beforeEnd`, [{
+    this.esgst.modules.common.createTooltip(this.esgst.modules.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -532,13 +537,13 @@ info = ({
         <li>[comments] - The current number of comments that the giveaway has.</li>
         <li>[copies] - The number of copies being given away.</li>
         <li>[creator] - The creator of the giveaway.</li>
-        <li>[end-time="$"] - When the giveaway ended/will end. Replace $ with the date templates specified this.esgst.modules.generalAccurateTimestamp.at the end of this tooltip.</li>
+        <li>[end-time="$"] - When the giveaway ended/will end. Replace $ with the date templates specified at the end of this tooltip.</li>
         <li>[entries] - The current number of entries that the giveaway has.</li>
         <li>[level] - The level of the giveaway.</li>
         <li>[name] - The name of the game being given away.</li>
         <li>[points] - The number of points that the giveaway is worth.</li>
         <li>[short-url] - The short URL of the giveaway (https://www.steamgifts.com/giveaway/XXXXX/).</li>
-        <li>[start-time="$"] - When the giveaway started. Replace $ with the date templates specified this.esgst.modules.generalAccurateTimestamp.at the end of this tooltip.</li>
+        <li>[start-time="$"] - When the giveaway started. Replace $ with the date templates specified at the end of this tooltip.</li>
         <li>[steam-id] - The Steam app/sub id of the game being given away.</li>
         <li>[steam-type] - The Steam type of the game being given away ("app" or "sub").</li>
         <li>[steam-url] - The Steam store URL of the game being given away.</li>
@@ -551,7 +556,7 @@ info = ({
         <li>[category] - The category of the discussion.</li>
         <li>[code] - The 5-character code of the discussion.</li>
         <li>[comments] - The current number of comments that the discussion has.</li>
-        <li>[created-time="$"] - When the discussion was created. Replace $ with the date templates specified this.esgst.modules.generalAccurateTimestamp.at the end of this tooltip.</li>
+        <li>[created-time="$"] - When the discussion was created. Replace $ with the date templates specified at the end of this tooltip.</li>
         <li>[poll] - "Yes" if the discussion has a poll and "No" otherwise.</li>
         <li>[short-url] - The short URL of the discussion (https://www.steamgifts.com/discussion/XXXXX/).</li>
         <li>[title] - The title of the discussion.</li>
@@ -634,7 +639,7 @@ info = ({
     let links = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-      links.push(`[${escapeMarkdown(item.name || item.title || item.code)}](https://${key === `Games` ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
+      links.push(`[${this.esgst.modules.common.escapeMarkdown(item.name || item.title || item.code)}](https://${key === `Games` ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
     });
     obj[`textArea${key}`].value = links.join(`\n`);
   }
@@ -749,7 +754,7 @@ info = ({
   }
 
   mm_formatDate(timestamp, match, p1) {
-    return this.esgst.modules.common.escapeMarkdown(formatDate(p1, timestamp));
+    return this.esgst.modules.common.escapeMarkdown(utils.formatDate(p1, timestamp));
   }
 
   mm_initUrls(obj, items) {
@@ -899,7 +904,7 @@ info = ({
     let nextRefresh = 60 - new Date().getMinutes();
     while (nextRefresh > 15) nextRefresh -= 15;
     if (points > this.esgst.points) {
-      obj.textAreaGiveaways.value = `You will need to wait ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ``}`;
+      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ``}`;
     } else {
       obj.textAreaGiveaways.value = `You have enough points to enter all giveaways right now.`;
     }
@@ -909,7 +914,7 @@ info = ({
     let encrypted = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-      encrypted.push(`[](ESGST-${ged_encryptCode(item.code)})`);
+      encrypted.push(`[](ESGST-${this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(item.code)})`);
     });
     obj.textAreaGiveaways.value = encrypted.join(` `);
   }

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralHiddenBlacklistStats extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Hides the blacklist stats of your <a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.</li>

@@ -1,10 +1,10 @@
 import Module from '../../class/Module';
 
 class GeneralFixedSidebar extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Keeps the sidebar of any page this.esgst.modules.generalAccurateTimestamp.at the left side of the window while you scroll down the page.</li>
+        <li>Keeps the sidebar of any page at the left side of the window while you scroll down the page.</li>
       </ul>
     `,
     id: `fs`,

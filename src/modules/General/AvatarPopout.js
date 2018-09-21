@@ -3,7 +3,7 @@ import Module from '../../class/Module';
 import Popout from "../../class/Popout";
 
 class GeneralAvatarPopout extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.</li>
@@ -21,8 +21,8 @@ info = ({
   });
 
   ap() {
-    this.esgst.endlessFeatures.push(ap_getAvatars);
-    this.esgst.userFeatures.push(ap_getUsers);
+    this.esgst.endlessFeatures.push(this.ap_getAvatars);
+    this.esgst.userFeatures.push(this.ap_getUsers);
   }
 
   ap_getUsers(users) {

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralSameTabOpener extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Opens any link in the page in the same tab.</li>
@@ -16,7 +16,7 @@ info = ({
   });
 
   sto() {
-    this.esgst.endlessFeatures.push(sto_setLinks);
+    this.esgst.endlessFeatures.push(this.sto_setLinks);
   }
 
   sto_setLinks(context, main, source, endless) {

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralEmbeddedVideos extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.</li>
@@ -17,7 +17,7 @@ info = ({
   });
 
   ev() {
-    this.esgst.endlessFeatures.push(ev_getVideos);
+    this.esgst.endlessFeatures.push(this.ev_getVideos);
   }
 
   ev_getVideos(context, main, source, endless) {

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralPaginationNavigationOnTop extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Moves the pagination navigation of any page to the main page heading of the page.</li>

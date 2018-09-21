@@ -2,7 +2,7 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class GeneralNotificationMerger extends Module {
-info = ({
+  info = ({
     // by Royalgamer06
     description: `
       <ul>

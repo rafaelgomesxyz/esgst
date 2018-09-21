@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralURLRedirector extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".</li>

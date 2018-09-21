@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralImageBorders extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Brings back image borders to SteamGifts.</li>
@@ -15,7 +15,7 @@ info = ({
   });
 
   ib() {
-    this.esgst.endlessFeatures.push(ib_addBorders);
+    this.esgst.endlessFeatures.push(this.ib_addBorders);
   }
 
   ib_addBorders(context, main, source, endless) {

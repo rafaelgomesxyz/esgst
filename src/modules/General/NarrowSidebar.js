@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralNarrowSidebar extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Keeps the sidebar narrowed in all pages.</li>

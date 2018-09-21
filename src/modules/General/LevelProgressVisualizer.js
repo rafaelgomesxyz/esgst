@@ -1,13 +1,13 @@
 import Module from '../../class/Module';
 
 class GeneralLevelProgressVisualizer extends Module {
-info = ({
+  info = ({
     conflicts: [
       {id: `pv`, name: `Points Visualizer`}
     ],
     description: `
       <ul>
-        <li>Displays a green bar in the account button this.esgst.modules.generalAccurateTimestamp.at the header of any page that represents your level progress.</li>
+        <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
         <li>Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.</li>
       </ul>
     `,
@@ -41,7 +41,7 @@ info = ({
     cache.difference = this.esgst.modules.common.round(cache.difference);
     cache.level = currentLevel;
     this.esgst.modules.common.setLocalValue(`lpvCache`, JSON.stringify(cache));
-    const currentPercentage = parseInt(round(currentLevel - currentBase) * 100);
+    const currentPercentage = parseInt(this.esgst.modules.common.round(currentLevel - currentBase) * 100);
     const currentProgress = parseInt(currentPercentage * 1.86); // 186px is the width of the button
     const firstBar = `${currentProgress}px`;
     const secondBar = `${Math.max(0, currentProgress - 157)}px`; // 157px is the width of the button without the arrow
@@ -51,10 +51,10 @@ info = ({
     if (cv > 0) {
       // the formula is: current_percentage + (real_cv_to_gain / real_cv_difference),
       // where real_cv_difference is the real CV difference between the next level and the current one
-      const prediction = this.esgst.modules.common.round(currentPercentage + (round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
+      const prediction = this.esgst.modules.common.round(currentPercentage + (this.esgst.modules.common.round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
       const newLevel = this.esgst.modules.common.round(Math.min(10, this.esgst.modules.common.round(currentBase + (prediction / 100))) - cache.difference);
       const newBase = parseInt(newLevel);
-      const newPercentage = parseInt(round(newLevel - newBase) * 100);
+      const newPercentage = parseInt(this.esgst.modules.common.round(newLevel - newBase) * 100);
       const newProgress = parseInt(Math.min(100, newPercentage) * 1.86);
       projectedFirstBar = `${newProgress}px`;
       projectedSecondBar = `${Math.max(0, newProgress - 157)}px`;

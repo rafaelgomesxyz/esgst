@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralShortcutKeys extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to perform many different tasks by pressing certain keys.</li>

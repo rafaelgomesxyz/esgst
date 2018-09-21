@@ -1,8 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import CompletionCheck from '../../class/CompletionCheck';
 
 class GeneralEndlessScrolling extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.</li>
@@ -100,51 +101,51 @@ info = ({
   es() {
     if (!this.esgst.mainPageHeading || !this.esgst.pagination) return;
     let es = {};
-    this.esgst.es = this.es;
-    this.es.divisors = this.esgst.es_pd;
-    this.es.mainContext = this.esgst.pagination.previousElementSibling;
-    let rows = this.es.mainContext.getElementsByClassName(`table__rows`)[0];
+    this.esgst.es = es;
+    es.divisors = this.esgst.es_pd;
+    es.mainContext = this.esgst.pagination.previousElementSibling;
+    let rows = es.mainContext.getElementsByClassName(`table__rows`)[0];
     if (rows) {
-      this.es.mainContext = rows;
+      es.mainContext = rows;
     }
-    this.es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ``];
-    this.es.reverseScrolling = this.esgst.es_r && this.esgst.discussionPath;
+    es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ``];
+    es.reverseScrolling = this.esgst.es_r && this.esgst.discussionPath;
     if (es.reverseScrolling) {
-      if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && ((document.referrer.match(/www.steamgifts.com\/($|discussions|messages)/) && !location.hash) || location.hash === `#esgst_reverse`)) {
-        for (let i = 0, n = this.es.mainContext.children.length; i < n; ++i) {
-          this.es.mainContext.children[0].remove();
+      if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !esgst.parameters.page) {
+        for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
+          es.mainContext.children[0].remove();
         }
         this.esgst.mainComments = [];
         this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = 0;
         if (this.esgst.paginationNavigation) {
           let lastLink = this.esgst.paginationNavigation.lastElementChild;
           if (lastLink.classList.contains(`is-selected`) && lastLink.textContent.match(/Last/) && !this.esgst.lastPageLink) {
-            this.es.currentPage = parseInt(lastLink.getAttribute(`data-page-number`));
+            es.currentPage = parseInt(lastLink.getAttribute(`data-page-number`));
           } else {
-            this.es.currentPage = 999999999;
+            es.currentPage = 999999999;
           }
         } else {
-          this.es.currentPage = 999999999;
+          es.currentPage = 999999999;
         }
-        this.es.nextPage = this.es.currentPage;
-        this.es.reversePages = true;
-        this.es.ended = false;
+        es.nextPage = es.currentPage;
+        es.reversePages = true;
+        es.ended = false;
       } else {
-        this.es.currentPage = this.esgst.currentPage;
-        this.es.nextPage = this.es.currentPage - 1;
-        this.es.pageBase = this.es.currentPage + 1;
-        this.es.ended = this.es.nextPage === 0;
+        es.currentPage = esgst.currentPage;
+        es.nextPage = es.currentPage - 1;
+        es.pageBase = es.currentPage + 1;
+        es.ended = es.nextPage === 0;
       }
     } else {
-      this.es.currentPage = this.esgst.currentPage;
-      this.es.nextPage = this.es.currentPage + 1;
-      this.es.pageBase = this.es.currentPage - 1;
-      this.es.ended = (!this.esgst.paginationNavigation || this.esgst.paginationNavigation.lastElementChild.classList.contains(this.esgst.selectedClass));
+      es.currentPage = esgst.currentPage;
+      es.nextPage = es.currentPage + 1;
+      es.pageBase = es.currentPage - 1;
+      es.ended = (!this.esgst.paginationNavigation || this.esgst.paginationNavigation.lastElementChild.classList.contains(this.esgst.selectedClass));
     }
     const options = {
       rootMargin: `-${this.esgst.commentsTop + 1}px 0px 0px 0px`
     };
-    this.es.observer = new IntersectionObserver(es_observe.bind(null, this.es), options);
+    this.es.observer = new IntersectionObserver(this.es_observe.bind(null, es), options);
     this.es_activate(es);
   }
 
@@ -172,60 +173,60 @@ info = ({
         } else if (entry.boundingClientRect.y <= entry.rootBounds.y) {
           // The intersection element is no longer visible, but was scrolled upwards,
           // so we can now change the pagination.
-          this.es_changePagination(es, this.es.reverseScrolling ? index - 1 : index + 1);
+          this.es_changePagination(es, es.reverseScrolling ? index - 1 : index + 1);
         }
       }
     }
   }
 
   async es_activate(es) {
-    for (let i = 0, n = this.es.mainContext.children.length; i < n; ++i) {
+    for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
       if (i === n - 1) {
-        this.es.observer.observe(es.mainContext.children[i]);
+        es.observer.observe(es.mainContext.children[i]);
       }
-      this.es.mainContext.children[i].classList.add(`esgst-es-page-${es.currentPage}`);
+      es.mainContext.children[i].classList.add(`esgst-es-page-${es.currentPage}`);
     }
-    this.es.nextButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
-    this.es.continuousButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esContinuous`, icons: [`fa-fast-forward`], title: `Continuously load pages`});
+    es.nextButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
+    es.continuousButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esContinuous`, icons: [`fa-fast-forward`], title: `Continuously load pages`});
     if (es.ended) {
-      this.es.continuousButton.classList.add(`esgst-hidden`);
+      es.continuousButton.classList.add(`esgst-hidden`);
     }
-    this.es.pauseButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esPause`, icons: [`fa-pause`], title: `Pause the endless scrolling`});
-    this.es.resumeButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
-    this.es.refreshButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
-    this.es.refreshAllButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
-    this.esgst.es_refresh = this.es_refresh.bind(null, this.es);
-    this.es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
-    this.esgst.es_refreshAll = this.es_refreshAll.bind(null, this.es);
-    this.es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
-    this.es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(null, this.es));
-    this.es.nextButton.addEventListener(`click`, this.es_stepNext.bind(null, this.es));
-    this.es.pauseButton.addEventListener(`click`, this.es_pause.bind(null, this.es, false));
-    this.es.resumeButton.addEventListener(`click`, this.es_resume.bind(null, this.es, false));
+    es.pauseButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esPause`, icons: [`fa-pause`], title: `Pause the endless scrolling`});
+    es.resumeButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
+    es.refreshButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
+    es.refreshAllButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
+    esgst.es_refresh = this.es_refresh.bind(null, es);
+    es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
+    this.esgst.es_refreshAll = this.es_refreshAll.bind(null, es);
+    es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
+    es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(null, es));
+    es.nextButton.addEventListener(`click`, this.es_stepNext.bind(null, es));
+    es.pauseButton.addEventListener(`click`, this.es_pause.bind(null, es, false));
+    es.resumeButton.addEventListener(`click`, this.es_resume.bind(null, es, false));
     if (this.esgst.paginationNavigation) {
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
-      if (this.esgst.lastPageLink && this.esgst.lastPage !== this.es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+      if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
         this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);
     }
-    this.es.isLimited = false;
-    this.es.limitCount = 0;
-    this.es.busy = false;
-    this.es.paused = await getValue(`esPause`, false);
-    this.esgst.es_loadNext = this.es_loadNext.bind(null, this.es);
+    es.isLimited = false;
+    es.limitCount = 0;
+    es.busy = false;
+    es.paused = await getValue(`esPause`, false);
+    esgst.es_loadNext = this.es_loadNext.bind(null, es);
     if (es.paused) {
       this.es_pause(es, true);
     } else {
       this.es_resume(es, true);
     }
-    this.es.pageIndex = this.es.currentPage;
+    es.pageIndex = es.currentPage;
     const options = {
       rootMargin: `0px 0px ${innerHeight}px 0px`
     };
-    const observer = new IntersectionObserver(es_observe.bind(null, this.es), options);
+    const observer = new IntersectionObserver(this.es_observe.bind(null, es), options);
     observer.observe(this.esgst.pagination);
-    if (es.paused && this.es.reversePages) {
+    if (es.paused && es.reversePages) {
       this.esgst.es_loadNext();
     } else if (this.esgst.es_cl) {
       this.es_continuouslyLoad(es);
@@ -233,10 +234,10 @@ info = ({
   }
 
   async es_loadNext(es, callback, force) {
-    if (!this.esgst.stopEs && !es.busy && (!es.paused || this.es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || this.es.step))) && (!es.isLimited || this.es.limitCount > 0)) {
-      this.es.limitCount -= 1;
-      this.es.busy = true;
-      this.es.progress = this.esgst.modules.common.createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
+    if (!this.esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step))) && (!es.isLimited || es.limitCount > 0)) {
+      es.limitCount -= 1;
+      es.busy = true;
+      es.progress = this.esgst.modules.common.createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
         attributes: {
           class: `esgst-bold`
         },
@@ -266,7 +267,7 @@ info = ({
     }
     let paginationNavigation = pagination.getElementsByClassName(this.esgst.paginationNavigationClass)[0];
     if (es.reversePages) {
-      this.es.paginations[0] = paginationNavigation.innerHTML;
+      es.paginations[0] = paginationNavigation.innerHTML;
       this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(es.paginations[0]).body.childNodes).map(x => {
         return {
           context: x
@@ -274,33 +275,33 @@ info = ({
       }))]);
       if (this.esgst.paginationNavigation) {
         let lastLink = this.esgst.paginationNavigation.lastElementChild;
-        if (this.esgst.lastPageLink && this.esgst.lastPage !== this.es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+        if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
           this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
         }
         this.es_setPagination(es);
       }
-      this.es.reversePages = false;
+      es.reversePages = false;
       if (es.currentPage === 999999999) {
-        this.es.currentPage = parseInt(paginationNavigation.lastElementChild.getAttribute(`data-page-number`));
-        this.es.nextPage = this.es.currentPage;
-        this.es.pageBase = this.es.currentPage + 1;
-        this.es.pageIndex = this.es.currentPage;
+        es.currentPage = parseInt(paginationNavigation.lastElementChild.getAttribute(`data-page-number`));
+        es.nextPage = es.currentPage;
+        es.pageBase = es.currentPage + 1;
+        es.pageIndex = es.currentPage;
       }
     } else if (refresh) {
-      pagination = this.es.paginations[(es.reverseScrolling ? this.es.pageBase - (refreshAll || this.es.pageIndex) : (refreshAll || this.es.pageIndex) - this.es.pageBase) - 1];
+      pagination = es.paginations[(es.reverseScrolling ? es.pageBase - (refreshAll || es.pageIndex) : (refreshAll || es.pageIndex) - es.pageBase) - 1];
       if (paginationNavigation && pagination !== paginationNavigation.innerHTML) {
-        this.es.paginations[(es.reverseScrolling ? this.es.pageBase - (refreshAll || this.es.pageIndex) : (refreshAll || this.es.pageIndex) - this.es.pageBase) - 1] = paginationNavigation.innerHTML;
-        this.es.ended = false;
+        es.paginations[(es.reverseScrolling ? es.pageBase - (refreshAll || es.pageIndex) : (refreshAll || es.pageIndex) - es.pageBase) - 1] = paginationNavigation.innerHTML;
+        es.ended = false;
       }
     } else {
-      this.es.paginations.push(paginationNavigation.innerHTML);
+      es.paginations.push(paginationNavigation.innerHTML);
     }
     let fragment = document.createDocumentFragment();
     if (this.esgst.cr && this.esgst.discussionPath) {
       this.esgst.modules.common.reverseComments(context);
     }
     let n = context.children.length;
-    const currentPage = refresh ? refreshAll || this.es.pageIndex : this.es.nextPage;
+    const currentPage = refresh ? refreshAll || es.pageIndex : es.nextPage;
     for (let i = 0; i < n; ++i) {
       let child = context.children[0];
       child.classList.add(`esgst-es-page-${currentPage}`);
@@ -313,8 +314,8 @@ info = ({
         elements[0].remove();
       }
       let element = elements[0];
-      this.es.mainContext.insertBefore(fragment, element);
-      this.es.observer.observe(element.previousElementSibling);
+      es.mainContext.insertBefore(fragment, element);
+      es.observer.observe(element.previousElementSibling);
       element.remove();
       if (!refreshAll) {
         this.es_purgeRemovedElements();
@@ -335,9 +336,9 @@ info = ({
       }
       this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - oldN + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
       if (refreshAll) {
-        this.es.check.count += 1;
+        es.check.count += 1;
       } else {
-        this.es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
+        es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
         this.esgst.modules.common.createElements(es.refreshButton, `inner`, [{
           attributes: {
             class: `fa fa-refresh`
@@ -372,20 +373,20 @@ info = ({
           }]
         }]);
       }
-      this.es.mainContext.appendChild(fragment);
-      this.es.observer.observe(es.mainContext.lastElementChild);
+      es.mainContext.appendChild(fragment);
+      es.observer.observe(es.mainContext.lastElementChild);
       await this.esgst.modules.common.endless_load(es.mainContext, true, null, currentPage);
       this.es_setRemoveEntry(es.mainContext);
       if (this.esgst.ts && !this.esgst.us) {
         this.esgst.modules.generalTableSorter.ts_sortTables();
       }
       this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
-      this.es.progress.remove();
+      es.progress.remove();
       if (es.reverseScrolling) {
         --es.nextPage;
-        this.es.busy = false;
+        es.busy = false;
         if (es.nextPage <= 0) {
-          this.es.ended = true;
+          es.ended = true;
           if (callback && typeof callback === `function`) {
             callback();
           }
@@ -402,9 +403,9 @@ info = ({
         }
       } else {
         ++es.nextPage;
-        this.es.busy = false;
+        es.busy = false;
         if (paginationNavigation.lastElementChild.classList.contains(this.esgst.selectedClass)) {
-          this.es.ended = true;
+          es.ended = true;
           if (callback && typeof callback === `function`) {
             callback();
           }
@@ -449,7 +450,7 @@ info = ({
   }
 
   es_changePagination(es, index) {
-    const pagination = this.es.paginations[index - 1];
+    const pagination = es.paginations[index - 1];
     if (pagination && this.esgst.paginationNavigation.innerHTML !== pagination) {
       this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(pagination).body.childNodes).map(x => {
         return {
@@ -457,7 +458,7 @@ info = ({
         };
       }))]);
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
-      if (this.esgst.lastPageLink && this.esgst.lastPage !== this.es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+      if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
         this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);
@@ -472,11 +473,11 @@ info = ({
       },
       type: `i`
     }]);
-    this.es.step = true;
-    const wasPaused = this.es.paused;
+    es.step = true;
+    const wasPaused = es.paused;
     await this.es_resume(es);
     this.esgst.es_loadNext(async () => {
-      this.es.step = false;
+      es.step = false;
       if (wasPaused) {
         await this.es_pause(es);
       } else {
@@ -499,17 +500,17 @@ info = ({
       },
       type: `i`
     }]);
-    this.es.continuous = true;
-    const wasPaused = this.es.paused;
+    es.continuous = true;
+    const wasPaused = es.paused;
     await this.es_resume(es);
     if (this.esgst.es_cl) {
-      this.es.isLimited = true;
-      this.es.limitCount = Math.min(10, parseInt(this.esgst.es_pages));
+      es.isLimited = true;
+      es.limitCount = Math.min(10, parseInt(this.esgst.es_pages));
     }
     this.esgst.es_loadNext(async () => {
-      this.es.isLimited = false;
-      this.es.limitCount = 0;
-      this.es.continuous = false;
+      es.isLimited = false;
+      es.limitCount = 0;
+      es.continuous = false;
       if (wasPaused) {
         await this.es_pause(es);
       } else {
@@ -525,13 +526,13 @@ info = ({
   }
 
   async es_pause(es, firstRun) {
-    this.es.paused = true;
-    this.es.pauseButton.classList.add(`esgst-hidden`);
-    this.es.resumeButton.classList.remove(`esgst-hidden`);
+    es.paused = true;
+    es.pauseButton.classList.add(`esgst-hidden`);
+    es.resumeButton.classList.remove(`esgst-hidden`);
     if (!firstRun) {
-      await setValue(`esPause`, this.es.paused);
+      await setValue(`esPause`, es.paused);
     }
-    this.es.continuous = false;
+    es.continuous = false;
     this.esgst.modules.common.createElements(es.continuousButton, `inner`, [{
       attributes: {
         class: `fa fa-fast-forward`
@@ -541,11 +542,11 @@ info = ({
   }
 
   async es_resume(es, firstRun) {
-    this.es.paused = false;
-    this.es.resumeButton.classList.add(`esgst-hidden`);
-    this.es.pauseButton.classList.remove(`esgst-hidden`);
+    es.paused = false;
+    es.resumeButton.classList.add(`esgst-hidden`);
+    es.pauseButton.classList.remove(`esgst-hidden`);
     if (!firstRun) {
-      await setValue(`esPause`, this.es.paused);
+      await setValue(`esPause`, es.paused);
     }
     if (this.esgst.pagination.getAttribute(`data-esgst-intersecting`)) {
       this.esgst.es_loadNext(null, true);
@@ -553,7 +554,7 @@ info = ({
   }
 
   async es_refresh(es) {
-    this.es.refreshButton.removeEventListener(`click`, this.esgst.es_refresh);
+    es.refreshButton.removeEventListener(`click`, this.esgst.es_refresh);
     this.esgst.modules.common.createElements(es.refreshButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
@@ -585,18 +586,18 @@ info = ({
   }
 
   async es_refreshAll(es) {
-    this.es.refreshAllButton.removeEventListener(`click`, this.esgst.es_refreshAll);
+    es.refreshAllButton.removeEventListener(`click`, this.esgst.es_refreshAll);
     this.esgst.modules.common.createElements(es.refreshAllButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    this.es.check = new CompletionCheck(es.paginations.length, async () => {
+    es.check = new CompletionCheck(es.paginations.length, async () => {
       this.es_purgeRemovedElements();
       await this.esgst.modules.common.endless_load(es.mainContext, true);
       this.es_setRemoveEntry(es.mainContext);
-      this.es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
+      es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
       this.esgst.modules.common.createElements(es.refreshAllButton, `inner`, [{
         attributes: {
           class: `fa fa-refresh`
@@ -632,11 +633,11 @@ info = ({
         this.esgst.modules.giveawaysPinnedGiveawaysButton.pgb();
       }
     });
-    let page = this.es.reverseScrolling ? this.es.pageBase - 1 : this.es.pageBase + 1,
+    let page = es.reverseScrolling ? es.pageBase - 1 : es.pageBase + 1,
       response = await this.esgst.modules.common.request({method: `GET`, url: `${this.esgst.searchUrl}${page}`});
     this.es_getNext(es, true, page, null, response);
-    for (let i = 1; i < this.es.check.total; ++i) {
-      page = this.es.reverseScrolling ? this.es.pageBase - (i + 1) : this.es.pageBase + (i + 1);
+    for (let i = 1; i < es.check.total; ++i) {
+      page = es.reverseScrolling ? es.pageBase - (i + 1) : es.pageBase + (i + 1);
       this.es_getNext(es, true, page, null, await this.esgst.modules.common.request({method: `GET`, url: `${this.esgst.searchUrl}${page}`}));
     }
     if (!this.esgst.hr) {
@@ -648,7 +649,7 @@ info = ({
   es_setPagination(es) {
     let matches = this.esgst.paginationNavigation.children;
     for (let i = 0, n = matches.length; i < n; ++i) {
-      matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(null, this.es));
+      matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(null, es));
     }
   }
 
@@ -692,8 +693,10 @@ info = ({
         if (responseJson.type === `success`) {
           Context.classList.add(`is-faded`);
           Complete.classList.toggle(`is-hidden`);
-          this.esgst.pointsContainer.textContent = responseJson.points;
-          this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+          if (responseJson.points) {
+            this.esgst.pointsContainer.textContent = responseJson.points;
+            this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+          }
         } else {
           Default.classList.toggle(`is-hidden`);
         }

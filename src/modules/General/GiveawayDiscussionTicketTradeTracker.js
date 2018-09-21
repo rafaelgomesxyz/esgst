@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-check"></i> if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any <a href="https://www.steamgifts.com/discussions">discussions</a>/<a href="https://www.steamgifts.com/support/tickets">tickets</a>/<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.</li>
@@ -39,7 +39,7 @@ info = ({
   });
 
   async gdttt() {
-    this.esgst.endlessFeatures.push(gdttt_checkVisited);
+    this.esgst.endlessFeatures.push(this.gdttt_checkVisited);
     if (!this.esgst.commentsPath) return;
     let match = location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
     let type = `${match[1]}s`;
@@ -52,7 +52,7 @@ info = ({
       trades: `ts`
     }[type]}`]) {
       if (!this.esgst.ct) {
-        let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+        let cache = JSON.parse(this.esgst.modules.common.getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
         if (cache[type].indexOf(code) < 0) {
           cache[type].push(code);
           this.esgst.modules.common.setLocalValue(`gdtttCache`, JSON.stringify(cache));
@@ -70,9 +70,9 @@ info = ({
       }
     } else if (this.esgst.discussionPath || this.esgst.tradePath) {
       if (savedComments[code] && savedComments[code].visited) {
-        this.gdttt_addMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), /*HERE*/null, type);
+        this.gdttt_addMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), null, type);
       } else {
-        this.gdttt_addMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), /*HERE*/null, type);
+        this.gdttt_addMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), null, type);
       }
     }
   }
@@ -168,7 +168,7 @@ info = ({
     this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-check`,
-        title: `${getFeatureTooltip(`gdttt`, `Mark as visited`)}`
+        title: `${this.esgst.modules.common.getFeatureTooltip(`gdttt`, `Mark as visited`)}`
       },
       type: `i`
     }]);
@@ -214,7 +214,7 @@ info = ({
     this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-times`,
-        title: `${getFeatureTooltip(`gdttt`, `Mark as unvisited`)}`
+        title: `${this.esgst.modules.common.getFeatureTooltip(`gdttt`, `Mark as unvisited`)}`
       },
       type: `i`
     }]);

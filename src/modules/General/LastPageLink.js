@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GeneralLastPageLink extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a "Last Page" link to the pagination navigation of some pages that do not have it. For example: discussion pages with 100+ pages, user pages, group pages with 100+ pages, etc...</li>
