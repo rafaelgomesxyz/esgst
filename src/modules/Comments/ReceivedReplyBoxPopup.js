@@ -1,7 +1,9 @@
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
+import Popup from '../../class/Popup';
 
 class CommentsReceivedReplyBoxPopup extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Pops up a reply box when you mark a giveaway as received (in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page) so that you can add a comment thanking the creator.</li>
@@ -16,7 +18,7 @@ info = ({
 
   rrbp() {
     if (!this.esgst.wonPath) return;
-    this.esgst.giveawayFeatures.push(rrbp_addEvent);
+    this.esgst.giveawayFeatures.push(this.rrbp_addEvent);
   }
 
   rrbp_addEvent(giveaways) {

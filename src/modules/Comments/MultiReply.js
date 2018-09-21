@@ -2,10 +2,10 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class CommentsMultiReply extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments this.esgst.modules.generalAccurateTimestamp.at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
+        <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
         <li>Has [id=ded] built-in.</li>
       </ul>
     `,
@@ -18,7 +18,7 @@ info = ({
   });
 
   mr() {
-    this.esgst.endlessFeatures.push(mr_getButtons);
+    this.esgst.endlessFeatures.push(this.mr_getButtons);
   }
 
   mr_getButtons(context, main, source, endless) {
@@ -388,14 +388,14 @@ info = ({
 
   mr_setDelete(mr) {
     let allowReplies, data, id;
-    this.mr.delete = this.mr.Context.getElementsByClassName(this.esgst.sg ? `js__comment-delete` : `js_comment_delete`)[0];
+    mr.delete = mr.Context.getElementsByClassName(this.esgst.sg ? `js__comment-delete` : `js_comment_delete`)[0];
     if (mr.delete) {
       if (this.esgst.sg) {
-        allowReplies = this.mr.delete.parentElement.querySelector(`[name="allow_replies"]`).value;
-        id = this.mr.delete.parentElement.querySelector(`[name="comment_id"]`).value;
+        allowReplies = mr.delete.parentElement.querySelector(`[name="allow_replies"]`).value;
+        id = mr.delete.parentElement.querySelector(`[name="comment_id"]`).value;
         data = `xsrf_token=${this.esgst.xsrfToken}&do=comment_delete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
-        data = this.mr.delete.getAttribute(`data-form`);
+        data = mr.delete.getAttribute(`data-form`);
       }
       this.esgst.modules.common.createElements(mr.delete, `afterEnd`, [{
         attributes: {
@@ -404,9 +404,9 @@ info = ({
         text: `Delete`,
         type: `a`
       }]);
-      this.mr.delete = this.mr.delete.nextElementSibling;
-      this.mr.delete.previousElementSibling.remove();
-      this.mr.delete.addEventListener(`click`, async () => {
+      mr.delete = mr.delete.nextElementSibling;
+      mr.delete.previousElementSibling.remove();
+      mr.delete.addEventListener(`click`, async () => {
         this.mr_editReply(mr, await this.esgst.modules.common.request({data, method: `POST`, url: `/ajax.php`}));
       });
     }
@@ -414,14 +414,14 @@ info = ({
 
   mr_setUndelete(mr) {
     let allowReplies, data, id;
-    this.mr.undelete = this.mr.Context.getElementsByClassName(this.esgst.sg ? `js__comment-undelete` : `js_comment_undelete`)[0];
+    mr.undelete = mr.Context.getElementsByClassName(this.esgst.sg ? `js__comment-undelete` : `js_comment_undelete`)[0];
     if (mr.undelete) {
       if (this.esgst.sg) {
-        allowReplies = this.mr.undelete.parentElement.querySelector(`[name="allow_replies"]`).value;
-        id = this.mr.undelete.parentElement.querySelector(`[name="comment_id"]`).value;
+        allowReplies = mr.undelete.parentElement.querySelector(`[name="allow_replies"]`).value;
+        id = mr.undelete.parentElement.querySelector(`[name="comment_id"]`).value;
         data = `xsrf_token=${this.esgst.xsrfToken}&do=comment_undelete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
-        data = this.mr.undelete.getAttribute(`data-form`);
+        data = mr.undelete.getAttribute(`data-form`);
       }
       this.esgst.modules.common.createElements(mr.undelete, `afterEnd`, [{
         attributes: {
@@ -430,9 +430,9 @@ info = ({
         text: `Undelete`,
         type: `a`
       }]);
-      this.mr.undelete = this.mr.undelete.nextElementSibling;
-      this.mr.undelete.previousElementSibling.remove();
-      this.mr.undelete.addEventListener(`click`, async () => {
+      mr.undelete = mr.undelete.nextElementSibling;
+      mr.undelete.previousElementSibling.remove();
+      mr.undelete.addEventListener(`click`, async () => {
         this.mr_editReply(mr, await this.esgst.modules.common.request({data, method: `POST`, url: `/ajax.php`}));
       });
     }
@@ -457,7 +457,7 @@ info = ({
         }))]);
       }
       if (this.esgst.rfi && this.esgst.rfi_s) {
-        let reply = this.mr.Comment.cloneNode(true);
+        let reply = mr.Comment.cloneNode(true);
         if (this.esgst.sg) {
           this.esgst.modules.common.createElements(reply, `inner`, [{
             attributes: {

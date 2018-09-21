@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class CommentsReplyMentionLink extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a link (@user) next to a reply's "Permalink" (in any page) that mentions the user being replied to and links to their comment.</li>
@@ -17,7 +17,7 @@ info = ({
   });
 
   rml() {
-    this.esgst.endlessFeatures.push(rml_addLinks);
+    this.esgst.endlessFeatures.push(this.rml_addLinks);
   }
 
   rml_addLinks(context, main, source, endless) {

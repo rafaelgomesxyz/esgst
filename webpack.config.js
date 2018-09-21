@@ -7,7 +7,7 @@ const
     clean: require('clean-webpack-plugin')
   },
   BUILD_PATHS = {
-    MONKEY: 'monkey/ESGST.user.js'
+    MONKEY: 'monkey/ESGST.user'
   }
 ;
 

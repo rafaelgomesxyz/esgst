@@ -1,9 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
-import Button from "../../class/Button";
+import Button from '../../class/Button';
 
 class CommentsCommentTracker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.</li>
@@ -510,7 +510,7 @@ info = ({
       button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`,
-          title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}`
+          title: `${this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}`
         },
         type: `div`
       }]);
@@ -548,7 +548,7 @@ info = ({
       button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`,
-          title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}`
+          title: `${this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}`
         },
         type: `div`
       }]);
@@ -654,7 +654,7 @@ info = ({
     this.esgst.modules.common.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-eye-slash`,
-        title: `${getFeatureTooltip(`ct`, `Mark comment as unread`)}`
+        title: `${this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark comment as unread`)}`
       },
       type: `i`
     }]);
@@ -800,7 +800,7 @@ info = ({
         children: [{
           attributes: {
             class: `esgst-ct-count esgst-hidden`,
-            title:getFeatureTooltip(`ct`)
+            title: this.esgst.modules.common.getFeatureTooltip(`ct`)
           },
           text: `(+${diff})`,
           type: `span`
@@ -869,7 +869,7 @@ info = ({
     obj.loadingIcon = obj.clean.nextElementSibling;
     if (this.esgst.gdttt) {
       const button = new Button(obj.panel, `beforeEnd`, {
-        callbacks: [gdttt_markVisited.bind(null, code, container, count, obj.diffContainer, type), null, this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markUnvisited.bind(null, code, container, count, obj.diffContainer, type), null],
+        callbacks: [this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markVisited.bind(null, code, container, count, obj.diffContainer, type), null, this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markUnvisited.bind(null, code, container, count, obj.diffContainer, type), null],
         className: `esgst-gdttt-button`,
         icons: [`fa-check esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-times esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `gdttt`,

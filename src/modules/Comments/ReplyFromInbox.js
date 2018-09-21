@@ -2,7 +2,7 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class CommentsReplyFromInbox extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
@@ -43,7 +43,7 @@ info = ({
 
   rfi() {
     if (this.esgst.mr) return;
-    this.esgst.endlessFeatures.push(mr_getButtons);
+    this.esgst.endlessFeatures.push(this.mr_getButtons);
   }
 
   async rfi_saveReply(id, reply, url, edit) {
