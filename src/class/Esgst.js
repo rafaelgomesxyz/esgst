@@ -629,6 +629,9 @@ class Esgst {
 
   constructor() {
     this.modules = modules;
+    for (let module of this.modules) {
+      module.esgst = this;
+    }
     this.documentEvents.click = new Set;
     this.documentEvents.keydown = new Set;
 
