@@ -1,5 +1,20 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import {common} from "../Common";
+import Popup from "../../class/Popup";
+import ButtonSet from "../../class/ButtonSet";
+
+const {
+  createElements,
+  getFeatureTooltip,
+  getUser,
+  saveUser,
+  endless_load
+} = common;
+
+const {
+  parseHtml
+} = utils;
 
 class UsersNotReceivedFinder extends Module {
 info = ({
@@ -18,7 +33,7 @@ info = ({
   });
 
   nrf() {
-    this.esgst.profileFeatures.push(nrf_add);
+    this.esgst.profileFeatures.push(this.nrf_add);
   }
 
   nrf_add(profile) {
@@ -29,7 +44,7 @@ info = ({
     if (NRF.N > 0) {
       NRF.I = 0;
       NRF.Multiple = [];
-      this.esgst.modules.common.createElements(profile.sentRowLeft, `beforeEnd`, [{
+      createElements(profile.sentRowLeft, `beforeEnd`, [{
         attributes: {
           class: `esgst-nrf-button`
         },
@@ -37,7 +52,7 @@ info = ({
         children: [{
           attributes: {
             class: `fa fa-times-circle`,
-            title: this.esgst.modules.common.getFeatureTooltip(`nrf`, `Find not received giveaways`)
+            title: getFeatureTooltip(`nrf`, `Find not received giveaways`)
           },
           type: `i`
         }]
@@ -46,17 +61,22 @@ info = ({
     }
   }
 
+  /**
+   * @param {NRF} NRF
+   * @param NRFButton
+   * @param profile
+   */
   nrf_setPopup(NRF, NRFButton, profile) {
     let popup;
     popup = new Popup(`fa-times`, `Find ${profile.username}'s not received giveaways:`);
-    popup.Options = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     popup.Options.appendChild(createOptions([{
       check: true,
       description: `Also search inside giveaways with multiple copies.`,
       id: `nrf_searchMultiple`,
       tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
     }]));
-    this.esgst.modules.common.createElements(popup.Options, `afterEnd`, [{
+    createElements(popup.Options, `afterEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -79,9 +99,9 @@ info = ({
       }, 500);
       NRFButton.classList.remove(`esgst-busy`);
     }).set);
-    NRF.Progress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    NRF.OverallProgress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    NRF.Results = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
+    NRF.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    NRF.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    NRF.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
     NRF.popup = popup;
     NRFButton.addEventListener(`click`, () => {
       popup.open();
@@ -99,43 +119,41 @@ info = ({
       username: profile.username
     };
     let nrf;
-    const savedUser = await this.esgst.modules.common.getUser(null, user);
+    const savedUser = await getUser(null, user);
     if (savedUser) {
-      this.nrf = savedUser.nrf;
+      nrf = savedUser.nrf;
     }
     if (!nrf) {
-      this.nrf = {
+      nrf = {
         lastCheck: 0,
         found: 0,
         total: 0,
         results: ``
       };
     }
-    if ((Date.now() - this.nrf.lastCheck) > 604800000) {
+    if ((Date.now() - nrf.lastCheck) > 604800000) {
       this.nrf_searchUser(NRF, user.username, 1, 0, `/user/${user.username}/search?page=`, async () => {
-        this.nrf.lastCheck = Date.now();
-        this.nrf.found = NRF.I;
-        this.nrf.total = NRF.N;
-        this.nrf.results = NRF.Results.innerHTML;
-        user.values = {
-          nrf: this.nrf
-        };
-        await this.esgst.modules.common.saveUser(null, null, user);
-        await this.esgst.modules.common.endless_load(NRF.Results);
+        nrf.lastCheck = Date.now();
+        nrf.found = NRF.I;
+        nrf.total = NRF.N;
+        nrf.results = NRF.Results.innerHTML;
+        user.values = {nrf};
+        await saveUser(null, null, user);
+        await endless_load(NRF.Results);
         NRF.Progress.innerHTML = ``;
         Callback();
       });
     } else {
-      this.esgst.modules.common.createElements(NRF.Results, `inner`, [...(Array.from(parseHtml(nrf.results).body.childNodes).map(x => {
+      createElements(NRF.Results, `inner`, [...(Array.from(parseHtml(nrf.results).body.childNodes).map(x => {
         return {
           context: x
         };
       }))]);
-      this.esgst.modules.common.createElements(NRF.OverallProgress, `inner`, [{
+      createElements(NRF.OverallProgress, `inner`, [{
         text: `${nrf.found} of ${nrf.total} not received giveaways found...`,
         type: `node`
       }]);
-      await this.esgst.modules.common.endless_load(NRF.Results);
+      await endless_load(NRF.Results);
       Callback();
     }
   }
@@ -148,7 +166,7 @@ info = ({
         NRF.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(Context, false, false, true);
         NRF.lastPage = NRF.lastPage === 999999999 ? `` : ` of ${NRF.lastPage}`;
       }
-      this.esgst.modules.common.createElements(NRF.Progress, `inner`, [{
+      createElements(NRF.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -162,7 +180,7 @@ info = ({
         NRF.I += Matches[I].querySelectorAll(`a[href*="/user/"]`).length;
         NRF.Results.appendChild(Matches[I].closest(`.giveaway__row-outer-wrap`).cloneNode(true));
       }
-      this.esgst.modules.common.createElements(NRF.OverallProgress, `inner`, [{
+      createElements(NRF.OverallProgress, `inner`, [{
         text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
         type: `node`
       }]);
@@ -188,13 +206,13 @@ info = ({
         Callback();
       }
     } else if (!NRF.Canceled) {
-      setTimeout(async () => this.nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
+      setTimeout(async () => this.nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, utils.parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
     }
   }
 
   nrf_searchMultiple(NRF, I, N, Callback) {
     if (!NRF.Canceled) {
-      this.esgst.modules.common.createElements(NRF.Progress, `inner`, [{
+      createElements(NRF.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -223,13 +241,13 @@ info = ({
   async nrf_searchGiveaway(NRF, URL, NextPage, Callback) {
     if (NRF.Canceled) return;
     let ResponseHTML, Matches, I, N, Found, Pagination;
-    ResponseHTML = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
+    ResponseHTML = utils.parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
     Matches = ResponseHTML.getElementsByClassName(`table__column--width-small`);
     for (I = 0, N = Matches.length; I < N; ++I) {
       if (Matches[I].textContent.match(/Not Received/)) {
         Found = true;
         ++NRF.I;
-        this.esgst.modules.common.createElements(NRF.OverallProgress, `inner`, [{
+        createElements(NRF.OverallProgress, `inner`, [{
           text: `${NRF.I} of ${NRF.N} not received giveaways found...`,
           type: `node`
         }]);
