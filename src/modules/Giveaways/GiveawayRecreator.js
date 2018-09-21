@@ -2,7 +2,7 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayRecreator extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-rotate-left"></i>) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.</li>
@@ -44,7 +44,7 @@ info = ({
     }]);
     if (this.esgst.createdPath) {
       let response = await this.esgst.modules.common.request({method: `GET`, url: giveaway.url});
-      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
+      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(utils.parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
     } else {
       this.gr_saveTemplate(button, giveaway);
     }

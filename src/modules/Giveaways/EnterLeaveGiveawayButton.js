@@ -1,8 +1,11 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
 
 class GiveawaysEnterLeaveGiveawayButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button ("<i class="fa fa-plus-circle"></i> Enter" to enter and "<i class="fa fa-minus-circle"></i> Leave" to leave) below a giveaway's start time (in any page) that allows you to enter/leave the giveaway without having to access it.</li>
@@ -57,7 +60,7 @@ info = ({
   });
 
   elgb() {
-    this.esgst.giveawayFeatures.push(elgb_addButtons);
+    this.esgst.giveawayFeatures.push(this.elgb_addButtons);
   }
 
   async elgb_addButtons(giveaways, main, source) {
@@ -250,13 +253,7 @@ info = ({
       } else {
         giveaway.elgbPanel.appendChild(giveaway.elgbButton);
       }
-      giveaway.elgbButton.setAttribute(`data-columnId`, `elgb`);
-      if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
-        giveaway.elgbButton.setAttribute(`draggable`, true);
-        giveaway.elgbButton.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-        giveaway.elgbButton.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-        giveaway.elgbButton.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
-      }
+      giveaway.elgbButton.setAttribute(`data-draggable-id`, `elgb`);
     }
   }
 
@@ -411,7 +408,7 @@ info = ({
       this.esgst.pointsContainer.textContent = responseJson.points;
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
       if (this.esgst.hr) {
-        this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(hr_getCache()));
+        this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(this.esgst.modules.generalHeaderRefresher.hr_getCache()));
       }
       this.elgb_updateButtons();
       if (this.esgst.egh) {
@@ -471,7 +468,7 @@ info = ({
       this.esgst.pointsContainer.textContent = responseJson.points;
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
       if (this.esgst.hr) {
-        this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(hr_getCache()));
+        this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(this.esgst.modules.generalHeaderRefresher.hr_getCache()));
       }
       this.elgb_updateButtons();
       if (this.esgst.gb && giveaway.gbButton) {

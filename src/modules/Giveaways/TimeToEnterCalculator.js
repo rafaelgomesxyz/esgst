@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysTimeToEnterCalculator extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-clock-o"></i> [Time]) below the start time of a giveaway that you do not have enough points to enter (in any page) that shows how much time you have to wait until you have enough points to enter the giveaway.</li>
@@ -17,7 +17,7 @@ info = ({
   });
 
   ttec() {
-    this.esgst.giveawayFeatures.push(ttec_calculateTime);
+    this.esgst.giveawayFeatures.push(this.ttec_calculateTime);
   }
 
   ttec_calculateTime(giveaways, main, source) {
@@ -33,17 +33,11 @@ info = ({
             giveaway.ttec = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
               attributes: {
                 class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-ttec`,
-                [`data-columnId`]: `ttec`,
+                [`data-draggable-id`]: `ttec`,
                 title: this.esgst.modules.common.getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)
               },
               type: `div`
             }]);
-            if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
-              giveaway.ttec.setAttribute(`draggable`, true);
-              giveaway.ttec.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-              giveaway.ttec.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-              giveaway.ttec.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
-            }
           }
           giveaway.ttec.classList.remove(`esgst-hidden`);
           this.esgst.modules.common.createElements(giveaway.ttec, `inner`, [{
@@ -52,7 +46,7 @@ info = ({
             },
             type: `i`
           }, {
-            text: ` ${ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - this.esgst.points) / 6))) * 100) / 100)}`,
+            text: ` ${this.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((giveaway.points - this.esgst.points) / 6))) * 100) / 100)}`,
             type: `node`
           }]);
         } else if (giveaway.ttec) {

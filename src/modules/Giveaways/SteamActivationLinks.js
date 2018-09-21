@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysSteamActivationLinks extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds 2 optional icons (<i class="fa fa-steam"></i> for the Steam client and <i class="fa fa-globe"></i> for the browser) next to each key in the "Key" column of your <a href="https://www.steamgifts.com/giveaways/won">won</a> page that allow you to quickly activate a won game on Steam, either through the client or the browser.</li>
@@ -21,7 +21,7 @@ info = ({
 
   sal() {
     if (!this.esgst.wonPath) return;
-    this.esgst.endlessFeatures.push(sal_addLinks, this.sal_addObservers);
+    this.esgst.endlessFeatures.push(this.sal_addLinks, this.sal_addObservers);
   }
 
   sal_addObservers(context, main, source, endless) {

@@ -1,7 +1,9 @@
 import Module from '../../class/Module';
+import Checkbox from '../../class/Checkbox';
+import Popout from '../../class/Popout';
 
 class GiveawaysAdvancedGiveawaySearch extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>

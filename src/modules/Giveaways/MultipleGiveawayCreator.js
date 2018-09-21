@@ -1,24 +1,46 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
-import Popup from "../../class/Popup";
-import ToggleSwitch from "../../class/ToggleSwitch";
-import Popup_v2 from "../../class/Popup_v2";
-import ButtonSet_v2 from "../../class/ButtonSet_v2";
-import {common} from "../Common";
 import ButtonSet from "../../class/ButtonSet";
+import ButtonSet_v2 from "../../class/ButtonSet_v2";
+import Popup from "../../class/Popup";
+import Popup_v2 from "../../class/Popup_v2";
+import ToggleSwitch from "../../class/ToggleSwitch";
+import {common} from "../Common";
 
 const
-  {getLocalValue, createElements} = common,
-  {formatDate} = utils;
+  {
+    buildGiveaway,
+    copyValue,
+    createAlert,
+    createElements,
+    createTooltip,
+    delLocalValue,
+    downloadFile,
+    escapeHtml,
+    getFeatureNumber,
+    getFeatureTooltip,
+    getLocalValue,
+    getUser,
+    lockAndSaveGiveaways,
+    parseMarkdown,
+    request,
+    saveUser,
+    setCountdown,
+    setLocalValue
+  } = common,
+  {
+    formatDate,
+    parseHtml
+  } = utils;
 
 class GiveawaysMultipleGiveawayCreator extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Adds a section 0 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to create multiple giveaways this.esgst.modules.generalAccurateTimestamp.at once.</li>
+        <li>Adds a section 0 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to create multiple giveaways at once.</li>
         <li>There is also a special tool to create a train (multiple giveaways linked to each other), which has the option to automatically create a discussion for the train.</li>
         <li>The icon <i class="fa fa-question-circle"></i> next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.</li>
-        <li>When you add a giveaway to the queue, a small numbered box appears this.esgst.modules.generalAccurateTimestamp.at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.</li>
+        <li>When you add a giveaway to the queue, a small numbered box appears at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.</li>
         <li>You can re-order/remove a giveaway by dragging and dropping the box.</li>
         <li>The giveaways will be created without reviewing or validating, so make sure that all of the fields were filled correctly or the creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next one instead).</li>
       </ul>
@@ -36,8 +58,8 @@ info = ({
     }
     if (this.esgst.newDiscussionPath) {
       if ((getLocalValue(`mgcAttach_step1`) || getLocalValue(`mgcAttach_step2`))) {
-        this.esgst.modules.common.delLocalValue(`mgcAttach_step1`);
-        this.esgst.modules.common.delLocalValue(`mgcAttach_step2`);
+        delLocalValue(`mgcAttach_step1`);
+        delLocalValue(`mgcAttach_step2`);
         this.mgc_addCreateAndAttachButton();
       }
     } else if (this.esgst.editDiscussionPath) {
@@ -46,19 +68,19 @@ info = ({
       }
     } else if (this.esgst.discussionPath) {
       if (getLocalValue(`mgcAttach_step2`)) {
-        this.esgst.modules.common.delLocalValue(`mgcAttach_step2`);
-        this.esgst.modules.common.setLocalValue(`mgcAttach_step3`, location.pathname.match(/\/discussion\/(.+?)\//)[1]);
-        await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: location.href});
+        delLocalValue(`mgcAttach_step2`);
+        setLocalValue(`mgcAttach_step3`, location.pathname.match(/\/discussion\/(.+?)\//)[1]);
+        await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: location.href});
         close();
       } else if (getLocalValue(`mgcAttach_step4`)) {
         document.querySelector(`form[action="/discussions/edit"]`).submit();
       } else if (getLocalValue(`mgcAttach_step5`)) {
-        this.esgst.modules.common.delLocalValue(`mgcAttach_step5`);
-        await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: location.href});
-        this.esgst.modules.common.setLocalValue(`mgcAttach_step6`, true);
+        delLocalValue(`mgcAttach_step5`);
+        await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: location.href});
+        setLocalValue(`mgcAttach_step6`, true);
         location.reload();
       } else if (getLocalValue(`mgcAttach_step6`)) {
-        this.esgst.modules.common.delLocalValue(`mgcAttach_step6`);
+        delLocalValue(`mgcAttach_step6`);
         new Popup(`fa-check`, `Train created with success! You can close this now.`, true).open();
       }
     }
@@ -103,7 +125,7 @@ info = ({
       let context = createElements(rows, `afterBegin`, [{
         attributes: {
           class: `esgst-form-row`,
-          title: this.esgst.modules.common.getFeatureTooltip(`mgc`)
+          title: getFeatureTooltip(`mgc`)
         },
         type: `div`,
         children: [{
@@ -154,7 +176,7 @@ info = ({
         }]
       }]);
       section = context.lastElementChild;
-      this.esgst.modules.common.createTooltip(context.firstElementChild.lastElementChild.lastElementChild, `
+      createTooltip(context.firstElementChild.lastElementChild.lastElementChild, `
         <div class="esgst-bold">How To Use</div>
         <ol>
           <li>If you want to create a train, enable 'Create train', otherwise go to step 3.</li>
@@ -162,7 +184,7 @@ info = ({
           <li>Fill the details of the giveaway (you can use Giveaway Templates for this).</li>
           <li>If you are creating a train, you must generate next/previous links by clicking 'Generate' and following the steps, otherwise go to the next step.</li>
           <li>If you want to add a counter to the giveaways, click 'Generate' and follow the steps.</li>
-          <li>You can either add each giveaway this.esgst.modules.generalAccurateTimestamp.at a time, by typing the game name, filling the copies/keys fields and clicking 'Add', or all giveaways this.esgst.modules.generalAccurateTimestamp.at the same time, by clicking 'Import' and following the steps.</li>
+          <li>You can either add each giveaway at a time, by typing the game name, filling the copies/keys fields and clicking 'Add', or all giveaways at the same time, by clicking 'Import' and following the steps.</li>
           <li>If you want to play with the order of the giveaways you can use 'Shuffle' to change their order.</li>
           <li>When you have added all the giveaways and are ready to create them, click 'Create' and wait until the process is done.</li>
         </ol>
@@ -410,7 +432,7 @@ info = ({
     let outputCopy = output.lastElementChild;
     let outputCode = outputCopy.previousElementSibling.firstElementChild;
     outputCopy.addEventListener(`click`, () => {
-      this.esgst.modules.common.copyValue(outputCopy, outputCode.textContent);
+      copyValue(outputCopy, outputCode.textContent);
     });
     createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
@@ -457,7 +479,7 @@ info = ({
     let counterOutputCopy = counterOutput.lastElementChild;
     let counterOutputCode = counterOutputCopy.previousElementSibling.firstElementChild;
     counterOutputCopy.addEventListener(`click`, () => {
-      this.esgst.modules.common.copyValue(counterOutputCopy, counterOutputCode.textContent);
+      copyValue(counterOutputCopy, counterOutputCode.textContent);
     });
     createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
@@ -560,20 +582,20 @@ info = ({
     let trainOutputCopy = trainOutput.lastElementChild;
     let trainOutputCode = trainOutputCopy.previousElementSibling.firstElementChild;
     trainOutputCopy.addEventListener(`click`, () => {
-      this.esgst.modules.common.copyValue(trainOutputCopy, trainOutputCode.textContent);
+      copyValue(trainOutputCopy, trainOutputCode.textContent);
     });
     for (let key in inputs) {
       let input = inputs[key];
       input.addEventListener(`input`, () => {
         if (key === `counter`) {
           counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
-          createElements(counterOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`1${input.value}10`));
+          createElements(counterOutputPreview, `inner`, parseMarkdown(`1${input.value}10`));
         } else if (key === `bump`) {
           bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          createElements(bumpOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`[${input.value}](#)`));
+          createElements(bumpOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
         } else if (key === `train`) {
           trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          createElements(trainOutputPreview, `inner`, this.esgst.modules.common.parseMarkdown(`[${input.value}](#)`));
+          createElements(trainOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
         } else {
           let markdown = ``;
           let text = ``;
@@ -596,7 +618,7 @@ info = ({
             markdown += `[${inputs.next.value}](#)`;
           }
           outputCode.textContent = text;
-          createElements(outputPreview, `inner`, this.esgst.modules.common.parseMarkdown(markdown));
+          createElements(outputPreview, `inner`, parseMarkdown(markdown));
         }
         input.style.width = `${input.value.length + 75}px`;
       });
@@ -631,13 +653,13 @@ info = ({
           mgc.copies.value = `1`;
           mgc.keys.value = ``;
         } else {
-          this.esgst.modules.common.createAlert(`The bump link format is missing from the description.`);
+          createAlert(`The bump link format is missing from the description.`);
         }
       } else {
-        this.esgst.modules.common.createAlert(`The next/previous links format is missing from the description.`);
+        createAlert(`The next/previous links format is missing from the description.`);
       }
     } else {
-      this.esgst.modules.common.createAlert(`You must first fill the details of the giveaway.`);
+      createAlert(`You must first fill the details of the giveaway.`);
     }
     callback();
   }
@@ -764,11 +786,11 @@ info = ({
         type: `i`
       }]
     }]);
-    this.esgst.modules.common.createTooltip(popup.description.firstElementChild.lastElementChild, `
-      <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${this.esgst.modules.common.getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
+    createTooltip(popup.description.firstElementChild.lastElementChild, `
+      <div>Before importing, make sure you have filled the details of the giveaway (start/end times, regions, who can enter, whitelist, groups, level and description) or applied a template (with ${getFeatureNumber(`gts`).number} Giveaway Templates). You can also specify separate details for each giveaway using the parameters below:</div>
       <ul>
         <li><span class="esgst-bold">[countries="..."]</span> (Replace the 3 dots with the ids of the countries that the giveaway must be restricted to, separated by a comma followed by a space. The ids must be exactly how they appear in the country selection list. For example, "BR, US". If you do not want the giveaway to be region restricted, use the id "*", for example, [countries="*"].)</li>
-        <li><span class="esgst-bold">[startTime="..."]</span> (Replace the 3 dots with the date that the giveaway must start, in the format "Mon D, YYYY H:MM xm". For example, "Jan 15, 2018 12:00 am". For the names of the months, use "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" and "Dec". For single-digit days/hours, do not put a 0 this.esgst.modules.generalAccurateTimestamp.at the beginning. For example, use "Jan 1" instead of "Jan 01" and "9:00 am" instead of "09:00 am".)</li>
+        <li><span class="esgst-bold">[startTime="..."]</span> (Replace the 3 dots with the date that the giveaway must start, in the format "Mon D, YYYY H:MM xm". For example, "Jan 15, 2018 12:00 am". For the names of the months, use "Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov" and "Dec". For single-digit days/hours, do not put a 0 at the beginning. For example, use "Jan 1" instead of "Jan 01" and "9:00 am" instead of "09:00 am".)</li>
         <li><span class="esgst-bold">[endTime="..."]</span> (Replace the 3 dots with the date that the giveaway must end, in the same format as the start time.)</li>
         <li><span class="esgst-bold">[whoCanEnter="..."]</span> (Replace the 3 dots with either: "everyone", if the giveaway must be public; "invite_only", if the giveaway must be private; or "groups", if the giveaway must be restricted to groups/whitelist.)</li>
         <li><span class="esgst-bold">[groups="..."]</span> (Replace the 3 dots with the names of the groups that the giveaway must be restricted to, separated by a comma followed by a space. The names must be exactly how they appear on the group selection list. Use "My Whitelist" to include your whitelist in the groups. For example, "My Whitelist, Playing Appreciated, S.Gifts" or "My Whitelist".)</li>
@@ -950,12 +972,12 @@ info = ({
       let level = giveaways[i].match(/\[level="(.+?)"]/);
       let description = giveaways[i].match(/\[description="(.+?)"]/);
       if (this.esgst.mgc_createTrain && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-P]|\[ESGST-N]/)) {
-        this.esgst.modules.common.createAlert(`The next/previous links format is missing from the description.`);
+        createAlert(`The next/previous links format is missing from the description.`);
         callback();
         return;
       }
       if (mgc.discussion && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-B]/)) {
-        this.esgst.modules.common.createAlert(`The bump link format is missing from the description.`);
+        createAlert(`The bump link format is missing from the description.`);
         callback();
         return;
       }
@@ -1083,9 +1105,9 @@ info = ({
             k++;
           } while ((this.esgst.mgc_groupKeys && found) || (this.esgst.mgc_groupAllKeys && giveaways[k + 1]));
         }
-        this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await this.esgst.modules.common.request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
+        this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
       } else {
-        this.esgst.modules.common.createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
+        createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
         callback();
       }
     } else {
@@ -1095,7 +1117,7 @@ info = ({
 
   mgc_getGiveaway(giveaways, i, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
     let button, conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
-    elements = utils.parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
+    elements = parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
     exactMatch = null;
     matches = [];
     for (k = 0, numElements = elements.length; k < numElements; k++) {
@@ -1167,7 +1189,7 @@ info = ({
       conflictPopup.onClose = callback;
       conflictPopup.open();
     } else {
-      this.esgst.modules.common.createAlert(`${name} was not found! Please correct the title of the game and click on "Import" again to continue importing (it must be exactly like on Steam).`);
+      createAlert(`${name} was not found! Please correct the title of the game and click on "Import" again to continue importing (it must be exactly like on Steam).`);
       callback();
     }
   }
@@ -1201,7 +1223,7 @@ info = ({
           }
         }
       }
-      this.esgst.modules.common.downloadFile(file, `giveaways.txt`);
+      downloadFile(file, `giveaways.txt`);
       callback();
     }).set);
     popup.open();
@@ -1209,7 +1231,7 @@ info = ({
 
   mgc_emptyGiveaways(mgc, callback) {
     if (confirm(`Are you sure you want to empty the creator?`)) {
-      this.esgst.modules.common.delLocalValue(`mgcCache`);
+      delLocalValue(`mgcCache`);
       this.esgst.busy = false;
       mgc.datas = [];
       mgc.values = [];
@@ -1223,7 +1245,7 @@ info = ({
 
   mgc_createGiveaways(mgc, viewButton, callback) {
     if (!mgc.datas.length) {
-      this.esgst.modules.common.createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
+      createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
       callback();
       return;
     }
@@ -1321,10 +1343,24 @@ info = ({
         }
         if (values.groups) {
           values.groups.split(/\s/).forEach(id => {
-            whoCanEnter += `${this.esgst.modules.common.escapeHtml(mgc.groupNames[id])}, `;
+            whoCanEnter += `${escapeHtml(mgc.groupNames[id])}, `;
           });
         }
         whoCanEnter = `${whoCanEnter.slice(0, -2)})`;
+      }
+      let keys = [];
+      if (values.keys) {
+        for (const key of values.keys.split(/\n/)) {
+          if (!key) {
+            continue;
+          }
+          keys.push({
+            text: key,
+            type: `node`
+          }, {
+            type: `br`
+          });
+        }
       }
       createElements(rows, `beforeEnd`, [{
         attributes: {
@@ -1362,8 +1398,9 @@ info = ({
             attributes: {
               class: `table__column--width-small`
             },
-            text: values.keys ? values.keys.replace(/\n/g, `<br>`) : `${values.copies} Copies`,
-            type: `div`
+            text: keys.length ? null : `${values.copies} Copies`,
+            type: `div`,
+            children: keys.length ? keys : null
           }, {
             attributes: {
               class: `table__column--width-small`
@@ -1429,7 +1466,7 @@ info = ({
     if (i < n) {
       if (!mgc.giveaways.children[i].classList.contains(`success`)) {
         const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-        mgc_checkCreation(i, mgc, n, callback, await this.esgst.modules.common.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
+        mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
       } else {
         setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }
@@ -1464,14 +1501,14 @@ info = ({
           type: `node`
         }]);
         popup.open();
-        this.esgst.modules.common.setCountdown(popup.title.firstElementChild, 120, async () => {
+        setCountdown(popup.title.firstElementChild, 120, async () => {
           popup.close();
           const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-          setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await this.esgst.modules.common.request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`})), 0);
+          setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`})), 0);
         });
       } else {
         giveaway.classList.add(`error`);
-        errors = utils.parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
+        errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
         errorsTitle = `Errors:\n`;
         for (j = 0, numErrors = errors.length; j < numErrors; ++j) {
           errorsTitle += `${errors[j].textContent}\n`;
@@ -1482,10 +1519,10 @@ info = ({
       }
     } else {
       giveaway.classList.add(`success`);
-      responseHtml = utils.parseHtml(response.responseText);
+      responseHtml = parseHtml(response.responseText);
       mgc.created.push({
         giveaway: giveaway,
-        html: this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl).html,
+        html: buildGiveaway(responseHtml, response.finalUrl).html,
         url: response.finalUrl
       });
       if (this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc) {
@@ -1506,7 +1543,7 @@ info = ({
       username: this.esgst.username
     };
     let ugd;
-    const savedUser = await this.esgst.modules.common.getUser(null, user);
+    const savedUser = await getUser(null, user);
     let giveaways = null;
     if (savedUser) {
       giveaways = savedUser.giveaways;
@@ -1576,8 +1613,8 @@ info = ({
     user.values = {
       giveaways: giveaways
     };
-    await this.esgst.modules.common.lockAndSaveGiveaways(mgc.saveGiveaways);
-    await this.esgst.modules.common.saveUser(null, null, user);
+    await lockAndSaveGiveaways(mgc.saveGiveaways);
+    await saveUser(null, null, user);
     callback();
   }
 
@@ -1585,7 +1622,7 @@ info = ({
     if (i >= n || n - 1 === 0) {
       callback();
     } else {
-      let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: mgc.created[i].url})).responseText);
+      let responseHtml = parseHtml((await request({method: `GET`, url: mgc.created[i].url})).responseText);
       let id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
       let description = responseHtml.querySelector(`[name="description"]`).value;
       let replaceCallback = null;
@@ -1605,7 +1642,7 @@ info = ({
       } else {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, ``);
       }
-      await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`});
+      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`});
       mgc.created[i].giveaway.classList.add(`connected`);
       setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
     }
@@ -1697,15 +1734,15 @@ info = ({
   mgc_completeCreation(mgc, viewButton, callback) {
     if (mgc.discussion) {
       if (mgc.created.length) {
-        this.esgst.modules.common.delLocalValue(`mgcCache`);
-        this.esgst.modules.common.setLocalValue(`mgcAttach_step4`, mgc.firstWagon);
+        delLocalValue(`mgcCache`);
+        setLocalValue(`mgcAttach_step4`, mgc.firstWagon);
         open(`/discussion/${mgc.discussion}/`);
         viewButton.set.classList.remove(`esgst-hidden`);
       }
       callback();
     } else {
       if (mgc.created.length) {
-        this.esgst.modules.common.delLocalValue(`mgcCache`);
+        delLocalValue(`mgcCache`);
         viewButton.set.classList.remove(`esgst-hidden`);
       }
       callback();
@@ -1714,7 +1751,7 @@ info = ({
 
   mgc_shuffleGiveaways(mgc, callback) {
     if (!mgc.datas.length) {
-      this.esgst.modules.common.createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
+      createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
       callback();
       return;
     }
@@ -1732,7 +1769,7 @@ info = ({
     for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
       cache.push(mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1]);
     }
-    this.esgst.modules.common.setLocalValue(`mgcCache`, JSON.stringify(cache));
+    setLocalValue(`mgcCache`, JSON.stringify(cache));
   }
 
   mgc_attachDiscussion(mgc, callback) {
@@ -1760,7 +1797,7 @@ info = ({
       }, {
         type: `br`
       }, {
-        text: `When the discussion page opens in your browser this.esgst.modules.generalAccurateTimestamp.at the end of the train creation, wait until it has completely finished altering it (you will get a popup when this happens).`,
+        text: `When the discussion page opens in your browser at the end of the train creation, wait until it has completely finished altering it (you will get a popup when this happens).`,
         type: `div`
       }, {
         type: `br`
@@ -1789,15 +1826,15 @@ info = ({
 
   mgc_attachNewDiscussion(mgc, popup, callback) {
     let win;
-    this.esgst.modules.common.setLocalValue(`mgcAttach_step1`, true);
+    setLocalValue(`mgcAttach_step1`, true);
     win = open(`/discussions/new`);
     setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
   }
 
   mgc_checkAttached(mgc, popup, win, callback) {
     if (win.closed) {
-      mgc.discussion = this.esgst.modules.common.getLocalValue(`mgcAttach_step3`);
-      this.esgst.modules.common.delLocalValue(`mgcAttach_step3`);
+      mgc.discussion = getLocalValue(`mgcAttach_step3`);
+      delLocalValue(`mgcAttach_step3`);
       mgc.discussionPanel.classList.remove(`esgst-hidden`);
       mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
       mgc.discussionLink.textContent = mgc.discussion;
@@ -1815,15 +1852,15 @@ info = ({
   }
 
   mgc_createAndAttachDiscussion(rows) {
-    this.esgst.modules.common.setLocalValue(`mgcAttach_step2`, true);
+    setLocalValue(`mgcAttach_step2`, true);
     rows.parentElement.submit();
   }
 
   mgc_editDiscussion() {
     const description = document.querySelector(`[name=description]`);
     description.value = description.value.replace(/\[ESGST-T(.+?)\[\/ESGST-T/g, `[$1](${getLocalValue(`mgcAttach_step4`)})`);
-    this.esgst.modules.common.delLocalValue(`mgcAttach_step4`);
-    this.esgst.modules.common.setLocalValue(`mgcAttach_step5`, true);
+    delLocalValue(`mgcAttach_step4`);
+    setLocalValue(`mgcAttach_step5`, true);
     document.getElementsByClassName(`js__submit-form`)[0].click();
   }
 

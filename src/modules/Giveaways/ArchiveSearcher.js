@@ -1,8 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Process from '../../class/Process';
 
 class GiveawaysArchiveSearcher extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-search"></i>) to the main page heading of any <a href="https://www.steamgifts.com/archive">archive</a> page that allows you to search the archive by exact title/app id.</li>

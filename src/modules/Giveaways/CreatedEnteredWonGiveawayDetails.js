@@ -1,8 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popup_v2 from '../../class/Popup_v2';
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds more details to each giveaway in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:</li>
@@ -25,8 +26,8 @@ info = ({
 
   cewgd() {
     if (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) return;
-    this.esgst.endlessFeatures.push(cewgd_addHeading);
-    this.esgst.giveawayFeatures.push(cewgd_getDetails_pre);
+    this.esgst.endlessFeatures.push(this.cewgd_addHeading);
+    this.esgst.giveawayFeatures.push(this.cewgd_getDetails_pre);
   }
 
   cewgd_addHeading(context, main, source, endless) {
@@ -70,7 +71,7 @@ info = ({
     };
     let promises = [];
     for (let i = 0, n = giveaways.length; i < n; ++i) {
-      promises.push(cewgd_getDetail(cewgd, giveaways, i));
+      promises.push(this.cewgd_getDetail(cewgd, giveaways, i));
     }
     await Promise.all(promises);
     let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
@@ -86,6 +87,12 @@ info = ({
     }
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
     deleteLock();
+    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(esgst.gf);
+    }
+    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(esgst.gfPopup);
+    }
   }
 
   async cewgd_getDetail(cewgd, giveaways, i) {
@@ -131,7 +138,7 @@ info = ({
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          this.esgst.modules.common.createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+          this.esgst.modules.common.createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -157,7 +164,7 @@ info = ({
         this.cewgd_addDetails(giveaway, currentGiveaway);
         this.cewgd.count += 1;
       } else {
-        this.esgst.modules.common.createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(3).fill({
+        this.esgst.modules.common.createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },
@@ -214,6 +221,7 @@ info = ({
     giveaway.regionRestricted = details.regionRestricted;
     giveaway.group = details.group;
     giveaway.whitelist = details.whitelist;
+    giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
     if (details.inviteOnly) {
       if (details.regionRestricted) {
         type = `Invite + Region`;

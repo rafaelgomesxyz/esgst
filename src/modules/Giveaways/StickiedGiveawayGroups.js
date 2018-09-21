@@ -1,7 +1,8 @@
 import Module from '../../class/Module';
+import Button from '../../class/Button';
 
 class GiveawaysStickiedGiveawayGroups extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the group is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each group in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a>/<a href="https://www.steamgifts.com/account/steam/groups">groups</a> pages that allows you to sticky the group so that it appears this.esgst.modules.generalAccurateTimestamp.at the top of the group list for quick use.</li>
@@ -19,7 +20,7 @@ info = ({
       this.sgg_setGiveawayGroups();
     }
     if (this.esgst.groupsPath) {
-      this.esgst.endlessFeatures.push(sgg_setGroups);
+      this.esgst.endlessFeatures.push(this.sgg_setGroups);
     }
   }
 
@@ -52,7 +53,7 @@ info = ({
           container.insertBefore(context, separator);
         }
         new Button(context, `afterBegin`, {
-          callbacks: [sgg_stickyGroup.bind(null, code, container, context, id, separator), null, this.sgg_unstickyGroup.bind(null, code, container, context, id, separator), null],
+          callbacks: [this.sgg_stickyGroup.bind(null, code, container, context, id, separator), null, this.sgg_unstickyGroup.bind(null, code, container, context, id, separator), null],
           className: `esgst-sgg-button`,
           icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `sgg`,
@@ -86,7 +87,7 @@ info = ({
         continue;
       }
       new Button(element, `afterBegin`, {
-        callbacks: [sgg_stickyGroup.bind(null, code, null, element, null, null), null, this.sgg_unstickyGroup.bind(null, code, null, element, null, null), null],
+        callbacks: [this.sgg_stickyGroup.bind(null, code, null, element, null, null), null, this.sgg_unstickyGroup.bind(null, code, null, element, null, null), null],
         className: `esgst-sgg-button`,
         icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `sgg`,

@@ -1,11 +1,14 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GiveawaysUnsentGiftSender extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-send"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to send all of your unsent gifts this.esgst.modules.generalAccurateTimestamp.at once.</li>
+        <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-send"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to send all of your unsent gifts at once.</li>
         <li>You can limit which gifts are sent based on whether or not the winner has any not activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>), whether or not the winner is still a member of the group and has a certain gift difference for group giveaways, and whether or not the winner is on your whitelist/blacklist.</li>
       </ul>
     `,
@@ -42,9 +45,9 @@ info = ({
   ugs_openPopup(ugs) {
     let checkMemberSwitch, checkDifferenceSwitch;
     if (!ugs.popup) {
-      this.ugs.popup = new Popup(`fa-gift`, `Send unsent gifts:`);
+      ugs.popup = new Popup(`fa-gift`, `Send unsent gifts:`);
       new ToggleSwitch(ugs.popup.description, `ugs_checkRules`, false, `Do not send if the winner has any not activated/multiple wins.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkRules);
-      checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of this.esgst.modules.generalAccurateTimestamp.at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkMember);
+      checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkMember);
       checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [{
         text: `Do not send if the winner has a gift difference lower than `,
         type: `node`
@@ -60,14 +63,14 @@ info = ({
         text: `.`,
         type: `node`
       }], false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkDifference);
-      new ToggleSwitch(ugs.popup.description, `ugs_checkWhitelist`, false, `Do not send if the winner is not on your whitelist.`, false, false, `You must this.esgst.modules.common.sync your whitelist through the settings menu. Whitelisted winners get a pass for broken rules, so if this option is enabled and the winner is whitelisted, the gift will be sent regardless of whether or not the first option is enabled.`, this.esgst.ugs_checkWhitelist);
-      new ToggleSwitch(ugs.popup.description, `ugs_checkBlacklist`, false, `Do not send if the winner on your blacklist.`, false, false, `You must this.esgst.modules.common.sync your blacklist through the settings menu. If the winner is blacklisted, but is a member of one of the groups, the gift will be sent anyway.`, this.esgst.ugs_checkBlacklist);
+      new ToggleSwitch(ugs.popup.description, `ugs_checkWhitelist`, false, `Do not send if the winner is not on your whitelist.`, false, false, `You must sync your whitelist through the settings menu. Whitelisted winners get a pass for broken rules, so if this option is enabled and the winner is whitelisted, the gift will be sent regardless of whether or not the first option is enabled.`, this.esgst.ugs_checkWhitelist);
+      new ToggleSwitch(ugs.popup.description, `ugs_checkBlacklist`, false, `Do not send if the winner on your blacklist.`, false, false, `You must sync your blacklist through the settings menu. If the winner is blacklisted, but is a member of one of the groups, the gift will be sent anyway.`, this.esgst.ugs_checkBlacklist);
       if (!this.esgst.ugs_checkMember) {
         checkDifferenceSwitch.container.classList.add(`esgst-hidden`);
       }
       this.esgst.modules.common.observeNumChange(checkDifferenceSwitch.name.firstElementChild, `ugs_setDifference`);
       checkMemberSwitch.dependencies.push(checkDifferenceSwitch.container);
-      this.ugs.results = this.esgst.modules.common.createElements(ugs.popup.scrollable, `beforeEnd`, [{
+      ugs.results = this.esgst.modules.common.createElements(ugs.popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `esgst-hidden markdown`
         },
@@ -126,46 +129,74 @@ info = ({
               },
               type: `span`
             }]
+          }, {
+            attributes: {
+              class: `esgst-inline-list`
+            },
+            type: `li`,
+            children: [{
+              attributes: {
+                class: `esgst-bold`
+              },
+              type: `span`,
+              children: [{
+                text: `0`,
+                type: `span`
+              }, {
+                text: ` giveaways with leftover gifts/keys:`,
+                type: `node`
+              }]
+            }, {
+              attributes: {
+                class: `esgst-inline-list`
+              },
+              type: `span`
+            }]
           }]
         }]
       }]);
-      this.ugs.sent = this.ugs.results.firstElementChild.firstElementChild;
-      this.ugs.sentCount = this.ugs.sent.firstElementChild.firstElementChild;
-      this.ugs.sentGifts = this.ugs.sent.lastElementChild;
-      this.ugs.unsent = this.ugs.sent.nextElementSibling;
-      this.ugs.unsentCount = this.ugs.unsent.firstElementChild.firstElementChild;
-      this.ugs.unsentGifts = this.ugs.unsent.lastElementChild;
-      this.ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: this.ugs_start.bind(null, this.ugs), callback2: this.ugs_cancel.bind(null, this.ugs)}).set);
-      this.ugs.progress = this.esgst.modules.common.createElements(ugs.popup.description, `beforeEnd`, [{
+      ugs.sent = ugs.results.firstElementChild.firstElementChild;
+      ugs.sentCount = ugs.sent.firstElementChild.firstElementChild;
+      ugs.sentGifts = ugs.sent.lastElementChild;
+      ugs.unsent = ugs.sent.nextElementSibling;
+      ugs.unsentCount = ugs.unsent.firstElementChild.firstElementChild;
+      ugs.unsentGifts = ugs.unsent.lastElementChild;
+      ugs.leftover = ugs.unsent.nextElementSibling;
+      ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
+      ugs.leftoverGifts = ugs.leftover.lastElementChild;
+      ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: this.ugs_start.bind(null, ugs), callback2: this.ugs_cancel.bind(null, ugs)}).set);
+      ugs.progress = this.esgst.modules.common.createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
       }]);
-      this.ugs.overallProgress = this.esgst.modules.common.createElements(ugs.popup.description, `beforeEnd`, [{
+      ugs.overallProgress = this.esgst.modules.common.createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
       }]);
-      this.ugs.popup.description.appendChild(ugs.popup.scrollable);
+      ugs.popup.description.appendChild(ugs.popup.scrollable);
     }
-    this.ugs.popup.open();
+    ugs.popup.open();
   }
 
   async ugs_start(ugs) {
     // initialize/reset stuff
-    this.ugs.isCanceled = false;
-    this.ugs.giveaways = [];
-    this.ugs.groups = {};
-    this.ugs.button.classList.add(`esgst-busy`);
-    this.ugs.results.classList.add(`esgst-hidden`);
-    this.ugs.sent.classList.add(`esgst-hidden`);
-    this.ugs.unsent.classList.add(`esgst-hidden`);
-    this.ugs.sentGifts.innerHTML = ``;
-    this.ugs.unsentGifts.innerHTML = ``;
-    this.ugs.sentCount.textContent = this.ugs.unsentCount.textContent = `0`;
-    this.ugs.progress.innerHTML = ``;
-    this.ugs.overallProgress.textContent = ``;
+    ugs.isCanceled = false;
+    ugs.giveaways = [];
+    ugs.groups = {};
+    ugs.button.classList.add(`esgst-busy`);
+    ugs.results.classList.add(`esgst-hidden`);
+    ugs.sent.classList.add(`esgst-hidden`);
+    ugs.unsent.classList.add(`esgst-hidden`);
+    ugs.leftover.classList.add(`esgst-hidden`);
+    ugs.sentGifts.innerHTML = ``;
+    ugs.unsentGifts.innerHTML = ``;
+    ugs.leftoverGifts.innerHTML = ``;
+    ugs.sentCount.textContent = ugs.unsentCount.textContent = ugs.leftoverCount.textContent = `0`;
+    ugs.progress.innerHTML = ``;
+    ugs.overallProgress.textContent = ``;
 
     let unsent = this.esgst.createdButton.getElementsByClassName(`nav__notification`)[0];
     if (!unsent) {
       // there are no unsent giveaways
-      this.ugs.button.classList.remove(`esgst-busy`);
+      ugs.button.classList.remove(`esgst-busy`);
       this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
         text: `You do not have any unsent gifts.`,
         type: `node`
@@ -174,7 +205,7 @@ info = ({
     }
 
     // retrieve unsent giveaways
-    this.ugs.count = parseInt(unsent.textContent);
+    ugs.count = parseInt(unsent.textContent);
     let giveaways = [];
     let nextPage = 1;
     let pagination = null;
@@ -192,8 +223,8 @@ info = ({
         context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
       }
       if (nextPage === 1) {
-        this.ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-        this.ugs.lastPage = this.ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
+        ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
       }
       this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
         attributes: {
@@ -204,7 +235,7 @@ info = ({
         text: `Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...`,
         type: `span`
       }]);
-      this.ugs.continue = false;
+      ugs.continue = false;
       let elements = context.getElementsByClassName(`table__row-outer-wrap`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
@@ -218,23 +249,25 @@ info = ({
             name: heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1],
             url: url
           });
-          this.ugs.continue = true;
-          this.ugs.count -= 1;
+          ugs.continue = true;
+          ugs.count -= 1;
         }
       }
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
       nextPage += 1;
-    } while (!ugs.isCanceled && (ugs.count > 0 || this.ugs.continue) && (skipped || (pagination && !pagination.lastElementChild.classList.contains(`is-selected`))));
+    } while (!ugs.isCanceled && (ugs.count > 0 || ugs.continue) && (skipped || (pagination && !pagination.lastElementChild.classList.contains(`is-selected`))));
 
     // retrieve the winners/groups of each giveaway
     for (let i = 0, n = giveaways.length; !ugs.isCanceled && i < n; i++) {
-      this.ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+      ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
       let giveaway = giveaways[i];
-      this.ugs.giveaways[giveaway.code] = {
+      ugs.giveaways[giveaway.code] = {
         code: giveaway.code,
+        copies: 0,
         context: giveaway.context,
         name: giveaway.name,
         url: giveaway.url,
+        totalWinners: 0,
         winners: []
       };
 
@@ -244,8 +277,8 @@ info = ({
       do {
         let context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`})).responseText);
         if (nextPage === 1) {
-          this.ugs.lastWinnersPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-          this.ugs.lastWinnersPage = this.ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
+          ugs.lastWinnersPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+          ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
         }
         this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
           attributes: {
@@ -256,38 +289,67 @@ info = ({
           text: `Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`,
           type: `span`
         }]);
+        if (!ugs.giveaways[giveaway.code].copies) {
+          const elements = context.querySelectorAll(`.featured__heading__small`);
+          if (elements && elements.length === 2) {
+            ugs.giveaways[giveaway.code].copies = parseInt(elements[0].textContent.replace(/,|\(|\)|Copies/g, ``).trim());
+          }
+        }
         let elements = context.getElementsByClassName(`table__row-outer-wrap`);
-        for (let i = 0, n = elements.length; i < n; i++) {
+        const n = elements.length;
+        ugs.giveaways[giveaway.code].totalWinners += n;
+        for (let i = 0; i < n; i++) {
           let element = elements[i];
           if (element.querySelector(`.table__gift-not-sent:not(.is-hidden)`)) {
-            this.ugs.giveaways[giveaway.code].winners.push({
+            ugs.giveaways[giveaway.code].winners.push({
               username: element.getElementsByClassName(`table__column__heading`)[0].textContent,
               values: {},
               winnerId: element.querySelector(`[name="winner_id"]`).value
             });
-            this.ugs.count -= 1;
+            ugs.count -= 1;
           }
         }
         if (!ugs.giveaways[giveaway.code].group) {
-          this.ugs.giveaways[giveaway.code].group = context.getElementsByClassName(`featured__column--group`)[0];
+          ugs.giveaways[giveaway.code].group = context.getElementsByClassName(`featured__column--group`)[0];
         }
         if (!ugs.giveaways[giveaway.code].whitelist) {
-          this.ugs.giveaways[giveaway.code].whitelist = context.getElementsByClassName(`featured__column--whitelist`)[0];
+          ugs.giveaways[giveaway.code].whitelist = context.getElementsByClassName(`featured__column--whitelist`)[0];
         }
         pagination = context.getElementsByClassName(`pagination__navigation`)[0];
         nextPage += 1;
       } while (!ugs.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
+      if (!ugs.giveaways[giveaway.code].copies) {
+        ugs.giveaways[giveaway.code].copies = 1;
+      }
+      if (ugs.giveaways[giveaway.code].copies > ugs.giveaways[giveaway.code].totalWinners) {
+        ugs.leftover.classList.remove(`esgst-hidden`);
+        ugs.leftoverCount.textContent = parseInt(ugs.leftoverCount.textContent) + 1;
+        this.esgst.modules.common.createElements(ugs.leftoverGifts, `beforeEnd`, [{
+          type: `span`,
+          children: [{
+            attributes: {
+              href: giveaway.url
+            },
+            text: giveaway.name,
+            type: `a`
+          }, {
+            text: ` (${ugs.giveaways[giveaway.code].copies - ugs.giveaways[giveaway.code].totalWinners})`,
+            type: `node`
+          }]
+        }]);
+      }
+
       // retrieve the groups of the giveaway
-      if (this.esgst.ugs_checkMember && this.ugs.giveaways[giveaway.code].group) {
-        this.ugs.giveaways[giveaway.code].groups = [];
+      if (this.esgst.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
+        ugs.giveaways[giveaway.code].groups = [];
         let nextPage = 1;
         let pagination = null;
         do {
           let context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${giveaway.url}/groups/search?page=${nextPage}`})).responseText);
           if (nextPage === 1) {
-            this.ugs.lastGroupsPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-            this.ugs.lastGroupsPage = this.ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
+            ugs.lastGroupsPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+            ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
           }
           this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
             attributes: {
@@ -303,7 +365,7 @@ info = ({
             let element = elements[i];
             let heading = element.getElementsByClassName(`table__column__heading`)[0];
             let match = heading.getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/);
-            this.ugs.giveaways[giveaway.code].groups.push({
+            ugs.giveaways[giveaway.code].groups.push({
               avatar: element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1],
               code: match[1],
               name: heading.textContent,
@@ -325,13 +387,13 @@ info = ({
     let n = codes.length;
     if (n > 0) {
       // send gifts
-      this.ugs.rerolls = JSON.parse(this.esgst.storage.rerolls);
-      this.ugs.sentWinners = {};
-      this.ugs.winners = {};
-      this.ugs.results.classList.remove(`esgst-hidden`);
+      ugs.rerolls = JSON.parse(this.esgst.storage.rerolls);
+      ugs.sentWinners = {};
+      ugs.winners = {};
+      ugs.results.classList.remove(`esgst-hidden`);
       for (let i = 0; !ugs.isCanceled && i < n; i++) {
-        this.ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
-        let giveaway = this.ugs.giveaways[codes[i]];
+        ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+        let giveaway = ugs.giveaways[codes[i]];
         for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
           let winner = giveaway.winners[j];
           let savedUser = await this.esgst.modules.common.getUser(this.esgst.users, winner);
@@ -408,9 +470,9 @@ info = ({
                   if (!this.esgst.groups[l].steamId) {
                     this.esgst.groups[l].steamId = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
                   }
-                  this.ugs.groups[code] = (await this.esgst.modules.common.request({method: `GET`, url: `http://steamcommunity.com/gid/${this.esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
-                  for (l = this.ugs.groups[code].length - 1; l > -1; l--) {
-                    this.ugs.groups[code][l] = this.ugs.groups[code][l].match(/<steamID64>(.+?)<\/steamID64>/)[1];
+                  ugs.groups[code] = (await this.esgst.modules.common.request({method: `GET`, url: `http://steamcommunity.com/gid/${this.esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+                  for (l = ugs.groups[code].length - 1; l > -1; l--) {
+                    ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\/steamID64>/)[1];
                   }
                 }
 
@@ -464,12 +526,12 @@ info = ({
 
           // send gift to the winner or not, based on the previous checks
           if (!ugs.winners[winner.username]) {
-            this.ugs.winners[winner.username] = [];
+            ugs.winners[winner.username] = [];
           }
           if (ugs.winners[winner.username].indexOf(giveaway.name) < 0) {
             if (winner.error) {
-              this.ugs.unsent.classList.remove(`esgst-hidden`);
-              this.ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
+              ugs.unsent.classList.remove(`esgst-hidden`);
+              ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
               this.esgst.modules.common.createElements(ugs.unsentGifts, `beforeEnd`, [{
                 type: `span`,
                 children: [{
@@ -533,11 +595,11 @@ info = ({
             } else if (!ugs.isCanceled) {
               await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
               if (!ugs.sentWinners[giveaway.code]) {
-                this.ugs.sentWinners[giveaway.code] = [];
+                ugs.sentWinners[giveaway.code] = [];
               }
-              this.ugs.sent.classList.remove(`esgst-hidden`);
-              this.ugs.sentWinners[giveaway.code].push(winner.username);
-              this.ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
+              ugs.sent.classList.remove(`esgst-hidden`);
+              ugs.sentWinners[giveaway.code].push(winner.username);
+              ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
               this.esgst.modules.common.createElements(ugs.sentGifts, `beforeEnd`, [{
                 type: `span`,
                 children: [{
@@ -560,7 +622,7 @@ info = ({
                   type: `node`
                 }]
               }]);
-              this.ugs.winners[winner.username].push(giveaway.name);
+              ugs.winners[winner.username].push(giveaway.name);
               if (document.body.contains(giveaway.context)) {
                 giveaway.context.className = `fa fa-check-circle icon-green`;
                 giveaway.context.nextElementSibling.textContent = `Sent`;
@@ -568,8 +630,8 @@ info = ({
             }
           } else {
             // exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
-            this.ugs.unsent.classList.remove(`esgst-hidden`);
-            this.ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
+            ugs.unsent.classList.remove(`esgst-hidden`);
+            ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
             this.esgst.modules.common.createElements(ugs.unsentGifts, `beforeEnd`, [{
               type: `span`,
               children: [{
@@ -604,17 +666,17 @@ info = ({
 
       // finalize process
       let winners = JSON.parse(await getValue(`winners`, `{}`));
-      for (let key in this.ugs.sentWinners) {
+      for (let key in ugs.sentWinners) {
         if (!winners[key]) {
           winners[key] = [];
         }
-        for (let i = 0, n = this.ugs.sentWinners[key].length; i < n; i++) {
+        for (let i = 0, n = ugs.sentWinners[key].length; i < n; i++) {
           winners[key].push(ugs.sentWinners[key][i]);
         }
       }
       let savedUsers = [];
-      for (let key in this.ugs.giveaways) {
-        for (let i = 0, n = this.ugs.giveaways[key].winners.length; i < n; i++) {
+      for (let key in ugs.giveaways) {
+        for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
           savedUsers.push(ugs.giveaways[key].winners[i]);
         }
       }
@@ -627,13 +689,13 @@ info = ({
         text: `Saving data...`,
         type: `span`
       }]);
-      this.ugs.overallProgress.textContent = ``;
+      ugs.overallProgress.textContent = ``;
       await Promise.all([setValue(`winners`, JSON.stringify(winners)), this.esgst.modules.common.saveUsers(savedUsers), setValue(`groups`, JSON.stringify(this.esgst.groups))]);
-      this.ugs.button.classList.remove(`esgst-busy`);
-      this.ugs.progress.innerHTML = ``;
+      ugs.button.classList.remove(`esgst-busy`);
+      ugs.progress.innerHTML = ``;
     } else {
       // there are no unsent gifts
-      this.ugs.button.classList.remove(`esgst-busy`);
+      ugs.button.classList.remove(`esgst-busy`);
       this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
         text: `You do not have any unsent gifts.`,
         type: `node`
@@ -642,10 +704,10 @@ info = ({
   }
 
   ugs_cancel(ugs) {
-    this.ugs.isCanceled = true;
-    this.ugs.button.classList.remove(`esgst-busy`);
-    this.ugs.progress.innerHTML = ``;
-    this.ugs.overallProgress.textContent = ``;
+    ugs.isCanceled = true;
+    ugs.button.classList.remove(`esgst-busy`);
+    ugs.progress.innerHTML = ``;
+    ugs.overallProgress.textContent = ``;
   }
 }
 

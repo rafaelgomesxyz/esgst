@@ -1,7 +1,8 @@
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
 
 class GiveawaysGiveawayPopup extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-external-link"></i>) below a giveaway's start time (in any page) that allows you to read the description of the giveaway and/or add a comment to it without having to access it.</li>
@@ -16,7 +17,7 @@ info = ({
   });
 
   gp() {
-    this.esgst.giveawayFeatures.push(gp_addButton);
+    this.esgst.giveawayFeatures.push(this.gp_addButton);
   }
 
   gp_addButton(giveaways, main, source) {
@@ -38,15 +39,9 @@ info = ({
           });
         }).set;
         buttonSet.classList.add(`esgst-gp-button`);
-        buttonSet.setAttribute(`data-columnId`, `gp`);
+        buttonSet.setAttribute(`data-draggable-id`, `gp`);
         buttonSet.title = this.esgst.modules.common.getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
         giveaway.panel.appendChild(buttonSet);
-        if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
-          buttonSet.setAttribute(`draggable`, true);
-          buttonSet.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-          buttonSet.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-          buttonSet.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
-        }
       }
     });
   }

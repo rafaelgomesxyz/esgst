@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayPointsToWin extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
@@ -29,9 +29,9 @@ info = ({
   });
 
   gptw() {
-    this.esgst.giveawayFeatures.push(gptw_addPoints);
+    this.esgst.giveawayFeatures.push(this.gptw_addPoints);
     if (!this.esgst.enteredPath) return;
-    this.esgst.endlessFeatures.push(gwc_addHeading);
+    this.esgst.endlessFeatures.push(this.gwc_addHeading);
   }
 
   gptw_addPoints(giveaways, main, source) {
@@ -46,18 +46,12 @@ info = ({
         giveaway.gptwContext = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gptw`,
-            [`data-columnId`]: `gptw`,
+            [`data-draggable-id`]: `gptw`,
             title: this.esgst.modules.common.getFeatureTooltip(`gptw`, `Giveaway Points To Win`)
           },
           type: `div`
         }]);
         this.gptw_addPoint(giveaway);
-        if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
-          giveaway.gptwContext.setAttribute(`draggable`, true);
-          giveaway.gptwContext.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-          giveaway.gptwContext.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-          giveaway.gptwContext.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
-        }
       } else {
         giveaway.pointsToWin = 0;
       }

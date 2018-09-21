@@ -1,9 +1,10 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
-import Popout from "../../class/Popout";
+import Popout from '../../class/Popout';
+import Popup from '../../class/Popout';
 
 class GiveawaysGiveawayCountryLoader extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the region restricted icon (<i class="fa fa-globe"></i>) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.</li>
@@ -21,7 +22,7 @@ info = ({
   });
 
   gcl() {
-    this.esgst.giveawayFeatures.push(gcl_setButton);
+    this.esgst.giveawayFeatures.push(this.gcl_setButton);
   }
 
   gcl_setButton(giveaways, main) {
@@ -37,7 +38,7 @@ info = ({
             giveaway.regionRestricted.addEventListener(`mouseleave`, event => {
               if (timeout) {
                 clearTimeout(timeout);
-                this.esgst.modules.common.timeout = null;
+                timeout = null;
               }
               exitTimeout = setTimeout(() => {
                 if (context && !container.contains(event.relatedTarget)) {
@@ -48,7 +49,7 @@ info = ({
             giveaway.regionRestricted.addEventListener(`click`, () => {
               if (timeout) {
                 clearTimeout(timeout);
-                this.esgst.modules.common.timeout = null;
+                timeout = null;
               }
             });
             break;

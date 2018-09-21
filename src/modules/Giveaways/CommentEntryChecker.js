@@ -1,8 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popup from '../../class/Popup';
 
 class GiveawaysCommentEntryChecker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-ticket"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.</li>

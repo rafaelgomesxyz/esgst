@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysPinnedGiveawaysButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.</li>

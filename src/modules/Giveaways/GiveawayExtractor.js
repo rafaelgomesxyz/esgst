@@ -1,8 +1,10 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
+import Popup from '../../class/Popup';
 
 class GiveawaysGiveawayExtractor extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-search"></i>) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.</li>
@@ -71,7 +73,7 @@ info = ({
       let ge = {
         button: this.esgst.modules.common.createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
       };
-      this.esgst.modules.common.setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(null, this.ge));
+      this.esgst.modules.common.setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(null, ge));
     } else if (this.esgst.gePath) {
       let ge = {
         context: utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.modules.common.getParameters().url})).responseText)
@@ -82,27 +84,27 @@ info = ({
 
   ge_openPopup(ge) {
     if (ge.popup) {
-      this.ge.popup.open();
+      ge.popup.open();
       return;
     }
-    this.ge.count = 0;
-    this.ge.total = 0;
-    this.ge.extracted = [];
-    this.ge.bumpLink = ``;
-    this.ge.points = 0;
-    this.ge.sgToolsCount = 0;
-    this.ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
+    ge.count = 0;
+    ge.total = 0;
+    ge.extracted = [];
+    ge.bumpLink = ``;
+    ge.points = 0;
+    ge.sgToolsCount = 0;
+    ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
     if (this.esgst.gePath) {
-      this.ge.popup = {
+      ge.popup = {
         description: this.esgst.mainContext,
         scrollable: this.esgst.mainContext,
         open: () => {},
         reposition: () => {}
       };
     } else {
-      this.ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
+      ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
     }
-    this.ge.results = this.esgst.modules.common.createElements(ge.popup.scrollable, `beforeEnd`, [{
+    ge.results = this.esgst.modules.common.createElements(ge.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left`
       },
@@ -119,30 +121,30 @@ info = ({
         this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
-        heading.appendChild(filters_addContainer(`gf`, heading, `Ge`));
+        heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`gf`, heading, `Ge`));
       }
       if (this.esgst.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
-    this.ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
+    ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
       if (ge.callback) {
         this.esgst.modules.common.createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
-        this.ge.callback();
+        ge.callback();
       } else {
-        this.ge.isCanceled = false;
+        ge.isCanceled = false;
         if (ge.button) {
-          this.ge.button.classList.add(`esgst-busy`);
+          ge.button.classList.add(`esgst-busy`);
         }
-        this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+        esgst.modules.common.createElements(ge.progress, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
           type: `i`
         }, {
-          text: this.ge.total,
+          text: ge.total,
           type: `span`
         }, {
           text: ` giveaways extracted.`,
@@ -151,33 +153,33 @@ info = ({
         this.esgst.modules.common.createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
-        this.ge.mainCallback = callback;
-        let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? this.ge.context : this.esgst.pageOuterWrap);
-        this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(null, this.ge, callback));
+        ge.mainCallback = callback;
+        let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
+        this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(null, ge, callback));
       }
     }, () => {
-      this.ge.isCanceled = true;
+      ge.isCanceled = true;
       this.ge_completeExtraction(ge);
     });
-    this.ge.popup.description.appendChild(ge.set.set);
-    this.ge.progress = this.esgst.modules.common.createElements(ge.popup.description, `beforeEnd`, [{
+    ge.popup.description.appendChild(ge.set.set);
+    ge.progress = this.esgst.modules.common.createElements(ge.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
     if (this.esgst.es_ge) {
-      this.ge.popup.scrollable.addEventListener(`scroll`, () => {
-        if (ge.popup.scrollable.scrollTop + this.ge.popup.scrollable.offsetHeight >= this.ge.popup.scrollable.scrollHeight && this.ge.set && !ge.set.busy) {
-          this.ge.set.trigger();
+      ge.popup.scrollable.addEventListener(`scroll`, () => {
+        if (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
+          ge.set.trigger();
         }
       });
     }
-    this.ge.set.trigger();
-    this.ge.popup.open();
+    ge.set.trigger();
+    ge.popup.open();
   }
 
   ge_extractGiveaways(ge, giveaways, i, n, callback) {
     if (!ge.isCanceled) {
       if (i < n) {
-        this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, this.ge_extractGiveaways, 0, this.ge, giveaways, ++i, n, callback));
+        this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, this.ge_extractGiveaways, 0, ge, giveaways, ++i, n, callback));
       } else {
         callback();
       }
@@ -186,31 +188,31 @@ info = ({
 
   async ge_extractGiveaway(ge, code, callback) {
     if (!ge.isCanceled) {
-      if (ge.isDivided && this.ge.count === 50) {
+      if (ge.isDivided && ge.count === 50) {
         let children, filtered, i;
-        this.ge.mainCallback();
-        this.ge.count = 0;
+        ge.mainCallback();
+        ge.count = 0;
         await this.esgst.modules.common.endless_load(ge.results.lastElementChild, false, `ge`);
-        this.ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
-        this.ge.progress.firstElementChild.remove();
-        this.ge.callback = this.ge_extractGiveaway.bind(null, this.ge, code, callback);
+        ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
+        ge.progress.firstElementChild.remove();
+        ge.callback = ge_extractGiveaway.bind(null, ge, code, callback);
         filtered = false;
-        children = this.ge.results.lastElementChild.children;
+        children = ge.results.lastElementChild.children;
         for (i = children.length - 1; i > -1 && !filtered; --i) {
           if (children[i].firstElementChild.classList.contains(`esgst-hidden`)) {
             filtered = true;
           }
         }
-        if ((this.esgst.es_ge && this.ge.popup.scrollable.scrollHeight <= this.ge.popup.scrollable.offsetHeight) || filtered) {
-          this.ge.set.trigger();
+        if ((this.esgst.es_ge && ge.popup.scrollable.scrollHeight <= ge.popup.scrollable.offsetHeight) || filtered) {
+          ge.set.trigger();
         }
       } else {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
-          if (sgTools && this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || this.ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
+          if (sgTools && this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
             open(`https://www.sgtools.info/giveaways/${code}`);
-            this.ge.extracted.push(code);
-            this.ge.sgToolsCount += 1;
+            ge.extracted.push(code);
+            ge.sgToolsCount += 1;
             callback();
             return;
           }
@@ -221,29 +223,29 @@ info = ({
           giveaway = this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           if (giveaway) {
             this.esgst.modules.common.createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
-            this.ge.points += giveaway.points;
-            this.ge.count += 1;
-            this.ge.total += 1;
+            ge.points += giveaway.points;
+            ge.count += 1;
+            ge.total += 1;
             this.esgst.modules.common.createElements(ge.progress, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
               type: `i`
             }, {
-              text: this.ge.total,
+              text: ge.total,
               type: `span`
             }, {
               text: ` giveaways extracted.`,
               type: `node`
             }]);
-            this.ge.extracted.push(code);
+            ge.extracted.push(code);
             if (sgTools) {
               callback();
             } else {
               if (!ge.bumpLink) {
                 bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
                 if (bumpLink) {
-                  this.ge.bumpLink = bumpLink.getAttribute(`href`);
+                  ge.bumpLink = bumpLink.getAttribute(`href`);
                 }
               }
               giveaways = this.ge_getGiveaways(ge, responseHtml);
@@ -261,27 +263,27 @@ info = ({
             giveaway = this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl, null, true);
             if (giveaway) {
               this.esgst.modules.common.createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
-              this.ge.points += giveaway.points;
+              ge.points += giveaway.points;
             }
-            this.ge.count += 1;
-            this.ge.total += 1;
+            ge.count += 1;
+            ge.total += 1;
             this.esgst.modules.common.createElements(ge.progress, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
               type: `i`
             }, {
-              text: this.ge.total,
+              text: ge.total,
               type: `span`
             }, {
               text: ` giveaways extracted.`,
               type: `node`
             }]);
-            this.ge.extracted.push(code);
+            ge.extracted.push(code);
             if (!ge.bumpLink) {
               bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
               if (bumpLink) {
-                this.ge.bumpLink = bumpLink.getAttribute(`href`);
+                ge.bumpLink = bumpLink.getAttribute(`href`);
               }
             }
             giveaways = this.ge_getGiveaways(ge, responseHtml);
@@ -304,7 +306,7 @@ info = ({
   ge_getGiveaways(ge, context) {
     let elements = context.querySelectorAll(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
     let giveaways = [];
-    if (context === this.ge.context) {
+    if (context === ge.context) {
       let match = this.esgst.modules.common.getParameters().url.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
@@ -335,7 +337,7 @@ info = ({
         match = element.textContent.match(/\d+/);
         if (match) {
           let count = parseInt(match[0]);
-          if (count > next.count && this.ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+          if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
             next.code = code;
             next.count = count;
           }
@@ -350,9 +352,9 @@ info = ({
 
   async ge_completeExtraction(ge, callback) {
     if (ge.button) {
-      this.ge.button.classList.remove(`esgst-busy`);
+      ge.button.classList.remove(`esgst-busy`);
     }
-    this.ge.progress.firstElementChild.remove();
+    ge.progress.firstElementChild.remove();
     if (callback) {
       callback();
     }
@@ -369,7 +371,7 @@ info = ({
         type: `h2`,
         children: [{
           attributes: {
-            href: this.ge.bumpLink
+            href: ge.bumpLink
           },
           text: `Bump`,
           type: `a`
@@ -382,8 +384,8 @@ info = ({
     });
     this.esgst.modules.common.createElements(ge.results, `afterBegin`, items);
     this.esgst.modules.common.createElements(ge.results, `beforeEnd`, items);
-    this.ge.set.set.remove();
-    this.ge.set = null;
+    ge.set.set.remove();
+    ge.set = null;
   }
 }
 

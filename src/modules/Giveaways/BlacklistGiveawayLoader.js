@@ -2,8 +2,7 @@ import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
 
 class GiveawaysBlacklistGiveawayLoader extends Module {
-
-info = ({
+  info = ({
     description: `
       <ul>
         <li>If you cannot access a giveaway for blacklist reasons (either because you have blacklisted the creator or the creator has blacklisted you), this feature requests the giveaway in anonymous mode (as if you were not logged in) and loads it to you.</li>

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysNextPreviousTrainHotkeys extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to navigate through a train using hotkeys.</a>
@@ -54,7 +54,7 @@ info = ({
           }
         }
         if (previous || next) {
-          this.esgst.documentEvents.keydown.add(npth_loadGiveaway.bind(null, next, previous));
+          this.esgst.documentEvents.keydown.add(this.npth_loadGiveaway.bind(null, next, previous));
         }
       }
     }

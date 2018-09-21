@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysUnhideGiveawayButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye"></i>) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page.</li>
@@ -15,7 +15,7 @@ info = ({
   });
 
   ugb() {
-    this.esgst.giveawayFeatures.push(ugb_add);
+    this.esgst.giveawayFeatures.push(this.ugb_add);
   }
 
   ugb_add(giveaways, main) {

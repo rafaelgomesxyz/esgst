@@ -1,8 +1,11 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GiveawaysHiddenGameRemover extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
@@ -24,28 +27,28 @@ info = ({
 
   hgr_openPopup(hgr) {
     if (hgr.popup) {
-      this.hgr.popup.open();
+      hgr.popup.open();
       return;
     }
-    this.hgr.popup = new Popup(`fa-times`, `Remove hidden games:`);
-    this.hgr.removed = this.esgst.modules.common.createElements(hgr.popup.scrollable, `beforeEnd`, [{
+    hgr.popup = new Popup(`fa-times`, `Remove hidden games:`);
+    hgr.removed = this.esgst.modules.common.createElements(hgr.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `markdown`
       },
       type: `div`
     }]);
     new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, this.esgst.hgr_removeOwned);
-    this.hgr.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-circle-right`, icon2: `fa-times`, title1: `Remove`, title2: `Cancel`, callback1: this.hgr_startRemover.bind(null, this.hgr), callback2: this.hgr_stopRemover.bind(null, this.hgr)}).set);
-    this.hgr.progress = this.esgst.modules.common.createElements(hgr.popup.description, `beforeEnd`, [{
+    hgr.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-circle-right`, icon2: `fa-times`, title1: `Remove`, title2: `Cancel`, callback1: this.hgr_startRemover.bind(null, hgr), callback2: this.hgr_stopRemover.bind(null, hgr)}).set);
+    hgr.progress = this.esgst.modules.common.createElements(hgr.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
-    this.hgr.popup.open();
+    hgr.popup.open();
   }
 
   async hgr_startRemover(hgr) {
-    this.hgr.canceled = false;
-    this.hgr.lastPage = ``;
-    this.hgr.button.classList.add(`esgst-busy`);
+    hgr.canceled = false;
+    hgr.lastPage = ``;
+    hgr.button.classList.add(`esgst-busy`);
     this.esgst.modules.common.createElements(hgr.progress, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
@@ -76,8 +79,8 @@ info = ({
         context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
       }
       if (!hgr.lastPage) {
-        this.hgr.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-        this.hgr.lastPage = this.hgr.lastPage === 999999999 ? `` : ` of ${hgr.lastPage}`;
+        hgr.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        hgr.lastPage = hgr.lastPage === 999999999 ? `` : ` of ${hgr.lastPage}`;
       }
       this.esgst.modules.common.createElements(hgr.progress, `inner`, [{
         attributes: {
@@ -112,8 +115,8 @@ info = ({
       nextPage += 1;
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
     } while (!hgr.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-    this.hgr.button.classList.remove(`esgst-busy`);
-    this.hgr.progress.innerHTML = ``;
+    hgr.button.classList.remove(`esgst-busy`);
+    hgr.progress.innerHTML = ``;
     if (hgr.removed.children.length === 1) {
       this.esgst.modules.common.createElements(hgr.removed, `inner`, [{
         attributes: {
@@ -126,9 +129,9 @@ info = ({
   }
 
   hgr_stopRemover(hgr) {
-    this.hgr.canceled = true;
-    this.hgr.button.classList.remove(`esgst-busy`);
-    this.hgr.progress.innerHTML = ``;
+    hgr.canceled = true;
+    hgr.button.classList.remove(`esgst-busy`);
+    hgr.progress.innerHTML = ``;
   }
 }
 

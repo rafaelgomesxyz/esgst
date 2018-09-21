@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayWinnersLink extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page.</li>
@@ -15,7 +15,7 @@ info = ({
   });
 
   gwl() {
-    this.esgst.giveawayFeatures.push(gwl_addLinks);
+    this.esgst.giveawayFeatures.push(this.gwl_addLinks);
   }
 
   gwl_addLinks(giveaways, main) {
@@ -23,7 +23,8 @@ info = ({
     giveaways.forEach(giveaway => {
       if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || !giveaway.ended) return;
       const attributes = {
-        class: `esgst-gwl`
+        class: `esgst-gwl`,
+        [`data-draggable-id`]: `winners_count`
       };
       if (giveaway.url) {
         attributes.href = `${giveaway.url}/winners`;

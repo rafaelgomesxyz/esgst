@@ -1,10 +1,10 @@
 import Module from '../../class/Module';
 
 class GiveawaysQuickGiveawaySearch extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Adds a search box before the "Giveaways" box this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to quickly search for giveaways from any page.</li>
+        <li>Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.</li>
         <li>Has [id=ags] built-in.</li>
       </ul>
     `,

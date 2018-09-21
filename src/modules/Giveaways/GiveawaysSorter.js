@@ -1,7 +1,10 @@
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popout from '../../class/Popout';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GiveawaysGiveawaysSorter extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>

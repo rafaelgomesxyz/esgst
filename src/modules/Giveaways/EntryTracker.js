@@ -1,11 +1,12 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Popup from '../../class/Popup';
 
 class GiveawaysEntryTracker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
+        <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
         <li>An entry only appears in the history if you entered/left the giveaway after this feature was enabled.</li>
       </ul>
     `,
@@ -18,7 +19,7 @@ info = ({
 
   et() {
     if (this.esgst.enteredPath) {
-      this.esgst.endlessFeatures.push(et_getEntries);
+      this.esgst.endlessFeatures.push(this.et_getEntries);
     }
     if (!this.esgst.sg) return;
     this.esgst.modules.common.createElements(this.esgst.sg ? this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
@@ -78,7 +79,7 @@ info = ({
           text: entry.name,
           type: `a`
         }, {
-          text: `on ${getTimestamp(entry.timestamp, this.esgst.at_24, this.esgst.at_s)}`,
+          text: `on ${this.esgst.modules.common.getTimestamp(entry.timestamp, this.esgst.at_24, this.esgst.at_s)}`,
           type: `node`
         }]
       });
