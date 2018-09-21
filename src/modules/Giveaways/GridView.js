@@ -1,10 +1,11 @@
 import Module from '../../class/Module';
+import Popout from '../../class/Popout';
 
 class GiveawaysGridView extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
-        <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page this.esgst.modules.generalAccurateTimestamp.at a single glance.</li>
+        <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.</li>
         <li>Also adds a button (<i class="fa fa-th-large"></i>) to the main page heading of the same page that allows you to set the size of the space between each box.</li>
       </ul>
     `,
@@ -31,7 +32,7 @@ info = ({
 
   gv() {
     if (this.esgst.giveawaysPath || this.esgst.gv_gb || this.esgst.gv_ged || this.esgst.gv_ge) {
-      this.esgst.giveawayFeatures.push(gv_setContainer);
+      this.esgst.giveawayFeatures.push(this.gv_setContainer);
       this.esgst.style.insertAdjacentText(`beforeEnd`, `
         .esgst-gv-creator {
           margin: ${this.esgst.ib ? 10 : 5}px 5px 5px;
@@ -105,7 +106,7 @@ info = ({
         children: [{
           attributes: {
             class: `esgst-gv-time`,
-            [`data-columnId`]: `time`,
+            [`data-draggable-id`]: `time`,
             draggable: true
           },
           type: `div`,
@@ -131,11 +132,10 @@ info = ({
       }]);
       giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
       if (!this.esgst.lockGiveawayColumns) {
-        giveaway.gvIcons.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-        let item = giveaway.gvIcons.firstElementChild;
-        item.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-        item.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-        item.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
+        giveaway.gvIcons.addEventListener(`dragenter`, this.esgst.modules.common.draggable_enter.bind(null, {
+          context: giveaway.gvIcons,
+          item: giveaway
+        }));
       }
       if (giveaway.inviteOnly) {
         giveaway.gvIcons.appendChild(giveaway.inviteOnly);

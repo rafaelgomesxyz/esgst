@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayWinningChance extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-area-chart"></i> [Chance]%) below a giveaway's start time (in any page) that shows your chance of winning the giveaway.</li>
@@ -62,9 +62,9 @@ info = ({
   });
 
   gwc() {
-    this.esgst.giveawayFeatures.push(gwc_addChances);
+    this.esgst.giveawayFeatures.push(this.gwc_addChances);
     if (this.esgst.gptw || !this.esgst.enteredPath) return;
-    this.esgst.endlessFeatures.push(gwc_addHeading);
+    this.esgst.endlessFeatures.push(this.gwc_addHeading);
   }
 
   gwc_addChances(giveaways, main, source) {
@@ -75,18 +75,12 @@ info = ({
           giveaway.gwcContext = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
             attributes: {
               class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwc`,
-              [`data-columnId`]: `gwc`,
+              [`data-draggable-id`]: `gwc`,
               title: this.esgst.modules.common.getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
             },
             type: `div`
           }]);
           this.gwc_addChance(giveaway);
-          if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
-            giveaway.gwcContext.setAttribute(`draggable`, true);
-            giveaway.gwcContext.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-            giveaway.gwcContext.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-            giveaway.gwcContext.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
-          }
         } else {
           giveaway.chance = 100;
           giveaway.projectedChance = 100;

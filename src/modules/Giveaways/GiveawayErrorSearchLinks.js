@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayErrorSearchLinks extends Module {
-info = ({
+  info = ({
     // by Royalgamer06
     description: `
       <ul>

@@ -1,12 +1,16 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Button from '../../class/Button';
+import ButtonSet from '../../class/ButtonSet';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
 
 class GiveawaysGiveawayBookmarks extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-bookmark"></i> if the giveaway is bookmarked and <i class="fa fa-bookmark-o"></i> if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.</li>
-        <li>Adds a button (<i class="fa fa-bookmark"></i>) next to the ESGST button this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view all of the giveaways that have been bookmarked.</li>
+        <li>Adds a button (<i class="fa fa-bookmark"></i>) next to the ESGST button at the header of any page that allows you to view all of the giveaways that have been bookmarked.</li>
       </ul>
     `,
     features: {
@@ -54,7 +58,7 @@ info = ({
   });
 
   gb() {
-    this.esgst.giveawayFeatures.push(gb_getGiveaways);
+    this.esgst.giveawayFeatures.push(this.gb_getGiveaways);
     let button = null;
     if (!this.esgst.gbPath) {
       button = this.esgst.modules.common.createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
@@ -253,7 +257,7 @@ info = ({
         this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
-        heading.appendChild(filters_addContainer(`gf`, heading, `Gb`));
+        heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`gf`, heading, `Gb`));
       }
       if (this.esgst.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
@@ -496,7 +500,7 @@ info = ({
       if (main && this.esgst.wonPath) return;
       if ((!main || !this.esgst.archivePath) && giveaway.creator !== this.esgst.username && giveaway.url && !giveaway.gbButton) {
         giveaway.gbButton = new Button(giveaway.headingName, `beforeBegin`, {
-          callbacks: [gb_bookmarkGiveaway.bind(null, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(null, giveaway, main), null],
+          callbacks: [this.gb_bookmarkGiveaway.bind(null, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(null, giveaway, main), null],
           className: `esgst-gb-button`,
           icons: [`fa-bookmark-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-bookmark`, `fa-circle-o-notch fa-spin`],
           id: `gb`,

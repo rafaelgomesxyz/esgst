@@ -1,8 +1,11 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GiveawaysSentKeySearcher extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-key"></i> <i class="fa fa-search"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to search for a key or a set of keys in all of keys that you have ever sent.</li>
@@ -24,11 +27,11 @@ info = ({
 
   sks_openPopup(sks) {
     if (sks.popup) {
-      this.sks.popup.open();
+      sks.popup.open();
       return;
     }
-    this.sks.popup = new Popup(`fa-key`, `Search for keys:`);
-    this.sks.textArea = this.esgst.modules.common.createElements(sks.popup.scrollable, `beforeEnd`, [{
+    sks.popup = new Popup(`fa-key`, `Search for keys:`);
+    sks.textArea = this.esgst.modules.common.createElements(sks.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -103,31 +106,31 @@ info = ({
     this.esgst.modules.common.observeChange(maxDate, `sks_maxDate`);
     this.esgst.modules.common.observeNumChange(minPage, `sks_minPage`);
     this.esgst.modules.common.observeNumChange(maxPage, `sks_maxPage`);
-    this.sks.results = this.esgst.modules.common.createElements(sks.popup.scrollable, `beforeEnd`, [{
+    sks.results = this.esgst.modules.common.createElements(sks.popup.scrollable, `beforeEnd`, [{
       type: `div`
     }]);
-    this.sks.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times`, title1: `Search`, title2: `Cancel`, callback1: this.sks_searchGiveaways.bind(null, this.sks), callback2: this.sks_cancelSearch.bind(null, this.sks)}).set);
-    this.sks.progress = this.esgst.modules.common.createElements(sks.popup.description, `beforeEnd`, [{
+    sks.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times`, title1: `Search`, title2: `Cancel`, callback1: this.sks_searchGiveaways.bind(null, sks), callback2: this.sks_cancelSearch.bind(null, sks)}).set);
+    sks.progress = this.esgst.modules.common.createElements(sks.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
-    this.sks.overallProgress = this.esgst.modules.common.createElements(sks.popup.description, `beforeEnd`, [{
+    sks.overallProgress = this.esgst.modules.common.createElements(sks.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
-    this.sks.popup.open();
+    sks.popup.open();
   }
 
   async sks_searchGiveaways(sks) {
     // initialize stuff
-    this.sks.button.classList.add(`esgst-busy`);
-    this.sks.canceled = false;
-    this.sks.count = 0;
-    this.sks.giveaways = {};
-    this.sks.allKeys = [];
-    this.sks.keys = [];
-    this.sks.progress.innerHTML = ``;
-    this.sks.overallProgress.innerHTML = ``;
-    this.sks.results.innerHTML = ``;
-    let keys = this.sks.textArea.value.trim().split(/\n/);
+    sks.button.classList.add(`esgst-busy`);
+    sks.canceled = false;
+    sks.count = 0;
+    sks.giveaways = {};
+    sks.allKeys = [];
+    sks.keys = [];
+    sks.progress.innerHTML = ``;
+    sks.overallProgress.innerHTML = ``;
+    sks.results.innerHTML = ``;
+    let keys = sks.textArea.value.trim().split(/\n/);
     let n = keys.length;
     if (!this.esgst.sks_exportKeys && n < 1) {
       return;
@@ -135,11 +138,11 @@ info = ({
     for (let i = 0; i < n; i++) {
       let key = keys[i].trim();
       if (key) {
-        this.sks.keys.push(key);
-        this.sks.count += 1;
+        sks.keys.push(key);
+        sks.count += 1;
       }
     }
-    this.sks.textArea.value = this.sks.keys.join(`\n`);
+    sks.textArea.value = sks.keys.join(`\n`);
 
     // search keys
     let [nextPage, maxPage] = this.esgst.sks_limitPages ? [this.esgst.sks_minPage, this.esgst.sks_maxPage + 1] : (this.esgst.sks_searchCurrent ? [this.esgst.currentPage, this.esgst.currentPage + 1] : [this.esgst.currentPage, null]);
@@ -152,16 +155,16 @@ info = ({
       skipped = false;
       if (nextPage === this.esgst.currentPage) {
         context = document;
-        this.sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-        this.sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
+        sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
       } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}`)[0]) {
         skipped = true;
         continue;
       } else {
         context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
         if (!sks.lastPage) {
-          this.sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-          this.sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
+          sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+          sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
         }
       }
       this.esgst.modules.common.createElements(sks.overallProgress, `inner`, [{
@@ -209,11 +212,11 @@ info = ({
         for (let j = keys.length - 1; !sks.canceled && j > -1; j--) {
           let key = keys[j].textContent;
           if (sks.keys.indexOf(key) > -1) {
-            this.sks.giveaways[key] = giveaway;
-            this.sks.count -= 1;
+            sks.giveaways[key] = giveaway;
+            sks.count -= 1;
           }
           if (this.esgst.sks_exportKeys) {
-            this.sks.allKeys.push(`${giveaway.active ? `[UNASSIGNED] ` : ``}${key} ${giveaway.name} https://www.steamgifts.com/giveaway/${giveaway.code}/`);
+            sks.allKeys.push(`${giveaway.active ? `[UNASSIGNED] ` : ``}${key} ${giveaway.name} https://www.steamgifts.com/giveaway/${giveaway.code}/`);
           }
         }
       }
@@ -229,9 +232,9 @@ info = ({
     // finish the search
     let found = [];
     let notFound = [];
-    for (let i = 0, n = this.sks.keys.length; i < n; i++) {
-      let key = this.sks.keys[i];
-      let giveaway = this.sks.giveaways[key];
+    for (let i = 0, n = sks.keys.length; i < n; i++) {
+      let key = sks.keys[i];
+      let giveaway = sks.giveaways[key];
       if (giveaway) {
         found.push({
           type: `li`,
@@ -288,16 +291,16 @@ info = ({
     if (this.esgst.sks_exportKeys) {
       this.esgst.modules.common.downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
     }
-    this.sks.progress.innerHTML = ``;
-    this.sks.overallProgress.innerHTML = ``;
-    this.sks.button.classList.remove(`esgst-busy`);
+    sks.progress.innerHTML = ``;
+    sks.overallProgress.innerHTML = ``;
+    sks.button.classList.remove(`esgst-busy`);
   }
 
   sks_cancelSearch(sks) {
-    this.sks.canceled = true;
-    this.sks.button.classList.remove(`esgst-busy`);
-    this.sks.progress.innerHTML = ``;
-    this.sks.overallProgress.innerHTML = ``;
+    sks.canceled = true;
+    sks.button.classList.remove(`esgst-busy`);
+    sks.progress.innerHTML = ``;
+    sks.overallProgress.innerHTML = ``;
   }
 }
 

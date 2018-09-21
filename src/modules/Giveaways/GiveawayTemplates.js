@@ -1,8 +1,11 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
+import Checkbox from '../../class/Checkbox';
+import Popup from '../../class/Popup';
 
 class GiveawaysGiveawayTemplates extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a section 9 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.</li>
@@ -20,14 +23,14 @@ info = ({
     if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;
-    this.gts_addButtonSection(createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
+    this.gts_addButtonSection(this.esgst.modules.common.createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
   }
 
   gts_addButtonSection(button, rows) {
     let createGiveawayButton, delay, endTime, message, preciseEndCheckbox, preciseEndDateCheckbox, preciseEndOption, preciseEndDateOption, preciseStartCheckbox, preciseStartDateCheckbox, preciseStartOption, preciseStartDateOption, reviewButton, section, set, startTime, warning;
     if (!rows) return;
     let gts = {};
-    this.gts.deletedTemplates = [];
+    gts.deletedTemplates = [];
     reviewButton = rows.lastElementChild;
     createGiveawayButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Create Giveaway`, `Creating...`, async callback => {
       let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
@@ -59,7 +62,7 @@ info = ({
       }
     });
     rows.appendChild(createGiveawayButton.set);
-    button.addEventListener(`click`, this.gts_openPopup.bind(null, this.gts));
+    button.addEventListener(`click`, this.gts_openPopup.bind(null, gts));
     section = this.esgst.modules.common.createElements(reviewButton, `beforeBegin`, [{
       attributes: {
         class: `esgst-form-row`
@@ -120,7 +123,7 @@ info = ({
           }, {
             attributes: {
               class: `fa fa-question-circle`,
-              title: `With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin this.esgst.modules.generalAccurateTimestamp.at a specific later date, because the template is not reusable after the date has passed.`
+              title: `With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin at a specific later date, because the template is not reusable after the date has passed.`
             },
             type: `i`
           }]
@@ -132,7 +135,7 @@ info = ({
           }, {
             attributes: {
               class: `fa fa-question-circle`,
-              title: `With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end this.esgst.modules.generalAccurateTimestamp.at a specific later date, because the template is not reusable after the date has passed.`
+              title: `With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end at a specific later date, because the template is not reusable after the date has passed.`
             },
             type: `i`
           }]
@@ -181,8 +184,8 @@ info = ({
     preciseEndOption = preciseStartOption.nextElementSibling;
     preciseStartDateOption = preciseEndOption.nextElementSibling;
     preciseEndDateOption = preciseStartDateOption.nextElementSibling;
-    this.gts.input = preciseEndDateOption.nextElementSibling.nextElementSibling;
-    message = this.gts.input.nextElementSibling;
+    gts.input = preciseEndDateOption.nextElementSibling.nextElementSibling;
+    message = gts.input.nextElementSibling;
     warning = message.nextElementSibling;
     preciseStartCheckbox = new Checkbox(preciseStartOption, this.esgst.gts_preciseStart);
     preciseEndCheckbox = new Checkbox(preciseEndOption, this.esgst.gts_preciseEnd);
@@ -224,7 +227,7 @@ info = ({
           gameType: document.querySelector(`[name="type"]`).value,
           groups: document.querySelector(`[name="group_item_string"]`).value.trim(),
           level: document.querySelector(`[name="contributor_level"]`).value,
-          name: this.gts.input.value,
+          name: gts.input.value,
           region: document.querySelector(`[name="region_restricted"]`).value,
           whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
           whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value,
@@ -322,7 +325,7 @@ info = ({
       text: `Drag and drop templates to move them.`,
       type: `div`
     }]);
-    this.gts.undo = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    gts.undo = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-clickable esgst-hidden`
       },
@@ -337,7 +340,7 @@ info = ({
         type: `span`
       }]
     }]);
-    this.gts.undo.addEventListener(`click`, this.gts_undoDelete.bind(null, this.gts));
+    gts.undo.addEventListener(`click`, this.gts_undoDelete.bind(null, gts));
     let templates = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
@@ -467,9 +470,9 @@ info = ({
           type: `div`
         }]
       }]);
-      template.addEventListener(`dragstart`, this.gts_setSource.bind(null, this.gts, savedTemplate.name, template));
-      template.addEventListener(`dragenter`, this.gts_getSource.bind(null, this.gts, template, templates));
-      template.addEventListener(`dragend`, this.gts_saveSource.bind(null, this.gts));
+      template.addEventListener(`dragstart`, this.gts_setSource.bind(null, gts, savedTemplate.name, template));
+      template.addEventListener(`dragenter`, this.gts_getSource.bind(null, gts, template, templates));
+      template.addEventListener(`dragend`, this.gts_saveSource.bind(null, gts));
       this.gts_setTemplate(gts, popup, template, savedTemplate);
     }
     popup.open();
@@ -480,8 +483,8 @@ info = ({
       deleteButton = applyButton.nextElementSibling;
     applyButton.addEventListener(`click`, () => {
       this.gts_applyTemplate(savedTemplate);
-      this.gts.input.value = savedTemplate.name;
-      this.gts.edit = true;
+      gts.input.value = savedTemplate.name;
+      gts.edit = true;
       popup.close();
     });
     deleteButton.addEventListener(`click`, async () => {
@@ -505,24 +508,24 @@ info = ({
         type: `i`
       }]);
       template.classList.add(`esgst-hidden`);
-      this.gts.deletedTemplates.push({
+      gts.deletedTemplates.push({
         template: template,
         savedTemplate: savedTemplate
       });
-      this.gts.undo.classList.remove(`esgst-hidden`);
-      this.gts.edit = false;
+      gts.undo.classList.remove(`esgst-hidden`);
+      gts.edit = false;
     });
   }
 
   async gts_undoDelete(gts) {
-    let deletedTemplate = this.gts.deletedTemplates.pop();
+    let deletedTemplate = gts.deletedTemplates.pop();
     deletedTemplate.template.classList.remove(`esgst-hidden`);
     deletedTemplate.template.parentElement.appendChild(deletedTemplate.template);
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     savedTemplates.push(deletedTemplate.savedTemplate);
     await setValue(`templates`, JSON.stringify(savedTemplates));
     if (gts.deletedTemplates.length === 0) {
-      this.gts.undo.classList.add(`esgst-hidden`);
+      gts.undo.classList.add(`esgst-hidden`);
     }
   }
 
@@ -694,28 +697,28 @@ info = ({
   async gts_setSource(gts, name, template, event) {
     let i, n, savedTemplates;
     event.dataTransfer.setData(`text/plain`, ``);
-    this.gts.source = template;
+    gts.source = template;
     savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i);
     if (i < n) {
-      this.gts.sourceIndex = i;
+      gts.sourceIndex = i;
     }
   }
 
   gts_getSource(gts, template, templates) {
     let current, i;
-    current = this.gts.source;
+    current = gts.source;
     i = 0;
     do {
       current = current.previousElementSibling;
       if (current && current === template) {
-        this.gts.sourceNewIndex = i;
+        gts.sourceNewIndex = i;
         templates.insertBefore(gts.source, template);
         return;
       }
       ++i;
     } while (current);
-    this.gts.sourceNewIndex = i - 1;
+    gts.sourceNewIndex = i - 1;
     templates.insertBefore(gts.source, template.nextElementSibling);
   }
 

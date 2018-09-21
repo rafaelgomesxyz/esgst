@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysDeleteKeyConfirmation extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Shows a confirmation popup if you try to delete a giveaway's key(s) (in any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page).</li>
@@ -16,7 +16,7 @@ info = ({
 
   dkc() {
     if (!this.esgst.giveawayPath) return;
-    this.esgst.endlessFeatures.push(dkc_getLinks);
+    this.esgst.endlessFeatures.push(this.dkc_getLinks);
   }
 
   dkc_getLinks(context, main, source, endless) {

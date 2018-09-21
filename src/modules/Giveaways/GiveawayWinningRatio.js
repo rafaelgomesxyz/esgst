@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayWinningRatio extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an element (<i class="fa fa-pie-chart"></i> [Ratio]:1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.</li>
@@ -62,9 +62,9 @@ info = ({
   });
 
   gwr() {
-    this.esgst.giveawayFeatures.push(gwr_addRatios);
+    this.esgst.giveawayFeatures.push(this.gwr_addRatios);
     if (this.esgst.gptw || this.esgst.gwc || !this.esgst.enteredPath) return;
-    this.esgst.endlessFeatures.push(gwc_addHeading);
+    this.esgst.endlessFeatures.push(this.gwc_addHeading);
   }
 
   gwr_addRatios(giveaways, main, source) {
@@ -74,18 +74,12 @@ info = ({
         let context = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
-            [`data-columnId`]: `gwr`,
+            [`data-draggable-id`]: `gwr`,
             title: this.esgst.modules.common.getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)
           },
           type: `div`
         }]);
         this.gwr_addRatio(context, giveaway);
-        if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
-          context.setAttribute(`draggable`, true);
-          context.addEventListener(`dragstart`, this.esgst.modules.giveaways.giveaways_setSource.bind(null, giveaway));
-          context.addEventListener(`dragenter`, this.esgst.modules.giveaways.giveaways_getSource.bind(null, giveaway, false));
-          context.addEventListener(`dragend`, this.esgst.modules.giveaways.giveaways_saveSource.bind(null, giveaway));
-        }
       }
     });
   }

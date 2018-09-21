@@ -1,8 +1,14 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import Button from '../../class/Button';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Checkbox from '../../class/Checkbox';
+import Popup from '../../class/Popup';
+import Popup_v2 from '../../class/Popup_v2';
+import ToggleSwitch from '../../class/ToggleSwitch';
 
 class GiveawaysGiveawayFilters extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to filter giveaways.</li>
@@ -187,6 +193,16 @@ info = ({
             name: `Rating`,
             sg: true
           },
+          gf_reviews: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways by the number of reviews that the game has.</li>
+                <li>This option requires [id=gc_r] enabled to work.</li>
+              </ul>
+            `,
+            name: `Reviews`,
+            sg: true
+          },
           gf_releaseDate: {
             description: `
               <ul>
@@ -348,6 +364,15 @@ info = ({
               </ul>
             `,
             name: `Wishlisted`,
+            sg: true
+          },
+          gf_followed: {
+            description: `
+              <ul>
+                <li>Allows you to filter giveaways for games that you have followed on Steam.</li>
+              </ul>
+            `,
+            name: `Followed`,
             sg: true
           },
           gf_hidden: {
@@ -663,7 +688,7 @@ info = ({
 
   gf() {
     if (this.esgst.gf_s) {
-      this.esgst.giveawayFeatures.push(gf_getGiveaways);
+      this.esgst.giveawayFeatures.push(this.gf_getGiveaways);
     }
     if (this.esgst.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
       this.esgst.style.insertAdjacentText(`beforeEnd`, `
@@ -673,12 +698,12 @@ info = ({
       `);
       if (this.esgst.hideButtons && this.esgst.hideButtons_gf) {
         if (this.esgst.leftButtonIds.indexOf(`gf`) > -1) {
-          this.esgst.leftButtons.insertBefore(filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
+          this.esgst.leftButtons.insertBefore(this.filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          this.esgst.rightButtons.appendChild(filters_addContainer(`gf`, this.esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(this.filters_addContainer(`gf`, this.esgst.mainPageHeading));
         }
       } else {
-        this.esgst.mainPageHeading.insertBefore(filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(this.filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
     if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (this.esgst.gf_os || this.esgst.gf_alreadyOwned || this.esgst.gf_dlcMissingBase || this.esgst.gf_aboveLevel || this.esgst.gf_manuallyFiltered)) {
@@ -708,25 +733,25 @@ info = ({
         if (source === `gf` || this.esgst.giveawayPath) {
           if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].hidden) {
             new Button(giveaway.headingName, `beforeBegin`, {
-              callbacks: [gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
+              callbacks: [this.gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
               className: `esgst-gf-unhide-button`,
               icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
               id: `gf_s`,
               index: 2,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
-            });
+            }).button.setAttribute(`data-draggable-id`, `gf`);
           }
         }
         if ((source !== `gc` && (this.esgst.giveawaysPath || this.esgst.groupPath)) || this.esgst.giveawayPath) {
           if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].hidden || !this.esgst.giveaways[giveaway.code].code)) {
             new Button(giveaway.headingName, `beforeBegin`, {
-              callbacks: [gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
+              callbacks: [this.gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
               className: `esgst-gf-hide-button`,
               icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
               id: `gf_s`,
               index: 0,
               titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
-            });
+            }).button.setAttribute(`data-draggable-id`, `gf`);
           }
         }
       }
@@ -862,6 +887,13 @@ info = ({
         name: `Rating`,
         type: `number`
       },
+      reviews: {
+        category: `gc_r`,
+        check: true,
+        minValue: 0,
+        name: `Reviews`,
+        type: `number`
+      },
       releaseDate: {
         category: `gc_rd`,
         check: !this.esgst.parameters.release_date_min && !this.esgst.parameters.release_date_max,
@@ -952,6 +984,11 @@ info = ({
       wishlisted: {
         check: true,
         name: `Wishlisted`,
+        type: `boolean`
+      },
+      followed: {
+        check: true,
+        name: `Followed`,
         type: `boolean`
       },
       hidden: {
@@ -2115,7 +2152,7 @@ info = ({
             text: `OR`,
             type: `span`
           }, {
-            text: ` - Turns the group into an OR group, which means that only items that apply to this.esgst.modules.generalAccurateTimestamp.at least one rule of the group will be shown.`,
+            text: ` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`,
             type: `node`
           }]
         }, {
@@ -2231,7 +2268,7 @@ info = ({
       },
       type: `div`,
       children: [{
-        text: `The process of building the filters might seem intimidating this.esgst.modules.generalAccurateTimestamp.at first, but it is actually quite simple. Just think of it like this:`,
+        text: `The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`,
         type: `div`
       }, {
         type: `ul`,
@@ -2333,6 +2370,7 @@ info = ({
       chancePerPoint: 0,
       ratio: 0,
       rating: 0,
+      reviews: 0,
       releaseDate: 0
     };
     const maxValues = {
@@ -2568,7 +2606,7 @@ info = ({
         condition: group.condition,
         rules: []
       };
-      group.each(rule => {
+      group.each(function(rule) {
         if (!event) {
           if (rule.data && rule.data.paused) {
             rule.$el[0].setAttribute(`data-esgst-paused`, true);
@@ -2615,7 +2653,7 @@ info = ({
           groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
         }
         groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData_save, rule));
-      }, (model) => {
+      }, function (model) {
         if (!event) {
           if (model.data && model.data.paused) {
             model.$el[0].setAttribute(`data-esgst-paused`, true);
@@ -2624,7 +2662,7 @@ info = ({
           }
         }
 
-        const [data, data_save] = this.parse(model);
+        const [data, data_save] = parse(model);
         if (data.rules.length !== 0) {
           if (model.$el[0].getAttribute(`data-esgst-paused`)) {
             data_save.data = {
@@ -3122,7 +3160,7 @@ info = ({
   filters_filterItem(id, filters, item, rules) {
     if (
       !rules ||
-      (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
+      (!rules.id && (!rules.condition || (utils.isSet(rules.valid) && !rules.valid))) ||
       (rules.id && !this.esgst[`${id}_${rules.id}`])
     ) {
       return true;
@@ -3139,7 +3177,7 @@ info = ({
           if (!filtered) break;
         }
       } else {
-        // The giveaway must be filtered by this.esgst.modules.generalAccurateTimestamp.at least 1 rule.
+        // The giveaway must be filtered by at least 1 rule.
         filtered = false;
         if (rules.rules.length) {
           for (const rule of rules.rules) {
@@ -3199,7 +3237,7 @@ info = ({
             filtered = value >= rules.value;
             break;
           case `is_null`:
-            filtered = !isSet(value) || value < 0;
+            filtered = !utils.isSet(value) || value < 0;
             break;
           case `is_not_null`:
             filtered = utils.isSet(value) && value > -1;

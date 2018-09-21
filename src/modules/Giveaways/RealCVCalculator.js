@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysRealCVCalculator extends Module {
-info = ({
+  info = ({
     decription: `
       <ul>
         <li>Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).</li>

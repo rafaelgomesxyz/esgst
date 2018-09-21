@@ -1,9 +1,10 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
-import Popup from "../../class/Popup";
+import Popout from '../../class/Popout';
+import Popup from '../../class/Popup';
 
 class GiveawaysGiveawayGroupLoader extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the group icon (<i class="fa fa-user"></i>) of a giveaway (in any page) it shows the groups that the giveaway is for. There is also an option to automatically load the groups on page load and show them below the giveaway (which also works in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is enabled).</li>

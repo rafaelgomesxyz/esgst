@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GiveawaysCommunityWishlistSearchLink extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Turns the numbers in the "Giveaways" column of any <a href="https://www.steamgifts.com/giveaways/wishlist">community wishlist</a> page into links that allow you to search for all of the active giveaways for the game (that are visible to you).</li>
@@ -16,7 +16,7 @@ info = ({
 
   cwsl() {
     if (this.esgst.wishlistPath) {
-      this.esgst.gameFeatures.push(cwsl_getGames);
+      this.esgst.gameFeatures.push(this.cwsl_getGames);
     }
   }
 

@@ -1,7 +1,8 @@
 import Module from '../../class/Module';
+import Button from '../../class/Button';
 
 class GiveawaysOneClickHideGiveawayButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>When you click on the icon <i class="fa fa-eye-slash"></i> next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.</li>
@@ -26,7 +27,7 @@ info = ({
   });
 
   ochgb() {
-    this.esgst.giveawayFeatures.push(ochgb_setButton);
+    this.esgst.giveawayFeatures.push(this.ochgb_setButton);
   }
 
   ochgb_setButton(giveaways, main) {
@@ -40,13 +41,14 @@ info = ({
       giveaway.fade = this.ochgb_fadeGiveaway.bind(null, giveaway, main);
       giveaway.unfade = this.ochgb_unfadeGiveaway.bind(null, giveaway, main);
       giveaway.ochgbButton = new Button(button, `afterEnd`, {
-        callbacks: [ochgb_hideGiveaway.bind(null, giveaway, main), null, this.ochgb_unhideGiveaway.bind(null, giveaway, main), null],
+        callbacks: [this.ochgb_hideGiveaway.bind(null, giveaway, main), null, this.ochgb_unhideGiveaway.bind(null, giveaway, main), null],
         className: `esgst-ochgb ${this.esgst.giveawayPath && main ? `` : `giveaway__icon`}`,
         icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `ochgb`,
         index: unhide ? 2 : 0,
         titles: [`Hide all giveaways for this game`, `Hiding giveaways...`, `Unhide all giveaways for this game`, `Unhiding giveaways...`]
       });
+      giveaway.ochgbButton.button.setAttribute(`data-draggable-id`, `hideGame`);
       button.remove();
     });
   }
