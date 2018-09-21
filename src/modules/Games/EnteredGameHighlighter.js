@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class GamesEnteredGameHighlighter extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i>) next to a game's name (in any page) to indicate that you have entered giveaways for the game in the past. Clicking on the icon unhighlights the game.</li>
@@ -16,7 +16,7 @@ info = ({
   });
 
   egh() {
-    this.esgst.gameFeatures.push(egh_getGames);
+    this.esgst.gameFeatures.push(this.egh_getGames);
   }
 
   egh_getGames(games) {
@@ -30,6 +30,7 @@ info = ({
       if (!this.esgst.menuPath && this.esgst.games[game.type][game.id] && this.esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
         this.esgst.modules.common.createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
           attributes: {
+            [`data-draggable-id`]: `egh`,
             class: `esgst-egh-button`,
             title: this.esgst.modules.common.getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
           },
