@@ -4,11 +4,11 @@ class Users extends Module {
 info = ({
   endless: true,
   id: `users`,
-  load: users
+  load: this.users
 });
 
 users() {
-  this.esgst.endlessFeatures.push(users_load);
+  this.esgst.endlessFeatures.push(this.users_load);
 }
 
 async users_load(mainContext, main, source, endless) {

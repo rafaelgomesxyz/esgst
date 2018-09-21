@@ -4,7 +4,57 @@ import Popup_v2 from "../class/Popup_v2";
 import Popup from "../class/Popup";
 import ToggleSwitch from "../class/ToggleSwitch";
 
+/**
+ * @property {EnvironmentFunctions} envFunctions
+ */
 class Common extends Module {
+  /**
+   * @param {EnvironmentFunctions} functions
+   */
+  setEnvironmentFunctions(functions) {
+    this.envFunctions = functions;
+  }
+
+  setValue(key, value) {
+    return this.envFunctions.setValue(key, value);
+  }
+
+  setValues(values) {
+    return this.envFunctions.setValues(values);
+  }
+
+  getValue(key, value) {
+    return this.envFunctions.getValue(key, value);
+  }
+
+  getValues(values) {
+    return this.envFunctions.getValues(values);
+  }
+
+  delValue(key) {
+    return this.envFunctions.delValue(key);
+  }
+
+  delValues(keys) {
+    return this.envFunctions.delValues(keys);
+  }
+
+  getStorage() {
+    return this.envFunctions.getStorage();
+  }
+
+  notifyNewVersion(version) {
+    return this.envFunctions.notifyNewVersion(version);
+  }
+
+  continueRequest(details) {
+    return this.envFunctions.continueRequest(details);
+  }
+
+  addHeaderMenu() {
+    return this.envFunctions.addHeaderMenu();
+  }
+
   minimizePanel_add() {
     if (!esgst.pageOuterWrap) {
       return;

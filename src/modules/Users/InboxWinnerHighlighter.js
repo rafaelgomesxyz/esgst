@@ -1,4 +1,9 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {getValue, setValue} = common
+;
 
 class UsersInboxWinnerHighlighter extends Module {
 info = ({
@@ -16,12 +21,12 @@ info = ({
   });
 
   iwh() {
-    this.esgst.endlessFeatures.push(iwh_getUsers);
+    this.esgst.endlessFeatures.push(this.iwh_getUsers);
   }
 
   async iwh_getUsers(context, main, source, endless) {
     if (!this.esgst.winnersPath && !this.esgst.inboxPath && (!context.getAttribute || !context.getAttribute(`data-esgst-qiv`))) return;
-    const [callback, query] = this.esgst.winnersPath ? [iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : `.table__gift-not-sent`}`] : [iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : `.comments__entity`}`],
+    const [callback, query] = this.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : `.table__gift-not-sent`}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : `.comments__entity`}`],
         elements = context.querySelectorAll(query);
     if (!elements.length) return;
     const winners = JSON.parse(await getValue(`winners`, `{}`));

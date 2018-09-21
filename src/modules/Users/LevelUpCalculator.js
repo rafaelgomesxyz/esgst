@@ -1,4 +1,9 @@
 import Module from '../../class/Module';
+import {common} from "../Common";
+
+const
+  {createElements, getFeatureTooltip} = common
+;
 
 class UsersLevelUpCalculator extends Module {
 info = ({
@@ -15,7 +20,7 @@ info = ({
   });
 
   luc() {
-    this.esgst.profileFeatures.push(luc_calculate);
+    this.esgst.profileFeatures.push(this.luc_calculate);
   }
 
   luc_calculate(profile) {
@@ -26,10 +31,10 @@ info = ({
       lower = values[base];
       upper = values[base + 1];
       value = Math.round((upper - (lower + ((upper - lower) * (profile.level - base)))) * 100) / 100;
-      this.esgst.modules.common.createElements(profile.levelRowRight, `beforeEnd`, [{
+      createElements(profile.levelRowRight, `beforeEnd`, [{
         attributes: {
           class: `esgst-luc-value`,
-          title: this.esgst.modules.common.getFeatureTooltip(`luc`)
+          title: getFeatureTooltip(`luc`)
         },
         text: `(~$${value} real CV to level ${base + 1})`,
         type: `span`

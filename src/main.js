@@ -3,6 +3,7 @@
 import {utils} from './lib/jsUtils';
 import esgst from './class/Esgst';
 import Popup from "./class/Popup";
+import Popup_v2 from "./class/Popup_v2";
 
 /** @var {object} GM */
 /** @var {function} GM_getValue */
@@ -11,27 +12,40 @@ import Popup from "./class/Popup";
 /** @var {function} GM_listValues */
 /** @var {function} GM_getResourceURL */
 /** @var {function} GM_xmlhttpRequest */
+/** @var {function} delValues */
+/** @var {function} setValues */
 /** @property {boolean} this.chrome */
 /** @property {function} browser.runtime.sendMessage */
 /** @property {function} browser.runtime.onMessage.addListener */
 /** @property {function} browser.runtime.getURL */
 
-let
-  setValue,
-  setValues,
-  getValue,
-  getValues,
-  delValue,
-  delValues,
-  getStorage,
-  notifyNewVersion,
-  continueRequest,
-  addHeaderMenu
-;
-
 (() => {
-  // temporary shortcut
-  let common = esgst.modules.common;
+  /**
+   * @typedef {Object} EnvironmentFunctions
+   * @property {function} setValue
+   * @property {function} setValues
+   * @property {function} getValue
+   * @property {function} getValues
+   * @property {function} delValue
+   * @property {function} delValues
+   * @property {function} getStorage
+   * @property {function} notifyNewVersion
+   * @property {function} continueRequest
+   * @property {function} addHeaderMenu
+   */
+
+  /**
+   * @type {EnvironmentFunctions}
+   */
+  let envFunctions = {};
+
+  const
+    common = esgst.modules.common,
+    {getZip, readZip} = common,
+    {filters_convert} = esgst.modules.giveawaysGiveawayFilters,
+    {lpl_getLastPage} = esgst.modules.generalLastPageLink,
+    {hr_refreshHeaderElements} = esgst.modules.generalHeaderRefresher
+  ;
 
   if (!NodeList.prototype[Symbol.iterator]) {
     NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
@@ -138,8 +152,8 @@ let
 
     if (_USER_INFO.extension) {
       // esgst is running as an extension
-      setValue = (key, value) => setValues({[key]: value});
-      setValues = values => {
+      envFunctions.setValue = (key, value) => setValues({[key]: value});
+      envFunctions.setValues = values => {
         let key;
         return new Promise(resolve =>
           browser.runtime.sendMessage({
@@ -152,8 +166,8 @@ let
             resolve();
           }));
       };
-      getValue = async (key, value) => common.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
-      getValues = values =>
+      envFunctions.getValue = async (key, value) => common.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
+      envFunctions.getValues = values =>
         new Promise(resolve => {
           let output = {};
           for (let key in values) {
@@ -161,8 +175,8 @@ let
           }
           resolve(output);
         });
-      delValue = key => delValues([key]);
-      delValues = keys =>
+      envFunctions.delValue = key => delValues([key]);
+      envFunctions.delValues = keys =>
         new Promise(resolve =>
           browser.runtime.sendMessage({
             action: `delValues`,
@@ -171,12 +185,12 @@ let
             keys.forEach(key => delete esgst.storage[key]);
             resolve();
           }));
-      getStorage = () =>
+      envFunctions.getStorage = () =>
         new Promise(resolve =>
           browser.runtime.sendMessage({
             action: `getStorage`
           }, storage => resolve(JSON.parse(storage))));
-      notifyNewVersion = version => {
+      envFunctions.notifyNewVersion = version => {
         let message;
         if (esgst.isNotifying) return;
         esgst.isNotifying = true;
@@ -191,7 +205,7 @@ let
           isTemp: true,
           onClose: () => {
             esgst.isNotifying = false;
-            setValue(`dismissedVersion`, version);
+            envFunctions.setValue(`dismissedVersion`, version);
           }
         };
         if (_USER_INFO.extension !== `firefox`) {
@@ -202,7 +216,7 @@ let
         }
         new Popup_v2(details).open();
       };
-      continueRequest = details =>
+      envFunctions.continueRequest = details =>
         new Promise(async resolve => {
           let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
           details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
@@ -247,7 +261,7 @@ let
             });
           }
         });
-      addHeaderMenu = () => {
+      envFunctions.addHeaderMenu = () => {
         if (!esgst.header) {
           return;
         }
@@ -580,16 +594,16 @@ let
       });
     } else {
       // esgst is running as a script
-      setValue = gm.setValue;
-      setValues = async values => {
+      envFunctions.setValue = gm.setValue;
+      envFunctions.setValues = async values => {
         let promises = [];
         for (let key in values) {
           promises.push(gm.setValue(key, values[key]));
         }
         await Promise.all(promises);
       };
-      getValue = gm.getValue;
-      getValues = async values => {
+      envFunctions.getValue = gm.getValue;
+      envFunctions.getValues = async values => {
         let output = {};
         let promises = [];
         for (let key in values) {
@@ -600,15 +614,15 @@ let
         await Promise.all(promises);
         return output;
       };
-      delValue = gm.deleteValue;
-      delValues = async keys => {
+      envFunctions.delValue = gm.deleteValue;
+      envFunctions.delValues = async keys => {
         let promises = [];
         for (let i = keys.length - 1; i > -1; i--) {
           promises.push(gm.deleteValue(keys[i]));
         }
         await Promise.all(promises);
       };
-      getStorage = async () => {
+      envFunctions.getStorage = async () => {
         let keys = await gm.listValues();
         let promises = [];
         let storage = {};
@@ -620,7 +634,7 @@ let
         await Promise.all(promises);
         return storage;
       };
-      notifyNewVersion = version => {
+      envFunctions.notifyNewVersion = version => {
         let message, popup;
         if (esgst.isNotifying) return;
         esgst.isNotifying = true;
@@ -636,11 +650,11 @@ let
         }]).addEventListener(`click`, common.checkUpdate);
         popup.onClose = () => {
           esgst.isNotifying = false;
-          setValue(`dismissedVersion`, version);
+          envFunctions.setValue(`dismissedVersion`, version);
         };
         popup.open();
       };
-      continueRequest = details => {
+      envFunctions.continueRequest = details => {
         return new Promise(async resolve => {
           let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
           details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
@@ -688,7 +702,7 @@ let
           }
         });
       };
-      addHeaderMenu = () => {
+      envFunctions.addHeaderMenu = () => {
         if (!esgst.header) {
           return;
         }
@@ -1035,6 +1049,8 @@ let
       };
     }
 
+    common.setEnvironmentFunctions(envFunctions);
+
     let toDelete, toSet;
 
     // set default values or correct values
@@ -1043,7 +1059,7 @@ let
      * @property {object} esgst.storage.filterPresets
      * @property {object} esgst.storage.dfPresets
      */
-    esgst.storage = await getStorage();
+    esgst.storage = await envFunctions.getStorage();
     toDelete = [];
     toSet = {};
     if (common.isSet(esgst.storage.users)) {
@@ -1453,16 +1469,16 @@ let
       } else if (location.pathname.match(/esgst-sync/)) {
         location.href = `/esgst/sync`;
       } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
-        await setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+        await envFunctions.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
         close();
       } else if (location.pathname.match(/^\/esgst\/google-drive/)) {
-        await setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+        await envFunctions.setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
         close();
       } else if (location.pathname.match(/^\/esgst\/onedrive/)) {
-        await setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+        await envFunctions.setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
         close();
       } else if (location.pathname.match(/^\/esgst\/imgur/)) {
-        await setValue(`imgurToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+        await envFunctions.setValue(`imgurToken`, location.hash.match(/access_token=(.+?)&/)[1]);
         close();
       } else {
         esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
@@ -1594,7 +1610,7 @@ let
           });
         }
 
-        addHeaderMenu();
+        envFunctions.addHeaderMenu();
         common.showPatreonNotice();
         await common.loadFeatures(esgst.modules);
         await common.checkNewVersion();
