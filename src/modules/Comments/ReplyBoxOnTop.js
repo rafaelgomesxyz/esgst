@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class CommentsReplyBoxOnTop extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.</li>

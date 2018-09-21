@@ -1,14 +1,14 @@
 import Module from '../class/Module';
 
 class Comments extends Module {
-info = ({
+  info = ({
     endless: true,
     id: `comments`,
-    load: comments
+    load: this.comments
   });
 
   comments() {
-    this.esgst.endlessFeatures.push(comments_load);
+    this.esgst.endlessFeatures.push(this.comments_load);
   }
 
   async comments_load(context, main, source, endless, mainEndless) {
@@ -94,7 +94,7 @@ info = ({
             comment.comment.parentElement.remove();
           }
           return;
-        } else if (uf && this.esgst.modules.usersUserFilters.uf.posts) {
+        } else if (uf && uf.posts) {
           comments = comment.comment.closest(`.comments`);
           this.esgst.modules.usersUserFilters.uf_updateCount(comment.comment.closest(`.comments`).nextElementSibling);
           if (!main || this.esgst.inboxPath) {

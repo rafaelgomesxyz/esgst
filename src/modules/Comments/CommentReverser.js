@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class CommentsCommentReverser extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Reverses the comments of any <a href="https://www.steamgifts.com/discussion/e9zDo/">discussion</a> page so that they are ordered from newest to oldest.</li>

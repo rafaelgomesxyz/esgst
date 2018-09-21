@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class CommentsCommentFilters extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Allows you to filter comments.</li>
@@ -91,12 +91,12 @@ info = ({
       `);
       if (this.esgst.hideButtons && this.esgst.hideButtons_cf) {
         if (this.esgst.leftButtonIds.indexOf(`cf`) > -1) {
-          this.esgst.leftButtons.insertBefore(filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
+          this.esgst.leftButtons.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          this.esgst.rightButtons.appendChild(filters_addContainer(`cf`, this.esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`cf`, this.esgst.mainPageHeading));
         }
       } else {
-        this.esgst.mainPageHeading.insertBefore(filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
   }

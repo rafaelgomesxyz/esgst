@@ -1,7 +1,9 @@
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
+import Popup from '../../class/Popup';
 
 class CommentsReplyBoxPopup extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comment"></i>) to the main page heading of any page that allows you to add comments to the page through a popup.</li>

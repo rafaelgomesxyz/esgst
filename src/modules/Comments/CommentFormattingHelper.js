@@ -1,7 +1,11 @@
 import Module from '../../class/Module';
+import ButtonSet from '../../class/ButtonSet';
+import Popout from '../../class/Popout';
+import Popup from '../../class/Popup';
+import Popup_v2 from '../../class/Popup_v2';
 
 class CommentsCommentFormattingHelper extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' <a href="https://www.steamgifts.com/about/comment-formatting">comment formatting</a>.</li>
@@ -259,6 +263,16 @@ info = ({
         name: `Comment Formatting`,
         sg: true,
         st: true
+      },
+      cfh_ghwsgi: {
+        description: `
+          <ul>
+            <li>Adds a button (<i class="fa fa-github"></i>) to the panel that allows you to easily generate links for <a href="https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration">GitHub Wiki SteamGifts Integration</a>.</li>
+          </ul>
+        `,
+        name: `GitHub Wiki SteamGifts Integration`,
+        sg: true,
+        st: true
       }
     },
     id: `cfh`,
@@ -271,7 +285,7 @@ info = ({
 
   async cfh() {
     this.esgst.cfhEmojis = this.cfh_emojis();
-    this.esgst.endlessFeatures.push(cfh_setTextAreas);
+    this.esgst.endlessFeatures.push(this.cfh_setTextAreas);
     this.esgst.cfh = {
       backup: [],
       history: [],
@@ -406,7 +420,7 @@ info = ({
               type: `input`
             }]
           }, {
-            attributes :{
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             text: `Add`,
@@ -422,9 +436,17 @@ info = ({
           });
         },
         callback: popout => {
-          let title = popout.firstElementChild.nextElementSibling.firstElementChild;
+          let title, url;
+          url = popout.firstElementChild.firstElementChild;
+          title = popout.firstElementChild.nextElementSibling.firstElementChild;
           title.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
-          title.focus();
+          if (url.value && title.value) {
+            popout.lastElementChild.click();
+          } else if (url.value) {
+            title.focus();
+          } else {
+            url.focus();
+          }
         }
       },
       {
@@ -463,7 +485,7 @@ info = ({
               type: `input`
             }]
           }, {
-            attributes :{
+            attributes: {
               class: `form__saving-button btn_action white`
             },
             text: `Add`,
@@ -589,7 +611,12 @@ info = ({
             type: `div`
           }]);
           emojis = popout.popout.firstElementChild;
-          this.esgst.modules.common.draggable_set({context: emojis, id: `emojis`});
+          this.esgst.modules.common.draggable_set({
+            addTrash: true,
+            context: emojis,
+            id: `emojis`,
+            item: {}
+          });
           this.cfh_setEmojis(emojis);
           emojis.nextElementSibling.addEventListener(`click`, async () => {
             if (popup) {
@@ -626,14 +653,16 @@ info = ({
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
               this.esgst.modules.common.createElements(savedEmojis, `inner`, await this.cfh_getEmojis());
               const obj = {
+                addTrash: true,
                 context: savedEmojis,
-                id: `emojid`
+                id: `emojis`,
+                item: {}
               };
               this.esgst.modules.common.draggable_set(obj);
               for (const emojiData of this.esgst.cfhEmojis) {
                 this.esgst.modules.common.createElements(emojis, `beforeEnd`, [{
                   attributes: {
-                    [`data-id`]: emojiData.emoji,
+                    [`data-draggable-id`]: emojiData.emoji,
                     title: emojiData.name
                   },
                   text: emojiData.emoji,
@@ -642,7 +671,7 @@ info = ({
                 emojis.lastElementChild.addEventListener(`click`, () => {
                   this.esgst.modules.common.createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
-                      [`data-id`]: emojiData.emoji,
+                      [`data-draggable-id`]: emojiData.emoji,
                       title: emojiData.name
                     },
                     text: emojiData.emoji,
@@ -654,7 +683,7 @@ info = ({
               popup.onClose = () => {
                 const emojArr = [];
                 for (const element of savedEmojis.children) {
-                  emojArr.push(element.getAttribute(`data-id`));
+                  emojArr.push(element.getAttribute(`data-draggable-id`));
                 }
                 setValue(`emojis`, JSON.stringify(emojArr));
               };
@@ -683,7 +712,12 @@ info = ({
         callback: async popout => {
           let emojis = popout.firstElementChild;
           this.esgst.modules.common.createElements(emojis, `inner`, await this.cfh_getEmojis());
-          this.esgst.modules.common.draggable_set({context: emojis, id: `emojis`});
+          this.esgst.modules.common.draggable_set({
+            addTrash: true,
+            context: emojis,
+            id: `emojis`,
+            item: {}
+          });
           this.cfh_setEmojis(emojis);
         }
       },
@@ -792,6 +826,44 @@ info = ({
           popout.firstElementChild.firstElementChild.focus();
         }
       }, {
+        id: `cfh_ghwsgi`,
+        icons: [`fa-github`],
+        name: `GitHub Wiki SteamGifts Integration`,
+        setPopout: popout => {
+          let url;
+          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+            type: `div`,
+            children: [{
+              text: `Wiki URL: `,
+              type: `node`
+            }, {
+              attributes: {
+                placeholder: `https://github.com/username/repository/wiki`,
+                type:  `text`
+              },
+              type: `input`
+            }]
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
+            text: `Add`,
+            type: `div`
+          }]);
+          url = popout.popout.firstElementChild.firstElementChild;
+          popout.popout.lastElementChild.addEventListener(`click`, () => {
+            const ghwsgiLink = `wiki-gh/${url.value.replace(/https?:\/\/(www\.)?github\.com\//, ``)}`;
+            this.cfh_formatItem(`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`);
+            this.cfh_formatLink(``, ghwsgiLink);
+            url.value = ``;
+            popout.close();
+          });
+        },
+        callback: popout => {
+          let url = popout.firstElementChild.firstElementChild;
+          url.focus();
+        }
+      }, {
         icons: [`fa-paste`],
         name: `Automatic Links / Images Paste Formatting: OFF`,
         callback: context => {
@@ -848,7 +920,7 @@ info = ({
       if (!item.id || this.esgst[item.id]) {
         let button = this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
           attributes: {
-            title: `${getFeatureTooltip(item.id || `cfh`, item.name)}`
+            title: `${this.esgst.modules.common.getFeatureTooltip(item.id || `cfh`, item.name)}`
           },
           type: `div`
         }]);
@@ -3351,11 +3423,12 @@ info = ({
         if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
           emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
         }
+        console(emoji);
         const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData.emoji;
         return {
           attributes: {
-            [`data-id`]: emoji,
+            [`data-draggable-id`]: emoji,
             title: emojiData.name
           },
           text: emoji,
@@ -3657,7 +3730,7 @@ info = ({
             rows[i].deleteCell(n);
           }
         } else {
-            alert(`A table must have this.esgst.modules.generalAccurateTimestamp.at least one row and two columns.`);
+            alert(`A table must have at least one row and two columns.`);
         }
       });
       --columns;
@@ -3815,7 +3888,7 @@ info = ({
       },
       type: `div`,
       children: [{
-        text: `You can save a defined list of replies to be picked this.esgst.modules.generalAccurateTimestamp.at random when using it. To do so, enclose each option with `,
+        text: `You can save a defined list of replies to be picked at random when using it. To do so, enclose each option with `,
         type: `node`
       }, {
         attributes: {

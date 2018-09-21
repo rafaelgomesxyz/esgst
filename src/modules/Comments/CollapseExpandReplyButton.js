@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class CommentsCollapseExpandReplyButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-plus-square"></i> if all of the replies in the page are collapsed and <i class="fa fa-minus-square"></i> if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.</li>
@@ -65,7 +65,7 @@ info = ({
       expand = collapse.nextElementSibling;
       collapse.addEventListener(`click`, this.cerb_collapseAllReplies.bind(null, collapse, expand));
       expand.addEventListener(`click`, this.cerb_expandAllReplies.bind(null, collapse, expand));
-      this.esgst.endlessFeatures.push(cerb_getReplies.bind(null, collapse, expand));
+      this.esgst.endlessFeatures.push(this.cerb_getReplies.bind(null, collapse, expand));
     }
   }
 
@@ -77,7 +77,7 @@ info = ({
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);
       if (replies && replies.children.length) {
-        this.cerb_setButton(createElements(reply.firstElementChild, `afterBegin`, [{
+        this.cerb_setButton(this.esgst.modules.common.createElements(reply.firstElementChild, `afterBegin`, [{
           attributes: {
             class: `esgst-cerb-reply-button esgst-clickable`
           },

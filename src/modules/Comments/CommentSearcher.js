@@ -1,7 +1,8 @@
 import Module from '../../class/Module';
+import Process from '../../class/Process';
 
 class CommentsCommentSearcher extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-search"></i>) to the main page heading of any page that allows you to search for comments made by specific users in the page.</li>
