@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class DiscussionsRefreshActiveDiscussionsButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-refresh"></i>) to the page heading of the active discussions (in the main page) that allows you to refresh the active discussions without having to refresh the entire page.</li>

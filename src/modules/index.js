@@ -42,6 +42,7 @@ import GiveawaysGiveawayFilters from './Giveaways/GiveawayFilters';
 import GroupsGroupLibraryWishlistChecker from './Groups/GroupLibraryWishlistChecker';
 import GiveawaysGiveawayRecreator from './Giveaways/GiveawayRecreator';
 import GroupsGroupStats from './Groups/GroupStats';
+import DiscussionsDiscussionTags from './Discussions/DiscussionTags';
 import GamesGameTags from './Games/GameTags';
 import GroupsGroupTags from './Groups/GroupTags';
 import GiveawaysGiveawayTemplates from './Giveaways/GiveawayTemplates';
@@ -190,6 +191,7 @@ let
   groupsGroupLibraryWishlistChecker = new GroupsGroupLibraryWishlistChecker,
   giveawaysGiveawayRecreator = new GiveawaysGiveawayRecreator,
   groupsGroupStats = new GroupsGroupStats,
+  discussionsDiscussionTags = new DiscussionsDiscussionTags,
   gamesGameTags = new GamesGameTags,
   groupsGroupTags = new GroupsGroupTags,
   giveawaysGiveawayTemplates = new GiveawaysGiveawayTemplates,
@@ -339,6 +341,7 @@ export default {
   groupsGroupLibraryWishlistChecker,
   giveawaysGiveawayRecreator,
   groupsGroupStats,
+  discussionsDiscussionTags,
   gamesGameTags,
   groupsGroupTags,
   giveawaysGiveawayTemplates,

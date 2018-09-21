@@ -1,12 +1,13 @@
 import Module from '../../class/Module';
+import Process from '../../class/Process';
 
 class DiscussionsDiscussionHighlighter extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-star"></i> if the discussion is highlighted and <i class="fa fa-star-o"></i> if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.</li>
         <li>Highlighted discussions have a green background.</li>
-        <li>Adds a button (<i class="fa fa-star esgst-yellow"></i> View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box this.esgst.modules.generalAccurateTimestamp.at the header of any page that allows you to view all of the discussions that have been highlighted.</li>
+        <li>Adds a button (<i class="fa fa-star esgst-yellow"></i> View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box at the header of any page that allows you to view all of the discussions that have been highlighted.</li>
       </ul>
     `,
     features: {

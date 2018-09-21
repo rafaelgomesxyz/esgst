@@ -1,7 +1,8 @@
 import Module from '../../class/Module';
+import Popup from '../../class/Popup';
 
 class DiscussionsMainPostPopup extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Hides the main post of a discussion and adds a button (<i class="fa fa-home"></i>) to its main page heading that allows you to open the main post through a popup.</li>
@@ -58,7 +59,7 @@ info = ({
       Hidden = true;
       scrollTo(0, 0);
     }
-    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`);
+    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`, `esgst-text-left`);
     button.addEventListener(`click`, () => {
       if (!Hidden) {
         MPPPost.classList.remove(`esgst-mpp-visible`);

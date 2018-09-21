@@ -1,8 +1,9 @@
 import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
 
 class DiscussionsDiscussionEditDetector extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.</li>
