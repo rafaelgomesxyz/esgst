@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
-import Popup from '../../class/Popout';
+import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -184,7 +184,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                   },
                   type: `i`
                 }, {
-                  text: `An error ocurred.`,
+                  text: `An error occurred.`,
                   type: `span`
                 }]);
                 if (this.esgst.gcl_index === 1) {

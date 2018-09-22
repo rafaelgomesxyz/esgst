@@ -273,7 +273,7 @@ class GiveawaysGiveawayTemplates extends Module {
         }
         let deleteLock = await createLock(`templateLock`, 300);
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
-        for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i);
+        for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i) {}
         if (i < n) {
           if (gts.edit) {
             savedTemplates[i] = template;
@@ -470,7 +470,7 @@ class GiveawaysGiveawayTemplates extends Module {
           children: [{
             attributes: {
               class: `fa fa-trash`,
-              title: `Delete templat`
+              title: `Delete template`
             },
             type: `i`
           }]
@@ -514,7 +514,7 @@ class GiveawaysGiveawayTemplates extends Module {
       let deleteLock = await createLock(`templateLock`, 300),
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`)),
         i = 0;
-      for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i);
+      for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i) {}
       savedTemplates.splice(i, 1);
       await setValue(`templates`, JSON.stringify(savedTemplates));
       deleteLock();
@@ -606,7 +606,7 @@ class GiveawaysGiveawayTemplates extends Module {
           formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else {
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
-        newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
+        newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration);
         document.querySelector(`[name="start_time"]`).value =
           formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
@@ -627,7 +627,7 @@ class GiveawaysGiveawayTemplates extends Module {
           formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
     }
-    if (!savedTemplate.region.match(/^(1|0)$/)) {
+    if (!savedTemplate.region.match(/^[10]$/)) {
       savedTemplate.region = `0`;
     }
     document.querySelector(`[data-checkbox-value="${savedTemplate.region}"]`).click();
@@ -716,7 +716,7 @@ class GiveawaysGiveawayTemplates extends Module {
     event.dataTransfer.setData(`text/plain`, ``);
     gts.source = template;
     savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
-    for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i);
+    for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i) {}
     if (i < n) {
       gts.sourceIndex = i;
     }

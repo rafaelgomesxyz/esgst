@@ -1,4 +1,7 @@
-/** module interface */
+/**
+ * module interface
+ * @type {Module}
+ */
 export default class Module {
   info = {
     id: 'string',

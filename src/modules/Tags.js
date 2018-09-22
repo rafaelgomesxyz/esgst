@@ -31,9 +31,11 @@ class Tags extends Module {
       case `dt`: {
         const savedDiscussions = JSON.parse(await getValue(`discussions`));
         for (const id in savedDiscussions) {
-          const tags = savedDiscussions[id].tags;
-          if (tags && Array.isArray(tags)) {
-            allTags.push(...tags);
+          if (savedDiscussions.hasOwnProperty(id)) {
+            const tags = savedDiscussions[id].tags;
+            if (tags && Array.isArray(tags)) {
+              allTags.push(...tags);
+            }
           }
         }
         break;
@@ -51,15 +53,19 @@ class Tags extends Module {
       case `gt`: {
         const savedGames = JSON.parse(await getValue(`games`));
         for (const id in savedGames.apps) {
-          const tags = savedGames.apps[id].tags;
-          if (tags && Array.isArray(tags)) {
-            allTags.push(...tags);
+          if (savedGames.apps.hasOwnProperty(id)) {
+            const tags = savedGames.apps[id].tags;
+            if (tags && Array.isArray(tags)) {
+              allTags.push(...tags);
+            }
           }
         }
         for (const id in savedGames.subs) {
-          const tags = savedGames.subs[id].tags;
-          if (tags && Array.isArray(tags)) {
-            allTags.push(...tags);
+          if (savedGames.subs.hasOwnProperty(id)) {
+            const tags = savedGames.subs[id].tags;
+            if (tags && Array.isArray(tags)) {
+              allTags.push(...tags);
+            }
           }
         }
         break;
@@ -67,9 +73,11 @@ class Tags extends Module {
       case `ut`: {
         const savedUsers = JSON.parse(await getValue(`users`));
         for (const id in savedUsers.users) {
-          const tags = savedUsers.users[id].tags;
-          if (tags && Array.isArray(tags)) {
-            allTags.push(...tags);
+          if (savedUsers.users.hasOwnProperty(id)) {
+            const tags = savedUsers.users[id].tags;
+            if (tags && Array.isArray(tags)) {
+              allTags.push(...tags);
+            }
           }
         }
         break;
@@ -84,10 +92,12 @@ class Tags extends Module {
     }
     this.esgst[`${key}Tags`] = [];
     for (const tag in tagCount) {
-      this.esgst[`${key}Tags`].push({
-        count: tagCount[tag],
-        tag
-      });
+      if (tagCount.hasOwnProperty(tag)) {
+        this.esgst[`${key}Tags`].push({
+          count: tagCount[tag],
+          tag
+        });
+      }
     }
     this.esgst[`${key}Tags`] = sortArray(this.esgst[`${key}Tags`], true, `count`).map(x => x.tag);
     if (this.esgst[`${key}_s`]) {
@@ -237,6 +247,7 @@ class Tags extends Module {
       obj.sharedTags.add(`[*]`);
     }
     obj.sharedTags = Array.from(obj.sharedTags);
+    // noinspection JSIgnoredPromiseFromCall
     this.tags_openPopup(obj);
   }
 

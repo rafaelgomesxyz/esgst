@@ -35,7 +35,7 @@ class GroupsGroupHighlighter extends Module {
       const element = elements[i],
           code = element.getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
       let j;
-      for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
+      for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {}
       if (j >= 0 && savedGroups[j].member) {
         element.closest(`.table__row-outer-wrap`).classList.add(`esgst-gh-highlight`);
       }

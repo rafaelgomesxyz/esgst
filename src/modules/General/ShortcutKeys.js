@@ -180,7 +180,7 @@ class GeneralShortcutKeys extends Module {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
           let button = document.querySelector(`.esgst-gf-hide-button, .esgst-gf-unhide-button`);
           if (button) {
-            button.firstElementChild.click();
+            button.firstElementChild.dispatchEvent(new Event(`click`));
             event.preventDefault();
           }
         }

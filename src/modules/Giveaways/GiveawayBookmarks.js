@@ -98,12 +98,14 @@ class GiveawaysGiveawayBookmarks extends Module {
         }]
       }]);
     }
+    // noinspection JSIgnoredPromiseFromCall
     this.gb_addButton(button);
     if (this.esgst.gb_ue && this.esgst.enterGiveawayButton) {
       this.esgst.enterGiveawayButton.onclick = () => {
         let giveaway = this.esgst.mainGiveaways[0];
         if (giveaway && giveaway.gbButton) {
           if (giveaway.gbButton.index === 3) {
+            // noinspection JSIgnoredPromiseFromCall
             giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
           }
           if (!this.esgst.gb_se) {
@@ -129,33 +131,35 @@ class GiveawaysGiveawayBookmarks extends Module {
       button.classList.add(`esgst-gb-highlighted`);
     }
     for (let key in this.esgst.giveaways) {
-      const giveaway = this.esgst.giveaways[key];
-      if (giveaway.bookmarked) {
-        if (typeof giveaway.started === `undefined`) {
-          giveaway.started = true;
-          this.esgst.edited.giveaways = true;
-        }
-        if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
-          if (giveaway.started) {
-            if (this.esgst.gb_u) {
-              delete giveaway.bookmarked;
-              this.esgst.edited.giveaways = true;
+      if (this.esgst.giveaways.hasOwnProperty(key)) {
+        const giveaway = this.esgst.giveaways[key];
+        if (giveaway.bookmarked) {
+          if (typeof giveaway.started === `undefined`) {
+            giveaway.started = true;
+            this.esgst.edited.giveaways = true;
+          }
+          if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
+            if (giveaway.started) {
+              if (this.esgst.gb_u) {
+                delete giveaway.bookmarked;
+                this.esgst.edited.giveaways = true;
+              } else {
+                bookmarked.push(giveaway);
+              }
             } else {
               bookmarked.push(giveaway);
+              ++started;
+              if (this.esgst.gb_h && button) {
+                button.classList.add(`started`);
+              }
             }
           } else {
-            bookmarked.push(giveaway);
-            ++started;
-            if (this.esgst.gb_h && button) {
-              button.classList.add(`started`);
-            }
-          }
-        } else {
-          if (giveaway.started) {
-            bookmarked.push(giveaway);
-            endingSoon = giveaway.endTime - Date.now() - (this.esgst.gb_hours * 3600000);
-            if (endingSoon <= 0) {
-              ++ending;
+            if (giveaway.started) {
+              bookmarked.push(giveaway);
+              endingSoon = giveaway.endTime - Date.now() - (this.esgst.gb_hours * 3600000);
+              if (endingSoon <= 0) {
+                ++ending;
+              }
             }
           }
         }
@@ -232,6 +236,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       type: `div`
     }]);
     let set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
+      // noinspection JSIgnoredPromiseFromCall
       this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
         i = value;
         if (i > n) {
@@ -314,6 +319,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       }]);
     }
     gb.popup.open();
+    // noinspection JSIgnoredPromiseFromCall
     this.gb_loadNames(gb);
   }
 
@@ -368,7 +374,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             }))]
           }]);
           let thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
-          numT = thinHeadings.length
+          numT = thinHeadings.length;
           info.firstElementChild.textContent = parseInt(info.firstElementChild.textContent) + parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
           info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
           for (j = 0; j < numT; ++j) {

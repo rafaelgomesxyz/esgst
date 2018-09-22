@@ -154,7 +154,6 @@ class TradesHaveWantListChecker extends Module {
   async hwlc_getGames(obj) {
     const currentTime = Date.now();
     let cache = JSON.parse(getLocalValue(`hwlcCache`, `{"lastUpdate": 0}`));
-    let json = null;
     if (currentTime - cache.lastUpdate > 604800000) {
       try {
         const response = await request({
@@ -170,12 +169,20 @@ class TradesHaveWantListChecker extends Module {
         alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
       }
     }
-    json = JSON.parse(cache.data);
+    const json = JSON.parse(cache.data);
     obj.games = {};
+    // noinspection JSIgnoredPromiseFromCall
     this.hwlc_addGames(obj, `have`, json);
+    // noinspection JSIgnoredPromiseFromCall
     this.hwlc_addGames(obj, `want`, json);
   }
 
+  /**
+   * @param obj
+   * @param key
+   * @param {appListResponse} json
+   * @returns {Promise<void>}
+   */
   async hwlc_addGames(obj, key, json) {
     obj.games[key] = {
       apps: [],
@@ -232,7 +239,7 @@ class TradesHaveWantListChecker extends Module {
           url: `http://store.steampowered.com/wishlist/profiles/${steamId}`
         });
         const responseText = response.responseText;
-        const wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
+        const wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
         if (wishlistData) {
           const appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
           const apps = appInfo ? JSON.parse(appInfo[1]) : null;
@@ -256,7 +263,9 @@ class TradesHaveWantListChecker extends Module {
       } catch (e) { /**/ }
     }
     for (const section in obj.sections[key]) {
-      obj.sections[key][section].innerHTML = ``;
+      if (obj.sections[key].hasOwnProperty(section)) {
+        obj.sections[key][section].innerHTML = ``;
+      }
     }
     obj.games[key].apps = obj.games[key].apps.map(game => {
       if (game.wishlisted) {
@@ -366,18 +375,20 @@ class TradesHaveWantListChecker extends Module {
     }
     createElements(obj.sections[key].unidentified, `beforeEnd`, unidentifiedItems);
     for (const section in obj.sections[key]) {
-      if (section === `textArea` || obj.sections[key][section].innerHTML) {
-        continue;
+      if (obj.sections[key].hasOwnProperty(section)) {
+        if (section === `textArea` || obj.sections[key][section].innerHTML) {
+          continue;
+        }
+        createElements(obj.sections[key][section], `inner`, [{
+          text: `None.`,
+          type: `node`
+        }]);
       }
-      createElements(obj.sections[key][section], `inner`, [{
-        text: `None.`,
-        type: `node`
-      }]);
-    }
-    const query = getLocalValue(`hwlc_${key}`);
-    if (query) {
-      obj.sections[key].textArea.value = query;
-      this.hwlc_filter(obj, key);
+      const query = getLocalValue(`hwlc_${key}`);
+      if (query) {
+        obj.sections[key].textArea.value = query;
+        this.hwlc_filter(obj, key);
+      }
     }
   }
 

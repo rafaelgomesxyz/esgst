@@ -33,15 +33,18 @@ class GiveawaysStickiedGiveawayGroups extends Module {
   }
 
   sgg_setGiveawayGroups() {
-    let avatar, code, container, context, elements, i, id, j, n, savedGroups, separator, stickied;
+    let avatar, code, container, context, elements, i, id, j, n, savedGroups, stickied;
     savedGroups = JSON.parse(this.esgst.storage.groups);
     container = document.querySelector(`.form_list[data-input="group_item_string"]`);
-    separator = container.firstElementChild.nextElementSibling;
     elements = container.children;
+    const obj = {
+      separator: container.firstElementChild.nextElementSibling
+    };
     for (i = 1, n = elements.length; i < n; ++i) {
       context = elements[i];
       id = context.getAttribute(`data-item-id`);
-      avatar = context.firstElementChild.style.backgroundImage;
+      const avatarContext = context.firstElementChild;
+      avatar = avatarContext.style.backgroundImage;
       code = null;
       stickied = false;
       for (j = savedGroups.length - 1; j >= 0; --j) {
@@ -55,13 +58,13 @@ class GiveawaysStickiedGiveawayGroups extends Module {
       }
       if (code) {
         if (stickied) {
-          if (context === separator) {
-            separator = separator.nextElementSibling;
+          if (context === obj.separator) {
+            obj.separator = obj.separator.nextElementSibling;
           }
-          container.insertBefore(context, separator);
+          container.insertBefore(context, obj.separator);
         }
         new Button(context, `afterBegin`, {
-          callbacks: [this.sgg_stickyGroup.bind(null, code, container, context, id, separator), null, this.sgg_unstickyGroup.bind(null, code, container, context, id, separator), null],
+          callbacks: [this.sgg_stickyGroup.bind(null, obj, code, container, context, id), null, this.sgg_unstickyGroup.bind(null, obj, code, container, context, id), null],
           className: `esgst-sgg-button`,
           icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `sgg`,
@@ -95,7 +98,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
         continue;
       }
       new Button(element, `afterBegin`, {
-        callbacks: [this.sgg_stickyGroup.bind(null, code, null, element, null, null), null, this.sgg_unstickyGroup.bind(null, code, null, element, null, null), null],
+        callbacks: [this.sgg_stickyGroup.bind(null, {}, code, null, element, null), null, this.sgg_unstickyGroup.bind(null, {}, code, null, element, null), null],
         className: `esgst-sgg-button`,
         icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `sgg`,
@@ -105,13 +108,13 @@ class GiveawaysStickiedGiveawayGroups extends Module {
     }
   }
 
-  async sgg_stickyGroup(code, container, context, id, separator, event) {
+  async sgg_stickyGroup(obj, code, container, context, id, event) {
     event.stopPropagation();
     if (container) {
-      if (context === separator) {
-        separator = separator.nextElementSibling;
+      if (context === obj.separator) {
+        obj.separator = obj.separator.nextElementSibling;
       }
-      container.insertBefore(context, separator);
+      container.insertBefore(context, obj.separator);
     }
     let groups = {};
     groups[code] = {
@@ -124,11 +127,11 @@ class GiveawaysStickiedGiveawayGroups extends Module {
     return true;
   }
 
-  async sgg_unstickyGroup(code, container, context, id, separator, event) {
+  async sgg_unstickyGroup(obj, code, container, context, id, event) {
     event.stopPropagation();
     if (container) {
-      container.insertBefore(context, separator);
-      separator = separator.previousElementSibling;
+      container.insertBefore(context, obj.separator);
+      obj.separator = obj.separator.previousElementSibling;
     }
     let groups = {};
     groups[code] = {

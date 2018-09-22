@@ -76,6 +76,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   cewgd_getDetails_pre(giveaways, main) {
+    // noinspection JSIgnoredPromiseFromCall
     this.cewgd_getDetails(giveaways, main);
   }
 
@@ -95,7 +96,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       let currentGiveaway = this.cewgd.giveaways[i];
       if (cewgd.savedGiveaways[currentGiveaway.code]) {
         for (let key in currentGiveaway) {
-          this.cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
+          if (currentGiveaway.hasOwnProperty(key)) {
+            this.cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
+          }
         }
       } else {
         this.cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
@@ -212,6 +215,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     giveaway.level = details.level;
+    /**
+   * @type {ElementsArrayItem[]}
+   */
     const items = [{
       text: ` (${details.points}P)`,
       type: `span`
@@ -317,7 +323,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
               received += 1;
             }
           }
-          giveaway.innerWrap.lastElementChild.insertAdjacentText(`beforeEnd`, ` (${received}/${n})`);
+          giveaway.innerWrap.lastElementChild.insertAdjacentText("beforeend", ` (${received}/${n})`);
         } else {
           winner = details.winners[0].username;
           createElements(winnersColumn, `inner`, [{
@@ -348,6 +354,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
     if (giveaway.group && this.esgst.ggl) {
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysGiveawayGroupLoader.ggl_getGiveaways([giveaway]);
     }
   }

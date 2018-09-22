@@ -230,7 +230,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       let name = this.esgst.df_preset;
       if (name) {
         let i;
-        for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--);
+        for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {}
         if (i > -1) {
           preset = this.esgst.df_presets[i];
         }

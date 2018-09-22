@@ -19,7 +19,7 @@ class CommentsReplyFromInbox extends Module {
   info = ({
     description: `
       <ul>
-        <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
+        <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="https://www.steamgifts.com/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
         <li>It is essentially [id=mr] for the inbox page.</li>
       </ul>
     `,
@@ -68,10 +68,12 @@ class CommentsReplyFromInbox extends Module {
     saved = JSON.parse(await getValue(`${this.esgst.name}RfiCache`, `{}`));
     if (edit) {
       for (const key in saved) {
-        for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i);
-        if (i < n) {
-          saved[key][i].reply = reply;
-          saved[key][i].timestamp = Date.now();
+        if (saved.hasOwnProperty(key)) {
+          for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i)  {}
+          if (i < n) {
+            saved[key][i].reply = reply;
+            saved[key][i].timestamp = Date.now();
+          }
         }
       }
     } else {
@@ -106,17 +108,19 @@ class CommentsReplyFromInbox extends Module {
       }
     }
     for (key in saved) {
-      for (i = 0, n = saved[key].length; i < n; ++i) {
-        if (Date.now() - saved[key][i].timestamp > 604800000) {
-          edited = true;
-          saved[key].splice(i, 1);
-          i -= 1;
-          n -= 1;
+      if (saved.hasOwnProperty(key)) {
+        for (i = 0, n = saved[key].length; i < n; ++i) {
+          if (Date.now() - saved[key][i].timestamp > 604800000) {
+            edited = true;
+            saved[key].splice(i, 1);
+            i -= 1;
+            n -= 1;
+          }
         }
-      }
-      if (!saved[key].length) {
-        edited = true;
-        delete saved[key];
+        if (!saved[key].length) {
+          edited = true;
+          delete saved[key];
+        }
       }
     }
     if (edited) {

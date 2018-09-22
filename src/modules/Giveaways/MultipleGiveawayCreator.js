@@ -586,43 +586,45 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       copyValue(trainOutputCopy, trainOutputCode.textContent);
     });
     for (let key in inputs) {
-      let input = inputs[key];
-      input.addEventListener(`input`, () => {
-        if (key === `counter`) {
-          counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
-          createElements(counterOutputPreview, `inner`, parseMarkdown(`1${input.value}10`));
-        } else if (key === `bump`) {
-          bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          createElements(bumpOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
-        } else if (key === `train`) {
-          trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-          createElements(trainOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
-        } else {
-          let markdown = ``;
-          let text = ``;
-          if (inputs.previousPrefix.value || inputs.previousSuffix.value) {
-            text += `[ESGST-P]${inputs.previousPrefix.value}[P]${inputs.previous.value}[/P]${inputs.previousSuffix.value}[/ESGST-P]`;
-            markdown += `${inputs.previousPrefix.value}[${inputs.previous.value}](#)${inputs.previousSuffix.value}`;
+      if (inputs.hasOwnProperty(key)) {
+        let input = inputs[key];
+        input.addEventListener(`input`, () => {
+          if (key === `counter`) {
+            counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
+            createElements(counterOutputPreview, `inner`, parseMarkdown(`1${input.value}10`));
+          } else if (key === `bump`) {
+            bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
+            createElements(bumpOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
+          } else if (key === `train`) {
+            trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
+            createElements(trainOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
           } else {
-            text += `[ESGST-P]${inputs.previous.value}[/ESGST-P]`;
-            markdown += `[${inputs.previous.value}](#)`;
+            let markdown = ``;
+            let text = ``;
+            if (inputs.previousPrefix.value || inputs.previousSuffix.value) {
+              text += `[ESGST-P]${inputs.previousPrefix.value}[P]${inputs.previous.value}[/P]${inputs.previousSuffix.value}[/ESGST-P]`;
+              markdown += `${inputs.previousPrefix.value}[${inputs.previous.value}](#)${inputs.previousSuffix.value}`;
+            } else {
+              text += `[ESGST-P]${inputs.previous.value}[/ESGST-P]`;
+              markdown += `[${inputs.previous.value}](#)`;
+            }
+            if (inputs.separator.value) {
+              text += inputs.separator.value;
+              markdown += inputs.separator.value;
+            }
+            if (inputs.nextPrefix.value || inputs.nextSuffix.value) {
+              text += `[ESGST-N]${inputs.nextPrefix.value}[N]${inputs.next.value}[/N]${inputs.nextSuffix.value}[/ESGST-N]`;
+              markdown += `${inputs.nextPrefix.value}[${inputs.next.value}](#)${inputs.nextSuffix.value}`;
+            } else {
+              text += `[ESGST-N]${inputs.next.value}[/ESGST-N]`;
+              markdown += `[${inputs.next.value}](#)`;
+            }
+            outputCode.textContent = text;
+            createElements(outputPreview, `inner`, parseMarkdown(markdown));
           }
-          if (inputs.separator.value) {
-            text += inputs.separator.value;
-            markdown += inputs.separator.value;
-          }
-          if (inputs.nextPrefix.value || inputs.nextSuffix.value) {
-            text += `[ESGST-N]${inputs.nextPrefix.value}[N]${inputs.next.value}[/N]${inputs.nextSuffix.value}[/ESGST-N]`;
-            markdown += `${inputs.nextPrefix.value}[${inputs.next.value}](#)${inputs.nextSuffix.value}`;
-          } else {
-            text += `[ESGST-N]${inputs.next.value}[/ESGST-N]`;
-            markdown += `[${inputs.next.value}](#)`;
-          }
-          outputCode.textContent = text;
-          createElements(outputPreview, `inner`, parseMarkdown(markdown));
-        }
-        input.style.width = `${input.value.length + 75}px`;
-      });
+          input.style.width = `${input.value.length + 75}px`;
+        });
+      }
     }
     popup.open();
   }
@@ -956,6 +958,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       });
       progress.total.textContent = n;
     }
+    // noinspection JSIgnoredPromiseFromCall
     this.mgc_importGiveaway(giveaways, 0, mgc, n, popup, progress, textArea, () => {
       this.mgc_updateCache(mgc);
       popup.close();
@@ -1460,6 +1463,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     mgc.keys.value = ``;
     viewButton.set.classList.add(`esgst-hidden`);
     mgc.saveGiveaways = {};
+    // noinspection JSIgnoredPromiseFromCall
     this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc ? this.mgc_saveGiveaways.bind(null, mgc, this.mgc_completeCreation.bind(null, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(null, mgc, viewButton, callback));
   }
 
@@ -1467,11 +1471,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (i < n) {
       if (!mgc.giveaways.children[i].classList.contains(`success`)) {
         const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
+        // noinspection JSIgnoredPromiseFromCall
         this.mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
       } else {
         setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }
     } else if (this.esgst.mgc_createTrain) {
+      // noinspection JSIgnoredPromiseFromCall
       this.mgc_createTrain(0, mgc, mgc.created.length, callback);
     } else {
       callback();
@@ -1567,34 +1573,42 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         if (ugd) {
           if (ugd.sent) {
             for (let key in ugd.sent.apps) {
-              giveaways.sent.apps[key] = [];
-              for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
-                mgc.saveGiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
-                giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
+              if (ugd.sent.apps.hasOwnProperty(key)) {
+                giveaways.sent.apps[key] = [];
+                for (let i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
+                  mgc.saveGiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
+                  giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
+                }
               }
             }
             for (let key in ugd.sent.subs) {
-              giveaways.sent.subs[key] = [];
-              for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
-                mgc.saveGiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
-                giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
+              if (ugd.sent.subs.hasOwnProperty(key)) {
+                giveaways.sent.subs[key] = [];
+                for (let i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
+                  mgc.saveGiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
+                  giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
+                }
               }
             }
             giveaways.sentTimestamp = ugd.sentTimestamp;
           }
           if (ugd.won) {
             for (let key in ugd.won.apps) {
-              giveaways.won.apps[key] = [];
-              for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
-                mgc.saveGiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
-                giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
+              if (ugd.won.apps.hasOwnProperty(key)) {
+                giveaways.won.apps[key] = [];
+                for (let i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
+                  mgc.saveGiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
+                  giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
+                }
               }
             }
             for (let key in ugd.won.subs) {
-              giveaways.won.subs[key] = [];
-              for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
-                mgc.saveGiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
-                giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
+              if (ugd.won.subs.hasOwnProperty(key)) {
+                giveaways.won.subs[key] = [];
+                for (let i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
+                  mgc.saveGiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
+                  giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
+                }
               }
             }
             giveaways.wonTimestamp = ugd.wonTimestamp;
@@ -1603,12 +1617,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }
     }
     for (const key in mgc.saveGiveaways) {
-      let giveaway = mgc.saveGiveaways[key];
-      if (!giveaways.sent[giveaway.gameType][giveaway.gameSteamId]) {
-        giveaways.sent[giveaway.gameType][giveaway.gameSteamId] = [];
-      }
-      if (giveaways.sent[giveaway.gameType][giveaway.gameSteamId].indexOf(giveaway.code) < 0) {
-        giveaways.sent[giveaway.gameType][giveaway.gameSteamId].push(giveaway.code);
+      if (mgc.saveGiveaways.hasOwnProperty(key)) {
+        let giveaway = mgc.saveGiveaways[key];
+        if (!giveaways.sent[giveaway.gameType][giveaway.gameSteamId]) {
+          giveaways.sent[giveaway.gameType][giveaway.gameSteamId] = [];
+        }
+        if (giveaways.sent[giveaway.gameType][giveaway.gameSteamId].indexOf(giveaway.code) < 0) {
+          giveaways.sent[giveaway.gameType][giveaway.gameSteamId].push(giveaway.code);
+        }
       }
     }
     user.values = {

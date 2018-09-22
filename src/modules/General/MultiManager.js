@@ -63,30 +63,32 @@ class GeneralMultiManager extends Module {
 
   mm(context, items, itemsKey) {
     if (!context && !this.esgst.mainPageHeading) return;
-    let obj = {
-      button: createHeadingButton({
-        context,
-        id: `mm`,
-        icons: [`fa-gears`],
-        title: `Multi-manage`
-      }),
-      checkboxes: {
-        Giveaways: {},
-        Discussions: {},
-        Users: {},
-        Games: {},
-        Groups: {}
-      },
-      counters: {
-        Giveaways: 0,
-        Discussions: 0,
-        Users: 0,
-        Games: 0,
-        Groups: 0
-      },
-      counterElements: {},
-      scope: context ? `popup` : `main`
+    /**
+   * @type {MM}
+   */
+    let obj = {};
+    obj. button = createHeadingButton({
+      context,
+      id: `mm`,
+      icons: [`fa-gears`],
+      title: `Multi-manage`
+    });
+    obj.checkboxes = {
+      Giveaways: {},
+      Discussions: {},
+      Users: {},
+      Games: {},
+      Groups: {}
     };
+    obj.counters = {
+      Giveaways: 0,
+      Discussions: 0,
+      Users: 0,
+      Games: 0,
+      Groups: 0
+    };
+    obj.counterElements = {};
+    obj.scope = context ? `popup` : `main`;
     this.esgst.mm_enable = this.mm_enable.bind(null, obj);
     this.esgst.mm_disable = this.mm_disable.bind(null, obj);
     obj.button.addEventListener(`click`,  this.mm_openPopout.bind(null, obj, items, itemsKey));
@@ -238,9 +240,11 @@ class GeneralMultiManager extends Module {
 
   mm_resetCounters(obj) {
     for (let key in obj.counters) {
-      obj.counters[key] = 0;
-      if (obj.counterElements[key]) {
-        obj.counterElements[key].textContent = 0;
+      if (obj.counters.hasOwnProperty(key)) {
+        obj.counters[key] = 0;
+        if (obj.counterElements[key]) {
+          obj.counterElements[key].textContent = 0;
+        }
       }
     }
   }
@@ -667,7 +671,7 @@ class GeneralMultiManager extends Module {
   }
 
   mm_exportCustom(obj, items, key) {
-    let match = obj[`textArea${key}`].value.match(/\[LINE(.*?)\](.+)\[\/LINE\]/i),
+    let match = obj[`textArea${key}`].value.match(/\[LINE(.*?)](.+)\[\/LINE]/i),
       links = [];
     if (!match) return;
     let sorting = match[1],
@@ -701,22 +705,22 @@ class GeneralMultiManager extends Module {
             type += `Region Restricted`;
           }
           links.push(line
-            .replace(/\[CODE\]/ig, item.code)
-            .replace(/\[COMMENTS\]/ig, item.comments)
-            .replace(/\[COPIES\]/ig, item.copies)
-            .replace(/\[CREATOR\]/ig, item.creator)
-            .replace(/\[END-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.endTime))
-            .replace(/\[ENTRIES\]/ig, item.entries)
-            .replace(/\[LEVEL\]/ig, item.level)
-            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
-            .replace(/\[POINTS\]/ig, item.points)
-            .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/giveaway/${item.code}/`)
-            .replace(/\[START-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.startTime))
-            .replace(/\[STEAM-ID\]/ig, item.id)
-            .replace(/\[STEAM-TYPE\]/ig, item.type.slice(0, -1))
-            .replace(/\[STEAM-URL\]/ig, `http://store.steampowered.com/${item.type.slice(0, -1)}/${item.id}`)
-            .replace(/\[TYPE\]/ig, type)
-            .replace(/\[URL\]/ig, `https://www.steamgifts.com${item.url.match(/\/giveaway\/.+/)[0]}`)
+            .replace(/\[CODE]/ig, item.code)
+            .replace(/\[COMMENTS]/ig, item.comments)
+            .replace(/\[COPIES]/ig, item.copies)
+            .replace(/\[CREATOR]/ig, item.creator)
+            .replace(/\[END-TIME="(.+?)"]/ig, this.mm_formatDate.bind(null, item.endTime))
+            .replace(/\[ENTRIES]/ig, item.entries)
+            .replace(/\[LEVEL]/ig, item.level)
+            .replace(/\[NAME]/ig, escapeMarkdown(item.name))
+            .replace(/\[POINTS]/ig, item.points)
+            .replace(/\[SHORT-URL]/ig, `https://www.steamgifts.com/giveaway/${item.code}/`)
+            .replace(/\[START-TIME="(.+?)"]/ig, this.mm_formatDate.bind(null, item.startTime))
+            .replace(/\[STEAM-ID]/ig, item.id)
+            .replace(/\[STEAM-TYPE]/ig, item.type.slice(0, -1))
+            .replace(/\[STEAM-URL]/ig, `http://store.steampowered.com/${item.type.slice(0, -1)}/${item.id}`)
+            .replace(/\[TYPE]/ig, type)
+            .replace(/\[URL]/ig, `https://www.steamgifts.com${item.url.match(/\/giveaway\/.+/)[0]}`)
           );
         });
         break;
@@ -724,15 +728,15 @@ class GeneralMultiManager extends Module {
         items.forEach(item => {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
-            .replace(/\[AUTHOR\]/ig, item.author)
-            .replace(/\[CATEGORY\]/ig, escapeMarkdown(item.category))
-            .replace(/\[CODE\]/ig, item.code)
-            .replace(/\[COMMENTS\]/ig, item.comments)
-            .replace(/\[CREATED-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.createdTimestamp))
-            .replace(/\[POLL\]/ig, item.poll ? `Yes` : `No`)
-            .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/discussion/${item.code}/`)
-            .replace(/\[TITLE\]/ig, escapeMarkdown(item.title))
-            .replace(/\[URL\]/ig, `https://www.steamgifts.com${item.url.match(/\/discussion\/.+/)[0]}`)
+            .replace(/\[AUTHOR]/ig, item.author)
+            .replace(/\[CATEGORY]/ig, escapeMarkdown(item.category))
+            .replace(/\[CODE]/ig, item.code)
+            .replace(/\[COMMENTS]/ig, item.comments)
+            .replace(/\[CREATED-TIME="(.+?)"]/ig, this.mm_formatDate.bind(null, item.createdTimestamp))
+            .replace(/\[POLL]/ig, item.poll ? `Yes` : `No`)
+            .replace(/\[SHORT-URL]/ig, `https://www.steamgifts.com/discussion/${item.code}/`)
+            .replace(/\[TITLE]/ig, escapeMarkdown(item.title))
+            .replace(/\[URL]/ig, `https://www.steamgifts.com${item.url.match(/\/discussion\/.+/)[0]}`)
           );
         });
         break;
@@ -740,8 +744,8 @@ class GeneralMultiManager extends Module {
         items.forEach(item => {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
-            .replace(/\[URL\]/ig, `https://${location.hostname}/user/${item.code}`)
-            .replace(/\[USERNAME\]/ig, item.code)
+            .replace(/\[URL]/ig, `https://${location.hostname}/user/${item.code}`)
+            .replace(/\[USERNAME]/ig, item.code)
           );
         });
         break;
@@ -749,10 +753,10 @@ class GeneralMultiManager extends Module {
         items.forEach(item => {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
-            .replace(/\[ID\]/ig, item.code)
-            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
-            .replace(/\[TYPE\]/ig, item.type.slice(0, -1))
-            .replace(/\[URL\]/ig, `https://store.steampowered.com/${item.type.slice(0, -1)}/${item.code}`)
+            .replace(/\[ID]/ig, item.code)
+            .replace(/\[NAME]/ig, escapeMarkdown(item.name))
+            .replace(/\[TYPE]/ig, item.type.slice(0, -1))
+            .replace(/\[URL]/ig, `https://store.steampowered.com/${item.type.slice(0, -1)}/${item.code}`)
           );
         });
         break;
@@ -760,9 +764,9 @@ class GeneralMultiManager extends Module {
         items.forEach(item => {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
-            .replace(/\[CODE\]/ig, item.code)
-            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
-            .replace(/\[URL\]/ig, `https://www.steamgifts.com/group/${item.code}/`)
+            .replace(/\[CODE]/ig, item.code)
+            .replace(/\[NAME]/ig, escapeMarkdown(item.name))
+            .replace(/\[URL]/ig, `https://www.steamgifts.com/group/${item.code}/`)
           );
         });
         break;
@@ -772,7 +776,7 @@ class GeneralMultiManager extends Module {
     if (sorting) {
       links = sortArray(links, sorting === `-desc`);
     }
-    obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?\].+\[\/LINE\]/i, links.join(`\n`));
+    obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?].+\[\/LINE]/i, links.join(`\n`));
   }
 
   mm_formatDate(timestamp, match, p1) {
@@ -811,7 +815,8 @@ class GeneralMultiManager extends Module {
     if (description) {
       let match = this.esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
       if (match) {
-        let responseJson = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
+        const idContext = description.previousElementSibling;
+        let responseJson = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
         if (responseJson.type === `success`) {
           createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
             type: `li`,
@@ -900,6 +905,7 @@ class GeneralMultiManager extends Module {
         name: item.name,
         started: item.started
       };
+      // noinspection JSIgnoredPromiseFromCall
       item.gbButton.change(null, 2);
     });
     await lockAndSaveGiveaways(newItems);
@@ -912,6 +918,7 @@ class GeneralMultiManager extends Module {
       newItems[item.code] = {
         bookmarked: false
       };
+      // noinspection JSIgnoredPromiseFromCall
       item.gbButton.change(null, 0);
     });
     await lockAndSaveGiveaways(newItems);
@@ -971,6 +978,7 @@ class GeneralMultiManager extends Module {
         highlighted: true,
         lastUsed: Date.now()
       };
+      // noinspection JSIgnoredPromiseFromCall
       item.dhButton.change(null, 2);
     });
     await lockAndSaveDiscussions(newItems);
@@ -984,6 +992,7 @@ class GeneralMultiManager extends Module {
         highlighted: false,
         lastUsed: Date.now()
       };
+      // noinspection JSIgnoredPromiseFromCall
       item.dhButton.change(null, 0);
     });
     await lockAndSaveDiscussions(newItems);

@@ -30,25 +30,31 @@ class Games extends Module {
     if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
     [`apps`, `subs`].forEach(type => {
       for (let id in games[type]) {
-        games[type][id].forEach(game => {
-          this.esgst[main ? `mainGames` : `popupGames`].push({
-            code: id,
-            innerWrap: game.headingName,
-            name: game.name,
-            outerWrap: game.headingName,
-            type: type
+        if  (games[type].hasOwnProperty(id)) {
+          games[type][id].forEach(game => {
+            this.esgst[main ? `mainGames` : `popupGames`].push({
+              code: id,
+              innerWrap: game.headingName,
+              name: game.name,
+              outerWrap: game.headingName,
+              type: type
+            });
           });
-        });
+        }
       }
     });
     for (const feature of this.esgst.gameFeatures) {
       await feature(games, main, source, endless, `apps`);
     }
     for (const id in games.apps) {
-      games.apps[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
+      if (games.apps.hasOwnProperty(id)) {
+        games.apps[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
+      }
     }
     for (const id in games.subs) {
-      games.subs[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
+      if (games.subs.hasOwnProperty(id)) {
+        games.subs[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
+      }
     }
   }
 
@@ -73,7 +79,7 @@ class Games extends Module {
       };
       game.outerWrap = game.container;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
-      game.table = game.container.closest(`table`) ? true : false;
+      game.table = !!game.container.closest(`table`);
       game.grid = game.container.closest(`.esgst-gv-view`);
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
@@ -129,19 +135,23 @@ class Games extends Module {
       }
       const name = heading.textContent.trim();
       for (const id in this.esgst.games.apps) {
-        if (this.esgst.games.apps[id].name === name) {
-          return {
-            type: `apps`,
-            id: id
-          };
+        if (this.esgst.games.apps.hasOwnProperty(id)) {
+          if (this.esgst.games.apps[id].name === name) {
+            return {
+              type: `apps`,
+              id: id
+            };
+          }
         }
       }
       for (const id in this.esgst.games.subs) {
-        if (this.esgst.games.subs[id].name === name) {
-          return {
-            type: `subs`,
-            id: id
-          };
+        if (this.esgst.games.subs.hasOwnProperty(id)) {
+          if (this.esgst.games.subs[id].name === name) {
+            return {
+              type: `subs`,
+              id: id
+            };
+          }
         }
       }
       request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {

@@ -152,6 +152,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
             });
             savedGiveaways = JSON.parse(values.giveaways);
             savedGroups = JSON.parse(values.groups);
+            // noinspection JSIgnoredPromiseFromCall
             this.ggl_loadGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, groups => {
               let className, code, group, groupCount, i, j, n, link;
               if (groups) {
@@ -170,7 +171,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                 groupCount = 0;
                 for (i = 0, n = groups.length; i < n; ++i) {
                   code = groups[i];
-                  for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
+                  for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {}
                   if (j >= 0) {
                     group = savedGroups[j];
                   } else {
@@ -259,7 +260,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   },
                   type: `i`
                 }, {
-                  text: `An error ocurred.`,
+                  text: `An error occurred.`,
                   type: `span`
                 }]);
                 if (this.esgst.ggl_index === 2) {
@@ -301,6 +302,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
     });
     let savedGiveaways = JSON.parse(values.giveaways);
     let savedGroups = JSON.parse(values.groups);
+    // noinspection JSIgnoredPromiseFromCall
     this.ggl_loadGroups(giveaways, 0, giveaways.length, newGiveaways, newGroups, savedGiveaways, savedGroups);
   }
 
@@ -312,7 +314,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
         if (savedGiveaways[giveaway.code] && Array.isArray(savedGiveaways[giveaway.code].groups) && savedGiveaways[giveaway.code].groups.length) {
           found = true;
           for (j = savedGiveaways[giveaway.code].groups.length - 1; j > -1 && found; --j) {
-            for (k = this.esgst.groups.length - 1; k > -1 && this.esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k);
+            for (k = this.esgst.groups.length - 1; k > -1 && this.esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k) {}
             if (k <= -1) {
               found = false;
             }
@@ -326,6 +328,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
           }
           setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
         } else {
+          // noinspection JSIgnoredPromiseFromCall
           this.ggl_getGroups([], 1, newGroups, `${giveaway.url}/groups/search?page=`, groups => {
             if (groups) {
               newGiveaways[giveaway.code] = {
@@ -366,7 +369,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
       giveaway.groups = [];
       for (i = 0, n = groups.length; i < n; ++i) {
         code = groups[i];
-        for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j);
+        for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {}
         if (j >= 0) {
           group = savedGroups[j];
         } else {

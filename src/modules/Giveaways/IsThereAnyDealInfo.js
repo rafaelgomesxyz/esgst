@@ -43,6 +43,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     }
     const currentTime = Date.now();
     for (const giveaway of giveaways) {
+      // noinspection JSIgnoredPromiseFromCall
       this.itadi_getInfo(currentTime, giveaway);
     }
   }
@@ -183,7 +184,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
 
   itadi_addInfo(itadi, plain) {
     const items = [
-      ...this.tadi_template(`Best Current Deal`),
+      ...this.itadi_template(`Best Current Deal`),
       ...this.itadi_template(`Historical Lowest Price`),
       ...this.itadi_template(`Bundles`)
     ];

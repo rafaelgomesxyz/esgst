@@ -20,7 +20,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-check"></i> if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any <a href="https://www.steamgifts.com/discussions">discussions</a>/<a href="https://www.steamgifts.com/support/tickets">tickets</a>/<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.</li>
-        <li>Giveaways/theads marked as visited are faded out in the page.</li>
+        <li>Giveaways/threads marked as visited are faded out in the page.</li>
       <ul>
     `,
     features: {
@@ -145,7 +145,9 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       trades: `{}`
     });
     for (let key in values) {
-      values[key] = JSON.parse(values[key]);
+      if (values.hasOwnProperty(key)) {
+        values[key] = JSON.parse(values[key]);
+      }
     }
     for (let i = 0, n = matches.length; i < n; ++i) {
       let match = matches[i];

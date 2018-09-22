@@ -476,7 +476,7 @@ class GiveawaysUnsentGiftSender extends Module {
                 if (!ugs.groups[code]) {
                   // retrieve group members and store them in case another giveaway has the same group
                   let l;
-                  for (l = this.esgst.groups.length - 1; l > -1 && this.esgst.groups[l].code !== code; l--);
+                  for (l = this.esgst.groups.length - 1; l > -1 && this.esgst.groups[l].code !== code; l--) {}
                   if (l < 0) {
                     this.esgst.groups.push({
                       avatar: group.avatar,
@@ -685,17 +685,21 @@ class GiveawaysUnsentGiftSender extends Module {
       // finalize process
       let winners = JSON.parse(await getValue(`winners`, `{}`));
       for (let key in ugs.sentWinners) {
-        if (!winners[key]) {
-          winners[key] = [];
-        }
-        for (let i = 0, n = ugs.sentWinners[key].length; i < n; i++) {
-          winners[key].push(ugs.sentWinners[key][i]);
+        if (ugs.sentWinners.hasOwnProperty(key)) {
+          if (!winners[key]) {
+            winners[key] = [];
+          }
+          for (let i = 0, n = ugs.sentWinners[key].length; i < n; i++) {
+            winners[key].push(ugs.sentWinners[key][i]);
+          }
         }
       }
       let savedUsers = [];
       for (let key in ugs.giveaways) {
-        for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
-          savedUsers.push(ugs.giveaways[key].winners[i]);
+        if (ugs.giveaways.hasOwnProperty(key)) {
+          for (let i = 0, n = ugs.giveaways[key].winners.length; i < n; i++) {
+            savedUsers.push(ugs.giveaways[key].winners[i]);
+          }
         }
       }
       createElements(ugs.progress, `inner`, [{

@@ -42,11 +42,13 @@ class CommentsMultiReply extends Module {
   }
 
   mr_addButton(Context, main) {
-    let MR, Parent, ReplyButton, Permalink;
-    MR = {
-      Context: Context,
-      Comment: Context.closest(this.esgst.sg ? `.comment` : `.comment_outer`)
-    };
+    /**
+   * @type {MR}
+   */
+    let MR = {};
+    MR.Context = Context;
+    MR.Comment = Context.closest(this.esgst.sg ? `.comment` : `.comment_outer`);
+    let Parent, ReplyButton, Permalink;
     if (MR.Comment) {
       Parent = MR.Comment.closest(this.esgst.sg ? `.comment` : `.comment_outer`);
       MR.Container = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__summary` : `comment_inner`)[0];
@@ -419,6 +421,7 @@ class CommentsMultiReply extends Module {
       mr.delete = mr.delete.nextElementSibling;
       mr.delete.previousElementSibling.remove();
       mr.delete.addEventListener(`click`, async () => {
+        // noinspection JSIgnoredPromiseFromCall
         this.mr_editReply(mr, await request({data, method: `POST`, url: `/ajax.php`}));
       });
     }
@@ -445,6 +448,7 @@ class CommentsMultiReply extends Module {
       mr.undelete = mr.undelete.nextElementSibling;
       mr.undelete.previousElementSibling.remove();
       mr.undelete.addEventListener(`click`, async () => {
+        // noinspection JSIgnoredPromiseFromCall
         this.mr_editReply(mr, await request({data, method: `POST`, url: `/ajax.php`}));
       });
     }

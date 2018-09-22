@@ -32,6 +32,7 @@ class GeneralNotificationMerger extends Module {
 
   nm() {
     if (this.esgst.hr) return;
+    // noinspection JSIgnoredPromiseFromCall
     this.nm_getNotifications();
   }
 

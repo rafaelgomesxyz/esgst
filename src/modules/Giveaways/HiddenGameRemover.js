@@ -103,7 +103,7 @@ class GiveawaysHiddenGameRemover extends Module {
         text: `Removing games (page ${nextPage}${hgr.lastPage})...`,
         type: `span`
       }]);
-      let elements = context.getElementsByClassName(`table__row-outer-wrap`)
+      let elements = context.getElementsByClassName(`table__row-outer-wrap`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
         let info = this.esgst.modules.games.games_getInfo(element);

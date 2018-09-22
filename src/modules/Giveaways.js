@@ -358,7 +358,7 @@ class Giveaways extends Module {
       createElements(giveaway.panel, `beforeEnd`, [{
         attributes: {
           class: `esgst-ge-sgt-button esgst-giveaway-column-button`,
-          [`data-graggable-id`]: `sgTools`,
+          [`data-draggable-id`]: `sgTools`,
           href: `https://www.sgtools.info/giveaways/${giveaway.code}`,
           target: `_blank`
         },
@@ -475,7 +475,7 @@ class Giveaways extends Module {
             title: getFeatureTooltip(null, `Hide all giveaways for this game`)
           },
           type: `i`
-        }])
+        }]);
         hideButton = temp.nextElementSibling;
         hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       } else if (this.esgst.updateHiddenGames) {
@@ -509,9 +509,11 @@ class Giveaways extends Module {
       }
       if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/\/giveaways\/search/)) {
         child.setAttribute(`data-draggable-id`, `search`);
-        continue;
       }
     }
+    /**
+   * @property {object} winnerColumns.noWinners
+   */
     giveaway.winnerColumns = {};
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
@@ -605,10 +607,10 @@ class Giveaways extends Module {
         comments: giveaway.comments,
         level: giveaway.level,
         public: giveaway.public,
-        inviteOnly: giveaway.inviteOnly || giveaway.sgTools ? true : false,
-        regionRestricted: giveaway.regionRestricted ? true : false,
-        group: giveaway.group ? true : false,
-        whitelist: giveaway.whitelist ? true : false
+        inviteOnly: !!(giveaway.inviteOnly || giveaway.sgTools),
+        regionRestricted: !!giveaway.regionRestricted,
+        group: !!giveaway.group,
+        whitelist: !!giveaway.whitelist
       }
     };
   }
