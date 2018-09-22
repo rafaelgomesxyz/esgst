@@ -1,4 +1,3 @@
-
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';

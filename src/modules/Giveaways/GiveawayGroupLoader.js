@@ -1,4 +1,3 @@
-
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';

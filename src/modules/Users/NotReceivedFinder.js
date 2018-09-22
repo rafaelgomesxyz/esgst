@@ -3,24 +3,19 @@ import Module from '../../class/Module';
 import {common} from "../Common";
 import Popup from "../../class/Popup";
 import ButtonSet from "../../class/ButtonSet";
-
-const {
-  createElements,
-  getFeatureTooltip,
-  getUser,
-  saveUser,
-  endless_load
-} = common;
-
-const {
-  parseHtml
-} = utils;
 import {utils} from '../../lib/jsUtils';
 
-const
+const 
   {
     parseHtml
-  } = utils
+  } = utils,
+  {
+    createElements,
+    getFeatureTooltip,
+    getUser,
+    saveUser,
+    endless_load
+  } = common
 ;
 
 class UsersNotReceivedFinder extends Module {

@@ -1,4 +1,3 @@
-
 import Module from '../../class/Module';
 import CompletionCheck from '../../class/CompletionCheck';
 import {utils} from '../../lib/jsUtils';

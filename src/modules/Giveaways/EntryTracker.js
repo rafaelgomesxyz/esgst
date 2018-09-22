@@ -1,4 +1,3 @@
-
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
