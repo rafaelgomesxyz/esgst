@@ -3,7 +3,6 @@ import {common} from '../Common';
 
 const
   {
-    sync,
     getFeatureTooltip,
     createElements
   } = common

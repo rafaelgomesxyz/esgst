@@ -1,4 +1,3 @@
-
 import Module from '../../class/Module';
 import Button from '../../class/Button';
 import {utils} from '../../lib/jsUtils';

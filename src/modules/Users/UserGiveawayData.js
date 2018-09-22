@@ -1,17 +1,12 @@
-
 import Module from '../../class/Module';
-import {common} from "../Common";
 import Process from "../../class/Process";
 import Table from "../../class/Table";
-
-const
-  {getLocalValue, createElements, saveUser} = common,
-  {formatDate} = utils;
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
   {
+    formatDate,
     sortArray
   } = utils,
   {
@@ -22,7 +17,9 @@ const
     setLocalValue,
     saveUser,
     request,
-    endless_load
+    endless_load,
+    getLocalValue,
+    createElements
   } = common
 ;
 

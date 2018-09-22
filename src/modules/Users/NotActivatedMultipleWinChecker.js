@@ -3,25 +3,24 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 import Popup from "../../class/Popup";
 import ButtonSet_v2 from "../../class/ButtonSet_v2";
-
-const {
-  getTimestamp,
-  getValue,
-  createHeadingButton,
-  createElements,
-  getFeatureTooltip,
-  createResults,
-  getUser,
-  saveUser,
-  saveUsers
-} = common;
 import {utils} from '../../lib/jsUtils';
 
-const
+const 
   {
     sortArray,
     parseHtml
-  } = utils
+  } = utils,
+  {
+    getTimestamp,
+    getValue,
+    createHeadingButton,
+    createElements,
+    getFeatureTooltip,
+    createResults,
+    getUser,
+    saveUser,
+    saveUsers
+  } = common
 ;
 
 class UsersNotActivatedMultipleWinChecker extends Module {

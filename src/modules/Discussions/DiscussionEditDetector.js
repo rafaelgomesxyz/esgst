@@ -1,4 +1,3 @@
-
 import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import {utils} from '../../lib/jsUtils';

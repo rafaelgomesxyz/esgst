@@ -2,14 +2,11 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {getValue, setValue} = common
-;
-import {common} from '../Common';
-
-const
   {
     createElements,
-    getFeatureTooltip
+    getFeatureTooltip,
+    getValue,
+    setValue
   } = common
 ;
 
