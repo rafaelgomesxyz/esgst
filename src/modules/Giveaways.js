@@ -1,4 +1,16 @@
 import Module from '../class/Module';
+import {common} from 'Common';
+
+const
+  {
+    sortContent,
+    getUser,
+    createElements,
+    getFeatureTooltip,
+    hideGame,
+    setSetting
+  } = common
+;
 
 class Giveaways extends Module {
 info = ({
@@ -33,7 +45,7 @@ info = ({
       giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
     }
     if (this.esgst.gas && this.esgst[this.esgst.gas.autoKey]) {
-      this.esgst.modules.common.sortContent(this.esgst[this.esgst.gas.mainKey], this.esgst.gas.mainKey, this.esgst[this.esgst.gas.optionKey]);
+      sortContent(this.esgst[this.esgst.gas.mainKey], this.esgst.gas.mainKey, this.esgst[this.esgst.gas.optionKey]);
     }
     if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
@@ -243,7 +255,7 @@ info = ({
     }
     giveaway.created = giveaway.creator === this.esgst.username;
     if (this.esgst.uf && this.esgst.giveawaysPath && main) {
-      savedUser = await this.esgst.modules.common.getUser(this.esgst.users, {
+      savedUser = await getUser(this.esgst.users, {
         username: giveaway.creator
       });
       if (savedUser) {
@@ -282,7 +294,7 @@ info = ({
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
     if (!giveaway.panel && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw || this.esgst.gp || this.esgst.elgb || this.esgst.cewgd)) {
       if (giveaway.links) {
-        giveaway.panel = this.esgst.modules.common.createElements(giveaway.links, `afterEnd`, [{
+        giveaway.panel = createElements(giveaway.links, `afterEnd`, [{
           attributes: {
             class: `giveaway__columns esgst-giveaway-panel`
           },
@@ -296,14 +308,14 @@ info = ({
       } else if (giveaway.columns) {
         if (this.esgst.archivePath) {
           giveaway.columns.style.justifyContent = `right`;
-          giveaway.panel = this.esgst.modules.common.createElements(giveaway.columns, `afterEnd`, [{
+          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
             attributes: {
               class: `giveaway__columns esgst-giveaway-panel`
             },
             type: `div`
           }]);
         } else {
-          giveaway.panel = this.esgst.modules.common.createElements(giveaway.columns, `afterEnd`, [{
+          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
             attributes: {
               class: `featured__columns esgst-giveaway-panel`
             },
@@ -311,7 +323,7 @@ info = ({
           }]);
         }
       } else if (this.esgst.enteredPath && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw)) {
-        giveaway.panel = this.esgst.modules.common.createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
+        giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
           attributes: {
             class: `table__column--width-small text-center esgst-giveaway-panel`
           },
@@ -320,7 +332,7 @@ info = ({
       }
     }
     if (giveaway.sgTools && !giveaway.summary.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
-      const sgTools = this.esgst.modules.common.createElements(giveaway.summary, `beforeEnd`, [{
+      const sgTools = createElements(giveaway.summary, `beforeEnd`, [{
         attributes: {
           class: `esgst-ge-sgt-button esgst-giveaway-column-button`,
           href: `https://www.sgtools.info/giveaways/${giveaway.code}`,
@@ -360,7 +372,7 @@ info = ({
     giveaway.touhouBox = giveaway.outerWrap.querySelector(`.touhou_giveaway_points`);
     if (!main || !this.esgst.giveawayPath) {
       if (giveaway.inviteOnly) {
-        this.esgst.modules.common.createElements(giveaway.inviteOnly, `inner`, [{
+        createElements(giveaway.inviteOnly, `inner`, [{
           attributes: {
             class: `fa fa-lock`
           },
@@ -368,7 +380,7 @@ info = ({
         }]);
       }
       if (giveaway.group) {
-        this.esgst.modules.common.createElements(giveaway.group, `inner`, [{
+        createElements(giveaway.group, `inner`, [{
           attributes: {
             class: `fa fa-user`
           },
@@ -376,7 +388,7 @@ info = ({
         }]);
       }
       if (giveaway.whitelist) {
-        this.esgst.modules.common.createElements(giveaway.whitelist, `inner`, [{
+        createElements(giveaway.whitelist, `inner`, [{
           attributes: {
             class: `fa fa-heart`
           },
@@ -416,7 +428,7 @@ info = ({
     giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
     if (main) {
       if (this.esgst.gr && giveaway.creator === this.esgst.username && (this.esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!this.esgst.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.headingName.parentElement.getElementsByClassName(`esgst-gr-button`)[0]) {
-        let button = this.esgst.modules.common.createElements(giveaway.headingName, `beforeBegin`, [{
+        let button = createElements(giveaway.headingName, `beforeBegin`, [{
           attributes: {
             class: `esgst-gr-button`,
             title: `${getFeatureTooltip(`gr`, `Recreate giveaway`)}`
@@ -439,15 +451,15 @@ info = ({
           hideButton = hideButton.parentElement;
         }
         let temp = hideButton.previousElementSibling;
-        this.esgst.modules.common.createElements(hideButton, `outer`, [{
+        createElements(hideButton, `outer`, [{
           attributes: {
             class: `fa fa-eye-slash giveaway__hide giveaway__icon`,
-            title: this.esgst.modules.common.getFeatureTooltip(null, `Hide all giveaways for this game`)
+            title: getFeatureTooltip(null, `Hide all giveaways for this game`)
           },
           type: `i`
         }])
         hideButton = temp.nextElementSibling;
-        hideButton.addEventListener(`click`, this.esgst.modules.common.hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+        hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       } else if (this.esgst.updateHiddenGames) {
         hideButton.addEventListener(`click`, () => {
           this.esgst.hidingGame = {
@@ -718,8 +730,8 @@ info = ({
       giveaway.panel.style.height = ``;
       giveaway.panel.style.width = ``;
     }
-    await this.esgst.modules.common.setSetting(columnKey, this.esgst[columnKey]);
-    await this.esgst.modules.common.setSetting(panelKey, this.esgst[panelKey]);
+    await setSetting(columnKey, this.esgst[columnKey]);
+    await setSetting(panelKey, this.esgst[panelKey]);
   }
 }
 

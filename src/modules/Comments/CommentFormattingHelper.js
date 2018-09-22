@@ -4,6 +4,22 @@ import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
 import Popup_v2 from '../../class/Popup_v2';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    multiChoice,
+    openSmallWindow,
+    draggable_set,
+    getFeatureTooltip,
+    parseMarkdown,
+    createFadeMessage,
+    setSetting,
+    request,
+    createAlert
+  } = common
+;
 
 class CommentsCommentFormattingHelper extends Module {
   info = ({
@@ -396,7 +412,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Link`,
         setPopout: popout => {
           let title, url;
-          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+          createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `URL: `,
@@ -456,7 +472,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Image`,
         setPopout: popout => {
           let title, url;
-          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+          createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `URL: `,
@@ -496,9 +512,9 @@ class CommentsCommentFormattingHelper extends Module {
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           imgur.addEventListener(`click`, () => {
-            this.esgst.modules.common.multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
+            multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
               await delValue(`imgurToken`);
-              this.esgst.modules.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
+              openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
               this.cfh_checkImgur(popout, url);
             });
           });
@@ -530,7 +546,7 @@ class CommentsCommentFormattingHelper extends Module {
         setPopup: popup => {
           let context, insertColumn, insertRow, table;
           context = popup.scrollable;
-          this.esgst.modules.common.createElements(context, `inner`, [{
+          createElements(context, `inner`, [{
             type: `table`
           }, {
             attributes: {
@@ -598,7 +614,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Emojis`,
         setPopout: async popout => {
           let emojis, popup;
-          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+          createElements(popout.popout, `inner`, [{
             attributes: {
               class: `esgst-cfh-emojis`
             },
@@ -612,7 +628,7 @@ class CommentsCommentFormattingHelper extends Module {
             type: `div`
           }]);
           emojis = popout.popout.firstElementChild;
-          this.esgst.modules.common.draggable_set({
+          draggable_set({
             addTrash: true,
             context: emojis,
             id: `emojis`,
@@ -652,16 +668,16 @@ class CommentsCommentFormattingHelper extends Module {
               }]).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
-              this.esgst.modules.common.createElements(savedEmojis, `inner`, await this.cfh_getEmojis());
+              createElements(savedEmojis, `inner`, await this.cfh_getEmojis());
               const obj = {
                 addTrash: true,
                 context: savedEmojis,
                 id: `emojis`,
                 item: {}
               };
-              this.esgst.modules.common.draggable_set(obj);
+              draggable_set(obj);
               for (const emojiData of this.esgst.cfhEmojis) {
-                this.esgst.modules.common.createElements(emojis, `beforeEnd`, [{
+                createElements(emojis, `beforeEnd`, [{
                   attributes: {
                     [`data-draggable-id`]: emojiData.emoji,
                     title: emojiData.name
@@ -670,7 +686,7 @@ class CommentsCommentFormattingHelper extends Module {
                   type: `span`
                 }]);
                 emojis.lastElementChild.addEventListener(`click`, () => {
-                  this.esgst.modules.common.createElements(savedEmojis, `beforeEnd`, [{
+                  createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
                       [`data-draggable-id`]: emojiData.emoji,
                       title: emojiData.name
@@ -678,7 +694,7 @@ class CommentsCommentFormattingHelper extends Module {
                     text: emojiData.emoji,
                     type: `span`
                   }]);
-                  this.esgst.modules.common.draggable_set(obj);
+                  draggable_set(obj);
                 });
               }
               popup.onClose = () => {
@@ -712,8 +728,8 @@ class CommentsCommentFormattingHelper extends Module {
         },
         callback: async popout => {
           let emojis = popout.firstElementChild;
-          this.esgst.modules.common.createElements(emojis, `inner`, await this.cfh_getEmojis());
-          this.esgst.modules.common.draggable_set({
+          createElements(emojis, `inner`, await this.cfh_getEmojis());
+          draggable_set({
             addTrash: true,
             context: emojis,
             id: `emojis`,
@@ -727,7 +743,7 @@ class CommentsCommentFormattingHelper extends Module {
         icons: [`fa-star`],
         name: `Giveaway Encrypter`,
         setPopout: popout => {
-          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+          createElements(popout.popout, `inner`, [{
             text: `Giveaway Code: `,
             type: `node`
           }, {
@@ -769,7 +785,7 @@ class CommentsCommentFormattingHelper extends Module {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
           savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
-          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+          createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               attributes: {
@@ -832,7 +848,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `GitHub Wiki SteamGifts Integration`,
         setPopout: popout => {
           let url;
-          this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+          createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `Wiki URL: `,
@@ -919,14 +935,14 @@ class CommentsCommentFormattingHelper extends Module {
     for (let i = 0, n = items.length; i < n; i++) {
       let item = items[i];
       if (!item.id || this.esgst[item.id]) {
-        let button = this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
+        let button = createElements(this.esgst.cfh.panel, `beforeEnd`, [{
           attributes: {
-            title: `${this.esgst.modules.common.getFeatureTooltip(item.id || `cfh`, item.name)}`
+            title: `${getFeatureTooltip(item.id || `cfh`, item.name)}`
           },
           type: `div`
         }]);
         item.icons.forEach(icon => {
-          this.esgst.modules.common.createElements(button, `beforeEnd`, [{
+          createElements(button, `beforeEnd`, [{
             attributes: {
               class: `fa ${icon}`
             },
@@ -964,10 +980,10 @@ class CommentsCommentFormattingHelper extends Module {
       }
     }
     if (this.esgst.cfh_cf) {
-      this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
+      createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
           href: `/about/comment-formatting`,
-          title: this.esgst.modules.common.getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
+          title: getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
         },
         type: `a`,
         children: [{
@@ -979,9 +995,9 @@ class CommentsCommentFormattingHelper extends Module {
       }]);
     }
     if (this.esgst.cfh_p && !this.esgst.cfh_p_a) {
-      this.esgst.modules.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
+      createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
-          title: this.esgst.modules.common.getFeatureTooltip(`cfh_p`, `Preview`)
+          title: getFeatureTooltip(`cfh_p`, `Preview`)
         },
         type: `div`,
         children: [{
@@ -990,7 +1006,7 @@ class CommentsCommentFormattingHelper extends Module {
           }
         }]
       }]).addEventListener(`click`, () => {
-        this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(this.esgst.cfh.textArea.value));
+        createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(this.esgst.cfh.textArea.value));
         this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
@@ -3491,7 +3507,7 @@ class CommentsCommentFormattingHelper extends Module {
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
       if (this.esgst.cfh_p_a) {
         textArea.oninput = () => {
-          this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(textArea.value));
+          createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
         };
       }
@@ -3530,7 +3546,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
     if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
-      this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(this.esgst.cfh.textArea.value));
+      createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
@@ -3553,7 +3569,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
     this.esgst.cfh.textArea.focus();
     if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
-      this.esgst.modules.common.createElements(this.esgst.cfh.preview, `inner`, this.esgst.modules.common.parseMarkdown(this.esgst.cfh.textArea.value));
+      createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
@@ -3570,13 +3586,13 @@ class CommentsCommentFormattingHelper extends Module {
   cfh_uploadImage(authorization, popout, url) {
     let input, popup, warning;
     popup = new Popup(`fa-upload`, `Upload Image`, true);
-    input = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    input = createElements(popup.description, `beforeEnd`, [{
       attributes: {
         type: `file`
       },
       type: `input`
     }]);
-    warning = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    warning = createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-description esgst-warning`
       },
@@ -3591,21 +3607,21 @@ class CommentsCommentFormattingHelper extends Module {
             reader.readAsDataURL(file);
             reader.onload = this.cfh_readImgur.bind(null, authorization, popout, popup, reader, url, warning, callback);
           } else {
-            this.esgst.modules.common.createFadeMessage(warning, `Image is larger than 10 MB!`);
+            createFadeMessage(warning, `Image is larger than 10 MB!`);
             callback();
           }
         } else {
-          this.esgst.modules.common.createFadeMessage(warning, `File is not an image!`);
+          createFadeMessage(warning, `File is not an image!`);
           callback();
         }
       } else {
-        this.esgst.modules.common.createFadeMessage(warning, `No file was loaded!`);
+        createFadeMessage(warning, `No file was loaded!`);
         callback();
       }
     }).set);
     if (this.esgst.cfh_img_remember) {
       popup.description.appendChild(new ButtonSet_v2({color1: `grey`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset`, title2: `Resetting...`, callback1: async () => {
-        await this.esgst.modules.common.setSetting(`cfh_img_remember`, false);
+        await setSetting(`cfh_img_remember`, false);
         this.esgst.cfh_img_remember = false;
         popup.close();
       }}).set);
@@ -3614,14 +3630,14 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_readImgur(authorization, popout, popup, reader, url, warning, callback) {
-    let responseJson = JSON.parse((await this.esgst.modules.common.request({data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`, headers: {authorization}, method: `POST`, url: `https://api.imgur.com/3/image`})).responseText);
+    let responseJson = JSON.parse((await request({data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`, headers: {authorization}, method: `POST`, url: `https://api.imgur.com/3/image`})).responseText);
     if (responseJson.success) {
       callback();
       popup.close();
       url.value = responseJson.data.link;
       popout.open();
     } else {
-      this.esgst.modules.common.createFadeMessage(warning, `Could not upload image!`);
+      createFadeMessage(warning, `Could not upload image!`);
       callback();
     }
   }
@@ -3632,7 +3648,7 @@ class CommentsCommentFormattingHelper extends Module {
       n = table.rows.length;
       row = table.insertRow(n);
       for (i = 0, j = table.rows[0].cells.length - 1; i < j; ++i) {
-        this.esgst.modules.common.createElements(row.insertCell(0), `inner`, [{
+        createElements(row.insertCell(0), `inner`, [{
           attributes: {
             placeholder: `Value`,
             type: `text`
@@ -3642,7 +3658,7 @@ class CommentsCommentFormattingHelper extends Module {
       }
       deleteRow = row.insertCell(0);
       if (n > 2) {
-        this.esgst.modules.common.createElements(deleteRow, `inner`, [{
+        createElements(deleteRow, `inner`, [{
           type: `a`,
           children: [{
             attributes: {
@@ -3671,7 +3687,7 @@ class CommentsCommentFormattingHelper extends Module {
       rows = table.rows;
       n = rows[0].cells.length;
       for (i = 3, j = rows.length; i < j; ++i) {
-        this.esgst.modules.common.createElements(rows[i].insertCell(n), `inner`, [{
+        createElements(rows[i].insertCell(n), `inner`, [{
           attributes: {
             placeholder: `Value`,
             type: `text`
@@ -3679,7 +3695,7 @@ class CommentsCommentFormattingHelper extends Module {
           type: `input`
         }]);
       }
-      this.esgst.modules.common.createElements(rows[2].insertCell(n), `inner`, [{
+      createElements(rows[2].insertCell(n), `inner`, [{
         type: `select`,
         children: [{
           attributes: {
@@ -3702,7 +3718,7 @@ class CommentsCommentFormattingHelper extends Module {
         }]
       }]);
       column = rows[1].insertCell(n);
-      this.esgst.modules.common.createElements(column, `inner`, [{
+      createElements(column, `inner`, [{
         attributes: {
           placeholder: `Header`,
           type: `text`
@@ -3710,7 +3726,7 @@ class CommentsCommentFormattingHelper extends Module {
         type: `input`
       }]);
       deleteColumn = rows[0].insertCell(n);
-      this.esgst.modules.common.createElements(deleteColumn, `inner`, [{
+      createElements(deleteColumn, `inner`, [{
         type: `a`,
         children: [{
           attributes: {
@@ -3748,7 +3764,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_setReply(replies, savedReply) {
     let editButton, description, name, replaceButton, reply, summary;
-    reply = this.esgst.modules.common.createElements(replies, `beforeEnd`, [{
+    reply = createElements(replies, `beforeEnd`, [{
       attributes: {
         class: `esgst-cfh-sr-box`,
         draggable: true
@@ -3883,7 +3899,7 @@ class CommentsCommentFormattingHelper extends Module {
   cfh_openReplyPopup(description, name, replies, summary) {
     let descriptionArea, nameArea, panel, popup;
     popup = new Popup(`fa-floppy-o`, summary ? `Edit reply:` : `Save new reply:`, true);
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -3926,7 +3942,7 @@ class CommentsCommentFormattingHelper extends Module {
         type: `node`
       }]
     }]);
-    panel = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    panel = createElements(popup.scrollable, `beforeEnd`, [{
       type: `div`,
       children: [{
         type: `div`,
@@ -3989,7 +4005,7 @@ class CommentsCommentFormattingHelper extends Module {
       }
     } else if (callback) {
       callback();
-      this.esgst.modules.common.createAlert(`Both fields are required.`);
+      createAlert(`Both fields are required.`);
     }
   }
 
@@ -4024,14 +4040,14 @@ class CommentsCommentFormattingHelper extends Module {
       value = this.esgst.cfh_pasteFormatting ? false : true;
     }
     if (!firstTime) {
-      this.esgst.modules.common.setSetting(`cfh_pasteFormatting`, value);
+      setSetting(`cfh_pasteFormatting`, value);
     }
     this.esgst.cfh_pasteFormatting = value;
     if (value) {
-      this.esgst.cfh.alipf.title = this.esgst.modules.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
+      this.esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
       this.esgst.cfh.alipf.classList.remove(`esgst-faded`);
     } else {
-      this.esgst.cfh.alipf.title = this.esgst.modules.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
+      this.esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
       this.esgst.cfh.alipf.classList.add(`esgst-faded`);
     }
     if (this.esgst.cfh.textArea) {
@@ -4046,7 +4062,7 @@ class CommentsCommentFormattingHelper extends Module {
       const image = images[0];
       context.appendChild(image);
       image.classList.add(`is-hidden`, `is_hidden`);
-      this.esgst.modules.common.createElements(image, `outer`, [{
+      createElements(image, `outer`, [{
         type: `div`,
         children: [{
           attributes: {

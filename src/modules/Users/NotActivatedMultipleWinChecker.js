@@ -1,4 +1,4 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import {common} from '../Common';
 import Popup from "../../class/Popup";
@@ -15,6 +15,14 @@ const {
   saveUser,
   saveUsers
 } = common;
+import {utils} from '../../lib/jsUtils';
+
+const
+  {
+    sortArray,
+    parseHtml
+  } = utils
+;
 
 class UsersNotActivatedMultipleWinChecker extends Module {
   info = ({
@@ -274,7 +282,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     }
 
     // check users
-    users = utils.sortArray(users);
+    users = sortArray(users);
     let steamIds = [];
     let userElements = {
       activated: {},
@@ -456,7 +464,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       user.values.namwc.results.unknown = 1;
     } else {
       user.values.namwc.results.notActivated = [];
-      let elements = utils.parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
+      let elements = parseHtml(responseText).getElementsByClassName(`notActivatedGame`);
       let n = elements.length;
       for (let i = 0; i < n; ++i) {
         user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
@@ -482,7 +490,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       }]);
     }
     user.values.namwc.results.multiple = [];
-    let elements = utils.parseHtml((await request({
+    let elements = parseHtml((await request({
       method: `GET`,
       queue: true,
       url: `http://www.sgtools.info/multiple/${user.username}`

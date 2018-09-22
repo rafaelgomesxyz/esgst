@@ -1,5 +1,21 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    setLocalValue,
+    request,
+    getLocalValue,
+    createElements,
+    getFeatureTooltip,
+    getWonGames
+  } = common
+;
 
 class GeneralHeaderRefresher extends Module {
   info = ({
@@ -173,7 +189,7 @@ class GeneralHeaderRefresher extends Module {
     };
     this.esgst.hr = hr;
     this.hr_notifyChange(hr);
-    this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(hr_getCache()));
+    setLocalValue(`hrCache`, JSON.stringify(hr_getCache()));
     this.hr_startRefresher(hr);
     if (!this.esgst.hr_b) {
       addEventListener(`focus`, this.hr_startRefresher.bind(null, hr));
@@ -228,21 +244,21 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async hr_startRefresher(hr) {
-    await this.hr_refreshHeaderElements(parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+    await this.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
     let cache = this.hr_getCache();
-    this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(cache));
+    setLocalValue(`hrCache`, JSON.stringify(cache));
     await this.hr_refreshHeader(cache, hr);
     hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
   }
 
   async hr_continueRefresher(hr) {
-    let cache = JSON.parse(this.esgst.modules.common.getLocalValue(`hrCache`));
+    let cache = JSON.parse(getLocalValue(`hrCache`));
     if (cache.username !== this.esgst.username || Date.now() - cache.timestamp  > this.esgst.hr_minutes * 60000) {
       cache.timestamp = Date.now();
-      this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(cache));
-      await this.hr_refreshHeaderElements(parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      setLocalValue(`hrCache`, JSON.stringify(cache));
+      await this.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
       cache = this.hr_getCache();
-      this.esgst.modules.common.setLocalValue(`hrCache`, JSON.stringify(cache));
+      setLocalValue(`hrCache`, JSON.stringify(cache));
       await this.hr_refreshHeader(cache, hr, true);
       hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
     } else {
@@ -254,19 +270,19 @@ class GeneralHeaderRefresher extends Module {
 
   async hr_refreshHeader(cache, hr, notify) {
     await this.hr_refreshHeaderElements(document);
-    this.esgst.modules.common.createElements(this.esgst.mainButton, `outer`, [{
-      context: utils.parseHtml(cache.mainButton).body.firstElementChild
+    createElements(this.esgst.mainButton, `outer`, [{
+      context: parseHtml(cache.mainButton).body.firstElementChild
     }]);
     if (this.esgst.sg) {
-      this.esgst.modules.common.createElements(this.esgst.createdButton, `outer`, [{
-        context: utils.parseHtml(cache.createdButton).body.firstElementChild
+      createElements(this.esgst.createdButton, `outer`, [{
+        context: parseHtml(cache.createdButton).body.firstElementChild
       }]);
-      this.esgst.modules.common.createElements(this.esgst.wonButton, `outer`, [{
-        context: utils.parseHtml(cache.wonButton).body.firstElementChild
+      createElements(this.esgst.wonButton, `outer`, [{
+        context: parseHtml(cache.wonButton).body.firstElementChild
       }]);
     }
-    this.esgst.modules.common.createElements(this.esgst.inboxButton, `outer`, [{
-      context: utils.parseHtml(cache.inboxButton).body.firstElementChild
+    createElements(this.esgst.inboxButton, `outer`, [{
+      context: parseHtml(cache.inboxButton).body.firstElementChild
     }]);
     if (this.esgst.nm) {
       // refresh notification merger
@@ -302,7 +318,7 @@ class GeneralHeaderRefresher extends Module {
         while (nextRefresh > 15) {
           nextRefresh -= 15;
         }
-        this.esgst.pointsContainer.title = this.esgst.modules.common.getFeatureTooltip(`ttpcc`, `${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100)} to 400P`);
+        this.esgst.pointsContainer.title = getFeatureTooltip(`ttpcc`, `${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100)} to 400P`);
       }
       this.esgst.levelContainer = this.esgst.mainButton.lastElementChild;
       this.esgst.level = parseInt(this.esgst.levelContainer.textContent.match(/\d+/)[0]);
@@ -314,14 +330,14 @@ class GeneralHeaderRefresher extends Module {
       if (this.esgst.wonButton) {
         this.esgst.wonButton = this.esgst.wonButton.closest(`.nav__button-container`);
         let won = this.esgst.wonButton.getElementsByClassName(`nav__notification`)[0];
-        if (won && won.textContent !== this.esgst.modules.common.getLocalValue(`wonCount`)) {
-          this.esgst.modules.common.getWonGames(won.textContent);
+        if (won && won.textContent !== getLocalValue(`wonCount`)) {
+          getWonGames(won.textContent);
         }
       }
       if (this.esgst.hr_g && context !== document) {
         this.esgst.wishlist = 0;
         this.esgst.wishlistNew = 0;
-        let cache = JSON.parse(this.esgst.modules.common.getLocalValue(`hrWishlistCache`, `[]`));
+        let cache = JSON.parse(getLocalValue(`hrWishlistCache`, `[]`));
         let codes = [];
         let currentTime = Date.now();
         let giveaways = await this.esgst.modules.giveaways.giveaways_get(context, false, null, true);
@@ -341,7 +357,7 @@ class GeneralHeaderRefresher extends Module {
             cache.splice(i, 1);
           }
         }
-        this.esgst.modules.common.setLocalValue(`hrWishlistCache`, JSON.stringify(cache));
+        setLocalValue(`hrWishlistCache`, JSON.stringify(cache));
         this.esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
         if (this.esgst.inboxButton) {
           this.esgst.inboxButton = this.esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);

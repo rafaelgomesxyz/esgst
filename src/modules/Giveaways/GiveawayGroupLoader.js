@@ -1,7 +1,22 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    endless_load,
+    lockAndSaveGiveaways,
+    lockAndSaveGroups,
+    request
+  } = common
+;
 
 class GiveawaysGiveawayGroupLoader extends Module {
   info = ({
@@ -120,7 +135,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
               container = context.popout;
               context.open(giveaway.group);
             }
-            this.esgst.modules.common.createElements(container, `inner`, [{
+            createElements(container, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
@@ -140,7 +155,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
             this.ggl_loadGroups([giveaway], 0, 1, newGiveaways, newGroups, savedGiveaways, savedGroups, groups => {
               let className, code, group, groupCount, i, j, n, link;
               if (groups) {
-                this.esgst.modules.common.createElements(container, `inner`, [{
+                createElements(container, `inner`, [{
                   attributes: {
                     class: `esgst-text-left table esgst-hidden`
                   },
@@ -171,7 +186,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                     groupCount += 1;
                   }
                   if (className !== `esgst-hidden`) {
-                    link = this.esgst.modules.common.createElements(container.firstElementChild.firstElementChild, `beforeEnd`, [{
+                    link = createElements(container.firstElementChild.firstElementChild, `beforeEnd`, [{
                       attributes: {
                         class: `table__row-outer-wrap ${className}`
                       },
@@ -210,7 +225,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   }
                 }
                 if (groupCount === 0) {
-                  this.esgst.modules.common.createElements(container, `inner`, [{
+                  createElements(container, `inner`, [{
                     attributes: {
                       class: `fa fa-exclamation-mark`
                     },
@@ -221,10 +236,10 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   }]);
                 } else {
                   container.firstElementChild.classList.remove(`esgst-hidden`);
-                  this.esgst.modules.common.endless_load(container);
+                  endless_load(container);
                 }
                 if (this.esgst.ggl_index === 2) {
-                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
+                  createElements(container, `afterBegin`, [{
                     type: `div`,
                     children: [{
                       attributes: {
@@ -238,7 +253,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                 }
                 context.reposition();
               } else {
-                this.esgst.modules.common.createElements(container, `inner`, [{
+                createElements(container, `inner`, [{
                   attributes: {
                     class: `fa fa-times-circle`
                   },
@@ -248,7 +263,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   type: `span`
                 }]);
                 if (this.esgst.ggl_index === 2) {
-                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
+                  createElements(container, `afterBegin`, [{
                     type: `div`,
                     children: [{
                       attributes: {
@@ -333,15 +348,15 @@ class GiveawaysGiveawayGroupLoader extends Module {
         setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
       }
     } else {
-      await this.esgst.modules.common.lockAndSaveGiveaways(newGiveaways);
-      await this.esgst.modules.common.lockAndSaveGroups(newGroups);
+      await lockAndSaveGiveaways(newGiveaways);
+      await lockAndSaveGroups(newGroups);
     }
   }
 
   ggl_addPanel(giveaway, groups, newGroups, savedGroups) {
     let className, code, group, groupCount, i, j, link, n, panel;
     if (!giveaway.summary.getElementsByClassName(`esgst-ggl-panel`)[0]) {
-      panel = this.esgst.modules.common.createElements(giveaway.summary, `beforeEnd`, [{
+      panel = createElements(giveaway.summary, `beforeEnd`, [{
         attributes: {
           class: `esgst-ggl-panel`
         },
@@ -368,7 +383,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
           groupCount += 1;
         }
         if (className !== `esgst-hidden`) {
-          link = this.esgst.modules.common.createElements(panel, `beforeEnd`, [{
+          link = createElements(panel, `beforeEnd`, [{
             attributes: {
               class: className
             },
@@ -401,7 +416,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
 
   async ggl_getGroups(groups, nextPage, newGroups, url, callback) {
     let code, element, elements, error, heading, i, match, n, pagination, responseHtml;
-    responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+    responseHtml = parseHtml((await request({method: `GET`, url: `${url}${nextPage}`})).responseText);
     error = responseHtml.getElementsByClassName(`table--summary`)[0];
     if (error) {
       setTimeout(callback, 0, null);

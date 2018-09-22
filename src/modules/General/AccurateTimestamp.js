@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    getTimestamp
+  } = common
+;
 
 class GeneralAccurateTimestamp extends Module {
   info = ({
@@ -41,7 +48,7 @@ class GeneralAccurateTimestamp extends Module {
         text = timestamp.textContent;
         edited = text.match(/\*/);
         seconds = parseInt(timestamp.getAttribute(`data-timestamp`));
-        accurateTimestamp = this.esgst.modules.common.getTimestamp(seconds * 1e3, this.esgst.at_24, this.esgst.at_s);
+        accurateTimestamp = getTimestamp(seconds * 1e3, this.esgst.at_24, this.esgst.at_s);
         if (edited) {
           text = ` (Edited ${accurateTimestamp})`;
         } else {

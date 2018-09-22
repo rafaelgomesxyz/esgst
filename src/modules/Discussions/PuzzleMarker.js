@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createLock
+  } = common
+;
 
 class DiscussionsPuzzleMarker extends Module {
   info = ({
@@ -20,7 +27,7 @@ class DiscussionsPuzzleMarker extends Module {
   });
 
   async pm_change(code, status) {
-    let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+    let deleteLock = await createLock(`commentLock`, 300);
     let discussions = JSON.parse(await getValue(`discussions`));
     if (!discussions[code]) {
       discussions[code] = {

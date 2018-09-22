@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    request
+  } = common
+;
 
 class TradesTradeBumper extends Module {
 info = ({
@@ -31,7 +44,7 @@ info = ({
 
 tb() {
   if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
-    const button = this.esgst.modules.common.createHeadingButton({
+    const button = createHeadingButton({
       id: `tb`,
       icons: [`fa-chevron-circle-up`],
       title: `Bump trades`
@@ -47,7 +60,7 @@ tb() {
 
 async tb_getTrades(button, context) {
   if (button) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -56,7 +69,7 @@ async tb_getTrades(button, context) {
   }
   const elements = context.querySelectorAll(`.row_inner_wrap:not(.is_faded)`);
   for (const element of elements) {
-    await this.esgst.modules.common.request({
+    await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`,
       method: `POST`,
       url: `https://www.steamtrades.com/ajax.php`
@@ -84,7 +97,7 @@ async tb_autoBumpTrades(button) {
   if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
     this.tb_getTrades(button, document);
   } else {
-    this.tb_getTrades(null, utils.parseHtml((await this.esgst.modules.common.request({
+    this.tb_getTrades(null, parseHtml((await request({
       method: `GET`,
       queue: true,
       url: `https://www.steamtrades.com/trades/search?user=${this.esgst.steamId}`

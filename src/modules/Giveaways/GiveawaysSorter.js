@@ -2,6 +2,16 @@ import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popout from '../../class/Popout';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {common} from '../Common';
+
+const
+  {
+    capitalizeFirstLetter,
+    createHeadingButton,
+    createElements,
+    saveAndSortContent
+  } = common
+;
 
 class GiveawaysGiveawaysSorter extends Module {
   info = ({
@@ -23,7 +33,7 @@ class GiveawaysGiveawaysSorter extends Module {
 
     let type = location.search.match(/type=(wishlist|recommended|group|new)/);
     if (type) {
-      type = this.esgst.modules.common.capitalizeFirstLetter(type[1]);
+      type = capitalizeFirstLetter(type[1]);
     } else if (this.esgst.enteredPath) {
       type = `Entered`;
     } else if (this.esgst.userPath) {
@@ -42,7 +52,7 @@ class GiveawaysGiveawaysSorter extends Module {
     };
 
     let object = {
-      button: this.esgst.modules.common.createHeadingButton({context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
+      button: createHeadingButton({context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
     };
     object.button.addEventListener(`click`, this.gas_openPopout.bind(null, object));
   }
@@ -265,12 +275,12 @@ class GiveawaysGiveawaysSorter extends Module {
         type: `option`
       });
     }
-    let options = this.esgst.modules.common.createElements(obj.popout.popout, `beforeEnd`, [{
+    let options = createElements(obj.popout.popout, `beforeEnd`, [{
       type: `select`,
       children
     }]);
     options.value = this.esgst[this.esgst.gas.optionKey];
-    let callback = this.esgst.modules.common.saveAndSortContent.bind(null, this.esgst.gas.optionKey, this.esgst.gas.mainKey, options, null);
+    let callback = saveAndSortContent.bind(null, this.esgst.gas.optionKey, this.esgst.gas.mainKey, options, null);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();

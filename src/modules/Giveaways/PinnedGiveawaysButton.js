@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GiveawaysPinnedGiveawaysButton extends Module {
   info = ({
@@ -20,7 +27,7 @@ class GiveawaysPinnedGiveawaysButton extends Module {
     const container = button.previousElementSibling;
     container.classList.add(`esgst-pgb-container`);
     button.remove();
-    button = this.esgst.modules.common.createElements(container, `afterEnd`, [{
+    button = createElements(container, `afterEnd`, [{
       attributes: {
         class: `esgst-pgb-button`
       },

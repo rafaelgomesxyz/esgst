@@ -1,5 +1,16 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
+import {common} from '../Common';
+
+const
+  {
+    createHeadingButton,
+    createElements,
+    setSetting,
+    getRemainingTime,
+    draggable_enter
+  } = common
+;
 
 class GiveawaysGridView extends Module {
   info = ({
@@ -49,10 +60,10 @@ class GiveawaysGridView extends Module {
       `);
       if (this.esgst.giveawaysPath) {
         let button, display, element, elements, i, n, popout, spacing, slider;
-        button = this.esgst.modules.common.createHeadingButton({id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing`});
+        button = createHeadingButton({id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing`});
         popout = new Popout(`esgst-gv-spacing`, button, 0, true);
         spacing = this.esgst.gv_spacing;
-        element = this.esgst.modules.common.createElements(popout.popout, `beforeEnd`, [{
+        element = createElements(popout.popout, `beforeEnd`, [{
           type: `div`,
           children: [{
             type: `div`
@@ -72,7 +83,7 @@ class GiveawaysGridView extends Module {
             }
             popout.reposition();
             display.textContent = `${spacing}px`;
-            this.esgst.modules.common.setSetting(`gv_spacing`, spacing);
+            setSetting(`gv_spacing`, spacing);
             this.esgst.gv_spacing = spacing;
           },
           max: 10,
@@ -98,7 +109,7 @@ class GiveawaysGridView extends Module {
         giveaway.outerWrap.style.margin = `${this.esgst.gv_spacing}px`;
       }
       giveaway.innerWrap.classList.add(`esgst-gv-box`);
-      giveaway.gvIcons = this.esgst.modules.common.createElements(giveaway.innerWrap, `afterBegin`, [{
+      giveaway.gvIcons = createElements(giveaway.innerWrap, `afterBegin`, [{
         attributes: {
           class: `esgst-gv-icons giveaway__columns`
         },
@@ -114,7 +125,7 @@ class GiveawaysGridView extends Module {
             attributes: {
               title: `${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}`
             },
-            text: this.esgst.modules.common.getRemainingTime(giveaway.endTime),
+            text: getRemainingTime(giveaway.endTime),
             type: `span`
           }, {
             attributes: {
@@ -125,14 +136,14 @@ class GiveawaysGridView extends Module {
             attributes: {
               title: `Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}`
             },
-            text: this.esgst.modules.common.getRemainingTime(giveaway.startTime),
+            text: getRemainingTime(giveaway.startTime),
             type: `span`
           }]
         }]
       }]);
       giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
       if (!this.esgst.lockGiveawayColumns) {
-        giveaway.gvIcons.addEventListener(`dragenter`, this.esgst.modules.common.draggable_enter.bind(null, {
+        giveaway.gvIcons.addEventListener(`dragenter`, draggable_enter.bind(null, {
           context: giveaway.gvIcons,
           item: giveaway
         }));
@@ -156,23 +167,23 @@ class GiveawaysGridView extends Module {
       giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
       giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
       giveaway.summary.insertBefore(giveaway.avatar, giveaway.links);
-      this.esgst.modules.common.createElements(giveaway.avatar, `afterEnd`, [{
+      createElements(giveaway.avatar, `afterEnd`, [{
         attributes: {
           style: `clear: both;`
         },
         type: `div`
       }]);
-      this.esgst.modules.common.createElements(giveaway.headingName, `afterEnd`, [{
+      createElements(giveaway.headingName, `afterEnd`, [{
         type: `br`
       }]);
-      this.esgst.modules.common.createElements(giveaway.pointsContainer, `afterEnd`, [{
+      createElements(giveaway.pointsContainer, `afterEnd`, [{
         type: `br`
       }]);
       giveaway.endTimeColumn.classList.add(`esgst-hidden`);
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);
       giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);
       giveaway.commentsLink.lastElementChild.textContent = giveaway.commentsLink.textContent.replace(/[^\d,]+/g, ``);
-      let creator = this.esgst.modules.common.createElements(giveaway.links, `beforeBegin`, [{
+      let creator = createElements(giveaway.links, `beforeBegin`, [{
         attributes: {
           class: `esgst-gv-creator`
         },

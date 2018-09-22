@@ -1,6 +1,26 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Button from '../../class/Button';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    getFeatureTooltip,
+    createLock,
+    setLocalValue,
+    goToComment,
+    setHoverOpacity,
+    request,
+    createAlert,
+    lockAndSaveDiscussions
+  } = common
+;
 
 class CommentsCommentTracker extends Module {
   info = ({
@@ -92,9 +112,9 @@ class CommentsCommentTracker extends Module {
   async ct() {
     if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || this.esgst.inboxPath) && !this.esgst.ct_s) {
       if (!this.esgst.ct_s) {
-        let button3 = this.esgst.modules.common.createHeadingButton({featureId: `ct`, id: `ctUnread`, icons: [`fa-eye-slash`], title: `Mark all comments in this page as unread`});
-        let button2 = this.esgst.modules.common.createHeadingButton({featureId: `ct`, id: `ctRead`, icons: [`fa-eye`], title: `Mark all comments in this page as read`});
-        let button1 = this.esgst.modules.common.createHeadingButton({featureId: `ct`, id: `ctGo`, icons: [`fa-comments-o`], title: `Go to the first unread comment of this page`});
+        let button3 = createHeadingButton({featureId: `ct`, id: `ctUnread`, icons: [`fa-eye-slash`], title: `Mark all comments in this page as unread`});
+        let button2 = createHeadingButton({featureId: `ct`, id: `ctRead`, icons: [`fa-eye`], title: `Mark all comments in this page as read`});
+        let button1 = createHeadingButton({featureId: `ct`, id: `ctGo`, icons: [`fa-comments-o`], title: `Go to the first unread comment of this page`});
         this.ct_addCommentPanel(button1, button2, button3);
       }
       let match = location.pathname.match(/\/(giveaway|discussion|ticket|trade)\/(.+?)\//);
@@ -123,10 +143,10 @@ class CommentsCommentTracker extends Module {
         } else {
           diff = count;
         }
-        this.esgst.modules.common.createElements(element, `beforeEnd`, [{
+        createElements(element, `beforeEnd`, [{
           attributes: {
             class: `esgst-ct-count`,
-            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Unread comments`)
+            title: getFeatureTooltip(`ct`, `Unread comments`)
           },
           text: ` (+${diff})`,
           type: `span`
@@ -214,7 +234,7 @@ class CommentsCommentTracker extends Module {
     } else {
       let deleteLock;
       if (!endless) {
-        deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+        deleteLock = await createLock(`commentLock`, 300);
       }
       found = await this.ct_checkComments(count, comments, index, false, markRead, markUnread, endless);
       if (deleteLock) {
@@ -285,7 +305,7 @@ class CommentsCommentTracker extends Module {
             let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
             if (cache[comment.type].indexOf(comment.code) < 0) {
               cache[comment.type].push(comment.code);
-              this.esgst.modules.common.setLocalValue(`gdtttCache`, JSON.stringify(cache));
+              setLocalValue(`gdtttCache`, JSON.stringify(cache));
             }
           }
           saved[comment.type][comment.code].lastUsed = Date.now();
@@ -343,7 +363,7 @@ class CommentsCommentTracker extends Module {
                       }
                     }
                   } else {
-                    this.esgst.modules.common.goToComment(comment.id, comment.comment);
+                    goToComment(comment.id, comment.comment);
                   }
                   found = true;
                   break;
@@ -391,7 +411,7 @@ class CommentsCommentTracker extends Module {
               }
             }
           } else {
-            this.esgst.modules.common.goToComment(unread.id, unread.comment);
+            goToComment(unread.id, unread.comment);
           }
         }
       } else if (!endless) {
@@ -440,7 +460,7 @@ class CommentsCommentTracker extends Module {
   async ct_markCommentRead(comment, comments, save) {
     let count;
     if (save) {
-      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+      let deleteLock = await createLock(`commentLock`, 300);
       comments = JSON.parse(await getValue(comment.type));
       if (comment.id && !comments[comment.code].readComments[comment.id] && this.esgst.commentsPath) {
         count = document.getElementsByClassName(`esgst-ct-count`)[0];
@@ -452,7 +472,7 @@ class CommentsCommentTracker extends Module {
       if (this.esgst.ct_f) {
         comment.comment.classList.add(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `0.5`;
-        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `0.5`);
+        setHoverOpacity(comment.comment, `1`, `0.5`);
       }
     } else {
       if (comments) {
@@ -465,7 +485,7 @@ class CommentsCommentTracker extends Module {
       if (this.esgst.ct_f) {
         comment.comment.classList.add(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `0.5`;
-        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `0.5`);
+        setHoverOpacity(comment.comment, `1`, `0.5`);
       }
     }
   }
@@ -473,7 +493,7 @@ class CommentsCommentTracker extends Module {
   async ct_markCommentUnread(comment, comments, save) {
     let count;
     if (save) {
-      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+      let deleteLock = await createLock(`commentLock`, 300);
       comments = JSON.parse(await getValue(comment.type));
       if (comments[comment.code].readComments[comment.id]) {
         delete comments[comment.code].readComments[comment.id];
@@ -487,7 +507,7 @@ class CommentsCommentTracker extends Module {
       if (this.esgst.ct_f) {
         comment.comment.classList.remove(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `1`;
-        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `1`);
+        setHoverOpacity(comment.comment, `1`, `1`);
       }
     } else {
       if (comments && comments[comment.type][comment.code].readComments[comment.id]) {
@@ -500,22 +520,22 @@ class CommentsCommentTracker extends Module {
       if (this.esgst.ct_f) {
         comment.comment.classList.remove(`esgst-ct-comment-read`);
         comment.comment.style.opacity = `1`;
-        this.esgst.modules.common.setHoverOpacity(comment.comment, `1`, `1`);
+        setHoverOpacity(comment.comment, `1`, `1`);
       }
     }
   }
 
   ct_addReadUntilHereButton(button, comment) {
     if (!button) {
-      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
+      button = createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`,
-          title: `${this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}`
+          title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as read`)}`
         },
         type: `div`
       }]);
     }
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       type: `span`,
       children: [{
         attributes: {
@@ -533,7 +553,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_readUntilHere(button, comment) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -545,15 +565,15 @@ class CommentsCommentTracker extends Module {
 
   ct_addUnreadUntilHereButton(button, comment) {
     if (!button) {
-      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
+      button = createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`,
-          title: `${this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}`
+          title: `${getFeatureTooltip(`ct`, `Mark all comments from this comment upwards as unread`)}`
         },
         type: `div`
       }]);
     }
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       type: `span`,
       children: [{
         attributes: {
@@ -571,7 +591,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_unreadUntilHere(button, comment) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -583,22 +603,22 @@ class CommentsCommentTracker extends Module {
 
   ct_addReadCommentButton(button, comment) {
     if (!button) {
-      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
+      button = createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`
         },
         type: `div`
       }]);
     }
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-eye`,
-        title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark this comment as read`)
+        title: getFeatureTooltip(`ct`, `Mark this comment as read`)
       },
       type: `i`
     }, {
       attributes: {
-        title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)
+        title: getFeatureTooltip(`ct`, `Mark this comment as read and go to the next unread comment`)
       },
       type: `span`,
       children: [{
@@ -618,7 +638,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_readComment(button, comment) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -630,7 +650,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_readCommentAndGo(button, comment) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -644,17 +664,17 @@ class CommentsCommentTracker extends Module {
 
   ct_addUnreadCommentButton(button, comment) {
     if (!button) {
-      button = this.esgst.modules.common.createElements(comment.actions, `beforeEnd`, [{
+      button = createElements(comment.actions, `beforeEnd`, [{
         attributes: {
           class: `esgst-ct-comment-button`
         },
         type: `div`
       }]);
     }
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-eye-slash`,
-        title: `${this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark comment as unread`)}`
+        title: `${getFeatureTooltip(`ct`, `Mark comment as unread`)}`
       },
       type: `i`
     }]);
@@ -662,7 +682,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_unreadComment(button, comment) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -682,7 +702,7 @@ class CommentsCommentTracker extends Module {
       button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
       if (button) {
         if (this.esgst.sg) {
-          newButton = this.esgst.modules.common.createElements(button, `afterEnd`, [{
+          newButton = createElements(button, `afterEnd`, [{
             attributes: {
               class: `sidebar__action-button`
             },
@@ -700,7 +720,7 @@ class CommentsCommentTracker extends Module {
           key = `read_messages`;
           url = `/messages`;
         } else {
-          newButton = this.esgst.modules.common.createElements(button, `afterEnd`, [{
+          newButton = createElements(button, `afterEnd`, [{
             attributes: {
               class: `page_heading_btn green`
             },
@@ -725,7 +745,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_markMessagesRead(key, markRead, url, event) {
-    await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url});
+    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url});
     await this.ct_markCommentsRead(markRead);
     this.ct_completeInboxRead(event.currentTarget);
   }
@@ -740,33 +760,33 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_goToUnread(goToUnread) {
-    this.esgst.modules.common.createElements(goToUnread, `inner`, [{
+    createElements(goToUnread, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
     const found = await this.ct_getComments(0, this.esgst.mainComments, null, true, false, false);
-    this.esgst.modules.common.createElements(goToUnread, `inner`, [{
+    createElements(goToUnread, `inner`, [{
       attributes: {
         class: `fa fa-comments-o`
       },
       type: `i`
     }]);
     if (!found) {
-      this.esgst.modules.common.createAlert(`No unread comments were found.`);
+      createAlert(`No unread comments were found.`);
     }
   }
 
   async ct_markCommentsRead(markRead) {
-    this.esgst.modules.common.createElements(markRead, `inner`, [{
+    createElements(markRead, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
     await this.ct_getComments(0, this.esgst.mainComments, null, false, true, false);
-    this.esgst.modules.common.createElements(markRead, `inner`, [{
+    createElements(markRead, `inner`, [{
       attributes: {
         class: `fa fa-eye`
       },
@@ -775,14 +795,14 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_markCommentsUnread(markUnread) {
-    this.esgst.modules.common.createElements(markUnread, `inner`, [{
+    createElements(markUnread, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
     await this.ct_getComments(0, this.esgst.mainComments, null, false, false, true);
-    this.esgst.modules.common.createElements(markUnread, `inner`, [{
+    createElements(markUnread, `inner`, [{
       attributes: {
         class: `fa fa-eye-slash`
       },
@@ -795,19 +815,19 @@ class CommentsCommentTracker extends Module {
       code,
       count,
       diff,
-      panel: this.esgst.modules.common.createElements(context, this.esgst.giveawaysPath && !this.esgst.oadd ? `afterEnd` : `beforeEnd`, [{
+      panel: createElements(context, this.esgst.giveawaysPath && !this.esgst.oadd ? `afterEnd` : `beforeEnd`, [{
         type: `span`,
         children: [{
           attributes: {
             class: `esgst-ct-count esgst-hidden`,
-            title: this.esgst.modules.common.getFeatureTooltip(`ct`)
+            title: getFeatureTooltip(`ct`)
           },
           text: `(+${diff})`,
           type: `span`
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)
+            title: getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)
           },
           type: `div`,
           children: [{
@@ -819,7 +839,7 @@ class CommentsCommentTracker extends Module {
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)
+            title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)
           },
           type: `div`,
           children: [{
@@ -831,7 +851,7 @@ class CommentsCommentTracker extends Module {
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)
+            title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)
           },
           type: `div`,
           children: [{
@@ -843,7 +863,7 @@ class CommentsCommentTracker extends Module {
         }, {        
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
-            title: this.esgst.modules.common.getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)
+            title: getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)
           },
           type: `div`,
           children: [{
@@ -965,7 +985,7 @@ class CommentsCommentTracker extends Module {
     obj.markRead.classList.add(`esgst-hidden`);
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
-    const deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+    const deleteLock = await createLock(`commentLock`, 300);
     const comments = JSON.parse(await getValue(`discussions`));
     for (const key in comments[obj.code].readComments) {
       delete comments[obj.code].readComments[key];
@@ -994,7 +1014,7 @@ class CommentsCommentTracker extends Module {
       }
     }
     while (true) {
-      const context = utils.parseHtml((await this.esgst.modules.common.request({
+      const context = parseHtml((await request({
         method: `GET`,
         queue: true,
         url: `${url}${nextPage}`
@@ -1042,7 +1062,7 @@ class CommentsCommentTracker extends Module {
           delete discussion.readComments[id];
         }
       }
-      await this.esgst.modules.common.lockAndSaveDiscussions({[code]: discussion});
+      await lockAndSaveDiscussions({[code]: discussion});
     }
   }
 }

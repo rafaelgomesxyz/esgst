@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    saveUser
+  } = common
+;
 
 class UsersUserFilters extends Module {
 info = ({
@@ -36,10 +45,10 @@ info = ({
 
   uf_add(profile, savedUser) {
     if (profile.username !== this.esgst.username) {
-      profile.ufButton = this.esgst.modules.common.createElements(profile.heading, `beforeEnd`, [{
+      profile.ufButton = createElements(profile.heading, `beforeEnd`, [{
         attributes: {
           class: `esgst-uf-button`,
-          title: this.esgst.modules.common.getFeatureTooltip(`uf`, `Edit user filters`)
+          title: getFeatureTooltip(`uf`, `Edit user filters`)
         },
         type: `a`,
         children: [{
@@ -86,7 +95,7 @@ info = ({
       text: `:`,
       type: `node`
     }], true);
-    profile.ufOptions = this.esgst.modules.common.createElements(profile.ufPopup.description, `beforeEnd`, [{
+    profile.ufOptions = createElements(profile.ufPopup.description, `beforeEnd`, [{
       type: `div`
     }]);
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
@@ -134,7 +143,7 @@ info = ({
       profile.ufIcon.classList.remove(`fa-eye-slash`);
       profile.ufIcon.classList.add(`fa-eye`);
     }
-    await this.esgst.modules.common.saveUser(null, null, user);
+    await saveUser(null, null, user);
     profile.ufPopup.close();
   }
 
@@ -146,7 +155,7 @@ info = ({
       extraCount = 0;
     }
     if (count) {
-      this.esgst.modules.common.createElements(count, `inner`, [{
+      createElements(count, `inner`, [{
         text: `(`,
         type: `node`
       }, {
@@ -160,7 +169,7 @@ info = ({
         type: `node`
       }]);
     } else {
-      this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+      createElements(context, `beforeEnd`, [{
         attributes: {
           class: `esgst-uf-count`
         },

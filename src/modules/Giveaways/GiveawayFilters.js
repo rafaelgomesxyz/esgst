@@ -1,4 +1,4 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Button from '../../class/Button';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
@@ -6,6 +6,22 @@ import Checkbox from '../../class/Checkbox';
 import Popup from '../../class/Popup';
 import Popup_v2 from '../../class/Popup_v2';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    isSet
+  } = utils,
+  {
+    createLock,
+    createElements,
+    getFeatureTooltip,
+    setSetting,
+    request,
+    createFadeMessage
+  } = common
+;
 
 class GiveawaysGiveawayFilters extends Module {
   info = ({
@@ -759,7 +775,7 @@ class GiveawaysGiveawayFilters extends Module {
   }
 
   async gf_hideGiveaway(giveaway, main) {
-    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
+    let deleteLock = await createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
@@ -776,7 +792,7 @@ class GiveawaysGiveawayFilters extends Module {
   }
 
   async gf_unhideGiveaway(giveaway, main) {
-    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
+    let deleteLock = await createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].hidden;
@@ -1174,7 +1190,7 @@ class GiveawaysGiveawayFilters extends Module {
     const headingButton = document.createElement(`div`);
     headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
     headingButton.id = `esgst-${obj.id}`;
-    this.esgst.modules.common.createElements(headingButton, `inner`, [{
+    createElements(headingButton, `inner`, [{
       attributes: {
         class: `esgst-gf-toggle-switch`
       },
@@ -1182,7 +1198,7 @@ class GiveawaysGiveawayFilters extends Module {
     }, {
       attributes: {
         class: `fa fa-sliders`,
-        title: this.esgst.modules.common.getFeatureTooltip(obj.id, `Manage presets`)
+        title: getFeatureTooltip(obj.id, `Manage presets`)
       },
       type: `i`
     }]);
@@ -1201,7 +1217,7 @@ class GiveawaysGiveawayFilters extends Module {
     toggleSwitch.onEnabled = this.filters_filter.bind(null, obj);
     toggleSwitch.onDisabled = this.filters_filter.bind(null, obj, true);
 
-    obj.container = this.esgst.modules.common.createElements(heading, `afterEnd`, [{
+    obj.container = createElements(heading, `afterEnd`, [{
       attributes: {
         class: `esgst-gf-container`
       },
@@ -1448,7 +1464,7 @@ class GiveawaysGiveawayFilters extends Module {
         rules: {}
       };
       this.esgst[obj.key].push(preset);
-      this.esgst.modules.common.setSetting([
+      setSetting([
         {
           id: `${obj.id}_preset${obj.type}`,
           value: name
@@ -1464,7 +1480,7 @@ class GiveawaysGiveawayFilters extends Module {
     obj.presetDisplay.textContent = obj.presetInput.value = name;
 
     if (!obj.popup && this.esgst.pagination) {
-      obj.paginationFilteredCount = this.esgst.modules.common.createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
+      obj.paginationFilteredCount = createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
         type: `span`,
         children: [{
           text: `(`,
@@ -1509,7 +1525,7 @@ class GiveawaysGiveawayFilters extends Module {
             if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
               attributes.class = `esgst-hidden`;
             }
-            context = this.esgst.modules.common.createElements(booleanFilters, `beforeEnd`, [{
+            context = createElements(booleanFilters, `beforeEnd`, [{
               attributes,
               type: `div`,
               children: [{
@@ -1565,7 +1581,7 @@ class GiveawaysGiveawayFilters extends Module {
               if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
-              context = this.esgst.modules.common.createElements(numberFilters, `beforeEnd`, [{
+              context = createElements(numberFilters, `beforeEnd`, [{
                 attributes,
                 type: `div`,
                 children: [{
@@ -1614,7 +1630,7 @@ class GiveawaysGiveawayFilters extends Module {
               if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
-              context = this.esgst.modules.common.createElements(numberFilters, `beforeEnd`, [{
+              context = createElements(numberFilters, `beforeEnd`, [{
                 attributes,
                 type: `div`,
                 children: [{
@@ -1676,7 +1692,7 @@ class GiveawaysGiveawayFilters extends Module {
             if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
               attributes.class = `esgst-hidden`;
             }
-            context = this.esgst.modules.common.createElements(stringFilters, `beforeEnd`, [{
+            context = createElements(stringFilters, `beforeEnd`, [{
               attributes,
               type: `div`,
               children: [{
@@ -1727,7 +1743,7 @@ class GiveawaysGiveawayFilters extends Module {
     }
 
     if (!this.esgst[`${obj.id}_m_b`]) {
-      this.esgst.modules.common.createElements(stringFilters, `beforeEnd`, [{
+      createElements(stringFilters, `beforeEnd`, [{
         attributes: {
           class: `esgst-gf-legend-panel`
         },
@@ -2023,7 +2039,7 @@ class GiveawaysGiveawayFilters extends Module {
             }]
           })
         }
-        const sgFilter = this.esgst.modules.common.createElements(sgFilters, `beforeEnd`, [{
+        const sgFilter = createElements(sgFilters, `beforeEnd`, [{
           attributes: {
             class: `esgst-gf-category-filter`
           },
@@ -2051,9 +2067,9 @@ class GiveawaysGiveawayFilters extends Module {
           select.addEventListener(`change`, async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
-            await this.esgst.modules.common.setSetting(filter.id, select.value);
+            await setSetting(filter.id, select.value);
             this.esgst[filter.id] = select.value;
-            await this.esgst.modules.common.request({
+            await request({
               data: `filter_os=${this.esgst.filter_os}&filter_giveaways_exist_in_account=${this.esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${this.esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${this.esgst.filter_giveaways_level}&filter_giveaways_additional_games=${this.esgst.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: `POST`,
               url: `/account/settings/giveaways`
@@ -2066,9 +2082,9 @@ class GiveawaysGiveawayFilters extends Module {
           checkbox.onChange = async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
-            await this.esgst.modules.common.setSetting(filter.id, checkbox.value ? 1 : 0);
+            await setSetting(filter.id, checkbox.value ? 1 : 0);
             this.esgst[filter.id] = checkbox.value ? 1 : 0;
-            await this.esgst.modules.common.request({
+            await request({
               data: `filter_os=${this.esgst.filter_os}&filter_giveaways_exist_in_account=${this.esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${this.esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${this.esgst.filter_giveaways_level}&filter_giveaways_additional_games=${this.esgst.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: `POST`,
               url: `/account/settings/giveaways`
@@ -2843,7 +2859,7 @@ class GiveawaysGiveawayFilters extends Module {
     } else {
       this.esgst[obj.key].push(preset);
     }
-    await this.esgst.modules.common.setSetting([
+    await setSetting([
       {
         id: `${obj.id}_preset${obj.type}`,
         value: name
@@ -2853,12 +2869,12 @@ class GiveawaysGiveawayFilters extends Module {
         value: this.esgst[obj.key]
       }
     ]);
-    this.esgst.modules.common.createFadeMessage(obj.presetMessage, `Saved!`);
+    createFadeMessage(obj.presetMessage, `Saved!`);
   }
 
   async filters_openPresetPopup(obj) {
     const popup = new Popup(`fa-sliders`, `Manage presets:`, true);
-    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
+    createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -2866,7 +2882,7 @@ class GiveawaysGiveawayFilters extends Module {
       type: `div`
     }]);
     let deleted = [];
-    const undoButton = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    const undoButton = createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-clickable esgst-hidden`
       },
@@ -2882,7 +2898,7 @@ class GiveawaysGiveawayFilters extends Module {
       }]
     }]);
     undoButton.addEventListener(`click`, this.filters_undoDeletePreset.bind(null, obj, deleted, undoButton));
-    const table = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    const table = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
       },
@@ -2895,7 +2911,7 @@ class GiveawaysGiveawayFilters extends Module {
       if (obj.presetInput.value === preset.name) {
         attributes.class = `esgst-green-highlight`;
       }
-      const row = this.esgst.modules.common.createElements(table, `beforeEnd`, [{
+      const row = createElements(table, `beforeEnd`, [{
         attributes,
         type: `div`,
         children: [{
@@ -2988,7 +3004,7 @@ class GiveawaysGiveawayFilters extends Module {
 
   async filters_saveSource(obj) {
     this.esgst[obj.key].splice(obj.sourceNewIndex, 0, this.esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
-    await this.esgst.modules.common.setSetting(obj.key, this.esgst[obj.key]);
+    await setSetting(obj.key, this.esgst[obj.key]);
   }
 
   async filters_applyPreset(obj, popup, preset) {
@@ -3013,7 +3029,7 @@ class GiveawaysGiveawayFilters extends Module {
     popup.close();
     obj.presetDisplay.textContent = obj.presetInput.value = preset.name;
     this.filters_filter(obj);
-    this.esgst.modules.common.setSetting(`${obj.id}_preset${obj.type}`, preset.name);
+    setSetting(`${obj.id}_preset${obj.type}`, preset.name);
   }
 
   filters_showRenameInput(heading, renameInput) {
@@ -3052,12 +3068,12 @@ class GiveawaysGiveawayFilters extends Module {
     }
     event.currentTarget.classList.add(`esgst-hidden`);
     heading.classList.remove(`esgst-hidden`);
-    await this.esgst.modules.common.setSetting(values);
+    await setSetting(values);
   }
 
   async filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
     const deleteButton = event.currentTarget;
-    this.esgst.modules.common.createElements(deleteButton, `inner`, [{
+    createElements(deleteButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -3066,8 +3082,8 @@ class GiveawaysGiveawayFilters extends Module {
     let i;
     for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--);
     this.esgst[obj.key].splice(i, 1);
-    await this.esgst.modules.common.setSetting(obj.key, this.esgst[obj.key]);
-    this.esgst.modules.common.createElements(deleteButton, `inner`, [{
+    await setSetting(obj.key, this.esgst[obj.key]);
+    createElements(deleteButton, `inner`, [{
       attributes: {
         class: `fa fa-trash`
       },
@@ -3086,7 +3102,7 @@ class GiveawaysGiveawayFilters extends Module {
     preset.row.classList.remove(`esgst-hidden`);
     preset.row.parentElement.appendChild(preset.row);
     this.esgst[obj.key].push(preset.details);
-    await this.esgst.modules.common.setSetting(obj.key, this.esgst[obj.key]);
+    await setSetting(obj.key, this.esgst[obj.key]);
     if (deleted.length === 0) {
       undoButton.classList.add(`esgst-hidden`);
     }
@@ -3160,7 +3176,7 @@ class GiveawaysGiveawayFilters extends Module {
   filters_filterItem(id, filters, item, rules) {
     if (
       !rules ||
-      (!rules.id && (!rules.condition || (utils.isSet(rules.valid) && !rules.valid))) ||
+      (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
       (rules.id && !this.esgst[`${id}_${rules.id}`])
     ) {
       return true;
@@ -3237,10 +3253,10 @@ class GiveawaysGiveawayFilters extends Module {
             filtered = value >= rules.value;
             break;
           case `is_null`:
-            filtered = !utils.isSet(value) || value < 0;
+            filtered = !isSet(value) || value < 0;
             break;
           case `is_not_null`:
-            filtered = utils.isSet(value) && value > -1;
+            filtered = isSet(value) && value > -1;
             break;
         }
 

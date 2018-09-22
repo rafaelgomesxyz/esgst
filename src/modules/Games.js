@@ -1,5 +1,17 @@
-import {utils} from '../lib/jsUtils'
 import Module from '../class/Module';
+import {utils} from '../lib/jsUtils';
+import {common} from 'Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    updateHiddenGames,
+    request,
+    lockAndSaveGames
+  } = common
+;
 
 class Games extends Module {
   info = ({
@@ -78,7 +90,7 @@ class Games extends Module {
         if (this.esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
           const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
           if (removeButton) {
-            removeButton.addEventListener(`click`, this.esgst.modules.common.updateHiddenGames.bind(null, id, type, true));
+            removeButton.addEventListener(`click`, updateHiddenGames.bind(null, id, type, true));
           }
         }
         if (!games[type][id]) {
@@ -131,8 +143,8 @@ class Games extends Module {
           };
         }
       }
-      this.esgst.modules.common.request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {
-        const html = utils.parseHtml(response.responseText);
+      request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {
+        const html = parseHtml(response.responseText);
         const giveaway = (await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl))[0];
         if (giveaway && giveaway.gameType && giveaway.gameSteamId) {
           const games = {
@@ -161,7 +173,7 @@ class Games extends Module {
           if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
             this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
           }
-          this.esgst.modules.common.lockAndSaveGames(games);
+          lockAndSaveGames(games);
         }
       });
     } else {

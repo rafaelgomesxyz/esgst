@@ -1,11 +1,20 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    sync,
+    getFeatureTooltip,
+    createElements
+  } = common
+;
 
 class UsersProfileLinks extends Module {
 info = ({
     description: `
       <ul>
         <li>Allows you to add links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a>/<a href="https://www.steamgifts.com/account/steam/games">games</a>/<a href="https://www.steamgifts.com/account/steam/games">groups</a>/<a href="https://www.steamgifts.com/account/steam/wishlist">wishlist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/your-username">profile</a> page.</li>
-        <li>The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to this.esgst.modules.common.sync your owned games includes DLCs.</li>
+        <li>The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.</li>
       </ul>
     `,
     features: {
@@ -162,13 +171,13 @@ info = ({
       }, {
         attributes: {
           class: `sidebar__navigation`,
-          title: this.esgst.modules.common.getFeatureTooltip(`pl`)
+          title: getFeatureTooltip(`pl`)
         },
         type: `ul`,
         children: list
       });
     }
-    this.esgst.modules.common.createElements(this.esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0], `afterEnd`, items);
+    createElements(this.esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0], `afterEnd`, items);
   }
 }
 

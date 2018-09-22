@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createAlert
+  } = common
+;
 
 class GiveawaysNextPreviousTrainHotkeys extends Module {
   info = ({
@@ -79,7 +86,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
               location.href = referrer;
             }
           } else {
-            this.esgst.modules.common.createAlert(`No previous link found.`);
+            createAlert(`No previous link found.`);
           }
         }
       } else if (event.key === this.esgst.npth_nextKey) {
@@ -90,7 +97,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
             location.href = next.getAttribute(`href`);
           }
         } else {
-          this.esgst.modules.common.createAlert(`No next link found.`);
+          createAlert(`No next link found.`);
         }
       }
     }

@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GeneralEmbeddedVideos extends Module {
   info = ({
@@ -41,7 +48,7 @@ class GeneralEmbeddedVideos extends Module {
             } else {
               title = ``;
             }
-            this.esgst.modules.common.createElements(video, `outer`, [{
+            createElements(video, `outer`, [{
               type: `div`,
               children: [{
                 text: title,

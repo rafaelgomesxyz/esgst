@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysGiveawayPointsToWin extends Module {
   info = ({
@@ -43,11 +51,11 @@ class GiveawaysGiveawayPointsToWin extends Module {
         continue;
       }
       if (giveaway.started) {
-        giveaway.gptwContext = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+        giveaway.gptwContext = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gptw`,
             [`data-draggable-id`]: `gptw`,
-            title: this.esgst.modules.common.getFeatureTooltip(`gptw`, `Giveaway Points To Win`)
+            title: getFeatureTooltip(`gptw`, `Giveaway Points To Win`)
           },
           type: `div`
         }]);
@@ -90,7 +98,7 @@ class GiveawaysGiveawayPointsToWin extends Module {
       text: giveaway.pointsToWin,
       type: `span`
     });
-    this.esgst.modules.common.createElements(giveaway.gptwContext, `inner`, items);
+    createElements(giveaway.gptwContext, `inner`, items);
   }
 }
 

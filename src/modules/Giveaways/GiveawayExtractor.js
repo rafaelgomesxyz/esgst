@@ -1,7 +1,24 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    setMouseEvent,
+    request,
+    getParameters,
+    createElements,
+    endless_load,
+    buildGiveaway
+  } = common
+;
 
 class GiveawaysGiveawayExtractor extends Module {
   info = ({
@@ -71,12 +88,12 @@ class GiveawaysGiveawayExtractor extends Module {
   async ge() {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
       let ge = {
-        button: this.esgst.modules.common.createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
+        button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
       };
-      this.esgst.modules.common.setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(null, ge));
+      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(null, ge));
     } else if (this.esgst.gePath) {
       let ge = {
-        context: utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.modules.common.getParameters().url})).responseText)
+        context: parseHtml((await request({method: `GET`, url: getParameters().url})).responseText)
       };
       this.ge_openPopup(ge);
     }
@@ -104,14 +121,14 @@ class GiveawaysGiveawayExtractor extends Module {
     } else {
       ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
     }
-    ge.results = this.esgst.modules.common.createElements(ge.popup.scrollable, `beforeEnd`, [{
+    ge.results = createElements(ge.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left`
       },
       type: `div`
     }]);
     if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
-      let heading = this.esgst.modules.common.createElements(ge.popup.scrollable, `afterBegin`, [{
+      let heading = createElements(ge.popup.scrollable, `afterBegin`, [{
         attributes: {
           class: `page__heading`
         },
@@ -129,7 +146,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
       if (ge.callback) {
-        this.esgst.modules.common.createElements(ge.results, `beforeEnd`, [{
+        createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
         ge.callback();
@@ -150,7 +167,7 @@ class GiveawaysGiveawayExtractor extends Module {
           text: ` giveaways extracted.`,
           type: `node`
         }]);
-        this.esgst.modules.common.createElements(ge.results, `beforeEnd`, [{
+        createElements(ge.results, `beforeEnd`, [{
           type: `div`
         }]);
         ge.mainCallback = callback;
@@ -162,7 +179,7 @@ class GiveawaysGiveawayExtractor extends Module {
       this.ge_completeExtraction(ge);
     });
     ge.popup.description.appendChild(ge.set.set);
-    ge.progress = this.esgst.modules.common.createElements(ge.popup.description, `beforeEnd`, [{
+    ge.progress = createElements(ge.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
     if (this.esgst.es_ge) {
@@ -192,7 +209,7 @@ class GiveawaysGiveawayExtractor extends Module {
         let children, filtered, i;
         ge.mainCallback();
         ge.count = 0;
-        await this.esgst.modules.common.endless_load(ge.results.lastElementChild, false, `ge`);
+        await endless_load(ge.results.lastElementChild, false, `ge`);
         ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
         ge.progress.firstElementChild.remove();
         ge.callback = ge_extractGiveaway.bind(null, ge, code, callback);
@@ -216,17 +233,17 @@ class GiveawaysGiveawayExtractor extends Module {
             callback();
             return;
           }
-          let response = await this.esgst.modules.common.request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
+          let response = await request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
           let bumpLink, button, giveaway, giveaways, n, responseHtml;
-          responseHtml = utils.parseHtml(response.responseText);
+          responseHtml = parseHtml(response.responseText);
           button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
-          giveaway = this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
+          giveaway = buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           if (giveaway) {
-            this.esgst.modules.common.createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
+            createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
             ge.points += giveaway.points;
             ge.count += 1;
             ge.total += 1;
-            this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+            createElements(ge.progress, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
@@ -257,17 +274,17 @@ class GiveawaysGiveawayExtractor extends Module {
               }
             }
           } else if (!sgTools) {
-            let response = await this.esgst.modules.common.request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
+            let response = await request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
             let bumpLink, giveaway, giveaways, n, responseHtml;
-            responseHtml = utils.parseHtml(response.responseText);
-            giveaway = this.esgst.modules.common.buildGiveaway(responseHtml, response.finalUrl, null, true);
+            responseHtml = parseHtml(response.responseText);
+            giveaway = buildGiveaway(responseHtml, response.finalUrl, null, true);
             if (giveaway) {
-              this.esgst.modules.common.createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
+              createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
               ge.points += giveaway.points;
             }
             ge.count += 1;
             ge.total += 1;
-            this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+            createElements(ge.progress, `inner`, [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
@@ -307,7 +324,7 @@ class GiveawaysGiveawayExtractor extends Module {
     let elements = context.querySelectorAll(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
     let giveaways = [];
     if (context === ge.context) {
-      let match = this.esgst.modules.common.getParameters().url.match(/\/giveaway\/(.+?)\//);
+      let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
       }
@@ -358,7 +375,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (callback) {
       callback();
     }
-    await this.esgst.modules.common.endless_load(ge.results.lastElementChild, false, `ge`);
+    await endless_load(ge.results.lastElementChild, false, `ge`);
     const items = [{
       attributes: {
         class: `markdown esgst-text-center`
@@ -382,8 +399,8 @@ class GiveawaysGiveawayExtractor extends Module {
       text: `${ge.points}P required to enter all giveaways.`,
       type: `node`
     });
-    this.esgst.modules.common.createElements(ge.results, `afterBegin`, items);
-    this.esgst.modules.common.createElements(ge.results, `beforeEnd`, items);
+    createElements(ge.results, `afterBegin`, items);
+    createElements(ge.results, `beforeEnd`, items);
     ge.set.set.remove();
     ge.set = null;
   }

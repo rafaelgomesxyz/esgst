@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request,
+    getElements
+  } = common
+;
 
 class GiveawaysBlacklistGiveawayLoader extends Module {
   info = ({
@@ -28,7 +41,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
     if (!summary) return;
     let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
     if (!match) return;
-    this.esgst.modules.common.createElements(this.esgst.pageOuterWrap, `inner`, [{
+    createElements(this.esgst.pageOuterWrap, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -37,10 +50,10 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
       text: `Loading giveaway...`,
       type: `span`
     }]);
-    let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({anon: true, method: `GET`, url: location.pathname})).responseText);
+    let responseHtml = parseHtml((await request({anon: true, method: `GET`, url: location.pathname})).responseText);
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
-      this.esgst.modules.common.createElements(this.esgst.pageOuterWrap, `inner`, backup);
-      this.esgst.modules.common.createElements(this.esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild, `beforeEnd`, [{
+      createElements(this.esgst.pageOuterWrap, `inner`, backup);
+      createElements(this.esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild, `beforeEnd`, [{
         type: `br`
       }, {
         type: `br`
@@ -52,24 +65,24 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
         type: `span`
       }]);
     } else {
-      this.esgst.featuredContainer = this.esgst.modules.common.createElements(this.esgst.pageOuterWrap, `beforeBegin`, [{
+      this.esgst.featuredContainer = createElements(this.esgst.pageOuterWrap, `beforeBegin`, [{
         attributes: {
           class: `featured__container`
         },
         type: `div`
       }]);
-      this.esgst.modules.common.createElements(this.esgst.featuredContainer, `inner`, Array.from(responseHtml.getElementsByClassName(`featured__container`)[0].children).map(x => {
+      createElements(this.esgst.featuredContainer, `inner`, Array.from(responseHtml.getElementsByClassName(`featured__container`)[0].children).map(x => {
         return {
           context: x
         };
       }));
-      this.esgst.modules.common.createElements(this.esgst.pageOuterWrap, `inner`, Array.from(responseHtml.getElementsByClassName(`page__outer-wrap`)[0].children).map(x => {
+      createElements(this.esgst.pageOuterWrap, `inner`, Array.from(responseHtml.getElementsByClassName(`page__outer-wrap`)[0].children).map(x => {
         return {
           context: x
         };
       }));
-      await this.esgst.modules.common.getElements();
-      this.esgst.modules.common.createElements(this.esgst.sidebar, `afterBegin`, [{
+      await getElements();
+      createElements(this.esgst.sidebar, `afterBegin`, [{
         attributes: {
           class: `sidebar__error is-disabled`
         },

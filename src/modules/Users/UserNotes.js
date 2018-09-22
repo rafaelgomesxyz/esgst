@@ -1,4 +1,14 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    removeDuplicateNotes,
+    saveUser
+  } = common
+;
 
 class UsersUserNotes extends Module {
 info = ({
@@ -44,10 +54,10 @@ info = ({
     } else {
       position = `afterBegin`;
     }
-    profile.unButton = this.esgst.modules.common.createElements(profile.heading, position, [{
+    profile.unButton = createElements(profile.heading, position, [{
       attributes: {
         class: `esgst-un-button`,
-        title: this.esgst.modules.common.getFeatureTooltip(`un`, `Edit user notes`)
+        title: getFeatureTooltip(`un`, `Edit user notes`)
       },
       type: `a`,
       children: [{
@@ -78,7 +88,7 @@ info = ({
       text: `:`,
       type: `node`
     }], true);
-    profile.unTextArea = this.esgst.modules.common.createElements(profile.unPopup.scrollable, `beforeEnd`, [{
+    profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
     set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.un_save.bind(null, profile)});
@@ -92,7 +102,7 @@ info = ({
   }
 
   async un_save(profile) {
-    let notes = this.esgst.modules.common.removeDuplicateNotes(profile.unTextArea.value.trim());
+    let notes = removeDuplicateNotes(profile.unTextArea.value.trim());
     let user = {
       steamId: profile.steamId,
       id: profile.id,
@@ -108,7 +118,7 @@ info = ({
       profile.unIcon.classList.remove(`fa-sticky-note`);
       profile.unIcon.classList.add(`fa-sticky-note-o`);
     }
-    await this.esgst.modules.common.saveUser(null, null, user);
+    await saveUser(null, null, user);
     profile.unPopup.close();
   }
 

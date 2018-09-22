@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
   info = ({
@@ -28,7 +35,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
       if (this.esgst.giveawayErrorButton) {
         this.esgst.giveawayErrorButton.remove();
       }
-      this.esgst.modules.common.createElements(parent, `afterBegin`, [{
+      createElements(parent, `afterBegin`, [{
         attributes: {
           class: `sidebar__error is-disabled`
         },

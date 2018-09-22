@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class CommentsCollapseExpandReplyButton extends Module {
   info = ({
@@ -29,7 +37,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     comments = document.getElementsByClassName(`comments`)[0];
     if (comments && comments.children.length) {
       this.esgst.cerbButtons = [];
-      button = this.esgst.modules.common.createElements(this.esgst.mainPageHeading, `afterEnd`, [{
+      button = createElements(this.esgst.mainPageHeading, `afterEnd`, [{
         attributes: {
           class: `esgst-cerb-button esgst-clickable`
         },
@@ -77,14 +85,14 @@ class CommentsCollapseExpandReplyButton extends Module {
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);
       if (replies && replies.children.length) {
-        this.cerb_setButton(this.esgst.modules.common.createElements(reply.firstElementChild, `afterBegin`, [{
+        this.cerb_setButton(createElements(reply.firstElementChild, `afterBegin`, [{
           attributes: {
             class: `esgst-cerb-reply-button esgst-clickable`
           },
           type: `div`,
           children: [{
             attributes: {
-              title: this.esgst.modules.common.getFeatureTooltip(`cerb`, `Collapse all replies`)
+              title: getFeatureTooltip(`cerb`, `Collapse all replies`)
             },
             type: `span`,
             children: [{
@@ -95,7 +103,7 @@ class CommentsCollapseExpandReplyButton extends Module {
           }, {
             attributes: {
               class: `esgst-hidden`,
-              title: this.esgst.modules.common.getFeatureTooltip(`cerb`, `Expand all replies`)
+              title: getFeatureTooltip(`cerb`, `Expand all replies`)
             },
             type: `span`,
             children: [{

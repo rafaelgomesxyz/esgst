@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class UsersRealWonSentCVLink extends Module {
 info = ({
@@ -32,22 +40,22 @@ info = ({
       wonUrl += `/newestfirst`;
       sentUrl += `/newestfirst`;
     }
-    this.esgst.modules.common.createElements(profile.wonRowLeft, `inner`, [{
+    createElements(profile.wonRowLeft, `inner`, [{
       attributes: {
         class: `esgst-rwscvl-link`,
         href: wonUrl,
         target: `_blank`,
-        title: this.esgst.modules.common.getFeatureTooltip(`rwscvl`)
+        title: getFeatureTooltip(`rwscvl`)
       },
       text: `Gifts Won`,
       type: `a`
     }]);
-    this.esgst.modules.common.createElements(profile.sentRowLeft, `inner`, [{
+    createElements(profile.sentRowLeft, `inner`, [{
       attributes: {
         class: `esgst-rwscvl-link`,
         href: sentUrl,
         target: `_blank`,
-        title: this.esgst.modules.common.getFeatureTooltip(`rwscvl`)
+        title: getFeatureTooltip(`rwscvl`)
       },
       text: `Gifts Sent`,
       type: `a`

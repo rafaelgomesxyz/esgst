@@ -2,6 +2,15 @@ import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popout from '../../class/Popout';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {common} from '../Common';
+
+const
+  {
+    createHeadingButton,
+    createElements,
+    saveAndSortContent
+  } = common
+;
 
 class DiscussionsDiscussionsSorter extends Module {
   info = ({
@@ -22,7 +31,7 @@ class DiscussionsDiscussionsSorter extends Module {
     if (!this.esgst.discussionsPath) return;
 
     let object = {
-      button: this.esgst.modules.common.createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
+      button: createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
     };
     object.button.addEventListener(`click`, this.ds_openPopout.bind(null, object));
   }
@@ -31,7 +40,7 @@ class DiscussionsDiscussionsSorter extends Module {
     if (obj.popout) return;
     obj.popout = new Popout(`esgst-ds-popout`, obj.button, 0, true);
     new ToggleSwitch(obj.popout.popout, `ds_auto`, false, `Auto Sort`, false, false, `Automatically sorts the discussions by the selected option when loading the page.`, this.esgst.ds_auto);
-    let options = this.esgst.modules.common.createElements(obj.popout.popout, `beforeEnd`, [{
+    let options = createElements(obj.popout.popout, `beforeEnd`, [{
       type: `select`,
       children: [{
         attributes: {
@@ -102,7 +111,7 @@ class DiscussionsDiscussionsSorter extends Module {
       }]
     }]);
     options.value = this.esgst.ds_option;
-    let callback = this.esgst.modules.common.saveAndSortContent.bind(null, `ds_option`, `mainDiscussions`, options, null);
+    let callback = saveAndSortContent.bind(null, `ds_option`, `mainDiscussions`, options, null);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
     obj.popout.open();

@@ -1,5 +1,23 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    formatTags,
+    setSetting,
+    createElements,
+    createConfirmation,
+    createFadeMessage,
+    request,
+    downloadFile
+  } = common
+;
 
 class UsersWhitelistBlacklistManager extends Module {
 info = ({
@@ -25,7 +43,7 @@ info = ({
       this.wbm.key = `blacklist`;
       this.wbm.name = `Blacklist`;
     }
-    this.wbm.button = this.esgst.modules.common.createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
+    this.wbm.button = createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
     this.wbm.button.addEventListener(`click`, this.wbm_openPopup.bind(null, this.wbm));
   }
 
@@ -44,23 +62,23 @@ info = ({
         },
         type: `input`
       }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, this.esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
-        let tags = event.currentTarget.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `);
-        this.esgst.modules.common.setSetting(`wbm_tags`, tags);
+        let tags = event.currentTarget.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+        setSetting(`wbm_tags`, tags);
         this.esgst.wbm_tags = tags;
       });
-      this.wbm.input = this.esgst.modules.common.createElements(wbm.popup.description, `beforeEnd`, [{
+      this.wbm.input = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
           type: `file`
         },
         type: `input`
       }]);
-      this.wbm.message = this.esgst.modules.common.createElements(wbm.popup.description, `beforeEnd`, [{
+      this.wbm.message = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-description`
         },
         type: `div`
       }]);
-      this.wbm.warning = this.esgst.modules.common.createElements(wbm.popup.description, `beforeEnd`, [{
+      this.wbm.warning = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-description esgst-warning`
         },
@@ -69,7 +87,7 @@ info = ({
       this.wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(null, this.wbm, this.wbm_importList.bind(null, this.wbm)), this.wbm_cancel.bind(null, this.wbm)).set);
       this.wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(null, this.wbm, this.wbm_exportList.bind(null, this.wbm, [], 1)), this.wbm_cancel.bind(null, this.wbm)).set);
       this.wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(null, this.wbm, this.wbm_clearList.bind(null, this.wbm, [], 1)), this.wbm_cancel.bind(null, this.wbm)).set);
-      this.wbm.results = this.esgst.modules.common.createElements(wbm.popup.scrollable,  `beforeEnd`, [{
+      this.wbm.results = createElements(wbm.popup.scrollable,  `beforeEnd`, [{
         type: `div`
       }]);
     }
@@ -77,7 +95,7 @@ info = ({
   }
 
   wbm_start(wbm, callback, mainCallback) {
-    this.esgst.modules.common.createConfirmation(`Are you sure you want to do this?`, () => {
+    createConfirmation(`Are you sure you want to do this?`, () => {
       this.wbm.isCanceled = false;
       this.wbm.button.classList.add(`esgst-busy`);
       this.wbm.usernames = [];
@@ -106,19 +124,19 @@ info = ({
           let list = JSON.parse(reader.result);
           this.wbm_insertUsers(wbm, list, 0, list.length, callback);
         } catch (error) {
-          this.esgst.modules.common.createFadeMessage(wbm.warning, `Cannot this.esgst.modules.giveawaysGiveawayFilters.parse file!`);
+          createFadeMessage(wbm.warning, `Cannot this.esgst.modules.giveawaysGiveawayFilters.parse file!`);
           callback();
         }
       };
     } else {
-      this.esgst.modules.common.createFadeMessage(wbm.warning, `No file was loaded!`);
+      createFadeMessage(wbm.warning, `No file was loaded!`);
       callback();
     }
   }
 
   async wbm_insertUsers(wbm, list, i, n, callback) {
     if (wbm.isCanceled) return;
-    this.esgst.modules.common.createElements(wbm.message, `inner`, [{
+    createElements(wbm.message, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -128,10 +146,10 @@ info = ({
       type: `span`
     }]);
     if (i < n) {
-      await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
+      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
       setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
     } else {
-      this.esgst.modules.common.createFadeMessage(wbm.message, `List imported with success!`);
+      createFadeMessage(wbm.message, `List imported with success!`);
       callback();
     }
   }
@@ -145,11 +163,11 @@ info = ({
           list.push(this.esgst.users.users[steamId].id);
         }
       }
-      this.esgst.modules.common.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
-      this.esgst.modules.common.createFadeMessage(wbm.message, `List exported with success!`);
+      downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
+      createFadeMessage(wbm.message, `List exported with success!`);
       callback();
     } else {
-      this.esgst.modules.common.createElements(wbm.message, `inner`, [{
+      createElements(wbm.message, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -159,7 +177,7 @@ info = ({
         type: `span`
       }]);
       let elements, i, n, pagination, responseHtml;
-      responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
+      responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
       for (i = 0, n = elements.length; i < n; ++i) {
         list.push(elements[i].value);
@@ -168,8 +186,8 @@ info = ({
       if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
         setTimeout(() => this.wbm_exportList(wbm, list, ++nextPage, callback), 0);
       } else {
-        this.esgst.modules.common.downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
-        this.esgst.modules.common.createFadeMessage(wbm.message, `List exported with success!`);
+        downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
+        createFadeMessage(wbm.message, `List exported with success!`);
         callback();
       }
     }
@@ -198,7 +216,7 @@ info = ({
       }
       this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
     } else {
-      this.esgst.modules.common.createElements(wbm.message, `inner`, [{
+      createElements(wbm.message, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -208,7 +226,7 @@ info = ({
         type: `span`
       }]);
       let element, elements, i, n, pagination, responseHtml;
-      responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
+      responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
       for (i = 0, n = elements.length; i < n; ++i) {
         element = elements[i];
@@ -242,7 +260,7 @@ info = ({
 
   async wbm_deleteUsers(wbm, list, i, n, callback) {
     if (wbm.isCanceled) return;
-    this.esgst.modules.common.createElements(wbm.message, `inner`, [{
+    createElements(wbm.message, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -252,11 +270,11 @@ info = ({
       type: `span`
     }]);
     if (i < n) {
-      await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
+      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
       setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
     } else {
-      this.esgst.modules.common.createFadeMessage(wbm.message, `List cleared with success!`);
-      this.esgst.modules.common.createElements(wbm.results, `inner`, [{
+      createFadeMessage(wbm.message, `List cleared with success!`);
+      createElements(wbm.results, `inner`, [{
         attributes: {
           class: `esgst-bold`
         },
@@ -269,7 +287,7 @@ info = ({
         type: `span`
       }]);
       this.wbm.usernames.forEach(username => {
-        this.esgst.modules.common.createElements(wbm.results.lastElementChild, `beforeEnd`, [{
+        createElements(wbm.results.lastElementChild, `beforeEnd`, [{
           attributes: {
             href: `/user/${username}`
           },

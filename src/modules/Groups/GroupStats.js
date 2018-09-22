@@ -1,5 +1,17 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request
+  } = common
+;
 
 class GroupsGroupStats extends Module {
 info = ({
@@ -17,7 +29,7 @@ info = ({
 
   gs() {
     if (!this.esgst.groupsPath) return;
-    this.esgst.modules.common.createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
+    createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
       attributes: {
         class: `table__column--width-small text-center`
       },
@@ -59,14 +71,14 @@ info = ({
   }
 
   async gs_addStatus(context) {
-    let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${this.esgst.username}`})).responseText);
+    let responseHtml = parseHtml((await request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${this.esgst.username}`})).responseText);
     let element = responseHtml.getElementsByClassName(`table__row-inner-wrap`)[0];
     if (!element || element.getElementsByClassName(`table__column__heading`)[0].textContent !== this.esgst.username) return;
     let elements = element.getElementsByClassName(`table__column--width-small`);
     for (let i = 0, n = elements.length; i < n; i++) {
       context.appendChild(elements[0]);
     }
-    this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+    createElements(context, `beforeEnd`, [{
       attributes: {
         class: `table__column--width-small text-center`
       },

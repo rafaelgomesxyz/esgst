@@ -1,6 +1,17 @@
 import Module from '../../class/Module';
 import Checkbox from '../../class/Checkbox';
 import Popout from '../../class/Popout';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    triggerOnEnter,
+    observeChange,
+    observeNumChange
+  } = common
+;
 
 class GiveawaysAdvancedGiveawaySearch extends Module {
   info = ({
@@ -37,7 +48,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       qgs
     };
     context.firstElementChild.remove();
-    obj.input = this.esgst.modules.common.createElements(context, `afterBegin`, [{
+    obj.input = createElements(context, `afterBegin`, [{
       attributes: {
         class: `${qgs ? `esgst-qgs-input` : `sidebar__search-input`}`,
         placeholder: `Search...`,
@@ -47,7 +58,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     }]);
     let icon = obj.input.nextElementSibling;
     icon.classList.add(`esgst-clickable`);
-    icon.title = this.esgst.modules.common.getFeatureTooltip(`ags`, `Use advanced search`);
+    icon.title = getFeatureTooltip(`ags`, `Use advanced search`);
     if (!qgs) {
       let match = location.search.match(/q=(.*?)(&.*?)?$/);
       if (match) {
@@ -55,7 +66,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }
     }
     if (!qgs && ((this.esgst.adots && this.esgst.adots_index === 0) || !this.esgst.adots)) {
-      obj.panel = this.esgst.modules.common.createElements(context, `afterEnd`, [{
+      obj.panel = createElements(context, `afterEnd`, [{
         attributes: {
           class: `esgst-ags-panel`
         },
@@ -171,7 +182,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       this.ags_createFilter(obj, filterDetails[i]);
     }
     obj.input.addEventListener(`keydown`,
-      this.esgst.modules.common.triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
+      triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
     );
     icon.addEventListener(`click`, this.ags_searchQuery.bind(null, obj));
   }
@@ -181,7 +192,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       return;
     }
     if (details.type === `checkbox`) {
-      let element = this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
+      let element = createElements(obj.panel, `beforeEnd`, [{
           attributes: {
             class: `esgst-ags-checkbox-filter`
           },
@@ -195,7 +206,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           element,
           this.esgst[details.key]
         ).input;
-      this.esgst.modules.common.observeChange(filter, details.key, `checked`, `click`);
+      observeChange(filter, details.key, `checked`, `click`);
       obj.filters.push({
         filter: filter,
         key: `checked`,
@@ -215,7 +226,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           type: `option`
          });
       });
-      let element = this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
+      let element = createElements(obj.panel, `beforeEnd`, [{
           attributes: {
             style: `display: block;`
           },
@@ -233,7 +244,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         }]),
         filter = element.firstElementChild.firstElementChild;
       filter.value = this.esgst[details.key];
-      this.esgst.modules.common.observeNumChange(filter, details.key);
+      observeNumChange(filter, details.key);
       obj.filters.push({
         filter: filter,
         key: `value`,
@@ -269,7 +280,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           type: `input`
         }];
       }
-      let element = this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
+      let element = createElements(obj.panel, `beforeEnd`, [{
         type: `div`,
         children: [{
           text: `${details.name} `,
@@ -290,16 +301,16 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }]);
       let maxFilter = element.lastElementChild.lastElementChild;
       maxFilter.value = this.esgst[details.maxKey];
-      this.esgst.modules.common.observeNumChange(maxFilter, details.maxKey);
+      observeNumChange(maxFilter, details.maxKey);
       let minFilter = element.firstElementChild.lastElementChild;
       minFilter.value = this.esgst[details.minKey];
-      this.esgst.modules.common.observeNumChange(minFilter, details.minKey);
+      observeNumChange(minFilter, details.minKey);
       if (details.type === `input`) {
         maxFilter.addEventListener(`keypress`,
-          this.esgst.modules.common.triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
+          triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
         );
         minFilter.addEventListener(`keypress`,
-          this.esgst.modules.common.triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
+          triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
         );
       }
       obj.filters.push({

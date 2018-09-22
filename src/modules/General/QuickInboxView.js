@@ -1,6 +1,19 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request,
+    endless_load
+  } = common
+;
 
 class GeneralQuickInboxView extends Module {
   info = ({
@@ -45,7 +58,7 @@ class GeneralQuickInboxView extends Module {
       if (this.esgst.messageCount > 0) {
         this.qiv_addMarkReadButton();
       }
-      this.esgst.qiv.comments = this.esgst.modules.common.createElements(this.esgst.qiv.popout.popout, `beforeEnd`, [{
+      this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, `beforeEnd`, [{
         attributes: {
           class: `esgst-qiv-comments`
         },
@@ -78,7 +91,7 @@ class GeneralQuickInboxView extends Module {
         if (this.esgst.messageCount > 0) {
           this.qiv_addMarkReadButton();
         }
-        this.esgst.qiv.comments = this.esgst.modules.common.createElements(this.esgst.qiv.popout.popout, `beforeEnd`, [{
+        this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, `beforeEnd`, [{
           attributes: {
             class: `esgst-qiv-comments`
           },
@@ -110,7 +123,7 @@ class GeneralQuickInboxView extends Module {
       const firstPage = this.esgst.qiv.comments.firstElementChild;
       let doContinue = false;
       do {
-        const loading = this.esgst.modules.common.createElements(
+        const loading = createElements(
           this.esgst.qiv.popout.popout,
           first || preload ? `afterBegin` : `beforeEnd`, [{
             type: `span`,
@@ -126,7 +139,7 @@ class GeneralQuickInboxView extends Module {
           }]
         );
         this.esgst.qiv.popout.reposition(this.esgst.inboxButton);
-        const context = utils.parseHtml((await this.esgst.modules.common.request({
+        const context = parseHtml((await request({
           method: `GET`,
           url: `/messages/search?page=${this.esgst.qiv.nextPage}`
         })).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;
@@ -154,7 +167,7 @@ class GeneralQuickInboxView extends Module {
           }
           if (context.children.length) {
             for (const element of comments) {
-              this.esgst.modules.common.createElements(element, `afterBegin`, [{
+              createElements(element, `afterBegin`, [{
                 attributes: {
                   class: `esgst-qiv-new esgst-warning`
                 },
@@ -192,7 +205,7 @@ class GeneralQuickInboxView extends Module {
         }
         if (context.children.length) {
           context.setAttribute(`data-esgst-qiv`, true);
-          await this.esgst.modules.common.endless_load(context);
+          await endless_load(context);
         }
         if (this.esgst.qiv.popout.isOpen) {
           this.esgst.qiv.popout.reposition(this.esgst.inboxButton);
@@ -207,7 +220,7 @@ class GeneralQuickInboxView extends Module {
     let key, url;
     if (this.esgst.qiv.markReadButton) return;
     if (this.esgst.sg) {
-      this.esgst.qiv.markReadButton = this.esgst.modules.common.createElements(this.esgst.qiv.popout.popout, `afterBegin`, [{
+      this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, `afterBegin`, [{
         attributes: {
           class: `sidebar__action-button`
         },
@@ -225,7 +238,7 @@ class GeneralQuickInboxView extends Module {
       key = `read_messages`;
       url = `/messages`;
     } else {
-      this.esgst.qiv.markReadButton = this.esgst.modules.common.createElements(this.esgst.qiv.popout.popout, `afterBegin`, [{
+      this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, `afterBegin`, [{
         attributes: {
           class: `page_heading_btn green`
         },
@@ -244,7 +257,7 @@ class GeneralQuickInboxView extends Module {
       url = `/ajax.php`;
     }
     this.esgst.qiv.markReadButton.addEventListener(`click`, async () => {
-      await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url});
+      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url});
       this.esgst.qiv.markReadButton.remove();
       this.esgst.qiv.markReadButton = null;
       let elements = this.esgst.qiv.comments.querySelectorAll(`.comment__envelope`);

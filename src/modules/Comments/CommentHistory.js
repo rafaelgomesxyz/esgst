@@ -1,5 +1,14 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    createLock
+  } = common
+;
 
 class CommentsCommentHistory extends Module {
   info = ({
@@ -18,12 +27,12 @@ class CommentsCommentHistory extends Module {
 
   ch() {
     new Process({
-      button: this.esgst.modules.common.createElements(this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, [{
+      button: createElements(this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, [{
         attributes: {
           class: `esgst-header-menu-row`,
           [`data-link-id`]: `ch`,
           [`data-link-key`]: `account`,
-          title: this.esgst.modules.common.getFeatureTooltip(`ch`)
+          title: getFeatureTooltip(`ch`)
         },
         type: `div`,
         children: [{
@@ -92,7 +101,7 @@ class CommentsCommentHistory extends Module {
     }];
     if (parent) {
       parent.lastElementChild.remove();
-      this.esgst.modules.common.createElements(parent, `beforeEnd`, [{
+      createElements(parent, `beforeEnd`, [{
         attributes: {
           class: `comment__children comment_children`
         },
@@ -106,7 +115,7 @@ class CommentsCommentHistory extends Module {
       });
     } else {
       if (this.esgst.st) {
-        this.esgst.modules.common.createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+        createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
           attributes: {
             href: response.finalUrl
           },
@@ -145,11 +154,11 @@ class CommentsCommentHistory extends Module {
         }]
       });
     }
-    this.esgst.modules.common.createElements(obj.context, `beforeEnd`, items);
+    createElements(obj.context, `beforeEnd`, items);
   }
 
   async ch_saveComment(id, timestamp) {
-    let deleteLock = await this.esgst.modules.common.createLock(`${this.esgst.name}CommentHistoryLock`, 300);
+    let deleteLock = await createLock(`${this.esgst.name}CommentHistoryLock`, 300);
     let key = `${this.esgst.name}CommentHistory`;
     let comments = JSON.parse(await getValue(key, `[]`));
     comments.unshift({

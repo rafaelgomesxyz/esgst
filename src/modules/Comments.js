@@ -1,4 +1,11 @@
 import Module from '../class/Module';
+import {common} from 'Common';
+
+const
+  {
+    getUser
+  } = common
+;
 
 class Comments extends Module {
   info = ({
@@ -70,7 +77,7 @@ class Comments extends Module {
     comment.outerWrap = comment.comment;
     comment.author = comment.comment.querySelector(`.comment__author, .author_name`).textContent.trim();
     if (this.esgst.uf && savedUsers) {
-      let savedUser = await this.esgst.modules.common.getUser(savedUsers, {
+      let savedUser = await getUser(savedUsers, {
         username: comment.author
       });
       if (savedUser) {

@@ -1,5 +1,26 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    sortArray,
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    getFeatureTooltip,
+    getFeatureNumber,
+    observeNumChange,
+    createResults,
+    getUser,
+    saveUser,
+    getUserId,
+    request
+  } = common
+;
 
 class UsersWhitelistBlacklistChecker extends Module {
 info = ({
@@ -58,7 +79,7 @@ info = ({
     }
     if (!this.esgst.mainPageHeading) return;
     let [icons, title] = !this.esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
-    this.esgst.wbcButton = this.esgst.modules.common.createHeadingButton({id: `wbc`, icons, title});
+    this.esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
     this.wbc_addButton(true, this.esgst.wbcButton);
   }
 
@@ -67,10 +88,10 @@ info = ({
       if (user.saved && user.saved.wbc && !user.context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
         let result = user.saved.wbc.result;
         if ((result === `whitelisted`) || ((result === `blacklisted`) && !this.esgst.wbc_hb)) {
-          this.esgst.modules.common.createElements(user.context, `beforeBegin`, [{
+          createElements(user.context, `beforeBegin`, [{
             attributes: {
               class: `esgst-wbc-icon esgst-user-icon`,
-              title: this.esgst.modules.common.getFeatureTooltip(`wbc`, `${user.username} has ${result} you (last checked ${getTimestamp(user.saved.wbc.lastCheck)})`)
+              title: getFeatureTooltip(`wbc`, `${user.username} has ${result} you (last checked ${getTimestamp(user.saved.wbc.lastCheck)})`)
             },
             type: `span`,
             children: [{
@@ -100,11 +121,11 @@ info = ({
         SteamID64: document.querySelector(`a[href*="/profiles/"]`).href.match(/\d+/)[0],
       };
     }
-    popup.Options = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     if (WBC.User) {
       checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, this.esgst.wbc_checkSingle);
     }
-    let feat = this.esgst.modules.common.getFeatureNumber(`mm`);
+    let feat = getFeatureNumber(`mm`);
     let checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `Use ${feat.number} ${feat.name} to select the users that you want to check. Then click the button 'Check WL/BL' in the Multi-Manager popout and you will be redirected here.`, this.esgst.wbc_checkSelected);
     if (WBC.B) {
       new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, this.esgst.wbc_checkBlacklist);
@@ -143,15 +164,15 @@ info = ({
       if (lastPage !== 999999999) {
         maxPage.setAttribute(`max`, lastPage);
       }
-      this.esgst.modules.common.observeNumChange(minPage, `wbc_minPage`);
-      this.esgst.modules.common.observeNumChange(maxPage, `wbc_maxPage`);
+      observeNumChange(minPage, `wbc_minPage`);
+      observeNumChange(maxPage, `wbc_maxPage`);
     }
     new ToggleSwitch(popup.Options, `wbc_returnWhitelists`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, this.esgst.wbc_returnWhitelists);
     if (WBC.B) {
       new ToggleSwitch(popup.Options, `wbc_returnBlacklists`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, this.esgst.wbc_returnBlacklists);
     }
     new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, this.esgst.wbc_checkNew);
-    this.esgst.modules.common.observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [{
+    observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [{
       text: `Skip users after `,
       type: `node`
     }, {
@@ -232,7 +253,7 @@ info = ({
         }
       }
     }
-    this.esgst.modules.common.createElements(popup.Options, `afterEnd`, [{
+    createElements(popup.Options, `afterEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -258,11 +279,11 @@ info = ({
       }, 500);
       WBCButton.classList.remove(`esgst-busy`);
     }).set);
-    skip = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    WBC.Progress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    WBC.OverallProgress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    popup.Results = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
-    this.esgst.modules.common.createResults(popup.Results, WBC, [{
+    skip = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
+    createResults(popup.Results, WBC, [{
       Icon: `fa fa-heart esgst-whitelist`,
       Description: `You are whitelisted by`,
       Key: `whitelisted`
@@ -287,7 +308,7 @@ info = ({
       if (WBCButton.getAttribute(`data-mm`)) {
         if (!this.esgst.wbc_checkSelected) {
           if (this.esgst.wbc_checkSingle && checkSingleSwitch) {
-            let element = this.esgst.modules.common.createElements(checkSingleSwitch.container, `afterBegin`, [{
+            let element = createElements(checkSingleSwitch.container, `afterBegin`, [{
               attributes: {
                 class: `esgst-bold esgst-red`
               },
@@ -296,7 +317,7 @@ info = ({
             }]);
             setTimeout(() => element.remove(), 5000);
           } else if (this.esgst.wbc_checkAll) {
-            let element = this.esgst.modules.common.createElements(checkAllSwitch.container, `afterBegin`, [{
+            let element = createElements(checkAllSwitch.container, `afterBegin`, [{
               attributes: {
                 class: `esgst-bold esgst-red`
               },
@@ -305,7 +326,7 @@ info = ({
             }]);
             setTimeout(() => element.remove(), 5000);
           } else if (this.esgst.wbc_checkPages) {
-            let element = this.esgst.modules.common.createElements(checkPagesSwitch.container, `afterBegin`, [{
+            let element = createElements(checkPagesSwitch.container, `afterBegin`, [{
               attributes: {
                 class: `esgst-bold esgst-red`
               },
@@ -314,7 +335,7 @@ info = ({
             }]);
             setTimeout(() => element.remove(), 5000);
           }
-          let element = this.esgst.modules.common.createElements(checkSelectedSwitch.container, `afterBegin`, [{
+          let element = createElements(checkSelectedSwitch.container, `afterBegin`, [{
             attributes: {
               class: `esgst-bold esgst-red`
             },
@@ -359,7 +380,7 @@ info = ({
           WBC.Users.push(SavedUsers.users[I].username);
         }
       }
-      WBC.Users = utils.sortArray(WBC.Users);
+      WBC.Users = sortArray(WBC.Users);
       if (WBC.ShowResults) {
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
           let user = {
@@ -399,7 +420,7 @@ info = ({
             callback();
             WBC.manualSkip = true;
           }).set);
-          WBC.Users = utils.sortArray(WBC.Users);
+          WBC.Users = sortArray(WBC.Users);
           this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
         });
       } else {
@@ -407,7 +428,7 @@ info = ({
           callback();
           WBC.manualSkip = true;
         }).set);
-        WBC.Users = utils.sortArray(WBC.Users);
+        WBC.Users = sortArray(WBC.Users);
         this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
     }
@@ -428,7 +449,7 @@ info = ({
           username: User.Username
         };
         let notes, whitelisted, blacklisted, wbc;
-        const savedUser = await this.esgst.modules.common.getUser(null, user);
+        const savedUser = await getUser(null, user);
         if (savedUser) {
           notes = savedUser.notes;
           whitelisted = savedUser.whitelisted;
@@ -496,7 +517,7 @@ info = ({
         }];
       }
       WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
-      this.esgst.modules.common.createElements(WBC[`${Key}Users`], `beforeEnd`, items);
+      createElements(WBC[`${Key}Users`], `beforeEnd`, items);
       if (!WBC.ShowResults) {
         if ((this.esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && this.esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
           if (user.id) {
@@ -513,11 +534,11 @@ info = ({
                 user.values[wbc.result] = true;
                 user.values[`${wbc.result}Date`] = Date.now();
               }
-              await this.esgst.modules.common.saveUser(null, null, user);
+              await saveUser(null, null, user);
               setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           } else {
-            await this.esgst.modules.common.getUserId(user);
+            await getUserId(user);
             this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
@@ -531,7 +552,7 @@ info = ({
                 user.values[wbc.result] = true;
                 user.values[`${wbc.result}Date`] = Date.now();
               }
-              await this.esgst.modules.common.saveUser(null, null, user);
+              await saveUser(null, null, user);
               setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           }
@@ -539,13 +560,13 @@ info = ({
           user.values = {
             wbc: this.wbc
           };
-          await this.esgst.modules.common.saveUser(null, null, user);
+          await saveUser(null, null, user);
           setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else if (New) {
           user.values = {
             wbc: null
           };
-          await this.esgst.modules.common.saveUser(null, null, user);
+          await saveUser(null, null, user);
           setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else {
           setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
@@ -559,7 +580,7 @@ info = ({
     if (!WBC.Canceled) {
       Key = this.wbc.result;
       Type = Key.match(/(.+)ed/)[1];
-      this.esgst.modules.common.createElements(WBC.Progress, `inner`, [{
+      createElements(WBC.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -581,7 +602,7 @@ info = ({
         Callback(true, notes);
       } else {
         let success = false;
-        if (JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, method: `POST`, queue: true, url: `/ajax.php`})).responseText).type === `success`) {
+        if (JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, method: `POST`, queue: true, url: `/ajax.php`})).responseText).type === `success`) {
           success = true;
           if (this.esgst.wbc_n) {
             let msg = `${Key} in return.`;
@@ -658,7 +679,7 @@ info = ({
     if (obj.Canceled) {
       return;
     }
-    let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`})).responseText);
+    let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`})).responseText);
     let errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
     let stop;
     if (errorMessage) {
@@ -721,13 +742,13 @@ info = ({
       if (currentPage === nextPage) {
         context = document;
       } else {
-        const response = await this.esgst.modules.common.request({
+        const response = await request({
           method: `GET`,
           queue: true,
           url: `${url}${nextPage}`
         });
         if (response.finalUrl.match(/\/user\//)) {
-          context = utils.parseHtml(response.responseText);
+          context = parseHtml(response.responseText);
         } else {
           isStopped = true;
           break;
@@ -737,7 +758,7 @@ info = ({
         obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, false, false, true);
         obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
       }
-      this.esgst.modules.common.createElements(obj.Progress, `inner`, [{
+      createElements(obj.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -822,7 +843,7 @@ info = ({
     const n = groupGiveaways.length;
     for (let i = 0; i < n; i++) {
       const groupGiveaway = groupGiveaways[i];
-      this.esgst.modules.common.createElements(obj.Progress, `inner`, [{
+      createElements(obj.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch`
         },
@@ -849,12 +870,12 @@ info = ({
     let nextPage = 1;
     let url = `/giveaway/${groupGiveaway}/_/groups/search?page=`;
     do {
-      const response = await this.esgst.modules.common.request({
+      const response = await request({
         method: `GET`,
         queue: true,
         url: `${url}${nextPage}`
       });
-      const context = utils.parseHtml(response.responseText);
+      const context = parseHtml(response.responseText);
       const groups = context.getElementsByClassName(`table__column__heading`);
       const n = groups.length;
       if (n < 1) {
@@ -891,7 +912,7 @@ info = ({
         WBC.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(Context, true);
         WBC.lastPage = WBC.lastPage === 999999999 ? `` : ` of ${WBC.lastPage}`;
       }
-      this.esgst.modules.common.createElements(WBC.Progress, `inner`, [{
+      createElements(WBC.Progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -920,7 +941,7 @@ info = ({
       if (!this.esgst.wbc_checkPages || NextPage <= this.esgst.wbc_maxPage) {
         NextPage += 1;
         if (CurrentPage != NextPage) {
-          setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
+          setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
         } else {
           setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.esgst.pageOuterWrap), 0);
         }

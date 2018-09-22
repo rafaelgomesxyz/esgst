@@ -1,5 +1,12 @@
 import Module from '../../class/Module';
 import Button from '../../class/Button';
+import {common} from '../Common';
+
+const
+  {
+    lockAndSaveGroups
+  } = common
+;
 
 class GiveawaysStickiedGiveawayGroups extends Module {
   info = ({
@@ -112,7 +119,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
     if (id) {
       groups[code].id = id;
     }
-    await this.esgst.modules.common.lockAndSaveGroups(groups);
+    await lockAndSaveGroups(groups);
     return true;
   }
 
@@ -129,7 +136,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
     if (id) {
       groups[code].id = id;
     }
-    await this.esgst.modules.common.lockAndSaveGroups(groups);
+    await lockAndSaveGroups(groups);
     return true;
   }
 }

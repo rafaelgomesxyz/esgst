@@ -1,7 +1,20 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popout';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    endless_load,
+    request
+  } = common
+;
 
 class GiveawaysGiveawayCountryLoader extends Module {
   info = ({
@@ -101,7 +114,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                 container = context.popout;
                 context.open(giveaway.regionRestricted);
               }
-              this.esgst.modules.common.createElements(container, `inner`, [{
+              createElements(container, `inner`, [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
@@ -112,7 +125,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
               }]);
               const countries = await this.gcl_getCountries(1, `${giveaway.url}/region-restrictions/search?page=`);
               if (countries) {
-                this.esgst.modules.common.createElements(container, `inner`, [{
+                createElements(container, `inner`, [{
                   attributes: {
                     placeholder: `Search country...`,
                     type: `text`
@@ -153,9 +166,9 @@ class GiveawaysGiveawayCountryLoader extends Module {
                 for (const country of countries) {
                   container.lastElementChild.firstElementChild.appendChild(country);
                 }
-                await this.esgst.modules.common.endless_load(container);
+                await endless_load(container);
                 if (this.esgst.gcl_index === 1) {
-                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
+                  createElements(container, `afterBegin`, [{
                     attributes: {
                       class: `esgst-ggl-heading`,
                       href: `${giveaway.url}/region-restrictions`
@@ -166,7 +179,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                 }
                 context.reposition();
               } else {
-                this.esgst.modules.common.createElements(container, `inner`, [{
+                createElements(container, `inner`, [{
                   attributes: {
                     class: `fa fa-times-circle`
                   },
@@ -176,7 +189,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                   type: `span`
                 }]);
                 if (this.esgst.gcl_index === 1) {
-                  this.esgst.modules.common.createElements(container, `afterBegin`, [{
+                  createElements(container, `afterBegin`, [{
                     attributes: {
                       class: `esgst-ggl-heading`,
                       href: `${giveaway.url}/region-restrictions`
@@ -206,7 +219,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
     const countries = [];
     let pagination = null;
     do {
-      const responseHtml = utils.parseHtml((await this.esgst.modules.common.request({
+      const responseHtml = parseHtml((await request({
         method: `GET`,
         url: `${url}${nextPage}`
       })).responseText);

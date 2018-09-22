@@ -1,5 +1,12 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
+import {common} from '../Common';
+
+const
+  {
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysGiveawayPopup extends Module {
   info = ({
@@ -29,18 +36,18 @@ class GiveawaysGiveawayPopup extends Module {
             if (error) {
               buttonSet.firstElementChild.classList.remove(`form__saving-button`, `grey`);
               buttonSet.firstElementChild.classList.add(`sidebar__error`, `red`);
-              buttonSet.title = this.esgst.modules.common.getFeatureTooltip(`gp`, `Could not access giveaway`);
+              buttonSet.title = getFeatureTooltip(`gp`, `Could not access giveaway`);
             } else if (buttonSet.firstElementChild.classList.contains(`sidebar__error`)) {
               buttonSet.firstElementChild.classList.remove(`sidebar__error`, `red`);
               buttonSet.firstElementChild.classList.add(`form__saving-button`, `grey`);
-              buttonSet.title = this.esgst.modules.common.getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
+              buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
             }
             callback();
           });
         }).set;
         buttonSet.classList.add(`esgst-gp-button`);
         buttonSet.setAttribute(`data-draggable-id`, `gp`);
-        buttonSet.title = this.esgst.modules.common.getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
+        buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
         giveaway.panel.appendChild(buttonSet);
       }
     });

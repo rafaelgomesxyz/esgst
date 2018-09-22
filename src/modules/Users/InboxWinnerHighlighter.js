@@ -4,6 +4,14 @@ import {common} from '../Common';
 const
   {getValue, setValue} = common
 ;
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class UsersInboxWinnerHighlighter extends Module {
 info = ({
@@ -63,10 +71,10 @@ info = ({
           Context = Matches[I].getElementsByClassName(`comment__username`)[0];
           Username = Context.textContent;
           if (Winners[Key].indexOf(Username) >= 0) {
-            this.esgst.modules.common.createElements(Context, `afterEnd`, [{
+            createElements(Context, `afterEnd`, [{
               attributes: {
                 class: `fa fa-trophy esgst-iwh-icon`,
-                title: this.esgst.modules.common.getFeatureTooltip(`iwh`, `This is the winner or one of the winners of this giveaway`)
+                title: getFeatureTooltip(`iwh`, `This is the winner or one of the winners of this giveaway`)
               },
               type: `i`
             }]);

@@ -1,6 +1,23 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import CompletionCheck from '../../class/CompletionCheck';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    request,
+    reverseComments,
+    endless_load,
+    checkMissingDiscussions,
+    animateScroll
+  } = common
+;
 
 class GeneralEndlessScrolling extends Module {
   info = ({
@@ -186,15 +203,15 @@ class GeneralEndlessScrolling extends Module {
       }
       es.mainContext.children[i].classList.add(`esgst-es-page-${es.currentPage}`);
     }
-    es.nextButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
-    es.continuousButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esContinuous`, icons: [`fa-fast-forward`], title: `Continuously load pages`});
+    es.nextButton = createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
+    es.continuousButton = createHeadingButton({featureId: `es`, id: `esContinuous`, icons: [`fa-fast-forward`], title: `Continuously load pages`});
     if (es.ended) {
       es.continuousButton.classList.add(`esgst-hidden`);
     }
-    es.pauseButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esPause`, icons: [`fa-pause`], title: `Pause the endless scrolling`});
-    es.resumeButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
-    es.refreshButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
-    es.refreshAllButton = this.esgst.modules.common.createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
+    es.pauseButton = createHeadingButton({featureId: `es`, id: `esPause`, icons: [`fa-pause`], title: `Pause the endless scrolling`});
+    es.resumeButton = createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
+    es.refreshButton = createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
+    es.refreshAllButton = createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
     esgst.es_refresh = this.es_refresh.bind(null, es);
     es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
     this.esgst.es_refreshAll = this.es_refreshAll.bind(null, es);
@@ -206,7 +223,7 @@ class GeneralEndlessScrolling extends Module {
     if (this.esgst.paginationNavigation) {
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
       if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-        this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
+        createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);
     }
@@ -237,7 +254,7 @@ class GeneralEndlessScrolling extends Module {
     if (!this.esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step))) && (!es.isLimited || es.limitCount > 0)) {
       es.limitCount -= 1;
       es.busy = true;
-      es.progress = this.esgst.modules.common.createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
+      es.progress = createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
         attributes: {
           class: `esgst-bold`
         },
@@ -252,14 +269,14 @@ class GeneralEndlessScrolling extends Module {
           type: `node`
         }]
       }]);
-      this.es_getNext(es, false, false, callback, await this.esgst.modules.common.request({method: `GET`, url: `${this.esgst.searchUrl}${es.nextPage}`}));
+      this.es_getNext(es, false, false, callback, await request({method: `GET`, url: `${this.esgst.searchUrl}${es.nextPage}`}));
     } else if (callback && typeof callback === `function`) {
       callback();
     }
   }
 
   async es_getNext(es, refresh, refreshAll, callback, response) {
-    let pagination = utils.parseHtml(response.responseText).getElementsByClassName(`pagination`)[0],
+    let pagination = parseHtml(response.responseText).getElementsByClassName(`pagination`)[0],
       context = pagination.previousElementSibling,
       rows = context.getElementsByClassName(`table__rows`)[0];
     if (rows) {
@@ -268,7 +285,7 @@ class GeneralEndlessScrolling extends Module {
     let paginationNavigation = pagination.getElementsByClassName(this.esgst.paginationNavigationClass)[0];
     if (es.reversePages) {
       es.paginations[0] = paginationNavigation.innerHTML;
-      this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(es.paginations[0]).body.childNodes).map(x => {
+      createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(es.paginations[0]).body.childNodes).map(x => {
         return {
           context: x
         };
@@ -276,7 +293,7 @@ class GeneralEndlessScrolling extends Module {
       if (this.esgst.paginationNavigation) {
         let lastLink = this.esgst.paginationNavigation.lastElementChild;
         if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-          this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
+          createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
         }
         this.es_setPagination(es);
       }
@@ -298,7 +315,7 @@ class GeneralEndlessScrolling extends Module {
     }
     let fragment = document.createDocumentFragment();
     if (this.esgst.cr && this.esgst.discussionPath) {
-      this.esgst.modules.common.reverseComments(context);
+      reverseComments(context);
     }
     let n = context.children.length;
     const currentPage = refresh ? refreshAll || es.pageIndex : es.nextPage;
@@ -319,7 +336,7 @@ class GeneralEndlessScrolling extends Module {
       element.remove();
       if (!refreshAll) {
         this.es_purgeRemovedElements();
-        await this.esgst.modules.common.endless_load(es.mainContext, true, null, currentPage);
+        await endless_load(es.mainContext, true, null, currentPage);
         this.es_setRemoveEntry(es.mainContext);
         if (this.esgst.gf && this.esgst.gf.filteredCount) {
           this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.gf);
@@ -339,7 +356,7 @@ class GeneralEndlessScrolling extends Module {
         es.check.count += 1;
       } else {
         es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
-        this.esgst.modules.common.createElements(es.refreshButton, `inner`, [{
+        createElements(es.refreshButton, `inner`, [{
           attributes: {
             class: `fa fa-refresh`
           },
@@ -353,7 +370,7 @@ class GeneralEndlessScrolling extends Module {
       }
     } else {
       if (es.divisors) {
-        this.esgst.modules.common.createElements(es.mainContext, `beforeEnd`, [{
+        createElements(es.mainContext, `beforeEnd`, [{
           attributes: {
             class: `esgst-page-heading esgst-es-page-divisor`
           },
@@ -375,7 +392,7 @@ class GeneralEndlessScrolling extends Module {
       }
       es.mainContext.appendChild(fragment);
       es.observer.observe(es.mainContext.lastElementChild);
-      await this.esgst.modules.common.endless_load(es.mainContext, true, null, currentPage);
+      await endless_load(es.mainContext, true, null, currentPage);
       this.es_setRemoveEntry(es.mainContext);
       if (this.esgst.ts && !this.esgst.us) {
         this.esgst.modules.generalTableSorter.ts_sortTables();
@@ -452,14 +469,14 @@ class GeneralEndlessScrolling extends Module {
   es_changePagination(es, index) {
     const pagination = es.paginations[index - 1];
     if (pagination && this.esgst.paginationNavigation.innerHTML !== pagination) {
-      this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(pagination).body.childNodes).map(x => {
+      createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(pagination).body.childNodes).map(x => {
         return {
           context: x
         };
       }))]);
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
       if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-        this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
+        createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);
     }
@@ -467,7 +484,7 @@ class GeneralEndlessScrolling extends Module {
 
   async es_stepNext(es) {
     if (es.step) return;
-    this.esgst.modules.common.createElements(es.nextButton, `inner`, [{
+    createElements(es.nextButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -483,7 +500,7 @@ class GeneralEndlessScrolling extends Module {
       } else {
         await this.es_resume(es);
       }
-      this.esgst.modules.common.createElements(es.nextButton, `inner`, [{
+      createElements(es.nextButton, `inner`, [{
         attributes: {
           class: `fa fa-step-forward`
         },
@@ -494,7 +511,7 @@ class GeneralEndlessScrolling extends Module {
 
   async es_continuouslyLoad(es) {
     if (es.continuous) return;
-    this.esgst.modules.common.createElements(es.continuousButton, `inner`, [{
+    createElements(es.continuousButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -516,7 +533,7 @@ class GeneralEndlessScrolling extends Module {
       } else {
         await this.es_resume(es);
       }
-      this.esgst.modules.common.createElements(es.continuousButton, `inner`, [{
+      createElements(es.continuousButton, `inner`, [{
         attributes: {
           class: `fa fa-fast-forward`
         },
@@ -533,7 +550,7 @@ class GeneralEndlessScrolling extends Module {
       await setValue(`esPause`, es.paused);
     }
     es.continuous = false;
-    this.esgst.modules.common.createElements(es.continuousButton, `inner`, [{
+    createElements(es.continuousButton, `inner`, [{
       attributes: {
         class: `fa fa-fast-forward`
       },
@@ -555,39 +572,39 @@ class GeneralEndlessScrolling extends Module {
 
   async es_refresh(es) {
     es.refreshButton.removeEventListener(`click`, this.esgst.es_refresh);
-    this.esgst.modules.common.createElements(es.refreshButton, `inner`, [{
+    createElements(es.refreshButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    let response = await this.esgst.modules.common.request({method: `GET`, url: `${this.esgst.searchUrl}${es.pageIndex}`});
+    let response = await request({method: `GET`, url: `${this.esgst.searchUrl}${es.pageIndex}`});
     this.es_getNext(es, true, false, null, response);
     if (this.esgst.giveawaysPath && this.esgst.es_rd) {
       if (this.esgst.oadd) {
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {
-        this.esgst.modules.common.checkMissingDiscussions(true);
+        checkMissingDiscussions(true);
       }
     }
     if (this.esgst.pinnedGiveaways) {
-      this.esgst.modules.common.createElements(this.esgst.pinnedGiveaways, `inner`, [...(Array.from(parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].childNodes).map(x => {
+      createElements(this.esgst.pinnedGiveaways, `inner`, [...(Array.from(parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].childNodes).map(x => {
         return {
           context: x
         };
       }))]);
-      await this.esgst.modules.common.endless_load(this.esgst.pinnedGiveaways, true);
+      await endless_load(this.esgst.pinnedGiveaways, true);
       this.esgst.modules.giveawaysPinnedGiveawaysButton.pgb();
     }
     if (!this.esgst.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(hr_getCache());
     }
   }
 
   async es_refreshAll(es) {
     es.refreshAllButton.removeEventListener(`click`, this.esgst.es_refreshAll);
-    this.esgst.modules.common.createElements(es.refreshAllButton, `inner`, [{
+    createElements(es.refreshAllButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -595,10 +612,10 @@ class GeneralEndlessScrolling extends Module {
     }]);
     es.check = new CompletionCheck(es.paginations.length, async () => {
       this.es_purgeRemovedElements();
-      await this.esgst.modules.common.endless_load(es.mainContext, true);
+      await endless_load(es.mainContext, true);
       this.es_setRemoveEntry(es.mainContext);
       es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
-      this.esgst.modules.common.createElements(es.refreshAllButton, `inner`, [{
+      createElements(es.refreshAllButton, `inner`, [{
         attributes: {
           class: `fa fa-refresh`
         },
@@ -620,28 +637,28 @@ class GeneralEndlessScrolling extends Module {
         if (this.esgst.oadd) {
           this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
         } else {
-          this.esgst.modules.common.checkMissingDiscussions(true);
+          checkMissingDiscussions(true);
         }
       }
       if (this.esgst.pinnedGiveaways) {
-        this.esgst.modules.common.createElements(this.esgst.pinnedGiveaways, `inner`, [...(Array.from(parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].childNodes).map(x => {
+        createElements(this.esgst.pinnedGiveaways, `inner`, [...(Array.from(parseHtml(response.responseText).getElementsByClassName(`pinned-giveaways__outer-wrap`)[0].childNodes).map(x => {
           return {
             context: x
           };
         }))]);
-        await this.esgst.modules.common.endless_load(this.esgst.pinnedGiveaways, true);
+        await endless_load(this.esgst.pinnedGiveaways, true);
         this.esgst.modules.giveawaysPinnedGiveawaysButton.pgb();
       }
     });
     let page = es.reverseScrolling ? es.pageBase - 1 : es.pageBase + 1,
-      response = await this.esgst.modules.common.request({method: `GET`, url: `${this.esgst.searchUrl}${page}`});
+      response = await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`});
     this.es_getNext(es, true, page, null, response);
     for (let i = 1; i < es.check.total; ++i) {
       page = es.reverseScrolling ? es.pageBase - (i + 1) : es.pageBase + (i + 1);
-      this.es_getNext(es, true, page, null, await this.esgst.modules.common.request({method: `GET`, url: `${this.esgst.searchUrl}${page}`}));
+      this.es_getNext(es, true, page, null, await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`}));
     }
     if (!this.esgst.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await this.esgst.modules.common.request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(hr_getCache());
     }
   }
@@ -658,7 +675,7 @@ class GeneralEndlessScrolling extends Module {
     let page = parseInt(event.currentTarget.getAttribute(`data-page-number`)),
       element = document.querySelector(`.esgst-es-page-${page}:not(.esgst-hidden)`);
     if (element) {
-      this.esgst.modules.common.animateScroll(element.offsetTop, () => {
+      animateScroll(element.offsetTop, () => {
         this.es_changePagination(es, page);
       });
     } else {
@@ -689,7 +706,7 @@ class GeneralEndlessScrolling extends Module {
           Data += `${Values[I].getAttribute(`name`)}=${Values[I].value}${I < (N - 1) ? `&` : ``}`;
         }
         Loading.classList.toggle(`is-hidden`);
-        let responseJson = JSON.parse((await this.esgst.modules.common.request({data: Data, method: `POST`, url: `/ajax.php`})).responseText);
+        let responseJson = JSON.parse((await request({data: Data, method: `POST`, url: `/ajax.php`})).responseText);
         if (responseJson.type === `success`) {
           Context.classList.add(`is-faded`);
           Complete.classList.toggle(`is-hidden`);

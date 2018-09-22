@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    getTimeSince,
+    endless_load
+  } = common
+;
 
 class CommentsReplyFromInbox extends Module {
   info = ({
@@ -82,12 +95,12 @@ class CommentsReplyFromInbox extends Module {
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          this.esgst.modules.common.createElements(children, `beforeEnd`, [{
-            context: utils.parseHtml(saved[id][j].reply).body.firstElementChild
-          }]).querySelector(`[data-timestamp]`).textContent = this.esgst.modules.common.getTimeSince(saved[id][j].timestamp);
+          createElements(children, `beforeEnd`, [{
+            context: parseHtml(saved[id][j].reply).body.firstElementChild
+          }]).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
         }
         children.setAttribute(`data-rfi`, true);
-        await this.esgst.modules.common.endless_load(children, false, null, false, endless);
+        await endless_load(children, false, null, false, endless);
         children.removeAttribute(`data-rfi`);
       }
     }

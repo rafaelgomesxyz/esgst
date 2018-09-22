@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request,
+    createLock
+  } = common
+;
 
 class GiveawaysIsThereAnyDealInfo extends Module {
   info = ({
@@ -40,7 +53,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     if (game && game.itadi && game.itadi.version === 2 && (currentTime - game.itadi.lastCheck < 86400000)) {
       itadi = game.itadi;
     } else {
-      const loading = this.esgst.modules.common.createElements(this.esgst.sidebar, `beforeEnd`, [{
+      const loading = createElements(this.esgst.sidebar, `beforeEnd`, [{
         attributes: {
           class: `sidebar__heading`
         },
@@ -69,12 +82,12 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       lastCheck: Date.now(),
       version: 2
     };
-    const response = await this.esgst.modules.common.request({
+    const response = await request({
       method: `GET`,
       queue: true,
       url: `https://isthereanydeal.com/game/${plain}/info/`
     });
-    const html = utils.parseHtml(response.responseText);
+    const html = parseHtml(response.responseText);
     const deals = html.querySelectorAll(`#gh-po tr`);
     for (const deal of deals) {
       const match = deal.firstElementChild.textContent.trim().match(/(Current\sBest|Historical\sLow)/);
@@ -99,7 +112,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
         source: bundle.querySelector(`.shopTitle`).textContent.trim()
       });
     }
-    const deleteLock = await this.esgst.modules.common.createLock(`gameLock`, 300);
+    const deleteLock = await createLock(`gameLock`, 300);
     const games = JSON.parse(await getValue(`games`));
     if (!games[giveaway.type][giveaway.id]) {
       games[giveaway.type][giveaway.id] = {};
@@ -190,7 +203,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     } else {
       items[5].children.push(this.itadi_noItemTemplate(`This game has never been in a bundle.`));
     }
-    this.esgst.modules.common.createElements(this.esgst.sidebar, `beforeEnd`, items);
+    createElements(this.esgst.sidebar, `beforeEnd`, items);
   }
 
   itadi_getPlain(name) {

@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    createConfirmation,
+    request
+  } = common
+;
 
 class GiveawaysDeleteKeyConfirmation extends Module {
   info = ({
@@ -23,7 +32,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .form__key-btn-delete, .esgst-es-page-${endless}.form__key-btn-delete` : `.form__key-btn-delete`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       const element = elements[i];
-      const newElement = this.esgst.modules.common.createElements(element, `afterEnd`, [{
+      const newElement = createElements(element, `afterEnd`, [{
         attributes: {
           class: `table__column__secondary-link esgst-clickable`
         },
@@ -31,7 +40,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
         type: `span`
       }]);
       element.remove();
-      newElement.addEventListener(`click`, this.esgst.modules.common.createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(null, newElement), null));
+      newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(null, newElement), null));
     }
   }
 
@@ -41,7 +50,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     row.getElementsByClassName(`form__key-loading`)[0].classList.remove(`is-hidden`);
     row.querySelector(`[name="key_value"]`).value = ``;
     row.getElementsByClassName(`form__key-value`)[0].textContent = ``;
-    await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`, method: `POST`, url: `/ajax.php`});
+    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`, method: `POST`, url: `/ajax.php`});
     row.getElementsByClassName(`form__key-loading`)[0].classList.add(`is-hidden`);
     row.getElementsByClassName(`form__key-insert`)[0].classList.remove(`is-hidden`);
     row.getElementsByClassName(`js__sent-text`)[0].textContent = `Sent Gift`;

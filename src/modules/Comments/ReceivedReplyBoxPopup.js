@@ -1,6 +1,14 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    saveComment
+  } = common
+;
 
 class CommentsReceivedReplyBoxPopup extends Module {
   info = ({
@@ -33,7 +41,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
   rrbp_openPopup(giveaway) {
     let popup, progress, textArea;
     popup = new Popup(`fa-comment`, `Add a comment:`);
-    textArea = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    textArea = createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
     if (this.esgst.cfh) {
@@ -41,11 +49,11 @@ class CommentsReceivedReplyBoxPopup extends Module {
     }
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, callback => {
       progress.innerHTML = ``;
-      this.esgst.modules.common.saveComment(``, ``, textArea.value, giveaway.url, progress, callback, () => {
+      saveComment(``, ``, textArea.value, giveaway.url, progress, callback, () => {
         popup.close();
       });
     }).set);
-    progress = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     popup.open(() => {
       textArea.focus();
     });

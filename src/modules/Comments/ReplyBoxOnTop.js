@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class CommentsReplyBoxOnTop extends Module {
   info = ({
@@ -25,7 +32,7 @@ class CommentsReplyBoxOnTop extends Module {
       }
       return;
     }
-    let box = this.esgst.modules.common.createElements(element, `afterEnd`, [{
+    let box = createElements(element, `afterEnd`, [{
       attributes: {
         class: `esgst-rbot`
       },

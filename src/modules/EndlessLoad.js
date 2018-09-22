@@ -1,4 +1,11 @@
 import Module from '../class/Module';
+import {common} from 'Common';
+
+const
+  {
+    endless_load
+  } = common
+;
 
 class EndlessLoad extends Module {
 info = ({
@@ -9,7 +16,7 @@ info = ({
 
 async endlessLoad() {    
   if (!this.esgst.menuPath) {
-    await this.esgst.modules.common.endless_load(document, true);
+    await endless_load(document, true);
   }
 }
 }

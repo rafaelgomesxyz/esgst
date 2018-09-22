@@ -1,5 +1,20 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml,
+    sortArray
+  } = utils,
+  {
+    createElements,
+    getFeatureTooltip,
+    request,
+    endless_load
+  } = common
+;
 
 class UsersSharedGroupChecker extends Module {
 info = ({
@@ -24,10 +39,10 @@ info = ({
       // no point in checking which groups a user shares with themselves
       return;
     }
-    profile.sgcButton = this.esgst.modules.common.createElements(profile.heading, `beforeEnd`, [{
+    profile.sgcButton = createElements(profile.heading, `beforeEnd`, [{
       attributes: {
         class: `esgst-sgc-button`,
-        title: this.esgst.modules.common.getFeatureTooltip(`sgc`, `Check shared groups`)
+        title: getFeatureTooltip(`sgc`, `Check shared groups`)
       },
       type: `a`,
       children: [{
@@ -45,7 +60,7 @@ info = ({
       profile.sgcPopup.open();
     } else {
       profile.sgcPopup = new Popup(`fa-users`, `Shared Groups`);
-      profile.sgcProgress = this.esgst.modules.common.createElements(profile.sgcPopup.description, `beforeEnd`, [{
+      profile.sgcProgress = createElements(profile.sgcPopup.description, `beforeEnd`, [{
         type: `div`,
         children: [{
           attributes: {
@@ -57,7 +72,7 @@ info = ({
           type: `span`
         }]
       }]);
-      profile.sgcResults = this.esgst.modules.common.createElements(profile.sgcPopup.scrollable, `beforeEnd`, [{
+      profile.sgcResults = createElements(profile.sgcPopup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `esgst-sgc-results esgst-glwc-results esgst-text-left`
         },
@@ -140,12 +155,12 @@ info = ({
   async sgc_load(profile) {
     const publicGroups = [];
     const privateGroups = [];
-    let response = await this.esgst.modules.common.request({method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups/common`});
-    let responseHtml = utils.parseHtml(response.responseText);
+    let response = await request({method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups/common`});
+    let responseHtml = parseHtml(response.responseText);
     let isLoggedIn = true;
     if (!responseHtml.getElementById(`groups_list`)) {
-      response = await this.esgst.modules.common.request({method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups`});
-      responseHtml = utils.parseHtml(response.responseText);
+      response = await request({method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups`});
+      responseHtml = parseHtml(response.responseText);
       isLoggedIn = false;
     }
     const elements = responseHtml.getElementsByClassName(`group_block`);
@@ -201,23 +216,23 @@ info = ({
     const n2 = privateGroups.length;
     if (n1 || n2) {
       if (n1 > 0) {
-        utils.sortArray(publicGroups, false, `name`).map(x => {
-          this.esgst.modules.common.createElements(profile.sgcPublicResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
+        sortArray(publicGroups, false, `name`).map(x => {
+          createElements(profile.sgcPublicResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
         });
         profile.sgcPublic.classList.remove(`esgst-hidden`);
       } else {
-        this.esgst.modules.common.createElements(profile.sgcPublic, `outer`, [{
+        createElements(profile.sgcPublic, `outer`, [{
           text: `No shared public groups found.`,
           type: `div`
         }]);
       }
       if (n2 > 0) {
-        utils.sortArray(privateGroups, false, `name`).map(x => {
-          this.esgst.modules.common.createElements(profile.sgcPrivateResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
+        sortArray(privateGroups, false, `name`).map(x => {
+          createElements(profile.sgcPrivateResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
         });
         profile.sgcPrivate.classList.remove(`esgst-hidden`);
       } else {
-        this.esgst.modules.common.createElements(profile.sgcPrivate, `outer`, [{
+        createElements(profile.sgcPrivate, `outer`, [{
           text: `No shared private groups found.`,
           type: `div`
         }]);
@@ -225,12 +240,12 @@ info = ({
       profile.sgcProgress.remove();
       profile.sgcProgress = null;
     } else {
-      this.esgst.modules.common.createElements(profile.sgcProgress, `inner`, [{
+      createElements(profile.sgcProgress, `inner`, [{
         text: `No shared groups found.`,
         type: `node`
       }]);
     }
-    this.esgst.modules.common.endless_load(profile.sgcResults);
+    endless_load(profile.sgcResults);
   }
 }
 

@@ -1,6 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Popout from "../../class/Popout";
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request
+  } = common
+;
 
 class GeneralAvatarPopout extends Module {
   info = ({
@@ -88,7 +100,7 @@ class GeneralAvatarPopout extends Module {
               }
             } else {
               this.esgst.apPopouts[id] = popout = new Popout(`esgst-ap-popout`, null, 1000, onClick);
-              this.esgst.modules.common.createElements(popout.popout, `inner`, [{
+              createElements(popout.popout, `inner`, [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
@@ -99,11 +111,11 @@ class GeneralAvatarPopout extends Module {
               }]);
               popout.open(apAvatar);
               let avatar, columns, i, link, n, reportButton, responseHtml, table;
-              responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url})).responseText);
+              responseHtml = parseHtml((await request({method: `GET`, url})).responseText);
               popout.popout.innerHTML = ``;
               popout.popout.appendChild(responseHtml.getElementsByClassName(`featured__outer-wrap`)[0]);
               avatar = popout.popout.getElementsByClassName(`global__image-outer-wrap--avatar-large`)[0];
-              link = this.esgst.modules.common.createElements(avatar, `afterEnd`, [{
+              link = createElements(avatar, `afterEnd`, [{
                 attributes: {
                   class: `esgst-ap-link`
                 },
@@ -125,7 +137,7 @@ class GeneralAvatarPopout extends Module {
               }
               const suspension = responseHtml.getElementsByClassName(`sidebar__suspension`)[0];
               if (suspension) {
-                this.esgst.modules.common.createElements(columns[0], `beforeEnd`, [{
+                createElements(columns[0], `beforeEnd`, [{
                   attributes: {
                     class: `esgst-ap-suspended featured__table__row`
                   },

@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    sortContent,
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GeneralTableSorter extends Module {
   info = ({
@@ -34,7 +43,7 @@ class GeneralTableSorter extends Module {
     for (i = this.esgst.tsTables.length - 1; i > -1; --i) {
       tsTable = this.esgst.tsTables[i];
       if (tsTable.columnName) {
-        this.esgst.modules.common.sortContent(this.ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
+        sortContent(this.ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
       }
     }
   }
@@ -56,7 +65,7 @@ class GeneralTableSorter extends Module {
       let column = columns[i];
       columnName = column.textContent.trim();
       if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!this.esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
-        button = this.esgst.modules.common.createElements(column, `beforeEnd`, [{
+        button = createElements(column, `beforeEnd`, [{
           attributes: {
             class: `esgst-ts-button esgst-clickable`
           },
@@ -68,10 +77,10 @@ class GeneralTableSorter extends Module {
   }
 
   ts_addAscButton(button, columnName, i, table, tsTable) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-sort-desc`,
-        title: `${this.esgst.modules.common.getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
+        title: `${getFeatureTooltip(`ts`, `Currently sorted descending. Click to sort ascending.`)}`
       },
       type: `i`
     }]);
@@ -79,10 +88,10 @@ class GeneralTableSorter extends Module {
   }
 
   ts_addDescButton(button, columnName, i, table, tsTable) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-sort`,
-        title: `${this.esgst.modules.common.getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
+        title: `${getFeatureTooltip(`ts`, `Currently sorted by default. Click to sort descending.`)}`
       },
       type: `i`
     }]);
@@ -90,10 +99,10 @@ class GeneralTableSorter extends Module {
   }
 
   ts_addDefButton(button, columnName, i, table, tsTable) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-sort-asc`,
-        title: `${this.esgst.modules.common.getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
+        title: `${getFeatureTooltip(`ts`, `Currently sorted ascending. Click to sort by default.`)}`
       },
       type: `i`
     }]);
@@ -106,13 +115,13 @@ class GeneralTableSorter extends Module {
     tsTable.key = key === `def` ? `sortIndex` : `value`;
     tsTable.name = key;
     if (key === `desc`) {
-      this.esgst.modules.common.sortContent(this.ts_getArray(columnName, i, table), null, `value_${key}`);
+      sortContent(this.ts_getArray(columnName, i, table), null, `value_${key}`);
       this.ts_addAscButton(button, columnName, i, table, tsTable);
     } else if (key === `asc`) {
-      this.esgst.modules.common.sortContent(this.ts_getArray(columnName, i, table), null, `value_${key}`);
+      sortContent(this.ts_getArray(columnName, i, table), null, `value_${key}`);
       this.ts_addDefButton(button, columnName, i, table, tsTable);
     } else {
-      this.esgst.modules.common.sortContent(this.ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+      sortContent(this.ts_getArray(columnName, i, table), null, `sortIndex_asc`);
       this.ts_addDescButton(button, columnName, i, table, tsTable);
     }
   }

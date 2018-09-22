@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    getFeatureTooltip
+  } = common
+;
 
 class GeneralPaginationNavigationOnTop extends Module {
   info = ({
@@ -21,7 +28,7 @@ class GeneralPaginationNavigationOnTop extends Module {
     if (this.esgst.st) {
       this.esgst.paginationNavigation.classList.add(`page_heading_btn`);
     }
-    this.esgst.paginationNavigation.title = this.esgst.modules.common.getFeatureTooltip(`pnot`);
+    this.esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
     this.esgst.mainPageHeading.appendChild(this.esgst.paginationNavigation);
   }
 }

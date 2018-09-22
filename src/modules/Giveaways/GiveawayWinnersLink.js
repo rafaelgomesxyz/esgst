@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GiveawaysGiveawayWinnersLink extends Module {
   info = ({
@@ -29,7 +36,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
       if (giveaway.url) {
         attributes.href = `${giveaway.url}/winners`;
       }
-      this.esgst.modules.common.createElements(giveaway.entriesLink, `afterEnd`, [{
+      createElements(giveaway.entriesLink, `afterEnd`, [{
         attributes,
         type: `a`,
         children: [{

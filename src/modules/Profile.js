@@ -1,4 +1,12 @@
 import Module from '../class/Module';
+import {common} from 'Common';
+
+const
+  {
+    updateWhitelistBlacklist,
+    saveUser
+  } = common
+;
 
 class Profile extends Module {
 info = ({
@@ -87,12 +95,12 @@ async profile_load(context) {
   profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
   if (profile.whitelistButton) {
     if (this.esgst.updateWhitelistBlacklist) {
-      profile.whitelistButton.addEventListener(`click`, this.esgst.modules.common.updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
+      profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
     }
   }
   if (profile.blacklistButton) {
     if (this.esgst.updateWhitelistBlacklist) {
-      profile.blacklistButton.addEventListener(`click`, this.esgst.modules.common.updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
+      profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
     }
   }
   let savedUser = this.esgst.users.users[profile.steamId];
@@ -103,7 +111,7 @@ async profile_load(context) {
       values: {}
     };
     if (checkUsernameChange(this.esgst.users, user)) {
-      await this.esgst.modules.common.saveUser(null, this.esgst.users, user);
+      await saveUser(null, this.esgst.users, user);
       savedUser = this.esgst.users.users[profile.steamId];
     }
   }

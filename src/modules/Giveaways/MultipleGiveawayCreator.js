@@ -1,13 +1,17 @@
-import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
-import ButtonSet from "../../class/ButtonSet";
-import ButtonSet_v2 from "../../class/ButtonSet_v2";
-import Popup from "../../class/Popup";
-import Popup_v2 from "../../class/Popup_v2";
-import ToggleSwitch from "../../class/ToggleSwitch";
-import {common} from "../Common";
+import ButtonSet from '../../class/ButtonSet';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
+import Popup_v2 from '../../class/Popup_v2';
+import ToggleSwitch from '../../class/ToggleSwitch';
+import {common} from '../Common';
+import {utils} from '../../lib/jsUtils';
 
 const
+  {
+    formatDate,
+    parseHtml
+  } = utils,
   {
     buildGiveaway,
     copyValue,
@@ -27,11 +31,8 @@ const
     saveUser,
     setCountdown,
     setLocalValue
-  } = common,
-  {
-    formatDate,
-    parseHtml
-  } = utils;
+  } = common
+;
 
 class GiveawaysMultipleGiveawayCreator extends Module {
   info = ({

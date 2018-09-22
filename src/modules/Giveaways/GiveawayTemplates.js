@@ -1,8 +1,24 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Checkbox from '../../class/Checkbox';
 import Popup from '../../class/Popup';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml,
+    formatDate
+  } = utils,
+  {
+    createHeadingButton,
+    request,
+    createElements,
+    setSetting,
+    createLock
+  } = common
+;
 
 class GiveawaysGiveawayTemplates extends Module {
   info = ({
@@ -23,7 +39,7 @@ class GiveawaysGiveawayTemplates extends Module {
     if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;
-    this.gts_addButtonSection(this.esgst.modules.common.createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
+    this.gts_addButtonSection(createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
   }
 
   gts_addButtonSection(button, rows) {
@@ -48,10 +64,10 @@ class GiveawaysGiveawayTemplates extends Module {
       data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
       data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
       data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
-      const response = await this.esgst.modules.common.request({data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime), method: `POST`, url: `/giveaways/new`});
+      const response = await request({data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime), method: `POST`, url: `/giveaways/new`});
       if (response.finalUrl.match(/\/giveaways\/new/)) {
         callback();
-        const errors = utils.parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
+        const errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
         let message = `Unable to create giveaway because of the following errors:\n\n`;
         for (const error of errors) {
           message += `* ${error.textContent.trim()}`;
@@ -63,7 +79,7 @@ class GiveawaysGiveawayTemplates extends Module {
     });
     rows.appendChild(createGiveawayButton.set);
     button.addEventListener(`click`, this.gts_openPopup.bind(null, gts));
-    section = this.esgst.modules.common.createElements(reviewButton, `beforeBegin`, [{
+    section = createElements(reviewButton, `beforeBegin`, [{
       attributes: {
         class: `esgst-form-row`
       },
@@ -192,19 +208,19 @@ class GiveawaysGiveawayTemplates extends Module {
     preciseStartDateCheckbox = new Checkbox(preciseStartDateOption, this.esgst.gts_preciseStartDate);
     preciseEndDateCheckbox = new Checkbox(preciseEndDateOption, this.esgst.gts_preciseEndDate);
     preciseStartOption.addEventListener(`click`, () => {
-      this.esgst.modules.common.setSetting(`gts_preciseStart`, preciseStartCheckbox.input.checked);
+      setSetting(`gts_preciseStart`, preciseStartCheckbox.input.checked);
       this.esgst.gts_preciseStart = preciseStartCheckbox.input.checked;
     });
     preciseEndOption.addEventListener(`click`, () => {
-      this.esgst.modules.common.setSetting(`gts_preciseEnd`, preciseEndCheckbox.input.checked);
+      setSetting(`gts_preciseEnd`, preciseEndCheckbox.input.checked);
       this.esgst.gts_preciseEnd = preciseEndCheckbox.input.checked;
     });
     preciseStartDateOption.addEventListener(`click`, () => {
-      this.esgst.modules.common.setSetting(`gts_preciseStartDate`, preciseStartDateCheckbox.input.checked);
+      setSetting(`gts_preciseStartDate`, preciseStartDateCheckbox.input.checked);
       this.esgst.gts_preciseStartDate = preciseStartDateCheckbox.input.checked;
     });
     preciseEndDateOption.addEventListener(`click`, () => {
-      this.esgst.modules.common.setSetting(`gts_preciseEndDate`, preciseEndDateCheckbox.input.checked);
+      setSetting(`gts_preciseEndDate`, preciseEndDateCheckbox.input.checked);
       this.esgst.gts_preciseEndDate = preciseEndDateCheckbox.input.checked;
     });
     set = new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save Template`, `Saving...`, async callback => {
@@ -254,7 +270,7 @@ class GiveawaysGiveawayTemplates extends Module {
             year: endDate.getFullYear()
           };
         }
-        let deleteLock = await this.esgst.modules.common.createLock(`templateLock`, 300);
+        let deleteLock = await createLock(`templateLock`, 300);
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
         for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i);
         if (i < n) {
@@ -318,14 +334,14 @@ class GiveawaysGiveawayTemplates extends Module {
 
   async gts_openPopup(gts) {
     let popup = new Popup(`fa-file`, `View/apply templates:`, true);
-    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
+    createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
       },
       text: `Drag and drop templates to move them.`,
       type: `div`
     }]);
-    gts.undo = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    gts.undo = createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-clickable esgst-hidden`
       },
@@ -341,7 +357,7 @@ class GiveawaysGiveawayTemplates extends Module {
       }]
     }]);
     gts.undo.addEventListener(`click`, this.gts_undoDelete.bind(null, gts));
-    let templates = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let templates = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
       },
@@ -426,7 +442,7 @@ class GiveawaysGiveawayTemplates extends Module {
         }
       }
       details += `, level ${savedTemplate.level}`;
-      let template = this.esgst.modules.common.createElements(templates, `beforeEnd`, [{
+      let template = createElements(templates, `beforeEnd`, [{
         attributes: {
           draggable: true
         },
@@ -488,20 +504,20 @@ class GiveawaysGiveawayTemplates extends Module {
       popup.close();
     });
     deleteButton.addEventListener(`click`, async () => {
-      this.esgst.modules.common.createElements(deleteButton, `inner`, [{
+      createElements(deleteButton, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
         type: `i`
       }]);
-      let deleteLock = await this.esgst.modules.common.createLock(`templateLock`, 300),
+      let deleteLock = await createLock(`templateLock`, 300),
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`)),
         i = 0;
       for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i);
       savedTemplates.splice(i, 1);
       await setValue(`templates`, JSON.stringify(savedTemplates));
       deleteLock();
-      this.esgst.modules.common.createElements(deleteButton, `inner`, [{
+      createElements(deleteButton, `inner`, [{
         attributes: {
           class: `fa fa-trash`
         },
@@ -560,9 +576,9 @@ class GiveawaysGiveawayTemplates extends Module {
         newEndTime.setDate(newStartTime.getDate() + days);
         newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
         document.querySelector(`[name="start_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else if (savedTemplate.startTime) {
         startTime = new Date(savedTemplate.startTime);
         newStartTime = new Date(currentDate.getTime());
@@ -572,9 +588,9 @@ class GiveawaysGiveawayTemplates extends Module {
         }
         newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
         document.querySelector(`[name="start_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else if (savedTemplate.endTime) {
         endTime = new Date(savedTemplate.endTime);
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
@@ -584,30 +600,30 @@ class GiveawaysGiveawayTemplates extends Module {
           newEndTime.setDate(newEndTime.getDate() + 1);
         }
         document.querySelector(`[name="start_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       } else {
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
         newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration)
         document.querySelector(`[name="start_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
         document.querySelector(`[name="end_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
       if (savedTemplate.startDate) {
         newStartTime.setFullYear(savedTemplate.startDate.year);
         newStartTime.setMonth(savedTemplate.startDate.month);
         newStartTime.setDate(savedTemplate.startDate.day);
         document.querySelector(`[name="start_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
       }
       if (savedTemplate.endDate) {
         newEndTime.setFullYear(savedTemplate.endDate.year);
         newEndTime.setMonth(savedTemplate.endDate.month);
         newEndTime.setDate(savedTemplate.endDate.day);
         document.querySelector(`[name="end_time"]`).value =
-          utils.formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
       }
     }
     if (!savedTemplate.region.match(/^(1|0)$/)) {

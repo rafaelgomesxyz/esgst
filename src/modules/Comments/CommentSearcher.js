@@ -1,5 +1,13 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    endless_load
+  } = common
+;
 
 class CommentsCommentSearcher extends Module {
   info = ({
@@ -126,7 +134,7 @@ class CommentsCommentSearcher extends Module {
       if (parent) {
         parent = parent.cloneNode(true);
         parent.lastElementChild.remove();
-        this.esgst.modules.common.createElements(parent, `beforeEnd`, [{
+        createElements(parent, `beforeEnd`, [{
           attributes: {
             class: `comment__children comment_children`
           },
@@ -140,7 +148,7 @@ class CommentsCommentSearcher extends Module {
         });
       } else {
         if (this.esgst.st) {
-          this.esgst.modules.common.createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+          createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
             attributes: {
               href: `/${obj.type}/${obj.code}/`
             },
@@ -180,12 +188,12 @@ class CommentsCommentSearcher extends Module {
         });
       }
       if (obj.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
-        this.esgst.modules.common.createElements(context, `beforeEnd`, items);
+        createElements(context, `beforeEnd`, items);
         obj.results += 1;
       }
     }
     obj.popup.setOverallProgress(`${obj.results} results found.`);
-    await this.esgst.modules.common.endless_load(context);
+    await endless_load(context);
   }
 }
 

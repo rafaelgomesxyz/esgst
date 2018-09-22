@@ -1,5 +1,17 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request
+  } = common
+;
 
 class GiveawaysGiveawayRecreator extends Module {
   info = ({
@@ -36,15 +48,15 @@ class GiveawaysGiveawayRecreator extends Module {
   }
 
   async gr_recreateGiveaway(button, giveaway) {
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
     if (this.esgst.createdPath) {
-      let response = await this.esgst.modules.common.request({method: `GET`, url: giveaway.url});
-      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(utils.parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
+      let response = await request({method: `GET`, url: giveaway.url});
+      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
     } else {
       this.gr_saveTemplate(button, giveaway);
     }
@@ -71,14 +83,14 @@ class GiveawaysGiveawayRecreator extends Module {
     } else {
       template.whoCanEnter = `everyone`;
     }
-    elements = utils.parseHtml(JSON.parse((await this.esgst.modules.common.request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
+    elements = parseHtml(JSON.parse((await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
     for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i);
     if (i < n) {
       template.gameId = elements[i].getAttribute(`data-autocomplete-id`);
     }
     keys = [];
     if (giveaway.entries === 0 || giveaway.entries < giveaway.copies) {
-      context = utils.parseHtml(JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`);
+      context = parseHtml(JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`);
       if (context) {
         context = context[context.length - 1];
         elements = context.nextElementSibling.nextElementSibling.children;

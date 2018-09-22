@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    request
+  } = common
+;
 
 class UsersUserSuspensionTracker extends Module {
 info = ({
@@ -37,14 +50,14 @@ info = ({
 
   ust() {
     if (this.esgst.ticketsPath) {
-      this.esgst.ustButton = this.esgst.modules.common.createHeadingButton({id: `ust`, icons: [`fa-paper-plane`], title: `Send selected tickets to the User Suspension Tracker database`});
+      this.esgst.ustButton = createHeadingButton({id: `ust`, icons: [`fa-paper-plane`], title: `Send selected tickets to the User Suspension Tracker database`});
       this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll);
     } else if (this.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       let code, tickets;
       code = location.pathname.match(/\/ticket\/(.+?)\//)[1];
       tickets = JSON.parse(this.esgst.storage.tickets);
       if (!tickets[code] || !tickets[code].sent) {
-        this.esgst.ustButton = this.esgst.modules.common.createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
+        this.esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
           attributes: {
             class: `esgst-heading-button`,
             title: `${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}`
@@ -64,7 +77,7 @@ info = ({
 
   async ust_sendAll() {
     this.esgst.ustButton.removeEventListener(`click`, this.ust_sendAll);
-    this.esgst.modules.common.createElements(this.esgst.ustButton, `inner`, [{
+    createElements(this.esgst.ustButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -80,7 +93,7 @@ info = ({
       promises.push(ust_check(code, obj));
     }
     await Promise.all(promises);
-    let error = JSON.parse((await this.esgst.modules.common.request({data: obj.data.slice(0, -1), method: `POST`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`})).responseText).error;
+    let error = JSON.parse((await request({data: obj.data.slice(0, -1), method: `POST`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`})).responseText).error;
     let tickets = JSON.parse(await getValue(`tickets`));
     for (let code in this.esgst.ustCheckboxes) {
       if (error.indexOf(code) < 0) {
@@ -101,7 +114,7 @@ info = ({
     if (n === this.esgst.numUstTickets) {
       this.esgst.ustButton.remove();
     } else {
-      this.esgst.modules.common.createElements(this.esgst.ustButton, `inner`, [{
+      createElements(this.esgst.ustButton, `inner`, [{
         attributes: {
           class: `fa fa-paper-plane`
         },
@@ -114,7 +127,7 @@ info = ({
   }
 
   async ust_check(code, obj) {
-    let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/support/ticket/${code}/`})).responseText);
+    let responseHtml = parseHtml((await request({method: `GET`, url: `/support/ticket/${code}/`})).responseText);
     if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
     }
@@ -123,16 +136,16 @@ info = ({
   async ust_send() {
     let code = location.href.match(/\/ticket\/(.+?)\//)[1];
     this.esgst.ustButton.removeEventListener(`click`, this.ust_send);
-    this.esgst.modules.common.createElements(this.esgst.ustButton, `inner`, [{
+    createElements(this.esgst.ustButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
     let error = JSON.parse(
-      (await this.esgst.modules.common.request({
+      (await request({
         data: `${code}=${encodeURIComponent(parseHtml(
-          (await this.esgst.modules.common.request({method: `GET`, url: location.href})).responseText
+          (await request({method: `GET`, url: location.href})).responseText
         ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
         method: `POST`,
         url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
@@ -150,7 +163,7 @@ info = ({
       this.esgst.ustButton.remove();
       new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours this.esgst.modules.generalAccurateTimestamp.at most.`, true).open();
     } else {
-      this.esgst.modules.common.createElements(this.esgst.ustButton, `inner`, [{
+      createElements(this.esgst.ustButton, `inner`, [{
         attributes: {
           class: `fa fa-paper-plane`
         },

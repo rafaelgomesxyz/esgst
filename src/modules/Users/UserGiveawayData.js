@@ -1,4 +1,4 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import {common} from "../Common";
 import Process from "../../class/Process";
@@ -7,6 +7,24 @@ import Table from "../../class/Table";
 const
   {getLocalValue, createElements, saveUser} = common,
   {formatDate} = utils;
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    sortArray
+  } = utils,
+  {
+    getFeatureTooltip,
+    setSetting,
+    getUser,
+    lockAndSaveGiveaways,
+    setLocalValue,
+    saveUser,
+    request,
+    endless_load
+  } = common
+;
 
 class UsersUserGiveawayData extends Module {
 info = ({
@@ -63,7 +81,7 @@ info = ({
     const context = createElements(profile.commentsRow, `afterEnd`, [{
       attributes: {
         class: `esgst-ugd featured__table__row`,
-        title: this.esgst.modules.common.getFeatureTooltip(`ugd`)
+        title: getFeatureTooltip(`ugd`)
       },
       type: `div`,
       children: [{
@@ -96,7 +114,7 @@ info = ({
     }, {
       attributes: {
         class: `esgst-ugd featured__table__row`,
-        title: this.esgst.modules.common.getFeatureTooltip(`ugd`)
+        title: getFeatureTooltip(`ugd`)
       },
       type: `div`,
       children: [{
@@ -174,7 +192,7 @@ info = ({
     playtimes = `${playtimes}/${totalPlaytimes} (${Math.round(playtimes / totalPlaytimes * 10000) / 100}%)`;
     playtimeDisplay.textContent = playtimes;
     if (!firstRun) {
-      this.esgst.modules.common.setSetting(`ugd_playtime`, this.esgst.ugd_playtime);
+      setSetting(`ugd_playtime`, this.esgst.ugd_playtime);
     }
   }
 
@@ -191,7 +209,7 @@ info = ({
     achievements = `${achievements}/${totalAchievements} (${Math.round(achievements / totalAchievements * 10000) / 100}%)`;
     achievementsDisplay.textContent = achievements;
     if (!firstRun) {
-      this.esgst.modules.common.setSetting(`ugd_achievements`, this.esgst.ugd_achievements);
+      setSetting(`ugd_achievements`, this.esgst.ugd_achievements);
     }
   }
 
@@ -201,7 +219,7 @@ info = ({
       button = createElements(context, `beforeEnd`, [{
         attributes: {
           class: `esgst-ugd-button`,
-          title: this.esgst.modules.common.getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)
+          title: getFeatureTooltip(`ugd`, `Get ${key} giveaway data`)
         },
         type: `span`,
         children: [{
@@ -212,7 +230,7 @@ info = ({
         }]
       }]);
     }
-    const savedUser = await this.esgst.modules.common.getUser(null, user);
+    const savedUser = await getUser(null, user);
     const ugdCache = savedUser && savedUser.ugdCache;
     const details = {
       button: button,
@@ -273,7 +291,7 @@ info = ({
     obj.requests = obj.requests.slice(0, 2);
     obj.user = user;
 
-    const savedUser = await this.esgst.modules.common.getUser(null, obj.user);
+    const savedUser = await getUser(null, obj.user);
     obj.ugdCache = savedUser && savedUser.ugdCache;
     obj.userGiveaways = await this.ugd_getUserGiveaways(savedUser);
     if (obj.popup && this.esgst.ugd_clearCache) {
@@ -357,7 +375,7 @@ info = ({
       userGiveaways[`${key}Timestamp`] = this.ugd[`${key}Timestamp`];
     }
     if (Object.keys(newGiveaways).length) {
-      await this.esgst.modules.common.lockAndSaveGiveaways(newGiveaways);
+      await lockAndSaveGiveaways(newGiveaways);
     }
     return userGiveaways;
   }
@@ -494,10 +512,10 @@ info = ({
   async ugd_requestGiveawaysDone_2(obj) {
     const lpvCache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
     lpvCache.difference = 0;
-    this.esgst.modules.common.setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
+    setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
 
     obj.userGiveaways[`${obj.key}Timestamp`] = obj.timestamp;
-    await this.esgst.modules.common.lockAndSaveGiveaways(obj.giveaways);
+    await lockAndSaveGiveaways(obj.giveaways);
 
     obj.user.values = {
       giveaways: obj.userGiveaways,
@@ -613,7 +631,7 @@ info = ({
         item.name = selector;
         array.push(item);
       }
-      list.values = utils.sortArray(array, true, `value`);
+      list.values = sortArray(array, true, `value`);
     }
 
     if (
@@ -622,7 +640,7 @@ info = ({
       !this.esgst.steamApiKey
     ) {
       await this.ugd_complete(obj, results);
-      await this.esgst.modules.common.saveUser(null, null, obj.user);
+      await saveUser(null, null, obj.user);
       return;
     }
 
@@ -670,7 +688,7 @@ info = ({
       obj.popup.setProgress(`Retrieving playtime stats...`);
       obj.ugdCache.playtimes = {};
       try {
-        const response = await this.esgst.modules.common.request({
+        const response = await request({
           method: `GET`,
           url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${this.esgst.steamApiKey}&steamid=${obj.user.steamId}&format=json`
         });
@@ -680,7 +698,7 @@ info = ({
         console.log(e);
         alert(`An error ocurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
         await this.ugd_complete(obj, results);
-        await this.esgst.modules.common.saveUser(null, null, obj.user);
+        await saveUser(null, null, obj.user);
         return;
       }
     }
@@ -715,7 +733,7 @@ info = ({
       let apps = gcCache.subs[id] && gcCache.subs[id].apps;
       if (!apps) {
         try {
-          const response = await this.esgst.modules.common.request({
+          const response = await request({
             method: `GET`,
             url: `http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`
           });
@@ -737,7 +755,7 @@ info = ({
       }
       obj.subsTotal--;
     }
-    this.esgst.modules.common.setLocalValue(`gcCache`, JSON.stringify(gcCache));
+    setLocalValue(`gcCache`, JSON.stringify(gcCache));
 
     results.appendChild(obj.playtimeTable.table);
     const items = [];
@@ -764,7 +782,7 @@ info = ({
     await this.ugd_complete(obj, results);
 
     obj.user.values.ugdCache = obj.ugdCache;
-    await this.esgst.modules.common.saveUser(null, null, obj.user);
+    await saveUser(null, null, obj.user);
   }
 
   async ugd_addGame(obj, id, packageId, name) {
@@ -812,7 +830,7 @@ info = ({
       let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
       if (obj.isUpdating) {
         obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);
-        const response = await this.esgst.modules.common.request({
+        const response = await request({
           method: `GET`,
           url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.esgst.steamApiKey}&steamid=${obj.user.steamId}`
         });
@@ -1054,7 +1072,7 @@ info = ({
       });
     }
     createElements(results, `beforeEnd`, items);
-    await this.esgst.modules.common.endless_load(results);
+    await endless_load(results);
   }
 }
 

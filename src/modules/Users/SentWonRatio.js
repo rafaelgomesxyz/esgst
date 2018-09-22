@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class UsersSentWonRatio extends Module {
 info = ({
@@ -107,10 +115,10 @@ info = ({
         }
       ]
     };
-    this.esgst.modules.common.createElements(profile.sentRow, `afterEnd`, [{
+    createElements(profile.sentRow, `afterEnd`, [{
       attributes: {
         class: `esgst-swr-ratio featured__table__row`,
-        title: this.esgst.modules.common.getFeatureTooltip(`swr`)
+        title: getFeatureTooltip(`swr`)
       },
       type: `div`,
       children: [{

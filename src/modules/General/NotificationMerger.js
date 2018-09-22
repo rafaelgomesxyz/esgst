@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    request,
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GeneralNotificationMerger extends Module {
   info = ({
@@ -25,7 +38,7 @@ class GeneralNotificationMerger extends Module {
 
   async nm_getNotifications() {
     if (this.esgst.sg) {
-      let notification = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `https://www.steamtrades.com`})).responseText).getElementsByClassName(`message_count`)[0];
+      let notification = parseHtml((await request({method: `GET`, url: `https://www.steamtrades.com`})).responseText).getElementsByClassName(`message_count`)[0];
       if (!notification) {
         if (this.esgst.altInboxButton) {
           // hide the button, since there are no notifications
@@ -39,7 +52,7 @@ class GeneralNotificationMerger extends Module {
         this.esgst.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
-        this.esgst.altInboxButton = this.esgst.modules.common.createElements(this.esgst.inboxButton, `afterEnd`, [{
+        this.esgst.altInboxButton = createElements(this.esgst.inboxButton, `afterEnd`, [{
           attributes: {
             class: `nav__button-container nav__button-container--notification nav__button-container--active`
           },
@@ -48,7 +61,7 @@ class GeneralNotificationMerger extends Module {
             attributes: {
               class: `nav__button`,
               href: `https://www.steamtrades.com/messages`,
-              title: this.esgst.modules.common.getFeatureTooltip(`nm`, `SteamTrades Messages`)
+              title: getFeatureTooltip(`nm`, `SteamTrades Messages`)
             },
             type: `a`,
             children: [{
@@ -68,7 +81,7 @@ class GeneralNotificationMerger extends Module {
         this.esgst.altMessageCount = this.esgst.altInboxButton.firstElementChild.lastElementChild;
       }
     } else {
-      let notification = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `https://www.steamgifts.com`})).responseText).getElementsByClassName(`nav__notification`)[0];
+      let notification = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com`})).responseText).getElementsByClassName(`nav__notification`)[0];
       if (!notification) {
         if (this.esgst.altInboxButton) {
           // hide the button, since there are no notifications
@@ -82,10 +95,10 @@ class GeneralNotificationMerger extends Module {
         this.esgst.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
-        this.esgst.altInboxButton = this.esgst.modules.common.createElements(this.esgst.inboxButton, `afterEnd`, [{
+        this.esgst.altInboxButton = createElements(this.esgst.inboxButton, `afterEnd`, [{
           attributes: {
             class: `nav_btn_container`,
-            title: this.esgst.modules.common.getFeatureTooltip(`nm`)
+            title: getFeatureTooltip(`nm`)
           },
           type: `div`,
           children: [{

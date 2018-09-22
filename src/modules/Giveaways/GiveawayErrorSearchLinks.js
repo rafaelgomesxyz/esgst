@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysGiveawayErrorSearchLinks extends Module {
   info = ({
@@ -23,10 +31,10 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
   gesl() {
     if (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;
     let name = encodeURIComponent(document.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
-    this.esgst.modules.common.createElements(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [{
+    createElements(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [{
       attributes: {
         class: `table__row-outer-wrap`,
-        title: this.esgst.modules.common.getFeatureTooltip(`gesl`)
+        title: getFeatureTooltip(`gesl`)
       },
       type: `div`,
       children: [{
