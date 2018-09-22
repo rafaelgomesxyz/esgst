@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    unhideGame
+  } = common
+;
 
 class GiveawaysUnhideGiveawayButton extends Module {
   info = ({
@@ -23,26 +32,26 @@ class GiveawaysUnhideGiveawayButton extends Module {
       let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
       if (!hideButton && (!main || this.esgst.giveawaysPath || this.esgst.giveawayPath)) {
         if (this.esgst.giveawayPath && main) {
-          hideButton = this.esgst.modules.common.createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
+          hideButton = createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
             type: `a`,
             children: [{
               attributes: {
                 class: `fa fa-eye giveaway__hide`,
-                title: this.esgst.modules.common.getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
+                title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
               },
               type: `i`
             }]
           }]);
         } else {
-          hideButton = this.esgst.modules.common.createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
+          hideButton = createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
             attributes: {
               class: `fa fa-eye giveaway__hide giveaway__icon`,
-              title: this.esgst.modules.common.getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
+              title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
             },
             type: `i`
           }]);
         }
-        hideButton.addEventListener(`click`, this.esgst.modules.common.unhideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+        hideButton.addEventListener(`click`, unhideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       }
     });
   }

@@ -1,4 +1,16 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createHeadingButton,
+    createElements,
+    request,
+    setLocalValue,
+    getTextNodesIn,
+    getLocalValue
+  } = common
+;
 
 class TradesHaveWantListChecker extends Module {
 info = ({
@@ -19,7 +31,7 @@ info = ({
       return;
     }
     let obj = {
-      button: this.esgst.modules.common.createHeadingButton({
+      button: createHeadingButton({
         context: document.getElementsByClassName(`page_heading`)[0],
         id: `hwlc`,
         icons: [`fa-list`]
@@ -53,7 +65,7 @@ info = ({
 
   hwlc_addSection(obj, key, counterKey) {
     obj[key] = document.querySelector(`.${key}`);
-    this.esgst.modules.common.createElements(obj.panel, `beforeEnd`, [{
+    createElements(obj.panel, `beforeEnd`, [{
       attributes: {
         class: `esgst-hwlc-section`
       },
@@ -144,7 +156,7 @@ info = ({
     let json = null;
     if (currentTime - cache.lastUpdate > 604800000) {
       try {
-        const response = await this.esgst.modules.common.request({
+        const response = await request({
           method: `GET`,
           url: `https://api.steampowered.com/ISteamApps/GetAppList/v2/`
         });
@@ -152,7 +164,7 @@ info = ({
           data: response.responseText,
           lastUpdate: currentTime
         };
-        this.esgst.modules.common.setLocalValue(`hwlcCache`, JSON.stringify(cache));
+        setLocalValue(`hwlcCache`, JSON.stringify(cache));
       } catch (error) {
         alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
       }
@@ -169,7 +181,7 @@ info = ({
       subs: []
     };
     const unidentified = [];
-    const elements = this.esgst.modules.common.getTextNodesIn(obj[key]);
+    const elements = getTextNodesIn(obj[key]);
     for (const element of elements) {
       const parent = element.parentElement;
       const striked = parent.closest(`del`);
@@ -214,7 +226,7 @@ info = ({
     if (key === `want`) {
       try {
         const steamId = document.querySelector(`.author_name`).getAttribute(`href`).match(/\d+/)[0];
-        const response = await this.esgst.modules.common.request({
+        const response = await request({
           method: `GET`,
           url: `http://store.steampowered.com/wishlist/profiles/${steamId}`
         });
@@ -323,7 +335,7 @@ info = ({
     for (const game of obj.games[key].apps) {
       appItems.push(game.html);
     }
-    this.esgst.modules.common.createElements(obj.sections[key].games, `beforeEnd`, appItems);
+    createElements(obj.sections[key].games, `beforeEnd`, appItems);
     const subItems = [];
     for (const game of obj.games[key].subs) {
       subItems.push({
@@ -343,7 +355,7 @@ info = ({
         }]
       });
     }
-    this.esgst.modules.common.createElements(obj.sections[key].games, `beforeEnd`, subItems);
+    createElements(obj.sections[key].games, `beforeEnd`, subItems);
     const unidentifiedItems = [];
     for (const game of unidentified) {
       unidentifiedItems.push({
@@ -351,17 +363,17 @@ info = ({
         type: `li`
       });
     }
-    this.esgst.modules.common.createElements(obj.sections[key].unidentified, `beforeEnd`, unidentifiedItems);
+    createElements(obj.sections[key].unidentified, `beforeEnd`, unidentifiedItems);
     for (const section in obj.sections[key]) {
       if (section === `textArea` || obj.sections[key][section].innerHTML) {
         continue;
       }
-      this.esgst.modules.common.createElements(obj.sections[key][section], `inner`, [{
+      createElements(obj.sections[key][section], `inner`, [{
         text: `None.`,
         type: `node`
       }]);
     }
-    const query = this.esgst.modules.common.getLocalValue(`hwlc_${key}`);
+    const query = getLocalValue(`hwlc_${key}`);
     if (query) {
       obj.sections[key].textArea.value = query;
       this.hwlc_filter(obj, key);
@@ -371,7 +383,7 @@ info = ({
   hwlc_filter(obj, key) {
     obj.sections[key].matches.innerHTML = ``;
     const query = obj.sections[key].textArea.value;
-    this.esgst.modules.common.setLocalValue(`hwlc_${key}`, query);
+    setLocalValue(`hwlc_${key}`, query);
     let found = [];
     const values = query.split(/\n/);
     for (let value of values) {
@@ -414,9 +426,9 @@ info = ({
         }]
       });
     }
-    this.esgst.modules.common.createElements(obj.sections[key].matches, `beforeEnd`, items);
+    createElements(obj.sections[key].matches, `beforeEnd`, items);
     if (!obj.sections[key].matches.innerHTML) {
-      this.esgst.modules.common.createElements(obj.sections[key].matches, `inner`, [{
+      createElements(obj.sections[key].matches, `inner`, [{
         text: `None.`,
         type: `node`
       }]);

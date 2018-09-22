@@ -1,12 +1,19 @@
-import {utils} from '../lib/jsUtils';
 import esgst from '../class/Esgst';
 import Popup_v2 from "../class/Popup_v2";
 import Popup from "../class/Popup";
 import ToggleSwitch from "../class/ToggleSwitch";
+import {utils} from '../lib/jsUtils';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
  */
+
+const
+  {
+    isSet
+  } = utils
+;
+
 class Common extends Module {
   /**
    * @param {EnvironmentFunctions} functions
@@ -13857,7 +13864,7 @@ class Common extends Module {
       if (!item) {
         continue;
       }
-      if (utils.isSet(item.context)) {
+      if (isSet(item.context)) {
         context.appendChild(item.context);
         continue;
       }
@@ -13867,18 +13874,18 @@ class Common extends Module {
         continue;
       }
       const element = document.createElement(item.type);
-      if (utils.isSet(item.attributes)) {
+      if (isSet(item.attributes)) {
         for (const key in item.attributes) {
           element.setAttribute(key, item.attributes[key]);
         }
       }
-      if (utils.isSet(item.text)) {
+      if (isSet(item.text)) {
         element.textContent = item.text;
       }
-      if (utils.isSet(item.children)) {
+      if (isSet(item.children)) {
         this.buildElements(element, item.children);
       }
-      if (utils.isSet(item.events)) {
+      if (isSet(item.events)) {
         for (const key in item.events) {
           element.addEventListener(key, item.events[key]);
         }

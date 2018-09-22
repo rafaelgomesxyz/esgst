@@ -1,5 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    request,
+    createElements,
+    endless_load
+  } = common
+;
 
 class DiscussionsOldActiveDiscussionsDesign extends Module {
   info = ({
@@ -34,10 +47,10 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 
   async oadd_load(refresh, callback) {
     let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements;
-    response1Html = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/discussions`})).responseText);
-    response2Html = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/discussions/deals`})).responseText);
+    response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
+    response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
     this.esgst.activeDiscussions.classList.add(`esgst-oadd`);
-    this.esgst.modules.common.createElements(this.esgst.activeDiscussions, `inner`, [{
+    createElements(this.esgst.activeDiscussions, `inner`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -262,7 +275,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
     }
     if (refresh) {
-      await this.esgst.modules.common.endless_load(this.esgst.activeDiscussions);
+      await endless_load(this.esgst.activeDiscussions);
       if (callback) {
         callback();
       }

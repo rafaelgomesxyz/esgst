@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class CommentsReplyMentionLink extends Module {
   info = ({
@@ -40,7 +47,7 @@ class CommentsReplyMentionLink extends Module {
       if (RMLLink) {
         RMLLink.textContent = `@${Username}`;
       } else {
-        this.esgst.modules.common.createElements(Context, `beforeEnd`, [{
+        createElements(Context, `beforeEnd`, [{
           attributes: {
             class: `comment__actions__button esgst-rml-link`,
             href: `#${ID}`

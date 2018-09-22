@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createHeadingButton,
+    createElements
+  } = common
+;
 
 class GeneralAttachedImageCarousel extends Module {
   info = ({
@@ -27,7 +35,7 @@ class GeneralAttachedImageCarousel extends Module {
     this.esgst.endlessFeatures.push(this.aic_getImages);
     this.esgst.documentEvents.keydown.add(this.aic_move);
     if (!this.esgst.mainPageHeading) return;
-    this.esgst.aicButton = this.esgst.modules.common.createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
+    this.esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
     this.esgst.aicButton.classList.add(`esgst-hidden`);
     this.esgst.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(null, 0, null));
   }
@@ -74,7 +82,7 @@ class GeneralAttachedImageCarousel extends Module {
       event.preventDefault();
       event.stopPropagation();
     }
-    let carousel = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
+    let carousel = createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: `esgst-popup-modal esgst-aic-carousel`
       },
@@ -145,7 +153,7 @@ class GeneralAttachedImageCarousel extends Module {
     if (imageClass) {
       imageNode.classList.remove(`is_hidden`, `is-hidden`);
     }
-    this.esgst.modules.common.createElements(carousel, `inner`, [{
+    createElements(carousel, `inner`, [{
       attributes: {
         class: `esgst-aic-panel`
       },

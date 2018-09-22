@@ -1,5 +1,12 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
+import {common} from '../Common';
+
+const
+  {
+    createHeadingButton
+  } = common
+;
 
 class DiscussionsMainPostPopup extends Module {
   info = ({
@@ -31,7 +38,7 @@ class DiscussionsMainPostPopup extends Module {
     if (!this.esgst.discussionPath) {
       return;
     }
-    let button = this.esgst.modules.common.createHeadingButton({id: `mpp`, icons: [`fa-home`], title: `Open the main post`});
+    let button = createHeadingButton({id: `mpp`, icons: [`fa-home`], title: `Open the main post`});
     let MPPPost = document.createElement(`div`);
     MPPPost.className = `page__outer-wrap`;
     let Sibling;

@@ -1,5 +1,24 @@
-import {utils} from '../lib/jsUtils'
 import Module from '../class/Module';
+import {utils} from '../lib/jsUtils';
+import {common} from 'Common';
+
+const
+  {
+    sortArray
+  } = utils,
+  {
+    createElements,
+    getFeatureTooltip,
+    getUser,
+    triggerSetOnEnter,
+    formatTags,
+    lockAndSaveGroups,
+    lockAndSaveGames,
+    saveUsers,
+    saveUser,
+    setSetting
+  } = common
+;
 
 class Tags extends Module {
 async tags_load(key) {
@@ -61,7 +80,7 @@ async tags_getTags(key) {
       tag
     });
   }
-  this.esgst[`${key}Tags`] = utils.sortArray(this.esgst[`${key}Tags`], true, `count`).map(x => x.tag);
+  this.esgst[`${key}Tags`] = sortArray(this.esgst[`${key}Tags`], true, `count`).map(x => x.tag);
   if (this.esgst[`${key}_s`]) {
     this.esgst.documentEvents.keydown.add(tags_navigateSuggestions);
     this.esgst.documentEvents.click.add(tags_closeSuggestions);
@@ -120,10 +139,10 @@ tags_addButtons(key, items) {
   for (const item of items) {
     const obj = {item, key};
     if (!item.container.getElementsByClassName(`esgst-tag-button`)[0]) {
-      this.esgst.modules.common.createElements(item.tagContext, item.tagPosition, [{
+      createElements(item.tagContext, item.tagPosition, [{
         attributes: {
           class: `esgst-tag-button esgst-faded`,
-          title: this.esgst.modules.common.getFeatureTooltip(key, `Edit tags`)
+          title: getFeatureTooltip(key, `Edit tags`)
         },
         type: `a`,
         children: [{
@@ -152,7 +171,7 @@ async tags_openMmPopup(mmObj, items, key) {
     Users: `ut`
   }[key];
   const obj = {items: [], key};
-  obj.items = utils.sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+  obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
   const savedGames = JSON.parse(await getValue(`games`));
   const savedGroups = JSON.parse(await getValue(`groups`));
   const savedUsers = JSON.parse(await getValue(`users`));
@@ -175,7 +194,7 @@ async tags_openMmPopup(mmObj, items, key) {
         break;
       }
       case `ut`: {
-        const user = await this.esgst.modules.common.getUser(savedUsers, {username: item.code});
+        const user = await getUser(savedUsers, {username: item.code});
         if (user && user.tags && Array.isArray(user.tags)) {
           item.tags = user.tags;
         }
@@ -230,7 +249,7 @@ async tags_openPopup(obj, event) {
       type: `node`
     }]
   });
-  this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
+  createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
     },
@@ -250,24 +269,24 @@ async tags_openPopup(obj, event) {
       type: `p`
     }] : [])]
   }]);
-  obj.tags = this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
+  obj.tags = createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-tags`
     },
     type: `div`
   }]);
-  obj.input = this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
+  obj.input = createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       type: `text`
     },
     events: {
       focus: this.tags_createTags.bind(null, obj),
       input: this.tags_createTags.bind(null, obj),
-      keydown: this.esgst.modules.common.triggerSetOnEnter.bind(null, obj.popup.buttons[0])
+      keydown: triggerSetOnEnter.bind(null, obj.popup.buttons[0])
     },
     type: `input`
   }]);
-  this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
+  createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-tag-list-button esgst-clickable fa fa-list`,
       title: `Select from existing tags`
@@ -276,7 +295,7 @@ async tags_openPopup(obj, event) {
   }]).addEventListener(`click`, this.tags_showTagList.bind(null, obj));
   const children = [];  
   if (this.esgst[`${obj.key}_s`]) {
-    obj.suggestions = this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
+    obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-tag-suggestions esgst-hidden`
       },
@@ -296,9 +315,9 @@ async tags_openPopup(obj, event) {
         type: `div`
       });
     }
-    this.esgst.modules.common.createElements(obj.suggestions, `inner`, children);
+    createElements(obj.suggestions, `inner`, children);
   }
-  this.esgst.modules.common.createElements(obj.popup.description, `beforeEnd`, [{
+  createElements(obj.popup.description, `beforeEnd`, [{
     attributes: {
       class: `esgst-description`
     },
@@ -310,7 +329,7 @@ async tags_openPopup(obj, event) {
 }
 
 async tags_saveTags(obj) {
-  let tags = obj.input.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `);
+  let tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
   if (tags.length === 1 && !tags[0].trim()) {
     tags = ``;
   }
@@ -340,7 +359,7 @@ async tags_saveTags(obj) {
           tags
         };
       }
-      await this.esgst.modules.common.lockAndSaveGroups(groups);
+      await lockAndSaveGroups(groups);
       break;
     }
     case `gt`: {
@@ -360,7 +379,7 @@ async tags_saveTags(obj) {
       } else {
         games[obj.item.type][obj.item.id] = {tags};
       }
-      await this.esgst.modules.common.lockAndSaveGames(games);
+      await lockAndSaveGames(games);
       break;
     }
     case `ut`: {
@@ -383,19 +402,19 @@ async tags_saveTags(obj) {
             }
           });
         }
-        await this.esgst.modules.common.saveUsers(users);
+        await saveUsers(users);
       } else {
         const user = {
           steamId: obj.item.steamId,
           username: obj.item.username,
           values: {tags}
         };
-        await this.esgst.modules.common.saveUser(null, null, user);
+        await saveUser(null, null, user);
       }
       break;
     }
   }
-  await this.esgst.modules.common.setSetting(`${obj.key}_colors`, this.esgst[`${obj.key}_colors`]);
+  await setSetting(`${obj.key}_colors`, this.esgst[`${obj.key}_colors`]);
   if (obj.items) {
     for (const item of obj.items) {
       this.tags_addTags(item, obj, item.multiTags);
@@ -454,7 +473,7 @@ tags_addTags(item, obj, tags) {
     }
     button.classList[elements ? `remove` : `add`](`esgst-faded`);
     const tagsContainer = button.lastElementChild;
-    this.esgst.modules.common.createElements(tagsContainer, `inner`, elements);
+    createElements(tagsContainer, `inner`, elements);
     for (const tagsBox of tagsContainer.children) {
       const colors = this.esgst[`${obj.key}_colors`][tagsBox.textContent];
       if (!colors) {
@@ -478,7 +497,7 @@ tags_template(text) {
 
 tags_createTags(obj) {
   obj.tags.innerHTML = ``;
-  const tags = obj.input.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `).filter(x => x);
+  const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
   if (tags.length) {
     if (this.esgst[`${obj.key}_s`]) {
       if (obj.input.value.slice(-1).match(/\s|,/)) {
@@ -517,7 +536,7 @@ tags_createTags(obj) {
 }
 
 tags_createTag(obj, tag) {
-  const container = this.esgst.modules.common.createElements(obj.tags, `beforeEnd`, [{
+  const container = createElements(obj.tags, `beforeEnd`, [{
     attributes: {
       class: `esgst-tag-preview`,
       draggable: true
@@ -686,7 +705,7 @@ async tags_showTagList(obj) {
     isTemp: true,
     title: `Select from existing tags:`
   });
-  const list = this.esgst.modules.common.createElements(obj.listPopup.scrollable, `beforeEnd`, [{
+  const list = createElements(obj.listPopup.scrollable, `beforeEnd`, [{
     attributes: {
       class: `esgst-tag-list popup__keys__list`
     },
@@ -694,7 +713,7 @@ async tags_showTagList(obj) {
   }]);
   obj.selectedTags = [];
   for (const tag of this.esgst[`${obj.key}Tags`]) {
-    const item = this.esgst.modules.common.createElements(list, `beforeEnd`, [{
+    const item = createElements(list, `beforeEnd`, [{
       type: `div`,
       children: [{
         type: `span`
@@ -735,7 +754,7 @@ tag_unselectTag(obj, tag) {
 
 tags_addSuggestion(obj, event) {
   obj.tags.innerHTML = ``;
-  const tags = obj.input.value.replace(/(,\s*)+/g, this.esgst.modules.common.formatTags).split(`, `);
+  const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
   const value = event.currentTarget.textContent;
   tags.pop();
   tags.push(value);
@@ -778,7 +797,7 @@ async tags_loadTags(obj) {
         break;
       }
       case `ut`: {
-        item = await this.esgst.modules.common.getUser(null, {
+        item = await getUser(null, {
           steamId: obj.item.steamId,
           username: obj.item.username
         });

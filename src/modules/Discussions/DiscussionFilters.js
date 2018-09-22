@@ -1,6 +1,20 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Process from '../../class/Process';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    sortArray
+  } = utils,
+  {
+    checkMissingDiscussions,
+    createElements,
+    endless_load,
+    createLock
+  } = common
+;
 
 class DiscussionsDiscussionFilters extends Module {
   info = ({
@@ -230,7 +244,7 @@ class DiscussionsDiscussionFilters extends Module {
       }
     }
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.adots || this.esgst.oadd) return;
-    await this.esgst.modules.common.checkMissingDiscussions();
+    await checkMissingDiscussions();
   }
 
   df_menu(obj, event) {
@@ -293,7 +307,7 @@ class DiscussionsDiscussionFilters extends Module {
         hidden.push(discussion);
       }
     }
-    hidden = utils.sortArray(hidden, true, `hidden`);
+    hidden = sortArray(hidden, true, `hidden`);
     obj.ids = [];
     for (const discussion of hidden) {
       obj.ids.push(discussion.code);
@@ -305,7 +319,7 @@ class DiscussionsDiscussionFilters extends Module {
     const breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
     const categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
     const usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
-    this.esgst.modules.common.createElements(obj.discussions, `beforeEnd`, [{
+    createElements(obj.discussions, `beforeEnd`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -380,7 +394,7 @@ class DiscussionsDiscussionFilters extends Module {
         }]
       }]
     }]);
-    await this.esgst.modules.common.endless_load(obj.discussions.lastElementChild);
+    await endless_load(obj.discussions.lastElementChild);
     if (!this.esgst.giveawaysPath && !this.esgst.discussionsPath) {
       if (this.esgst.gdttt) {
         await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
@@ -393,7 +407,7 @@ class DiscussionsDiscussionFilters extends Module {
   }
 
   async df_hideDiscussion(discussion, main) {
-    let deleteLock = await this.esgst.modules.common.createLock(`discussionLock`, 300);
+    let deleteLock = await createLock(`discussionLock`, 300);
     let discussions = JSON.parse(await getValue(`discussions`, `{}`));
     if (!discussions[discussion.code]) {
       discussions[discussion.code] = {};
@@ -408,7 +422,7 @@ class DiscussionsDiscussionFilters extends Module {
   }
 
   async df_unhideDiscussion(discussion, main) {
-    let deleteLock = await this.esgst.modules.common.createLock(`discussionLock`, 300);
+    let deleteLock = await createLock(`discussionLock`, 300);
     let discussions = JSON.parse(await getValue(`discussions`, `{}`));
     if (discussions[discussion.code]) {
       delete discussions[discussion.code].hidden;

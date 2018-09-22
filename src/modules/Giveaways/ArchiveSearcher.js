@@ -1,6 +1,18 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Process from '../../class/Process';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    request,
+    endless_load
+  } = common
+;
 
 class GiveawaysArchiveSearcher extends Module {
   info = ({
@@ -64,7 +76,7 @@ class GiveawaysArchiveSearcher extends Module {
     // retrieve the game title from Steam
     if (this.esgst.as_searchAppId) {
       obj.popup.setProgress(`Retrieving game title...`);
-      let title = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `https://steamcommunity.com/app/${obj.query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
+      let title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${obj.query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
       if (title) {
         obj.query = title.textContent;
       } else {
@@ -91,7 +103,7 @@ class GiveawaysArchiveSearcher extends Module {
       }
     }
     obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
-    await this.esgst.modules.common.endless_load(context);
+    await endless_load(context);
   }
 }
 

@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysGiveawayWinningRatio extends Module {
   info = ({
@@ -71,11 +79,11 @@ class GiveawaysGiveawayWinningRatio extends Module {
     giveaways.forEach(giveaway => {
       if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
       if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath)) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
-        let context = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+        let context = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
             [`data-draggable-id`]: `gwr`,
-            title: this.esgst.modules.common.getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)
+            title: getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)
           },
           type: `div`
         }]);
@@ -180,7 +188,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
         type: `node`
       });
     }
-    this.esgst.modules.common.createElements(context, `inner`, items);
+    createElements(context, `inner`, items);
   }
 }
 

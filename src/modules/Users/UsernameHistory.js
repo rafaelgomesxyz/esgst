@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    request
+  } = common
+;
 
 class UsersUsernameHistory extends Module {
 info = ({
@@ -29,7 +38,7 @@ info = ({
 
   uh_add(profile) {
     let button, box, container, list;
-    container = this.esgst.modules.common.createElements(profile.heading, `beforeEnd`, [{
+    container = createElements(profile.heading, `beforeEnd`, [{
       attributes: {
         class: `esgst-uh-container`
       },
@@ -37,7 +46,7 @@ info = ({
       children: [{
         attributes: {
           class: `esgst-uh-button`,
-          title: this.esgst.modules.common.getFeatureTooltip(`uh`, `View username history`)
+          title: getFeatureTooltip(`uh`, `View username history`)
         },
         type: `a`,
         children: [{
@@ -91,7 +100,7 @@ info = ({
   async uh_toggle(box, profile, list) {
     box.classList.toggle(`esgst-hidden`);
     if (!list.innerHTML) {
-      this.esgst.modules.common.createElements(list, `inner`, [{
+      createElements(list, `inner`, [{
         type: `div`,
         children: [{
           attributes: {
@@ -103,7 +112,7 @@ info = ({
           type: `span`
         }]
       }]);
-      this.esgst.modules.common.createElements(list, `inner`, JSON.parse((await this.esgst.modules.common.request({
+      createElements(list, `inner`, JSON.parse((await request({
         method: `GET`,
         url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`
       })).responseText).Usernames.map(x => {

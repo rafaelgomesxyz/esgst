@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    getFeatureTooltip,
+    createElements
+  } = common
+;
 
 class UsersWhitelistBlacklistHighlighter extends Module {
 info = ({
@@ -54,12 +62,12 @@ info = ({
         let title = `You ${status} ${user.username} on ${getTimestamp(user.saved[`${status}Date`])}`;
         if ((this.esgst.wbh_w && user.saved.whitelisted) || (this.esgst.wbh_b && user.saved.blacklisted)) {
           user.element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
-          user.element.title = this.esgst.modules.common.getFeatureTooltip(`wbh`, title);
+          user.element.title = getFeatureTooltip(`wbh`, title);
         } else {
-          this.esgst.modules.common.createElements(user.context, `beforeBegin`, [{
+          createElements(user.context, `beforeBegin`, [{
             attributes: {
               class: `esgst-wbh-icon esgst-user-icon`,
-              title: this.esgst.modules.common.getFeatureTooltip(`wbh`, title)
+              title: getFeatureTooltip(`wbh`, title)
             },
             type: `span`,
             children: [{

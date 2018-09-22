@@ -1,8 +1,21 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    request
+  } = common
+;
 
 class GiveawaysHiddenGameRemover extends Module {
   info = ({
@@ -21,7 +34,7 @@ class GiveawaysHiddenGameRemover extends Module {
 
   hgr() {
     if (!location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
-    let button = this.esgst.modules.common.createHeadingButton({id: `hgr`, icons: [`fa-eye-slash`, `fa-times-circle`], title: `Remove games from the list`});
+    let button = createHeadingButton({id: `hgr`, icons: [`fa-eye-slash`, `fa-times-circle`], title: `Remove games from the list`});
     button.addEventListener(`click`, this.hgr_openPopup.bind(null, {button}));
   }
 
@@ -31,7 +44,7 @@ class GiveawaysHiddenGameRemover extends Module {
       return;
     }
     hgr.popup = new Popup(`fa-times`, `Remove hidden games:`);
-    hgr.removed = this.esgst.modules.common.createElements(hgr.popup.scrollable, `beforeEnd`, [{
+    hgr.removed = createElements(hgr.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `markdown`
       },
@@ -39,7 +52,7 @@ class GiveawaysHiddenGameRemover extends Module {
     }]);
     new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, this.esgst.hgr_removeOwned);
     hgr.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-circle-right`, icon2: `fa-times`, title1: `Remove`, title2: `Cancel`, callback1: this.hgr_startRemover.bind(null, hgr), callback2: this.hgr_stopRemover.bind(null, hgr)}).set);
-    hgr.progress = this.esgst.modules.common.createElements(hgr.popup.description, `beforeEnd`, [{
+    hgr.progress = createElements(hgr.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
     hgr.popup.open();
@@ -49,7 +62,7 @@ class GiveawaysHiddenGameRemover extends Module {
     hgr.canceled = false;
     hgr.lastPage = ``;
     hgr.button.classList.add(`esgst-busy`);
-    this.esgst.modules.common.createElements(hgr.progress, `inner`, [{
+    createElements(hgr.progress, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -58,7 +71,7 @@ class GiveawaysHiddenGameRemover extends Module {
       text: `Removing games...`,
       type: `span`
     }]);
-    this.esgst.modules.common.createElements(hgr.removed, `inner`, [{
+    createElements(hgr.removed, `inner`, [{
       attributes: {
         class: `esgst-bold`
       },
@@ -76,13 +89,13 @@ class GiveawaysHiddenGameRemover extends Module {
         nextPage += 1;
         continue;
       } else {
-        context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+        context = parseHtml((await request({method: `GET`, url: `${url}${nextPage}`})).responseText);
       }
       if (!hgr.lastPage) {
         hgr.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
         hgr.lastPage = hgr.lastPage === 999999999 ? `` : ` of ${hgr.lastPage}`;
       }
-      this.esgst.modules.common.createElements(hgr.progress, `inner`, [{
+      createElements(hgr.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -102,9 +115,9 @@ class GiveawaysHiddenGameRemover extends Module {
         if (context === document) {
           button.dispatchEvent(new Event(`click`));
         } else {
-          this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, method: `POST`, url: `/ajax.php`});
+          request({data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, method: `POST`, url: `/ajax.php`});
         }
-        this.esgst.modules.common.createElements(hgr.removed, `beforeEnd`, [{
+        createElements(hgr.removed, `beforeEnd`, [{
           attributes: {
             href: `http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}`
           },
@@ -118,7 +131,7 @@ class GiveawaysHiddenGameRemover extends Module {
     hgr.button.classList.remove(`esgst-busy`);
     hgr.progress.innerHTML = ``;
     if (hgr.removed.children.length === 1) {
-      this.esgst.modules.common.createElements(hgr.removed, `inner`, [{
+      createElements(hgr.removed, `inner`, [{
         attributes: {
           class: `esgst-bold`
         },

@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysGiveawayWinningChance extends Module {
   info = ({
@@ -72,11 +80,11 @@ class GiveawaysGiveawayWinningChance extends Module {
       if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
       if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath)) || !main || giveaway.ended)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
         if (giveaway.started) {
-          giveaway.gwcContext = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+          giveaway.gwcContext = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
             attributes: {
               class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwc`,
               [`data-draggable-id`]: `gwc`,
-              title: this.esgst.modules.common.getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
+              title: getFeatureTooltip(`gwc`, `Giveaway Winning Chance`)
             },
             type: `div`
           }]);
@@ -105,7 +113,7 @@ class GiveawaysGiveawayWinningChance extends Module {
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
     giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
     if (giveaway.points) {
-      giveaway.gwcContext.title = this.esgst.modules.common.getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
+      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
     }
     giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
     giveaway.gwcContext.setAttribute(`data-projectedChance`, giveaway.projectedChance);
@@ -194,7 +202,7 @@ class GiveawaysGiveawayWinningChance extends Module {
         type: `node`
       });
     }
-    this.esgst.modules.common.createElements(giveaway.gwcContext, `inner`, items);
+    createElements(giveaway.gwcContext, `inner`, items);
   }
 
   gwc_addHeading(context, main, source, endless) {
@@ -212,7 +220,7 @@ class GiveawaysGiveawayWinningChance extends Module {
       title += `Points To Win / `;
     }
     title = title.slice(0, -3);
-    this.esgst.modules.common.createElements(table.firstElementChild, `afterEnd`, [{
+    createElements(table.firstElementChild, `afterEnd`, [{
       attributes: {
         class: `table__column--width-small text-center esgst-gwcr-heading`
       },

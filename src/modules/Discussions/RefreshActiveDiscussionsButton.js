@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    checkMissingDiscussions
+  } = common
+;
 
 class DiscussionsRefreshActiveDiscussionsButton extends Module {
   info = ({
@@ -17,10 +26,10 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
     let elements, i;
     elements = this.esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
     for (i = elements.length - 1; i > -1; --i) {
-      this.esgst.modules.common.createElements(elements[i], `beforeBegin`, [{
+      createElements(elements[i], `beforeBegin`, [{
         attributes: {
           class: `esgst-radb-button${this.esgst.oadd ? `` : ` homepage_heading`}`,
-          title: this.esgst.modules.common.getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
+          title: getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
         },
         type: `div`,
         children: [{
@@ -37,7 +46,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
             icon.classList.remove(`fa-spin`);
           });
         } else {
-          this.esgst.modules.common.checkMissingDiscussions(true, () => {
+          checkMissingDiscussions(true, () => {
             icon.classList.remove(`fa-spin`);
           });
         }

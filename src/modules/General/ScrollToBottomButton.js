@@ -1,4 +1,14 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    createHeadingButton,
+    animateScroll
+  } = common
+;
 
 class GeneralScrollToBottomButton extends Module {
   info = ({
@@ -23,10 +33,10 @@ class GeneralScrollToBottomButton extends Module {
     let button;
     switch (this.esgst.stbb_index) {
       case 0:
-        button = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
+        button = createElements(document.body, `beforeEnd`, [{
           attributes: {
             class: `esgst-stbb-button esgst-stbb-button-fixed`,
-            title: `${this.esgst.modules.common.getFeatureTooltip(`stbb`, `Scroll to bottom`)}`
+            title: `${getFeatureTooltip(`stbb`, `Scroll to bottom`)}`
           },
           type: `div`,
           children: [{
@@ -45,14 +55,14 @@ class GeneralScrollToBottomButton extends Module {
         });
         break;
       case 1:
-        button = this.esgst.modules.common.createHeadingButton({id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom`});
+        button = createHeadingButton({id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom`});
         button.classList.add(`esgst-stbb-button`);
         break;
       case 2:
-        button = this.esgst.modules.common.createElements(this.esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
+        button = createElements(this.esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
           attributes: {
             class: `esgst-stbb-button`,
-            title: this.esgst.modules.common.getFeatureTooltip(`stbb`, `Scroll to bottom`)
+            title: getFeatureTooltip(`stbb`, `Scroll to bottom`)
           },
           type: this.esgst.sg ? `div` : `li`,
           children: [{
@@ -64,7 +74,7 @@ class GeneralScrollToBottomButton extends Module {
         }]);
         break;
     }
-    button.addEventListener(`click`, () => this.esgst.modules.common.animateScroll(document.documentElement.offsetHeight, () => {
+    button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {
       if (this.esgst.es && this.esgst.es.paginations) {
         this.esgst.modules.generalEndlessScrolling.es_changePagination(this.esgst.es, this.esgst.es.reverseScrolling ? 1 : this.esgst.es.paginations.length);
       }

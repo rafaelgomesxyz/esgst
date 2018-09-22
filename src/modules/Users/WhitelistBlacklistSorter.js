@@ -1,5 +1,21 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    sortArray
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    getTimestamp,
+    endless_load,
+    request,
+    createLock
+  } = common
+;
 
 class UsersWhitelistBlacklistSorter extends Module {
 info = ({
@@ -29,7 +45,7 @@ info = ({
       saveKey,
       title: `Oldest to newest ${saveKey} users:`
     };
-    this.esgst.modules.common.createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
+    createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
 
     // add descending button
     object = {
@@ -40,7 +56,7 @@ info = ({
       saveKey,
       title: `Newest to oldest ${saveKey} users:`
     };
-    this.esgst.modules.common.createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
+    createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
   }
 
   async wbs_sort(obj) {
@@ -52,11 +68,11 @@ info = ({
       savedUser.steamId = steamId;
       users.push(savedUser);
     }
-    users = utils.sortArray(users, obj.isDescending, obj.dateKey);
+    users = sortArray(users, obj.isDescending, obj.dateKey);
 
     let popup = new Popup(obj.icon, obj.title, true);
     popup.popup.classList.add(`esgst-wbs-popup`);
-    let table = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let table = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left table`
       },
@@ -94,7 +110,7 @@ info = ({
     }]);
     let rows = table.lastElementChild;
     users.forEach(user => {
-      let row = this.esgst.modules.common.createElements(rows, `beforeEnd`, [{
+      let row = createElements(rows, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`
         },
@@ -121,7 +137,7 @@ info = ({
             attributes: {
               class: `table__column--width-small text-center`
             },
-            text: this.esgst.modules.common.getTimestamp(user[obj.dateKey]),
+            text: getTimestamp(user[obj.dateKey]),
             type: `div`
           }, {
             attributes: {
@@ -189,14 +205,14 @@ info = ({
       object.removeButton.addEventListener(`click`, this.wbs_removeMember.bind(null, object));
     });
     popup.open();
-    this.esgst.modules.common.endless_load(table);
+    endless_load(table);
   }
 
   async wbs_removeMember(obj) {
     obj.removeButton.classList.add(`esgst-hidden`);
     obj.removingButton.classList.remove(`esgst-hidden`);
-    await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`, method: `POST`, url: `/ajax.php`});
-    let deleteLock = await this.esgst.modules.common.createLock(`userLock`, 300);
+    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`, method: `POST`, url: `/ajax.php`});
+    let deleteLock = await createLock(`userLock`, 300);
     let savedUsers = JSON.parse(await getValue(`users`));
     delete savedUsers.users[obj.user.steamId][obj.dateKey];
     delete savedUsers.users[obj.user.steamId][obj.saveKey];

@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    reverseComments
+  } = common
+;
 
 class CommentsCommentReverser extends Module {
   info = ({
@@ -17,7 +24,7 @@ class CommentsCommentReverser extends Module {
 
   cr() {
     if (!this.esgst.discussionPath || !this.esgst.pagination) return;
-    this.esgst.modules.common.reverseComments(this.esgst.pagination.previousElementSibling);
+    reverseComments(this.esgst.pagination.previousElementSibling);
   }
 }
 

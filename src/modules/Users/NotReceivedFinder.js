@@ -1,4 +1,4 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import {common} from "../Common";
 import Popup from "../../class/Popup";
@@ -15,6 +15,13 @@ const {
 const {
   parseHtml
 } = utils;
+import {utils} from '../../lib/jsUtils';
+
+const
+  {
+    parseHtml
+  } = utils
+;
 
 class UsersNotReceivedFinder extends Module {
 info = ({
@@ -206,7 +213,7 @@ info = ({
         Callback();
       }
     } else if (!NRF.Canceled) {
-      setTimeout(async () => this.nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, utils.parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
+      setTimeout(async () => this.nrf_searchUser(NRF, username, ++NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
     }
   }
 
@@ -241,7 +248,7 @@ info = ({
   async nrf_searchGiveaway(NRF, URL, NextPage, Callback) {
     if (NRF.Canceled) return;
     let ResponseHTML, Matches, I, N, Found, Pagination;
-    ResponseHTML = utils.parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
+    ResponseHTML = parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText);
     Matches = ResponseHTML.getElementsByClassName(`table__column--width-small`);
     for (I = 0, N = Matches.length; I < N; ++I) {
       if (Matches[I].textContent.match(/Not Received/)) {

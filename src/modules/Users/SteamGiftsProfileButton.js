@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class UsersSteamGiftsProfileButton extends Module {
 info = ({
@@ -21,10 +29,10 @@ info = ({
 
   sgpb_add(profile) {
     let button;
-    button = this.esgst.modules.common.createElements(profile.steamButtonContainer, `beforeEnd`, [{
+    button = createElements(profile.steamButtonContainer, `beforeEnd`, [{
       attributes: {
         class: `esgst-sgpb-container`,
-        title: this.esgst.modules.common.getFeatureTooltip(`sgpb`)
+        title: getFeatureTooltip(`sgpb`)
       },
       type: `div`,
       children: [{

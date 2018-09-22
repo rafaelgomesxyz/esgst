@@ -1,5 +1,15 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    generateHeaderMenuItem,
+    getFeatureTooltip,
+    createLock
+  } = common
+;
 
 class DiscussionsDiscussionHighlighter extends Module {
   info = ({
@@ -25,7 +35,7 @@ class DiscussionsDiscussionHighlighter extends Module {
 
   dh() {
     new Process({
-      button: this.esgst.modules.common.createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, this.esgst.modules.common.generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: this.esgst.modules.common.getFeatureTooltip(`dh`)})),
+      button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
       popup: {
         icon: `fa-star`,
         title: `Highlited Discussions`,
@@ -90,7 +100,7 @@ class DiscussionsDiscussionHighlighter extends Module {
     let breadcrumbs = responseHtml.getElementsByClassName(`page__heading__breadcrumbs`);
     let categoryLink = breadcrumbs[0].firstElementChild.nextElementSibling.nextElementSibling;
     let usernameLink = responseHtml.getElementsByClassName(`comment__username`)[0].firstElementChild;
-    this.esgst.modules.common.createElements(obj.context, `beforeEnd`, [{
+    createElements(obj.context, `beforeEnd`, [{
       type: `div`,
       children: [{
         attributes: {
@@ -169,7 +179,7 @@ class DiscussionsDiscussionHighlighter extends Module {
 
   async dh_highlightDiscussion(code, context, save) {
     if (save) {
-      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+      let deleteLock = await createLock(`commentLock`, 300);
       const comments = JSON.parse(await getValue(`discussions`));
       if (!comments[code]) {
         comments[code] = {
@@ -189,7 +199,7 @@ class DiscussionsDiscussionHighlighter extends Module {
 
   async dh_unhighlightDiscussion(code, context, save) {
     if (save) {
-      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+      let deleteLock = await createLock(`commentLock`, 300);
       const comments = JSON.parse(await getValue(`discussions`));
       delete comments[code].highlighted;
       comments[code].lastUsed = Date.now();

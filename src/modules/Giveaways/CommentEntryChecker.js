@@ -1,6 +1,19 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml,
+    sortArray
+  } = utils,
+  {
+    createHeadingButton,
+    request
+  } = common
+;
 
 class GiveawaysCommentEntryChecker extends Module {
   info = ({
@@ -21,7 +34,7 @@ class GiveawaysCommentEntryChecker extends Module {
     if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
 
     let obj = {
-      button: this.esgst.modules.common.createHeadingButton({id: `cec`, icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`], title: `Check comments/entries`})
+      button: createHeadingButton({id: `cec`, icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`], title: `Check comments/entries`})
     };
     obj.button.addEventListener(`click`, this.cec_openPopup.bind(null, obj));
   }
@@ -66,8 +79,8 @@ class GiveawaysCommentEntryChecker extends Module {
       let url = urls[i];
       do {
         obj.popup.setProgress(`Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...</span>`);
-        let response = await this.esgst.modules.common.request({method: `GET`, queue: true, url: `${url}${nextPage}`});
-        let responseHtml = utils.parseHtml(response.responseText);
+        let response = await request({method: `GET`, queue: true, url: `${url}${nextPage}`});
+        let responseHtml = parseHtml(response.responseText);
         let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
         for (let j = elements.length - 1; j > -1; j--) {
           comments.push(elements[j].textContent.trim());
@@ -97,7 +110,7 @@ class GiveawaysCommentEntryChecker extends Module {
     let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
     do {
       obj.popup.setProgress(`Retrieving entries (page ${nextPage})...`);
-      let responseHtml = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
+      let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
       let elements = responseHtml.getElementsByClassName(`table__column__heading`);
       for (let i = elements.length - 1; i > -1; i--) {
         entries.push(elements[i].textContent.trim());
@@ -113,8 +126,8 @@ class GiveawaysCommentEntryChecker extends Module {
     obj.popup.clearProgress();
 
     // calculate data
-    comments = utils.sortArray(Array.from(new Set(comments)));
-    entries = utils.sortArray(Array.from(new Set(entries)));
+    comments = sortArray(Array.from(new Set(comments)));
+    entries = sortArray(Array.from(new Set(entries)));
     let both = [];
     let commented = [];
     for (const user of comments) {

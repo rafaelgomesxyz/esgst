@@ -1,8 +1,25 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    observeNumChange,
+    createElements,
+    request,
+    getUser,
+    getSteamId,
+    saveUsers
+  } = common
+;
 
 class GiveawaysUnsentGiftSender extends Module {
   info = ({
@@ -21,7 +38,7 @@ class GiveawaysUnsentGiftSender extends Module {
 
   ugs() {
     if (this.esgst.createdPath) {
-      let button = this.esgst.modules.common.createHeadingButton({id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts`});
+      let button = createHeadingButton({id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts`});
       button.addEventListener(`click`, this.ugs_openPopup.bind(null, {button}));
     } else if (this.esgst.newTicketPath) {
       document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, this.ugs_saveReroll.bind(null, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
@@ -68,9 +85,9 @@ class GiveawaysUnsentGiftSender extends Module {
       if (!this.esgst.ugs_checkMember) {
         checkDifferenceSwitch.container.classList.add(`esgst-hidden`);
       }
-      this.esgst.modules.common.observeNumChange(checkDifferenceSwitch.name.firstElementChild, `ugs_setDifference`);
+      observeNumChange(checkDifferenceSwitch.name.firstElementChild, `ugs_setDifference`);
       checkMemberSwitch.dependencies.push(checkDifferenceSwitch.container);
-      ugs.results = this.esgst.modules.common.createElements(ugs.popup.scrollable, `beforeEnd`, [{
+      ugs.results = createElements(ugs.popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `esgst-hidden markdown`
         },
@@ -165,10 +182,10 @@ class GiveawaysUnsentGiftSender extends Module {
       ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
       ugs.leftoverGifts = ugs.leftover.lastElementChild;
       ugs.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `red`, icon1: `fa-send`, icon2: `fa-times-circle`, title1: `Send`, title2: `Cancel`, callback1: this.ugs_start.bind(null, ugs), callback2: this.ugs_cancel.bind(null, ugs)}).set);
-      ugs.progress = this.esgst.modules.common.createElements(ugs.popup.description, `beforeEnd`, [{
+      ugs.progress = createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
       }]);
-      ugs.overallProgress = this.esgst.modules.common.createElements(ugs.popup.description, `beforeEnd`, [{
+      ugs.overallProgress = createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`
       }]);
       ugs.popup.description.appendChild(ugs.popup.scrollable);
@@ -197,7 +214,7 @@ class GiveawaysUnsentGiftSender extends Module {
     if (!unsent) {
       // there are no unsent giveaways
       ugs.button.classList.remove(`esgst-busy`);
-      this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+      createElements(ugs.progress, `inner`, [{
         text: `You do not have any unsent gifts.`,
         type: `node`
       }]);
@@ -220,13 +237,13 @@ class GiveawaysUnsentGiftSender extends Module {
         skipped = true;
         continue;
       } else {
-        context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
+        context = parseHtml((await request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
       }
       if (nextPage === 1) {
         ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
         ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
       }
-      this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+      createElements(ugs.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -275,12 +292,12 @@ class GiveawaysUnsentGiftSender extends Module {
       let nextPage = 1;
       let pagination = null;
       do {
-        let context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`})).responseText);
+        let context = parseHtml((await request({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`})).responseText);
         if (nextPage === 1) {
           ugs.lastWinnersPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
           ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
         }
-        this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+        createElements(ugs.progress, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
@@ -325,7 +342,7 @@ class GiveawaysUnsentGiftSender extends Module {
       if (ugs.giveaways[giveaway.code].copies > ugs.giveaways[giveaway.code].totalWinners) {
         ugs.leftover.classList.remove(`esgst-hidden`);
         ugs.leftoverCount.textContent = parseInt(ugs.leftoverCount.textContent) + 1;
-        this.esgst.modules.common.createElements(ugs.leftoverGifts, `beforeEnd`, [{
+        createElements(ugs.leftoverGifts, `beforeEnd`, [{
           type: `span`,
           children: [{
             attributes: {
@@ -346,12 +363,12 @@ class GiveawaysUnsentGiftSender extends Module {
         let nextPage = 1;
         let pagination = null;
         do {
-          let context = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `${giveaway.url}/groups/search?page=${nextPage}`})).responseText);
+          let context = parseHtml((await request({method: `GET`, url: `${giveaway.url}/groups/search?page=${nextPage}`})).responseText);
           if (nextPage === 1) {
             ugs.lastGroupsPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
             ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
           }
-          this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+          createElements(ugs.progress, `inner`, [{
             attributes: {
               class: `fa fa-circle-o-notch fa-spin`
             },
@@ -396,7 +413,7 @@ class GiveawaysUnsentGiftSender extends Module {
         let giveaway = ugs.giveaways[codes[i]];
         for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
           let winner = giveaway.winners[j];
-          let savedUser = await this.esgst.modules.common.getUser(this.esgst.users, winner);
+          let savedUser = await getUser(this.esgst.users, winner);
 
           // check order:
           // 1. check if the winner is being rerolled
@@ -411,7 +428,7 @@ class GiveawaysUnsentGiftSender extends Module {
           } else {
             if (this.esgst.ugs_checkRules) {
               // check if winner has not activated/multiple wins
-              this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+              createElements(ugs.progress, `inner`, [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
@@ -441,7 +458,7 @@ class GiveawaysUnsentGiftSender extends Module {
 
             if (this.esgst.ugs_checkMember && giveaway.group && !winner.error) {
               // check if winner is still a group member
-              this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+              createElements(ugs.progress, `inner`, [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
@@ -450,7 +467,7 @@ class GiveawaysUnsentGiftSender extends Module {
                 text: `Checking if ${winner.username} is a member of one of the groups...`,
                 type: `span`
               }]);
-              await this.esgst.modules.common.getSteamId(null, false, this.esgst.users, winner);
+              await getSteamId(null, false, this.esgst.users, winner);
               let member = false;
               for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
                 let group = giveaway.groups[k];
@@ -468,9 +485,9 @@ class GiveawaysUnsentGiftSender extends Module {
                     l = this.esgst.groups.length - 1;
                   }
                   if (!this.esgst.groups[l].steamId) {
-                    this.esgst.groups[l].steamId = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
+                    this.esgst.groups[l].steamId = parseHtml((await request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
                   }
-                  ugs.groups[code] = (await this.esgst.modules.common.request({method: `GET`, url: `http://steamcommunity.com/gid/${this.esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+                  ugs.groups[code] = (await request({method: `GET`, url: `http://steamcommunity.com/gid/${this.esgst.groups[l].steamId}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
                   for (l = ugs.groups[code].length - 1; l > -1; l--) {
                     ugs.groups[code][l] = ugs.groups[code][l].match(/<steamID64>(.+?)<\/steamID64>/)[1];
                   }
@@ -488,7 +505,7 @@ class GiveawaysUnsentGiftSender extends Module {
                 }
 
                 // check winner's gift difference
-                this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+                createElements(ugs.progress, `inner`, [{
                   attributes: {
                     class: `fa fa-circle-o-notch fa-spin`
                   },
@@ -497,7 +514,7 @@ class GiveawaysUnsentGiftSender extends Module {
                   text: `Checking if ${winner.username} has a gift difference higher than the one set...`,
                   type: `span`
                 }]);
-                let element = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, url: `/group/${code}/${group.urlName}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
+                let element = parseHtml((await request({method: `GET`, url: `/group/${code}/${group.urlName}/users/search?q=${winner.username}`})).responseText).getElementsByClassName(`table__row-outer-wrap`)[0];
                 if (element && element.getElementsByClassName(`table__column__heading`)[0].textContent === winner.username) {
                   let difference = parseFloat(element.getElementsByClassName(`table__column--width-small`)[2].textContent);
                   if (difference >= this.esgst.ugs_difference) {
@@ -532,7 +549,7 @@ class GiveawaysUnsentGiftSender extends Module {
             if (winner.error) {
               ugs.unsent.classList.remove(`esgst-hidden`);
               ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-              this.esgst.modules.common.createElements(ugs.unsentGifts, `beforeEnd`, [{
+              createElements(ugs.unsentGifts, `beforeEnd`, [{
                 type: `span`,
                 children: [{
                   attributes: {
@@ -593,14 +610,14 @@ class GiveawaysUnsentGiftSender extends Module {
                 }]
               }]);
             } else if (!ugs.isCanceled) {
-              await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
+              await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`, method: `POST`, url: `/ajax.php`});
               if (!ugs.sentWinners[giveaway.code]) {
                 ugs.sentWinners[giveaway.code] = [];
               }
               ugs.sent.classList.remove(`esgst-hidden`);
               ugs.sentWinners[giveaway.code].push(winner.username);
               ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
-              this.esgst.modules.common.createElements(ugs.sentGifts, `beforeEnd`, [{
+              createElements(ugs.sentGifts, `beforeEnd`, [{
                 type: `span`,
                 children: [{
                   attributes: {
@@ -632,7 +649,7 @@ class GiveawaysUnsentGiftSender extends Module {
             // exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
             ugs.unsent.classList.remove(`esgst-hidden`);
             ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-            this.esgst.modules.common.createElements(ugs.unsentGifts, `beforeEnd`, [{
+            createElements(ugs.unsentGifts, `beforeEnd`, [{
               type: `span`,
               children: [{
                 attributes: {
@@ -680,7 +697,7 @@ class GiveawaysUnsentGiftSender extends Module {
           savedUsers.push(ugs.giveaways[key].winners[i]);
         }
       }
-      this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+      createElements(ugs.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -690,13 +707,13 @@ class GiveawaysUnsentGiftSender extends Module {
         type: `span`
       }]);
       ugs.overallProgress.textContent = ``;
-      await Promise.all([setValue(`winners`, JSON.stringify(winners)), this.esgst.modules.common.saveUsers(savedUsers), setValue(`groups`, JSON.stringify(this.esgst.groups))]);
+      await Promise.all([setValue(`winners`, JSON.stringify(winners)), saveUsers(savedUsers), setValue(`groups`, JSON.stringify(this.esgst.groups))]);
       ugs.button.classList.remove(`esgst-busy`);
       ugs.progress.innerHTML = ``;
     } else {
       // there are no unsent gifts
       ugs.button.classList.remove(`esgst-busy`);
-      this.esgst.modules.common.createElements(ugs.progress, `inner`, [{
+      createElements(ugs.progress, `inner`, [{
         text: `You do not have any unsent gifts.`,
         type: `node`
       }]);

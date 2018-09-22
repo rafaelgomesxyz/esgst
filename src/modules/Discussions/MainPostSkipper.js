@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    goToComment
+  } = common
+;
 
 class DiscussionsMainPostSkipper extends Module {
   info = ({
@@ -16,7 +23,7 @@ class DiscussionsMainPostSkipper extends Module {
 
   mps() {
     if (!location.hash && this.esgst.discussionPath && this.esgst.paginationNavigation && document.referrer.match(new RegExp(`/discussion/${[location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
-      this.esgst.modules.common.goToComment(``, this.esgst.pagination.previousElementSibling.firstElementChild.firstElementChild, true);
+      goToComment(``, this.esgst.pagination.previousElementSibling.firstElementChild.firstElementChild, true);
     }
   }
 }

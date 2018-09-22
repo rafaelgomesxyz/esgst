@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GeneralLastPageLink extends Module {
   info = ({
@@ -96,7 +103,7 @@ class GeneralLastPageLink extends Module {
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
     if (!lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-      this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
+      createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
     }
   }
 
@@ -126,7 +133,7 @@ class GeneralLastPageLink extends Module {
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
     if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-      this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
+      createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
     }
   }
 
@@ -158,7 +165,7 @@ class GeneralLastPageLink extends Module {
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
     if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
-      this.esgst.modules.common.createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
+      createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
     }
   }
 }

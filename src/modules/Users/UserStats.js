@@ -1,5 +1,17 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    request
+  } = common
+;
 
 class UsersUserStats extends Module {
 info = ({
@@ -25,7 +37,7 @@ info = ({
       return;
     }
     if (context === document || !main) {
-      this.esgst.modules.common.createElements(context.getElementsByClassName(`table__heading`)[0].firstElementChild, `afterEnd`, [{
+      createElements(context.getElementsByClassName(`table__heading`)[0].firstElementChild, `afterEnd`, [{
         attributes: {
           class: `table__column--width-small text-center`
         },
@@ -65,7 +77,7 @@ info = ({
     }
     let promises = [];
     for (let username in users) {
-      let promise = this.esgst.modules.common.request({method: `GET`, url: `/user/${username}`});
+      let promise = request({method: `GET`, url: `/user/${username}`});
       promise.then(us_load.bind(null, users[username], username));
       promises.push(promise);
     }
@@ -76,7 +88,7 @@ info = ({
     let element, elements, html, i, n, profile, cvrow, rows;
     html = [];
     profile = {};
-    elements = utils.parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
+    elements = parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
     for (i = 0, n = elements.length; i < n; ++i) {
       element = elements[i];
       switch (element.textContent) {
@@ -168,7 +180,7 @@ info = ({
           break;
       }
     }
-    this.esgst.modules.common.createElements(context, `afterEnd`, html);
+    createElements(context, `afterEnd`, html);
   }
 }
 

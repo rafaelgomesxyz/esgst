@@ -2,6 +2,16 @@ import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    generateHeaderMenuItem,
+    createConfirmation
+  } = common
+;
 
 class GeneralCustomHeaderFooterLinks extends Module {
   info = ({
@@ -147,11 +157,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
             element.remove();
           }
           if (key === `footer`) {
-            source.elements[item.id] = this.esgst.modules.common.createElements(source.context, `afterBegin`, [{
+            source.elements[item.id] = createElements(source.context, `afterBegin`, [{
               attributes: {
                 [`data-link-id`]: item.id,
                 [`data-link-key`]: `footer`,
-                title: this.esgst.modules.common.getFeatureTooltip(`chfl`)
+                title: getFeatureTooltip(`chfl`)
               },
               type: this.esgst.sg ? `div` : `li`,
               children: [{
@@ -168,8 +178,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
               }]
             }]);
           } else {
-            source.elements[item.id] = this.esgst.modules.common.createElements(source.context, `afterBegin`, this.esgst.modules.common.generateHeaderMenuItem(item, key));
-            source.elements[item.id].title = this.esgst.modules.common.getFeatureTooltip(`chfl`);
+            source.elements[item.id] = createElements(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
+            source.elements[item.id].title = getFeatureTooltip(`chfl`);
             if (!item.description) {
               source.elements[item.id].classList.add(`esgst-chfl-small`);
             }
@@ -254,7 +264,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       const source = chfl.sources[key];
       if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
-      const button = this.esgst.modules.common.createElements(source.context, `beforeEnd`, key === `footer` ? [{
+      const button = createElements(source.context, `beforeEnd`, key === `footer` ? [{
         attributes: {
           class: `esgst-chfl-button`
         },
@@ -271,9 +281,9 @@ class GeneralCustomHeaderFooterLinks extends Module {
           text: `Add Custom Link`,
           type: `a`
         }]
-      }] : this.esgst.modules.common.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
+      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
       button.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, null, key));
-      const resetButton = this.esgst.modules.common.createElements(source.context, `beforeEnd`, key === `footer` ? [{
+      const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
         attributes: {
           class: `esgst-chfl-button`
         },
@@ -290,11 +300,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
           text: `Reset Links`,
           type: `a`
         }]
-      }] : this.esgst.modules.common.generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-      resetButton.addEventListener(`click`, this.esgst.modules.common.createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
+      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
+      resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
       for (const subKey in source.elements) {
         const element = source.elements[subKey],
-            panel = this.esgst.modules.common.createElements(element, `beforeEnd`, [{
+            panel = createElements(element, `beforeEnd`, [{
               attributes: {
                 class: `esgst-chfl-panel`
               },
@@ -321,7 +331,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
   chfl_openPopup(chfl, editId, key, event) {
     event.preventDefault();
     let popup = new Popup(editId ? `fa-edit` : `fa-plus`, `${editId ? `Edit` : `Add`} Custom Link`, true);
-    let description = this.esgst.modules.common.createElements(popup.description, `beforeEnd`, [{
+    let description = createElements(popup.description, `beforeEnd`, [{
       type: `div`,
       children: [{
         text: `URL:`,
@@ -526,7 +536,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     }
     this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
     await setValue(`settings`, JSON.stringify(this.esgst.settings));
-    chfl.sources[key].elements[item.id] = this.esgst.modules.common.createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
+    chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
       attributes: {
         [`data-link-id`]: item.id,
         [`data-link-key`]: `footer`
@@ -544,7 +554,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         text: item.name,
         type: `a`
       }]
-    }] : this.esgst.modules.common.generateHeaderMenuItem(item, key));
+    }] : generateHeaderMenuItem(item, key));
     if (!item.description) {
       chfl.sources[key].elements[item.id].classList.add(`esgst-chfl-small`);
     }

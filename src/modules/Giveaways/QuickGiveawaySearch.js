@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysQuickGiveawaySearch extends Module {
   info = ({
@@ -22,10 +30,10 @@ class GiveawaysQuickGiveawaySearch extends Module {
   });
 
   qgs() {
-    let container = this.esgst.modules.common.createElements(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, [{
+    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, [{
       attributes: {
         class: `esgst-qgs-container`,
-        title: this.esgst.modules.common.getFeatureTooltip(`qgs`)
+        title: getFeatureTooltip(`qgs`)
       },
       type: `div`,
       children: [{

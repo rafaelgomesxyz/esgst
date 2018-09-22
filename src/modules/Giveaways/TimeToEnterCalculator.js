@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysTimeToEnterCalculator extends Module {
   info = ({
@@ -30,17 +38,17 @@ class GiveawaysTimeToEnterCalculator extends Module {
       giveaways.forEach(giveaway => {
         if (!giveaway.ended && !giveaway.entered && giveaway.points > this.esgst.points) {
           if (!giveaway.ttec) {
-            giveaway.ttec = this.esgst.modules.common.createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
+            giveaway.ttec = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
               attributes: {
                 class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-ttec`,
                 [`data-draggable-id`]: `ttec`,
-                title: this.esgst.modules.common.getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)
+                title: getFeatureTooltip(`ttec`, `Time to wait until you have enough points to enter this giveaway`)
               },
               type: `div`
             }]);
           }
           giveaway.ttec.classList.remove(`esgst-hidden`);
-          this.esgst.modules.common.createElements(giveaway.ttec, `inner`, [{
+          createElements(giveaway.ttec, `inner`, [{
             attributes: {
               class: `fa fa-clock-o`
             },

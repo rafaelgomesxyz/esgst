@@ -1,6 +1,20 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    saveComment,
+    request,
+    endless_load
+  } = common
+;
 
 class DiscussionsDiscussionEditDetector extends Module {
   info = ({
@@ -40,13 +54,13 @@ class DiscussionsDiscussionEditDetector extends Module {
       : `btn_actions`
     )[0];
     container.firstElementChild.remove();
-    obj.button = this.esgst.modules.common.createElements(container, `afterBegin`, [{
+    obj.button = createElements(container, `afterBegin`, [{
       attributes: {
         class: `esgst-ded-button`
       },
       type: `div`
     }]);
-    obj.status = this.esgst.modules.common.createElements(container, `beforeEnd`, [{
+    obj.status = createElements(container, `beforeEnd`, [{
       attributes: {
         class: `comment__actions action_list esgst-ded-status`
       },
@@ -68,7 +82,7 @@ class DiscussionsDiscussionEditDetector extends Module {
     obj.status.innerHTML = ``;
 
     if (!obj.commentUrl) {
-      this.esgst.modules.common.saveComment(
+      saveComment(
         obj.tradeCode,
         obj.parentId.value,
         obj.description.value,
@@ -80,11 +94,11 @@ class DiscussionsDiscussionEditDetector extends Module {
       return;
     }
 
-    const response = await this.esgst.modules.common.request({
+    const response = await request({
           method: `GET`,
           url: obj.commentUrl
         }),
-        responseHtml = utils.parseHtml(response.responseText),
+        responseHtml = parseHtml(response.responseText),
         comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
     obj.parentId = this.esgst.sg
       ? comment.closest(`.comment`).getAttribute(`data-comment-id`)
@@ -97,7 +111,7 @@ class DiscussionsDiscussionEditDetector extends Module {
       : `/ajax.php`;
 
     if (obj.checked || !this.esgst.rfi_c) {
-      this.esgst.modules.common.saveComment(
+      saveComment(
         obj.tradeCode,
         obj.parentId,
         obj.description.value,
@@ -123,13 +137,13 @@ class DiscussionsDiscussionEditDetector extends Module {
     }
     if (comments.children.length) {
       obj.context.appendChild(comments);
-      await this.esgst.modules.common.endless_load(comments);
+      await endless_load(comments);
       for (let i = comments.children.length - 1; i > -1; i--) {
         obj.context.appendChild(comments.children[i]);
       }
       comments.remove();
       obj.set.changeButton(1).setTitle(`Confirm`);
-      this.esgst.modules.common.createElements(obj.status, `inner`, [{
+      createElements(obj.status, `inner`, [{
         attributes: {
           class: `esgst-bold esgst-warning`
         },
@@ -151,7 +165,7 @@ class DiscussionsDiscussionEditDetector extends Module {
       }]);
       obj.checked = true;
     } else {
-      this.esgst.modules.common.saveComment(
+      saveComment(
         obj.tradeCode,
         obj.parentId,
         obj.description.value,

@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GeneralPointsVisualizer extends Module {
   info = ({
@@ -28,7 +35,7 @@ class GeneralPointsVisualizer extends Module {
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - 157)}px`; // 157px is the width of the button without the arrow
     if (!this.esgst.pvStyle) {
-      this.esgst.pvStyle = this.esgst.modules.common.createElements(this.esgst.style, `afterEnd`, [{
+      this.esgst.pvStyle = createElements(this.esgst.style, `afterEnd`, [{
         attributes: {
           id: `esgst-pv-style`
         },

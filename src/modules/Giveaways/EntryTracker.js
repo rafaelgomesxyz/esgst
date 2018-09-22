@@ -1,6 +1,19 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    formatDate
+  } = utils,
+  {
+    createElements,
+    getFeatureTooltip,
+    getTimestamp
+  } = common
+;
 
 class GiveawaysEntryTracker extends Module {
   info = ({
@@ -22,12 +35,12 @@ class GiveawaysEntryTracker extends Module {
       this.esgst.endlessFeatures.push(this.et_getEntries);
     }
     if (!this.esgst.sg) return;
-    this.esgst.modules.common.createElements(this.esgst.sg ? this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
+    createElements(this.esgst.sg ? this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
       attributes: {
         class: `esgst-header-menu-row`,
         [`data-link-id`]: `et`,
         [`data-link-key`]: `account`,
-        title: this.esgst.modules.common.getFeatureTooltip(`et`)
+        title: getFeatureTooltip(`et`)
       },
       type: `div`,
       children: [{
@@ -79,11 +92,11 @@ class GiveawaysEntryTracker extends Module {
           text: entry.name,
           type: `a`
         }, {
-          text: `on ${this.esgst.modules.common.getTimestamp(entry.timestamp, this.esgst.at_24, this.esgst.at_s)}`,
+          text: `on ${getTimestamp(entry.timestamp, this.esgst.at_24, this.esgst.at_s)}`,
           type: `node`
         }]
       });
-      let date = utils.formatDate(`[MMM] [D], [YYYY]`, entry.timestamp);
+      let date = formatDate(`[MMM] [D], [YYYY]`, entry.timestamp);
       let key = new Date(date).getTime();
       if (!dates[key]) {
         dates[key] = {
@@ -107,14 +120,14 @@ class GiveawaysEntryTracker extends Module {
       currentDate = dateObj.getTime();
       if (!dates[currentDate]) {
         dates[currentDate] = {
-          date: utils.formatDate(`[MMM] [D], [YYYY]`, currentDate),
+          date: formatDate(`[MMM] [D], [YYYY]`, currentDate),
           entered: 0,
           left: 0
         };
       }
     }
     let popup = new Popup(`fa-history`, `Entry Tracker`, true);
-    let rows = this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    let rows = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left esgst-float-right table`,
         style: `width: auto;`
@@ -170,7 +183,7 @@ class GiveawaysEntryTracker extends Module {
     let total = 0;
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
-      let button = this.esgst.modules.common.createElements(rows, `beforeEnd`, [{
+      let button = createElements(rows, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`,
         },
@@ -225,7 +238,7 @@ class GiveawaysEntryTracker extends Module {
       total += dates[key].entered;
     }
     let average = Math.round(total / keys.length * 100) / 100;
-    this.esgst.modules.common.createElements(popup.description, `afterBegin`, [{
+    createElements(popup.description, `afterBegin`, [{
       type: `div`,
       children: [{
         text: `You enter on average `,
@@ -289,7 +302,7 @@ class GiveawaysEntryTracker extends Module {
         type: `node`
       }]
     }]);
-    this.esgst.modules.common.createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left esgst-float-left markdown`,
         style: `border-right: 1px solid #ccc;`
@@ -310,7 +323,7 @@ class GiveawaysEntryTracker extends Module {
 
   async et_deleteEntry(button, date, popup) {
     if (! confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -319,7 +332,7 @@ class GiveawaysEntryTracker extends Module {
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
-      if (date !== utils.formatDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
+      if (date !== formatDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
       entries.splice(i, 1);
     }
     await setValue(`entries`, JSON.stringify(entries));

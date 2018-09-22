@@ -1,9 +1,25 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import Button from '../../class/Button';
 import ButtonSet from '../../class/ButtonSet';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popup from '../../class/Popup';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    getFeatureTooltip,
+    request,
+    lockAndSaveGiveaways,
+    endless_load,
+    createLock
+  } = common
+;
 
 class GiveawaysGiveawayBookmarks extends Module {
   info = ({
@@ -61,10 +77,10 @@ class GiveawaysGiveawayBookmarks extends Module {
     this.esgst.giveawayFeatures.push(this.gb_getGiveaways);
     let button = null;
     if (!this.esgst.gbPath) {
-      button = this.esgst.modules.common.createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
+      button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
         attributes: {
           class: `nav__button-container esgst-hidden`,
-          title: this.esgst.modules.common.getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
+          title: getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
         },
         type: `div`,
         children: [{
@@ -159,7 +175,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       title = ``;
     }
     if (button) {
-      button.title = this.esgst.modules.common.getFeatureTooltip(`gb`, `View your bookmarked giveaways ${title}`);
+      button.title = getFeatureTooltip(`gb`, `View your bookmarked giveaways ${title}`);
     }
     if (bookmarked.length) {
       bookmarked.sort((a, b) => {
@@ -186,7 +202,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       }
     }
     if (this.esgst.gbPath) {
-      this.gb_loadGibs(bookmarked, this.esgst.mainContext, this.esgst.modules.common.createElements(this.esgst.mainContext, `beforeEnd`, [{
+      this.gb_loadGibs(bookmarked, this.esgst.mainContext, createElements(this.esgst.mainContext, `beforeEnd`, [{
         type: `div`
       }]));
     }
@@ -208,7 +224,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     let info;
     let i = 0;
     let n = bookmarked.length;
-    let gbGiveaways = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+    let gbGiveaways = createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left`
       },
@@ -230,7 +246,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     if (popup) {
       popup.open();
     }
-    info = this.esgst.modules.common.createElements(context, `beforeBegin`, [{
+    info = createElements(context, `beforeBegin`, [{
       type: `div`,
       children: [{
         text: `0`,
@@ -247,7 +263,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       }]
     }]);
     if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
-      let heading = this.esgst.modules.common.createElements(context, `beforeBegin`, [{
+      let heading = createElements(context, `beforeBegin`, [{
         attributes: {
           class: `page__heading`
         },
@@ -287,7 +303,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       if (giveaway.name) {
         attributes[`data-esgst`] = true;
       }
-      this.esgst.modules.common.createElements(gb.popup.scrollable, `beforeEnd`, [{
+      createElements(gb.popup.scrollable, `beforeEnd`, [{
         type: `div`,
         children: [{
           attributes,
@@ -306,21 +322,21 @@ class GiveawaysGiveawayBookmarks extends Module {
       let element = this.gb.popup.scrollable.children[i].firstElementChild;
       if (!element.getAttribute(`data-esgst`)) {
         let code = element.textContent;
-        element.textContent = utils.parseHtml((await this.esgst.modules.common.request({method: `GET`, queue: true, url: element.getAttribute(`href`)})).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;
+        element.textContent = parseHtml((await request({method: `GET`, queue: true, url: element.getAttribute(`href`)})).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;
         giveaways[code] = {
           name: element.textContent
         };
       }
     }
-    this.esgst.modules.common.lockAndSaveGiveaways(giveaways);
+    lockAndSaveGiveaways(giveaways);
   }
 
   async gb_loadGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
     if (i < n) {
       if (bookmarked[i]) {
-        let response = await this.esgst.modules.common.request({method: `GET`, queue: true, url: `/giveaway/${bookmarked[i].code}/`});
+        let response = await request({method: `GET`, queue: true, url: `/giveaway/${bookmarked[i].code}/`});
         let endTime;
-        let responseHtml = utils.parseHtml(response.responseText);
+        let responseHtml = parseHtml(response.responseText);
         let container = responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
         if (container) {
           let heading = responseHtml.getElementsByClassName(`featured__heading`)[0];
@@ -338,7 +354,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             anchors[j].classList.add(`giveaway__icon`);
           }
           let headingName = heading.firstElementChild;
-          this.esgst.modules.common.createElements(headingName, `outer`, [{
+          createElements(headingName, `outer`, [{
             attributes: {
               class: `giveaway__heading__name`,
               href: url
@@ -355,7 +371,7 @@ class GiveawaysGiveawayBookmarks extends Module {
           info.firstElementChild.textContent = parseInt(info.firstElementChild.textContent) + parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
           info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
           for (j = 0; j < numT; ++j) {
-            this.esgst.modules.common.createElements(thinHeadings[0], `outer`, [{
+            createElements(thinHeadings[0], `outer`, [{
               attributes: {
                 class: `giveaway__heading__thin`
               },
@@ -471,10 +487,10 @@ class GiveawaysGiveawayBookmarks extends Module {
               }]
             }]
           });
-          this.esgst.modules.common.createElements(gbGiveaways, `beforeEnd`, items);
-          await this.esgst.modules.common.endless_load(gbGiveaways.lastElementChild, false, `gb`);
+          createElements(gbGiveaways, `beforeEnd`, items);
+          await endless_load(gbGiveaways.lastElementChild, false, `gb`);
           if (endTime > 0) {
-            let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
+            let deleteLock = await createLock(`giveawayLock`, 300);
             let giveaways = JSON.parse(await getValue(`giveaways`));
             giveaways[bookmarked[i].code].started = true;
             giveaways[bookmarked[i].code].endTime = endTime;
@@ -515,7 +531,7 @@ class GiveawaysGiveawayBookmarks extends Module {
   }
 
   async gb_bookmarkGiveaway(giveaway) {
-    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
+    let deleteLock = await createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
@@ -531,7 +547,7 @@ class GiveawaysGiveawayBookmarks extends Module {
   }
 
   async gb_unbookmarkGiveaway(giveaway) {
-    let deleteLock = await this.esgst.modules.common.createLock(`giveawayLock`, 300);
+    let deleteLock = await createLock(`giveawayLock`, 300);
     let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].bookmarked;

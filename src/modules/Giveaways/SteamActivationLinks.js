@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GiveawaysSteamActivationLinks extends Module {
   info = ({
@@ -73,15 +81,15 @@ class GiveawaysSteamActivationLinks extends Module {
   sal_addLink(element, match) {
     let link, textArea;
     if ((element.nextElementSibling && !element.nextElementSibling.classList.contains(`esgst-sal`)) || !element.nextElementSibling) {
-      link = this.esgst.modules.common.createElements(element, `afterEnd`, [{
+      link = createElements(element, `afterEnd`, [{
         type: `span`
       }]);
       switch (this.esgst.sal_index) {
         case 0:
-          this.esgst.modules.common.createElements(link, `beforeEnd`, [{
+          createElements(link, `beforeEnd`, [{
             attributes: {
               class: `esgst-sal esgst-clickable`,
-              title: this.esgst.modules.common.getFeatureTooltip(`sal`, `Activate on Steam (client)`)
+              title: getFeatureTooltip(`sal`, `Activate on Steam (client)`)
             },
             type: `span`,
             children: [{
@@ -91,7 +99,7 @@ class GiveawaysSteamActivationLinks extends Module {
               type: `i`
             }]
           }]).addEventListener(`click`, () => {
-            textArea = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
+            textArea = createElements(document.body, `beforeEnd`, [{
               type: `textarea`
             }]);
             textArea.value = match;
@@ -102,12 +110,12 @@ class GiveawaysSteamActivationLinks extends Module {
           });
           break;
         case 1:
-          this.esgst.modules.common.createElements(link, `beforeEnd`, [{
+          createElements(link, `beforeEnd`, [{
             attributes: {
               class: `esgst-sal esgst-clickable`,
               href: `https://store.steampowered.com/account/registerkey?key=${match}`,
               target: `_blank`,
-              title: this.esgst.modules.common.getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
+              title: getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
             },
             type: `a`,
             children: [{
@@ -119,10 +127,10 @@ class GiveawaysSteamActivationLinks extends Module {
           }]);
           break;
         case 2:
-          this.esgst.modules.common.createElements(link, `beforeEnd`, [{
+          createElements(link, `beforeEnd`, [{
             attributes: {
               class: `esgst-sal esgst-clickable`,
-              title: this.esgst.modules.common.getFeatureTooltip(`sal`, `Activate on Steam (client)`)
+              title: getFeatureTooltip(`sal`, `Activate on Steam (client)`)
             },
             type: `span`,
             children: [{
@@ -136,7 +144,7 @@ class GiveawaysSteamActivationLinks extends Module {
               class: `esgst-sal esgst-clickable`,
               href: `https://store.steampowered.com/account/registerkey?key=${match}`,
               target: `_blank`,
-              title: this.esgst.modules.common.getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
+              title: getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
             },
             type: `a`,
             children: [{
@@ -146,7 +154,7 @@ class GiveawaysSteamActivationLinks extends Module {
               type: `i`
             }]
           }]).previousElementSibling.addEventListener(`click`, () => {
-            textArea = this.esgst.modules.common.createElements(document.body, `beforeEnd`, [{
+            textArea = createElements(document.body, `beforeEnd`, [{
               type: `textarea`
             }]);
             textArea.value = match;

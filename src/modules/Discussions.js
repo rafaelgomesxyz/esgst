@@ -1,5 +1,14 @@
 import Module from '../class/Module';
 import Button from '../class/Button';
+import {common} from 'Common';
+
+const
+  {
+    sortContent,
+    checkVersion,
+    getUser
+  } = common
+;
 
 class Discussions extends Module {
   info = ({
@@ -31,7 +40,7 @@ class Discussions extends Module {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.df, false, endless);
       }
       if (this.esgst.ds && this.esgst.ds_auto) {
-        this.esgst.modules.common.sortContent(this.esgst.mainDiscussions, null, this.esgst.ds_option);
+        sortContent(this.esgst.mainDiscussions, null, this.esgst.ds_option);
       }
     }
     if (this.esgst.mm_enableDiscussions && this.esgst.mm_enable) {
@@ -78,7 +87,7 @@ class Discussions extends Module {
       discussion.tagPosition = `afterEnd`;
       discussion.saved = this.esgst.discussions[discussion.code];
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
-      this.esgst.modules.common.checkVersion(discussion);
+      checkVersion(discussion);
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
       discussions.push(discussion);
     }
@@ -179,7 +188,7 @@ class Discussions extends Module {
       return;
     }
     discussion.code = match[1];
-    this.esgst.modules.common.checkVersion(discussion);
+    checkVersion(discussion);
     if (main && this.esgst.df && this.esgst.df_s && this.esgst.discussions[discussion.code] && this.esgst.discussions[discussion.code].hidden) {
       discussion.outerWrap.remove();
       return;
@@ -233,7 +242,7 @@ class Discussions extends Module {
     discussion.tagPosition = `beforeEnd`;
     discussion.saved = this.esgst.discussions[discussion.code];
     if (this.esgst.uf) {
-      savedUser = await this.esgst.modules.common.getUser(this.esgst.users, {
+      savedUser = await getUser(this.esgst.users, {
         username: discussion.author
       });
       if (savedUser) {

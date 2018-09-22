@@ -1,4 +1,13 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip,
+    setSiblingsOpacity
+  } = common
+;
 
 class UsersSteamTradesProfileButton extends Module {
 info = ({
@@ -20,13 +29,13 @@ info = ({
 
   stpb_add(profile) {
     let button, tooltip;
-    button = this.esgst.modules.common.createElements(profile.steamButtonContainer.firstElementChild, `beforeEnd`, [{
+    button = createElements(profile.steamButtonContainer.firstElementChild, `beforeEnd`, [{
       attributes: {
         class: `esgst-stpb-button`,
         href: `https://www.steamtrades.com/user/${profile.steamId}`,
         rel: `nofollow`,
         target: `_blank`,
-        title: this.esgst.modules.common.getFeatureTooltip(`stpb`)
+        title: getFeatureTooltip(`stpb`)
       },
       type: `a`,
       children: [{
@@ -45,13 +54,13 @@ info = ({
     tooltip = profile.steamButtonContainer.getElementsByClassName(`js-tooltip`)[0];
     if (tooltip) {
       button.addEventListener(`mouseenter`, this.stpb_show.bind(null, button, tooltip));
-      button.addEventListener(`mouseleave`, this.esgst.modules.common.setSiblingsOpacity.bind(null, button, `1`));
+      button.addEventListener(`mouseleave`, setSiblingsOpacity.bind(null, button, `1`));
     }
   }
 
   stpb_show(button, tooltip) {
     tooltip.textContent = `Visit SteamTrades Profile`;
-    this.esgst.modules.common.setSiblingsOpacity(button, `0.2`);
+    setSiblingsOpacity(button, `0.2`);
   }
 }
 

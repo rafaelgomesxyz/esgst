@@ -1,10 +1,33 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
 import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Checkbox from '../../class/Checkbox';
 import Popout from '../../class/Popout';
 import Process from '../../class/Process';
 import ToggleSwitch from '../../class/ToggleSwitch';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    sortArray,
+    formatDate,
+    parseHtml
+  } = utils,
+  {
+    createHeadingButton,
+    createElements,
+    getChildByClassName,
+    selectSwitches,
+    createTooltip,
+    escapeMarkdown,
+    request,
+    lockAndSaveGiveaways,
+    createFadeMessage,
+    lockAndSaveDiscussions,
+    lockAndSaveGames
+  } = common
+;
 
 class GeneralMultiManager extends Module {
   info = ({
@@ -42,7 +65,7 @@ class GeneralMultiManager extends Module {
   mm(context, items, itemsKey) {
     if (!context && !this.esgst.mainPageHeading) return;
     let obj = {
-      button: this.esgst.modules.common.createHeadingButton({
+      button: createHeadingButton({
         context,
         id: `mm`,
         icons: [`fa-gears`],
@@ -80,7 +103,7 @@ class GeneralMultiManager extends Module {
   mm_openPopout(obj, items, itemsKey) {
     if (obj.popout) return;
     obj.popout = new Popout(`esgst-mm-popout`, obj.button, 0, true);
-    obj.headings = this.esgst.modules.common.createElements(obj.popout.popout, `afterBegin`, [{
+    obj.headings = createElements(obj.popout.popout, `afterBegin`, [{
       attributes: {
         class: `esgst-mm-headings`
       },
@@ -95,7 +118,7 @@ class GeneralMultiManager extends Module {
     let activeIndex = 0;
     Object.keys(obj.checkboxes).forEach((key, i) => {
       if (!this.esgst.sg && key !== `Users`) return;
-      let heading = this.esgst.modules.common.createElements(obj.headings, `beforeEnd`, [{
+      let heading = createElements(obj.headings, `beforeEnd`, [{
         type: `div`,
         children: [{
           type: `span`
@@ -119,7 +142,7 @@ class GeneralMultiManager extends Module {
       let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, this.esgst[`mm_enable${key}`]);
       toggleSwitch.onEnabled = this.mm_enable.bind(null, obj, itemsKey === key ? items : null, key);
       toggleSwitch.onDisabled = this.mm_disable.bind(null, obj, itemsKey === key ? items : null, key);
-      this.mm_setSection(obj, this.esgst.modules.common.createElements(obj.sections, `beforeEnd`, [{
+      this.mm_setSection(obj, createElements(obj.sections, `beforeEnd`, [{
         type: `div`
       }]), itemsKey === key ? items : null, key);
       if (this.esgst.sg) {
@@ -149,7 +172,7 @@ class GeneralMultiManager extends Module {
       items = this.esgst[obj.scope + key];
     }
     items.forEach(item => {
-      let checkbox = this.esgst.modules.common.getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || this.esgst.modules.common.getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
+      let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
       if (checkbox) return;
       checkbox = new Checkbox(createElements(item.innerWrap, key.match(/Giveaways|Discussions/) ? `afterBegin` : `beforeBegin`, [{
         attributes: {
@@ -177,7 +200,7 @@ class GeneralMultiManager extends Module {
       items = this.esgst[obj.scope + key];
     }
     items.forEach(item => {
-      let checkbox = this.esgst.modules.common.getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || this.esgst.modules.common.getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
+      let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
       if (checkbox) {
         checkbox.remove();
       }
@@ -236,21 +259,21 @@ class GeneralMultiManager extends Module {
               color1: `grey`, color2: `grey`,
               icon1: `fa-square`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `All`, title2: ``,
-              callback1: this.esgst.modules.common.selectSwitches.bind(null, obj.checkboxes[key], `check`, null)
+              callback1: selectSwitches.bind(null, obj.checkboxes[key], `check`, null)
             },
             {
               check: true,
               color1: `grey`, color2: `grey`,
               icon1: `fa-square-o`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `None`, title2: ``,
-              callback1: this.esgst.modules.common.selectSwitches.bind(null, obj.checkboxes[key], `uncheck`, null)
+              callback1: selectSwitches.bind(null, obj.checkboxes[key], `uncheck`, null)
             },
             {
               check: true,
               color1: `grey`, color2: `grey`,
               icon1: `fa-plus-square-o`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Inverse`, title2: ``,
-              callback1: this.esgst.modules.common.selectSwitches.bind(null, obj.checkboxes[key], `toggle`, null)
+              callback1: selectSwitches.bind(null, obj.checkboxes[key], `toggle`, null)
             }
           ],
           name: `Select:`
@@ -424,7 +447,7 @@ class GeneralMultiManager extends Module {
       ]
     };
     sections.default.forEach((section, i) => {
-      let group = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+      let group = createElements(context, `beforeEnd`, [{
         attributes: {
           class: `esgst-button-group`
         },
@@ -439,7 +462,7 @@ class GeneralMultiManager extends Module {
         if (!button.check) return;
         let element = new ButtonSet_v2(button).set;
         if (group.children.length === 4) {
-          group = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+          group = createElements(context, `beforeEnd`, [{
             attributes: {
               class: `esgst-button-group`
             },
@@ -514,7 +537,7 @@ class GeneralMultiManager extends Module {
         }
       });
     });
-    this.esgst.modules.common.createTooltip(this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+    createTooltip(createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -609,7 +632,7 @@ class GeneralMultiManager extends Module {
       <br/>
       <br/>
     `);
-    obj[`textArea${key}`] = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+    obj[`textArea${key}`] = createElements(context, `beforeEnd`, [{
       attributes: {
         class: `page_outer_wrap`
       },
@@ -621,7 +644,7 @@ class GeneralMultiManager extends Module {
     if (this.esgst.cfh) {
       this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(obj[`textArea${key}`]);
     }
-    obj[`message${key}`] = this.esgst.modules.common.createElements(context, `beforeEnd`, [{
+    obj[`message${key}`] = createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -639,7 +662,7 @@ class GeneralMultiManager extends Module {
     let links = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-      links.push(`[${this.esgst.modules.common.escapeMarkdown(item.name || item.title || item.code)}](https://${key === `Games` ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
+      links.push(`[${escapeMarkdown(item.name || item.title || item.code)}](https://${key === `Games` ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
     });
     obj[`textArea${key}`].value = links.join(`\n`);
   }
@@ -686,7 +709,7 @@ class GeneralMultiManager extends Module {
             .replace(/\[END-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.endTime))
             .replace(/\[ENTRIES\]/ig, item.entries)
             .replace(/\[LEVEL\]/ig, item.level)
-            .replace(/\[NAME\]/ig, this.esgst.modules.common.escapeMarkdown(item.name))
+            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
             .replace(/\[POINTS\]/ig, item.points)
             .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/giveaway/${item.code}/`)
             .replace(/\[START-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.startTime))
@@ -703,13 +726,13 @@ class GeneralMultiManager extends Module {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
             .replace(/\[AUTHOR\]/ig, item.author)
-            .replace(/\[CATEGORY\]/ig, this.esgst.modules.common.escapeMarkdown(item.category))
+            .replace(/\[CATEGORY\]/ig, escapeMarkdown(item.category))
             .replace(/\[CODE\]/ig, item.code)
             .replace(/\[COMMENTS\]/ig, item.comments)
             .replace(/\[CREATED-TIME="(.+?)"\]/ig, this.mm_formatDate.bind(null, item.createdTimestamp))
             .replace(/\[POLL\]/ig, item.poll ? `Yes` : `No`)
             .replace(/\[SHORT-URL\]/ig, `https://www.steamgifts.com/discussion/${item.code}/`)
-            .replace(/\[TITLE\]/ig, this.esgst.modules.common.escapeMarkdown(item.title))
+            .replace(/\[TITLE\]/ig, escapeMarkdown(item.title))
             .replace(/\[URL\]/ig, `https://www.steamgifts.com${item.url.match(/\/discussion\/.+/)[0]}`)
           );
         });
@@ -728,7 +751,7 @@ class GeneralMultiManager extends Module {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
             .replace(/\[ID\]/ig, item.code)
-            .replace(/\[NAME\]/ig, this.esgst.modules.common.escapeMarkdown(item.name))
+            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
             .replace(/\[TYPE\]/ig, item.type.slice(0, -1))
             .replace(/\[URL\]/ig, `https://store.steampowered.com/${item.type.slice(0, -1)}/${item.code}`)
           );
@@ -739,7 +762,7 @@ class GeneralMultiManager extends Module {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
             .replace(/\[CODE\]/ig, item.code)
-            .replace(/\[NAME\]/ig, this.esgst.modules.common.escapeMarkdown(item.name))
+            .replace(/\[NAME\]/ig, escapeMarkdown(item.name))
             .replace(/\[URL\]/ig, `https://www.steamgifts.com/group/${item.code}/`)
           );
         });
@@ -748,13 +771,13 @@ class GeneralMultiManager extends Module {
         break;
     }
     if (sorting) {
-      links = utils.sortArray(links, sorting === `-desc`);
+      links = sortArray(links, sorting === `-desc`);
     }
     obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?\].+\[\/LINE\]/i, links.join(`\n`));
   }
 
   mm_formatDate(timestamp, match, p1) {
-    return this.esgst.modules.common.escapeMarkdown(utils.formatDate(p1, timestamp));
+    return escapeMarkdown(formatDate(p1, timestamp));
   }
 
   mm_initUrls(obj, items) {
@@ -789,9 +812,9 @@ class GeneralMultiManager extends Module {
     if (description) {
       let match = this.esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
       if (match) {
-        let responseJson = JSON.parse((await this.esgst.modules.common.request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
+        let responseJson = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${description.previousElementSibling.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
         if (responseJson.type === `success`) {
-          this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+          createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
             type: `li`,
             children: [{
               text: `Found and replaced in `,
@@ -805,7 +828,7 @@ class GeneralMultiManager extends Module {
             }]
           }]);
         } else {
-          this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+          createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
             type: `li`,
             children: [{
               text: `Found, but failed to replace, in `,
@@ -820,7 +843,7 @@ class GeneralMultiManager extends Module {
           }]);
         }
       } else {
-        this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+        createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
           type: `li`,
           children: [{
             text: `Not found in `,
@@ -835,7 +858,7 @@ class GeneralMultiManager extends Module {
         }]);
       }
     } else {
-      this.esgst.modules.common.createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
+      createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
         type: `li`,
         children: [{
           text: `Not found in `,
@@ -864,7 +887,7 @@ class GeneralMultiManager extends Module {
         item.outerWrap.remove();
       }
     });
-    await this.esgst.modules.common.lockAndSaveGiveaways(newItems);
+    await lockAndSaveGiveaways(newItems);
   }
 
   async mm_bookmarkGiveaways(obj, items) {
@@ -880,7 +903,7 @@ class GeneralMultiManager extends Module {
       };
       item.gbButton.change(null, 2);
     });
-    await this.esgst.modules.common.lockAndSaveGiveaways(newItems);
+    await lockAndSaveGiveaways(newItems);
   }
 
   async mm_unbookmarkGiveaways(obj, items) {
@@ -892,7 +915,7 @@ class GeneralMultiManager extends Module {
       };
       item.gbButton.change(null, 0);
     });
-    await this.esgst.modules.common.lockAndSaveGiveaways(newItems);
+    await lockAndSaveGiveaways(newItems);
   }
 
   mm_calculateGiveaways(obj, items) {
@@ -922,7 +945,7 @@ class GeneralMultiManager extends Module {
   mm_copyOutput(obj, key) {
     obj[`textArea${key}`].select();
     document.execCommand(`copy`);
-    this.esgst.modules.common.createFadeMessage(obj[`message${key}`], `Copied!`);
+    createFadeMessage(obj[`message${key}`], `Copied!`);
   }
 
   async mm_hideDiscussions(obj, items) {
@@ -938,7 +961,7 @@ class GeneralMultiManager extends Module {
         item.outerWrap.remove();
       }
     });
-    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
+    await lockAndSaveDiscussions(newItems);
   }
 
   async mm_highlightDiscussions(obj, items) {
@@ -951,7 +974,7 @@ class GeneralMultiManager extends Module {
       };
       item.dhButton.change(null, 2);
     });
-    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
+    await lockAndSaveDiscussions(newItems);
   }
 
   async mm_unhighlightDiscussions(obj, items) {
@@ -964,7 +987,7 @@ class GeneralMultiManager extends Module {
       };
       item.dhButton.change(null, 0);
     });
-    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
+    await lockAndSaveDiscussions(newItems);
   }
 
   async mm_visitDiscussions(obj, items) {
@@ -981,7 +1004,7 @@ class GeneralMultiManager extends Module {
       item.gdtttButton.callbacks[0]();
       item.gdtttButton.change(null, 2);
     });
-    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
+    await lockAndSaveDiscussions(newItems);
   }
 
   async mm_unvisitDiscussions(obj, items) {
@@ -996,7 +1019,7 @@ class GeneralMultiManager extends Module {
       item.gdtttButton.callbacks[2]();
       item.gdtttButton.change(null, 0);
     });
-    await this.esgst.modules.common.lockAndSaveDiscussions(newItems);
+    await lockAndSaveDiscussions(newItems);
   }
 
   mm_selectWbcUsers(obj, items) {
@@ -1019,7 +1042,7 @@ class GeneralMultiManager extends Module {
     for (const item of items) {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) continue;
 
-      const elements = utils.parseHtml(JSON.parse((await this.esgst.modules.common.request({
+      const elements = parseHtml(JSON.parse((await request({
         data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(item.code)}`,
         method: `POST`,
         url: `/ajax.php`
@@ -1029,7 +1052,7 @@ class GeneralMultiManager extends Module {
         const element = elements[i],
             info = this.esgst.modules.games.games_getInfo(element);
         if (info && info.type === item.type && info.id === item.code) {
-          await this.esgst.modules.common.request({
+          await request({
             data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${element.getAttribute(`data-autocomplete-id`)}`,
             method: `POST`,
             url: `/ajax.php`
@@ -1045,7 +1068,7 @@ class GeneralMultiManager extends Module {
         notFound.push(item.name);
       }
     }
-    await this.esgst.modules.common.lockAndSaveGames(newItems);
+    await lockAndSaveGames(newItems);
     if (notFound.length) {
       alert(`The following games were not found and therefore not hidden: ${notFound.join(`, `)}`);
     }

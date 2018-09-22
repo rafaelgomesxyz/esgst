@@ -1,4 +1,14 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    round,
+    setLocalValue,
+    getFeatureTooltip,
+    createElements
+  } = common
+;
 
 class GeneralLevelProgressVisualizer extends Module {
   info = ({
@@ -37,11 +47,11 @@ class GeneralLevelProgressVisualizer extends Module {
         level: currentLevel
       };
     }
-    cache.difference += this.esgst.modules.common.round(currentLevel - cache.level);
-    cache.difference = this.esgst.modules.common.round(cache.difference);
+    cache.difference += round(currentLevel - cache.level);
+    cache.difference = round(cache.difference);
     cache.level = currentLevel;
-    this.esgst.modules.common.setLocalValue(`lpvCache`, JSON.stringify(cache));
-    const currentPercentage = parseInt(this.esgst.modules.common.round(currentLevel - currentBase) * 100);
+    setLocalValue(`lpvCache`, JSON.stringify(cache));
+    const currentPercentage = parseInt(round(currentLevel - currentBase) * 100);
     const currentProgress = parseInt(currentPercentage * 1.86); // 186px is the width of the button
     const firstBar = `${currentProgress}px`;
     const secondBar = `${Math.max(0, currentProgress - 157)}px`; // 157px is the width of the button without the arrow
@@ -51,17 +61,17 @@ class GeneralLevelProgressVisualizer extends Module {
     if (cv > 0) {
       // the formula is: current_percentage + (real_cv_to_gain / real_cv_difference),
       // where real_cv_difference is the real CV difference between the next level and the current one
-      const prediction = this.esgst.modules.common.round(currentPercentage + (this.esgst.modules.common.round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
-      const newLevel = this.esgst.modules.common.round(Math.min(10, this.esgst.modules.common.round(currentBase + (prediction / 100))) - cache.difference);
+      const prediction = round(currentPercentage + (round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
+      const newLevel = round(Math.min(10, round(currentBase + (prediction / 100))) - cache.difference);
       const newBase = parseInt(newLevel);
-      const newPercentage = parseInt(this.esgst.modules.common.round(newLevel - newBase) * 100);
+      const newPercentage = parseInt(round(newLevel - newBase) * 100);
       const newProgress = parseInt(Math.min(100, newPercentage) * 1.86);
       projectedFirstBar = `${newProgress}px`;
       projectedSecondBar = `${Math.max(0, newProgress - 157)}px`;
-      this.esgst.levelContainer.title = this.esgst.modules.common.getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
+      this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
     }
     if (!this.esgst.lpvStyle) {
-      this.esgst.lpvStyle = this.esgst.modules.common.createElements(this.esgst.style, `afterEnd`, [{
+      this.esgst.lpvStyle = createElements(this.esgst.style, `afterEnd`, [{
         attributes: {
           id: `esgst-lpv-style`
         },

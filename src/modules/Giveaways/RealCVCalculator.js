@@ -1,4 +1,12 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    request,
+    createElements
+  } = common
+;
 
 class GiveawaysRealCVCalculator extends Module {
   info = ({
@@ -27,7 +35,7 @@ class GiveawaysRealCVCalculator extends Module {
           let headings = document.getElementsByClassName(`featured__heading__small`);
           let copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
           try {
-            let responseJson = JSON.parse((await this.esgst.modules.common.request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
+            let responseJson = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
             let value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
             let games, user;
             games = JSON.parse(await getValue(`games`));
@@ -95,7 +103,7 @@ class GiveawaysRealCVCalculator extends Module {
               cv = value;
             }
             cv = Math.round(cv * 100) / 100;
-            this.esgst.modules.common.createElements(table, `beforeEnd`, [{
+            createElements(table, `beforeEnd`, [{
               attributes: {
                 class: `table__row-outer-wrap`
               },

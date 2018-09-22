@@ -1,4 +1,11 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    createElements
+  } = common
+;
 
 class GiveawaysCommunityWishlistSearchLink extends Module {
   info = ({
@@ -26,7 +33,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
     }
     for (const game of games.all) {
       let giveawayCount = game.heading.parentElement.nextElementSibling.nextElementSibling;
-      this.esgst.modules.common.createElements(giveawayCount, `inner`, [{
+      createElements(giveawayCount, `inner`, [{
         attributes: {
           class: `table__column__secondary-link`,
           href: `/giveaways/search?${game.type.slice(0, -1)}=${game.id}`

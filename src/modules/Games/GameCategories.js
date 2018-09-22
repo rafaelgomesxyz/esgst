@@ -1,5 +1,22 @@
-import {utils} from '../../lib/jsUtils'
+
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
+
+const
+  {
+    parseHtml,
+    sortArray
+  } = utils,
+  {
+    createElements,
+    setLocalValue,
+    lockAndSaveGames,
+    request,
+    getFeatureTooltip,
+    draggable_enter
+  } = common
+;
 
 class GamesGameCategories extends Module {
   info = ({
@@ -842,7 +859,7 @@ class GamesGameCategories extends Module {
           continue;
         }
         if (element.container.closest(`.poll`)) {
-          this.esgst.modules.common.createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
+          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -856,7 +873,7 @@ class GamesGameCategories extends Module {
             }]
           }]);
         } else {
-          this.esgst.modules.common.createElements(element.heading, `afterEnd`, [{
+          createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -880,7 +897,7 @@ class GamesGameCategories extends Module {
           continue;
         }
         if (element.container.closest(`.poll`)) {
-          this.esgst.modules.common.createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
+          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -894,7 +911,7 @@ class GamesGameCategories extends Module {
             }]
           }]);
         } else {
-          this.esgst.modules.common.createElements(element.heading, `afterEnd`, [{
+          createElements(element.heading, `afterEnd`, [{
             attributes: {
               class: `esgst-gc-panel`
             },
@@ -959,7 +976,7 @@ class GamesGameCategories extends Module {
           gc.cache.subs[id].lastCheck = currentTime;
         }
       }
-      this.esgst.modules.common.setLocalValue(`gcCache`, JSON.stringify(gc.cache));
+      setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       for (let i = 0, n = gc.apps.length; i < n; ++i) {
         let id = gc.apps[i];
         if (gc.cache.apps[id]) {
@@ -997,8 +1014,8 @@ class GamesGameCategories extends Module {
           }
         }
         await Promise.all(promises);
-        await this.esgst.modules.common.lockAndSaveGames(this.esgst.games);
-        this.esgst.modules.common.setLocalValue(`gcCache`, JSON.stringify(gc.cache));
+        await lockAndSaveGames(this.esgst.games);
+        setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       }
     }
 
@@ -1118,7 +1135,7 @@ class GamesGameCategories extends Module {
     if (borders) {
       borders.innerHTML = ``;
     } else {
-      borders = this.esgst.modules.common.createElements(giveaway.outerWrap, `beforeEnd`, [{
+      borders = createElements(giveaway.outerWrap, `beforeEnd`, [{
         attributes: {
           class: `esgst-gc-border`
         },
@@ -1153,7 +1170,7 @@ class GamesGameCategories extends Module {
       if (!key || !giveaway.innerWrap.getElementsByClassName(`esgst-gc-${key}`)[0]) {
         continue;
       }
-      this.esgst.modules.common.createElements(borders, `beforeEnd`, [{
+      createElements(borders, `beforeEnd`, [{
         attributes: {
           class: `esgst-gc-${key}`
         },
@@ -1185,7 +1202,7 @@ class GamesGameCategories extends Module {
         tags: ``,
         tradingCards: 0
       };
-      let responseJson = JSON.parse((await this.esgst.modules.common.request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
+      let responseJson = JSON.parse((await request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
       let data;
       if (responseJson && responseJson[id]) {
         data = responseJson[id].data;
@@ -1283,8 +1300,8 @@ class GamesGameCategories extends Module {
         }
       }
       if (this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_g_udt) {
-        let response = await this.esgst.modules.common.request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
-        let responseHtml = utils.parseHtml(response.responseText);
+        let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+        let responseHtml = parseHtml(response.responseText);
         if (response.finalUrl.match(id)) {
           let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
           let n = elements.length;
@@ -1338,7 +1355,7 @@ class GamesGameCategories extends Module {
           categories.freeBase = gc.cache.apps[categories.base].free;
         }
         if (typeof categories.freeBase === `undefined`) {
-          categories.freeBase = JSON.parse((await this.esgst.modules.common.request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+          categories.freeBase = JSON.parse((await request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
         }
       }
       gc.cache[type][id] = categories;
@@ -1358,7 +1375,7 @@ class GamesGameCategories extends Module {
           if (loading) {
             loading.remove();
           }
-          this.esgst.modules.common.createElements(panel, `beforeEnd`, [{
+          createElements(panel, `beforeEnd`, [{
             attributes: {
               class: `esgst-bold esgst-red`
             },
@@ -1474,7 +1491,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-fullCV`,
                   [`data-draggable-id`]: `gc_fcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_fcv`, `Full CV`)
+                  title: getFeatureTooltip(`gc_fcv`, `Full CV`)
                 },
                 text: this.esgst.gc_fcv_s ? (this.esgst.gc_fcv_s_i ? `` : `FCV`) : this.esgst.gc_fcvLabel,
                 type: `a`,
@@ -1494,7 +1511,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-reducedCV`,
                   [`data-draggable-id`]: `gc_rcv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
+                  title: getFeatureTooltip(`gc_rcv`, `Reduced CV since ${savedGame.reducedCV}`)
                 },
                 text: this.esgst.gc_rcv_s ? (this.esgst.gc_rcv_s_i ? `` : `RCV`) : this.esgst.gc_rcvLabel,
                 type: `a`,
@@ -1514,7 +1531,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-noCV`,
                   [`data-draggable-id`]: `gc_ncv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
+                  title: getFeatureTooltip(`gc_ncv`, `No CV since ${savedGame.noCV}`)
                 },
                 text: this.esgst.gc_ncv_s ? (this.esgst.gc_ncv_s_i ? `` : `NCV`) : this.esgst.gc_ncvLabel,
                 type: `a`,
@@ -1622,7 +1639,7 @@ class GamesGameCategories extends Module {
                     class: `esgst-gc esgst-gc-hltb`,
                     [`data-draggable-id`]: `gc_hltb`,
                     href: `https://howlongtobeat.com/game.php?id=${hltb && hltb[id] && hltb[id].id}`,
-                    title: this.esgst.modules.common.getFeatureTooltip(`gc_hltb`, title)
+                    title: getFeatureTooltip(`gc_hltb`, title)
                   },
                   type: `a`,
                   children: [{
@@ -1645,7 +1662,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-hidden`,
                   [`data-draggable-id`]: `gc_h`,
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_h`, `Hidden`)
+                  title: getFeatureTooltip(`gc_h`, `Hidden`)
                 },
                 text: this.esgst.gc_h_s ? (this.esgst.gc_h_s_i ? `` : `H`) : this.esgst.gc_hLabel,
                 type: `a`,
@@ -1674,7 +1691,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-ignored`,
                   [`data-draggable-id`]: `gc_i`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_i`, `Ignored${count}`)
+                  title: getFeatureTooltip(`gc_i`, `Ignored${count}`)
                 },
                 text: this.esgst.gc_i_s ? (this.esgst.gc_i_s_i ? `` : `I${count}`) : `${this.esgst.gc_iLabel}${count}`,
                 type: `a`,
@@ -1697,7 +1714,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-owned`,
                   [`data-draggable-id`]: `gc_o`,
                   href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_o`, `Owned`)
+                  title: getFeatureTooltip(`gc_o`, `Owned`)
                 },
                 text: this.esgst.gc_o_s ? (this.esgst.gc_o_s_i ? `` : `O`) : this.esgst.gc_oLabel,
                 type: `a`,
@@ -1721,7 +1738,7 @@ class GamesGameCategories extends Module {
                       [`data-draggable-id`]: `gc_o`,
                       href: `http://steamcommunity.com/profiles/${account.steamId}/games`,
                       style: `background-color: ${account.bgColor}; color: ${account.color};`,
-                      title: this.esgst.modules.common.getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
+                      title: getFeatureTooltip(`gc_o`, `Owned by ${account.name}`)
                     },
                     text: this.esgst.gc_o_s ? (this.esgst.gc_o_s_i ? `` : `O`) : account.label,
                     type: `a`,
@@ -1743,7 +1760,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-wishlisted`,
                   [`data-draggable-id`]: `gc_w`,
                   href: `https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
+                  title: getFeatureTooltip(`gc_w`, `Wishlisted${typeof savedGame.wishlisted === `number` ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
                 },
                 text: this.esgst.gc_w_s ? (this.esgst.gc_w_s_i ? `` : `W`) : this.esgst.gc_wLabel,
                 type: `a`,
@@ -1763,7 +1780,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-followed`,
                   [`data-draggable-id`]: `gc_f`,
                   href: `https://steamcommunity.com/my/followedgames/`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_f`, `Followed`)
+                  title: getFeatureTooltip(`gc_f`, `Followed`)
                 },
                 text: this.esgst.gc_f_s ? (this.esgst.gc_f_s_i ? `` : `F`) : this.esgst.gc_fLabel,
                 type: `a`,
@@ -1783,7 +1800,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-won`,
                   [`data-draggable-id`]: `gc_pw`,
                   href: `https://www.steamgifts.com/user/${this.esgst.usename}/won/search?q=${encodedName}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_pw`, `Previously Won`)
+                  title: getFeatureTooltip(`gc_pw`, `Previously Won`)
                 },
                 text: this.esgst.gc_pw_s ? (this.esgst.gc_pw_s_i ? `` : `PW`) : this.esgst.gc_pwLabel,
                 type: `a`,
@@ -1872,7 +1889,7 @@ class GamesGameCategories extends Module {
                       class: `esgst-gc esgst-gc-giveawayInfo`,
                       [`data-draggable-id`]: `gc_gi`,
                       href: `https://www.steamgifts.com/user/${this.esgst.username}`,
-                      title: this.esgst.modules.common.getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
+                      title: getFeatureTooltip(`gc_gi`, `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
                     },
                     type: `a`,
                     children: [{
@@ -1926,7 +1943,7 @@ class GamesGameCategories extends Module {
                   [`data-draggable-id`]: `gc_r`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   style: `background-color: ${colors.bgColor}; color: ${colors.color};`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_r`, cache.rating)
+                  title: getFeatureTooltip(`gc_r`, cache.rating)
                 },
                 type: `a`,
                 children: [colors.icon.match(/\w/) ? {
@@ -1963,7 +1980,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-achievements`,
                   [`data-draggable-id`]: `gc_a`,
                   href: `http://steamcommunity.com/stats/${id}/achievements`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_a`, `Achievements${count || ` (${cache.achievements})`}`)
+                  title: getFeatureTooltip(`gc_a`, `Achievements${count || ` (${cache.achievements})`}`)
                 },
                 text: this.esgst.gc_a_s ? (this.esgst.gc_a_s_i ? `` : `A${count}`) : `${this.esgst.gc_aLabel}${count}`,
                 type: `a`,
@@ -1995,7 +2012,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-multiplayer`,
                   [`data-draggable-id`]: `gc_mp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_mp`, `Multiplayer${count}`)
+                  title: getFeatureTooltip(`gc_mp`, `Multiplayer${count}`)
                 },
                 text: this.esgst.gc_mp_s ? (this.esgst.gc_mp_s_i ? `` : `MP${count}`) : `${this.esgst.gc_mpLabel}${count}`,
                 type: `a`,
@@ -2027,7 +2044,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-singleplayer`,
                   [`data-draggable-id`]: `gc_sp`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sp`, `Singleplayer${count}`)
+                  title: getFeatureTooltip(`gc_sp`, `Singleplayer${count}`)
                 },
                 text: this.esgst.gc_sp_s ? (this.esgst.gc_sp_s_i ? `` : `SP${count}`) : `${this.esgst.gc_spLabel}${count}`,
                 type: `a`,
@@ -2059,7 +2076,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-steamCloud`,
                   [`data-draggable-id`]: `gc_sc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_sc`, `Steam Cloud${count}`)
+                  title: getFeatureTooltip(`gc_sc`, `Steam Cloud${count}`)
                 },
                 text: this.esgst.gc_sc_s ? (this.esgst.gc_sc_s_i ? `` : `SC${count}`) : `${this.esgst.gc_scLabel}${count}`,
                 type: `a`,
@@ -2091,7 +2108,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-tradingCards`,
                   [`data-draggable-id`]: `gc_tc`,
                   href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
-                  itle: this.esgst.modules.common.getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
+                  itle: getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
                 },
                 text: this.esgst.gc_tc_s ? (this.esgst.gc_tc_s_i ? `` : `TC${count}`) : `${this.esgst.gc_tcLabel}${count}`,
                 type: `a`,
@@ -2123,7 +2140,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-linux`,
                   [`data-draggable-id`]: `gc_l`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_l`, `Linux${count}`)
+                  title: getFeatureTooltip(`gc_l`, `Linux${count}`)
                 },
                 text: this.esgst.gc_l_s ? (this.esgst.gc_l_s_i ? `` : `L${count}`) : `${this.esgst.gc_lLabel}${count}`,
                 type: `a`,
@@ -2155,7 +2172,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-mac`,
                   [`data-draggable-id`]: `gc_m`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_m`, `Mac${count}`)
+                  title: getFeatureTooltip(`gc_m`, `Mac${count}`)
                 },
                 text: this.esgst.gc_m_s ? (this.esgst.gc_m_s_i ? `` : `M${count}`) : `${this.esgst.gc_mLabel}${count}`,
                 type: `a`,
@@ -2286,7 +2303,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-dlc`,
                   [`data-draggable-id`]: `gc_dlc`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_dlc`, `DLC${this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
+                  title: getFeatureTooltip(`gc_dlc`, `DLC${this.esgst.gc_dlc_b && typeof cache.freeBase !== `undefined` ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
                 },
                 type: `a`,
                 children
@@ -2327,7 +2344,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-package`,
                   [`data-draggable-id`]: `gc_p`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
+                  title: getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
                 },
                 type: `a`,
                 children
@@ -2350,7 +2367,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-earlyAccess`,
                   [`data-draggable-id`]: `gc_ea`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_ea`, `Early Access${count}`)
+                  title: getFeatureTooltip(`gc_ea`, `Early Access${count}`)
                 },
                 text: this.esgst.gc_ea_s ? (this.esgst.gc_ea_s_i ? `` : `EA${count}`) : `${this.esgst.gc_eaLabel}${count}`,
                 type: `a`,
@@ -2382,7 +2399,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-learning`,
                   [`data-draggable-id`]: `gc_lg`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_lg`, `Learning${count}`)
+                  title: getFeatureTooltip(`gc_lg`, `Learning${count}`)
                 },
                 text: this.esgst.gc_lg_s ? (this.esgst.gc_lg_s_i ? `` : `LG${count}`) : `${this.esgst.gc_lgLabel}${count}`,
                 type: `a`,
@@ -2414,7 +2431,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-removed`,
                   [`data-draggable-id`]: `gc_rm`,
                   href: `http://steamdb.info/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rm`, `Removed${count}`)
+                  title: getFeatureTooltip(`gc_rm`, `Removed${count}`)
                 },
                 text: this.esgst.gc_rm_s ? (this.esgst.gc_rm_s_i ? `` : `RM${count}`) : `${this.esgst.gc_rmLabel}${count}`,
                 type: `a`,
@@ -2438,7 +2455,7 @@ class GamesGameCategories extends Module {
                   [`data-draggable-id`]: `gc_rd`,
                   [`data-timestamp`]: cache.releaseDate === `?` ? cache.releaseDate : cache.releaseDate / 1e3,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: this.esgst.modules.common.getFeatureTooltip(`gc_rd`, `Release Date`)
+                  title: getFeatureTooltip(`gc_rd`, `Release Date`)
                 },
                 type: `a`,
                 children: [{
@@ -2467,7 +2484,7 @@ class GamesGameCategories extends Module {
             }            
             if (genres) {
               let filters;
-              genreList = utils.sortArray(Array.from(new Set(genres.split(/,\s/))));
+              genreList = sortArray(Array.from(new Set(genres.split(/,\s/))));
               genres = genreList.join(`, `);
               if (this.esgst.gc_g_filters.trim()) {
                 filters = this.esgst.gc_g_filters.trim().toLowerCase().split(/\s*,\s*/);
@@ -2483,7 +2500,7 @@ class GamesGameCategories extends Module {
                           class: `esgst-gc esgst-gc-genres`,
                           href: `http://store.steampowered.com/${singularType}/${id}`,
                           style: `background-color: ${this.esgst.gc_g_colors[k].bgColor}; color: ${this.esgst.gc_g_colors[k].color};`,
-                          title: this.esgst.modules.common.getFeatureTooltip(`gc_g_s`, genreList[j])
+                          title: getFeatureTooltip(`gc_g_s`, genreList[j])
                         },
                         text: genreList[j],
                         type: `a`
@@ -2508,7 +2525,7 @@ class GamesGameCategories extends Module {
                       attributes: {
                         class: `esgst-gc esgst-gc-genres`,
                         href: `http://store.steampowered.com/${singularType}/${id}`,
-                        title: this.esgst.modules.common.getFeatureTooltip(`gc_g_s`, genreList[j])
+                        title: getFeatureTooltip(`gc_g_s`, genreList[j])
                       },
                       text: genreList[j],
                       type: `a`
@@ -2544,7 +2561,7 @@ class GamesGameCategories extends Module {
                     class: `esgst-gc esgst-gc-genres`,
                     [`data-draggable-id`]: `gc_g`,
                     href: `http://store.steampowered.com/${singularType}/${id}`,
-                    title: this.esgst.modules.common.getFeatureTooltip(`gc_g`, genres)
+                    title: getFeatureTooltip(`gc_g`, genres)
                   },
                   type: `a`,
                   children: genreList
@@ -2586,7 +2603,7 @@ class GamesGameCategories extends Module {
           panel.previousElementSibling.style.display = `inline-block`;
           panel.classList.add(`esgst-gc-panel-inline`);
         }
-        this.esgst.modules.common.createElements(panel, `inner`, elements);
+        createElements(panel, `inner`, elements);
         if (this.esgst.gc_si && isInstant) {
           continue;
         }
@@ -2595,7 +2612,7 @@ class GamesGameCategories extends Module {
             panel.children[j].removeAttribute(`href`);
           }
         }
-        panel.addEventListener(`dragenter`, this.esgst.modules.common.draggable_enter.bind(null, {
+        panel.addEventListener(`dragenter`, draggable_enter.bind(null, {
           context: panel,
           item: games[i]
         }));

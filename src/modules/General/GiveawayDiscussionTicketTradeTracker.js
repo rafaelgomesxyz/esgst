@@ -1,4 +1,16 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    getLocalValue,
+    setLocalValue,
+    createLock,
+    setHoverOpacity,
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
   info = ({
@@ -52,12 +64,12 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       trades: `ts`
     }[type]}`]) {
       if (!this.esgst.ct) {
-        let cache = JSON.parse(this.esgst.modules.common.getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+        let cache = JSON.parse(getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
         if (cache[type].indexOf(code) < 0) {
           cache[type].push(code);
-          this.esgst.modules.common.setLocalValue(`gdtttCache`, JSON.stringify(cache));
+          setLocalValue(`gdtttCache`, JSON.stringify(cache));
         }
-        let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+        let deleteLock = await createLock(`commentLock`, 300);
         if (!savedComments[code]) {
           savedComments[code] = {
             readComments: {}
@@ -79,7 +91,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 
   async gdttt_markVisited(code, container, count, diffContainer, type, doSave) {
     if (doSave) {
-      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300),
+      let deleteLock = await createLock(`commentLock`, 300),
         comments = JSON.parse(await getValue(type));
       if (!comments[code]) {
         comments[code] = {
@@ -97,13 +109,13 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     }
     container.classList.add(`esgst-ct-visited`);
     container.style.opacity = `0.5`;
-    this.esgst.modules.common.setHoverOpacity(container, `1`, `0.5`);
+    setHoverOpacity(container, `1`, `0.5`);
     return true;
   }
 
   async gdttt_markUnvisited(code, container, count, diffContainer, type, doSave) {
     if (doSave) {
-      let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300),
+      let deleteLock = await createLock(`commentLock`, 300),
         comments = JSON.parse(await getValue(type));
       if (this.esgst.ct_s) {
         delete comments[code].count;
@@ -116,7 +128,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     }
     container.classList.remove(`esgst-ct-visited`);
     container.style.opacity = `1`;
-    this.esgst.modules.common.setHoverOpacity(container, `1`, `1`);
+    setHoverOpacity(container, `1`, `1`);
     return true;
   }
 
@@ -146,7 +158,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
             if ((type === `giveaways` && this.esgst.gdttt_g) || type !== `giveaways`) {
               container.classList.add(`esgst-ct-visited`);
               container.style.opacity = `0.5`;
-              this.esgst.modules.common.setHoverOpacity(container, `1`, `0.5`);
+              setHoverOpacity(container, `1`, `0.5`);
             }
           }
         }
@@ -158,30 +170,30 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     let comments;
     let busy = false;
     if (!button) {
-      button = this.esgst.modules.common.createElements(context, `afterBegin`, [{
+      button = createElements(context, `afterBegin`, [{
         attributes: {
           class: `esgst-gdttt-button page_heading_btn`
         },
         type: `div`
       }]);
     }
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-check`,
-        title: `${this.esgst.modules.common.getFeatureTooltip(`gdttt`, `Mark as visited`)}`
+        title: `${getFeatureTooltip(`gdttt`, `Mark as visited`)}`
       },
       type: `i`
     }]);
     button.addEventListener(`click`, async () => {
       if (!busy) {
         busy = true;
-        this.esgst.modules.common.createElements(button, `inner`, [{
+        createElements(button, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
           type: `i`
         }]);
-        let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+        let deleteLock = await createLock(`commentLock`, 300);
         comments = JSON.parse(await getValue(type));
         if (!comments[code]) {
           comments[code] = {
@@ -204,30 +216,30 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     let comments;
     let busy = false;
     if (!button) {
-      button = this.esgst.modules.common.createElements(context, `afterBegin`, [{
+      button = createElements(context, `afterBegin`, [{
         attributes: {
           class: `esgst-gdttt-button page_heading_btn`
         },
         type: `div`
       }]);
     }
-    this.esgst.modules.common.createElements(button, `inner`, [{
+    createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-times`,
-        title: `${this.esgst.modules.common.getFeatureTooltip(`gdttt`, `Mark as unvisited`)}`
+        title: `${getFeatureTooltip(`gdttt`, `Mark as unvisited`)}`
       },
       type: `i`
     }]);
     button.addEventListener(`click`, async () => {
       if (!busy) {
         busy = true;
-        this.esgst.modules.common.createElements(button, `inner`, [{
+        createElements(button, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
           type: `i`
         }]);
-        let deleteLock = await this.esgst.modules.common.createLock(`commentLock`, 300);
+        let deleteLock = await createLock(`commentLock`, 300);
         comments = JSON.parse(await getValue(type));
         if (this.esgst.ct_s) {
           delete comments[code].count;
