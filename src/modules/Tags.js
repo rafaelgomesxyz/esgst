@@ -19,19 +19,25 @@ const
     saveUsers,
     saveUser,
     setSetting,
-    getValue
+    getValue,
+    lockAndSaveDiscussions
   } = common
 ;
 
 class Tags extends Module {
-  async tags_load(key) {
-    await this.tags_getTags(key);
-    this.esgst.userFeatures.push(this.tags_addButtons.bind(null, key));
-  }
-
   async tags_getTags(key) {
     const allTags = [];
     switch (key) {
+      case `dt`: {
+        const savedDiscussions = JSON.parse(await getValue(`discussions`));
+        for (const id in savedDiscussions) {
+          const tags = savedDiscussions[id].tags;
+          if (tags && Array.isArray(tags)) {
+            allTags.push(...tags);
+          }
+        }
+        break;
+      }
       case `gpt`: {
         const savedGroups = JSON.parse(await getValue(`groups`));
         for (const group of savedGroups) {
@@ -145,6 +151,7 @@ class Tags extends Module {
         createElements(item.tagContext, item.tagPosition, [{
           attributes: {
             class: `esgst-tag-button esgst-faded`,
+            [`data-draggable-id`]: key,
             title: getFeatureTooltip(key, `Edit tags`)
           },
           type: `a`,
@@ -169,12 +176,14 @@ class Tags extends Module {
 
   async tags_openMmPopup(mmObj, items, key) {
     key = {
+      Discussions: `dt`,
       Games: `gt`,
       Groups: `gpt`,
       Users: `ut`
     }[key];
     const obj = {items: [], key};
     obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
+    const savedDiscussions = JSON.parse(await getValue(`discussions`));
     const savedGames = JSON.parse(await getValue(`games`));
     const savedGroups = JSON.parse(await getValue(`groups`));
     const savedUsers = JSON.parse(await getValue(`users`));
@@ -182,6 +191,13 @@ class Tags extends Module {
       item.tags = [];
       item.uniqueTags = [];
       switch (key) {
+        case `dt`: {
+          const discussion = savedDiscussions[item.code];
+          if (discussion && discussion.tags && Array.isArray(discussion.tags)) {
+            item.tags = discussion.tags;
+          }
+          break;
+        }
         case `gpt`: {
           const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
           if (group && group.tags && Array.isArray(group.tags)) {
@@ -337,6 +353,32 @@ class Tags extends Module {
       tags = ``;
     }
     switch (obj.key) {
+      case `dt`: {
+        const discussions = {};
+        if (obj.items) {
+          for (const item of obj.items) {
+            item.multiTags = tags;
+            if (tags) {
+              const index = tags.indexOf(`[*]`);
+              if (index > -1) {
+                item.multiTags = [...tags];
+                item.multiTags.splice(index, 1, ...item.uniqueTags);
+              }
+            }
+            discussions[item.code] = {
+              name: item.name,
+              tags: item.multiTags
+            };
+          }
+        } else {
+          discussions[obj.item.id] = {
+            name: obj.item.name,
+            tags
+          };
+        }
+        await lockAndSaveDiscussions(discussions);
+        break;
+      }
       case `gpt`: {
         const groups = {};
         if (obj.items) {
@@ -431,6 +473,9 @@ class Tags extends Module {
   tags_addTags(item, obj, tags) {
     let items = null;
     switch (obj.key) {
+      case `dt`:
+        items = this.esgst.mainDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id).concat(this.esgst.popupDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+        break;
       case `gpt`:
         items = this.esgst.currentGroups[item.code || item.id].elements;
         break;
@@ -451,6 +496,9 @@ class Tags extends Module {
     for (const subItem of items) {
       let context = null;
       switch (obj.key) {
+        case `dt`:
+          context = subItem.container;
+          break;
         case `gpt`:
           context = subItem.parentElement;
           break;
@@ -789,6 +837,11 @@ class Tags extends Module {
       item = {tags: obj.sharedTags};
     } else {
       switch (obj.key) {
+        case `dt`: {
+          const savedDiscussions = JSON.parse(await getValue(`discussions`));
+          item = savedDiscussions[obj.item.id];
+          break;
+        }
         case `gpt`: {
           const savedGroups = JSON.parse(await getValue(`groups`));
           item = savedGroups.filter(group => group.code === obj.item.id)[0];

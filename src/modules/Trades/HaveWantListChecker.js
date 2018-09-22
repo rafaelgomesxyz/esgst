@@ -1,4 +1,5 @@
 import Module from '../../class/Module';
+import Popup_v2 from '../../class/Popup_v2';
 import {common} from '../Common';
 
 const
@@ -13,7 +14,7 @@ const
 ;
 
 class TradesHaveWantListChecker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
@@ -203,7 +204,7 @@ info = ({
           continue;
         }
       }
-      if (!hwlc_tidyName(name)) {
+      if (!this.hwlc_tidyName(name)) {
         continue;
       }
       if (json) {
@@ -329,8 +330,8 @@ info = ({
         }]
       };
       return game;
-    }).sort(hwlc_sortGames);
-    obj.games[key].subs = obj.games[key].subs.sort(hwlc_sortGames);
+    }).sort(this.hwlc_sortGames);
+    obj.games[key].subs = obj.games[key].subs.sort(this.hwlc_sortGames);
     const appItems = [];
     for (const game of obj.games[key].apps) {
       appItems.push(game.html);
@@ -412,7 +413,7 @@ info = ({
         });
       });
     }
-    found = found.sort(hwlc_sortGames);
+    found = found.sort(this.hwlc_sortGames);
     const items = [];
     for (const game of found) {
       items.push({

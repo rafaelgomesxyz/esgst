@@ -1,8 +1,22 @@
-import {utils} from '../../lib/jsUtils'
 import Module from '../../class/Module';
+import {utils} from '../../lib/jsUtils'
+import {common} from '../Common';
+
+const
+  {
+    parseHtml
+  } = utils,
+  {
+    createElements,
+    createHeadingButton,
+    createTooltip,
+    getParameters,
+    request
+ } = common
+;
 
 class GroupsGroupLibraryWishlistChecker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-star"></i>) to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and any <a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.</li>
@@ -13,7 +27,7 @@ info = ({
       </ul>
     `,
     id: `glwc`,
-    load: glwc,
+    load: this.glwc,
     name: `Group Library/Wishlist Checker`,
     sg: true,
     type: `groups`
@@ -54,10 +68,10 @@ info = ({
           glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
         });
         glwc.overallProgress.textContent = `Step 1 of 3`;
-        glwc_getUsers(glwc, 1);
+        this.glwc_getUsers(glwc, 1);
       } else {
         glwc.overallProgress.textContent = `Step 1 of 3`;
-        glwc_getUsers(glwc, 1);
+        this.glwc_getUsers(glwc, 1);
       }
     }
   }
@@ -83,10 +97,10 @@ info = ({
     }
     pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
     if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-      setTimeout(() => glwc_getUsers(glwc, ++nextPage), 0);
+      setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
     } else {
       glwc.overallProgress.textContent = `Step 2 of 3`;
-      glwc_getSteamIds(glwc, 0, glwc.users.length);
+      this.glwc_getSteamIds(glwc, 0, glwc.users.length);
     }
   }
 
@@ -105,15 +119,15 @@ info = ({
       let steamId = this.esgst.users.steamIds[glwc.users[i].username];
       if (steamId) {
         glwc.users[i].steamId = steamId;
-        setTimeout(() => glwc_getSteamIds(glwc, ++i, n), 0);
+        setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       } else {
         glwc.users[i].steamId = parseHtml((await request({method: `GET`, url: `/user/${glwc.users[i].username}`})).responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
-        setTimeout(() => glwc_getSteamIds(glwc, ++i, n), 0);
+        setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       }
     } else {
       glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
       glwc.memberCount = 0;
-      glwc_getGames(glwc, 0, glwc.users.length);
+      this.glwc_getGames(glwc, 0, glwc.users.length);
     }
   }
 
@@ -181,12 +195,12 @@ info = ({
           });
         }
         glwc.memberCount += 1;
-        setTimeout(() => glwc_getGames(glwc, ++i, n), 0);
+        setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       } else {
-        setTimeout(() => glwc_getGames(glwc, ++i, n), 0);
+        setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       }
     } else {
-      glwc_showResults(glwc);
+      this.glwc_showResults(glwc);
     }
   }
 

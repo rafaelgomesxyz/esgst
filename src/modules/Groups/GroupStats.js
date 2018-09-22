@@ -14,7 +14,7 @@ const
 ;
 
 class GroupsGroupStats extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your <a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some stats about each group.</li>
@@ -60,7 +60,7 @@ info = ({
       text: `Users`,
       type: `div`
     }]);
-    this.esgst.endlessFeatures.push(gs_getGroups);
+    this.esgst.endlessFeatures.push(this.gs_getGroups);
   }
 
   gs_getGroups(context, main, source, endless) {
