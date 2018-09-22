@@ -1,7 +1,14 @@
 import Module from '../../class/Module';
+import {common} from '../Common';
+
+const
+  {
+    getValue
+  } = common
+;
 
 class GroupsGroupHighlighter extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a green background to a group that you are a member of (in any page).</li>
@@ -17,7 +24,7 @@ info = ({
 
   gh() {
     if (this.esgst.groupsPath) return;
-    this.esgst.endlessFeatures.push(gh_highlightGroups);
+    this.esgst.endlessFeatures.push(this.gh_highlightGroups);
   }
 
   async gh_highlightGroups(context, main, source, endless) {
