@@ -9,7 +9,9 @@ const
   {
     createElements,
     request,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 
@@ -183,7 +185,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     const items = [
       ...this.tadi_template(`Best Current Deal`),
       ...this.itadi_template(`Historical Lowest Price`),
-      ...itadi_template(`Bundles`)
+      ...this.itadi_template(`Bundles`)
     ];
     if (itadi.current) {
       items[1].children.push(this.itadi_itemTemplate(`${itadi.current.source} (${itadi.current.date})`, `${itadi.current.price} (${itadi.current.cut})`, `https://isthereanydeal.com/game/${plain}/info/`));

@@ -10,7 +10,9 @@ const
   {
     createElements,
     getFeatureTooltip,
-    getTimestamp
+    getTimestamp,
+    getValue,
+    setValue
   } = common
 ;
 

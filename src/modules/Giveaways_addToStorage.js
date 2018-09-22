@@ -1,5 +1,5 @@
 import Module from '../class/Module';
-import {common} from 'Common';
+import {common} from './Common';
 
 const
   {
@@ -8,10 +8,10 @@ const
 ;
 
 class Giveaways_addToStorage extends Module {
-info = ({
+  info = ({
     endless: true,
     id: `giveaways_addToStorage`,
-    load: giveaways_addToStorage
+    load: this.giveaways_addToStorage
   });
   
   giveaways_addToStorage() {

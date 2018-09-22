@@ -18,7 +18,9 @@ const
     getFeatureTooltip,
     setSetting,
     request,
-    createFadeMessage
+    createFadeMessage,
+    getValue,
+    setValue
   } = common
 ;
 
@@ -3136,7 +3138,7 @@ class GiveawaysGiveawayFilters extends Module {
         if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
           item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
         }
-      } else if (filters_filterItem(obj.id, obj.filters, item, obj.rules)) {
+      } else if (this.filters_filterItem(obj.id, obj.filters, item, obj.rules)) {
         if (item.outerWrap.classList.contains(`esgst-hidden`)) {
           item.outerWrap.classList.remove(`esgst-hidden`);
         }

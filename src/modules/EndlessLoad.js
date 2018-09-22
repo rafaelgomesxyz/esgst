@@ -1,5 +1,5 @@
 import Module from '../class/Module';
-import {common} from 'Common';
+import {common} from './Common';
 
 const
   {
@@ -8,17 +8,17 @@ const
 ;
 
 class EndlessLoad extends Module {
-info = ({
-  endless: true,
-  id: `endlessLoad`,
-  load: endlessLoad
-});
+  info = ({
+    endless: true,
+    id: `endlessLoad`,
+    load: this.endlessLoad
+  });
 
-async endlessLoad() {    
-  if (!this.esgst.menuPath) {
-    await endless_load(document, true);
+  async endlessLoad() {    
+    if (!this.esgst.menuPath) {
+      await endless_load(document, true);
+    }
   }
-}
 }
 
 export default EndlessLoad;

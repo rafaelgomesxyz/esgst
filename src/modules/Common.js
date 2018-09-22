@@ -1,7 +1,9 @@
+import Module from '../class/Module'
 import esgst from '../class/Esgst';
-import Popup_v2 from "../class/Popup_v2";
-import Popup from "../class/Popup";
-import ToggleSwitch from "../class/ToggleSwitch";
+import Popout from '../class/Popout';
+import Popup from '../class/Popup';
+import Popup_v2 from '../class/Popup_v2';
+import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
 
 /**

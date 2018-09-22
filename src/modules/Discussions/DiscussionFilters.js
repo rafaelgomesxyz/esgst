@@ -11,7 +11,9 @@ const
     checkMissingDiscussions,
     createElements,
     endless_load,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 

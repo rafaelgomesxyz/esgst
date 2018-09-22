@@ -7,7 +7,9 @@ const
     createElements,
     generateHeaderMenuItem,
     getFeatureTooltip,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 

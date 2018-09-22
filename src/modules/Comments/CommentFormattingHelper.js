@@ -17,7 +17,10 @@ const
     createFadeMessage,
     setSetting,
     request,
-    createAlert
+    createAlert,
+    delValue,
+    getValue,
+    setValue
   } = common
 ;
 

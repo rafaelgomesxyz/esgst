@@ -16,7 +16,9 @@ const
     request,
     lockAndSaveGiveaways,
     endless_load,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 
@@ -290,11 +292,11 @@ class GiveawaysGiveawayBookmarks extends Module {
 
   gb_openList(gb) {
     if (gb.popup) {
-      this.gb.popup.open();
+      gb.popup.open();
       return;
     }
-    this.gb.popup = new Popup(`fa-list`, `Bookmarked Giveaways (Raw List)`);
-    for (const giveaway of this.gb.bookmarked) {
+    gb.popup = new Popup(`fa-list`, `Bookmarked Giveaways (Raw List)`);
+    for (const giveaway of gb.bookmarked) {
       const attributes = {
         class: `table__column__secondary-link`,
         href: `/giveaway/${giveaway.code}/`
@@ -311,14 +313,14 @@ class GiveawaysGiveawayBookmarks extends Module {
         }]
       }]);
     }
-    this.gb.popup.open();
+    gb.popup.open();
     this.gb_loadNames(gb);
   }
 
   async gb_loadNames(gb) {
     let giveaways = {};
-    for (let i = 0, n = this.gb.popup.scrollable.children.length; i < n; i++) {
-      let element = this.gb.popup.scrollable.children[i].firstElementChild;
+    for (let i = 0, n = gb.popup.scrollable.children.length; i < n; i++) {
+      let element = gb.popup.scrollable.children[i].firstElementChild;
       if (!element.getAttribute(`data-esgst`)) {
         let code = element.textContent;
         element.textContent = parseHtml((await request({method: `GET`, queue: true, url: element.getAttribute(`href`)})).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;

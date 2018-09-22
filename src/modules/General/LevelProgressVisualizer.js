@@ -6,7 +6,8 @@ const
     round,
     setLocalValue,
     getFeatureTooltip,
-    createElements
+    createElements,
+    getLocalValue
   } = common
 ;
 

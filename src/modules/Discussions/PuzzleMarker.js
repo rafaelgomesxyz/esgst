@@ -3,7 +3,9 @@ import {common} from '../Common';
 
 const
   {
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 

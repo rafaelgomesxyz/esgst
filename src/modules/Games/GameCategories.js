@@ -13,7 +13,8 @@ const
     lockAndSaveGames,
     request,
     getFeatureTooltip,
-    draggable_enter
+    draggable_enter,
+    getLocalValue
   } = common
 ;
 
@@ -928,10 +929,10 @@ class GamesGameCategories extends Module {
     }
     if (this.esgst.gc_si) {
       for (const id of gc.apps) {
-        gc_addCategory(gc, null, games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb, true);
+        this.gc_addCategory(gc, null, games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb, true);
       }
       for (const id of gc.subs) {
-        gc_addCategory(gc, null, games.subs[id], id, this.esgst.games.subs[id], `subs`, null, true);
+        this.gc_addCategory(gc, null, games.subs[id], id, this.esgst.games.subs[id], `subs`, null, true);
       }
       for (const giveaway of this.esgst.mainGiveaways) {
         this.gc_addBorders(giveaway);
@@ -997,22 +998,22 @@ class GamesGameCategories extends Module {
       let numApps = missingApps.length;
       let numSubs = missingSubs.length;
       if (numApps || numSubs) {
-        let promises = [];
+        gc.promises = [];
         for (let i = 0, n = missingApps.length; i < n; ++i) {
           if (this.esgst.gc_lr) {
             await this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`);
           } else {
-            promises.push(this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
+            gc.promises.push(this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
           }
         }
         for (let i = 0, n = missingSubs.length; i < n; ++i) {
           if (this.esgst.gc_lr) {
             await this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`);
           } else {
-            promises.push(this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
+            gc.promises.push(this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
           }
         }
-        await Promise.all(promises);
+        await Promise.all(gc.promises);
         await lockAndSaveGames(this.esgst.games);
         setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       }
@@ -1228,10 +1229,10 @@ class GamesGameCategories extends Module {
                 }
               }
               if (!gc.cache.apps[appId]) {
-                if (esgst.gc_lr) {
+                if (this.esgst.gc_lr) {
                   await this.gc_getCategories(gc, currentTime, games, appId, `apps`);
                 } else {
-                  promises.push(this.gc_getCategories(gc, currentTime, games, appId, `apps`));
+                  gc.promises.push(this.gc_getCategories(gc, currentTime, games, appId, `apps`));
                 }
               }
             }

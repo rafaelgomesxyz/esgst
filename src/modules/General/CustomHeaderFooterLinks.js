@@ -9,7 +9,8 @@ const
     createElements,
     getFeatureTooltip,
     generateHeaderMenuItem,
-    createConfirmation
+    createConfirmation,
+    setValue
   } = common
 ;
 

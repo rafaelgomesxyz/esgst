@@ -17,7 +17,9 @@ const
     request,
     buildGiveaway,
     endless_load,
-    rot
+    rot,
+    getValue,
+    setValue
   } = common
 ;
 

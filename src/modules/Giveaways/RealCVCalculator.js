@@ -4,7 +4,10 @@ import {common} from '../Common';
 const
   {
     request,
-    createElements
+    createElements,
+    delValue,
+    getValue,
+    setValue
   } = common
 ;
 

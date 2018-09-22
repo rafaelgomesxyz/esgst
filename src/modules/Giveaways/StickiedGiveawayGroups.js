@@ -4,6 +4,7 @@ import {common} from '../Common';
 
 const
   {
+    getValue,
     lockAndSaveGroups
   } = common
 ;

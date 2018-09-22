@@ -14,7 +14,9 @@ const
     reverseComments,
     endless_load,
     checkMissingDiscussions,
-    animateScroll
+    animateScroll,
+    getValue,
+    setValue
   } = common
 ;
 
@@ -127,7 +129,7 @@ class GeneralEndlessScrolling extends Module {
     es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ``];
     es.reverseScrolling = this.esgst.es_r && this.esgst.discussionPath;
     if (es.reverseScrolling) {
-      if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !esgst.parameters.page) {
+      if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !this.esgst.parameters.page) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
           es.mainContext.children[0].remove();
         }
@@ -147,13 +149,13 @@ class GeneralEndlessScrolling extends Module {
         es.reversePages = true;
         es.ended = false;
       } else {
-        es.currentPage = esgst.currentPage;
+        es.currentPage = this.esgst.currentPage;
         es.nextPage = es.currentPage - 1;
         es.pageBase = es.currentPage + 1;
         es.ended = es.nextPage === 0;
       }
     } else {
-      es.currentPage = esgst.currentPage;
+      es.currentPage = this.esgst.currentPage;
       es.nextPage = es.currentPage + 1;
       es.pageBase = es.currentPage - 1;
       es.ended = (!this.esgst.paginationNavigation || this.esgst.paginationNavigation.lastElementChild.classList.contains(this.esgst.selectedClass));
@@ -211,7 +213,7 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton = createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
     es.refreshButton = createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
     es.refreshAllButton = createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
-    esgst.es_refresh = this.es_refresh.bind(null, es);
+    this.esgst.es_refresh = this.es_refresh.bind(null, es);
     es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
     this.esgst.es_refreshAll = this.es_refreshAll.bind(null, es);
     es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
@@ -230,7 +232,7 @@ class GeneralEndlessScrolling extends Module {
     es.limitCount = 0;
     es.busy = false;
     es.paused = await getValue(`esPause`, false);
-    esgst.es_loadNext = this.es_loadNext.bind(null, es);
+    this.esgst.es_loadNext = this.es_loadNext.bind(null, es);
     if (es.paused) {
       this.es_pause(es, true);
     } else {
@@ -597,7 +599,7 @@ class GeneralEndlessScrolling extends Module {
     }
     if (!this.esgst.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(hr_getCache());
+      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
   }
 
@@ -658,7 +660,7 @@ class GeneralEndlessScrolling extends Module {
     }
     if (!this.esgst.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(hr_getCache());
+      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
   }
 
