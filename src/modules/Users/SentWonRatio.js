@@ -23,7 +23,7 @@ info = ({
   });
 
   swr() {
-    this.esgst.profileFeatures.push(swr_add);
+    this.esgst.profileFeatures.push(this.swr_add);
   }
 
   swr_add(profile) {

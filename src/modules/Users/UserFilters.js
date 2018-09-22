@@ -1,5 +1,8 @@
 import Module from '../../class/Module';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
+import ToggleSwitch from "../../class/ToggleSwitch";
+import ButtonSet_v2 from "../../class/ButtonSet_v2";
 
 const
   {
@@ -40,7 +43,7 @@ info = ({
   });
 
   uf() {
-    this.esgst.profileFeatures.push(uf_add);
+    this.esgst.profileFeatures.push(this.uf_add);
   }
 
   uf_add(profile, savedUser) {

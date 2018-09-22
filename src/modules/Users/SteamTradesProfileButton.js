@@ -24,7 +24,7 @@ info = ({
   });
 
   stpb() {
-    this.esgst.profileFeatures.push(stpb_add);
+    this.esgst.profileFeatures.push(this.stpb_add);
   }
 
   stpb_add(profile) {

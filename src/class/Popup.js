@@ -1,4 +1,15 @@
+import esgst from "./Esgst";
+
 export default class Popup {
+  /** @type {HTMLElement} */
+  scrollable;
+
+  /** @type {HTMLElement} */
+  minimizeLink;
+
+  /** @type {function} */
+  onClose;
+
   constructor(icon, title, temp, settings, popup = null) {
     this.isCreated = popup ? false : true;
     this.temp = temp;

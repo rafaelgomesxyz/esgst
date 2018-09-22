@@ -2,6 +2,9 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
+import ToggleSwitch from "../../class/ToggleSwitch";
+import ButtonSet from "../../class/ButtonSet";
 
 const
   {
@@ -37,19 +40,19 @@ info = ({
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
     let wbm = {};
     if (this.esgst.whitelistPath) {
-      this.wbm.key = `whitelist`;
-      this.wbm.name = `Whitelist`;
+      wbm.key = `whitelist`;
+      wbm.name = `Whitelist`;
     } else {
-      this.wbm.key = `blacklist`;
-      this.wbm.name = `Blacklist`;
+      wbm.key = `blacklist`;
+      wbm.name = `Blacklist`;
     }
-    this.wbm.button = createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
-    this.wbm.button.addEventListener(`click`, this.wbm_openPopup.bind(null, this.wbm));
+    wbm.button = createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
+    wbm.button.addEventListener(`click`, this.wbm_openPopup.bind(null, wbm));
   }
 
   wbm_openPopup(wbm) {
     if (!wbm.popup) {
-      this.wbm.popup = new Popup(`fa-gear`, `Manage ${wbm.name}:`);
+      wbm.popup = new Popup(`fa-gear`, `Manage ${wbm.name}:`);
       new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, this.esgst.wbm_useCache);
       new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [{
         text: `Only clear users who are tagged with these specific tags (separate with comma): `,
@@ -62,60 +65,62 @@ info = ({
         },
         type: `input`
       }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, this.esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
-        let tags = event.currentTarget.value.replace(/(,\s*)+/g, formatTags).split(`, `);
+        let tags = event.currentTarget.hasOwnProperty('value')
+          ? event.currentTarget.value.replace(/(,\s*)+/g, formatTags).split(`, `)
+          : '';
         setSetting(`wbm_tags`, tags);
         this.esgst.wbm_tags = tags;
       });
-      this.wbm.input = createElements(wbm.popup.description, `beforeEnd`, [{
+      wbm.input = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
           type: `file`
         },
         type: `input`
       }]);
-      this.wbm.message = createElements(wbm.popup.description, `beforeEnd`, [{
+      wbm.message = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-description`
         },
         type: `div`
       }]);
-      this.wbm.warning = createElements(wbm.popup.description, `beforeEnd`, [{
+      wbm.warning = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-description esgst-warning`
         },
         type: `div`
       }]);
-      this.wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(null, this.wbm, this.wbm_importList.bind(null, this.wbm)), this.wbm_cancel.bind(null, this.wbm)).set);
-      this.wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(null, this.wbm, this.wbm_exportList.bind(null, this.wbm, [], 1)), this.wbm_cancel.bind(null, this.wbm)).set);
-      this.wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(null, this.wbm, this.wbm_clearList.bind(null, this.wbm, [], 1)), this.wbm_cancel.bind(null, this.wbm)).set);
-      this.wbm.results = createElements(wbm.popup.scrollable,  `beforeEnd`, [{
+      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(null, wbm, this.wbm_importList.bind(null, wbm)), this.wbm_cancel.bind(null, wbm)).set);
+      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(null, wbm, this.wbm_exportList.bind(null, wbm, [], 1)), this.wbm_cancel.bind(null, wbm)).set);
+      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(null, wbm, this.wbm_clearList.bind(null, wbm, [], 1)), this.wbm_cancel.bind(null, wbm)).set);
+      wbm.results = createElements(wbm.popup.scrollable,  `beforeEnd`, [{
         type: `div`
       }]);
     }
-    this.wbm.popup.open();
+    wbm.popup.open();
   }
 
   wbm_start(wbm, callback, mainCallback) {
     createConfirmation(`Are you sure you want to do this?`, () => {
-      this.wbm.isCanceled = false;
-      this.wbm.button.classList.add(`esgst-busy`);
-      this.wbm.usernames = [];
-      this.wbm.results.innerHTML = ``;
-      callback(wbm_complete.bind(null, this.wbm, mainCallback));
+      wbm.isCanceled = false;
+      wbm.button.classList.add(`esgst-busy`);
+      wbm.usernames = [];
+      wbm.results.innerHTML = ``;
+      callback(this.wbm_complete.bind(null, wbm, mainCallback));
     }, mainCallback);
   }
 
   wbm_complete(wbm, callback) {
-    this.wbm.button.classList.remove(`esgst-busy`);
+    wbm.button.classList.remove(`esgst-busy`);
     callback();
   }
 
   wbm_cancel(wbm) {
-    this.wbm.isCanceled = true;
-    this.wbm.button.classList.remove(`esgst-busy`);
+    wbm.isCanceled = true;
+    wbm.button.classList.remove(`esgst-busy`);
   }
 
   wbm_importList(wbm, callback) {
-    let file = this.wbm.input.files[0];
+    let file = wbm.input.files[0];
     if (file) {
       let reader = new FileReader();
       reader.readAsText(file);
@@ -124,7 +129,7 @@ info = ({
           let list = JSON.parse(reader.result);
           this.wbm_insertUsers(wbm, list, 0, list.length, callback);
         } catch (error) {
-          createFadeMessage(wbm.warning, `Cannot this.esgst.modules.giveawaysGiveawayFilters.parse file!`);
+          createFadeMessage(wbm.warning, `Cannot parse file!`);
           callback();
         }
       };
@@ -206,7 +211,7 @@ info = ({
               for (i = user.tags.length - 1; i > -1 && this.esgst.wbm_tags.indexOf(user.tags[i]) < 0; --i);
               if (i > -1) {
                 list.push(user.id);
-                this.wbm.usernames.push(user.username);
+                wbm.usernames.push(user.username);
               }
             }
           } else {
@@ -241,7 +246,7 @@ info = ({
               for (j = user.tags.length - 1; j > -1 && this.esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j);
               if (j > -1) {
                 list.push(element.value);
-                this.wbm.usernames.push(username);
+                wbm.usernames.push(username);
               }
             }
           }
@@ -286,7 +291,7 @@ info = ({
         },
         type: `span`
       }]);
-      this.wbm.usernames.forEach(username => {
+      wbm.usernames.forEach(username => {
         createElements(wbm.results.lastElementChild, `beforeEnd`, [{
           attributes: {
             href: `/user/${username}`
