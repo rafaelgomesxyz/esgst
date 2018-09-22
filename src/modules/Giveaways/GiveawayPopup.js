@@ -32,6 +32,7 @@ class GiveawaysGiveawayPopup extends Module {
       if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.giveawayPath || this.esgst.newGiveawayPath))) return;
       if (!giveaway.innerWrap.getElementsByClassName(`esgst-gp-button`)[0] && (!giveaway.inviteOnly || giveaway.url)) {
         let buttonSet = new ButtonSet(`grey`, `grey`, `fa-external-link`, `fa-circle-o-notch fa-spin`, ``, ``, callback => {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_openPopup(giveaway, main, source, error => {
             if (error) {
               buttonSet.firstElementChild.classList.remove(`form__saving-button`, `grey`);

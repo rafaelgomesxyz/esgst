@@ -52,9 +52,11 @@ class TradesTradeBumper extends Module {
       });
       button.addEventListener(`click`, this.tb_getTrades.bind(null, button, document));
       if (this.esgst.tb_a) {
+        // noinspection JSIgnoredPromiseFromCall
         this.tb_setAutoBump(button);
       }
     } else if (this.esgst.tb_a) {
+      // noinspection JSIgnoredPromiseFromCall
       this.tb_setAutoBump();
     }
   }
@@ -88,6 +90,7 @@ class TradesTradeBumper extends Module {
     const diff = currentTime - (await getValue(`lastBump`, 0));
     if (diff > 3600000) {
       await setValue(`lastBump`, currentTime);
+      // noinspection JSIgnoredPromiseFromCall
       this.tb_autoBumpTrades(button);
     } else {
       setTimeout(this.tb_setAutoBump, 3600000 - diff, button);
@@ -96,8 +99,10 @@ class TradesTradeBumper extends Module {
 
   async tb_autoBumpTrades(button) {
     if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+      // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(button, document);
     } else {
+      // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(null, parseHtml((await request({
         method: `GET`,
         queue: true,

@@ -27,22 +27,24 @@ class GiveawaysStickiedGiveawayCountries extends Module {
     if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;
-    let container, context, elements, i, id, n, separator, stickiedCountries;
+    let container, context, elements, i, id, n, stickiedCountries;
     stickiedCountries = JSON.parse(this.esgst.storage.stickiedCountries);
     container = document.querySelector(`.form_list[data-input="country_item_string"]`);
-    separator = container.firstElementChild;
     elements = container.children;
+    const obj = {
+      separator: container.firstElementChild
+    };
     for (i = 0, n = elements.length; i < n; ++i) {
       context = elements[i];
       id = context.getAttribute(`data-item-id`);
       if (stickiedCountries.indexOf(id) >= 0) {
-        if (context === separator) {
-          separator = separator.nextElementSibling;
+        if (context === obj.separator) {
+          obj.separator = obj.separator.nextElementSibling;
         }
-        container.insertBefore(context, separator);
+        container.insertBefore(context, obj.separator);
       }
       new Button(context, `afterBegin`, {
-        callbacks: [this.sgac_stickyCountry.bind(null, container, context, id, separator), null, this.sgac_unstickyCountry.bind(null, container, context, id, separator), null],
+        callbacks: [this.sgac_stickyCountry.bind(null, obj, container, context, id), null, this.sgac_unstickyCountry.bind(null, obj, container, context, id), null],
         className: `esgst-sgac-button`,
         icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `sgac`,
@@ -52,13 +54,13 @@ class GiveawaysStickiedGiveawayCountries extends Module {
     }
   }
 
-  async sgac_stickyCountry(container, context, id, separator, event) {
+  async sgac_stickyCountry(obj, container, context, id, event) {
     event.stopPropagation();
     if (container) {
-      if (context === separator) {
-        separator = separator.nextElementSibling;
+      if (context === obj.separator) {
+        obj.separator = obj.separator.nextElementSibling;
       }
-      container.insertBefore(context, separator);
+      container.insertBefore(context, obj.separator);
     }
     let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
     if (stickiedCountries.indexOf(id) < 0) {
@@ -68,11 +70,11 @@ class GiveawaysStickiedGiveawayCountries extends Module {
     return true;
   }
 
-  async sgac_unstickyCountry(container, context, id, separator, event) {
+  async sgac_unstickyCountry(obj, container, context, id, event) {
     event.stopPropagation();
     if (container) {
-      container.insertBefore(context, separator);
-      separator = separator.previousElementSibling;
+      container.insertBefore(context, obj.separator);
+      obj.separator = obj.separator.previousElementSibling;
     }
     let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
     let index = stickiedCountries.indexOf(id);

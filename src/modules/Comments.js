@@ -40,11 +40,12 @@ class Comments extends Module {
       } else {
         count = context.getElementsByClassName(`page__heading__breadcrumbs`)[1];
         if (count) {
-          count = parseInt(count.firstElementChild.textContent.replace(/,/g, ``).match(/\d+/));
+          count = parseInt(count.firstElementChild.textContent.replace(/,/g, ``).match(/\d+/)[0]);
         } else {
           count = 0;
         }
       }
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
     if (this.esgst.rfi) {

@@ -102,24 +102,26 @@ class GeneralCustomHeaderFooterLinks extends Module {
       };
     }
     for (let key in chfl.sources) {
-      let source = chfl.sources[key];
-      for (let i = source.context.children.length - 1; i > -1; i--) {
-        let element = source.context.children[i];
-        let id = element.getAttribute(`data-link-id`);
-        if (id) {
-          if (!source.elements[id]) {
-            source.elements[id] = element;
+      if (chfl.sources.hasOwnProperty(key)) {
+        let source = chfl.sources[key];
+        for (let i = source.context.children.length - 1; i > -1; i--) {
+          let element = source.context.children[i];
+          let id = element.getAttribute(`data-link-id`);
+          if (id) {
+            if (!source.elements[id]) {
+              source.elements[id] = element;
+            }
+            continue;
           }
-          continue;
+          if ((!element.getAttribute(`href`) || element.getAttribute(`href`).match(/^javascript/)) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
+          id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*([/?])(.+)$/)[2];
+          id = id.replace(/\[steamId]/, this.esgst.steamId);
+          element.setAttribute(`data-link-id`, id);
+          element.setAttribute(`data-link-key`, key);
+          source.elements[id] = element;
         }
-        if ((!element.getAttribute(`href`) || element.getAttribute(`href`).match(/^javascript/)) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
-        id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*(\/|\?)(.+)$/)[2];
-        id = id.replace(/\[steamId\]/, this.esgst.steamId);
-        element.setAttribute(`data-link-id`, id);
-        element.setAttribute(`data-link-key`, key);
-        source.elements[id] = element;
+        this.chfl_reorder(chfl, key, true);
       }
-      this.chfl_reorder(chfl, key, true);
     }
     this.esgst.documentEvents.keydown.add(this.chfl_checkKey.bind(null, chfl));
   }
@@ -201,9 +203,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
       }
     }
     for (let key in source.elements) {
-      if (ids.indexOf(key) > -1) continue;
-      source.elements[key].remove();
-      delete source.elements[key];
+      if (source.elements.hasOwnProperty(key)) {
+        if (ids.indexOf(key) > -1) continue;
+        source.elements[key].remove();
+        delete source.elements[key];
+      }
     }
     if (!firstRun) {
       this.chfl_removeButton(chfl, key);
@@ -239,93 +243,111 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
   chfl_saveOrder(chfl) {
     for (let key in chfl.sources) {
-      let elements = {};
-      for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
-        if (item.id) {
-          elements[item.id] = item;
+      if (chfl.sources.hasOwnProperty(key)) {
+        let elements = {};
+        for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
+          if (item.id) {
+            elements[item.id] = item;
+          }
         }
+        this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = [];
+        let source = chfl.sources[key];
+        for (let i = 0, n = source.context.children.length; i < n; i++) {
+          let element = source.context.children[i];
+          let id = element.getAttribute(`data-link-id`);
+          if (!id) continue;
+          this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(elements[id] || id);
+        }
+        this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
       }
-      this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = [];
-      let source = chfl.sources[key];
-      for (let i = 0, n = source.context.children.length; i < n; i++) {
-        let element = source.context.children[i];
-        let id = element.getAttribute(`data-link-id`);
-        if (!id) continue;
-        this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(elements[id] || id);
-      }
-      this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
     }
     setValue(`settings`, JSON.stringify(this.esgst.settings));
   }
 
   chfl_addButton(chfl, removedKey, forceKey) {
     for (const key in chfl.sources) {
-      if (key === removedKey) return;
+      if (chfl.sources.hasOwnProperty(key)) {
+        if (key === removedKey) return;
 
-      const source = chfl.sources[key];
-      if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
+        const source = chfl.sources[key];
+        if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
-      const button = createElements(source.context, `beforeEnd`, key === `footer` ? [{
-        attributes: {
-          class: `esgst-chfl-button`
-        },
-        type: this.esgst.sg ? `div` : `li`,
-        children: [{
+        const button = createElements(source.context, `beforeEnd`, key === `footer` ? [{
           attributes: {
-            class: `fa fa-plus`
+            class: `esgst-chfl-button`
           },
-          type: `i`
-        }, {
+          type: this.esgst.sg ? `div` : `li`,
+          children: [{
+            attributes: {
+              class: `fa fa-plus`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              href: `#`
+            },
+            text: `Add Custom Link`,
+            type: `a`
+          }]
+        }] : generateHeaderMenuItem({
+          className: ` esgst-chfl-button`,
+          color: `grey`,
+          icon: `fa-plus-circle`,
+          name: `Add Custom Link`,
+          description: `Click here to add a custom link.`
+        }));
+        button.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, null, key));
+        const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
           attributes: {
-            href: `#`
+            class: `esgst-chfl-button`
           },
-          text: `Add Custom Link`,
-          type: `a`
-        }]
-      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-plus-circle`, name: `Add Custom Link`, description: `Click here to add a custom link.`}));
-      button.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, null, key));
-      const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
-        attributes: {
-          class: `esgst-chfl-button`
-        },
-        type: this.esgst.sg ? `div` : `li`,
-        children: [{
-          attributes: {
-            class: `fa fa-undo`
-          },
-          type: `i`
-        }, {
-          attributes: {
-            href: `#`
-          },
-          text: `Reset Links`,
-          type: `a`
-        }]
-      }] : generateHeaderMenuItem({className: ` esgst-chfl-button`, color: `grey`, icon: `fa-undo`, name: `Reset Links`, description: `Click here to reset the custom links.`}));
-      resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
-      for (const subKey in source.elements) {
-        const element = source.elements[subKey],
-            panel = createElements(element, `beforeEnd`, [{
-              attributes: {
-                class: `esgst-chfl-panel`
-              },
-              type: `div`,
-              children: [{
+          type: this.esgst.sg ? `div` : `li`,
+          children: [{
+            attributes: {
+              class: `fa fa-undo`
+            },
+            type: `i`
+          }, {
+            attributes: {
+              href: `#`
+            },
+            text: `Reset Links`,
+            type: `a`
+          }]
+        }] : generateHeaderMenuItem({
+          className: ` esgst-chfl-button`,
+          color: `grey`,
+          icon: `fa-undo`,
+          name: `Reset Links`,
+          description: `Click here to reset the custom links.`
+        }));
+        resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
+        for (const subKey in source.elements) {
+          if (source.elements.hasOwnProperty(subKey)) {
+            const element = source.elements[subKey],
+              panel = createElements(element, `beforeEnd`, [{
                 attributes: {
-                  class: `esgst-chfl-edit-button fa fa-edit icon-grey`,
+                  class: `esgst-chfl-panel`
                 },
-                type: `i`
-              }, {
-                attributes: {
-                  class: `esgst-chfl-remove-button fa fa-trash icon-grey`,
-                },
-                type: `i`
-              }]
-            }]);
-        panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, subKey, key));
-        panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(null, chfl, subKey, key));
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `esgst-chfl-edit-button fa fa-edit icon-grey`,
+                  },
+                  type: `i`
+                }, {
+                  attributes: {
+                    class: `esgst-chfl-remove-button fa fa-trash icon-grey`,
+                  },
+                  type: `i`
+                }]
+              }]);
+            panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, subKey, key));
+            panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(null, chfl, subKey, key));
+          }
+        }
+        return;
       }
-      return;
     }
   }
 
@@ -507,7 +529,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
   }
 
   async chfl_addLink(chfl, color, compactSwitch, description, editId, icon, key, name, popup, url) {
-    let match = url.value.match(/\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//) || url.value.match(/.*(\/|\?)(.+)$/);
+    let match = url.value.match(/\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//) || url.value.match(/.*([/?])(.+)$/);
     let item = {
       color: color.value,
       compact: compactSwitch.value ? 1 : 0,
@@ -593,23 +615,27 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
   chfl_removeButton(chfl, forceKey) {
     for (const key in chfl.sources) {
-      const source = chfl.sources[key];
-      if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
+      if (chfl.sources.hasOwnProperty(key)) {
+        const source = chfl.sources[key];
+        if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
 
-      const buttons = source.context.getElementsByClassName(`esgst-chfl-button`);
-      let found = false;
-      for (let i = buttons.length - 1; i > -1; i--) {
-        found = true;
-        buttons[i].remove();
-      }
-      for (const subKey in source.elements) {
-        const element = source.elements[subKey],
-            elements = element.getElementsByClassName(`esgst-chfl-panel`);
-        for (let i = elements.length - 1; i > -1; i--) {
-          elements[i].remove();
+        const buttons = source.context.getElementsByClassName(`esgst-chfl-button`);
+        let found = false;
+        for (let i = buttons.length - 1; i > -1; i--) {
+          found = true;
+          buttons[i].remove();
         }
+        for (const subKey in source.elements) {
+          if (source.elements.hasOwnProperty(subKey)) {
+            const element = source.elements[subKey],
+              elements = element.getElementsByClassName(`esgst-chfl-panel`);
+            for (let i = elements.length - 1; i > -1; i--) {
+              elements[i].remove();
+            }
+          }
+        }
+        return (found ? key : null);
       }
-      return (found ? key : null);
     }
   }
 }

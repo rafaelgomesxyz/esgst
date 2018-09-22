@@ -63,7 +63,7 @@ class GeneralCakeDayReminder extends Module {
     if (this.esgst.cdr_b && bYear !== year && time < registrationDate && time + (this.esgst.cdr_days * 86400000) >= registrationDate) {
       setLocalValue(`cdr_bYear`, year);
       new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day is in ${Math.floor((registrationDate - time) / 86400000)} days.`, true).open();
-    } else if (this.esgst.cdr_d && parseInt(getLocalValue(`cdr_dYear`, 0)) !== year && time >= registrationDate) {
+    } else if (this.esgst.cdr_d && dYear !== year && time >= registrationDate) {
       setLocalValue(`cdr_dYear`, year);
       if (time >= registrationDate + 86400000) {
         new Popup(`fa-birthday-cake`, `ESGST reminder: your cake day was ${Math.floor((time - registrationDate) / 86400000)} days ago.`, true).open();

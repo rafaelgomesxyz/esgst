@@ -63,7 +63,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
           } else {
             size = 35;
           }
-          this.esgst.style.insertAdjacentText(`beforeEnd`, `
+          this.esgst.style.insertAdjacentText("beforeend", `
             .esgst-adots .table__row-inner-wrap >:first-child {
               float: left;
               width: ${size}px;
@@ -129,6 +129,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
               if (this.esgst.oadd) {
+                // noinspection JSIgnoredPromiseFromCall
                 this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => icon.classList.remove(`fa-spin`));
               } else {
                 checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));

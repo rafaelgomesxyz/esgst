@@ -175,6 +175,7 @@ class GiveawaysGiveawayExtractor extends Module {
       }
     }, () => {
       ge.isCanceled = true;
+      // noinspection JSIgnoredPromiseFromCall
       this.ge_completeExtraction(ge);
     });
     ge.popup.description.appendChild(ge.set.set);
@@ -195,6 +196,7 @@ class GiveawaysGiveawayExtractor extends Module {
   ge_extractGiveaways(ge, giveaways, i, n, callback) {
     if (!ge.isCanceled) {
       if (i < n) {
+        // noinspection JSIgnoredPromiseFromCall
         this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, this.ge_extractGiveaways, 0, ge, giveaways, ++i, n, callback));
       } else {
         callback();

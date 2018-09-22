@@ -40,7 +40,7 @@ class Users extends Module {
         }
       }
       let j;
-      for (j = this.esgst.currentUsers[id].elements.length - 1; j > -1 && this.esgst.currentUsers[id].elements[j] !== element; j--);
+      for (j = this.esgst.currentUsers[id].elements.length - 1; j > -1 && this.esgst.currentUsers[id].elements[j] !== element; j--) {}
       if (j > -1) {
         continue;
       }

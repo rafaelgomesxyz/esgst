@@ -171,7 +171,7 @@ class GeneralTableSorter extends Module {
               break;
             default:
               if (value.match(/\d+\.\d+/)) {
-                element.value = parseFloat(value.replace(/,|\$/g, ``));
+                element.value = parseFloat(value.replace(/[,$]/g, ``));
                 if (isNaN(element.value)) {
                   element.value = value;
                 } else {

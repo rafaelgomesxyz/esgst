@@ -27,6 +27,7 @@ class GamesGameTags extends Module {
 
   gt() {
     this.esgst.gameFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(null, `gt`));
+    // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`gt`);
   }
 }

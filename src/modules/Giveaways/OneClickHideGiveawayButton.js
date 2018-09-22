@@ -96,6 +96,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
           this.esgst[source][i][key]();
           if (this.esgst[source][i] !== giveaway && this.esgst[source][i].ochgbButton) {
             this.esgst[source][i].ochgbButton.index = key === `fade` ? 2 : 0;
+            // noinspection JSIgnoredPromiseFromCall
             this.esgst[source][i].ochgbButton.change();
           }
         }

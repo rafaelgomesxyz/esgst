@@ -31,7 +31,8 @@ class Groups extends Module {
       }
       let savedGroup = null;
       if (!match) {
-        const avatar = element.parentElement.previousElementSibling.style.backgroundImage;
+        const avatarImage = element.parentElement.previousElementSibling;
+        const avatar = avatarImage.style.backgroundImage;
         savedGroup = this.esgst.groups.filter(group => avatar.match(group.avatar))[0];
       }
       const id = (match && match[1]) || (savedGroup && savedGroup.code);
@@ -48,7 +49,7 @@ class Groups extends Module {
         this.esgst.currentGroups[id].savedGroup = savedGroup
       }
       let j;
-      for (j = this.esgst.currentGroups[id].elements.length - 1; j > -1 && this.esgst.currentGroups[id].elements[j] !== element; j--);
+      for (j = this.esgst.currentGroups[id].elements.length - 1; j > -1 && this.esgst.currentGroups[id].elements[j] !== element; j--) {}
       if (j > -1) {
         continue;
       }
@@ -68,7 +69,6 @@ class Groups extends Module {
       });
       const isHeading = context.classList.contains(`featured__heading__medium`);
       const tagContainer = context.parentElement;
-      let tagContext = context;
       groups.push({
         container: tagContainer,
         context,
@@ -77,7 +77,7 @@ class Groups extends Module {
         name,
         oldElement,
         saved: savedGroup,
-        tagContext: isHeading ? tagContainer : tagContext,
+        tagContext: isHeading ? tagContainer : context,
         tagPosition: isHeading ? `beforeEnd` : `afterEnd`
       });
     }

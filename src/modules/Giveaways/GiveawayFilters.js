@@ -708,7 +708,7 @@ class GiveawaysGiveawayFilters extends Module {
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways);
     }
     if (this.esgst.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
-      this.esgst.style.insertAdjacentText(`beforeEnd`, `
+      this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
           top: ${this.esgst.commentsTop - 5}px;
         }
@@ -974,7 +974,7 @@ class GiveawaysGiveawayFilters extends Module {
         type: `boolean`
       },
       entered: {
-        check: (!this.esgst.createdPath && !this.esgst.enteredPah && !this.esgst.wonPath) || popup,
+        check: (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) || popup,
         name: `Entered`,
         type: `boolean`
       },
@@ -1453,7 +1453,7 @@ class GiveawaysGiveawayFilters extends Module {
     let name = this.esgst[`${obj.id}_preset${obj.type}`];
     if (name) {
       let i;
-      for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--);
+      for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {}
       if (i > -1) {
         obj.rules = this.esgst[obj.key][i].rules;
       }
@@ -1504,88 +1504,35 @@ class GiveawaysGiveawayFilters extends Module {
 
     const filters = [];
     for (const key in obj.filters) {
-      const filter = obj.filters[key];
-      const rule = {
-        id: key,
-        label: filter.name
-      };
-      let context;
-      let checkbox;
-      let textInput;
-      let maxInput;
-      let minInput;
-      switch (filter.type) {
-        case `boolean`:
-          rule.input = `radio`;
-          rule.operators = [`equal`];
-          rule.type = `boolean`;
-          rule.values = [`true`, `false`];
-
-          if (!this.esgst[`${obj.id}_m_b`]) {
-            const attributes = {};
-            if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
-              attributes.class = `esgst-hidden`;
-            }
-            context = createElements(booleanFilters, `beforeEnd`, [{
-              attributes,
-              type: `div`,
-              children: [{
-                type: `span`
-              }, {
-                attributes: {
-                  class: `esgst-gf-filter-count`,
-                  title: `Number of items this rule is hiding`
-                },
-                type: `span`
-              }, {
-                text: filter.name,
-                type: `node`
-              }]
-            }]);
-            checkbox = new Checkbox(context.firstElementChild, `enabled`, true);
-            obj.basicFilters[rule.id] = {
-              data: {
-                basicCount: context.firstElementChild.nextElementSibling
-              },
-              input: rule.input,
-              operator: `equal`,
-              type: rule.type,
-              filterType: `boolean`,
-              checkbox: checkbox
-            };
-            checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
-          }
-          break;
-        case `number`:
-          rule.operators = [
-            `equal`,
-            `not_equal`,
-            `less`,
-            `less_or_equal`,
-            `greater`,
-            `greater_or_equal`,
-            `is_null`,
-            `is_not_null`
-          ];
-          if (filter.date) {
-            rule.input = `text`;
-            rule.plugin = `datepicker`;
-            rule.plugin_config = {
-              changeMonth: true,
-              changeYear: true,
-              dateFormat: `yy/mm/dd`
-            };
-            rule.type = `date`;
+      if (obj.filters.hasOwnProperty(key)) {
+        const filter = obj.filters[key];
+        const rule = {
+          id: key,
+          label: filter.name
+        };
+        let context;
+        let checkbox;
+        let textInput;
+        let maxInput;
+        let minInput;
+        switch (filter.type) {
+          case `boolean`:
+            rule.input = `radio`;
+            rule.operators = [`equal`];
+            rule.type = `boolean`;
+            rule.values = [`true`, `false`];
 
             if (!this.esgst[`${obj.id}_m_b`]) {
               const attributes = {};
               if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
-              context = createElements(numberFilters, `beforeEnd`, [{
+              context = createElements(booleanFilters, `beforeEnd`, [{
                 attributes,
                 type: `div`,
                 children: [{
+                  type: `span`
+                }, {
                   attributes: {
                     class: `esgst-gf-filter-count`,
                     title: `Number of items this rule is hiding`
@@ -1594,153 +1541,208 @@ class GiveawaysGiveawayFilters extends Module {
                 }, {
                   text: filter.name,
                   type: `node`
-                }, {
-                  type: `span`,
-                  children: [{
-                    attributes: {
-                      type: `date`
-                    },
-                    type: `input`
-                  }, {
-                    text: `-`,
-                    type: `node`
-                  }, {
-                    attributes: {
-                      type: `date`
-                    },
-                    type: `input`
-                  }]
                 }]
               }]);
+              checkbox = new Checkbox(context.firstElementChild, `enabled`, true);
+              obj.basicFilters[rule.id] = {
+                data: {
+                  basicCount: context.firstElementChild.nextElementSibling
+                },
+                input: rule.input,
+                operator: `equal`,
+                type: rule.type,
+                filterType: `boolean`,
+                checkbox: checkbox
+              };
+              checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
             }
-          } else {
-            rule.input = `number`;
-            if (filter.step) {
-              rule.type = `double`;
+            break;
+          case `number`:
+            rule.operators = [
+              `equal`,
+              `not_equal`,
+              `less`,
+              `less_or_equal`,
+              `greater`,
+              `greater_or_equal`,
+              `is_null`,
+              `is_not_null`
+            ];
+            if (filter.date) {
+              rule.input = `text`;
+              rule.plugin = `datepicker`;
+              rule.plugin_config = {
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: `yy/mm/dd`
+              };
+              rule.type = `date`;
+
+              if (!this.esgst[`${obj.id}_m_b`]) {
+                const attributes = {};
+                if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
+                  attributes.class = `esgst-hidden`;
+                }
+                context = createElements(numberFilters, `beforeEnd`, [{
+                  attributes,
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-gf-filter-count`,
+                      title: `Number of items this rule is hiding`
+                    },
+                    type: `span`
+                  }, {
+                    text: filter.name,
+                    type: `node`
+                  }, {
+                    type: `span`,
+                    children: [{
+                      attributes: {
+                        type: `date`
+                      },
+                      type: `input`
+                    }, {
+                      text: `-`,
+                      type: `node`
+                    }, {
+                      attributes: {
+                        type: `date`
+                      },
+                      type: `input`
+                    }]
+                  }]
+                }]);
+              }
             } else {
-              rule.type = `integer`;
+              rule.input = `number`;
+              if (filter.step) {
+                rule.type = `double`;
+              } else {
+                rule.type = `integer`;
+              }
+              rule.validation = {
+                max: filter.maxValue,
+                min: filter.minValue,
+                step: filter.step
+              };
+
+              if (!this.esgst[`${obj.id}_m_b`]) {
+                const attributes = {};
+                if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
+                  attributes.class = `esgst-hidden`;
+                }
+                context = createElements(numberFilters, `beforeEnd`, [{
+                  attributes,
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-gf-filter-count`,
+                      title: `Number of items this rule is hiding`
+                    },
+                    type: `span`
+                  }, {
+                    text: filter.name,
+                    type: `node`
+                  }, {
+                    type: `span`,
+                    children: [{
+                      attributes: {
+                        type: `number`
+                      },
+                      type: `input`
+                    }, {
+                      text: `-`,
+                      type: `node`
+                    }, {
+                      attributes: {
+                        type: `number`
+                      },
+                      type: `input`
+                    }]
+                  }]
+                }]);
+              }
             }
-            rule.validation = {
-              max: filter.maxValue,
-              min: filter.minValue,
-              step: filter.step
-            };
+
+            if (!this.esgst[`${obj.id}_m_b`]) {
+              minInput = context.lastElementChild.firstElementChild;
+              maxInput = minInput.nextElementSibling;
+              obj.basicFilters[rule.id] = {
+                data: {
+                  basicCount: context.firstElementChild
+                },
+                input: rule.input,
+                type: rule.type,
+                filterType: `number`,
+                maxInput: maxInput,
+                minInput: minInput
+              };
+              maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
+              minInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
+            }
+
+            break;
+          case `string`:
+            rule.input = `text`;
+            rule.operators = [`contains`, `not_contains`];
+            rule.placeholder = `Item1, Item2, ...`;
+            rule.type = `string`;
 
             if (!this.esgst[`${obj.id}_m_b`]) {
               const attributes = {};
               if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
-              context = createElements(numberFilters, `beforeEnd`, [{
+              context = createElements(stringFilters, `beforeEnd`, [{
                 attributes,
                 type: `div`,
                 children: [{
+                  type: `span`,
+                  children: [{
+                    type: `span`
+                  }, {
+                    text: ` ${filter.name}`,
+                    type: `node`
+                  }]
+                }, {
                   attributes: {
                     class: `esgst-gf-filter-count`,
                     title: `Number of items this rule is hiding`
                   },
                   type: `span`
                 }, {
-                  text: filter.name,
-                  type: `node`
-                }, {
-                  type: `span`,
-                  children: [{
-                    attributes: {
-                      type: `number`
-                    },
-                    type: `input`
-                  }, {
-                    text: `-`,
-                    type: `node`
-                  }, {
-                    attributes: {
-                      type: `number`
-                    },
-                    type: `input`
-                  }]
+                  attributes: {
+                    placeholder: `Item1, Item2, ...`,
+                    type: `text`
+                  },
+                  type: `input`
                 }]
               }]);
-            }
-          }
-
-          if (!this.esgst[`${obj.id}_m_b`]) {
-            minInput = context.lastElementChild.firstElementChild;
-            maxInput = minInput.nextElementSibling;
-            obj.basicFilters[rule.id] = {
-              data: {
-                basicCount: context.firstElementChild
-              },
-              input: rule.input,
-              type: rule.type,
-              filterType: `number`,
-              maxInput: maxInput,
-              minInput: minInput
-            };
-            maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
-            minInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
-          }
-
-          break;
-        case `string`:
-          rule.input = `text`;
-          rule.operators = [`contains`, `not_contains`];
-          rule.placeholder =  `Item1, Item2, ...`;
-          rule.type = `string`;
-
-          if (!this.esgst[`${obj.id}_m_b`]) {
-            const attributes = {};
-            if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
-              attributes.class = `esgst-hidden`;
-            }
-            context = createElements(stringFilters, `beforeEnd`, [{
-              attributes,
-              type: `div`,
-              children: [{
-                type: `span`,
-                children: [{
-                  type: `span`
-                }, {
-                  text: ` ${filter.name}`,
-                  type: `node`
-                }]
-              }, {
-                attributes: {
-                  class: `esgst-gf-filter-count`,
-                  title: `Number of items this rule is hiding`
+              checkbox = new Checkbox(context.firstElementChild.firstElementChild, `enabled`, true);
+              textInput = context.lastElementChild;
+              obj.basicFilters[rule.id] = {
+                data: {
+                  basicCount: context.firstElementChild.nextElementSibling
                 },
-                type: `span`
-              }, {
-                attributes: {
-                  placeholder: `Item1, Item2, ...`,
-                  type: `text`
-                },
-                type: `input`
-              }]
-            }]);
-            checkbox = new Checkbox(context.firstElementChild.firstElementChild, `enabled`,  true);
-            textInput = context.lastElementChild;
-            obj.basicFilters[rule.id] = {
-              data: {
-                basicCount: context.firstElementChild.nextElementSibling
-              },
-              id: rule.id,
-              input: rule.input,
-              type: rule.type,
-              filterType: `string`,
-              checkbox: checkbox,
-              textInput: textInput
-            };
-            checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
-            textInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
-          }
-          break;
+                id: rule.id,
+                input: rule.input,
+                type: rule.type,
+                filterType: `string`,
+                checkbox: checkbox,
+                textInput: textInput
+              };
+              checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
+              textInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
+            }
+            break;
+        }
+        if (!rule.data) {
+          rule.data = {};
+        }
+        rule.data.check = this.esgst[`${obj.id}_${rule.id}`] && filter.check;
+        filters.push(rule);
       }
-      if (!rule.data) {
-        rule.data = {};
-      }
-      rule.data.check = this.esgst[`${obj.id}_${rule.id}`] && filter.check;
-      filters.push(rule);
     }
 
     if (!this.esgst[`${obj.id}_m_b`]) {
@@ -2006,6 +2008,9 @@ class GiveawaysGiveawayFilters extends Module {
       ].forEach(filter => {
         if (!this.esgst[`${obj.id}_${filter.key}`]) return;
 
+        /**
+    * @type {ElementsArrayItem[]}
+    */
         const children = [{
           text: filter.name,
           type: `node`
@@ -2038,7 +2043,7 @@ class GiveawaysGiveawayFilters extends Module {
               text: `Mac`,
               type: `option`
             }]
-          })
+          });
         }
         const sgFilter = createElements(sgFilters, `beforeEnd`, [{
           attributes: {
@@ -2079,7 +2084,7 @@ class GiveawaysGiveawayFilters extends Module {
             check.classList.remove(`esgst-hidden`);
           });
         } else {
-          const checkbox = new Checkbox(sgFilter, this.esgst[filter.id] ? true : false);
+          const checkbox = new Checkbox(sgFilter, !!this.esgst[filter.id]);
           checkbox.onChange = async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
@@ -2409,71 +2414,73 @@ class GiveawaysGiveawayFilters extends Module {
 
       // Convert basic rules.
       for (let key in preset) {
-        if (key.match(/^(authors|creators|exceptions|genres|groups|words|name|overrides)$/)) {
-          continue;
-        }
+        if (preset.hasOwnProperty(key)) {
+          if (key.match(/^(authors|creators|exceptions|genres|groups|words|name|overrides)$/)) {
+            continue;
+          }
 
-        const isMax = key.match(/^max/);
-        const isMin = key.match(/^min/);
-        const value = preset[key];
-        key = key.replace(/(^(max|min))|List$/, ``);
-        key = `${key[0].toLowerCase()}${key.slice(1)}`;
-        if (isMax) {
-          if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
-            newPreset.rules.push({
-              field: key,
-              id: key,
-              input: key === `releaseDate` ? `date` : `number`,
-              operator: `less_or_equal`,
-              type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
-              value: value
-            });
-          }
-        } else if (isMin) {
-          if (value !== minValues[key]) {
-            newPreset.rules.push({
-              field: key,
-              id: key,
-              input: key === `releaseDate` ? `date` : `number`,
-              operator: `greater_or_equal`,
-              type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
-              value: value
-            });
-          }
-        } else if (value && typeof value === `string` && !value.match(/^(enabled|undefined)$/)) {
-          if (value === `disabled`) {
-            newPreset.rules.push({
-              field: key,
-              id: key,
-              input: `radio`,
-              operator: `equal`,
-              type: `boolean`,
-              value: false
-            });
-          } else if (value === `none`) {
-            newPreset.rules.push({
-              field: key,
-              id: key,
-              input: `radio`,
-              operator: `equal`,
-              type: `boolean`,
-              value: true
-            });
-          } else {
-            const rule = {
-              field: key,
-              id: key,
-              input: `text`,
-              operator: preset[key] === `disabled` ? `not_contains` : `contains`,
-              type: `string`,
-              value: value
-            };
-            if (preset[key] === `enabled`) {
-              rule.data = {
-                paused: true
-              };
+          const isMax = key.match(/^max/);
+          const isMin = key.match(/^min/);
+          const value = preset[key];
+          key = key.replace(/(^(max|min))|List$/, ``);
+          key = `${key[0].toLowerCase()}${key.slice(1)}`;
+          if (isMax) {
+            if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
+              newPreset.rules.push({
+                field: key,
+                id: key,
+                input: key === `releaseDate` ? `date` : `number`,
+                operator: `less_or_equal`,
+                type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                value: value
+              });
             }
-            newPreset.rules.push(rule);
+          } else if (isMin) {
+            if (value !== minValues[key]) {
+              newPreset.rules.push({
+                field: key,
+                id: key,
+                input: key === `releaseDate` ? `date` : `number`,
+                operator: `greater_or_equal`,
+                type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                value: value
+              });
+            }
+          } else if (value && typeof value === `string` && !value.match(/^(enabled|undefined)$/)) {
+            if (value === `disabled`) {
+              newPreset.rules.push({
+                field: key,
+                id: key,
+                input: `radio`,
+                operator: `equal`,
+                type: `boolean`,
+                value: false
+              });
+            } else if (value === `none`) {
+              newPreset.rules.push({
+                field: key,
+                id: key,
+                input: `radio`,
+                operator: `equal`,
+                type: `boolean`,
+                value: true
+              });
+            } else {
+              const rule = {
+                field: key,
+                id: key,
+                input: `text`,
+                operator: preset[key] === `disabled` ? `not_contains` : `contains`,
+                type: `string`,
+                value: value
+              };
+              if (preset[key] === `enabled`) {
+                rule.data = {
+                  paused: true
+                };
+              }
+              newPreset.rules.push(rule);
+            }
           }
         }
       }
@@ -2496,58 +2503,60 @@ class GiveawaysGiveawayFilters extends Module {
             rules: []
           };
           for (let key in exception) {
-            if (key.match(/^(authors|creators|exceptions|genres|groups|words|name|overrides)$/)) {
-              continue;
-            }
+            if (exception.hasOwnProperty(key)) {
+              if (key.match(/^(authors|creators|exceptions|genres|groups|words|name|overrides)$/)) {
+                continue;
+              }
 
-            const isMax = key.match(/^max/);
-            const isMin = key.match(/^min/);
-            const value = preset[key];
-            key = key.replace(/(^(max|min))|List$/, ``);
-            key = `${key[0].toLowerCase()}${key.slice(1)}`;
-            if (isMax) {
-              if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
-                newException.rules.push({
-                  field: key,
-                  id: key,
-                  input: key === `releaseDate` ? `date` : `number`,
-                  operator: `less_or_equal`,
-                  type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
-                  value: value
-                });
-              }
-            } else if (isMin) {
-              if (value !== minValues[key]) {
-                newException.rules.push({
-                  field: key,
-                  id: key,
-                  input: key === `releaseDate` ? `date` : `number`,
-                  operator: `greater_or_equal`,
-                  type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
-                  value: value
-                });
-              }
-            } else if (value && value !== `undefined`) {
-              if (key.match(/^(authors|creators|genres|groups|words)$/)) {
-                if (exception[key]) {
+              const isMax = key.match(/^max/);
+              const isMin = key.match(/^min/);
+              const value = preset[key];
+              key = key.replace(/(^(max|min))|List$/, ``);
+              key = `${key[0].toLowerCase()}${key.slice(1)}`;
+              if (isMax) {
+                if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
                   newException.rules.push({
                     field: key,
                     id: key,
-                    input: `text`,
-                    operator: `contains`,
-                    type: `string`,
+                    input: key === `releaseDate` ? `date` : `number`,
+                    operator: `less_or_equal`,
+                    type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
                     value: value
                   });
                 }
-              } else {
-                newException.rules.push({
-                  field: key,
-                  id: key,
-                  input: `radio`,
-                  operator: `equal`,
-                  type: `boolean`,
-                  value: true
-                });
+              } else if (isMin) {
+                if (value !== minValues[key]) {
+                  newException.rules.push({
+                    field: key,
+                    id: key,
+                    input: key === `releaseDate` ? `date` : `number`,
+                    operator: `greater_or_equal`,
+                    type: key === `releaseDate` ? `text` : (key.match(/^(chance|chancePerPoint)$/) ? `double` : `integer`),
+                    value: value
+                  });
+                }
+              } else if (value && value !== `undefined`) {
+                if (key.match(/^(authors|creators|genres|groups|words)$/)) {
+                  if (exception[key]) {
+                    newException.rules.push({
+                      field: key,
+                      id: key,
+                      input: `text`,
+                      operator: `contains`,
+                      type: `string`,
+                      value: value
+                    });
+                  }
+                } else {
+                  newException.rules.push({
+                    field: key,
+                    id: key,
+                    input: `radio`,
+                    operator: `equal`,
+                    type: `boolean`,
+                    value: true
+                  });
+                }
               }
             }
           }
@@ -2716,60 +2725,62 @@ class GiveawaysGiveawayFilters extends Module {
       valid: true
     };
     for (const id in obj.basicFilters) {
-      const filter = obj.basicFilters[id];
-      switch (filter.filterType) {
-        case `boolean`:
-          if (filter.checkbox.value === `enabled`) break;
+      if (obj.basicFilters.hasOwnProperty(id)) {
+        const filter = obj.basicFilters[id];
+        switch (filter.filterType) {
+          case `boolean`:
+            if (filter.checkbox.value === `enabled`) break;
 
-          adv.rules.push({
-            data: filter.data,
-            field: id,
-            id: id,
-            input: filter.input,
-            operator: filter.operator,
-            type: filter.type,
-            value: filter.checkbox.value === `none`
-          });
-          break;
-        case `number`:
-          if (filter.maxInput.value) {
             adv.rules.push({
               data: filter.data,
               field: id,
               id: id,
               input: filter.input,
-              operator: `less_or_equal`,
+              operator: filter.operator,
               type: filter.type,
-              value: filter.maxInput.value
+              value: filter.checkbox.value === `none`
             });
-          }
-          if (filter.minInput.value) {
+            break;
+          case `number`:
+            if (filter.maxInput.value) {
+              adv.rules.push({
+                data: filter.data,
+                field: id,
+                id: id,
+                input: filter.input,
+                operator: `less_or_equal`,
+                type: filter.type,
+                value: filter.maxInput.value
+              });
+            }
+            if (filter.minInput.value) {
+              adv.rules.push({
+                data: filter.data,
+                field: id,
+                id: id,
+                input: filter.input,
+                operator: `greater_or_equal`,
+                type: filter.type,
+                value: filter.minInput.value
+              });
+            }
+            break;
+          case `string`:
+            if (filter.checkbox.value === `enabled`) break;
+
+            if (!filter.textInput.value) break;
+
             adv.rules.push({
               data: filter.data,
               field: id,
               id: id,
               input: filter.input,
-              operator: `greater_or_equal`,
+              operator: filter.checkbox.value === `none` ? `contains` : `not_contains`,
               type: filter.type,
-              value: filter.minInput.value
+              value: filter.textInput.value
             });
-          }
-          break;
-        case `string`:
-          if (filter.checkbox.value === `enabled`) break;
-
-          if (!filter.textInput.value) break;
-
-          adv.rules.push({
-            data: filter.data,
-            field: id,
-            id: id,
-            input: filter.input,
-            operator: filter.checkbox.value === `none` ? `contains` : `not_contains`,
-            type: filter.type,
-            value: filter.textInput.value
-          });
-          break;
+            break;
+        }
       }
     }
     obj.rules = adv;
@@ -2823,19 +2834,21 @@ class GiveawaysGiveawayFilters extends Module {
 
   filters_resetBasic(obj) {
     for (const id in obj.basicFilters) {
-      const filter = obj.basicFilters[id];
-      switch (filter.filterType) {
-        case `boolean`:
-          filter.checkbox.change(false, `enabled`);
-          break;
-        case `number`:
-          filter.maxInput.value = ``;
-          filter.minInput.value = ``;
-          break;
-        case `string`:
-          filter.checkbox.change(false, `enabled`);
-          filter.textInput.value = ``;
-          break;
+      if (obj.basicFilters.hasOwnProperty(id)) {
+        const filter = obj.basicFilters[id];
+        switch (filter.filterType) {
+          case `boolean`:
+            filter.checkbox.change(false, `enabled`);
+            break;
+          case `number`:
+            filter.maxInput.value = ``;
+            filter.minInput.value = ``;
+            break;
+          case `string`:
+            filter.checkbox.change(false, `enabled`);
+            filter.textInput.value = ``;
+            break;
+        }
       }
     }
   }
@@ -2854,7 +2867,7 @@ class GiveawaysGiveawayFilters extends Module {
       rules: obj.rules_save
     };
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--);
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {}
     if (i > -1) {
       this.esgst[obj.key][i] = preset;
     } else {
@@ -2983,7 +2996,7 @@ class GiveawaysGiveawayFilters extends Module {
     event.dataTransfer.setData(`text/plain`, ``);
     obj.source = row;
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--);
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {}
     obj.sourceIndex = i;
   }
 
@@ -3048,7 +3061,7 @@ class GiveawaysGiveawayFilters extends Module {
     const oldName = preset.name;
     const newName = event.currentTarget.value;
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== oldName; i--);
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== oldName; i--) {}
     preset.name = this.esgst[obj.key][i].name = newName;
     const values = [{
       id: obj.key,
@@ -3081,7 +3094,7 @@ class GiveawaysGiveawayFilters extends Module {
       type: `i`
     }]);
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--);
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {}
     this.esgst[obj.key].splice(i, 1);
     await setSetting(obj.key, this.esgst[obj.key]);
     createElements(deleteButton, `inner`, [{
@@ -3158,17 +3171,23 @@ class GiveawaysGiveawayFilters extends Module {
     if (obj.id === `gf` && this.esgst.gcToFetch) {
       const games = {apps: {}, subs: {}};
       for (const id in this.esgst.gcToFetch.apps) {
-        games.apps[id] = [...this.esgst.gcToFetch.apps[id]];
+        if (this.esgst.gcToFetch.apps.hasOwnProperty(id)) {
+          games.apps[id] = [...this.esgst.gcToFetch.apps[id]];
+        }
       }
       for (const id in this.esgst.gcToFetch.subs) {
-        games.subs[id] = [...this.esgst.gcToFetch.subs[id]];
+        if (this.esgst.gcToFetch.subs.hasOwnProperty(id)) {
+          games.subs[id] = [...this.esgst.gcToFetch.subs[id]];
+        }
       }
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.gamesGameCategories.gc_getGames(games, true, null, false, true);
     }
   }
 
   /**
   * Checks if an item passes a set of filter rules.
+  * @param {string} id
   * @param {object} filters An object containing all the filters.
   * @param {object} item An object containing information about the item to be checked.
   * @param {object} rules An object containing the rules to check.
@@ -3206,6 +3225,9 @@ class GiveawaysGiveawayFilters extends Module {
         }
       }
       filtered = rules.not ? !filtered : filtered;
+      /**
+    * @property {object} rules.data
+    */
       if (!filtered && rules.data && rules.data.count) {
         rules.data.count.textContent = parseInt(rules.data.count.textContent) + 1;
       }
@@ -3224,6 +3246,10 @@ class GiveawaysGiveawayFilters extends Module {
       return filtered;
     }
 
+    /**
+   * @property {string} rules.type
+   */
+    // noinspection FallThroughInSwitchStatementJS
     switch (rules.type) {
       case `date`:
         rules.value = new Date(rules.value).getTime();
@@ -3234,6 +3260,9 @@ class GiveawaysGiveawayFilters extends Module {
         const value = key === `minutesToEnd`
           ? ((item.endTime - Date.now()) / 60000)
           : item[key];
+        /**
+    * @property {string} rules.operator
+    */
         switch (rules.operator) {
           case `equal`:
             filtered = rules.value === value;
@@ -3297,13 +3326,13 @@ class GiveawaysGiveawayFilters extends Module {
           }
 
           let i;
-          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--);
+          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {}
           filtered = i > -1;
         } else {
           if (!item[key]) break;
 
           let i;
-          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--);
+          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {}
           filtered = i < 0;
         }
 

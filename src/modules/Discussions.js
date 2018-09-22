@@ -124,6 +124,7 @@ class Discussions extends Module {
         let context = main && this.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
         let index = 0;
         if (savedDiscussion && savedDiscussion.highlighted) {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion(discussion.code, context);
           if (this.esgst.dh_t && main && this.esgst.discussionsPath) {
             discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);

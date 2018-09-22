@@ -37,7 +37,7 @@ class GeneralLevelProgressVisualizer extends Module {
 
   lpv_setStyle() {
     const currentLevel = parseFloat(this.esgst.levelContainer.getAttribute(`title`));
-    const currentBase = parseInt(currentLevel);
+    const currentBase = Math.trunc(currentLevel);
     if (currentBase === 10) {
       return;
     }
@@ -125,57 +125,59 @@ class GeneralLevelProgressVisualizer extends Module {
     for (const type of [`apps`, `subs`]) {
       const items = giveaways.sent[type];
       for (const id in items) {
-        let open = 0;
-        let sent = 0;
-        let value = 0;
-        for (const code of items[id]) {
-          const giveaway = this.esgst.giveaways[code];
-          if (!giveaway) {
-            continue;
-          }
-          value = giveaway.points;
-          if (currentTime < giveaway.endTime || !giveaway.started) {
-            // giveaway is open or has not started yet
-            open += giveaway.copies;
-          } else {
-            // giveaway is closed
-            if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-              // giveaway counts for cv
-              if (Array.isArray(giveaway.winners)) {
-                // user is using the new database, which is more accurate
-                for (const winner of giveaway.winners) {
-                  if (winner.status === `Received`) {
-                    sent += 1;
+        if (items.hasOwnProperty(id)) {
+          let open = 0;
+          let sent = 0;
+          let value = 0;
+          for (const code of items[id]) {
+            const giveaway = this.esgst.giveaways[code];
+            if (!giveaway) {
+              continue;
+            }
+            value = giveaway.points;
+            if (currentTime < giveaway.endTime || !giveaway.started) {
+              // giveaway is open or has not started yet
+              open += giveaway.copies;
+            } else {
+              // giveaway is closed
+              if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                // giveaway counts for cv
+                if (Array.isArray(giveaway.winners)) {
+                  // user is using the new database, which is more accurate
+                  for (const winner of giveaway.winners) {
+                    if (winner.status === `Received`) {
+                      sent += 1;
+                    }
                   }
+                } else if (giveaway.winners > 0) {
+                  // user is using the old database, not very accurate
+                  sent += Math.min(giveaway.entries, giveaway.winners);
                 }
-              } else if (giveaway.winners > 0) {
-                // user is using the old database, not very accurate
-                sent += Math.min(giveaway.entries, giveaway.winners);
               }
             }
           }
-        }
-        const game = this.esgst.games[type][id];
-        if (game) {
-          if (game.noCV) {
-            // game gives no cv
-            value = 0;
-          } else if (game.reducedCV) {
-            // game gives reduced cv (15% of the value)
-            value *= 0.15;
+          const game = this.esgst.games[type][id];
+          if (game) {
+            if (game.noCV) {
+              // game gives no cv
+              value = 0;
+            } else if (game.reducedCV) {
+              // game gives reduced cv (15% of the value)
+              value *= 0.15;
+            }
           }
-        }
-        if (sent > 5 || sent + open > 5) {
-          // after 5 copies each next copy is worth only 90% of the previous value
-          for (let i = sent - 5; i > 0; i--) {
-            value *= 0.90;
+          if (sent > 5 || sent + open > 5) {
+            // after 5 copies each next copy is worth only 90% of the previous value
+            for (let i = sent - 5; i > 0; i--) {
+              value *= 0.90;
+            }
+            for (let i = open; i > 0; i--) {
+              value *= 0.90;
+              cv += value;
+            }
+          } else {
+            cv += (value * open);
           }
-          for (let i = open; i > 0; i--) {
-            value *= 0.90;
-            cv += value;
-          }
-        } else {
-          cv += (value * open);
         }
       }
     }

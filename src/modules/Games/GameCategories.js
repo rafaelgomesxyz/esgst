@@ -837,6 +837,7 @@ class GamesGameCategories extends Module {
   }
 
   gc_games(games, main, source, endless) {
+    // noinspection JSIgnoredPromiseFromCall
     this.gc_getGames(games, main, source, endless);
   }
 
@@ -852,78 +853,82 @@ class GamesGameCategories extends Module {
 
     // get categories
     for (let id in games.apps) {
-      let elements = games.apps[id];
-      for (let i = 0, n = elements.length; i < n; ++i) {
-        let element = elements[i];
-        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
-          continue;
-        }
-        if (element.container.closest(`.poll`)) {
-          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
-            attributes: {
-              class: `esgst-gc-panel`
-            },
-            type: `div`,
-            children: [{
+      if (games.apps.hasOwnProperty(id)) {
+        let elements = games.apps[id];
+        for (let i = 0, n = elements.length; i < n; ++i) {
+          let element = elements[i];
+          if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+            continue;
+          }
+          if (element.container.closest(`.poll`)) {
+            createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
               attributes: {
-                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                title: `Loading game categories...`
+                class: `esgst-gc-panel`
               },
-              type: `i`
-            }]
-          }]);
-        } else {
-          createElements(element.heading, `afterEnd`, [{
-            attributes: {
-              class: `esgst-gc-panel`
-            },
-            type: `div`,
-            children: [{
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                  title: `Loading game categories...`
+                },
+                type: `i`
+              }]
+            }]);
+          } else {
+            createElements(element.heading, `afterEnd`, [{
               attributes: {
-                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                title: `Loading game categories...`
+                class: `esgst-gc-panel`
               },
-              type: `i`
-            }]
-          }]);
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                  title: `Loading game categories...`
+                },
+                type: `i`
+              }]
+            }]);
+          }
         }
       }
     }
     for (let id in games.subs) {
-      let elements = games.subs[id];
-      for (let i = 0, n = elements.length; i < n; ++i) {
-        let element = elements[i];
-        if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
-          continue;
-        }
-        if (element.container.closest(`.poll`)) {
-          createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
-            attributes: {
-              class: `esgst-gc-panel`
-            },
-            type: `div`,
-            children: [{
+      if (games.subs.hasOwnProperty(id)) {
+        let elements = games.subs[id];
+        for (let i = 0, n = elements.length; i < n; ++i) {
+          let element = elements[i];
+          if (element.container.classList.contains(`esgst-hidden`) || element.container.getElementsByClassName(`esgst-gc-panel`)[0]) {
+            continue;
+          }
+          if (element.container.closest(`.poll`)) {
+            createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
               attributes: {
-                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                title: `Loading game categories...`
+                class: `esgst-gc-panel`
               },
-              type: `i`
-            }]
-          }]);
-        } else {
-          createElements(element.heading, `afterEnd`, [{
-            attributes: {
-              class: `esgst-gc-panel`
-            },
-            type: `div`,
-            children: [{
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                  title: `Loading game categories...`
+                },
+                type: `i`
+              }]
+            }]);
+          } else {
+            createElements(element.heading, `afterEnd`, [{
               attributes: {
-                class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                title: `Loading game categories...`
+                class: `esgst-gc-panel`
               },
-              type: `i`
-            }]
-          }]);
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
+                  title: `Loading game categories...`
+                },
+                type: `i`
+              }]
+            }]);
+          }
         }
       }
     }
@@ -959,21 +964,25 @@ class GamesGameCategories extends Module {
       }
       const currentTime = Date.now();
       for (let id in gc.cache.apps) {
-        if (gc.cache.apps[id].lastCheck) {
-          if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
-            delete gc.cache.apps[id];
+        if (gc.cache.apps.hasOwnProperty(id)) {
+          if (gc.cache.apps[id].lastCheck) {
+            if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
+              delete gc.cache.apps[id];
+            }
+          } else {
+            gc.cache.apps[id].lastCheck = currentTime;
           }
-        } else {
-          gc.cache.apps[id].lastCheck = currentTime;
         }
       }
       for (let id in gc.cache.subs) {
-        if (gc.cache.subs[id].lastCheck) {
-          if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
-            delete gc.cache.subs[id];
+        if (gc.cache.subs.hasOwnProperty(id)) {
+          if (gc.cache.subs[id].lastCheck) {
+            if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
+              delete gc.cache.subs[id];
+            }
+          } else {
+            gc.cache.subs[id].lastCheck = currentTime;
           }
-        } else {
-          gc.cache.subs[id].lastCheck = currentTime;
         }
       }
       setLocalValue(`gcCache`, JSON.stringify(gc.cache));
@@ -1203,6 +1212,9 @@ class GamesGameCategories extends Module {
         tradingCards: 0
       };
       let responseJson = JSON.parse((await request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
+      /**
+   * @type {gcResponseData}
+   */
       let data;
       if (responseJson && responseJson[id]) {
         data = responseJson[id].data;
@@ -1306,7 +1318,7 @@ class GamesGameCategories extends Module {
           let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
           let n = elements.length;
           if (n > 0) {
-            let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/,|\./g, ``);
+            let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/[,.]/g, ``);
             let match = rating.match(/(\d+)%.+?(\d+)/);
             let percentageIndex = 1;
             let countIndex = 2;
@@ -1394,12 +1406,12 @@ class GamesGameCategories extends Module {
   }
 
   gc_checkPackage(id, savedGame) {
-    const packg = this.esgst.games.subs[id];
-    if (!packg || !packg.apps) {
+    const sub = this.esgst.games.subs[id];
+    if (!sub || !sub.apps) {
       return;
     }
     const added = [];
-    const games = packg.apps
+    const games = sub.apps
       .map(x => {
         x = parseInt(x);
         const y = this.esgst.games.apps[x];
@@ -1417,16 +1429,16 @@ class GamesGameCategories extends Module {
         Object.keys(this.esgst.games.apps)
         .filter(x => this.esgst.games.apps[x].packages && this.esgst.games.apps[x].packages.indexOf(id) > -1)
         .map(x => {
-          x = parseInt(x);
-          const y = this.esgst.games.apps[x];
+          const z = parseInt(x);
+          const y = this.esgst.games.apps[z];
           if (!y) {
             return;
           }
-          if (added.indexOf(x) > -1) {
+          if (added.indexOf(z) > -1) {
             return;
           }
-          added.push(x);
-          y.id = x;
+          added.push(z);
+          y.id = z;
           return y;
         })
       )
@@ -1435,7 +1447,7 @@ class GamesGameCategories extends Module {
     let isOwned = false;
     const count = {
       num: 0,
-      total: packg.apps.length
+      total: sub.apps.length
     };
     for (const game of games) {
       if (!game) {
@@ -1444,7 +1456,7 @@ class GamesGameCategories extends Module {
       if (game.wishlisted) {
         savedGame.wishlisted = game.wishlisted;
       }
-      if (game.owned || packg.apps.indexOf(game.id) < 0) {
+      if (game.owned || sub.apps.indexOf(game.id) < 0) {
         if (!found) {
           isOwned = true;
         }
@@ -1799,7 +1811,7 @@ class GamesGameCategories extends Module {
                 attributes: {
                   class: `esgst-gc esgst-gc-won`,
                   [`data-draggable-id`]: `gc_pw`,
-                  href: `https://www.steamgifts.com/user/${this.esgst.usename}/won/search?q=${encodedName}`,
+                  href: `https://www.steamgifts.com/user/${this.esgst.username}/won/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_pw`, `Previously Won`)
                 },
                 text: this.esgst.gc_pw_s ? (this.esgst.gc_pw_s_i ? `` : `PW`) : this.esgst.gc_pwLabel,
@@ -2108,7 +2120,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-tradingCards`,
                   [`data-draggable-id`]: `gc_tc`,
                   href: `http://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${id}`,
-                  itle: getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
+                  title: getFeatureTooltip(`gc_tc`, `Trading Cards${count}`)
                 },
                 text: this.esgst.gc_tc_s ? (this.esgst.gc_tc_s_i ? `` : `TC${count}`) : `${this.esgst.gc_tcLabel}${count}`,
                 type: `a`,
@@ -2492,7 +2504,7 @@ class GamesGameCategories extends Module {
               for (j = genreList.length - 1; j >= 0; --j) {
                 genre = genreList[j].toLowerCase();
                 if (!filters || filters.indexOf(genre) > -1) {
-                  for (k = this.esgst.gc_g_colors.length - 1; k >= 0 && this.esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k);
+                  for (k = this.esgst.gc_g_colors.length - 1; k >= 0 && this.esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k) {}
                   if (k >= 0) {
                     if (this.esgst.gc_g_s) {
                       genreList[j] = {
@@ -2626,7 +2638,12 @@ class GamesGameCategories extends Module {
   gc_formatDate(timestamp) {
     if (timestamp === `?`) return timestamp;
     let date = new Date(timestamp);
-    return this.esgst.gc_rdLabel.replace(/DD/, date.getDate()).replace(/MM/, date.getMonth() + 1).replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()]).replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()]).replace(/YYYY/, date.getFullYear());
+    return this.esgst.gc_rdLabel
+      .replace(/DD/, date.getDate())
+      .replace(/MM/, `${date.getMonth() + 1}`)
+      .replace(/Month/, [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`][date.getMonth()])
+      .replace(/Mon/, [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`][date.getMonth()])
+      .replace(/YYYY/, `${date.getFullYear()}`);
   }
 }
 

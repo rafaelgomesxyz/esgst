@@ -64,6 +64,7 @@ class GeneralQuickInboxView extends Module {
         type: `div`
       }]);
       this.esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(null, false, false));
+      // noinspection JSIgnoredPromiseFromCall
       this.qiv_scroll(true);
     }
     this.esgst.inboxButton.addEventListener(`mouseenter`, this.qiv_openPopout);
@@ -98,6 +99,7 @@ class GeneralQuickInboxView extends Module {
         }]);
         this.esgst.qiv.popout.open(this.esgst.inboxButton);
         this.esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(null, false, false));
+        // noinspection JSIgnoredPromiseFromCall
         this.qiv_scroll(true);
       }
       this.esgst.qiv.popout.popout.onmouseenter = () => {
@@ -182,7 +184,7 @@ class GeneralQuickInboxView extends Module {
           while (i > -1 && !this.esgst.qiv.comments.querySelector(`[href*="/go/comment/${comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1]}"]`)) i--;
           if (i > -1) {
             while (i > -1) {
-              const container = comments[i].parentElements;
+              const container = comments[i].parentElement;
               comments[i].remove();
               if (!container.children.length) {
                 container.previousElementSibling.remove();
@@ -190,11 +192,7 @@ class GeneralQuickInboxView extends Module {
               }
               i--;
             }
-            if (context.children.length) {
-              doContinue = false;
-            } else {
-              doContinue = true;
-            }
+            doContinue = !context.children.length;
           } else {
             doContinue = false;
           }
@@ -203,7 +201,7 @@ class GeneralQuickInboxView extends Module {
           }
         }
         if (context.children.length) {
-          context.setAttribute(`data-esgst-qiv`, true);
+          context.setAttribute(`data-esgst-qiv`, `true`);
           await endless_load(context);
         }
         if (this.esgst.qiv.popout.isOpen) {

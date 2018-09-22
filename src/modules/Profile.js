@@ -66,8 +66,8 @@ class Profile extends Module {
             profile.wonNotReceived = profile.notWon;
             profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
             rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
-            profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/\$|,/g, ``));
-            profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
+            profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/[$,]/g, ``));
+            profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           } else {
             profile.sentRow = element.parentElement;
             profile.sentRowLeft = element;
@@ -81,8 +81,8 @@ class Profile extends Module {
             profile.sentNotReceived = profile.notSent;
             profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
             rows = JSON.parse(profile.sentCvContainer.getAttribute(`data-ui-tooltip`)).rows;
-            profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/\$|,/g, ``));
-            profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
+            profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/[$,]/g, ``));
+            profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           }
         } else if (match[1] === `Comments`) {
           profile.commentsRow = element.parentElement;

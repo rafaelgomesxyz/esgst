@@ -338,6 +338,7 @@ class GiveawaysEntryTracker extends Module {
     }
     await setValue(`entries`, JSON.stringify(entries));
     popup.close();
+    // noinspection JSIgnoredPromiseFromCall
     this.et_menu();
   }
 

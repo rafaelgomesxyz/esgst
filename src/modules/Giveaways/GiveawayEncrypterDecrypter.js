@@ -61,6 +61,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       newGiveaways: []
     };
     if (this.esgst.gedPath) {
+      // noinspection JSIgnoredPromiseFromCall
       this.ged_openPopup(ged);
     } else {
       ged.button = createElements(this.esgst.headerNavigationLeft, `beforeEnd`, [{
@@ -83,6 +84,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }]
       }]);
       ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(null, ged));
+      // noinspection JSIgnoredPromiseFromCall
       this.ged_getGiveaways(ged, true);
     }
     this.esgst.ged_addIcons = this.ged_addIcons.bind(null, ged);
@@ -157,34 +159,37 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     }
     delete this.esgst.edited.decryptedGiveaways;
     for (let code in this.esgst.decryptedGiveaways) {
-      if (this.esgst.decryptedGiveaways[code].html) {
-        delete this.esgst.decryptedGiveaways[code].html;
-        this.esgst.edited.decryptedGiveaways = true;
-      }
-      let isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
-      let filtered = true;
-      let giveaway = this.esgst.giveaways[code];
-      if (giveaway) {
-        const name = this.esgst.gf_presetGed;
-        if (name) {
-          let i;
-          for (i = this.esgst.gf_presets.length - 1; i > -1 && this.esgst.gf_presets[i].name !== name; i--);
-          if (i > -1) {
-            const preset = this.esgst.gf_presets[i];
-            filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`gf`, this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(true), giveaway, preset.rules);
+      if (this.esgst.decryptedGiveaways.hasOwnProperty(code)) {
+        if (this.esgst.decryptedGiveaways[code].html) {
+          delete this.esgst.decryptedGiveaways[code].html;
+          this.esgst.edited.decryptedGiveaways = true;
+        }
+        let isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
+        let filtered = true;
+        let giveaway = this.esgst.giveaways[code];
+        if (giveaway) {
+          const name = this.esgst.gf_presetGed;
+          if (name) {
+            let i;
+            for (i = this.esgst.gf_presets.length - 1; i > -1 && this.esgst.gf_presets[i].name !== name; i--) {
+            }
+            if (i > -1) {
+              const preset = this.esgst.gf_presets[i];
+              filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`gf`, this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(true), giveaway, preset.rules);
+            }
+          }
+          if (filtered && isEnded && !giveaway.started) {
+            await this.ged_getGiveaway(code, currentGiveaways, true);
+            isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
           }
         }
-        if (filtered && isEnded && !giveaway.started) {
-          await this.ged_getGiveaway(code, currentGiveaways, true);
-          isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
+        if (filtered && !isEnded) {
+          ged.giveaways.push({
+            code: code,
+            source: this.esgst.decryptedGiveaways[code].source,
+            timestamp: this.esgst.decryptedGiveaways[code].timestamp
+          });
         }
-      }
-      if (filtered && !isEnded) {
-        ged.giveaways.push({
-          code: code,
-          source: this.esgst.decryptedGiveaways[code].source,
-          timestamp: this.esgst.decryptedGiveaways[code].timestamp
-        });
       }
     }
     await lockAndSaveGiveaways(currentGiveaways, firstRun);
@@ -247,7 +252,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       }
       await endless_load(context, false, `ged`);
       if (ged.newGiveaways.indexOf(giveaway.code) > -1) {
-        context.getElementsByClassName(`giveaway__heading__name`)[0].insertAdjacentText(`afterBegin`, `[NEW] `);
+        context.getElementsByClassName(`giveaway__heading__name`)[0].insertAdjacentText("afterbegin", `[NEW] `);
       }
     }
     if (ged.i >= ged.n) {
@@ -383,7 +388,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let alphabet, code, rotation;
     alphabet = `NOPQRSTUVWXYZABCDEFGHIJKLM`;
     encrypted = encrypted.replace(/-/g, ``).replace(/[A-Z]/g, n => {
-      return alphabet.indexOf(n);
+      return `${alphabet.indexOf(n)}`;
     });
     rotation = encrypted.slice(10);
     if (rotation) {

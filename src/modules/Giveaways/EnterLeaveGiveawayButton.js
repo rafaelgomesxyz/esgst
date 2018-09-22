@@ -213,12 +213,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         errorButton.classList.remove(`esgst-hidden`);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
     } catch (e) {
       errorButton.classList.remove(`esgst-hidden`);
     }
     addingButton.classList.add(`esgst-hidden`);
     if (this.esgst.et) {
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, true, giveaway.name);
     }
   }
@@ -234,12 +236,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         errorButton.classList.remove(`esgst-hidden`);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
     } catch (e) {
       errorButton.classList.remove(`esgst-hidden`);
     }
     removingButton.classList.add(`esgst-hidden`);
     if (this.esgst.et) {
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, false, giveaway.name);
     }
   }
@@ -293,6 +297,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }], true);
     if (giveaway.entered) {
       let set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, callback => {
+        // noinspection JSIgnoredPromiseFromCall
         this.elgb_leaveGiveaway(giveaway, main, source, () => {
           callback();
           popup.close();
@@ -303,6 +308,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       let games = JSON.parse(await getValue(`games`));
       if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= this.esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !this.esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
         let set = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter Giveaway`, `Entering...`, callback => {
+          // noinspection JSIgnoredPromiseFromCall
           this.elgb_enterGiveaway(giveaway, main, true, source, () => {
             callback();
             popup.close();
@@ -334,7 +340,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
         let html = description.innerHTML;
         let i;
-        for (i = this.esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && this.esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i);
+        for (i = this.esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && this.esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i) {}
         if (i > -1) {
           description = null;
         } else {
@@ -418,6 +424,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.error = null;
       this.elgb_addButton(giveaway, main, source);
       if (this.esgst.et) {
+        // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, true, giveaway.name);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
@@ -427,10 +434,12 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
       this.elgb_updateButtons();
       if (this.esgst.egh) {
+        // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.gamesEnteredGameHighlighter.egh_saveGame(giveaway.id, giveaway.type);
       }
       if (this.esgst.gb && this.esgst.gb_ue && giveaway.gbButton) {
         if (giveaway.gbButton.index === 3) {
+          // noinspection JSIgnoredPromiseFromCall
           giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
         }
         if (!this.esgst.gb_se) {
@@ -447,6 +456,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         callback();
       }
       if (!popup && (!this.esgst.giveawayPath || !main)) {
+        // noinspection JSIgnoredPromiseFromCall
         this.elgb_openPopup(giveaway, main, source);
       }
     } else {
@@ -478,6 +488,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.error = false;
       this.elgb_addButton(giveaway, main, source);
       if (this.esgst.et) {
+        // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, false, giveaway.name);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;

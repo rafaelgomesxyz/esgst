@@ -58,8 +58,10 @@ class GiveawaysGiveawayRecreator extends Module {
     }]);
     if (this.esgst.createdPath) {
       let response = await request({method: `GET`, url: giveaway.url});
+      // noinspection JSIgnoredPromiseFromCall
       this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
     } else {
+      // noinspection JSIgnoredPromiseFromCall
       this.gr_saveTemplate(button, giveaway);
     }
   }
@@ -86,7 +88,7 @@ class GiveawaysGiveawayRecreator extends Module {
       template.whoCanEnter = `everyone`;
     }
     elements = parseHtml(JSON.parse((await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
-    for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i);
+    for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i) {}
     if (i < n) {
       template.gameId = elements[i].getAttribute(`data-autocomplete-id`);
     }

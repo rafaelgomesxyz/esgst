@@ -136,8 +136,10 @@ class CommentsCommentTracker extends Module {
           } else {
             read = 0;
             for (id in comments[code].readComments) {
-              if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
-                ++read;
+              if (comments[code].readComments.hasOwnProperty(id)) {
+                if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
+                    ++read;
+                }
               }
             }
           }
@@ -194,8 +196,10 @@ class CommentsCommentTracker extends Module {
                 } else {
                   read = 0;
                   for (id in comments[code].readComments) {
-                    if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
-                      ++read;
+                    if (comments[code].readComments.hasOwnProperty(id)) {
+                      if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
+                        ++read;
+                      }
                     }
                   }
                 }
@@ -206,7 +210,7 @@ class CommentsCommentTracker extends Module {
                 diff = count;
               }
               let discussion = null;
-              for (j = this.esgst.mainDiscussions.length - 1; j > -1 && this.esgst.mainDiscussions[j].code !== code; --j);
+              for (j = this.esgst.mainDiscussions.length - 1; j > -1 && this.esgst.mainDiscussions[j].code !== code; --j) {}
                 if (j > -1) {
                 discussion = this.esgst.mainDiscussions[j];
                 }
@@ -320,17 +324,21 @@ class CommentsCommentTracker extends Module {
               if (this.esgst.ct_c) {
                 if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
                   if (markRead) {
+                    // noinspection JSIgnoredPromiseFromCall
                     this.ct_markCommentRead(comment, saved);
                     this.ct_addUnreadCommentButton(buttons[0], comment);
                   } else {
+                    // noinspection JSIgnoredPromiseFromCall
                     this.ct_markCommentUnread(comment, saved);
                     this.ct_addReadCommentButton(buttons[0], comment);
                   }
                 } else {
                   if (markUnread) {
+                    // noinspection JSIgnoredPromiseFromCall
                     this.ct_markCommentUnread(comment, saved);
                     this.ct_addReadCommentButton(buttons[0], comment);
                   } else {
+                    // noinspection JSIgnoredPromiseFromCall
                     this.ct_markCommentRead(comment, saved);
                     this.ct_addUnreadCommentButton(buttons[0], comment);
                   }
@@ -339,6 +347,7 @@ class CommentsCommentTracker extends Module {
                 this.ct_addUnreadUntilHereButton(buttons[2], comment);
               }
               if (this.esgst.ct_o) {
+                // noinspection JSIgnoredPromiseFromCall
                 this.ct_markCommentRead(comment, saved);
                 if (this.esgst.ct_c) {
                   this.ct_addUnreadCommentButton(buttons[0], comment);
@@ -374,9 +383,11 @@ class CommentsCommentTracker extends Module {
                 }
               } else {
                 if (markRead) {
+                  // noinspection JSIgnoredPromiseFromCall
                   this.ct_markCommentRead(comment, saved);
                   this.ct_addUnreadCommentButton(buttons[0], comment);
                 } else {
+                  // noinspection JSIgnoredPromiseFromCall
                   this.ct_markCommentUnread(comment, saved);
                   this.ct_addReadCommentButton(buttons[0], comment);
                 }
@@ -385,9 +396,11 @@ class CommentsCommentTracker extends Module {
               }
             } else {
               if (markUnread) {
+                // noinspection JSIgnoredPromiseFromCall
                 this.ct_markCommentUnread(comment, saved);
                 this.ct_addReadCommentButton(buttons[0], comment);
               } else {
+                // noinspection JSIgnoredPromiseFromCall
                 this.ct_markCommentRead(comment, saved);
                 this.ct_addUnreadCommentButton(buttons[0], comment);
               }
@@ -663,6 +676,7 @@ class CommentsCommentTracker extends Module {
     await this.ct_markCommentRead(comment, null, true);
     button.innerHTML = ``;
     this.ct_addUnreadCommentButton(button, comment);
+    // noinspection JSIgnoredPromiseFromCall
     this.ct_getComments(0, this.esgst.mainComments, null, true);
   }
 
@@ -992,7 +1006,9 @@ class CommentsCommentTracker extends Module {
     const deleteLock = await createLock(`commentLock`, 300);
     const comments = JSON.parse(await getValue(`discussions`));
     for (const key in comments[obj.code].readComments) {
-      delete comments[obj.code].readComments[key];
+      if (comments[obj.code].readComments.hasOwnProperty(key)) {
+        delete comments[obj.code].readComments[key];
+      }
     }
     comments[obj.code].lastUsed = Date.now();
     await setValue(`discussions`, JSON.stringify(comments));
@@ -1062,7 +1078,7 @@ class CommentsCommentTracker extends Module {
     }
     if (code) {
       for (const id in discussion.readComments) {
-        if (id && comments.indexOf(id) < 0) {
+        if (discussion.readComments.hasOwnProperty(id) &&  id && comments.indexOf(id) < 0) {
           delete discussion.readComments[id];
         }
       }

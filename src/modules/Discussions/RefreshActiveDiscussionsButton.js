@@ -42,6 +42,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
         let icon = event.currentTarget.firstElementChild;
         icon.classList.add(`fa-spin`);
         if (this.esgst.oadd) {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => {
             icon.classList.remove(`fa-spin`);
           });

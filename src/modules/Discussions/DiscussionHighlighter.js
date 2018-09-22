@@ -40,7 +40,7 @@ class DiscussionsDiscussionHighlighter extends Module {
       button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
       popup: {
         icon: `fa-star`,
-        title: `Highlited Discussions`,
+        title: `Highlighted Discussions`,
         addProgress: true,
         addScrollable: `left`
       },
@@ -59,10 +59,12 @@ class DiscussionsDiscussionHighlighter extends Module {
     let discussions = JSON.parse(await getValue(`discussions`));
     obj.keys = [];
     for (let key in discussions) {
-      let discussion = discussions[key];
-      if (!discussion.highlighted) continue;
-      obj.keys.push(key);
-      obj.items.push(`/discussion/${key}/`);
+      if (discussions.hasOwnProperty(key)) {
+        let discussion = discussions[key];
+        if (!discussion.highlighted) continue;
+        obj.keys.push(key);
+        obj.items.push(`/discussion/${key}/`);
+      }
     }
     obj.mainContext = obj.popup.getScrollable([{
       attributes: {

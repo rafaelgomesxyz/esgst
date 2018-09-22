@@ -229,7 +229,7 @@ class DiscussionsDiscussionFilters extends Module {
 
   async df() {
     if (this.esgst.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
-      this.esgst.style.insertAdjacentText(`beforeEnd`, `
+      this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
           top: ${this.esgst.commentsTop - 5}px;
         }
@@ -268,6 +268,7 @@ class DiscussionsDiscussionFilters extends Module {
         }
       }
     });
+    // noinspection JSIgnoredPromiseFromCall
     obj.process.openPopup();
   }
 
@@ -300,12 +301,14 @@ class DiscussionsDiscussionFilters extends Module {
     const discussions = JSON.parse(await getValue(`discussions`));
     let hidden = [];
     for (const key in discussions) {
-      if (discussions[key].hidden) {
-        const discussion = {
-          code: key,
-          hidden: discussions[key].hidden
-        };
-        hidden.push(discussion);
+      if (discussions.hasOwnProperty(key)) {
+        if (discussions[key].hidden) {
+          const discussion = {
+            code: key,
+            hidden: discussions[key].hidden
+          };
+          hidden.push(discussion);
+        }
       }
     }
     hidden = sortArray(hidden, true, `hidden`);

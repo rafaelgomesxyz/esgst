@@ -518,7 +518,8 @@ class CommentsCommentFormattingHelper extends Module {
             multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
               await delValue(`imgurToken`);
               openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
-              this.cfh_checkImgur(popout, url);
+              // noinspection JSIgnoredPromiseFromCall
+                this.cfh_checkImgur(popout, url);
             });
           });
           popout.popout.lastElementChild.addEventListener(`click`, () => {
@@ -701,11 +702,11 @@ class CommentsCommentFormattingHelper extends Module {
                 });
               }
               popup.onClose = () => {
-                const emojArr = [];
+                const emojiArray = [];
                 for (const element of savedEmojis.children) {
-                  emojArr.push(element.getAttribute(`data-draggable-id`));
+                  emojiArray.push(element.getAttribute(`data-draggable-id`));
                 }
-                setValue(`emojis`, JSON.stringify(emojArr));
+                setValue(`emojis`, JSON.stringify(emojiArray));
               };
               filter.addEventListener(`input`, () => {
                 if (filter.value) {
@@ -953,7 +954,7 @@ class CommentsCommentFormattingHelper extends Module {
           }]);
         });
         if (item.text) {
-          button.insertAdjacentText(`beforeEnd`, item.text);
+          button.insertAdjacentText("beforeend", item.text);
         }
         if (item.setPopout) {
           await item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback));
@@ -3443,7 +3444,7 @@ class CommentsCommentFormattingHelper extends Module {
         if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
           emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
         }
-        console(emoji);
+        console.log(emoji);
         const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData.emoji;
         return {
@@ -3539,7 +3540,7 @@ class CommentsCommentFormattingHelper extends Module {
     if (multiline) {
       n = 0;
       text = text.replace(/^|\n/g, match => {
-        return `${match}${prefix.replace(/\[n\]/, ++n)}`;
+        return `${match}${prefix.replace(/\[n]/, ++n)}`;
       });
     } else {
       text = `${prefix}${text}${suffix}`;
@@ -3836,11 +3837,11 @@ class CommentsCommentFormattingHelper extends Module {
       let end, i, matches, n, value;
       end = this.esgst.cfh.textArea.selectionEnd;
       value = savedReply.description;
-      matches = value.match(/\[ESGST-R\][\s\S]+?\[\/ESGST-R\]/g);
+      matches = value.match(/\[ESGST-R][\s\S]+?\[\/ESGST-R]/g);
       if (matches) {
         n = matches.length;
         i = Math.floor(Math.random() * n);
-        value = matches[i].match(/\[ESGST-R\]([\s\S]+?)\[\/ESGST-R\]/)[1];
+        value = matches[i].match(/\[ESGST-R]([\s\S]+?)\[\/ESGST-R]/)[1];
       }
       this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, this.esgst.cfh.textArea.selectionStart)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
       this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
@@ -3851,7 +3852,7 @@ class CommentsCommentFormattingHelper extends Module {
     editButton.nextElementSibling.addEventListener(`click`, async () => {
       let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
       let i;
-      for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--);
+      for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--) {}
       if (i > -1) {
         savedReplies.splice(i, 1);
         setValue(`savedReplies`, JSON.stringify(savedReplies));
@@ -3870,7 +3871,7 @@ class CommentsCommentFormattingHelper extends Module {
     event.dataTransfer.setData(`text/plain`, ``);
     this.esgst.cfh.source = reply;
     savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
-    for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i);
+    for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i) {}
     if (i > -1) {
       this.esgst.cfh.sourceIndex = i;
     }
@@ -3991,7 +3992,7 @@ class CommentsCommentFormattingHelper extends Module {
       };
       if (summary) {
         let i;
-        for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name || savedReplies[i].description !== description); i--);
+        for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name || savedReplies[i].description !== description); i--) {}
         if (i > -1) {
           savedReplies[i] = savedReply;
           summary.firstElementChild.textContent = nameVal;
@@ -4040,7 +4041,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_setAlipf(value, firstTime) {
     if (typeof value === `undefined`) {
-      value = this.esgst.cfh_pasteFormatting ? false : true;
+      value = !this.esgst.cfh_pasteFormatting;
     }
     if (!firstTime) {
       setSetting(`cfh_pasteFormatting`, value);

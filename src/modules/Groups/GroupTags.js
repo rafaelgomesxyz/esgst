@@ -27,6 +27,7 @@ class GroupsGroupTags extends Module {
 
   gpt() {
     this.esgst.groupFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(null, `gpt`));
+    // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`gpt`);
   }
 }

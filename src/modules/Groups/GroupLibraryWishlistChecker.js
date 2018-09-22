@@ -68,9 +68,11 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
         });
         glwc.overallProgress.textContent = `Step 1 of 3`;
+        // noinspection JSIgnoredPromiseFromCall
         this.glwc_getUsers(glwc, 1);
       } else {
         glwc.overallProgress.textContent = `Step 1 of 3`;
+        // noinspection JSIgnoredPromiseFromCall
         this.glwc_getUsers(glwc, 1);
       }
     }
@@ -100,6 +102,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
     } else {
       glwc.overallProgress.textContent = `Step 2 of 3`;
+      // noinspection JSIgnoredPromiseFromCall
       this.glwc_getSteamIds(glwc, 0, glwc.users.length);
     }
   }
@@ -127,6 +130,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
     } else {
       glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
       glwc.memberCount = 0;
+      // noinspection JSIgnoredPromiseFromCall
       this.glwc_getGames(glwc, 0, glwc.users.length);
     }
   }
@@ -166,9 +170,12 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         } catch (e) { /**/ }
         glwc.users[i].wishlist = [];
         let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`})).responseText;
-        let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)\]);/);
+        let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
         if (wishlistData) {
           let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+          /**
+     * @type {rgAppInfoResponse}
+     */
           let games = appInfo ? JSON.parse(appInfo[1]) : null;
           JSON.parse(wishlistData[1]).forEach(item => {
             let id = item.appid;
@@ -327,11 +334,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
     library = [];
     wishlist = [];
     for (id in glwc.games) {
-      if (glwc.games[id].libraries.length) {
-        library.push(glwc.games[id]);
-      }
-      if (glwc.games[id].wishlists.length) {
-        wishlist.push(glwc.games[id]);
+      if (glwc.games.hasOwnProperty(id)) {
+        if (glwc.games[id].libraries.length) {
+          library.push(glwc.games[id]);
+        }
+        if (glwc.games[id].wishlists.length) {
+          wishlist.push(glwc.games[id]);
+        }
       }
     }
     if (library.length > 0) {

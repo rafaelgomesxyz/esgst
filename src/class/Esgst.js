@@ -1,6 +1,9 @@
 import Parsedown from '../lib/parsedown';
 import modules from '../modules';
 
+/**
+ * @type {Esgst}
+ */
 class Esgst {
   urlr;
 

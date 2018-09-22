@@ -20,15 +20,14 @@ class GeneralFixedMainPageHeading extends Module {
       return;
     }
 
-    this.esgst.style.insertAdjacentText(`beforeEnd`, `
+    this.esgst.style.insertAdjacentText("beforeend", `
       .esgst-fmph {
         top: ${this.esgst.pageTop}px;
       }
     `);
 
     this.esgst.mainPageHeading.classList.add(`esgst-fmph`);
-    const height = this.esgst.mainPageHeading.offsetHeight;
-    this.esgst.commentsTop += height;
+    this.esgst.commentsTop += this.esgst.mainPageHeading.offsetHeight;
   }
 }
 

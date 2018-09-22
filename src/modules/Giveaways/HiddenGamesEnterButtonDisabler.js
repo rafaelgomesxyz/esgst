@@ -11,7 +11,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
   info = ({
     description: `
       <ul>
-        <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentaly enter it.</li>
+        <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.</li>
       </ul>
     `,
     id: `hgebd`,

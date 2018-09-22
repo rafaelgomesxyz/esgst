@@ -66,6 +66,7 @@ class GroupsGroupStats extends Module {
   gs_getGroups(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
     for (let i = 0, n = elements.length; i < n; i++) {
+      // noinspection JSIgnoredPromiseFromCall
       this.gs_addStatus(elements[i]);
     }
   }

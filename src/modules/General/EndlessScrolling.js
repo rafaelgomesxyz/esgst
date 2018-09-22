@@ -29,7 +29,7 @@ class GeneralEndlessScrolling extends Module {
         <ul>
           <li><i class="fa fa-play"></i> if the endless scrolling is paused and <i class="fa fa-pause"></i> if it is not, which allows you to pause/resume the endless scrolling.</li>
           <li><i class="fa fa-step-forward"></i>, which allows you to load the next page without having to scroll down.</li>
-          <li><i class="fa fa-fast-forward"></i>, which allows you continously load the next pages until either the last page is reached or you pause the endless scrolling.</li>
+          <li><i class="fa fa-fast-forward"></i>, which allows you continuously load the next pages until either the last page is reached or you pause the endless scrolling.</li>
           <li><i class="fa fa-refresh"></i> <i class="fa fa-map-marker"></i>, which allows you to refresh the page currently visible in the window.</li>
           <li><i class="fa fa-refresh"></i>, which allows you to refresh all of the pages that have been loaded.</li>
         </ul>
@@ -134,7 +134,7 @@ class GeneralEndlessScrolling extends Module {
           es.mainContext.children[0].remove();
         }
         this.esgst.mainComments = [];
-        this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = 0;
+        this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = `0`;
         if (this.esgst.paginationNavigation) {
           let lastLink = this.esgst.paginationNavigation.lastElementChild;
           if (lastLink.classList.contains(`is-selected`) && lastLink.textContent.match(/Last/) && !this.esgst.lastPageLink) {
@@ -164,6 +164,7 @@ class GeneralEndlessScrolling extends Module {
       rootMargin: `-${this.esgst.commentsTop + 1}px 0px 0px 0px`
     };
     this.es.observer = new IntersectionObserver(this.es_observe.bind(null, es), options);
+    // noinspection JSIgnoredPromiseFromCall
     this.es_activate(es);
   }
 
@@ -234,8 +235,10 @@ class GeneralEndlessScrolling extends Module {
     es.paused = await getValue(`esPause`, false);
     this.esgst.es_loadNext = this.es_loadNext.bind(null, es);
     if (es.paused) {
+      // noinspection JSIgnoredPromiseFromCall
       this.es_pause(es, true);
     } else {
+      // noinspection JSIgnoredPromiseFromCall
       this.es_resume(es, true);
     }
     es.pageIndex = es.currentPage;
@@ -247,6 +250,7 @@ class GeneralEndlessScrolling extends Module {
     if (es.paused && es.reversePages) {
       this.esgst.es_loadNext();
     } else if (this.esgst.es_cl) {
+      // noinspection JSIgnoredPromiseFromCall
       this.es_continuouslyLoad(es);
     }
   }
@@ -270,6 +274,7 @@ class GeneralEndlessScrolling extends Module {
           type: `node`
         }]
       }]);
+      // noinspection JSIgnoredPromiseFromCall
       this.es_getNext(es, false, false, callback, await request({method: `GET`, url: `${this.esgst.searchUrl}${es.nextPage}`}));
     } else if (callback && typeof callback === `function`) {
       callback();
@@ -580,9 +585,11 @@ class GeneralEndlessScrolling extends Module {
       type: `i`
     }]);
     let response = await request({method: `GET`, url: `${this.esgst.searchUrl}${es.pageIndex}`});
+    // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, false, null, response);
     if (this.esgst.giveawaysPath && this.esgst.es_rd) {
       if (this.esgst.oadd) {
+        // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {
         checkMissingDiscussions(true);
@@ -599,6 +606,7 @@ class GeneralEndlessScrolling extends Module {
     }
     if (!this.esgst.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
   }
@@ -636,6 +644,7 @@ class GeneralEndlessScrolling extends Module {
       }
       if (this.esgst.giveawaysPath && this.esgst.es_rd) {
         if (this.esgst.oadd) {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
         } else {
           checkMissingDiscussions(true);
@@ -653,13 +662,16 @@ class GeneralEndlessScrolling extends Module {
     });
     let page = es.reverseScrolling ? es.pageBase - 1 : es.pageBase + 1,
       response = await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`});
+    // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, page, null, response);
     for (let i = 1; i < es.check.total; ++i) {
       page = es.reverseScrolling ? es.pageBase - (i + 1) : es.pageBase + (i + 1);
+      // noinspection JSIgnoredPromiseFromCall
       this.es_getNext(es, true, page, null, await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`}));
     }
     if (!this.esgst.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
   }

@@ -41,10 +41,10 @@ class GeneralElementFilters extends Module {
     this.esgst.ef_filters.split(`, `).forEach(filter => {
       if (!filter) return;
       try {
-        const property = filter.match(/\[esgst\.(.+)\]/);
+        const property = filter.match(/\[esgst\.(.+)]/);
         if (property) {
           if (!this.esgst[property[1]]) return;
-          filter = filter.replace(/\[esgst\..+\]/, ``);
+          filter = filter.replace(/\[esgst\..+]/, ``);
         }
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} ${filter}, .esgst-es-page-${endless}${filter}` : `${filter}`}`);
         for (let i = elements.length - 1; i > -1; i--) {

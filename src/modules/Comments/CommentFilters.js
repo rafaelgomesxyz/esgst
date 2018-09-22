@@ -14,15 +14,19 @@ class CommentsCommentFilters extends Module {
             <li>Allows you to hide multiple comments in a page using many different filters.</li>
             <li>Adds a toggle switch with a button (<i class="fa fa-sliders"></i>) to the main page heading of any comment page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.</li>
             <li>Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:</li>
-            <ul>
-              <li>Basic filters are related to a numeric value (such as the length of a comment) and have a slider that you can use to set the range of the filter (any comments that do not apply to the range will be hidden).</li>
-              <li>Type filters are related to a boolean value (such as whether or not a comment is a bump comment) and have a checkbox that changes states when you click on it. The checkbox has 3 states:</li>
+            <li>
               <ul>
-                <li>"Show all" (<i class="fa fa-check-square"></i>) does not hide any comments that apply to the filter (this is the default state).</li>
-                <li>"Show only" (<i class="fa fa-square"></i>) hides any comments that do not apply to the filter.</li>
-                <li>"Hide all" (<i class="fa fa-square-o"></i>) hides any comments that apply to the filter.</li>
+                <li>Basic filters are related to a numeric value (such as the length of a comment) and have a slider that you can use to set the range of the filter (any comments that do not apply to the range will be hidden).</li>
+                <li>Type filters are related to a boolean value (such as whether or not a comment is a bump comment) and have a checkbox that changes states when you click on it. The checkbox has 3 states:</li>
+                <li>
+                  <ul>
+                    <li>"Show all" (<i class="fa fa-check-square"></i>) does not hide any comments that apply to the filter (this is the default state).</li>
+                    <li>"Show only" (<i class="fa fa-square"></i>) hides any comments that do not apply to the filter.</li>
+                    <li>"Hide all" (<i class="fa fa-square-o"></i>) hides any comments that apply to the filter.</li>
+                  </ul>
+                </li>
               </ul>
-            </ul>
+            </li>
             <li>A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want.</li>
             <li>Adds a text in parenthesis to the pagination of the page showing how many comments in the page are being filtered by the filters.</li>
           </ul>
@@ -84,7 +88,7 @@ class CommentsCommentFilters extends Module {
 
   async cf() {
     if (this.esgst.cf_m && (this.esgst.commentsPath || this.esgst.inboxPath)) {
-      this.esgst.style.insertAdjacentText(`beforeEnd`, `
+      this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
           top: ${this.esgst.commentsTop - 5}px;
         }
