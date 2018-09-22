@@ -8,6 +8,7 @@ import {utils} from '../lib/jsUtils';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
+ * @property {EnvironmentVariables} envVariables
  */
 
 const
@@ -17,6 +18,19 @@ const
 ;
 
 class Common extends Module {
+  _USER_INFO;
+  browser;
+  gm;
+
+  /**
+   * @param {EnvironmentVariables} variables
+   */
+  setEnvironmentVariables(variables) {
+    this._USER_INFO = variables._USER_INFO;
+    this.browser = variables.browser;
+    this.gm = variables.gm;
+  }
+
   /**
    * @param {EnvironmentFunctions} functions
    */
