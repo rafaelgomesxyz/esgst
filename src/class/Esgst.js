@@ -15,7 +15,7 @@ class Esgst {
   windowEvents = {};
 
   parameters = {};
-  
+
   defaultValues = {
     gt_s_sg: true,
     gt_s_st: true,
@@ -627,21 +627,637 @@ class Esgst {
   userFeatures = [];
   endlessFeatures = [];
   edited = {};
+  games = [];
+
+  /** @type {HTMLElement} */
+  minimizeList;
+
+  /** @type {HTMLElement} */
+  minimizePanel;
+
+  updateHiddenGames;
+
+  /** @type {HTMLElement} */
+  noCvButton;
+
+  /** @type {HTMLElement} */
+  sidebar;
+
+  /** @type {string} */
+  xsrfToken;
+
+  /** @type {HTMLElement} */
+  logoutButton;
+
+  /** @type {string} */
+  version;
+
+  /** @type {string[]} */
+  leftButtonIds;
+
+  /** @type {EsgstStorage} */
+  storage;
+
+  /** @type {EsgstSettings} */
+  settings = {};
+
+  /** @type {string[]} */
+  rightButtonIds;
+
+  /** @type {string} */
+  steamApiKey;
+
+  groups = [];
+
+  features;
+
+  /** @type {boolean} */
+  firstInstall;
+
+  df_preset;
+
+  df_presets;
+
+  giveaways;
+
+  radb;
+
+  ugd_clearCache;
+
+  ugd_forceUpdate = false;
+
+  username;
+
+  /** @type {HTMLElement} */
+  mainContext;
+
+  gc_g_colors = [];
+
+  gc_o_altAccounts = [];
+
+  dismissedOptions = [];
+
+  gc_r_colors;
+
+  /** @type {number} */
+  ugd_playtime;
+
+  /** @type {number} */
+  cleanDiscussions_days;
+
+  /** @type {number} */
+  cleanEntries_days;
+
+  /** @type {number} */
+  cleanGiveaways_days;
+
+  /** @type {number} */
+  cleanSgCommentHistory_days;
+
+  /** @type {number} */
+  cleanTickets_days;
+
+  /** @type {number} */
+  cleanTrades_days;
+
+  /** @type {number} */
+  autoBackup_days;
+
+  /** @type {number} */
+  autoBackup_index;
+
+  /** @type {boolean} */
+  askFileName;
+
+  pageOuterWrap;
+
+  hideButtons;
+
+  leftButtons;
+
+  rightButtons;
+
+  /** @type {EsgstHidingGame} */
+  hidingGame;
+
+  mainPageHeading;
+
+  staticPopups;
+
+  /** @type {string} */
+  pageOuterWrapClass;
+
+  /** @type {string} */
+  pageHeadingClass;
+
+  /** @type {string} */
+  pageHeadingBreadcrumbsClass;
+
+  /** @type {string} */
+  footer;
+
+  /** @type {string} */
+  replyBox;
+
+  /** @type {string} */
+  cancelButtonClass;
+
+  /** @type {string} */
+  paginationNavigationClass;
+
+  /** @type {string} */
+  hiddenClass;
+
+  /** @type {string} */
+  selectedClass;
+
+  /** @type {string} */
+  currentPage;
+
+  /** @type {string} */
+  originalUrl;
+
+  /** @type {HTMLElement} */
+  favicon;
+
+  /** @type {string} */
+  originalTitle;
+
+  /** @type {string} */
+  searchUrl;
+
+  /** @type {HTMLElement} */
+  header;
+
+  /** @type {HTMLElement} */
+  headerNavigationLeft;
+
+  /** @type {HTMLElement} */
+  pagination;
+
+  /** @type {HTMLElement} */
+  featuredContainer;
+
+  /** @type {HTMLElement} */
+  paginationNavigation;
+
+  /** @type {HTMLElement} */
+  enterGiveawayButton;
+
+  /** @type {HTMLElement} */
+  leaveGiveawayButton;
+
+  /** @type {HTMLElement} */
+  activeDiscussions;
+
+  /** @type {HTMLElement} */
+  pinnedGiveaways;
+
+  /** @type {boolean} */
+  addNoCvGames;
+
+  discussions;
+
+  tickets;
+
+  trades;
+
+  users;
+
+  /** @type {boolean} */
+  busy;
+
+  checkVersion;
+
+  checkVersionMain;
+
+  showChangelog;
+
+  steamId;
+
+  isRepositioning;
+
+  /** @type {string} */
+  name;
+
+  showFeatureNumber;
+
+  openSyncInTab;
+
+  syncGroups;
+
+  syncWhitelist;
+
+  syncBlacklist;
+
+  syncHiddenGames;
+
+  syncWonGames;
+
+  syncReducedCvGames;
+
+  syncGiveaways;
+
+  syncGames;
+
+  syncNoCvGames;
+
+  syncHltbTimes;
+
+  getSyncGameNames;
+
+  lastSyncGroups;
+
+  lastSyncGames;
+
+  /** @type {string[]} */
+  giveawayColumns = [];
+
+  /** @type {string[]} */
+  giveawayPanel = [];
+
+  /** @type {string[]} */
+  giveawayColumns_gv = [];
+
+  /** @type {string[]} */
+  giveawayPanel_gv = [];
+
+  gc_g_filters;
+
+  gc_fcv_s;
+
+  gc_fcv;
+
+  gc_fcv_s_i;
+
+  gc_fcvLabel;
+
+  gc_fcvIcon;
+
+  gc_rcv;
+
+  gc_rcv_s;
+
+  gc_rcvLabel;
+
+  gc_rcv_s_i;
+
+  gc_rcvIcon;
+
+  gc_ncv;
+
+  gc_ncv_s;
+
+  gc_ncvLabel;
+
+  gc_ncv_s_i;
+
+  gc_ncvIcon;
+
+  gc_hltb;
+
+  gc_h;
+
+  gc_hLabel;
+
+  gc_h_s;
+
+  gc_h_s_i;
+
+  gc_hIcon;
+
+  gc_i;
+
+  gc_i_s;
+
+  gc_iLabel;
+
+  gc_i_s_i;
+
+  gc_iIcon;
+
+  gc_o;
+
+  gc_o_s;
+
+  gc_o_s_i;
+
+  gc_oLabel;
+
+  gc_oIcon;
+
+  gc_o_a;
+
+  gc_w_s;
+
+  gc_w;
+
+  gc_wLabel;
+
+  gc_w_s_i;
+
+  gc_pw;
+
+  gc_pw_s;
+
+  gc_pwLabel;
+
+  gc_pw_s_i;
+
+  gc_pwIcon;
+
+  gc_gi;
+
+  gc_r;
+
+  gc_a_s;
+
+  gc_aLabel;
+
+  gc_a_s_i;
+
+  gc_sp;
+
+  gc_sp_s;
+
+  gc_spLabel;
+
+  gc_sp_s_i;
+
+  gc_spIcon;
+
+  gc_mp;
+
+  gc_mp_s;
+
+  gc_mpLabel;
+
+  gc_mp_s_i;
+
+  gc_sc;
+
+  gc_sc_s;
+
+  gc_sc_s_i;
+
+  gc_scLabel;
+
+  gc_tc;
+
+  gc_tc_s;
+
+  gc_tcLabel;
+
+  gc_l;
+
+  gc_l_s;
+
+  gc_lLabel;
+
+  gc_m;
+
+  gc_m_s;
+
+  gc_mLabel;
+
+  gc_dlc;
+
+  gc_dlc_s;
+
+  gc_dlcLabel;
+
+  gc_p;
+
+  gc_p_s;
+
+  gc_p_s_i;
+
+  gc_pLabel;
+
+  gc_pIcon;
+
+  gc_ea;
+
+  gc_ea_s;
+
+  gc_eaLabel;
+
+  gc_lg;
+
+  gc_lg_s;
+
+  gc_lgLabel;
+
+  gc_rm;
+
+  gc_rm_s;
+
+  gc_rmLabel;
+
+  gc_rd;
+
+  gc_rdIcon;
+
+  gc_g;
+
+  df_m;
+
+  gc_a;
+
+  gc_aIcon;
+
+  gc_wIcon;
+
+  gc_mpIcon;
+
+  gc_scIcon;
+
+  gc_tc_s_i;
+
+  gc_l_s_i;
+
+  gc_m_s_i;
+
+  gc_dlc_s_i;
+
+  gc_ea_s_i;
+
+  gc_lg_s_i;
+
+  gc_rm_s_i;
+
+  es_gf;
+
+  cfh_img_choice;
+
+  gwc_h_width;
+
+  ff;
+
+  ib;
+
+  df_enable;
+
+  gc_tcIcon;
+
+  gc_lIcon;
+
+  gc_dlcIcon;
+
+  gc_eaIcon;
+
+  gc_mIcon;
+
+  gc_lgIcon;
+
+  gc_rmIcon;
+
+  gwr_h_width;
+
+  namwc_h;
+
+  namwc_h_m;
+
+  namwc_h_f;
+
+  namwc_h_i;
+
+  wbh;
+
+  namwc_checkNotActivated;
+
+  namwc_checkMultiple;
+
+  ust;
+
+  wbh_w;
+
+  wbh_b;
+
+  nrf_searchMultiple;
+
+  rwscvl_r;
+
+  vrcv;
+
+  ugd_achievements;
+
+  ugd_getPlaytime;
+
+  ugd_getAchievements;
+
+  ugd_s;
+
+  wbc_h;
+
+  wbc_hb;
+
+  wbcButton;
+
+  wbc_checkSingle;
+
+  wbc_checkSelected;
+
+  wbc_checkBlacklist;
+
+  wbc_checkAll;
+
+  wbc_minPage;
+
+  wbc_maxPage;
+
+  wbc_checkPages;
+
+  wbc_returnWhitelists;
+
+  wbc_returnBlacklists;
+
+  wbc_checkNew;
+
+  wbc_pages;
+
+  wbc_skipUsers;
+
+  wbc_clearCache;
+
+  wbc_n;
+
+  wbm_useCache;
+
+  /** @type {string[]} */
+  wbm_tags = [];
+
+  wbm_clearTags;
+
+  staticPopups_f;
+
+  lastBackup;
+
+  mm;
+
+  style;
+
+  staticPopups_width;
+
+  /** @type {HTMLElement} */
+  customThemeElement;
+
+  /** @type {HTMLElement} */
+  theme;
+
+  /** @type {HTMLElement} */
+  customTheme;
+
+  collapseSections;
+
+  cleanDiscussions;
+
+  cleanEntries;
+
+  cleanGiveaways;
+
+  cleanSgCommentHistory;
+
+  cleanTickets;
+
+  cleanDuplicates;
+
+  cleanTrades;
+
+  backupZip;
+
+  /** @type {HTMLElement} */
+  ustButton;
+
 
   modules;
+
+  ch;
+
+  df;
+
+  adots;
+
+  uf;
+
+  gt;
+
+  gpt;
+
+  wbc;
+
+  namwc;
+
+  gv;
 
   constructor() {
     this.modules = modules;
     for (let module of this.modules) {
-      module.esgst = this;
+      module.setEsgst(this);
     }
     this.documentEvents.click = new Set;
     this.documentEvents.keydown = new Set;
 
-    /**
-     * @property {boolean} this.settings.esgst_st
-     */
-    this.settings = {};
     this.parameters = this.modules.common.getParameters();
     
     this.markdownParser = new Parsedown;

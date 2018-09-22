@@ -1,5 +1,7 @@
 import Module from '../../class/Module';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
+import ButtonSet_v2 from "../../class/ButtonSet_v2";
 
 const
   {
@@ -34,7 +36,7 @@ info = ({
   });
 
   un() {
-    this.esgst.profileFeatures.push(un_add);
+    this.esgst.profileFeatures.push(this.un_add);
   }
 
   un_add(profile, savedUser) {
@@ -98,7 +100,7 @@ info = ({
       }
     });
     profile.unPopup.description.appendChild(set.set);
-    profile.unPopup.open(un_get.bind(null, profile));
+    profile.unPopup.open(this.un_get.bind(null, profile));
   }
 
   async un_save(profile) {

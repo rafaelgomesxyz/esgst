@@ -17,7 +17,7 @@ info = ({
   });
 
   vrcv() {
-    this.esgst.profileFeatures.push(vrcv_add);
+    this.esgst.profileFeatures.push(this.vrcv_add);
   }
 
   vrcv_add(profile) {

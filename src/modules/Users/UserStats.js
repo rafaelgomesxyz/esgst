@@ -28,7 +28,7 @@ info = ({
 
   us() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
-    this.esgst.endlessFeatures.push(us_get);
+    this.esgst.endlessFeatures.push(this.us_get);
   }
 
   async us_get(context, main, source, endless) {
@@ -77,10 +77,10 @@ info = ({
     let promises = [];
     for (let username in users) {
       let promise = request({method: `GET`, url: `/user/${username}`});
-      promise.then(us_load.bind(null, users[username], username));
+      promise.then(this.us_load.bind(null, users[username], username));
       promises.push(promise);
     }
-    Promise.all(promises).then(ts_sortTables);
+    Promise.all(promises).then(this.esgst.modules.generalTableSorter.ts_sortTables);
   }
 
   us_load(context, username, response) {

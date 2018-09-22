@@ -4,7 +4,8 @@ import {common} from '../Common';
 const
   {
     getFeatureTooltip,
-    createElements
+    createElements,
+    getTimestamp
   } = common
 ;
 
@@ -52,7 +53,7 @@ info = ({
   });
 
   wbh() {
-    this.esgst.userFeatures.push(wbh_getUsers);
+    this.esgst.userFeatures.push(this.wbh_getUsers);
   }
 
   wbh_getUsers(users) {
