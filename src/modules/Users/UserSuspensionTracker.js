@@ -1,6 +1,8 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
+import Checkbox from "../../class/Checkbox";
 
 const
   {
@@ -20,7 +22,7 @@ info = ({
         <li>When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.</li>
         <li>It is impossible to retrieve that information automatically, so the database (which is kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this feature adds 2 identical buttons (<i class="fa fa-paper-plane"></i>) to the main page heading of 2 different locations:</li>
         <ul>
-          <li>Your <a href="https://www.steamgifts.com/support/tickets">tickets</a> page, which allows you to send multiple tickets to the database this.esgst.modules.generalAccurateTimestamp.at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:</li>
+          <li>Your <a href="https://www.steamgifts.com/support/tickets">tickets</a> page, which allows you to send multiple tickets to the database at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:</li>
           <ul>
             <li>Clicking on an unchecked checkbox with the Ctrl key pressed will select all of the tickets.</li>
             <li>Clicking on a checked checkbox with the Ctrl key pressed will unselect all of the tickets.</li>
@@ -89,7 +91,7 @@ info = ({
       data: ``
     };
     for (let code in this.esgst.ustCheckboxes) {
-      promises.push(ust_check(code, obj));
+      promises.push(this.ust_check(code, obj));
     }
     await Promise.all(promises);
     let error = JSON.parse((await request({data: obj.data.slice(0, -1), method: `POST`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`})).responseText).error;
@@ -122,7 +124,7 @@ info = ({
       this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll);
     }
     this.esgst.ustCheckboxes = [];
-    new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours this.esgst.modules.generalAccurateTimestamp.at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
+    new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
   }
 
   async ust_check(code, obj) {
@@ -160,7 +162,7 @@ info = ({
       tickets[code].sent = 1;
       await setValue(`tickets`, JSON.stringify(tickets));
       this.esgst.ustButton.remove();
-      new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours this.esgst.modules.generalAccurateTimestamp.at most.`, true).open();
+      new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
     } else {
       createElements(this.esgst.ustButton, `inner`, [{
         attributes: {

@@ -28,7 +28,7 @@ info = ({
 });
 
 ut() {
-  this.esgst.userFeatures.push(tags_addButtons.bind(null, `ut`));
+  this.esgst.userFeatures.push(this.tags_addButtons.bind(null, `ut`));
   this.esgst.modules.tags.tags_getTags(`ut`);
 }
 }

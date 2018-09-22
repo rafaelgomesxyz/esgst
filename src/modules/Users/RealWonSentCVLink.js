@@ -29,7 +29,7 @@ info = ({
   });
 
   rwscvl() {
-    this.esgst.profileFeatures.push(rwscvl_add);
+    this.esgst.profileFeatures.push(this.rwscvl_add);
   }
 
   rwscvl_add(profile) {

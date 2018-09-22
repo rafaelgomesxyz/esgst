@@ -24,7 +24,7 @@ info = ({
 
   sgpb() {
     if (!this.esgst.userPath) return;
-    this.esgst.profileFeatures.push(sgpb_add);
+    this.esgst.profileFeatures.push(this.sgpb_add);
   }
 
   sgpb_add(profile) {
