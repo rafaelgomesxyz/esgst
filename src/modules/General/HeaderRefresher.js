@@ -12,7 +12,9 @@ const
     getLocalValue,
     createElements,
     getFeatureTooltip,
-    getWonGames
+    getWonGames,
+    _USER_INFO,
+    browser
   } = common
 ;
 

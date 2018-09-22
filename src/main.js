@@ -39,6 +39,18 @@ import Popup_v2 from "./class/Popup_v2";
    */
   let envFunctions = {};
 
+  /**
+   * @typedef {Object} EnvironmentVariables
+   * @property {Object} _USER_INFO
+   * @property {Object} browser
+   * @property {Object} gm
+   */
+
+  /**
+   * @type {EnvironmentVariables}
+   */
+  let envVariables = {};
+
   const
     common = esgst.modules.common,
     {getZip, readZip} = common,
@@ -70,18 +82,16 @@ import Popup_v2 from "./class/Popup_v2";
     document.documentElement.appendChild(style);
   }
 
-  let
-    _USER_INFO = {extension: false},
-    browser = null,
-    gm = null
-  ;
+  envVariables._USER_INFO = {extension: false};
+  envVariables.browser = null;
+  envVariables.gm = null;
 
   if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
-    [_USER_INFO.extension, browser] = this.chrome && this.chrome.runtime ?
+    [envVariables._USER_INFO.extension, envVariables.browser] = this.chrome && this.chrome.runtime ?
       [this.browser ? `firefox` : `chrome`, this.chrome] : [`edge`, this.browser];
   } else if (typeof GM === `undefined`) {
     // polyfill for userscript managers that do not support the gm-dot api
-    gm = {
+    envVariables.gm = {
       deleteValue: GM_deleteValue,
       getValue: GM_getValue,
       listValues: GM_listValues,
@@ -89,9 +99,9 @@ import Popup_v2 from "./class/Popup_v2";
       setValue: GM_setValue,
       xmlHttpRequest: GM_xmlhttpRequest
     };
-    for (const key in gm) {
-      const old = gm[key];
-      gm[key] = (...args) =>
+    for (const key in envVariables.gm) {
+      const old = envVariables.gm[key];
+      envVariables.gm[key] = (...args) =>
         new Promise((resolve, reject) => {
           try {
             resolve(old.apply(this, args));
@@ -101,32 +111,32 @@ import Popup_v2 from "./class/Popup_v2";
         });
     }
   } else {
-    gm = GM;
+    envVariables.gm = GM;
   }
 
-  if (gm) {
+  if (envVariables.gm) {
     (async () =>
       common.createElements(document.head, `beforeEnd`, [{
         attributes: {
-          href: await gm.getResourceUrl(`bs`),
+          href: await envVariables.gm.getResourceUrl(`bs`),
           rel: `stylesheet`
         },
         type: `link`
       }, {
         attributes: {
-          href: await gm.getResourceUrl(`bss`),
+          href: await envVariables.gm.getResourceUrl(`bss`),
           rel: `stylesheet`
         },
         type: `link`
       }, {
         attributes: {
-          href: await gm.getResourceUrl(`abc`),
+          href: await envVariables.gm.getResourceUrl(`abc`),
           rel: `stylesheet`
         },
         type: `link`
       }, {
         attributes: {
-          href: await gm.getResourceUrl(`qb`),
+          href: await envVariables.gm.getResourceUrl(`qb`),
           rel: `stylesheet`
         },
         type: `link`
@@ -150,13 +160,12 @@ import Popup_v2 from "./class/Popup_v2";
     esgst.markdownParser.setMarkupEscaped(true);
     esgst.name = esgst.sg ? `sg` : `st`;
 
-    if (_USER_INFO.extension) {
+    if (envVariables._USER_INFO.extension) {
       // esgst is running as an extension
-      envFunctions.setValue = (key, value) => setValues({[key]: value});
       envFunctions.setValues = values => {
         let key;
         return new Promise(resolve =>
-          browser.runtime.sendMessage({
+          envVariables.browser.runtime.sendMessage({
             action: `setValues`,
             values: JSON.stringify(values)
           }, () => {
@@ -166,6 +175,7 @@ import Popup_v2 from "./class/Popup_v2";
             resolve();
           }));
       };
+      envFunctions.setValue = (key, value) => envFunctions.setValues({[key]: value});
       envFunctions.getValue = async (key, value) => common.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
       envFunctions.getValues = values =>
         new Promise(resolve => {
@@ -175,19 +185,20 @@ import Popup_v2 from "./class/Popup_v2";
           }
           resolve(output);
         });
-      envFunctions.delValue = key => delValues([key]);
       envFunctions.delValues = keys =>
         new Promise(resolve =>
-          browser.runtime.sendMessage({
+          envVariables.browser.runtime.sendMessage({
             action: `delValues`,
             keys: JSON.stringify(keys)
           }, () => {
             keys.forEach(key => delete esgst.storage[key]);
             resolve();
-          }));
+          })
+        );
+      envFunctions.delValue = key => envFunctions.delValues([key]);
       envFunctions.getStorage = () =>
         new Promise(resolve =>
-          browser.runtime.sendMessage({
+          envVariables.browser.runtime.sendMessage({
             action: `getStorage`
           }, storage => resolve(JSON.parse(storage))));
       envFunctions.notifyNewVersion = version => {
@@ -208,10 +219,10 @@ import Popup_v2 from "./class/Popup_v2";
             envFunctions.setValue(`dismissedVersion`, version);
           }
         };
-        if (_USER_INFO.extension !== `firefox`) {
+        if (envVariables._USER_INFO.extension !== `firefox`) {
           details.buttons = [
             {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
-            {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: browser.runtime.sendMessage.bind(browser.runtime, {action: `reload`}, location.reload.bind(location))}
+            {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, location.reload.bind(location))}
           ];
         }
         new Popup_v2(details).open();
@@ -239,11 +250,11 @@ import Popup_v2 from "./class/Popup_v2";
               common.lookForPopups(response);
             }
           } else {
-            browser.runtime.sendMessage({
+            envVariables.browser.runtime.sendMessage({
               action: `fetch`,
               blob: details.blob,
               fileName: details.fileName,
-              manipulateCookies: _USER_INFO.extension === `firefox` && esgst.manipulateCookies,
+              manipulateCookies: envVariables._USER_INFO.extension === `firefox` && esgst.manipulateCookies,
               parameters: JSON.stringify({
                 body: details.data,
                 credentials: details.anon ? `omit` : `include`,
@@ -578,7 +589,7 @@ import Popup_v2 from "./class/Popup_v2";
         document.addEventListener(`click`, common.closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
         document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog);
       };
-      browser.runtime.onMessage.addListener(message => {
+      envVariables.browser.runtime.onMessage.addListener(message => {
         let key;
         message = JSON.parse(message);
         switch (message.action) {
@@ -594,40 +605,40 @@ import Popup_v2 from "./class/Popup_v2";
       });
     } else {
       // esgst is running as a script
-      envFunctions.setValue = gm.setValue;
+      envFunctions.setValue = envVariables.gm.setValue;
       envFunctions.setValues = async values => {
         let promises = [];
         for (let key in values) {
-          promises.push(gm.setValue(key, values[key]));
+          promises.push(envVariables.gm.setValue(key, values[key]));
         }
         await Promise.all(promises);
       };
-      envFunctions.getValue = gm.getValue;
+      envFunctions.getValue = envVariables.gm.getValue;
       envFunctions.getValues = async values => {
         let output = {};
         let promises = [];
         for (let key in values) {
-          let promise = gm.getValue(key, values[key]);
+          let promise = envVariables.gm.getValue(key, values[key]);
           promise.then(value => output[key] = value);
           promises.push(promise);
         }
         await Promise.all(promises);
         return output;
       };
-      envFunctions.delValue = gm.deleteValue;
+      envFunctions.delValue = envVariables.gm.deleteValue;
       envFunctions.delValues = async keys => {
         let promises = [];
         for (let i = keys.length - 1; i > -1; i--) {
-          promises.push(gm.deleteValue(keys[i]));
+          promises.push(envVariables.gm.deleteValue(keys[i]));
         }
         await Promise.all(promises);
       };
       envFunctions.getStorage = async () => {
-        let keys = await gm.listValues();
+        let keys = await envVariables.gm.listValues();
         let promises = [];
         let storage = {};
         for (let i = keys.length - 1; i > -1; i--) {
-          let promise = gm.getValue(keys[i]);
+          let promise = envVariables.gm.getValue(keys[i]);
           promise.then(value => storage[keys[i]] = value);
           promises.push(promise);
         }
@@ -680,7 +691,7 @@ import Popup_v2 from "./class/Popup_v2";
             if (details.anon) {
               details.headers.Cookie = ``;
             }
-            gm.xmlHttpRequest({
+            envVariables.gm.xmlHttpRequest({
               binary: !!details.fileName,
               data: details.fileName
                 ? await getZip(details.data, details.fileName, `binarystring`)
@@ -1050,6 +1061,7 @@ import Popup_v2 from "./class/Popup_v2";
     }
 
     common.setEnvironmentFunctions(envFunctions);
+    common.setEnvironmentVariables(envVariables);
 
     let toDelete, toSet;
 
@@ -1395,7 +1407,7 @@ import Popup_v2 from "./class/Popup_v2";
           type: `link`
         }, {
           attributes: {
-            href: _USER_INFO.extension ? browser.runtime.getURL(`css/steamgifts-v34.min.css`) : await gm.getResourceUrl(`sg`),
+            href: envVariables._USER_INFO.extension ? envVariables.browser.runtime.getURL(`css/steamgifts-v34.min.css`) : await envVariables.gm.getResourceUrl(`sg`),
             rel: `stylesheet`
           },
           type: `link`
@@ -1451,10 +1463,10 @@ import Popup_v2 from "./class/Popup_v2";
         toSet.settings = JSON.stringify(esgst.settings);
       }
       if (Object.keys(toSet).length) {
-        await setValues(toSet);
+        await envFunctions.setValues(toSet);
       }
       if (Object.keys(toDelete).length) {
-        await delValues(toDelete);
+        await envFunctions.delValues(toDelete);
       }
 
       // now that all values are set esgst can begin to load
