@@ -19,7 +19,8 @@ const
     request,
     endless_load,
     getLocalValue,
-    createElements
+    createElements,
+    getPlayerAchievements
   } = common
 ;
 
@@ -49,9 +50,9 @@ info = ({
   });
 
   ugd() {
-    this.esgst.profileFeatures.push(ugd_addButtons);
+    this.esgst.profileFeatures.push(this.ugd_addButtons);
     if (this.esgst.ugd_s) {
-      this.esgst.profileFeatures.push(ugd_addStats);
+      this.esgst.profileFeatures.push(this.ugd_addStats);
     }
   }
 
@@ -356,10 +357,10 @@ info = ({
       }
 
       for (const type of types) {
-        const ids = this.ugd[key][type];
+        const ids = ugd[key][type];
         for (const id of ids) {
           userGiveaways[key][type][id] = [];
-          const giveaways = this.ugd[key][type][id];
+          const giveaways = ugd[key][type][id];
           const n = giveaways.length;
           for (let i = 0; i < n; i++) {
             const giveaway = giveaways[i];
@@ -369,7 +370,7 @@ info = ({
           }
         }
       }
-      userGiveaways[`${key}Timestamp`] = this.ugd[`${key}Timestamp`];
+      userGiveaways[`${key}Timestamp`] = ugd[`${key}Timestamp`];
     }
     if (Object.keys(newGiveaways).length) {
       await lockAndSaveGiveaways(newGiveaways);
@@ -503,7 +504,7 @@ info = ({
         }
       }
     }
-    obj.requests.push(ugd_requestGiveawaysDone_2);
+    obj.requests.push(this.ugd_requestGiveawaysDone_2);
   }
 
   async ugd_requestGiveawaysDone_2(obj) {
@@ -783,6 +784,10 @@ info = ({
   }
 
   async ugd_addGame(obj, id, packageId, name) {
+    /**
+     * @property {Playtime[]} obj.playtimes
+     */
+
     const appId = parseInt(id);
     let i;
     if (obj.playtimes) {
@@ -824,15 +829,14 @@ info = ({
     let count = 0;
     let total = 0;
     if (this.esgst.ugd_getAchievements) {
+      /**
+       * @type {AchievementsSteamApi[]}
+       */
       let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
       if (obj.isUpdating) {
         obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);
-        const response = await request({
-          method: `GET`,
-          url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.esgst.steamApiKey}&steamid=${obj.user.steamId}`
-        });
-        const responseText = response.responseText;
-        const responseJson = JSON.parse(responseText).playerstats;
+
+        const responseJson = (await getPlayerAchievements(appId, obj.user.steamId)).playerstats;
         if (responseJson.success) {
           achievementsData = responseJson.achievements;
         }
@@ -850,6 +854,8 @@ info = ({
           achievements = `${count}/${total} (${achievementsAttributes}%)`;
           obj.ugdCache.achievements[appId] = achievements;
         } else {
+          // TODO: if/else should have identical achievementsData
+          // noinspection JSUnresolvedFunction
           const parts = achievementsData.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
           count = parseInt(parts[1]);
           total = parseInt(parts[2]);

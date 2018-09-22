@@ -2,6 +2,7 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
 
 const
   {
@@ -21,7 +22,7 @@ class UsersWhitelistBlacklistSorter extends Module {
 info = ({
     description: `
       <ul>
-        <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist this.esgst.modules.generalAccurateTimestamp.at once sorted by added date.</li>
+        <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.</li>
       </ul>
     `,
     id: `wbs`,

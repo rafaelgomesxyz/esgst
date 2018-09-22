@@ -1,6 +1,7 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
 
 const
   {
@@ -30,7 +31,7 @@ info = ({
   });
 
   sgc() {
-    this.esgst.profileFeatures.push(sgc_add);
+    this.esgst.profileFeatures.push(this.sgc_add);
   }
 
   sgc_add(profile) {

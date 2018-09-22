@@ -47,7 +47,7 @@ info = ({
 
   pl() {
     if (!this.esgst.userPath) return;
-    this.esgst.profileFeatures.push(pl_add);
+    this.esgst.profileFeatures.push(this.pl_add);
   }
 
   pl_add(profile) {

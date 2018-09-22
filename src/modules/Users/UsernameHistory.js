@@ -33,7 +33,7 @@ info = ({
   });
 
   uh() {
-    this.esgst.profileFeatures.push(uh_add);
+    this.esgst.profileFeatures.push(this.uh_add);
   }
 
   uh_add(profile) {
@@ -94,7 +94,7 @@ info = ({
     box = button.nextElementSibling;
     list = box.lastElementChild;
     button.addEventListener(`click`, this.uh_toggle.bind(null, box, profile, list));
-    this.esgst.documentEvents.click.add(uh_close.bind(null, box, container));
+    this.esgst.documentEvents.click.add(this.uh_close.bind(null, box, container));
   }
 
   async uh_toggle(box, profile, list) {
@@ -112,10 +112,7 @@ info = ({
           type: `span`
         }]
       }]);
-      createElements(list, `inner`, JSON.parse((await request({
-        method: `GET`,
-        url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${profile.steamId}&Username=${profile.username}`
-      })).responseText).Usernames.map(x => {
+      createElements(list, `inner`, this.getUserNames(profile.steamId, profile.username).Usernames.map(x => {
         return {
           text: x,
           type: `li`
@@ -128,6 +125,18 @@ info = ({
     if (!box.classList.contains(`esgst-hidden`) && !container.contains(event.target)) {
       box.classList.add(`esgst-hidden`);
     }
+  }
+
+  /**
+   * @param steamId
+   * @param username
+   * @returns {UsernamesApiResponse}
+   */
+  async getUserNames(steamId, username) {
+    return JSON.parse((await request({
+      method: `GET`,
+      url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${steamId}&Username=${username}`
+    })).responseText);
   }
 }
 

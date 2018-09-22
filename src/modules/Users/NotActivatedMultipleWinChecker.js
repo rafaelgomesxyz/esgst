@@ -19,7 +19,8 @@ const
     createResults,
     getUser,
     saveUser,
-    saveUsers
+    saveUsers,
+    getSuspensions
   } = common
 ;
 
@@ -371,10 +372,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     obj.popup.progress.textContent = `Checking suspensions...`;
     users = [];
     let savedUsers = JSON.parse(await getValue(`users`));
-    let {suspensions} = JSON.parse((await request({
-      method: `GET`,
-      url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${steamIds.join(`,`)}`
-    })).responseText);
+    let suspensions = (await getSuspensions(steamIds)).suspensions;
     for (let steamId in suspensions) {
       let suspension = suspensions[steamId];
       let user = {steamId};

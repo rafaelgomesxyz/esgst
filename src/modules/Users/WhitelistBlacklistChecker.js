@@ -1,6 +1,9 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import Popup from "../../class/Popup";
+import ToggleSwitch from "../../class/ToggleSwitch";
+import ButtonSet from "../../class/ButtonSet";
 
 const
   {
@@ -17,7 +20,8 @@ const
     getUser,
     saveUser,
     getUserId,
-    request
+    request,
+    getTimestamp
   } = common
 ;
 
@@ -74,7 +78,7 @@ info = ({
 
   wbc() {
     if (this.esgst.wbc_h) {
-      this.esgst.userFeatures.push(wbc_users);
+      this.esgst.userFeatures.push(this.wbc_users);
     }
     if (!this.esgst.mainPageHeading) return;
     let [icons, title] = !this.esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
@@ -106,7 +110,11 @@ info = ({
   }
 
   wbc_addButton(Context, WBCButton) {
-    let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip, WBC;
+    let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip;
+
+    /** @type {WhiteBlacklistChecker} */
+    let WBC;
+
     WBC = {
       Update: (Context ? false : true),
       B: !this.esgst.wbc_hb,
@@ -355,6 +363,12 @@ info = ({
     });
   }
 
+  /**
+   * @param {WhiteBlacklistChecker} WBC
+   * @param skip
+   * @param Callback
+   * @returns {Promise<void>}
+   */
   async wbc_setCheck(WBC, skip, Callback) {
     let SavedUsers, I, N;
     WBC.Progress.innerHTML = ``;
@@ -453,24 +467,24 @@ info = ({
           notes = savedUser.notes;
           whitelisted = savedUser.whitelisted;
           blacklisted = savedUser.blacklisted;
-          this.wbc = savedUser.wbc;
+          wbc = savedUser.wbc;
         }
-        if (wbc && this.wbc.result) {
-          Result = this.wbc.result;
+        if (wbc && wbc.result) {
+          Result = wbc.result;
         }
         if (WBC.manualSkip) {
           if (!wbc) {
-            this.wbc = {};
+            wbc = {};
           }
-          setTimeout(() => this.wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, (Result != this.wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
         } else if (!wbc || !this.esgst.wbc_checkNew) {
           if (!wbc) {
-            this.wbc = {};
+            wbc = {};
           }
           await this.wbc_checkUser(wbc, WBC, user.username);
-          setTimeout(() => this.wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, (Result != this.wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
         } else {
-          setTimeout(() => this.wbc_setResult(WBC, user, this.wbc, notes, whitelisted, blacklisted, (Result != this.wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
         }
       } else if (Callback) {
         Callback();
@@ -484,7 +498,7 @@ info = ({
     WBC.manualSkip = false;
     WBC.autoSkip = false;
     if (!WBC.Canceled) {
-      Key = ((wbc.result === `blacklisted` || this.wbc.result === `notBlacklisted`) && !WBC.B) ? `unknown` : this.wbc.result;
+      Key = ((wbc.result === `blacklisted` || wbc.result === `notBlacklisted`) && !WBC.B) ? `unknown` : wbc.result;
       WBC[Key].classList.remove(`esgst-hidden`);
       const attributes = {
         href: `/user/${user.username}`
@@ -493,7 +507,7 @@ info = ({
         attributes.class = `esgst-bold esgst-italic`;
       }
       let items = null;
-      if (isSkipped && (wbc.result === `unknown` || this.wbc.result === `notBlacklisted`)) {
+      if (isSkipped && (wbc.result === `unknown` || wbc.result === `notBlacklisted`)) {
         items = [{
           type: `span`,
           children: [{
@@ -520,10 +534,10 @@ info = ({
       if (!WBC.ShowResults) {
         if ((this.esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && this.esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
           if (user.id) {
-            this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
+            this.wbc_returnWlBl(WBC, wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
-                  wbc: this.wbc,
+                  wbc: wbc,
                   whitelisted: false,
                   blacklisted: false
                 };
@@ -538,10 +552,10 @@ info = ({
             });
           } else {
             await getUserId(user);
-            this.wbc_returnWlBl(WBC, this.wbc, user.username, user.id, notes, async (success, notes) => {
+            this.wbc_returnWlBl(WBC, wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
-                  wbc: this.wbc,
+                  wbc: wbc,
                   whitelisted: false,
                   blacklisted: false
                 };
@@ -555,9 +569,9 @@ info = ({
               setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           }
-        } else if (wbc.result === `whitelisted` || this.wbc.result === `blacklisted` || whitelisted || blacklisted) {
+        } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted` || whitelisted || blacklisted) {
           user.values = {
-            wbc: this.wbc
+            wbc: wbc
           };
           await saveUser(null, null, user);
           setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
@@ -577,7 +591,7 @@ info = ({
   async wbc_returnWlBl(WBC, wbc, username, id, notes, Callback) {
     let Key, Type;
     if (!WBC.Canceled) {
-      Key = this.wbc.result;
+      Key = wbc.result;
       Type = Key.match(/(.+)ed/)[1];
       createElements(WBC.Progress, `inner`, [{
         attributes: {
