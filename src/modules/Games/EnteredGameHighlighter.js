@@ -5,7 +5,9 @@ const
   {
     createElements,
     getFeatureTooltip,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 

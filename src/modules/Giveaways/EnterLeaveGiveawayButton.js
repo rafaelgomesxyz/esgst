@@ -14,7 +14,8 @@ const
     getFeatureTooltip,
     request,
     setLocalValue,
-    setSetting
+    setSetting,
+    getValue
   } = common
 ;
 

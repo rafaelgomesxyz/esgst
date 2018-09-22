@@ -1,6 +1,6 @@
 import Module from '../class/Module';
 import Button from '../class/Button';
-import {common} from 'Common';
+import {common} from './Common';
 
 const
   {

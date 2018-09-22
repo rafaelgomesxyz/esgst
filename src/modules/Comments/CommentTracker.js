@@ -17,7 +17,12 @@ const
     setHoverOpacity,
     request,
     createAlert,
-    lockAndSaveDiscussions
+    lockAndSaveDiscussions,
+    getLocalValue,
+    getValue,
+    getValues,
+    setValue,
+    setValues
   } = common
 ;
 

@@ -8,7 +8,10 @@ const
     createLock,
     setHoverOpacity,
     createElements,
-    getFeatureTooltip
+    getFeatureTooltip,
+    getValue,
+    getValues,
+    setValue
   } = common
 ;
 

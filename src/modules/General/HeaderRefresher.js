@@ -188,7 +188,7 @@ class GeneralHeaderRefresher extends Module {
     };
     this.esgst.hr = hr;
     this.hr_notifyChange(hr);
-    setLocalValue(`hrCache`, JSON.stringify(hr_getCache()));
+    setLocalValue(`hrCache`, JSON.stringify(this.hr_getCache()));
     this.hr_startRefresher(hr);
     if (!this.esgst.hr_b) {
       addEventListener(`focus`, this.hr_startRefresher.bind(null, hr));

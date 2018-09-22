@@ -1,6 +1,6 @@
 import Module from '../class/Module';
 import {utils} from '../lib/jsUtils';
-import {common} from 'Common';
+import {common} from './Common';
 
 const
   {
@@ -9,7 +9,8 @@ const
   {
     updateHiddenGames,
     request,
-    lockAndSaveGames
+    lockAndSaveGames,
+    getValue
   } = common
 ;
 

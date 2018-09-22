@@ -154,7 +154,7 @@ class GiveawaysGiveawayExtractor extends Module {
         if (ge.button) {
           ge.button.classList.add(`esgst-busy`);
         }
-        esgst.modules.common.createElements(ge.progress, `inner`, [{
+        this.esgst.modules.common.createElements(ge.progress, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
@@ -211,7 +211,7 @@ class GiveawaysGiveawayExtractor extends Module {
         await endless_load(ge.results.lastElementChild, false, `ge`);
         ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
         ge.progress.firstElementChild.remove();
-        ge.callback = ge_extractGiveaway.bind(null, ge, code, callback);
+        ge.callback = this.ge_extractGiveaway.bind(null, ge, code, callback);
         filtered = false;
         children = ge.results.lastElementChild.children;
         for (i = children.length - 1; i > -1 && !filtered; --i) {

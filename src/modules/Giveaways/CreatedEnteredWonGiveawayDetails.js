@@ -12,7 +12,9 @@ const
     createLock,
     request,
     getFeatureTooltip,
-    endless_load
+    endless_load,
+    getValue,
+    setValue
   } = common
 ;
 
@@ -101,11 +103,11 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
     deleteLock();
-    if (esgst.gf && esgst.gf.filteredCount && esgst[`gf_enable${esgst.gf.type}`]) {
-      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(esgst.gf);
+    if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
-    if (esgst.gfPopup && esgst.gfPopup.filteredCount && esgst[`gf_enable${esgst.gfPopup.type}`]) {
-      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(esgst.gfPopup);
+    if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
     }
   }
 
@@ -152,7 +154,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
+          createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -178,7 +180,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         this.cewgd_addDetails(giveaway, currentGiveaway);
         this.cewgd.count += 1;
       } else {
-        createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(esgst.createdPath ? 3 : 2).fill({
+        createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },

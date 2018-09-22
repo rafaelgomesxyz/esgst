@@ -15,7 +15,9 @@ const
     request,
     createElements,
     setSetting,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 

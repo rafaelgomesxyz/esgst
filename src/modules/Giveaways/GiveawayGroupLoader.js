@@ -13,7 +13,8 @@ const
     endless_load,
     lockAndSaveGiveaways,
     lockAndSaveGroups,
-    request
+    request,
+    getValues
   } = common
 ;
 

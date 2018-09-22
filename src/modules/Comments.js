@@ -1,9 +1,10 @@
 import Module from '../class/Module';
-import {common} from 'Common';
+import {common} from './Common';
 
 const
   {
-    getUser
+    getUser,
+    getValue
   } = common
 ;
 

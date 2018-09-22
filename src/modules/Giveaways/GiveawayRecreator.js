@@ -8,7 +8,10 @@ const
   } = utils,
   {
     createElements,
-    request
+    request,
+    delValue,
+    getValue,
+    setValue
   } = common
 ;
 

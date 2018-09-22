@@ -909,7 +909,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     progress.current = counter.firstElementChild;
     progress.total = progress.current.nextElementSibling;
     popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_getGiveaways.bind(null, mgc, popup, progress, textArea)).set);
-    popup.open(mgc_focusTextArea.bind(null, textArea));
+    popup.open(this.mgc_focusTextArea.bind(null, textArea));
     textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
     textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(null, popup, textArea));
@@ -1467,7 +1467,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (i < n) {
       if (!mgc.giveaways.children[i].classList.contains(`success`)) {
         const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-        mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
+        this.mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
       } else {
         setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }

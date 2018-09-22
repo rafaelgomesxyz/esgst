@@ -1,5 +1,5 @@
 import Module from '../class/Module';
-import {common} from 'Common';
+import {common} from './Common';
 
 const
   {
@@ -13,14 +13,14 @@ const
 ;
 
 class Giveaways extends Module {
-info = ({
+  info = ({
     endless: true,
     id: `giveaways`,
-    load: giveaways
+    load: this.giveaways
   });
   
   giveaways() {
-    this.esgst.endlessFeatures.push(giveaways_load);
+    this.esgst.endlessFeatures.push(this.giveaways_load);
   }
 
   async giveaways_load(context, main, source, endless) {

@@ -9,7 +9,9 @@ const
   {
     createElements,
     getTimeSince,
-    endless_load
+    endless_load,
+    getValue,
+    setValue
   } = common
 ;
 

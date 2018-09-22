@@ -16,7 +16,9 @@ const
     request,
     getUser,
     getSteamId,
-    saveUsers
+    saveUsers,
+    getValue,
+    setValue
   } = common
 ;
 
