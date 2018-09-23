@@ -36,11 +36,5 @@
       <option name="myCheckGuessedTypes" value="true" />
     </inspection_tool>
     <inspection_tool class="JSMethodCanBeStatic" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="JSUnfilteredForInLoop" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
-      <option name="processCode" value="true" />
-      <option name="processLiterals" value="true" />
-      <option name="processComments" value="true" />
-    </inspection_tool>
   </profile>
 </component>

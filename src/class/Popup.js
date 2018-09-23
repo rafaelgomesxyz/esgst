@@ -1,15 +1,4 @@
-import {common} from '../modules/Common';
-import esgst from "./Esgst";
-
-const
-  {
-    createElements,
-    loadMenu,
-    minimizePanel_addItem,
-    minimizePanel_alert,
-    repositionPopups
-  } = common
-;
+import container from '../class/Container';
 
 export default class Popup {
   /** @type {HTMLElement} */
@@ -22,6 +11,10 @@ export default class Popup {
   onClose;
 
   constructor(icon, title, temp, settings, popup = null) {
+    let
+      {createElements, loadMenu} = container.common,
+      {esgst} = container
+    ;
     this.isCreated = !popup;
     this.temp = temp;
     this.popup = popup || createElements(document.body, `beforeEnd`, [{
@@ -107,6 +100,10 @@ export default class Popup {
     }
   }
   open(callback) {
+    let
+      {createElements, repositionPopups} = container.common,
+      {esgst} = container
+    ;
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
     if (esgst.openPopups > 0) {
@@ -140,6 +137,10 @@ export default class Popup {
     }
   }
   close() {
+    let
+      {minimizePanel_addItem} = container.common,
+      {esgst} = container
+    ;
     this.modal.remove();
     if (this.isCreated) {
       if (this.temp) {
@@ -161,6 +162,7 @@ export default class Popup {
     this.isOpen = false;
   }
   reposition() {
+    let {esgst} = container;
     if (this.isCreated) {
       if (esgst.staticPopups) {
         this.scrollable.style.maxHeight = `${ innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
@@ -185,6 +187,9 @@ export default class Popup {
     }
   }
   setDone(temp) {
+    let
+      {minimizePanel_alert} = container.common,
+      {esgst} = container;
     this.temp = temp;
     if (esgst.minimizePanel && !this.isOpen) {
       minimizePanel_alert(this);

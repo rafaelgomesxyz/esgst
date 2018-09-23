@@ -1,18 +1,11 @@
-import {common} from '../modules/Common';
-import esgst from './Esgst';
-
-const
-  {
-    createElements
-  } = common
-;
+import container from '../class/Container';
 
 export default class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
     this.onClose = null;
     this.onOpen = onOpen;
     this.context = context;
-    this.popout = popout || createElements(document.body, `beforeEnd`, [{
+    this.popout = popout || container.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: className
       },
@@ -83,8 +76,8 @@ export default class Popout {
     this.isFixed = isFixed;
     this.popout.classList.remove(`esgst-hidden`);
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    if (esgst.openPopups > 0) {
-      const highestN = parseInt(esgst.popups[esgst.openPopups - 1].popup.style.zIndex || 0);
+    if (container.esgst.openPopups > 0) {
+      const highestN = parseInt(container.esgst.popups[container.esgst.openPopups - 1].popup.style.zIndex || 0);
       if (n <= highestN) {
         n = highestN + 1;
       }
@@ -128,8 +121,8 @@ export default class Popout {
       Math.min(oldHeight, contextTop - difference)
     );
     this.popout.style.height = `${newHeight}px`;
-    if (esgst.qiv && esgst.qiv.popout === this && esgst.qiv.comments) {
-      esgst.qiv.comments.style.maxHeight = `${newHeight - esgst.qiv.comments.offsetTop}px`;
+    if (container.esgst.qiv && container.esgst.qiv.popout === this && container.esgst.qiv.comments) {
+      container.esgst.qiv.comments.style.maxHeight = `${newHeight - container.esgst.qiv.comments.offsetTop}px`;
     }
     popoutHeight = this.popout.offsetHeight;
     popoutWidth = this.popout.offsetWidth;

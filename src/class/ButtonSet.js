@@ -1,10 +1,4 @@
-import {common} from '../modules/Common';
-
-const
-  {
-    createElements
-  } = common
-;
+import container from '../class/Container';
 
 export default class ButtonSet {
   constructor(color1, color2, icon1, icon2, title1, title2, callback1, callback2) {
@@ -18,7 +12,7 @@ export default class ButtonSet {
     };
     this.set = document.createElement(`div`);
     this.set.className = `esgst-button-set`;
-    createElements(this.set, `inner`, [{
+    container.common.createElements(this.set, `inner`, [{
       attributes: {
         class: `${classes[color1]} btn_action ${color1}`
       },
