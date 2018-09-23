@@ -2,14 +2,14 @@
  * @typedef {Object} MR
  * @property {HTMLElement} Context
  * @property {HTMLElement} Comment
- * @property {Node} Container
- * @property {Element} Timestamp
+ * @property {HTMLElement} Container
+ * @property {HTMLElement} Timestamp
  * @property {string} ParentID
  * @property {string} URL
  * @property {string} url
  * @property {string} TradeCode
  * @property {string} Username
- * @property {Node} Children
+ * @property {HTMLElement} Children
  * @property {HTMLElement} Box
  * @property {HTMLElement} Description
  * @property {HTMLElement} Cancel
@@ -159,6 +159,8 @@
 
 /**
  * @typedef {Object} WhiteBlacklistChecker
+ * @property {boolean} B
+ * @property {string} Username
  * @property {number} Request
  * @property {number} Save
  * @property {WhiteBlacklistCheckerUser} User
@@ -222,6 +224,20 @@
  * @property {string} rerolls
  * @property {string} stickiedCountries
  * @property {string} discussions
+ * @property {string} users
+ * @property {string} emojis
+ * @property {string} Emojis
+ * @property {string} templates
+ * @property {string} giveaways
+ * @property {string} decryptedGiveaways
+ * @property {string} entries
+ * @property {string} winners
+ * @property {string} trades
+ * @property {string} games
+ * @property {string} settings
+ * @property {string} version
+ * @property {string} filterPresets
+ * @property {string} dfPresets
  */
 
 /**
@@ -258,12 +274,25 @@
  * @property {boolean} importAndMerge
  * @property {boolean} exportBackup
  * @property {boolean} cfh_img_remember
+ * @property {object[]} gf_presets
+ * @property {object[]} df_presets
+ * @property {string[]} leftButtonIds
+ * @property {string[]} rightButtonIds
+ * @property {string[]} gc_categories
+ * @property {string[]} gc_categories_gv
+ * @property {string} username_sg
+ * @property {number} registrationDate_sg
+ * @property {string} username_st
+ * @property {string} steamId
+ * @property {string} users
+ * @property {string} comments
+ * @property {string} giveaways
+ * @property {string} groups
  *
  * --? from exportSettings. It may be inaccurate
  * @property {string} avatar
  * @property {number} lastSync
  * @property {string} steamApiKey
- * @property {number} steamId
  * @property {number} syncFrequency
  * @property {string} username
  */

@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
+import Checkbox from "../../class/Checkbox";
+import Popup from "../../class/Popup";
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
-import Popup from "../../class/Popup";
-import Checkbox from "../../class/Checkbox";
 
 const
   {
@@ -16,7 +16,7 @@ const
 ;
 
 class UsersUserSuspensionTracker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.</li>
@@ -171,7 +171,7 @@ info = ({
         type: `i`
       }]);
       this.esgst.ustButton.addEventListener(`click`, this.ust_send);
-      new Popup(``, `An error ocurred. Please try again later.`, true).open();
+      new Popup(``, `An error occurred. Please try again later.`, true).open();
     }
   }
 

@@ -1,4 +1,11 @@
-import Common from '../modules/Common';
+import {common} from '../modules/Common';
+
+const
+  {
+    createElements,
+    getFeatureTooltip
+  } = common
+;
 
 export default class Button {
   constructor(context, position, details) {
@@ -14,6 +21,7 @@ export default class Button {
       },
       type: `div`
     }]);
+    // noinspection JSIgnoredPromiseFromCall
     this.change();
     return this;
   }
@@ -31,6 +39,7 @@ export default class Button {
     }]);
     if (mainCallback) {
       if (await mainCallback(event)) {
+        // noinspection JSIgnoredPromiseFromCall
         this.change();
       } else {
         createElements(this.button, `inner`, [{
@@ -45,4 +54,4 @@ export default class Button {
       this.button.firstElementChild.addEventListener(`click`, this.change.bind(this, this.callbacks[index], undefined));
     }
   }
-};
+}

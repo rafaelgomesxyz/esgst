@@ -9,7 +9,7 @@ const
 ;
 
 class UsersRealWonSentCVLink extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Turns "Gifts Won" and "Gifts Sent" in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page into links that take you to their real won/sent CV pages on <a href="https://www.sgtools.info/">SGTools</a>.</li>

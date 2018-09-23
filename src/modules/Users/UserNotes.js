@@ -13,7 +13,7 @@ const
 ;
 
 class UsersUserNotes extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sticky-note"></i> if there are notes saved and <i class="fa fa-sticky-note-o"></i> if there are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to save notes for them (only visible to you).</li>

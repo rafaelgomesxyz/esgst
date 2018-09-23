@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class UsersVisibleRealCV extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Displays the real sent/won CV next to the raw value in a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
@@ -21,8 +21,12 @@ info = ({
   }
 
   vrcv_add(profile) {
-    profile.sentCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realSentCV.toLocaleString(`en`)}`);
-    profile.wonCvContainer.insertAdjacentText(`beforeEnd`, ` / $${profile.realWonCV.toLocaleString(`en`)}`);
+    /**
+   * @property realSentCV.toLocaleString
+   * @property realWonCV.toLocaleString
+   */
+    profile.sentCvContainer.insertAdjacentText("beforeend", ` / $${profile.realSentCV.toLocaleString(`en`)}`);
+    profile.wonCvContainer.insertAdjacentText("beforeend", ` / $${profile.realWonCV.toLocaleString(`en`)}`);
   }
 }
 

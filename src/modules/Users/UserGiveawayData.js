@@ -25,7 +25,7 @@ const
 ;
 
 class UsersUserGiveawayData extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
@@ -181,9 +181,11 @@ info = ({
     this.esgst.ugd_playtime = parseFloat(playtimeInput.value);
     let playtimes = 0;
     for (const key in ugdCache.playtimes) {
-      const playtime = ugdCache.playtimes[key];
-      if ((playtime[1] / 60) > this.esgst.ugd_playtime) {
-        playtimes += 1;
+      if (ugdCache.playtimes.hasOwnProperty(key)) {
+        const playtime = ugdCache.playtimes[key];
+        if ((playtime[1] / 60) > this.esgst.ugd_playtime) {
+          playtimes += 1;
+        }
       }
     }
     const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
@@ -198,9 +200,11 @@ info = ({
     this.esgst.ugd_achievements = parseFloat(achievementsInput.value);
     let achievements = 0;
     for (const key in ugdCache.achievements) {
-      const achievement = ugdCache.achievements[key];
-      if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > this.esgst.ugd_achievements) {
-        achievements += 1;
+      if (ugdCache.achievements.hasOwnProperty(key)) {
+        const achievement = ugdCache.achievements[key];
+        if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > this.esgst.ugd_achievements) {
+          achievements += 1;
+        }
       }
     }
     const totalAchievements = Object.keys(ugdCache.achievements).length;
@@ -442,15 +446,17 @@ info = ({
             } else {
               console.log(`ESGST Log: UGD 3`);
               for (const key in giveawayRaw.winnerColumns) {
-                const column = giveawayRaw.winnerColumns[key];
-                if (!column.status || column.status === `Awaiting Feedback`) {
-                  continue;
-                }
-                for (const winner of column.winners) {
-                  giveaway.winners.push({
-                    status: column.status,
-                    username: winner
-                  });
+                if (giveawayRaw.winnerColumns.hasOwnProperty(key)) {
+                  const column = giveawayRaw.winnerColumns[key];
+                  if (!column.status || column.status === `Awaiting Feedback`) {
+                    continue;
+                  }
+                  for (const winner of column.winners) {
+                    giveaway.winners.push({
+                      status: column.status,
+                      username: winner
+                    });
+                  }
                 }
               }
             }
@@ -476,30 +482,32 @@ info = ({
     for (const type of types) {
       const games = obj.userGiveaways.sent[type];
       for (const id in games) {
-        const game = games[id];
-        for (const item of game) {
-          const giveaway = typeof item === `string` ? obj.giveaways[item] || this.esgst.giveaways[item] : item;
-          if (!giveaway || !Array.isArray(giveaway.winners)) {
-            break;
-          }
-
-          let i;
-          for (i = giveaway.winners.length - 1; i > -1; i--) {
-            const winner = giveaway.winners[i];
-            if (winner.status !== `Received` && winner.status !== `Not Received`) {
+        if (games.hasOwnProperty(id)) {
+          const game = games[id];
+          for (const item of game) {
+            const giveaway = typeof item === `string` ? obj.giveaways[item] || this.esgst.giveaways[item] : item;
+            if (!giveaway || !Array.isArray(giveaway.winners)) {
               break;
             }
-          }
-          if (i > -1) {
-            const code = giveaway.code;
-            if (code) {
-              obj.giveaways[code] = giveaway;
+
+            let i;
+            for (i = giveaway.winners.length - 1; i > -1; i--) {
+              const winner = giveaway.winners[i];
+              if (winner.status !== `Received` && winner.status !== `Not Received`) {
+                break;
+              }
             }
-            obj.requests.push({
-              giveaway: giveaway,
-              request: this.ugd_requestGiveaway,
-              url: `/giveaway/${code}/_/winners/search?page=`
-            });
+            if (i > -1) {
+              const code = giveaway.code;
+              if (code) {
+                obj.giveaways[code] = giveaway;
+              }
+              obj.requests.push({
+                giveaway: giveaway,
+                request: this.ugd_requestGiveaway,
+                url: `/giveaway/${code}/_/winners/search?page=`
+              });
+            }
           }
         }
       }
@@ -539,7 +547,16 @@ info = ({
         values: []
       };
       obj.lists.username = {
-        name: `Most sent to:${obj.user.username === this.esgst.username ? `` : ` <i class="fa fa-question-circle" title="This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access."></i>`}`,
+        name: [{
+          text: `Most sent to: `,
+          type: `node`
+        }, obj.user.username === this.esgst.username ? null : {
+          attributes: {
+            class: `fa fa-question-circle`,
+            title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.`
+          },
+          type: `i`
+        }],
         values: []
       };
     } else {
@@ -599,16 +616,18 @@ info = ({
       heading
     ]);
     for (const key in obj.perType) {
-      const item = obj.perType[key];
-      const columns = [key.replace(/_/g, ` + `)];
-      for (let i = 0; i < 11; i++) {
-        const value = item[i];
-        columns.push(value);
+      if (obj.perType.hasOwnProperty(key)) {
+        const item = obj.perType[key];
+        const columns = [key.replace(/_/g, ` + `)];
+        for (let i = 0; i < 11; i++) {
+          const value = item[i];
+          columns.push(value);
+        }
+        const typeTotal = obj.typeTotal[key];
+        const total = Math.round(typeTotal / obj.total * 10000) / 100;
+        columns.push(`${typeTotal} (${total}%)`);
+        table.addRow(columns);
       }
-      const typeTotal = obj.typeTotal[key];
-      const total = Math.round(typeTotal / obj.total * 10000) / 100;
-      columns.push(`${typeTotal} (${total}%)`);
-      table.addRow(columns);
     }
     const columns = [`Total`];
     for (let i = 0; i < 11; i++) {
@@ -621,15 +640,19 @@ info = ({
     results.appendChild(table.table);
 
     for (const key in obj.lists) {
-      const array = [];
-      const list = obj.lists[key];
-      const values = list.values;
-      for (const selector in values) {
-        const item = values[selector];
-        item.name = selector;
-        array.push(item);
+      if (obj.lists.hasOwnProperty(key)) {
+        const array = [];
+        const list = obj.lists[key];
+        const values = list.values;
+        for (const selector in values) {
+          if (values.hasOwnProperty(selector)) {
+            const item = values[selector];
+            item.name = selector;
+            array.push(item);
+          }
+        }
+        list.values = sortArray(array, true, `value`);
       }
-      list.values = sortArray(array, true, `value`);
     }
 
     if (
@@ -694,7 +717,7 @@ info = ({
         obj.playtimes = JSON.parse(responseText).response.games;
       } catch (e) {
         console.log(e);
-        alert(`An error ocurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
+        alert(`An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
         await this.ugd_complete(obj, results);
         await saveUser(null, null, obj.user);
         return;
@@ -711,8 +734,10 @@ info = ({
     obj.subsTotal = Object.keys(obj.games.subs).length;
     const total = obj.appsTotal + obj.subsTotal;
     for (const id in obj.games.apps) {
-      await this.ugd_addGame(obj, id);
-      obj.appsTotal--;
+      if (obj.games.apps.hasOwnProperty(id)) {
+        await this.ugd_addGame(obj, id);
+        obj.appsTotal--;
+      }
     }
     let gcCache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
     if (gcCache.version !== 7) {
@@ -728,30 +753,33 @@ info = ({
       gcCache.hltb = {};
     }
     for (const id in obj.games.subs) {
-      let apps = gcCache.subs[id] && gcCache.subs[id].apps;
-      if (!apps) {
-        try {
-          const response = await request({
-            method: `GET`,
-            url: `http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`
-          });
-          const responseText = response.responseText;
-          const responseJson = JSON.parse(responseText);
-          apps = responseJson[id].data.apps;
-          if (!gcCache.subs[id]) {
-            gcCache.subs[id] = {};
+      if (obj.games.subs.hasOwnProperty(id)) {
+        let apps = gcCache.subs[id] && gcCache.subs[id].apps;
+        if (!apps) {
+          try {
+            const response = await request({
+              method: `GET`,
+              url: `http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`
+            });
+            const responseText = response.responseText;
+            const responseJson = JSON.parse(responseText);
+            apps = responseJson[id].data.apps;
+            if (!gcCache.subs[id]) {
+              gcCache.subs[id] = {};
+            }
+            gcCache.subs[id].apps = apps.map(x => parseInt(x.id));
+          } catch (e) { /**/
           }
-          gcCache.subs[id].apps = apps.map(x => parseInt(x.id));
-        } catch (e) { /**/ }
-      }
-      if (apps) {
-        for (const app of apps) {
-          obj.packagePlayed = false;
-          obj.packageAchieved = false;
-          await this.ugd_addGame(obj, app.id, id, app.name);
         }
+        if (apps) {
+          for (const app of apps) {
+            obj.packagePlayed = false;
+            obj.packageAchieved = false;
+            await this.ugd_addGame(obj, app.id, id, app.name);
+          }
+        }
+        obj.subsTotal--;
       }
-      obj.subsTotal--;
     }
     setLocalValue(`gcCache`, JSON.stringify(gcCache));
 
@@ -791,7 +819,7 @@ info = ({
     const appId = parseInt(id);
     let i;
     if (obj.playtimes) {
-      for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--);
+      for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--) {}
     }
     const giveaways = obj.games[packageId ? `subs` : `apps`][packageId || id];
     const item = giveaways[0];
@@ -905,27 +933,24 @@ info = ({
       }
       group = obj.playtimeTable.getRowGroup(packageId);
       const packageTimestamp2Weeks = (parseFloat(group.columns[1].textContent) * 60) + timestamp2Weeks;
-      const packageTime2Weeks = packageTimestamp2Weeks && packageTimestamp2Weeks > 0 ? (
+      group.columns[1].textContent = packageTimestamp2Weeks && packageTimestamp2Weeks > 0 ? (
         packageTimestamp2Weeks > 60
-        ? `${Math.round(packageTimestamp2Weeks / 60 * 100) / 100}h`
-        : `${packageTimestamp2Weeks}m`
+          ? `${Math.round(packageTimestamp2Weeks / 60 * 100) / 100}h`
+          : `${packageTimestamp2Weeks}m`
       ) : `0`;
-      group.columns[1].textContent = packageTime2Weeks;
       group.columns[1].setAttribute(`data-sort-value`, packageTimestamp2Weeks);
       const packageTimestampForever = (parseFloat(group.columns[2].textContent) * 60) + timestampForever;
-      const packageTimeForever = packageTimestampForever && packageTimestampForever > 0 ? (
+      group.columns[2].textContent = packageTimestampForever && packageTimestampForever > 0 ? (
         packageTimestampForever > 60
-        ? `${Math.round(packageTimestampForever / 60 * 100) / 100}h`
-        : `${packageTimestampForever}m`
+          ? `${Math.round(packageTimestampForever / 60 * 100) / 100}h`
+          : `${packageTimestampForever}m`
       ) : `0`;
-      group.columns[2].textContent = packageTimeForever;
       group.columns[2].setAttribute(`data-sort-value`, packageTimestampForever);
       const packageParts = group.columns[3].textContent.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
       const packageCount = parseInt(packageParts[1]) + count;
       const packageTotal = parseInt(packageParts[2]) + total;
       const packageAchievementsAttributes = Math.round(packageCount / packageTotal * 10000) / 100;
-      const packageAchievements = `${packageCount}/${packageTotal} (${packageAchievementsAttributes}%)`;
-      group.columns[3].textContent = packageAchievements;
+      group.columns[3].textContent = `${packageCount}/${packageTotal} (${packageAchievementsAttributes}%)`;
       group.columns[3].setAttribute(`data-sort-value`, packageAchievementsAttributes);
     }
     obj.playtimeTable.addRow([
@@ -959,46 +984,54 @@ info = ({
 
   async ugd_count(obj, games, savedGiveaways, types) {
     for (const id in games) {
-      const giveaways = games[id];
-      for (const item of giveaways) {
-        const giveaway = typeof item === `string` ? savedGiveaways[item] : item;
-        let selector = ``;
-        for (const key in types) {
-          const type = types[key];
-          if (giveaway[key]) {
-            selector += typeof type === `string` ? type : type.name;
-            selector += `_`;
-          }
-        }
-        selector = selector.slice(0, -1);
-        if (!selector) {
-          selector = `Everyone`;
-        }
-        const level = giveaway.level;
-        const isArrayWinners = Array.isArray(giveaway.winners);
-        const winners = isArrayWinners ? giveaway.winners.filter(x => x.status === `Received`) : giveaway.winners;
-        const copies = obj.key === `sent` ? isArrayWinners ? winners.length : giveaway.copies : 1;
-        obj.perType[selector][level] += copies;
-        obj.typeTotal[selector] += copies;
-        obj.levelTotal[level] += copies;
-        obj.total += copies;
-        for (const key in obj.lists) {
-          const list = obj.lists[key];
-          const values = list.values;
-          const selectors = key === `username` ? winners : [giveaway];
-          if (!Array.isArray(selectors)) {
-            continue;
-          }
-          for (const selector of selectors) {
-            const value = selector[key];
-            if (!values[value]) {
-              values[value] = {
-                gameSteamId: giveaway.gameSteamId,
-                gameType: giveaway.gameType,
-                value: 0
-              };
+      if (games.hasOwnProperty(id)) {
+        const giveaways = games[id];
+        for (const item of giveaways) {
+          const giveaway = typeof item === `string` ? savedGiveaways[item] : item;
+          let selector = ``;
+          for (const key in types) {
+            if (types.hasOwnProperty(key)) {
+              const type = types[key];
+              if (giveaway[key]) {
+                selector += typeof type === `string` ? type : type.name;
+                selector += `_`;
+              }
             }
-            values[value].value += (key === `username` ? 1 : copies);
+          }
+          selector = selector.slice(0, -1);
+          if (!selector) {
+            selector = `Everyone`;
+          }
+          const level = giveaway.level;
+          const isArrayWinners = Array.isArray(giveaway.winners);
+          const winners = isArrayWinners ? giveaway.winners.filter(x => x.status === `Received`) : giveaway.winners;
+          const copies = obj.key === `sent` ? (winners.length || (isArrayWinners ? Math.min(giveaway.copies, giveaway.entries) : Math.min(giveaway.copies, giveaway.entries, winners))) : 1;
+          obj.perType[selector][level] += copies;
+          obj.typeTotal[selector] += copies;
+          obj.levelTotal[level] += copies;
+          obj.total += copies;
+          for (const key in obj.lists) {
+            if (obj.lists.hasOwnProperty(key)) {
+              const list = obj.lists[key];
+              const values = list.values;
+              const selectors = key === `username` ? winners : [giveaway];
+              if (!Array.isArray(selectors)) {
+                continue;
+              }
+              for (const selector of selectors) {
+                const value = selector[key];
+                if (!values[value]) {
+                  values[value] = {
+                    gameSteamId: giveaway.gameSteamId,
+                    gameType: giveaway.gameType,
+                    value: 0,
+                    values: []
+                  };
+                }
+                values[value].value += (key === `username` ? 1 : (copies || 1));
+                values[value].values.push(giveaway.gameName);
+              }
+            }
           }
         }
       }
@@ -1042,37 +1075,46 @@ info = ({
       children: []
     }];
     for (const key in obj.lists) {
-      const list = obj.lists[key];
-      const values = list.values;
-      const listItems = [];
-      for (const item of values) {
-        listItems.push({
-          type: `li`,
+      if (obj.lists.hasOwnProperty(key)) {
+        const list = obj.lists[key];
+        const values = list.values;
+        const listItems = [];
+        for (const item of values) {
+          listItems.push({
+            type: `li`,
+            children: [{
+              text: `${item.name} - `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `esgst-bold`
+              },
+              text: item.value,
+              type: `span`
+            }, key === `username` ? {
+              attributes: {
+                class: `fa fa-question-circle`,
+                title: item.values.join(`, `)
+              },
+              type: `i`
+            } : null]
+          });
+        }
+        items[0].children.push({
+          type: `div`,
           children: [{
-            text: `${item.name} - `,
-            type: `node`
-          }, {
             attributes: {
               class: `esgst-bold`
             },
-            text: item.value,
-            type: `span`
+            text: Array.isArray(list.name) ? `` : list.name,
+            type: `div`,
+            children: Array.isArray(list.name) ? list.name : null
+          }, {
+            type: `ol`,
+            children: listItems
           }]
         });
       }
-      items[0].children.push({
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: list.name,
-          type: `div`
-        }, {
-          type: `ol`,
-          children: listItems
-        }]
-      });
     }
     createElements(results, `beforeEnd`, items);
     await endless_load(results);

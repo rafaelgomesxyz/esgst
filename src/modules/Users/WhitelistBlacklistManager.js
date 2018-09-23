@@ -1,11 +1,10 @@
 
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import ButtonSet from "../../class/ButtonSet";
 import Popup from "../../class/Popup";
 import ToggleSwitch from "../../class/ToggleSwitch";
-import ButtonSet from "../../class/ButtonSet";
-
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
 const
   {
     parseHtml
@@ -23,7 +22,7 @@ const
 ;
 
 class UsersWhitelistBlacklistManager extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-arrow-up"></i> <i class="fa fa-arrow-down"></i> <i class="fa fa-trash"></i>) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allows you to import/export/clear your whitelist/blacklist.</li>
@@ -65,9 +64,8 @@ info = ({
         },
         type: `input`
       }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, this.esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
-        let tags = event.currentTarget.hasOwnProperty('value')
-          ? event.currentTarget.value.replace(/(,\s*)+/g, formatTags).split(`, `)
-          : '';
+        const element = event.currentTarget;
+        let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
         setSetting(`wbm_tags`, tags);
         this.esgst.wbm_tags = tags;
       });
@@ -126,7 +124,8 @@ info = ({
       reader.readAsText(file);
       reader.onload = () => {
         try {
-          let list = JSON.parse(reader.result);
+          let list = JSON.parse(/** @type {string} */  reader.result);
+          // noinspection JSIgnoredPromiseFromCall
           this.wbm_insertUsers(wbm, list, 0, list.length, callback);
         } catch (error) {
           createFadeMessage(wbm.warning, `Cannot parse file!`);
@@ -164,8 +163,10 @@ info = ({
     if (this.esgst.wbm_useCache) {
       let steamId;
       for (steamId in this.esgst.users.users) {
-        if (this.esgst.users.users[steamId][`${wbm.key}ed`]) {
-          list.push(this.esgst.users.users[steamId].id);
+        if (this.esgst.users.users.hasOwnProperty(steamId)) {
+          if (this.esgst.users.users[steamId][`${wbm.key}ed`]) {
+            list.push(this.esgst.users.users[steamId].id);
+          }
         }
       }
       downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
@@ -203,22 +204,26 @@ info = ({
     if (this.esgst.wbm_useCache) {
       let steamId;
       for (steamId in this.esgst.users.users) {
-        let user = this.esgst.users.users[steamId];
-        if (user[`${wbm.key}ed`]) {
-          if (this.esgst.wbm_clearTags) {
-            if (user.tags) {
-              let i;
-              for (i = user.tags.length - 1; i > -1 && this.esgst.wbm_tags.indexOf(user.tags[i]) < 0; --i);
-              if (i > -1) {
-                list.push(user.id);
-                wbm.usernames.push(user.username);
+        if (this.esgst.users.users.hasOwnProperty(steamId)) {
+          let user = this.esgst.users.users[steamId];
+          if (user[`${wbm.key}ed`]) {
+            if (this.esgst.wbm_clearTags) {
+              if (user.tags) {
+                let i;
+                for (i = user.tags.length - 1; i > -1 && this.esgst.wbm_tags.indexOf(user.tags[i]) < 0; --i) {
+                }
+                if (i > -1) {
+                  list.push(user.id);
+                  wbm.usernames.push(user.username);
+                }
               }
+            } else {
+              list.push(user.id);
             }
-          } else {
-            list.push(user.id);
           }
         }
       }
+      // noinspection JSIgnoredPromiseFromCall
       this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
     } else {
       createElements(wbm.message, `inner`, [{
@@ -243,7 +248,7 @@ info = ({
             let user = this.esgst.users.users[steamId];
             if (user.tags) {
               let j;
-              for (j = user.tags.length - 1; j > -1 && this.esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j);
+              for (j = user.tags.length - 1; j > -1 && this.esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j) {}
               if (j > -1) {
                 list.push(element.value);
                 wbm.usernames.push(username);
@@ -258,6 +263,7 @@ info = ({
       if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
         setTimeout(() => this.wbm_clearList(wbm, list, ++nextPage, callback), 0);
       } else {
+        // noinspection JSIgnoredPromiseFromCall
         this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
       }
     }

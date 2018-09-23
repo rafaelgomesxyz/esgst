@@ -567,51 +567,51 @@ class Esgst {
   numUstTickets = 0;
   elgbCache = {};
   originalHash = location.hash;
-  menuPath = null;
-  settingsPath = null;
-  importMenuPath = null;
-  exportMenuPath = null;
-  deleteMenuPath = null;
-  gbPath = null;
-  gedPath = null;
-  gePath = null;
-  glwcPath = null;
-  userPath = null;
-  groupPath = null;
-  regionsPath = null;
-  groupWishlistPath = null;
-  mainPath = null;
-  winnersPath = null;
-  giveawaysPath = null;
-  giveawayCommentsPath = null;
-  discussionsTicketsPath = null;
-  ticketsPath = null;
-  tradesPath = null;
-  discussionsTicketsTradesPath = null;
-  discussionTicketTradeCommentsPath = null;
-  archivePath = null;
-  profilePath = null;
-  giveawayPath = null;
-  discussionPath = null;
-  ticketPath = null;
-  tradePath = null;
-  discussionsPath = null;
-  newDiscussionPath = null;
-  editDiscussionPath = null;
-  createdDiscussionsPath = null;
-  newGiveawayPath = null;
-  newTicketPath = null;
-  wishlistPath = null;
-  createdPath = null;
-  wonPath = null;
-  enteredPath = null;
-  commentsPath = null;
-  accountPath = null;
-  aboutPath = null;
-  whitelistPath = null;
-  blacklistPath = null;
-  inboxPath = null;
-  groupsPath = null;
+  menuPath = false;
+  settingsPath = false;
+  importMenuPath = false;
+  exportMenuPath = false;
+  deleteMenuPath = false;
+  gbPath = false;
+  gedPath = false;
+  gePath = false;
+  glwcPath = false;
+  userPath = false;
+  groupPath = false;
+  regionsPath = false;
+  groupWishlistPath = false;
+  mainPath = false;
+  winnersPath = false;
+  giveawaysPath = false;
+  giveawayCommentsPath = false;
+  discussionsTicketsPath = false;
+  ticketsPath = false;
+  tradesPath = false;
+  discussionsTicketsTradesPath = false;
+  discussionTicketTradeCommentsPath = false;
+  archivePath = false;
+  profilePath = false;
+  giveawayPath = false;
+  discussionPath = false;
+  ticketPath = false;
+  tradePath = false;
+  discussionsPath = false;
+  newDiscussionPath = false;
+  editDiscussionPath = false;
+  createdDiscussionsPath = false;
+  newGiveawayPath = false;
+  newTicketPath = false;
+  wishlistPath = false;
+  createdPath = false;
+  wonPath = false;
+  enteredPath = false;
+  commentsPath = false;
+  accountPath = false;
+  aboutPath = false;
+  whitelistPath = false;
+  blacklistPath = false;
+  inboxPath = false;
+  groupsPath = false;
   pageTop = 0;
   commentsTop = 0;
   apPopouts = {};
@@ -637,9 +637,9 @@ class Esgst {
   userFeatures = [];
   endlessFeatures = [];
   edited = {};
-  games = [];
+  games = {};
 
-  /** @type {Element} */
+  /** @type {HTMLElement} */
   minimizeList;
 
   /** @type {HTMLElement} */
@@ -1920,6 +1920,8 @@ class Esgst {
   gc_f;
 
   draggable;
+
+  nrf_clearCache;
 
   constructor() {
     this.modules = modules;
