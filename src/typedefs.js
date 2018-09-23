@@ -288,8 +288,7 @@
  * @property {string} comments
  * @property {string} giveaways
  * @property {string} groups
- *
- * --? from exportSettings. It may be inaccurate
+ * @property {string[]} gc_categories_ids
  * @property {string} avatar
  * @property {number} lastSync
  * @property {string} steamApiKey

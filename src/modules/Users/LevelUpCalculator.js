@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import {common} from "../Common";
+import {common} from '../Common';
 
 const
   {createElements, getFeatureTooltip} = common

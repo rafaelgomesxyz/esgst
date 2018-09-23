@@ -1,14 +1,15 @@
 import Module from '../../class/Module';
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
 import {common} from '../Common';
-import Popup from "../../class/Popup";
-import ButtonSet_v2 from "../../class/ButtonSet_v2";
 
 const
   {
     createElements,
     getFeatureTooltip,
     removeDuplicateNotes,
-    saveUser
+    saveUser,
+    getValue
   } = common
 ;
 

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
 import {utils} from '../../lib/jsUtils';
-import {common} from "../Common";
+import {common} from '../Common';
 
 const 
   {

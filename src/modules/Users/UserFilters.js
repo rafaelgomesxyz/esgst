@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from "../../class/ButtonSet_v2";
-import Popup from "../../class/Popup";
-import ToggleSwitch from "../../class/ToggleSwitch";
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
+import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 
 const

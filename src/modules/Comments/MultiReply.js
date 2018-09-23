@@ -51,7 +51,7 @@ class CommentsMultiReply extends Module {
     let Parent, ReplyButton, Permalink;
     if (MR.Comment) {
       Parent = MR.Comment.closest(this.esgst.sg ? `.comment` : `.comment_outer`);
-      MR.Container = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__summary` : `comment_inner`)[0];
+      MR.Container = /** @type {HTMLElement} */ MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__summary` : `comment_inner`)[0];
       MR.Timestamp = /** @type {HTMLElement} */ MR.Context.firstElementChild;
       ReplyButton = MR.Context.getElementsByClassName(this.esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
       Permalink = MR.Context.querySelectorAll(`[href*="/go/comment/"]`);
@@ -96,7 +96,7 @@ class CommentsMultiReply extends Module {
           }
         });
       }
-      MR.Children = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__children` : `comment_children`)[0];
+      MR.Children = /** @type {HTMLElement} */ MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__children` : `comment_children`)[0];
       this.mr_setEdit(MR);
       this.mr_setDelete(MR);
       this.mr_setUndelete(MR);

@@ -1,7 +1,7 @@
 `use strict`;
 
-import Popup from "./class/Popup";
-import Popup_v2 from "./class/Popup_v2";
+import Popup from './class/Popup';
+import Popup_v2 from './class/Popup_v2';
 import {utils} from './lib/jsUtils';
 import esgst from './class/Esgst';
 
@@ -170,7 +170,9 @@ import esgst from './class/Esgst';
             values: JSON.stringify(values)
           }, () => {
             for (key in values) {
-              esgst.storage[key] = values[key];
+              if (values.hasOwnProperty(key)) {
+                esgst.storage[key] = values[key];
+              }
             }
             resolve();
           }));
@@ -181,7 +183,9 @@ import esgst from './class/Esgst';
         new Promise(resolve => {
           let output = {};
           for (let key in values) {
-            output[key] = common.isSet(esgst.storage[key]) ? esgst.storage[key] : values[key];
+            if (values.hasOwnProperty(key)) {
+              output[key] = common.isSet(esgst.storage[key]) ? esgst.storage[key] : values[key];
+            }
           }
           resolve(output);
         });
@@ -221,7 +225,7 @@ import esgst from './class/Esgst';
         };
         if (envVariables._USER_INFO.extension !== `firefox`) {
           details.buttons = [
-            {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/revilheart/ESGST/releases/download/${version}/extension.zip`)},
+            {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)},
             {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, location.reload.bind(location))}
           ];
         }
@@ -305,7 +309,7 @@ import esgst from './class/Esgst';
               children: [{
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST`,
+                  href: `https://github.com/gsrafael01/ESGST`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -333,7 +337,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/issues`,
+                  href: `https://github.com/gsrafael01/ESGST/issues`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -361,7 +365,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/milestones`,
+                  href: `https://github.com/gsrafael01/ESGST/milestones`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -472,7 +476,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://www.patreon.com/revilheart`,
+                  href: `https://www.patreon.com/gsrafael01`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -598,7 +602,9 @@ import esgst from './class/Esgst';
             break;
           case `setValues`:
             for (key in message.values) {
-              esgst.storage[key] = message.values[key];
+              if (message.values.hasOwnProperty(key)) {
+                esgst.storage[key] = message.values[key];
+              }
             }
             break;
         }
@@ -609,7 +615,9 @@ import esgst from './class/Esgst';
       envFunctions.setValues = async values => {
         let promises = [];
         for (let key in values) {
-          promises.push(envVariables.gm.setValue(key, values[key]));
+          if (values.hasOwnProperty(key)) {
+            promises.push(envVariables.gm.setValue(key, values[key]));
+          }
         }
         await Promise.all(promises);
       };
@@ -618,9 +626,11 @@ import esgst from './class/Esgst';
         let output = {};
         let promises = [];
         for (let key in values) {
-          let promise = envVariables.gm.getValue(key, values[key]);
-          promise.then(value => output[key] = value);
-          promises.push(promise);
+          if (values.hasOwnProperty(key)) {
+            let promise = envVariables.gm.getValue(key, values[key]);
+            promise.then(value => output[key] = value);
+            promises.push(promise);
+          }
         }
         await Promise.all(promises);
         return output;
@@ -773,7 +783,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST`,
+                  href: `https://github.com/gsrafael01/ESGST`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -801,7 +811,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/issues`,
+                  href: `https://github.com/gsrafael01/ESGST/issues`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -829,7 +839,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://github.com/revilheart/ESGST/milestones`,
+                  href: `https://github.com/gsrafael01/ESGST/milestones`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -940,7 +950,7 @@ import esgst from './class/Esgst';
               }, {
                 attributes: {
                   class: `esgst-header-menu-row`,
-                  href: `https://www.patreon.com/revilheart`,
+                  href: `https://www.patreon.com/gsrafael01`,
                   target: `_blank`
                 },
                 type: `a`,
@@ -1078,10 +1088,12 @@ import esgst from './class/Esgst';
       esgst.users = JSON.parse(esgst.storage.users);
       let changed = false;
       for (let key in esgst.users.users) {
-        let wbc = esgst.users.users[key].wbc;
-        if (wbc && wbc.result && wbc.result !== `whitelisted` && wbc.result !== `blacklisted`) {
-          delete esgst.users.users[key].wbc;
-          changed = true;
+        if (esgst.users.users.hasOwnProperty(key)) {
+          let wbc = esgst.users.users[key].wbc;
+          if (wbc && wbc.result && wbc.result !== `whitelisted` && wbc.result !== `blacklisted`) {
+            delete esgst.users.users[key].wbc;
+            changed = true;
+          }
         }
       }
       if (changed) {
@@ -1109,6 +1121,7 @@ import esgst from './class/Esgst';
       toSet.emojis = common.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : `[]`;
       toDelete.push(`Emojis`);
     }
+    esgst.emojis = JSON.parse(toSet.emojis || esgst.storage.emojis);
     if (esgst.sg) {
       if (!common.isSet(esgst.storage.templates)) {
         toSet.templates = common.getLocalValue(`templates`, `[]`);
@@ -1190,20 +1203,22 @@ import esgst from './class/Esgst';
     }
     let cache = JSON.parse(common.getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
     for (let type in cache) {
-      let doSet = false;
-      cache[type].forEach(code => {
-        if (!esgst[type][code]) {
-          esgst[type][code] = {
-            readComments: {}
-          };
+      if (cache.hasOwnProperty(type)) {
+        let doSet = false;
+        cache[type].forEach(code => {
+          if (!esgst[type][code]) {
+            esgst[type][code] = {
+              readComments: {}
+            };
+          }
+          if (!esgst[type][code].visited) {
+            doSet = true;
+            esgst[type][code].visited = true;
+          }
+        });
+        if (doSet) {
+          toSet[type] = JSON.stringify(esgst[type]);
         }
-        if (!esgst[type][code].visited) {
-          doSet = true;
-          esgst[type][code].visited = true;
-        }
-      });
-      if (doSet) {
-        toSet[type] = JSON.stringify(esgst[type]);
       }
     }
     common.setLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
@@ -1261,9 +1276,13 @@ import esgst from './class/Esgst';
 
     esgst.features = common.getFeatures();
     for (let type in esgst.features) {
-      for (let id in esgst.features[type].features) {
-        common.dismissFeature(esgst.features[type].features[id], id);
-        common.getFeatureSetting(esgst.features[type].features[id], id);
+      if (esgst.features.hasOwnProperty(type)) {
+        for (let id in esgst.features[type].features) {
+          if (esgst.features[type].features.hasOwnProperty(id)) {
+            common.dismissFeature(esgst.features[type].features[id], id);
+            common.getFeatureSetting(esgst.features[type].features[id], id);
+          }
+        }
       }
     }
 
@@ -1346,7 +1365,22 @@ import esgst from './class/Esgst';
       esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
       esgst.settingsChanged = true;
     }
-    [`gc_categories`, `gc_categories_gv`].forEach(key => {
+    if (esgst.gc_categories.indexOf(`gc_f`) < 0) {
+      esgst.gc_categories.push(`gc_f`);
+      esgst.settings.gc_categories = esgst.gc_categories;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories_gv.indexOf(`gc_f`) < 0) {
+      esgst.gc_categories_gv.push(`gc_f`);
+      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories_ids.indexOf(`gc_f`) < 0) {
+      esgst.gc_categories_ids.push(`gc_f`);
+      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+      esgst.settingsChanged = true;
+    }
+    [`gc_categories`, `gc_categories_gv`, `gc_categories_ids`].forEach(key => {
       let bkpLength = esgst[key].length;
       esgst[key] = Array.from(new Set(esgst[key]));
       if (bkpLength !== esgst[key].length) {
@@ -1433,7 +1467,7 @@ import esgst from './class/Esgst';
             esgst.settingsChanged = true;
           }
           if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
-            let responseHtml = utils.parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`})).responseText);
+            let responseHtml = utils.parseHtml((await common.request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`})).responseText);
             let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
             for (let i = 0, n = elements.length; i < n; i++) {
               let element = elements[i];
@@ -1442,8 +1476,7 @@ import esgst from './class/Esgst';
                 break;
               }
             }
-            esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
-            esgst.steamId = esgst.settings.steamId;
+            esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
             esgst.settingsChanged = true;
           }
         } catch (e) { /**/ }
@@ -1507,7 +1540,8 @@ import esgst from './class/Esgst';
         esgst.lastPage = lpl_getLastPage(document, true);
         await common.getElements();
         if (esgst.sg && !esgst.menuPath) {
-          common.checkSync().then(() => {});
+          // noinspection JSIgnoredPromiseFromCall
+          common.checkSync()
         }
         if (esgst.autoBackup) {
           common.checkBackup();
@@ -1534,7 +1568,7 @@ import esgst from './class/Esgst';
             esgst.pageOuterWrap.style.width = `calc(100% - ${innerWidth-document.documentElement.offsetWidth}px)`;
             esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
           } else {
-            let response = await request({method: `GET`, url: esgst.sg ? `https://www.steamgifts.com/` : `https://www.steamtrades.com`});
+            let response = await common.request({method: `GET`, url: esgst.sg ? `https://www.steamgifts.com/` : `https://www.steamtrades.com`});
             let responseHtml = utils.parseHtml(response.responseText);
             common.createElements(document.body, `inner`, [{
               context: responseHtml.getElementsByTagName(`header`)[0]
@@ -1626,15 +1660,17 @@ import esgst from './class/Esgst';
 
         envFunctions.addHeaderMenu();
         common.showPatreonNotice();
+        // noinspection JSIgnoredPromiseFromCall
+        common.checkNewVersion();
         await common.loadFeatures(esgst.modules);
-        await common.checkNewVersion();
       }
     }
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', load.bind(null, toDelete, toSet));
     } else {
-      load(toDelete, toSet).then(() => {});
+      // noinspection JSIgnoredPromiseFromCall
+      load(toDelete, toSet);
     }
   }
 

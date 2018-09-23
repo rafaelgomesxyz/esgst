@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import Popout from "../../class/Popout";
+import Popout from '../../class/Popout';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 

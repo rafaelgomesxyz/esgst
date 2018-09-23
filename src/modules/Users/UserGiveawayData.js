@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import Process from "../../class/Process";
-import Table from "../../class/Table";
+import Process from '../../class/Process';
+import Table from '../../class/Table';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -20,7 +20,8 @@ const
     endless_load,
     getLocalValue,
     createElements,
-    getPlayerAchievements
+    getPlayerAchievements,
+    getValue
   } = common
 ;
 

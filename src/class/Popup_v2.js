@@ -1,10 +1,11 @@
-import ButtonSet_v2 from "./ButtonSet_v2";
+import ButtonSet_v2 from './ButtonSet_v2';
 import {common} from '../modules/Common';
-import esgst from "./Esgst";
+import esgst from './Esgst';
 
 const
   {
     createElements,
+    createOptions,
     loadMenu,
     minimizePanel_addItem,
     minimizePanel_alert,

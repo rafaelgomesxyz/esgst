@@ -1,6 +1,6 @@
 import Module from '../class/Module'
-import ButtonSet from "../class/ButtonSet";
-import ButtonSet_v2 from "../class/ButtonSet_v2";
+import ButtonSet from '../class/ButtonSet';
+import ButtonSet_v2 from '../class/ButtonSet_v2';
 import Popout from '../class/Popout';
 import Popup from '../class/Popup';
 import Popup_v2 from '../class/Popup_v2';
@@ -1146,7 +1146,7 @@ class Common extends Module {
         text: `https://www.patreon.com/gsrafael01`,
         type: `a`
       }], true);
-      popup.onClose = setValue.bind(null, `patreonNotice`, true);
+      popup.onClose = this.setValue.bind(null, `patreonNotice`, true);
       popup.open();
     }
   }
@@ -3382,7 +3382,10 @@ class Common extends Module {
       }
     }
     if (numDiscussions < 5 || numDeals < 5) {
-      let [response1, response2] = await Promise.all([this.request({method: `GET`, url: `/discussions`}), this.request({method: `GET`, url: `/discussions/deals`})]);
+      let [response1, response2] = await Promise.all([
+        this.request({method: `GET`, url: `/discussions`}),
+        this.request({method: `GET`, url: `/discussions/deals`})
+      ]);
       let response1Html = parseHtml(response1.responseText);
       let response2Html = parseHtml(response2.responseText);
       let revisedElements = [];
@@ -4501,7 +4504,7 @@ class Common extends Module {
           }]);
         input = context.firstElementChild;
         if (item.play) {
-          input.nextElementSibling.addEventListener(`click`, async () => (await hr_createPlayer(this.esgst.settings[item.id] || hr_getDefaultSound())).play());
+          input.nextElementSibling.addEventListener(`click`, async () => (await this.esgst.modules.generalHeaderRefresher.hr_createPlayer(this.esgst.settings[item.id] || this.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
         }
         if (typeof this.esgst.settings[item.id] === `undefined` && this.esgst.dismissedOptions.indexOf(item.id) < 0) {
           isMainNew = true;
@@ -4617,7 +4620,7 @@ class Common extends Module {
       this.observeChange(endTime, `${ID}_endTime`);
       if (ID === `customTheme`) {
         let textArea = container.lastElementChild;
-        getValue(ID).then(value =>  {
+        this.getValue(ID).then(value =>  {
           if (!value) return;
           textArea.value = JSON.parse(value);
         });
@@ -5192,7 +5195,7 @@ class Common extends Module {
               },
               type: `i`
             }, {
-              text: ` ${gc_formatDate(Date.now())}`,
+              text: ` ${this.esgst.modules.gamesGameCategories.gc_formatDate(Date.now())}`,
               type: `node`
             }]
           });
@@ -5270,7 +5273,7 @@ class Common extends Module {
         binary += String.fromCharCode(bytes[i]);
       }
       let string = btoa(binary);
-      (await hr_createPlayer(string)).play();
+      (await this.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
       // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`${id}_sound`, string);
       popup.close();
@@ -8898,7 +8901,7 @@ class Common extends Module {
       uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, this.createUuid)
     };
     await this.checkLock(lock);
-    return setValue.bind(null, key, `{}`);
+    return this.setValue.bind(null, key, `{}`);
   }
 
   async checkLock(lock) {
@@ -12258,12 +12261,11 @@ class Common extends Module {
     let current = this.esgst.draggable.dragged;
     do {
       current = current.previousElementSibling;
-      if (!current || current !== element) {
-        continue;
+      if (current && current === element) {
+        element.parentElement.insertBefore(this.esgst.draggable.dragged, element);
+        this.esgst.draggable.destination = this.esgst.draggable.dragged.parentElement;
+        return;
       }
-      element.parentElement.insertBefore(this.esgst.draggable.dragged, element);
-      this.esgst.draggable.destination = this.esgst.draggable.dragged.parentElement;
-      return;
     } while (current);
     element.parentElement.insertBefore(this.esgst.draggable.dragged, element.nextElementSibling);
     this.esgst.draggable.destination = this.esgst.draggable.dragged.parentElement;
@@ -12315,7 +12317,7 @@ class Common extends Module {
         this.esgst.draggable.dragged.classList.add(`esgst-giveaway-column-button`);
       }
       if (this.esgst.draggable.dragged.getAttribute(`data-color`)) {
-        element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+        this.esgst.draggable.dragged.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
         this.esgst.draggable.dragged.firstElementChild.style.color = this.esgst.draggable.dragged.getAttribute(`data-bgColor`);
         this.esgst.draggable.dragged.style.color = ``;
         this.esgst.draggable.dragged.style.backgroundColor = ``;
@@ -12325,7 +12327,7 @@ class Common extends Module {
         this.esgst.draggable.dragged.classList.remove(`esgst-giveaway-column-button`);
       }
       if (this.esgst.draggable.dragged.getAttribute(`data-color`)) {
-        element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+        this.esgst.draggable.dragged.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
         this.esgst.draggable.dragged.style.color = this.esgst.draggable.dragged.getAttribute(`data-color`);
         this.esgst.draggable.dragged.style.backgroundColor = this.esgst.draggable.dragged.getAttribute(`data-bgColor`);
       }
@@ -12367,7 +12369,7 @@ class Common extends Module {
     /**
      * @property {HTMLElement} obj.trashContext
      */
-    this.esgst.draggable.trash = createElements(obj.trashContext || obj.context, `afterEnd`, [{
+    this.esgst.draggable.trash = this.createElements(obj.trashContext || obj.context, `afterEnd`, [{
       attributes: {
         class: `esgst-draggable-trash`
       },
