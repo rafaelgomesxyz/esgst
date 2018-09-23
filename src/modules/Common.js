@@ -6,6 +6,7 @@ import Popup from '../class/Popup';
 import Popup_v2 from '../class/Popup_v2';
 import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
+import JSZip from 'jszip';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
@@ -62,10 +63,12 @@ class Common extends Module {
     return this.envFunctions.delValue(key);
   }
 
+  // noinspection JSUnusedGlobalSymbols
   delValues(keys) {
     return this.envFunctions.delValues(keys);
   }
 
+  // noinspection JSUnusedGlobalSymbols -- delete? envFunctions.getStorage used only in main.js
   getStorage() {
     return this.envFunctions.getStorage();
   }
@@ -78,6 +81,7 @@ class Common extends Module {
     return this.envFunctions.continueRequest(details);
   }
 
+  // noinspection JSUnusedGlobalSymbols -- delete?
   addHeaderMenu() {
     return this.envFunctions.addHeaderMenu();
   }

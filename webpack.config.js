@@ -2,6 +2,8 @@
 const
   fs = require('fs'),
   path = require('path'),
+  calfinated = require('calfinated')(),
+  packageJson = require('./package.json'),
   webpack = require('webpack'),
   plugins = {
     clean: require('clean-webpack-plugin')
@@ -10,6 +12,9 @@ const
     MONKEY: 'monkey/ESGST.user'
   }
 ;
+
+// noinspection JSUnresolvedVariable -- don't know why
+plugins.banner = webpack.BannerPlugin;
 
 let cfg = {
   mode: 'none',
@@ -37,7 +42,7 @@ let cfg = {
   },
   plugins: [
     new plugins.clean(['build'], {exclude: '.gitignore'}),
-    new webpack.BannerPlugin({
+    new plugins.banner({
       raw: true,
       entryOnly: true,
       banner: context => {
@@ -46,7 +51,7 @@ let cfg = {
           return '';
         }
 
-        return fs.readFileSync(bannerFile, 'utf8');
+        return calfinated.process(fs.readFileSync(bannerFile, 'utf8'), {package: packageJson});
       }
     })
   ]
