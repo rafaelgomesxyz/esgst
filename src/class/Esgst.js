@@ -1,3 +1,4 @@
+import container from '../class/Container';
 import Parsedown from '../lib/parsedown';
 import modules from '../modules';
 
@@ -2002,4 +2003,7 @@ class Esgst {
 }
 
 export {Esgst};
-export default new Esgst;
+
+let esgst = new Esgst;
+export default esgst;
+container.add({esgst});

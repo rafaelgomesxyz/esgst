@@ -1,22 +1,16 @@
 import ButtonSet_v2 from './ButtonSet_v2';
-import {common} from '../modules/Common';
-import esgst from './Esgst';
-
-const
-  {
-    createElements,
-    createOptions,
-    loadMenu,
-    minimizePanel_addItem,
-    minimizePanel_alert,
-    observeChange,
-    observeNumChange,
-    repositionPopups
-  } = common
-;
+import container from './Container';
 
 export default class Popup_v2 {
   constructor(details) {
+    let {
+      createElements,
+      loadMenu,
+      createOptions,
+      observeChange,
+      observeNumChange,
+    } = container.common, {esgst} = container;
+
     this.isCreated = !details.popup;
     this.temp = details.isTemp;
     this.popup = details.popup || createElements(document.body, `beforeEnd`, [{
@@ -162,6 +156,11 @@ export default class Popup_v2 {
     }
   }
   open(callback) {
+    let {
+      createElements,
+      repositionPopups,
+    } = container.common, {esgst} = container;
+
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
     if (esgst.openPopups > 0) {
@@ -198,6 +197,10 @@ export default class Popup_v2 {
     }
   }
   close() {
+    let {
+      minimizePanel_addItem
+    } = container.common, {esgst} = container;
+
     this.modal.remove();
     if (this.isCreated) {
       if (this.temp) {
@@ -219,6 +222,8 @@ export default class Popup_v2 {
     this.isOpen = false;
   }
   reposition() {
+    let {esgst} = container;
+
     if (this.isCreated && this.scrollable) {
       if (esgst.staticPopups) {
         this.scrollable.style.maxHeight = `${ innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
@@ -251,19 +256,19 @@ export default class Popup_v2 {
     button.set.remove();
   }
   setScrollable(html) {
-    createElements(this.scrollable, `beforeEnd`, [{
+    container.common.createElements(this.scrollable, `beforeEnd`, [{
       type: `div`,
       children: html
     }]);
   }
   getScrollable(html) {
-    return createElements(this.scrollable, `beforeEnd`, [{
+    return container.common.createElements(this.scrollable, `beforeEnd`, [{
       type: `div`,
       children: html
     }]);
   }
   setError(message) {
-    createElements(this.progress, `inner`, [{
+    container.common.createElements(this.progress, `inner`, [{
       attributes: {
         class: `fa fa-times-circle`
       },
@@ -277,7 +282,7 @@ export default class Popup_v2 {
     if (this.progressMessage) {
       this.progressMessage.textContent = message;
     } else {
-      createElements(this.progress, `inner`, [{
+      container.common.createElements(this.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -303,6 +308,8 @@ export default class Popup_v2 {
     this.scrollable.innerHTML = ``;
   }
   setDone(temp) {
+    let {minimizePanel_alert} = container.common, {esgst} = container;
+
     this.temp = temp;
     if (esgst.minimizePanel && !this.isOpen) {
       minimizePanel_alert(this);

@@ -48,7 +48,6 @@
 // @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/bootstrap-3.3.7.min.css
 // @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
 // @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/query-builder-2.5.2.min.css
-// @resource sg https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/steamgifts-v34.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==

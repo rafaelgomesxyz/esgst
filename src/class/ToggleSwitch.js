@@ -1,15 +1,8 @@
-import {common} from '../modules/Common';
-import esgst from './Esgst'
-
-const
-  {
-    createElements,
-    setSetting
-  } = common
-;
+import container from './Container';
 
 export default class ToggleSwitch {
   constructor(context, id, inline, name, sg, st, tooltip, value) {
+    let {createElements} = container.common;
     this.dependencies = [];
     this.exclusions = [];
     this.id = id;
@@ -56,6 +49,7 @@ export default class ToggleSwitch {
     this.input.addEventListener(`change`, () => this.change());
   }
   async change(settings) {
+    const {esgst} = container, {createElements, setSetting} = container.common;
     this.value = this.input.checked;
     if (this.id) {
       let key = this.id;
