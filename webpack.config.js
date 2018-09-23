@@ -1,4 +1,3 @@
-// noinspection ES6ConvertRequireIntoImport
 const
   fs = require('fs'),
   path = require('path'),
@@ -15,6 +14,8 @@ const
 
 // noinspection JSUnresolvedVariable -- don't know why
 plugins.banner = webpack.BannerPlugin;
+// noinspection JSUnresolvedVariable
+plugins.provide = webpack.ProvidePlugin;
 
 let cfg = {
   mode: 'none',
@@ -37,6 +38,16 @@ let cfg = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.css$/,
+        loaders: [
+          {
+            loader: 'style-loader',
+            options: { singleton: true }
+          },
+          'css-loader'
+        ]
       }
     ]
   },
@@ -53,9 +64,14 @@ let cfg = {
 
         return calfinated.process(fs.readFileSync(bannerFile, 'utf8'), {package: packageJson});
       }
-    })
+    }),
+    new plugins.provide({
+      '$': 'jquery',
+      'jQuery': 'jquery',
+      'window.jQuery': 'jquery',
+      'window.$': 'jquery'
+    }),
   ]
 };
 
-// noinspection ES6ConvertModuleExportToExport
 module.exports = cfg;

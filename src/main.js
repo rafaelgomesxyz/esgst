@@ -1,5 +1,8 @@
 `use strict`;
 
+// they will append to page in runtime
+import './assets/css/main.css';
+
 import Popup from './class/Popup';
 import Popup_v2 from './class/Popup_v2';
 import {utils} from './lib/jsUtils';

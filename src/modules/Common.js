@@ -1,3 +1,4 @@
+import container from '../class/Container';
 import Module from '../class/Module'
 import ButtonSet from '../class/ButtonSet';
 import ButtonSet_v2 from '../class/ButtonSet_v2';
@@ -14691,5 +14692,7 @@ export default Common;
 
 // Singleton
 let common = new Common;
+
+container.add({common});
 
 export {common};
