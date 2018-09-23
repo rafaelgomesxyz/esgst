@@ -1,9 +1,10 @@
+// TODO: an external project and link it through package.json
 // Parsedown (Javascript version of https://github.com/erusev/parsedown made specifically for SteamGifts)
 // functions taken from http://locutus.io/
 
 function rtrim(string, charList) {
   charList = !charList ? ` \\s\u00A0` : `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `\\$1`);
-  return `${string}`.replace(new RegExp(`[${charList}]+$`, `g`), ``);
+  return `${string}`.replace(new RegExp(`[`+charList+`]+$`, `g`), ``);
 }
 
 function trim(string, charList) {
@@ -129,7 +130,7 @@ variables = {
     [`\\`]: [`EscapeSequence`],
   },
   markupEscaped: false,
-  regexHtmlAttribute: `[a-zA-Z_:][\w:.-]*(?:\s*=\s*(?:[^"\'=<>\`\s]+|"[^"]*"|\'[^\']*\'))?`,
+  regexHtmlAttribute: `[a-zA-Z_:][:.-\\w]*(?:\\s*=\\s*(?:[^"'=<>\`\\s]+|"[^"]*"|'[^']*'))?`,
   specialCharacters: [`\\`, `\``, `*`, `_`, `{`, `}`, `[`, `]`, `(`, `)`, `>`, `#`, `+`, `-`, `.`, `!`, `|`],
   strongRegex: {
     [`*`]: /^[*]{2}((?:\\\\\*|[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/,
@@ -296,7 +297,7 @@ methods = {
     return block;
   },
   blockFencedCode: line => {
-    let matches = line.text.match(new RegExp(`^[${line.text[0]}]{3,}[ ]*([\w-]+)?[ ]*$`));
+    let matches = line.text.match(new RegExp(`^[`+line.text[0]+`]{3,}[ ]*([\\w-]+)?[ ]*$`));
     if (matches) {
       let element = {
         name: `code`,
@@ -443,7 +444,7 @@ methods = {
     }
   },
   blockRule: line => {
-    if (line.text.match(new RegExp(`^([${line.text[0]}])([ ]*\\1){2,}[ ]*$`))) {
+    if (line.text.match(new RegExp(`^([`+line.text[0]+`])([ ]*\\1){2,}[ ]*$`))) {
       return {
         element: {
           name: `hr`
@@ -464,7 +465,7 @@ methods = {
     if (variables.markupEscaped) {
       return;
     }
-    let matches = line.text.match(new RegExp(`^<(\w*)(?:[ ]*${variables.regexHtmlAttribute})*[ ]*(\/)?>`));
+    let matches = line.text.match(new RegExp(`^<(\\w*)(?:[ ]*${variables.regexHtmlAttribute})*[ ]*(/)?>`));
     if (matches) {
       if (variables.textLevelElements.indexOf(matches[1].toLowerCase()) > -1) {
         return;
@@ -485,7 +486,7 @@ methods = {
         if (methods.isSet(matches[2]) || variables.voidElements.indexOf(matches[1]) > -1) {
           return;
         }
-        if (remainder.match(new RegExp(`<\/${matches[1]}>[ ]*$`, `i`))) {
+        if (remainder.match(new RegExp(`</${matches[1]}>[ ]*$`, `i`))) {
           block.closed = true;
         }
       }
@@ -499,7 +500,7 @@ methods = {
     if (line.text.match(new RegExp(`^<${block.name}(?:[ ]*${variables.regexHtmlAttribute})*[ ]*>`, `i`))) {
       block.depth += 1;
     }
-    let matches = line.text.match(new RegExp(`(.*?)<\/${block.name}>[ ]*$`, `i`));
+    let matches = line.text.match(new RegExp(`(.*?)</${block.name}>[ ]*$`, `i`));
     if (matches) {
       if (block.depth > 0) {
         block.depth -= 1;
@@ -515,7 +516,7 @@ methods = {
     return block;
   },
   blockReference: line=> {
-    let matches = line.text.match(/^\[(.+?)\]:[ ]*<?(\S+?)>?(?:[ ]+["\'(](.+)["\')])?[ ]*$/);
+    let matches = line.text.match(/^\[(.+?)]:[ ]*<?(\S+?)>?(?:[ ]+["'(](.+)["')])?[ ]*$/);
     if (matches) {
       let data = {
         title: null,
@@ -636,7 +637,7 @@ methods = {
   line: text => {
     let excerpt, i, inline, inlineType, marker, markerPosition, markup, n;
     markup = ``;
-    main: while (excerpt = strpbrk(text, variables.inlineMarkerList)) {
+    main: while (excerpt = strpbrk(text, variables.inlineMarkerList)) { // eslint-disable-line
       marker = excerpt[0];
       markerPosition = text.indexOf(marker);
       excerpt = {
@@ -706,7 +707,7 @@ methods = {
     marker = excerpt.text[0];
     if (excerpt.text[1] === marker && (matches = excerpt.text.match(variables.strongRegex[marker]))) {
       emphasis = `strong`;
-    } else if (matches = excerpt.text.match(variables.emRegex[marker])) {
+    } else if (matches = excerpt.text.match(variables.emRegex[marker])) { // eslint-disable-line
       emphasis = `em`;
     } else {
       return;
@@ -771,9 +772,9 @@ methods = {
     };
     extent = 0;
     remainder = excerpt.text;
-    matches = remainder.match(/\[(.*?)\]/);
+    matches = remainder.match(/\[(.*?)]/);
     if (matches) {
-      matches = matches[0].match(/\[(?:(.*\[)*)(.*?)\]/); // original regex: /\[((?:[^][]++|(?R))*+)\]/
+      matches = matches[0].match(/\[(?:(.*\[)*)(.*?)]/); // original regex: /\[((?:[^][]++|(?R))*+)\]/
       if (matches) {
         element.text = matches[2];
         extent += strlen(matches[2]) + 2;
@@ -792,7 +793,7 @@ methods = {
       }
       extent += strlen(matches[0]);
     } else {
-      matches = remainder.match(/^\s*\[(.*?)\]/);
+      matches = remainder.match(/^\s*\[(.*?)]/);
       let definition;
       if (matches) {
         definition = (strlen(matches[1]) ? matches[1] : element.text).toLowerCase();
@@ -831,7 +832,7 @@ methods = {
         markup: matches[0],
       };
     }
-    matches = excerpt.text.match(new RegExp(`^<\w*(?:[ ]*${variables.regexHtmlAttribute})*[ ]*\/?>`));
+    matches = excerpt.text.match(new RegExp(`^<\\w*(?:[ ]*${variables.regexHtmlAttribute})*[ ]*/?>`));
     if (excerpt.text[1] !== ` ` && matches) {
       return {
         extent: strlen(matches[0]),
@@ -869,7 +870,7 @@ methods = {
     } else if ((matches = excerpt.text.match(/^~~([^~]+?)(~+)/)) && matches[2].length === 2) {
         name = `del`;
         text = matches[1];
-    } else if (matches = excerpt.text.match(/^~~~([^~]+?)(~+)/)) {
+    } else if (matches = excerpt.text.match(/^~~~([^~]+?)(~+)/)) { // eslint-disable-line
       switch (matches[2].length) {
         case 3:
           name = `span`;
@@ -915,7 +916,7 @@ methods = {
     if (variables.urlsLinked !== true || ! methods.isSet(excerpt.text[2]) || excerpt.text[2] !== `/`) {
       return;
     }
-    let match = /\bhttps?:[\/]{2}[^\s<]+\b\/*/ui.exec(excerpt.context);
+    let match = /\bhttps?:[/]{2}[^\s<]+\b\/*/ui.exec(excerpt.context);
     if (match) {
       return {
         element: {
@@ -988,7 +989,7 @@ methods = {
     return markup;
   },
   li: lines => {
-    let markup, trimmedMarkup;
+    let markup, trimmedMarkup, i;
     markup = methods.lines(lines);
     trimmedMarkup = trim(markup);
     if (lines.indexOf(``) < 0 && trimmedMarkup.slice(0, 3) === `<p>`) {

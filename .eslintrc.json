@@ -4,7 +4,8 @@
     "greasemonkey": true,
     "es6": true,
     "jquery": true,
-    "webextensions": true
+    "webextensions": true,
+    "node": true
   },
   "extends": "eslint:recommended",
   "parser": "babel-eslint",
