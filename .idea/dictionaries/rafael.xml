@@ -10,12 +10,18 @@
       <w>apphub</w>
       <w>appid</w>
       <w>appids</w>
+      <w>applist</w>
+      <w>arrowdown</w>
+      <w>arrowleft</w>
+      <w>arrowright</w>
+      <w>arrowup</w>
       <w>autocomplete</w>
       <w>avatarsize</w>
       <w>barthélemy</w>
       <w>beforeend</w>
       <w>beforeunload</w>
       <w>bento</w>
+      <w>bestof</w>
       <w>binarystring</w>
       <w>biohazard</w>
       <w>birthtime</w>
@@ -74,6 +80,7 @@
       <w>fmph</w>
       <w>fontawesome</w>
       <w>frameborder</w>
+      <w>fullgame</w>
       <w>functionalities</w>
       <w>futuna</w>
       <w>gamepad</w>
@@ -111,6 +118,7 @@
       <w>kitts</w>
       <w>kosovo</w>
       <w>lanka</w>
+      <w>lastbundled</w>
       <w>leste</w>
       <w>maarten</w>
       <w>macau</w>
@@ -164,6 +172,7 @@
       <w>parsedown</w>
       <w>patreon</w>
       <w>paypal</w>
+      <w>playerstats</w>
       <w>playtimes</w>
       <w>pnot</w>
       <w>popout</w>
@@ -223,10 +232,12 @@
       <w>tradies</w>
       <w>ttec</w>
       <w>ttpcc</w>
+      <w>umble</w>
       <w>unbookmark</w>
       <w>unbookmarking</w>
       <w>uncategorized</w>
       <w>undelete</w>
+      <w>undle</w>
       <w>unfade</w>
       <w>unfaded</w>
       <w>unfilter</w>

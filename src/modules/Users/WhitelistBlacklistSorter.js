@@ -1,6 +1,5 @@
-
 import Module from '../../class/Module';
-import Popup from "../../class/Popup";
+import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -14,7 +13,9 @@ const
     getTimestamp,
     endless_load,
     request,
-    createLock
+    createLock,
+    getValue,
+    setValue
   } = common
 ;
 

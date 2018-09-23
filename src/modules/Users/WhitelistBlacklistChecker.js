@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
-import ButtonSet from "../../class/ButtonSet";
-import Popup from "../../class/Popup";
-import ToggleSwitch from "../../class/ToggleSwitch";
+import ButtonSet from '../../class/ButtonSet';
+import Popup from '../../class/Popup';
+import ToggleSwitch from '../../class/ToggleSwitch';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -21,7 +21,8 @@ const
     saveUser,
     getUserId,
     request,
-    getTimestamp
+    getTimestamp,
+    getValue
   } = common
 ;
 

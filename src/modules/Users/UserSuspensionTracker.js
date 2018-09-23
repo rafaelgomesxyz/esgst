@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import Checkbox from "../../class/Checkbox";
-import Popup from "../../class/Popup";
+import Checkbox from '../../class/Checkbox';
+import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -11,7 +11,10 @@ const
   {
     createHeadingButton,
     createElements,
-    request
+    request,
+    getFeatureTooltip,
+    getValue,
+    setValue
   } = common
 ;
 

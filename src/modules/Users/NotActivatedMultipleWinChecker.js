@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from "../../class/ButtonSet_v2";
-import Popup from "../../class/Popup";
+import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -10,6 +10,7 @@ const
     parseHtml
   } = utils,
   {
+    createOptions,
     getTimestamp,
     getValue,
     createHeadingButton,
@@ -19,7 +20,8 @@ const
     getUser,
     saveUser,
     saveUsers,
-    getSuspensions
+    getSuspensions,
+    request
   } = common
 ;
 

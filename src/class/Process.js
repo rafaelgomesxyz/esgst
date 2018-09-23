@@ -1,11 +1,17 @@
-import Popup_v2 from "./Popup_v2";
+import Popup_v2 from './Popup_v2';
+import {utils} from '../lib/jsUtils';
 import {common} from '../modules/Common';
-import esgst from "./Esgst";
+import esgst from './Esgst';
 
 const
   {
+    parseHtml
+  } = utils,
+  {
     createElements,
-    createHeadingButton
+    createHeadingButton,
+    endless_load,
+    request
   } = common
 ;
 
@@ -148,7 +154,7 @@ export default class Process {
       let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
       let responseHtml = parseHtml(response.responseText);
       if (details.source && details.nextPage === backup) {
-        details.lastPage = lpl_getLastPage(responseHtml, false, details.source);
+        details.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.source);
         details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
       }
       stop = await details.request(this, details, response, responseHtml);
