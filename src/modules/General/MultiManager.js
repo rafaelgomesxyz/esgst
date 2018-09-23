@@ -1010,6 +1010,7 @@ class GeneralMultiManager extends Module {
         newItems[item.code].count = item.count;
       }
       item.gdtttButton.callbacks[0]();
+      // noinspection JSIgnoredPromiseFromCall
       item.gdtttButton.change(null, 2);
     });
     await lockAndSaveDiscussions(newItems);
@@ -1025,6 +1026,7 @@ class GeneralMultiManager extends Module {
         lastUsed: Date.now()
       };
       item.gdtttButton.callbacks[2]();
+      // noinspection JSIgnoredPromiseFromCall
       item.gdtttButton.change(null, 0);
     });
     await lockAndSaveDiscussions(newItems);
