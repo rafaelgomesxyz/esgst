@@ -1,9 +1,6 @@
 import Parsedown from '../lib/parsedown';
 import modules from '../modules';
 
-/**
- * @type {Esgst}
- */
 class Esgst {
   urlr;
 
@@ -14,6 +11,19 @@ class Esgst {
 
   windowEvents = {};
 
+  /**
+  * @property {string} level_min
+  * @property {string} level_max
+  * @property {string} entry_min
+  * @property {string} entry_max
+  * @property {string} copy_min
+  * @property {string} copy_max
+  * @property {string} point_min
+  * @property {string} point_max
+  * @property {string} release_date_min
+  * @property {string} release_date_max
+  * @property {string} region_restricted
+  */
   parameters = {};
 
   defaultValues = {
@@ -629,7 +639,7 @@ class Esgst {
   edited = {};
   games = [];
 
-  /** @type {HTMLElement} */
+  /** @type {Element} */
   minimizeList;
 
   /** @type {HTMLElement} */
@@ -655,7 +665,9 @@ class Esgst {
   /** @type {string[]} */
   leftButtonIds;
 
-  /** @type {EsgstStorage} */
+  /**
+   * @type {EsgstStorage}
+   */
   storage;
 
   /** @type {EsgstSettings} */
@@ -753,10 +765,10 @@ class Esgst {
   /** @type {string} */
   pageHeadingBreadcrumbsClass;
 
-  /** @type {string} */
+  /** @type {HTMLElement} */
   footer;
 
-  /** @type {string} */
+  /** @type {HTMLElement} */
   replyBox;
 
   /** @type {string} */
@@ -771,7 +783,7 @@ class Esgst {
   /** @type {string} */
   selectedClass;
 
-  /** @type {string} */
+  /** @type {number} */
   currentPage;
 
   /** @type {string} */
@@ -1229,7 +1241,6 @@ class Esgst {
   /** @type {HTMLElement} */
   ustButton;
 
-
   modules;
 
   ch;
@@ -1249,6 +1260,666 @@ class Esgst {
   namwc;
 
   gv;
+
+  codb;
+
+  ttpcc;
+
+  gch;
+
+  gm_enable;
+
+  tb_a;
+
+  qgs;
+
+  adots_index;
+
+  ags_app;
+
+  ags_sub;
+
+  as_searchAppId;
+
+  gf;
+
+  ggl;
+
+  elgb_p;
+
+  level;
+
+  hgebd;
+
+  pointsContainer;
+
+  et;
+
+  points;
+
+  gv_gb;
+
+  gv_ged;
+
+  gv_ge;
+
+  elgb_d;
+
+  elgb_r;
+
+  elgb_c;
+
+  elgb_f;
+
+  cfh;
+
+  elgb_filters;
+
+  hr;
+
+  egh;
+
+  gb;
+
+  ttec;
+
+  at_24;
+
+  at_s;
+
+  gb_ue;
+
+  gb_se;
+
+  gb_h;
+
+  gb_u;
+
+  gb_hours;
+
+  gb_t;
+
+  es_gb;
+
+  gas;
+
+  gcl_index;
+
+  ged_t;
+
+  es_ged;
+
+  decryptedGiveaways;
+
+  gf_presetGed;
+
+  gf_presets;
+
+  ged_b;
+
+  giveawayHeading;
+
+  giveawayHeading_gv;
+
+  giveawayLinks;
+
+  giveawayLinks_gv;
+
+  gfPopup;
+
+  gc_categories_ids;
+
+  gc_fLabel;
+
+  gc_fIcon;
+
+  pointsPlayer;
+
+  inboxPlayer;
+
+  wishlistPlayer;
+
+  wonPlayer;
+
+  giveawayErrorButton;
+
+  elgb_r_d;
+
+  gf_m;
+
+  geth_colors;
+
+  es_ge;
+
+  ge_sgt;
+
+  ge_o;
+
+  gf_s;
+
+  hideButtons_gf;
+
+  gf_os;
+
+  gf_alreadyOwned;
+
+  gf_dlcMissingBase;
+
+  gf_aboveLevel;
+
+  gf_manuallyFiltered;
+
+  gwc;
+
+  gwr;
+
+  gptw;
+
+  ge;
+
+  ggl_index;
+
+  filter_os;
+
+  filter_giveaways_exist_in_account;
+
+  filter_giveaways_missing_base_game;
+
+  filter_giveaways_level;
+
+  filter_giveaways_additional_games;
+
+  gcToFetch;
+
+  gc;
+
+  ggl_m;
+
+  gptw_e;
+
+  gptw_colors;
+
+  gts_preciseStart;
+
+  gts_preciseEnd;
+
+  gts_preciseStartDate;
+
+  gts_preciseEndDate;
+
+  mgc_createTrain;
+
+  mgc_removeLinks;
+
+  mgc_createTrainSwitch;
+
+  mgc_removeLinksSwitch;
+
+  gwc_e;
+
+  gwc_a;
+
+  gwc_colors;
+
+  gwc_h;
+
+  gwr_e;
+
+  gwr_a;
+
+  gwr_colors;
+
+  gwr_h;
+
+  gv_spacing;
+
+  lockGiveawayColumns;
+
+  hgr_removeOwned;
+
+  npth_previousKey;
+
+  npth_nextKey;
+
+  ochgb_f;
+
+  qgs_h;
+
+  sks_exportKeys;
+
+  sks_searchCurrent;
+
+  sks_minDate;
+
+  sks_maxDate;
+
+  sks_limitDate;
+
+  sks_minPage;
+
+  sks_maxPage;
+
+  sks_limitPages;
+
+  ge_sgt_l;
+
+  ap;
+
+  gwc_a_b;
+
+  gwr_a_b;
+
+  mgc_bumpLast;
+
+  mgc_groupKeys;
+
+  mgc_groupAllKeys;
+
+  mgc_reversePosition;
+
+  cewgd;
+
+  lpv;
+
+  rcvc;
+
+  sal;
+
+  ef;
+
+  sal_index;
+
+  ugs_checkRules;
+
+  ugs_checkMember;
+
+  ugs_difference;
+
+  ugs_checkDifference;
+
+  ugs_checkWhitelist;
+
+  ugs_checkBlacklist;
+
+  createdButton;
+
+  rerolls;
+
+  ge_sgt_limit;
+
+  aicButton;
+
+  aicPrevious;
+
+  aicNext;
+
+  aic_b;
+
+  ail;
+
+  qiv;
+
+  vai;
+
+  ap_index;
+
+  registrationDate;
+
+  cdr_b;
+
+  cdr_d;
+
+  cdr_days;
+
+  chfl_key;
+
+  ef_filters;
+
+  es_pd;
+
+  es_r;
+
+  lastPageLink;
+
+  es_refresh;
+
+  es_refreshAll;
+
+  es_cl;
+
+  stopEs;
+
+  cr;
+
+  cf;
+
+  ts;
+
+  ct_s;
+
+  gdttt_g;
+
+  hr_b;
+
+  audioContext;
+
+  mainButton;
+
+  inboxButton;
+
+  hr_minutes;
+
+  nm;
+
+  pv;
+
+  hr_g;
+
+  messageCountContainer;
+
+  messageCount;
+
+  hr_m;
+
+  hw_w;
+
+  hr_p;
+
+  hr_fp;
+
+  wishlistNew;
+
+  hr_fp_s;
+
+  hr_m_n_s;
+
+  hr_w_n_s;
+
+  hr_g_n_s;
+
+  hr_c;
+
+  hr_a;
+
+  hr_a_r;
+
+  lastPage;
+
+  levelContainer;
+
+  lpvStyle;
+
+  mm_enableGames;
+
+  ged;
+
+  df_s;
+
+  dh;
+
+  gdttt;
+
+  ut;
+
+  mm_useRegExp;
+
+  altInboxButton;
+
+  pvStyle;
+
+  stbb_index;
+
+  es;
+
+  sttb_index;
+
+  sk_cp;
+
+  sk_sb;
+
+  sk_fp;
+
+  sk_pp;
+
+  sk_np;
+
+  sk_lp;
+
+  sk_tf;
+
+  sk_hg;
+
+  sk_hga;
+
+  sk_ge;
+
+  sk_c;
+
+  sk_rb;
+
+  sk_ru;
+
+  sk_sr;
+
+  us;
+
+  vai_gifv;
+
+  es_pages;
+
+  qiv_p;
+
+  hr_p_format;
+
+  hr_m_n;
+
+  hr_g_n;
+
+  hr_w;
+
+  hr_a_a;
+
+  altMessageCount;
+
+  sk_closePopups;
+
+  sk_searchBox;
+
+  sk_firstPage;
+
+  sk_previousPage;
+
+  sk_nextPage;
+
+  sk_lastPage;
+
+  sk_toggleFilters;
+
+  sk_hideGame;
+
+  sk_hideGiveaway;
+
+  sk_giveawayEntry;
+
+  sk_creator;
+
+  sk_replyBox;
+
+  sk_replyUser;
+
+  sk_submitReply;
+
+  hr_w_n;
+
+  mm_enable;
+
+  es_loadNext;
+
+  hr_w_h;
+
+  mm_disable;
+
+  wishlist;
+
+  hr_w_hours;
+
+  gc_si;
+
+  gc_g_udt;
+
+  gc_lr;
+
+  gc_rt;
+
+  gc_b;
+
+  gc_ncv_o;
+
+  gc_hltb_index_0;
+
+  gc_hltb_index_1;
+
+  gc_hltb_index_2;
+
+  gc_f_s;
+
+  gc_pw_o;
+
+  gc_r_s;
+
+  gc_dlc_o;
+
+  gc_dlc_b;
+
+  gc_rdLabel;
+
+  gc_categories_gv;
+
+  gc_il;
+
+  gc_f_s_i;
+
+  gc_g_s;
+
+  gc_lp;
+
+  gc_lp_gv;
+
+  oadd;
+
+  oadd_d;
+
+  mpp_r;
+
+  ds_auto;
+
+  ds_option;
+
+  ct;
+
+  rfi_c;
+
+  cerb_a;
+
+  cerbButtons;
+
+  cf_m;
+
+  hideButtons_cf;
+
+  cfhEmojis;
+
+  cfh_pasteFormatting;
+
+  cfh_cf;
+
+  cfh_p;
+
+  cfh_img_remember;
+
+  cs_minPage;
+
+  cs_maxPage;
+
+  cs_limitPages;
+
+  ct_s_h;
+
+  ct_c;
+
+  ct_o;
+
+  ctGoToUnread;
+
+  ct_f;
+
+  ct_r;
+
+  mr;
+
+  rfi;
+
+  at;
+
+  rfi_s;
+
+  ct_a;
+
+  ctUnreadFound;
+
+  ged_addIcons;
+
+  cfh_p_a;
+
+  ctNewTab;
+
+  mm_enableUsers;
+
+  updateWhitelistBlacklist;
+
+  mm_enableGiveaways;
+
+  gch_colors;
+
+  gp;
+
+  elgb;
+
+  ge_b;
+
+  ge_p;
+
+  ge_g;
+
+  gr;
+
+  gr_r;
+
+  gc_categories;
+
+  ds;
+
+  mm_enableDiscussions;
+
+  dh_t;
+
+  pm;
+
+  uf_d;
+
+  uf_p;
+
+  pm_a;
+
+  gr_a;
+
+  toDismiss;
+
+  syncFollowedGames;
+
+  gc_f;
+
+  draggable;
 
   constructor() {
     this.modules = modules;

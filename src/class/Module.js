@@ -1,7 +1,4 @@
-/**
- * module interface
- * @type {Module}
- */
+/** module interface */
 export default class Module {
   /** @type {Esgst} */
   esgst;

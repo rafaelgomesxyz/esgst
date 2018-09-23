@@ -712,7 +712,11 @@ class GiveawaysUnsentGiftSender extends Module {
         type: `span`
       }]);
       ugs.overallProgress.textContent = ``;
-      await Promise.all([setValue(`winners`, JSON.stringify(winners)), saveUsers(savedUsers), setValue(`groups`, JSON.stringify(this.esgst.groups))]);
+      await Promise.all([
+        setValue(`winners`, JSON.stringify(winners)),
+        saveUsers(savedUsers),
+        setValue(`groups`, JSON.stringify(this.esgst.groups))
+      ]);
       ugs.button.classList.remove(`esgst-busy`);
       ugs.progress.innerHTML = ``;
     } else {

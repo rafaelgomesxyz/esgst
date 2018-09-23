@@ -180,7 +180,7 @@ class GeneralEndlessScrolling extends Module {
 
       if (entry.target.classList.contains(`pagination`)) {
         if (entry.isIntersecting) {
-          this.esgst.pagination.setAttribute(`data-esgst-intersecting`, true);
+          this.esgst.pagination.setAttribute(`data-esgst-intersecting`, `true`);
           this.esgst.es_loadNext(null, true);
         } else {
           this.esgst.pagination.removeAttribute(`data-esgst-intersecting`);

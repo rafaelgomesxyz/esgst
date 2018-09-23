@@ -814,6 +814,10 @@ class Tags extends Module {
     obj.selectedTags.splice(obj.selectedTags.indexOf(tag), 1);
   }
 
+  /**
+   * @param {tagsObj} obj
+   * @param event
+   */
   tags_addSuggestion(obj, event) {
     obj.tags.innerHTML = ``;
     const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);

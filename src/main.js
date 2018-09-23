@@ -1262,6 +1262,7 @@ import Popup_v2 from "./class/Popup_v2";
     esgst.features = common.getFeatures();
     for (let type in esgst.features) {
       for (let id in esgst.features[type].features) {
+        common.dismissFeature(esgst.features[type].features[id], id);
         common.getFeatureSetting(esgst.features[type].features[id], id);
       }
     }

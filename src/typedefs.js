@@ -1,43 +1,4 @@
 /**
- * @typedef {Object} Module
- * @property {Esgst} esgst
- */
-
-/**
- * @typedef {Object} Esgst
- * @property {boolean} codb
- * @property {boolean} radb
- * @property {boolean} ttpcc
- * @property {boolean} gch
- * @property {boolean} gm_enable
- * @property {string[]} giveawayHeading
- * @property {string[]} giveawayHeading_gv
- * @property {string[]} giveawayLinks
- * @property {string[]} giveawayLinks_gv
- * @property {Popup} gfPopup
- * @property {string[]} gc_categories_ids
- * @property {string} gc_fLabel
- * @property {string} gc_fIcon
- * @property {Object} pointsPlayer
- * @property {Object} inboxPlayer
- * @property {Object} wishlistPlayer
- * @property {Object} wonPlayer
- * @property {Object} parameters
- * @property {string} parameters.level_min
- * @property {string} parameters.level_max
- * @property {string} parameters.entry_min
- * @property {string} parameters.entry_max
- * @property {string} parameters.copy_min
- * @property {string} parameters.copy_max
- * @property {string} parameters.point_min
- * @property {string} parameters.point_max
- * @property {string} parameters.release_date_min
- * @property {string} parameters.release_date_max
- * @property {string} parameters.region_restricted
- * @property {HTMLElement} giveawayErrorButton
- */
-
-/**
  * @typedef {Object} MR
  * @property {HTMLElement} Context
  * @property {HTMLElement} Comment
@@ -187,7 +148,7 @@
  */
 
 /**
- * @typedef {Object} SuspensionsApiReponse
+ * @typedef {Object} SuspensionsApiResponse
  * @property {number[]} suspensions
  */
 
@@ -257,6 +218,10 @@
  * @typedef {Object} EsgstStorage
  * @property {boolean} patreonNotice
  * @property {string} tickets
+ * @property {string} groups
+ * @property {string} rerolls
+ * @property {string} stickiedCountries
+ * @property {string} discussions
  */
 
 /**
@@ -287,6 +252,7 @@
  * @property {boolean} syncReducedCvGames
  * @property {boolean} syncGiveaways
  * @property {boolean} syncGames
+ * @property {boolean} syncFollowedGames
  * @property {boolean} syncNoCvGames
  * @property {boolean} syncHltbTimes
  * @property {boolean} importAndMerge
@@ -332,6 +298,7 @@
  * @property ReducedCvGames
  * @property NoCvGames
  * @property HltbTimes
+ * @property FollowedGames
  *
  */
 
@@ -356,4 +323,12 @@
  * @typedef {Object} EsgstHidingGame
  * @property {number} id
  * @property {string} type
+ */
+
+/**
+ * @typedef {Object} tagsObj
+ * @property {HTMLElement} input
+ * @property {string} input.value
+ * @property {HTMLElement} tags
+ * @property {HTMLElement} suggestions
  */

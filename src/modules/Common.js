@@ -1,11 +1,11 @@
 import Module from '../class/Module'
+import ButtonSet from "../class/ButtonSet";
+import ButtonSet_v2 from "../class/ButtonSet_v2";
 import Popout from '../class/Popout';
 import Popup from '../class/Popup';
 import Popup_v2 from '../class/Popup_v2';
 import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
-import ButtonSet from "../class/ButtonSet";
-import ButtonSet_v2 from "../class/ButtonSet_v2";
 
 /**
  * @property {EnvironmentFunctions} envFunctions
@@ -14,7 +14,10 @@ import ButtonSet_v2 from "../class/ButtonSet_v2";
 
 const
   {
-    isSet
+    formatDate,
+    isSet,
+    parseHtml,
+    sortArray
   } = utils
 ;
 
@@ -40,43 +43,43 @@ class Common extends Module {
   }
 
   setValue(key, value) {
-    return this.envFunctions.this.setValue(key, value);
+    return this.envFunctions.setValue(key, value);
   }
 
   setValues(values) {
-    return this.envFunctions.this.setValues(values);
+    return this.envFunctions.setValues(values);
   }
 
   getValue(key, value) {
-    return this.envFunctions.this.getValue(key, value);
+    return this.envFunctions.getValue(key, value);
   }
 
   getValues(values) {
-    return this.envFunctions.this.getValues(values);
+    return this.envFunctions.getValues(values);
   }
 
   delValue(key) {
-    return this.envFunctions.this.delValue(key);
+    return this.envFunctions.delValue(key);
   }
 
   delValues(keys) {
-    return this.envFunctions.this.delValues(keys);
+    return this.envFunctions.delValues(keys);
   }
 
   getStorage() {
-    return this.envFunctions.this.getStorage();
+    return this.envFunctions.getStorage();
   }
 
   notifyNewVersion(version) {
-    return this.envFunctions.this.notifyNewVersion(version);
+    return this.envFunctions.notifyNewVersion(version);
   }
 
   continueRequest(details) {
-    return this.envFunctions.this.continueRequest(details);
+    return this.envFunctions.continueRequest(details);
   }
 
   addHeaderMenu() {
-    return this.envFunctions.this.addHeaderMenu();
+    return this.envFunctions.addHeaderMenu();
   }
 
   minimizePanel_add() {
@@ -279,9 +282,9 @@ class Common extends Module {
       this.esgst.hiddenClass = `is_hidden`;
       this.esgst.selectedClass = `is_selected`;
     }
-    this.esgst.currentPage = location.href.match(/page=(\d+)/);
-    if (this.esgst.currentPage) {
-      this.esgst.currentPage = parseInt(this.esgst.currentPage[1]);
+    const pageMatch = location.href.match(/page=(\d+)/);
+    if (pageMatch) {
+      this.esgst.currentPage = parseInt(pageMatch[1]);
     } else {
       this.esgst.currentPage = 1;
     }
@@ -290,7 +293,7 @@ class Common extends Module {
     this.esgst.favicon = document.querySelector(`[rel="shortcut icon"]`);
     this.esgst.originalTitle = document.title;
     if (this.esgst.mainPath) {
-      url += this.this.esgst.sg ? `giveaways` : `trades`;
+      url += this.esgst.sg ? `giveaways` : `trades`;
     }
     url += `/search?`;
     let parameters = location.search.replace(/^\?/, ``).split(/&/);
@@ -320,6 +323,7 @@ class Common extends Module {
     if (this.esgst.sidebar) {
       this.esgst.enterGiveawayButton = this.esgst.sidebar.getElementsByClassName(`sidebar__entry-insert`)[0];
       this.esgst.leaveGiveawayButton = this.esgst.sidebar.getElementsByClassName(`sidebar__entry-delete`)[0];
+      this.esgst.giveawayErrorButton = this.esgst.sidebar.getElementsByClassName(`sidebar__error`)[0];
     }
     this.esgst.activeDiscussions = document.querySelector(`.widget-container--margin-top:last-of-type`);
     this.esgst.pinnedGiveaways = document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
@@ -391,7 +395,8 @@ class Common extends Module {
         }]
       }]);
       if (this.esgst.addNoCvGames) {
-        this.addNoCvGames(games).then(() => {});
+        // noinspection JSIgnoredPromiseFromCall
+        this.addNoCvGames(games);
       } else {
         this.esgst.noCvButton.firstElementChild.addEventListener(`click`, this.addNoCvGames.bind(null, games));
       }
@@ -412,10 +417,14 @@ class Common extends Module {
     }]);
     await this.request({data: JSON.stringify(games), method: `POST`, url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`});
     for (let id in games.apps) {
-      delete games.apps[id].name;
+      if (games.apps.hasOwnProperty(id)) {
+        delete games.apps[id].name;
+      }
     }
     for (let id in games.subs) {
-      delete games.subs[id].name;
+      if (games.subs.hasOwnProperty(id)) {
+        delete games.subs[id].name;
+      }
     }
     await this.lockAndSaveGames(games);
     button.remove();
@@ -467,7 +476,7 @@ class Common extends Module {
     if (this.esgst.sg) {
       if (response.redirected && url === response.finalUrl) {
         let id;
-        let responseHtml = this.parseHtml(response.responseText);
+        let responseHtml = parseHtml(response.responseText);
         if (parentId) {
           id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
         } else {
@@ -475,6 +484,7 @@ class Common extends Module {
           id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
         }
         if (this.esgst.ch) {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
         }
         if (mainCallback) {
@@ -492,7 +502,7 @@ class Common extends Module {
       } else if (url !== response.finalUrl) {
         response = await this.request({data, method: `POST`, url: response.finalUrl});
         let id;
-        let responseHtml = this.parseHtml(response.responseText);
+        let responseHtml = parseHtml(response.responseText);
         if (parentId) {
           id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
         } else {
@@ -500,6 +510,7 @@ class Common extends Module {
           id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
         }
         if (this.esgst.ch) {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
         }
         if (mainCallback) {
@@ -535,9 +546,10 @@ class Common extends Module {
     } else {
       let responseJson = JSON.parse(response.responseText);
       if (responseJson.success) {
-        let responseHtml = this.parseHtml(responseJson.html);
+        let responseHtml = parseHtml(responseJson.html);
         let id = responseHtml.getElementsByClassName(`comment_outer`)[0].id;
         if (this.esgst.ch) {
+          // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
         }
         if (mainCallback) {
@@ -1123,9 +1135,9 @@ class Common extends Module {
         type: `node`
       }, {
         attributes: {
-          href: `https://www.patreon.com/revilheart`
+          href: `https://www.patreon.com/gsrafael01`
         },
-        text: `https://www.patreon.com/revilheart`,
+        text: `https://www.patreon.com/gsrafael01`,
         type: `a`
       }], true);
       popup.onClose = setValue.bind(null, `patreonNotice`, true);
@@ -1137,6 +1149,9 @@ class Common extends Module {
     if (this.esgst.version !== this.esgst.currentVersion) {
       if (typeof this.esgst.version === `undefined`) {
         this.esgst.firstInstall = true;
+        // noinspection JSIgnoredPromiseFromCall
+        this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
+        this.esgst.dismissedOptions = this.esgst.toDismiss;
         let popup = new Popup(`fa-smile-o`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
@@ -1179,7 +1194,7 @@ class Common extends Module {
     }
     if (!this.esgst.settings.groupPopupDismissed) {
       let i;
-      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--);
+      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--) {}
       if (i < 0 || !this.esgst.groups[i] || !this.esgst.groups[i].member) {
         let popup = new Popup(`fa-steam`, [{
           text: `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the `,
@@ -1255,17 +1270,21 @@ class Common extends Module {
           if (ugd) {
             if (ugd.sent) {
               for (key in ugd.sent.apps) {
-                giveaways.sent.apps[key] = [];
-                for (i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
-                  ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
-                  giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
+                if (ugd.sent.apps.hasOwnProperty(key)) {
+                  giveaways.sent.apps[key] = [];
+                  for (i = 0, n = ugd.sent.apps[key].length; i < n; ++i) {
+                    ggiveaways[ugd.sent.apps[key][i].code] = ugd.sent.apps[key][i];
+                    giveaways.sent.apps[key].push(ugd.sent.apps[key][i].code);
+                  }
                 }
               }
               for (key in ugd.sent.subs) {
-                giveaways.sent.subs[key] = [];
-                for (i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
-                  ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
-                  giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
+                if (ugd.sent.subs.hasOwnProperty(key)) {
+                  giveaways.sent.subs[key] = [];
+                  for (i = 0, n = ugd.sent.subs[key].length; i < n; ++i) {
+                    ggiveaways[ugd.sent.subs[key][i].code] = ugd.sent.subs[key][i];
+                    giveaways.sent.subs[key].push(ugd.sent.subs[key][i].code);
+                  }
                 }
               }
               giveaways.sentTimestamp = ugd.sentTimestamp;
@@ -1432,7 +1451,7 @@ class Common extends Module {
       if (button) {
         let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
         button.parentElement.insertBefore(button, leftHidden || !this.esgst.hideButtons || this.esgst[key] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
-        button.setAttribute(`draggable`, true);
+        button.setAttribute(`draggable`, `true`);
         button.addEventListener(`dragstart`, event => {
           event.dataTransfer.setData(`text/plain`, ``);
           source = button;
@@ -1488,7 +1507,7 @@ class Common extends Module {
         } else {
           button.parentElement.insertBefore(button, button.parentElement.lastElementChild);
         }
-        button.setAttribute(`draggable`, true);
+        button.setAttribute(`draggable`, `true`);
         button.addEventListener(`dragstart`, event => {
           event.dataTransfer.setData(`text/plain`, ``);
           source = button;
@@ -1704,6 +1723,26 @@ class Common extends Module {
       }
     }
     return setting;
+  }
+
+  dismissFeature(feature, id) {
+    this.esgst.toDismiss.push(id);
+    if (id.match(/^(chfl|sk_)/)) {
+      this.esgst.toDismiss.push(feature.inputItems);
+    }
+    if (id.match(/^hr_.+_s$/)) {
+      this.esgst.toDismiss.push(`${id}_sound`);
+    }
+    if (Array.isArray(feature.inputItems)) {
+      for (const item of feature.inputItems) {
+        this.esgst.toDismiss.push(item.id);
+      }
+    }
+    if (feature.features) {
+      for (const subId in feature.features) {
+        this.dismissFeature(feature.features[subId], subId);
+      }
+    }
   }
 
   getFeatureSetting(feature, id) {
@@ -1943,7 +1982,7 @@ class Common extends Module {
     let match, response, responseHtml;
     response = await this.request({method: `GET`, url: `https://www.steamgifts.com/go/user/${user.steamId}`});
     match = response.finalUrl.match(/\/user\/(.+)/);
-    responseHtml = this.parseHtml(response.responseText);
+    responseHtml = parseHtml(response.responseText);
     if (match) {
       user.username = match[1];
       let input = responseHtml.querySelector(`[name="child_user_id"]`);
@@ -1973,7 +2012,7 @@ class Common extends Module {
         return;
       }
     }
-    responseHtml = this.parseHtml((await this.request({method: `GET`, url: `https://www.steamgifts.com/user/${user.username}`})).responseText);
+    responseHtml = parseHtml((await this.request({method: `GET`, url: `https://www.steamgifts.com/user/${user.username}`})).responseText);
     user.steamId = responseHtml.querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
     input = responseHtml.querySelector(`[name="child_user_id"]`);
     if (input) {
@@ -2074,7 +2113,7 @@ class Common extends Module {
       if (this.esgst.openSyncInTab) {
         let parameters = ``;
         this.setLocalValue(`isSyncing`, currentDate);
-        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
+        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
           if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
             parameters += `${key}=1&`;
           }
@@ -2091,7 +2130,7 @@ class Common extends Module {
       } else {
         let parameters = {};
         this.setLocalValue(`isSyncing`, currentDate);
-        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
+        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
           if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
             parameters[key] = 1;
           }
@@ -2128,6 +2167,7 @@ class Common extends Module {
           syncBlacklist: new ToggleSwitch(syncer.popup.scrollable, `syncBlacklist`, false, `Blacklist`, false, false, null, this.esgst.syncBlacklist),
           syncHiddenGames: new ToggleSwitch(syncer.popup.scrollable, `syncHiddenGames`, false, `Hidden Games`, false, false, null, this.esgst.syncHiddenGames),
           syncGames: new ToggleSwitch(syncer.popup.scrollable, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, this.esgst.syncGames),
+          syncFollowedGames: new ToggleSwitch(syncer.popup.scrollable, `syncFollowedGames`, false, `Followed Games`, false, false, null, this.esgst.syncFollowedGames),
           syncWonGames: new ToggleSwitch(syncer.popup.scrollable, `syncWonGames`, false, `Won Games`, false, false, null, this.esgst.syncWonGames),
           syncReducedCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, this.esgst.syncReducedCvGames),
           syncNoCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncNoCvGames`, false, `No CV Games`, false, false, null, this.esgst.syncNoCvGames),
@@ -2309,7 +2349,7 @@ class Common extends Module {
       let pagination = null;
       do {
         let elements, responseHtml;
-        responseHtml = this.parseHtml((await this.request({method: `GET`, url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`})).responseText);
+        responseHtml = parseHtml((await this.request({method: `GET`, url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`})).responseText);
         elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
         for (let i = 0, n = elements.length; !syncer.canceled && i < n; i++) {
           let code, element, heading, name;
@@ -2318,7 +2358,7 @@ class Common extends Module {
           code = heading.getAttribute(`href`).match(/\/group\/(.+?)\/(.+)/)[1];
           name = heading.textContent;
           let j;
-          for (j = syncer.savedGroups.length - 1; j >= 0 && syncer.savedGroups[j].code !== code; --j);
+          for (j = syncer.savedGroups.length - 1; j >= 0 && syncer.savedGroups[j].code !== code; --j) {}
           if (j >= 0 && syncer.savedGroups[j].steamId) {
             syncer.groups[code] = {
               member: true
@@ -2327,7 +2367,7 @@ class Common extends Module {
           } else {
             let avatar, steamId;
             avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-            steamId = this.parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
+            steamId = parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText).getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
             syncer.groups[code] = {
               avatar: avatar,
               code: code,
@@ -2448,7 +2488,7 @@ class Common extends Module {
       let pagination = null;
       do {
         let elements, responseHtml;
-        responseHtml = this.parseHtml((await this.request({method: `GET`, url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`})).responseText);
+        responseHtml = parseHtml((await this.request({method: `GET`, url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`})).responseText);
         elements = responseHtml.querySelectorAll(`.table__column__secondary-link[href*="store.steampowered.com"]`);
         for (let i = 0, n = elements.length; i < n; ++i) {
           let match = elements[i].getAttribute(`href`).match(/(app|sub)\/(\d+)/);
@@ -2497,9 +2537,7 @@ class Common extends Module {
         apiResponse = await this.request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${this.esgst.steamApiKey}&steamid=${this.esgst.steamId}&format=json`});
       }
       let storeResponse = await this.request({method: `GET`, url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`});
-      let deleteLock = await this.createLock(`gameLock`, 300);
       await this.syncGames(null, syncer, apiResponse, storeResponse);
-      deleteLock();
       if (this.esgst.settings.gc_o_altAccounts) {
         for (let i = 0, n = this.esgst.settings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
           let altAccount = this.esgst.settings.gc_o_altAccounts[i];
@@ -2511,9 +2549,38 @@ class Common extends Module {
       if (syncer.html.length) {
         this.createElements(syncer.results, `afterBegin`, syncer.html);
         if (this.esgst.getSyncGameNames) {
+          // noinspection JSIgnoredPromiseFromCall
           this.getGameNames(syncer);
         }
       }
+    }
+
+    // if sync has been canceled stop
+    if (syncer.canceled) {
+      return;
+    }
+
+    // sync followed games
+    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && this.esgst.settings.syncFollowedGames))) {
+      syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
+      const response = await this.request({
+        method: `GET`,
+        url: `https://steamcommunity.com/my/followedgames/`
+      });
+      const responseHtml = parseHtml(response.responseText);
+      const elements = responseHtml.querySelectorAll(`.gameListRow.followed`);
+      const savedGames = JSON.parse(await this.getValue(`games`));
+      for (const id in savedGames.apps) {
+        savedGames.apps[id].followed = null;
+      }
+      for (const element of elements) {
+        const id = parseInt(element.getAttribute(`data-appid`));
+        if (!savedGames.apps[id]) {
+          savedGames.apps[id] = {};
+        }
+        savedGames.apps[id].followed = true;
+      }
+      await this.lockAndSaveGames(savedGames);
     }
 
     // if sync has been canceled stop
@@ -2535,26 +2602,34 @@ class Common extends Module {
     // sync reduced cv games
     if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && this.esgst.settings.syncReducedCvGames))) {
       syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-      for (const id in this.esgst.games.apps) {
-        this.esgst.games.apps[id].reducedCV = null;
-      }
-      for (const id in this.esgst.games.subs) {
-        this.esgst.games.subs[id].reducedCV = null;
-      }
-      const result = JSON.parse((await this.request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText).success;
-      for (const id in result.apps) {
-        if (!this.esgst.games.apps[id]) {
-          this.esgst.games.apps[id] = {};
+      let result = JSON.parse((await this.request({method: `GET`, url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`})).responseText);
+      if (result.error) {
+        this.createElements(syncer.results, `afterBegin`, [{
+          text: `Unable to sync reduced CV games: ${result.error}`,
+          type: `node`
+        }]);
+      } else {
+        result = result.success;
+        for (const id in this.esgst.games.apps) {
+          this.esgst.games.apps[id].reducedCV = null;
         }
-        this.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
-      }
-      for (const id in result.subs) {
-        if (!this.esgst.games.subs[id]) {
-          this.esgst.games.subs[id] = {};
+        for (const id in this.esgst.games.subs) {
+          this.esgst.games.subs[id].reducedCV = null;
         }
-        this.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
+        for (const id in result.apps) {
+          if (!this.esgst.games.apps[id]) {
+            this.esgst.games.apps[id] = {};
+          }
+          this.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
+        }
+        for (const id in result.subs) {
+          if (!this.esgst.games.subs[id]) {
+            this.esgst.games.subs[id] = {};
+          }
+          this.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
+        }
+        await this.lockAndSaveGames(this.esgst.games);
       }
-      await this.lockAndSaveGames(this.esgst.games);
     }
 
     // if sync has been canceled stop
@@ -2629,7 +2704,7 @@ class Common extends Module {
         this.esgst.lastSyncGames = currentTime;
       } else {
         let string = currentDate.toLocaleString();
-        let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
+        let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
         for (let i = keys.length - 1; i > -1; i--) {
           let key = keys[i];
           let id = `sync${key}`;
@@ -2672,7 +2747,7 @@ class Common extends Module {
     let pagination = null;
     do {
       let elements, responseHtml;
-      responseHtml = this.parseHtml((await this.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+      responseHtml = parseHtml((await this.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
       elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element, user;
@@ -2812,9 +2887,16 @@ class Common extends Module {
             type: `subs`
           }
         ].forEach(item => {
-          const key = item.key,
-            type = item.type;
-          storeJson[item.jsonKey].forEach(id => {
+          const jsonKey = item.jsonKey;
+          const key = item.key;
+          const type = item.type;
+          let ids = [];
+          if (Array.isArray(storeJson[jsonKey])) {
+            ids = storeJson[jsonKey];
+          } else {
+            ids = Object.keys(storeJson[jsonKey]);
+          }
+          for (const id of ids) {
             if (!savedGames[type][id]) {
               savedGames[type][id] = {};
             }
@@ -2824,7 +2906,7 @@ class Common extends Module {
               newOwned[type].push(id.toString());
               numOwned += 1;
             }
-          });
+          }
         });
       }
 
@@ -3078,7 +3160,7 @@ class Common extends Module {
         savedGroups.push(savedGroup);
       }
       if (!savedGroup.avatar || !savedGroup.steamId) {
-        const html = this.parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText);
+        const html = parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText);
         savedGroup.avatar = html.getElementsByClassName(`global__image-inner-wrap`)[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
         savedGroup.steamId = html.getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
       }
@@ -3088,7 +3170,7 @@ class Common extends Module {
   }
 
   lookForPopups(response) {
-    const popup = this.parseHtml(response.responseText).querySelector(`.popup--gift-sent, .popup--gift-received`);
+    const popup = parseHtml(response.responseText).querySelector(`.popup--gift-sent, .popup--gift-received`);
     if (!popup) {
       return;
     }
@@ -3128,7 +3210,7 @@ class Common extends Module {
       if (syncer) {
         syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
       }
-      const responseHtml = this.parseHtml((await this.request({
+      const responseHtml = parseHtml((await this.request({
         method: `GET`,
         url: `/giveaways/won/search?page=${nextPage}`
       })).responseText),
@@ -3157,12 +3239,14 @@ class Common extends Module {
       callback();
     }
     this.sortContent(this.esgst[mainKey], mainKey, options.value);
+    // noinspection JSIgnoredPromiseFromCall
     this.setSetting(key, options.value);
   }
 
   observeChange(context, id, key = `value`, event = `change`) {
     context.addEventListener(event, () => {
       let value = context[key];
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(id, value);
       this.esgst[id] = value;
     });
@@ -3172,6 +3256,7 @@ class Common extends Module {
     this.esgst[id] = parseFloat(this.esgst[id]);
     context.addEventListener(`change`, () => {
       let value = parseFloat(context[key]);
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(id, value);
       this.esgst[id] = value;
     });
@@ -3192,7 +3277,7 @@ class Common extends Module {
         let name = this.esgst.df_preset;
         if (name) {
           let i;
-          for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--);
+          for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {}
           if (i > -1) {
             preset = this.esgst.df_presets[i];
           }
@@ -3223,15 +3308,15 @@ class Common extends Module {
     }
     if (numDiscussions < 5 || numDeals < 5) {
       let [response1, response2] = await Promise.all([this.request({method: `GET`, url: `/discussions`}), this.request({method: `GET`, url: `/discussions/deals`})]);
-      let response1Html = this.parseHtml(response1.responseText);
-      let response2Html = this.parseHtml(response2.responseText);
+      let response1Html = parseHtml(response1.responseText);
+      let response2Html = parseHtml(response2.responseText);
       let revisedElements = [];
       let preset = null;
       if (this.esgst.df && this.esgst.df_m && this.esgst.df_enable) {
         let name = this.esgst.df_preset;
         if (name) {
           let i;
-          for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--);
+          for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {}
           if (i > -1) {
             preset = this.esgst.df_presets[i];
           }
@@ -3395,6 +3480,11 @@ class Common extends Module {
       Name: `SMManageFilteredDiscussions esgst-heading-button`,
       Title: `Manage hidden discussions`
     }, {
+      Check: this.esgst.sg && this.esgst.dt,
+      Icons: [`fa-comments`, `fa-tags`],
+      Name: `SMManageDiscussionTags esgst-heading-button`,
+      Title: `Manage discussion tags`
+    }, {
       Check: this.esgst.sg && this.esgst.ut,
       Icons: [`fa-user`, `fa-tags`],
       Name: `SMManageUserTags esgst-heading-button`,
@@ -3450,7 +3540,7 @@ class Common extends Module {
           }
         }
         if (isNew) {
-          this.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [ {
+          this.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
             attributes: {
               class: `esgst-bold esgst-red`,
               title: `There is a new feature/option in this section`
@@ -3467,7 +3557,7 @@ class Common extends Module {
         i += 1;
       }
     }
-    this.createMenuSection(SMMenu, [ {
+    this.createMenuSection(SMMenu, [{
       attributes: {
         class: `esgst-steam-api-key`,
         type: `text`
@@ -3497,6 +3587,7 @@ class Common extends Module {
     SMManageFilteredUsers = fixed.getElementsByClassName(`SMManageFilteredUsers`)[0];
     let SMManageFilteredGiveaways = fixed.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
     let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
+    let SMManageDiscussionTags = fixed.getElementsByClassName(`SMManageDiscussionTags`)[0];
     let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
     let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
     let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
@@ -3526,7 +3617,7 @@ class Common extends Module {
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.exportSettings);
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataCleaner);
     if (this.esgst.groups) {
-      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--);
+      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--) {}
       if (i < 0 || !this.esgst.groups[i] || !this.esgst.groups[i].member) {
         heading.lastElementChild.addEventListener(`click`, this.requestGroupInvite);
       } else {
@@ -3534,6 +3625,9 @@ class Common extends Module {
       }
     } else {
       heading.lastElementChild.classList.add(`esgst-hidden`);
+    }
+    if (SMManageDiscussionTags) {
+      SMManageDiscussionTags.addEventListener(`click`, this.openManageDiscussionTagsPopup);
     }
     if (SMManageUserTags) {
       SMManageUserTags.addEventListener(`click`, this.openManageUserTagsPopup);
@@ -3557,6 +3651,7 @@ class Common extends Module {
       this.setSMRecentUsernameChanges(SMViewUsernameChanges);
     }
     SMAPIKey.addEventListener(`input`, () => {
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`steamApiKey`, SMAPIKey.value);
     });
     if (!tab) {
@@ -3585,7 +3680,7 @@ class Common extends Module {
                 type: `node`
               }, {
                 attributes: {
-                  href: `https://github.com/revilheart/ESGST/issues`
+                  href: `https://github.com/gsrafael01/ESGST/issues`
                 },
                 text: `GitHub page`,
                 type: `a`
@@ -3787,6 +3882,7 @@ class Common extends Module {
       obj.setting.exclude.push({enabled: obj.excludeItems[i].switch.value ? 1 : 0, pattern: obj.excludeItems[i].input.value});
     }
     obj.popup.close();
+    // noinspection JSIgnoredPromiseFromCall
     this.setSetting(`${id}_${obj.name}`, obj.setting);
   }
 
@@ -3794,6 +3890,7 @@ class Common extends Module {
     event.currentTarget.remove();
     if (this.esgst.dismissedOptions.indexOf(id) < 0) {
       this.esgst.dismissedOptions.push(id);
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`dismissedOptions`, this.esgst.dismissedOptions);
     }
   }
@@ -3834,9 +3931,10 @@ class Common extends Module {
           }
           if (Feature.theme && SMFeatures) {
             if (ID === `customTheme`) {
+              // noinspection JSIgnoredPromiseFromCall
               this.setTheme();
             } else {
-              this.clickSmFeatures(SMFeatures);
+              this.updateTheme(SMFeatures);
             }
           }
         }
@@ -3844,9 +3942,10 @@ class Common extends Module {
         siwtchSg.onEnabled = () => {
           if (SMFeatures) {
             if (ID === `customTheme`) {
+              // noinspection JSIgnoredPromiseFromCall
               this.setTheme();
             } else {
-              this.clickSmFeatures(SMFeatures);
+              this.updateTheme(SMFeatures);
             }
           }
         }
@@ -3859,6 +3958,7 @@ class Common extends Module {
             this.delLocalValue(`theme`);
             this.delValue(ID);
           }
+          // noinspection JSIgnoredPromiseFromCall
           this.setTheme();
         };
       }
@@ -3886,9 +3986,10 @@ class Common extends Module {
           }
           if (Feature.theme && SMFeatures) {
             if (ID === `customTheme`) {
+              // noinspection JSIgnoredPromiseFromCall
               this.setTheme();
             } else {
-              this.clickSmFeatures(SMFeatures);
+              this.updateTheme(SMFeatures);
             }
           }
         }
@@ -3896,9 +3997,10 @@ class Common extends Module {
         siwtchSt.onEnabled = () => {
           if (SMFeatures) {
             if (ID === `customTheme`) {
+              // noinspection JSIgnoredPromiseFromCall
               this.setTheme();
             } else {
-              this.clickSmFeatures(SMFeatures);
+              this.updateTheme(SMFeatures);
             }
           }
         }
@@ -3908,6 +4010,7 @@ class Common extends Module {
           if (ID !== `customTheme`) {
             this.delValue(ID);
           }
+          // noinspection JSIgnoredPromiseFromCall
           this.setTheme();
         };
       }
@@ -3918,7 +4021,7 @@ class Common extends Module {
     }
     isMainNew = this.esgst.dismissedOptions.indexOf(ID) < 0 && (!set1 || set1.new) && (!set2 || set2.new);
     if (isMainNew) {
-      this.createElements(Menu.firstElementChild, `afterEnd`, [ {
+      this.createElements(Menu.firstElementChild, `afterEnd`, [{
         attributes: {
           class: `esgst-bold esgst-red esgst-clickable`,
           title: `This is a new feature/option. Click to dismiss.`
@@ -3928,7 +4031,7 @@ class Common extends Module {
       }]).addEventListener(`click`, this.dismissNewOption.bind(null, ID));
     }
     val = val1 || val2;
-    this.createElements(Menu, `beforeEnd`, [ {
+    this.createElements(Menu, `beforeEnd`, [{
       text: typeof Feature.name === `string` ? `${this.esgst.settings.esgst_st ? `- ` : ``}${Feature.name} ` : ``,
       type: `span`,
       children: typeof Feature.name === `string` ? null : [this.esgst.settings.esgst_st ? {
@@ -3971,7 +4074,7 @@ class Common extends Module {
           popout = new Popout(`esgst-feature-description markdown`, tooltip, 100);
           popout.popout.style.maxHeight = `300px`;
           popout.popout.style.overflow = `auto`;
-          this.createElements(popout.popout, `inner`, [...(Array.from(parseHtml(Feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName)).body.childNodes).map(x =>  {
+          this.createElements(popout.popout, `inner`, [...(Array.from(parseHtml(Feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName)).body.childNodes).map(x => {
             return {
               context: x
             };
@@ -4006,7 +4109,7 @@ class Common extends Module {
       }
       isMainNew = isMainNew || isNew;
       if (isNew) {
-        this.createElements(Menu.firstElementChild, `afterEnd`, [ {
+        this.createElements(Menu.firstElementChild, `afterEnd`, [{
           attributes: {
             class: `esgst-bold esgst-red`,
             title: `There is a new feature/option in this section`
@@ -4075,6 +4178,18 @@ class Common extends Module {
             type: `option`
           }, {
             attributes: {
+              value: `giveawayHeading`
+            },
+            text: `Giveaway Heading [${this.esgst.giveawayHeading.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayLinks`
+            },
+            text: `Giveaway Links [${this.esgst.giveawayLinks.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
               value: `giveawayColumns_gv`
             },
             text: `Giveaway Columns (Grid View) [${this.esgst.giveawayColumns_gv.join(`, `)}]`,
@@ -4084,6 +4199,18 @@ class Common extends Module {
               value: `giveawayPanel_gv`
             },
             text: `Giveaway Panel (Grid View) [${this.esgst.giveawayPanel_gv.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayHeading_gv`
+            },
+            text: `Giveaway Heading (Grid View) [${this.esgst.giveawayHeading_gv.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `giveawayLinks_gv`
+            },
+            text: `Giveaway Links (Grid View) [${this.esgst.giveawayLinks_gv.join(`, `)}]`,
             type: `option`
           }]
         }, {
@@ -4204,7 +4331,7 @@ class Common extends Module {
         this.observeChange(icon, `${ID}Icon`);
         this.observeChange(label, `${ID}Label`);
         if (ID === `gc_rd`) {
-          this.createElements(input, `beforeEnd`, [ {
+          this.createElements(input, `beforeEnd`, [{
             attributes: {
               class: `fa fa-question-circle`,
               title: `Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year`
@@ -4325,16 +4452,19 @@ class Common extends Module {
             this.readHrAudioFile(ID, event);
           } else if (item.event === `keydown`) {
             event.preventDefault();
+            // noinspection JSIgnoredPromiseFromCall
             this.setSetting(item.id, event.key);
             this.esgst[item.id] = event.key;
             input.value = event.key;
           } else {
+            // noinspection JSIgnoredPromiseFromCall
             this.setSetting(item.id, input.value);
             this.esgst[item.id] = input.value;
           }
         }, item.shortcutKey || false);
         if (item.shortcutKey) {
           input.addEventListener(`keyup`, () => {
+            // noinspection JSIgnoredPromiseFromCall
             this.setSetting(item.id, value);
             this.esgst[item.id] = value;
             input.value = value;
@@ -4412,15 +4542,17 @@ class Common extends Module {
         });
         textArea.addEventListener(`change`, async () => {
           await this.setValue(ID, JSON.stringify(textArea.value));
+          // noinspection JSIgnoredPromiseFromCall
           this.setTheme();
         });
       } else {
         let version = container.lastElementChild,
           button = version.previousElementSibling;
+        // noinspection JSIgnoredPromiseFromCall
         this.setThemeVersion(ID, version);
         button.addEventListener(`click`, async () => {
           let url = await this.getThemeUrl(ID, Feature.theme);
-          this.createElements(button, `inner`, [ {
+          this.createElements(button, `inner`, [{
             attributes: {
               class: `fa fa-circle-o-notch fa-spin`
             },
@@ -4431,11 +4563,13 @@ class Common extends Module {
           }]);
           let theme = JSON.stringify((await this.request({method: `GET`, url})).responseText);
           await this.setValue(ID, theme);
-          this.createElements(button, `inner`, [ {
+          this.createElements(button, `inner`, [{
             text: `Update`,
             type: `node`
           }]);
+          // noinspection JSIgnoredPromiseFromCall
           this.setThemeVersion(ID, version, theme);
+          // noinspection JSIgnoredPromiseFromCall
           this.setTheme();
         });
       }
@@ -4657,6 +4791,24 @@ class Common extends Module {
             children: this.esgst.gc_w_s && this.esgst.gc_w_s_i ? [{
               attributes: {
                 class: `fa fa-${this.esgst.gc_wIcon}`
+              },
+              type: `i`
+            }] : null
+          });
+          break;
+        case `gc_f`:
+          elements.push({
+            attributes: {
+              class: `esgst-clickable esgst-gc esgst-gc-followed ${this.esgst.gc_f ? `` : `esgst-hidden`}`,
+              draggable: true,
+              id: `gc_f`,
+              title: `Followed`
+            },
+            text: this.esgst.gc_f_s ? (this.esgst.gc_f_s_i ? `` : `F`) : this.esgst.gc_fLabel,
+            type: `div`,
+            children: this.esgst.gc_f_s && this.esgst.gc_f_s_i ? [{
+              attributes: {
+                class: `fa fa-${this.esgst.gc_fIcon}`
               },
               type: `i`
             }] : null
@@ -5038,6 +5190,7 @@ class Common extends Module {
       }
       let string = btoa(binary);
       (await hr_createPlayer(string)).play();
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`${id}_sound`, string);
       popup.close();
     } catch (e) {
@@ -5073,6 +5226,7 @@ class Common extends Module {
     for (let i = 0, n = sm.panel.children.length; i < n; i++) {
       this.esgst[sm.categoryKey].push(sm.panel.children[i].id);
     }
+    // noinspection JSIgnoredPromiseFromCall
     this.setSetting(sm.categoryKey, this.esgst[sm.categoryKey]);
   }
 
@@ -5179,27 +5333,32 @@ class Common extends Module {
     }
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(id, this.esgst[id]);
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(id, this.esgst[id]);
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(id, this.esgst[id]);
     });
     if (bgColor) {
       bgColor.addEventListener(`change`, () => {
         colors.bgColor = bgColor.value;
+        // noinspection JSIgnoredPromiseFromCall
         this.setSetting(id, this.esgst[id]);
       });
     }
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
-        for (i = 0, n = this.esgst[id].length; i < n && this.esgst[id][i] !== colors; ++i);
+        for (i = 0, n = this.esgst[id].length; i < n && this.esgst[id][i] !== colors; ++i) {}
         if (i < n) {
           this.esgst[id].splice(i, 1);
+          // noinspection JSIgnoredPromiseFromCall
           this.setSetting(id, this.esgst[id]);
           setting.remove();
         }
@@ -5321,30 +5480,36 @@ class Common extends Module {
     let remove = tooltip.nextElementSibling;
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
     });
     bgColor.addEventListener(`change`, () => {
       colors.bgColor = bgColor.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
     });
     icon.addEventListener(`change`, () => {
       colors.icon = icon.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
     });
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
         let i, n;
-        for (i = 0, n = this.esgst.gc_r_colors.length; i < n && this.esgst.gc_r_colors[i] !== colors; ++i);
+        for (i = 0, n = this.esgst.gc_r_colors.length; i < n && this.esgst.gc_r_colors[i] !== colors; ++i) {}
         if (i < n) {
           this.esgst.gc_r_colors.splice(i, 1);
+          // noinspection JSIgnoredPromiseFromCall
           this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
           setting.remove();
         }
@@ -5439,21 +5604,25 @@ class Common extends Module {
     remove = bgColor.nextElementSibling;
     genre.addEventListener(`change`, () => {
       colorSetting.genre = genre.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
     });
     color.addEventListener(`change`, () => {
       colorSetting.color = color.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
     });
     bgColor.addEventListener(`change`, () => {
       colorSetting.bgColor = bgColor.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
     });
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
-        for (i = 0, n = this.esgst.gc_g_colors.length; i < n && this.esgst.gc_g_colors[i] !== colorSetting; ++i);
+        for (i = 0, n = this.esgst.gc_g_colors.length; i < n && this.esgst.gc_g_colors[i] !== colorSetting; ++i) {}
         if (i < n) {
           this.esgst.gc_g_colors.splice(i, 1);
+          // noinspection JSIgnoredPromiseFromCall
           this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
           setting.remove();
         }
@@ -5480,7 +5649,7 @@ class Common extends Module {
       }]
     }]);
     button = panel.firstElementChild;
-    createTooltip(this.createElements(panel, `beforeEnd`, [ {
+    this.createTooltip(this.createElements(panel, `beforeEnd`, [ {
       attributes: {
         class: `fa fa-question-circle`
       },
@@ -5600,33 +5769,40 @@ class Common extends Module {
     remove = label.nextElementSibling;
     steamId.addEventListener(`change`, () => {
       altSetting.steamId = steamId.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
     });
     name.addEventListener(`change`, () => {
       altSetting.name = name.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
     });
     color.addEventListener(`change`, () => {
       altSetting.color = color.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
     });
     bgColor.addEventListener(`change`, () => {
       altSetting.bgColor = bgColor.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
     });
     icon.addEventListener(`change`, () => {
       altSetting.icon = icon.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
     });
     label.addEventListener(`change`, () => {
       altSetting.label = label.value;
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
     });
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
-        for (i = 0, n = this.esgst.gc_o_altAccounts.length; i < n && this.esgst.gc_o_altAccounts[i] !== altSetting; ++i);
+        for (i = 0, n = this.esgst.gc_o_altAccounts.length; i < n && this.esgst.gc_o_altAccounts[i] !== altSetting; ++i) {}
         if (i < n) {
           this.esgst.gc_o_altAccounts.splice(i, 1);
+          // noinspection JSIgnoredPromiseFromCall
           this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
           setting.remove();
         }
@@ -5636,6 +5812,7 @@ class Common extends Module {
 
   addColorObserver(context, id, key) {
     context.addEventListener(`change`, () => {
+      // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`${id}_${key}`, context.value);
     });
   }
@@ -5677,7 +5854,8 @@ class Common extends Module {
       }]);
       if (n > 0) {
         set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
-          loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value =>  {
+          // noinspection JSIgnoredPromiseFromCall
+          this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
             i = value;
             if (i > n) {
               set.set.remove();
@@ -5725,6 +5903,81 @@ class Common extends Module {
     }
   }
 
+  async openManageDiscussionTagsPopup() {
+    let context, input, popup, savedDiscussion, savedDiscussions, discussions;
+    popup = new Popup(`fa-tags`, `Manage discussion tags:`, true);
+    input = this.createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `text`
+      },
+      type: `input`
+    }]);
+    this.createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        class: `esgst-description`
+      },
+      text: `Type tags below to filter the discussions by.`,
+      type: `div`
+    }]);
+    let heading = this.createElements(popup.description, `beforeBegin`, [{
+      attributes: {
+        class: `page__heading`
+      },
+      type: `div`
+    }]);
+    if (this.esgst.mm) {
+      this.esgst.modules.generalMultiManager.mm(heading);
+    }
+    savedDiscussions = JSON.parse(await this.getValue(`discussions`));
+    discussions = {};
+    for (const key in savedDiscussions) {
+      savedDiscussion = savedDiscussions[key];
+      if (savedDiscussion.tags && (savedDiscussion.tags.length > 1 || (savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))) {
+        context = this.createElements(popup.scrollable, `beforeEnd`, [{
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-dt-menu`,
+              href: `https://www.steamgifts.com/discussion/${key}/`
+            },
+            text: savedDiscussion.name || key,
+            type: `a`
+          }]
+        }]);
+        discussions[key] = {
+          context: context
+        };
+      }
+    }
+    await this.endless_load(popup.scrollable);
+    input.addEventListener(`input`, this.filterDiscussionTags.bind(null, discussions));
+    popup.open();
+  }
+
+  filterDiscussionTags(discussions, event) {
+    let i, tags, key, userTags;
+    if (event.currentTarget.value) {
+      tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
+      for (key in discussions) {
+        if (discussions.hasOwnProperty(key)) {
+          userTags = discussions[key].context.getElementsByClassName(`esgst-tags`)[0];
+          for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i)  {}
+          if (i < 0) {
+            discussions[key].context.classList.add(`esgst-hidden`);
+          } else {
+            discussions[key].context.classList.remove(`esgst-hidden`);
+          }
+        }
+      }
+    } else {
+      for (key in discussions) {
+        if (discussions.hasOwnProperty(key)) {
+          discussions[key].context.classList.remove(`esgst-hidden`);
+        }
+      }
+    }
+  }
+
   async openManageUserTagsPopup() {
     let context, input, popup, savedUser, savedUsers, users;
     popup = new Popup(`fa-tags`, `Manage user tags:`, true);
@@ -5748,7 +6001,6 @@ class Common extends Module {
       type: `div`
     }]);
     if (this.esgst.mm) {
-      // --? it's right?
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedUsers = JSON.parse(await this.getValue(`users`));
@@ -5788,7 +6040,7 @@ class Common extends Module {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (username in users) {
         userTags = users[username].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
         if (i < 0) {
           users[username].context.classList.add(`esgst-hidden`);
         } else {
@@ -5887,7 +6139,7 @@ class Common extends Module {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (id in games.apps) {
         gameTags = games.apps[id].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
         if (i < 0) {
           games.apps[id].context.classList.add(`esgst-hidden`);
         } else {
@@ -5896,7 +6148,7 @@ class Common extends Module {
       }
       for (id in games.subs) {
         gameTags = games.subs[id].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
         if (i < 0) {
           games.subs[id].context.classList.add(`esgst-hidden`);
         } else {
@@ -5969,7 +6221,7 @@ class Common extends Module {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (code in groups) {
         groupTags = groups[code].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !groupTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i);
+        for (i = tags.length - 1; i >= 0 && !groupTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
         if (i < 0) {
           groups[code].context.classList.add(`esgst-hidden`);
         } else {
@@ -6026,6 +6278,7 @@ class Common extends Module {
       }
       this.createElements(popup.results, `inner`, items);
       if (this.esgst.sg) {
+        // noinspection JSIgnoredPromiseFromCall
         this.endless_load(popup.results);
       }
     });
@@ -6055,6 +6308,7 @@ class Common extends Module {
       user.values[key] = true;
       user.values[`${key}Date`] = Date.now();
     }
+    // noinspection JSIgnoredPromiseFromCall
     this.saveUser(null, null, user);
   }
 
@@ -6177,6 +6431,10 @@ class Common extends Module {
           {
             key: `discussions_dh`,
             name: `Discussion Highlighter`
+          },
+          {
+            key: `discussions_dt`,
+            name: `Discussion Tags`
           },
           {
             key: `discussions_gdttt`,
@@ -6404,6 +6662,7 @@ class Common extends Module {
           break;
       }
       popup.open();
+      // noinspection JSIgnoredPromiseFromCall
       this.manageData(dm, dropbox, googleDrive, oneDrive, false, async () =>  {
         this.delLocalValue(`isBackingUp`);
         await this.setSetting(`lastBackup`, Date.now());
@@ -6436,20 +6695,21 @@ class Common extends Module {
           type: `select`,
           children: [{
             text: `Computer`,
-            type: `node`
+            type: `option`
           }, {
             text: `Dropbox`,
-            type: `node`
+            type: `option`
           }, {
             text: `Google Drive`,
-            type: `node`
+            type: `option`
           }, {
             text: `OneDrive`,
-            type: `node`
+            type: `option`
           }]
         }], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, this.esgst.settings.exportBackup).name.firstElementChild;
         select.selectedIndex = this.esgst.settings.exportBackupIndex;
         select.addEventListener(`change`, () => {
+          // noinspection JSIgnoredPromiseFromCall
           this.setSetting(`exportBackupIndex`, select.selectedIndex);
         });
       }
@@ -6490,6 +6750,7 @@ class Common extends Module {
       }]);
       group2.appendChild(new ButtonSet(`green`, `grey`, `fa-desktop`, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
         onClick(dm, false, false, false, false, () => {
+          // noinspection JSIgnoredPromiseFromCall
           this.manageData(dm, false, false, false, true);
           callback();
         });
@@ -6497,18 +6758,21 @@ class Common extends Module {
       if (type !== `delete`) {
         group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, callback => {
           onClick(dm, true, false, false, false, () => {
+            // noinspection JSIgnoredPromiseFromCall
             this.manageData(dm, false, false, false, true);
             callback();
           });
         }).set);
         group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, callback => {
           onClick(dm, false, true, false, false, () => {
+            // noinspection JSIgnoredPromiseFromCall
             this.manageData(dm, false, false, false, true);
             callback();
           });
         }).set);
         group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, callback => {
           onClick(dm, false, false, true, false, () => {
+            // noinspection JSIgnoredPromiseFromCall
             this.manageData(dm, false, false, false, true);
             callback();
           });
@@ -6532,7 +6796,7 @@ class Common extends Module {
       text: `Make sure to backup your data before using the cleaner.`,
       type: `div`
     }]);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanDiscussions`, false, [ {
+    this.observeNumChange(new ToggleSwitch(popup.description, `cleanDiscussions`, false, [ {
       text: `Discussions data older than `,
       type: `node`
     }, {
@@ -6546,7 +6810,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, [ {
+    this.observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, [ {
       text: `Entries data older than `,
       type: `node`
     }, {
@@ -6560,7 +6824,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, ``, this.esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, [ {
+    this.observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, [ {
       text: `Giveaways data older than `,
       type: `node`
     }, {
@@ -6574,7 +6838,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, [ {
+    this.observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, [ {
       text: `SteamGifts comment history data older than `,
       type: `node`
     }, {
@@ -6588,7 +6852,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, ``, this.esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, [ {
+    this.observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, [ {
       text: `Tickets data older than `,
       type: `node`
     }, {
@@ -6602,7 +6866,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
-    observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, [ {
+    this.observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, [ {
       text: `Trades data older than `,
       type: `node`
     }, {
@@ -6645,6 +6909,10 @@ class Common extends Module {
               {
                 key: `discussions_dh`,
                 name: `Discussion Highlighter`
+              },
+              {
+                key: `discussions_dt`,
+                name: `Discussion Tags`
               },
               {
                 key: `discussions_gdttt`,
@@ -6945,9 +7213,9 @@ class Common extends Module {
             text: `Success! The selected data was cleaned.`,
             type: `node`
           }, {
-            type: `<br>`
+            type: `br`
           }, {
-            type: `<br>`
+            type: `br`
           }, {
             text: `Size before cleaning: `,
             type: `node`
@@ -6973,7 +7241,7 @@ class Common extends Module {
           }, {
             type: `br`
           }, {
-            text: `${Math.this.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`,
+            text: `${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`,
             type: `node`
           }]
         });
@@ -7018,7 +7286,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `{}`)}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":${await this.getValue(optionKey, `{}`)}}`)).length;
             totalSize += size;
             if (dm.switches) {
               dm.switches[optionKey].size.textContent = this.convertBytes(size);
@@ -7032,6 +7300,7 @@ class Common extends Module {
               ct: [`count`, `readComments`],
               df: [`hidden`],
               dh: [`highlighted`],
+              dt: [`tags`],
               gdttt: [`visited`],
               pm: [`status`]
             };
@@ -7070,6 +7339,7 @@ class Common extends Module {
             ct: 0,
             df: 0,
             dh: 0,
+            dt: 0,
             gb: 0,
             gdttt: 0,
             gf: 0,
@@ -7104,7 +7374,7 @@ class Common extends Module {
                       toExport = true;
                     }
                   }
-                  let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
                   sizes[value] += size;
                   sizes.total += size;
                   found = value;
@@ -7123,7 +7393,7 @@ class Common extends Module {
               data[optionKey][mergedDataKey] = newData;
               mainFound = true;
             }
-            let size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -7143,18 +7413,34 @@ class Common extends Module {
                       if (this.esgst.settings.importAndMerge) {
                         for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                           let valueKey = values[value][j];
-                          if (valueKey === `readComments`) {
-                            if (mergedData[newDataKey].readComments) {
-                              for (let id in mergedData[newDataKey].readComments) {
-                                if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                  mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                          switch (valueKey) {
+                            case `tags`:
+                              if (mergedData[newDataKey].tags) {
+                                let tags = newData[newDataKey].tags;
+                                for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                  let tag = tags[k];
+                                  if (mergedData[newDataKey].tags.indexOf(tag) < 0) {
+                                    mergedData[newDataKey].tags.push(tag);
+                                  }
                                 }
+                              } else {
+                                mergedData[newDataKey].tags = newData[newDataKey].tags;
                               }
-                            } else {
-                              mergedData[newDataKey].readComments = newData[newDataKey].readComments;
-                            }
-                          } else {
-                            mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
+                            case `readComments`:
+                              if (mergedData[newDataKey].readComments) {
+                                for (let id in mergedData[newDataKey].readComments) {
+                                  if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                  }
+                                }
+                              } else {
+                                mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                              }
+                              break;
+                            default:
+                              mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                              break;
                           }
                         }
                       } else {
@@ -7177,7 +7463,7 @@ class Common extends Module {
             sizes.total -= 1;
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":{}}`)).length;
             sizes.main += size;
             sizes.total += size;
             if (dm.switches) {
@@ -7216,7 +7502,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `"[]"`)}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":${await this.getValue(optionKey, `"[]"`)}}`)).length;
             totalSize += size;
             if (dm.switches) {
               dm.switches[optionKey].size.textContent = this.convertBytes(size);
@@ -7237,7 +7523,7 @@ class Common extends Module {
                   for (let j = 0, numNew = newData.length; j < numNew; ++j) {
                     let newDataValue = newData[j];
                     let k, numMerged;
-                    for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k);
+                    for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k) {}
                     if (k < numMerged) {
                       mergedData[k] = newDataValue;
                     } else {
@@ -7257,7 +7543,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `[]`)}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":${await this.getValue(optionKey, `[]`)}}`)).length;
             totalSize += size;
             if (dm.switches) {
               dm.switches[optionKey].size.textContent = this.convertBytes(size);
@@ -7266,7 +7552,7 @@ class Common extends Module {
           break;
         case `games`:
           values = {
-            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`],
+            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`, `followed`],
             gt: [`tags`],
             egh: [`entered`],
             itadi: [`itadi`]
@@ -7309,7 +7595,7 @@ class Common extends Module {
                       toExport = true;
                     }
                   }
-                  let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
                   sizes[value] += size;
                   sizes.total += size;
                   found = value;
@@ -7328,7 +7614,7 @@ class Common extends Module {
               data.games.apps[mergedDataKey] = newData;
               mainFound = true;
             }
-            let size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -7365,7 +7651,7 @@ class Common extends Module {
                       toExport = true;
                     }
                   }
-                  let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
                   sizes[value] += size;
                   sizes.total += size;
                   found = value;
@@ -7384,7 +7670,7 @@ class Common extends Module {
               data.games.subs[mergedDataKey] = newData;
               mainFound = true;
             }
-            let size = (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -7506,7 +7792,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
             sizes.main += size;
             sizes.total += size;
             if (dm.switches) {
@@ -7567,7 +7853,7 @@ class Common extends Module {
                         toExport = true;
                       }
                     }
-                    let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
@@ -7587,7 +7873,7 @@ class Common extends Module {
               data[optionKey].push(newData);
               mainFound = true;
             }
-            let size = (new TextEncoder(`utf-8`).encode(`{},`)).length;
+            let size = (new TextEncoder().encode(`{},`)).length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -7612,7 +7898,7 @@ class Common extends Module {
                 for (let j = newData.length - 1; j > -1; --j) {
                   let code = newData[j].code;
                   let k, mergedDataValue;
-                  for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k);
+                  for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k) {}
                   if (k > -1) {
                     mergedDataValue = mergedData[k];
                   } else {
@@ -7652,7 +7938,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":[]}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":[]}`)).length;
             sizes.main += size;
             sizes.total += size;
             if (dm.switches) {
@@ -7691,7 +7977,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `[]`)}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":${await this.getValue(optionKey, `[]`)}}`)).length;
             totalSize += size;
             if (dm.switches) {
               dm.switches[optionKey].size.textContent = this.convertBytes(size);
@@ -7720,7 +8006,7 @@ class Common extends Module {
                     } else {
                       let l, numOld;
                       // noinspection JSUnusedAssignment
-                      for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
+                      for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {}
                       // noinspection JSUnusedAssignment
                       if (l >= numOld) {
                         mergedData.push(newDataValue);
@@ -7736,7 +8022,7 @@ class Common extends Module {
                     let newDataValue = newData[k];
                     let l, numOld;
                     // noinspection JSUnusedAssignment
-                    for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l);
+                    for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {}
                     // noinspection JSUnusedAssignment
                     if (l >= numOld) {
                       mergedData.push(newDataValue);
@@ -7753,7 +8039,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `[]`)}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":${await this.getValue(optionKey, `[]`)}}`)).length;
             totalSize += size;
             if (dm.switches) {
               dm.switches[optionKey].size.textContent = this.convertBytes(size);
@@ -7813,7 +8099,7 @@ class Common extends Module {
                       toExport = true;
                     }
                   }
-                  let size = (new TextEncoder(`utf-8`).encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
+                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
                   sizes[value] += size;
                   sizes.total += size;
                   found = value;
@@ -7832,10 +8118,10 @@ class Common extends Module {
             let username = mergedDataValue.username;
             let size = 0;
             if (id) {
-              size += (new TextEncoder(`utf-8`).encode(`"id":"${id}",`)).length;
+              size += (new TextEncoder().encode(`"id":"${id}",`)).length;
             }
             if (username) {
-              size += (new TextEncoder(`utf-8`).encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
+              size += (new TextEncoder().encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
             }
             if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
               if (id) {
@@ -7849,7 +8135,7 @@ class Common extends Module {
               data.users.users[mergedDataKey] = newData;
               mainFound = true;
             }
-            size += (new TextEncoder(`utf-8`).encode(`"${mergedDataKey}":{},`)).length;
+            size += (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -7947,7 +8233,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
             sizes.main += size;
             sizes.total += size;
             if (dm.switches) {
@@ -7990,7 +8276,7 @@ class Common extends Module {
             }
           }
           if (!dm.autoBackup) {
-            let size = (new TextEncoder(`utf-8`).encode(`{"${optionKey}":${await this.getValue(optionKey, `{}`)}}`)).length;
+            let size = (new TextEncoder().encode(`{"${optionKey}":${await this.getValue(optionKey, `{}`)}}`)).length;
             totalSize += size;
             if (dm.switches) {
               dm.switches[optionKey].size.textContent = this.convertBytes(size);
@@ -8014,14 +8300,17 @@ class Common extends Module {
         if (dropbox || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 1)) {
           await this.delValue(`dropboxToken`);
           this.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+          // noinspection JSIgnoredPromiseFromCall
           this.checkDropboxComplete(data, dm, callback);
         } else if (googleDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 2)) {
           await this.delValue(`googleDriveToken`);
           this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+          // noinspection JSIgnoredPromiseFromCall
           this.checkGoogleDriveComplete(data, dm, callback);
         } else if (oneDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 3)) {
           await this.delValue(`oneDriveToken`);
           this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+          // noinspection JSIgnoredPromiseFromCall
           this.checkOneDriveComplete(data, dm, callback);
         } else {
           const name = `${this.esgst.askFileName ?  prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
@@ -8072,7 +8361,7 @@ class Common extends Module {
     for (const key of keys) {
       output.push({
         name: key,
-        value: await zip.file(key).a.sync(`string`)
+        value: await zip.file(key).async(`string`)
     });
     }
     return output;
@@ -8099,14 +8388,17 @@ class Common extends Module {
     if (dropbox) {
       await this.delValue(`dropboxToken`);
       this.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+      // noinspection JSIgnoredPromiseFromCall
       this.checkDropboxComplete(null, dm, callback);
     } else if (googleDrive) {
       await this.delValue(`googleDriveToken`);
       this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+      // noinspection JSIgnoredPromiseFromCall
       this.checkGoogleDriveComplete(null, dm, callback);
     } else if (oneDrive) {
       await this.delValue(`oneDriveToken`);
       this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+      // noinspection JSIgnoredPromiseFromCall
       this.checkOneDriveComplete(null, dm, callback);
     } else {
       file = dm.input.files[0];
@@ -8114,6 +8406,7 @@ class Common extends Module {
         dm.reader = new FileReader();
         const blob = file.name.match(/\.zip$/) && file;
         if (blob) {
+          // noinspection JSIgnoredPromiseFromCall
           this.readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback);
         } else {
           dm.reader.readAsText(file);
@@ -8179,7 +8472,7 @@ class Common extends Module {
           callback();
         } catch (e) {
           callback();
-          alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
+          alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
         }
       } else {
         let canceled = true;
@@ -8213,7 +8506,7 @@ class Common extends Module {
             type: `div`
           }]);
           item.addEventListener(`click`, () => {
-            createConfirmation(`Are you sure you want to restore the selected data?`, async () =>  {
+            this.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
               canceled = false;
               popup.close();
               dm.data = JSON.parse((await this.request({
@@ -8226,6 +8519,7 @@ class Common extends Module {
                 method: `GET`,
                 url: `https://content.dropboxapi.com/2/files/download`
               })).responseText);
+              // noinspection JSIgnoredPromiseFromCall
               this.manageData(dm, false, false, false, false, callback);
             });
           });
@@ -8278,7 +8572,7 @@ class Common extends Module {
           callback();
         } catch (e) {
           callback();
-          alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
+          alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
         }
       } else {
         let canceled = true;
@@ -8310,7 +8604,7 @@ class Common extends Module {
             type: `div`
           }]);
           item.addEventListener(`click`, () => {
-            createConfirmation(`Are you sure you want to restore the selected data?`, async () =>  {
+            this.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
               canceled = false;
               popup.close();
               dm.data = JSON.parse((await this.request({
@@ -8321,6 +8615,7 @@ class Common extends Module {
                 method: `GET`,
                 url: `https://www.googleapis.com/drive/v3/files/${file.id}?alt=media`
               })).responseText);
+              // noinspection JSIgnoredPromiseFromCall
               this.manageData(dm, false, false, false, false, callback);
             });
           });
@@ -8365,7 +8660,7 @@ class Common extends Module {
           callback();
         } catch (e) {
           callback();
-          alert(`An error ocurred when uploading the file.\n\n${e}\n\n${responseText}`);
+          alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
         }
       } else {
         let canceled = true;
@@ -8392,7 +8687,7 @@ class Common extends Module {
             type: `div`
           }]);
           item.addEventListener(`click`, () => {
-            createConfirmation(`Are you sure you want to restore the selected data?`, async () =>  {
+            this.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
               canceled = false;
               popup.close();
               dm.data = JSON.parse((await this.request({
@@ -8404,6 +8699,7 @@ class Common extends Module {
                 method: `GET`,
                 url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}/content`
               })).responseText);
+              // noinspection JSIgnoredPromiseFromCall
               this.manageData(dm, false, false, false, false, callback);
             });
           });
@@ -8604,7 +8900,7 @@ class Common extends Module {
           const postsIcon = filtered[i].uf.posts ? `fa fa-check` : ``;
           const discussionsIcon = filtered[i].uf.discussions ? `fa fa-check` : ``;
           const giveawaysIcon = filtered[i].uf.giveaways ? `fa fa-check` : ``;
-          this.createElements(table.lastElementChild, `beforeEnd`, [ {
+          this.createElements(table.lastElementChild, `beforeEnd`, [{
             attributes: {
               class: `table__row-outer-wrap`
             },
@@ -8741,7 +9037,7 @@ class Common extends Module {
       }]);
       await this.setValue(`settings`, JSON.stringify(this.esgst.settings));
       message.classList.add(`esgst-green`);
-      this.createElements(message, `inner`, [ {
+      this.createElements(message, `inner`, [{
         attributes: {
           class: `fa fa-check`,
           title: `Saved!`
@@ -8797,6 +9093,11 @@ class Common extends Module {
       {
         id: `gc_w`,
         key: `wishlisted`,
+        mainKey: `esgst-gc`
+      },
+      {
+        id: `gc_f`,
+        key: `followed`,
         mainKey: `esgst-gc`
       },
       {
@@ -11479,6 +11780,7 @@ class Common extends Module {
     }]);
     this.esgst.theme = document.getElementById(`esgst-theme`);
     this.esgst.customThemeElement = document.getElementById(`esgst-custom-theme`);
+    // noinspection JSIgnoredPromiseFromCall
     this.setTheme();
   }
 
@@ -11655,7 +11957,7 @@ class Common extends Module {
     if (this.esgst.username) {
       await this.request({data: `username=${this.esgst.username}`, method: `POST`, url: `https://script.google.com/macros/s/AKfycbw0odO9iXZBJmK54M_MUQ_IEv5l4RNzj7cEx_FWCZbrtNBNmQ/exec`});
       popup.icon.className = `fa fa-check`;
-      this.createElements(popup.title, `inner`, [ {
+      this.createElements(popup.title, `inner`, [{
         text: `Request sent! If you have not done so already, you also need to send a request from the `,
         type: `node`
       }, {
@@ -11676,59 +11978,209 @@ class Common extends Module {
   }
 
   async checkUpdate() {
-    let version = (await this.request({method: `GET`,url: `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.meta.js`})).responseText.match(/@version (.+)/);
+    let version = (await this.request({method: `GET`,url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.meta.js`})).responseText.match(/@version (.+)/);
     if (version && version[1] !== this.esgst.version) {
-      location.href = `https://raw.githubusercontent.com/revilheart/ESGST/master/ESGST.user.js`;
+      location.href = `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.user.js`;
     } else {
       alert(`No ESGST updates found!`);
     }
   }
 
   draggable_set(obj) {
-    obj.context.setAttribute(`data-dragid`, obj.id);
+    obj.context.setAttribute(`data-draggable-key`, obj.id);
     for (const element of obj.context.children) {
-      if (element.getAttribute(`draggable`)) continue;
+      if (element.getAttribute(`draggable`) || !element.getAttribute(`data-draggable-id`)) {
+        continue;
+      }
       element.setAttribute(`draggable`, true);
-      element.addEventListener(`dragstart`, this.draggable_start.bind(null, obj, element));
-      element.addEventListener(`dragenter`, this.draggable_enter.bind(null, obj, element));
+      element.addEventListener(`dragstart`, this.draggable_start.bind(null, obj));
+      element.addEventListener(`dragenter`, this.draggable_enter.bind(null, obj));
       element.addEventListener(`dragend`, this.draggable_end.bind(null, obj));
     }
   }
 
-  draggable_start(obj, element, event) {
+  async draggable_start(obj, event) {
     event.dataTransfer.setData(`text/plain`, ``);
-    obj.dragging = element;
-    this.draggable_setTrash(obj);
+    this.esgst.draggable.dragged = event.currentTarget;
+    this.esgst.draggable.source = this.esgst.draggable.dragged.parentElement;
+    this.esgst.draggable.destination = null;
+    if (obj.addTrash) {
+      this.draggable_setTrash(obj);
+    }
+    if (obj.item.gvIcons) {
+      obj.item.gvIcons.style.flexWrap = `wrap`;
+      obj.item.gvIcons.style.maxWidth = `${obj.item.gvIcons.offsetWidth}px`;
+    } else if (obj.item.columns) {
+      obj.item.columns.style.flexWrap = `wrap`;
+      obj.item.columns.style.maxWidth = `${obj.item.columns.offsetWidth}px`;
+    }
+    if (obj.item.panel) {
+      obj.item.panel.style.flexWrap = `wrap`;
+      obj.item.panel.style.maxWidth = `${obj.item.panel.offsetWidth}px`;
+    }
+    if (obj.item.heading) {
+      obj.item.heading.style.flexWrap = `wrap`;
+      obj.item.heading.style.maxWidth = `${obj.item.heading.offsetWidth}px`;
+    }
+    if (obj.item.gcPanel) {
+      obj.item.gcPanel.style.flexWrap = `wrap`;
+      obj.item.gcPanel.style.maxWidth = `${obj.item.gcPanel.offsetWidth}px`;
+    }
+    await this.timeout(0);
+    if (obj.item.gvIcons && obj.item.gvIcons.children.length < 1) {
+      obj.item.gvIcons.style.height = `25px`;
+      obj.item.gvIcons.style.width = `100%`;
+    } else if (obj.item.columns && obj.item.columns.children.length < 1) {
+      obj.item.columns.style.height = `25px`;
+      obj.item.columns.style.width = `100%`;
+    }
+    if (obj.item.panel && obj.item.panel.children.length < 1) {
+      obj.item.panel.style.height = `25px`;
+      obj.item.panel.style.width = `100%`;
+    }
+    if (obj.item.gcPanel && obj.item.gcPanel.children.length < 1) {
+      obj.item.gcPanel.style.height = `25px`;
+      obj.item.gcPanel.style.width = `100%`;
+    }
+    if (!obj.item.outerWrap) {
+      return;
+    }
+    const placeholders = obj.item.outerWrap.querySelectorAll(`.esgst-draggable-placeholder`);
+    for (const placeholder of placeholders) {
+      placeholder.classList.remove(`esgst-hidden`);
+    }
   }
 
-  draggable_enter(obj, element) {
-    if (obj.context !== element.parentElement) return;
-    let current = obj.dragging;
-    if (!current) return;
+  draggable_enter(obj, event) {
+    if (!this.esgst.draggable.dragged) {
+      return;
+    }
+    const element = event.currentTarget;
+    if (
+      element === this.esgst.draggable.dragged
+      || element.getAttribute(`data-draggable-id`) === this.esgst.draggable.dragged.getAttribute(`data-draggable-id`)
+    ) {
+      return;
+    }
+    if (element === obj.context) {
+      if (obj.context.children.length < 1) {
+        obj.context.appendChild(this.esgst.draggable.dragged);
+      }
+      return;
+    }
+    let current = this.esgst.draggable.dragged;
     do {
       current = current.previousElementSibling;
-      if (current && current === element) {
-        obj.context.insertBefore(obj.dragging, element);
-        return;
+      if (!current || current !== element) {
+        continue;
       }
+      element.parentElement.insertBefore(this.esgst.draggable.dragged, element);
+      this.esgst.draggable.destination = this.esgst.draggable.dragged.parentElement;
+      return;
     } while (current);
-    obj.context.insertBefore(obj.dragging, element.nextElementSibling);
+    element.parentElement.insertBefore(this.esgst.draggable.dragged, element.nextElementSibling);
+    this.esgst.draggable.destination = this.esgst.draggable.dragged.parentElement;
   }
 
   async draggable_end(obj) {
-    if (obj.trash) {
-      obj.trash.remove();
-      obj.trash = null;
+    if (this.esgst.draggable.awaitingConfirmation) {
+      return;
     }
-    const array = [];
-    for (const element of obj.context.children) {
-      array.push(decodeURIComponent(element.getAttribute(`data-id`)));
+    if (this.esgst.draggable.trash) {
+      this.esgst.draggable.trash.remove();
+      this.esgst.draggable.trash = null;
     }
-    this.setValue(obj.id, JSON.stringify(array));
+    if (obj.item.gvIcons) {
+      obj.item.gvIcons.style.flexWrap = ``;
+      obj.item.gvIcons.style.maxWidth = ``;
+      obj.item.gvIcons.style.height = ``;
+      obj.item.gvIcons.style.width = ``;
+    } else if (obj.item.columns) {
+      obj.item.columns.style.flexWrap = ``;
+      obj.item.columns.style.maxWidth = ``;
+      obj.item.columns.style.height = ``;
+      obj.item.columns.style.width = ``;
+    }
+    if (obj.item.panel) {
+      obj.item.panel.style.flexWrap = ``;
+      obj.item.panel.style.maxWidth = ``;
+      obj.item.panel.style.height = ``;
+      obj.item.panel.style.width = ``;
+    }
+    if (obj.item.heading) {
+      obj.item.heading.style.flexWrap = ``;
+      obj.item.heading.style.maxWidth = ``;
+    }
+    if (obj.item.gcPanel) {
+      obj.item.gcPanel.style.flexWrap = ``;
+      obj.item.gcPanel.style.maxWidth = ``;
+      obj.item.gcPanel.style.height = ``;
+      obj.item.gcPanel.style.width = ``;
+    }
+    if (obj.item.outerWrap) {
+      const placeholders = obj.item.outerWrap.querySelectorAll(`.esgst-draggable-placeholder`);
+      for (const placeholder of placeholders) {
+        placeholder.classList.add(`esgst-hidden`);
+      }
+    }
+    if (this.esgst.draggable.destination === obj.item.columns || this.esgst.draggable.destination === obj.item.gvIcons) {
+      if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+        this.esgst.draggable.dragged.classList.add(`esgst-giveaway-column-button`);
+      }
+      if (this.esgst.draggable.dragged.getAttribute(`data-color`)) {
+        element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+        this.esgst.draggable.dragged.firstElementChild.style.color = this.esgst.draggable.dragged.getAttribute(`data-bgColor`);
+        this.esgst.draggable.dragged.style.color = ``;
+        this.esgst.draggable.dragged.style.backgroundColor = ``;
+      }
+    } else {
+      if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+        this.esgst.draggable.dragged.classList.remove(`esgst-giveaway-column-button`);
+      }
+      if (this.esgst.draggable.dragged.getAttribute(`data-color`)) {
+        element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+        this.esgst.draggable.dragged.style.color = this.esgst.draggable.dragged.getAttribute(`data-color`);
+        this.esgst.draggable.dragged.style.backgroundColor = this.esgst.draggable.dragged.getAttribute(`data-bgColor`);
+      }
+    }
+    if (this.esgst.draggable.destination === obj.item.heading) {
+      if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+        this.esgst.draggable.dragged.classList.add(`giveaway__icon`);
+      }
+    } else if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+      this.esgst.draggable.dragged.classList.remove(`giveaway__icon`);
+    }
+    if (this.esgst.draggable.deleted) {
+      this.esgst.draggable.dragged.remove();
+    }
+    for (const element of [this.esgst.draggable.source, this.esgst.draggable.destination]) {
+      if (!element) {
+        continue;
+      }
+      const key = `${element.getAttribute(`data-draggable-key`)}${obj.item.gvIcons ? `_gv` : ``}`;
+      this.esgst[key] = [];
+      for (const child of element.children) {
+        const id = child.getAttribute(`data-draggable-id`);
+        if (id) {
+          this.esgst[key].push(id);
+        }
+      }
+      if (key === `emojis`) {
+        await this.setValue(key, JSON.stringify(this.esgst[key]));
+      } else {
+        await this.setSetting(key, this.esgst[key]);
+      }
+    }
+    this.esgst.draggable.dragged = null;
+    this.esgst.draggable.source = null;
+    this.esgst.draggable.destination = null;
   }
 
   draggable_setTrash(obj) {
-    obj.trash = this.createElements(obj.context, `afterEnd`, [{
+    /**
+   * @property {HTMLElement} obj.trashContext
+   */
+    this.esgst.draggable.trash = createElements(obj.trashContext || obj.context, `afterEnd`, [{
       attributes: {
         class: `esgst-draggable-trash`
       },
@@ -11740,19 +12192,23 @@ class Common extends Module {
         type: `i`
       }]
     }]);
-    obj.trash.style.width = `${obj.context.offsetWidth}px`;
-    obj.trash.addEventListener(`dragenter`, () => {
-      if (!obj.dragging) return;
-      if (!confirm(`Are you sure you want to delete this item?`)) return;
+    this.esgst.draggable.trash.style.width = `${(obj.trashContext || obj.context).offsetWidth}px`;
+    this.esgst.draggable.trash.addEventListener(`dragenter`, this.draggable_delete.bind(null, obj));
+  }
 
-      obj.dragging.remove();
-      obj.dragging = null;
-      const array = [];
-      for (const element of obj.context.children) {
-        array.push(decodeURIComponent(element.getAttribute(`data-id`)));
-      }
-      this.setValue(obj.id, JSON.stringify(array));
-    });
+  async draggable_delete(obj) {
+    this.esgst.draggable.awaitingConfirmation = true;
+    this.esgst.draggable.deleted = false;
+    if (
+      !this.esgst.draggable.dragged
+      || !confirm(`Are you sure you want to delete this item?`)
+    ) {
+      this.esgst.draggable.awaitingConfirmation = false;
+      return;
+    }
+    this.esgst.draggable.awaitingConfirmation = false;
+    this.esgst.draggable.deleted = true;
+    await this.draggable_end(obj);
   }
 
   setCountdown(context, totalSeconds, callback, initialDate = Date.now()) {
@@ -11769,7 +12225,7 @@ class Common extends Module {
 
   round(number, decimals = 2) {
     const multiplier = Math.pow(10, decimals);
-    return Math.this.round(number * multiplier) / multiplier;
+    return Math.round(number * multiplier) / multiplier;
   }
 
   getTextNodesIn(elem, opt_fnFilter) {
@@ -11900,25 +12356,12 @@ class Common extends Module {
   getChildByClassName(element, className) {
     let i;
     if (!element) return;
-    for (i = element.children.length - 1; i > -1 && !element.children[i].classList.contains(className); i--);
+    for (i = element.children.length - 1; i > -1 && !element.children[i].classList.contains(className); i--) {}
     if (i > -1) return element.children[i];
   }
 
   escapeMarkdown(string) {
-    // noinspection RegExpRedundantEscape
-    return string.replace(/(\[|\]|\(|\)|\*|~|!|\.|`|-|>|#|\|)/g, `\\$1`);
-  }
-
-  escapeHtml(string) {
-    return string
-      .replace(/&/g, `&amp;`)
-      .replace(/</g, `&lt;`)
-      .replace(/>/g, `&gt;`)
-      .replace(/"/g, `&quot;`)
-      .replace(/'/g, `&#39;`)
-      .replace(/\//g, `\u{2F};`)
-      .replace(/`/g, `\u{60};`)
-      .replace(/=/g, `\u{3D};`);
+    return string.replace(/([[\]()*~!.`\->#|])/g, `\\$1`);
   }
 
   removeDuplicateNotes(notes) {
@@ -12033,7 +12476,7 @@ class Common extends Module {
     let Siblings, I, N;
     Siblings = element.parentElement.children;
     for (I = 0, N = Siblings.length; I < N; ++I) {
-      if (Siblings[I] != element) {
+      if (Siblings[I] !== element) {
         Siblings[I].style.opacity = Opacity;
       }
     }
@@ -12265,7 +12708,7 @@ class Common extends Module {
         icons[i].classList.add(`giveaway__icon`);
       }
       headingName = heading.firstElementChild;
-      this.createElements(headingName, `outer`, [ {
+      this.createElements(headingName, `outer`, [{
         attributes: {
           class: `giveaway__heading__name`,
           href: url
@@ -12279,7 +12722,7 @@ class Common extends Module {
       }]);
       thinHeadings = heading.getElementsByClassName(`featured__heading__small`);
       for (i = 0, n = thinHeadings.length; i < n; ++i) {
-        this.createElements(thinHeadings[0], `outer`, [ {
+        this.createElements(thinHeadings[0], `outer`, [{
           attributes: {
             class: `giveaway__heading__thin`
           },
@@ -12297,7 +12740,7 @@ class Common extends Module {
       if (sgTools) {
         let info = this.esgst.modules.games.games_getInfo(giveaway);
         if (info) {
-          this.createElements(heading, `beforeEnd`, [ {
+          this.createElements(heading, `beforeEnd`, [{
             attributes: {
               class: `giveaway__icon`,
               href: `https://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}/`,
@@ -12352,16 +12795,14 @@ class Common extends Module {
       startTimeColumn.classList.add(`giveaway__column--width-fill`);
       if (sgTools) {
         let date = new Date(`${startTimeColumn.firstElementChild.textContent}Z`).getTime();
-        // noinspection JSMismatchedCollectionQueryUpdate --? where it used?
         const items = [];
         if (ended) {
           items.push({
-            text: `Ended`,
+            text: `Ended `,
             type: `node`
           });
         }
-        items.push();
-        this.createElements(startTimeColumn.firstElementChild, `outer`, [ {
+        items.push({
           attributes: {
             [`data-timestamp`]: date / 1e3
           },
@@ -12370,7 +12811,8 @@ class Common extends Module {
         }, {
           text: ` ago `,
           type: `node`
-        }]);
+        });
+        this.createElements(startTimeColumn.firstElementChild, `outer`, items);
       }
       avatar = columns.lastElementChild;
       if (sgTools) {
@@ -12513,15 +12955,15 @@ class Common extends Module {
   getParameters() {
     let parameters = {};
     location.search.replace(/^\?/, ``).split(/&/).forEach(item => {
-      item = item.split(/=/);
-      parameters[item[0]] = item[1];
+      const items = item.split(/=/);
+      parameters[items[0]] = items[1];
     });
     return parameters;
   }
 
   setMissingDiscussion(context) {
     if (context) {
-      this.createElements(context.outerWrap, `inner`, [ {
+      this.createElements(context.outerWrap, `inner`, [{
         attributes: {
           class: `table__row-outer-wrap`,
           style: `padding: 15px 0;`
@@ -12639,32 +13081,34 @@ class Common extends Module {
     let collapse, element, expand, found, id, type, typeFound, value;
     value = event.currentTarget.value.toLowerCase().trim();
     for (type in this.esgst.features) {
-      found = false;
-      typeFound = false;
-      for (id in this.esgst.features[type].features) {
-        this.unfadeSmFeatures(this.esgst.features[type].features[id], id);
-        found = this.filterSmFeature(this.esgst.features[type].features[id], id, value);
-        if (found) {
-          typeFound = true;
-          this.unhideSmFeature(this.esgst.features[type].features[id], id);
-        }
-      }
-      element = document.getElementById(`esgst_${type}`);
-      if (element) {
-        if (typeFound) {
-          element.classList.remove(`esgst-hidden`);
-        } else {
-          element.classList.add(`esgst-hidden`);
-        }
-        if (value) {
-          expand = element.getElementsByClassName(`fa-plus-square`)[0];
-          if (expand) {
-            expand.click();
+      if (this.esgst.features.hasOwnProperty(type)) {
+        found = false;
+        typeFound = false;
+        for (id in this.esgst.features[type].features) {
+          this.unfadeSmFeatures(this.esgst.features[type].features[id], id);
+          found = this.filterSmFeature(this.esgst.features[type].features[id], id, value);
+          if (found) {
+            typeFound = true;
+            this.unhideSmFeature(this.esgst.features[type].features[id], id);
           }
-        } else {
-          collapse = element.getElementsByClassName(`fa-minus-square`)[0];
-          if (collapse) {
-            collapse.click();
+        }
+        element = document.getElementById(`esgst_${type}`);
+        if (element) {
+          if (typeFound) {
+            element.classList.remove(`esgst-hidden`);
+          } else {
+            element.classList.add(`esgst-hidden`);
+          }
+          if (value) {
+            expand = element.getElementsByClassName(`fa-plus-square`)[0];
+            if (expand) {
+              expand.click();
+            }
+          } else {
+            collapse = element.getElementsByClassName(`fa-minus-square`)[0];
+            if (collapse) {
+              collapse.click();
+            }
           }
         }
       }
@@ -12678,7 +13122,9 @@ class Common extends Module {
     }
     if (feature.features) {
       for (id in feature.features) {
-        this.unfadeSmFeatures(feature.features[id], id);
+        if (feature.features.hasOwnProperty(id)) {
+          this.unfadeSmFeatures(feature.features[id], id);
+        }
       }
     }
   }
@@ -12689,8 +13135,10 @@ class Common extends Module {
     let exactFound = (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
     if (feature.features) {
       for (subId in feature.features) {
-        let result = this.filterSmFeature(feature.features[subId], subId, value);
-        found = found || result;
+        if (feature.features.hasOwnProperty(subId)) {
+          let result = this.filterSmFeature(feature.features[subId], subId, value);
+          found = found || result;
+        }
       }
       found = found || (feature.description && feature.description.toLowerCase().match(value)) || exactFound;
     } else {
@@ -12717,7 +13165,9 @@ class Common extends Module {
     }
     if (feature.features) {
       for (id in feature.features) {
-        this.unhideSmFeature(feature.features[id], id);
+        if (feature.features.hasOwnProperty(id)) {
+          this.unhideSmFeature(feature.features[id], id);
+        }
       }
     }
   }
@@ -12947,7 +13397,7 @@ class Common extends Module {
         }]
       }]).lastElementChild;
       (option.options || binaryOptions).forEach(subOption => {
-        this.createElements(option.select, `beforeEnd`, [ {
+        this.createElements(option.select, `beforeEnd`, [{
           attributes: {
             value: subOption.id
           },
@@ -13029,7 +13479,7 @@ class Common extends Module {
       button.addEventListener(`click`, () => {
         if (isExpanded) {
           container.classList.add(`esgst-hidden`);
-          this.createElements(button, `inner`, [ {
+          this.createElements(button, `inner`, [{
             attributes: {
               class: `fa fa-plus-square`,
               title: `Expand section`
@@ -13039,7 +13489,7 @@ class Common extends Module {
           isExpanded = false;
         } else {
           container.classList.remove(`esgst-hidden`);
-          this.createElements(button, `inner`, [ {
+          this.createElements(button, `inner`, [{
             attributes: {
               class: `fa fa-minus-square`,
               title: `Collapse section`
@@ -13067,7 +13517,7 @@ class Common extends Module {
           type: `i`
         });
       }
-      this.createElements(heading, `beforeEnd`, [ {
+      this.createElements(heading, `beforeEnd`, [{
         attributes: {
           class: item.Name,
           title: item.Title
@@ -13086,7 +13536,7 @@ class Common extends Module {
   }
 
   formatTags(fullMatch, match1, offset, string) {
-    return (((offset === 0) || (offset === (string.length - fullMatch.length))) ? '' : ', ');
+    return (((offset === 0) || (offset === (string.length - fullMatch.length))) ? `` : `, `);
   }
 
   animateScroll(y, callback) {
@@ -13170,7 +13620,7 @@ class Common extends Module {
       type: `span`
     }]);
     if (option.name === `Main`) {
-      this.createElements(switches[option.key].name, `beforeEnd`, [ {
+      this.createElements(switches[option.key].name, `beforeEnd`, [{
         attributes: {
           class: `fa fa-question-circle`,
           title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`
@@ -13217,9 +13667,9 @@ class Common extends Module {
     } else {
       bytes /= 1024;
       if (bytes < 1024) {
-        return `${Math.this.round(bytes * 100) / 100} KB`;
+        return `${Math.round(bytes * 100) / 100} KB`;
       } else {
-        return `${Math.this.round(bytes / 1024 * 100) / 100} MB`;
+        return `${Math.round(bytes / 1024 * 100) / 100} MB`;
       }
     }
   }
@@ -13232,17 +13682,21 @@ class Common extends Module {
     let css = [];
     separators.forEach(separator => {
       let check = false;
-      (separator.match(/domain\(.+?\)/g) || []).forEach(domain => {
+      for (const domain of (separator.match(/domain\(.+?\)/g) || [])) {
         if (location.hostname.match(domain.match(/\("(.+?)"\)/)[1])) {
           check = true;
+          break;
         }
-      });
-      (separator.match(/url(-prefix)?\(.+?\)/g) || []).forEach(url => {
+      }
+      for (const url of (separator.match(/url(-prefix)?\(.+?\)/g) || [])) {
         if (location.href.match(url.match(/\("(.+?)"\)/)[1])) {
           check = true;
+          break;
         }
-      });
-      if (!check) return;
+      }
+      if (!check) {
+        return;
+      }
       let index = theme.indexOf(separator) + separator.length,
         open = 1;
       do {
@@ -13262,6 +13716,62 @@ class Common extends Module {
 
   loadChangelog(version) {
     const changelog = [
+      {
+        date: `September 15, 2018`,
+        version: `7.27.2`,
+        changelog: {
+          915: `Fix Received and Not Received filters`,
+          916: `Improve the detection of ended giveaways`,
+          917: `Fix a bug that does not sort some columns correctly in Table Sorter`,
+          918: `Fix a bug that doesn't stop Endless Scrolling on group pages if the Ended filter is set to false and an ended giveaway was found`,
+          920: `Fix a typo in the simplified label for the Hidden game category`,
+          921: `Do not sync list of reduced CV games if the database has failed to update`,
+          923: `Increase priority of Hidden Game's Enter Button Disabler over default buttons`,
+          924: `Fix a bug that centers posts in Main Post Popup`,
+          926: `Fix a bug that happens when cleaning old data`,
+          930: `Fix a bug that does not filter public giveaways in the entered page`,
+          931: `Add "Reviews" filter`
+        }
+      },
+      {
+        date: `September 2, 2018`,
+        version: `7.27.1`,
+        changelog: {
+          914: `Remove detailed hidden game category for packages`,
+          913: `Add support for GitHub Wiki SteamGifts Integration to Comment Formatting Helper`,
+          912: `Fix HTML of group names in Multiple Giveaway Creator`,
+          910: `Only show Not Received Finder button for won gifts if the user has won gifts marked as not received`,
+          909: `Fix counter in User Giveaway Data`
+        }
+      },
+      {
+        date: `August 31, 2018`,
+        version: `7.27.0`,
+        changelog: {
+          906: `Always reverse discussions regardless of where the user came from`,
+          786: `Show game categories for packages of the items from the package`,
+          905: `Fix a bug that shows the loading icon forever in Game Categories`,
+          899: `Prevent the script from marking all features as new on first install`,
+          884: `Add a feature: Discussion Tags`,
+          903: `Fix a bug that happens when syncing ignored games`,
+          895: `Extend Not Received Finder to won giveaways`,
+          894: `Show the games won under "Most sent to" in User Giveaway Data`
+        }
+      },
+      {
+        date: `August 26, 2018`,
+        version: `7.26.4`,
+        changelog: {
+          798: `Indicate leftover gifts/keys in Unsent Gifts Sender`,
+          861: `Add option to activate the first SG/ST tab if a browser session was restored (extension only)`,
+          883: `Fix a bug that does not sync games correctly`,
+          891: `Fix bugs in Whitelist/Blacklist Checker`,
+          893: `Fix HTML in User Giveaway Data`,
+          897: `Prevent Cake Day Reminder from notifying about past cake day when installing the script`,
+          900: `Fix HTML in the restore and delete menus`,
+          901: `Fix a bug that happens when refreshing old active discussions on sidebar`
+        }
+      },
       {
         date: `August 15, 2018`,
         version: `7.26.3`,
@@ -13692,7 +14202,7 @@ class Common extends Module {
           605: `Fix a bug that does not set the correct default values for some settings`,
           602: `Add option to clean duplicate data to the data cleaner menu`,
           598: `Implement a method to automatically detect and highlight new features/options in the settings menu with the [NEW] tag`,
-          597: `Fix a bug that shows Inifity% chance per point on the entered page`,
+          597: `Fix a bug that shows Infinity% chance per point on the entered page`,
           596: `Replace the terms &quot;Import&quot; and &quot;Export&quot; with &quot;Restore&quot; and &quot;Backup&quot; and change the icons to avoid any confusion`,
           584: `Fix a bug that does not reload the extension in Chrome when updating`,
           555: `Add SteamGifts filters to Giveaway Filters`,
@@ -13761,7 +14271,7 @@ class Common extends Module {
         changelog: {
           353: `Convert all callback functions into promises and use async/await to deal with them (ongoing)`,
           552: `Fix a bug that does not allow the Giveaway Extractor button to be moved`,
-          556: `Only load Attached Images Carouself for images that are actually in the page`,
+          556: `Only load Attached Images Carousel for images that are actually in the page`,
           558: `Fix a bug that does not extract giveaways in a new tab`,
           560: `Fix a bug that does not load ESGST sometimes`,
           561: `Fix a bug that happens when performing requests in the userscript version`
@@ -13809,35 +14319,37 @@ class Common extends Module {
     let index = 0;
     if (version) {
       let i, n;
-      for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; i++);
+      for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; i++) {}
       index = i < n ? i - 1 : n - 1;
     }
     const html = [];
     while (index > -1) {
       const items = [];
       for (const key in changelog[index].changelog) {
-        const item = {
-          type: `li`,
-          children: []
-        };
-        if (key === 0) {
-          item.children.push({
-            text: changelog[index].changelog[key],
-            type: `node`
-          });
-        } else {
-          item.children.push({
-            attributes: {
-              href: `https://github.com/revilheart/ESGST/issues/${key}`
-            },
-            text: `#${key}`,
-            type: `a`
-          }, {
-            text: ` ${changelog[index].changelog[key]}`,
-            type: `node`
-          });
+        if (changelog[index].changelog.hasOwnProperty(key)) {
+          const item = {
+            type: `li`,
+            children: []
+          };
+          if (key === `0`) {
+            item.children.push({
+              text: changelog[index].changelog[key],
+              type: `node`
+            });
+          } else {
+            item.children.push({
+              attributes: {
+                href: `https://github.com/gsrafael01/ESGST/issues/${key}`
+              },
+              text: `#${key}`,
+              type: `a`
+            }, {
+              text: ` ${changelog[index].changelog[key]}`,
+              type: `node`
+            });
+          }
+          items.push(item);
         }
-        items.push(item);
       }
       html.unshift({
         attributes: {
@@ -13852,7 +14364,7 @@ class Common extends Module {
       index -= 1;
     }
     const popup = new Popup(`fa-file-text-o`, `Changelog`, true);
-    this.createElements(popup.scrollable, `afterBegin`, [ {
+    this.createElements(popup.scrollable, `afterBegin`, [{
       attributes: {
         class: `esgst-text-left markdown`
       },
@@ -13863,6 +14375,9 @@ class Common extends Module {
   }
 
   createElements(context, position, items) {
+    if (position === `inner`) {
+      context.innerHTML = ``;
+    }
     if (!items || !items.length) {
       return;
     }
@@ -13887,7 +14402,6 @@ class Common extends Module {
         element = context.nextElementSibling;
         break;
       case `inner`:
-        context.innerHTML = ``;
         context.appendChild(fragment);
         element = context.firstElementChild;
         break;
@@ -13917,7 +14431,9 @@ class Common extends Module {
       const element = document.createElement(item.type);
       if (isSet(item.attributes)) {
         for (const key in item.attributes) {
-          element.setAttribute(key, item.attributes[key]);
+          if (item.attributes.hasOwnProperty(key)) {
+            element.setAttribute(key, item.attributes[key]);
+          }
         }
       }
       if (isSet(item.text)) {
@@ -13928,7 +14444,9 @@ class Common extends Module {
       }
       if (isSet(item.events)) {
         for (const key in item.events) {
-          element.addEventListener(key, item.events[key]);
+          if (item.events.hasOwnProperty(key)) {
+            element.addEventListener(key, item.events[key]);
+          }
         }
       }
       if (item.type === `i`) {
@@ -13957,7 +14475,7 @@ class Common extends Module {
 
   /**
    * @param steamIds
-   * @returns {SuspensionsApiReponse}
+   * @returns {SuspensionsApiResponse}
    */
   async getSuspensions(steamIds) {
     return JSON.parse((await this.request({
@@ -13967,12 +14485,10 @@ class Common extends Module {
   }
 
   /**
-   * --? not sure of the correct name for this method
    * @param SMFeatures
    */
-  clickSmFeatures(SMFeatures) {
-    // noinspection JSUnresolvedFunction --? abstract Element doesn't have click function
-    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.click();
+  updateTheme(SMFeatures) {
+    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.dispatchEvent(new Event(`click`));
   }
 }
 
