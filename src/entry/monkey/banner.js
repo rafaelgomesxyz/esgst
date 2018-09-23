@@ -3,8 +3,8 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1
-// @version 7.26.3
-// @author revilheart
+// @version <% package.version %>
+// @author <% package.author %>
 // @contributor Royalgamer06
 // @downloadURL https://github.com/revilheart/ESGST/raw/master/ESGST.user.js
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
@@ -42,12 +42,9 @@
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jquery-ui-1.12.1.min.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/bootstrap-3.3.7.min.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/interact-1.3.4.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jszip-3.1.5.min.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/parsedown-0.0.1.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/query-builder-2.5.2.min.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/intersection-observer.js
 // @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/encoding.js
-// @require https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/js/jsUtils-0.0.1.js
 // @resource bs https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/bootstrap-3.3.7.min.css
 // @resource abc https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/awesome-bootstrap-checkbox-0.3.7.min.css
 // @resource qb https://raw.githubusercontent.com/revilheart/ESGST/7.26.3/Extension/css/query-builder-2.5.2.min.css
