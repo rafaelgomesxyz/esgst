@@ -1,3 +1,13 @@
+import {common} from '../modules/Common';
+import esgst from './Esgst'
+
+const
+  {
+    createElements,
+    setSetting
+  } = common
+;
+
 export default class ToggleSwitch {
   constructor(context, id, inline, name, sg, st, tooltip, value) {
     this.dependencies = [];
@@ -104,14 +114,17 @@ export default class ToggleSwitch {
   }
   enable(settings) {
     this.input.checked = true;
+    // noinspection JSIgnoredPromiseFromCall
     this.change(settings);
   }
   disable(settings) {
     this.input.checked = false;
+    // noinspection JSIgnoredPromiseFromCall
     this.change(settings);
   }
   toggle(settings) {
     this.input.checked = !this.input.checked;
+    // noinspection JSIgnoredPromiseFromCall
     this.change(settings);
   }
 }

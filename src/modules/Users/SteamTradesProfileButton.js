@@ -10,7 +10,7 @@ const
 ;
 
 class UsersSteamTradesProfileButton extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to go to their SteamTrades profile page.</li>

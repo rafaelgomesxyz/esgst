@@ -1,6 +1,22 @@
+import ButtonSet_v2 from "./ButtonSet_v2";
+import {common} from '../modules/Common';
+import esgst from "./Esgst";
+
+const
+  {
+    createElements,
+    loadMenu,
+    minimizePanel_addItem,
+    minimizePanel_alert,
+    observeChange,
+    observeNumChange,
+    repositionPopups
+  } = common
+;
+
 export default class Popup_v2 {
   constructor(details) {
-    this.isCreated = details.popup ? false : true;
+    this.isCreated = !details.popup;
     this.temp = details.isTemp;
     this.popup = details.popup || createElements(document.body, `beforeEnd`, [{
       attributes: {

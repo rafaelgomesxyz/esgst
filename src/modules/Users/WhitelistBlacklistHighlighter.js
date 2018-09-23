@@ -10,7 +10,7 @@ const
 ;
 
 class UsersWhitelistBlacklistHighlighter extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-heart esgst-whitelist"></i> if the user is whitelisted and <i class="fa fa-ban esgst-blacklist"></i> if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.</li>

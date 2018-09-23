@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
+import Popup from "../../class/Popup";
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
-import Popup from "../../class/Popup";
 
 const
   {
@@ -17,7 +17,7 @@ const
 ;
 
 class UsersSharedGroupChecker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-users"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to check which groups you are both members of.</li>
@@ -148,6 +148,7 @@ info = ({
       profile.sgcPrivate = profile.sgcResults.lastElementChild.lastElementChild;
       profile.sgcPrivateResults = profile.sgcPrivate.lastElementChild;
       profile.sgcPopup.open();
+      // noinspection JSIgnoredPromiseFromCall
       this.sgc_load(profile);
     }
   }
@@ -168,7 +169,7 @@ info = ({
       const name = element.getElementsByClassName(`linkTitle`)[0].textContent;
       const avatar = element.getElementsByClassName(`avatarMedium`)[0].firstElementChild.firstElementChild.getAttribute(`src`);
       let i;
-      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].name !== name; i--);
+      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].name !== name; i--) {}
       if (!isLoggedIn && (i < 0 || !this.esgst.groups[i].member)) {
         continue;
       }

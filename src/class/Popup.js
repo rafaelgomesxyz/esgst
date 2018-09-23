@@ -1,4 +1,15 @@
+import {common} from '../modules/Common';
 import esgst from "./Esgst";
+
+const
+  {
+    createElements,
+    loadMenu,
+    minimizePanel_addItem,
+    minimizePanel_alert,
+    repositionPopups
+  } = common
+;
 
 export default class Popup {
   /** @type {HTMLElement} */
@@ -11,7 +22,7 @@ export default class Popup {
   onClose;
 
   constructor(icon, title, temp, settings, popup = null) {
-    this.isCreated = popup ? false : true;
+    this.isCreated = !popup;
     this.temp = temp;
     this.popup = popup || createElements(document.body, `beforeEnd`, [{
       attributes: {

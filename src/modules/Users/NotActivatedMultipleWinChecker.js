@@ -1,9 +1,8 @@
-
 import Module from '../../class/Module';
-import {common} from '../Common';
-import Popup from "../../class/Popup";
 import ButtonSet_v2 from "../../class/ButtonSet_v2";
+import Popup from "../../class/Popup";
 import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
 
 const 
   {
@@ -258,9 +257,11 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     if (obj.isMenu) {
       let savedUsers = JSON.parse(await getValue(`users`));
       for (let id in savedUsers.users) {
-        let savedUser = savedUsers.users[id];
-        if (!savedUser.namwc || !savedUser.namwc.results) continue;
-        users.push(savedUser.username);
+        if (savedUsers.users.hasOwnProperty(id)) {
+          let savedUser = savedUsers.users[id];
+          if (!savedUser.namwc || !savedUser.namwc.results) continue;
+          users.push(savedUser.username);
+        }
       }
     } else if (obj.user) {
       users.push(obj.user.username);
@@ -320,9 +321,11 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         }
         if (resultsBackup) {
           for (let key in resultsBackup) {
-            if (((Array.isArray(resultsBackup[key]) && resultsBackup[key].length) || (!Array.isArray(resultsBackup[key]) && resultsBackup[key])) === ((Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]))) continue;
-            isNew = true;
-            break;
+            if (resultsBackup.hasOwnProperty(key)) {
+              if (((Array.isArray(resultsBackup[key]) && resultsBackup[key].length) || (!Array.isArray(resultsBackup[key]) && resultsBackup[key])) === ((Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]))) continue;
+              isNew = true;
+              break;
+            }
           }
         } else {
           isNew = true;
@@ -330,23 +333,25 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       }
       let elements = [];
       for (let key in user.values.namwc.results) {
-        let value = (Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]);
-        if (!value) continue;
-        obj.popup[key].classList.remove(`esgst-hidden`);
-        let count = obj.popup[`${key}Count`];
-        count.textContent = parseInt(count.textContent) + 1;
-        const attributes = {
-          href: `http://www.sgtools.info/${key.match(/multiple/i) ? `multiple` : `nonactivated`}/${user.username}`,
-          target: `_blank`
-        };
-        if (isNew) {
-          attributes.class = `esgst-bold esgst-italic`;
+        if (user.values.namwc.results.hasOwnProperty(key)) {
+          let value = (Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]);
+          if (!value) continue;
+          obj.popup[key].classList.remove(`esgst-hidden`);
+          let count = obj.popup[`${key}Count`];
+          count.textContent = parseInt(count.textContent) + 1;
+          const attributes = {
+            href: `http://www.sgtools.info/${key.match(/multiple/i) ? `multiple` : `nonactivated`}/${user.username}`,
+            target: `_blank`
+          };
+          if (isNew) {
+            attributes.class = `esgst-bold esgst-italic`;
+          }
+          elements[key] = createElements(obj.popup[`${key}Users`], `beforeEnd`, [{
+            attributes,
+            text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}`,
+            type: `a`
+          }]);
         }
-        elements[key] = createElements(obj.popup[`${key}Users`], `beforeEnd`, [{
-          attributes,
-          text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}`,
-          type: `a`
-        }]);
       }
       if (!obj.isMenu) {
         await saveUser(null, null, user);
@@ -383,7 +388,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       users.push(user);
       if (Array.isArray(user.values.namwc.results.notActivated)) {
         let i, n;
-        for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++) ;
+        for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++) {}
         if (i > 0) {
           createElements(userElements[steamId].notActivated, `beforeEnd`, [{
             attributes: {
@@ -404,9 +409,9 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       }
       if (Array.isArray(user.values.namwc.results.multiple)) {
         let i, n;
-        for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++) ;
+        for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++) {}
         if (i > 0) {
-          createElements(userElements[steamId].multiple, `beforeEnd`, [{
+          createElements(userElements[steamId].multiple, `beforeEnd`,[{
             attributes: {
               title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)
             },

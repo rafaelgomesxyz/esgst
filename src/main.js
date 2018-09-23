@@ -1,9 +1,9 @@
 `use strict`;
 
-import {utils} from './lib/jsUtils';
-import esgst from './class/Esgst';
 import Popup from "./class/Popup";
 import Popup_v2 from "./class/Popup_v2";
+import {utils} from './lib/jsUtils';
+import esgst from './class/Esgst';
 
 /** @var {object} GM */
 /** @var {function} GM_getValue */
@@ -234,10 +234,10 @@ import Popup_v2 from "./class/Popup_v2";
           if (isLocal) {
             let response = await fetch(details.url, {
               body: details.data,
-              credentials: details.anon ? `omit` : `include`,
+              credentials: /** @type {"omit"|"include"} */ details.anon ?  `omit` : `include`,
               headers: new Headers(details.headers),
               method: details.method,
-              redirect: `follow`
+              redirect: "follow"
             });
             let responseText = await response.text();
             response = {
@@ -573,7 +573,7 @@ import Popup_v2 from "./class/Popup_v2";
             }]
           }]
         }]);
-        dropdown = menu.firstElementChild;
+        dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
         button = dropdown.nextElementSibling;
         arrow = button.nextElementSibling;
         button.addEventListener(`mousedown`, event => {
@@ -672,10 +672,10 @@ import Popup_v2 from "./class/Popup_v2";
           if (isLocal) {
             let response = await fetch(details.url, {
               body: details.data,
-              credentials: details.anon ? `omit` : `include`,
+              credentials: /** @type {"omit"|"include"} */ details.anon ?  `omit` : `include`,
               headers: details.headers,
               method: details.method,
-              redirect: `follow`
+              redirect: "follow"
             });
             let responseText = await response.text();
             response = {
@@ -1041,7 +1041,7 @@ import Popup_v2 from "./class/Popup_v2";
             }]
           }]
         }]);
-        dropdown = menu.firstElementChild;
+        dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
         button = dropdown.nextElementSibling;
         arrow = button.nextElementSibling;
         button.addEventListener(`mousedown`, event => {
@@ -1442,7 +1442,8 @@ import Popup_v2 from "./class/Popup_v2";
                 break;
               }
             }
-            esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+            esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+            esgst.steamId = esgst.settings.steamId;
             esgst.settingsChanged = true;
           }
         } catch (e) { /**/ }
@@ -1551,9 +1552,9 @@ import Popup_v2 from "./class/Popup_v2";
             }, {
               context: responseHtml.getElementsByClassName(`footer__outer-wrap`)[0]
             }]);
-            esgst.header = document.body.firstElementChild;
-            esgst.footer = document.body.lastElementChild;
-            esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
+            esgst.header = /** @type {HTMLElement} */ document.body.firstElementChild;
+            esgst.footer = /** @type {HTMLElement} */ document.body.lastElementChild;
+            esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName(`nav__left-container`)[0];
             esgst.pageOuterWrap = esgst.header.nextElementSibling;
             esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
             esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);

@@ -11,7 +11,7 @@ const
 ;
 
 class UsersInboxWinnerHighlighter extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-trophy"></i>) next to the username of a giveaway comment made by the giveaway's winner(s) (in the <a href="https://www.steamgifts.com/messages">inbox</a> page).</li>

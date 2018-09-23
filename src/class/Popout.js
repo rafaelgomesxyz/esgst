@@ -1,5 +1,15 @@
+import {common} from '../modules/Common';
+import esgst from './Esgst';
+
+const
+  {
+    createElements
+  } = common
+;
+
 export default class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
+    this.onClose = null;
     this.onOpen = onOpen;
     this.context = context;
     this.popout = popout || createElements(document.body, `beforeEnd`, [{
@@ -45,7 +55,8 @@ export default class Popout {
         }, this.hoverSpeed);
       });
       document.addEventListener(`click`, event => {
-        if (this.context && !this.context.contains(event.target) && !this.popout.contains(event.target) && (className !== `esgst-qiv-popout` || !event.target.closest(`.esgst-popout`))) {
+        const element = event.target;
+        if (this.context && !this.context.contains(element) && !this.popout.contains(element) && (className !== `esgst-qiv-popout` || !element.closest(`.esgst-popout`))) {
           this.close();
         }
       }, true);

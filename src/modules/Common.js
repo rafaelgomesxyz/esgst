@@ -110,7 +110,7 @@ class Common extends Module {
         }]
       }]
     }]);
-    this.esgst.minimizeList = this.esgst.minimizePanel.firstElementChild.lastElementChild;
+    this.esgst.minimizeList = /** @type {HTMLElement} */ this.esgst.minimizePanel.firstElementChild.lastElementChild;
   }
 
   minimizePanel_addItem(popup) {
@@ -248,7 +248,9 @@ class Common extends Module {
     }
 
     for (const key in this.esgst.documentEvents) {
-      document.addEventListener(key, this.processEvent.bind(null, this.esgst.documentEvents[key]), true);
+      if (this.esgst.documentEvents.hasOwnProperty(key)) {
+        document.addEventListener(key, this.processEvent.bind(null, this.esgst.documentEvents[key]), true);
+      }
     }
 
     this.esgst.modules = modules;
@@ -275,8 +277,8 @@ class Common extends Module {
       this.esgst.pageOuterWrapClass = `page_outer_wrap`;
       this.esgst.pageHeadingClass = `page_heading`;
       this.esgst.pageHeadingBreadcrumbsClass = `page_heading_breadcrumbs`;
-      this.esgst.footer = document.getElementsByTagName(`footer`)[0];
-      this.esgst.replyBox = document.getElementsByClassName(`reply_form`)[0];
+      this.esgst.footer =  /** @type {HTMLElement} */ document.getElementsByTagName(`footer`)[0];
+      this.esgst.replyBox = /** @type {HTMLElement} */ document.getElementsByClassName(`reply_form`)[0];
       this.esgst.cancelButtonClass = `btn_cancel`;
       this.esgst.paginationNavigationClass = `pagination_navigation`;
       this.esgst.hiddenClass = `is_hidden`;
@@ -313,20 +315,20 @@ class Common extends Module {
     if (!this.esgst.menuPath) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
     }
-    this.esgst.header = document.getElementsByTagName(`header`)[0];
-    this.esgst.headerNavigationLeft = document.getElementsByClassName(`nav__left-container`)[0];
-    this.esgst.pagination = document.getElementsByClassName(`pagination`)[0];
-    this.esgst.featuredContainer = document.getElementsByClassName(`featured__container`)[0];
-    this.esgst.pageOuterWrap = document.getElementsByClassName(this.esgst.pageOuterWrapClass)[0];
-    this.esgst.paginationNavigation = document.getElementsByClassName(this.esgst.paginationNavigationClass)[0];
-    this.esgst.sidebar = document.getElementsByClassName(`sidebar`)[0];
+    this.esgst.header = /** @type {HTMLElement} */ document.getElementsByTagName(`header`)[0];
+    this.esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName(`nav__left-container`)[0];
+    this.esgst.pagination = /** @type {HTMLElement} */ document.getElementsByClassName(`pagination`)[0];
+    this.esgst.featuredContainer = /** @type {HTMLElement} */ document.getElementsByClassName(`featured__container`)[0];
+    this.esgst.pageOuterWrap = /** @type {HTMLElement} */ document.getElementsByClassName(this.esgst.pageOuterWrapClass)[0];
+    this.esgst.paginationNavigation = /** @type {HTMLElement} */ document.getElementsByClassName(this.esgst.paginationNavigationClass)[0];
+    this.esgst.sidebar = /** @type {HTMLElement} */ document.getElementsByClassName(`sidebar`)[0];
     if (this.esgst.sidebar) {
-      this.esgst.enterGiveawayButton = this.esgst.sidebar.getElementsByClassName(`sidebar__entry-insert`)[0];
-      this.esgst.leaveGiveawayButton = this.esgst.sidebar.getElementsByClassName(`sidebar__entry-delete`)[0];
-      this.esgst.giveawayErrorButton = this.esgst.sidebar.getElementsByClassName(`sidebar__error`)[0];
+      this.esgst.enterGiveawayButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__entry-insert`)[0];
+      this.esgst.leaveGiveawayButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__entry-delete`)[0];
+      this.esgst.giveawayErrorButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__error`)[0];
     }
-    this.esgst.activeDiscussions = document.querySelector(`.widget-container--margin-top:last-of-type`);
-    this.esgst.pinnedGiveaways = document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
+    this.esgst.activeDiscussions = /** @type {HTMLElement} */ document.querySelector(`.widget-container--margin-top:last-of-type`);
+    this.esgst.pinnedGiveaways = /** @type {HTMLElement} */ document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
     let mainPageHeadingIndex;
     if (this.esgst.commentsPath) {
       mainPageHeadingIndex = 1;
@@ -460,7 +462,9 @@ class Common extends Module {
     if (!mainEndless) {
       const newValues = {};
       for (const key in this.esgst.edited) {
-        newValues[key] = JSON.stringify(this.esgst[key]);
+        if (this.esgst.edited.hasOwnProperty(key)) {
+          newValues[key] = JSON.stringify(this.esgst[key]);
+        }
       }
       if (Object.keys(newValues).length) {
         this.setValues(newValues);
@@ -1045,8 +1049,10 @@ class Common extends Module {
       },
     };
     for (const type in features) {
-      if (type.match(/^(others|themes)$/)) {
-        continue;
+      if (features.hasOwnProperty(type)) {
+        if (type.match(/^(others|themes)$/)) {
+          continue;
+        }
       }
       const typeModules = this.esgst.modules.filter(x => x.type === type).sort((x, y) => {
         return x.id.localeCompare(y.id, {sensitivity: `base`});
@@ -1291,17 +1297,21 @@ class Common extends Module {
             }
             if (ugd.won) {
               for (key in ugd.won.apps) {
-                giveaways.won.apps[key] = [];
-                for (i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
-                  ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
-                  giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
+                if (ugd.won.apps.hasOwnProperty(key)) {
+                  giveaways.won.apps[key] = [];
+                  for (i = 0, n = ugd.won.apps[key].length; i < n; ++i) {
+                    ggiveaways[ugd.won.apps[key][i].code] = ugd.won.apps[key][i];
+                    giveaways.won.apps[key].push(ugd.won.apps[key][i].code);
+                  }
                 }
               }
               for (key in ugd.won.subs) {
-                giveaways.won.subs[key] = [];
-                for (i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
-                  ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
-                  giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
+                if (ugd.won.subs.hasOwnProperty(key)) {
+                  giveaways.won.subs[key] = [];
+                  for (i = 0, n = ugd.won.subs[key].length; i < n; ++i) {
+                    ggiveaways[ugd.won.subs[key][i].code] = ugd.won.subs[key][i];
+                    giveaways.won.subs[key].push(ugd.won.subs[key][i].code);
+                  }
                 }
               }
               giveaways.wonTimestamp = ugd.wonTimestamp;
@@ -1740,7 +1750,9 @@ class Common extends Module {
     }
     if (feature.features) {
       for (const subId in feature.features) {
-        this.dismissFeature(feature.features[subId], subId);
+        if (feature.features.hasOwnProperty(subId)) {
+          this.dismissFeature(feature.features[subId], subId);
+        }
       }
     }
   }
@@ -1767,7 +1779,9 @@ class Common extends Module {
     if (!this.esgst[id]) return;
     if (feature.features) {
       for (id in feature.features) {
-        this.getFeatureSetting(feature.features[id], id);
+        if (feature.features.hasOwnProperty(id)) {
+          this.getFeatureSetting(feature.features[id], id);
+        }
       }
     }
   }
@@ -1814,19 +1828,23 @@ class Common extends Module {
   getFeatureNumber(queryId) {
     let n = 1;
     for (let type in this.esgst.features) {
-      let i = 1;
-      for (let id in this.esgst.features[type].features) {
-        let feature = this.esgst.features[type].features[id];
-        let result = this.getFeatureNumber_2(feature, id, i, n, queryId);
-        if (result) {
-          return result;
+      if (this.esgst.features.hasOwnProperty(type)) {
+        let i = 1;
+        for (let id in this.esgst.features[type].features) {
+          if (this.esgst.features[type].features.hasOwnProperty(id)) {
+            let feature = this.esgst.features[type].features[id];
+            let result = this.getFeatureNumber_2(feature, id, i, n, queryId);
+            if (result) {
+              return result;
+            }
+            if (feature.sg || this.esgst.settings.esgst_st) {
+              i += 1;
+            }
+          }
         }
-        if (feature.sg || this.esgst.settings.esgst_st) {
-          i += 1;
+        if (type !== `trades` || this.esgst.settings.esgst_st) {
+          n += 1;
         }
-      }
-      if (type !== `trades` || this.esgst.settings.esgst_st) {
-        n += 1;
       }
     }
     return {
@@ -1845,13 +1863,15 @@ class Common extends Module {
     if (feature.features) {
       let j = 1;
       for (let id in feature.features) {
-        let subFeature = feature.features[id];
-        let result = this.getFeatureNumber_2(subFeature, id, j, `${n}.${i}`, queryId);
-        if (result) {
-          return result;
-        }
-        if (subFeature.sg || this.esgst.settings.esgst_st) {
-          j += 1;
+        if (feature.features.hasOwnProperty(id)) {
+          let subFeature = feature.features[id];
+          let result = this.getFeatureNumber_2(subFeature, id, j, `${n}.${i}`, queryId);
+          if (result) {
+            return result;
+          }
+          if (subFeature.sg || this.esgst.settings.esgst_st) {
+            j += 1;
+          }
         }
       }
     }
@@ -1898,11 +1918,13 @@ class Common extends Module {
         let deleteLock = await this.createLock(`userLock`, 300);
         this.checkUsernameChange(savedUsers, user);
         for (let key in user.values) {
-          if (key !== `tags`) {
-            if (user.values[key] === null) {
-              delete savedUsers.users[user.steamId][key];
-            } else {
-              savedUsers.users[user.steamId][key] = user.values[key];
+          if (user.values.hasOwnProperty(key)) {
+            if (key !== `tags`) {
+              if (user.values[key] === null) {
+                delete savedUsers.users[user.steamId][key];
+              } else {
+                savedUsers.users[user.steamId][key] = user.values[key];
+              }
             }
           }
         }
@@ -1966,11 +1988,13 @@ class Common extends Module {
       savedUsers.steamIds[user.username] = user.steamId;
     }
     for (let key in user.values) {
-      if (key !== `tags`) {
-        if (user.values[key] === null) {
-          delete savedUsers.users[user.steamId][key];
-        } else {
-          savedUsers.users[user.steamId][key] = user.values[key];
+      if (user.values.hasOwnProperty(key)) {
+        if (key !== `tags`) {
+          if (user.values[key] === null) {
+            delete savedUsers.users[user.steamId][key];
+          } else {
+            savedUsers.users[user.steamId][key] = user.values[key];
+          }
         }
       }
     }
@@ -2057,11 +2081,13 @@ class Common extends Module {
         savedUsers.steamIds[user.username] = user.steamId;
       }
       for (let key in user.values) {
-        if (key !== `tags`) {
-          if (user.values[key] === null) {
-            delete savedUsers.users[user.steamId][key];
-          } else {
-            savedUsers.users[user.steamId][key] = user.values[key];
+        if (user.values.hasOwnProperty(key)) {
+          if (key !== `tags`) {
+            if (user.values[key] === null) {
+              delete savedUsers.users[user.steamId][key];
+            } else {
+              savedUsers.users[user.steamId][key] = user.values[key];
+            }
           }
         }
       }
@@ -2070,11 +2096,13 @@ class Common extends Module {
       let user = list.existing[i];
       this.checkUsernameChange(savedUsers, user);
       for (let key in user.values) {
-        if (key !== `tags`) {
-          if (user.values[key] === null) {
-            delete savedUsers.users[user.steamId][key];
-          } else {
-            savedUsers.users[user.steamId][key] = user.values[key];
+        if (user.values.hasOwnProperty(key)) {
+          if (key !== `tags`) {
+            if (user.values[key] === null) {
+              delete savedUsers.users[user.steamId][key];
+            } else {
+              savedUsers.users[user.steamId][key] = user.values[key];
+            }
           }
         }
       }
@@ -2088,8 +2116,10 @@ class Common extends Module {
     deleteLock = await this.createLock(`userLock`, 300);
     savedUsers = JSON.parse(await this.getValue(`users`));
     for (let key in savedUsers.users) {
-      for (let i = 0, n = values.length; i < n; ++i) {
-        delete savedUsers.users[key][values[i]];
+      if (savedUsers.users.hasOwnProperty(key)) {
+        for (let i = 0, n = values.length; i < n; ++i) {
+          delete savedUsers.users[key][values[i]];
+        }
       }
     }
     await this.setValue(`users`, JSON.stringify(savedUsers));
@@ -2145,10 +2175,9 @@ class Common extends Module {
   }
 
   async setSync(autoSync, mainCallback, parameters) {
-    let syncer = {
-      autoSync: autoSync,
-      canceled: false
-    };
+    let syncer = {};
+    syncer.autoSync = autoSync;
+    syncer.canceled = false;
     if (this.esgst.firstInstall) {
       await this.sync(syncer);
     } else if (syncer.autoSync || mainCallback || parameters) {
@@ -2175,7 +2204,9 @@ class Common extends Module {
           syncGiveaways: new ToggleSwitch(syncer.popup.scrollable, `syncGiveaways`, false, `Giveaways`, false, false, null, this.esgst.syncGiveaways)
         };
         for (let id in syncer.switches) {
-          this.setAutoSync(id, syncer.switches);
+          if (syncer.switches.hasOwnProperty(id)) {
+            this.setAutoSync(id, syncer.switches);
+          }
         }
         let group = this.createElements(syncer.popup.description, `beforeEnd`, [{
           attributes: {
@@ -2327,13 +2358,17 @@ class Common extends Module {
         let newGroups, savedGiveaways;
         newGroups = [];
         for (let key in savedGroups) {
-          newGroups.push(savedGroups[key]);
+          if (savedGroups.hasOwnProperty(key)) {
+            newGroups.push(savedGroups[key]);
+          }
         }
         savedGroups = newGroups;
         await this.setValue(`groups`, JSON.stringify(savedGroups));
         savedGiveaways = JSON.parse(await this.getValue(`giveaways`));
         for (let key in savedGiveaways) {
-          delete savedGiveaways[key].groups;
+          if (savedGiveaways.hasOwnProperty(key)) {
+            delete savedGiveaways[key].groups;
+          }
         }
         await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
       }
@@ -2386,31 +2421,35 @@ class Common extends Module {
       missing = [];
       neww = [];
       for (let id in syncer.currentGroups) {
-        if (!syncer.newGroups[id]) {
-          missing.push({
-            attributes: {
-              href: `http://steamcommunity.com/gid/${id}`
-            },
-            text: syncer.currentGroups[id],
-            type: `a`
-          }, {
-            text: `, `,
-            type: `node`
-          });
+        if (syncer.currentGroups.hasOwnProperty(id)) {
+          if (!syncer.newGroups[id]) {
+            missing.push({
+              attributes: {
+                href: `http://steamcommunity.com/gid/${id}`
+              },
+              text: syncer.currentGroups[id],
+              type: `a`
+            }, {
+              text: `, `,
+              type: `node`
+            });
+          }
         }
       }
       for (let id in syncer.newGroups) {
-        if (!syncer.currentGroups[id]) {
-          neww.push({
-            attributes: {
-              href: `http://steamcommunity.com/gid/${id}`
-            },
-            text: syncer.newGroups[id],
-            type: `a`
-          }, {
-            text: `, `,
-            type: `node`
-          });
+        if (syncer.newGroups.hasOwnProperty(id)) {
+          if (!syncer.currentGroups[id]) {
+            neww.push({
+              attributes: {
+                href: `http://steamcommunity.com/gid/${id}`
+              },
+              text: syncer.newGroups[id],
+              type: `a`
+            }, {
+              text: `, `,
+              type: `node`
+            });
+          }
         }
       }
       missing.pop();
@@ -2502,10 +2541,14 @@ class Common extends Module {
       let deleteLock = await this.createLock(`gameLock`, 300);
       let savedGames = JSON.parse(await this.getValue(`games`));
       for (let key in savedGames.apps) {
-        delete savedGames.apps[key].hidden;
+        if (savedGames.apps.hasOwnProperty(key)) {
+          delete savedGames.apps[key].hidden;
+        }
       }
       for (let key in savedGames.subs) {
-        delete savedGames.subs[key].hidden;
+        if (savedGames.subs.hasOwnProperty(key)) {
+          delete savedGames.subs[key].hidden;
+        }
       }
       for (let i = 0, n = syncer.hiddenGames.apps.length; i < n; ++i) {
         if (!savedGames.apps[syncer.hiddenGames.apps[i]]) {
@@ -2571,7 +2614,9 @@ class Common extends Module {
       const elements = responseHtml.querySelectorAll(`.gameListRow.followed`);
       const savedGames = JSON.parse(await this.getValue(`games`));
       for (const id in savedGames.apps) {
-        savedGames.apps[id].followed = null;
+        if (savedGames.apps.hasOwnProperty(id)) {
+          savedGames.apps[id].followed = null;
+        }
       }
       for (const element of elements) {
         const id = parseInt(element.getAttribute(`data-appid`));
@@ -2611,22 +2656,30 @@ class Common extends Module {
       } else {
         result = result.success;
         for (const id in this.esgst.games.apps) {
-          this.esgst.games.apps[id].reducedCV = null;
+          if (this.esgst.games.apps.hasOwnProperty(id)) {
+            this.esgst.games.apps[id].reducedCV = null;
+          }
         }
         for (const id in this.esgst.games.subs) {
-          this.esgst.games.subs[id].reducedCV = null;
+          if (this.esgst.games.subs.hasOwnProperty(id)) {
+            this.esgst.games.subs[id].reducedCV = null;
+          }
         }
         for (const id in result.apps) {
-          if (!this.esgst.games.apps[id]) {
-            this.esgst.games.apps[id] = {};
+          if (result.apps.hasOwnProperty(id)) {
+            if (!this.esgst.games.apps[id]) {
+              this.esgst.games.apps[id] = {};
+            }
+            this.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
           }
-          this.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
         }
         for (const id in result.subs) {
-          if (!this.esgst.games.subs[id]) {
-            this.esgst.games.subs[id] = {};
+          if (result.subs.hasOwnProperty(id)) {
+            if (!this.esgst.games.subs[id]) {
+              this.esgst.games.subs[id] = {};
+            }
+            this.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
           }
-          this.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
         }
         await this.lockAndSaveGames(this.esgst.games);
       }
@@ -2816,28 +2869,32 @@ class Common extends Module {
 
     // delete old data
     const savedGames = (altAccount && altAccount.games) || JSON.parse(await this.getValue(`games`)),
-    oldOwned = {
-      apps: [],
-      subs: []
-    };
+      oldOwned = {
+        apps: [],
+        subs: []
+      };
     for (const id in savedGames.apps) {
-      if (savedGames.apps[id].owned) {
-        oldOwned.apps.push(id);
-        savedGames.apps[id].owned = null;
-      }
-      if (hasStore) {
-        savedGames.apps[id].wishlisted = null;
-        savedGames.apps[id].ignored = null;
+      if (savedGames.apps.hasOwnProperty(id)) {
+        if (savedGames.apps[id].owned) {
+          oldOwned.apps.push(id);
+          savedGames.apps[id].owned = null;
+        }
+        if (hasStore) {
+          savedGames.apps[id].wishlisted = null;
+          savedGames.apps[id].ignored = null;
+        }
       }
     }
     if (hasStore) {
       for (const id in savedGames.subs) {
-        if (savedGames.subs[id].owned) {
-          oldOwned.subs.push(id);
-          savedGames.subs[id].owned = null;
+        if (savedGames.subs.hasOwnProperty(id)) {
+          if (savedGames.subs[id].owned) {
+            oldOwned.subs.push(id);
+            savedGames.subs[id].owned = null;
+          }
+          savedGames.subs[id].wishlisted = null;
+          savedGames.subs[id].ignored = null;
         }
-        savedGames.subs[id].wishlisted = null;
-        savedGames.subs[id].ignored = null;
       }
     }
 
@@ -3096,14 +3153,18 @@ class Common extends Module {
       savedGiveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
     }
     for (let key in giveaways) {
-      if (savedGiveaways[key]) {
-        for (let subKey in giveaways[key]) {
-          savedGiveaways[key][subKey] = giveaways[key][subKey];
+      if (giveaways.hasOwnProperty(key)) {
+        if (savedGiveaways[key]) {
+          for (let subKey in giveaways[key]) {
+            if (giveaways[key].hasOwnProperty(subKey)) {
+              savedGiveaways[key][subKey] = giveaways[key][subKey];
+              this.esgst.edited.giveaways = true;
+            }
+          }
+        } else {
+          savedGiveaways[key] = giveaways[key];
           this.esgst.edited.giveaways = true;
         }
-      } else {
-        savedGiveaways[key] = giveaways[key];
-        this.esgst.edited.giveaways = true;
       }
     }
     if (!firstRun) {
@@ -3116,15 +3177,19 @@ class Common extends Module {
     let deleteLock = await this.createLock(`discussionLock`, 300),
       savedDiscussions = JSON.parse(await this.getValue(`discussions`, `{}`));
     for (let key in discussions) {
-      if (savedDiscussions[key]) {
-        for (let subKey in discussions[key]) {
-          savedDiscussions[key][subKey] = discussions[key][subKey];
+      if (discussions.hasOwnProperty(key)) {
+        if (savedDiscussions[key]) {
+          for (let subKey in discussions[key]) {
+            if (discussions[key].hasOwnProperty(subKey)) {
+              savedDiscussions[key][subKey] = discussions[key][subKey];
+            }
+          }
+        } else {
+          savedDiscussions[key] = discussions[key];
         }
-      } else {
-        savedDiscussions[key] = discussions[key];
-      }
-      if (!savedDiscussions[key].readComments) {
-        savedDiscussions[key].readComments = {};
+        if (!savedDiscussions[key].readComments) {
+          savedDiscussions[key].readComments = {};
+        }
       }
     }
     await this.setValue(`discussions`, JSON.stringify(savedDiscussions));
@@ -3137,7 +3202,9 @@ class Common extends Module {
     if (!Array.isArray(savedGroups)) {
       const newGroups = [];
       for (const key in savedGroups) {
-        newGroups.push(savedGroups[key]);
+        if (savedGroups.hasOwnProperty(key)) {
+          newGroups.push(savedGroups[key]);
+        }
       }
       savedGroups = newGroups;
     }
@@ -3149,20 +3216,24 @@ class Common extends Module {
       }
     }
     for (const code in groups) {
-      const group = groups[code];
-      let savedGroup = savedGroups.filter(item => item.code === code)[0];
-      if (savedGroup) {
-        for (const key in group) {
-          savedGroup[key] = group[key];
+      if (groups.hasOwnProperty(code)) {
+        const group = groups[code];
+        let savedGroup = savedGroups.filter(item => item.code === code)[0];
+        if (savedGroup) {
+          for (const key in group) {
+            if (group.hasOwnProperty(key)) {
+              savedGroup[key] = group[key];
+            }
+          }
+        } else {
+          savedGroup = group;
+          savedGroups.push(savedGroup);
         }
-      } else {
-        savedGroup = group;
-        savedGroups.push(savedGroup);
-      }
-      if (!savedGroup.avatar || !savedGroup.steamId) {
-        const html = parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText);
-        savedGroup.avatar = html.getElementsByClassName(`global__image-inner-wrap`)[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
-        savedGroup.steamId = html.getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
+        if (!savedGroup.avatar || !savedGroup.steamId) {
+          const html = parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText);
+          savedGroup.avatar = html.getElementsByClassName(`global__image-inner-wrap`)[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
+          savedGroup.steamId = html.getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
+        }
       }
     }
     await this.setValue(`groups`, JSON.stringify(savedGroups));
@@ -3193,13 +3264,17 @@ class Common extends Module {
     const savedGames = JSON.parse(await this.getValue(`games`));
     if (syncer) {
       for (const id in savedGames.apps) {
-        if (savedGames.apps[id].won) {
-          savedGames.apps[id].won = null;
+        if (savedGames.apps.hasOwnProperty(id)) {
+          if (savedGames.apps[id].won) {
+            savedGames.apps[id].won = null;
+          }
         }
       }
       for (const id in savedGames.subs) {
-        if (savedGames.subs[id].won) {
-          savedGames.subs[id].won = null;
+        if (savedGames.subs.hasOwnProperty(id)) {
+          if (savedGames.subs[id].won) {
+            savedGames.subs[id].won = null;
+          }
         }
       }
     }
@@ -3211,10 +3286,10 @@ class Common extends Module {
         syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
       }
       const responseHtml = parseHtml((await this.request({
-        method: `GET`,
-        url: `/giveaways/won/search?page=${nextPage}`
-      })).responseText),
-      elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
+          method: `GET`,
+          url: `/giveaways/won/search?page=${nextPage}`
+        })).responseText),
+        elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
       if (!lastPage) {
         lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml);
       }
@@ -3520,41 +3595,45 @@ class Common extends Module {
     let i, type;
     i = 1;
     for (type in this.esgst.features) {
-      if (type !== `trades` || this.esgst.settings.esgst_st) {
-        let id, j, section, title, isNew = false;
-        title = type.replace(/^./, m => { return m.toUpperCase() });
-        section = this.createMenuSection(SMMenu, null, i, title, type);
-        j = 1;
-        for (id in this.esgst.features[type].features) {
-          let feature, ft;
-          feature = this.esgst.features[type].features[id];
-          if (!feature.extensionOnly || this._USER_INFO.extension) {
-            ft = this.getSMFeature(feature, id, j);
-            if (ft) {
-              if (ft.isNew) {
-                isNew = true;
+      if (this.esgst.features.hasOwnProperty(type)) {
+        if (type !== `trades` || this.esgst.settings.esgst_st) {
+          let id, j, section, title, isNew = false;
+          title = type.replace(/^./, m => { return m.toUpperCase() });
+          section = this.createMenuSection(SMMenu, null, i, title, type);
+          j = 1;
+          for (id in this.esgst.features[type].features) {
+            if (this.esgst.features[type].features.hasOwnProperty(id)) {
+              let feature, ft;
+              feature = this.esgst.features[type].features[id];
+              if (!feature.extensionOnly || this._USER_INFO.extension) {
+                ft = this.getSMFeature(feature, id, j);
+                if (ft) {
+                  if (ft.isNew) {
+                    isNew = true;
+                  }
+                  section.lastElementChild.appendChild(ft.menu);
+                  j += 1;
+                }
               }
-              section.lastElementChild.appendChild(ft.menu);
-              j += 1;
             }
           }
-        }
-        if (isNew) {
-          this.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
-            attributes: {
-              class: `esgst-bold esgst-red`,
-              title: `There is a new feature/option in this section`
-            },
-            type: `span`,
-            children: [{
+          if (isNew) {
+            this.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
               attributes: {
-                class: `fa fa-star`
+                class: `esgst-bold esgst-red`,
+                title: `There is a new feature/option in this section`
               },
-              type: `i`
-            }]
-          }]);
+              type: `span`,
+              children: [{
+                attributes: {
+                  class: `fa fa-star`
+                },
+                type: `i`
+              }]
+            }]);
+          }
+          i += 1;
         }
-        i += 1;
       }
     }
     this.createMenuSection(SMMenu, [{
@@ -3601,7 +3680,7 @@ class Common extends Module {
         isMenu: true
       });
     }
-    SMAPIKey = Container.getElementsByClassName(`esgst-steam-api-key`)[0];
+    SMAPIKey = /** @type {HTMLInputElement} */ Container.getElementsByClassName(`esgst-steam-api-key`)[0];
     let key = this.esgst.steamApiKey;
     if (key) {
       SMAPIKey.value = key;
@@ -4087,14 +4166,16 @@ class Common extends Module {
       let ft, i, id, isNew = false;
       i = 1;
       for (id in Feature.features) {
-        if (!Feature.features[id].extensionOnly || this._USER_INFO.extension) {
-          ft = this.getSMFeature(Feature.features[id], id, i);
-          if (ft) {
-            if (ft.isNew) {
-              isNew = true;
+        if (Feature.features.hasOwnProperty(id)) {
+          if (!Feature.features[id].extensionOnly || this._USER_INFO.extension) {
+            ft = this.getSMFeature(Feature.features[id], id, i);
+            if (ft) {
+              if (ft.isNew) {
+                isNew = true;
+              }
+              SMFeatures.appendChild(ft.menu);
+              i += 1;
             }
-            SMFeatures.appendChild(ft.menu);
-            i += 1;
           }
         }
       }
@@ -5823,15 +5904,17 @@ class Common extends Module {
       popup = new Popup(`fa-gift`, `Hidden Giveaways`, true);
       hidden = [];
       for (key in this.esgst.giveaways) {
-        giveaway = this.esgst.giveaways[key];
-        if (giveaway.hidden && giveaway.code && giveaway.endTime) {
-          if (Date.now() >= giveaway.endTime) {
-            delete giveaway.hidden;
+        if (this.esgst.giveaways.hasOwnProperty(key)) {
+          giveaway = this.esgst.giveaways[key];
+          if (giveaway.hidden && giveaway.code && giveaway.endTime) {
+            if (Date.now() >= giveaway.endTime) {
+              delete giveaway.hidden;
+            } else {
+              hidden.push(giveaway);
+            }
           } else {
-            hidden.push(giveaway);
+            delete giveaway.hidden;
           }
-        } else {
-          delete giveaway.hidden;
         }
       }
       hidden = hidden.sort((a, b) => {
@@ -5931,22 +6014,24 @@ class Common extends Module {
     savedDiscussions = JSON.parse(await this.getValue(`discussions`));
     discussions = {};
     for (const key in savedDiscussions) {
-      savedDiscussion = savedDiscussions[key];
-      if (savedDiscussion.tags && (savedDiscussion.tags.length > 1 || (savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))) {
-        context = this.createElements(popup.scrollable, `beforeEnd`, [{
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `esgst-dt-menu`,
-              href: `https://www.steamgifts.com/discussion/${key}/`
-            },
-            text: savedDiscussion.name || key,
-            type: `a`
-          }]
-        }]);
-        discussions[key] = {
-          context: context
-        };
+      if (savedDiscussions.hasOwnProperty(key)) {
+        savedDiscussion = savedDiscussions[key];
+        if (savedDiscussion.tags && (savedDiscussion.tags.length > 1 || (savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))) {
+          context = this.createElements(popup.scrollable, `beforeEnd`, [{
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-dt-menu`,
+                href: `https://www.steamgifts.com/discussion/${key}/`
+              },
+              text: savedDiscussion.name || key,
+              type: `a`
+            }]
+          }]);
+          discussions[key] = {
+            context: context
+          };
+        }
       }
     }
     await this.endless_load(popup.scrollable);
@@ -6006,27 +6091,29 @@ class Common extends Module {
     savedUsers = JSON.parse(await this.getValue(`users`));
     users = {};
     for (const steamId in savedUsers.users) {
-      savedUser = savedUsers.users[steamId];
-      if (savedUser.tags && (savedUser.tags.length > 1 || (savedUser.tags[0] && savedUser.tags[0].trim()))) {
-        const attributes = {};
-        if (savedUser.username) {
-          attributes[`data-sg`] = true;
-          attributes.href = `https://www.steamgifts.com/user/${savedUser.username}`;
-        } else {
-          attributes[`data-st`] = true;
-          attributes.href = `https://www.steamtrades.com/user/${steamId}`;
+      if (savedUsers.users.hasOwnProperty(steamId)) {
+        savedUser = savedUsers.users[steamId];
+        if (savedUser.tags && (savedUser.tags.length > 1 || (savedUser.tags[0] && savedUser.tags[0].trim()))) {
+          const attributes = {};
+          if (savedUser.username) {
+            attributes[`data-sg`] = true;
+            attributes.href = `https://www.steamgifts.com/user/${savedUser.username}`;
+          } else {
+            attributes[`data-st`] = true;
+            attributes.href = `https://www.steamtrades.com/user/${steamId}`;
+          }
+          context = this.createElements(popup.scrollable, `beforeEnd`, [{
+            type: `div`,
+            children: [{
+              attributes,
+              text: savedUser.username || steamId,
+              type: `a`
+            }]
+          }]);
+          users[savedUser.username || steamId] = {
+            context: context
+          };
         }
-        context = this.createElements(popup.scrollable, `beforeEnd`, [{
-          type: `div`,
-          children: [{
-            attributes,
-            text: savedUser.username || steamId,
-            type: `a`
-          }]
-        }]);
-        users[savedUser.username || steamId] = {
-          context: context
-        };
       }
     }
     await this.endless_load(popup.scrollable);
@@ -6039,17 +6126,22 @@ class Common extends Module {
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (username in users) {
-        userTags = users[username].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
-        if (i < 0) {
-          users[username].context.classList.add(`esgst-hidden`);
-        } else {
-          users[username].context.classList.remove(`esgst-hidden`);
+        if (users.hasOwnProperty(username)) {
+          userTags = users[username].context.getElementsByClassName(`esgst-tags`)[0];
+          for (i = tags.length - 1; i >= 0 && !userTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {
+          }
+          if (i < 0) {
+            users[username].context.classList.add(`esgst-hidden`);
+          } else {
+            users[username].context.classList.remove(`esgst-hidden`);
+          }
         }
       }
     } else {
       for (username in users) {
-        users[username].context.classList.remove(`esgst-hidden`);
+        if (users.hasOwnProperty(username)) {
+          users[username].context.classList.remove(`esgst-hidden`);
+        }
       }
     }
   }
@@ -6085,47 +6177,51 @@ class Common extends Module {
       subs: {}
     };
     for (const id in savedGames.apps) {
-      savedGame = savedGames.apps[id];
-      if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
-        context = this.createElements(popup.scrollable, `beforeEnd`, [{
-          attributes: {
-            class: `table__row-outer-wrap`
-          },
-          type: `div`,
-          children: [{
+      if (savedGames.apps.hasOwnProperty(id)) {
+        savedGame = savedGames.apps[id];
+        if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
+          context = this.createElements(popup.scrollable, `beforeEnd`, [{
             attributes: {
-              class: `table__column__heading`,
-              href: `http://store.steampowered.com/app/${id}`
+              class: `table__row-outer-wrap`
             },
-            text: `App - ${id}`,
-            type: `a`
-          }]
-        }]);
-        games.apps[id] = {
-          context: context
-        };
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__heading`,
+                href: `http://store.steampowered.com/app/${id}`
+              },
+              text: `App - ${id}`,
+              type: `a`
+            }]
+          }]);
+          games.apps[id] = {
+            context: context
+          };
+        }
       }
     }
     for (const id in savedGames.subs) {
-      savedGame = savedGames.subs[id];
-      if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
-        context = this.createElements(popup.scrollable, `beforeEnd`, [{
-          attributes: {
-            class: `table__row-outer-wrap`
-          },
-          type: `div`,
-          children: [{
+      if (savedGames.subs.hasOwnProperty(id)) {
+        savedGame = savedGames.subs[id];
+        if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
+          context = this.createElements(popup.scrollable, `beforeEnd`, [{
             attributes: {
-              class: `table__column__heading`,
-              href: `http://store.steampowered.com/sub/${id}`
+              class: `table__row-outer-wrap`
             },
-            text: `Sub - ${id}`,
-            type: `a`
-          }]
-        }]);
-        games.subs[id] = {
-          context: context
-        };
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `table__column__heading`,
+                href: `http://store.steampowered.com/sub/${id}`
+              },
+              text: `Sub - ${id}`,
+              type: `a`
+            }]
+          }]);
+          games.subs[id] = {
+            context: context
+          };
+        }
       }
     }
     await this.endless_load(popup.scrollable);
@@ -6138,29 +6234,39 @@ class Common extends Module {
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (id in games.apps) {
-        gameTags = games.apps[id].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
-        if (i < 0) {
-          games.apps[id].context.classList.add(`esgst-hidden`);
-        } else {
-          games.apps[id].context.classList.remove(`esgst-hidden`);
+        if (games.apps.hasOwnProperty(id)) {
+          gameTags = games.apps[id].context.getElementsByClassName(`esgst-tags`)[0];
+          for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {
+          }
+          if (i < 0) {
+            games.apps[id].context.classList.add(`esgst-hidden`);
+          } else {
+            games.apps[id].context.classList.remove(`esgst-hidden`);
+          }
         }
       }
       for (id in games.subs) {
-        gameTags = games.subs[id].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
-        if (i < 0) {
-          games.subs[id].context.classList.add(`esgst-hidden`);
-        } else {
-          games.subs[id].context.classList.remove(`esgst-hidden`);
+        if (games.subs.hasOwnProperty(id)) {
+          gameTags = games.subs[id].context.getElementsByClassName(`esgst-tags`)[0];
+          for (i = tags.length - 1; i >= 0 && !gameTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {
+          }
+          if (i < 0) {
+            games.subs[id].context.classList.add(`esgst-hidden`);
+          } else {
+            games.subs[id].context.classList.remove(`esgst-hidden`);
+          }
         }
       }
     } else {
       for (id in games.apps) {
-        games.apps[id].context.classList.remove(`esgst-hidden`);
+        if (games.apps.hasOwnProperty(id)) {
+          games.apps[id].context.classList.remove(`esgst-hidden`);
+        }
       }
       for (id in games.subs) {
-        games.subs[id].context.classList.remove(`esgst-hidden`);
+        if (games.subs.hasOwnProperty(id)) {
+          games.subs[id].context.classList.remove(`esgst-hidden`);
+        }
       }
     }
   }
@@ -6220,17 +6326,22 @@ class Common extends Module {
     if (event.currentTarget.value) {
       tags = event.currentTarget.value.replace(/,\s+/g, ``).split(/,\s/);
       for (code in groups) {
-        groupTags = groups[code].context.getElementsByClassName(`esgst-tags`)[0];
-        for (i = tags.length - 1; i >= 0 && !groupTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {}
-        if (i < 0) {
-          groups[code].context.classList.add(`esgst-hidden`);
-        } else {
-          groups[code].context.classList.remove(`esgst-hidden`);
+        if (groups.hasOwnProperty(code)) {
+          groupTags = groups[code].context.getElementsByClassName(`esgst-tags`)[0];
+          for (i = tags.length - 1; i >= 0 && !groupTags.innerHTML.match(new RegExp(`>${tags[i]}<`)); --i) {
+          }
+          if (i < 0) {
+            groups[code].context.classList.add(`esgst-hidden`);
+          } else {
+            groups[code].context.classList.remove(`esgst-hidden`);
+          }
         }
       }
     } else {
       for (code in groups) {
-        groups[code].context.classList.remove(`esgst-hidden`);
+        if (groups.hasOwnProperty(code)) {
+          groups[code].context.classList.remove(`esgst-hidden`);
+        }
       }
     }
   }
@@ -7131,9 +7242,11 @@ class Common extends Module {
           let days = this.esgst.cleanDiscussions_days * 86400000;
           toSave.discussions = JSON.parse(await this.getValue(`discussions`, `{}`));
           for (let code in toSave.discussions) {
-            let item = toSave.discussions[code];
-            if (item.author !== this.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-              delete toSave.discussions[code];
+            if (toSave.discussions.hasOwnProperty(code)) {
+              let item = toSave.discussions[code];
+              if (item.author !== this.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                delete toSave.discussions[code];
+              }
             }
           }
         }
@@ -7151,9 +7264,11 @@ class Common extends Module {
           let days = this.esgst.cleanGiveaways_days * 86400000;
           toSave.giveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
           for (let code in toSave.giveaways) {
-            let item = toSave.giveaways[code];
-            if (item.creator !== this.esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
-              delete toSave.giveaways[code];
+            if (toSave.giveaways.hasOwnProperty(code)) {
+              let item = toSave.giveaways[code];
+              if (item.creator !== this.esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
+                delete toSave.giveaways[code];
+              }
             }
           }
         }
@@ -7171,9 +7286,11 @@ class Common extends Module {
           let days = this.esgst.cleanTickets_days * 86400000;
           toSave.tickets = JSON.parse(await this.getValue(`tickets`, `{}`));
           for (let code in toSave.tickets) {
-            let item = toSave.tickets[code];
-            if (item.author !== this.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-              delete toSave.tickets[code];
+            if (toSave.tickets.hasOwnProperty(code)) {
+              let item = toSave.tickets[code];
+              if (item.author !== this.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                delete toSave.tickets[code];
+              }
             }
           }
         }
@@ -7181,29 +7298,37 @@ class Common extends Module {
           let days = this.esgst.cleanTrades_days * 86400000;
           toSave.trades = JSON.parse(await this.getValue(`trades`, `{}`));
           for (let code in toSave.trades) {
-            let item = toSave.trades[code];
-            if (item.author !== this.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
-              delete toSave.trades[code];
+            if (toSave.trades.hasOwnProperty(code)) {
+              let item = toSave.trades[code];
+              if (item.author !== this.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+                delete toSave.trades[code];
+              }
             }
           }
         }
         if (this.esgst.cleanDuplicates) {
           toSave.users = JSON.parse(await this.getValue(`users`, `{"steamIds":{},"users":{}}`));
           for (let id in toSave.users.users) {
-            let giveaways = toSave.users.users[id].giveaways;
-            if (giveaways) {
-              [`sent`, `won`].forEach(mainType => {
-                [`apps`, `subs`].forEach(type => {
-                  for (let code in giveaways[mainType][type]) {
-                    giveaways[mainType][type][code] = Array.from(new Set(giveaways[mainType][type][code]));
-                  }
+            if (toSave.users.users.hasOwnProperty(id)) {
+              let giveaways = toSave.users.users[id].giveaways;
+              if (giveaways) {
+                [`sent`, `won`].forEach(mainType => {
+                  [`apps`, `subs`].forEach(type => {
+                    for (let code in giveaways[mainType][type]) {
+                      if (giveaways[mainType][type].hasOwnProperty(code)) {
+                        giveaways[mainType][type][code] = Array.from(new Set(giveaways[mainType][type][code]));
+                      }
+                    }
+                  });
                 });
-              });
+              }
             }
           }
         }
         for (let key in toSave) {
-          toSave[key] = JSON.stringify(toSave[key]);
+          if (toSave.hasOwnProperty(key)) {
+            toSave[key] = JSON.stringify(toSave[key]);
+          }
         }
         await this.setValues(toSave);
         const newSize = await this.manageData(dm, false, false, false, true);
@@ -7274,7 +7399,9 @@ class Common extends Module {
                 if (this.esgst.settings.importAndMerge) {
                   mergedData = data[optionKey];
                   for (let newDataKey in newData) {
-                    mergedData[newDataKey] = newData[newDataKey];
+                    if (newData.hasOwnProperty(newDataKey)) {
+                      mergedData[newDataKey] = newData[newDataKey];
+                    }
                   }
                   await this.setValue(optionKey, JSON.stringify(mergedData));
                 } else {
@@ -7351,53 +7478,57 @@ class Common extends Module {
           };
           mainFound = false;
           for (let mergedDataKey in mergedData) {
-            let newData = {};
-            let toDelete = 0;
-            let foundSub = 0;
-            let deletedSub = 0;
-            let found = null;
-            let toExport = false;
-            for (let value in values) {
-              if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                toDelete += 1;
-              }
-              for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                let valueKey = values[value][j];
-                let mergedDataValue = mergedData[mergedDataKey][valueKey];
-                if (typeof mergedDataValue !== `undefined`) {
-                  if (value !== `main`) {
-                    foundSub += 1;
+            if (mergedData.hasOwnProperty(mergedDataKey)) {
+              let newData = {};
+              let toDelete = 0;
+              let foundSub = 0;
+              let deletedSub = 0;
+              let found = null;
+              let toExport = false;
+              for (let value in values) {
+                if (values.hasOwnProperty(value)) {
+                  if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                    toDelete += 1;
                   }
-                  if (dm.autoBackup || this.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
-                    newData[valueKey] = mergedDataValue;
-                    if (value !== `main`) {
-                      toExport = true;
+                  for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                    let valueKey = values[value][j];
+                    let mergedDataValue = mergedData[mergedDataKey][valueKey];
+                    if (typeof mergedDataValue !== `undefined`) {
+                      if (value !== `main`) {
+                        foundSub += 1;
+                      }
+                      if (dm.autoBackup || this.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                        newData[valueKey] = mergedDataValue;
+                        if (value !== `main`) {
+                          toExport = true;
+                        }
+                      }
+                      let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                      sizes[value] += size;
+                      sizes.total += size;
+                      found = value;
+                      if (!space && dm.delete && this.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                        deletedSub += 1;
+                        delete mergedData[mergedDataKey][valueKey];
+                      }
                     }
-                  }
-                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
-                  sizes[value] += size;
-                  sizes.total += size;
-                  found = value;
-                  if (!space && dm.delete && this.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
-                    deletedSub += 1;
-                    delete mergedData[mergedDataKey][valueKey];
                   }
                 }
               }
-            }
-            if (found) {
-              sizes[found] -= 1;
-              sizes.total -= 1;
-            }
-            if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
-              data[optionKey][mergedDataKey] = newData;
-              mainFound = true;
-            }
-            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
-            sizes.main += size;
-            sizes.total += size;
-            if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-              delete mergedData[mergedDataKey];
+              if (found) {
+                sizes[found] -= 1;
+                sizes.total -= 1;
+              }
+              if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                data[optionKey][mergedDataKey] = newData;
+                mainFound = true;
+              }
+              let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+              sizes.main += size;
+              sizes.total += size;
+              if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                delete mergedData[mergedDataKey];
+              }
             }
           }
           if (!space) {
@@ -7405,48 +7536,54 @@ class Common extends Module {
               let newData = dm.data[optionKey];
               if (newData) {
                 for (let newDataKey in newData) {
-                  if (!mergedData[newDataKey]) {
-                    mergedData[newDataKey] = {};
-                  }
-                  for (let value in values) {
-                    if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                      if (this.esgst.settings.importAndMerge) {
-                        for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                          let valueKey = values[value][j];
-                          switch (valueKey) {
-                            case `tags`:
-                              if (mergedData[newDataKey].tags) {
-                                let tags = newData[newDataKey].tags;
-                                for (let k = 0, numTags = tags.length; k < numTags; ++k) {
-                                  let tag = tags[k];
-                                  if (mergedData[newDataKey].tags.indexOf(tag) < 0) {
-                                    mergedData[newDataKey].tags.push(tag);
+                  if (newData.hasOwnProperty(newDataKey)) {
+                    if (!mergedData[newDataKey]) {
+                      mergedData[newDataKey] = {};
+                    }
+                    for (let value in values) {
+                      if (values.hasOwnProperty(value)) {
+                        if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                          if (this.esgst.settings.importAndMerge) {
+                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                              let valueKey = values[value][j];
+                              switch (valueKey) {
+                                case `tags`:
+                                  if (mergedData[newDataKey].tags) {
+                                    let tags = newData[newDataKey].tags;
+                                    for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                      let tag = tags[k];
+                                      if (mergedData[newDataKey].tags.indexOf(tag) < 0) {
+                                        mergedData[newDataKey].tags.push(tag);
+                                      }
+                                    }
+                                  } else {
+                                    mergedData[newDataKey].tags = newData[newDataKey].tags;
                                   }
-                                }
-                              } else {
-                                mergedData[newDataKey].tags = newData[newDataKey].tags;
-                              }
-                              break;
-                            case `readComments`:
-                              if (mergedData[newDataKey].readComments) {
-                                for (let id in mergedData[newDataKey].readComments) {
-                                  if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-                                    mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                  break;
+                                case `readComments`:
+                                  if (mergedData[newDataKey].readComments) {
+                                    for (let id in mergedData[newDataKey].readComments) {
+                                      if (mergedData[newDataKey].readComments.hasOwnProperty(id)) {
+                                        if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
+                                          mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+                                        }
+                                      }
+                                    }
+                                  } else {
+                                    mergedData[newDataKey].readComments = newData[newDataKey].readComments;
                                   }
-                                }
-                              } else {
-                                mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+                                  break;
+                                default:
+                                  mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
+                                  break;
                               }
-                              break;
-                            default:
+                            }
+                          } else {
+                            for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                              let valueKey = values[value][j];
                               mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
-                              break;
+                            }
                           }
-                        }
-                      } else {
-                        for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                          let valueKey = values[value][j];
-                          mergedData[newDataKey][valueKey] = newData[newDataKey][valueKey];
                         }
                       }
                     }
@@ -7468,8 +7605,10 @@ class Common extends Module {
             sizes.total += size;
             if (dm.switches) {
               for (let value in values) {
-                if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                if (values.hasOwnProperty(value)) {
+                  if (dm.switches[`${optionKey}_${value}`]) {
+                    dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                  }
                 }
               }
               dm.switches[optionKey].size.textContent = this.convertBytes(sizes.total);
@@ -7571,54 +7710,58 @@ class Common extends Module {
           };
           mainFound = false;
           for (let mergedDataKey in mergedData.apps) {
-            let mergedDataValue = mergedData.apps[mergedDataKey];
-            let newData = {};
-            let toDelete = 0;
-            let foundSub = 0;
-            let deletedSub = 0;
-            let found = null;
-            let toExport = false;
-            for (let value in values) {
-              if (this.esgst.settings[`${dm.type}_games_${value}`]) {
-                toDelete += 1;
-              }
-              for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                let valueKey = values[value][j];
-                let newDataValue = mergedDataValue[valueKey];
-                if (typeof newDataValue !== `undefined`) {
-                  if (value !== `main`) {
-                    foundSub += 1;
+            if (mergedData.apps.hasOwnProperty(mergedDataKey)) {
+              let mergedDataValue = mergedData.apps[mergedDataKey];
+              let newData = {};
+              let toDelete = 0;
+              let foundSub = 0;
+              let deletedSub = 0;
+              let found = null;
+              let toExport = false;
+              for (let value in values) {
+                if (values.hasOwnProperty(value)) {
+                  if (this.esgst.settings[`${dm.type}_games_${value}`]) {
+                    toDelete += 1;
                   }
-                  if (dm.autoBackup || this.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
-                    newData[valueKey] = newDataValue;
-                    if (value !== `main`) {
-                      toExport = true;
+                  for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                    let valueKey = values[value][j];
+                    let newDataValue = mergedDataValue[valueKey];
+                    if (typeof newDataValue !== `undefined`) {
+                      if (value !== `main`) {
+                        foundSub += 1;
+                      }
+                      if (dm.autoBackup || this.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                        newData[valueKey] = newDataValue;
+                        if (value !== `main`) {
+                          toExport = true;
+                        }
+                      }
+                      let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                      sizes[value] += size;
+                      sizes.total += size;
+                      found = value;
+                      if (!space && dm.delete && this.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                        deletedSub += 1;
+                        delete mergedDataValue[valueKey];
+                      }
                     }
-                  }
-                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
-                  sizes[value] += size;
-                  sizes.total += size;
-                  found = value;
-                  if (!space && dm.delete && this.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
-                    deletedSub += 1;
-                    delete mergedDataValue[valueKey];
                   }
                 }
               }
-            }
-            if (found) {
-              sizes[found] -= 1;
-              sizes.total -= 1;
-            }
-            if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
-              data.games.apps[mergedDataKey] = newData;
-              mainFound = true;
-            }
-            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
-            sizes.main += size;
-            sizes.total += size;
-            if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-              delete mergedData.apps[mergedDataKey];
+              if (found) {
+                sizes[found] -= 1;
+                sizes.total -= 1;
+              }
+              if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                data.games.apps[mergedDataKey] = newData;
+                mainFound = true;
+              }
+              let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+              sizes.main += size;
+              sizes.total += size;
+              if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                delete mergedData.apps[mergedDataKey];
+              }
             }
           }
           if (mainFound) {
@@ -7627,54 +7770,58 @@ class Common extends Module {
           }
           mainFound = false;
           for (let mergedDataKey in mergedData.subs) {
-            let mergedDataValue = mergedData.subs[mergedDataKey];
-            let newData = {};
-            let toDelete = 0;
-            let foundSub = 0;
-            let deletedSub = 0;
-            let found = null;
-            let toExport = false;
-            for (let value in values) {
-              if (this.esgst.settings[`${dm.type}_games_${value}`]) {
-                toDelete += 1;
-              }
-              for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                let valueKey = values[value][j];
-                let newDataValue = mergedDataValue[valueKey];
-                if (typeof newDataValue !== `undefined`) {
-                  if (value !== `main`) {
-                    foundSub += 1;
+            if (mergedData.subs.hasOwnProperty(mergedDataKey)) {
+              let mergedDataValue = mergedData.subs[mergedDataKey];
+              let newData = {};
+              let toDelete = 0;
+              let foundSub = 0;
+              let deletedSub = 0;
+              let found = null;
+              let toExport = false;
+              for (let value in values) {
+                if (values.hasOwnProperty(value)) {
+                  if (this.esgst.settings[`${dm.type}_games_${value}`]) {
+                    toDelete += 1;
                   }
-                  if (dm.autoBackup || this.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
-                    newData[valueKey] = newDataValue;
-                    if (value !== `main`) {
-                      toExport = true;
+                  for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                    let valueKey = values[value][j];
+                    let newDataValue = mergedDataValue[valueKey];
+                    if (typeof newDataValue !== `undefined`) {
+                      if (value !== `main`) {
+                        foundSub += 1;
+                      }
+                      if (dm.autoBackup || this.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                        newData[valueKey] = newDataValue;
+                        if (value !== `main`) {
+                          toExport = true;
+                        }
+                      }
+                      let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                      sizes[value] += size;
+                      sizes.total += size;
+                      found = value;
+                      if (!space && dm.delete && this.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                        deletedSub += 1;
+                        delete mergedDataValue[valueKey];
+                      }
                     }
-                  }
-                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
-                  sizes[value] += size;
-                  sizes.total += size;
-                  found = value;
-                  if (!space && dm.delete && this.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
-                    deletedSub += 1;
-                    delete mergedDataValue[valueKey];
                   }
                 }
               }
-            }
-            if (found) {
-              sizes[found] -= 1;
-              sizes.total -= 1;
-            }
-            if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
-              data.games.subs[mergedDataKey] = newData;
-              mainFound = true;
-            }
-            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
-            sizes.main += size;
-            sizes.total += size;
-            if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-              delete mergedData.subs[mergedDataKey];
+              if (found) {
+                sizes[found] -= 1;
+                sizes.total -= 1;
+              }
+              if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                data.games.subs[mergedDataKey] = newData;
+                mainFound = true;
+              }
+              let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+              sizes.main += size;
+              sizes.total += size;
+              if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                delete mergedData.subs[mergedDataKey];
+              }
             }
           }
           if (mainFound) {
@@ -7686,49 +7833,51 @@ class Common extends Module {
               let newData = dm.data.games;
               if (newData) {
                 for (let newDataKey in newData.apps) {
-                  let newDataValue = newData.apps[newDataKey];
-                  if (!mergedData.apps[newDataKey]) {
-                    mergedData.apps[newDataKey] = {};
-                  }
-                  let mergedDataValue = mergedData.apps[newDataKey];
-                  for (let value in values) {
-                    if (this.esgst.settings[`${dm.type}_games_${value}`]) {
-                      for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                        let valueKey = values[value][j];
-                        if (typeof newDataValue[valueKey] !== `undefined`) {
-                          if (this.esgst.settings.importAndMerge) {
-                            switch (valueKey) {
-                              case `entered`:
-                                mergedDataValue.entered = true;
-                                break;
-                              case `itadi`:
-                                if (mergedDataValue.itadi) {
-                                  if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                  if (newData.apps.hasOwnProperty(newDataKey)) {
+                    let newDataValue = newData.apps[newDataKey];
+                    if (!mergedData.apps[newDataKey]) {
+                      mergedData.apps[newDataKey] = {};
+                    }
+                    let mergedDataValue = mergedData.apps[newDataKey];
+                    for (let value in values) {
+                      if (this.esgst.settings[`${dm.type}_games_${value}`]) {
+                        for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                          let valueKey = values[value][j];
+                          if (typeof newDataValue[valueKey] !== `undefined`) {
+                            if (this.esgst.settings.importAndMerge) {
+                              switch (valueKey) {
+                                case `entered`:
+                                  mergedDataValue.entered = true;
+                                  break;
+                                case `itadi`:
+                                  if (mergedDataValue.itadi) {
+                                    if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                      mergedDataValue.itadi = newDataValue.itadi;
+                                    }
+                                  } else {
                                     mergedDataValue.itadi = newDataValue.itadi;
                                   }
-                                } else {
-                                  mergedDataValue.itadi = newDataValue.itadi;
-                                }
-                                break;
-                              case `tags`:
-                                if (mergedDataValue.tags) {
-                                  let tags = newDataValue.tags;
-                                  for (let k = 0, numTags = tags.length; k < numTags; ++k) {
-                                    let tag = tags[k];
-                                    if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                      mergedDataValue.tags.push(tag);
+                                  break;
+                                case `tags`:
+                                  if (mergedDataValue.tags) {
+                                    let tags = newDataValue.tags;
+                                    for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                      let tag = tags[k];
+                                      if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                        mergedDataValue.tags.push(tag);
+                                      }
                                     }
+                                  } else {
+                                    mergedDataValue.tags = newDataValue.tags;
                                   }
-                                } else {
-                                  mergedDataValue.tags = newDataValue.tags;
-                                }
-                                break;
-                              default:
-                                mergedDataValue[valueKey] = newDataValue[valueKey];
-                                break;
+                                  break;
+                                default:
+                                  mergedDataValue[valueKey] = newDataValue[valueKey];
+                                  break;
+                              }
+                            } else {
+                              mergedDataValue[valueKey] = newDataValue[valueKey];
                             }
-                          } else {
-                            mergedDataValue[valueKey] = newDataValue[valueKey];
                           }
                         }
                       }
@@ -7736,49 +7885,51 @@ class Common extends Module {
                   }
                 }
                 for (let newDataKey in newData.subs) {
-                  let newDataValue = newData.subs[newDataKey];
-                  if (!mergedData.subs[newDataKey]) {
-                    mergedData.subs[newDataKey] = {};
-                  }
-                  let mergedDataValue = mergedData.subs[newDataKey];
-                  for (let value in values) {
-                    if (this.esgst.settings[`${dm.type}_games_${value}`]) {
-                      for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                        let valueKey = values[value][j];
-                        if (typeof newDataValue[valueKey] !== `undefined`) {
-                          if (this.esgst.settings.importAndMerge) {
-                            switch (valueKey) {
-                              case `entered`:
-                                mergedDataValue.entered = true;
-                                break;
-                              case `itadi`:
-                                if (mergedDataValue.itadi) {
-                                  if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                  if (newData.subs.hasOwnProperty(newDataKey)) {
+                    let newDataValue = newData.subs[newDataKey];
+                    if (!mergedData.subs[newDataKey]) {
+                      mergedData.subs[newDataKey] = {};
+                    }
+                    let mergedDataValue = mergedData.subs[newDataKey];
+                    for (let value in values) {
+                      if (this.esgst.settings[`${dm.type}_games_${value}`]) {
+                        for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                          let valueKey = values[value][j];
+                          if (typeof newDataValue[valueKey] !== `undefined`) {
+                            if (this.esgst.settings.importAndMerge) {
+                              switch (valueKey) {
+                                case `entered`:
+                                  mergedDataValue.entered = true;
+                                  break;
+                                case `itadi`:
+                                  if (mergedDataValue.itadi) {
+                                    if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+                                      mergedDataValue.itadi = newDataValue.itadi;
+                                    }
+                                  } else {
                                     mergedDataValue.itadi = newDataValue.itadi;
                                   }
-                                } else {
-                                  mergedDataValue.itadi = newDataValue.itadi;
-                                }
-                                break;
-                              case `tags`:
-                                if (mergedDataValue.tags) {
-                                  let tags = newDataValue.tags;
-                                  for (let k = 0, numTags = tags.length; k < numTags; ++k) {
-                                    let tag = tags[k];
-                                    if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                      mergedDataValue.tags.push(tag);
+                                  break;
+                                case `tags`:
+                                  if (mergedDataValue.tags) {
+                                    let tags = newDataValue.tags;
+                                    for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                      let tag = tags[k];
+                                      if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                        mergedDataValue.tags.push(tag);
+                                      }
                                     }
+                                  } else {
+                                    mergedDataValue.tags = newDataValue.tags;
                                   }
-                                } else {
-                                  mergedDataValue.tags = newDataValue.tags;
-                                }
-                                break;
-                              default:
-                                mergedDataValue[valueKey] = newDataValue[valueKey];
-                                break;
+                                  break;
+                                default:
+                                  mergedDataValue[valueKey] = newDataValue[valueKey];
+                                  break;
+                              }
+                            } else {
+                              mergedDataValue[valueKey] = newDataValue[valueKey];
                             }
-                          } else {
-                            mergedDataValue[valueKey] = newDataValue[valueKey];
                           }
                         }
                       }
@@ -7797,8 +7948,10 @@ class Common extends Module {
             sizes.total += size;
             if (dm.switches) {
               for (let value in values) {
-                if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                if (values.hasOwnProperty(value)) {
+                  if (dm.switches[`${optionKey}_${value}`]) {
+                    dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                  }
                 }
               }
               dm.switches[optionKey].size.textContent = this.convertBytes(sizes.total);
@@ -7816,7 +7969,9 @@ class Common extends Module {
           if (!Array.isArray(mergedData)) {
             let temp = [];
             for (let key in mergedData) {
-              temp.push(mergedData[key]);
+              if (mergedData.hasOwnProperty(key)) {
+                temp.push(mergedData[key]);
+              }
             }
             mergedData = temp;
           }
@@ -7836,30 +7991,32 @@ class Common extends Module {
             let found = null;
             let toExport = false;
             for (let value in values) {
-              if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                toDelete += 1;
-              }
-              for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
-                let valueKey = values[value][k];
-                if (mergedData[j]) {
-                  let mergedDataValue = mergedData[j][valueKey];
-                  if (typeof mergedDataValue !== `undefined`) {
-                    if (value !== `main`) {
-                      foundSub += 1;
-                    }
-                    if (dm.autoBackup || this.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
-                      newData[valueKey] = mergedDataValue;
+              if (values.hasOwnProperty(value)) {
+                if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                  toDelete += 1;
+                }
+                for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
+                  let valueKey = values[value][k];
+                  if (mergedData[j]) {
+                    let mergedDataValue = mergedData[j][valueKey];
+                    if (typeof mergedDataValue !== `undefined`) {
                       if (value !== `main`) {
-                        toExport = true;
+                        foundSub += 1;
                       }
-                    }
-                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
-                    sizes[value] += size;
-                    sizes.total += size;
-                    found = value;
-                    if (!space && dm.delete && this.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
-                      deletedSub += 1;
-                      delete mergedData[j][valueKey];
+                      if (dm.autoBackup || this.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                        newData[valueKey] = mergedDataValue;
+                        if (value !== `main`) {
+                          toExport = true;
+                        }
+                      }
+                      let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                      sizes[value] += size;
+                      sizes.total += size;
+                      found = value;
+                      if (!space && dm.delete && this.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                        deletedSub += 1;
+                        delete mergedData[j][valueKey];
+                      }
                     }
                   }
                 }
@@ -7890,7 +8047,9 @@ class Common extends Module {
               if (!Array.isArray(newData)) {
                 let temp = [];
                 for (let key in newData) {
-                  temp.push(newData[key]);
+                  if (newData.hasOwnProperty(key)) {
+                    temp.push(newData[key]);
+                  }
                 }
                 newData = temp;
               }
@@ -7906,26 +8065,28 @@ class Common extends Module {
                     mergedData.push(mergedDataValue);
                   }
                   for (let value in values) {
-                    if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                      for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
-                        let valueKey = values[value][k];
-                        switch (valueKey) {
-                          case `tags`:
-                            if (mergedDataValue.tags) {
-                              let tags = newData[j].tags;
-                              for (let k = 0, numTags = tags.length; k < numTags; ++k) {
-                                let tag = tags[k];
-                                if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                  mergedDataValue.tags.push(tag);
+                    if (values.hasOwnProperty(value)) {
+                      if (this.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                        for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
+                          let valueKey = values[value][k];
+                          switch (valueKey) {
+                            case `tags`:
+                              if (mergedDataValue.tags) {
+                                let tags = newData[j].tags;
+                                for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                  let tag = tags[k];
+                                  if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                    mergedDataValue.tags.push(tag);
+                                  }
                                 }
+                              } else {
+                                mergedDataValue.tags = newData[j].tags;
                               }
-                            } else {
-                              mergedDataValue.tags = newData[j].tags;
-                            }
-                            break;
-                          default:
-                            mergedDataValue[valueKey] = newData[j][valueKey];
-                            break;
+                              break;
+                            default:
+                              mergedDataValue[valueKey] = newData[j][valueKey];
+                              break;
+                          }
                         }
                       }
                     }
@@ -7943,8 +8104,10 @@ class Common extends Module {
             sizes.total += size;
             if (dm.switches) {
               for (let value in values) {
-                if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                if (values.hasOwnProperty(value)) {
+                  if (dm.switches[`${optionKey}_${value}`]) {
+                    dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                  }
                 }
               }
               dm.switches[optionKey].size.textContent = this.convertBytes(sizes.total);
@@ -8076,71 +8239,75 @@ class Common extends Module {
           mainFound = false;
           mainUsernameFound = false;
           for (let mergedDataKey in mergedData.users) {
-            let mergedDataValue = mergedData.users[mergedDataKey];
-            let newData = {};
-            let toDelete = 0;
-            let foundSub = 0;
-            let deletedSub = 0;
-            let found = null;
-            let toExport = false;
-            for (let value in values) {
-              if (this.esgst.settings[`${dm.type}_users_${value}`]) {
-                toDelete += 1;
-              }
-              for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                let valueKey = values[value][j];
-                if (typeof mergedDataValue[valueKey] !== `undefined`) {
-                  if (value !== `main`) {
-                    foundSub += 1;
+            if (mergedData.users.hasOwnProperty(mergedDataKey)) {
+              let mergedDataValue = mergedData.users[mergedDataKey];
+              let newData = {};
+              let toDelete = 0;
+              let foundSub = 0;
+              let deletedSub = 0;
+              let found = null;
+              let toExport = false;
+              for (let value in values) {
+                if (values.hasOwnProperty(value)) {
+                  if (this.esgst.settings[`${dm.type}_users_${value}`]) {
+                    toDelete += 1;
                   }
-                  if (dm.autoBackup || this.esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
-                    newData[valueKey] = mergedDataValue[valueKey];
-                    if (value !== `main`) {
-                      toExport = true;
+                  for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                    let valueKey = values[value][j];
+                    if (typeof mergedDataValue[valueKey] !== `undefined`) {
+                      if (value !== `main`) {
+                        foundSub += 1;
+                      }
+                      if (dm.autoBackup || this.esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                        newData[valueKey] = mergedDataValue[valueKey];
+                        if (value !== `main`) {
+                          toExport = true;
+                        }
+                      }
+                      let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
+                      sizes[value] += size;
+                      sizes.total += size;
+                      found = value;
+                      if (!space && dm.delete && this.esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
+                        deletedSub += 1;
+                        delete mergedDataValue[valueKey];
+                      }
                     }
-                  }
-                  let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
-                  sizes[value] += size;
-                  sizes.total += size;
-                  found = value;
-                  if (!space && dm.delete && this.esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
-                    deletedSub += 1;
-                    delete mergedDataValue[valueKey];
                   }
                 }
               }
-            }
-            if (found) {
-              sizes[found] -= 1;
-              sizes.total -= 1;
-            }
-            let id = mergedDataValue.id;
-            let username = mergedDataValue.username;
-            let size = 0;
-            if (id) {
-              size += (new TextEncoder().encode(`"id":"${id}",`)).length;
-            }
-            if (username) {
-              size += (new TextEncoder().encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
-            }
-            if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+              if (found) {
+                sizes[found] -= 1;
+                sizes.total -= 1;
+              }
+              let id = mergedDataValue.id;
+              let username = mergedDataValue.username;
+              let size = 0;
               if (id) {
-                newData.id = id;
+                size += (new TextEncoder().encode(`"id":"${id}",`)).length;
               }
               if (username) {
-                newData.username = username;
-                data.users.steamIds[username] = mergedDataKey;
-                mainUsernameFound = true;
+                size += (new TextEncoder().encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
               }
-              data.users.users[mergedDataKey] = newData;
-              mainFound = true;
-            }
-            size += (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
-            sizes.main += size;
-            sizes.total += size;
-            if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
-              delete mergedData.steamIds[mergedDataValue.username];
-              delete mergedData.users[mergedDataKey];
+              if (dm.autoBackup || toExport || this.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+                if (id) {
+                  newData.id = id;
+                }
+                if (username) {
+                  newData.username = username;
+                  data.users.steamIds[username] = mergedDataKey;
+                  mainUsernameFound = true;
+                }
+                data.users.users[mergedDataKey] = newData;
+                mainFound = true;
+              }
+              size += (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+              sizes.main += size;
+              sizes.total += size;
+              if (!space && dm.delete && ((this.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+                delete mergedData.steamIds[mergedDataValue.username];
+                delete mergedData.users[mergedDataKey];
+              }
             }
           }
           if (mainFound) {
@@ -8156,70 +8323,74 @@ class Common extends Module {
               let newData = dm.data.users;
               if (newData) {
                 for (let newDataKey in newData.users) {
-                  let newDataValue = newData.users[newDataKey];
-                  if (!mergedData.users[newDataKey]) {
-                    mergedData.users[newDataKey] = {
-                      id: newDataValue.id,
-                      username: newDataValue.username
-                    };
-                    mergedData.steamIds[newDataValue.username] = newDataKey;
-                  }
-                  let mergedDataValue = mergedData.users[newDataKey];
-                  for (let value in values) {
-                    if (this.esgst.settings[`${dm.type}_users_${value}`]) {
-                      for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
-                        let valueKey = values[value][j];
-                        if (newDataValue[valueKey]) {
-                          if (this.esgst.settings.importAndMerge) {
-                            switch (valueKey) {
-                              case `whitelisted`:
-                              case `whitelistedDate`:
-                              case `blacklisted`:
-                              case `blacklistedDate`:
-                                mergedDataValue[valueKey] = newDataValue[valueKey];
-                                break;
-                              case `notes`:
-                                mergedDataValue.notes = this.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
-                                break;
-                              case `tags`:
-                                if (mergedDataValue.tags) {
-                                  let tags = newDataValue.tags;
-                                  for (let k = 0, numTags = tags.length; k < numTags; ++k) {
-                                    let tag = tags[k];
-                                    if (mergedDataValue.tags.indexOf(tag) < 0) {
-                                      mergedDataValue.tags.push(tag);
-                                    }
-                                  }
-                                } else {
-                                  mergedDataValue.tags = newDataValue.tags;
-                                }
-                                break;
-                              case `giveaways`:
-                                if (mergedDataValue.giveaways) {
-                                  if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
-                                    mergedDataValue.giveaways.won = newDataValue.giveaways.won;
-                                    mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
-                                  }
-                                  if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
-                                    mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
-                                    mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
-                                  }
-                                } else {
-                                  mergedDataValue.giveaways = newDataValue.giveaways;
-                                }
-                                break;
-                              default:
-                                if (mergedDataValue[valueKey]) {
-                                  if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
+                  if (newData.users.hasOwnProperty(newDataKey)) {
+                    let newDataValue = newData.users[newDataKey];
+                    if (!mergedData.users[newDataKey]) {
+                      mergedData.users[newDataKey] = {
+                        id: newDataValue.id,
+                        username: newDataValue.username
+                      };
+                      mergedData.steamIds[newDataValue.username] = newDataKey;
+                    }
+                    let mergedDataValue = mergedData.users[newDataKey];
+                    for (let value in values) {
+                      if (values.hasOwnProperty(value)) {
+                        if (this.esgst.settings[`${dm.type}_users_${value}`]) {
+                          for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
+                            let valueKey = values[value][j];
+                            if (newDataValue[valueKey]) {
+                              if (this.esgst.settings.importAndMerge) {
+                                switch (valueKey) {
+                                  case `whitelisted`:
+                                  case `whitelistedDate`:
+                                  case `blacklisted`:
+                                  case `blacklistedDate`:
                                     mergedDataValue[valueKey] = newDataValue[valueKey];
-                                  }
-                                } else {
-                                  mergedDataValue[valueKey] = newDataValue[valueKey];
+                                    break;
+                                  case `notes`:
+                                    mergedDataValue.notes = this.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
+                                    break;
+                                  case `tags`:
+                                    if (mergedDataValue.tags) {
+                                      let tags = newDataValue.tags;
+                                      for (let k = 0, numTags = tags.length; k < numTags; ++k) {
+                                        let tag = tags[k];
+                                        if (mergedDataValue.tags.indexOf(tag) < 0) {
+                                          mergedDataValue.tags.push(tag);
+                                        }
+                                      }
+                                    } else {
+                                      mergedDataValue.tags = newDataValue.tags;
+                                    }
+                                    break;
+                                  case `giveaways`:
+                                    if (mergedDataValue.giveaways) {
+                                      if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
+                                        mergedDataValue.giveaways.won = newDataValue.giveaways.won;
+                                        mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
+                                      }
+                                      if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
+                                        mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
+                                        mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
+                                      }
+                                    } else {
+                                      mergedDataValue.giveaways = newDataValue.giveaways;
+                                    }
+                                    break;
+                                  default:
+                                    if (mergedDataValue[valueKey]) {
+                                      if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
+                                        mergedDataValue[valueKey] = newDataValue[valueKey];
+                                      }
+                                    } else {
+                                      mergedDataValue[valueKey] = newDataValue[valueKey];
+                                    }
+                                    break;
                                 }
-                                break;
+                              } else {
+                                mergedDataValue[valueKey] = newDataValue[valueKey];
+                              }
                             }
-                          } else {
-                            mergedDataValue[valueKey] = newDataValue[valueKey];
                           }
                         }
                       }
@@ -8238,8 +8409,10 @@ class Common extends Module {
             sizes.total += size;
             if (dm.switches) {
               for (const value in values) {
-                if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                if (values.hasOwnProperty(value)) {
+                  if (dm.switches[`${optionKey}_${value}`]) {
+                    dm.switches[`${optionKey}_${value}`].size.textContent = this.convertBytes(sizes[value]);
+                  }
                 }
               }
               dm.switches[optionKey].size.textContent = this.convertBytes(sizes.total);
@@ -8256,13 +8429,15 @@ class Common extends Module {
                 if (this.esgst.settings.importAndMerge) {
                   mergedData = data.winners;
                   for (let newDataKey in newData) {
-                    if (!mergedData[newDataKey]) {
-                      mergedData[newDataKey] = [];
-                    }
-                    for (let j = 0, numNew = newData[newDataKey].length; j < numNew; ++j) {
-                      let newDataValue = newData[newDataKey][j];
-                      if (mergedData[newDataKey].indexOf(newDataValue) < 0) {
-                        mergedData[newDataKey].push(newDataValue);
+                    if (newData.hasOwnProperty(newDataKey)) {
+                      if (!mergedData[newDataKey]) {
+                        mergedData[newDataKey] = [];
+                      }
+                      for (let j = 0, numNew = newData[newDataKey].length; j < numNew; ++j) {
+                        let newDataValue = newData[newDataKey][j];
+                        if (mergedData[newDataKey].indexOf(newDataValue) < 0) {
+                          mergedData[newDataKey].push(newDataValue);
+                        }
                       }
                     }
                   }
@@ -8362,7 +8537,7 @@ class Common extends Module {
       output.push({
         name: key,
         value: await zip.file(key).async(`string`)
-    });
+      });
     }
     return output;
   }
@@ -8424,8 +8599,8 @@ class Common extends Module {
       if (dm.reader) {
         dm.data = JSON.parse(blob
           ? (await this.readZip(blob))[0].value
-      : dm.reader.result
-      );
+          : dm.reader.result
+        );
       }
       this.createConfirmation(`Are you sure you want to restore the selected data?`, this.manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
     } catch (error) {
@@ -8748,35 +8923,43 @@ class Common extends Module {
     let deleteLock = await this.createLock(`gameLock`, 300);
     let saved = JSON.parse(await this.getValue(`games`));
     for (let key in games.apps) {
-      if (saved.apps[key]) {
-        for (let subKey in games.apps[key]) {
-          if (games.apps[key][subKey] === null) {
-            delete saved.apps[key][subKey];
-          } else {
-            saved.apps[key][subKey] = games.apps[key][subKey];
+      if (games.apps.hasOwnProperty(key)) {
+        if (saved.apps[key]) {
+          for (let subKey in games.apps[key]) {
+            if (games.apps[key].hasOwnProperty(subKey)) {
+              if (games.apps[key][subKey] === null) {
+                delete saved.apps[key][subKey];
+              } else {
+                saved.apps[key][subKey] = games.apps[key][subKey];
+              }
+            }
           }
+        } else {
+          saved.apps[key] = games.apps[key];
         }
-      } else {
-        saved.apps[key] = games.apps[key];
-      }
-      if (!saved.apps[key].tags) {
-        delete saved.apps[key].tags;
+        if (!saved.apps[key].tags) {
+          delete saved.apps[key].tags;
+        }
       }
     }
     for (let key in games.subs) {
-      if (saved.subs[key]) {
-        for (let subKey in games.subs[key]) {
-          if (games.subs[key][subKey] === null) {
-            delete saved.subs[key][subKey];
-          } else {
-            saved.subs[key][subKey] = games.subs[key][subKey];
+      if (games.subs.hasOwnProperty(key)) {
+        if (saved.subs[key]) {
+          for (let subKey in games.subs[key]) {
+            if (games.subs[key].hasOwnProperty(subKey)) {
+              if (games.subs[key][subKey] === null) {
+                delete saved.subs[key][subKey];
+              } else {
+                saved.subs[key][subKey] = games.subs[key][subKey];
+              }
+            }
           }
+        } else {
+          saved.subs[key] = games.subs[key];
         }
-      } else {
-        saved.subs[key] = games.subs[key];
-      }
-      if (!saved.subs[key].tags) {
-        delete saved.subs[key].tags;
+        if (!saved.subs[key].tags) {
+          delete saved.subs[key].tags;
+        }
       }
     }
     await this.setValue(`games`, JSON.stringify(saved));
@@ -8843,8 +9026,10 @@ class Common extends Module {
         let users = JSON.parse(await this.getValue(`users`));
         let filtered = [];
         for (let key in users.users) {
-          if (users.users[key].uf && (users.users[key].uf.posts || users.users[key].uf.giveaways || users.users[key].uf.discussions)) {
-            filtered.push(users.users[key]);
+          if (users.users.hasOwnProperty(key)) {
+            if (users.users[key].uf && (users.users[key].uf.posts || users.users[key].uf.giveaways || users.users[key].uf.discussions)) {
+              filtered.push(users.users[key]);
+            }
           }
         }
         filtered.sort((a, b) => {
@@ -9014,11 +9199,13 @@ class Common extends Module {
 
   async selectSwitches(switches, type, settings, callback) {
     for (let key in switches) {
-      let toggleSwitch = switches[key];
-      if (Array.isArray(toggleSwitch)) {
-        toggleSwitch[0][type](settings);
-      } else if (!toggleSwitch.checkbox || toggleSwitch.checkbox.offsetParent) {
-        toggleSwitch[type](settings);
+      if (switches.hasOwnProperty(key)) {
+        let toggleSwitch = switches[key];
+        if (Array.isArray(toggleSwitch)) {
+          toggleSwitch[0][type](settings);
+        } else if (!toggleSwitch.checkbox || toggleSwitch.checkbox.offsetParent) {
+          toggleSwitch[type](settings);
+        }
       }
     }
     if (settings) {
@@ -12178,8 +12365,8 @@ class Common extends Module {
 
   draggable_setTrash(obj) {
     /**
-   * @property {HTMLElement} obj.trashContext
-   */
+     * @property {HTMLElement} obj.trashContext
+     */
     this.esgst.draggable.trash = createElements(obj.trashContext || obj.context, `afterEnd`, [{
       attributes: {
         class: `esgst-draggable-trash`
@@ -13085,11 +13272,13 @@ class Common extends Module {
         found = false;
         typeFound = false;
         for (id in this.esgst.features[type].features) {
-          this.unfadeSmFeatures(this.esgst.features[type].features[id], id);
-          found = this.filterSmFeature(this.esgst.features[type].features[id], id, value);
-          if (found) {
-            typeFound = true;
-            this.unhideSmFeature(this.esgst.features[type].features[id], id);
+          if (this.esgst.features[type].features.hasOwnProperty(id)) {
+            this.unfadeSmFeatures(this.esgst.features[type].features[id], id);
+            found = this.filterSmFeature(this.esgst.features[type].features[id], id, value);
+            if (found) {
+              typeFound = true;
+              this.unhideSmFeature(this.esgst.features[type].features[id], id);
+            }
           }
         }
         element = document.getElementById(`esgst_${type}`);

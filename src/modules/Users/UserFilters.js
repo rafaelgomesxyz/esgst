@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import ButtonSet_v2 from "../../class/ButtonSet_v2";
 import Popup from "../../class/Popup";
 import ToggleSwitch from "../../class/ToggleSwitch";
-import ButtonSet_v2 from "../../class/ButtonSet_v2";
+import {common} from '../Common';
 
 const
   {
@@ -13,7 +13,7 @@ const
 ;
 
 class UsersUserFilters extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> if the user is being filtered and <i class="fa fa-eye"></i> if they are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).</li>

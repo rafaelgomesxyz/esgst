@@ -52,7 +52,7 @@ class CommentsMultiReply extends Module {
     if (MR.Comment) {
       Parent = MR.Comment.closest(this.esgst.sg ? `.comment` : `.comment_outer`);
       MR.Container = MR.Comment.getElementsByClassName(this.esgst.sg ? `comment__summary` : `comment_inner`)[0];
-      MR.Timestamp = MR.Context.firstElementChild;
+      MR.Timestamp = /** @type {HTMLElement} */ MR.Context.firstElementChild;
       ReplyButton = MR.Context.getElementsByClassName(this.esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
       Permalink = MR.Context.querySelectorAll(`[href*="/go/comment/"]`);
       Permalink = Permalink[Permalink.length - 1];

@@ -9,7 +9,7 @@ const
 ;
 
 class UsersSentWonRatio extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>

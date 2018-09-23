@@ -1,3 +1,11 @@
+import {common} from '../modules/Common';
+
+const
+  {
+    createElements
+  } = common
+;
+
 export default class Table {
   /**
    * @param {Array[]} [values] A matrix containing the values of the table.
@@ -128,6 +136,15 @@ export default class Table {
     }
     this.numRows += 1;
   }
+
+  /**
+   * @param column
+   * @param {string[]} column.additionalClasses
+   * @param {string} column.alignment
+   * @param {string[]} column.attributes
+   * @param {string} column.size
+   * @param {string} column.value
+   */
   addColumn(column) {
     const cell = typeof column === `string` ? column : column.value;
     const additionalClasses = [].concat(column.additionalClasses);
@@ -137,7 +154,7 @@ export default class Table {
       class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
     };
     if (column.attributes) {
-      for (const attribute of column.attribute) {
+      for (const attribute of column.attributes) {
         const parts = attribute.match(/(.+?)="(.+?)"/);
         attributes[parts[1]] = attributes[parts[2]];
       }
@@ -164,7 +181,7 @@ export default class Table {
       this.hiddenColumns.push(column - 1);
       this.heading.children[column - 1].classList.add(`esgst-hidden`);
       for (let i = this.numRows.length - 1; i > -1; i--) {
-        this.rows.children[i].firstElementChild.chilren[column - 1].classList.add(`esgst-hidden`);
+        this.rows.children[i].firstElementChild.children[column - 1].classList.add(`esgst-hidden`);
       }
     }
   }

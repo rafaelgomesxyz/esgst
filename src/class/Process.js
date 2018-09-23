@@ -1,5 +1,17 @@
+import Popup_v2 from "./Popup_v2";
+import {common} from '../modules/Common';
+import esgst from "./Esgst";
+
+const
+  {
+    createElements,
+    createHeadingButton
+  } = common
+;
+
 export default class Process {
   constructor(details) {
+    this.mainContext = null;
     this.mainPopup = details.mainPopup;
     this.popupDetails = details.popup;
     this.contextHtml = details.contextHtml;
@@ -38,6 +50,7 @@ export default class Process {
       this.index = 0;
       this.perLoad = this.urls.perLoad;
       this.items = [];
+      // noinspection JSAnnotator
       await this.urls.init(this, ...this.urls.arguments || []);
       this.total = this.items.length;
       if (!this.urls.doNotTrigger) {

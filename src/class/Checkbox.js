@@ -1,5 +1,14 @@
+import {common} from '../modules/Common';
+
+const
+  {
+    createElements
+  } = common
+;
+
 export default class Checkbox {
   constructor (context, defaultValue, threeState, messages = {}) {
+    this.isBlocked = false;
     this.value = defaultValue;
     this.isThreeState = threeState;
     this.checkbox = createElements(context, `afterBegin`, [{

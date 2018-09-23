@@ -10,7 +10,7 @@ const
 ;
 
 class UsersUsernameHistory extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-caret-down"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to view their username history ever since they started being tracked.</li>

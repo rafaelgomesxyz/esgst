@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 
 class UsersUserTags extends Module {
-info = ({
+  info = ({
   description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
@@ -29,6 +29,7 @@ info = ({
 
 ut() {
   this.esgst.userFeatures.push(this.tags_addButtons.bind(null, `ut`));
+  // noinspection JSIgnoredPromiseFromCall
   this.esgst.modules.tags.tags_getTags(`ut`);
 }
 }

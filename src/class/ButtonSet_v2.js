@@ -1,3 +1,11 @@
+import {common} from '../modules/Common';
+
+const
+  {
+    createElements
+  } = common
+;
+
 export default class ButtonSet_v2 {
   constructor(details) {
     this.busy = false;

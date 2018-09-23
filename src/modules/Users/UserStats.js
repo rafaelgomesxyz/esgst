@@ -13,7 +13,7 @@ const
 ;
 
 class UsersUserStats extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and the popup from [id=wbs] that show some stats about each user.</li>
@@ -76,11 +76,13 @@ info = ({
     }
     let promises = [];
     for (let username in users) {
-      let promise = request({method: `GET`, url: `/user/${username}`});
-      promise.then(this.us_load.bind(null, users[username], username));
-      promises.push(promise);
+      if (users.hasOwnProperty(username)) {
+        let promise = request({method: `GET`, url: `/user/${username}`});
+        promise.then(this.us_load.bind(null, users[username], username));
+        promises.push(promise);
+      }
+      Promise.all(promises).then(this.esgst.modules.generalTableSorter.ts_sortTables);
     }
-    Promise.all(promises).then(this.esgst.modules.generalTableSorter.ts_sortTables);
   }
 
   us_load(context, username, response) {
@@ -115,8 +117,8 @@ info = ({
           profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
           cvrow = profile.wonRowRight.firstElementChild.lastElementChild;
           rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
-          profile.wonCV = parseFloat(cvrow.textContent.replace(/\$|,/g, ``));
-          profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
+          profile.wonCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
+          profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute(`style`);
           html.push({
             attributes: {
@@ -142,8 +144,8 @@ info = ({
           profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
           cvrow = profile.sentRowRight.firstElementChild.lastElementChild;
           rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
-          profile.sentCV = parseFloat(cvrow.textContent.replace(/\$|,/g, ``));
-          profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/\$|,/g, ``));
+          profile.sentCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
+          profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute(`style`);
           html.push({
             attributes: {

@@ -1,9 +1,9 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import ButtonSet from "../../class/ButtonSet";
 import Popup from "../../class/Popup";
 import ToggleSwitch from "../../class/ToggleSwitch";
-import ButtonSet from "../../class/ButtonSet";
+import {utils} from '../../lib/jsUtils';
+import {common} from '../Common';
 
 const
   {
@@ -26,7 +26,7 @@ const
 ;
 
 class UsersWhitelistBlacklistChecker extends Module {
-info = ({
+  info = ({
     description: `
       <ul>
         <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.</li>
@@ -113,13 +113,10 @@ info = ({
     let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip;
 
     /** @type {WhiteBlacklistChecker} */
-    let WBC;
-
-    WBC = {
-      Update: (Context ? false : true),
-      B: !this.esgst.wbc_hb,
-      Username: this.esgst.username
-    };
+    let WBC = {};
+    WBC.Update = !Context;
+    WBC.B = !this.esgst.wbc_hb;
+    WBC.Username = this.esgst.username;
     popup = new Popup(WBC.Update ? `fa-cog` : `fa-question`, WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`);
     if (location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
       WBC.User = {
@@ -270,6 +267,7 @@ info = ({
     popup.description.appendChild(new ButtonSet(`green`, `grey`, WBC.Update ? `fa-refresh` : `fa-question-circle`, `fa-times-circle`, WBC.Update ? `Update` : `Check`, `Cancel`, Callback => {
       WBC.ShowResults = false;
       WBCButton.classList.add(`esgst-busy`);
+      // noinspection JSIgnoredPromiseFromCall
       this.wbc_setCheck(WBC, skip, () => {
         skip.innerHTML = ``;
         WBCButton.classList.remove(`esgst-busy`);
@@ -357,6 +355,7 @@ info = ({
       popup.open(() => {
         if (WBC.Update) {
           WBC.ShowResults = true;
+          // noinspection JSIgnoredPromiseFromCall
           this.wbc_setCheck(WBC, skip);
         }
       });
@@ -389,8 +388,10 @@ info = ({
     if (WBC.Update) {
       SavedUsers = JSON.parse(await getValue(`users`));
       for (I in SavedUsers.users) {
-        if (SavedUsers.users[I].wbc && SavedUsers.users[I].wbc.result) {
-          WBC.Users.push(SavedUsers.users[I].username);
+        if (SavedUsers.users.hasOwnProperty(I)) {
+          if (SavedUsers.users[I].wbc && SavedUsers.users[I].wbc.result) {
+            WBC.Users.push(SavedUsers.users[I].username);
+          }
         }
       }
       WBC.Users = sortArray(WBC.Users);
@@ -401,6 +402,7 @@ info = ({
             id: SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].id,
             username: WBC.Users[I]
           };
+          // noinspection JSIgnoredPromiseFromCall
           this.wbc_setResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
         }
       } else {
@@ -408,10 +410,12 @@ info = ({
           callback();
           WBC.manualSkip = true;
         }).set);
+        // noinspection JSIgnoredPromiseFromCall
         this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
     } else if (WBC.User && this.esgst.wbc_checkSingle) {
       WBC.Users.push(WBC.User.Username);
+      // noinspection JSIgnoredPromiseFromCall
       this.wbc_checkUsers(WBC, 0, 1, Callback);
     } else {
       if (this.esgst.wbc_checkSelected) {
@@ -428,12 +432,14 @@ info = ({
       }
       if ((this.esgst.wbc_checkAll || this.esgst.wbc_checkPages) && ((((WBC.User && !this.esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
         WBC.lastPage = this.esgst.wbc_checkPages ? `of ${this.esgst.wbc_maxPage}` : ``;
+        // noinspection JSIgnoredPromiseFromCall
         this.wbc_getUsers(WBC, this.esgst.wbc_checkPages ? (this.esgst.wbc_minPage - 1) : 0, this.esgst.currentPage, this.esgst.searchUrl, () => {
           skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
             callback();
             WBC.manualSkip = true;
           }).set);
           WBC.Users = sortArray(WBC.Users);
+          // noinspection JSIgnoredPromiseFromCall
           this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
         });
       } else {
@@ -442,6 +448,7 @@ info = ({
           WBC.manualSkip = true;
         }).set);
         WBC.Users = sortArray(WBC.Users);
+        // noinspection JSIgnoredPromiseFromCall
         this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
     }
@@ -476,15 +483,15 @@ info = ({
           if (!wbc) {
             wbc = {};
           }
-          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
         } else if (!wbc || !this.esgst.wbc_checkNew) {
           if (!wbc) {
             wbc = {};
           }
           await this.wbc_checkUser(wbc, WBC, user.username);
-          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
         } else {
-          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, (Result != wbc.result) ? true : false, I, N, Callback), 0);
+          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
         }
       } else if (Callback) {
         Callback();
@@ -534,6 +541,7 @@ info = ({
       if (!WBC.ShowResults) {
         if ((this.esgst.wbc_returnWhitelists && (wbc.result === `whitelisted`) && !whitelisted) || (WBC.B && this.esgst.wbc_returnBlacklists && (wbc.result === `blacklisted`) && !blacklisted)) {
           if (user.id) {
+            // noinspection JSIgnoredPromiseFromCall
             this.wbc_returnWlBl(WBC, wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
@@ -552,6 +560,7 @@ info = ({
             });
           } else {
             await getUserId(user);
+            // noinspection JSIgnoredPromiseFromCall
             this.wbc_returnWlBl(WBC, wbc, user.username, user.id, notes, async (success, notes) => {
               if (success) {
                 user.values = {
@@ -637,7 +646,9 @@ info = ({
     }
     if (this.esgst.wbc_clearCache) {
       for (const key in data) {
-        delete data[key];
+        if (data.hasOwnProperty(key)) {
+          delete data[key];
+        }
       }
     }
     if (!data.lastCheck) {
@@ -680,7 +691,7 @@ info = ({
     }
     if (((!this.esgst.wbc_checkBlacklist || !obj.B) && (data.wl_ga || data.g_wl_ga)) || (this.esgst.wbc_checkBlacklist && obj.B && data.ga)) {
       obj.Timestamp = data.timestamp;
-      await this.wbc_checkGiveaway(data, obj, username);
+      await this.wbc_checkGiveaway(data, obj, username, true);
     } else {
       obj.Timestamp = 0;
       const match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
@@ -688,7 +699,7 @@ info = ({
     }
   }
 
-  async wbc_checkGiveaway(data, obj, username) {
+  async wbc_checkGiveaway(data, obj, username, cached) {
     if (obj.Canceled) {
       return;
     }
@@ -718,16 +729,22 @@ info = ({
       found = false;
       groups = JSON.parse(await getValue(`groups`, `[]`));
       for (i = 0, n = data.g_wl_gas[data.g_wl_ga].length; i < n && !found; ++i) {
-        for (j = groups.length - 1; j > -1 && groups[j].code !== data.g_wl_gas[data.g_wl_ga][i]; --j);
+        for (j = groups.length - 1; j > -1 && groups[j].code !== data.g_wl_gas[data.g_wl_ga][i]; --j) {}
         if (j > -1 && groups[j].member) {
           found = true;
         }
       }
       if (found) {
-        obj.Timestamp = 0;
-        obj.GroupGiveaways = [];
-        let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
-        await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        if (cached) {
+          data.result = `notBlacklisted`;
+          data.lastCheck = Date.now();
+          data.timestamp = obj.Timestamp;
+        } else {
+          obj.Timestamp = 0;
+          obj.GroupGiveaways = [];
+          let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+          await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
+        }
       } else {
         data.result = `whitelisted`;
         data.lastCheck = Date.now();
@@ -786,7 +803,7 @@ info = ({
       }
       const giveaway = context.getElementsByClassName(`giveaway__summary`)[0];
       if (giveaway && obj.Timestamp === 0) {
-        obj.Timestamp = parseInt(giveaway.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
+        obj.Timestamp = parseInt(giveaway.querySelector(`.giveaway__columns span[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
         if (obj.Timestamp >= Date.now()) {
           obj.Timestamp = 0;
         }
@@ -795,12 +812,13 @@ info = ({
         isStopped = true;
         break;
       }
-      const doStop = await this.wbc_checkGiveaway(data, obj, username);
+      let doStop = await this.wbc_checkGiveaway(data, obj, username);
       if (data.result !== `notBlacklisted` || doStop || (this.esgst.wbc_checkBlacklist && obj.B)) {
         break;
       }
       let groupGiveaways = [];
       const elements = context.getElementsByClassName(`giveaway__column--whitelist`);
+      doStop = false;
       for (const element of elements) {
         const groupElement = element.parentElement.getElementsByClassName(`giveaway__column--group`)[0];
         if (groupElement) {
@@ -810,8 +828,12 @@ info = ({
         }
         if (data.wl_ga) {
           await this.wbc_checkGiveaway(data, obj, username);
+          doStop = true;
           break;
         }
+      }
+      if (doStop) {
+        break;
       }
       if ((data.g_wl_gas && Object.keys(data.g_wl_gas).length) || groupGiveaways.length) {
         if (groupGiveaways.length) {
@@ -823,22 +845,23 @@ info = ({
         const groups = JSON.parse(await getValue(`groups`, `[]`));
         let found = false;
         for (const code in data.g_wl_gas) {
-          found = false;
-          const groupCodes = data.g_wl_gas[code];
-          const n = groupCodes.length;
-          for (let i = 0; i < n && !found; i++) {
-            found = groups.filter(item => item.code === groupCodes[i] && item.member)[0];
-          }
-          if (!found) {
-            data.g_wl_ga = code;
-            break;
+          if (data.g_wl_gas.hasOwnProperty(code)) {
+            found = false;
+            const groupCodes = data.g_wl_gas[code];
+            const n = groupCodes.length;
+            for (let i = 0; i < n && !found; i++) {
+              found = groups.filter(item => item.code === groupCodes[i] && item.member)[0];
+            }
+            if (!found) {
+              data.g_wl_ga = code;
+              break;
+            }
           }
         }
-        if (found) {
+        if (!found) {
+          data.result = `whitelisted`;
           break;
         }
-        data.result = `whitelisted`;
-        break;
       }
       nextPage += 1;
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
@@ -939,7 +962,7 @@ info = ({
         Match = Matches[I].getAttribute(`href`).match(/\/user\/(.+)/);
         if (Match) {
           Username = Match[1];
-          if ((WBC.Users.indexOf(Username) < 0) && (Username != WBC.Username) && (Username === Matches[I].textContent) && !Matches[I].closest(`.markdown`)) {
+          if ((WBC.Users.indexOf(Username) < 0) && (Username !== WBC.Username) && (Username === Matches[I].textContent) && !Matches[I].closest(`.markdown`)) {
             WBC.Users.push(Username);
           }
         }
@@ -953,7 +976,7 @@ info = ({
     } else if (!WBC.Canceled) {
       if (!this.esgst.wbc_checkPages || NextPage <= this.esgst.wbc_maxPage) {
         NextPage += 1;
-        if (CurrentPage != NextPage) {
+        if (CurrentPage !== NextPage) {
           setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
         } else {
           setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.esgst.pageOuterWrap), 0);
