@@ -46,7 +46,10 @@ let cfg = {
         loaders: [
           {
             loader: 'style-loader',
-            options: { singleton: true }
+            options: {
+              singleton: true,
+              insertInto: 'html'
+            }
           },
           'css-loader'
         ]
