@@ -1,7 +1,18 @@
 `use strict`;
 
-// they will append to page in runtime
-import './assets/css/main.css';
+// that will append styles to page in runtime
+import './assets/css';
+
+// TODO: find usage
+import 'text-encoding/lib/encoding';
+
+import 'bootstrap/dist/js/bootstrap.min';
+import 'bootstrap-select/js/bootstrap-select';
+
+import 'jquery';
+import 'webpack-jquery-ui';
+
+import 'jQuery-QueryBuilder/dist/js/query-builder.min';
 
 import Popup from './class/Popup';
 import Popup_v2 from './class/Popup_v2';

@@ -23,11 +23,6 @@
         "*://*.steamgifts.com/*",
         "*://*.steamtrades.com/*"
       ],
-      "css": [
-        "css/bootstrap-3.3.7.min.css",
-        "css/awesome-bootstrap-checkbox-0.3.7.min.css",
-        "css/query-builder-2.5.2.min.css"
-      ],
       "js": [
         "esgst.js"
       ],
