@@ -8,6 +8,7 @@ import Popup_v2 from '../class/Popup_v2';
 import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
 import JSZip from 'jszip';
+import IntersectionObserver from 'intersection-observer-polyfill';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
