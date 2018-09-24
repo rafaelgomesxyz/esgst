@@ -37,6 +37,11 @@ class DiscussionsDiscussionEditDetector extends Module {
     }
   }
 
+  /**
+   * @param context
+   * @param [commentUrl]
+   * @param [callback]
+   */
   ded_addButton(context, commentUrl, callback) {
     const obj = {
       callback,

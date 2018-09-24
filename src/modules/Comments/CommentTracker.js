@@ -161,6 +161,14 @@ class CommentsCommentTracker extends Module {
     }
   }
 
+  /**
+   * @param context
+   * @param [main]
+   * @param [source]
+   * @param [endless]
+   * @param [dh]
+   * @returns {Promise<void>}
+   */
   async ct_addDiscussionPanels(context, main, source, endless, dh) {
     let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
     matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);

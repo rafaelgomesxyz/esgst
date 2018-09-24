@@ -613,6 +613,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
     this.chfl_saveOrder(chfl);
   }
 
+  /**
+   * @param chfl
+   * @param [forceKey]
+   * @returns {*}
+   */
   chfl_removeButton(chfl, forceKey) {
     for (const key in chfl.sources) {
       if (chfl.sources.hasOwnProperty(key)) {

@@ -3,17 +3,9 @@ import container from './Container';
 
 export default class Popup_v2 {
   constructor(details) {
-    let {
-      createElements,
-      loadMenu,
-      createOptions,
-      observeChange,
-      observeNumChange,
-    } = container.common, {esgst} = container;
-
     this.isCreated = !details.popup;
     this.temp = details.isTemp;
-    this.popup = details.popup || createElements(document.body, `beforeEnd`, [{
+    this.popup = details.popup || container.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: `esgst-hidden esgst-popup`
       },
@@ -73,10 +65,10 @@ export default class Popup_v2 {
         settings.addEventListener(`mousedown`, event => {
           if (event.button === 2) return;
           event.preventDefault();
-          if (esgst.openSettingsInTab || event.button === 1) {
+          if (container.esgst.openSettingsInTab || event.button === 1) {
             open(`/esgst/settings`);
           } else {
-            loadMenu();
+            container.common.loadMenu();
           }
         });
       }
@@ -105,21 +97,21 @@ export default class Popup_v2 {
           },
           type: `input`
         });
-        let input = createElements(this.description, `beforeEnd`, items);
+        let input = container.common.createElements(this.description, `beforeEnd`, items);
         input.addEventListener(`keydown`, this.triggerButton.bind(this, 0));
         this.textInputs.push(input);
       });
     }
     if (details.options) {
-      this.description.appendChild(createOptions(details.options));
+      this.description.appendChild(container.common.createOptions(details.options));
       let inputs = this.description.lastElementChild.getElementsByTagName(`input`);
       for (let input of inputs) {
         switch (input.getAttribute(`type`)) {
           case `number`:
-            observeNumChange(input, input.getAttribute(`name`));
+            container.common.observeNumChange(input, input.getAttribute(`name`));
             break;
           case `text`:
-            observeChange(input, input.getAttribute(`name`));
+            container.common.observeChange(input, input.getAttribute(`name`));
             break;
           default:
             break;
@@ -135,15 +127,15 @@ export default class Popup_v2 {
       });
     }
     if (details.addProgress) {
-      this.progress = createElements(this.description, `beforeEnd`, [{
+      this.progress = container.common.createElements(this.description, `beforeEnd`, [{
         type: `div`
       }]);
-      this.overallProgress = createElements(this.description, `beforeEnd`, [{
+      this.overallProgress = container.common.createElements(this.description, `beforeEnd`, [{
         type: `div`
       }]);
     }
     if (details.addScrollable) {
-      this.scrollable = createElements(this.description, `beforeEnd`, [{
+      this.scrollable = container.common.createElements(this.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-popup-scrollable`
         },
@@ -156,22 +148,17 @@ export default class Popup_v2 {
     }
   }
   open(callback) {
-    let {
-      createElements,
-      repositionPopups,
-    } = container.common, {esgst} = container;
-
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    if (esgst.openPopups > 0) {
-      const highestN = parseInt(esgst.popups[esgst.openPopups - 1].popup.style.zIndex || 0);
+    if (container.esgst.openPopups > 0) {
+      const highestN = parseInt(container.esgst.popups[container.esgst.openPopups - 1].popup.style.zIndex || 0);
       if (n <= highestN) {
         n = highestN + 1;
       }
     }
-    esgst.openPopups += 1;
-    esgst.popups.push(this);
-    this.modal = createElements(document.body, `beforeEnd`, [{
+    container.esgst.openPopups += 1;
+    container.esgst.popups.push(this);
+    this.modal = container.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: `esgst-popup-modal`
       },
@@ -186,8 +173,8 @@ export default class Popup_v2 {
     this.popup.style.zIndex = n + 1;
     this.modal.addEventListener(`click`, () => this.close());
     this.reposition();
-    if (!esgst.isRepositioning && !esgst.staticPopups) {
-      setTimeout(() => repositionPopups(), 2000);
+    if (!container.esgst.isRepositioning && !container.esgst.staticPopups) {
+      setTimeout(() => container.common.repositionPopups(), 2000);
     }
     if (this.textInputs) {
       this.textInputs[0].focus();
@@ -197,18 +184,14 @@ export default class Popup_v2 {
     }
   }
   close() {
-    let {
-      minimizePanel_addItem
-    } = container.common, {esgst} = container;
-
     this.modal.remove();
     if (this.isCreated) {
       if (this.temp) {
         this.popup.remove();
       } else {
         this.popup.classList.add(`esgst-hidden`);
-        if (esgst.minimizePanel) {
-          minimizePanel_addItem(this);
+        if (container.esgst.minimizePanel) {
+          container.common.minimizePanel_addItem(this);
         }
       }
     } else {
@@ -217,21 +200,19 @@ export default class Popup_v2 {
     if (this.onClose) {
       this.onClose();
     }
-    esgst.openPopups -= 1;
-    esgst.popups.pop();
+    container.esgst.openPopups -= 1;
+    container.esgst.popups.pop();
     this.isOpen = false;
   }
   reposition() {
-    let {esgst} = container;
-
     if (this.isCreated && this.scrollable) {
-      if (esgst.staticPopups) {
+      if (container.esgst.staticPopups) {
         this.scrollable.style.maxHeight = `${ innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
       } else {
         this.scrollable.style.maxHeight = `${ innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
       }
     }
-    if (!esgst.staticPopups) {
+    if (!container.esgst.staticPopups) {
       let newLeft, newTop;
       newLeft = (innerWidth - this.popup.offsetWidth) / 2;
       newTop = (innerHeight - this.popup.offsetHeight) / 2;
@@ -308,11 +289,9 @@ export default class Popup_v2 {
     this.scrollable.innerHTML = ``;
   }
   setDone(temp) {
-    let {minimizePanel_alert} = container.common, {esgst} = container;
-
     this.temp = temp;
-    if (esgst.minimizePanel && !this.isOpen) {
-      minimizePanel_alert(this);
+    if (container.esgst.minimizePanel && !this.isOpen) {
+      container.common.minimizePanel_alert(this);
     }
   }
 }

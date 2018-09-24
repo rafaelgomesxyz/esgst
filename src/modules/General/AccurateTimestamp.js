@@ -39,6 +39,12 @@ class GeneralAccurateTimestamp extends Module {
     this.esgst.endlessFeatures.push(this.at_getTimestamps);
   }
 
+  /**
+   * @param context
+   * @param [main]
+   * @param [source]
+   * @param [endless]
+   */
   at_getTimestamps(context, main, source, endless) {
     let timestamps, i, n, timestamp, text, edited, seconds, accurateTimestamp;
     timestamps = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [data-timestamp], .esgst-es-page-${endless}[data-timestamp]` : `[data-timestamp]`}`);

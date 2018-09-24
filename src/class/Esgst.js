@@ -1941,8 +1941,8 @@ class Esgst {
 
   constructor() {
     this.modules = modules;
-    for (let module of this.modules) {
-      module.setEsgst(this);
+    for (const key in this.modules) {
+      this.modules[key].setEsgst(this);
     }
     this.documentEvents.click = new Set;
     this.documentEvents.keydown = new Set;

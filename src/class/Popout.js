@@ -48,7 +48,7 @@ export default class Popout {
         }, this.hoverSpeed);
       });
       document.addEventListener(`click`, event => {
-        const element = event.target;
+        const element = /** @type {Node} */ event.target;
         if (this.context && !this.context.contains(element) && !this.popout.contains(element) && (className !== `esgst-qiv-popout` || !element.closest(`.esgst-popout`))) {
           this.close();
         }
@@ -64,7 +64,8 @@ export default class Popout {
         });
       }
       document.addEventListener(`click`, event => {
-        if (this.context && !this.context.contains(event.target) && !this.popout.contains(event.target)) {
+        const element = /** @type {Node} */ event.target;
+        if (this.context && !this.context.contains(element) && !this.popout.contains(element)) {
           this.close();
         }
       });

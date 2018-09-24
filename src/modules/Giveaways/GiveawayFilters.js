@@ -1174,10 +1174,10 @@ class GiveawaysGiveawayFilters extends Module {
         obj.filters = this.gf_getFilters(popup);
         break;
       case `df`:
-        obj.filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters(popup);
+        obj.filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
         break;
       case `cf`:
-        obj.filters = this.esgst.modules.commentsCommentFilters.cf_getFilters(popup);
+        obj.filters = this.esgst.modules.commentsCommentFilters.cf_getFilters();
         break;
       default:
         break;

@@ -44,6 +44,11 @@ class Common extends Module {
     this.envFunctions = functions;
   }
 
+  /**
+   * @param key
+   * @param value
+   * @returns {Promise<void>}
+   */
   setValue(key, value) {
     return this.envFunctions.setValue(key, value);
   }
@@ -202,12 +207,13 @@ class Common extends Module {
       }]);
     }
 
-    for (const modd of modules) {
-      if ((!modd.endless && !this.esgst[modd.id]) || !modd.load) {
+    for (const key in modules) {
+      const module = modules[key];
+      if ((!module.endless && !this.esgst[module.id]) || !module.load) {
         continue;
       }
       try {
-        await modd.load();
+        await module.load();
       } catch (e) {
         console.log(e);
       }
@@ -220,7 +226,7 @@ class Common extends Module {
       }
     }
 
-    this.observeStickyChanges(document.body);
+    this.observeStickyChanges();
 
     if (this.esgst.newGiveawayPath) {
       // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
@@ -1059,11 +1065,12 @@ class Common extends Module {
           continue;
         }
       }
-      const typeModules = this.esgst.modules.filter(x => x.type === type).sort((x, y) => {
-        return x.id.localeCompare(y.id, {sensitivity: `base`});
+      const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].type === type).sort((x, y) => {
+        return this.esgst.modules[x].id.localeCompare(this.esgst.modules[y].id, {sensitivity: `base`});
       });
-      for (const modd of typeModules) {
-        features[type].features[modd.id] = modd;
+      for (const key of typeModules) {
+        const module = this.esgst.modules[key];
+        features[type].features[module.id] = module;
       }
     }
     return features;
@@ -1201,6 +1208,7 @@ class Common extends Module {
         }
       }
       this.esgst.version = this.esgst.currentVersion;
+      // noinspection JSIgnoredPromiseFromCall
       this.setValue(`version`, this.esgst.version);
     }
     if (!this.esgst.settings.groupPopupDismissed) {
@@ -1339,6 +1347,11 @@ class Common extends Module {
     }
   }
 
+  /**
+   * @param details
+   * @param [key]
+   * @returns {*}
+   */
   generateHeaderMenuItem(details, key) {
     if (details.icon) {
       let icon = details.icon;
@@ -2056,6 +2069,10 @@ class Common extends Module {
     }
   }
 
+  /**
+   * @param users
+   * @returns {Promise<void>}
+   */
   async saveUsers(users) {
     let list, promises, savedUsers;
     list = {
@@ -2179,6 +2196,12 @@ class Common extends Module {
     }
   }
 
+  /**
+   * @param [autoSync]
+   * @param [mainCallback]
+   * @param [parameters]
+   * @returns {Promise<void>}
+   */
   async setSync(autoSync, mainCallback, parameters) {
     let syncer = {};
     syncer.autoSync = autoSync;
@@ -5934,6 +5957,7 @@ class Common extends Module {
           return 0;
         }
       });
+      // noinspection JSIgnoredPromiseFromCall
       this.setValue(`giveaways`, JSON.stringify(this.esgst.giveaways));
       i = 0;
       n = hidden.length;
@@ -6431,6 +6455,12 @@ class Common extends Module {
     this.saveUser(null, null, user);
   }
 
+  /**
+   * @param id
+   * @param type
+   * @param [unhide]
+   * @returns {Promise<void>}
+   */
   async updateHiddenGames(id, type, unhide) {
     if (!this.esgst.updateHiddenGames) {
       return;
@@ -8989,6 +9019,7 @@ class Common extends Module {
     }
     bgColorContext.value = this.esgst.defaultValues[`${id}_bgColor`];
     this.esgst.settings[`${id}_bgColor`] = bgColorContext.value;
+    // noinspection JSIgnoredPromiseFromCall
     this.setValue(`settings`, JSON.stringify(this.esgst.settings));
   }
 
@@ -9169,6 +9200,7 @@ class Common extends Module {
       new ToggleSwitch(popup.description, `cfh_img_remember`, false, `Never ask again.`, false, false, `Remembers which option you choose forever.`, this.esgst.settings.cfh_img_remember);
       popup.description.appendChild(new ButtonSet(choice1Color, ``, choice1Icon, ``, choice1Title, ``, callback => {
         if (this.esgst.settings.cfh_img_remember) {
+          // noinspection JSIgnoredPromiseFromCall
           this.setValue(`cfh_img_choice`, 1);
           this.esgst.cfh_img_choice = 1;
         }
@@ -9178,6 +9210,7 @@ class Common extends Module {
       }).set);
       popup.description.appendChild(new ButtonSet(choice2Color, ``, choice2Icon, ``, choice2Title, ``, callback => {
         if (this.esgst.settings.cfh_img_remember) {
+          // noinspection JSIgnoredPromiseFromCall
           this.setValue(`cfh_img_choice`, 2);
           this.esgst.cfh_img_choice = 2;
         }
@@ -12616,6 +12649,11 @@ class Common extends Module {
     }
   }
 
+  /**
+   * @param timestamp
+   * @param [until]
+   * @returns {string}
+   */
   getTimeSince(timestamp, until) {
     let n, s;
     s = Math.floor((until ? (timestamp - Date.now()) : (Date.now() - timestamp)) / 1000);
