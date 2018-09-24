@@ -8,7 +8,8 @@ const
     clean: require('clean-webpack-plugin')
   },
   BUILD_PATHS = {
-    MONKEY: 'monkey/ESGST.user'
+    EXTENSION: 'Extension/esgst',
+    MONKEY: 'ESGST.user'
   }
 ;
 
@@ -21,10 +22,11 @@ let cfg = {
   mode: 'none',
   context: path.join(__dirname, './src/entry/'),
   entry: {
+    [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
     [BUILD_PATHS.MONKEY]: ['./monkey/index.js']
   },
   output: {
-    path: path.join(__dirname, 'build'),
+    path: __dirname,
     filename: "[name].js"
   },
   module: {

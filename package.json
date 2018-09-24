@@ -8,18 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/revilheart/ESGST.git"
+    "url": "git+https://github.com/gsrafael01/ESGST.git"
   },
   "keywords": [
     "esgst",
     "steamgifts"
   ],
-  "author": "revilheart",
+  "author": "gsrafael01",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/revilheart/ESGST/issues"
+    "url": "https://github.com/gsrafael01/ESGST/issues"
   },
-  "homepage": "https://github.com/revilheart/ESGST#readme",
+  "homepage": "https://github.com/gsrafael01/ESGST#readme",
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/plugin-proposal-class-properties": "^7.0.0",

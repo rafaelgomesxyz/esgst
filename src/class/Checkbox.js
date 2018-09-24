@@ -8,6 +8,11 @@ const
 
 export default class Checkbox {
   constructor (context, defaultValue, threeState, messages = {}) {
+    this.onPreEnabled = null;
+    this.onPreDisabled = null;
+    this.onEnabled = null;
+    this.onDisabled = null;
+    this.onChange = null;
     this.isBlocked = false;
     this.value = defaultValue;
     this.isThreeState = threeState;

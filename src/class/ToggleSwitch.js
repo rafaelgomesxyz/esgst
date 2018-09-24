@@ -1,15 +1,28 @@
 import container from './Container';
 
+
 export default class ToggleSwitch {
+  /**
+   * @param context
+   * @param id
+   * @param inline
+   * @param name
+   * @param sg
+   * @param st
+   * @param tooltip
+   * @param value
+   * @property {HTMLElement} input
+   */
   constructor(context, id, inline, name, sg, st, tooltip, value) {
-    let {createElements} = container.common;
+    this.onEnabled = null;
+    this.onDisabled = null;
     this.dependencies = [];
     this.exclusions = [];
     this.id = id;
     this.sg = sg;
     this.st = st;
     this.value = value;
-    this.container = createElements(context, `beforeEnd`, [{
+    this.container = container.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-toggle-switch-container ${inline ? `inline` : ``}`
       },
@@ -43,13 +56,12 @@ export default class ToggleSwitch {
       } : null]
     }]);
     this.switch = this.container.firstElementChild;
-    this.input = this.switch.firstElementChild;
+    this.input = /** @type {HTMLElement} */ this.switch.firstElementChild;
     this.name = this.switch.nextElementSibling;
     this.input.checked = this.value;
     this.input.addEventListener(`change`, () => this.change());
   }
   async change(settings) {
-    const {esgst} = container, {createElements, setSetting} = container.common;
     this.value = this.input.checked;
     if (this.id) {
       let key = this.id;
@@ -58,16 +70,16 @@ export default class ToggleSwitch {
       } else if (this.st) {
         key += `_st`;
       }
-      let setting = esgst.settings[key];
+      let setting = container.esgst.settings[key];
       if (typeof setting === `undefined` || !setting.include) {
         setting = this.value;
       } else {
         setting.enabled = this.value ? 1 : 0;
       }
-      esgst.settings[key] = setting;
-      esgst[this.id] = this.value;
+      container.esgst.settings[key] = setting;
+      container.esgst[this.id] = this.value;
       if (!settings) {
-        let message = createElements(this.container, `beforeEnd`, [{
+        let message = container.common.createElements(this.container, `beforeEnd`, [{
           attributes: {
             class: `esgst-description esgst-bold`
           },
@@ -80,9 +92,9 @@ export default class ToggleSwitch {
             type: `i`
           }]
         }]);
-        await setSetting(key, setting);
+        await container.common.setSetting(key, setting);
         message.classList.add(`esgst-green`);
-        createElements(message, `inner`, [{
+        container.common.createElements(message, `inner`, [{
           attributes: {
             class: `fa fa-check`,
             title: `Saved!`

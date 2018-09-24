@@ -426,7 +426,7 @@ class GeneralHeaderRefresher extends Module {
     if (this.esgst.sg) {
       if (hr.points !== this.esgst.points) {
         hr.points = this.esgst.points;
-        this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_updateButtons(hr.points);
+        this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_updateButtons();
         if (this.esgst.points >= 400) {
           pointsNotification = true;
         }

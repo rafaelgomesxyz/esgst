@@ -135,6 +135,13 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     return true;
   }
 
+  /**
+   * @param context
+   * @param [main]
+   * @param [src]
+   * @param [endless]
+   * @returns {Promise<void>}
+   */
   async gdttt_checkVisited(context, main, src, endless) {
     let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : `.homepage_table_column_heading`}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : `.table__column__heading`}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : `.giveaway__heading__name`}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : `.column_flex h3 a`}`);
     if (!matches.length) return;

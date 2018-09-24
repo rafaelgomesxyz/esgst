@@ -125,8 +125,8 @@ class GiveawaysCommentEntryChecker extends Module {
     obj.popup.clearProgress();
 
     // calculate data
-    comments = sortArray(Array.from(new Set(comments)));
-    entries = sortArray(Array.from(new Set(entries)));
+    comments = sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
+    entries = sortArray(Array.from(/** @type {ArrayLike} */ new Set(entries)));
     let both = [];
     let commented = [];
     for (const user of comments) {
