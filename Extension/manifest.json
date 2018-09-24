@@ -7,7 +7,6 @@
   "author": "gsrafael01",
   "background": {
     "scripts": [
-      "js/jszip-3.1.5.min.js",
       "eventPage.js"
     ],
     "persistent": true
@@ -63,7 +62,6 @@
     "cookies"
   ],
   "web_accessible_resources": [
-    "css/steamgifts-v34.min.css",
     "icon.png"
   ],
   "version": "7.26.3"

@@ -90,8 +90,8 @@ import esgst from './class/Esgst';
   envVariables.gm = null;
 
   if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
-    [envVariables._USER_INFO.extension, envVariables.browser] = this.chrome && this.chrome.runtime ?
-      [this.browser ? `firefox` : `chrome`, this.chrome] : [`edge`, this.browser];
+    [envVariables._USER_INFO.extension, envVariables.browser] = global.chrome && global.chrome.runtime ?
+      [global.browser ? `firefox` : `chrome`, global.chrome] : [`edge`, global.browser];
   } else if (typeof GM === `undefined`) {
     // polyfill for userscript managers that do not support the gm-dot api
     envVariables.gm = {

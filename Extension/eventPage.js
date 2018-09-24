@@ -2,7 +2,8 @@ const browser = (this.chrome && this.chrome.runtime) ? this.chrome : this.browse
 let storage = null;
 
 browser.storage.local.get(`settings`, async result => {
-  const settings = JSON.parse(result.settings);
+  // i've got null in result.settings
+  const settings = result.settings ? JSON.parse(result.settings) : {};
   if (!settings.activateTab_sg && !settings.activateTab_st) {
     return;
   }
