@@ -59,5 +59,6 @@
   "web_accessible_resources": [
     "icon.png"
   ],
-  "version": "7.26.3"
+  "version": "7.26.3",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

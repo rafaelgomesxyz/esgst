@@ -9,6 +9,7 @@ import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
 import JSZip from 'jszip';
 import IntersectionObserver from 'intersection-observer-polyfill';
+import {TextEncoder} from 'text-encoding/lib/encoding';
 
 /**
  * @property {EnvironmentFunctions} envFunctions

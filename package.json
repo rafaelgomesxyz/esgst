@@ -4,7 +4,8 @@
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "main": "ESGST.meta.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack"
+    "build": "./node_modules/.bin/webpack --env.production",
+    "build-dev": "./node_modules/.bin/webpack --env.development"
   },
   "repository": {
     "type": "git",
@@ -38,10 +39,12 @@
     "image-webpack-loader": "^4.3.1",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
+    "progress-bar-webpack-plugin": "^1.11.0",
     "style-loader": "^0.23.0",
     "transfer-webpack-plugin": "^0.1.4",
     "url-loader": "^1.1.1",
     "webpack": "^4.16.5",
+    "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
