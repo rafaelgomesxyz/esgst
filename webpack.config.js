@@ -5,11 +5,19 @@ const
   packageJson = require('./package.json'),
   webpack = require('webpack'),
   plugins = {
-    clean: require('clean-webpack-plugin')
+    clean: require('clean-webpack-plugin'),
+    transfer: require('transfer-webpack-plugin')
   },
   BUILD_PATHS = {
     EXTENSION: 'Extension/esgst',
     MONKEY: 'ESGST.user'
+  },
+  styleLoader = {
+    loader: 'style-loader',
+    options: {
+      singleton: true,
+      insertInto: 'html'
+    }
   }
 ;
 
@@ -44,11 +52,31 @@ let cfg = {
       {
         test: /\.css$/,
         loaders: [
-          {
-            loader: 'style-loader',
-            options: { singleton: true }
-          },
+          styleLoader,
           'css-loader'
+        ]
+      },
+      {
+        test: /\.less$/,
+        loaders: [
+          styleLoader,
+          'css-loader',
+          'lesbooasdadsdfsdfsdfdsfds-loader'
+        ]
+      },
+      {
+        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: 'url-loader?limit=10000',
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          'file-loader?name=Extension/images/[name].[ext]',
+          'image-webpack-loader?bypassOnDebug'
         ]
       }
     ]

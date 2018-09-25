@@ -1,7 +1,18 @@
 `use strict`;
 
-// they will append to page in runtime
-import './assets/css/main.css';
+// that will append styles to page in runtime
+import './assets/css';
+
+// TODO: find usage
+import 'text-encoding/lib/encoding';
+
+import 'bootstrap/dist/js/bootstrap.min';
+import 'bootstrap-select/js/bootstrap-select';
+
+import 'jquery';
+import 'webpack-jquery-ui';
+
+import 'jQuery-QueryBuilder/dist/js/query-builder.min';
 
 import Popup from './class/Popup';
 import Popup_v2 from './class/Popup_v2';
@@ -17,7 +28,7 @@ import esgst from './class/Esgst';
 /** @var {function} GM_xmlhttpRequest */
 /** @var {function} delValues */
 /** @var {function} setValues */
-/** @property {boolean} this.chrome */
+/** @property {boolean} global.chrome */
 /** @property {function} browser.runtime.sendMessage */
 /** @property {function} browser.runtime.onMessage.addListener */
 /** @property {function} browser.runtime.getURL */
@@ -90,8 +101,8 @@ import esgst from './class/Esgst';
   envVariables.gm = null;
 
   if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
-    [envVariables._USER_INFO.extension, envVariables.browser] = this.chrome && this.chrome.runtime ?
-      [this.browser ? `firefox` : `chrome`, this.chrome] : [`edge`, this.browser];
+    [envVariables._USER_INFO.extension, envVariables.browser] = global.chrome && global.chrome.runtime ?
+      [global.browser ? `firefox` : `chrome`, global.chrome] : [`edge`, global.browser];
   } else if (typeof GM === `undefined`) {
     // polyfill for userscript managers that do not support the gm-dot api
     envVariables.gm = {
@@ -181,13 +192,13 @@ import esgst from './class/Esgst';
           }));
       };
       envFunctions.setValue = (key, value) => envFunctions.setValues({[key]: value});
-      envFunctions.getValue = async (key, value) => common.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
+      envFunctions.getValue = async (key, value) => utils.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
       envFunctions.getValues = values =>
         new Promise(resolve => {
           let output = {};
           for (let key in values) {
             if (values.hasOwnProperty(key)) {
-              output[key] = common.isSet(esgst.storage[key]) ? esgst.storage[key] : values[key];
+              output[key] = utils.isSet(esgst.storage[key]) ? esgst.storage[key] : values[key];
             }
           }
           resolve(output);
@@ -1087,7 +1098,7 @@ import esgst from './class/Esgst';
     esgst.storage = await envFunctions.getStorage();
     toDelete = [];
     toSet = {};
-    if (common.isSet(esgst.storage.users)) {
+    if (utils.isSet(esgst.storage.users)) {
       esgst.users = JSON.parse(esgst.storage.users);
       let changed = false;
       for (let key in esgst.users.users) {
@@ -1109,11 +1120,11 @@ import esgst from './class/Esgst';
       };
       toSet.users = JSON.stringify(esgst.users);
     }
-    if (!common.isSet(esgst.storage[`${esgst.name}RfiCache`])) {
+    if (!utils.isSet(esgst.storage[`${esgst.name}RfiCache`])) {
       toSet[`${esgst.name}RfiCache`] = common.getLocalValue(`replies`, `{}`);
       common.delLocalValue(`replies`);
     }
-    if (common.isSet(esgst.storage.emojis)) {
+    if (utils.isSet(esgst.storage.emojis)) {
       const fixed = common.fixEmojis(esgst.storage.emojis);
       if (esgst.storage.emojis !== fixed) {
         toSet.emojis = fixed;
@@ -1121,27 +1132,27 @@ import esgst from './class/Esgst';
         toSet.emojis = `[]`;
       }
     } else {
-      toSet.emojis = common.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : `[]`;
+      toSet.emojis = utils.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : `[]`;
       toDelete.push(`Emojis`);
     }
     esgst.emojis = JSON.parse(toSet.emojis || esgst.storage.emojis);
     if (esgst.sg) {
-      if (!common.isSet(esgst.storage.templates)) {
+      if (!utils.isSet(esgst.storage.templates)) {
         toSet.templates = common.getLocalValue(`templates`, `[]`);
         common.delLocalValue(`templates`);
       }
-      if (!common.isSet(esgst.storage.stickiedCountries)) {
+      if (!utils.isSet(esgst.storage.stickiedCountries)) {
         toSet.stickiedCountries = common.getLocalValue(`stickiedCountries`, `[]`);
         common.delLocalValue(`stickiedCountries`);
       }
-      if (common.isSet(esgst.storage.giveaways)) {
+      if (utils.isSet(esgst.storage.giveaways)) {
         esgst.giveaways = JSON.parse(esgst.storage.giveaways);
       } else {
         toSet.giveaways = common.getLocalValue(`giveaways`, `{}`);
         esgst.giveaways = JSON.parse(toSet.giveaways);
         common.delLocalValue(`giveaways`);
       }
-      if (common.isSet(esgst.storage.decryptedGiveaways)) {
+      if (utils.isSet(esgst.storage.decryptedGiveaways)) {
         esgst.decryptedGiveaways = esgst.storage.decryptedGiveaways;
         if (typeof esgst.decryptedGiveaways === `string`) {
           esgst.decryptedGiveaways = JSON.parse(esgst.decryptedGiveaways);
@@ -1152,14 +1163,14 @@ import esgst from './class/Esgst';
         toSet.decryptedGiveaways = `{}`;
         esgst.decryptedGiveaways = {};
       }
-      if (common.isSet(esgst.storage.discussions)) {
+      if (utils.isSet(esgst.storage.discussions)) {
         esgst.discussions = JSON.parse(esgst.storage.discussions);
       } else {
         toSet.discussions = common.getLocalValue(`discussions`, `{}`);
         esgst.discussions = JSON.parse(toSet.discussions);
         common.delLocalValue(`discussions`);
       }
-      if (common.isSet(esgst.storage.tickets)) {
+      if (utils.isSet(esgst.storage.tickets)) {
         esgst.tickets = JSON.parse(esgst.storage.tickets);
       } else {
         toSet.tickets = common.getLocalValue(`tickets`, `{}`);
@@ -1169,25 +1180,25 @@ import esgst from './class/Esgst';
       common.delLocalValue(`gFix`);
       common.delLocalValue(`dFix`);
       common.delLocalValue(`tFix`);
-      if (common.isSet(esgst.storage.groups)) {
+      if (utils.isSet(esgst.storage.groups)) {
         esgst.groups = JSON.parse(esgst.storage.groups);
       } else {
         toSet.groups = common.getLocalValue(`groups`, `[]`);
         esgst.groups = JSON.parse(toSet.groups);
         common.delLocalValue(`groups`);
       }
-      if (!common.isSet(esgst.storage.entries)) {
+      if (!utils.isSet(esgst.storage.entries)) {
         toSet.entries = common.getLocalValue(`entries`, `[]`);
         common.delLocalValue(`entries`);
       }
-      if (common.isSet(esgst.storage.rerolls)) {
+      if (utils.isSet(esgst.storage.rerolls)) {
         esgst.rerolls = JSON.parse(esgst.storage.rerolls);
       } else {
         toSet.rerolls = common.getLocalValue(`rerolls`, `[]`);
         esgst.rerolls = JSON.parse(toSet.rerolls);
         common.delLocalValue(`rerolls`);
       }
-      if (common.isSet(esgst.storage.winners)) {
+      if (utils.isSet(esgst.storage.winners)) {
         esgst.winners = JSON.parse(esgst.storage.winners);
       } else {
         toSet.winners = common.getLocalValue(`winners`, `{}`);
@@ -1195,7 +1206,7 @@ import esgst from './class/Esgst';
         common.delLocalValue(`winners`);
       }
     } else {
-      if (common.isSet(esgst.storage.trades)) {
+      if (utils.isSet(esgst.storage.trades)) {
         esgst.trades = JSON.parse(esgst.storage.trades);
       } else {
         toSet.trades = common.getLocalValue(`trades`, `{}`);
@@ -1225,7 +1236,7 @@ import esgst from './class/Esgst';
       }
     }
     common.setLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
-    if (common.isSet(esgst.storage.games)) {
+    if (utils.isSet(esgst.storage.games)) {
       esgst.games = JSON.parse(esgst.storage.games);
     } else {
       esgst.games = {
@@ -1234,7 +1245,7 @@ import esgst from './class/Esgst';
       };
       toSet.games = JSON.stringify(esgst.games);
     }
-    if (common.isSet(esgst.storage.settings)) {
+    if (utils.isSet(esgst.storage.settings)) {
       esgst.settings = JSON.parse(esgst.storage.settings);
     } else {
       esgst.settings = {};
@@ -1258,7 +1269,7 @@ import esgst from './class/Esgst';
         esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
       }
     }
-    if (common.isSet(esgst.storage.filterPresets)) {
+    if (utils.isSet(esgst.storage.filterPresets)) {
       esgst.gf_presets = esgst.gf_presets.concat(
         filters_convert(JSON.parse(esgst.storage.filterPresets))
       );
@@ -1267,7 +1278,7 @@ import esgst from './class/Esgst';
       toSet.old_gf_presets = esgst.storage.filterPresets;
       toDelete.push(`filterPresets`);
     }
-    if (common.isSet(esgst.storage.dfPresets)) {
+    if (utils.isSet(esgst.storage.dfPresets)) {
       esgst.df_presets = esgst.df_presets.concat(
         filters_convert(JSON.parse(esgst.storage.dfPresets))
       );
