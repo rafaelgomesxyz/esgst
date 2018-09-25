@@ -2,6 +2,7 @@ import Module from '../../class/Module';
 import CompletionCheck from '../../class/CompletionCheck';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import IntersectionObserver from 'intersection-observer-polyfill';
 
 const
   {
