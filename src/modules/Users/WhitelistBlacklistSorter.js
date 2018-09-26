@@ -43,7 +43,7 @@ class UsersWhitelistBlacklistSorter extends Module {
       saveKey,
       title: `Oldest to newest ${saveKey} users:`
     };
-    createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
+    createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, this.wbs_sort.bind(this, object));
 
     // add descending button
     object = {
@@ -54,7 +54,7 @@ class UsersWhitelistBlacklistSorter extends Module {
       saveKey,
       title: `Newest to oldest ${saveKey} users:`
     };
-    createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, this.wbs_sort.bind(null, object));
+    createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, this.wbs_sort.bind(this, object));
   }
 
   async wbs_sort(obj) {
@@ -202,7 +202,7 @@ class UsersWhitelistBlacklistSorter extends Module {
       object.removeButton = row.firstElementChild.lastElementChild.firstElementChild;
       object.removingButton = object.removeButton.nextElementSibling;
       object.removedButton = object.removingButton.nextElementSibling;
-      object.removeButton.addEventListener(`click`, this.wbs_removeMember.bind(null, object));
+      object.removeButton.addEventListener(`click`, this.wbs_removeMember.bind(this, object));
     });
     popup.open();
     endless_load(table);

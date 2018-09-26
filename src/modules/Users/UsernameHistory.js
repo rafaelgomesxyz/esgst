@@ -91,8 +91,8 @@ class UsersUsernameHistory extends Module {
     button = container.firstElementChild;
     box = button.nextElementSibling;
     list = box.lastElementChild;
-    button.addEventListener(`click`, this.uh_toggle.bind(null, box, profile, list));
-    this.esgst.documentEvents.click.add(this.uh_close.bind(null, box, container));
+    button.addEventListener(`click`, this.uh_toggle.bind(this, box, profile, list));
+    this.esgst.documentEvents.click.add(this.uh_close.bind(this, box, container));
   }
 
   async uh_toggle(box, profile, list) {

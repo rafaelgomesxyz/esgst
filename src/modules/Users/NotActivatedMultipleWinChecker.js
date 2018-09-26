@@ -193,8 +193,8 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         icon2: `fa-times-circle`,
         title1: `Check`,
         title2: `Cancel`,
-        callback1: this.namwc_start.bind(null, obj),
-        callback2: this.namwc_stop.bind(null, obj)
+        callback1: this.namwc_start.bind(this, obj),
+        callback2: this.namwc_stop.bind(this, obj)
       }).set, obj.popup.scrollable);
     }
     obj.popup.progress = createElements(obj.popup.scrollable, `beforeBegin`, [{
@@ -227,7 +227,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       Description: `Users who cannot be checked for not activated wins either because they have a private profile or SteamCommunity is down`,
       Key: `unknown`
     }]);
-    obj.button.addEventListener(`click`, obj.popup.open.bind(obj.popup, obj.isMenu ? this.namwc_start.bind(null, obj) : null));
+    obj.button.addEventListener(`click`, obj.popup.open.bind(obj.popup, obj.isMenu ? this.namwc_start.bind(this, obj) : null));
   }
 
   /**
