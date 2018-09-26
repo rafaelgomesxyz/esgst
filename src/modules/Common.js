@@ -28,6 +28,13 @@ class Common extends Module {
   browser;
   gm;
 
+  info = ({
+    id: 'common',
+    load: () => {},
+    name: 'Common',
+    type: 'general'
+  });
+
   /**
    * @param {EnvironmentVariables} variables
    */
@@ -1064,7 +1071,7 @@ class Common extends Module {
         if (type.match(/^(others|themes)$/)) {
           continue;
         }
-        const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].info.type === type).sort((x, y) => {
+        const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].type === type).sort((x, y) => {
           return this.esgst.modules[x].info.id.localeCompare(this.esgst.modules[y].info.id, {sensitivity: `base`});
         });
         for (const key of typeModules) {

@@ -3,6 +3,7 @@
     "@babel/preset-flow"
   ],
   "plugins": [
+    "autobind-class-methods",
     "@babel/plugin-proposal-class-properties",
     ["@babel/plugin-transform-runtime", {
       "regenerator": true
