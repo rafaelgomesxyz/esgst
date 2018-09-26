@@ -3,7 +3,7 @@
  * @property {Common} common
  * @property {Esgst} esgst
  */
-export default new class {
+class Container {
   add(objs) {
     for (let name in objs) {
       if (!objs.hasOwnProperty(name)) {
@@ -14,3 +14,6 @@ export default new class {
     }
   }
 }
+
+const container = new Container;
+export {container};

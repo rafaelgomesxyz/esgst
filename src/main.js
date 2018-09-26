@@ -6,15 +6,11 @@ import './assets/css';
 import 'jquery';
 import 'webpack-jquery-ui';
 
-import 'bootstrap/dist/js/bootstrap.min';
-
 // jQuery QueryBuilder want global interact object
 import interactFactory from 'interactjs/dist/interact.min';
 window.interact = interactFactory(window);
 
 import 'jQuery-QueryBuilder/dist/js/query-builder.min';
-
-import 'bootstrap-select/js/bootstrap-select';
 
 import Popup from './class/Popup';
 import Popup_v2 from './class/Popup_v2';
@@ -69,7 +65,8 @@ import esgst from './class/Esgst';
 
   const
     common = esgst.modules.common,
-    {getZip, readZip} = common,
+    getZip = common.getZip.bind(common),
+    readZip = common.readZip.bind(common),
     {filters_convert} = esgst.modules.giveawaysGiveawayFilters,
     {lpl_getLastPage} = esgst.modules.generalLastPageLink,
     {hr_refreshHeaderElements} = esgst.modules.generalHeaderRefresher

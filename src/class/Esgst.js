@@ -1,4 +1,4 @@
-import container from '../class/Container';
+import {container} from '../class/Container';
 import Parsedown from '../lib/parsedown';
 import modules from '../modules';
 
@@ -1943,7 +1943,7 @@ class Esgst {
     this.modules = modules;
     for (const key in this.modules) {
       if (this.modules.hasOwnProperty(key)) {
-        this.modules[key].setEsgst(this);
+        this.modules[key].setEsgst.call(this.modules[key], this);
       }
     }
     this.documentEvents.click = new Set;

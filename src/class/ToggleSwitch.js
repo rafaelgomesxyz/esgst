@@ -1,4 +1,4 @@
-import container from './Container';
+import {container} from './Container';
 
 export default class ToggleSwitch {
   /**
