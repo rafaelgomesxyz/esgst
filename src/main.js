@@ -3,16 +3,18 @@
 // that will append styles to page in runtime
 import './assets/css';
 
-// TODO: find usage
-import 'text-encoding/lib/encoding';
-
-import 'bootstrap/dist/js/bootstrap.min';
-import 'bootstrap-select/js/bootstrap-select';
-
 import 'jquery';
 import 'webpack-jquery-ui';
 
+import 'bootstrap/dist/js/bootstrap.min';
+
+// jQuery QueryBuilder want global interact object
+import interactFactory from 'interactjs/dist/interact.min';
+window.interact = interactFactory(window);
+
 import 'jQuery-QueryBuilder/dist/js/query-builder.min';
+
+import 'bootstrap-select/js/bootstrap-select';
 
 import Popup from './class/Popup';
 import Popup_v2 from './class/Popup_v2';
