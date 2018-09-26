@@ -36,7 +36,7 @@ class TradesHaveWantListChecker extends Module {
         icons: [`fa-list`]
       })
     };
-    obj.button.addEventListener(`click`, this.hwlc_openPopup.bind(null, obj));
+    obj.button.addEventListener(`click`, this.hwlc_openPopup.bind(this, obj));
   }
 
   hwlc_openPopup(obj) {
@@ -146,7 +146,7 @@ class TradesHaveWantListChecker extends Module {
       games: document.getElementById(`esgst-hwlc-${key}-games`),
       unidentified: document.getElementById(`esgst-hwlc-${key}-unidentified`)
     };
-    obj.sections[key].textArea.addEventListener(`input`, this.hwlc_filter.bind(null, obj, key, null));
+    obj.sections[key].textArea.addEventListener(`input`, this.hwlc_filter.bind(this, obj, key, null));
   }
 
   async hwlc_getGames(obj) {

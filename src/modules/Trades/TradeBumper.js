@@ -46,7 +46,7 @@ class TradesTradeBumper extends Module {
         icons: [`fa-chevron-circle-up`],
         title: `Bump trades`
       });
-      button.addEventListener(`click`, this.tb_getTrades.bind(null, button, document));
+      button.addEventListener(`click`, this.tb_getTrades.bind(this, button, document));
       if (this.esgst.tb_a) {
         // noinspection JSIgnoredPromiseFromCall
         this.tb_setAutoBump(button);
@@ -77,7 +77,7 @@ class TradesTradeBumper extends Module {
     if (button) {
       location.reload();
     } else {
-      setTimeout(this.tb_setAutoBump, 3900000, button);
+      setTimeout(this.tb_setAutoBump.bind(this), 3900000, button);
     }
   }
 
@@ -89,7 +89,7 @@ class TradesTradeBumper extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_autoBumpTrades(button);
     } else {
-      setTimeout(this.tb_setAutoBump, 3600000 - diff, button);
+      setTimeout(this.tb_setAutoBump.bind(this), 3600000 - diff, button);
     }
   }
 
