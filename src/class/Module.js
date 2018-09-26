@@ -3,17 +3,24 @@ export default class Module {
   /** @type {Esgst} */
   esgst;
 
-  // it just shows expected structure, not default or inherited values
+  /** @type {EsgstModuleInfo} */
   info = {
-    id: 'string',
-    description: 'string',
-    type: 'string',
-    endless: 'boolean',
-    load: 'function'
+    id: 'unknown',
+    type: '',
+    load: () => {},
+    name: 'Unknown'
   };
+
+  constructor() {
+    this.info.id += (new Date).getTime();
+  }
 
   init() {
     this.info.load.call(this);
+  }
+
+  get type() {
+    return this.info.type;
   }
 
   /**
