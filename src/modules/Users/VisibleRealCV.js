@@ -17,7 +17,7 @@ class UsersVisibleRealCV extends Module {
   });
 
   vrcv() {
-    this.esgst.profileFeatures.push(this.vrcv_add);
+    this.esgst.profileFeatures.push(this.vrcv_add.bind(this));
   }
 
   vrcv_add(profile) {

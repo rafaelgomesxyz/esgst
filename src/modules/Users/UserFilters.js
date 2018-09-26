@@ -41,7 +41,7 @@ class UsersUserFilters extends Module {
   });
 
   uf() {
-    this.esgst.profileFeatures.push(this.uf_add);
+    this.esgst.profileFeatures.push(this.uf_add.bind(this));
   }
 
   uf_add(profile, savedUser) {

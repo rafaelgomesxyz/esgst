@@ -75,7 +75,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 
   wbc() {
     if (this.esgst.wbc_h) {
-      this.esgst.userFeatures.push(this.wbc_users);
+      this.esgst.userFeatures.push(this.wbc_users.bind(this));
     }
     if (!this.esgst.mainPageHeading) return;
     let [icons, title] = !this.esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];

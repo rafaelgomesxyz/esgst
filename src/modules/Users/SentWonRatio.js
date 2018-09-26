@@ -21,7 +21,7 @@ class UsersSentWonRatio extends Module {
   });
 
   swr() {
-    this.esgst.profileFeatures.push(this.swr_add);
+    this.esgst.profileFeatures.push(this.swr_add.bind(this));
   }
 
   swr_add(profile) {

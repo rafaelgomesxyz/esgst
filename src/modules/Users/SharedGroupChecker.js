@@ -27,7 +27,7 @@ class UsersSharedGroupChecker extends Module {
   });
 
   sgc() {
-    this.esgst.profileFeatures.push(this.sgc_add);
+    this.esgst.profileFeatures.push(this.sgc_add.bind(this));
   }
 
   sgc_add(profile) {

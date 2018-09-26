@@ -81,9 +81,9 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   });
 
   namwc() {
-    this.esgst.profileFeatures.push(this.namwc_addUser);
+    this.esgst.profileFeatures.push(this.namwc_addUser.bind(this));
     if (this.esgst.namwc_h) {
-      this.esgst.userFeatures.push(this.namwc_getUsers);
+      this.esgst.userFeatures.push(this.namwc_getUsers.bind(this));
     }
 
     if (!this.esgst.winnersPath) return;
