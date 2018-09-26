@@ -1,4 +1,4 @@
-import container from '../class/Container';
+import {container} from '../class/Container';
 
 export default class Popup {
   /** @type {HTMLElement} */

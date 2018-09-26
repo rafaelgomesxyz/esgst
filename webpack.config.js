@@ -22,6 +22,7 @@ const
   },
   BUILD_PATHS = {
     EXTENSION: 'Extension/esgst',
+    EXTENSION_EVENT_PAGE: 'Extension/eventPage',
     MONKEY: 'ESGST.user'
   },
   loaders = {
@@ -45,6 +46,7 @@ module.exports = /** @param {Environment} env */ env => {
     context: path.join(__dirname, './src/entry/'),
     entry: {
       [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
+      [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'],
       [BUILD_PATHS.MONKEY]: ['./monkey/index.js']
     },
     output: {

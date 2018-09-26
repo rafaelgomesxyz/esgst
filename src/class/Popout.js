@@ -1,4 +1,4 @@
-import container from '../class/Container';
+import {container} from '../class/Container';
 
 export default class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
