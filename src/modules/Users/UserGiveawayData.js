@@ -47,9 +47,9 @@ class UsersUserGiveawayData extends Module {
   });
 
   ugd() {
-    this.esgst.profileFeatures.push(this.ugd_addButtons);
+    this.esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
     if (this.esgst.ugd_s) {
-      this.esgst.profileFeatures.push(this.ugd_addStats);
+      this.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
     }
   }
 

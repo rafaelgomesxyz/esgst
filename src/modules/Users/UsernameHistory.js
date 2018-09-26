@@ -31,7 +31,7 @@ class UsersUsernameHistory extends Module {
   });
 
   uh() {
-    this.esgst.profileFeatures.push(this.uh_add);
+    this.esgst.profileFeatures.push(this.uh_add.bind(this));
   }
 
   uh_add(profile) {

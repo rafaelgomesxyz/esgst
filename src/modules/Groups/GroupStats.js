@@ -55,7 +55,7 @@ class GroupsGroupStats extends Module {
       text: `Users`,
       type: `div`
     }]);
-    this.esgst.endlessFeatures.push(this.gs_getGroups);
+    this.esgst.endlessFeatures.push(this.gs_getGroups.bind(this));
   }
 
   gs_getGroups(context, main, source, endless) {

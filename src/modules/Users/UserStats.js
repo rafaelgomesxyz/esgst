@@ -24,7 +24,7 @@ class UsersUserStats extends Module {
 
   us() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
-    this.esgst.endlessFeatures.push(this.us_get);
+    this.esgst.endlessFeatures.push(this.us_get.bind(this));
   }
 
   async us_get(context, main, source, endless) {

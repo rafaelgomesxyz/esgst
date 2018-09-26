@@ -35,7 +35,7 @@ class UsersUserNotes extends Module {
   });
 
   un() {
-    this.esgst.profileFeatures.push(this.un_add);
+    this.esgst.profileFeatures.push(this.un_add.bind(this));
   }
 
   un_add(profile, savedUser) {

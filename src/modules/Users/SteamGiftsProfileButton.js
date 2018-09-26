@@ -22,7 +22,7 @@ class UsersSteamGiftsProfileButton extends Module {
 
   sgpb() {
     if (!this.esgst.userPath) return;
-    this.esgst.profileFeatures.push(this.sgpb_add);
+    this.esgst.profileFeatures.push(this.sgpb_add.bind(this));
   }
 
   sgpb_add(profile) {

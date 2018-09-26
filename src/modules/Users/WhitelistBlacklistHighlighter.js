@@ -51,7 +51,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
   });
 
   wbh() {
-    this.esgst.userFeatures.push(this.wbh_getUsers);
+    this.esgst.userFeatures.push(this.wbh_getUsers.bind(this));
   }
 
   wbh_getUsers(users) {

@@ -8,7 +8,7 @@ class Users extends Module {
   });
 
   users() {
-    this.esgst.endlessFeatures.push(this.users_load);
+    this.esgst.endlessFeatures.push(this.users_load.bind(this));
   }
 
   async users_load(mainContext, main, source, endless) {

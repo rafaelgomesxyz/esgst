@@ -22,7 +22,7 @@ class UsersSteamTradesProfileButton extends Module {
   });
 
   stpb() {
-    this.esgst.profileFeatures.push(this.stpb_add);
+    this.esgst.profileFeatures.push(this.stpb_add.bind(this));
   }
 
   stpb_add(profile) {
