@@ -48,7 +48,7 @@ class UsersSharedGroupChecker extends Module {
         type: `i`
       }]
     }]);
-    profile.sgcButton.addEventListener(`click`, this.sgc_open.bind(null, profile));
+    profile.sgcButton.addEventListener(`click`, this.sgc_open.bind(this, profile));
   }
 
   async sgc_open(profile) {

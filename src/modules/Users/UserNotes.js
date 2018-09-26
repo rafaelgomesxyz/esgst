@@ -45,11 +45,11 @@ class UsersUserNotes extends Module {
       if (this.esgst.un_p) {
         whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
         if (whitelistButton) {
-          whitelistButton.addEventListener(`click`, this.un_open.bind(null, profile));
+          whitelistButton.addEventListener(`click`, this.un_open.bind(this, profile));
         }
         blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
         if (blacklistButton) {
-          blacklistButton.addEventListener(`click`, this.un_open.bind(null, profile));
+          blacklistButton.addEventListener(`click`, this.un_open.bind(this, profile));
         }
       }
     } else {
@@ -74,7 +74,7 @@ class UsersUserNotes extends Module {
     } else {
       profile.unIcon.classList.add(`fa-sticky-note-o`);
     }
-    profile.unButton.addEventListener(`click`, this.un_open.bind(null, profile));
+    profile.unButton.addEventListener(`click`, this.un_open.bind(this, profile));
   }
 
   un_open(profile) {
@@ -92,14 +92,14 @@ class UsersUserNotes extends Module {
     profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.un_save.bind(null, profile)});
+    set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.un_save.bind(this, profile)});
     profile.unTextArea.addEventListener(`keydown`, event => {
       if (event.ctrlKey && event.key === `Enter`) {
         set.trigger();
       }
     });
     profile.unPopup.description.appendChild(set.set);
-    profile.unPopup.open(this.un_get.bind(null, profile));
+    profile.unPopup.open(this.un_get.bind(this, profile));
   }
 
   async un_save(profile) {

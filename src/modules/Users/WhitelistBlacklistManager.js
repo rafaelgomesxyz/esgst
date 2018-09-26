@@ -42,7 +42,7 @@ class UsersWhitelistBlacklistManager extends Module {
       wbm.name = `Blacklist`;
     }
     wbm.button = createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
-    wbm.button.addEventListener(`click`, this.wbm_openPopup.bind(null, wbm));
+    wbm.button.addEventListener(`click`, this.wbm_openPopup.bind(this, wbm));
   }
 
   wbm_openPopup(wbm) {
@@ -83,9 +83,9 @@ class UsersWhitelistBlacklistManager extends Module {
         },
         type: `div`
       }]);
-      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(null, wbm, this.wbm_importList.bind(null, wbm)), this.wbm_cancel.bind(null, wbm)).set);
-      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(null, wbm, this.wbm_exportList.bind(null, wbm, [], 1)), this.wbm_cancel.bind(null, wbm)).set);
-      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(null, wbm, this.wbm_clearList.bind(null, wbm, [], 1)), this.wbm_cancel.bind(null, wbm)).set);
+      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_importList.bind(this, wbm)), this.wbm_cancel.bind(this, wbm)).set);
+      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_exportList.bind(this, wbm, [], 1)), this.wbm_cancel.bind(this, wbm)).set);
+      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_clearList.bind(this, wbm, [], 1)), this.wbm_cancel.bind(this, wbm)).set);
       wbm.results = createElements(wbm.popup.scrollable,  `beforeEnd`, [{
         type: `div`
       }]);
@@ -99,7 +99,7 @@ class UsersWhitelistBlacklistManager extends Module {
       wbm.button.classList.add(`esgst-busy`);
       wbm.usernames = [];
       wbm.results.innerHTML = ``;
-      callback(this.wbm_complete.bind(null, wbm, mainCallback));
+      callback(this.wbm_complete.bind(this, wbm, mainCallback));
     }, mainCallback);
   }
 

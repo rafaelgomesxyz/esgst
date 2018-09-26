@@ -51,8 +51,8 @@ class UsersSteamTradesProfileButton extends Module {
     }]);
     tooltip = profile.steamButtonContainer.getElementsByClassName(`js-tooltip`)[0];
     if (tooltip) {
-      button.addEventListener(`mouseenter`, this.stpb_show.bind(null, button, tooltip));
-      button.addEventListener(`mouseleave`, setSiblingsOpacity.bind(null, button, `1`));
+      button.addEventListener(`mouseenter`, this.stpb_show.bind(this, button, tooltip));
+      button.addEventListener(`mouseleave`, setSiblingsOpacity.bind(common, button, `1`));
     }
   }
 

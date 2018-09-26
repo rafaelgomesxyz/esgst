@@ -51,7 +51,7 @@ class UsersUserSuspensionTracker extends Module {
   ust() {
     if (this.esgst.ticketsPath) {
       this.esgst.ustButton = createHeadingButton({id: `ust`, icons: [`fa-paper-plane`], title: `Send selected tickets to the User Suspension Tracker database`});
-      this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll);
+      this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     } else if (this.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       let code, tickets;
       code = location.pathname.match(/\/ticket\/(.+?)\//)[1];
@@ -70,7 +70,7 @@ class UsersUserSuspensionTracker extends Module {
             type: `i`
           }]
         }]);
-        this.esgst.ustButton.addEventListener(`click`, this.ust_send);
+        this.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
       }
     }
   }
@@ -120,7 +120,7 @@ class UsersUserSuspensionTracker extends Module {
         },
         type: `i`
       }]);
-      this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll);
+      this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     }
     this.esgst.ustCheckboxes = [];
     new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
@@ -169,7 +169,7 @@ class UsersUserSuspensionTracker extends Module {
         },
         type: `i`
       }]);
-      this.esgst.ustButton.addEventListener(`click`, this.ust_send);
+      this.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
       new Popup(``, `An error occurred. Please try again later.`, true).open();
     }
   }

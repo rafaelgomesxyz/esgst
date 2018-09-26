@@ -29,8 +29,8 @@ class UsersNotReceivedFinder extends Module {
   });
 
   nrf() {
-    this.esgst.profileFeatures.push(this.nrf_add.bind(null, `won`));
-    this.esgst.profileFeatures.push(this.nrf_add.bind(null, `sent`));
+    this.esgst.profileFeatures.push(this.nrf_add.bind(this, `won`));
+    this.esgst.profileFeatures.push(this.nrf_add.bind(this, `sent`));
   }
 
   nrf_add(key, profile) {
@@ -52,7 +52,7 @@ class UsersNotReceivedFinder extends Module {
     }]);
     new Process({
       button,
-      init: this.nrf_init.bind(null, key, profile),
+      init: this.nrf_init.bind(this, key, profile),
       popup: {
         addProgress: true,
         addScrollable: `left`,
