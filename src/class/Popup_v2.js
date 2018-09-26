@@ -1,5 +1,5 @@
 import ButtonSet_v2 from './ButtonSet_v2';
-import container from './Container';
+import {container} from './Container';
 
 export default class Popup_v2 {
   constructor(details) {

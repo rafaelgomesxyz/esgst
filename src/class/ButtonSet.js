@@ -1,4 +1,4 @@
-import container from '../class/Container';
+import {container} from '../class/Container';
 
 export default class ButtonSet {
   constructor(color1, color2, icon1, icon2, title1, title2, callback1, callback2) {

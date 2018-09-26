@@ -1,4 +1,4 @@
-import container from '../class/Container';
+import {container} from '../class/Container';
 import Module from '../class/Module'
 import ButtonSet from '../class/ButtonSet';
 import ButtonSet_v2 from '../class/ButtonSet_v2';
@@ -142,7 +142,7 @@ class Common extends Module {
       }]
     }]);
     popup.minimizeLink = popup.minimizeItem.firstElementChild;
-    popup.minimizeItem.addEventListener(`click`, this.minimizePanel_openItem.bind(null, popup));
+    popup.minimizeItem.addEventListener(`click`, this.minimizePanel_openItem.bind(this, popup));
   }
 
   minimizePanel_openItem(popup) {
@@ -165,7 +165,7 @@ class Common extends Module {
 
   /**
    *
-   * @param {Module[]} modules
+   * @param {Object} modules
    * @returns {Promise<void>}
    */
   async loadFeatures(modules) {
@@ -209,11 +209,11 @@ class Common extends Module {
 
     for (const key in modules) {
       const module = modules[key];
-      if ((!module.endless && !this.esgst[module.id]) || !module.load) {
+      if ((!module.info.endless && !this.esgst[module.info.id]) || !module.info.load) {
         continue;
       }
       try {
-        await module.load();
+        await module.info.load.call(module);
       } catch (e) {
         console.log(e);
       }
@@ -250,17 +250,17 @@ class Common extends Module {
     if (document.readyState === `complete`) {
       this.goToComment(this.esgst.originalHash);
     } else {
-      document.addEventListener(`readystatechange`, this.goToComment.bind(null, this.esgst.originalHash, null, false));
+      document.addEventListener(`readystatechange`, this.goToComment.bind(this, this.esgst.originalHash, null, false));
     }
-    addEventListener(`beforeunload`, this.checkBusy);
-    addEventListener(`hashchange`, this.goToComment.bind(null, null, null, false));
+    addEventListener(`beforeunload`, this.checkBusy.bind(this));
+    addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
     if (!this.esgst.staticPopups) {
       setTimeout(() => this.repositionPopups(), 2000);
     }
 
     for (const key in this.esgst.documentEvents) {
       if (this.esgst.documentEvents.hasOwnProperty(key)) {
-        document.addEventListener(key, this.processEvent.bind(null, this.esgst.documentEvents[key]), true);
+        document.addEventListener(key, this.processEvent.bind(this, this.esgst.documentEvents[key]), true);
       }
     }
 
@@ -411,7 +411,7 @@ class Common extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.addNoCvGames(games);
       } else {
-        this.esgst.noCvButton.firstElementChild.addEventListener(`click`, this.addNoCvGames.bind(null, games));
+        this.esgst.noCvButton.firstElementChild.addEventListener(`click`, this.addNoCvGames.bind(this, games));
       }
     }
 
@@ -1064,13 +1064,13 @@ class Common extends Module {
         if (type.match(/^(others|themes)$/)) {
           continue;
         }
-      }
-      const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].type === type).sort((x, y) => {
-        return this.esgst.modules[x].id.localeCompare(this.esgst.modules[y].id, {sensitivity: `base`});
-      });
-      for (const key of typeModules) {
-        const module = this.esgst.modules[key];
-        features[type].features[module.id] = module;
+        const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].info.type === type).sort((x, y) => {
+          return this.esgst.modules[x].info.id.localeCompare(this.esgst.modules[y].info.id, {sensitivity: `base`});
+        });
+        for (const key of typeModules) {
+          const module = this.esgst.modules[key];
+          features[type].features[module.info.id] = module.info;
+        }
       }
     }
     return features;
@@ -1158,7 +1158,7 @@ class Common extends Module {
         text: `https://www.patreon.com/gsrafael01`,
         type: `a`
       }], true);
-      popup.onClose = this.setValue.bind(null, `patreonNotice`, true);
+      popup.onClose = this.setValue.bind(this, `patreonNotice`, true);
       popup.open();
     }
   }
@@ -1237,7 +1237,7 @@ class Common extends Module {
           type: `div`
         }]);
         popup.open();
-        popup.onClose = this.setSetting.bind(null, `groupPopupDismissed`, true);
+        popup.onClose = this.setSetting.bind(this, `groupPopupDismissed`, true);
       }
     }
   }
@@ -2246,9 +2246,9 @@ class Common extends Module {
             type: `span`
           }]
         }]);
-        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, this.selectSwitches.bind(null, syncer.switches, `enable`, group)).set);
-        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, this.selectSwitches.bind(null, syncer.switches, `disable`, group)).set);
-        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, this.selectSwitches.bind(null, syncer.switches, `toggle`, group)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, this.selectSwitches.bind(this, syncer.switches, `enable`, group)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, this.selectSwitches.bind(this, syncer.switches, `disable`, group)).set);
+        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, this.selectSwitches.bind(this, syncer.switches, `toggle`, group)).set);
       }
       syncer.progress = this.createElements(syncer.popup.description, `beforeEnd`, [{
         attributes: {
@@ -2260,7 +2260,7 @@ class Common extends Module {
         type: `div`
       }]);
       if (!parameters) {
-        syncer.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-refresh`, icon2: `fa-times`, title1: `Sync`, title2: `Cancel`, callback1: this.sync.bind(null, syncer), callback2: this.cancelSync.bind(null, syncer)});
+        syncer.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-refresh`, icon2: `fa-times`, title1: `Sync`, title2: `Cancel`, callback1: this.sync.bind(this, syncer), callback2: this.cancelSync.bind(this, syncer)});
         syncer.popup.description.appendChild(syncer.set.set);
       }
       syncer.popup.open();
@@ -3721,9 +3721,9 @@ class Common extends Module {
       await this.checkSync(true, true);
       heading.firstElementChild.classList.remove(`esgst-busy`);
     });
-    heading.firstElementChild.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(null, false, `import`, null));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(null, false, `export`, null));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(null, false, `delete`, null));
+    heading.firstElementChild.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(this, false, `import`, null));
+    heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(this, false, `export`, null));
+    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(this, false, `delete`, null));
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.exportSettings);
     heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataCleaner);
     if (this.esgst.groups) {
@@ -3755,7 +3755,7 @@ class Common extends Module {
       this.setSMManageFilteredGiveaways(SMManageFilteredGiveaways);
     }
     if (SMManageFilteredDiscussions) {
-      SMManageFilteredDiscussions.addEventListener(`click`, this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(null, {}));
+      SMManageFilteredDiscussions.addEventListener(`click`, this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {}));
     }
     if (SMViewUsernameChanges) {
       this.setSMRecentUsernameChanges(SMViewUsernameChanges);
@@ -3891,8 +3891,8 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: this.addPath.bind(null, `include`, obj, {enabled: 1, pattern: ``})}).set);
-    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: this.addPath.bind(null, `include`, obj, {enabled: 1, pattern: `^${this.escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${this.escapeRegExp(location.search)}`})}).set);
+    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: this.addPath.bind(this, `include`, obj, {enabled: 1, pattern: ``})}).set);
+    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: this.addPath.bind(this, `include`, obj, {enabled: 1, pattern: `^${this.escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${this.escapeRegExp(location.search)}`})}).set);
     obj.exclude = this.createElements(obj.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
@@ -3917,9 +3917,9 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: this.addPath.bind(null, `exclude`, obj, {enabled: 1, pattern: ``})}).set);
-    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: this.addPath.bind(null, `exclude`, obj, {enabled: 1, pattern: `^${this.escapeRegExp(location.pathname)}${this.escapeRegExp(location.search)}`})}).set);
-    obj.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.savePaths.bind(null, id, obj)}).set);
+    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add New`, title2: ``, callback1: this.addPath.bind(this, `exclude`, obj, {enabled: 1, pattern: ``})}).set);
+    group.appendChild(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-plus-circle`, icon2: ``, title1: `Add Current`, title2: ``, callback1: this.addPath.bind(this, `exclude`, obj, {enabled: 1, pattern: `^${this.escapeRegExp(location.pathname)}${this.escapeRegExp(location.search)}`})}).set);
+    obj.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.savePaths.bind(this, id, obj)}).set);
     obj.setting = this.getFeaturePath(feature, id, obj.name);
     obj.setting.include.forEach(path => this.addPath(`include`, obj, path));
     obj.setting.exclude.forEach(path => this.addPath(`exclude`, obj, path));
@@ -3940,14 +3940,14 @@ class Common extends Module {
       type: `input`
     }]);
     item.input.value = path.pattern;
-    item.input.addEventListener(`input`, this.validatePathRegex.bind(null, item));
+    item.input.addEventListener(`input`, this.validatePathRegex.bind(this, item));
     this.createElements(item.container, `beforeEnd`, [ {
       attributes: {
         class: `fa fa-times-circle esgst-clickable`,
         title: `Remove`
       },
       type: `i`
-    }]).addEventListener(`click`, this.removePath.bind(null, item, key, obj));
+    }]).addEventListener(`click`, this.removePath.bind(this, item, key, obj));
     item.invalid = this.createElements(item.container, `beforeEnd`, [{
       attributes: {
         class: `fa fa-exclamation esgst-hidden esgst-red`,
@@ -4028,7 +4028,7 @@ class Common extends Module {
           title: `Customize where the feature runs`
         },
         type: `i`
-      }]).addEventListener(`click`, this.openPathsPopup.bind(null, Feature, ID, `sg`));
+      }]).addEventListener(`click`, this.openPathsPopup.bind(this, Feature, ID, `sg`));
       if (Feature.conflicts) {
         siwtchSg.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -4083,7 +4083,7 @@ class Common extends Module {
           title: `Customize where the feature runs`
         },
         type: `i`
-      }]).addEventListener(`click`, this.openPathsPopup.bind(null, Feature, ID, `st`));
+      }]).addEventListener(`click`, this.openPathsPopup.bind(this, Feature, ID, `st`));
       if (Feature.conflicts) {
         siwtchSt.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -4138,7 +4138,7 @@ class Common extends Module {
         },
         text: `[NEW]`,
         type: `span`
-      }]).addEventListener(`click`, this.dismissNewOption.bind(null, ID));
+      }]).addEventListener(`click`, this.dismissNewOption.bind(this, ID));
     }
     val = val1 || val2;
     this.createElements(Menu, `beforeEnd`, [{
@@ -4335,7 +4335,7 @@ class Common extends Module {
           type: `div`
         }]
       }]).firstElementChild.nextElementSibling;
-      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(null, select));
+      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(this, select));
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (Feature.colors || Feature.background) {
       let color = this.esgst[`${ID}_color`];
@@ -4377,7 +4377,7 @@ class Common extends Module {
         this.addColorObserver(colorContext, ID, `color`);
       }
       this.addColorObserver(bgColorContext, ID, `bgColor`);
-      bgColorContext.nextElementSibling.addEventListener(`click`, this.resetColor.bind(null, bgColorContext, Feature.background ? null : colorContext, ID));
+      bgColorContext.nextElementSibling.addEventListener(`click`, this.resetColor.bind(this, bgColorContext, Feature.background ? null : colorContext, ID));
       if (ID === `gc_g`) {
         let input = this.createElements(SMFeatures, `beforeEnd`, [{
           attributes: {
@@ -4543,7 +4543,7 @@ class Common extends Module {
             },
             text: `[NEW]`,
             type: `span`
-          }]).addEventListener(`click`, this.dismissNewOption.bind(null, item.id));
+          }]).addEventListener(`click`, this.dismissNewOption.bind(this, item.id));
         }
         input.addEventListener(item.event || `change`, event => {
           if (item.shortcutKey) {
@@ -5271,9 +5271,9 @@ class Common extends Module {
     };
     for (let i = 0, n = sm.panel.children.length; i < n; i++) {
       let child = sm.panel.children[i];
-      child.addEventListener(`dragstart`, this.setSmSource.bind(null, child, sm));
-      child.addEventListener(`dragenter`, this.getSmSource.bind(null, child, sm));
-      child.addEventListener(`dragend`, this.saveSmSource.bind(null, sm));
+      child.addEventListener(`dragstart`, this.setSmSource.bind(this, child, sm));
+      child.addEventListener(`dragenter`, this.getSmSource.bind(this, child, sm));
+      child.addEventListener(`dragend`, this.saveSmSource.bind(this, sm));
     }
   }
 
@@ -5282,7 +5282,7 @@ class Common extends Module {
     popup.open();
     try {
       let reader = new FileReader();
-      reader.onload = this.saveHrFile.bind(null, id, popup, reader);
+      reader.onload = this.saveHrFile.bind(this, id, popup, reader);
       reader.readAsArrayBuffer(event.currentTarget.files[0]);
     } catch (e) {
       console.log(e);
@@ -6067,7 +6067,7 @@ class Common extends Module {
       }
     }
     await this.endless_load(popup.scrollable);
-    input.addEventListener(`input`, this.filterDiscussionTags.bind(null, discussions));
+    input.addEventListener(`input`, this.filterDiscussionTags.bind(this, discussions));
     popup.open();
   }
 
@@ -6149,7 +6149,7 @@ class Common extends Module {
       }
     }
     await this.endless_load(popup.scrollable);
-    input.addEventListener(`input`, this.filterUserTags.bind(null, users));
+    input.addEventListener(`input`, this.filterUserTags.bind(this, users));
     popup.open();
   }
 
@@ -6257,7 +6257,7 @@ class Common extends Module {
       }
     }
     await this.endless_load(popup.scrollable);
-    input.addEventListener(`input`, this.filterGameTags.bind(null, games));
+    input.addEventListener(`input`, this.filterGameTags.bind(this, games));
     popup.open();
   }
 
@@ -6349,7 +6349,7 @@ class Common extends Module {
       };
     }
     await this.endless_load(popup.scrollable);
-    input.addEventListener(`input`, this.filterGroupTags.bind(null, groups));
+    input.addEventListener(`input`, this.filterGroupTags.bind(this, groups));
     popup.open();
   }
 
@@ -6550,7 +6550,7 @@ class Common extends Module {
         }]
       }]);
       dm.computerSpaceCount = dm.computerSpace.firstElementChild;
-      dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, this.getDataSizes.bind(null, dm));
+      dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, this.getDataSizes.bind(this, dm));
       section = this.createMenuSection(context, null, 1, title1);
     }
     dm.switches = {};
@@ -6884,9 +6884,9 @@ class Common extends Module {
           type: `span`
         }]
       }]);
-      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, this.selectSwitches.bind(null, dm.switches, `enable`, group1)).set);
-      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, this.selectSwitches.bind(null, dm.switches, `disable`, group1)).set);
-      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, this.selectSwitches.bind(null, dm.switches, `toggle`, group1)).set);
+      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, this.selectSwitches.bind(this, dm.switches, `enable`, group1)).set);
+      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, this.selectSwitches.bind(this, dm.switches, `disable`, group1)).set);
+      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, this.selectSwitches.bind(this, dm.switches, `toggle`, group1)).set);
       group2 = this.createElements(container, `beforeEnd`, [{
         attributes: {
           class: `esgst-button-group`
@@ -8593,7 +8593,7 @@ class Common extends Module {
 
   getDataSizes(dm) {
     let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
-    spacePopup.open(this.manageData.bind(null, dm, false, false, false, spacePopup));
+    spacePopup.open(this.manageData.bind(this, dm, false, false, false, spacePopup));
   }
 
   async loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
@@ -8623,7 +8623,7 @@ class Common extends Module {
           this.readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback);
         } else {
           dm.reader.readAsText(file);
-          dm.reader.onload = this.readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, null, callback);
+          dm.reader.onload = this.readImportFile.bind(this, dm, dropbox, googleDrive, oneDrive, space, null, callback);
         }
       } else {
         this.createFadeMessage(dm.warning, `No file was loaded!`);
@@ -8640,7 +8640,7 @@ class Common extends Module {
           : dm.reader.result
         );
       }
-      this.createConfirmation(`Are you sure you want to restore the selected data?`, this.manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+      this.createConfirmation(`Are you sure you want to restore the selected data?`, this.manageData.bind(this, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
     } catch (error) {
       this.createFadeMessage(dm.warning, `Cannot parse file!`);
       callback();
@@ -8648,7 +8648,7 @@ class Common extends Module {
   }
 
   confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
-    this.createConfirmation(`Are you sure you want to delete the selected data?`, this.manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+    this.createConfirmation(`Are you sure you want to delete the selected data?`, this.manageData.bind(this, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
   }
 
   async checkDropboxComplete(data, dm, callback) {
@@ -8936,7 +8936,7 @@ class Common extends Module {
       uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, this.createUuid)
     };
     await this.checkLock(lock);
-    return this.setValue.bind(null, key, `{}`);
+    return this.setValue.bind(this, key, `{}`);
   }
 
   async checkLock(lock) {
@@ -12221,9 +12221,9 @@ class Common extends Module {
         continue;
       }
       element.setAttribute(`draggable`, true);
-      element.addEventListener(`dragstart`, this.draggable_start.bind(null, obj));
-      element.addEventListener(`dragenter`, this.draggable_enter.bind(null, obj));
-      element.addEventListener(`dragend`, this.draggable_end.bind(null, obj));
+      element.addEventListener(`dragstart`, this.draggable_start.bind(this, obj));
+      element.addEventListener(`dragenter`, this.draggable_enter.bind(this, obj));
+      element.addEventListener(`dragend`, this.draggable_end.bind(this, obj));
     }
   }
 
@@ -12420,7 +12420,7 @@ class Common extends Module {
       }]
     }]);
     this.esgst.draggable.trash.style.width = `${(obj.trashContext || obj.context).offsetWidth}px`;
-    this.esgst.draggable.trash.addEventListener(`dragenter`, this.draggable_delete.bind(null, obj));
+    this.esgst.draggable.trash.addEventListener(`dragenter`, this.draggable_delete.bind(this, obj));
   }
 
   async draggable_delete(obj) {
@@ -12518,9 +12518,9 @@ class Common extends Module {
 
   setClearButton(input) {
     const button = input.nextElementSibling;
-    input.addEventListener(`input`, this.toggleClearButton.bind(null, button, input));
-    input.addEventListener(`change`, this.toggleClearButton.bind(null, button, input));
-    input.nextElementSibling.addEventListener(`click`, this.clearInput.bind(null, input));
+    input.addEventListener(`input`, this.toggleClearButton.bind(this, button, input));
+    input.addEventListener(`change`, this.toggleClearButton.bind(this, button, input));
+    input.nextElementSibling.addEventListener(`click`, this.clearInput.bind(this, input));
   }
 
   toggleClearButton(button, input) {
@@ -13411,7 +13411,7 @@ class Common extends Module {
   }
 
   getThemeUrl(id, url) {
-    return new Promise(this.openThemePopup.bind(null, id, url));
+    return new Promise(this.openThemePopup.bind(this, id, url));
   }
 
   openThemePopup(id, url, resolve) {
@@ -13608,12 +13608,12 @@ class Common extends Module {
           color1: `green`, color2: `grey`,
           icon1: `fa-gear`, icon2: `fa-circle-o-notch fa-spin`,
           title1: `Generate`, title2: `Generating...`,
-          callback1: this.generateThemeUrl.bind(null, obj, key)
+          callback1: this.generateThemeUrl.bind(this, obj, key)
         }
       ],
       addScrollable: true
     });
-    obj.popup.onClose = resolve.bind(null, url);
+    obj.popup.onClose = resolve.bind(this, url);
     let context = obj.popup.getScrollable([{
       attributes: {
         class: `esgst-sm-colors`
