@@ -3,10 +3,8 @@ import Popup from '../../class/Popup';
 import {common} from '../Common';
 
 const
-  {
-    getLocalValue,
-    setLocalValue
-  } = common
+  getLocalValue = common.getLocalValue.bind(common),
+  setLocalValue = common.setLocalValue.bind(common)
 ;
 
 class GeneralCakeDayReminder extends Module {

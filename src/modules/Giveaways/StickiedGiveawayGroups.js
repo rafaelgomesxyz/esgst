@@ -3,10 +3,8 @@ import Button from '../../class/Button';
 import {common} from '../Common';
 
 const
-  {
-    getValue,
-    lockAndSaveGroups
-  } = common
+  getValue = common.getValue.bind(common),
+  lockAndSaveGroups = common.lockAndSaveGroups.bind(common)
 ;
 
 class GiveawaysStickiedGiveawayGroups extends Module {

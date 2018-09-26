@@ -4,25 +4,21 @@ import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
-const 
-  {
-    sortArray,
-    parseHtml
-  } = utils,
-  {
-    createOptions,
-    getTimestamp,
-    getValue,
-    createHeadingButton,
-    createElements,
-    getFeatureTooltip,
-    createResults,
-    getUser,
-    saveUser,
-    saveUsers,
-    getSuspensions,
-    request
-  } = common
+const
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createOptions = common.createOptions.bind(common),
+  createResults = common.createResults.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getSuspensions = common.getSuspensions.bind(common),
+  getTimestamp = common.getTimestamp.bind(common),
+  getUser = common.getUser.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  saveUser = common.saveUser.bind(common),
+  saveUsers = common.saveUsers.bind(common)
 ;
 
 class UsersNotActivatedMultipleWinChecker extends Module {

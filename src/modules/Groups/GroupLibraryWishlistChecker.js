@@ -3,16 +3,12 @@ import {utils} from '../../lib/jsUtils'
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    createHeadingButton,
-    createTooltip,
-    getParameters,
-    request
- } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createTooltip = common.createTooltip.bind(common),
+  getParameters = common.getParameters.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GroupsGroupLibraryWishlistChecker extends Module {

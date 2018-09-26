@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    setSiblingsOpacity
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  setSiblingsOpacity = common.setSiblingsOpacity.bind(common)
 ;
 
 class UsersSteamTradesProfileButton extends Module {

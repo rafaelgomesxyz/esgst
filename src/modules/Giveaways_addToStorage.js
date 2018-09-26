@@ -2,9 +2,7 @@ import Module from '../class/Module';
 import {common} from './Common';
 
 const
-  {
-    addGiveawayToStorage
-  } = common
+  addGiveawayToStorage = common.addGiveawayToStorage.bind(common)
 ;
 
 class Giveaways_addToStorage extends Module {

@@ -4,16 +4,12 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    formatDate
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    getTimestamp,
-    getValue,
-    setValue
-  } = common
+  formatDate = utils.formatDate.bind(utils),
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getTimestamp = common.getTimestamp.bind(common),
+  getValue = common.getValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysEntryTracker extends Module {

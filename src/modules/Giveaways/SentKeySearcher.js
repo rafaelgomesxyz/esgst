@@ -6,17 +6,13 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    observeChange,
-    observeNumChange,
-    request,
-    downloadFile
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  downloadFile = common.downloadFile.bind(common),
+  observeChange = common.observeChange.bind(common),
+  observeNumChange = common.observeNumChange.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GiveawaysSentKeySearcher extends Module {

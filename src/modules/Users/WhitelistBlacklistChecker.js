@@ -6,24 +6,20 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    sortArray,
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    getFeatureTooltip,
-    getFeatureNumber,
-    observeNumChange,
-    createResults,
-    getUser,
-    saveUser,
-    getUserId,
-    request,
-    getTimestamp,
-    getValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createResults = common.createResults.bind(common),
+  getFeatureNumber = common.getFeatureNumber.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getTimestamp = common.getTimestamp.bind(common),
+  getUser = common.getUser.bind(common),
+  getUserId = common.getUserId.bind(common),
+  getValue = common.getValue.bind(common),
+  observeNumChange = common.observeNumChange.bind(common),
+  request = common.request.bind(common),
+  saveUser = common.saveUser.bind(common)
 ;
 
 class UsersWhitelistBlacklistChecker extends Module {

@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    getTimestamp
-  } = common
+  getTimestamp = common.getTimestamp.bind(common)
 ;
 
 class GeneralAccurateTimestamp extends Module {

@@ -3,19 +3,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    setLocalValue,
-    request,
-    getLocalValue,
-    createElements,
-    getFeatureTooltip,
-    getWonGames,
-    _USER_INFO,
-    browser
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  getWonGames = common.getWonGames.bind(common),
+  request = common.request.bind(common),
+  setLocalValue = common.setLocalValue.bind(common),
+  _USER_INFO = common._USER_INFO,
+  browser = common.browser
 ;
 
 class GeneralHeaderRefresher extends Module {

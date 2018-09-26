@@ -3,9 +3,7 @@ import Popup from '../../class/Popup';
 import {common} from '../Common';
 
 const
-  {
-    createHeadingButton
-  } = common
+  createHeadingButton = common.createHeadingButton.bind(common)
 ;
 
 class DiscussionsMainPostPopup extends Module {

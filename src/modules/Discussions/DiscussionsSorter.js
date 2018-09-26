@@ -5,11 +5,9 @@ import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 
 const
-  {
-    createHeadingButton,
-    createElements,
-    saveAndSortContent
-  } = common
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  saveAndSortContent = common.saveAndSortContent.bind(common)
 ;
 
 class DiscussionsDiscussionsSorter extends Module {

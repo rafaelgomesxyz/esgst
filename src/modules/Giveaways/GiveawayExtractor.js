@@ -5,18 +5,14 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    setMouseEvent,
-    request,
-    getParameters,
-    createElements,
-    endless_load,
-    buildGiveaway
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  buildGiveaway = common.buildGiveaway.bind(common),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getParameters = common.getParameters.bind(common),
+  request = common.request.bind(common),
+  setMouseEvent = common.setMouseEvent.bind(common)
 ;
 
 class GiveawaysGiveawayExtractor extends Module {

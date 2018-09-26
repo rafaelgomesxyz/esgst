@@ -4,13 +4,9 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    request,
-    endless_load
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  endless_load = common.endless_load.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GiveawaysArchiveSearcher extends Module {

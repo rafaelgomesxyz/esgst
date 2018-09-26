@@ -3,19 +3,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml,
-    sortArray
-  } = utils,
-  {
-    createElements,
-    setLocalValue,
-    lockAndSaveGames,
-    request,
-    getFeatureTooltip,
-    draggable_enter,
-    getLocalValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  draggable_enter = common.draggable_enter.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  lockAndSaveGames = common.lockAndSaveGames.bind(common),
+  request = common.request.bind(common),
+  setLocalValue = common.setLocalValue.bind(common)
 ;
 
 class GamesGameCategories extends Module {

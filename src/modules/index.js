@@ -1,4 +1,4 @@
-import Common from './Common';
+import {common} from './Common';
 import GiveawaysBlacklistGiveawayLoader from './Giveaways/BlacklistGiveawayLoader';
 import GeneralNarrowSidebar from './General/NarrowSidebar';
 import GeneralHiddenCommunityPoll from './General/HiddenCommunityPoll';
@@ -147,7 +147,6 @@ import GeneralEndlessScrolling from './General/EndlessScrolling';
 import Tags from './Tags';
 
 let
-  common = new Common,
   giveawaysBlacklistGiveawayLoader = new GiveawaysBlacklistGiveawayLoader,
   generalNarrowSidebar = new GeneralNarrowSidebar,
   generalHiddenCommunityPoll = new GeneralHiddenCommunityPoll,

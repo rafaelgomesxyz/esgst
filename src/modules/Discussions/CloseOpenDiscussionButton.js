@@ -3,12 +3,8 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    request
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  request = common.request.bind(common)
 ;
 
 class DiscussionsCloseOpenDiscussionButton extends Module {

@@ -8,29 +8,25 @@ import {common} from '../Common';
 import {utils} from '../../lib/jsUtils';
 
 const
-  {
-    formatDate,
-    parseHtml
-  } = utils,
-  {
-    buildGiveaway,
-    copyValue,
-    createAlert,
-    createElements,
-    createTooltip,
-    delLocalValue,
-    downloadFile,
-    getFeatureNumber,
-    getFeatureTooltip,
-    getLocalValue,
-    getUser,
-    lockAndSaveGiveaways,
-    parseMarkdown,
-    request,
-    saveUser,
-    setCountdown,
-    setLocalValue
-  } = common
+  formatDate = utils.formatDate.bind(utils),
+  parseHtml = utils.parseHtml.bind(utils),
+  buildGiveaway = common.buildGiveaway.bind(common),
+  copyValue = common.copyValue.bind(common),
+  createAlert = common.createAlert.bind(common),
+  createElements = common.createElements.bind(common),
+  createTooltip = common.createTooltip.bind(common),
+  delLocalValue = common.delLocalValue.bind(common),
+  downloadFile = common.downloadFile.bind(common),
+  getFeatureNumber = common.getFeatureNumber.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  getUser = common.getUser.bind(common),
+  lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
+  parseMarkdown = common.parseMarkdown.bind(common),
+  request = common.request.bind(common),
+  saveUser = common.saveUser.bind(common),
+  setCountdown = common.setCountdown.bind(common),
+  setLocalValue = common.setLocalValue.bind(common)
 ;
 
 class GiveawaysMultipleGiveawayCreator extends Module {

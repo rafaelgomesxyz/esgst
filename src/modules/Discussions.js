@@ -3,11 +3,9 @@ import Button from '../class/Button';
 import {common} from './Common';
 
 const
-  {
-    sortContent,
-    checkVersion,
-    getUser
-  } = common
+  checkVersion = common.checkVersion.bind(common),
+  getUser = common.getUser.bind(common),
+  sortContent = common.sortContent.bind(common)
 ;
 
 class Discussions extends Module {

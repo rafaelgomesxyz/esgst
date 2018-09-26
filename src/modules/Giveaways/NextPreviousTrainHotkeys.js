@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createAlert
-  } = common
+  createAlert = common.createAlert.bind(common)
 ;
 
 class GiveawaysNextPreviousTrainHotkeys extends Module {

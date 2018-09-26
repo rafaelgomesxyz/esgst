@@ -3,17 +3,13 @@ import Process from '../../class/Process';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
-const 
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    getUser,
-    saveUser,
-    endless_load
-  } = common
+const
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getUser = common.getUser.bind(common),
+  saveUser = common.saveUser.bind(common)
 ;
 
 class UsersNotReceivedFinder extends Module {

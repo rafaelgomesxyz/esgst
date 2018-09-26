@@ -17,12 +17,10 @@ import {TextEncoder} from 'text-encoding/lib/encoding';
  */
 
 const
-  {
-    formatDate,
-    isSet,
-    parseHtml,
-    sortArray
-  } = utils
+  formatDate = utils.formatDate.bind(utils),
+  isSet = utils.isSet.bind(utils),
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils)
 ;
 
 class Common extends Module {
@@ -7356,7 +7354,7 @@ class Common extends Module {
                   [`apps`, `subs`].forEach(type => {
                     for (let code in giveaways[mainType][type]) {
                       if (giveaways[mainType][type].hasOwnProperty(code)) {
-                        giveaways[mainType][type][code] = Array.from(new Set(giveaways[mainType][type][code]));
+                        giveaways[mainType][type][code] = Array.from(/** @type {ArrayLike} */ new Set(giveaways[mainType][type][code]));
                       }
                     }
                   });

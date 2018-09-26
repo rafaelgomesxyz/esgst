@@ -3,16 +3,12 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    request,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class TradesTradeBumper extends Module {

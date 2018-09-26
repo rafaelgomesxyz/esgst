@@ -3,14 +3,10 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    request,
-    createElements,
-    endless_load
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common),
+  request = common.request.bind(common)
 ;
 
 class DiscussionsOldActiveDiscussionsDesign extends Module {

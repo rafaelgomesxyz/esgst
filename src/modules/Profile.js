@@ -2,11 +2,9 @@ import Module from '../class/Module';
 import {common} from './Common';
 
 const
-  {
-    checkUsernameChange,
-    updateWhitelistBlacklist,
-    saveUser
-  } = common
+  checkUsernameChange = common.checkUsernameChange.bind(common),
+  saveUser = common.saveUser.bind(common),
+  updateWhitelistBlacklist = common.updateWhitelistBlacklist.bind(common)
 ;
 
 class Profile extends Module {

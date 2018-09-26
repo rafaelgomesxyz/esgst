@@ -2,12 +2,10 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    getValue,
-    setValue
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class UsersInboxWinnerHighlighter extends Module {

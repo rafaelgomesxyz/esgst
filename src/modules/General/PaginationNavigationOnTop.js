@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    getFeatureTooltip
-  } = common
+  getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
 class GeneralPaginationNavigationOnTop extends Module {

@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    unhideGame
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  unhideGame = common.unhideGame.bind(common)
 ;
 
 class GiveawaysUnhideGiveawayButton extends Module {

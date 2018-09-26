@@ -4,19 +4,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    sortArray
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    getTimestamp,
-    endless_load,
-    request,
-    createLock,
-    getValue,
-    setValue
-  } = common
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createLock = common.createLock.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getTimestamp = common.getTimestamp.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class UsersWhitelistBlacklistSorter extends Module {

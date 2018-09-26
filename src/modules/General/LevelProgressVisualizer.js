@@ -2,13 +2,11 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    round,
-    setLocalValue,
-    getFeatureTooltip,
-    createElements,
-    getLocalValue
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  round = common.round.bind(common),
+  setLocalValue = common.setLocalValue.bind(common)
 ;
 
 class GeneralLevelProgressVisualizer extends Module {

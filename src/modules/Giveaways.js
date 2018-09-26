@@ -2,15 +2,13 @@ import Module from '../class/Module';
 import {common} from './Common';
 
 const
-  {
-    sortContent,
-    getUser,
-    createElements,
-    getFeatureTooltip,
-    hideGame,
-    draggable_enter,
-    draggable_set
-  } = common
+  createElements = common.createElements.bind(common),
+  draggable_enter = common.draggable_enter.bind(common),
+  draggable_set = common.draggable_set.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getUser = common.getUser.bind(common),
+  hideGame = common.hideGame.bind(common),
+  sortContent = common.sortContent.bind(common)
 ;
 
 class Giveaways extends Module {

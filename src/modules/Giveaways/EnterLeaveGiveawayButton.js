@@ -6,17 +6,13 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    request,
-    setLocalValue,
-    setSetting,
-    getValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setLocalValue = common.setLocalValue.bind(common),
+  setSetting = common.setSetting.bind(common)
 ;
 
 class GiveawaysEnterLeaveGiveawayButton extends Module {

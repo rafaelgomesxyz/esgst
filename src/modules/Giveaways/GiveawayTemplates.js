@@ -6,19 +6,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml,
-    formatDate
-  } = utils,
-  {
-    createHeadingButton,
-    request,
-    createElements,
-    setSetting,
-    createLock,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  formatDate = utils.formatDate.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createLock = common.createLock.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setSetting = common.setSetting.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysGiveawayTemplates extends Module {

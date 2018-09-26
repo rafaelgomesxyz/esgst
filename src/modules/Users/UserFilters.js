@@ -5,11 +5,9 @@ import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    saveUser
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  saveUser = common.saveUser.bind(common)
 ;
 
 class UsersUserFilters extends Module {

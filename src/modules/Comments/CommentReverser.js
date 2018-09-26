@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    reverseComments
-  } = common
+  reverseComments = common.reverseComments.bind(common)
 ;
 
 class CommentsCommentReverser extends Module {

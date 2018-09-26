@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements
-  } = common
+  createElements = common.createElements.bind(common)
 ;
 
 class CommentsReplyMentionLink extends Module {

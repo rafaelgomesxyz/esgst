@@ -4,26 +4,22 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    getFeatureTooltip,
-    createLock,
-    setLocalValue,
-    goToComment,
-    setHoverOpacity,
-    request,
-    createAlert,
-    lockAndSaveDiscussions,
-    getLocalValue,
-    getValue,
-    getValues,
-    setValue,
-    setValues
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createAlert = common.createAlert.bind(common),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createLock = common.createLock.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  getValue = common.getValue.bind(common),
+  getValues = common.getValues.bind(common),
+  goToComment = common.goToComment.bind(common),
+  lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
+  request = common.request.bind(common),
+  setHoverOpacity = common.setHoverOpacity.bind(common),
+  setLocalValue = common.setLocalValue.bind(common),
+  setValue = common.setValue.bind(common),
+  setValues = common.setValues.bind(common)
 ;
 
 class CommentsCommentTracker extends Module {

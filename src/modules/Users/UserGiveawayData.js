@@ -5,24 +5,20 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    formatDate,
-    sortArray
-  } = utils,
-  {
-    getFeatureTooltip,
-    setSetting,
-    getUser,
-    lockAndSaveGiveaways,
-    setLocalValue,
-    saveUser,
-    request,
-    endless_load,
-    getLocalValue,
-    createElements,
-    getPlayerAchievements,
-    getValue
-  } = common
+  formatDate = utils.formatDate.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  getPlayerAchievements = common.getPlayerAchievements.bind(common),
+  getUser = common.getUser.bind(common),
+  getValue = common.getValue.bind(common),
+  lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
+  request = common.request.bind(common),
+  saveUser = common.saveUser.bind(common),
+  setLocalValue = common.setLocalValue.bind(common),
+  setSetting = common.setSetting.bind(common)
 ;
 
 class UsersUserGiveawayData extends Module {

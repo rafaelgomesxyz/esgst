@@ -3,13 +3,11 @@ import Process from '../../class/Process';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    createLock,
-    getValue,
-    setValue
-  } = common
+  createElements = common.createElements.bind(common),
+  createLock = common.createLock.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class CommentsCommentHistory extends Module {

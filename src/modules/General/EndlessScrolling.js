@@ -5,20 +5,16 @@ import {common} from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    request,
-    reverseComments,
-    endless_load,
-    checkMissingDiscussions,
-    animateScroll,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  animateScroll = common.animateScroll.bind(common),
+  checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  reverseComments = common.reverseComments.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GeneralEndlessScrolling extends Module {

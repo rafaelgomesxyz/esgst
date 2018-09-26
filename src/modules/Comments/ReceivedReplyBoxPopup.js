@@ -4,10 +4,8 @@ import Popup from '../../class/Popup';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    saveComment
-  } = common
+  createElements = common.createElements.bind(common),
+  saveComment = common.saveComment.bind(common)
 ;
 
 class CommentsReceivedReplyBoxPopup extends Module {

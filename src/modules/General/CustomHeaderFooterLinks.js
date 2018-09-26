@@ -5,13 +5,11 @@ import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    generateHeaderMenuItem,
-    createConfirmation,
-    setValue
-  } = common
+  createConfirmation = common.createConfirmation.bind(common),
+  createElements = common.createElements.bind(common),
+  generateHeaderMenuItem = common.generateHeaderMenuItem.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GeneralCustomHeaderFooterLinks extends Module {

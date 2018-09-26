@@ -4,13 +4,11 @@ import Popout from '../../class/Popout';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    triggerOnEnter,
-    observeChange,
-    observeNumChange
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  observeChange = common.observeChange.bind(common),
+  observeNumChange = common.observeNumChange.bind(common),
+  triggerOnEnter = common.triggerOnEnter.bind(common)
 ;
 
 class GiveawaysAdvancedGiveawaySearch extends Module {
