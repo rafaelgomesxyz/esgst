@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    createConfirmation,
-    request
-  } = common
+  createConfirmation = common.createConfirmation.bind(common),
+  createElements = common.createElements.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GiveawaysDeleteKeyConfirmation extends Module {

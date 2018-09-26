@@ -7,21 +7,19 @@ import Popup_v2 from '../../class/Popup_v2';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    multiChoice,
-    openSmallWindow,
-    draggable_set,
-    getFeatureTooltip,
-    parseMarkdown,
-    createFadeMessage,
-    setSetting,
-    request,
-    createAlert,
-    delValue,
-    getValue,
-    setValue
-  } = common
+  createAlert = common.createAlert.bind(common),
+  createElements = common.createElements.bind(common),
+  createFadeMessage = common.createFadeMessage.bind(common),
+  delValue = common.delValue.bind(common),
+  draggable_set = common.draggable_set.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  multiChoice = common.multiChoice.bind(common),
+  openSmallWindow = common.openSmallWindow.bind(common),
+  parseMarkdown = common.parseMarkdown.bind(common),
+  request = common.request.bind(common),
+  setSetting = common.setSetting.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class CommentsCommentFormattingHelper extends Module {

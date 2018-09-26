@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    sortContent,
-    createElements,
-    getFeatureTooltip
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  sortContent = common.sortContent.bind(common)
 ;
 
 class GeneralTableSorter extends Module {

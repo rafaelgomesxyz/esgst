@@ -5,23 +5,19 @@ import {utils} from '../lib/jsUtils';
 import {common} from './Common';
 
 const
-  {
-    sortArray
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    getUser,
-    triggerSetOnEnter,
-    formatTags,
-    lockAndSaveGroups,
-    lockAndSaveGames,
-    saveUsers,
-    saveUser,
-    setSetting,
-    getValue,
-    lockAndSaveDiscussions
-  } = common
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  formatTags = common.formatTags.bind(common),
+  lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
+  lockAndSaveGames = common.lockAndSaveGames.bind(common),
+  lockAndSaveGroups = common.lockAndSaveGroups.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getUser = common.getUser.bind(common),
+  getValue = common.getValue.bind(common),
+  saveUser = common.saveUser.bind(common),
+  saveUsers = common.saveUsers.bind(common),
+  setSetting = common.setSetting.bind(common),
+  triggerSetOnEnter = common.triggerSetOnEnter.bind(common)
 ;
 
 class Tags extends Module {

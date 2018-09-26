@@ -2,13 +2,11 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    request,
-    createElements,
-    delValue,
-    getValue,
-    setValue
-  } = common
+  createElements = common.createElements.bind(common),
+  delValue = common.delValue.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysRealCVCalculator extends Module {

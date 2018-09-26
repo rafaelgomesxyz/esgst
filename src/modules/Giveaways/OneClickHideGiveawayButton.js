@@ -3,10 +3,8 @@ import Button from '../../class/Button';
 import {common} from '../Common';
 
 const
-  {
-    request,
-    updateHiddenGames
-  } = common
+  request = common.request.bind(common),
+  updateHiddenGames = common.updateHiddenGames.bind(common)
 ;
 
 class GiveawaysOneClickHideGiveawayButton extends Module {

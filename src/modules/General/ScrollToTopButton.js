@@ -2,12 +2,10 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    createHeadingButton,
-    animateScroll
-  } = common
+  animateScroll = common.animateScroll.bind(common),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
 class GeneralScrollToTopButton extends Module {

@@ -8,24 +8,20 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    sortArray,
-    formatDate,
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    createElements,
-    getChildByClassName,
-    selectSwitches,
-    createTooltip,
-    escapeMarkdown,
-    request,
-    lockAndSaveGiveaways,
-    createFadeMessage,
-    lockAndSaveDiscussions,
-    lockAndSaveGames
-  } = common
+  formatDate = utils.formatDate.bind(utils),
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  createFadeMessage = common.createFadeMessage.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  createTooltip = common.createTooltip.bind(common),
+  escapeMarkdown = common.escapeMarkdown.bind(common),
+  getChildByClassName = common.getChildByClassName.bind(common),
+  lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
+  lockAndSaveGames = common.lockAndSaveGames.bind(common),
+  lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
+  request = common.request.bind(common),
+  selectSwitches = common.selectSwitches.bind(common)
 ;
 
 class GeneralMultiManager extends Module {

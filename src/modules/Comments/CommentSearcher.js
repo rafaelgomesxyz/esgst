@@ -3,10 +3,8 @@ import Process from '../../class/Process';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    endless_load
-  } = common
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common)
 ;
 
 class CommentsCommentSearcher extends Module {

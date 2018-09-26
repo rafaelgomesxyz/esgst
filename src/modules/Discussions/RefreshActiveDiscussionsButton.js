@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    checkMissingDiscussions
-  } = common
+  checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
 class DiscussionsRefreshActiveDiscussionsButton extends Module {

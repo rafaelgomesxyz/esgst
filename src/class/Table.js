@@ -1,9 +1,7 @@
 import {common} from '../modules/Common';
 
 const
-  {
-    createElements
-  } = common
+  createElements = common.createElements.bind(common)
 ;
 
 export default class Table {

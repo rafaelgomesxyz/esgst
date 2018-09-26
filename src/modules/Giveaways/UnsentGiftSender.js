@@ -6,20 +6,16 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    observeNumChange,
-    createElements,
-    request,
-    getUser,
-    getSteamId,
-    saveUsers,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  getSteamId = common.getSteamId.bind(common),
+  getUser = common.getUser.bind(common),
+  getValue = common.getValue.bind(common),
+  observeNumChange = common.observeNumChange.bind(common),
+  request = common.request.bind(common),
+  saveUsers = common.saveUsers.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysUnsentGiftSender extends Module {

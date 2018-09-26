@@ -5,12 +5,10 @@ import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 
 const
-  {
-    capitalizeFirstLetter,
-    createHeadingButton,
-    createElements,
-    saveAndSortContent
-  } = common
+  capitalizeFirstLetter = common.capitalizeFirstLetter.bind(common),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  saveAndSortContent = common.saveAndSortContent.bind(common)
 ;
 
 class GiveawaysGiveawaysSorter extends Module {

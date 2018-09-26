@@ -4,17 +4,13 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    sortArray
-  } = utils,
-  {
-    checkMissingDiscussions,
-    createElements,
-    endless_load,
-    createLock,
-    getValue,
-    setValue
-  } = common
+  sortArray = utils.sortArray.bind(utils),
+  checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
+  createElements = common.createElements.bind(common),
+  createLock = common.createLock.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getValue = common.getValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class DiscussionsDiscussionFilters extends Module {

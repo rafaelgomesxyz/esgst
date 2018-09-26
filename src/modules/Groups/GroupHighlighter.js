@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    getValue
-  } = common
+  getValue = common.getValue.bind(common)
 ;
 
 class GroupsGroupHighlighter extends Module {

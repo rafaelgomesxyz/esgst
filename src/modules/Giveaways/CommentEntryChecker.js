@@ -4,14 +4,10 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml,
-    sortArray
-  } = utils,
-  {
-    createHeadingButton,
-    request
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GiveawaysCommentEntryChecker extends Module {

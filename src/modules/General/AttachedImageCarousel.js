@@ -2,10 +2,8 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createHeadingButton,
-    createElements
-  } = common
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common)
 ;
 
 class GeneralAttachedImageCarousel extends Module {

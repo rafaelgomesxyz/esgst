@@ -2,9 +2,7 @@ import Module from '../class/Module';
 import {common} from './Common';
 
 const
-  {
-    endless_load
-  } = common
+  endless_load = common.endless_load.bind(common)
 ;
 
 class EndlessLoad extends Module {

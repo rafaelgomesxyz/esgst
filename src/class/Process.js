@@ -4,15 +4,11 @@ import {common} from '../modules/Common';
 import esgst from './Esgst';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    createHeadingButton,
-    endless_load,
-    request
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  endless_load = common.endless_load.bind(common),
+  request = common.request.bind(common)
 ;
 
 export default class Process {

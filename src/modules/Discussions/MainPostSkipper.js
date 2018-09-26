@@ -2,9 +2,7 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    goToComment
-  } = common
+  goToComment = common.goToComment.bind(common)
 ;
 
 class DiscussionsMainPostSkipper extends Module {

@@ -2,10 +2,8 @@ import Module from '../class/Module';
 import {common} from './Common';
 
 const
-  {
-    getUser,
-    getValue
-  } = common
+  getUser = common.getUser.bind(common),
+  getValue = common.getValue.bind(common)
 ;
 
 class Comments extends Module {

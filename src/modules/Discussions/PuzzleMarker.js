@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    createLock,
-    getValue,
-    setValue
-  } = common
+  createLock = common.createLock.bind(common),
+  getValue = common.getValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class DiscussionsPuzzleMarker extends Module {

@@ -3,16 +3,12 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    request,
-    delValue,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  delValue = common.delValue.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysGiveawayRecreator extends Module {

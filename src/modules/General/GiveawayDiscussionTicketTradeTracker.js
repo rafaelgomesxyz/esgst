@@ -2,17 +2,15 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    getLocalValue,
-    setLocalValue,
-    createLock,
-    setHoverOpacity,
-    createElements,
-    getFeatureTooltip,
-    getValue,
-    getValues,
-    setValue
-  } = common
+  createElements = common.createElements.bind(common),
+  createLock = common.createLock.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  getValue = common.getValue.bind(common),
+  getValues = common.getValues.bind(common),
+  setHoverOpacity = common.setHoverOpacity.bind(common),
+  setLocalValue = common.setLocalValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {

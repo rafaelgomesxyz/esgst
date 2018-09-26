@@ -3,16 +3,12 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    getTimeSince,
-    endless_load,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getTimeSince = common.getTimeSince.bind(common),
+  getValue = common.getValue.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class CommentsReplyFromInbox extends Module {

@@ -5,22 +5,18 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    sortArray,
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    createLock,
-    lockAndSaveGiveaways,
-    request,
-    buildGiveaway,
-    endless_load,
-    rot,
-    getValue,
-    setValue
-  } = common
+  sortArray = utils.sortArray.bind(utils),
+  parseHtml = utils.parseHtml.bind(utils),
+  buildGiveaway = common.buildGiveaway.bind(common),
+  createElements = common.createElements.bind(common),
+  createLock = common.createLock.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
+  request = common.request.bind(common),
+  rot = common.rot.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysGiveawayEncrypterDecrypter extends Module {

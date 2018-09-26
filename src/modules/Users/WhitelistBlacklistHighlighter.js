@@ -2,11 +2,9 @@ import Module from '../../class/Module';
 import {common} from '../Common';
 
 const
-  {
-    getFeatureTooltip,
-    createElements,
-    getTimestamp
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getTimestamp = common.getTimestamp.bind(common)
 ;
 
 class UsersWhitelistBlacklistHighlighter extends Module {

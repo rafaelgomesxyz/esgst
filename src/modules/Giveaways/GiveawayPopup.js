@@ -3,9 +3,7 @@ import ButtonSet from '../../class/ButtonSet';
 import {common} from '../Common';
 
 const
-  {
-    getFeatureTooltip
-  } = common
+  getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
 class GiveawaysGiveawayPopup extends Module {

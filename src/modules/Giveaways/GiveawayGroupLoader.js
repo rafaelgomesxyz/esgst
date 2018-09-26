@@ -5,17 +5,13 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    endless_load,
-    lockAndSaveGiveaways,
-    lockAndSaveGroups,
-    request,
-    getValues
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getValues = common.getValues.bind(common),
+  lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
+  lockAndSaveGroups = common.lockAndSaveGroups.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GiveawaysGiveawayGroupLoader extends Module {

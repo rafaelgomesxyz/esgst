@@ -1,10 +1,8 @@
 import {common} from '../modules/Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
 export default class Button {

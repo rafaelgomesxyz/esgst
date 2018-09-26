@@ -6,19 +6,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createHeadingButton,
-    formatTags,
-    setSetting,
-    createElements,
-    createConfirmation,
-    createFadeMessage,
-    request,
-    downloadFile
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createConfirmation = common.createConfirmation.bind(common),
+  createElements = common.createElements.bind(common),
+  createFadeMessage = common.createFadeMessage.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  downloadFile = common.downloadFile.bind(common),
+  formatTags = common.formatTags.bind(common),
+  request = common.request.bind(common),
+  setSetting = common.setSetting.bind(common)
 ;
 
 class UsersWhitelistBlacklistManager extends Module {

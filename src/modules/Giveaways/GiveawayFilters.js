@@ -9,19 +9,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    isSet
-  } = utils,
-  {
-    createLock,
-    createElements,
-    getFeatureTooltip,
-    setSetting,
-    request,
-    createFadeMessage,
-    getValue,
-    setValue
-  } = common
+  isSet = utils.isSet.bind(utils),
+  createElements = common.createElements.bind(common),
+  createFadeMessage = common.createFadeMessage.bind(common),
+  createLock = common.createLock.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  request = common.request.bind(common),
+  setSetting = common.setSetting.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysGiveawayFilters extends Module {

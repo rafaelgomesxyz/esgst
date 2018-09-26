@@ -3,15 +3,11 @@ import {utils} from '../lib/jsUtils';
 import {common} from './Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    updateHiddenGames,
-    request,
-    lockAndSaveGames,
-    getValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  getValue = common.getValue.bind(common),
+  lockAndSaveGames = common.lockAndSaveGames.bind(common),
+  request = common.request.bind(common),
+  updateHiddenGames = common.updateHiddenGames.bind(common)
 ;
 
 class Games extends Module {

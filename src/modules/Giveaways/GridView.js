@@ -3,13 +3,11 @@ import Popout from '../../class/Popout';
 import {common} from '../Common';
 
 const
-  {
-    createHeadingButton,
-    createElements,
-    setSetting,
-    getRemainingTime,
-    draggable_enter
-  } = common
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  draggable_enter = common.draggable_enter.bind(common),
+  getRemainingTime = common.getRemainingTime.bind(common),
+  setSetting = common.setSetting.bind(common)
 ;
 
 class GiveawaysGridView extends Module {

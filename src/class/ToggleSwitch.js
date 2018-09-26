@@ -1,6 +1,5 @@
 import container from './Container';
 
-
 export default class ToggleSwitch {
   /**
    * @param context

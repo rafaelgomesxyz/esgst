@@ -3,14 +3,12 @@ import Popup_v2 from '../../class/Popup_v2';
 import {common} from '../Common';
 
 const
-  {
-    createHeadingButton,
-    createElements,
-    request,
-    setLocalValue,
-    getTextNodesIn,
-    getLocalValue
-  } = common
+  createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
+  getLocalValue = common.getLocalValue.bind(common),
+  getTextNodesIn = common.getTextNodesIn.bind(common),
+  request = common.request.bind(common),
+  setLocalValue = common.setLocalValue.bind(common)
 ;
 
 class TradesHaveWantListChecker extends Module {

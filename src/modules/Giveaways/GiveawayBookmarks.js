@@ -7,19 +7,15 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    request,
-    lockAndSaveGiveaways,
-    endless_load,
-    createLock,
-    getValue,
-    setValue
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  createLock = common.createLock.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
+  request = common.request.bind(common),
+  setValue = common.setValue.bind(common)
 ;
 
 class GiveawaysGiveawayBookmarks extends Module {

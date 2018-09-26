@@ -4,13 +4,11 @@ import Popup from '../../class/Popup';
 import {common} from '../Common';
 
 const
-  {
-    createElements,
-    getFeatureTooltip,
-    removeDuplicateNotes,
-    saveUser,
-    getValue
-  } = common
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  getValue = common.getValue.bind(common),
+  removeDuplicateNotes = common.removeDuplicateNotes.bind(common),
+  saveUser = common.saveUser.bind(common)
 ;
 
 class UsersUserNotes extends Module {

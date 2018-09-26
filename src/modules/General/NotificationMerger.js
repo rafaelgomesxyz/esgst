@@ -3,14 +3,10 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml
-  } = utils,
-  {
-    request,
-    createElements,
-    getFeatureTooltip
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  createElements = common.createElements.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  request = common.request.bind(common)
 ;
 
 class GeneralNotificationMerger extends Module {

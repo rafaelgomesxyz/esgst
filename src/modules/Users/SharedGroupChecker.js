@@ -4,16 +4,12 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
-  {
-    parseHtml,
-    sortArray
-  } = utils,
-  {
-    createElements,
-    getFeatureTooltip,
-    request,
-    endless_load
-  } = common
+  parseHtml = utils.parseHtml.bind(utils),
+  sortArray = utils.sortArray.bind(utils),
+  createElements = common.createElements.bind(common),
+  endless_load = common.endless_load.bind(common),
+  getFeatureTooltip = common.getFeatureTooltip.bind(common),
+  request = common.request.bind(common)
 ;
 
 class UsersSharedGroupChecker extends Module {
