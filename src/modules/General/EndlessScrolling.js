@@ -246,9 +246,9 @@ class GeneralEndlessScrolling extends Module {
       title: `Refresh all pages`
     });
     this.esgst.es_refresh = this.es_refresh.bind(this, es);
-    es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
+    es.refreshButton.addEventListener(`click`, this.esgst.es_refresh.bind(this));
     this.esgst.es_refreshAll = this.es_refreshAll.bind(this, es);
-    es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
+    es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll.bind(this));
     es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(this, es));
     es.nextButton.addEventListener(`click`, this.es_stepNext.bind(this, es));
     es.pauseButton.addEventListener(`click`, this.es_pause.bind(this, es, false));
@@ -395,7 +395,7 @@ class GeneralEndlessScrolling extends Module {
       if (refreshAll) {
         es.check.count += 1;
       } else {
-        es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
+        es.refreshButton.addEventListener(`click`, this.esgst.es_refresh.bind(this));
         createElements(es.refreshButton, `inner`, [{
           attributes: {
             class: `fa fa-refresh`
@@ -664,7 +664,7 @@ class GeneralEndlessScrolling extends Module {
       this.es_purgeRemovedElements();
       await endless_load(es.mainContext, true);
       this.es_setRemoveEntry(es.mainContext);
-      es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
+      es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll.bind(this));
       createElements(es.refreshAllButton, `inner`, [{
         attributes: {
           class: `fa fa-refresh`
