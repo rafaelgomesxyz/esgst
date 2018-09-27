@@ -44,7 +44,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
         }
       },
       id: `wbh`,
-      load: this.wbh,
+      load: this.wbh.bind(this),
       name: `Whitelist/Blacklist Highlighter`,
       sg: {
         include: [{enabled: 1, pattern: `.*`}],

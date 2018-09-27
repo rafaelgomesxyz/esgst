@@ -63,7 +63,7 @@ class GiveawaysGiveawayWinningChance extends Module {
         }
       },
       id: `gwc`,
-      load: this.gwc,
+      load: this.gwc.bind(this),
       name: `Giveaway Winning Chance`,
       sg: true,
       type: `giveaways`

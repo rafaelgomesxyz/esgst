@@ -16,7 +16,7 @@ class UsersSentWonRatio extends Module {
       </ul>
     `,
       id: `swr`,
-      load: this.swr,
+      load: this.swr.bind(this),
       name: `Sent/Won Ratio`,
       sg: true,
       type: `users`

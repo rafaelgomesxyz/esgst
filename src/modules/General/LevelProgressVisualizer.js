@@ -23,7 +23,7 @@ class GeneralLevelProgressVisualizer extends Module {
       </ul>
     `,
       id: `lpv`,
-      load: this.lpv,
+      load: this.lpv.bind(this),
       name: `Level Progress Visualizer`,
       sg: true,
       sync: `Giveaways, Reduced CV Games and No CV Games`,

@@ -16,7 +16,7 @@ class Games extends Module {
     this.info = {
       endless: true,
       id: `games`,
-      load: this.games
+      load: this.games.bind(this)
     };
   }
 

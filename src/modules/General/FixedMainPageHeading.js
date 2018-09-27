@@ -10,7 +10,7 @@ class GeneralFixedMainPageHeading extends Module {
       </ul>
     `,
       id: `fmph`,
-      load: this.fmph,
+      load: this.fmph.bind(this),
       name: `Fixed Main Page Heading`,
       sg: true,
       st: true,

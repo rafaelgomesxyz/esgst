@@ -10,7 +10,7 @@ class GeneralNarrowSidebar extends Module {
       </ul>
     `,
       id: `ns`,
-      load: this.ns,
+      load: this.ns.bind(this),
       name: `Narrow Sidebar`,
       sg: true,
       type: `general`

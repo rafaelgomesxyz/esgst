@@ -92,7 +92,7 @@ class GeneralShortcutKeys extends Module {
         }
       },
       id: `sk`,
-      load: this.sk,
+      load: this.sk.bind(this),
       name: `Shortcut Keys`,
       sg: true,
       st: true,

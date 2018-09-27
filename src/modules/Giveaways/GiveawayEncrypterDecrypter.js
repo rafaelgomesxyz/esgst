@@ -47,7 +47,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }
       },
       id: `ged`,
-      load: this.ged,
+      load: this.ged.bind(this),
       name: `Giveaway Encrypter/Decrypter`,
       sg: true,
       type: `giveaways`

@@ -10,7 +10,7 @@ class GeneralSearchMagnifyingGlassButton extends Module {
       </ul>
     `,
       id: `smgb`,
-      load: this.smgb,
+      load: this.smgb.bind(this),
       name: `Search Magnifying Glass Button`,
       sg: true,
       type: `general`

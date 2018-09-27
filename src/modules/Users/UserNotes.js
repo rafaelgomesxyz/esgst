@@ -29,7 +29,7 @@ class UsersUserNotes extends Module {
         }
       },
       id: `un`,
-      load: this.un,
+      load: this.un.bind(this),
       name: `User Notes`,
       sg: true,
       st: true,

@@ -28,7 +28,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
         }
       },
       id: `ochgb`,
-      load: this.ochgb,
+      load: this.ochgb.bind(this),
       name: `One-Click Hide Giveaway Button`,
       sg: true,
       type: `giveaways`

@@ -22,7 +22,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       </ul>
     `,
       id: `itadi`,
-      load: this.itadi,
+      load: this.itadi.bind(this),
       name: `IsThereAnyDeal Info`,
       sg: true,
       type: `giveaways`

@@ -14,7 +14,7 @@ class Discussions extends Module {
     this.info = {
       endless: true,
       id: `discussions`,
-      load: this.discussions
+      load: this.discussions.bind(this)
     };
   }
 

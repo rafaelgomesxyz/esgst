@@ -21,7 +21,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
       </ul>
     `,
       id: `gcl`,
-      load: this.gcl,
+      load: this.gcl.bind(this),
       name: `Giveaway Country Loader`,
       options: {
         title: `Load as:`,

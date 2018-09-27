@@ -24,7 +24,7 @@ class UsersNotReceivedFinder extends Module {
       </ul>
     `,
       id: `nrf`,
-      load: this.nrf,
+      load: this.nrf.bind(this),
       name: `Not Received Finder`,
       sg: true,
       type: `users`

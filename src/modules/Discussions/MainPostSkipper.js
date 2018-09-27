@@ -15,7 +15,7 @@ class DiscussionsMainPostSkipper extends Module {
       </ul>
     `,
       id: `mps`,
-      load: this.mps,
+      load: this.mps.bind(this),
       name: `Main Post Skipper`,
       sg: true,
       type: `discussions`

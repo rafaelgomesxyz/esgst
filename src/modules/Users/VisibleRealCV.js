@@ -12,7 +12,7 @@ class UsersVisibleRealCV extends Module {
       </ul>
     `,
       id: `vrcv`,
-      load: this.vrcv,
+      load: this.vrcv.bind(this),
       name: `Visible Real CV`,
       sg: true,
       type: `users`

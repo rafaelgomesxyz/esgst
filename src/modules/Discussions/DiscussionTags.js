@@ -20,7 +20,7 @@ class DiscussionsDiscussionTags extends Module {
         }
       },
       id: `dt`,
-      load: this.dt,
+      load: this.dt.bind(this),
       name: `Discussion Tags`,
       sg: true,
       type: `discussions`

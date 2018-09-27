@@ -15,7 +15,7 @@ class CommentsCommentReverser extends Module {
       </ul>
     `,
       id: `cr`,
-      load: this.cr,
+      load: this.cr.bind(this),
       name: `Comment Reverser`,
       sg: true,
       st: true,

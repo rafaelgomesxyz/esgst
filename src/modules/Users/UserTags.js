@@ -22,7 +22,7 @@ class UsersUserTags extends Module {
         }
       },
       id: `ut`,
-      load: this.ut,
+      load: this.ut.bind(this),
       name: `User Tags`,
       sg: true,
       st: true,

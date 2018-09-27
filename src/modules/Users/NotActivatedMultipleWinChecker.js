@@ -76,7 +76,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         }
       },
       id: `namwc`,
-      load: this.namwc,
+      load: this.namwc.bind(this),
       name: `Not Activated/Multiple Win Checker`,
       sg: true,
       type: `users`

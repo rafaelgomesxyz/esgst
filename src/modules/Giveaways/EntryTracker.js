@@ -23,7 +23,7 @@ class GiveawaysEntryTracker extends Module {
       </ul>
     `,
       id: `et`,
-      load: this.et,
+      load: this.et.bind(this),
       name: `Entry Tracker`,
       sg: true,
       type: `giveaways`

@@ -36,7 +36,7 @@ class UsersUserFilters extends Module {
         }
       },
       id: `uf`,
-      load: this.uf,
+      load: this.uf.bind(this),
       name: `User Filters`,
       sg: true,
       type: `users`

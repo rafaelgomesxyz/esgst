@@ -15,7 +15,7 @@ class CommentsReplyBoxOnTop extends Module {
       </ul>
     `,
       id: `rbot`,
-      load: this.rbot,
+      load: this.rbot.bind(this),
       name: `Reply Box On Top`,
       sg: true,
       st: true,

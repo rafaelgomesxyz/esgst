@@ -15,7 +15,7 @@ class GeneralLastPageLink extends Module {
       </ul>
     `,
       id: `lpl`,
-      load: this.lpl,
+      load: this.lpl.bind(this),
       name: `Last Page Link`,
       sg: true,
       type: `general`

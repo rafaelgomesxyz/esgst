@@ -17,7 +17,7 @@ class GeneralTableSorter extends Module {
       </ul>
     `,
       id: `ts`,
-      load: this.ts,
+      load: this.ts.bind(this),
       name: `Table Sorter`,
       sg: true,
       st: true,

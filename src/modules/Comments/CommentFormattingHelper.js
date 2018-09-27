@@ -296,7 +296,7 @@ class CommentsCommentFormattingHelper extends Module {
         }
       },
       id: `cfh`,
-      load: this.cfh,
+      load: this.cfh.bind(this),
       name: `Comment Formatting Helper`,
       sg: true,
       st: true,

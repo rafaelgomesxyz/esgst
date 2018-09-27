@@ -10,7 +10,7 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
       </ul>
     `,
       id: `geth`,
-      load: this.geth,
+      load: this.geth.bind(this),
       name: `Giveaway End Time Highlighter`,
       sg: true,
       type: `giveaways`

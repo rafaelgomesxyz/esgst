@@ -22,7 +22,7 @@ class DiscussionsDiscussionEditDetector extends Module {
       </ul>
     `,
       id: `ded`,
-      load: this.ded,
+      load: this.ded.bind(this),
       name: `Discussion Edit Detector`,
       sg: true,
       st: true,

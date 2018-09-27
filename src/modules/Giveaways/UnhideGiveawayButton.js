@@ -17,7 +17,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
       </ul>
     `,
       id: `ugb`,
-      load: this.ugb,
+      load: this.ugb.bind(this),
       name: `Unhide Giveaway Button`,
       sg: true,
       type: `giveaways`

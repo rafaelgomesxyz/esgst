@@ -12,7 +12,7 @@ class Comments extends Module {
     this.info = {
       endless: true,
       id: `comments`,
-      load: this.comments
+      load: this.comments.bind(this)
     };
   }
 

@@ -22,7 +22,7 @@ class GiveawaysGiveawaysSorter extends Module {
       </ul>
     `,
       id: `gas`,
-      load: this.gas,
+      load: this.gas.bind(this),
       name: `Giveaways Sorter`,
       sg: true,
       type: `giveaways`

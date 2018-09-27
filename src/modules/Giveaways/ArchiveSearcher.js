@@ -19,7 +19,7 @@ class GiveawaysArchiveSearcher extends Module {
       </ul>
     `,
       id: `as`,
-      load: this.as_load,
+      load: this.as_load.bind(this),
       name: `Archive Searcher`,
       sg: true,
       type: `giveaways`

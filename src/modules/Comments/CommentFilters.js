@@ -81,7 +81,7 @@ class CommentsCommentFilters extends Module {
         }
       },
       id: `cf`,
-      load: this.cf,
+      load: this.cf.bind(this),
       name: `Comment Filters`,
       sg: true,
       st: true,

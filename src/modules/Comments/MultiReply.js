@@ -20,7 +20,7 @@ class CommentsMultiReply extends Module {
       </ul>
     `,
       id: `mr`,
-      load: this.mr,
+      load: this.mr.bind(this),
       name: `Multi-Reply`,
       sg: true,
       st: true,

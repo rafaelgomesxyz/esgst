@@ -10,7 +10,7 @@ class GeneralFixedHeader extends Module {
       </ul>
     `,
       id: `fh`,
-      load: this.fh,
+      load: this.fh.bind(this),
       name: `Fixed Header`,
       sg: true,
       st: true,
