@@ -45,7 +45,7 @@ class UsersProfileLinks extends Module {
 
   pl() {
     if (!this.esgst.userPath) return;
-    this.esgst.profileFeatures.push(this.pl_add);
+    this.esgst.profileFeatures.push(this.pl_add.bind(this));
   }
 
   pl_add(profile) {

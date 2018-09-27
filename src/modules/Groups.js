@@ -8,7 +8,7 @@ class Groups extends Module {
   });
 
   groups() {
-    this.esgst.endlessFeatures.push(this.groups_load);
+    this.esgst.endlessFeatures.push(this.groups_load.bind(this));
   }
 
   async groups_load(mainContext, main, source, endless) {

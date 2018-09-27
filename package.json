@@ -30,6 +30,7 @@
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
+    "babel-plugin-autobind-class-methods": "^5.0.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "calfinated": "^1.4.1",
     "clean-webpack-plugin": "^0.1.19",

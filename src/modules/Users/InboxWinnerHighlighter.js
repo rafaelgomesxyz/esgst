@@ -24,7 +24,7 @@ class UsersInboxWinnerHighlighter extends Module {
   });
 
   iwh() {
-    this.esgst.endlessFeatures.push(this.iwh_getUsers);
+    this.esgst.endlessFeatures.push(this.iwh_getUsers.bind(this));
   }
 
   async iwh_getUsers(context, main, source, endless) {

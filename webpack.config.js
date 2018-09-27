@@ -94,7 +94,7 @@ module.exports = /** @param {Environment} env */ env => {
         'window.$': 'jquery'
       }),
       new plugins.progressBar
-    ].concat(env.development ? [
+    ].concat(env.sizeAnalyzer ? [
       new plugins.sizeAnalyzer
     ] : []),
     watch: env.development,

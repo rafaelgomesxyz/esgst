@@ -24,7 +24,7 @@ class UsersUserStats extends Module {
 
   us() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
-    this.esgst.endlessFeatures.push(this.us_get);
+    this.esgst.endlessFeatures.push(this.us_get.bind(this));
   }
 
   async us_get(context, main, source, endless) {
@@ -74,7 +74,7 @@ class UsersUserStats extends Module {
     for (let username in users) {
       if (users.hasOwnProperty(username)) {
         let promise = request({method: `GET`, url: `/user/${username}`});
-        promise.then(this.us_load.bind(null, users[username], username));
+        promise.then(this.us_load.bind(this, users[username], username));
         promises.push(promise);
       }
       Promise.all(promises).then(this.esgst.modules.generalTableSorter.ts_sortTables);

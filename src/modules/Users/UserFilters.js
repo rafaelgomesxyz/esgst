@@ -41,7 +41,7 @@ class UsersUserFilters extends Module {
   });
 
   uf() {
-    this.esgst.profileFeatures.push(this.uf_add);
+    this.esgst.profileFeatures.push(this.uf_add.bind(this));
   }
 
   uf_add(profile, savedUser) {
@@ -80,7 +80,7 @@ class UsersUserFilters extends Module {
           posts: false
         };
       }
-      profile.ufButton.addEventListener(`click`, this.uf_open.bind(null, profile));
+      profile.ufButton.addEventListener(`click`, this.uf_open.bind(this, profile));
     }
   }
 
@@ -102,8 +102,8 @@ class UsersUserFilters extends Module {
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
     profile.ufPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's posts.`, false, false, `Hides the user's posts everywhere.`, profile.ufValues.posts);
-    saveSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save Settings`, title2: `Saving...`, callback1: this.uf_save.bind(null, profile, false)});
-    resetSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset Settings`, title2: `Resetting...`, callback1: this.uf_save.bind(null, profile, true)});
+    saveSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save Settings`, title2: `Saving...`, callback1: this.uf_save.bind(this, profile, false)});
+    resetSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset Settings`, title2: `Resetting...`, callback1: this.uf_save.bind(this, profile, true)});
     saveSet.dependencies.push(resetSet.set);
     resetSet.dependencies.push(saveSet.set);
     profile.ufPopup.description.appendChild(saveSet.set);
