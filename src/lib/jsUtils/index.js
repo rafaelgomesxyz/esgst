@@ -12,7 +12,7 @@ export default class Utils {
       'September',
       'October',
       'November',
-      'Decembe'
+      'December'
     ];
     this.parser = new DOMParser();
   }

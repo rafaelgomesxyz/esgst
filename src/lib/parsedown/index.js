@@ -753,7 +753,7 @@ methods = {
     };
     let key;
     for (key in link.element.attributes) {
-      if (link.element.attributes[key]) {
+      if (link.element.attributes.hasOwnProperty(key) && link.element.attributes[key]) {
         inline.element.attributes[key] = link.element.attributes[key];
       }
     }
@@ -963,11 +963,13 @@ methods = {
     if (methods.isSet(element.attributes)) {
       let key, value;
       for (key in element.attributes) {
-        value = element.attributes[key];
-        if (value === null) {
-          continue;
+        if (element.attributes.hasOwnProperty(key)) {
+          value = element.attributes[key];
+          if (value === null) {
+            continue;
+          }
+          markup += ` ${key}="${value}"`;
         }
-        markup += ` ${key}="${value}"`;
       }
     }
     if (methods.isSet(element.text)) {
