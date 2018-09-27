@@ -29,7 +29,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
       this.sgg_setGiveawayGroups();
     }
     if (this.esgst.groupsPath) {
-      this.esgst.endlessFeatures.push(this.sgg_setGroups);
+      this.esgst.endlessFeatures.push(this.sgg_setGroups.bind(this));
     }
   }
 

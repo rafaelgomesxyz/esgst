@@ -704,7 +704,7 @@ class GiveawaysGiveawayFilters extends Module {
 
   gf() {
     if (this.esgst.gf_s) {
-      this.esgst.giveawayFeatures.push(this.gf_getGiveaways);
+      this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }
     if (this.esgst.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
       this.esgst.style.insertAdjacentText("beforeend", `

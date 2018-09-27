@@ -33,7 +33,7 @@ class GeneralAttachedImageCarousel extends Module {
   }
 
   aic() {
-    this.esgst.endlessFeatures.push(this.aic_getImages);
+    this.esgst.endlessFeatures.push(this.aic_getImages.bind(this));
     this.esgst.documentEvents.keydown.add(this.aic_move);
     if (!this.esgst.mainPageHeading) return;
     this.esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});

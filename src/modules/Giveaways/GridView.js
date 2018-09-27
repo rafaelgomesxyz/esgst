@@ -44,7 +44,7 @@ class GiveawaysGridView extends Module {
 
   gv() {
     if (this.esgst.giveawaysPath || this.esgst.gv_gb || this.esgst.gv_ged || this.esgst.gv_ge) {
-      this.esgst.giveawayFeatures.push(this.gv_setContainer);
+      this.esgst.giveawayFeatures.push(this.gv_setContainer.bind(this));
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gv-creator {
           margin: ${this.esgst.ib ? 10 : 5}px 5px 5px;

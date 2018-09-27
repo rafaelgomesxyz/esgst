@@ -36,7 +36,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
   }
 
   ochgb() {
-    this.esgst.giveawayFeatures.push(this.ochgb_setButton);
+    this.esgst.giveawayFeatures.push(this.ochgb_setButton.bind(this));
   }
 
   ochgb_setButton(giveaways, main) {

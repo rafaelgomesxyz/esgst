@@ -830,7 +830,7 @@ class GamesGameCategories extends Module {
 
   gc() {
     if (!this.esgst.menuPath || this.esgst.gbPath || this.esgst.gedPath || this.esgst.gePath) {
-      this.esgst.gameFeatures.push(this.gc_games);
+      this.esgst.gameFeatures.push(this.gc_games.bind(this));
       this.esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }

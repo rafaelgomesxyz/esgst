@@ -33,7 +33,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     if (!this.esgst.giveawayPath) {
       return;
     }
-    this.esgst.giveawayFeatures.push(this.itadi_getGiveaways);
+    this.esgst.giveawayFeatures.push(this.itadi_getGiveaways.bind(this));
   }
 
   itadi_getGiveaways(giveaways, main) {

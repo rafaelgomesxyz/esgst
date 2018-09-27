@@ -18,7 +18,7 @@ class GeneralImageBorders extends Module {
   }
 
   ib() {
-    this.esgst.endlessFeatures.push(this.ib_addBorders);
+    this.esgst.endlessFeatures.push(this.ib_addBorders.bind(this));
   }
 
   ib_addBorders(context, main, source, endless) {

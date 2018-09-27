@@ -45,9 +45,10 @@ class GiveawaysGiveawayGroupLoader extends Module {
 
   ggl() {
     this.esgst.giveawayFeatures.push(
-      this.esgst.ggl_index === 0 ?
+      (this.esgst.ggl_index === 0 ?
         this.ggl_getGiveaways :
         this.ggl_setButtons
+      ).bind(this)
     );
   }
 

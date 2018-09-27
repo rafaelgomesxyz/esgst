@@ -23,7 +23,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
   }
 
   gwl() {
-    this.esgst.giveawayFeatures.push(this.gwl_addLinks);
+    this.esgst.giveawayFeatures.push(this.gwl_addLinks.bind(this));
   }
 
   gwl_addLinks(giveaways, main) {

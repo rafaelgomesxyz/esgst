@@ -25,7 +25,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
   }
 
   ugb() {
-    this.esgst.giveawayFeatures.push(this.ugb_add);
+    this.esgst.giveawayFeatures.push(this.ugb_add.bind(this));
   }
 
   ugb_add(giveaways, main) {
