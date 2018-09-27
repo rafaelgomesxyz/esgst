@@ -10,7 +10,7 @@ class GeneralHiddenBlacklistStats extends Module {
       </ul>
     `,
       id: `hbs`,
-      load: this.hbs.bind(this),
+      load: this.hbs,
       name: `Hidden Blacklist Stats`,
       sg: true,
       type: `general`

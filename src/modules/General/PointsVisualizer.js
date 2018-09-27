@@ -18,7 +18,7 @@ class GeneralPointsVisualizer extends Module {
       </ul>
     `,
       id: `pv`,
-      load: this.pv.bind(this),
+      load: this.pv,
       name: `Points Visualizer`,
       sg: true,
       type: `general`

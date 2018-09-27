@@ -104,7 +104,7 @@ class CommentsCommentTracker extends Module {
         }
       },
       id: `ct`,
-      load: this.ct.bind(this),
+      load: this.ct,
       name: `Comment Tracker`,
       sg: true,
       st: true,

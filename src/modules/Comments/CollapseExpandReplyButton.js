@@ -24,7 +24,7 @@ class CommentsCollapseExpandReplyButton extends Module {
         }
       },
       id: `cerb`,
-      load: this.cerb.bind(this),
+      load: this.cerb,
       name: `Collapse/Expand Reply Button`,
       sg: true,
       st: true,

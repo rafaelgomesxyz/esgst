@@ -44,7 +44,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       </ul>
     `,
       id: `mgc`,
-      load: this.mgc.bind(this),
+      load: this.mgc,
       name: `Multiple Giveaway Creator`,
       sg: true,
       type: `giveaways`

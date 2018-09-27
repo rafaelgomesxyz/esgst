@@ -28,7 +28,7 @@ class GiveawaysGiveawayTemplates extends Module {
       </ul>
     `,
       id: `gts`,
-      load: this.gts.bind(this),
+      load: this.gts,
       name: `Giveaway Templates`,
       sg: true,
       type: `giveaways`

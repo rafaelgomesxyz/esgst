@@ -820,7 +820,7 @@ class GamesGameCategories extends Module {
         }
       },
       id: `gc`,
-      load: this.gc.bind(this),
+      load: this.gc,
       name: `Game Categories`,
       sg: true,
       sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,

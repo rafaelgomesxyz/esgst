@@ -31,7 +31,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         }
       },
       id: `oadd`,
-      load: this.oadd.bind(this),
+      load: this.oadd,
       name: `Old Active Discussions Design`,
       sg: true,
       type: `discussions`

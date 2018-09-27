@@ -17,7 +17,7 @@ class UsersSteamTradesProfileButton extends Module {
       </ul>
     `,
       id: `stpb`,
-      load: this.stpb.bind(this),
+      load: this.stpb,
       name: `SteamTrades Profile Button`,
       sg: true,
       type: `users`

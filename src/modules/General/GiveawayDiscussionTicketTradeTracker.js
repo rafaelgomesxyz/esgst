@@ -46,7 +46,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         }
       },
       id: `gdttt`,
-      load: this.gdttt.bind(this),
+      load: this.gdttt,
       name: `Giveaway/Discussion/Ticket/Trade Tracker`,
       sg: true,
       st: true,

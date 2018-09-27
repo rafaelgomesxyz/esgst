@@ -219,7 +219,7 @@ class DiscussionsDiscussionFilters extends Module {
         }
       },
       id: `df`,
-      load: this.df.bind(this),
+      load: this.df,
       name: `Discussion Filters`,
       sg: true,
       type: `discussions`

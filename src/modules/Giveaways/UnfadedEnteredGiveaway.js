@@ -10,7 +10,7 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
       </ul>
     `,
       id: `ueg`,
-      load: this.ueg.bind(this),
+      load: this.ueg,
       name: `Unfaded Entered Giveaway`,
       sg: true,
       type: `giveaways`

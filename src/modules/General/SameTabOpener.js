@@ -10,7 +10,7 @@ class GeneralSameTabOpener extends Module {
       </ul>
     `,
       id: `sto`,
-      load: this.sto.bind(this),
+      load: this.sto,
       name: `Same Tab Opener`,
       sg: true,
       st: true,

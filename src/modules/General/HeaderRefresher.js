@@ -173,7 +173,7 @@ class GeneralHeaderRefresher extends Module {
         }
       ],
       id: `hr`,
-      load: this.hr.bind(this),
+      load: this.hr,
       name: `Header Refresher`,
       sg: true,
       st: true,

@@ -76,7 +76,7 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       },
       id: `ge`,
-      load: this.ge.bind(this),
+      load: this.ge,
       name: `Giveaway Extractor`,
       sg: true,
       type: `giveaways`

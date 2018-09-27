@@ -15,7 +15,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
       </ul>
     `,
       id: `cwsl`,
-      load: this.cwsl.bind(this),
+      load: this.cwsl,
       name: `Community Wishlist Search Link`,
       sg: true,
       type: `giveaways`

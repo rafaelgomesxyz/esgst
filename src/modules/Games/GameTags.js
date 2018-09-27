@@ -21,7 +21,7 @@ class GamesGameTags extends Module {
         }
       },
       id: `gt`,
-      load: this.gt.bind(this),
+      load: this.gt,
       name: `Game Tags`,
       sg: true,
       type: `games`

@@ -21,7 +21,7 @@ class GiveawaysCommentEntryChecker extends Module {
       </ul>
     `,
       id: `cec`,
-      load: this.cec.bind(this),
+      load: this.cec,
       name: `Comment/Entry Checker`,
       sg: true,
       type: `giveaways`

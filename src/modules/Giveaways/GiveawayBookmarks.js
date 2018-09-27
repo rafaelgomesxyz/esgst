@@ -66,7 +66,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       },
       id: `gb`,
-      load: this.gb.bind(this),
+      load: this.gb,
       name: `Giveaway Bookmarks`,
       sg: true,
       type: `giveaways`

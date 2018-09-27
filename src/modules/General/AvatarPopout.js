@@ -19,7 +19,7 @@ class GeneralAvatarPopout extends Module {
       </ul>
     `,
       id: `ap`,
-      load: this.ap.bind(this),
+      load: this.ap,
       name: `Avatar Popout`,
       options: {
         title: `Open on:`,

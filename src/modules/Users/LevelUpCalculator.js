@@ -16,7 +16,7 @@ class UsersLevelUpCalculator extends Module {
       </ul>
     `,
       id: `luc`,
-      load: this.luc.bind(this),
+      load: this.luc,
       name: `Level Up Calculator`,
       sg: true,
       type: `users`

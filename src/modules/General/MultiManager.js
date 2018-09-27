@@ -52,7 +52,7 @@ class GeneralMultiManager extends Module {
       </ul>
     `,
       id: `mm`,
-      load: this.mm.bind(this),
+      load: this.mm,
       name: `Multi-Manager`,
       sg: true,
       st: true,

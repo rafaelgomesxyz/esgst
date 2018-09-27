@@ -18,7 +18,7 @@ class GroupsGroupStats extends Module {
       </ul>
     `,
       id: `gs`,
-      load: this.gs.bind(this),
+      load: this.gs,
       name: `Group Stats`,
       sg: true,
       type: `groups`

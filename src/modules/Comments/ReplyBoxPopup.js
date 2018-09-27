@@ -21,7 +21,7 @@ class CommentsReplyBoxPopup extends Module {
       </ul>
     `,
       id: `rbp`,
-      load: this.rbp.bind(this),
+      load: this.rbp,
       name: `Reply Box Popup`,
       sg: true,
       st: true,

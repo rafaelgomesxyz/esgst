@@ -28,7 +28,7 @@ class GeneralAccurateTimestamp extends Module {
         }
       },
       id: `at`,
-      load: this.at.bind(this),
+      load: this.at,
       name: `Accurate Timestamp`,
       sg: true,
       st: true,

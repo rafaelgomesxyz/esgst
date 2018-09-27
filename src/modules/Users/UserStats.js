@@ -18,7 +18,7 @@ class UsersUserStats extends Module {
       </ul>
     `,
       id: `us`,
-      load: this.us.bind(this),
+      load: this.us,
       name: `User Stats`,
       sg: true,
       type: `users`

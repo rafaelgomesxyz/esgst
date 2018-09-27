@@ -17,7 +17,7 @@ class Giveaways extends Module {
     this.info = {
       endless: true,
       id: `giveaways`,
-      load: this.giveaways.bind(this)
+      load: this.giveaways
     };
   }
 

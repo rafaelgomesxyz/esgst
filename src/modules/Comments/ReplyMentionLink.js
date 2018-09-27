@@ -16,7 +16,7 @@ class CommentsReplyMentionLink extends Module {
       </ul>
     `,
       id: `rml`,
-      load: this.rml.bind(this),
+      load: this.rml,
       name: `Reply Mention Link`,
       sg: true,
       st: true,
