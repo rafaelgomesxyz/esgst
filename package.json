@@ -5,8 +5,8 @@
   "main": "ESGST.meta.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --env.production",
-    "build-dev": "./node_modules/.bin/webpack --env.development",
-    "grep": "fgrep -R 'load: this' ./src/modules/ | fgrep -v bind"
+    "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
+    "build-dev-without-babel": "./node_modules/.bin/webpack --env.development"
   },
   "repository": {
     "type": "git",
