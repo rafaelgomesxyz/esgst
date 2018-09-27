@@ -100,12 +100,12 @@ class Profile extends Module {
     profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
     if (profile.whitelistButton) {
       if (this.esgst.updateWhitelistBlacklist) {
-        profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `whitelisted`, profile));
+        profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(common, `whitelisted`, profile));
       }
     }
     if (profile.blacklistButton) {
       if (this.esgst.updateWhitelistBlacklist) {
-        profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(null, `blacklisted`, profile));
+        profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(common, `blacklisted`, profile));
       }
     }
     let savedUser = this.esgst.users.users[profile.steamId];

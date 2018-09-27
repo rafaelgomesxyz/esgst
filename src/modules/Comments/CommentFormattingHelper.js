@@ -516,7 +516,7 @@ class CommentsCommentFormattingHelper extends Module {
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           imgur.addEventListener(`click`, () => {
-            multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(null, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
+            multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(this, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
               await delValue(`imgurToken`);
               openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
               // noinspection JSIgnoredPromiseFromCall
@@ -5710,7 +5710,7 @@ class CommentsCommentFormattingHelper extends Module {
   cfh_setTextAreas(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
     for (let i = elements.length - 1; i > -1; --i) {
-      elements[i].onfocus = this.cfh_addPanel.bind(null, elements[i]);
+      elements[i].onfocus = this.cfh_addPanel.bind(this, elements[i]);
     }
   }
 
@@ -5725,7 +5725,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
 
     textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
-    textArea.onfocus = this.cfh_addPanel.bind(null, textArea);
+    textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
     textArea.onpaste = event => {
       if (this.esgst.cfh_pasteFormatting) {
         let clipboard, value;
@@ -5858,7 +5858,7 @@ class CommentsCommentFormattingHelper extends Module {
           if (file.size / 1024 / 1024 <= 10) {
             let reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = this.cfh_readImgur.bind(null, authorization, popout, popup, reader, url, warning, callback);
+            reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, callback);
           } else {
             createFadeMessage(warning, `Image is larger than 10 MB!`);
             callback();
@@ -6242,7 +6242,7 @@ class CommentsCommentFormattingHelper extends Module {
     if (this.esgst.cfh) {
       this.cfh_addPanel(descriptionArea);
     }
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(null, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
     popup.open();
   }
 

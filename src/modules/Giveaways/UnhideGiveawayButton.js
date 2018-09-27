@@ -52,7 +52,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
             type: `i`
           }]);
         }
-        hideButton.addEventListener(`click`, unhideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+        hideButton.addEventListener(`click`, unhideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       }
     });
   }

@@ -130,8 +130,8 @@ class GiveawaysSentKeySearcher extends Module {
       icon2: `fa-times`,
       title1: `Search`,
       title2: `Cancel`,
-      callback1: this.sks_searchGiveaways.bind(null, sks),
-      callback2: this.sks_cancelSearch.bind(null, sks)
+      callback1: this.sks_searchGiveaways.bind(this, sks),
+      callback2: this.sks_cancelSearch.bind(this, sks)
     }).set);
     sks.progress = createElements(sks.popup.description, `beforeEnd`, [{
       type: `div`

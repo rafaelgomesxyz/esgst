@@ -749,7 +749,7 @@ class GiveawaysGiveawayFilters extends Module {
         if (source === `gf` || this.esgst.giveawayPath) {
           if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].hidden) {
             new Button(giveaway.headingName, `beforeBegin`, {
-              callbacks: [this.gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
+              callbacks: [this.gf_hideGiveaway.bind(this, giveaway, main), null, this.gf_unhideGiveaway.bind(this, giveaway, main), null],
               className: `esgst-gf-unhide-button`,
               icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
               id: `gf_s`,
@@ -761,7 +761,7 @@ class GiveawaysGiveawayFilters extends Module {
         if ((source !== `gc` && (this.esgst.giveawaysPath || this.esgst.groupPath)) || this.esgst.giveawayPath) {
           if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].hidden || !this.esgst.giveaways[giveaway.code].code)) {
             new Button(giveaway.headingName, `beforeBegin`, {
-              callbacks: [this.gf_hideGiveaway.bind(null, giveaway, main), null, this.gf_unhideGiveaway.bind(null, giveaway, main), null],
+              callbacks: [this.gf_hideGiveaway.bind(this, giveaway, main), null, this.gf_unhideGiveaway.bind(this, giveaway, main), null],
               className: `esgst-gf-hide-button`,
               icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
               id: `gf_s`,
@@ -1219,8 +1219,8 @@ class GiveawaysGiveawayFilters extends Module {
     );
     const presetButton = headingButton.lastElementChild;
 
-    toggleSwitch.onEnabled = this.filters_filter.bind(null, obj);
-    toggleSwitch.onDisabled = this.filters_filter.bind(null, obj, true);
+    toggleSwitch.onEnabled = this.filters_filter.bind(this, obj);
+    toggleSwitch.onDisabled = this.filters_filter.bind(this, obj, true);
 
     obj.container = createElements(heading, `afterEnd`, [{
       attributes: {
@@ -1451,7 +1451,7 @@ class GiveawaysGiveawayFilters extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save`,
       title2: `Saving...`,
-      callback1: this.filters_savePreset.bind(null, obj)
+      callback1: this.filters_savePreset.bind(this, obj)
     }).set);
 
     let name = this.esgst[`${obj.id}_preset${obj.type}`];
@@ -1559,7 +1559,7 @@ class GiveawaysGiveawayFilters extends Module {
                 filterType: `boolean`,
                 checkbox: checkbox
               };
-              checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
+              checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
             }
             break;
           case `number`:
@@ -1737,7 +1737,7 @@ class GiveawaysGiveawayFilters extends Module {
                 checkbox: checkbox,
                 textInput: textInput
               };
-              checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
+              checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
               textInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
             }
             break;
@@ -1971,7 +1971,7 @@ class GiveawaysGiveawayFilters extends Module {
         }
         obj.basicApplied = false;
       });
-      obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(null, obj));
+      obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(this, obj));
     }
 
     if (this.esgst[`${obj.id}_m_b`]) {
