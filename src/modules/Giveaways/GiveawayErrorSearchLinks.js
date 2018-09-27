@@ -22,7 +22,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
       </ul>
     `,
       id: `gesl`,
-      load: this.gesl.bind(this),
+      load: this.gesl,
       name: `Giveaway Error Search Links`,
       sg: true,
       type: `giveaways`

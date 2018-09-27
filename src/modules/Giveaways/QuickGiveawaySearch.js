@@ -23,7 +23,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
         }
       },
       id: `qgs`,
-      load: this.qgs.bind(this),
+      load: this.qgs,
       name: `Quick Giveaway Search`,
       sg: true,
       type: `giveaways`

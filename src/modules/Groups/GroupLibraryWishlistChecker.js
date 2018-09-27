@@ -25,7 +25,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       </ul>
     `,
       id: `glwc`,
-      load: this.glwc.bind(this),
+      load: this.glwc,
       name: `Group Library/Wishlist Checker`,
       sg: true,
       type: `groups`

@@ -20,7 +20,7 @@ class GamesEnteredGameHighlighter extends Module {
       </ul>
     `,
       id: `egh`,
-      load: this.egh.bind(this),
+      load: this.egh,
       name: `Entered Game Highlighter`,
       sg: true,
       type: `games`

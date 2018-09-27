@@ -16,7 +16,7 @@ class GeneralHiddenCommunityPoll extends Module {
         }
       },
       id: `hcp`,
-      load: this.hcp.bind(this),
+      load: this.hcp,
       name: `Hidden Community Poll`,
       sg: true,
       type: `general`

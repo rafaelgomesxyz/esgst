@@ -42,7 +42,7 @@ class UsersUserGiveawayData extends Module {
         }
       },
       id: `ugd`,
-      load: this.ugd.bind(this),
+      load: this.ugd,
       name: `User Giveaway Data`,
       sg: true,
       type: `users`

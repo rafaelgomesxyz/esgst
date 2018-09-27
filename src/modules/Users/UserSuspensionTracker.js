@@ -43,7 +43,7 @@ class UsersUserSuspensionTracker extends Module {
       </ul>
     `,
       id: `ust`,
-      load: this.ust.bind(this),
+      load: this.ust,
       name: `User Suspension Tracker`,
       sg: true,
       st: true,

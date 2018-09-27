@@ -21,7 +21,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       </ul>
     `,
       id: `ags`,
-      load: this.ags.bind(this),
+      load: this.ags,
       name: `Advanced Giveaway Search`,
       sg: true,
       type: `giveaways`

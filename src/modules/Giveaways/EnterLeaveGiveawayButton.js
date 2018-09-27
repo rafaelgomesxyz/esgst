@@ -66,7 +66,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
       },
       id: `elgb`,
-      load: this.elgb.bind(this),
+      load: this.elgb,
       name: `Enter/Leave Giveaway Button`,
       sg: true,
       type: `giveaways`

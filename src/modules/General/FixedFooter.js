@@ -10,7 +10,7 @@ class GeneralFixedFooter extends Module {
       </ul>
     `,
       id: `ff`,
-      load: this.ff.bind(this),
+      load: this.ff,
       name: `Fixed Footer`,
       sg: true,
       st: true,

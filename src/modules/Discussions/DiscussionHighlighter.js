@@ -29,7 +29,7 @@ class DiscussionsDiscussionHighlighter extends Module {
         }
       },
       id: `dh`,
-      load: this.dh.bind(this),
+      load: this.dh,
       name: `Discussion Highlighter`,
       sg: true,
       type: `discussions`

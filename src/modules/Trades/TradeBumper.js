@@ -34,7 +34,7 @@ class TradesTradeBumper extends Module {
         }
       },
       id: `tb`,
-      load: this.tb.bind(this),
+      load: this.tb,
       name: `Trade Bumper`,
       sg: true,
       st: true,

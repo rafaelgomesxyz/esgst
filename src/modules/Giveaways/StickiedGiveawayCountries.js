@@ -17,7 +17,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
       </ul>
     `,
       id: `sgac`,
-      load: this.sgac.bind(this),
+      load: this.sgac,
       name: `Stickied Giveaway Countries`,
       sg: true,
       type: `giveaways`

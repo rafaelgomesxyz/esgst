@@ -10,7 +10,7 @@ class GeneralFixedSidebar extends Module {
       </ul>
     `,
       id: `fs`,
-      load: this.fs.bind(this),
+      load: this.fs,
       name: `Fixed Sidebar`,
       sg: true,
       type: `general`

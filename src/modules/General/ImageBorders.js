@@ -10,7 +10,7 @@ class GeneralImageBorders extends Module {
       </ul>
     `,
       id: `ib`,
-      load: this.ib.bind(this),
+      load: this.ib,
       name: `Image Borders`,
       sg: true,
       type: `general`

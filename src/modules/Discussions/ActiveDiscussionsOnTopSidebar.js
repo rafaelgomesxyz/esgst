@@ -24,7 +24,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
       </ul>
     `,
       id: `adots`,
-      load: this.adots.bind(this),
+      load: this.adots,
       name: `Active Discussions On Top/Sidebar`,
       options: {
         title: `Move to:`,

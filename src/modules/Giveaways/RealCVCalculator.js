@@ -19,7 +19,7 @@ class GiveawaysRealCVCalculator extends Module {
       </ul>
     `,
       id: `rcvc`,
-      load: this.rcvc.bind(this),
+      load: this.rcvc,
       name: `Real CV Calculator`,
       sg: true,
       sync: `Giveaways, Reduced CV Games and No CV Games`,

@@ -6,7 +6,7 @@ class Groups extends Module {
     this.info = {
       endless: true,
       id: `groups`,
-      load: this.groups.bind(this)
+      load: this.groups
     };
   }
 

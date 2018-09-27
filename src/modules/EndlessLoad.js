@@ -11,7 +11,7 @@ class EndlessLoad extends Module {
     this.info = {
       endless: true,
       id: `endlessLoad`,
-      load: this.endlessLoad.bind(this)
+      load: this.endlessLoad
     };
   }
 

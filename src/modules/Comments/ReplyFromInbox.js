@@ -46,7 +46,7 @@ class CommentsReplyFromInbox extends Module {
         }
       },
       id: `rfi`,
-      load: this.rfi.bind(this),
+      load: this.rfi,
       name: `Reply From Inbox`,
       sg: true,
       st: true,

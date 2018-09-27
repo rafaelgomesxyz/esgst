@@ -19,7 +19,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
       </ul>
     `,
       id: `bgl`,
-      load: this.bgl.bind(this),
+      load: this.bgl,
       name: `Blacklist Giveaway Loader`,
       sg: true,
       type: `giveaways`

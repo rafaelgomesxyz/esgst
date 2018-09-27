@@ -15,7 +15,7 @@ class GiveawaysPinnedGiveawaysButton extends Module {
       </ul>
     `,
       id: `pgb`,
-      load: this.pgb.bind(this),
+      load: this.pgb,
       name: `Pinned Giveaways Button`,
       sg: true,
       type: `giveaways`

@@ -21,7 +21,7 @@ class TradesHaveWantListChecker extends Module {
       </ul>
     `,
       id: `hwlc`,
-      load: this.hwlc.bind(this),
+      load: this.hwlc,
       name: `Have/Want List Checker`,
       st: true,
       type: `trades`

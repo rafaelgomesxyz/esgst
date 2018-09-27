@@ -21,7 +21,7 @@ class GroupsGroupTags extends Module {
         }
       },
       id: `gpt`,
-      load: this.gpt.bind(this),
+      load: this.gpt,
       name: `Group Tags`,
       sg: true,
       type: `groups`

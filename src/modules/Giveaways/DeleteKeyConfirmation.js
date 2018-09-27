@@ -17,7 +17,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
       </ul>
     `,
       id: `dkc`,
-      load: this.dkc.bind(this),
+      load: this.dkc,
       name: `Delete Key Confirmation`,
       sg: true,
       type: `giveaways`

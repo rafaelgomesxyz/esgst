@@ -25,7 +25,7 @@ class UsersWhitelistBlacklistSorter extends Module {
       </ul>
     `,
       id: `wbs`,
-      load: this.wbs.bind(this),
+      load: this.wbs,
       name: `Whitelist/Blacklist Sorter`,
       sg: true,
       sync: `Whitelist and Blacklist`,

@@ -24,7 +24,7 @@ class GeneralElementFilters extends Module {
         }
       ],
       id: `ef`,
-      load: this.ef.bind(this),
+      load: this.ef,
       name: `Element Filters`,
       sg: true,
       st: true,

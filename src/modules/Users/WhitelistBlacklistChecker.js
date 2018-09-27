@@ -68,7 +68,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         }
       },
       id: `wbc`,
-      load: this.wbc.bind(this),
+      load: this.wbc,
       name: `Whitelist/Blacklist Checker`,
       sg: true,
       sync: `Steam Groups`,

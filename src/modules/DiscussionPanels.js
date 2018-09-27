@@ -6,7 +6,7 @@ class DiscussionPanels extends Module {
     this.info = {
       endless: true,
       id: `discussionPanels`,
-      load: this.discussionPanels.bind(this)
+      load: this.discussionPanels
     };
   }
 

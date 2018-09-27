@@ -17,7 +17,7 @@ class CommentsCommentSearcher extends Module {
       </ul>
     `,
       id: `cs`,
-      load: this.cs.bind(this),
+      load: this.cs,
       name: `Comment Searcher`,
       sg: true,
       st: true,

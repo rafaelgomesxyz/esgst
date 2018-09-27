@@ -17,7 +17,7 @@ class GiveawaysGiveawayPopup extends Module {
       </ul>
     `,
       id: `gp`,
-      load: this.gp.bind(this),
+      load: this.gp,
       name: `Giveaway Popup`,
       sg: true,
       type: `giveaways`

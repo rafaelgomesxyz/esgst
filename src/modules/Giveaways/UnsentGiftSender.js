@@ -29,7 +29,7 @@ class GiveawaysUnsentGiftSender extends Module {
       </ul>
     `,
       id: `ugs`,
-      load: this.ugs.bind(this),
+      load: this.ugs,
       name: `Unsent Gift Sender`,
       sg: true,
       type: `giveaways`

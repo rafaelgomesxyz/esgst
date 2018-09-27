@@ -21,7 +21,7 @@ class DiscussionsDiscussionsSorter extends Module {
       </ul>
     `,
       id: `ds`,
-      load: this.ds.bind(this),
+      load: this.ds,
       name: `Discussions Sorter`,
       sg: true,
       type: `discussions`

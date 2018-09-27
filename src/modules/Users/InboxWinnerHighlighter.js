@@ -19,7 +19,7 @@ class UsersInboxWinnerHighlighter extends Module {
       </ul>
     `,
       id: `iwh`,
-      load: this.iwh.bind(this),
+      load: this.iwh,
       name: `Inbox Winner Highlighter`,
       sg: true,
       type: `users`
