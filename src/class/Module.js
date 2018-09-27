@@ -15,7 +15,7 @@ export default class Module {
   }
 
   init() {
-    return this.info.load.bind(this);
+    return this.info.load.call(this);
   }
 
   get type() {
