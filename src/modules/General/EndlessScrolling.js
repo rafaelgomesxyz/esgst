@@ -163,7 +163,7 @@ class GeneralEndlessScrolling extends Module {
     const options = {
       rootMargin: `-${this.esgst.commentsTop + 1}px 0px 0px 0px`
     };
-    this.es.observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
+    es.observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
     // noinspection JSIgnoredPromiseFromCall
     this.es_activate(es);
   }

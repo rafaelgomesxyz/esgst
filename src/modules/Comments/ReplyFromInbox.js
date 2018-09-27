@@ -56,7 +56,7 @@ class CommentsReplyFromInbox extends Module {
 
   rfi() {
     if (this.esgst.mr) return;
-    this.esgst.endlessFeatures.push(this.mr_getButtons.bind(this));
+    this.esgst.endlessFeatures.push(this.esgst.modules.commentsMultiReply.mr_getButtons.bind(this));
   }
 
   async rfi_saveReply(id, reply, url, edit) {
