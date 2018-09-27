@@ -25,7 +25,7 @@ class GiveawaysGiveawayPopup extends Module {
   }
 
   gp() {
-    this.esgst.giveawayFeatures.push(this.gp_addButton);
+    this.esgst.giveawayFeatures.push(this.gp_addButton.bind(this));
   }
 
   gp_addButton(giveaways, main, source) {

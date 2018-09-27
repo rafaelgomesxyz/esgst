@@ -30,7 +30,7 @@ class GiveawaysSteamActivationLinks extends Module {
 
   sal() {
     if (!this.esgst.wonPath) return;
-    this.esgst.endlessFeatures.push(this.sal_addLinks, this.sal_addObservers);
+    this.esgst.endlessFeatures.push(this.sal_addLinks.bind(this), this.sal_addObservers.bind(this));
   }
 
   sal_addObservers(context, main, source, endless) {

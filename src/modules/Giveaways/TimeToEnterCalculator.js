@@ -26,7 +26,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
   }
 
   ttec() {
-    this.esgst.giveawayFeatures.push(this.ttec_calculateTime);
+    this.esgst.giveawayFeatures.push(this.ttec_calculateTime.bind(this));
   }
 
   ttec_calculateTime(giveaways, main, source) {

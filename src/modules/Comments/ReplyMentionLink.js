@@ -25,7 +25,7 @@ class CommentsReplyMentionLink extends Module {
   }
 
   rml() {
-    this.esgst.endlessFeatures.push(this.rml_addLinks);
+    this.esgst.endlessFeatures.push(this.rml_addLinks.bind(this));
   }
 
   rml_addLinks(context, main, source, endless) {

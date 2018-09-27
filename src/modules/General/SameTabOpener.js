@@ -19,7 +19,7 @@ class GeneralSameTabOpener extends Module {
   }
 
   sto() {
-    this.esgst.endlessFeatures.push(this.sto_setLinks);
+    this.esgst.endlessFeatures.push(this.sto_setLinks.bind(this));
   }
 
   sto_setLinks(context, main, source, endless) {

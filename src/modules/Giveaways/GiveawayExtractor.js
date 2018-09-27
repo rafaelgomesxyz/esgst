@@ -88,7 +88,7 @@ class GiveawaysGiveawayExtractor extends Module {
       let ge = {
         button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
       };
-      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(null, ge));
+      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
     } else if (this.esgst.gePath) {
       let ge = {
         context: parseHtml((await request({method: `GET`, url: getParameters().url})).responseText)
@@ -172,7 +172,7 @@ class GiveawaysGiveawayExtractor extends Module {
         }]);
         ge.mainCallback = callback;
         let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
-        this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(null, ge, callback));
+        this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, callback));
       }
     }, () => {
       ge.isCanceled = true;
@@ -198,7 +198,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.isCanceled) {
       if (i < n) {
         // noinspection JSIgnoredPromiseFromCall
-        this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, this.ge_extractGiveaways, 0, ge, giveaways, ++i, n, callback));
+        this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(this, this.ge_extractGiveaways, 0, ge, giveaways, ++i, n, callback));
       } else {
         callback();
       }
@@ -214,7 +214,7 @@ class GiveawaysGiveawayExtractor extends Module {
         await endless_load(ge.results.lastElementChild, false, `ge`);
         ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
         ge.progress.firstElementChild.remove();
-        ge.callback = this.ge_extractGiveaway.bind(null, ge, code, callback);
+        ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
         filtered = false;
         children = ge.results.lastElementChild.children;
         for (i = children.length - 1; i > -1 && !filtered; --i) {

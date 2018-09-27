@@ -33,7 +33,7 @@ class GeneralAttachedImageCarousel extends Module {
   }
 
   aic() {
-    this.esgst.endlessFeatures.push(this.aic_getImages);
+    this.esgst.endlessFeatures.push(this.aic_getImages.bind(this));
     this.esgst.documentEvents.keydown.add(this.aic_move);
     if (!this.esgst.mainPageHeading) return;
     this.esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
@@ -176,7 +176,7 @@ class GeneralAttachedImageCarousel extends Module {
     height = panel.offsetHeight + 25;
     image.style.maxHeight = `calc(90% - ${height}px)`;
     image.style.marginTop = `${height}px`;
-    image.firstElementChild.onload = this.aic_resizeImage.bind(null, image);
+    image.firstElementChild.onload = this.aic_resizeImage.bind(this, image);
     this.esgst.aicPrevious = panel.firstElementChild;
     this.esgst.aicNext = this.esgst.aicPrevious.nextElementSibling;
     if (i > 0) {

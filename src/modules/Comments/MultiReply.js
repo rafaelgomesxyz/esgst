@@ -29,7 +29,7 @@ class CommentsMultiReply extends Module {
   }
 
   mr() {
-    this.esgst.endlessFeatures.push(this.mr_getButtons);
+    this.esgst.endlessFeatures.push(this.mr_getButtons.bind(this));
   }
 
   mr_getButtons(context, main, source, endless) {

@@ -36,7 +36,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
   }
 
   ochgb() {
-    this.esgst.giveawayFeatures.push(this.ochgb_setButton);
+    this.esgst.giveawayFeatures.push(this.ochgb_setButton.bind(this));
   }
 
   ochgb_setButton(giveaways, main) {
@@ -47,10 +47,10 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
       if (this.esgst.giveawayPath && main) {
         button = button.parentElement;
       }
-      giveaway.fade = this.ochgb_fadeGiveaway.bind(null, giveaway, main);
-      giveaway.unfade = this.ochgb_unfadeGiveaway.bind(null, giveaway, main);
+      giveaway.fade = this.ochgb_fadeGiveaway.bind(this, giveaway, main);
+      giveaway.unfade = this.ochgb_unfadeGiveaway.bind(this, giveaway, main);
       giveaway.ochgbButton = new Button(button, `afterEnd`, {
-        callbacks: [this.ochgb_hideGiveaway.bind(null, giveaway, main), null, this.ochgb_unhideGiveaway.bind(null, giveaway, main), null],
+        callbacks: [this.ochgb_hideGiveaway.bind(this, giveaway, main), null, this.ochgb_unhideGiveaway.bind(this, giveaway, main), null],
         className: `esgst-ochgb ${this.esgst.giveawayPath && main ? `` : `giveaway__icon`}`,
         icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `ochgb`,

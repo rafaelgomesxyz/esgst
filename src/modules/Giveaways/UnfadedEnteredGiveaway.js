@@ -18,7 +18,7 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
   }
 
   ueg() {
-    this.esgst.endlessFeatures.push(this.ueg_remove);
+    this.esgst.endlessFeatures.push(this.ueg_remove.bind(this));
   }
 
   ueg_remove(context, main, source, endless) {

@@ -18,7 +18,7 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
   }
 
   geth() {
-    this.esgst.giveawayFeatures.push(this.geth_getGiveaways);
+    this.esgst.giveawayFeatures.push(this.geth_getGiveaways.bind(this));
   }
 
   geth_getGiveaways(giveaways) {

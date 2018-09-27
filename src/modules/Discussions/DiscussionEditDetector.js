@@ -76,7 +76,7 @@ class DiscussionsDiscussionEditDetector extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Submit`,
       title2: `Saving...`,
-      callback1: this.ded_submitComment.bind(null, obj)
+      callback1: this.ded_submitComment.bind(this, obj)
     });
     obj.button.appendChild(obj.set.set);
   }

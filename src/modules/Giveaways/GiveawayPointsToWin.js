@@ -38,9 +38,9 @@ class GiveawaysGiveawayPointsToWin extends Module {
   }
 
   gptw() {
-    this.esgst.giveawayFeatures.push(this.gptw_addPoints);
+    this.esgst.giveawayFeatures.push(this.gptw_addPoints.bind(this));
     if (!this.esgst.enteredPath) return;
-    this.esgst.endlessFeatures.push(this.gwc_addHeading);
+    this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
   }
 
   gptw_addPoints(giveaways, main, source) {

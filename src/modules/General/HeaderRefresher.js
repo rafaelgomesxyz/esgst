@@ -218,7 +218,7 @@ class GeneralHeaderRefresher extends Module {
       }
     }
     return {
-      play: this.hr_playSound.bind(null, await this.esgst.audioContext.decodeAudioData(buffer))
+      play: this.hr_playSound.bind(this, await this.esgst.audioContext.decodeAudioData(buffer))
     }
   }
 
