@@ -7,30 +7,33 @@ const
 ;
 
 class DiscussionsMainPostPopup extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Hides the main post of a discussion and adds a button (<i class="fa fa-home"></i>) to its main page heading that allows you to open the main post through a popup.</li>
         <li>This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.</li>
       </ul>
     `,
-    features: {
-      mpp_r: {
-        description: `
+      features: {
+        mpp_r: {
+          description: `
           <ul>
             <li>This option requires [id=ct] enabled to work.</li>
           </ul>
         `,
-        name: `Only hide the main post if it has been marked as read.`,
-        sg: true
-      }
-    },
-    id: `mpp`,
-    load: this.mpp,
-    name: `Main Post Popup`,
-    sg: true,
-    type: `discussions`
-  });
+          name: `Only hide the main post if it has been marked as read.`,
+          sg: true
+        }
+      },
+      id: `mpp`,
+      load: this.mpp,
+      name: `Main Post Popup`,
+      sg: true,
+      type: `discussions`
+    };
+  }
 
   mpp() {
     if (!this.esgst.discussionPath) {

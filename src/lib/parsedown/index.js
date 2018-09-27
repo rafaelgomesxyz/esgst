@@ -4,7 +4,7 @@
 
 function rtrim(string, charList) {
   charList = !charList ? ` \\s\u00A0` : `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `\\$1`);
-  return `${string}`.replace(new RegExp(`[`+charList+`]+$`, `g`), ``);
+  return `${string}`.replace(new RegExp(`[` + charList + `]+$`, `g`), ``);
 }
 
 function trim(string, charList) {
@@ -139,8 +139,8 @@ variables = {
   textLevelElements: [
     `a`, `br`, `bdo`, `abbr`, `blink`, `nextid`, `acronym`, `basefont`,
     `b`, `em`, `big`, `cite`, `small`, `spacer`, `listing`,
-    `i`, `rp`, `del`, `code`,          `strike`, `marquee`,
-    `q`, `rt`, `ins`, `font`,          `strong`,
+    `i`, `rp`, `del`, `code`, `strike`, `marquee`,
+    `q`, `rt`, `ins`, `font`, `strong`,
     `s`, `tt`, `kbd`, `mark`,
     `u`, `xm`, `sub`, `nobr`,
     `sup`, `ruby`,
@@ -297,7 +297,7 @@ methods = {
     return block;
   },
   blockFencedCode: line => {
-    let matches = line.text.match(new RegExp(`^[`+line.text[0]+`]{3,}[ ]*([\\w-]+)?[ ]*$`));
+    let matches = line.text.match(new RegExp(`^[` + line.text[0] + `]{3,}[ ]*([\\w-]+)?[ ]*$`));
     if (matches) {
       let element = {
         name: `code`,
@@ -444,7 +444,7 @@ methods = {
     }
   },
   blockRule: line => {
-    if (line.text.match(new RegExp(`^([`+line.text[0]+`])([ ]*\\1){2,}[ ]*$`))) {
+    if (line.text.match(new RegExp(`^([` + line.text[0] + `])([ ]*\\1){2,}[ ]*$`))) {
       return {
         element: {
           name: `hr`
@@ -515,7 +515,7 @@ methods = {
     block.markup += `\n${line.body}`;
     return block;
   },
-  blockReference: line=> {
+  blockReference: line => {
     let matches = line.text.match(/^\[(.+?)]:[ ]*<?(\S+?)>?(?:[ ]+["'(](.+)["')])?[ ]*$/);
     if (matches) {
       let data = {
@@ -536,7 +536,8 @@ methods = {
       return;
     }
     if (block.element.text.indexOf(`|`) > -1 && rtrim(line.text, ` -:|`) === ``) {
-      let alignment, alignments, dividerCell, dividerCells, headerCell, headerCells, headerElement, headerElements, i, n;
+      let alignment, alignments, dividerCell, dividerCells, headerCell, headerCells, headerElement, headerElements, i,
+        n;
       alignments = [];
       dividerCells = trim(trim(line.text), `|`).split(`|`);
       for (i = 0, n = dividerCells.length; i < n; ++i) {
@@ -789,7 +790,7 @@ methods = {
     if (matches) {
       element.attributes.href = matches[1];
       if (methods.isSet(matches[2])) {
-        element.attributes.title = matches[2].slice(1, - 1);
+        element.attributes.title = matches[2].slice(1, -1);
       }
       extent += strlen(matches[0]);
     } else {
@@ -868,8 +869,8 @@ methods = {
       name = `span`;
       text = matches[1];
     } else if ((matches = excerpt.text.match(/^~~([^~]+?)(~+)/)) && matches[2].length === 2) {
-        name = `del`;
-        text = matches[1];
+      name = `del`;
+      text = matches[1];
     } else if (matches = excerpt.text.match(/^~~~([^~]+?)(~+)/)) { // eslint-disable-line
       switch (matches[2].length) {
         case 3:
@@ -913,7 +914,7 @@ methods = {
     }
   },
   inlineUrl: excerpt => {
-    if (variables.urlsLinked !== true || ! methods.isSet(excerpt.text[2]) || excerpt.text[2] !== `/`) {
+    if (variables.urlsLinked !== true || !methods.isSet(excerpt.text[2]) || excerpt.text[2] !== `/`) {
       return;
     }
     let match = /\bhttps?:[/]{2}[^\s<]+\b\/*/ui.exec(excerpt.context);
@@ -1010,14 +1011,17 @@ class Parsedown {
     markup = trim(markup, `\n`);
     return markup;
   }
+
   setBreaksEnabled(breaksEnabled) {
     variables.breaksEnabled = breaksEnabled;
     return this;
   }
+
   setMarkupEscaped(markupEscaped) {
     variables.markupEscaped = markupEscaped;
     return this;
   }
+
   // noinspection JSUnusedGlobalSymbols
   setUrlsLinked(urlsLinked) {
     variables.urlsLinked = urlsLinked;

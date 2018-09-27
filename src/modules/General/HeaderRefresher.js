@@ -15,8 +15,10 @@ const
 ;
 
 class GeneralHeaderRefresher extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.</li>
         <li>There are also options to notify you when there are new wishlist giveaways open, when the key for a game you won is delivered, when you reach 400P and when you receive a new message.</li>
@@ -24,159 +26,160 @@ class GeneralHeaderRefresher extends Module {
         <li>If you enable the options to show browser notifications, you will be asked to give the permission to ESGST by your browser.</li>
       </ul>
     `,
-    features: {
-      hr_w: {
-        features: {
-          hr_w_n: {
-            features: {
-              hr_w_n_s: {
-                name: `Play a sound with this notification.`,
-                inputItems: true,
-                sg: true
-              }
+      features: {
+        hr_w: {
+          features: {
+            hr_w_n: {
+              features: {
+                hr_w_n_s: {
+                  name: `Play a sound with this notification.`,
+                  inputItems: true,
+                  sg: true
+                }
+              },
+              name: `Also show as a browser notification.`,
+              sg: true
             },
-            name: `Also show as a browser notification.`,
-            sg: true
+            hr_w_h: {
+              name: `Only indicate for giveaways ending in a specified number of hours.`,
+              inputItems: [
+                {
+                  id: `hr_w_hours`,
+                  prefix: `Hours: `
+                }
+              ],
+              sg: true
+            }
           },
-          hr_w_h: {
-            name: `Only indicate for giveaways ending in a specified number of hours.`,
-            inputItems: [
-              {
-                id: `hr_w_hours`,
-                prefix: `Hours: `
-              }
-            ],
-            sg: true
-          }
+          inputItems: [
+            {
+              id: `hr_w_format`,
+              prefix: `Format: `,
+              tooltip: `Use # to represent a number. For example, '(#❤)' would show '(8❤)' if there are 8 unentered wishlist giveaways open.`
+            }
+          ],
+          name: `Indicate if there are unentered wishlist giveaways open in the tab's title.`,
+          sg: true
         },
-        inputItems: [
-          {
-            id: `hr_w_format`,
-            prefix: `Format: `,
-            tooltip: `Use # to represent a number. For example, '(#❤)' would show '(8❤)' if there are 8 unentered wishlist giveaways open.`
-          }
-        ],
-        name: `Indicate if there are unentered wishlist giveaways open in the tab's title.`,
-        sg: true
-      },
-      hr_g: {
-        features: {
-          hr_g_n: {
-            features: {
-              hr_g_n_s: {
-                name: `Play a sound with this notification.`,
-                inputItems: true,
-                sg: true
-              }
-            },
-            name: `Also show as a browser notification.`,
-            sg: true
-          }
+        hr_g: {
+          features: {
+            hr_g_n: {
+              features: {
+                hr_g_n_s: {
+                  name: `Play a sound with this notification.`,
+                  inputItems: true,
+                  sg: true
+                }
+              },
+              name: `Also show as a browser notification.`,
+              sg: true
+            }
+          },
+          inputItems: [
+            {
+              id: `hr_g_format`,
+              prefix: `Format: `
+            }
+          ],
+          name: `Indicate if there are unviewed keys for won gifts in the tab's title.`,
+          sg: true
         },
-        inputItems: [
-          {
-            id: `hr_g_format`,
-            prefix: `Format: `
-          }
-        ],
-        name: `Indicate if there are unviewed keys for won gifts in the tab's title.`,
-        sg: true
-      },
-      hr_b: {
-        name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
-        sg: true,
-        st: true
-      },
-      hr_c: {
-        description: `
+        hr_b: {
+          name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
+          sg: true,
+          st: true
+        },
+        hr_c: {
+          description: `
           <ul>
             <li>With this option disabled, notifications will automatically close after a few seconds.</li>
           </ul>
         `,
-        name: `Only close notifications manually.`,
-        sg: true,
-        st: true
-      },
-      hr_fp: {
-        features: {
-          hr_fp_s: {
-            name: `Play a sound with this notification.`,
-            inputItems: true,
-            sg: true
-          }
+          name: `Only close notifications manually.`,
+          sg: true,
+          st: true
         },
-        name: `Show a browser notification if there are 400P or more.`,
-        sg: true
-      },
-      hr_p: {
-        inputItems: [
-          {
-            id: `hr_p_format`,
-            prefix: `Format: `,
-            tooltip: `Use # to represent a number. For example, '(#P)' would show '(100P)' if you have 100 points.`
-          }
-        ],
-        name: `Show the number of points in the tab's title.`,
-        sg: true
-      },
-      hr_m: {
-        features: {
-          hr_m_n: {
-            features: {
-              hr_m_n_s: {
-                name: `Play a sound with this notification.`,
-                inputItems: true,
-                sg: true,
-                st: true
-              }
-            },
-            name: `Also show as a browser notification.`,
-            sg: true,
-            st: true
-          }
+        hr_fp: {
+          features: {
+            hr_fp_s: {
+              name: `Play a sound with this notification.`,
+              inputItems: true,
+              sg: true
+            }
+          },
+          name: `Show a browser notification if there are 400P or more.`,
+          sg: true
         },
-        name: `Show the number of unread messages in the tab's icon.`,
-        sg: true,
-        st: true
-      },
-      hr_a: {
-        description: `
+        hr_p: {
+          inputItems: [
+            {
+              id: `hr_p_format`,
+              prefix: `Format: `,
+              tooltip: `Use # to represent a number. For example, '(#P)' would show '(100P)' if you have 100 points.`
+            }
+          ],
+          name: `Show the number of points in the tab's title.`,
+          sg: true
+        },
+        hr_m: {
+          features: {
+            hr_m_n: {
+              features: {
+                hr_m_n_s: {
+                  name: `Play a sound with this notification.`,
+                  inputItems: true,
+                  sg: true,
+                  st: true
+                }
+              },
+              name: `Also show as a browser notification.`,
+              sg: true,
+              st: true
+            }
+          },
+          name: `Show the number of unread messages in the tab's icon.`,
+          sg: true,
+          st: true
+        },
+        hr_a: {
+          description: `
           <ul>
             <li>With this option disabled, clicking on a notification will always open a new tab.</li>
           </ul>
         `,
-        extensionOnly: true,
-        features: {
-          hr_a_r: {
-            name: `Refresh the page after setting it as active.`,
-            sg: true,
-            st: true
+          extensionOnly: true,
+          features: {
+            hr_a_r: {
+              name: `Refresh the page after setting it as active.`,
+              sg: true,
+              st: true
+            },
+            hr_a_a: {
+              name: `If the page is not open, set any SteamGifts/SteamTrades tab as active.`,
+              sg: true,
+              st: true
+            }
           },
-          hr_a_a: {
-            name: `If the page is not open, set any SteamGifts/SteamTrades tab as active.`,
-            sg: true,
-            st: true
-          }
-        },
-        name: `When clicking on a browser notification, check if the related page is open and set it as active.`,
-        sg: true,
-        st: true
-      }
-    },
-    inputItems: [
-      {
-        id: `hr_minutes`,
-        prefix: `Refresh every `,
-        suffix: ` minutes`
-      }
-    ],
-    id: `hr`,
-    load: this.hr,
-    name: `Header Refresher`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+          name: `When clicking on a browser notification, check if the related page is open and set it as active.`,
+          sg: true,
+          st: true
+        }
+      },
+      inputItems: [
+        {
+          id: `hr_minutes`,
+          prefix: `Refresh every `,
+          suffix: ` minutes`
+        }
+      ],
+      id: `hr`,
+      load: this.hr,
+      name: `Header Refresher`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   hr() {
     let hr = {
@@ -190,7 +193,7 @@ class GeneralHeaderRefresher extends Module {
     // noinspection JSIgnoredPromiseFromCall
     this.hr_startRefresher(hr);
     if (!this.esgst.hr_b) {
-      addEventListener(`focus`, this.hr_startRefresher.bind(null, hr));
+      addEventListener(`focus`, this.hr_startRefresher.bind(this, hr));
       addEventListener(`blur`, () => clearTimeout(hr.refresher));
     }
   }
@@ -243,7 +246,10 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async hr_startRefresher(hr) {
-    await this.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+    await this.hr_refreshHeaderElements(parseHtml((await request({
+      method: `GET`,
+      url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`
+    })).responseText));
     let cache = this.hr_getCache();
     setLocalValue(`hrCache`, JSON.stringify(cache));
     await this.hr_refreshHeader(cache, hr);
@@ -252,10 +258,13 @@ class GeneralHeaderRefresher extends Module {
 
   async hr_continueRefresher(hr) {
     let cache = JSON.parse(getLocalValue(`hrCache`));
-    if (cache.username !== this.esgst.username || Date.now() - cache.timestamp  > this.esgst.hr_minutes * 60000) {
+    if (cache.username !== this.esgst.username || Date.now() - cache.timestamp > this.esgst.hr_minutes * 60000) {
       cache.timestamp = Date.now();
       setLocalValue(`hrCache`, JSON.stringify(cache));
-      await this.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      await this.hr_refreshHeaderElements(parseHtml((await request({
+        method: `GET`,
+        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`
+      })).responseText));
       cache = this.hr_getCache();
       setLocalValue(`hrCache`, JSON.stringify(cache));
       await this.hr_refreshHeader(cache, hr, true);
@@ -384,7 +393,8 @@ class GeneralHeaderRefresher extends Module {
   }
 
   hr_notifyChange(hr, notify) {
-    let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification, pointsNotification, title;
+    let canvas, context, deliveredNotification, image, messageNotification, messageCount, notification,
+      pointsNotification, title;
     messageCount = this.esgst.messageCount;
     if (messageCount !== hr.messageCount) {
       messageNotification = messageCount - hr.messageCount;
@@ -532,7 +542,15 @@ class GeneralHeaderRefresher extends Module {
     });
     notification.onclick = () => {
       if (_USER_INFO.extension && this.esgst.hr_a) {
-        browser.runtime.sendMessage({action: `tabs`, any: this.esgst.hr_a_a, inbox_sg: this.esgst.sg && details.inbox, inbox_st: this.esgst.st && details.inbox, refresh: this.esgst.hr_a_r, wishlist: details.wishlist, won: details.won});
+        browser.runtime.sendMessage({
+          action: `tabs`,
+          any: this.esgst.hr_a_a,
+          inbox_sg: this.esgst.sg && details.inbox,
+          inbox_st: this.esgst.st && details.inbox,
+          refresh: this.esgst.hr_a_r,
+          wishlist: details.wishlist,
+          won: details.won
+        });
       } else {
         if (details.inbox) {
           open(`/messages`);

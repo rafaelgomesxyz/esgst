@@ -6,32 +6,35 @@ const
 ;
 
 class GeneralAccurateTimestamp extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Replaces a timestamp (in any page) with an accurate timestamp. For example, "2 hours ago" becomes "Jan 1, 2017, 0:00:00 - 2 hours ago".</li>
         <li>You can choose whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.</li>
       </ul>
     `,
-    features: {
-      at_s: {
-        name: `Show seconds.`,
-        sg: true,
-        st: true
+      features: {
+        at_s: {
+          name: `Show seconds.`,
+          sg: true,
+          st: true
+        },
+        at_24: {
+          name: `Use a 24-hour clock.`,
+          sg: true,
+          st: true
+        }
       },
-      at_24: {
-        name: `Use a 24-hour clock.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `at`,
-    load: this.at,
-    name: `Accurate Timestamp`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `at`,
+      load: this.at,
+      name: `Accurate Timestamp`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   at() {
     this.esgst.endlessFeatures.push(this.at_getTimestamps);

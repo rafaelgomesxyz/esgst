@@ -7,9 +7,11 @@ const
 ;
 
 class GiveawaysGiveawayErrorSearchLinks extends Module {
-  info = ({
-    // by Royalgamer06
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      // by Royalgamer06
+      description: `
       <ul>
         <li>If you cannot access a giveaway because of many different reasons, a "Search Links" row is added to the table of the <a href="https://www.steamgifts.com/giveaway/FN2PK/">error</a> page containing 3 links that allow you to search for the game elsewhere:</li>
         <ul>
@@ -19,12 +21,13 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
         </ul>
       </ul>
     `,
-    id: `gesl`,
-    load: this.gesl,
-    name: `Giveaway Error Search Links`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gesl`,
+      load: this.gesl,
+      name: `Giveaway Error Search Links`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gesl() {
     if (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;

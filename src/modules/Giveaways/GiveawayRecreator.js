@@ -12,28 +12,31 @@ const
 ;
 
 class GiveawaysGiveawayRecreator extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-rotate-left"></i>) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.</li>
       </ul>
     `,
-    features: {
-      gr_a: {
-        name: `Show the icon for all created giveaways.`,
-        sg: true
+      features: {
+        gr_a: {
+          name: `Show the icon for all created giveaways.`,
+          sg: true
+        },
+        gr_r: {
+          name: `Remove the button for giveaways that have been recreated.`,
+          sg: true
+        }
       },
-      gr_r: {
-        name: `Remove the button for giveaways that have been recreated.`,
-        sg: true
-      }
-    },
-    id: `gr`,
-    load: this.gr,
-    name: `Giveaway Recreator`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gr`,
+      load: this.gr,
+      name: `Giveaway Recreator`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   async gr() {
     if (!this.esgst.newGiveawayPath) return;
@@ -83,14 +86,23 @@ class GiveawaysGiveawayRecreator extends Module {
     } else {
       template.whoCanEnter = `everyone`;
     }
-    elements = parseHtml(JSON.parse((await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
-    for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i) {}
+    elements = parseHtml(JSON.parse((await request({
+      data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`,
+      method: `POST`,
+      url: `/ajax.php`
+    })).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
+    for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i) {
+    }
     if (i < n) {
       template.gameId = elements[i].getAttribute(`data-autocomplete-id`);
     }
     keys = [];
     if (giveaway.entries === 0 || giveaway.entries < giveaway.copies) {
-      context = parseHtml(JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`);
+      context = parseHtml(JSON.parse((await request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
+        method: `POST`,
+        url: `/ajax.php`
+      })).responseText).html).getElementsByClassName(`popup__keys__heading`);
       if (context) {
         context = context[context.length - 1];
         elements = context.nextElementSibling.nextElementSibling.children;

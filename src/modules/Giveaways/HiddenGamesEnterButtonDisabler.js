@@ -6,19 +6,22 @@ const
 ;
 
 class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.</li>
       </ul>
     `,
-    id: `hgebd`,
-    load: this.hgebd,
-    name: `Hidden Game's Enter Button Disabler`,
-    sg: true,
-    sync: `Hidden Games`,
-    type: `giveaways`
-  });
+      id: `hgebd`,
+      load: this.hgebd,
+      name: `Hidden Game's Enter Button Disabler`,
+      sg: true,
+      sync: `Hidden Games`,
+      type: `giveaways`
+    };
+  }
 
   hgebd() {
     if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) {

@@ -22,8 +22,10 @@ const
 ;
 
 class UsersNotActivatedMultipleWinChecker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-question-circle"></i>) to the "Gifts Won" row of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to check if they have any not activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>).</li>
         <li>Adds a button (<i class="fa fa-trophy"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page that allows you to check all of the winners in the page at once. You cannot check more than that at once due to certain limitations when requesting the data to SGTools.</li>
@@ -31,54 +33,55 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
       </ul>
     `,
-    features: {
-      namwc_h: {
-        description: `
+      features: {
+        namwc_h: {
+          description: `
           <ul>
             <li>Changes the color (to green if the user passed the check, red if they failed and grey if their profile is private) of a checked user's username (in any page).</li>
             <li>If you hover over the username, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.</li>
           </ul>
         `,
-        features: {
-          namwc_h_m: {
-            description: `
+          features: {
+            namwc_h_m: {
+              description: `
               <ul>
                 <li>Multiple wins are not the winner's fault sometimes. For example, if they tried to contact the giveaway creator to ask for a reroll and were unable to.</li>
                 <li>With this option enabled, multiple wins are ignored when highlighting the user. So if the user has 0 not activated wins and 1 or more multiple wins, they will be considered as having passed the check.</li>
               </ul>
             `,
-            name: `Ignore multiple wins.`,
-            sg: true,
-            st: true
-          },
-          namwc_h_f: {
-            name: `Only highlight users who failed to pass the check.`,
-            sg: true,
-            st: true
-          },
-          namwc_h_i: {
-            description: `
+              name: `Ignore multiple wins.`,
+              sg: true,
+              st: true
+            },
+            namwc_h_f: {
+              name: `Only highlight users who failed to pass the check.`,
+              sg: true,
+              st: true
+            },
+            namwc_h_i: {
+              description: `
               <ul>
                 <li>Adds an icon (<i class="fa fa-thumbs-up esgst-green"></i> if the user passed the check, <i class="fa fa-thumbs-down esgst-red"></i> if they failed and <i class="fa fa-warning esgst-grey"></i> if their profile is private) next to the user's username instead of coloring it.</li>
                 <li>If you hover over the icon, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.</li>
               </ul>
             `,
-            name: `Use icons instead of colors.`,
-            sg: true,
-            st: true
+              name: `Use icons instead of colors.`,
+              sg: true,
+              st: true
+            },
           },
-        },
-        name: `Highlight checked users.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `namwc`,
-    load: this.namwc,
-    name: `Not Activated/Multiple Win Checker`,
-    sg: true,
-    type: `users`
-  });
+          name: `Highlight checked users.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `namwc`,
+      load: this.namwc,
+      name: `Not Activated/Multiple Win Checker`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   namwc() {
     this.esgst.profileFeatures.push(this.namwc_addUser.bind(this));
@@ -386,7 +389,8 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       users.push(user);
       if (Array.isArray(user.values.namwc.results.notActivated)) {
         let i, n;
-        for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++) {}
+        for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++) {
+        }
         if (i > 0) {
           createElements(userElements[steamId].notActivated, `beforeEnd`, [{
             attributes: {
@@ -407,9 +411,10 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       }
       if (Array.isArray(user.values.namwc.results.multiple)) {
         let i, n;
-        for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++) {}
+        for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++) {
+        }
         if (i > 0) {
-          createElements(userElements[steamId].multiple, `beforeEnd`,[{
+          createElements(userElements[steamId].multiple, `beforeEnd`, [{
             attributes: {
               title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)
             },

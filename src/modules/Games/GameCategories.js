@@ -15,44 +15,46 @@ const
 ;
 
 class GamesGameCategories extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).</li>
         <li>The categories can be reordered by dragging and dropping them. You can also drag and drop them between a giveaway's columns (where the end/start times and the creator's username are).</li>
       </ul>
     `,
-    features: {
-      gc_lr: {
-        description: `
+      features: {
+        gc_lr: {
+          description: `
           <ul>
             <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).</li>
             <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
           </ul>
         `,
-        name: `Limit requests to the Steam store.`,
-        sg: true
-      },
-      gc_rt: {
-        description: `
+          name: `Limit requests to the Steam store.`,
+          sg: true
+        },
+        gc_rt: {
+          description: `
           <ul>
             <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
           </ul>
         `,
-        name: `Show categories in real time.`,
-        sg: true
-      },
-      gc_si: {
-        description: `
+          name: `Show categories in real time.`,
+          sg: true
+        },
+        gc_si: {
+          description: `
           <ul>
             <li>With this option enabled, the following categories appear instantly, since they do not need to be fetched from Steam: Full CV, Hidden, HLTB, Ignored, No CV, Owned, Package, Previously Won, Reduced CV, Wishlisted.</li>
           </ul>
         `,
-        name: `Show categories that do not need to be fetched from Steam instantly.`,
-        sg: true
-      },
-      gc_lp: {
-        description: `
+          name: `Show categories that do not need to be fetched from Steam instantly.`,
+          sg: true
+        },
+        gc_lp: {
+          description: `
           <ul>
             <li>"Achievements" links to the <a href="http://steamcommunity.com/stats">http://steamcommunity.com/stats</a> page of the game.</li>
             <li>"Full CV", "Reduced CV" and "No CV" link to the <a href="https://www.steamgifts.com/bundle-games">https://www.steamgifts.com/bundle-games</a> page of the game.</li>
@@ -65,767 +67,768 @@ class GamesGameCategories extends Module {
             <li>Every other category links to the <a href="http://store.steampowered.com">http://store.steampowered.com</a> page of the game.</li>
           </ul>
         `,
-        features: {
-          gc_lp_gv: {
-            name: `Enable for Grid View.`,
-            sg: true
-          }
+          features: {
+            gc_lp_gv: {
+              name: `Enable for Grid View.`,
+              sg: true
+            }
+          },
+          name: `Link each category to its related page.`,
+          sg: true
         },
-        name: `Link each category to its related page.`,
-        sg: true
-      },
-      gc_b: {
-        name: `Show the category colors as a bottom border to the giveaways in Grid View.`,
-        sg: true
-      },
-      gc_il: {
-        name: `Show the panel inline (next to the game's name instead of below it).`,
-        sg: true
-      },
-      gc_a: {
-        colors: true,
-        description: `
+        gc_b: {
+          name: `Show the category colors as a bottom border to the giveaways in Grid View.`,
+          sg: true
+        },
+        gc_il: {
+          name: `Show the panel inline (next to the game's name instead of below it).`,
+          sg: true
+        },
+        gc_a: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game has achievements.</li>
             <li>If you hover over the category, it shows how many achievements the game has.</li>
           </ul>
         `,
-        features: {
-          gc_a_s: {
-            description: `
+          features: {
+            gc_a_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_a_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_a_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Achievements`,
+          sg: true
         },
-        input: true,
-        name: `Achievements`,
-        sg: true
-      },
-      gc_dlc: {
-        colors: true,
-        description: `
+        gc_dlc: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is a DLC.</li>
           </ul>
         `,
-        features: {
-          gc_dlc_s: {
-            description: `
+          features: {
+            gc_dlc_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_dlc_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
+              features: {
+                gc_dlc_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
             },
-            name: `Enable the simplified version.`,
-            sg: true
-          },
-          gc_dlc_b: {
-            description: `
+            gc_dlc_b: {
+              description: `
               <ul>
                 <li>The icon <i class="fa fa-certificate"></i> will be added if the base is free, the icon <i class="fa fa-dollar"></i> will be added if it is not, and no icon will be added if the information is unavailable.</li>
               </ul>
             `,
-            name: `Indicate if the base game of the DLC is free.`,
-            sg: true
-          },
-          gc_dlc_o: {
-            description: `
+              name: `Indicate if the base game of the DLC is free.`,
+              sg: true
+            },
+            gc_dlc_o: {
+              description: `
               <ul>
                 <li>The same icon you use for the Owned category will be added if the base is owned.</li>
               </ul>
             `,
-            name: `Indicate if the base game of the DLC is owned.`,
-            sg: true
-          }
+              name: `Indicate if the base game of the DLC is owned.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `DLC`,
+          sg: true
         },
-        input: true,
-        name: `DLC`,
-        sg: true
-      },
-      gc_ea: {
-        colors: true,
-        description: `
+        gc_ea: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is in early access.</li>
           </ul>
         `,
-        features: {
-          gc_ea_s: {
-            description: `
+          features: {
+            gc_ea_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_ea_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_ea_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Early Access`,
+          sg: true
         },
-        input: true,
-        name: `Early Access`,
-        sg: true
-      },
-      gc_f: {
-        colors: true,
-        description: `
+        gc_f: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if you have followed the game on Steam.</li>
           </ul>
         `,
-        features: {
-          gc_f_s: {
-            description: `
+          features: {
+            gc_f_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_f_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_f_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Followed`,
+          sg: true
         },
-        input: true,
-        name: `Followed`,
-        sg: true
-      },
-      gc_fcv: {
-        colors: true,
-        description: `
+        gc_fcv: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game gives full CV when given away.</li>
           </ul>
         `,
-        features: {
-          gc_fcv_s: {
-            description: `
+          features: {
+            gc_fcv_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_fcv_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_fcv_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Full CV`,
+          sg: true
         },
-        input: true,
-        name: `Full CV`,
-        sg: true
-      },
-      gc_g: {
-        colors: true,
-        description: `
+        gc_g: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows the official genres of the game.</li>
             <li>The genres/user-defined tags are listed in the same category, separated by a comma. If they exceed a certain width, a "..." is added and the rest is hidden (they can be seen by hovering over the category).</li>
           </ul>
         `,
-        features: {
-          gc_g_s: {
-            description: `
+          features: {
+            gc_g_s: {
+              description: `
               <ul>
                 <li>With this option enabled, each genre/user-defined tag will have its own category instead of all of them being listed in the same one.</li>
                 <li>This option allows each separate category to be colored individually.</li>
               </ul>
             `,
-            name: `Show each genre/user-defined tag as a separate category.`,
-            sg: true
-          },
-          gc_g_udt: {
-            description: `
+              name: `Show each genre/user-defined tag as a separate category.`,
+              sg: true
+            },
+            gc_g_udt: {
+              description: `
               <ul>
                 <li>Shows the user-defined tags that the game has in addition to the official genres.</li>
               </ul>
             `,
-            name: `User-Defined Tags`,
-            sg: true
-          }
+              name: `User-Defined Tags`,
+              sg: true
+            }
+          },
+          name: `Genres`,
+          sg: true
         },
-        name: `Genres`,
-        sg: true
-      },
-      gc_gi: {
-        colors: true,
-        description: `
+        gc_gi: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows how many giveaways you have already made for the game and how much real CV you should get for a new giveaway.</li>
           </ul>
         `,
-        name: `Giveaway Info`,
-        sg: true
-      },
-      gc_h: {
-        colors: true,
-        description: `
+          name: `Giveaway Info`,
+          sg: true
+        },
+        gc_h: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if you have hidden the game on SteamGifts.</li>
           </ul>
         `,
-        features: {
-          gc_h_s: {
-            description: `
+          features: {
+            gc_h_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_h_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_h_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Hidden`,
+          sg: true
         },
-        input: true,
-        name: `Hidden`,
-        sg: true
-      },
-      gc_hltb: {
-        colors: true,
-        description: `
+        gc_hltb: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows how long it takes on average to beat the game based on HowLongToBeat.</li>
           </ul>
-        `,        
-        options: [{
-          title: `For singleplayer games, show:`,
-          values: [`Main Story`, `Main + Extra`, `Completionist`]
-        }, {
-          title: `For multiplayer games, show:`,
-          values: [`Co-Op`, `Vs.`]
-        }, {
-          title: `For singleplayer/multiplayer games, show:`,
-          values: [`Solo`, `Co-Op`, `Vs.`]
-        }],
-        name: `HLTB`,
-        sg: true,
-        sync: `HLTB Times`
-      },
-      gc_i: {
-        colors: true,
-        description: `
+        `,
+          options: [{
+            title: `For singleplayer games, show:`,
+            values: [`Main Story`, `Main + Extra`, `Completionist`]
+          }, {
+            title: `For multiplayer games, show:`,
+            values: [`Co-Op`, `Vs.`]
+          }, {
+            title: `For singleplayer/multiplayer games, show:`,
+            values: [`Solo`, `Co-Op`, `Vs.`]
+          }],
+          name: `HLTB`,
+          sg: true,
+          sync: `HLTB Times`
+        },
+        gc_i: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if you have ignored the game on Steam.</li>
           </ul>
         `,
-        features: {
-          gc_i_s: {
-            description: `
+          features: {
+            gc_i_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_i_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_i_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Ignored`,
+          sg: true
         },
-        input: true,
-        name: `Ignored`,
-        sg: true
-      },
-      gc_lg: {
-        colors: true,
-        description: `
+        gc_lg: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if Steam is learning about the game.</li>
           </ul>
         `,
-        features: {
-          gc_lg_s: {
-            description: `
+          features: {
+            gc_lg_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_lg_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_lg_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Learning`,
+          sg: true
         },
-        input: true,
-        name: `Learning`,
-        sg: true
-      },
-      gc_l: {
-        colors: true,
-        description: `
+        gc_l: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is compatible with Linux.</li>
           </ul>
         `,
-        features: {
-          gc_l_s: {
-            description: `
+          features: {
+            gc_l_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_l_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_l_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Linux`,
+          sg: true
         },
-        input: true,
-        name: `Linux`,
-        sg: true
-      },
-      gc_m: {
-        colors: true,
-        description: `
+        gc_m: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is compatible with Mac.</li>
           </ul>
         `,
-        features: {
-          gc_m_s: {
-            description: `
+          features: {
+            gc_m_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_m_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_m_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Mac`,
+          sg: true
         },
-        input: true,
-        name: `Mac`,
-        sg: true
-      },
-      gc_mp: {
-        colors: true,
-        description: `
+        gc_mp: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is multiplayer.</li>
           </ul>
         `,
-        features: {
-          gc_mp_s: {
-            description: `
+          features: {
+            gc_mp_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_mp_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_mp_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Multiplayer`,
+          sg: true
         },
-        input: true,
-        name: `Multiplayer`,
-        sg: true
-      },
-      gc_ncv: {
-        colors: true,
-        description: `
+        gc_ncv: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game gives no CV when given away.</li>
             <li>If you hover over the category, it shows the date since it gives no CV.</li>
           </ul>
         `,
-        features: {
-          gc_ncv_s: {
-            description: `
+          features: {
+            gc_ncv_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_ncv_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
+              features: {
+                gc_ncv_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
             },
-            name: `Enable the simplified version.`,
-            sg: true
+            gc_ncv_o: {
+              name: `Only display "No CV" if the game also has "Reduced CV".`,
+              sg: true
+            }
           },
-          gc_ncv_o: {
-            name: `Only display "No CV" if the game also has "Reduced CV".`,
-            sg: true
-          }
+          input: true,
+          name: `No CV`,
+          sg: true
         },
-        input: true,
-        name: `No CV`,
-        sg: true
-      },
-      gc_o: {
-        colors: true,
-        description: `
+        gc_o: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if you own the game.</li>
           </ul>
         `,
-        features: {
-          gc_o_s: {
-            description: `
+          features: {
+            gc_o_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_o_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
+              features: {
+                gc_o_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
             },
-            name: `Enable the simplified version.`,
-            sg: true
+            gc_o_a: {
+              name: `Show if you own the game in any of your alt accounts.`,
+              sg: true
+            }
           },
-          gc_o_a: {
-            name: `Show if you own the game in any of your alt accounts.`,
-            sg: true
-          }
+          input: true,
+          name: `Owned`,
+          sg: true
         },
-        input: true,
-        name: `Owned`,
-        sg: true
-      },
-      gc_p: {
-        colors: true,
-        description: `
+        gc_p: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is a package.</li>
             <li>If you hover over the category, it shows how many items are contained in the package.</li>
           </ul>
         `,
-        features: {
-          gc_p_s: {
-            description: `
+          features: {
+            gc_p_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_p_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_p_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Package`,
+          sg: true
         },
-        input: true,
-        name: `Package`,
-        sg: true
-      },
-      gc_pw: {
-        colors: true,
-        description: `
+        gc_pw: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if you have previously won the game.</li>
           </ul>
         `,
-        features: {
-          gc_pw_o: {
-            name: `Do not show if the game already has the Owned category.`,
-            sg: true
-          },
-          gc_pw_s: {
-            description: `
+          features: {
+            gc_pw_o: {
+              name: `Do not show if the game already has the Owned category.`,
+              sg: true
+            },
+            gc_pw_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_pw_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_pw_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Previously Won`,
+          sg: true
         },
-        input: true,
-        name: `Previously Won`,
-        sg: true
-      },
-      gc_r: {
-        description: `
+        gc_r: {
+          description: `
           <ul>
             <li>Shows the overall rating that the game has on Steam.</li>
           </ul>
         `,
-        features: {
-          gc_r_s: {
-            name: `Show the percentage and number of reviews next to the icon.`,
-            sg: true
-          }
+          features: {
+            gc_r_s: {
+              name: `Show the percentage and number of reviews next to the icon.`,
+              sg: true
+            }
+          },
+          name: `Rating`,
+          sg: true
         },
-        name: `Rating`,
-        sg: true
-      },
-      gc_rcv: {
-        colors: true,
-        description: `
+        gc_rcv: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game gives reduced CV when given away.</li>
             <li>If you hover over the category, it shows the date since it gives reduced CV.</li>
           </ul>
         `,
-        features: {
-          gc_rcv_s: {
-            description: `
+          features: {
+            gc_rcv_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_rcv_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_rcv_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Reduced CV`,
+          sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/bundle-games`}]}
         },
-        input: true,
-        name: `Reduced CV`,
-        sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/bundle-games`}]}
-      },
-      gc_rd: {
-        description: `
+        gc_rd: {
+          description: `
           <ul>
             <li>Shows the release date of the game.</li>
             <li>If the game has no release date, a "?" will be shown instead.</li>
           </ul>
         `,
-        colors: true,
-        input: true,
-        name: `Release Date`,
-        sg: true
-      },
-      gc_rm: {
-        colors: true,
-        description: `
+          colors: true,
+          input: true,
+          name: `Release Date`,
+          sg: true
+        },
+        gc_rm: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game has been removed from the Steam store.</li>
           </ul>
         `,
-        features: {
-          gc_rm_s: {
-            description: `
+          features: {
+            gc_rm_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_rm_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_rm_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Removed`,
+          sg: true
         },
-        input: true,
-        name: `Removed`,
-        sg: true
-      },
-      gc_sp: {
-        colors: true,
-        description: `
+        gc_sp: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game is singleplayer.</li>
           </ul>
         `,
-        features: {
-          gc_sp_s: {
-            description: `
+          features: {
+            gc_sp_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_sp_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_sp_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Singleplayer`,
+          sg: true
         },
-        input: true,
-        name: `Singleplayer`,
-        sg: true
-      },
-      gc_sc: {
-        colors: true,
-        description: `
+        gc_sc: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game has Steam Cloud.</li>
           </ul>
         `,
-        features: {
-          gc_sc_s: {
-            description: `
+          features: {
+            gc_sc_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_sc_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_sc_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Steam Cloud`,
+          sg: true
         },
-        input: true,
-        name: `Steam Cloud`,
-        sg: true
-      },
-      gc_tc: {
-        colors: true,
-        description: `
+        gc_tc: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if the game has trading cards.</li>
           </ul>
         `,
-        features: {
-          gc_tc_s: {
-            description: `
+          features: {
+            gc_tc_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_tc_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
+              features: {
+                gc_tc_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Trading Cards`,
+          sg: true
         },
-        input: true,
-        name: `Trading Cards`,
-        sg: true
-      },
-      gc_w: {
-        colors: true,
-        description: `
+        gc_w: {
+          colors: true,
+          description: `
           <ul>
             <li>Shows if you have wishlisted the game on Steam.</li>
             <li>If you hover over the category, it shows the date when you added the game to your wishlist.</li>
           </ul>
         `,
-        features: {
-          gc_w_s: {
-            description: `
+          features: {
+            gc_w_s: {
+              description: `
               <ul>
                 <li>Shows the category initials instead of its full name.</li>
                 <li>Not compatible with custom labels.</li>
               </ul>
             `,
-            features: {
-              gc_w_s_i: {
-                name: `Use icons instead of initials.`,
-                sg: true
-              }
-            },
-            name: `Enable the simplified version.`,
-            sg: true
-          }
-        },
-        input: true,
-        name: `Wishlisted`,
-        sg: true
-      }
-    },
-    id: `gc`,
-    load: this.gc,
-    name: `Game Categories`,
-    sg: true,
-    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
-    type: `games`
-  });
+              features: {
+                gc_w_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Wishlisted`,
+          sg: true
+        }
+      },
+      id: `gc`,
+      load: this.gc,
+      name: `Game Categories`,
+      sg: true,
+      sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
+      type: `games`
+    };
+  }
 
-  gc() {    
+  gc() {
     if (!this.esgst.menuPath || this.esgst.gbPath || this.esgst.gedPath || this.esgst.gePath) {
       this.esgst.gameFeatures.push(this.gc_games);
       this.esgst.gcToFetch = {apps: {}, subs: {}};
@@ -1207,10 +1210,15 @@ class GamesGameCategories extends Module {
         tags: ``,
         tradingCards: 0
       };
-      let responseJson = JSON.parse((await request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`})).responseText);
+      let responseJson = JSON.parse((await request({
+        anon: true,
+        method: `GET`,
+        notLimited: !this.esgst.gc_lr,
+        url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`
+      })).responseText);
       /**
-   * @type {gcResponseData}
-   */
+       * @type {gcResponseData}
+       */
       let data;
       if (responseJson && responseJson[id]) {
         data = responseJson[id].data;
@@ -1308,7 +1316,12 @@ class GamesGameCategories extends Module {
         }
       }
       if (this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_g_udt) {
-        let response = await request({headers: {[`Cookie`]: `birthtime=0; mature_content=1`}, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`});
+        let response = await request({
+          headers: {[`Cookie`]: `birthtime=0; mature_content=1`},
+          method: `GET`,
+          notLimited: !this.esgst.gc_lr,
+          url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`
+        });
         let responseHtml = parseHtml(response.responseText);
         if (response.finalUrl.match(id)) {
           let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
@@ -1363,7 +1376,12 @@ class GamesGameCategories extends Module {
           categories.freeBase = gc.cache.apps[categories.base].free;
         }
         if (typeof categories.freeBase === `undefined`) {
-          categories.freeBase = JSON.parse((await request({anon: true, method: `GET`, notLimited: !this.esgst.gc_lr, url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`})).responseText)[data.fullgame.appid].data.is_free;
+          categories.freeBase = JSON.parse((await request({
+            anon: true,
+            method: `GET`,
+            notLimited: !this.esgst.gc_lr,
+            url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`
+          })).responseText)[data.fullgame.appid].data.is_free;
         }
       }
       gc.cache[type][id] = categories;
@@ -1423,20 +1441,20 @@ class GamesGameCategories extends Module {
       })
       .concat(
         Object.keys(this.esgst.games.apps)
-        .filter(x => this.esgst.games.apps[x].packages && this.esgst.games.apps[x].packages.indexOf(id) > -1)
-        .map(x => {
-          const z = parseInt(x);
-          const y = this.esgst.games.apps[z];
-          if (!y) {
-            return;
-          }
-          if (added.indexOf(z) > -1) {
-            return;
-          }
-          added.push(z);
-          y.id = z;
-          return y;
-        })
+          .filter(x => this.esgst.games.apps[x].packages && this.esgst.games.apps[x].packages.indexOf(id) > -1)
+          .map(x => {
+            const z = parseInt(x);
+            const y = this.esgst.games.apps[z];
+            if (!y) {
+              return;
+            }
+            if (added.indexOf(z) > -1) {
+              return;
+            }
+            added.push(z);
+            y.id = z;
+            return y;
+          })
       )
       .filter(x => x);
     let found = false;
@@ -1466,14 +1484,15 @@ class GamesGameCategories extends Module {
     }
     savedGame.owned = isOwned;
     count.num = Math.min(count.num, count.total);
-    return count;   
+    return count;
   }
 
   gc_addCategory(gc, cache, games, id, savedGame, type, hltb, isInstant) {
     if (!games) {
       return;
     }
-    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, hltbTimes, i, j, k, n, panel, name, sent, singularType, user, value;
+    let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, hltbTimes, i,
+      j, k, n, panel, name, sent, singularType, user, value;
     if (type === `apps` && savedGame && savedGame.packages) {
       for (const subId of savedGame.packages) {
         this.gc_checkPackage(subId, savedGame);
@@ -1683,18 +1702,18 @@ class GamesGameCategories extends Module {
               });
             }
             break;
-          case `gc_i`:            
-          count = 0;
-          if (savedGame && savedGame.apps) {
-            for (const id of savedGame.apps) {
-              if (this.esgst.games.apps[id] && this.esgst.games.apps[id].ignored) {
-                count += 1;
+          case `gc_i`:
+            count = 0;
+            if (savedGame && savedGame.apps) {
+              for (const id of savedGame.apps) {
+                if (this.esgst.games.apps[id] && this.esgst.games.apps[id].ignored) {
+                  count += 1;
+                }
               }
             }
-          }
-          count = count ? ` (${count})` : ``;
-          if ((savedGame && savedGame.ignored) || count) {
-            elements.push({
+            count = count ? ` (${count})` : ``;
+            if ((savedGame && savedGame.ignored) || count) {
+              elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-ignored`,
                   [`data-draggable-id`]: `gc_i`,
@@ -2229,7 +2248,7 @@ class GamesGameCategories extends Module {
                         },
                         type: `i`
                       });
-                    } else {                      
+                    } else {
                       children.push({
                         attributes: {
                           class: `fa fa-money esgst-gc-dlcNonFree`
@@ -2434,7 +2453,7 @@ class GamesGameCategories extends Module {
             }
             count = count ? ` (${count})` : ``;
             if ((cache && cache.removed === 1) || count) {
-            elements.push({
+              elements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-removed`,
                   [`data-draggable-id`]: `gc_rm`,
@@ -2489,7 +2508,7 @@ class GamesGameCategories extends Module {
               genres = genres.slice(0, -2);
             } else if (cache && cache.genres) {
               genres = this.esgst.gc_g_udt && cache.tags ? `${cache.genres}, ${cache.tags}` : cache.genres;
-            }            
+            }
             if (genres) {
               let filters;
               genreList = sortArray(Array.from(new Set(genres.split(/,\s/))));
@@ -2500,7 +2519,8 @@ class GamesGameCategories extends Module {
               for (j = genreList.length - 1; j >= 0; --j) {
                 genre = genreList[j].toLowerCase();
                 if (!filters || filters.indexOf(genre) > -1) {
-                  for (k = this.esgst.gc_g_colors.length - 1; k >= 0 && this.esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k) {}
+                  for (k = this.esgst.gc_g_colors.length - 1; k >= 0 && this.esgst.gc_g_colors[k].genre.toLowerCase() !== genre; --k) {
+                  }
                   if (k >= 0) {
                     if (this.esgst.gc_g_s) {
                       genreList[j] = {

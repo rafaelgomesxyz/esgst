@@ -30,8 +30,10 @@ const
 ;
 
 class GiveawaysMultipleGiveawayCreator extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a section 0 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to create multiple giveaways at once.</li>
         <li>There is also a special tool to create a train (multiple giveaways linked to each other), which has the option to automatically create a discussion for the train.</li>
@@ -41,12 +43,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         <li>The giveaways will be created without reviewing or validating, so make sure that all of the fields were filled correctly or the creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next one instead).</li>
       </ul>
     `,
-    id: `mgc`,
-    load: this.mgc,
-    name: `Multiple Giveaway Creator`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `mgc`,
+      load: this.mgc,
+      name: `Multiple Giveaway Creator`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   async mgc() {
     if (this.esgst.newGiveawayPath) {
@@ -66,13 +69,21 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (getLocalValue(`mgcAttach_step2`)) {
         delLocalValue(`mgcAttach_step2`);
         setLocalValue(`mgcAttach_step3`, location.pathname.match(/\/discussion\/(.+?)\//)[1]);
-        await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`, method: `POST`, url: location.href});
+        await request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`,
+          method: `POST`,
+          url: location.href
+        });
         close();
       } else if (getLocalValue(`mgcAttach_step4`)) {
         document.querySelector(`form[action="/discussions/edit"]`).submit();
       } else if (getLocalValue(`mgcAttach_step5`)) {
         delLocalValue(`mgcAttach_step5`);
-        await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`, method: `POST`, url: location.href});
+        await request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`,
+          method: `POST`,
+          url: location.href
+        });
         setLocalValue(`mgcAttach_step6`, true);
         location.reload();
       } else if (getLocalValue(`mgcAttach_step6`)) {
@@ -83,7 +94,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_addSection() {
-    let addButton, attachButton, createButton, createTrainDescription, createTrainOption, detach, emptyButton, exportButton, importButton, mgc, removeIcon, rows, section, shuffleButton, viewButton;
+    let addButton, attachButton, createButton, createTrainDescription, createTrainOption, detach, emptyButton,
+      exportButton, importButton, mgc, removeIcon, rows, section, shuffleButton, viewButton;
     rows = document.getElementsByClassName(`form__rows`)[0];
     if (rows) {
       mgc = {
@@ -249,7 +261,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }]);
       detach = mgc.discussionPanel.lastElementChild;
-      detach.addEventListener(`click`, this.mgc_detachDiscussion.bind(null, mgc));
+      detach.addEventListener(`click`, this.mgc_detachDiscussion.bind(this, mgc));
       mgc.discussionLink = detach.previousElementSibling;
       new ToggleSwitch(mgc.discussionPanel, `mgc_bumpLast`, false, `Only insert the bump link in the last wagon.`, false, false, `If disabled, the bump link will appear on all wagons.`, this.esgst.mgc_bumpLast);
       mgc.giveaways = createElements(section, `beforeEnd`, [{
@@ -283,7 +295,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }]).firstElementChild;
       removeIcon = mgc.giveaways.nextElementSibling;
-      removeIcon.addEventListener(`dragenter`, this.mgc_removeGiveaway.bind(null, mgc));
+      removeIcon.addEventListener(`dragenter`, this.mgc_removeGiveaway.bind(this, mgc));
       JSON.parse(getLocalValue(`mgcCache`, `[]`)).forEach(values => {
         this.mgc_addGiveaway(false, mgc, values);
       });
@@ -715,9 +727,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_setGiveaway(giveaway, mgc) {
-    giveaway.addEventListener(`click`, this.mgc_setValues.bind(null, giveaway, mgc));
-    giveaway.addEventListener(`dragstart`, this.mgc_setSource.bind(null, giveaway, mgc));
-    giveaway.addEventListener(`dragenter`, this.mgc_getSource.bind(null, giveaway, mgc));
+    giveaway.addEventListener(`click`, this.mgc_setValues.bind(this, giveaway, mgc));
+    giveaway.addEventListener(`dragstart`, this.mgc_setSource.bind(this, giveaway, mgc));
+    giveaway.addEventListener(`dragenter`, this.mgc_getSource.bind(this, giveaway, mgc));
   }
 
   mgc_setValues(giveaway, mgc) {
@@ -751,7 +763,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_getSource(giveaway, mgc) {
     let current;
-   current = mgc.source;
+    current = mgc.source;
     do {
       current = current.previousElementSibling;
       if (current && current === giveaway) {
@@ -909,7 +921,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.open(this.mgc_focusTextArea.bind(null, textArea));
     textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
-    textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(null, popup, textArea));
+    textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(this, popup, textArea));
   }
 
   mgc_resizeTextArea(popup, textArea) {
@@ -1104,7 +1116,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             k++;
           } while ((this.esgst.mgc_groupKeys && found) || (this.esgst.mgc_groupAllKeys && giveaways[k + 1]));
         }
-        this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`, method: `POST`, url: `/ajax.php`}));
+        this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({
+          data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`,
+          method: `POST`,
+          url: `/ajax.php`
+        }));
       } else {
         createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
         callback();
@@ -1167,20 +1183,28 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           context: match.cloneNode(true)
         }]);
         element.classList.remove(`is-clickable`);
-        button = new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Select`, title2: ``, callback1: () => {
-          conflictPopup.close();
-          values.gameName = element.getAttribute(`data-autocomplete-name`);
-          values.gameId = element.getAttribute(`data-autocomplete-id`);
-          values.steam = this.esgst.modules.games.games_getInfo(element);
-          this.mgc_addGiveaway(false, mgc, values);
-          value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
-          $(progress.bar).progressbar(`option`, `value`, value);
-          progress.current.textContent = value;
-          toRemove.forEach(line => {
-            textArea.value = textArea.value.replace(`${line}\n`, ``);
-          });
-          setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
-        }});
+        button = new ButtonSet_v2({
+          color1: `green`,
+          color2: ``,
+          icon1: `fa-arrow-circle-right`,
+          icon2: ``,
+          title1: `Select`,
+          title2: ``,
+          callback1: () => {
+            conflictPopup.close();
+            values.gameName = element.getAttribute(`data-autocomplete-name`);
+            values.gameId = element.getAttribute(`data-autocomplete-id`);
+            values.steam = this.esgst.modules.games.games_getInfo(element);
+            this.mgc_addGiveaway(false, mgc, values);
+            value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
+            $(progress.bar).progressbar(`option`, `value`, value);
+            progress.current.textContent = value;
+            toRemove.forEach(line => {
+              textArea.value = textArea.value.replace(`${line}\n`, ``);
+            });
+            setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
+          }
+        });
         button.set.style.position = `absolute`;
         button.set.style.right = `50px`;
         element.insertBefore(button.set, element.firstElementChild);
@@ -1441,8 +1465,24 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }]);
     }
-    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: this.mgc_createGiveaways_2.bind(null, mgc, viewButton, popup, callback)}).set);
-    popup.description.appendChild(new ButtonSet_v2({color1: `red`, color2: ``, icon1: `fa-times`, icon2: ``, title1: `No`, title2: ``, callback1: popup.close.bind(popup)}).set);
+    popup.description.appendChild(new ButtonSet_v2({
+      color1: `green`,
+      color2: ``,
+      icon1: `fa-check`,
+      icon2: ``,
+      title1: `Yes`,
+      title2: ``,
+      callback1: this.mgc_createGiveaways_2.bind(null, mgc, viewButton, popup, callback)
+    }).set);
+    popup.description.appendChild(new ButtonSet_v2({
+      color1: `red`,
+      color2: ``,
+      icon1: `fa-times`,
+      icon2: ``,
+      title1: `No`,
+      title2: ``,
+      callback1: popup.close.bind(popup)
+    }).set);
     popup.onClose = () => {
       if (popup.isOpen) {
         callback();
@@ -1467,7 +1507,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (!mgc.giveaways.children[i].classList.contains(`success`)) {
         const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
         // noinspection JSIgnoredPromiseFromCall
-        this.mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`}));
+        this.mgc_checkCreation(i, mgc, n, callback, await request({
+          data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime),
+          method: `POST`,
+          url: `/giveaways/new`
+        }));
       } else {
         setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }
@@ -1506,7 +1550,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         setCountdown(popup.title.firstElementChild, 120, async () => {
           popup.close();
           const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-          setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime), method: `POST`, url: `/giveaways/new`})), 0);
+          setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({
+            data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime),
+            method: `POST`,
+            url: `/giveaways/new`
+          })), 0);
         });
       } else {
         giveaway.classList.add(`error`);
@@ -1654,7 +1702,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       } else {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, ``);
       }
-      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`, method: `POST`, url: `/ajax.php`});
+      await request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`,
+        method: `POST`,
+        url: `/ajax.php`
+      });
       mgc.created[i].giveaway.classList.add(`connected`);
       setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
     }

@@ -5,7 +5,7 @@ const
 ;
 
 export default class Checkbox {
-  constructor (context, defaultValue, threeState, messages = {}) {
+  constructor(context, defaultValue, threeState, messages = {}) {
     this.onPreEnabled = null;
     this.onPreDisabled = null;
     this.onEnabled = null;
@@ -75,6 +75,7 @@ export default class Checkbox {
       this.change();
     }
   }
+
   change(toggle, value, callback, event) {
     if (event) {
       event.stopPropagation();
@@ -130,26 +131,31 @@ export default class Checkbox {
       this.onChange();
     }
   }
+
   showNone() {
     if (!this.value) {
       this.disabled.classList.add(`esgst-hidden`);
       this.none.classList.remove(`esgst-hidden`);
     }
   }
+
   hideNone() {
     if (!this.value) {
       this.disabled.classList.remove(`esgst-hidden`);
       this.none.classList.add(`esgst-hidden`);
     }
   }
+
   check(callback) {
     this.preValue = this.input.checked = true;
     this.change(false, null, callback);
   }
+
   uncheck(callback) {
     this.preValue = this.input.checked = false;
     this.change(false, null, callback);
   }
+
   toggle(callback) {
     this.change(true, null, callback);
   }

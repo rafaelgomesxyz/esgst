@@ -12,18 +12,21 @@ const
 ;
 
 class TradesHaveWantListChecker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
       </ul>
     `,
-    id: `hwlc`,
-    load: this.hwlc,
-    name: `Have/Want List Checker`,
-    st: true,
-    type: `trades`
-  });
+      id: `hwlc`,
+      load: this.hwlc,
+      name: `Have/Want List Checker`,
+      st: true,
+      type: `trades`
+    };
+  }
 
   hwlc() {
     if (!this.esgst.tradePath) {
@@ -258,7 +261,8 @@ class TradesHaveWantListChecker extends Module {
             }
           });
         }
-      } catch (e) { /**/ }
+      } catch (e) { /**/
+      }
     }
     for (const section in obj.sections[key]) {
       if (obj.sections[key].hasOwnProperty(section)) {

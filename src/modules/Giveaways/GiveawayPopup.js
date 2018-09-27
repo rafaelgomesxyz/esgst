@@ -7,19 +7,22 @@ const
 ;
 
 class GiveawaysGiveawayPopup extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-external-link"></i>) below a giveaway's start time (in any page) that allows you to read the description of the giveaway and/or add a comment to it without having to access it.</li>
         <li>You can move the button around by dragging and dropping it.</li>
       </ul>
     `,
-    id: `gp`,
-    load: this.gp,
-    name: `Giveaway Popup`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gp`,
+      load: this.gp,
+      name: `Giveaway Popup`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gp() {
     this.esgst.giveawayFeatures.push(this.gp_addButton);

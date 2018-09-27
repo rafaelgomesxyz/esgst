@@ -12,19 +12,22 @@ const
 ;
 
 class GiveawaysGiveawaysSorter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>
         <li>There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.</li>
       </ul>
     `,
-    id: `gas`,
-    load: this.gas,
-    name: `Giveaways Sorter`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gas`,
+      load: this.gas,
+      name: `Giveaways Sorter`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gas(popup) {
     if (!popup && !this.esgst.giveawaysPath && !this.esgst.enteredPath && !this.esgst.groupPath && !this.esgst.userPath) return;
@@ -52,7 +55,7 @@ class GiveawaysGiveawaysSorter extends Module {
     let object = {
       button: createHeadingButton({context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
     };
-    object.button.addEventListener(`click`, this.gas_openPopout.bind(null, object));
+    object.button.addEventListener(`click`, this.gas_openPopout.bind(this, object));
   }
 
   gas_openPopout(obj) {
@@ -280,7 +283,15 @@ class GiveawaysGiveawaysSorter extends Module {
     options.value = this.esgst[this.esgst.gas.optionKey];
     let callback = saveAndSortContent.bind(null, this.esgst.gas.optionKey, this.esgst.gas.mainKey, options, null);
     options.addEventListener(`change`, callback);
-    obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
+    obj.popout.popout.appendChild(new ButtonSet_v2({
+      color1: `green`,
+      color2: ``,
+      icon1: `fa-arrow-circle-right`,
+      icon2: ``,
+      title1: `Sort`,
+      title2: ``,
+      callback1: callback
+    }).set);
     obj.popout.open();
   }
 }

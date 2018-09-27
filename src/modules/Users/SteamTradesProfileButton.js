@@ -8,18 +8,21 @@ const
 ;
 
 class UsersSteamTradesProfileButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to go to their SteamTrades profile page.</li>
       </ul>
     `,
-    id: `stpb`,
-    load: this.stpb,
-    name: `SteamTrades Profile Button`,
-    sg: true,
-    type: `users`
-  });
+      id: `stpb`,
+      load: this.stpb,
+      name: `SteamTrades Profile Button`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   stpb() {
     this.esgst.profileFeatures.push(this.stpb_add.bind(this));

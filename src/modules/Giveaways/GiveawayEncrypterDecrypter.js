@@ -20,8 +20,10 @@ const
 ;
 
 class GiveawaysGiveawayEncrypterDecrypter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i> if the giveaway is open, <i class="fa fa-star esgst-green"></i> if it is open and new, <i class="fa fa-star esgst-yellow"></i> if it is not open yet and <i class="fa fa-star esgst-red"></i> if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.</li>
         <li>Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.</li>
@@ -29,27 +31,28 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         <li>Adds a button (<i class="fa fa-star"></i>) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).</li>
       </ul>
     `,
-    features: {
-      ged_b: {
-        description: `
+      features: {
+        ged_b: {
+          description: `
           <ul>
             <li>With this option enabled, the header button will always appear if there are decrypted giveaways in the page, even if they have already ended (but they will not be listed in the popup).</li>
           </ul>
         `,
-        name: `Always show the header button if there are decrypted giveaways in the page.`,
-        sg: true
+          name: `Always show the header button if there are decrypted giveaways in the page.`,
+          sg: true
+        },
+        ged_t: {
+          name: `Open the list of decrypted giveaways in a new tab.`,
+          sg: true
+        }
       },
-      ged_t: {
-        name: `Open the list of decrypted giveaways in a new tab.`,
-        sg: true
-      }
-    },
-    id: `ged`,
-    load: this.ged,
-    name: `Giveaway Encrypter/Decrypter`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `ged`,
+      load: this.ged,
+      name: `Giveaway Encrypter/Decrypter`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   ged() {
     if (!this.esgst.sg) return;
@@ -79,7 +82,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           }]
         }]
       }]);
-      ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(null, ged));
+      ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(this, ged));
       // noinspection JSIgnoredPromiseFromCall
       this.ged_getGiveaways(ged, true);
     }
@@ -135,11 +138,19 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       },
       type: `div`
     }]);
-    ged.set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus`, icon2: `fa-circle-o-notch fa-spin`, title1: `Load More`, title2: `Loading more...`, callback1: this.ged_loadGiveaways.bind(null, ged)});
+    ged.set = new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-plus`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Load More`,
+      title2: `Loading more...`,
+      callback1: this.ged_loadGiveaways.bind(null, ged)
+    });
     ged.container.appendChild(ged.set.set);
     ged.set.trigger();
     if (this.esgst.es_ged) {
-      ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(null, ged));
+      ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(this, ged));
     }
   }
 

@@ -8,18 +8,21 @@ const
 ;
 
 class GiveawaysStickiedGiveawayCountries extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the country is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each country in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.</li>
       </ul>
     `,
-    id: `sgac`,
-    load: this.sgac,
-    name: `Stickied Giveaway Countries`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `sgac`,
+      load: this.sgac,
+      name: `Stickied Giveaway Countries`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   sgac() {
     if (!this.esgst.newGiveawayPath) return;

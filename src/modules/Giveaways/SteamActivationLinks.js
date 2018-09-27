@@ -7,23 +7,26 @@ const
 ;
 
 class GiveawaysSteamActivationLinks extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds 2 optional icons (<i class="fa fa-steam"></i> for the Steam client and <i class="fa fa-globe"></i> for the browser) next to each key in the "Key" column of your <a href="https://www.steamgifts.com/giveaways/won">won</a> page that allow you to quickly activate a won game on Steam, either through the client or the browser.</li>
         <li>When you click on the icon, the key is automatically copied to the clipboard.</li>
       </ul>
     `,
-    id: `sal`,
-    load: this.sal,
-    name: `Steam Activation Links`,
-    options: {
-      title: `Show links to:`,
-      values: [`Steam Client`, `Browser`, `Both`]
-    },
-    sg: true,
-    type: `giveaways`
-  });
+      id: `sal`,
+      load: this.sal,
+      name: `Steam Activation Links`,
+      options: {
+        title: `Show links to:`,
+        values: [`Steam Client`, `Browser`, `Both`]
+      },
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   sal() {
     if (!this.esgst.wonPath) return;

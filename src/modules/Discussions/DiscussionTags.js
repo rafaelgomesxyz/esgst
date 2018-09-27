@@ -1,8 +1,10 @@
 import Module from '../../class/Module';
 
 class DiscussionsDiscussionTags extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-tag"></i>) next a discussion's title (in any page) that allows you to save tags for the discussion (only visible to you).</li>
         <li>You can press Enter to save the tags.</li>
@@ -11,21 +13,22 @@ class DiscussionsDiscussionTags extends Module {
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
       </ul>
     `,
-    features: {
-      dt_s: {
-        name: `Show tag suggestions while typing.`,
-        sg: true
-      }
-    },
-    id: `dt`,
-    load: this.dt,
-    name: `Discussion Tags`,
-    sg: true,
-    type: `discussions`
-  });
-  
+      features: {
+        dt_s: {
+          name: `Show tag suggestions while typing.`,
+          sg: true
+        }
+      },
+      id: `dt`,
+      load: this.dt,
+      name: `Discussion Tags`,
+      sg: true,
+      type: `discussions`
+    };
+  }
+
   dt() {
-    this.esgst.discussionFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(null, `dt`));
+    this.esgst.discussionFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this, `dt`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`dt`);
   }

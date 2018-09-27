@@ -29,6 +29,7 @@ export default class Process {
       this.button.addEventListener(`click`, this.openPopup.bind(this));
     }
   }
+
   async openPopup() {
     if (this.popup) {
       this.popup.open();
@@ -67,6 +68,7 @@ export default class Process {
       }
     }
   }
+
   async start() {
     if (this.button) {
       this.button.classList.add(`esgst-busy`);
@@ -107,9 +109,11 @@ export default class Process {
       this.popup.clearProgress();
     }
   }
+
   stop() {
     this.isCanceled = true;
   }
+
   async requestNextUrl(details) {
     if (!this.urls.doNotTrigger && this.index >= this.total) {
       this.popup.removeButton(0);
@@ -138,6 +142,7 @@ export default class Process {
     }
     await endless_load(this.context);
   }
+
   async request(details) {
     if (!details.nextPage) {
       details.nextPage = 1;

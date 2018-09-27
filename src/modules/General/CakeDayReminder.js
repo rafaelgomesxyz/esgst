@@ -8,40 +8,43 @@ const
 ;
 
 class GeneralCakeDayReminder extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
         <li>You can set it to remind you a specified number of days before your cake day.</li>
       </ul>
     `,
-    features: {
-      cdr_b: {
-        inputItems: [
-          {
-            id: `cdr_days`,
-            prefix: `Days: `
-          }
-        ],
-        name: `Remind you a specified number of days before your cake day.`,
-        sg: true
-      },
-      cdr_d: {
-        description: `
+      features: {
+        cdr_b: {
+          inputItems: [
+            {
+              id: `cdr_days`,
+              prefix: `Days: `
+            }
+          ],
+          name: `Remind you a specified number of days before your cake day.`,
+          sg: true
+        },
+        cdr_d: {
+          description: `
           <ul>
             <li>With this option enabled, the feature also reminds you if some days have already passed since your cake day and you had not logged in during that time.</li>
           </ul>
         `,
-        name: `Remind you on your cake day.`,
-        sg: true
-      }
-    },
-    id: `cdr`,
-    load: this.cdr,
-    name: `Cake Day Reminder`,
-    sg: true,
-    type: `general`
-  });
+          name: `Remind you on your cake day.`,
+          sg: true
+        }
+      },
+      id: `cdr`,
+      load: this.cdr,
+      name: `Cake Day Reminder`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   cdr() {
     let currentDate = new Date();

@@ -12,12 +12,15 @@ const
 ;
 
 class Giveaways extends Module {
-  info = ({
-    endless: true,
-    id: `giveaways`,
-    load: this.giveaways
-  });
-  
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `giveaways`,
+      load: this.giveaways
+    };
+  }
+
   giveaways() {
     this.esgst.endlessFeatures.push(this.giveaways_load);
   }
@@ -457,7 +460,7 @@ class Giveaways extends Module {
             type: `i`
           }]
         }]);
-        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(null, button, giveaway));
+        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this, button, giveaway));
       }
     }
     let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
@@ -510,8 +513,8 @@ class Giveaways extends Module {
       }
     }
     /**
-   * @property {object} winnerColumns.noWinners
-   */
+     * @property {object} winnerColumns.noWinners
+     */
     giveaway.winnerColumns = {};
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
@@ -530,7 +533,7 @@ class Giveaways extends Module {
           continue;
         }
         const winners = column.textContent.trim().split(/,\s/).filter(x => x);
-        giveaway.winnerColumns[key] = { column, status, winners };
+        giveaway.winnerColumns[key] = {column, status, winners};
         column.setAttribute(`data-draggable-id`, `winners`);
         column = column.nextElementSibling;
       }

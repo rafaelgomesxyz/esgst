@@ -8,18 +8,21 @@ const
 ;
 
 class GiveawaysStickiedGiveawayGroups extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-thumb-stack"></i> if the group is stickied and <i class="fa fa-thumb-stack esgst-faded"></i> if it is not) next to each group in the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a>/<a href="https://www.steamgifts.com/account/steam/groups">groups</a> pages that allows you to sticky the group so that it appears this.esgst.modules.generalAccurateTimestamp.at the top of the group list for quick use.</li>
       </ul>
     `,
-    id: `sgg`,
-    load: this.sgg,
-    name: `Stickied Giveaway Groups`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `sgg`,
+      load: this.sgg,
+      name: `Stickied Giveaway Groups`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   sgg() {
     if (this.esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {

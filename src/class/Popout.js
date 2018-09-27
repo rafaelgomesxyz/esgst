@@ -72,6 +72,7 @@ export default class Popout {
     }
     this.isOpen = false;
   }
+
   open(context = null, isFixed = false) {
     this.context = context || this.context;
     this.isFixed = isFixed;
@@ -93,6 +94,7 @@ export default class Popout {
       this.onOpen(this.popout);
     }
   }
+
   close() {
     this.popout.classList.add(`esgst-hidden`);
     if (this.isOpen && this.onClose) {
@@ -100,6 +102,7 @@ export default class Popout {
     }
     this.isOpen = false;
   }
+
   reposition(context = null) {
     let contextLeft, contextRect, contextTop, popoutHeight, popoutWidth, popupRect;
     this.popout.style.height = ``;
@@ -134,9 +137,9 @@ export default class Popout {
       this.popout.style.left = `${contextLeft - (this.popup ? popupRect.left : 0) + scrollX}px`;
     }
     if (contextTop + contextRect.height + popoutHeight > document.documentElement.clientHeight) {
-      this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 :  scrollY)) - (this.popup ? popupRect.top : 0)}px`;
+      this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 : scrollY)) - (this.popup ? popupRect.top : 0)}px`;
     } else {
-      this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 :  scrollY)) - (this.popup ? popupRect.top : 0)}px`;
+      this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 : scrollY)) - (this.popup ? popupRect.top : 0)}px`;
     }
   }
 }

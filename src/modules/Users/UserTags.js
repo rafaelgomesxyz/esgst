@@ -1,8 +1,10 @@
 import Module from '../../class/Module';
 
 class UsersUserTags extends Module {
-  info = ({
-  description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
     <ul>
       <li>Adds a button (<i class="fa fa-tag"></i>) next a user's username (in any page) that allows you to save tags for the user (only visible to you).</li>
       <li>You can press Enter to save the tags.</li>
@@ -12,26 +14,27 @@ class UsersUserTags extends Module {
       <li>This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username. For a long text, check [id=un].</li>
     </ul>
   `,
-  features: {
-    ut_s: {
-      name: `Show tag suggestions while typing.`,
+      features: {
+        ut_s: {
+          name: `Show tag suggestions while typing.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `ut`,
+      load: this.ut,
+      name: `User Tags`,
       sg: true,
-      st: true
-    }
-  },
-  id: `ut`,
-  load: this.ut,
-  name: `User Tags`,
-  sg: true,
-  st: true,
-  type: `users`
-});
+      st: true,
+      type: `users`
+    };
+  }
 
-ut() {
-  this.esgst.userFeatures.push(this.tags_addButtons.bind(this, `ut`));
-  // noinspection JSIgnoredPromiseFromCall
-  this.esgst.modules.tags.tags_getTags(`ut`);
-}
+  ut() {
+    this.esgst.userFeatures.push(this.tags_addButtons.bind(this, `ut`));
+    // noinspection JSIgnoredPromiseFromCall
+    this.esgst.modules.tags.tags_getTags(`ut`);
+  }
 }
 
 export default UsersUserTags;

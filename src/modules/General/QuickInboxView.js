@@ -11,32 +11,35 @@ const
 ;
 
 class GeneralQuickInboxView extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>If you hover over the inbox icon (<i class="fa fa-envelope"></i>) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.</li>
         <li>You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.</li>
       </ul>
     `,
-    features: {
-      qiv_p: {
-        description: `
+      features: {
+        qiv_p: {
+          description: `
           <ul>
             <li>Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).</li>
           </ul>
         `,
-        name: `Preload the first page.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `qiv`,
-    load: this.qiv.bind(null, true),
-    name: `Quick Inbox View`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+          name: `Preload the first page.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `qiv`,
+      load: this.qiv.bind(null, true),
+      name: `Quick Inbox View`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   qiv(first) {
     if (!this.esgst.inboxButton) return;
@@ -59,11 +62,11 @@ class GeneralQuickInboxView extends Module {
         },
         type: `div`
       }]);
-      this.esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(null, false, false));
+      this.esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
       // noinspection JSIgnoredPromiseFromCall
       this.qiv_scroll(true);
     }
-    this.esgst.inboxButton.addEventListener(`mouseenter`, this.qiv_openPopout);
+    this.esgst.inboxButton.addEventListener(`mouseenter`, this.qiv_openPopout.bind(this));
     this.esgst.inboxButton.addEventListener(`mouseleave`, event => {
       if (this.esgst.qiv.timeout) {
         clearTimeout(this.esgst.qiv.timeout);
@@ -94,7 +97,7 @@ class GeneralQuickInboxView extends Module {
           type: `div`
         }]);
         this.esgst.qiv.popout.open(this.esgst.inboxButton);
-        this.esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(null, false, false));
+        this.esgst.qiv.comments.addEventListener(`scroll`, this.qiv_scroll.bind(this, false, false));
         // noinspection JSIgnoredPromiseFromCall
         this.qiv_scroll(true);
       }
@@ -144,8 +147,8 @@ class GeneralQuickInboxView extends Module {
 
         if (preload) {
           const currentId = this.esgst.qiv.comments.querySelector(`[href*="/go/comment/"]`)
-                .getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1],
-              comments = context.querySelectorAll(`.comment, .comment_outer`);
+              .getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1],
+            comments = context.querySelectorAll(`.comment, .comment_outer`);
           let i = comments.length - 1;
           while (i > -1 && comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1] !== currentId) i--;
           if (i > -1) {

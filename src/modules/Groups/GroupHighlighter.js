@@ -6,19 +6,22 @@ const
 ;
 
 class GroupsGroupHighlighter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a green background to a group that you are a member of (in any page).</li>
       </ul>
     `,
-    id: `gh`,
-    load: this.gh,
-    name: `Group Highlighter`,
-    sg: true,
-    sync: `Steam Groups`,
-    type: `groups`
-  });
+      id: `gh`,
+      load: this.gh,
+      name: `Group Highlighter`,
+      sg: true,
+      sync: `Steam Groups`,
+      type: `groups`
+    };
+  }
 
   gh() {
     if (this.esgst.groupsPath) return;
@@ -31,9 +34,10 @@ class GroupsGroupHighlighter extends Module {
     const savedGroups = JSON.parse(await getValue(`groups`, `[]`));
     for (let i = 0, n = elements.length; i < n; ++i) {
       const element = elements[i],
-          code = element.getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
+        code = element.getAttribute(`href`).match(/\/group\/(.+?)\//)[1];
       let j;
-      for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {}
+      for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {
+      }
       if (j >= 0 && savedGroups[j].member) {
         element.closest(`.table__row-outer-wrap`).classList.add(`esgst-gh-highlight`);
       }

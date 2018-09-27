@@ -22,8 +22,10 @@ const
 ;
 
 class UsersUserGiveawayData extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
         <ul>
@@ -33,18 +35,19 @@ class UsersUserGiveawayData extends Module {
         <li>Results are cached forever, so every time you check the same user again the feature will only retrieve the giveaways that they have created/won since the last check, unless you check them with the option to clear the cache enabled, in which case all of their giveaways will be retrieved again as if they were being checked for the first time.</li>
       </ul>
     `,
-    features: {
-      ugd_s: {
-        name: `Display playtime/achievement stats in the user's profile page.`,
-        sg: true
-      }
-    },
-    id: `ugd`,
-    load: this.ugd,
-    name: `User Giveaway Data`,
-    sg: true,
-    type: `users`
-  });
+      features: {
+        ugd_s: {
+          name: `Display playtime/achievement stats in the user's profile page.`,
+          sg: true
+        }
+      },
+      id: `ugd`,
+      load: this.ugd,
+      name: `User Giveaway Data`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   ugd() {
     this.esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
@@ -72,7 +75,7 @@ class UsersUserGiveawayData extends Module {
     if (!ugdCache) {
       return;
     }
-    
+
     const context = createElements(profile.commentsRow, `afterEnd`, [{
       attributes: {
         class: `esgst-ugd featured__table__row`,
@@ -429,7 +432,7 @@ class UsersUserGiveawayData extends Module {
         const savedGiveaway = this.esgst.giveaways[code];
         if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
           console.log(`ESGST Log: UGD 0`);
-          obj.giveaways[code] = giveaway;          
+          obj.giveaways[code] = giveaway;
           if (obj.key === `sent`) {
             console.log(`ESGST Log: UGD 1`);
             giveaway.winners = [];
@@ -816,7 +819,8 @@ class UsersUserGiveawayData extends Module {
     const appId = parseInt(id);
     let i;
     if (obj.playtimes) {
-      for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--) {}
+      for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--) {
+      }
     }
     const giveaways = obj.games[packageId ? `subs` : `apps`][packageId || id];
     const item = giveaways[0];
@@ -842,14 +846,14 @@ class UsersUserGiveawayData extends Module {
       }
       time2Weeks = timestamp2Weeks && timestamp2Weeks > 0 ? (
         timestamp2Weeks > 60
-        ? `${Math.round(timestamp2Weeks / 60 * 100) / 100}h`
-        : `${timestamp2Weeks}m`
+          ? `${Math.round(timestamp2Weeks / 60 * 100) / 100}h`
+          : `${timestamp2Weeks}m`
       ) : `0`;
       timeForever = timestampForever > 0 ? (
         timestampForever > 60
           ? `${Math.round(timestampForever / 60 * 100) / 100}h`
           : `${timestampForever}m`
-        ) : `0`;
+      ) : `0`;
     }
     let count = 0;
     let total = 0;

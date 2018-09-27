@@ -7,41 +7,44 @@ const
 ;
 
 class UsersProfileLinks extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to add links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a>/<a href="https://www.steamgifts.com/account/steam/games">games</a>/<a href="https://www.steamgifts.com/account/steam/games">groups</a>/<a href="https://www.steamgifts.com/account/steam/wishlist">wishlist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/your-username">profile</a> page.</li>
         <li>The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.</li>
       </ul>
     `,
-    features: {
-      pl_w: {
-        name: `Show whitelist link.`,
-        sg: true
+      features: {
+        pl_w: {
+          name: `Show whitelist link.`,
+          sg: true
+        },
+        pl_b: {
+          name: `Show blacklist link.`,
+          sg: true
+        },
+        pl_g: {
+          name: `Show games link.`,
+          sg: true
+        },
+        pl_gs: {
+          name: `Show groups link.`,
+          sg: true
+        },
+        pl_wl: {
+          name: `Show wishlist link.`,
+          sg: true
+        }
       },
-      pl_b: {
-        name: `Show blacklist link.`,
-        sg: true
-      },
-      pl_g: {
-        name: `Show games link.`,
-        sg: true
-      },
-      pl_gs: {
-        name: `Show groups link.`,
-        sg: true
-      },
-      pl_wl: {
-        name: `Show wishlist link.`,
-        sg: true
-      }
-    },
-    id: `pl`,
-    load: this.pl,
-    name: `Profile Links`,
-    sg: true,
-    type: `users`
-  });
+      id: `pl`,
+      load: this.pl,
+      name: `Profile Links`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   pl() {
     if (!this.esgst.userPath) return;

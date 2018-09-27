@@ -8,6 +8,7 @@ import 'webpack-jquery-ui';
 
 // jQuery QueryBuilder want global interact object
 import interactFactory from 'interactjs/dist/interact.min';
+
 window.interact = interactFactory(window);
 
 import 'jQuery-QueryBuilder/dist/js/query-builder.min';
@@ -238,8 +239,24 @@ import esgst from './class/Esgst';
         };
         if (envVariables._USER_INFO.extension !== `firefox`) {
           details.buttons = [
-            {color1: `green`, color2: `` , icon1: `fa-download`, icon2: ``, title1: `Download .zip`, title2: ``, callback1: open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)},
-            {color1: `green`, color2: `` , icon1: `fa-refresh`, icon2: ``, title1: `Reload Extension`, title2: ``, callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, location.reload.bind(location))}
+            {
+              color1: `green`,
+              color2: ``,
+              icon1: `fa-download`,
+              icon2: ``,
+              title1: `Download .zip`,
+              title2: ``,
+              callback1: open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)
+            },
+            {
+              color1: `green`,
+              color2: ``,
+              icon1: `fa-refresh`,
+              icon2: ``,
+              title1: `Reload Extension`,
+              title2: ``,
+              callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, location.reload.bind(location))
+            }
           ];
         }
         new Popup_v2(details).open();
@@ -251,7 +268,7 @@ import esgst from './class/Esgst';
           if (isLocal) {
             let response = await fetch(details.url, {
               body: details.data,
-              credentials: /** @type {"omit"|"include"} */ details.anon ?  `omit` : `include`,
+              credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
               headers: new Headers(details.headers),
               method: details.method,
               redirect: "follow"
@@ -602,9 +619,9 @@ import esgst from './class/Esgst';
             common.loadMenu();
           }
         });
-        arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(null, arrow, dropdown));
-        document.addEventListener(`click`, common.closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog);
+        arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
+        document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
       };
       envVariables.browser.runtime.onMessage.addListener(message => {
         let key;
@@ -681,7 +698,7 @@ import esgst from './class/Esgst';
         common.createElements(popup.actions, `afterBegin`, [{
           text: `Update`,
           type: `span`
-        }]).addEventListener(`click`, common.checkUpdate);
+        }]).addEventListener(`click`, common.checkUpdate.bind(common));
         popup.onClose = () => {
           esgst.isNotifying = false;
           envFunctions.setValue(`dismissedVersion`, version);
@@ -695,7 +712,7 @@ import esgst from './class/Esgst';
           if (isLocal) {
             let response = await fetch(details.url, {
               body: details.data,
-              credentials: /** @type {"omit"|"include"} */ details.anon ?  `omit` : `include`,
+              credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
               headers: details.headers,
               method: details.method,
               redirect: "follow"
@@ -1076,10 +1093,10 @@ import esgst from './class/Esgst';
             common.loadMenu();
           }
         });
-        arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(null, arrow, dropdown));
-        document.addEventListener(`click`, common.closeHeaderMenu.bind(null, arrow, dropdown, menu), true);
-        document.getElementById(`esgst-update`).addEventListener(`click`, common.checkUpdate);
-        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog);
+        arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
+        document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
+        document.getElementById(`esgst-update`).addEventListener(`click`, common.checkUpdate.bind(common));
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
       };
     }
 
@@ -1448,7 +1465,7 @@ import esgst from './class/Esgst';
     async function load(toDelete, toSet) {
       if (esgst.menuPath) {
         common.createElements(document.head, `beforeEnd`, [{
-          attributes :{
+          attributes: {
             href: `https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css`,
             rel: `stylesheet`
           },
@@ -1474,7 +1491,10 @@ import esgst from './class/Esgst';
             esgst.settingsChanged = true;
           }
           if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
-            let responseHtml = utils.parseHtml((await common.request({method: `GET`, url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`})).responseText);
+            let responseHtml = utils.parseHtml((await common.request({
+              method: `GET`,
+              url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`
+            })).responseText);
             let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
             for (let i = 0, n = elements.length; i < n; i++) {
               let element = elements[i];
@@ -1486,7 +1506,8 @@ import esgst from './class/Esgst';
             esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
             esgst.settingsChanged = true;
           }
-        } catch (e) { /**/ }
+        } catch (e) { /**/
+        }
       } else {
         try {
           let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
@@ -1499,7 +1520,8 @@ import esgst from './class/Esgst';
             esgst.username = esgst.settings.username_st = username;
             esgst.settingsChanged = true;
           }
-        } catch (e) { /**/ }
+        } catch (e) { /**/
+        }
       }
       if (esgst.settingsChanged) {
         toSet.settings = JSON.stringify(esgst.settings);
@@ -1554,7 +1576,7 @@ import esgst from './class/Esgst';
           common.checkBackup();
         }
         if (esgst.profilePath && esgst.autoSync) {
-          document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, common.setSync.bind(null, true, null, null));
+          document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, common.setSync.bind(common, true, null, null));
         }
         if (esgst.menuPath) {
           esgst.favicon.href = esgst.icon;
@@ -1572,10 +1594,13 @@ import esgst from './class/Esgst';
               }]
             }]);
             esgst.pageOuterWrap = document.body.firstElementChild;
-            esgst.pageOuterWrap.style.width = `calc(100% - ${innerWidth-document.documentElement.offsetWidth}px)`;
+            esgst.pageOuterWrap.style.width = `calc(100% - ${innerWidth - document.documentElement.offsetWidth}px)`;
             esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
           } else {
-            let response = await common.request({method: `GET`, url: esgst.sg ? `https://www.steamgifts.com/` : `https://www.steamtrades.com`});
+            let response = await common.request({
+              method: `GET`,
+              url: esgst.sg ? `https://www.steamgifts.com/` : `https://www.steamtrades.com`
+            });
             let responseHtml = utils.parseHtml(response.responseText);
             common.createElements(document.body, `inner`, [{
               context: responseHtml.getElementsByTagName(`header`)[0]
@@ -1629,7 +1654,7 @@ import esgst from './class/Esgst';
           } else if (esgst.glwcPath) {
             document.title = `ESGST - Group Library/Wishlist Checker`;
             esgst.originalTitle = `ESGST - Group Library/Wishlist Checker`;
-          } else  if (location.pathname.match(/esgst\/sync/)) {
+          } else if (location.pathname.match(/esgst\/sync/)) {
             await common.setSync();
           }
 

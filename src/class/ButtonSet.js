@@ -26,7 +26,7 @@ export default class ButtonSet {
         text: title1,
         type: `span`
       }]
-    },{
+    }, {
       attributes: {
         class: `${classes[color2]} btn_action ${color2} is-disabled is_disabled esgst-hidden`
       },
@@ -51,6 +51,7 @@ export default class ButtonSet {
       this.button2.addEventListener(`click`, () => this.toggle(this.callback2));
     }
   }
+
   toggle(callback) {
     this.dependencies.forEach(dependency => dependency.classList.toggle(`esgst-hidden`));
     this.busy = !this.busy;
@@ -60,6 +61,7 @@ export default class ButtonSet {
       callback(this.toggle.bind(this));
     }
   }
+
   trigger() {
     this.toggle(this.callback1);
   }

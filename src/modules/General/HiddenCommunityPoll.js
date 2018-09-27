@@ -1,24 +1,27 @@
 import Module from '../../class/Module';
 
 class GeneralHiddenCommunityPoll extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Hides the community poll (if there is one) of the main page.</li>
       </ul>
     `,
-    features: {
-      hcp_v: {
-        name: `Only hide the poll if you already voted in it.`,
-        sg: true
-      }
-    },
-    id: `hcp`,
-    load: this.hcp,
-    name: `Hidden Community Poll`,
-    sg: true,
-    type: `general`
-  });
+      features: {
+        hcp_v: {
+          name: `Only hide the poll if you already voted in it.`,
+          sg: true
+        }
+      },
+      id: `hcp`,
+      load: this.hcp,
+      name: `Hidden Community Poll`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   hcp() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions) return;

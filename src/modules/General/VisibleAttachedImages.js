@@ -1,29 +1,32 @@
 import Module from '../../class/Module';
 
 class GeneralVisibleAttachedImages extends Module {
-  info = ({
-    conflicts: [
-      {id: `ail`, name: `Attached Image Loader`}
-    ],
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      conflicts: [
+        {id: `ail`, name: `Attached Image Loader`}
+      ],
+      description: `
       <ul>
         <li>Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.</li>
       </ul>
     `,
-    features: {
-      vai_gifv: {
-        name: `Rename .gifv images to .gif so that they are properly attached.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `vai`,
-    load: this.vai,
-    name: `Visible Attached Images`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      features: {
+        vai_gifv: {
+          name: `Rename .gifv images to .gif so that they are properly attached.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `vai`,
+      load: this.vai,
+      name: `Visible Attached Images`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   vai() {
     this.esgst.endlessFeatures.push(this.vai_getImages);

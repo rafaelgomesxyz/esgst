@@ -1,17 +1,16 @@
 /** module interface */
 export default class Module {
-  /** @type {Esgst} */
-  esgst;
-
-  /** @type {EsgstModuleInfo} */
-  info = {
-    id: 'unknown',
-    type: '',
-    load: () => {},
-    name: 'Unknown'
-  };
-
   constructor() {
+    /** @type {Esgst} */
+    this.esgst = null;
+    /** @type {EsgstModuleInfo} */
+    this.info = {
+      id: 'unknown',
+      type: '',
+      load: () => {
+      },
+      name: 'Unknown'
+    };
     this.info.id += (new Date).getTime();
   }
 

@@ -6,19 +6,22 @@ const
 ;
 
 class CommentsReplyBoxOnTop extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.</li>
       </ul>
     `,
-    id: `rbot`,
-    load: this.rbot,
-    name: `Reply Box On Top`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+      id: `rbot`,
+      load: this.rbot,
+      name: `Reply Box On Top`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   rbot() {
     let element = this.esgst.mainPageHeading;

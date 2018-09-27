@@ -37,7 +37,8 @@ function sendMessage(action, sender, values) {
       browser.tabs.sendMessage(tab.id, JSON.stringify({
         action: action,
         values: values
-      }), () => {});
+      }), () => {
+      });
     });
   });
 }
@@ -56,9 +57,9 @@ async function getZip(data, fileName) {
 
 async function readZip(data) {
   const zip = new JSZip(),
-      contents = await zip.loadAsync(data),
-      keys = Object.keys(contents.files),
-      output = [];
+    contents = await zip.loadAsync(data),
+    keys = Object.keys(contents.files),
+    output = [];
   for (const key of keys) {
     output.push({
       name: key,
@@ -271,7 +272,11 @@ async function getTabs(request) {
   let items = [
     {id: `inbox_sg`, pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
     {id: `inbox_st`, pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
-    {id: `wishlist`, pattern: `*://*.steamgifts.com/giveaways/search?*type=wishlist*`, url: `https://www.steamgifts.com/giveaways/search?type=wishlist`},
+    {
+      id: `wishlist`,
+      pattern: `*://*.steamgifts.com/giveaways/search?*type=wishlist*`,
+      url: `https://www.steamgifts.com/giveaways/search?type=wishlist`
+    },
     {id: `won`, pattern: `*://*.steamgifts.com/giveaways/won*`, url: `https://www.steamgifts.com/giveaways/won`},
   ];
   let any = false;
@@ -287,7 +292,7 @@ async function getTabs(request) {
         browser.tabs.reload(tab.id);
       }
     } else if (request.any) {
-      any = true;                    
+      any = true;
     } else {
       open(item.url);
     }

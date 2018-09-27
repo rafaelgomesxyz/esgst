@@ -1,18 +1,21 @@
 import Module from '../../class/Module';
 
 class GeneralNarrowSidebar extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Keeps the sidebar narrowed in all pages.</li>
       </ul>
     `,
-    id: `ns`,
-    load: this.ns,
-    name: `Narrow Sidebar`,
-    sg: true,
-    type: `general`
-  });
+      id: `ns`,
+      load: this.ns,
+      name: `Narrow Sidebar`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   ns() {
     if (!this.esgst.sidebar) return;

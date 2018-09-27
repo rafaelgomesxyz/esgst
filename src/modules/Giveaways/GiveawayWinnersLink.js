@@ -6,18 +6,21 @@ const
 ;
 
 class GiveawaysGiveawayWinnersLink extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page.</li>
       </ul>
     `,
-    id: `gwl`,
-    load: this.gwl,
-    name: `Giveaway Winners Link`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gwl`,
+      load: this.gwl,
+      name: `Giveaway Winners Link`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gwl() {
     this.esgst.giveawayFeatures.push(this.gwl_addLinks);

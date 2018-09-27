@@ -8,19 +8,22 @@ const
 ;
 
 class CommentsCommentSearcher extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-search"></i>) to the main page heading of any page that allows you to search for comments made by specific users in the page.</li>
       </ul>
     `,
-    id: `cs`,
-    load: this.cs,
-    name: `Comment Searcher`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+      id: `cs`,
+      load: this.cs,
+      name: `Comment Searcher`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   cs() {
     if (!this.esgst.commentsPath || (this.esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;

@@ -1,11 +1,14 @@
 import Module from '../class/Module';
 
 class Users extends Module {
-  info = ({
-    endless: true,
-    id: `users`,
-    load: this.users
-  });
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `users`,
+      load: this.users
+    };
+  }
 
   users() {
     this.esgst.endlessFeatures.push(this.users_load.bind(this));
@@ -40,7 +43,8 @@ class Users extends Module {
         }
       }
       let j;
-      for (j = this.esgst.currentUsers[id].elements.length - 1; j > -1 && this.esgst.currentUsers[id].elements[j] !== element; j--) {}
+      for (j = this.esgst.currentUsers[id].elements.length - 1; j > -1 && this.esgst.currentUsers[id].elements[j] !== element; j--) {
+      }
       if (j > -1) {
         continue;
       }
@@ -48,7 +52,7 @@ class Users extends Module {
       const container = element.parentElement;
       const oldElement = element;
       if (this.esgst.userPath && container.classList.contains(`page__heading__breadcrumbs`)) {
-        element = document.getElementsByClassName(`featured__heading__medium`)[0];        
+        element = document.getElementsByClassName(`featured__heading__medium`)[0];
       }
       this.esgst.currentUsers[id].elements.push(element);
       const context = container.classList.contains(`comment__username`) ? container : element;

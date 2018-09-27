@@ -1,16 +1,13 @@
 import {container} from '../class/Container';
 
 export default class Popup {
-  /** @type {HTMLElement} */
-  scrollable;
-
-  /** @type {HTMLElement} */
-  minimizeLink;
-
-  /** @type {function} */
-  onClose;
-
   constructor(icon, title, temp, settings, popup = null) {
+    /** @type {HTMLElement} */
+    this.scrollable = null;
+    /** @type {HTMLElement} */
+    this.minimizeLink = null;
+    /** @type {function} */
+    this.onClose = null;
     this.isCreated = !popup;
     this.temp = temp;
     this.popup = popup || container.common.createElements(document.body, `beforeEnd`, [{
@@ -95,6 +92,7 @@ export default class Popup {
       }
     }
   }
+
   open(callback) {
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
@@ -128,6 +126,7 @@ export default class Popup {
       callback();
     }
   }
+
   close() {
     this.modal.remove();
     if (this.isCreated) {
@@ -149,6 +148,7 @@ export default class Popup {
     container.esgst.popups.pop();
     this.isOpen = false;
   }
+
   reposition() {
     if (this.isCreated) {
       if (container.esgst.staticPopups) {
@@ -167,12 +167,14 @@ export default class Popup {
       }
     }
   }
+
   setTitle(title) {
     this.title.textContent = title;
     if (this.minimizeLink) {
       this.minimizeLink.textContent = title;
     }
   }
+
   /**
    * @param [temp]
    */

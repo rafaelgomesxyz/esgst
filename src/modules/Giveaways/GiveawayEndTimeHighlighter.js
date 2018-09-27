@@ -1,18 +1,21 @@
 import Module from '../../class/Module';
 
 class GiveawaysGiveawayEndTimeHighlighter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to highlight the end time of a giveaway (in any page) by coloring it based on how many hours there are left.</li>
       </ul>
     `,
-    id: `geth`,
-    load: this.geth,
-    name: `Giveaway End Time Highlighter`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `geth`,
+      load: this.geth,
+      name: `Giveaway End Time Highlighter`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   geth() {
     this.esgst.giveawayFeatures.push(this.geth_getGiveaways);

@@ -8,18 +8,21 @@ const
 ;
 
 class GiveawaysDeleteKeyConfirmation extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Shows a confirmation popup if you try to delete a giveaway's key(s) (in any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page).</li>
       </ul>
     `,
-    id: `dkc`,
-    load: this.dkc,
-    name: `Delete Key Confirmation`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `dkc`,
+      load: this.dkc,
+      name: `Delete Key Confirmation`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   dkc() {
     if (!this.esgst.giveawayPath) return;
@@ -38,7 +41,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
         type: `span`
       }]);
       element.remove();
-      newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(null, newElement), null));
+      newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(createConfirmation, newElement), null));
     }
   }
 
@@ -48,7 +51,11 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     row.getElementsByClassName(`form__key-loading`)[0].classList.remove(`is-hidden`);
     row.querySelector(`[name="key_value"]`).value = ``;
     row.getElementsByClassName(`form__key-value`)[0].textContent = ``;
-    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`, method: `POST`, url: `/ajax.php`});
+    await request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`,
+      method: `POST`,
+      url: `/ajax.php`
+    });
     row.getElementsByClassName(`form__key-loading`)[0].classList.add(`is-hidden`);
     row.getElementsByClassName(`form__key-insert`)[0].classList.remove(`is-hidden`);
     row.getElementsByClassName(`js__sent-text`)[0].textContent = `Sent Gift`;

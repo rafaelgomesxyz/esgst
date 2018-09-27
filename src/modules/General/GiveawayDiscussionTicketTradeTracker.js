@@ -14,42 +14,45 @@ const
 ;
 
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-check"></i> if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any <a href="https://www.steamgifts.com/discussions">discussions</a>/<a href="https://www.steamgifts.com/support/tickets">tickets</a>/<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.</li>
         <li>Giveaways/threads marked as visited are faded out in the page.</li>
       <ul>
     `,
-    features: {
-      gdttt_g: {
-        name: `Fade visited giveaways.`,
-        sg: true
+      features: {
+        gdttt_g: {
+          name: `Fade visited giveaways.`,
+          sg: true
+        },
+        gdttt_vd: {
+          name: `Mark discussions as visited when visiting them.`,
+          sg: true
+        },
+        gdttt_vg: {
+          name: `Mark giveaways as visited when visiting them.`,
+          sg: true
+        },
+        gdttt_vt: {
+          name: `Mark tickets as visited when visiting them.`,
+          sg: true
+        },
+        gdttt_vts: {
+          name: `Mark trades as visited when visiting them.`,
+          st: true
+        }
       },
-      gdttt_vd: {
-        name: `Mark discussions as visited when visiting them.`,
-        sg: true
-      },
-      gdttt_vg: {
-        name: `Mark giveaways as visited when visiting them.`,
-        sg: true
-      },
-      gdttt_vt: {
-        name: `Mark tickets as visited when visiting them.`,
-        sg: true
-      },
-      gdttt_vts: {
-        name: `Mark trades as visited when visiting them.`,
-        st: true
-      }
-    },
-    id: `gdttt`,
-    load: this.gdttt,
-    name: `Giveaway/Discussion/Ticket/Trade Tracker`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `gdttt`,
+      load: this.gdttt,
+      name: `Giveaway/Discussion/Ticket/Trade Tracker`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   async gdttt() {
     this.esgst.endlessFeatures.push(this.gdttt_checkVisited);

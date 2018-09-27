@@ -8,8 +8,10 @@ const
 ;
 
 class UsersUsernameHistory extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-caret-down"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to view their username history ever since they started being tracked.</li>
         <li>It is impossible to keep track of every SteamGifts user due to a database capacity limitation (and that would also be impractical), so instead the feature keeps track of a limited number of users (currently around 9000). A user starts being tracked when anyone using ESGST clicks on the button to view their username history.</li>
@@ -23,12 +25,13 @@ class UsersUsernameHistory extends Module {
         <li>Adds a button (<i class="fa fa-user"></i> <i class="fa fa-history"></i>) to the page heading of this menu that allows you to view all of the recent username changes detected.</li>
       </ul>
     `,
-    id: `uh`,
-    load: this.uh,
-    name: `Username History`,
-    sg: true,
-    type: `users`
-  });
+      id: `uh`,
+      load: this.uh,
+      name: `Username History`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   uh() {
     this.esgst.profileFeatures.push(this.uh_add.bind(this));

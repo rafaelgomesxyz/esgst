@@ -10,30 +10,33 @@ const
 ;
 
 class DiscussionsOldActiveDiscussionsDesign extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.</li>
         <li>Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (<i class="fa fa-retweet"></i>) in the page heading of the active discussions that allows you to switch sections.</li>
       </ul>
     `,
-    features: {
-      oadd_d: {
-        description: `
+      features: {
+        oadd_d: {
+          description: `
           <ul>
             <li>With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.</li>
           </ul>
         `,
-        name: `Show deals in the "Discussions" section.`,
-        sg: true
-      }
-    },
-    id: `oadd`,
-    load: this.oadd,
-    name: `Old Active Discussions Design`,
-    sg: true,
-    type: `discussions`
-  });
+          name: `Show deals in the "Discussions" section.`,
+          sg: true
+        }
+      },
+      id: `oadd`,
+      load: this.oadd,
+      name: `Old Active Discussions Design`,
+      sg: true,
+      type: `discussions`
+    };
+  }
 
   async oadd() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions) return;
@@ -41,7 +44,8 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
   }
 
   async oadd_load(refresh, callback) {
-    let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html, response2Html, revisedElements;
+    let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html,
+      response2Html, revisedElements;
     response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
     response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
     this.esgst.activeDiscussions.classList.add(`esgst-oadd`);
@@ -226,7 +230,8 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       let name = this.esgst.df_preset;
       if (name) {
         let i;
-        for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {}
+        for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {
+        }
         if (i > -1) {
           preset = this.esgst.df_presets[i];
         }

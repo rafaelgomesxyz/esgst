@@ -9,23 +9,26 @@ const
 ;
 
 class GeneralScrollToTopButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-up"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the top of the page.</li>
       </ul>
     `,
-    id: `sttb`,
-    load: this.sttb,
-    name: `Scroll To Top Button`,
-    options: {
-      title: `Show in:`,
-      values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
-    },
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `sttb`,
+      load: this.sttb,
+      name: `Scroll To Top Button`,
+      options: {
+        title: `Show in:`,
+        values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+      },
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   sttb() {
     let button;

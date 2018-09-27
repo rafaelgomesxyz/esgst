@@ -23,8 +23,10 @@ const
 ;
 
 class UsersWhitelistBlacklistChecker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.</li>
         <li>That information is retrieved by searching for whitelist giveaways in the user's <a href="https://www.steamgifts.com/user/cg">profile</a> page and checking if you can access them. If no whitelist giveaways are found, the feature searches for group + whitelist giveaways instead and checks if you can access them using the groups that you are a member of to determine whether you can access them for being a group member or for being in the user's whitelist.</li>
@@ -34,44 +36,45 @@ class UsersWhitelistBlacklistChecker extends Module {
         <li>Results are cached for 24 hours, so if you check the same user again within that timeframe, their status will not change, unless you check them with the option to clear the cache enabled.</li>
       </ul>
     `,
-    features: {
-      wbc_h: {
-        description: `
+      features: {
+        wbc_h: {
+          description: `
           <ul>
             <li>Adds an icon (<i class="fa fa-check esgst-whitelist"></i> if the user has whitelisted you and <i class="fa fa-times esgst-blacklist"></i> if they have blacklisted you) next to a checked user's username (in any page).</li>
             <li>If you hover over the icon, it shows the date when they were checked for the last time.</li>
           </ul>
         `,
-        name: `Highlight checked users.`,
-        sg: true,
-        st: true
-      },
-      wbc_n: {
-        description: `
+          name: `Highlight checked users.`,
+          sg: true,
+          st: true
+        },
+        wbc_n: {
+          description: `
           <ul>
             <li>If you have [id=un] enabled, a note will be saved for a user if they were whitelisted/blacklisted back.</li>
           </ul>
         `,
-        name: `Save automatic notes when returning whitelists/blacklists.`,
-        sg: true
-      },
-      wbc_hb: {
-        description: `
+          name: `Save automatic notes when returning whitelists/blacklists.`,
+          sg: true
+        },
+        wbc_hb: {
+          description: `
           <ul>
             <li>With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.</li>
           </ul>
         `,
-        name: `Hide blacklist information.`,
-        sg: true
-      }
-    },
-    id: `wbc`,
-    load: this.wbc,
-    name: `Whitelist/Blacklist Checker`,
-    sg: true,
-    sync: `Steam Groups`,
-    type: `users`
-  });
+          name: `Hide blacklist information.`,
+          sg: true
+        }
+      },
+      id: `wbc`,
+      load: this.wbc,
+      name: `Whitelist/Blacklist Checker`,
+      sg: true,
+      sync: `Steam Groups`,
+      type: `users`
+    };
+  }
 
   wbc() {
     if (this.esgst.wbc_h) {
@@ -84,7 +87,7 @@ class UsersWhitelistBlacklistChecker extends Module {
   }
 
   wbc_users(users) {
-    for (const user of users) {    
+    for (const user of users) {
       if (user.saved && user.saved.wbc && !user.context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
         let result = user.saved.wbc.result;
         if ((result === `whitelisted`) || ((result === `blacklisted`) && !this.esgst.wbc_hb)) {
@@ -122,7 +125,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         SteamID64: document.querySelector(`a[href*="/profiles/"]`).href.match(/\d+/)[0],
       };
     }
-    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Options = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
     if (WBC.User) {
       checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, this.esgst.wbc_checkSingle);
     }
@@ -184,10 +187,10 @@ class UsersWhitelistBlacklistChecker extends Module {
       },
       type: `input`
     },
-    {
-      text: ` pages.`,
-      type: `node`
-    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
+      {
+        text: ` pages.`,
+        type: `node`
+      }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
     new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, this.esgst.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {
@@ -281,10 +284,10 @@ class UsersWhitelistBlacklistChecker extends Module {
       }, 500);
       WBCButton.classList.remove(`esgst-busy`);
     }).set);
-    skip = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    WBC.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
+    skip = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
+    WBC.Progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
+    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
+    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{type: `div`}]);
     createResults(popup.Results, WBC, [{
       Icon: `fa fa-heart esgst-whitelist`,
       Description: `You are whitelisted by`,
@@ -621,7 +624,12 @@ class UsersWhitelistBlacklistChecker extends Module {
         Callback(true, notes);
       } else {
         let success = false;
-        if (JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`, method: `POST`, queue: true, url: `/ajax.php`})).responseText).type === `success`) {
+        if (JSON.parse((await request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`,
+          method: `POST`,
+          queue: true,
+          url: `/ajax.php`
+        })).responseText).type === `success`) {
           success = true;
           if (this.esgst.wbc_n) {
             let msg = `${Key} in return.`;
@@ -700,7 +708,11 @@ class UsersWhitelistBlacklistChecker extends Module {
     if (obj.Canceled) {
       return;
     }
-    let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`})).responseText);
+    let responseHtml = parseHtml((await request({
+      method: `GET`,
+      queue: true,
+      url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`
+    })).responseText);
     let errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
     let stop;
     if (errorMessage) {
@@ -726,7 +738,8 @@ class UsersWhitelistBlacklistChecker extends Module {
       found = false;
       groups = JSON.parse(await getValue(`groups`, `[]`));
       for (i = 0, n = data.g_wl_gas[data.g_wl_ga].length; i < n && !found; ++i) {
-        for (j = groups.length - 1; j > -1 && groups[j].code !== data.g_wl_gas[data.g_wl_ga][i]; --j) {}
+        for (j = groups.length - 1; j > -1 && groups[j].code !== data.g_wl_gas[data.g_wl_ga][i]; --j) {
+        }
         if (j > -1 && groups[j].member) {
           found = true;
         }
@@ -974,7 +987,11 @@ class UsersWhitelistBlacklistChecker extends Module {
       if (!this.esgst.wbc_checkPages || NextPage <= this.esgst.wbc_maxPage) {
         NextPage += 1;
         if (CurrentPage !== NextPage) {
-          setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({method: `GET`, queue: true, url: URL + NextPage})).responseText)), 0);
+          setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({
+            method: `GET`,
+            queue: true,
+            url: URL + NextPage
+          })).responseText)), 0);
         } else {
           setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.esgst.pageOuterWrap), 0);
         }
