@@ -67,10 +67,7 @@ import esgst from './class/Esgst';
   const
     common = esgst.modules.common,
     getZip = common.getZip.bind(common),
-    readZip = common.readZip.bind(common),
-    {filters_convert} = esgst.modules.giveawaysGiveawayFilters,
-    {lpl_getLastPage} = esgst.modules.generalLastPageLink,
-    {hr_refreshHeaderElements} = esgst.modules.generalHeaderRefresher
+    readZip = common.readZip.bind(common)
   ;
 
   if (!NodeList.prototype[Symbol.iterator]) {
@@ -1284,14 +1281,14 @@ import esgst from './class/Esgst';
     for (let key in esgst.defaultValues) {
       if (esgst.defaultValues.hasOwnProperty(key)) {
         let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
-        if (typeof esgst[localKey] === `undefined`) {
+        if (!utils.isSet(esgst[localKey])) {
           esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
     }
     if (utils.isSet(esgst.storage.filterPresets)) {
       esgst.gf_presets = esgst.gf_presets.concat(
-        filters_convert(JSON.parse(esgst.storage.filterPresets))
+        esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.filterPresets))
       );
       esgst.settings.gf_presets = esgst.gf_presets;
       esgst.settingsChanged = true;
@@ -1300,7 +1297,7 @@ import esgst from './class/Esgst';
     }
     if (utils.isSet(esgst.storage.dfPresets)) {
       esgst.df_presets = esgst.df_presets.concat(
-        filters_convert(JSON.parse(esgst.storage.dfPresets))
+        esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.dfPresets))
       );
       esgst.settings.df_presets = esgst.df_presets;
       esgst.settingsChanged = true;
@@ -1570,7 +1567,7 @@ import esgst from './class/Esgst';
           // esgst is not enabled for steamtrades
           return;
         }
-        esgst.lastPage = lpl_getLastPage(document, true);
+        esgst.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
         await common.getElements();
         if (esgst.sg && !esgst.menuPath) {
           // noinspection JSIgnoredPromiseFromCall
@@ -1631,7 +1628,7 @@ import esgst from './class/Esgst';
             if (esgst.logoutButton) {
               esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
             }
-            await hr_refreshHeaderElements(document);
+            await esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
           }
 
           if (esgst.settingsPath) {
