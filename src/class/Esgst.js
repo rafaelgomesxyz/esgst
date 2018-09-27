@@ -787,34 +787,34 @@ class Esgst {
     this.gc_r_colors = null;
 
     /** @type {number} */
-    this.ugd_playtime = 0;
+    this.ugd_playtime = undefined;
 
     /** @type {number} */
-    this.cleanDiscussions_days = 0;
+    this.cleanDiscussions_days = undefined;
 
     /** @type {number} */
-    this.cleanEntries_days = 0;
+    this.cleanEntries_days = undefined;
 
     /** @type {number} */
-    this.cleanGiveaways_days = 0;
+    this.cleanGiveaways_days = undefined;
 
     /** @type {number} */
-    this.cleanSgCommentHistory_days = 0;
+    this.cleanSgCommentHistory_days = undefined;
 
     /** @type {number} */
-    this.cleanTickets_days = 0;
+    this.cleanTickets_days = undefined;
 
     /** @type {number} */
-    this.cleanTrades_days = 0;
+    this.cleanTrades_days = undefined;
 
     /** @type {number} */
-    this.autoBackup_days = 0;
+    this.autoBackup_days = undefined;
 
     /** @type {number} */
-    this.autoBackup_index = 0;
+    this.autoBackup_index = undefined;
 
     /** @type {boolean} */
-    this.askFileName = false;
+    this.askFileName = undefined;
 
     this.pageOuterWrap = null;
 
@@ -859,7 +859,6 @@ class Esgst {
     this.selectedClass = ``;
 
     /** @type {number} */
-    this.currentPage = 0;
 
     /** @type {string} */
     this.originalUrl = ``;
@@ -901,7 +900,7 @@ class Esgst {
     this.pinnedGiveaways = null;
 
     /** @type {boolean} */
-    this.addNoCvGames = false;
+    this.addNoCvGames = undefined;
 
     this.discussions = null;
 
@@ -925,7 +924,7 @@ class Esgst {
     this.isRepositioning = null;
 
     /** @type {string} */
-    this.name = ``;
+    this.name = undefined;
 
     this.showFeatureNumber = null;
 

@@ -223,7 +223,7 @@ class Common extends Module {
         continue;
       }
       try {
-        await module.info.load.call(module);
+        await module.init();
       } catch (e) {
         console.log(e);
       }
