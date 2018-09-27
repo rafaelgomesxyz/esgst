@@ -33,7 +33,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
   }
 
   gcl() {
-    this.esgst.giveawayFeatures.push(this.gcl_setButton);
+    this.esgst.giveawayFeatures.push(this.gcl_setButton.bind(this));
   }
 
   gcl_setButton(giveaways, main) {

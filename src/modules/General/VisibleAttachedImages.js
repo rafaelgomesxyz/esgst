@@ -29,7 +29,7 @@ class GeneralVisibleAttachedImages extends Module {
   }
 
   vai() {
-    this.esgst.endlessFeatures.push(this.vai_getImages);
+    this.esgst.endlessFeatures.push(this.vai_getImages.bind(this));
   }
 
   vai_getImages(context, main, source, endless) {

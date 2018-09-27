@@ -22,7 +22,7 @@ class Giveaways extends Module {
   }
 
   giveaways() {
-    this.esgst.endlessFeatures.push(this.giveaways_load);
+    this.esgst.endlessFeatures.push(this.giveaways_load.bind(this));
   }
 
   async giveaways_load(context, main, source, endless) {

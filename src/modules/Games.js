@@ -21,7 +21,7 @@ class Games extends Module {
   }
 
   games() {
-    this.esgst.endlessFeatures.push(this.games_load);
+    this.esgst.endlessFeatures.push(this.games_load.bind(this));
   }
 
   async games_load(context, main, source, endless) {

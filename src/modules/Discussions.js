@@ -19,7 +19,7 @@ class Discussions extends Module {
   }
 
   discussions() {
-    this.esgst.endlessFeatures.push(this.discussions_load);
+    this.esgst.endlessFeatures.push(this.discussions_load.bind(this));
   }
 
   async discussions_load(context, main, source, endless) {

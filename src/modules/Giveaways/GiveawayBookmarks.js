@@ -74,7 +74,7 @@ class GiveawaysGiveawayBookmarks extends Module {
   }
 
   gb() {
-    this.esgst.giveawayFeatures.push(this.gb_getGiveaways);
+    this.esgst.giveawayFeatures.push(this.gb_getGiveaways.bind(this));
     let button = null;
     if (!this.esgst.gbPath) {
       button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{

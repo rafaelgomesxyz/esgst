@@ -306,7 +306,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   async cfh() {
     this.esgst.cfhEmojis = this.cfh_emojis();
-    this.esgst.endlessFeatures.push(this.cfh_setTextAreas);
+    this.esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
     this.esgst.cfh = {
       backup: [],
       history: [],

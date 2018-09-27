@@ -71,9 +71,9 @@ class GiveawaysGiveawayWinningChance extends Module {
   }
 
   gwc() {
-    this.esgst.giveawayFeatures.push(this.gwc_addChances);
+    this.esgst.giveawayFeatures.push(this.gwc_addChances.bind(this));
     if (this.esgst.gptw || !this.esgst.enteredPath) return;
-    this.esgst.endlessFeatures.push(this.gwc_addHeading);
+    this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
   }
 
   gwc_addChances(giveaways, main, source) {

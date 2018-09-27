@@ -74,7 +74,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   elgb() {
-    this.esgst.giveawayFeatures.push(this.elgb_addButtons);
+    this.esgst.giveawayFeatures.push(this.elgb_addButtons.bind(this));
   }
 
   async elgb_addButtons(giveaways, main, source) {

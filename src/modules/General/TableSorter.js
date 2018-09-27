@@ -26,7 +26,7 @@ class GeneralTableSorter extends Module {
   }
 
   ts() {
-    this.esgst.endlessFeatures.push(this.ts_getTables);
+    this.esgst.endlessFeatures.push(this.ts_getTables.bind(this));
   }
 
   ts_getTables(context, main, source, endless) {

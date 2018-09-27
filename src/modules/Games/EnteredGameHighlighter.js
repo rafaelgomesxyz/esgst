@@ -28,7 +28,7 @@ class GamesEnteredGameHighlighter extends Module {
   }
 
   egh() {
-    this.esgst.gameFeatures.push(this.egh_getGames);
+    this.esgst.gameFeatures.push(this.egh_getGames.bind(this));
   }
 
   egh_getGames(games) {

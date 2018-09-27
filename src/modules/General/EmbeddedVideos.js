@@ -25,7 +25,7 @@ class GeneralEmbeddedVideos extends Module {
   }
 
   ev() {
-    this.esgst.endlessFeatures.push(this.ev_getVideos);
+    this.esgst.endlessFeatures.push(this.ev_getVideos.bind(this));
   }
 
   ev_getVideos(context, main, source, endless) {

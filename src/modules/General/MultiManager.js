@@ -92,7 +92,7 @@ class GeneralMultiManager extends Module {
     this.esgst.mm_disable = this.mm_disable.bind(null, obj);
     obj.button.addEventListener(`click`, this.mm_openPopout.bind(this, obj, items, itemsKey));
     if (this.esgst.mm_enableGames) {
-      this.esgst.gameFeatures.push(this.mm_getGames);
+      this.esgst.gameFeatures.push(this.mm_getGames.bind(this));
     }
   }
 

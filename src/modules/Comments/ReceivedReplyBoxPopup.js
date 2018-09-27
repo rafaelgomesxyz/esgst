@@ -27,7 +27,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
 
   rrbp() {
     if (!this.esgst.wonPath) return;
-    this.esgst.giveawayFeatures.push(this.rrbp_addEvent);
+    this.esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
   }
 
   rrbp_addEvent(giveaways) {
