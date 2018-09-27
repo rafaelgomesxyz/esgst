@@ -27,7 +27,7 @@ class UsersRealWonSentCVLink extends Module {
   });
 
   rwscvl() {
-    this.esgst.profileFeatures.push(this.rwscvl_add);
+    this.esgst.profileFeatures.push(this.rwscvl_add.bind(this));
   }
 
   rwscvl_add(profile) {

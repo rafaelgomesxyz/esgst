@@ -26,9 +26,10 @@ class GroupsGroupTags extends Module {
   });
 
   gpt() {
-    this.esgst.groupFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(null, `gpt`));
+    const tagsModule = this.esgst.modules.tags;
+    this.esgst.groupFeatures.push(tagsModule.tags_addButtons.bind(tagsModule, `gpt`));
     // noinspection JSIgnoredPromiseFromCall
-    this.esgst.modules.tags.tags_getTags(`gpt`);
+    tagsModule.tags_getTags(`gpt`);
   }
 }
 

@@ -47,9 +47,9 @@ class UsersUserGiveawayData extends Module {
   });
 
   ugd() {
-    this.esgst.profileFeatures.push(this.ugd_addButtons);
+    this.esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
     if (this.esgst.ugd_s) {
-      this.esgst.profileFeatures.push(this.ugd_addStats);
+      this.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
     }
   }
 
@@ -168,8 +168,8 @@ class UsersUserGiveawayData extends Module {
     const playtimeDisplay = context.lastElementChild;
     const achievementsInput = context.nextElementSibling.firstElementChild.lastElementChild;
     const achievementsDisplay = context.nextElementSibling.lastElementChild;
-    playtimeInput.addEventListener(`change`, this.ugd_calculatePlaytime.bind(null, playtimeDisplay, playtimeInput, ugdCache, false));
-    achievementsInput.addEventListener(`change`, this.ugd_calculateAchievements.bind(null, achievementsDisplay, achievementsInput, ugdCache, false));
+    playtimeInput.addEventListener(`change`, this.ugd_calculatePlaytime.bind(this, playtimeDisplay, playtimeInput, ugdCache, false));
+    achievementsInput.addEventListener(`change`, this.ugd_calculateAchievements.bind(this, achievementsDisplay, achievementsInput, ugdCache, false));
     this.ugd_calculatePlaytime(playtimeDisplay, playtimeInput, ugdCache, true);
     this.ugd_calculateAchievements(achievementsDisplay, achievementsInput, ugdCache, true);
   }
@@ -272,7 +272,7 @@ class UsersUserGiveawayData extends Module {
         }] : null
       },
       mainPopup: mainPopup,
-      init: this.ugd_init.bind(null, key, user),
+      init: this.ugd_init.bind(this, key, user),
       requests: [
         {
           url: `/user/${user.username}${key === `won` ? `/giveaways/won` : ``}/search?page=`,

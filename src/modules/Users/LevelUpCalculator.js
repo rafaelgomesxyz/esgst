@@ -21,7 +21,7 @@ class UsersLevelUpCalculator extends Module {
   });
 
   luc() {
-    this.esgst.profileFeatures.push(this.luc_calculate);
+    this.esgst.profileFeatures.push(this.luc_calculate.bind(this));
   }
 
   luc_calculate(profile) {

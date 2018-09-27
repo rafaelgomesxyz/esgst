@@ -22,7 +22,7 @@ class GroupsGroupHighlighter extends Module {
 
   gh() {
     if (this.esgst.groupsPath) return;
-    this.esgst.endlessFeatures.push(this.gh_highlightGroups);
+    this.esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
   }
 
   async gh_highlightGroups(context, main, source, endless) {

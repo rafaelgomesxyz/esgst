@@ -1453,12 +1453,6 @@ import esgst from './class/Esgst';
             rel: `stylesheet`
           },
           type: `link`
-        }, {
-          attributes: {
-            href: envVariables._USER_INFO.extension ? envVariables.browser.runtime.getURL(`css/steamgifts-v34.min.css`) : await envVariables.gm.getResourceUrl(`sg`),
-            rel: `stylesheet`
-          },
-          type: `link`
         }]);
         const element = document.querySelector(`[href*="https://cdn.steamgifts.com/css/static.css"]`);
         if (element) {
