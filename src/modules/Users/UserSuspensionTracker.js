@@ -97,7 +97,9 @@ class UsersUserSuspensionTracker extends Module {
       data: ``
     };
     for (let code in this.esgst.ustCheckboxes) {
-      promises.push(this.ust_check(code, obj));
+      if (this.esgst.ustCheckboxes.hasOwnProperty(code)) {
+        promises.push(this.ust_check(code, obj));
+      }
     }
     await Promise.all(promises);
     let error = JSON.parse((await request({
@@ -107,18 +109,20 @@ class UsersUserSuspensionTracker extends Module {
     })).responseText).error;
     let tickets = JSON.parse(await getValue(`tickets`));
     for (let code in this.esgst.ustCheckboxes) {
-      if (error.indexOf(code) < 0) {
-        if (!tickets[code]) {
-          tickets[code] = {
-            readComments: {}
-          };
+      if (this.esgst.ustCheckboxes.hasOwnProperty(code)) {
+        if (error.indexOf(code) < 0) {
+          if (!tickets[code]) {
+            tickets[code] = {
+              readComments: {}
+            };
+          }
+          tickets[code].sent = 1;
+          this.esgst.numUstTickets -= 1;
+          this.esgst.ustCheckboxes[code].remove();
+          delete this.esgst.ustCheckboxes[code];
+        } else {
+          numError += 1;
         }
-        tickets[code].sent = 1;
-        this.esgst.numUstTickets -= 1;
-        this.esgst.ustCheckboxes[code].remove();
-        delete this.esgst.ustCheckboxes[code];
-      } else {
-        numError += 1;
       }
     }
     await setValue(`tickets`, JSON.stringify(tickets));
@@ -195,12 +199,16 @@ class UsersUserSuspensionTracker extends Module {
         if (event) {
           if (event.ctrlKey) {
             for (let code in this.esgst.ustTickets) {
-              this.esgst.ustTickets[code].check();
+              if (this.esgst.ustTickets.hasOwnProperty(code)) {
+                this.esgst.ustTickets[code].check();
+              }
             }
           } else if (event.altKey) {
             checkbox.toggle();
             for (let code in this.esgst.ustTickets) {
-              this.esgst.ustTickets[code].toggle();
+              if (this.esgst.ustTickets.hasOwnProperty(code)) {
+                this.esgst.ustTickets[code].toggle();
+              }
             }
           }
         }
@@ -210,12 +218,16 @@ class UsersUserSuspensionTracker extends Module {
         if (event) {
           if (event.ctrlKey) {
             for (let code in this.esgst.ustTickets) {
-              this.esgst.ustTickets[code].uncheck();
+              if (this.esgst.ustTickets.hasOwnProperty(code)) {
+                this.esgst.ustTickets[code].uncheck();
+              }
             }
           } else if (event.altKey) {
             checkbox.toggle();
             for (let code in this.esgst.ustTickets) {
-              this.esgst.ustTickets[code].toggle();
+              if (this.esgst.ustTickets.hasOwnProperty(code)) {
+                this.esgst.ustTickets[code].toggle();
+              }
             }
           }
         }

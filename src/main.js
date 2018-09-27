@@ -1274,15 +1274,19 @@ import esgst from './class/Esgst';
       }
     }
     for (let key in esgst.oldValues) {
-      let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
-      if (typeof esgst[localKey] === `undefined`) {
-        esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+      if (esgst.oldValues.hasOwnProperty(key)) {
+        let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
+        if (typeof esgst[localKey] === `undefined`) {
+          esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        }
       }
     }
     for (let key in esgst.defaultValues) {
-      let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
-      if (typeof esgst[localKey] === `undefined`) {
-        esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+      if (esgst.defaultValues.hasOwnProperty(key)) {
+        let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
+        if (typeof esgst[localKey] === `undefined`) {
+          esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        }
       }
     }
     if (utils.isSet(esgst.storage.filterPresets)) {

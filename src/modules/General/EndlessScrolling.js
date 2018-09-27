@@ -492,17 +492,21 @@ class GeneralEndlessScrolling extends Module {
       }
     }
     for (const key in this.esgst.apPopouts) {
-      if (document.contains(this.esgst.apPopouts[key].popout)) continue;
-      delete this.esgst.apPopouts[key];
+      if (this.esgst.apPopouts.hasOwnProperty(key)) {
+        if (document.contains(this.esgst.apPopouts[key].popout)) continue;
+        delete this.esgst.apPopouts[key];
+      }
     }
     for (const key in this.esgst.currentUsers) {
-      const elements = this.esgst.currentUsers[key].elements;
-      for (let i = elements.length - 1; i > -1; i--) {
-        if (document.contains(elements[i])) continue;
-        elements.splice(i, 1);
+      if (this.esgst.currentUsers.hasOwnProperty(key)) {
+        const elements = this.esgst.currentUsers[key].elements;
+        for (let i = elements.length - 1; i > -1; i--) {
+          if (document.contains(elements[i])) continue;
+          elements.splice(i, 1);
+        }
+        if (elements.length) continue;
+        delete this.esgst.currentUsers[key];
       }
-      if (elements.length) continue;
-      delete this.esgst.currentUsers[key];
     }
   }
 

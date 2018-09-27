@@ -729,13 +729,13 @@ class Esgst {
     this.sidebar = null;
 
     /** @type {string} */
-    this.xsrfToken = null;
+    this.xsrfToken = undefined;
 
     /** @type {HTMLElement} */
     this.logoutButton = null;
 
     /** @type {string} */
-    this.version = null;
+    this.version = undefined;
 
     /** @type {string[]} */
     this.leftButtonIds = null;
@@ -743,7 +743,7 @@ class Esgst {
     /**
      * @type {EsgstStorage}
      */
-    this.storage = null;
+    this.storage = undefined;
 
     /** @type {EsgstSettings} */
     this.settings = {};
@@ -752,14 +752,14 @@ class Esgst {
     this.rightButtonIds = null;
 
     /** @type {string} */
-    this.steamApiKey = null;
+    this.steamApiKey = undefined;
 
     this.groups = [];
 
     this.features = null;
 
     /** @type {boolean} */
-    this.firstInstall = null;
+    this.firstInstall = undefined;
 
     this.df_preset = null;
 
@@ -787,34 +787,34 @@ class Esgst {
     this.gc_r_colors = null;
 
     /** @type {number} */
-    this.ugd_playtime = null;
+    this.ugd_playtime = 0;
 
     /** @type {number} */
-    this.cleanDiscussions_days = null;
+    this.cleanDiscussions_days = 0;
 
     /** @type {number} */
-    this.cleanEntries_days = null;
+    this.cleanEntries_days = 0;
 
     /** @type {number} */
-    this.cleanGiveaways_days = null;
+    this.cleanGiveaways_days = 0;
 
     /** @type {number} */
-    this.cleanSgCommentHistory_days = null;
+    this.cleanSgCommentHistory_days = 0;
 
     /** @type {number} */
-    this.cleanTickets_days = null;
+    this.cleanTickets_days = 0;
 
     /** @type {number} */
-    this.cleanTrades_days = null;
+    this.cleanTrades_days = 0;
 
     /** @type {number} */
-    this.autoBackup_days = null;
+    this.autoBackup_days = 0;
 
     /** @type {number} */
-    this.autoBackup_index = null;
+    this.autoBackup_index = 0;
 
     /** @type {boolean} */
-    this.askFileName = null;
+    this.askFileName = false;
 
     this.pageOuterWrap = null;
 
@@ -825,20 +825,20 @@ class Esgst {
     this.rightButtons = null;
 
     /** @type {EsgstHidingGame} */
-    this.hidingGame = null;
+    this.hidingGame = undefined;
 
     this.mainPageHeading = null;
 
     this.staticPopups = null;
 
     /** @type {string} */
-    this.pageOuterWrapClass = null;
+    this.pageOuterWrapClass = ``;
 
     /** @type {string} */
-    this.pageHeadingClass = null;
+    this.pageHeadingClass = ``;
 
     /** @type {string} */
-    this.pageHeadingBreadcrumbsClass = null;
+    this.pageHeadingBreadcrumbsClass = ``;
 
     /** @type {HTMLElement} */
     this.footer = null;
@@ -847,31 +847,31 @@ class Esgst {
     this.replyBox = null;
 
     /** @type {string} */
-    this.cancelButtonClass = null;
+    this.cancelButtonClass = ``;
 
     /** @type {string} */
-    this.paginationNavigationClass = null;
+    this.paginationNavigationClass = ``;
 
     /** @type {string} */
-    this.hiddenClass = null;
+    this.hiddenClass = ``;
 
     /** @type {string} */
-    this.selectedClass = null;
+    this.selectedClass = ``;
 
     /** @type {number} */
-    this.currentPage = null;
+    this.currentPage = 0;
 
     /** @type {string} */
-    this.originalUrl = null;
+    this.originalUrl = ``;
 
     /** @type {HTMLElement} */
     this.favicon = null;
 
     /** @type {string} */
-    this.originalTitle = null;
+    this.originalTitle = ``;
 
     /** @type {string} */
-    this.searchUrl = null;
+    this.searchUrl = ``;
 
     /** @type {HTMLElement} */
     this.header = null;
@@ -901,7 +901,7 @@ class Esgst {
     this.pinnedGiveaways = null;
 
     /** @type {boolean} */
-    this.addNoCvGames = null;
+    this.addNoCvGames = false;
 
     this.discussions = null;
 
@@ -912,7 +912,7 @@ class Esgst {
     this.users = null;
 
     /** @type {boolean} */
-    this.busy = null;
+    this.busy = false;
 
     this.checkVersion = null;
 
@@ -925,7 +925,7 @@ class Esgst {
     this.isRepositioning = null;
 
     /** @type {string} */
-    this.name = null;
+    this.name = ``;
 
     this.showFeatureNumber = null;
 

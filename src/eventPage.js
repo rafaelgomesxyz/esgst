@@ -1,5 +1,8 @@
 import JSZip from 'jszip';
 
+/**
+ * @property {Object} browser.cookies
+ */
 const browser = (global.chrome && global.chrome.runtime) ? global.chrome : global.browser;
 let storage = null;
 
@@ -57,6 +60,7 @@ async function getZip(data, fileName) {
 
 async function readZip(data) {
   const zip = new JSZip(),
+    /** @property {Object} files */
     contents = await zip.loadAsync(data),
     keys = Object.keys(contents.files),
     output = [];
@@ -120,6 +124,9 @@ async function doFetch(parameters, request, sender, callback) {
     return;
   }
   browser.tabs.get(sender.tab.id, async tab => {
+    /**
+     * @property {string} tab.cookieStoreId
+     */
     if (tab.cookieStoreId === `firefox-default`) {
       let response = await fetch(request.url, parameters);
       let responseText = request.blob
@@ -157,6 +164,7 @@ async function doFetch(parameters, request, sender, callback) {
     for (let i = containerCookies.length - 1; i > -1; i--) {
       let cookie = containerCookies[i];
       cookie.url = request.url;
+      /** @property {boolean} cookie.hostOnly */
       delete cookie.hostOnly;
       delete cookie.session;
       delete cookie.storeId;
@@ -235,6 +243,7 @@ browser.runtime.onMessage.addListener((request, sender, callback) => {
     case `fetch`:
       parameters = JSON.parse(request.parameters);
       parameters.headers = new Headers(parameters.headers);
+      // noinspection JSIgnoredPromiseFromCall
       doFetch(parameters, request, sender, callback);
       break;
     case `getStorage`:
@@ -255,13 +264,16 @@ browser.runtime.onMessage.addListener((request, sender, callback) => {
       values = JSON.parse(request.values);
       browser.storage.local.set(values, () => {
         for (key in values) {
-          storage[key] = values[key];
+          if (values.hasOwnProperty(key)) {
+            storage[key] = values[key];
+          }
         }
         sendMessage(`setValues`, sender, values);
         callback();
       });
       break;
     case `tabs`:
+      // noinspection JSIgnoredPromiseFromCall
       getTabs(request);
       break;
   }
