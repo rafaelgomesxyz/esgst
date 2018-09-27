@@ -12,18 +12,21 @@ const
 ;
 
 class GiveawaysAdvancedGiveawaySearch extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
       </ul>
     `,
-    id: `ags`,
-    load: this.ags,
-    name: `Advanced Giveaway Search`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `ags`,
+      load: this.ags,
+      name: `Advanced Giveaway Search`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   ags() {
     let query = ``;
@@ -182,7 +185,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     obj.input.addEventListener(`keydown`,
       triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
     );
-    icon.addEventListener(`click`, this.ags_searchQuery.bind(null, obj));
+    icon.addEventListener(`click`, this.ags_searchQuery.bind(this, obj));
   }
 
   ags_createFilter(obj, details) {
@@ -222,7 +225,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           },
           text: option.name,
           type: `option`
-         });
+        });
       });
       let element = createElements(obj.panel, `beforeEnd`, [{
           attributes: {
@@ -269,7 +272,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
             type: `date`
           },
           type: `input`
-        }];        
+        }];
       } else {
         items = [{
           attributes: {

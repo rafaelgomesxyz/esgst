@@ -10,18 +10,21 @@ const
 ;
 
 class GiveawaysArchiveSearcher extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-search"></i>) to the main page heading of any <a href="https://www.steamgifts.com/archive">archive</a> page that allows you to search the archive by exact title/app id.</li>
       </ul>
     `,
-    id: `as`,
-    load: this.as_load,
-    name: `Archive Searcher`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `as`,
+      load: this.as_load,
+      name: `Archive Searcher`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   as_load() {
     if (!this.esgst.archivePath) return;
@@ -71,7 +74,10 @@ class GiveawaysArchiveSearcher extends Module {
     // retrieve the game title from Steam
     if (this.esgst.as_searchAppId) {
       obj.popup.setProgress(`Retrieving game title...`);
-      let title = parseHtml((await request({method: `GET`, url: `https://steamcommunity.com/app/${obj.query}`})).responseText).getElementsByClassName(`apphub_AppName`)[0];
+      let title = parseHtml((await request({
+        method: `GET`,
+        url: `https://steamcommunity.com/app/${obj.query}`
+      })).responseText).getElementsByClassName(`apphub_AppName`)[0];
       if (title) {
         obj.query = title.textContent;
       } else {

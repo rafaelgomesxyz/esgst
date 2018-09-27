@@ -16,8 +16,10 @@ const
 ;
 
 class GiveawaysGiveawayExtractor extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-search"></i>) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.</li>
         <li>The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.</li>
@@ -26,59 +28,60 @@ class GiveawaysGiveawayExtractor extends Module {
         <li>This feature is useful for extracting trains (multiple giveaways linked to each other).</li>
       </ul>
     `,
-    features: {
-      ge_b: {
-        background: true,
-        name: `Highlight giveaways that cannot be entered because of blacklist reasons.`,
-        sg: true
-      },
-      ge_g: {
-        background: true,
-        name: `Highlight group giveaways.`,
-        sg: true
-      },
-      ge_p: {
-        background: true,
-        name: `Highlight public giveaways.`,
-        sg: true
-      },
-      ge_o: {
-        description: `
+      features: {
+        ge_b: {
+          background: true,
+          name: `Highlight giveaways that cannot be entered because of blacklist reasons.`,
+          sg: true
+        },
+        ge_g: {
+          background: true,
+          name: `Highlight group giveaways.`,
+          sg: true
+        },
+        ge_p: {
+          background: true,
+          name: `Highlight public giveaways.`,
+          sg: true
+        },
+        ge_o: {
+          description: `
           <ul>
             <li>With this option enabled, if you use the feature in the 6th giveaway of a train and the train has links to the previous giveaways, it will not go back and extract giveaways 1-5.</li>
             <li>This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.</li>
           </ul>
         `,
-        name: `Only extract from the current giveaway onward.`,
-        sg: true
-      },
-      ge_sgt: {
-        features: {
-          ge_sgt_l: {
-            inputItems: [
-              {
-                id: `ge_sgt_limit`,
-                prefix: `Limit: `
-              }
-            ],
-            name: `Limit how many links are opened.`,
-            sg: true
-          }
+          name: `Only extract from the current giveaway onward.`,
+          sg: true
         },
-        name: `Automatically open any SGTools links found in new tabs.`,
-        sg: true
+        ge_sgt: {
+          features: {
+            ge_sgt_l: {
+              inputItems: [
+                {
+                  id: `ge_sgt_limit`,
+                  prefix: `Limit: `
+                }
+              ],
+              name: `Limit how many links are opened.`,
+              sg: true
+            }
+          },
+          name: `Automatically open any SGTools links found in new tabs.`,
+          sg: true
+        },
+        ge_t: {
+          name: `Open the extractor in a new tab.`,
+          sg: true
+        }
       },
-      ge_t: {
-        name: `Open the extractor in a new tab.`,
-        sg: true
-      }
-    },
-    id: `ge`,
-    load: this.ge,
-    name: `Giveaway Extractor`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `ge`,
+      load: this.ge,
+      name: `Giveaway Extractor`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   async ge() {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
@@ -110,8 +113,10 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.popup = {
         description: this.esgst.mainContext,
         scrollable: this.esgst.mainContext,
-        open: () => {},
-        reposition: () => {}
+        open: () => {
+        },
+        reposition: () => {
+        }
       };
     } else {
       ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
@@ -230,7 +235,10 @@ class GiveawaysGiveawayExtractor extends Module {
             callback();
             return;
           }
-          let response = await request({method: `GET`, url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`});
+          let response = await request({
+            method: `GET`,
+            url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
+          });
           let bumpLink, button, giveaway, giveaways, n, responseHtml;
           responseHtml = parseHtml(response.responseText);
           button = responseHtml.getElementsByClassName(`sidebar__error`)[0];

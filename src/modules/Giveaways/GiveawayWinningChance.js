@@ -7,65 +7,68 @@ const
 ;
 
 class GiveawaysGiveawayWinningChance extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an element (<i class="fa fa-area-chart"></i> [Chance]%) below a giveaway's start time (in any page) that shows your chance of winning the giveaway.</li>
         <li>The chance is calculated by rounding up (using 2 decimals) the result of the following formula: number_of_copies / number_of_entries * 100
         <li>You can move the element around by dragging and dropping it.</li>
       </ul>
     `,
-    features: {
-      gwc_e: {
-        description: `
+      features: {
+        gwc_e: {
+          description: `
           <ul>
             <li>The formula changes to: number_of_copies / (number_of_entries + 1) * 100
             <li>For example, if a giveaway has 5 entries, the current chance of winning it is 20%, but after you enter it, it will have 6 entries, so the chance will decrease to 16.67%.</li>
           </ul>
         `,
-        name: `Show what the chance will be when you enter the giveaway instead of the current chance.`,
-        sg: true
-      },
-      gwc_a: {
-        description: `
+          name: `Show what the chance will be when you enter the giveaway instead of the current chance.`,
+          sg: true
+        },
+        gwc_a: {
+          description: `
           <ul>
             <li>Uses an advanced formula (number_of_copies / (number_of_entries / time_open_in_milliseconds * duration_in_milliseconds) * 100) to calculate the chance based on how much time the giveaway has been open and the duration of the giveaway. This gives you an estimate of what the chance will be when the giveaway ends.</li>
           </ul>
         `,
-        features: {
-          gwc_a_b: {
-            name: `Show the basic chance along with the advanced one (the advanced chance will appear in a parenthesis, like "[Basic]% ([Advanced]%)").`,
-            sg: true
-          }
+          features: {
+            gwc_a_b: {
+              name: `Show the basic chance along with the advanced one (the advanced chance will appear in a parenthesis, like "[Basic]% ([Advanced]%)").`,
+              sg: true
+            }
+          },
+          name: `Use advanced formula.`,
+          sg: true
         },
-        name: `Use advanced formula.`,
-        sg: true
-      },
-      gwc_h: {
-        conflicts: [
-          {id: `gwr_h`, name: `Giveaway Winning Ratio > Highlight the giveaway.`}
-        ],
-        description: `
+        gwc_h: {
+          conflicts: [
+            {id: `gwr_h`, name: `Giveaway Winning Ratio > Highlight the giveaway.`}
+          ],
+          description: `
           <ul>
             <li>Changes the color of the giveaway's title to the same color as the chance and adds a border of same color to the giveaway's game image.</li>
           </ul>
         `,
-        inputItems: [
-          {
-            id: `gwc_h_width`,
-            prefix: `Image Border Width: `
-          }
-        ],
-        name: `Highlight the giveaway.`,
-        sg: true
-      }
-    },
-    id: `gwc`,
-    load: this.gwc,
-    name: `Giveaway Winning Chance`,
-    sg: true,
-    type: `giveaways`
-  });
+          inputItems: [
+            {
+              id: `gwc_h_width`,
+              prefix: `Image Border Width: `
+            }
+          ],
+          name: `Highlight the giveaway.`,
+          sg: true
+        }
+      },
+      id: `gwc`,
+      load: this.gwc,
+      name: `Giveaway Winning Chance`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gwc() {
     this.esgst.giveawayFeatures.push(this.gwc_addChances);
@@ -164,14 +167,14 @@ class GiveawaysGiveawayWinningChance extends Module {
         children.push({
           attributes: basicAttributes,
           text: `${basicChance}%`,
-          type: `span`        
+          type: `span`
         }, {
           text: ` (`,
           type: `node`
         }, {
           attributes: advancedAttributes,
           text: `${advancedChance}%`,
-          type: `span`        
+          type: `span`
         }, {
           text: `)`,
           type: `node`
@@ -180,14 +183,14 @@ class GiveawaysGiveawayWinningChance extends Module {
         children.push({
           attributes: advancedAttributes,
           text: `${advancedChance}%`,
-          type: `span`        
-        });     
+          type: `span`
+        });
       }
     } else {
       children.push({
         attributes: basicAttributes,
         text: `${basicChance}%`,
-        type: `span`        
+        type: `span`
       });
     }
     items.push({

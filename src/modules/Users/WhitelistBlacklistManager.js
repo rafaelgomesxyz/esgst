@@ -18,18 +18,21 @@ const
 ;
 
 class UsersWhitelistBlacklistManager extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-arrow-up"></i> <i class="fa fa-arrow-down"></i> <i class="fa fa-trash"></i>) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allows you to import/export/clear your whitelist/blacklist.</li>
       </ul>
     `,
-    id: `wbm`,
-    load: this.wbm,
-    name: `Whitelist/Blacklist Manager`,
-    sg: true,
-    type: `users`
-  });
+      id: `wbm`,
+      load: this.wbm,
+      name: `Whitelist/Blacklist Manager`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   wbm() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
@@ -41,7 +44,11 @@ class UsersWhitelistBlacklistManager extends Module {
       wbm.key = `blacklist`;
       wbm.name = `Blacklist`;
     }
-    wbm.button = createHeadingButton({id: `wbm`, icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`], title: `Manage ${wbm.key}`});
+    wbm.button = createHeadingButton({
+      id: `wbm`,
+      icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`],
+      title: `Manage ${wbm.key}`
+    });
     wbm.button.addEventListener(`click`, this.wbm_openPopup.bind(this, wbm));
   }
 
@@ -86,7 +93,7 @@ class UsersWhitelistBlacklistManager extends Module {
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_importList.bind(this, wbm)), this.wbm_cancel.bind(this, wbm)).set);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_exportList.bind(this, wbm, [], 1)), this.wbm_cancel.bind(this, wbm)).set);
       wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_clearList.bind(this, wbm, [], 1)), this.wbm_cancel.bind(this, wbm)).set);
-      wbm.results = createElements(wbm.popup.scrollable,  `beforeEnd`, [{
+      wbm.results = createElements(wbm.popup.scrollable, `beforeEnd`, [{
         type: `div`
       }]);
     }
@@ -146,7 +153,11 @@ class UsersWhitelistBlacklistManager extends Module {
       type: `span`
     }]);
     if (i < n) {
-      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
+      await request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
+        method: `POST`,
+        url: `/ajax.php`
+      });
       setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
     } else {
       createFadeMessage(wbm.message, `List imported with success!`);
@@ -179,7 +190,10 @@ class UsersWhitelistBlacklistManager extends Module {
         type: `span`
       }]);
       let elements, i, n, pagination, responseHtml;
-      responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
+      responseHtml = parseHtml((await request({
+        method: `GET`,
+        url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
+      })).responseText);
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
       for (i = 0, n = elements.length; i < n; ++i) {
         list.push(elements[i].value);
@@ -232,7 +246,10 @@ class UsersWhitelistBlacklistManager extends Module {
         type: `span`
       }]);
       let element, elements, i, n, pagination, responseHtml;
-      responseHtml = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`})).responseText);
+      responseHtml = parseHtml((await request({
+        method: `GET`,
+        url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
+      })).responseText);
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
       for (i = 0, n = elements.length; i < n; ++i) {
         element = elements[i];
@@ -244,7 +261,8 @@ class UsersWhitelistBlacklistManager extends Module {
             let user = this.esgst.users.users[steamId];
             if (user.tags) {
               let j;
-              for (j = user.tags.length - 1; j > -1 && this.esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j) {}
+              for (j = user.tags.length - 1; j > -1 && this.esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j) {
+              }
               if (j > -1) {
                 list.push(element.value);
                 wbm.usernames.push(username);
@@ -277,7 +295,11 @@ class UsersWhitelistBlacklistManager extends Module {
       type: `span`
     }]);
     if (i < n) {
-      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`, method: `POST`, url: `/ajax.php`});
+      await request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
+        method: `POST`,
+        url: `/ajax.php`
+      });
       setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
     } else {
       createFadeMessage(wbm.message, `List cleared with success!`);

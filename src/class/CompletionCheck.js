@@ -9,6 +9,7 @@ export default class CompletionCheck {
     setTimeout(() => this.check(), 500);
     return this.counter;
   }
+
   check() {
     if (this.onCheck) {
       this.onCheck();

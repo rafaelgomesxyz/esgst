@@ -10,19 +10,22 @@ const
 ;
 
 class GamesEnteredGameHighlighter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-star"></i>) next to a game's name (in any page) to indicate that you have entered giveaways for the game in the past. Clicking on the icon unhighlights the game.</li>
         <li>A game is only highlighted if you entered a giveaway for it after this feature was enabled.</li>
       </ul>
     `,
-    id: `egh`,
-    load: this.egh,
-    name: `Entered Game Highlighter`,
-    sg: true,
-    type: `games`
-  });
+      id: `egh`,
+      load: this.egh,
+      name: `Entered Game Highlighter`,
+      sg: true,
+      type: `games`
+    };
+  }
 
   egh() {
     this.esgst.gameFeatures.push(this.egh_getGames);
@@ -33,7 +36,7 @@ class GamesEnteredGameHighlighter extends Module {
       if (this.esgst.giveawayPath) {
         let button = document.querySelector(`.sidebar__entry-insert`);
         if (button) {
-          button.addEventListener(`click`, this.egh_saveGame.bind(null, game.id, game.type));
+          button.addEventListener(`click`, this.egh_saveGame.bind(this, game.id, game.type));
         }
       }
       if (!this.esgst.menuPath && this.esgst.games[game.type][game.id] && this.esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
@@ -50,7 +53,7 @@ class GamesEnteredGameHighlighter extends Module {
             },
             type: `i`
           }]
-        }]).addEventListener(`click`, this.egh_unhighlightGame.bind(null, game.id, game.type));
+        }]).addEventListener(`click`, this.egh_unhighlightGame.bind(this, game.id, game.type));
       }
     }
   }

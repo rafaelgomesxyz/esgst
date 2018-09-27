@@ -9,12 +9,15 @@ const
 ;
 
 class Discussions extends Module {
-  info = ({
-    endless: true,
-    id: `discussions`,
-    load: this.discussions
-  });
-  
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `discussions`,
+      load: this.discussions
+    };
+  }
+
   discussions() {
     this.esgst.endlessFeatures.push(this.discussions_load);
   }
@@ -199,7 +202,9 @@ class Discussions extends Module {
     discussion.categoryContainer = discussion.info.firstElementChild;
     if (discussion.headingColumn.nextElementSibling) {
       discussion.category = discussion.categoryContainer.textContent;
-      discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => { return p1.toLowerCase(); })] = true;
+      discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => {
+        return p1.toLowerCase();
+      })] = true;
     } else {
       discussion.category = ``;
     }

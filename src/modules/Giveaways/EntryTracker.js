@@ -13,19 +13,22 @@ const
 ;
 
 class GiveawaysEntryTracker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
         <li>An entry only appears in the history if you entered/left the giveaway after this feature was enabled.</li>
       </ul>
     `,
-    id: `et`,
-    load: this.et,
-    name: `Entry Tracker`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `et`,
+      load: this.et,
+      name: `Entry Tracker`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   et() {
     if (this.esgst.enteredPath) {
@@ -61,13 +64,13 @@ class GiveawaysEntryTracker extends Module {
           type: `p`
         }]
       }]
-    }]).addEventListener(`click`, this.et_menu);
+    }]).addEventListener(`click`, this.et_menu.bind(this));
     if (this.esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && this.esgst.enterGiveawayButton) {
       let code, name;
       code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
       name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
-      this.esgst.enterGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(null, code, true, name));
-      this.esgst.leaveGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(null, code, false, name));
+      this.esgst.enterGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(this, code, true, name));
+      this.esgst.leaveGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(this, code, false, name));
     }
   }
 
@@ -223,7 +226,7 @@ class GiveawaysEntryTracker extends Module {
           }]
         }]
       }]).firstElementChild.firstElementChild;
-      button.firstElementChild.addEventListener(`click`, this.et_deleteEntry.bind(null, button, dates[key].date, popup));
+      button.firstElementChild.addEventListener(`click`, this.et_deleteEntry.bind(this, button, dates[key].date, popup));
       if (dates[key].entered < lowest.count) {
         lowest.count = dates[key].entered;
         lowest.date = dates[key].date;
@@ -319,7 +322,7 @@ class GiveawaysEntryTracker extends Module {
   }
 
   async et_deleteEntry(button, date, popup) {
-    if (! confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
+    if (!confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
     createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
@@ -351,7 +354,7 @@ class GiveawaysEntryTracker extends Module {
     heading = container.getElementsByClassName(`table__column__heading`)[0];
     code = heading.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
     name = heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1];
-    element.addEventListener(`click`, this.et_setEntry.bind(null, code, false, name));
+    element.addEventListener(`click`, this.et_setEntry.bind(this, code, false, name));
   }
 
   async et_setEntry(code, entry, name) {

@@ -10,23 +10,26 @@ const
 ;
 
 class GeneralLevelProgressVisualizer extends Module {
-  info = ({
-    conflicts: [
-      {id: `pv`, name: `Points Visualizer`}
-    ],
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      conflicts: [
+        {id: `pv`, name: `Points Visualizer`}
+      ],
+      description: `
       <ul>
         <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
         <li>Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.</li>
       </ul>
     `,
-    id: `lpv`,
-    load: this.lpv,
-    name: `Level Progress Visualizer`,
-    sg: true,
-    sync: `Giveaways, Reduced CV Games and No CV Games`,
-    type: `general`
-  });
+      id: `lpv`,
+      load: this.lpv,
+      name: `Level Progress Visualizer`,
+      sg: true,
+      sync: `Giveaways, Reduced CV Games and No CV Games`,
+      type: `general`
+    };
+  }
 
   lpv() {
     if (this.esgst.hr) return;

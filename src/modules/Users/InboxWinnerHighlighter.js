@@ -9,19 +9,22 @@ const
 ;
 
 class UsersInboxWinnerHighlighter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an icon (<i class="fa fa-trophy"></i>) next to the username of a giveaway comment made by the giveaway's winner(s) (in the <a href="https://www.steamgifts.com/messages">inbox</a> page).</li>
         <li>A winner is only highlighted if you sent the gift to them after this feature was enabled.</li>
       </ul>
     `,
-    id: `iwh`,
-    load: this.iwh,
-    name: `Inbox Winner Highlighter`,
-    sg: true,
-    type: `users`
-  });
+      id: `iwh`,
+      load: this.iwh,
+      name: `Inbox Winner Highlighter`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   iwh() {
     this.esgst.endlessFeatures.push(this.iwh_getUsers.bind(this));
@@ -30,7 +33,7 @@ class UsersInboxWinnerHighlighter extends Module {
   async iwh_getUsers(context, main, source, endless) {
     if (!this.esgst.winnersPath && !this.esgst.inboxPath && (!context.getAttribute || !context.getAttribute(`data-esgst-qiv`))) return;
     const [callback, query] = this.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : `.table__gift-not-sent`}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : `.comments__entity`}`],
-        elements = context.querySelectorAll(query);
+      elements = context.querySelectorAll(query);
     if (!elements.length) return;
     const winners = JSON.parse(await getValue(`winners`, `{}`));
     for (let i = 0, n = elements.length; i < n; ++i) {

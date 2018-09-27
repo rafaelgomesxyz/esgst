@@ -25,8 +25,10 @@ const
 ;
 
 class GeneralMultiManager extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
         <li>When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.</li>
@@ -49,21 +51,22 @@ class GeneralMultiManager extends Module {
         <li>On SteamTrades you can only manage users.</li>
       </ul>
     `,
-    id: `mm`,
-    load: this.mm,
-    name: `Multi-Manager`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `mm`,
+      load: this.mm,
+      name: `Multi-Manager`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   mm(context, items, itemsKey) {
     if (!context && !this.esgst.mainPageHeading) return;
     /**
-   * @type {MM}
-   */
+     * @type {MM}
+     */
     let obj = {};
-    obj. button = createHeadingButton({
+    obj.button = createHeadingButton({
       context,
       id: `mm`,
       icons: [`fa-gears`],
@@ -87,7 +90,7 @@ class GeneralMultiManager extends Module {
     obj.scope = context ? `popup` : `main`;
     this.esgst.mm_enable = this.mm_enable.bind(null, obj);
     this.esgst.mm_disable = this.mm_disable.bind(null, obj);
-    obj.button.addEventListener(`click`,  this.mm_openPopout.bind(null, obj, items, itemsKey));
+    obj.button.addEventListener(`click`, this.mm_openPopout.bind(this, obj, items, itemsKey));
     if (this.esgst.mm_enableGames) {
       this.esgst.gameFeatures.push(this.mm_getGames);
     }
@@ -143,7 +146,7 @@ class GeneralMultiManager extends Module {
         type: `div`
       }]), itemsKey === key ? items : null, key);
       if (this.esgst.sg) {
-        heading.addEventListener(`click`, this.mm_changeActiveSection.bind(null, obj, i));
+        heading.addEventListener(`click`, this.mm_changeActiveSection.bind(this, obj, i));
       }
       if (this.esgst[`mm_enable${key}`]) {
         activeIndex = i;
@@ -812,7 +815,11 @@ class GeneralMultiManager extends Module {
       let match = this.esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
       if (match) {
         const idContext = description.previousElementSibling;
-        let responseJson = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`, method: `POST`, url: `/ajax.php`})).responseText);
+        let responseJson = JSON.parse((await request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`,
+          method: `POST`,
+          url: `/ajax.php`
+        })).responseText);
         if (responseJson.type === `success`) {
           createElements(obj.context.firstElementChild.firstElementChild, `beforeEnd`, [{
             type: `li`,
@@ -1041,10 +1048,10 @@ class GeneralMultiManager extends Module {
 
   async mm_hideGames(obj, items) {
     const newItems = {
-          apps: {},
-          subs: {}
-        },
-        notFound = [];
+        apps: {},
+        subs: {}
+      },
+      notFound = [];
     for (const item of items) {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) continue;
 
@@ -1056,7 +1063,7 @@ class GeneralMultiManager extends Module {
       let found = false;
       for (let i = elements.length - 1; i > -1; i--) {
         const element = elements[i],
-            info = this.esgst.modules.games.games_getInfo(element);
+          info = this.esgst.modules.games.games_getInfo(element);
         if (info && info.type === item.type && info.id === item.code) {
           await request({
             data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${element.getAttribute(`data-autocomplete-id`)}`,

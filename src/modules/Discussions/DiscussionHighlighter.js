@@ -12,30 +12,39 @@ const
 ;
 
 class DiscussionsDiscussionHighlighter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-star"></i> if the discussion is highlighted and <i class="fa fa-star-o"></i> if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.</li>
         <li>Highlighted discussions have a green background.</li>
         <li>Adds a button (<i class="fa fa-star esgst-yellow"></i> View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box at the header of any page that allows you to view all of the discussions that have been highlighted.</li>
       </ul>
     `,
-    features: {
-      dh_t: {
-        name: `Pin any highlighted discussions in the page.`,
-        sg: true
-      }
-    },
-    id: `dh`,
-    load: this.dh,
-    name: `Discussion Highlighter`,
-    sg: true,
-    type: `discussions`
-  });
+      features: {
+        dh_t: {
+          name: `Pin any highlighted discussions in the page.`,
+          sg: true
+        }
+      },
+      id: `dh`,
+      load: this.dh,
+      name: `Discussion Highlighter`,
+      sg: true,
+      type: `discussions`
+    };
+  }
 
   dh() {
     new Process({
-      button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({description: `View your highlighted discussions.`, icon: `fa-star yellow`, id: `dh`, name: `View Highlighted`, title: getFeatureTooltip(`dh`)})),
+      button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({
+        description: `View your highlighted discussions.`,
+        icon: `fa-star yellow`,
+        id: `dh`,
+        name: `View Highlighted`,
+        title: getFeatureTooltip(`dh`)
+      })),
       popup: {
         icon: `fa-star`,
         title: `Highlighted Discussions`,
@@ -74,7 +83,7 @@ class DiscussionsDiscussionHighlighter extends Module {
           class: `table__heading`
         },
         type: `div`,
-        children: [{          
+        children: [{
           attributes: {
             class: `table__column--width-fill`
           },

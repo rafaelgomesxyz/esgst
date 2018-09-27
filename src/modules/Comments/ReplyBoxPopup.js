@@ -10,21 +10,24 @@ const
 ;
 
 class CommentsReplyBoxPopup extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comment"></i>) to the main page heading of any page that allows you to add comments to the page through a popup.</li>
         <li>This feature is useful if you have [id=fmph] enabled, which allows you to add comments to the page from any scrolling position.</li>
         <li>Has [id=ded] built-in.</li>
       </ul>
     `,
-    id: `rbp`,
-    load: this.rbp,
-    name: `Reply Box Popup`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+      id: `rbp`,
+      load: this.rbp,
+      name: `Reply Box Popup`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   rbp() {
     if (!this.esgst.replyBox) return;
@@ -42,7 +45,7 @@ class CommentsReplyBoxPopup extends Module {
       saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
         Callback);
     }).set);
-    popup.progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
   }
 }

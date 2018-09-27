@@ -15,8 +15,10 @@ const
 ;
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds more details to each giveaway in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:</li>
         <ul>
@@ -29,12 +31,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         </ul>
       </ul>
     `,
-    id: `cewgd`,
-    load: this.cewgd,
-    name: `Created/Entered/Won Giveaway Details`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `cewgd`,
+      load: this.cewgd,
+      name: `Created/Entered/Won Giveaway Details`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   cewgd() {
     if (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) return;
@@ -212,8 +215,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     giveaway.level = details.level;
     /**
-   * @type {ElementsArrayItem[]}
-   */
+     * @type {ElementsArrayItem[]}
+     */
     const items = [{
       text: ` (${details.points}P)`,
       type: `span`
@@ -312,7 +315,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
             text: ` (+${n - 1} more)`,
             type: `span`
           }]);
-          winnersColumn.lastElementChild.addEventListener(`click`, this.cewgd_openWinnersPopup.bind(null, details));
+          winnersColumn.lastElementChild.addEventListener(`click`, this.cewgd_openWinnersPopup.bind(this, details));
           let received = 0;
           for (const winner of details.winners) {
             if (winner.status === `Received`) {

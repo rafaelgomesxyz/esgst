@@ -12,19 +12,22 @@ const
 ;
 
 class GiveawaysIsThereAnyDealInfo extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
         <li>Results are cached for 24 hours, so if you access a giveaway for the same game again within that timeframe, the information will not change.</li>
       </ul>
     `,
-    id: `itadi`,
-    load: this.itadi,
-    name: `IsThereAnyDeal Info`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `itadi`,
+      load: this.itadi,
+      name: `IsThereAnyDeal Info`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   itadi() {
     if (!this.esgst.giveawayPath) {
@@ -208,7 +211,9 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     return name.toLowerCase()
       .replace(/\sthe|the\s/g, ``)
       .replace(/\s/g, ``)
-      .replace(/\d/g, m => { return [`0`, `i`, `ii`, `iii`, `iv`, `v`, `vi`, `vii`, `viii`, `ix`][m]; })
+      .replace(/\d/g, m => {
+        return [`0`, `i`, `ii`, `iii`, `iv`, `v`, `vi`, `vii`, `viii`, `ix`][m];
+      })
       .replace(/&/g, `and`)
       .replace(/\+/g, `plus`)
       .replace(/[^\d\w]/g, ``);

@@ -8,8 +8,10 @@ const
 ;
 
 class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).</li>
         <li>If you move it to the sidebar, some things will be changed to save some space:</li>
@@ -21,16 +23,17 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
         </ul>
       </ul>
     `,
-    id: `adots`,
-    load: this.adots,
-    name: `Active Discussions On Top/Sidebar`,
-    options: {
-      title: `Move to:`,
-      values: [`Top`, `Sidebar`]
-    },
-    sg: true,
-    type: `discussions`
-  });
+      id: `adots`,
+      load: this.adots,
+      name: `Active Discussions On Top/Sidebar`,
+      options: {
+        title: `Move to:`,
+        values: [`Top`, `Sidebar`]
+      },
+      sg: true,
+      type: `discussions`
+    };
+  }
 
   async adots() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.oadd) return;
@@ -38,7 +41,8 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
   }
 
   adots_load(refresh) {
-    let parent, panel, size, tabHeading1, tabHeading2, activeDiscussions, discussions, deals, element, elements, i, icon, n, comments, rows;
+    let parent, panel, size, tabHeading1, tabHeading2, activeDiscussions, discussions, deals, element, elements, i,
+      icon, n, comments, rows;
     if (this.esgst.activeDiscussions) {
       if (!refresh) {
         this.esgst.activeDiscussions.classList.remove(`widget-container--margin-top`);
@@ -224,8 +228,8 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
           }]);
           activeDiscussions.appendChild(discussions);
           activeDiscussions.appendChild(deals);
-          tabHeading1.addEventListener(`click`, this.adots_changeTab.bind(null, tabHeading1, tabHeading2));
-          tabHeading2.addEventListener(`click`, this.adots_changeTab.bind(null, tabHeading1, tabHeading2));
+          tabHeading1.addEventListener(`click`, this.adots_changeTab.bind(this, tabHeading1, tabHeading2));
+          tabHeading2.addEventListener(`click`, this.adots_changeTab.bind(this, tabHeading1, tabHeading2));
           this.esgst.activeDiscussions.remove();
           this.esgst.activeDiscussions = activeDiscussions;
         }

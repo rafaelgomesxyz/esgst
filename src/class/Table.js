@@ -41,6 +41,7 @@ export default class Table {
       this.addRow(values[i]);
     }
   }
+
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
     const row = createElements(this.rows, `beforeEnd`, [{
       attributes: {
@@ -174,6 +175,7 @@ export default class Table {
     }
     this.numColumns += 1;
   }
+
   hideColumns() {
     for (const column of arguments) {
       this.hiddenColumns.push(column - 1);
@@ -183,9 +185,11 @@ export default class Table {
       }
     }
   }
+
   getRowGroup(name) {
     return this.rowGroups[name];
   }
+
   collapseRows(collapse, expand, name) {
     collapse.classList.add(`esgst-hidden`);
     expand.classList.remove(`esgst-hidden`);
@@ -193,6 +197,7 @@ export default class Table {
       row.parentElement.classList.add(`esgst-hidden`);
     }
   }
+
   expandRows(collapse, expand, name) {
     expand.classList.add(`esgst-hidden`);
     collapse.classList.remove(`esgst-hidden`);

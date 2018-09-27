@@ -12,44 +12,47 @@ const
 ;
 
 class CommentsReplyFromInbox extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="https://www.steamgifts.com/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
         <li>It is essentially [id=mr] for the inbox page.</li>
       </ul>
     `,
-    features: {
-      rfi_s: {
-        description: `
+      features: {
+        rfi_s: {
+          description: `
           <ul>
             <li>Caches any replies you submit for 1 week so that they are still in your inbox page when you refresh it.</li>
             <li>If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.</li>
           </ul>
         `,
-        name: `Cache replies.`,
-        sg: true,
-        st: true
-      },
-      rfi_c: {
-        description: `
+          name: `Cache replies.`,
+          sg: true,
+          st: true
+        },
+        rfi_c: {
+          description: `
           <ul>
             <li>Whenever you try to submit a reply to a comment, the feature will check if there are other replies to that comment and show them to you so that you can review your reply before sending it.</li>
             <li>This option is useful if you want to avoid repeating something that another user already said or discard your reply if someone else already said everything that you were going to say.</li>
           </ul>
         `,
-        name: `Check if there are other replies to a comment before submitting a reply.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `rfi`,
-    load: this.rfi,
-    name: `Reply From Inbox`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+          name: `Check if there are other replies to a comment before submitting a reply.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `rfi`,
+      load: this.rfi,
+      name: `Reply From Inbox`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   rfi() {
     if (this.esgst.mr) return;
@@ -65,7 +68,8 @@ class CommentsReplyFromInbox extends Module {
     if (edit) {
       for (const key in saved) {
         if (saved.hasOwnProperty(key)) {
-          for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i)  {}
+          for (i = 0, n = saved[key].length; i < n && saved[key][i].id !== id; ++i) {
+          }
           if (i < n) {
             saved[key][i].reply = reply;
             saved[key][i].timestamp = Date.now();

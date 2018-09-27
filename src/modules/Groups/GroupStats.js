@@ -9,18 +9,21 @@ const
 ;
 
 class GroupsGroupStats extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your <a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some stats about each group.</li>
       </ul>
     `,
-    id: `gs`,
-    load: this.gs,
-    name: `Group Stats`,
-    sg: true,
-    type: `groups`
-  });
+      id: `gs`,
+      load: this.gs,
+      name: `Group Stats`,
+      sg: true,
+      type: `groups`
+    };
+  }
 
   gs() {
     if (!this.esgst.groupsPath) return;
@@ -67,7 +70,10 @@ class GroupsGroupStats extends Module {
   }
 
   async gs_addStatus(context) {
-    let responseHtml = parseHtml((await request({method: `GET`, url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${this.esgst.username}`})).responseText);
+    let responseHtml = parseHtml((await request({
+      method: `GET`,
+      url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${this.esgst.username}`
+    })).responseText);
     let element = responseHtml.getElementsByClassName(`table__row-inner-wrap`)[0];
     if (!element || element.getElementsByClassName(`table__column__heading`)[0].textContent !== this.esgst.username) return;
     let elements = element.getElementsByClassName(`table__column--width-small`);

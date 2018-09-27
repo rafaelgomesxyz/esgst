@@ -12,22 +12,25 @@ const
 ;
 
 class GiveawaysGiveawayCountryLoader extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the region restricted icon (<i class="fa fa-globe"></i>) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.</li>
       </ul>
     `,
-    id: `gcl`,
-    load: this.gcl,
-    name: `Giveaway Country Loader`,
-    options: {
-      title: `Load as:`,
-      values: [`Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
-    },
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gcl`,
+      load: this.gcl,
+      name: `Giveaway Country Loader`,
+      options: {
+        title: `Load as:`,
+        values: [`Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+      },
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gcl() {
     this.esgst.giveawayFeatures.push(this.gcl_setButton);
@@ -96,7 +99,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
             } else {
               if (this.esgst.gcl_index === 2) {
                 context = new Popup(`fa-globe`, [{
-                  attributes :{
+                  attributes: {
                     href: `${giveaway.url}/region-restrictions`
                   },
                   text: `Giveaway Countries`,

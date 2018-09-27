@@ -12,20 +12,23 @@ const
 ;
 
 class DiscussionsDiscussionEditDetector extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.</li>
         <li>This fixes a (unfortunately) very well-known bug on SteamGifts that does not submit a comment to a discussion if during the timeframe between the moment when you started to write it and the moment when you submitted it the title of the discussion title was edited.</li>
       </ul>
     `,
-    id: `ded`,
-    load: this.ded,
-    name: `Discussion Edit Detector`,
-    sg: true,
-    st: true,
-    type: `discussions`
-  });
+      id: `ded`,
+      load: this.ded,
+      name: `Discussion Edit Detector`,
+      sg: true,
+      st: true,
+      type: `discussions`
+    };
+  }
 
   ded() {
     if (this.esgst.replyBox && !this.esgst.userPath) {
@@ -95,11 +98,11 @@ class DiscussionsDiscussionEditDetector extends Module {
     }
 
     const response = await request({
-          method: `GET`,
-          url: obj.commentUrl
-        }),
-        responseHtml = parseHtml(response.responseText),
-        comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
+        method: `GET`,
+        url: obj.commentUrl
+      }),
+      responseHtml = parseHtml(response.responseText),
+      comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
     obj.parentId = this.esgst.sg
       ? comment.closest(`.comment`).getAttribute(`data-comment-id`)
       : comment.getAttribute(`data-id`);
@@ -128,9 +131,9 @@ class DiscussionsDiscussionEditDetector extends Module {
       : comment.getElementsByClassName(`comment_children`)[0];
     for (let i = comments.children.length - 1; i > -1; i--) {
       const comment = comments.children[i],
-          id = comment.querySelector(`[href*="/go/comment/"]`)
-              .getAttribute(`href`)
-              .match(/\/go\/comment\/(.+)/)[1];
+        id = comment.querySelector(`[href*="/go/comment/"]`)
+          .getAttribute(`href`)
+          .match(/\/go\/comment\/(.+)/)[1];
       if (obj.context.querySelector(`[href*="/go/comment/${id}"`)) {
         comment.remove();
       }

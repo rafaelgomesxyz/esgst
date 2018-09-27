@@ -16,19 +16,22 @@ const
 ;
 
 class UsersWhitelistBlacklistSorter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds 2 buttons (<i class="fa fa-sort-amount-asc"></i> to sort in ascending order and <i class="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.</li>
       </ul>
     `,
-    id: `wbs`,
-    load: this.wbs,
-    name: `Whitelist/Blacklist Sorter`,
-    sg: true,
-    sync: `Whitelist and Blacklist`,
-    type: `users`
-  });
+      id: `wbs`,
+      load: this.wbs,
+      name: `Whitelist/Blacklist Sorter`,
+      sg: true,
+      sync: `Whitelist and Blacklist`,
+      type: `users`
+    };
+  }
 
   wbs() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
@@ -43,7 +46,12 @@ class UsersWhitelistBlacklistSorter extends Module {
       saveKey,
       title: `Oldest to newest ${saveKey} users:`
     };
-    createHeadingButton({featureId: `wbs`, id: `wbsAsc`, icons: [`fa-sort-amount-asc`], title: `Sort by added date from oldest to newest`}).addEventListener(`click`, this.wbs_sort.bind(this, object));
+    createHeadingButton({
+      featureId: `wbs`,
+      id: `wbsAsc`,
+      icons: [`fa-sort-amount-asc`],
+      title: `Sort by added date from oldest to newest`
+    }).addEventListener(`click`, this.wbs_sort.bind(this, object));
 
     // add descending button
     object = {
@@ -54,7 +62,12 @@ class UsersWhitelistBlacklistSorter extends Module {
       saveKey,
       title: `Newest to oldest ${saveKey} users:`
     };
-    createHeadingButton({featureId: `wbs`, id: `wbsDesc`, icons: [`fa-sort-amount-desc`], title: `Sort by added date from newest to oldest`}).addEventListener(`click`, this.wbs_sort.bind(this, object));
+    createHeadingButton({
+      featureId: `wbs`,
+      id: `wbsDesc`,
+      icons: [`fa-sort-amount-desc`],
+      title: `Sort by added date from newest to oldest`
+    }).addEventListener(`click`, this.wbs_sort.bind(this, object));
   }
 
   async wbs_sort(obj) {
@@ -211,7 +224,11 @@ class UsersWhitelistBlacklistSorter extends Module {
   async wbs_removeMember(obj) {
     obj.removeButton.classList.add(`esgst-hidden`);
     obj.removingButton.classList.remove(`esgst-hidden`);
-    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`, method: `POST`, url: `/ajax.php`});
+    await request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
+      method: `POST`,
+      url: `/ajax.php`
+    });
     let deleteLock = await createLock(`userLock`, 300);
     let savedUsers = JSON.parse(await getValue(`users`));
     delete savedUsers.users[obj.user.steamId][obj.dateKey];

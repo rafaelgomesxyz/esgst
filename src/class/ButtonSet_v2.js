@@ -30,7 +30,7 @@ export default class ButtonSet_v2 {
         text: details.title1,
         type: `span`
       }]
-    },{
+    }, {
       attributes: {
         class: `${classes[details.color2]} btn_action ${details.color2} is-disabled is_disabled esgst-hidden`
       },
@@ -75,24 +75,29 @@ export default class ButtonSet_v2 {
       });
     }
   }
+
   toggle() {
     this.dependencies.forEach(dependency => dependency.classList.toggle(`esgst-hidden`));
     this.busy = !this.busy;
     this.button1.classList.toggle(`esgst-hidden`);
     this.button2.classList.toggle(`esgst-hidden`);
   }
+
   trigger() {
     this.button1.dispatchEvent(new Event(`click`));
   }
+
   changeButton(i) {
     return {
       setIcon: this.setIcon.bind(this, this[`button${i}`]),
       setTitle: this.setTitle.bind(this, this[`button${i}`])
     };
   }
+
   setIcon(button, icon) {
     button.firstElementChild.className = `fa ${icon}`;
   }
+
   setTitle(button, title) {
     button.lastElementChild.textContent = title;
   }

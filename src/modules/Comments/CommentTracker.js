@@ -23,8 +23,10 @@ const
 ;
 
 class CommentsCommentTracker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.</li>
         <li>Comments made by yourself are automatically marked as read.</li>
@@ -46,75 +48,91 @@ class CommentsCommentTracker extends Module {
         </ul>
       </ul>
     `,
-    features: {
-      ct_a: {
-        name: `Automatically mark comments as read in the inbox page when clicking on the "Mark as Read" button.`,
-        sg: true,
-        st: true
-      },
-      ct_o: {
-        name: `Automatically mark your own comments as read.`,
-        sg: true,
-        st: true
-      },
-      ct_c: {
-        name: `Enable tracking controls for your own comments.`,
-        sg: true,
-        st: true
-      },
-      ct_s: {
-        description: `
+      features: {
+        ct_a: {
+          name: `Automatically mark comments as read in the inbox page when clicking on the "Mark as Read" button.`,
+          sg: true,
+          st: true
+        },
+        ct_o: {
+          name: `Automatically mark your own comments as read.`,
+          sg: true,
+          st: true
+        },
+        ct_c: {
+          name: `Enable tracking controls for your own comments.`,
+          sg: true,
+          st: true
+        },
+        ct_s: {
+          description: `
           <ul>
             <li>The simplified version of the tracker does not have the concept of read/unread comments, but simply shows the red number of comments that were made since you last visited a thread, so the comments are not tracked by date (they are tracked by quantity) and there are no buttons to go to the first unread comment of a thread/page or mark comments as read/unread.</li>
             <li>If you mark a thread as visited with [id=gdttt], all of the comments in the thread will be considered as "read", and if you mark it as unvisited, they will be considered as "unread".</li>
           </ul>
         `,
-        features: {
-          ct_s_h: {
-            description: `
+          features: {
+            ct_s_h: {
+              description: `
               <ul>
                 <li>Only shows the red number for a thread after you have visited it.</li>
               </ul>
             `,
-            name: `Hide the counter if you have not visited the thread yet.`,
-            sg: true,
-            st: true
-          }
+              name: `Hide the counter if you have not visited the thread yet.`,
+              sg: true,
+              st: true
+            }
+          },
+          name: `Enable the simplified version.`,
+          sg: true,
+          st: true
         },
-        name: `Enable the simplified version.`,
-        sg: true,
-        st: true
-      },
-      ct_f: {
-        name: `Fade out read comments.`,
-        sg: true,
-        st: true
-      },
-      ct_r: {
-        description: `
+        ct_f: {
+          name: `Fade out read comments.`,
+          sg: true,
+          st: true
+        },
+        ct_r: {
+          description: `
           <ul>
             <li>Searches pages for an unread comment from the bottom to the top if [id=cr] is disabled or from the top to the bottom if it is enabled.</li>
           </ul>
         `,
-        name: `Search for the first unread comment in reverse order.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `ct`,
-    load: this.ct,
-    name: `Comment Tracker`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+          name: `Search for the first unread comment in reverse order.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `ct`,
+      load: this.ct,
+      name: `Comment Tracker`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   async ct() {
     if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || this.esgst.inboxPath) && !this.esgst.ct_s) {
       if (!this.esgst.ct_s) {
-        let button3 = createHeadingButton({featureId: `ct`, id: `ctUnread`, icons: [`fa-eye-slash`], title: `Mark all comments in this page as unread`});
-        let button2 = createHeadingButton({featureId: `ct`, id: `ctRead`, icons: [`fa-eye`], title: `Mark all comments in this page as read`});
-        let button1 = createHeadingButton({featureId: `ct`, id: `ctGo`, icons: [`fa-comments-o`], title: `Go to the first unread comment of this page`});
+        let button3 = createHeadingButton({
+          featureId: `ct`,
+          id: `ctUnread`,
+          icons: [`fa-eye-slash`],
+          title: `Mark all comments in this page as unread`
+        });
+        let button2 = createHeadingButton({
+          featureId: `ct`,
+          id: `ctRead`,
+          icons: [`fa-eye`],
+          title: `Mark all comments in this page as read`
+        });
+        let button1 = createHeadingButton({
+          featureId: `ct`,
+          id: `ctGo`,
+          icons: [`fa-comments-o`],
+          title: `Go to the first unread comment of this page`
+        });
         this.ct_addCommentPanel(button1, button2, button3);
       }
       let match = location.pathname.match(/\/(giveaway|discussion|ticket|trade)\/(.+?)\//);
@@ -134,7 +152,7 @@ class CommentsCommentTracker extends Module {
             for (id in comments[code].readComments) {
               if (comments[code].readComments.hasOwnProperty(id)) {
                 if (!id.match(/^(Count|undefined|)$/) && comments[code].readComments[id]) {
-                    ++read;
+                  ++read;
                 }
               }
             }
@@ -214,10 +232,11 @@ class CommentsCommentTracker extends Module {
                 diff = count;
               }
               let discussion = null;
-              for (j = this.esgst.mainDiscussions.length - 1; j > -1 && this.esgst.mainDiscussions[j].code !== code; --j) {}
-                if (j > -1) {
+              for (j = this.esgst.mainDiscussions.length - 1; j > -1 && this.esgst.mainDiscussions[j].code !== code; --j) {
+              }
+              if (j > -1) {
                 discussion = this.esgst.mainDiscussions[j];
-                }
+              }
               if (key === `discussions` && diff > 0 && discussion) {
                 discussion.unread = true;
               }
@@ -358,7 +377,7 @@ class CommentsCommentTracker extends Module {
                 }
               }
             } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-              if (goToUnread && (!this.esgst.ctGoToUnread || ((((this.esgst.ct_r && !this.esgst.cr) || (!this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop <  scrollY + this.esgst.commentsTop) || (((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop >  scrollY + this.esgst.commentsTop)))) {
+              if (goToUnread && (!this.esgst.ctGoToUnread || ((((this.esgst.ct_r && !this.esgst.cr) || (!this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop < scrollY + this.esgst.commentsTop) || (((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop > scrollY + this.esgst.commentsTop)))) {
                 this.esgst.ctGoToUnread = true;
                 if ((this.esgst.discussionPath && ((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr))) || (!this.esgst.discussionPath && !this.esgst.ct_r)) {
                   unread = comment;
@@ -570,7 +589,7 @@ class CommentsCommentTracker extends Module {
         type: `i`
       }]
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ct_readUntilHere.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_readUntilHere.bind(this, button, comment));
   }
 
   async ct_readUntilHere(button, comment) {
@@ -608,7 +627,7 @@ class CommentsCommentTracker extends Module {
         type: `i`
       }]
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ct_unreadUntilHere.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_unreadUntilHere.bind(this, button, comment));
   }
 
   async ct_unreadUntilHere(button, comment) {
@@ -654,8 +673,8 @@ class CommentsCommentTracker extends Module {
         type: `i`
       }]
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ct_readComment.bind(null, button, comment));
-    button.lastElementChild.addEventListener(`click`, this.ct_readCommentAndGo.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_readComment.bind(this, button, comment));
+    button.lastElementChild.addEventListener(`click`, this.ct_readCommentAndGo.bind(this, button, comment));
   }
 
   async ct_readComment(button, comment) {
@@ -700,7 +719,7 @@ class CommentsCommentTracker extends Module {
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ct_unreadComment.bind(null, button, comment));
+    button.firstElementChild.addEventListener(`click`, this.ct_unreadComment.bind(this, button, comment));
   }
 
   async ct_unreadComment(button, comment) {
@@ -717,9 +736,9 @@ class CommentsCommentTracker extends Module {
 
   ct_addCommentPanel(goToUnread, markRead, markUnread) {
     let button, key, newButton, url;
-    goToUnread.addEventListener(`click`, this.ct_goToUnread.bind(null, goToUnread));
-    markRead.addEventListener(`click`, this.ct_markCommentsRead.bind(null, markRead));
-    markUnread.addEventListener(`click`, this.ct_markCommentsUnread.bind(null, markUnread));
+    goToUnread.addEventListener(`click`, this.ct_goToUnread.bind(this, goToUnread));
+    markRead.addEventListener(`click`, this.ct_markCommentsRead.bind(this, markRead));
+    markUnread.addEventListener(`click`, this.ct_markCommentsUnread.bind(this, markUnread));
     if (this.esgst.ct_a && this.esgst.inboxPath) {
       button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
       if (button) {
@@ -761,7 +780,7 @@ class CommentsCommentTracker extends Module {
           url = `/ajax.php`;
         }
         button.remove();
-        newButton.addEventListener(`click`, this.ct_markMessagesRead.bind(null, key, markRead, url));
+        newButton.addEventListener(`click`, this.ct_markMessagesRead.bind(this, key, markRead, url));
       }
     }
   }
@@ -846,7 +865,7 @@ class CommentsCommentTracker extends Module {
           },
           text: `(+${diff})`,
           type: `span`
-        }, {        
+        }, {
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
             title: getFeatureTooltip(`ct`, `Go to first unread comment of this discussion`)
@@ -858,7 +877,7 @@ class CommentsCommentTracker extends Module {
             },
             type: `i`
           }]
-        }, {        
+        }, {
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
             title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as read`)
@@ -870,7 +889,7 @@ class CommentsCommentTracker extends Module {
             },
             type: `i`
           }]
-        }, {        
+        }, {
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
             title: getFeatureTooltip(`ct`, `Mark all comments in this discussion as unread`)
@@ -882,7 +901,7 @@ class CommentsCommentTracker extends Module {
             },
             type: `i`
           }]
-        }, {        
+        }, {
           attributes: {
             class: `esgst-heading-button esgst-hidden`,
             title: getFeatureTooltip(`ct`, `Clean discussion (remove deleted comments from the database)`)
@@ -942,10 +961,10 @@ class CommentsCommentTracker extends Module {
         obj.clean.classList.remove(`esgst-hidden`);
       }
     }
-    obj.goToUnread.addEventListener(`mousedown`, this.ct_goToUnreadPanel.bind(null, obj));
-    obj.markRead.addEventListener(`click`, this.ct_markReadPanel.bind(null, obj));
-    obj.markUnread.addEventListener(`click`, this.ct_markUnreadPanel.bind(null, obj));
-    obj.clean.addEventListener(`click`, this.ct_clean.bind(null, obj));
+    obj.goToUnread.addEventListener(`mousedown`, this.ct_goToUnreadPanel.bind(this, obj));
+    obj.markRead.addEventListener(`click`, this.ct_markReadPanel.bind(this, obj));
+    obj.markUnread.addEventListener(`click`, this.ct_markUnreadPanel.bind(this, obj));
+    obj.clean.addEventListener(`click`, this.ct_clean.bind(this, obj));
   }
 
   async ct_clean(obj) {
@@ -1082,7 +1101,7 @@ class CommentsCommentTracker extends Module {
     }
     if (code) {
       for (const id in discussion.readComments) {
-        if (discussion.readComments.hasOwnProperty(id) &&  id && comments.indexOf(id) < 0) {
+        if (discussion.readComments.hasOwnProperty(id) && id && comments.indexOf(id) < 0) {
           delete discussion.readComments[id];
         }
       }

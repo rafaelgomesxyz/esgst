@@ -1,15 +1,17 @@
 import Module from '../../class/Module';
 
 class CommentsCommentFilters extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to filter comments.</li>
       </ul>
     `,
-    features: {
-      cf_m: {
-        description: `
+      features: {
+        cf_m: {
+          description: `
           <ul>
             <li>Allows you to hide multiple comments in a page using many different filters.</li>
             <li>Adds a toggle switch with a button (<i class="fa fa-sliders"></i>) to the main page heading of any comment page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.</li>
@@ -31,60 +33,61 @@ class CommentsCommentFilters extends Module {
             <li>Adds a text in parenthesis to the pagination of the page showing how many comments in the page are being filtered by the filters.</li>
           </ul>
         `,
-        features: {
-          cf_m_b: {
-            name: `Hide basic filters.`,
-            sg: true,
-            st: true
-          },
-          cf_m_a: {
-            name: `Hide advanced filters.`,
-            sg: true,
-            st: true
-          },
-          cf_bump: {
-            description: `
+          features: {
+            cf_m_b: {
+              name: `Hide basic filters.`,
+              sg: true,
+              st: true
+            },
+            cf_m_a: {
+              name: `Hide advanced filters.`,
+              sg: true,
+              st: true
+            },
+            cf_bump: {
+              description: `
               <ul>
                 <li>Allows you to filter bump comments.</li>
               </ul>
             `,
-            name: `Bump`,
-            sg: true,
-            st: true
-          },
-          cf_length: {
-            description: `
+              name: `Bump`,
+              sg: true,
+              st: true
+            },
+            cf_length: {
+              description: `
               <ul>
                 <li>Allows you to filter comments by their length.</li>
               </ul>
             `,
-            name: `Length`,
-            sg: true,
-            st: true
-          },
-          cf_words: {
-            description: `
+              name: `Length`,
+              sg: true,
+              st: true
+            },
+            cf_words: {
+              description: `
               <ul>
                 <li>Allows you to filter comments containing certain words.</li>
               </ul>
             `,
-            name: `Words`,
-            sg: true,
-            st: true
-          }
-        },
-        name: `Multiple Filters`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `cf`,
-    load: this.cf,
-    name: `Comment Filters`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+              name: `Words`,
+              sg: true,
+              st: true
+            }
+          },
+          name: `Multiple Filters`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `cf`,
+      load: this.cf,
+      name: `Comment Filters`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   async cf() {
     if (this.esgst.cf_m && (this.esgst.commentsPath || this.esgst.inboxPath)) {

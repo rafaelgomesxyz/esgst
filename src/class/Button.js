@@ -23,6 +23,7 @@ export default class Button {
     this.change();
     return this;
   }
+
   async change(mainCallback, index = this.index, event) {
     if (index >= this.states) {
       index = 0;

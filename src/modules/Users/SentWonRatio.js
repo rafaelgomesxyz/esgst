@@ -7,18 +7,21 @@ const
 ;
 
 class UsersSentWonRatio extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their <a href="https://www.steamgifts.com/user/cg">profile</a> page.</li>
       </ul>
     `,
-    id: `swr`,
-    load: this.swr,
-    name: `Sent/Won Ratio`,
-    sg: true,
-    type: `users`
-  });
+      id: `swr`,
+      load: this.swr,
+      name: `Sent/Won Ratio`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   swr() {
     this.esgst.profileFeatures.push(this.swr_add.bind(this));
@@ -104,7 +107,7 @@ class UsersSentWonRatio extends Module {
               name: `$${realCVRatio}`
             }
           ],
-          icon : [
+          icon: [
             {
               class: `fa-dollar`,
               color: `#84cfda`

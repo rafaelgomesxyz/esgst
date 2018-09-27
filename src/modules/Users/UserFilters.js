@@ -11,34 +11,37 @@ const
 ;
 
 class UsersUserFilters extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> if the user is being filtered and <i class="fa fa-eye"></i> if they are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).</li>
         <li>Adds a text in parenthesis to the pagination of the page showing how many users in the page are being filtered by the filters.</li>
         <li>Adds a button (<i class="fa fa-user"></i> <i class="fa fa-eye-slash"></i>) to the page heading of this menu that allows you to view all of the users that have been filtered.</li>
       </ul>
     `,
-    features: {
-      uf_d: {
-        name: `Automatically hide discussions from blacklisted users.`,
-        sg: true
+      features: {
+        uf_d: {
+          name: `Automatically hide discussions from blacklisted users.`,
+          sg: true
+        },
+        uf_g: {
+          name: `Automatically hide giveaways from blacklisted users.`,
+          sg: true
+        },
+        uf_p: {
+          name: `Automatically hide posts from blacklisted users.`,
+          sg: true
+        }
       },
-      uf_g: {
-        name: `Automatically hide giveaways from blacklisted users.`,
-        sg: true
-      },
-      uf_p: {
-        name: `Automatically hide posts from blacklisted users.`,
-        sg: true
-      }
-    },
-    id: `uf`,
-    load: this.uf,
-    name: `User Filters`,
-    sg: true,
-    type: `users`
-  });
+      id: `uf`,
+      load: this.uf,
+      name: `User Filters`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   uf() {
     this.esgst.profileFeatures.push(this.uf_add.bind(this));
@@ -102,8 +105,24 @@ class UsersUserFilters extends Module {
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
     profile.ufPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's posts.`, false, false, `Hides the user's posts everywhere.`, profile.ufValues.posts);
-    saveSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save Settings`, title2: `Saving...`, callback1: this.uf_save.bind(this, profile, false)});
-    resetSet = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-rotate-left`, icon2: `fa-circle-o-notch fa-spin`, title1: `Reset Settings`, title2: `Resetting...`, callback1: this.uf_save.bind(this, profile, true)});
+    saveSet = new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Save Settings`,
+      title2: `Saving...`,
+      callback1: this.uf_save.bind(this, profile, false)
+    });
+    resetSet = new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-rotate-left`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Reset Settings`,
+      title2: `Resetting...`,
+      callback1: this.uf_save.bind(this, profile, true)
+    });
     saveSet.dependencies.push(resetSet.set);
     resetSet.dependencies.push(saveSet.set);
     profile.ufPopup.description.appendChild(saveSet.set);

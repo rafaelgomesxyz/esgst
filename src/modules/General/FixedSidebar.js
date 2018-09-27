@@ -1,18 +1,21 @@
 import Module from '../../class/Module';
 
 class GeneralFixedSidebar extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Keeps the sidebar of any page at the left side of the window while you scroll down the page.</li>
       </ul>
     `,
-    id: `fs`,
-    load: this.fs,
-    name: `Fixed Sidebar`,
-    sg: true,
-    type: `general`
-  });
+      id: `fs`,
+      load: this.fs,
+      name: `Fixed Sidebar`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   fs() {
     if (!this.esgst.sidebar) {

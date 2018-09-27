@@ -18,29 +18,38 @@ const
 ;
 
 class GiveawaysGiveawayTemplates extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a section 9 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.</li>
         <li>Also adds a button (<i class="fa fa-file"></i>) to the main page heading of the same page that allows you manage all of the templates that have been saved and select the template that you want to use.</li>
       </ul>
     `,
-    id: `gts`,
-    load: this.gts,
-    name: `Giveaway Templates`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gts`,
+      load: this.gts,
+      name: `Giveaway Templates`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gts() {
     if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;
-    this.gts_addButtonSection(createHeadingButton({id: `gts`, icons: [`fa-file`], title: `View/apply templates`}), rows);
+    this.gts_addButtonSection(createHeadingButton({
+      id: `gts`,
+      icons: [`fa-file`],
+      title: `View/apply templates`
+    }), rows);
   }
 
   gts_addButtonSection(button, rows) {
-    let createGiveawayButton, delay, endTime, message, preciseEndCheckbox, preciseEndDateCheckbox, preciseEndOption, preciseEndDateOption, preciseStartCheckbox, preciseStartDateCheckbox, preciseStartOption, preciseStartDateOption, reviewButton, section, set, startTime, warning;
+    let createGiveawayButton, delay, endTime, message, preciseEndCheckbox, preciseEndDateCheckbox, preciseEndOption,
+      preciseEndDateOption, preciseStartCheckbox, preciseStartDateCheckbox, preciseStartOption, preciseStartDateOption,
+      reviewButton, section, set, startTime, warning;
     if (!rows) return;
     let gts = {};
     gts.deletedTemplates = [];
@@ -61,7 +70,11 @@ class GiveawaysGiveawayTemplates extends Module {
       data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
       data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
       data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
-      const response = await request({data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime), method: `POST`, url: `/giveaways/new`});
+      const response = await request({
+        data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime),
+        method: `POST`,
+        url: `/giveaways/new`
+      });
       if (response.finalUrl.match(/\/giveaways\/new/)) {
         callback();
         const errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
@@ -75,7 +88,7 @@ class GiveawaysGiveawayTemplates extends Module {
       }
     });
     rows.appendChild(createGiveawayButton.set);
-    button.addEventListener(`click`, this.gts_openPopup.bind(null, gts));
+    button.addEventListener(`click`, this.gts_openPopup.bind(this, gts));
     section = createElements(reviewButton, `beforeBegin`, [{
       attributes: {
         class: `esgst-form-row`
@@ -269,7 +282,8 @@ class GiveawaysGiveawayTemplates extends Module {
         }
         let deleteLock = await createLock(`templateLock`, 300);
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
-        for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i) {}
+        for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i) {
+        }
         if (i < n) {
           if (gts.edit) {
             savedTemplates[i] = template;
@@ -353,7 +367,7 @@ class GiveawaysGiveawayTemplates extends Module {
         type: `span`
       }]
     }]);
-    gts.undo.addEventListener(`click`, this.gts_undoDelete.bind(null, gts));
+    gts.undo.addEventListener(`click`, this.gts_undoDelete.bind(this, gts));
     let templates = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
@@ -483,9 +497,9 @@ class GiveawaysGiveawayTemplates extends Module {
           type: `div`
         }]
       }]);
-      template.addEventListener(`dragstart`, this.gts_setSource.bind(null, gts, savedTemplate.name, template));
-      template.addEventListener(`dragenter`, this.gts_getSource.bind(null, gts, template, templates));
-      template.addEventListener(`dragend`, this.gts_saveSource.bind(null, gts));
+      template.addEventListener(`dragstart`, this.gts_setSource.bind(this, gts, savedTemplate.name, template));
+      template.addEventListener(`dragenter`, this.gts_getSource.bind(this, gts, template, templates));
+      template.addEventListener(`dragend`, this.gts_saveSource.bind(this, gts));
       this.gts_setTemplate(gts, popup, template, savedTemplate);
     }
     popup.open();
@@ -510,7 +524,8 @@ class GiveawaysGiveawayTemplates extends Module {
       let deleteLock = await createLock(`templateLock`, 300),
         savedTemplates = JSON.parse(await getValue(`templates`, `[]`)),
         i = 0;
-      for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i) {}
+      for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i) {
+      }
       savedTemplates.splice(i, 1);
       await setValue(`templates`, JSON.stringify(savedTemplates));
       deleteLock();
@@ -543,7 +558,8 @@ class GiveawaysGiveawayTemplates extends Module {
   }
 
   gts_applyTemplate(savedTemplate) {
-    let context, countries, currentDate, days, endTime, groups, i, id, j, matches, newEndTime, newStartTime, startTime, selected;
+    let context, countries, currentDate, days, endTime, groups, i, id, j, matches, newEndTime, newStartTime, startTime,
+      selected;
     if (!savedTemplate.gameType) {
       savedTemplate.gameType = `gift`;
     }
@@ -712,7 +728,8 @@ class GiveawaysGiveawayTemplates extends Module {
     event.dataTransfer.setData(`text/plain`, ``);
     gts.source = template;
     savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
-    for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i) {}
+    for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i) {
+    }
     if (i < n) {
       gts.sourceIndex = i;
     }

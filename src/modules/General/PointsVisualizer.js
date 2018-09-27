@@ -6,21 +6,24 @@ const
 ;
 
 class GeneralPointsVisualizer extends Module {
-  info = ({
-    conflicts: [
-      {id: `lpv`, name: `Level Progress Visualizer`}
-    ],
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      conflicts: [
+        {id: `lpv`, name: `Level Progress Visualizer`}
+      ],
+      description: `
       <ul>
         <li>Displays a green bar in the account button at the header of any page that represents the amount of points that you have.</li>
       </ul>
     `,
-    id: `pv`,
-    load: this.pv,
-    name: `Points Visualizer`,
-    sg: true,
-    type: `general`
-  });
+      id: `pv`,
+      load: this.pv,
+      name: `Points Visualizer`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   pv() {
     this.pv_setStyle();

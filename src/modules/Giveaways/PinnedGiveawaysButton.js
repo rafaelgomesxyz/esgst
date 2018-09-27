@@ -6,18 +6,21 @@ const
 ;
 
 class GiveawaysPinnedGiveawaysButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.</li>
       </ul>
     `,
-    id: `pgb`,
-    load: this.pgb,
-    name: `Pinned Giveaways Button`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `pgb`,
+      load: this.pgb,
+      name: `Pinned Giveaways Button`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   pgb() {
     let button = document.getElementsByClassName(`pinned-giveaways__button`)[0];
@@ -38,7 +41,7 @@ class GiveawaysPinnedGiveawaysButton extends Module {
       }]
     }]);
     const icon = button.firstElementChild;
-    button.addEventListener(`click`, this.pgb_toggle.bind(null, container, icon));
+    button.addEventListener(`click`, this.pgb_toggle.bind(this, container, icon));
   }
 
   pgb_toggle(container, icon) {

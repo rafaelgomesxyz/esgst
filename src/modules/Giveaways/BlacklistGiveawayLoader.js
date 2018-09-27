@@ -10,18 +10,21 @@ const
 ;
 
 class GiveawaysBlacklistGiveawayLoader extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>If you cannot access a giveaway for blacklist reasons (either because you have blacklisted the creator or the creator has blacklisted you), this feature requests the giveaway in anonymous mode (as if you were not logged in) and loads it to you.</li>
       </ul>
     `,
-    id: `bgl`,
-    load: this.bgl,
-    name: `Blacklist Giveaway Loader`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `bgl`,
+      load: this.bgl,
+      name: `Blacklist Giveaway Loader`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   async bgl() {
     if (!this.esgst.giveawayPath) return;

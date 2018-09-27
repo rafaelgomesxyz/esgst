@@ -45,7 +45,7 @@ class Tags extends Module {
           }
         }
         break;
-      }      
+      }
       case `gt`: {
         const savedGames = JSON.parse(await getValue(`games`));
         for (const id in savedGames.apps) {
@@ -78,7 +78,7 @@ class Tags extends Module {
         }
         break;
       }
-    }  
+    }
     const tagCount = {};
     for (const tag of allTags) {
       if (!tagCount[tag]) {
@@ -129,7 +129,7 @@ class Tags extends Module {
       }
     } else if (event.key !== `Enter`) {
       element = document.querySelector(`.esgst-tag-suggestion:not(.esgst-hidden)`);
-      if (element) {      
+      if (element) {
         element.classList.add(`esgst-selected`);
       }
     }
@@ -172,12 +172,12 @@ class Tags extends Module {
             },
             type: `span`
           }]
-        }]).addEventListener(`click`, this.tags_openPopup.bind(null, obj));
+        }]).addEventListener(`click`, this.tags_openPopup.bind(this, obj));
       }
       if (item.saved && item.saved.tags) {
         this.tags_addTags(item, obj, item.saved.tags);
       }
-    }  
+    }
   }
 
   async tags_openMmPopup(mmObj, items, key) {
@@ -318,8 +318,8 @@ class Tags extends Module {
         title: `Select from existing tags`
       },
       type: `i`
-    }]).addEventListener(`click`, this.tags_showTagList.bind(null, obj));
-    const children = [];  
+    }]).addEventListener(`click`, this.tags_showTagList.bind(this, obj));
+    const children = [];
     if (this.esgst[`${obj.key}_s`]) {
       obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
         attributes: {
@@ -663,15 +663,15 @@ class Tags extends Module {
       colorInput.value = tagBox.style.color = colors.color;
       bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
     }
-    container.addEventListener(`dragstart`, this.tags_startDrag.bind(null, container, obj));
-    container.addEventListener(`dragenter`, this.tags_continueDrag.bind(null, container, obj));
-    container.addEventListener(`dragend`, this.tags_endDrag.bind(null, obj));
-    input.addEventListener(`keydown`, this.tags_editTag.bind(null, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
-    colorInput.addEventListener(`change`, this.tags_saveColor.bind(null, colorInput, `color`, obj, `color`, tagBox));
-    bgColorInput.addEventListener(`change`, this.tags_saveColor.bind(null, bgColorInput, `backgroundColor`, obj, `bgColor`, tagBox));
-    editButton.addEventListener(`click`, this.tags_showEdit.bind(null, input, tagBox, tagContainer));
-    deleteButton.addEventListener(`click`, this.tags_deleteTag.bind(null, container, obj));
-    resetButton.addEventListener(`click`, this.tags_resetColor.bind(null, bgColorInput, colorInput, obj, tagBox));
+    container.addEventListener(`dragstart`, this.tags_startDrag.bind(this, container, obj));
+    container.addEventListener(`dragenter`, this.tags_continueDrag.bind(this, container, obj));
+    container.addEventListener(`dragend`, this.tags_endDrag.bind(this, obj));
+    input.addEventListener(`keydown`, this.tags_editTag.bind(this, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
+    colorInput.addEventListener(`change`, this.tags_saveColor.bind(this, colorInput, `color`, obj, `color`, tagBox));
+    bgColorInput.addEventListener(`change`, this.tags_saveColor.bind(this, bgColorInput, `backgroundColor`, obj, `bgColor`, tagBox));
+    editButton.addEventListener(`click`, this.tags_showEdit.bind(this, input, tagBox, tagContainer));
+    deleteButton.addEventListener(`click`, this.tags_deleteTag.bind(this, container, obj));
+    resetButton.addEventListener(`click`, this.tags_resetColor.bind(this, bgColorInput, colorInput, obj, tagBox));
   }
 
   tags_startDrag(container, obj, event) {

@@ -12,8 +12,10 @@ const
 ;
 
 class GroupsGroupLibraryWishlistChecker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-star"></i>) to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and any <a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.</li>
         <li>The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).</li>
@@ -22,12 +24,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         <li>A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.</li>
       </ul>
     `,
-    id: `glwc`,
-    load: this.glwc,
-    name: `Group Library/Wishlist Checker`,
-    sg: true,
-    type: `groups`
-  });
+      id: `glwc`,
+      load: this.glwc,
+      name: `Group Library/Wishlist Checker`,
+      sg: true,
+      type: `groups`
+    };
+  }
 
   async glwc() {
     if (this.esgst.whitelistPath || this.esgst.blacklistPath || this.esgst.groupPath) {
@@ -39,7 +42,11 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       } else {
         parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
       }
-      createHeadingButton({id: `glwc`, icons: [`fa-folder`, `fa-star`], title: `Check libraries/wishlists`}).addEventListener(`click`, () => {
+      createHeadingButton({
+        id: `glwc`,
+        icons: [`fa-folder`, `fa-star`],
+        title: `Check libraries/wishlists`
+      }).addEventListener(`click`, () => {
         open(`/esgst/glwc${parameters}`);
       });
     } else if (this.esgst.glwcPath) {
@@ -59,7 +66,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       if (glwc.id) {
         glwc.overallProgress.textContent = `Preparing...`;
         glwc.members = [];
-        const members = (await request({method: `GET`, url: `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`})).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+        const members = (await request({
+          method: `GET`,
+          url: `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`
+        })).responseText.match(/<steamID64>.+?<\/steamID64>/g);
         members.forEach(member => {
           glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
         });
@@ -86,7 +96,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       type: `span`
     }]);
     let elements, i, n, pagination, responseHtml;
-    responseHtml = parseHtml((await request({method: `GET`, url: `/${glwc.url}/search?page=${nextPage}`})).responseText);
+    responseHtml = parseHtml((await request({
+      method: `GET`,
+      url: `/${glwc.url}/search?page=${nextPage}`
+    })).responseText);
     elements = responseHtml.querySelectorAll(`.table__row-inner-wrap:not(.is-faded)`);
     for (i = 0, n = elements.length; i < n; ++i) {
       glwc.users.push({
@@ -120,7 +133,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         glwc.users[i].steamId = steamId;
         setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       } else {
-        glwc.users[i].steamId = parseHtml((await request({method: `GET`, url: `/user/${glwc.users[i].username}`})).responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+        glwc.users[i].steamId = parseHtml((await request({
+          method: `GET`,
+          url: `/user/${glwc.users[i].username}`
+        })).responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
         setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       }
     } else {
@@ -146,7 +162,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
         try {
           glwc.users[i].library = [];
-          let elements = JSON.parse((await request({method: `GET`, url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${this.esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`})).responseText).response.games;
+          let elements = JSON.parse((await request({
+            method: `GET`,
+            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${this.esgst.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`
+          })).responseText).response.games;
           if (elements) {
             elements.forEach(element => {
               let game = {
@@ -163,15 +182,19 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               glwc.users[i].library.push(game.id);
             });
           }
-        } catch (e) { /**/ }
+        } catch (e) { /**/
+        }
         glwc.users[i].wishlist = [];
-        let responseText = (await request({method: `GET`, url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`})).responseText;
+        let responseText = (await request({
+          method: `GET`,
+          url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`
+        })).responseText;
         let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
         if (wishlistData) {
           let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
           /**
-     * @type {rgAppInfoResponse}
-     */
+           * @type {rgAppInfoResponse}
+           */
           let games = appInfo ? JSON.parse(appInfo[1]) : null;
           JSON.parse(wishlistData[1]).forEach(item => {
             let id = item.appid;
@@ -208,7 +231,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
   }
 
   glwc_showResults(glwc) {
-    let game, i, id, j, library, libraryInput, libraryResults, librarySearch, n, user, users, wishlist, wishlistInput, wishlistResults, wishlistSearch;
+    let game, i, id, j, library, libraryInput, libraryResults, librarySearch, n, user, users, wishlist, wishlistInput,
+      wishlistResults, wishlistSearch;
     glwc.context.classList.add(`esgst-glwc-results`);
     createElements(glwc.context, `inner`, [{
       type: `div`,

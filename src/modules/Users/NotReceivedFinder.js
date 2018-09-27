@@ -13,20 +13,23 @@ const
 ;
 
 class UsersNotReceivedFinder extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-times-circle"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to find all of their won/created giveaways that were marked as not received.</li>
         <li>Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator's profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.</li>
         <li>Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.</li>
       </ul>
     `,
-    id: `nrf`,
-    load: this.nrf,
-    name: `Not Received Finder`,
-    sg: true,
-    type: `users`
-  });
+      id: `nrf`,
+      load: this.nrf,
+      name: `Not Received Finder`,
+      sg: true,
+      type: `users`
+    };
+  }
 
   nrf() {
     this.esgst.profileFeatures.push(this.nrf_add.bind(this, `won`));
@@ -117,8 +120,8 @@ class UsersNotReceivedFinder extends Module {
       obj.nrfTotal = profile[`${key}NotReceived`];
       obj.onDone = this.nrf_onDone;
       /**
-   * @property {object[]} obj.requestsBackup
-   */
+       * @property {object[]} obj.requestsBackup
+       */
       obj.requests = obj.requestsBackup;
     } else {
       obj.onDone = null;

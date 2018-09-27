@@ -11,33 +11,36 @@ const
 ;
 
 class GiveawaysGridView extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Turns each giveaway in the main page and some popups ([id=gb], [id=ged] and [id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them. This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.</li>
         <li>Also adds a button (<i class="fa fa-th-large"></i>) to the main page heading of the same page that allows you to set the size of the space between each box.</li>
       </ul>
     `,
-    features: {
-      gv_gb: {
-        name: `Extend to Giveaway Bookmarks.`,
-        sg: true
+      features: {
+        gv_gb: {
+          name: `Extend to Giveaway Bookmarks.`,
+          sg: true
+        },
+        gv_ged: {
+          name: `Extend to Giveaway Encrypter / Decrypter.`,
+          sg: true
+        },
+        gv_ge: {
+          name: `Extend to Giveaway Extractor.`,
+          sg: true
+        }
       },
-      gv_ged: {
-        name: `Extend to Giveaway Encrypter / Decrypter.`,
-        sg: true
-      },
-      gv_ge: {
-        name: `Extend to Giveaway Extractor.`,
-        sg: true
-      }
-    },
-    id: `gv`,
-    load: this.gv,
-    name: `Grid View`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gv`,
+      load: this.gv,
+      name: `Grid View`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gv() {
     if (this.esgst.giveawaysPath || this.esgst.gv_gb || this.esgst.gv_ged || this.esgst.gv_ge) {

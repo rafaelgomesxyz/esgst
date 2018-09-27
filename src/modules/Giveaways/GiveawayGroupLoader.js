@@ -15,36 +15,39 @@ const
 ;
 
 class GiveawaysGiveawayGroupLoader extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) the group icon (<i class="fa fa-user"></i>) of a giveaway (in any page) it shows the groups that the giveaway is for. There is also an option to automatically load the groups on page load and show them below the giveaway (which also works in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is enabled).</li>
         <li>Has [id=gh] built-in.</li>
       </ul>
     `,
-    features: {
-      ggl_m: {
-        name: `Only show groups that you are a member of.`,
-        sg: true
-      }
-    },
-    id: `ggl`,
-    load: this.ggl,
-    name: `Giveaway Group Loader`,
-    options: {
-      title: `Load as:`,
-      values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
-    },
-    sg: true,
-    sync: `Steam Groups`,
-    type: `giveaways`
-  });
+      features: {
+        ggl_m: {
+          name: `Only show groups that you are a member of.`,
+          sg: true
+        }
+      },
+      id: `ggl`,
+      load: this.ggl,
+      name: `Giveaway Group Loader`,
+      options: {
+        title: `Load as:`,
+        values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+      },
+      sg: true,
+      sync: `Steam Groups`,
+      type: `giveaways`
+    };
+  }
 
   ggl() {
     this.esgst.giveawayFeatures.push(
       this.esgst.ggl_index === 0 ?
-      this.ggl_getGiveaways :
-      this.ggl_setButtons
+        this.ggl_getGiveaways :
+        this.ggl_setButtons
     );
   }
 
@@ -58,7 +61,8 @@ class GiveawaysGiveawayGroupLoader extends Module {
   }
 
   ggl_setButton(giveaway) {
-    let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways, savedGroups, timeout;
+    let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways,
+      savedGroups, timeout;
     if (giveaway.group) {
       switch (this.esgst.ggl_index) {
         case 1:
@@ -167,7 +171,8 @@ class GiveawaysGiveawayGroupLoader extends Module {
                 groupCount = 0;
                 for (i = 0, n = groups.length; i < n; ++i) {
                   code = groups[i];
-                  for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {}
+                  for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {
+                  }
                   if (j >= 0) {
                     group = savedGroups[j];
                   } else {
@@ -310,7 +315,8 @@ class GiveawaysGiveawayGroupLoader extends Module {
         if (savedGiveaways[giveaway.code] && Array.isArray(savedGiveaways[giveaway.code].groups) && savedGiveaways[giveaway.code].groups.length) {
           found = true;
           for (j = savedGiveaways[giveaway.code].groups.length - 1; j > -1 && found; --j) {
-            for (k = this.esgst.groups.length - 1; k > -1 && this.esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k) {}
+            for (k = this.esgst.groups.length - 1; k > -1 && this.esgst.groups[k].code !== savedGiveaways[giveaway.code].groups[j]; --k) {
+            }
             if (k <= -1) {
               found = false;
             }
@@ -335,16 +341,16 @@ class GiveawaysGiveawayGroupLoader extends Module {
               } else {
                 this.ggl_addPanel(giveaway, groups, newGroups, savedGroups);
               }
-              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
+              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
             } else if (callback) {
               callback(null);
             } else {
-              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
+              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
             }
           });
         }
       } else {
-        setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups,  savedGiveaways, savedGroups), 0);
+        setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
       }
     } else {
       await lockAndSaveGiveaways(newGiveaways);
@@ -365,7 +371,8 @@ class GiveawaysGiveawayGroupLoader extends Module {
       giveaway.groups = [];
       for (i = 0, n = groups.length; i < n; ++i) {
         code = groups[i];
-        for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {}
+        for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {
+        }
         if (j >= 0) {
           group = savedGroups[j];
         } else {

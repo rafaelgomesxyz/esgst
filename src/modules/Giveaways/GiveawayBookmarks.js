@@ -19,24 +19,26 @@ const
 ;
 
 class GiveawaysGiveawayBookmarks extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-bookmark"></i> if the giveaway is bookmarked and <i class="fa fa-bookmark-o"></i> if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.</li>
         <li>Adds a button (<i class="fa fa-bookmark"></i>) next to the ESGST button at the header of any page that allows you to view all of the giveaways that have been bookmarked.</li>
       </ul>
     `,
-    features: {
-      gb_u: {
-        name: `Automatically unbookmark ended giveaways.`,
-        sg: true
-      },
-      gb_ue: {
-        name: `Automatically unbookmark entered giveaways.`,
-        sg: true
-      },
-      gb_h: {
-        description: `
+      features: {
+        gb_u: {
+          name: `Automatically unbookmark ended giveaways.`,
+          sg: true
+        },
+        gb_ue: {
+          name: `Automatically unbookmark entered giveaways.`,
+          sg: true
+        },
+        gb_h: {
+          description: `
           <ul>
             <li>Giveaways that have not started yet will not appear in the list of bookmarked giveaways. Instead, they will stay in a sort of hidden state until they start. When they start, the button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.</li>
             <li>When giveaways are about to end (based on the number of hours specified below), the button will turn red.</li>
@@ -44,31 +46,32 @@ class GiveawaysGiveawayBookmarks extends Module {
             <li>If you hover over the button, it shows more details about how many giveaways have started and/or are ending.</li>
           </ul>
         `,
-        inputItems: [
-          {
-            id: `gb_hours`,
-            prefix: `Time range to trigger highlight: `,
-            suffix: ` hours`
-          }
-        ],
-        name: `Highlight the header button when giveaways have started and/or are about to end.`,
-        sg: true
+          inputItems: [
+            {
+              id: `gb_hours`,
+              prefix: `Time range to trigger highlight: `,
+              suffix: ` hours`
+            }
+          ],
+          name: `Highlight the header button when giveaways have started and/or are about to end.`,
+          sg: true
+        },
+        gb_t: {
+          name: `Open the list of bookmarked giveaways in a new tab.`,
+          sg: true
+        },
+        gb_se: {
+          name: `Show the button for entered giveaways.`,
+          sg: true
+        }
       },
-      gb_t: {
-        name: `Open the list of bookmarked giveaways in a new tab.`,
-        sg: true
-      },
-      gb_se: {
-        name: `Show the button for entered giveaways.`,
-        sg: true
-      }
-    },
-    id: `gb`,
-    load: this.gb,
-    name: `Giveaway Bookmarks`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `gb`,
+      load: this.gb,
+      name: `Giveaway Bookmarks`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gb() {
     this.esgst.giveawayFeatures.push(this.gb_getGiveaways);
@@ -243,7 +246,15 @@ class GiveawaysGiveawayBookmarks extends Module {
         callback();
       });
     });
-    container.insertBefore(new ButtonSet_v2({color1: `grey`, color2: ``, icon1: `fa-list`, icon2: ``, title1: `View Raw List`, title2: ``, callback1: this.gb_openList.bind(null, {bookmarked})}).set, context);
+    container.insertBefore(new ButtonSet_v2({
+      color1: `grey`,
+      color2: ``,
+      icon1: `fa-list`,
+      icon2: ``,
+      title1: `View Raw List`,
+      title2: ``,
+      callback1: this.gb_openList.bind(null, {bookmarked})
+    }).set, context);
     container.insertBefore(set.set, context);
     if (popup) {
       popup.open();
@@ -325,7 +336,11 @@ class GiveawaysGiveawayBookmarks extends Module {
       let element = gb.popup.scrollable.children[i].firstElementChild;
       if (!element.getAttribute(`data-esgst`)) {
         let code = element.textContent;
-        element.textContent = parseHtml((await request({method: `GET`, queue: true, url: element.getAttribute(`href`)})).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;
+        element.textContent = parseHtml((await request({
+          method: `GET`,
+          queue: true,
+          url: element.getAttribute(`href`)
+        })).responseText).getElementsByClassName(`featured__heading__medium`)[0].textContent;
         giveaways[code] = {
           name: element.textContent
         };

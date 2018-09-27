@@ -7,32 +7,35 @@ const
 ;
 
 class GiveawaysGiveawayPointsToWin extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
         <li>The points are calculated by rounding up (using 2 decimals) the result of the following formula: number_of_points / number_of_copies * number_of_entries
         <li>You can move the element around by dragging and dropping it.</li>
       </ul>
     `,
-    features: {
-      gptw_e: {
-        description: `
+      features: {
+        gptw_e: {
+          description: `
           <ul>
             <li>The formula changes to: number_of_points / number_of_copies * (number_of_entries + 1)
             <li>For example, if a giveaway for 2 copies has 5 entries and is worth 10 points, the current points to win are 25, but after you enter it, it will have 6 entries, so the points will increase to 30.</li>
           </ul>
         `,
-        name: `Show what the points to win will be when you enter the giveaway instead of the current points to win.`,
-        sg: true
-      }
-    },
-    id: `gptw`,
-    load: this.gptw,
-    name: `Giveaway Points To Win`,
-    sg: true,
-    type: `giveaways`
-  });
+          name: `Show what the points to win will be when you enter the giveaway instead of the current points to win.`,
+          sg: true
+        }
+      },
+      id: `gptw`,
+      load: this.gptw,
+      name: `Giveaway Points To Win`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gptw() {
     this.esgst.giveawayFeatures.push(this.gptw_addPoints);

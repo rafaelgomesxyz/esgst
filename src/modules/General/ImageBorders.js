@@ -1,18 +1,21 @@
 import Module from '../../class/Module';
 
 class GeneralImageBorders extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Brings back image borders to SteamGifts.</li>
       </ul>
     `,
-    id: `ib`,
-    load: this.ib,
-    name: `Image Borders`,
-    sg: true,
-    type: `general`
-  });
+      id: `ib`,
+      load: this.ib,
+      name: `Image Borders`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   ib() {
     this.esgst.endlessFeatures.push(this.ib_addBorders);

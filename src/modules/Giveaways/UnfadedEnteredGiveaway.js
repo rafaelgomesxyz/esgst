@@ -1,18 +1,21 @@
 import Module from '../../class/Module';
 
 class GiveawaysUnfadedEnteredGiveaway extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Removes SteamGifts' default fade for entered giveaways.</li>
       </ul>
     `,
-    id: `ueg`,
-    load: this.ueg,
-    name: `Unfaded Entered Giveaway`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `ueg`,
+      load: this.ueg,
+      name: `Unfaded Entered Giveaway`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   ueg() {
     this.esgst.endlessFeatures.push(this.ueg_remove);

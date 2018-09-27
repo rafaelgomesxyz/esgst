@@ -60,6 +60,7 @@ export default class ToggleSwitch {
     this.input.checked = this.value;
     this.input.addEventListener(`change`, () => this.change());
   }
+
   async change(settings) {
     this.value = this.input.checked;
     if (this.id) {
@@ -117,16 +118,19 @@ export default class ToggleSwitch {
       }
     }
   }
+
   enable(settings) {
     this.input.checked = true;
     // noinspection JSIgnoredPromiseFromCall
     this.change(settings);
   }
+
   disable(settings) {
     this.input.checked = false;
     // noinspection JSIgnoredPromiseFromCall
     this.change(settings);
   }
+
   toggle(settings) {
     this.input.checked = !this.input.checked;
     // noinspection JSIgnoredPromiseFromCall

@@ -1,11 +1,14 @@
 import Module from '../class/Module';
 
 class Groups extends Module {
-  info = ({
-    endless: true,
-    id: `groups`,
-    load: this.groups
-  });
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `groups`,
+      load: this.groups
+    };
+  }
 
   groups() {
     this.esgst.endlessFeatures.push(this.groups_load.bind(this));
@@ -49,7 +52,8 @@ class Groups extends Module {
         this.esgst.currentGroups[id].savedGroup = savedGroup
       }
       let j;
-      for (j = this.esgst.currentGroups[id].elements.length - 1; j > -1 && this.esgst.currentGroups[id].elements[j] !== element; j--) {}
+      for (j = this.esgst.currentGroups[id].elements.length - 1; j > -1 && this.esgst.currentGroups[id].elements[j] !== element; j--) {
+      }
       if (j > -1) {
         continue;
       }
@@ -57,7 +61,7 @@ class Groups extends Module {
       const container = element.parentElement;
       const oldElement = element;
       if (this.esgst.groupPath && container.classList.contains(`page__heading__breadcrumbs`)) {
-        element = document.getElementsByClassName(`featured__heading__medium`)[0];        
+        element = document.getElementsByClassName(`featured__heading__medium`)[0];
       }
       this.esgst.currentGroups[id].elements.push(element);
       const context = element;

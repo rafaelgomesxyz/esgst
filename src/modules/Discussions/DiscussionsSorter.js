@@ -11,19 +11,22 @@ const
 ;
 
 class DiscussionsDiscussionsSorter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a> page that allows you to sort the discussions in the page by title, category, created time, author and number of comments.</li>
         <li>There is also an option to automatically sort the discussions so that every time you open the page the discussions are already sorted by whatever option you prefer.</li>
       </ul>
     `,
-    id: `ds`,
-    load: this.ds,
-    name: `Discussions Sorter`,
-    sg: true,
-    type: `discussions`
-  });
+      id: `ds`,
+      load: this.ds,
+      name: `Discussions Sorter`,
+      sg: true,
+      type: `discussions`
+    };
+  }
 
   ds() {
     if (!this.esgst.discussionsPath) return;
@@ -31,7 +34,7 @@ class DiscussionsDiscussionsSorter extends Module {
     let object = {
       button: createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
     };
-    object.button.addEventListener(`click`, this.ds_openPopout.bind(null, object));
+    object.button.addEventListener(`click`, this.ds_openPopout.bind(this, object));
   }
 
   ds_openPopout(obj) {
@@ -111,7 +114,15 @@ class DiscussionsDiscussionsSorter extends Module {
     options.value = this.esgst.ds_option;
     let callback = saveAndSortContent.bind(null, `ds_option`, `mainDiscussions`, options, null);
     options.addEventListener(`change`, callback);
-    obj.popout.popout.appendChild(new ButtonSet_v2({color1: `green`, color2: ``, icon1: `fa-arrow-circle-right`, icon2: ``, title1: `Sort`, title2: ``, callback1: callback}).set);
+    obj.popout.popout.appendChild(new ButtonSet_v2({
+      color1: `green`,
+      color2: ``,
+      icon1: `fa-arrow-circle-right`,
+      icon2: ``,
+      title1: `Sort`,
+      title2: ``,
+      callback1: callback
+    }).set);
     obj.popout.open();
   }
 }

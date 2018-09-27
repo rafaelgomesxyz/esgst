@@ -6,20 +6,23 @@ const
 ;
 
 class GeneralEmbeddedVideos extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.</li>
         <li>Videos are only embedded if their links are in the [URL](URL) format and are the only content in a line. For example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, but "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.</li>
       </ul>
     `,
-    id: `ev`,
-    load: this.ev,
-    name: `Embedded Videos`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `ev`,
+      load: this.ev,
+      name: `Embedded Videos`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   ev() {
     this.esgst.endlessFeatures.push(this.ev_getVideos);

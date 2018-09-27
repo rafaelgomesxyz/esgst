@@ -11,11 +11,14 @@ const
 ;
 
 class Games extends Module {
-  info = ({
-    endless: true,
-    id: `games`,
-    load: this.games
-  });
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `games`,
+      load: this.games
+    };
+  }
 
   games() {
     this.esgst.endlessFeatures.push(this.games_load);
@@ -26,7 +29,7 @@ class Games extends Module {
     if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
     [`apps`, `subs`].forEach(type => {
       for (let id in games[type]) {
-        if  (games[type].hasOwnProperty(id)) {
+        if (games[type].hasOwnProperty(id)) {
           games[type][id].forEach(game => {
             this.esgst[main ? `mainGames` : `popupGames`].push({
               code: id,

@@ -7,27 +7,30 @@ const
 ;
 
 class CommentsCollapseExpandReplyButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-plus-square"></i> if all of the replies in the page are collapsed and <i class="fa fa-minus-square"></i> if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.</li>
         <li>Also adds the same button in front of each comment nested 1 level deep in the page, which allows you to collapse/expand the replies of the comment individually.</li>
       </ul>
     `,
-    features: {
-      cerb_a: {
-        name: `Automatically collapse all replies when visiting a page.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `cerb`,
-    load: this.cerb,
-    name: `Collapse/Expand Reply Button`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+      features: {
+        cerb_a: {
+          name: `Automatically collapse all replies when visiting a page.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `cerb`,
+      load: this.cerb,
+      name: `Collapse/Expand Reply Button`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   cerb() {
     if (!this.esgst.commentsPath) return;
@@ -69,9 +72,9 @@ class CommentsCollapseExpandReplyButton extends Module {
       }]);
       collapse = button.firstElementChild;
       expand = collapse.nextElementSibling;
-      collapse.addEventListener(`click`, this.cerb_collapseAllReplies.bind(null, collapse, expand));
-      expand.addEventListener(`click`, this.cerb_expandAllReplies.bind(null, collapse, expand));
-      this.esgst.endlessFeatures.push(this.cerb_getReplies.bind(null, collapse, expand));
+      collapse.addEventListener(`click`, this.cerb_collapseAllReplies.bind(this, collapse, expand));
+      expand.addEventListener(`click`, this.cerb_expandAllReplies.bind(this, collapse, expand));
+      this.esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
     }
   }
 
@@ -118,7 +121,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     }
   }
 
-  cerb_setButton(button, permalink,  reply, replies) {
+  cerb_setButton(button, permalink, reply, replies) {
     let collapse, expand;
     collapse = button.firstElementChild;
     expand = collapse.nextElementSibling;
@@ -127,8 +130,8 @@ class CommentsCollapseExpandReplyButton extends Module {
       expand: this.cerb_expandReplies.bind(null, collapse, expand, replies),
       permalink: permalink
     });
-    collapse.addEventListener(`click`, this.cerb_collapseReplies.bind(null, collapse, expand, replies));
-    expand.addEventListener(`click`, this.cerb_expandReplies.bind(null, collapse, expand, replies));
+    collapse.addEventListener(`click`, this.cerb_collapseReplies.bind(this, collapse, expand, replies));
+    expand.addEventListener(`click`, this.cerb_expandReplies.bind(this, collapse, expand, replies));
     if (this.esgst.cerb_a && !permalink) {
       collapse.classList.toggle(`esgst-hidden`);
       expand.classList.toggle(`esgst-hidden`);

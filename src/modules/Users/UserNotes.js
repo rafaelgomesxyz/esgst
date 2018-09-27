@@ -12,27 +12,30 @@ const
 ;
 
 class UsersUserNotes extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sticky-note"></i> if there are notes saved and <i class="fa fa-sticky-note-o"></i> if there are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to save notes for them (only visible to you).</li>
         <li>You can press Ctrl + Enter to save the notes.</li>
         <li>This feature is recommended for cases where you want to associate a long text with a user, since the notes are not displayed in the page. For a short text, check [id=ut].</li>
       </ul>
     `,
-    features: {
-      un_p: {
-        name: `Pop up when whitelisting/blacklisting a user.`,
-        sg: true
-      }
-    },
-    id: `un`,
-    load: this.un,
-    name: `User Notes`,
-    sg: true,
-    st: true,
-    type: `users`
-  });
+      features: {
+        un_p: {
+          name: `Pop up when whitelisting/blacklisting a user.`,
+          sg: true
+        }
+      },
+      id: `un`,
+      load: this.un,
+      name: `User Notes`,
+      sg: true,
+      st: true,
+      type: `users`
+    };
+  }
 
   un() {
     this.esgst.profileFeatures.push(this.un_add.bind(this));
@@ -92,7 +95,15 @@ class UsersUserNotes extends Module {
     profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    set = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`, title1: `Save`, title2: `Saving...`, callback1: this.un_save.bind(this, profile)});
+    set = new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Save`,
+      title2: `Saving...`,
+      callback1: this.un_save.bind(this, profile)
+    });
     profile.unTextArea.addEventListener(`keydown`, event => {
       if (event.ctrlKey && event.key === `Enter`) {
         set.trigger();

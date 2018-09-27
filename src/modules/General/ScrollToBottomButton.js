@@ -9,23 +9,26 @@ const
 ;
 
 class GeneralScrollToBottomButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-chevron-down"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.</li>
       </ul>
     `,
-    id: `stbb`,
-    load: this.stbb,
-    name: `Scroll To Bottom Button`,
-    options: {
-      title: `Show in:`,
-      values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
-    },
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `stbb`,
+      load: this.stbb,
+      name: `Scroll To Bottom Button`,
+      options: {
+        title: `Show in:`,
+        values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+      },
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   stbb() {
     let button;
@@ -45,7 +48,7 @@ class GeneralScrollToBottomButton extends Module {
           }]
         }]);
         addEventListener(`scroll`, () => {
-          if (document.documentElement.offsetHeight -  innerHeight >=  scrollY + 100) {
+          if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
             button.classList.remove(`esgst-hidden`);
           } else {
             button.classList.add(`esgst-hidden`);

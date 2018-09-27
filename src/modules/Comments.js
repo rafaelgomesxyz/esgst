@@ -7,11 +7,14 @@ const
 ;
 
 class Comments extends Module {
-  info = ({
-    endless: true,
-    id: `comments`,
-    load: this.comments
-  });
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `comments`,
+      load: this.comments
+    };
+  }
 
   comments() {
     this.esgst.endlessFeatures.push(this.comments_load);
@@ -142,7 +145,8 @@ class Comments extends Module {
       if (this.esgst.sg) {
         try {
           source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
-        } catch (e) { /**/ }
+        } catch (e) { /**/
+        }
       } else {
         source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
       }

@@ -7,25 +7,28 @@ const
 ;
 
 class GiveawaysQuickGiveawaySearch extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.</li>
         <li>Has [id=ags] built-in.</li>
       </ul>
     `,
-    features: {
-      qgs_h: {
-        name: `Hide the native search on the main page.`,
-        sg: true
-      }
-    },
-    id: `qgs`,
-    load: this.qgs,
-    name: `Quick Giveaway Search`,
-    sg: true,
-    type: `giveaways`
-  });
+      features: {
+        qgs_h: {
+          name: `Hide the native search on the main page.`,
+          sg: true
+        }
+      },
+      id: `qgs`,
+      load: this.qgs,
+      name: `Quick Giveaway Search`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   qgs() {
     let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, [{
@@ -48,9 +51,9 @@ class GiveawaysQuickGiveawaySearch extends Module {
         type: `i`
       }]
     }]);
-    container.addEventListener(`mouseenter`, this.qgs_expand);
-    container.addEventListener(`mouseleave`, this.qgs_collapse);
-    container.firstElementChild.addEventListener(`keypress`, this.qgs_trigger);
+    container.addEventListener(`mouseenter`, this.qgs_expand.bind(this));
+    container.addEventListener(`mouseleave`, this.qgs_collapse.bind(this));
+    container.firstElementChild.addEventListener(`keypress`, this.qgs_trigger.bind(this));
     if (this.esgst.qgs_h && this.esgst.giveawaysPath) {
       document.getElementsByClassName(`sidebar__search-container`)[0].remove();
     }

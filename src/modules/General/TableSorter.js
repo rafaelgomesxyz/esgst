@@ -8,19 +8,22 @@ const
 ;
 
 class GeneralTableSorter extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-sort"></i> if the table is sorted by the default order, <i class="fa fa-sort-asc"></i> if it is sorted by ascending order and <i class="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.</li>
       </ul>
     `,
-    id: `ts`,
-    load: this.ts,
-    name: `Table Sorter`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `ts`,
+      load: this.ts,
+      name: `Table Sorter`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   ts() {
     this.esgst.endlessFeatures.push(this.ts_getTables);
@@ -82,7 +85,7 @@ class GeneralTableSorter extends Module {
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(null, button, columnName, i, `asc`, table, tsTable));
+    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(this, button, columnName, i, `asc`, table, tsTable));
   }
 
   ts_addDescButton(button, columnName, i, table, tsTable) {
@@ -93,7 +96,7 @@ class GeneralTableSorter extends Module {
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(null, button, columnName, i, `desc`, table, tsTable));
+    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(this, button, columnName, i, `desc`, table, tsTable));
   }
 
   ts_addDefButton(button, columnName, i, table, tsTable) {
@@ -104,7 +107,7 @@ class GeneralTableSorter extends Module {
       },
       type: `i`
     }]);
-    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(null, button, columnName, i, `def`, table, tsTable));
+    button.firstElementChild.addEventListener(`click`, this.ts_sortTable.bind(this, button, columnName, i, `def`, table, tsTable));
   }
 
   ts_sortTable(button, columnName, i, key, table, tsTable) {

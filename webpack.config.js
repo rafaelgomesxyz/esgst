@@ -97,8 +97,8 @@ module.exports = /** @param {Environment} env */ env => {
     ].concat(env.sizeAnalyzer ? [
       new plugins.sizeAnalyzer
     ] : []),
-    watch: env.development,
-    watchOptions: {
+      watch: env.development,
+      watchOptions: {
       ignored: /node_modules/,
       poll: 1000,
       aggregateTimeout: 1000

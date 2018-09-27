@@ -10,19 +10,22 @@ const
 ;
 
 class GiveawaysRealCVCalculator extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).</li>
       </ul>
     `,
-    id: `rcvc`,
-    load: this.rcvc,
-    name: `Real CV Calculator`,
-    sg: true,
-    sync: `Giveaways, Reduced CV Games and No CV Games`,
-    type: `giveaways`
-  });
+      id: `rcvc`,
+      load: this.rcvc,
+      name: `Real CV Calculator`,
+      sg: true,
+      sync: `Giveaways, Reduced CV Games and No CV Games`,
+      type: `giveaways`
+    };
+  }
 
   async rcvc() {
     if (this.esgst.newGiveawayPath) {
@@ -36,7 +39,10 @@ class GiveawaysRealCVCalculator extends Module {
           let headings = document.getElementsByClassName(`featured__heading__small`);
           let copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
           try {
-            let responseJson = JSON.parse((await request({method: `GET`, url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`})).responseText)[id].data;
+            let responseJson = JSON.parse((await request({
+              method: `GET`,
+              url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`
+            })).responseText)[id].data;
             let value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
             let games, user;
             games = JSON.parse(await getValue(`games`));

@@ -10,20 +10,23 @@ const
 ;
 
 class CommentsMultiReply extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
         <li>Has [id=ded] built-in.</li>
       </ul>
     `,
-    id: `mr`,
-    load: this.mr,
-    name: `Multi-Reply`,
-    sg: true,
-    st: true,
-    type: `comments`
-  });
+      id: `mr`,
+      load: this.mr,
+      name: `Multi-Reply`,
+      sg: true,
+      st: true,
+      type: `comments`
+    };
+  }
 
   mr() {
     this.esgst.endlessFeatures.push(this.mr_getButtons);
@@ -39,8 +42,8 @@ class CommentsMultiReply extends Module {
 
   mr_addButton(Context, main) {
     /**
-   * @type {MR}
-   */
+     * @type {MR}
+     */
     let MR = {};
     MR.Context = Context;
     MR.Comment = Context.closest(this.esgst.sg ? `.comment` : `.comment_outer`);
@@ -203,7 +206,7 @@ class CommentsMultiReply extends Module {
           }]
         }]
       }];
-    } else {      
+    } else {
       basicItems[2].attributes.placeholder = `Write a reply to ${MR.Username}...`;
       items[0].children = basicItems;
     }
@@ -327,7 +330,11 @@ class CommentsMultiReply extends Module {
       });
       EditSave.addEventListener(`click`, async () => {
         let ResponseJSON, ResponseHTML;
-        ResponseJSON = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`, method: `POST`, url: `/ajax.php`})).responseText);
+        ResponseJSON = JSON.parse((await request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`,
+          method: `POST`,
+          url: `/ajax.php`
+        })).responseText);
         if (ResponseJSON.type === `success` || ResponseJSON.success) {
           ResponseHTML = parseHtml(ResponseJSON[this.esgst.sg ? `comment` : `html`]);
           if (this.esgst.rfi && this.esgst.rfi_s) {

@@ -6,8 +6,10 @@ const
 ;
 
 class GiveawaysNextPreviousTrainHotkeys extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to navigate through a train using hotkeys.</a>
         <li>This feature is not 100% accurate, because the feature looks for a link with any variation of "previous"/"next" in the giveaway's description to make sure that it is going backward/forward, so if it does not find such a link, it will not work.</li>
@@ -15,24 +17,25 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
         <li>If you press Ctrl together with the hotkey, the giveaway is open in a new tab.</li>
       </ul>
     `,
-    id: `npth`,
-    load: this.npth,
-    name: `Next/Previous Train Hotkeys`,
-    inputItems: [
-      {
-        event: `keydown`,
-        id: `npth_previousKey`,
-        prefix: `Enter the key you want to use for previous links: `
-      },
-      {
-        event: `keydown`,
-        id: `npth_nextKey`,
-        prefix: `Enter the key you want to use for next links: `
-      }
-    ],
-    sg: true,
-    type: `giveaways`
-  });
+      id: `npth`,
+      load: this.npth,
+      name: `Next/Previous Train Hotkeys`,
+      inputItems: [
+        {
+          event: `keydown`,
+          id: `npth_previousKey`,
+          prefix: `Enter the key you want to use for previous links: `
+        },
+        {
+          event: `keydown`,
+          id: `npth_nextKey`,
+          prefix: `Enter the key you want to use for next links: `
+        }
+      ],
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   npth() {
     let description, element, elements, i, n, next, previous, text;

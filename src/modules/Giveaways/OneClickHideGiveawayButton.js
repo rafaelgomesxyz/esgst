@@ -8,29 +8,32 @@ const
 ;
 
 class GiveawaysOneClickHideGiveawayButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>When you click on the icon <i class="fa fa-eye-slash"></i> next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.</li>
       </ul>
     `,
-    features: {
-      ochgb_f: {
-        description: `
+      features: {
+        ochgb_f: {
+          description: `
           <ul>
             <li>With this option enabled, when you hide a game, instead of all of the giveaways for the game being removed from the page, they are simply faded out.</li>
           </ul>
         `,
-        name: `Fade hidden giveaways instead of removing them.`,
-        sg: true
-      }
-    },
-    id: `ochgb`,
-    load: this.ochgb,
-    name: `One-Click Hide Giveaway Button`,
-    sg: true,
-    type: `giveaways`
-  });
+          name: `Fade hidden giveaways instead of removing them.`,
+          sg: true
+        }
+      },
+      id: `ochgb`,
+      load: this.ochgb,
+      name: `One-Click Hide Giveaway Button`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   ochgb() {
     this.esgst.giveawayFeatures.push(this.ochgb_setButton);
@@ -72,14 +75,22 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
   }
 
   async ochgb_hideGiveaway(giveaway, main) {
-    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`, method: `POST`, url: `/ajax.php`});
+    await request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`,
+      method: `POST`,
+      url: `/ajax.php`
+    });
     this.ochgb_completeProcess(giveaway, `fade`, main);
     await updateHiddenGames(giveaway.id, giveaway.type);
     return true;
   }
 
   async ochgb_unhideGiveaway(giveaway, main) {
-    await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`, method: `POST`, url: `/ajax.php`});
+    await request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`,
+      method: `POST`,
+      url: `/ajax.php`
+    });
     this.ochgb_completeProcess(giveaway, `unfade`, main);
     await updateHiddenGames(giveaway.id, giveaway.type, true);
     return true;

@@ -1,18 +1,21 @@
 import Module from '../../class/Module';
 
 class GeneralHiddenBlacklistStats extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Hides the blacklist stats of your <a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.</li>
       </ul>
     `,
-    id: `hbs`,
-    load: this.hbs,
-    name: `Hidden Blacklist Stats`,
-    sg: true,
-    type: `general`
-  });
+      id: `hbs`,
+      load: this.hbs,
+      name: `Hidden Blacklist Stats`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   hbs() {
     if (!location.pathname.match(/^\/stats\/personal\/community/)) return;

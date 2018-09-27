@@ -6,13 +6,16 @@ const
 ;
 
 class EndlessLoad extends Module {
-  info = ({
-    endless: true,
-    id: `endlessLoad`,
-    load: this.endlessLoad
-  });
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `endlessLoad`,
+      load: this.endlessLoad
+    };
+  }
 
-  async endlessLoad() {    
+  async endlessLoad() {
     if (!this.esgst.menuPath) {
       await endless_load(document, true);
     }

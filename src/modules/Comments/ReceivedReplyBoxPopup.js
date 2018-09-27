@@ -9,18 +9,21 @@ const
 ;
 
 class CommentsReceivedReplyBoxPopup extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Pops up a reply box when you mark a giveaway as received (in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page) so that you can add a comment thanking the creator.</li>
       </ul>
     `,
-    id: `rrbp`,
-    load: this.rrbp,
-    name: `Received Reply Box Popup`,
-    sg: true,
-    type: `comments`
-  });
+      id: `rrbp`,
+      load: this.rrbp,
+      name: `Received Reply Box Popup`,
+      sg: true,
+      type: `comments`
+    };
+  }
 
   rrbp() {
     if (!this.esgst.wonPath) return;
@@ -31,7 +34,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
     giveaways.forEach(giveaway => {
       let feedback = giveaway.outerWrap.getElementsByClassName(`table__gift-feedback-awaiting-reply`)[0];
       if (feedback) {
-        feedback.addEventListener(`click`, this.rrbp_openPopup.bind(null, giveaway));
+        feedback.addEventListener(`click`, this.rrbp_openPopup.bind(this, giveaway));
       }
     });
   }
@@ -51,7 +54,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
         popup.close();
       });
     }).set);
-    progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
     popup.open(() => {
       textArea.focus();
     });

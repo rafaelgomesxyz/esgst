@@ -14,25 +14,27 @@ const
 ;
 
 class DiscussionsDiscussionFilters extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to filter discussions.</li>
       </ul>
     `,
-    features: {
-      df_s: {
-        description: `
+      features: {
+        df_s: {
+          description: `
           <ul>
             <li>Adds a button (<i class="fa fa-eye"></i> if the discussion is hidden and <i class="fa fa-eye-slash"></i> if it is not) next to a discussion's title (in any page) that allows you to hide the discussion.</li>
             <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-eye-slash"></i>) to the page heading of this menu that allows you to view all of the discussions that have been hidden.</li>
           </ul>
         `,
-        name: `Single Filters`,
-        sg: true
-      },
-      df_m: {
-        description: `
+          name: `Single Filters`,
+          sg: true
+        },
+        df_m: {
+          description: `
           <ul>
             <li>Allows you to hide multiple discussions in a page using many different filters.</li>
             <li>Adds a toggle switch with a button (<i class="fa fa-sliders"></i>) to the main page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a> page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.</li>
@@ -55,173 +57,174 @@ class DiscussionsDiscussionFilters extends Module {
             <li>Adds a text in parenthesis to the pagination of the page showing how many discussions in the page are being filtered by the filters.</li>
           </ul>
         `,
-        features: {
-          df_m_b: {
-            name: `Hide basic filters.`,
-            sg: true
-          },
-          df_m_a: {
-            name: `Hide advanced filters.`,
-            sg: true
-          },
-          df_comments: {
-            description: `
+          features: {
+            df_m_b: {
+              name: `Hide basic filters.`,
+              sg: true
+            },
+            df_m_a: {
+              name: `Hide advanced filters.`,
+              sg: true
+            },
+            df_comments: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions by number of comments.</li>
               </ul>
             `,
-            name: `Comments`,
-            sg: true
-          },
-          df_announcements: {
-            description: `
+              name: `Comments`,
+              sg: true
+            },
+            df_announcements: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Announcements".</li>
               </ul>
             `,
-            name: `Announcements`,
-            sg: true
-          },
-          df_bugsSuggestions: {
-            description: `
+              name: `Announcements`,
+              sg: true
+            },
+            df_bugsSuggestions: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Bugs / Suggestions".</li>
               </ul>
             `,
-            name: `Bugs / Suggestions`,
-            sg: true
-          },
-          df_deals: {
-            description: `
+              name: `Bugs / Suggestions`,
+              sg: true
+            },
+            df_deals: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Deals".</li>
               </ul>
             `,
-            name: `Deals`,
-            sg: true
-          },
-          df_general: {
-            description: `
+              name: `Deals`,
+              sg: true
+            },
+            df_general: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "General".</li>
               </ul>
             `,
-            name: `General`,
-            sg: true
-          },
-          df_groupRecruitment: {
-            description: `
+              name: `General`,
+              sg: true
+            },
+            df_groupRecruitment: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Group Recruitment".</li>
               </ul>
             `,
-            name: `Group Recruitment`,
-            sg: true
-          },
-          df_letsPlayTogether: {
-            description: `
+              name: `Group Recruitment`,
+              sg: true
+            },
+            df_letsPlayTogether: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Let's Play Together".</li>
               </ul>
             `,
-            name: `Let's Play Together`,
-            sg: true
-          },
-          df_offTopic: {
-            description: `
+              name: `Let's Play Together`,
+              sg: true
+            },
+            df_offTopic: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Off-Topic".</li>
               </ul>
             `,
-            name: `Off-Topic`,
-            sg: true
-          },
-          df_puzzles: {
-            description: `
+              name: `Off-Topic`,
+              sg: true
+            },
+            df_puzzles: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Puzzles".</li>
               </ul>
             `,
-            name: `Puzzles`,
-            sg: true
-          },
-          df_uncategorized: {
-            description: `
+              name: `Puzzles`,
+              sg: true
+            },
+            df_uncategorized: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions categorized as "Uncategorized".</li>
               </ul>
             `,
-            name: `Uncategorized`,
-            sg: true
-          },
-          df_created: {
-            description: `
+              name: `Uncategorized`,
+              sg: true
+            },
+            df_created: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions created by yourself.</li>
               </ul>
             `,
-            name: `Created`,
-            sg: true
-          },
-          df_poll: {
-            description: `
+              name: `Created`,
+              sg: true
+            },
+            df_poll: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions that contain polls.</li>
               </ul>
             `,
-            name: `Poll`,
-            sg: true
-          },
-          df_highlighted: {
-            description: `
+              name: `Poll`,
+              sg: true
+            },
+            df_highlighted: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions that you have highlighted.</li>
                 <li>This option requires [id=dh] enabled to work.</li>
               </ul>
             `,
-            name: `Highlighted`,
-            sg: true
-          },
-          df_visited: {
-            description: `
+              name: `Highlighted`,
+              sg: true
+            },
+            df_visited: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions that you have visited.</li>
                 <li>This option requires [id=gdttt] enabled to work.</li>
               </ul>
             `,
-            name: `Visited`,
-            sg: true
-          },
-          df_unread: {
-            description: `
+              name: `Visited`,
+              sg: true
+            },
+            df_unread: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions that you have read.</li>
                 <li>This option requires [id=ct] enabled to work.</li>
               </ul>
             `,
-            name: `Unread`,
-            sg: true
-          },
-          df_authors: {
-            description: `
+              name: `Unread`,
+              sg: true
+            },
+            df_authors: {
+              description: `
               <ul>
                 <li>Allows you to filter discussions by author.</li>
               </ul>
             `,
-            name: `Authors`,
-            sg: true
-          }
-        },
-        name: `Multiple Filters`,
-        sg: true
-      }
-    },
-    id: `df`,
-    load: this.df,
-    name: `Discussion Filters`,
-    sg: true,
-    type: `discussions`
-  });
+              name: `Authors`,
+              sg: true
+            }
+          },
+          name: `Multiple Filters`,
+          sg: true
+        }
+      },
+      id: `df`,
+      load: this.df,
+      name: `Discussion Filters`,
+      sg: true,
+      type: `discussions`
+    };
+  }
 
   async df() {
     if (this.esgst.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
@@ -279,7 +282,7 @@ class DiscussionsDiscussionFilters extends Module {
           class: `table__heading`
         },
         type: `div`,
-        children: [{          
+        children: [{
           attributes: {
             class: `table__column--width-fill`
           },

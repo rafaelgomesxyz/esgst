@@ -10,22 +10,25 @@ const
 ;
 
 class GeneralAvatarPopout extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.</li>
       </ul>
     `,
-    id: `ap`,
-    load: this.ap,
-    name: `Avatar Popout`,
-    options: {
-      title: `Open on:`,
-      values: [`Hover`, `Click`]
-    },
-    sg: true,
-    type: `general`
-  });
+      id: `ap`,
+      load: this.ap,
+      name: `Avatar Popout`,
+      options: {
+        title: `Open on:`,
+        values: [`Hover`, `Click`]
+      },
+      sg: true,
+      type: `general`
+    };
+  }
 
   ap() {
     this.esgst.endlessFeatures.push(this.ap_getAvatars);

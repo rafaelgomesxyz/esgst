@@ -6,18 +6,21 @@ const
 ;
 
 class GeneralLastPageLink extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a "Last Page" link to the pagination navigation of some pages that do not have it. For example: discussion pages with 100+ pages, user pages, group pages with 100+ pages, etc...</li>
       </ul>
     `,
-    id: `lpl`,
-    load: this.lpl,
-    name: `Last Page Link`,
-    sg: true,
-    type: `general`
-  });
+      id: `lpl`,
+      load: this.lpl,
+      name: `Last Page Link`,
+      sg: true,
+      type: `general`
+    };
+  }
 
   lpl() {
     if (!this.esgst.paginationNavigation) return;

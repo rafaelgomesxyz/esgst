@@ -15,8 +15,10 @@ const
 ;
 
 class UsersUserSuspensionTracker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.</li>
         <li>It is impossible to retrieve that information automatically, so the database (which is kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this feature adds 2 identical buttons (<i class="fa fa-paper-plane"></i>) to the main page heading of 2 different locations:</li>
@@ -40,17 +42,22 @@ class UsersUserSuspensionTracker extends Module {
         <li>After you send a ticket you will no longer have the option to send it again, to prevent duplicate entries.</li>
       </ul>
     `,
-    id: `ust`,
-    load: this.ust,
-    name: `User Suspension Tracker`,
-    sg: true,
-    st: true,
-    type: `users`
-  });
+      id: `ust`,
+      load: this.ust,
+      name: `User Suspension Tracker`,
+      sg: true,
+      st: true,
+      type: `users`
+    };
+  }
 
   ust() {
     if (this.esgst.ticketsPath) {
-      this.esgst.ustButton = createHeadingButton({id: `ust`, icons: [`fa-paper-plane`], title: `Send selected tickets to the User Suspension Tracker database`});
+      this.esgst.ustButton = createHeadingButton({
+        id: `ust`,
+        icons: [`fa-paper-plane`],
+        title: `Send selected tickets to the User Suspension Tracker database`
+      });
       this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     } else if (this.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       let code, tickets;
@@ -93,7 +100,11 @@ class UsersUserSuspensionTracker extends Module {
       promises.push(this.ust_check(code, obj));
     }
     await Promise.all(promises);
-    let error = JSON.parse((await request({data: obj.data.slice(0, -1), method: `POST`, url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`})).responseText).error;
+    let error = JSON.parse((await request({
+      data: obj.data.slice(0, -1),
+      method: `POST`,
+      url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
+    })).responseText).error;
     let tickets = JSON.parse(await getValue(`tickets`));
     for (let code in this.esgst.ustCheckboxes) {
       if (error.indexOf(code) < 0) {
@@ -144,13 +155,13 @@ class UsersUserSuspensionTracker extends Module {
     }]);
     let error = JSON.parse(
       (await request({
-        data: `${code}=${encodeURIComponent(parseHtml(
-          (await request({method: `GET`, url: location.href})).responseText
-        ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
-        method: `POST`,
-        url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
-      })
-    ).responseText).error;
+          data: `${code}=${encodeURIComponent(parseHtml(
+            (await request({method: `GET`, url: location.href})).responseText
+          ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
+          method: `POST`,
+          url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
+        })
+      ).responseText).error;
     if (error.length === 0) {
       let tickets = JSON.parse(await getValue(`tickets`));
       if (!tickets[code]) {

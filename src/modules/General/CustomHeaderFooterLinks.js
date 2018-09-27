@@ -13,8 +13,10 @@ const
 ;
 
 class GeneralCustomHeaderFooterLinks extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
         <li>Already comes with some predefined links:</li>
@@ -30,14 +32,15 @@ class GeneralCustomHeaderFooterLinks extends Module {
         <li>You can move the custom links by dragging and dropping them.</li>
       </ul>
     `,
-    inputItems: `chfl_key`,
-    id: `chfl`,
-    load: this.chfl,
-    name: `Custom Header/Footer Links`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      inputItems: `chfl_key`,
+      id: `chfl`,
+      load: this.chfl,
+      name: `Custom Header/Footer Links`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   chfl() {
     let chfl = null;
@@ -215,9 +218,9 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
   chfl_makeDraggable(chfl, element) {
     element.setAttribute(`draggable`, true);
-    element.addEventListener(`dragstart`, this.chfl_startDrag.bind(null, chfl));
-    element.addEventListener(`dragenter`, this.chfl_enterDrag.bind(null, chfl));
-    element.addEventListener(`dragend`, this.chfl_saveOrder.bind(null, chfl));
+    element.addEventListener(`dragstart`, this.chfl_startDrag.bind(this, chfl));
+    element.addEventListener(`dragenter`, this.chfl_enterDrag.bind(this, chfl));
+    element.addEventListener(`dragend`, this.chfl_saveOrder.bind(this, chfl));
   }
 
   chfl_startDrag(chfl, event) {
@@ -294,7 +297,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           name: `Add Custom Link`,
           description: `Click here to add a custom link.`
         }));
-        button.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, null, key));
+        button.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, null, key));
         const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
           attributes: {
             class: `esgst-chfl-button`
@@ -319,7 +322,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           name: `Reset Links`,
           description: `Click here to reset the custom links.`
         }));
-        resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(null, chfl, key), null));
+        resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(createConfirmation, chfl, key), null));
         for (const subKey in source.elements) {
           if (source.elements.hasOwnProperty(subKey)) {
             const element = source.elements[subKey],
@@ -340,8 +343,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
                   type: `i`
                 }]
               }]);
-            panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(null, chfl, subKey, key));
-            panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(null, chfl, subKey, key));
+            panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, subKey, key));
+            panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(this, chfl, subKey, key));
           }
         }
         return;
@@ -522,7 +525,15 @@ class GeneralCustomHeaderFooterLinks extends Module {
         break;
       }
     }
-    popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: editId ? `fa-edit` : `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: editId ? `Edit` : `Add`, title2: editId ? `Editing...` : `Adding...`, callback1: this.chfl_addLink.bind(null, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)}).set);
+    popup.description.appendChild(new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: editId ? `fa-edit` : `fa-plus-circle`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: editId ? `Edit` : `Add`,
+      title2: editId ? `Editing...` : `Adding...`,
+      callback1: this.chfl_addLink.bind(null, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)
+    }).set);
     popup.open();
   }
 

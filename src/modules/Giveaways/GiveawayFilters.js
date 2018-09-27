@@ -21,25 +21,27 @@ const
 ;
 
 class GiveawaysGiveawayFilters extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to filter giveaways.</li>
       </ul>
     `,
-    features: {
-      gf_s: {
-        description: `
+      features: {
+        gf_s: {
+          description: `
           <ul>
             <li>Adds a button (<i class="fa fa-eye"></i> if the giveaway is hidden and <i class="fa fa-eye-slash"></i> if it is not) next to a giveaway's game name (in any page) that allows you to hide the giveaway.</li>
             <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-eye-slash"></i>) to the page heading of this menu that allows you to view all of the giveaways that have been hidden.</li>
           </ul>
         `,
-        name: `Single Filters`,
-        sg: true
-      },
-      gf_m: {
-        description: `
+          name: `Single Filters`,
+          sg: true
+        },
+        gf_m: {
+          description: `
           <ul>
             <li>Allows you to hide multiple giveaways in a page using many different filters.</li>
             <li>Adds a toggle switch with a button (<i class="fa fa-sliders"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a>/<a href="https://www.steamgifts.com/user/cg">user</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page and some popups ([id=gb], [id=ged], [id=ge], etc...). The switch allows you to turn the filters on/off and the button allows you to manage your presets.</li>
@@ -63,641 +65,642 @@ class GiveawaysGiveawayFilters extends Module {
             <li>Adds a text in parenthesis to the pagination of the page showing how many giveaways in the page are being filtered by the filters.</li>
           </ul>
         `,
-        features: {
-          gf_m_b: {
-            name: `Hide basic filters.`,
-            sg: true
-          },
-          gf_m_a: {
-            name: `Hide advanced filters.`,
-            sg: true
-          },
-          gf_level: {
-            description: `
+          features: {
+            gf_m_b: {
+              name: `Hide basic filters.`,
+              sg: true
+            },
+            gf_m_a: {
+              name: `Hide advanced filters.`,
+              sg: true
+            },
+            gf_level: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by level.</li>
               </ul>
             `,
-            name: `Level`,
-            sg: true
-          },
-          gf_entries: {
-            description: `
+              name: `Level`,
+              sg: true
+            },
+            gf_entries: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by number of entries.</li>
               </ul>
             `,
-            name: `Entries`,
-            sg: true
-          },
-          gf_copies: {
-            description: `
+              name: `Entries`,
+              sg: true
+            },
+            gf_copies: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by number of copies.</li>
               </ul>
             `,
-            name: `Copies`,
-            sg: true
-          },
-          gf_points: {
-            description: `
+              name: `Copies`,
+              sg: true
+            },
+            gf_points: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by how many points they cost.</li>
               </ul>
             `,
-            name: `Points`,
-            sg: true
-          },
-          gf_comments: {
-            description: `
+              name: `Points`,
+              sg: true
+            },
+            gf_comments: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by number of comments.</li>
               </ul>
             `,
-            name: `Comments`,
-            sg: true
-          },
-          gf_minutesToEnd: {
-            description: `
+              name: `Comments`,
+              sg: true
+            },
+            gf_minutesToEnd: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by how much time they have left.</li>
               </ul>
             `,
-            name: `Minutes To End`,
-            sg: true
-          },
-          gf_chance: {
-            description: `
+              name: `Minutes To End`,
+              sg: true
+            },
+            gf_chance: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by chance (basic).</li>
                 <li>This option requires [id=gwc] enabled to work.</li>
               </ul>
             `,
-            name: `Chance`,
-            sg: true
-          },
-          gf_projectedChance: {
-            description: `
+              name: `Chance`,
+              sg: true
+            },
+            gf_projectedChance: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by projected chance (advanced).</li>
                 <li>This option requires [id=gwc_a] enabled to work.</li>
               </ul>
             `,
-            name: `Chance`,
-            sg: true
-          },
-          gf_chancePerPoint: {
-            description: `
+              name: `Chance`,
+              sg: true
+            },
+            gf_chancePerPoint: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by chance per point using the basic chance.</li>
                 <li>This option requires [id=gwc] enabled to work.</li>
               </ul>
             `,
-            name: `Chance Per Point`,
-            sg: true
-          },
-          gf_projectedChancePerPoint: {
-            description: `
+              name: `Chance Per Point`,
+              sg: true
+            },
+            gf_projectedChancePerPoint: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by chance per point using the advanced chance.</li>
                 <li>This option requires [id=gwc_a] enabled to work.</li>
               </ul>
             `,
-            name: `Projected Chance Per Point`,
-            sg: true
-          },
-          gf_ratio: {
-            description: `
+              name: `Projected Chance Per Point`,
+              sg: true
+            },
+            gf_ratio: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by ratio (basic).</li>
                 <li>This option requires [id=gwr] enabled to work.</li>
               </ul>
             `,
-            name: `Ratio`,
-            sg: true
-          },
-          gf_projectedRatio: {
-            description: `
+              name: `Ratio`,
+              sg: true
+            },
+            gf_projectedRatio: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by projected ratio (advanced).</li>
                 <li>This option requires [id=gwr_a] enabled to work.</li>
               </ul>
             `,
-            name: `Projected Ratio`,
-            sg: true
-          },
-          gf_pointsToWin: {
-            description: `
+              name: `Projected Ratio`,
+              sg: true
+            },
+            gf_pointsToWin: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by points to win.</li>
                 <li>This option requires [id=gptw] enabled to work.</li>
               </ul>
             `,
-            name: `Points To Win`,
-            sg: true
-          },
-          gf_rating: {
-            description: `
+              name: `Points To Win`,
+              sg: true
+            },
+            gf_rating: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by rating percentage of the game.</li>
                 <li>This option requires [id=gc_r] enabled to work.</li>
               </ul>
             `,
-            name: `Rating`,
-            sg: true
-          },
-          gf_reviews: {
-            description: `
+              name: `Rating`,
+              sg: true
+            },
+            gf_reviews: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by the number of reviews that the game has.</li>
                 <li>This option requires [id=gc_r] enabled to work.</li>
               </ul>
             `,
-            name: `Reviews`,
-            sg: true
-          },
-          gf_releaseDate: {
-            description: `
+              name: `Reviews`,
+              sg: true
+            },
+            gf_releaseDate: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by release date of the game.</li>
                 <li>This option requires [id=gc_rd] enabled to work.</li>
               </ul>
             `,
-            name: `Release Date`,
-            sg: true
-          },
-          gf_pinned: {
-            description: `
+              name: `Release Date`,
+              sg: true
+            },
+            gf_pinned: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are pinned.</li>
               </ul>
             `,
-            name: `Pinned`,
-            sg: true
-          },
-          gf_public: {
-            description: `
+              name: `Pinned`,
+              sg: true
+            },
+            gf_public: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are public.</li>
               </ul>
             `,
-            name: `Public`,
-            sg: true
-          },
-          gf_inviteOnly: {
-            description: `
+              name: `Public`,
+              sg: true
+            },
+            gf_inviteOnly: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are invite only.</li>
               </ul>
             `,
-            name: `Invite Only`,
-            sg: true
-          },
-          gf_group: {
-            description: `
+              name: `Invite Only`,
+              sg: true
+            },
+            gf_group: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are for groups.</li>
               </ul>
             `,
-            name: `Group`,
-            sg: true
-          },
-          gf_whitelist: {
-            description: `
+              name: `Group`,
+              sg: true
+            },
+            gf_whitelist: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are for whitelist.</li>
               </ul>
             `,
-            name: `Whitelist`,
-            sg: true
-          },
-          gf_regionRestricted: {
-            description: `
+              name: `Whitelist`,
+              sg: true
+            },
+            gf_regionRestricted: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are region restricted.</li>
               </ul>
             `,
-            name: `Region Restricted`,
-            sg: true
-          },
-          gf_enterable: {
-            description: `
+              name: `Region Restricted`,
+              sg: true
+            },
+            gf_enterable: {
+              description: `
               <ul>
                 <li>Allows you filter giveaways that are enterable in [id=ge].</li>
               </ul>
             `,
-            name: `Enterable`,
-            sg: true            
-          },
-          gf_created: {
-            description: `
+              name: `Enterable`,
+              sg: true
+            },
+            gf_created: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways created by yourself.</li>
               </ul>
             `,
-            name: `Created`,
-            sg: true
-          },
-          gf_received: {
-            description: `
+              name: `Created`,
+              sg: true
+            },
+            gf_received: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that have been marked as received.</li>
               </ul>
             `,
-            name: `Received`,
-            sg: true
-          },
-          gf_notReceived: {
-            description: `
+              name: `Received`,
+              sg: true
+            },
+            gf_notReceived: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that have been marked as not received.</li>
               </ul>
             `,
-            name: `Not Received`,
-            sg: true
-          },
-          gf_awaitingFeedback: {
-            description: `
+              name: `Not Received`,
+              sg: true
+            },
+            gf_awaitingFeedback: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that are awaiting feedback.</li>
               </ul>
             `,
-            name: `Awaiting Feedback`,
-            sg: true
-          },
-          gf_entered: {
-            description: `
+              name: `Awaiting Feedback`,
+              sg: true
+            },
+            gf_entered: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that you have entered.</li>
               </ul>
             `,
-            name: `Entered`,
-            sg: true
-          },
-          gf_started: {
-            description: `
+              name: `Entered`,
+              sg: true
+            },
+            gf_started: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that have started.</li>
               </ul>
             `,
-            name: `Started`,
-            sg: true
-          },
-          gf_ended: {
-            description: `
+              name: `Started`,
+              sg: true
+            },
+            gf_ended: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that have ended.</li>
               </ul>
             `,
-            name: `Ended`,
-            sg: true
-          },
-          gf_deleted: {
-            description: `
+              name: `Ended`,
+              sg: true
+            },
+            gf_deleted: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways that have been deleted.</li>
               </ul>
             `,
-            name: `Deleted`,
-            sg: true
-          },
-          gf_owned: {
-            description: `
+              name: `Deleted`,
+              sg: true
+            },
+            gf_owned: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you own on Steam.</li>
               </ul>
             `,
-            name: `Owned`,
-            sg: true
-          },
-          gf_wishlisted: {
-            description: `
+              name: `Owned`,
+              sg: true
+            },
+            gf_wishlisted: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you have wishlisted on Steam.</li>
               </ul>
             `,
-            name: `Wishlisted`,
-            sg: true
-          },
-          gf_followed: {
-            description: `
+              name: `Wishlisted`,
+              sg: true
+            },
+            gf_followed: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you have followed on Steam.</li>
               </ul>
             `,
-            name: `Followed`,
-            sg: true
-          },
-          gf_hidden: {
-            description: `
+              name: `Followed`,
+              sg: true
+            },
+            gf_hidden: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you have hidden on SteamGifts.</li>
               </ul>
             `,
-            name: `Hidden`,
-            sg: true
-          },
-          gf_ignored: {
-            description: `
+              name: `Hidden`,
+              sg: true
+            },
+            gf_ignored: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you have ignored on Steam.</li>
               </ul>
             `,
-            name: `Ignored`,
-            sg: true
-          },
-          gf_previouslyEntered: {
-            description: `
+              name: `Ignored`,
+              sg: true
+            },
+            gf_previouslyEntered: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you have previously entered giveaways for.</li>
                 <li>This option requires [id=egh] enabled to work.</li>
               </ul>
             `,
-            name: `Previously Entered`,
-            sg: true
-          },
-          gf_previouslyWon: {
-            description: `
+              name: `Previously Entered`,
+              sg: true
+            },
+            gf_previouslyWon: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that you have previously won.</li>
               </ul>
             `,
-            name: `Previously Won`,
-            sg: true
-          },
-          gf_fullCV: {
-            description: `
+              name: `Previously Won`,
+              sg: true
+            },
+            gf_fullCV: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that give full CV.</li>
               </ul>
             `,
-            name: `Full CV`,
-            sg: true
-          },
-          gf_reducedCV: {
-            description: `
+              name: `Full CV`,
+              sg: true
+            },
+            gf_reducedCV: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that give reduced CV.</li>
               </ul>
             `,
-            name: `Reduced CV`,
-            sg: true
-          },
-          gf_noCV: {
-            description: `
+              name: `Reduced CV`,
+              sg: true
+            },
+            gf_noCV: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that give no CV.</li>
               </ul>
             `,
-            name: `No CV`,
-            sg: true
-          },
-          gf_sgTools: {
-            description: `
+              name: `No CV`,
+              sg: true
+            },
+            gf_sgTools: {
+              description: `
               <ul>
                 <li>Allows you to filter SGTools giveaways.</li>
                 <li>This option requires [id=ge] enabled to work.</li>
               </ul>
             `,
-            name: `SGTools`,
-            sg: true
-          },
-          gf_groups: {
-            description: `
+              name: `SGTools`,
+              sg: true
+            },
+            gf_groups: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by group.</li>
                 <li>This option requires [id=ggl] enabled as "Panel (On Page Load)" to work.</li>
               </ul>
             `,
-            name: `Groups`,
-            sg: true
-          },
-          gf_creators: {
-            description: `
+              name: `Groups`,
+              sg: true
+            },
+            gf_creators: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by creator.</li>
               </ul>
             `,
-            name: `Creators`,
-            sg: true
-          },
-          gf_learning: {
-            description: `
+              name: `Creators`,
+              sg: true
+            },
+            gf_learning: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that Steam is learning about.</li>
                 <li>This option requires [id=gc_lg] enabled to work.</li>
               </ul>
             `,
-            name: `Learning`,
-            sg: true
-          },
-          gf_removed: {
-            description: `
+              name: `Learning`,
+              sg: true
+            },
+            gf_removed: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that have been removed from the Steam store.</li>
                 <li>This option requires [id=gc_rm] enabled to work.</li>
               </ul>
             `,
-            name: `Removed`,
-            sg: true
-          },
-          gf_tradingCards: {
-            description: `
+              name: `Removed`,
+              sg: true
+            },
+            gf_tradingCards: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that have trading cards.</li>
                 <li>This option requires [id=gc_tc] enabled to work.</li>
               </ul>
             `,
-            name: `Trading Cards`,
-            sg: true
-          },
-          gf_achievements: {
-            description: `
+              name: `Trading Cards`,
+              sg: true
+            },
+            gf_achievements: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that have achievements.</li>
                 <li>This option requires [id=gc_a] enabled to work.</li>
               </ul>
             `,
-            name: `Achievements`,
-            sg: true
-          },
-          gf_singleplayer: {
-            description: `
+              name: `Achievements`,
+              sg: true
+            },
+            gf_singleplayer: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are singleplayer.</li>
                 <li>This option requires [id=gc_sp] enabled to work.</li>
               </ul>
             `,
-            name: `Singleplayer`,
-            sg: true
-          },
-          gf_multiplayer: {
-            description: `
+              name: `Singleplayer`,
+              sg: true
+            },
+            gf_multiplayer: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are multiplayer.</li>
                 <li>This option requires [id=gc_mp] enabled to work.</li>
               </ul>
             `,
-            name: `Multiplayer`,
-            sg: true
-          },
-          gf_steamCloud: {
-            description: `
+              name: `Multiplayer`,
+              sg: true
+            },
+            gf_steamCloud: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that have Steam Cloud.</li>
                 <li>This option requires [id=gc_sc] enabled to work.</li>
               </ul>
             `,
-            name: `Steam Cloud`,
-            sg: true
-          },
-          gf_linux: {
-            description: `
+              name: `Steam Cloud`,
+              sg: true
+            },
+            gf_linux: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that have are compatible with Linux.</li>
                 <li>This option requires [id=gc_l] enabled to work.</li>
               </ul>
             `,
-            name: `Linux`,
-            sg: true
-          },
-          gf_mac: {
-            description: `
+              name: `Linux`,
+              sg: true
+            },
+            gf_mac: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are compatible with Mac.</li>
                 <li>This option requires [id=gc_m] enabled to work.</li>
               </ul>
             `,
-            name: `Mac`,
-            sg: true
-          },
-          gf_dlc: {
-            description: `
+              name: `Mac`,
+              sg: true
+            },
+            gf_dlc: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are DLCs.</li>
                 <li>This option requires [id=gc_dlc] enabled to work.</li>
               </ul>
             `,
-            name: `DLC`,
-            sg: true
-          },
-          gf_dlcOwned: {
-            description: `
+              name: `DLC`,
+              sg: true
+            },
+            gf_dlcOwned: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are DLCs and have a base game that you own.</li>
                 <li>This option requires [id=gc_dlc_o] enabled to work.</li>
               </ul>
             `,
-            name: `DLC (Owned Base)`,
-            sg: true
-          },
-          gf_dlcFree: {
-            description: `
+              name: `DLC (Owned Base)`,
+              sg: true
+            },
+            gf_dlcFree: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are DLCs and have a free base game.</li>
                 <li>This option requires [id=gc_dlc_b] enabled to work.</li>
               </ul>
             `,
-            name: `DLC (Free Base)`,
-            sg: true
-          },
-          gf_dlcNonFree: {
-            description: `
+              name: `DLC (Free Base)`,
+              sg: true
+            },
+            gf_dlcNonFree: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are DLCs and have a non-free base game.</li>
                 <li>This option requires [id=gc_dlc_b] enabled to work.</li>
               </ul>
             `,
-            name: `DLC (Non-Free Base)`,
-            sg: true
-          },
-          gf_package: {
-            description: `
+              name: `DLC (Non-Free Base)`,
+              sg: true
+            },
+            gf_package: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are packages.</li>
                 <li>This option requires [id=gc_p] enabled to work.</li>
               </ul>
             `,
-            name: `Package`,
-            sg: true
-          },
-          gf_earlyAccess: {
-            description: `
+              name: `Package`,
+              sg: true
+            },
+            gf_earlyAccess: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways for games that are in early access.</li>
                 <li>This option requires [id=gc_ea] enabled to work.</li>
               </ul>
             `,
-            name: `Early Access`,
-            sg: true
-          },
-          gf_genres: {
-            description: `
+              name: `Early Access`,
+              sg: true
+            },
+            gf_genres: {
+              description: `
               <ul>
                 <li>Allows you to filter giveaways by game genre.</li>
                 <li>This option requires [id=gc_g] enabled to work.</li>
               </ul>
             `,
-            name: `Genres`,
-            sg: true
-          },
-          gf_os: {
-            description: `
+              name: `Genres`,
+              sg: true
+            },
+            gf_os: {
+              description: `
               <ul>
                 <li>Allows you to quickly enable/disable SteamGifts' "Filter by OS" filter.</li>
               </ul>
             `,
-            name: `OS (SteamGifts)`,
-            sg: true
-          },
-          gf_alreadyOwned: {
-            description: `
+              name: `OS (SteamGifts)`,
+              sg: true
+            },
+            gf_alreadyOwned: {
+              description: `
               <ul>
                 <li>Allows you to quickly enable/disable SteamGifts' "Hide games you already own" filter.</li>
               </ul>
             `,
-            name: `Already Owned (SteamGifts)`,
-            sg: true
-          },
-          gf_dlcMissingBase: {
-            description: `
+              name: `Already Owned (SteamGifts)`,
+              sg: true
+            },
+            gf_dlcMissingBase: {
+              description: `
               <ul>
                 <li>Allows you to quickly enable/disable SteamGifts' "Hide DLC if you're missing the base game" filter.</li>
               </ul>
             `,
-            name: `DLC Missing Base (SteamGifts)`,
-            sg: true
-          },
-          gf_aboveLevel: {
-            description: `
+              name: `DLC Missing Base (SteamGifts)`,
+              sg: true
+            },
+            gf_aboveLevel: {
+              description: `
               <ul>
                 <li>Allows you to quickly enable/disable SteamGifts' "Hide giveaways above your level" filter.</li>
               </ul>
             `,
-            name: `Above Level (SteamGifts)`,
-            sg: true
-          },
-          gf_manuallyFiltered: {
-            description: `
+              name: `Above Level (SteamGifts)`,
+              sg: true
+            },
+            gf_manuallyFiltered: {
+              description: `
               <ul>
                 <li>Allows you to quickly enable/disable SteamGifts' "Hide games you manually filtered" filter.</li>
               </ul>
             `,
-            name: `Manually Filtered (SteamGifts)`,
-            sg: true
-          }
-        },
-        name: `Multiple Filters`,
-        sg: true
-      }
-    },
-    id: `gf`,
-    load: this.gf,
-    name: `Giveaway Filters`,
-    sg: true,
-    sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
-    type: `giveaways`
-  });
+              name: `Manually Filtered (SteamGifts)`,
+              sg: true
+            }
+          },
+          name: `Multiple Filters`,
+          sg: true
+        }
+      },
+      id: `gf`,
+      load: this.gf,
+      name: `Giveaway Filters`,
+      sg: true,
+      sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
+      type: `giveaways`
+    };
+  }
 
   gf() {
     if (this.esgst.gf_s) {
@@ -1163,7 +1166,12 @@ class GiveawaysGiveawayFilters extends Module {
       key: `${id}_presets`,
       popup: popup,
       rules: null,
-      type: popup || (this.esgst.groupPath ? `Groups` : (location.search.match(/type/) ? { wishlist: `Wishlist`, recommended: `Recommended`, group: `Group`, new: `New` }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? `Created` : (this.esgst.enteredPath ? `Entered` : (this.esgst.wonPath ? `Won` : (this.esgst.userPath ? `User` : ``))))))
+      type: popup || (this.esgst.groupPath ? `Groups` : (location.search.match(/type/) ? {
+        wishlist: `Wishlist`,
+        recommended: `Recommended`,
+        group: `Group`,
+        new: `New`
+      }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? `Created` : (this.esgst.enteredPath ? `Entered` : (this.esgst.wonPath ? `Won` : (this.esgst.userPath ? `User` : ``))))))
     };
     switch (id) {
       case `gf`:
@@ -1177,7 +1185,7 @@ class GiveawaysGiveawayFilters extends Module {
         break;
       default:
         break;
-    } 
+    }
     if (popup) {
       this.esgst[`${id}Popup`] = obj;
     } else {
@@ -1386,7 +1394,7 @@ class GiveawaysGiveawayFilters extends Module {
           type: `span`
         }, {
           text: ` filtered `,
-          type: `node`,            
+          type: `node`,
         }, ...(obj.id === `gf` ? [{
           text: `- `,
           type: `node`
@@ -1434,7 +1442,7 @@ class GiveawaysGiveawayFilters extends Module {
       obj.presetDisplay = obj.filteredCount.nextElementSibling;
     }
 
-    advancedFilters.previousElementSibling.addEventListener(`click`, this.filter_manual.bind(null, {}));
+    advancedFilters.previousElementSibling.addEventListener(`click`, this.filter_manual.bind(this, {}));
 
     presetPanel.appendChild(new ButtonSet_v2({
       color1: `green`,
@@ -1449,7 +1457,8 @@ class GiveawaysGiveawayFilters extends Module {
     let name = this.esgst[`${obj.id}_preset${obj.type}`];
     if (name) {
       let i;
-      for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {}
+      for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {
+      }
       if (i > -1) {
         obj.rules = this.esgst[obj.key][i].rules;
       }
@@ -1495,8 +1504,8 @@ class GiveawaysGiveawayFilters extends Module {
       }]).firstElementChild;
     }
 
-    presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(null, obj));
-    button.addEventListener(`click`, this.filters_toggleFilters.bind(null, obj));
+    presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(this, obj));
+    button.addEventListener(`click`, this.filters_toggleFilters.bind(this, obj));
 
     const filters = [];
     for (const key in obj.filters) {
@@ -1674,8 +1683,8 @@ class GiveawaysGiveawayFilters extends Module {
                 maxInput: maxInput,
                 minInput: minInput
               };
-              maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
-              minInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
+              maxInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
+              minInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
             }
 
             break;
@@ -1729,7 +1738,7 @@ class GiveawaysGiveawayFilters extends Module {
                 textInput: textInput
               };
               checkbox.onChange = this.filters_basicToAdv.bind(null, obj);
-              textInput.addEventListener(`change`, this.filters_basicToAdv.bind(null, obj));
+              textInput.addEventListener(`change`, this.filters_basicToAdv.bind(this, obj));
             }
             break;
         }
@@ -1794,7 +1803,7 @@ class GiveawaysGiveawayFilters extends Module {
     }
     if (!this.esgst[`${obj.id}_m_a`]) {
       const templates = {
-        group : `
+        group: `
           <div id="{{= it.group_id }}" class="rules-group-container">
             <div class="rules-group-header">
               <span class="esgst-gf-filter-count" title="Number of items this group is hiding">0</span>
@@ -2005,8 +2014,8 @@ class GiveawaysGiveawayFilters extends Module {
         if (!this.esgst[`${obj.id}_${filter.key}`]) return;
 
         /**
-    * @type {ElementsArrayItem[]}
-    */
+         * @type {ElementsArrayItem[]}
+         */
         const children = [{
           text: filter.name,
           type: `node`
@@ -2628,7 +2637,7 @@ class GiveawaysGiveawayFilters extends Module {
         condition: group.condition,
         rules: []
       };
-      group.each(function(rule) {
+      group.each(function (rule) {
         if (!event) {
           if (rule.data && rule.data.paused) {
             rule.$el[0].setAttribute(`data-esgst-paused`, true);
@@ -2863,7 +2872,8 @@ class GiveawaysGiveawayFilters extends Module {
       rules: obj.rules_save
     };
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {}
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {
+    }
     if (i > -1) {
       this.esgst[obj.key][i] = preset;
     } else {
@@ -2907,7 +2917,7 @@ class GiveawaysGiveawayFilters extends Module {
         type: `span`
       }]
     }]);
-    undoButton.addEventListener(`click`, this.filters_undoDeletePreset.bind(null, obj, deleted, undoButton));
+    undoButton.addEventListener(`click`, this.filters_undoDeletePreset.bind(this, obj, deleted, undoButton));
     const table = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left popup__keys__list`
@@ -2977,13 +2987,13 @@ class GiveawaysGiveawayFilters extends Module {
       const heading = renameInput.nextElementSibling;
       const renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
 
-      row.addEventListener(`dragstart`, this.filters_setSource.bind(null, obj, preset, row));
-      row.addEventListener(`dragenter`, this.filters_getSource.bind(null, obj, row, table));
-      row.addEventListener(`dragend`, this.filters_saveSource.bind(null, obj));
-      renameInput.addEventListener(`keypress`, this.filters_renamePreset.bind(null, obj, heading, preset));
-      heading.addEventListener(`click`, this.filters_applyPreset.bind(null, obj, popup, preset));
-      renameButton.addEventListener(`click`, this.filters_showRenameInput.bind(null, heading, renameInput));
-      renameButton.nextElementSibling.addEventListener(`click`, this.filters_deletePreset.bind(null, obj, deleted, preset, row, undoButton));
+      row.addEventListener(`dragstart`, this.filters_setSource.bind(this, obj, preset, row));
+      row.addEventListener(`dragenter`, this.filters_getSource.bind(this, obj, row, table));
+      row.addEventListener(`dragend`, this.filters_saveSource.bind(this, obj));
+      renameInput.addEventListener(`keypress`, this.filters_renamePreset.bind(this, obj, heading, preset));
+      heading.addEventListener(`click`, this.filters_applyPreset.bind(this, obj, popup, preset));
+      renameButton.addEventListener(`click`, this.filters_showRenameInput.bind(this, heading, renameInput));
+      renameButton.nextElementSibling.addEventListener(`click`, this.filters_deletePreset.bind(this, obj, deleted, preset, row, undoButton));
     }
     popup.open();
   }
@@ -2992,7 +3002,8 @@ class GiveawaysGiveawayFilters extends Module {
     event.dataTransfer.setData(`text/plain`, ``);
     obj.source = row;
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {}
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {
+    }
     obj.sourceIndex = i;
   }
 
@@ -3057,7 +3068,8 @@ class GiveawaysGiveawayFilters extends Module {
     const oldName = preset.name;
     const newName = event.currentTarget.value;
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== oldName; i--) {}
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== oldName; i--) {
+    }
     preset.name = this.esgst[obj.key][i].name = newName;
     const values = [{
       id: obj.key,
@@ -3090,7 +3102,8 @@ class GiveawaysGiveawayFilters extends Module {
       type: `i`
     }]);
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {}
+    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {
+    }
     this.esgst[obj.key].splice(i, 1);
     await setSetting(obj.key, this.esgst[obj.key]);
     createElements(deleteButton, `inner`, [{
@@ -3157,7 +3170,7 @@ class GiveawaysGiveawayFilters extends Module {
       } else {
         if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
           item.outerWrap.classList.add(`esgst-hidden`);
-        }                
+        }
         if (obj.id === `cf` && !item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
           item.outerWrap.parentElement.classList.add(`esgst-hidden`);
         }
@@ -3182,13 +3195,13 @@ class GiveawaysGiveawayFilters extends Module {
   }
 
   /**
-  * Checks if an item passes a set of filter rules.
-  * @param {string} id
-  * @param {object} filters An object containing all the filters.
-  * @param {object} item An object containing information about the item to be checked.
-  * @param {object} rules An object containing the rules to check.
-  * @returns {boolean} True if the item passed the filters and false otherwise.
-  */
+   * Checks if an item passes a set of filter rules.
+   * @param {string} id
+   * @param {object} filters An object containing all the filters.
+   * @param {object} item An object containing information about the item to be checked.
+   * @param {object} rules An object containing the rules to check.
+   * @returns {boolean} True if the item passed the filters and false otherwise.
+   */
   filters_filterItem(id, filters, item, rules) {
     if (
       !rules ||
@@ -3222,8 +3235,8 @@ class GiveawaysGiveawayFilters extends Module {
       }
       filtered = rules.not ? !filtered : filtered;
       /**
-    * @property {object} rules.data
-    */
+       * @property {object} rules.data
+       */
       if (!filtered && rules.data && rules.data.count) {
         rules.data.count.textContent = parseInt(rules.data.count.textContent) + 1;
       }
@@ -3243,8 +3256,8 @@ class GiveawaysGiveawayFilters extends Module {
     }
 
     /**
-   * @property {string} rules.type
-   */
+     * @property {string} rules.type
+     */
     // noinspection FallThroughInSwitchStatementJS
     switch (rules.type) {
       case `date`:
@@ -3257,8 +3270,8 @@ class GiveawaysGiveawayFilters extends Module {
           ? ((item.endTime - Date.now()) / 60000)
           : item[key];
         /**
-    * @property {string} rules.operator
-    */
+         * @property {string} rules.operator
+         */
         switch (rules.operator) {
           case `equal`:
             filtered = rules.value === value;
@@ -3322,13 +3335,15 @@ class GiveawaysGiveawayFilters extends Module {
           }
 
           let i;
-          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {}
+          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {
+          }
           filtered = i > -1;
         } else {
           if (!item[key]) break;
 
           let i;
-          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {}
+          for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {
+          }
           filtered = i < 0;
         }
 

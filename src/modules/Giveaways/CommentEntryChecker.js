@@ -11,27 +11,34 @@ const
 ;
 
 class GiveawaysCommentEntryChecker extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-ticket"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.</li>
         <li>If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.</li>
       </ul>
     `,
-    id: `cec`,
-    load: this.cec,
-    name: `Comment/Entry Checker`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `cec`,
+      load: this.cec,
+      name: `Comment/Entry Checker`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   cec() {
     if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
 
     let obj = {
-      button: createHeadingButton({id: `cec`, icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`], title: `Check comments/entries`})
+      button: createHeadingButton({
+        id: `cec`,
+        icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`],
+        title: `Check comments/entries`
+      })
     };
-    obj.button.addEventListener(`click`, this.cec_openPopup.bind(null, obj));
+    obj.button.addEventListener(`click`, this.cec_openPopup.bind(this, obj));
   }
 
   cec_openPopup(obj) {
@@ -105,7 +112,11 @@ class GiveawaysCommentEntryChecker extends Module {
     let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
     do {
       obj.popup.setProgress(`Retrieving entries (page ${nextPage})...`);
-      let responseHtml = parseHtml((await request({method: `GET`, queue: true, url: `${url}${nextPage}`})).responseText);
+      let responseHtml = parseHtml((await request({
+        method: `GET`,
+        queue: true,
+        url: `${url}${nextPage}`
+      })).responseText);
       let elements = responseHtml.getElementsByClassName(`table__column__heading`);
       for (let i = elements.length - 1; i > -1; i--) {
         entries.push(elements[i].textContent.trim());

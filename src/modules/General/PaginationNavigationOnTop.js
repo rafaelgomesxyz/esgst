@@ -6,19 +6,22 @@ const
 ;
 
 class GeneralPaginationNavigationOnTop extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Moves the pagination navigation of any page to the main page heading of the page.</li>
       </ul>
     `,
-    id: `pnot`,
-    load: this.pnot,
-    name: `Pagination Navigation On Top`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `pnot`,
+      load: this.pnot,
+      name: `Pagination Navigation On Top`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   pnot() {
     if (!this.esgst.paginationNavigation || !this.esgst.mainPageHeading) return;

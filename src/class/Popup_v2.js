@@ -147,6 +147,7 @@ export default class Popup_v2 {
       }
     }
   }
+
   open(callback) {
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
@@ -183,6 +184,7 @@ export default class Popup_v2 {
       callback();
     }
   }
+
   close() {
     this.modal.remove();
     if (this.isCreated) {
@@ -204,6 +206,7 @@ export default class Popup_v2 {
     container.esgst.popups.pop();
     this.isOpen = false;
   }
+
   reposition() {
     if (this.isCreated && this.scrollable) {
       if (container.esgst.staticPopups) {
@@ -222,32 +225,39 @@ export default class Popup_v2 {
       }
     }
   }
+
   getTextInputValue(index) {
     return this.textInputs[index].value;
   }
+
   triggerButton(index, event) {
     if (event && (event.key !== `Enter` || this.buttons[index].busy)) return;
     this.buttons[index].trigger();
   }
+
   isButtonBusy(index) {
     return (!this.buttons[index] || this.buttons[index].busy);
   }
+
   removeButton(index) {
     let button = this.buttons.splice(index, 1)[0];
     button.set.remove();
   }
+
   setScrollable(html) {
     container.common.createElements(this.scrollable, `beforeEnd`, [{
       type: `div`,
       children: html
     }]);
   }
+
   getScrollable(html) {
     return container.common.createElements(this.scrollable, `beforeEnd`, [{
       type: `div`,
       children: html
     }]);
   }
+
   setError(message) {
     container.common.createElements(this.progress, `inner`, [{
       attributes: {
@@ -259,6 +269,7 @@ export default class Popup_v2 {
       type: `span`
     }]);
   }
+
   setProgress(message) {
     if (this.progressMessage) {
       this.progressMessage.textContent = message;
@@ -275,19 +286,23 @@ export default class Popup_v2 {
       this.progressMessage = this.progress.lastElementChild;
     }
   }
+
   clearProgress() {
     this.progress.innerHTML = ``;
     this.progressMessage = null;
   }
+
   setOverallProgress(message) {
     this.overallProgress.textContent = message;
   }
+
   clear() {
     this.progress.innerHTML = ``;
     this.progressMessage = null;
     this.overallProgress.textContent = ``;
     this.scrollable.innerHTML = ``;
   }
+
   setDone(temp) {
     this.temp = temp;
     if (container.esgst.minimizePanel && !this.isOpen) {

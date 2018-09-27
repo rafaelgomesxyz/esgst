@@ -16,24 +16,27 @@ const
 ;
 
 class GiveawaysSentKeySearcher extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-key"></i> <i class="fa fa-search"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to search for a key or a set of keys in all of keys that you have ever sent.</li>
         <li>There is also an option to export all of the keys that you have ever sent to a text file.</li>
       </ul>
     `,
-    id: `sks`,
-    load: this.sks,
-    name: `Sent Key Searcher`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `sks`,
+      load: this.sks,
+      name: `Sent Key Searcher`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   sks() {
     if (!this.esgst.createdPath) return;
     let button = createHeadingButton({id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys`});
-    button.addEventListener(`click`, this.sks_openPopup.bind(null, {button}));
+    button.addEventListener(`click`, this.sks_openPopup.bind(this, {button}));
   }
 
   sks_openPopup(sks) {
@@ -120,7 +123,16 @@ class GiveawaysSentKeySearcher extends Module {
     sks.results = createElements(sks.popup.scrollable, `beforeEnd`, [{
       type: `div`
     }]);
-    sks.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-search`, icon2: `fa-times`, title1: `Search`, title2: `Cancel`, callback1: this.sks_searchGiveaways.bind(null, sks), callback2: this.sks_cancelSearch.bind(null, sks)}).set);
+    sks.popup.description.appendChild(new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-search`,
+      icon2: `fa-times`,
+      title1: `Search`,
+      title2: `Cancel`,
+      callback1: this.sks_searchGiveaways.bind(null, sks),
+      callback2: this.sks_cancelSearch.bind(null, sks)
+    }).set);
     sks.progress = createElements(sks.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
@@ -172,7 +184,10 @@ class GiveawaysSentKeySearcher extends Module {
         skipped = true;
         continue;
       } else {
-        context = parseHtml((await request({method: `GET`, url: `/giveaways/created/search?page=${nextPage}`})).responseText);
+        context = parseHtml((await request({
+          method: `GET`,
+          url: `/giveaways/created/search?page=${nextPage}`
+        })).responseText);
         if (!sks.lastPage) {
           sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
           sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
@@ -215,7 +230,11 @@ class GiveawaysSentKeySearcher extends Module {
           code: element.parentElement.querySelector(`[name=code]`).value,
           name: element.getAttribute(`data-name`)
         };
-        let heading = parseHtml(JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText).html).getElementsByClassName(`popup__keys__heading`)[0];
+        let heading = parseHtml(JSON.parse((await request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
+          method: `POST`,
+          url: `/ajax.php`
+        })).responseText).html).getElementsByClassName(`popup__keys__heading`)[0];
         if (!heading || (heading.textContent !== `Assigned` && !giveaway.active)) {
           continue;
         }

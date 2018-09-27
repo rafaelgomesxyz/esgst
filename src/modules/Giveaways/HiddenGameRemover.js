@@ -13,24 +13,31 @@ const
 ;
 
 class GiveawaysHiddenGameRemover extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
         <li>There is also an option to remove only the games that you own.</li>
       </ul>
     `,
-    id: `hgr`,
-    load: this.hgr,
-    name: `Hidden Game Remover`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `hgr`,
+      load: this.hgr,
+      name: `Hidden Game Remover`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   hgr() {
     if (!location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
-    let button = createHeadingButton({id: `hgr`, icons: [`fa-eye-slash`, `fa-times-circle`], title: `Remove games from the list`});
-    button.addEventListener(`click`, this.hgr_openPopup.bind(null, {button}));
+    let button = createHeadingButton({
+      id: `hgr`,
+      icons: [`fa-eye-slash`, `fa-times-circle`],
+      title: `Remove games from the list`
+    });
+    button.addEventListener(`click`, this.hgr_openPopup.bind(this, {button}));
   }
 
   hgr_openPopup(hgr) {
@@ -46,7 +53,16 @@ class GiveawaysHiddenGameRemover extends Module {
       type: `div`
     }]);
     new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, this.esgst.hgr_removeOwned);
-    hgr.popup.description.appendChild(new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-arrow-circle-right`, icon2: `fa-times`, title1: `Remove`, title2: `Cancel`, callback1: this.hgr_startRemover.bind(null, hgr), callback2: this.hgr_stopRemover.bind(null, hgr)}).set);
+    hgr.popup.description.appendChild(new ButtonSet_v2({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-arrow-circle-right`,
+      icon2: `fa-times`,
+      title1: `Remove`,
+      title2: `Cancel`,
+      callback1: this.hgr_startRemover.bind(null, hgr),
+      callback2: this.hgr_stopRemover.bind(null, hgr)
+    }).set);
     hgr.progress = createElements(hgr.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
@@ -110,7 +126,11 @@ class GiveawaysHiddenGameRemover extends Module {
         if (context === document) {
           button.dispatchEvent(new Event(`click`));
         } else {
-          request({data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`, method: `POST`, url: `/ajax.php`});
+          request({
+            data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
+            method: `POST`,
+            url: `/ajax.php`
+          });
         }
         createElements(hgr.removed, `beforeEnd`, [{
           attributes: {

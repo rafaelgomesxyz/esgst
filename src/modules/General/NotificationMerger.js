@@ -10,21 +10,24 @@ const
 ;
 
 class GeneralNotificationMerger extends Module {
-  info = ({
-    // by Royalgamer06
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      // by Royalgamer06
+      description: `
       <ul>
         <li>Adds a second inbox icon colored as red (<i class="fa fa-envelope esgst-red"></i>) to the header of any page that allows you to be notified about messages from SteamTrades on SteamGifts and vice-versa.</li>
         <li>This feature is compatible with [id=hr_b].</li>
       </ul>
     `,
-    id: `nm`,
-    load: this.nm,
-    name: `Notification Merger`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `nm`,
+      load: this.nm,
+      name: `Notification Merger`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   nm() {
     if (this.esgst.hr) return;
@@ -34,7 +37,10 @@ class GeneralNotificationMerger extends Module {
 
   async nm_getNotifications() {
     if (this.esgst.sg) {
-      let notification = parseHtml((await request({method: `GET`, url: `https://www.steamtrades.com`})).responseText).getElementsByClassName(`message_count`)[0];
+      let notification = parseHtml((await request({
+        method: `GET`,
+        url: `https://www.steamtrades.com`
+      })).responseText).getElementsByClassName(`message_count`)[0];
       if (!notification) {
         if (this.esgst.altInboxButton) {
           // hide the button, since there are no notifications
@@ -77,7 +83,10 @@ class GeneralNotificationMerger extends Module {
         this.esgst.altMessageCount = this.esgst.altInboxButton.firstElementChild.lastElementChild;
       }
     } else {
-      let notification = parseHtml((await request({method: `GET`, url: `https://www.steamgifts.com`})).responseText).getElementsByClassName(`nav__notification`)[0];
+      let notification = parseHtml((await request({
+        method: `GET`,
+        url: `https://www.steamgifts.com`
+      })).responseText).getElementsByClassName(`nav__notification`)[0];
       if (!notification) {
         if (this.esgst.altInboxButton) {
           // hide the button, since there are no notifications

@@ -16,59 +16,62 @@ const
 ;
 
 class GiveawaysEnterLeaveGiveawayButton extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button ("<i class="fa fa-plus-circle"></i> Enter" to enter and "<i class="fa fa-minus-circle"></i> Leave" to leave) below a giveaway's start time (in any page) that allows you to enter/leave the giveaway without having to access it.</li>
         <li>You can move the button around by dragging and dropping it.</li>
       </ul>
     `,
-    features: {
-      elgb_c: {
-        name: `Cache repeated descriptions from the same creator for 1 hour and only show them once.`,
-        sg: true
-      },
-      elgb_f: {
-        inputItems: [
-          {
-            id: `elgb_filters`,
-            prefix: `Filters: `,
-            title: `Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter.`
-          }
-        ],
-        name: `Filter out useless descriptions.`,
-        sg: true
-      },
-      elgb_p: {
-        description: `
+      features: {
+        elgb_c: {
+          name: `Cache repeated descriptions from the same creator for 1 hour and only show them once.`,
+          sg: true
+        },
+        elgb_f: {
+          inputItems: [
+            {
+              id: `elgb_filters`,
+              prefix: `Filters: `,
+              title: `Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter.`
+            }
+          ],
+          name: `Filter out useless descriptions.`,
+          sg: true
+        },
+        elgb_p: {
+          description: `
           <ul>
             <li>Only shows the button in popups ([id=gb], [id=ged], [id=ge], etc...), so basically only for any giveaways that are loaded dynamically by ESGST.</li>
           </ul>
         `,
-        name: `Only enable for popups.`,
-        sg: true
-      },
-      elgb_r: {
-        features: {
-          elgb_r_d: {
-            name: `Only pop up if the giveaway has a description.`,
-            sg: true
-          }
+          name: `Only enable for popups.`,
+          sg: true
         },
-        name: `Pop up a box to reply to the giveaway when entering it.`,
-        sg: true
+        elgb_r: {
+          features: {
+            elgb_r_d: {
+              name: `Only pop up if the giveaway has a description.`,
+              sg: true
+            }
+          },
+          name: `Pop up a box to reply to the giveaway when entering it.`,
+          sg: true
+        },
+        elgb_d: {
+          name: `Pop up the giveaway description when entering it, if it has any.`,
+          sg: true
+        }
       },
-      elgb_d: {
-        name: `Pop up the giveaway description when entering it, if it has any.`,
-        sg: true
-      }
-    },
-    id: `elgb`,
-    load: this.elgb,
-    name: `Enter/Leave Giveaway Button`,
-    sg: true,
-    type: `giveaways`
-  });
+      id: `elgb`,
+      load: this.elgb,
+      name: `Enter/Leave Giveaway Button`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   elgb() {
     this.esgst.giveawayFeatures.push(this.elgb_addButtons);
@@ -193,8 +196,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     let addingButton = removingButton.previousElementSibling;
     let removeButton = addingButton.previousElementSibling;
     let addButton = removeButton.previousElementSibling;
-    addButton.addEventListener(`click`, this.elgb_addEntry.bind(null, addButton, addingButton, errorButton, giveaway, removeButton));
-    removeButton.addEventListener(`click`, this.elgb_removeEntry.bind(null, addButton, errorButton, giveaway, removeButton, removingButton));
+    addButton.addEventListener(`click`, this.elgb_addEntry.bind(this, addButton, addingButton, errorButton, giveaway, removeButton));
+    removeButton.addEventListener(`click`, this.elgb_removeEntry.bind(this, addButton, errorButton, giveaway, removeButton, removingButton));
     form.remove();
   }
 
@@ -202,7 +205,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     addButton.classList.add(`esgst-hidden`);
     addingButton.classList.remove(`esgst-hidden`);
     try {
-      let responseJson = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText);
+      let responseJson = JSON.parse((await request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
+        method: `POST`,
+        url: `/ajax.php`
+      })).responseText);
       if (responseJson.type === `success`) {
         removeButton.classList.remove(`esgst-hidden`);
       } else {
@@ -225,7 +232,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     removeButton.classList.add(`esgst-hidden`);
     removingButton.classList.remove(`esgst-hidden`);
     try {
-      let responseJson = JSON.parse((await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText);
+      let responseJson = JSON.parse((await request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
+        method: `POST`,
+        url: `/ajax.php`
+      })).responseText);
       if (responseJson.type === `success`) {
         addButton.classList.remove(`esgst-hidden`);
       } else {
@@ -247,17 +258,53 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   elgb_addButton(giveaway, main, source) {
     let doAppend = !giveaway.elgbButton;
     if (giveaway.entered) {
-      giveaway.elgbButton = new ButtonSet_v2({color1: `yellow`, color2: `grey`, icon1: `fa-minus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Leave`, title2: `Leaving...`, callback1: this.elgb_leaveGiveaway.bind(null, giveaway, main, source), set: giveaway.elgbButton}).set;
+      giveaway.elgbButton = new ButtonSet_v2({
+        color1: `yellow`,
+        color2: `grey`,
+        icon1: `fa-minus-circle`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Leave`,
+        title2: `Leaving...`,
+        callback1: this.elgb_leaveGiveaway.bind(null, giveaway, main, source),
+        set: giveaway.elgbButton
+      }).set;
       giveaway.elgbButton.removeAttribute(`title`);
     } else if (giveaway.error) {
-      giveaway.elgbButton = new ButtonSet_v2({color1: `red`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
+      giveaway.elgbButton = new ButtonSet_v2({
+        color1: `red`,
+        color2: `grey`,
+        icon1: `fa-plus-circle`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Enter`,
+        title2: `Entering...`,
+        callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source),
+        set: giveaway.elgbButton
+      }).set;
       giveaway.elgbButton.setAttribute(`title`, giveaway.error);
     } else {
       if (giveaway.points <= this.esgst.points) {
-        giveaway.elgbButton = new ButtonSet_v2({color1: `green`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
+        giveaway.elgbButton = new ButtonSet_v2({
+          color1: `green`,
+          color2: `grey`,
+          icon1: `fa-plus-circle`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Enter`,
+          title2: `Entering...`,
+          callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source),
+          set: giveaway.elgbButton
+        }).set;
         giveaway.elgbButton.removeAttribute(`title`);
       } else {
-        giveaway.elgbButton = new ButtonSet_v2({color1: `red`, color2: `grey`, icon1: `fa-plus-circle`, icon2: `fa-circle-o-notch fa-spin`, title1: `Enter`, title2: `Entering...`, callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source), set: giveaway.elgbButton}).set;
+        giveaway.elgbButton = new ButtonSet_v2({
+          color1: `red`,
+          color2: `grey`,
+          icon1: `fa-plus-circle`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Enter`,
+          title2: `Entering...`,
+          callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source),
+          set: giveaway.elgbButton
+        }).set;
         giveaway.elgbButton.setAttribute(`title`, `Not Enough Points`);
       }
     }
@@ -336,7 +383,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
         let html = description.innerHTML;
         let i;
-        for (i = this.esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && this.esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i) {}
+        for (i = this.esgst.elgbCache.descriptions[giveaway.creator].length - 1; i > -1 && this.esgst.elgbCache.descriptions[giveaway.creator][i] !== html; --i) {
+        }
         if (i > -1) {
           description = null;
         } else {
@@ -372,7 +420,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
       popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, async callback => {
         if (box.value) {
-          await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`, method: `POST`, url: giveaway.url});
+          await request({
+            data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
+            method: `POST`,
+            url: giveaway.url
+          });
         }
         callback();
         popup.close();
@@ -400,7 +452,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   async elgb_enterGiveaway(giveaway, main, popup, source, callback) {
-    const responseText = (await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText;
+    const responseText = (await request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
+      method: `POST`,
+      url: `/ajax.php`
+    })).responseText;
     let responseJson = null;
     try {
       responseJson = JSON.parse(responseText);
@@ -466,7 +522,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   async elgb_leaveGiveaway(giveaway, main, source, callback) {
-    const responseText = (await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`, method: `POST`, url: `/ajax.php`})).responseText;
+    const responseText = (await request({
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
+      method: `POST`,
+      url: `/ajax.php`
+    })).responseText;
     let responseJson = null;
     try {
       responseJson = JSON.parse(responseText);

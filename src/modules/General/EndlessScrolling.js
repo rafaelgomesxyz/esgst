@@ -18,8 +18,10 @@ const
 ;
 
 class GeneralEndlessScrolling extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.</li>
         <li>Adds multiple buttons to the main page heading of the page:</li>
@@ -36,82 +38,83 @@ class GeneralEndlessScrolling extends Module {
         <li>There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.</li>
       </ul>
     `,
-    features: {
-      es_ch: {
-        name: `Enable for Comment History.`,
-        sg: true
-      },
-      es_df: {
-        name: `Enable for Discussion Filters.`,
-        sg: true
-      },
-      es_dh: {
-        name: `Enable for Discussion Highlighter.`,
-        sg: true
-      },
-      es_gb: {
-        name: `Enable for Giveaway Bookmarks.`,
-        sg: true
-      },
-      es_ged: {
-        name: `Enable for Giveaway Encrypter/Decrypter.`,
-        sg: true
-      },
-      es_ge: {
-        name: `Enable for Giveaway Extractor.`,
-        sg: true
-      },
-      es_gf: {
-        name: `Enable for Giveaway Filters.`,
-        sg: true
-      },
-      es_cl: {
-        inputItems: [
-          {
-            attributes: {
-              max: 10,
-              min: 0,
-              type: `number`
-            },
-            id: `es_pages`,
-            prefix: `Pages (Max 10): `
-          }
-        ],
-        name: `Continuously load X more pages automatically when visiting any page.`,
-        sg: true
-      },
-      es_r: {
-        description: `
+      features: {
+        es_ch: {
+          name: `Enable for Comment History.`,
+          sg: true
+        },
+        es_df: {
+          name: `Enable for Discussion Filters.`,
+          sg: true
+        },
+        es_dh: {
+          name: `Enable for Discussion Highlighter.`,
+          sg: true
+        },
+        es_gb: {
+          name: `Enable for Giveaway Bookmarks.`,
+          sg: true
+        },
+        es_ged: {
+          name: `Enable for Giveaway Encrypter/Decrypter.`,
+          sg: true
+        },
+        es_ge: {
+          name: `Enable for Giveaway Extractor.`,
+          sg: true
+        },
+        es_gf: {
+          name: `Enable for Giveaway Filters.`,
+          sg: true
+        },
+        es_cl: {
+          inputItems: [
+            {
+              attributes: {
+                max: 10,
+                min: 0,
+                type: `number`
+              },
+              id: `es_pages`,
+              prefix: `Pages (Max 10): `
+            }
+          ],
+          name: `Continuously load X more pages automatically when visiting any page.`,
+          sg: true
+        },
+        es_r: {
+          description: `
           <ul>
             <li>Loads the pages of a discussion in descending order.</li>
             <li>Loads the last page instead of the first one when visiting a discussion from the main/inbox page.</li>
           </ul>
         `,
-        name: `Enable reverse scrolling.`,
-        sg: true
-      },
-      es_rd: {
-        name: `Refresh active discussions/deals when refreshing the main page.`,
-        sg: true
-      },
-      es_pd: {
-        description: `
+          name: `Enable reverse scrolling.`,
+          sg: true
+        },
+        es_rd: {
+          name: `Refresh active discussions/deals when refreshing the main page.`,
+          sg: true
+        },
+        es_pd: {
+          description: `
           <ul>
             <li>With this option enabled, each loaded page is separated by a page heading, which makes it very clear where a page ends and another begins. With it disabled, there is no such distinction, so it looks like the entire page is a single page, giving a true endless feeling.</li>
           </ul>
         `,
-        name: `Show page divisors.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `es`,
-    load: this.es,
-    name: `Endless Scrolling`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+          name: `Show page divisors.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `es`,
+      load: this.es,
+      name: `Endless Scrolling`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   es() {
     if (!this.esgst.mainPageHeading || !this.esgst.pagination) return;
@@ -202,23 +205,54 @@ class GeneralEndlessScrolling extends Module {
       }
       es.mainContext.children[i].classList.add(`esgst-es-page-${es.currentPage}`);
     }
-    es.nextButton = createHeadingButton({featureId: `es`, id: `esNext`, icons: [`fa-step-forward`], title: `Load next page`});
-    es.continuousButton = createHeadingButton({featureId: `es`, id: `esContinuous`, icons: [`fa-fast-forward`], title: `Continuously load pages`});
+    es.nextButton = createHeadingButton({
+      featureId: `es`,
+      id: `esNext`,
+      icons: [`fa-step-forward`],
+      title: `Load next page`
+    });
+    es.continuousButton = createHeadingButton({
+      featureId: `es`,
+      id: `esContinuous`,
+      icons: [`fa-fast-forward`],
+      title: `Continuously load pages`
+    });
     if (es.ended) {
       es.continuousButton.classList.add(`esgst-hidden`);
     }
-    es.pauseButton = createHeadingButton({featureId: `es`, id: `esPause`, icons: [`fa-pause`], title: `Pause the endless scrolling`});
-    es.resumeButton = createHeadingButton({featureId: `es`, id: `esResume`, orderId: `esPause`, icons: [`fa-play`], title: `Resume the endless scrolling`});
-    es.refreshButton = createHeadingButton({featureId: `es`, id: `esRefresh`, icons: [`fa-refresh`, `fa-map-marker`], title: `Refresh current page`});
-    es.refreshAllButton = createHeadingButton({featureId: `es`, id: `esRefreshAll`, icons: [`fa-refresh`], title: `Refresh all pages`});
+    es.pauseButton = createHeadingButton({
+      featureId: `es`,
+      id: `esPause`,
+      icons: [`fa-pause`],
+      title: `Pause the endless scrolling`
+    });
+    es.resumeButton = createHeadingButton({
+      featureId: `es`,
+      id: `esResume`,
+      orderId: `esPause`,
+      icons: [`fa-play`],
+      title: `Resume the endless scrolling`
+    });
+    es.refreshButton = createHeadingButton({
+      featureId: `es`,
+      id: `esRefresh`,
+      icons: [`fa-refresh`, `fa-map-marker`],
+      title: `Refresh current page`
+    });
+    es.refreshAllButton = createHeadingButton({
+      featureId: `es`,
+      id: `esRefreshAll`,
+      icons: [`fa-refresh`],
+      title: `Refresh all pages`
+    });
     this.esgst.es_refresh = this.es_refresh.bind(null, es);
     es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
     this.esgst.es_refreshAll = this.es_refreshAll.bind(null, es);
     es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
-    es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(null, es));
-    es.nextButton.addEventListener(`click`, this.es_stepNext.bind(null, es));
-    es.pauseButton.addEventListener(`click`, this.es_pause.bind(null, es, false));
-    es.resumeButton.addEventListener(`click`, this.es_resume.bind(null, es, false));
+    es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(this, es));
+    es.nextButton.addEventListener(`click`, this.es_stepNext.bind(this, es));
+    es.pauseButton.addEventListener(`click`, this.es_pause.bind(this, es, false));
+    es.resumeButton.addEventListener(`click`, this.es_resume.bind(this, es, false));
     if (this.esgst.paginationNavigation) {
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
       if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
@@ -272,7 +306,10 @@ class GeneralEndlessScrolling extends Module {
         }]
       }]);
       // noinspection JSIgnoredPromiseFromCall
-      this.es_getNext(es, false, false, callback, await request({method: `GET`, url: `${this.esgst.searchUrl}${es.nextPage}`}));
+      this.es_getNext(es, false, false, callback, await request({
+        method: `GET`,
+        url: `${this.esgst.searchUrl}${es.nextPage}`
+      }));
     } else if (callback && typeof callback === `function`) {
       callback();
     }
@@ -602,7 +639,10 @@ class GeneralEndlessScrolling extends Module {
       this.esgst.modules.giveawaysPinnedGiveawaysButton.pgb();
     }
     if (!this.esgst.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
+        method: `GET`,
+        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`
+      })).responseText));
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
@@ -667,7 +707,10 @@ class GeneralEndlessScrolling extends Module {
       this.es_getNext(es, true, page, null, await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`}));
     }
     if (!this.esgst.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({method: `GET`, url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`})).responseText));
+      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
+        method: `GET`,
+        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`
+      })).responseText));
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
@@ -676,7 +719,7 @@ class GeneralEndlessScrolling extends Module {
   es_setPagination(es) {
     let matches = this.esgst.paginationNavigation.children;
     for (let i = 0, n = matches.length; i < n; ++i) {
-      matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(null, es));
+      matches[i].addEventListener(`click`, this.es_setPaginationItem.bind(this, es));
     }
   }
 

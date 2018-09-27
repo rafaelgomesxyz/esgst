@@ -1,101 +1,104 @@
 import Module from '../../class/Module';
 
 class GeneralShortcutKeys extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Allows you to perform many different tasks by pressing certain keys.</li>
       </ul>
     `,
-    features: {
-      sk_cp: {
-        inputItems: `sk_closePopups`,
-        name: `Close all currently opened popups.`,
-        sg: true,
-        st: true
+      features: {
+        sk_cp: {
+          inputItems: `sk_closePopups`,
+          name: `Close all currently opened popups.`,
+          sg: true,
+          st: true
+        },
+        sk_sb: {
+          inputItems: `sk_searchBox`,
+          name: `Focus on the search box.`,
+          sg: true,
+          st: true
+        },
+        sk_fp: {
+          inputItems: `sk_firstPage`,
+          name: `Go to the first page.`,
+          sg: true,
+          st: true
+        },
+        sk_pp: {
+          inputItems: `sk_previousPage`,
+          name: `Go to the previous page.`,
+          sg: true,
+          st: true
+        },
+        sk_np: {
+          inputItems: `sk_nextPage`,
+          name: `Go to the next page.`,
+          sg: true,
+          st: true
+        },
+        sk_lp: {
+          inputItems: `sk_lastPage`,
+          name: `Go to the last page.`,
+          sg: true,
+          st: true
+        },
+        sk_tf: {
+          inputItems: `sk_toggleFilters`,
+          name: `Toggle the giveaway filters.`,
+          sg: true
+        },
+        sk_hg: {
+          inputItems: `sk_hideGame`,
+          name: `Hide the game when inside of a giveaway.`,
+          sg: true
+        },
+        sk_hga: {
+          inputItems: `sk_hideGiveaway`,
+          name: `Hide the giveaway when inside of a giveaway.`,
+          sg: true
+        },
+        sk_ge: {
+          inputItems: `sk_giveawayEntry`,
+          name: `Enter/leave the giveaway when inside of a giveaway.`,
+          sg: true
+        },
+        sk_c: {
+          inputItems: `sk_creator`,
+          name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
+          sg: true,
+          st: true
+        },
+        sk_rb: {
+          inputItems: `sk_replyBox`,
+          name: `Focus on the reply box.`,
+          sg: true,
+          st: true
+        },
+        sk_ru: {
+          inputItems: `sk_replyUser`,
+          name: `Insert the username of the user to whom you are replying to the current reply box.`,
+          sg: true,
+          st: true
+        },
+        sk_sr: {
+          inputItems: `sk_submitReply`,
+          name: `Submit the current reply.`,
+          sg: true,
+          st: true
+        }
       },
-      sk_sb: {
-        inputItems: `sk_searchBox`,
-        name: `Focus on the search box.`,
-        sg: true,
-        st: true
-      },
-      sk_fp: {
-        inputItems: `sk_firstPage`,
-        name: `Go to the first page.`,
-        sg: true,
-        st: true
-      },
-      sk_pp: {
-        inputItems: `sk_previousPage`,
-        name: `Go to the previous page.`,
-        sg: true,
-        st: true
-      },
-      sk_np: {
-        inputItems: `sk_nextPage`,
-        name: `Go to the next page.`,
-        sg: true,
-        st: true
-      },
-      sk_lp: {
-        inputItems: `sk_lastPage`,
-        name: `Go to the last page.`,
-        sg: true,
-        st: true
-      },
-      sk_tf: {
-        inputItems: `sk_toggleFilters`,
-        name: `Toggle the giveaway filters.`,
-        sg: true
-      },
-      sk_hg: {
-        inputItems: `sk_hideGame`,
-        name: `Hide the game when inside of a giveaway.`,
-        sg: true
-      },
-      sk_hga: {
-        inputItems: `sk_hideGiveaway`,
-        name: `Hide the giveaway when inside of a giveaway.`,
-        sg: true
-      },
-      sk_ge: {
-        inputItems: `sk_giveawayEntry`,
-        name: `Enter/leave the giveaway when inside of a giveaway.`,
-        sg: true
-      },
-      sk_c: {
-        inputItems: `sk_creator`,
-        name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
-        sg: true,
-        st: true
-      },
-      sk_rb: {
-        inputItems: `sk_replyBox`,
-        name: `Focus on the reply box.`,
-        sg: true,
-        st: true
-      },
-      sk_ru: {
-        inputItems: `sk_replyUser`,
-        name: `Insert the username of the user to whom you are replying to the current reply box.`,
-        sg: true,
-        st: true
-      },
-      sk_sr: {
-        inputItems: `sk_submitReply`,
-        name: `Submit the current reply.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `sk`,
-    load: this.sk,
-    name: `Shortcut Keys`,
-    sg: true,
-    st: true,
-    type: `general`
-  });
+      id: `sk`,
+      load: this.sk,
+      name: `Shortcut Keys`,
+      sg: true,
+      st: true,
+      type: `general`
+    };
+  }
 
   sk() {
     let methods = {};

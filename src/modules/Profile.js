@@ -8,11 +8,14 @@ const
 ;
 
 class Profile extends Module {
-  info = ({
-    endless: true,
-    id: `profile`,
-    load: this.profile
-  });
+  constructor() {
+    super();
+    this.info = {
+      endless: true,
+      id: `profile`,
+      load: this.profile
+    };
+  }
 
   async profile() {
     if (!this.esgst.userPath) return;

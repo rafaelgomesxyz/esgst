@@ -1,8 +1,10 @@
 import Module from '../../class/Module';
 
 class GamesGameTags extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds a button (<i class="fa fa-tag"></i>) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).</li>
         <li>You can press Enter to save the tags.</li>
@@ -11,22 +13,23 @@ class GamesGameTags extends Module {
         <li>Adds a button (<i class="fa fa-gamepad"></i> <i class="fa fa-tags"></i>) to the page heading of this menu that allows you to manage all of the tags that have been saved.</li>
       </ul>
     `,
-    features: {
-      gt_s: {
-        name: `Show tag suggestions while typing.`,
-        sg: true,
-        st: true
-      }
-    },
-    id: `gt`,
-    load: this.gt,
-    name: `Game Tags`,
-    sg: true,
-    type: `games`
-  });
+      features: {
+        gt_s: {
+          name: `Show tag suggestions while typing.`,
+          sg: true,
+          st: true
+        }
+      },
+      id: `gt`,
+      load: this.gt,
+      name: `Game Tags`,
+      sg: true,
+      type: `games`
+    };
+  }
 
   gt() {
-    this.esgst.gameFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(null, `gt`));
+    this.esgst.gameFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this, `gt`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`gt`);
   }

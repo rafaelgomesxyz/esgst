@@ -7,65 +7,68 @@ const
 ;
 
 class GiveawaysGiveawayWinningRatio extends Module {
-  info = ({
-    description: `
+  constructor() {
+    super();
+    this.info = {
+      description: `
       <ul>
         <li>Adds an element (<i class="fa fa-pie-chart"></i> [Ratio]:1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.</li>
         <li>The ratio is calculated by rounding up the result of the following formula: number_of_entries / number_of_copies
         <li>You can move the element around by dragging and dropping it.</li>
       </ul>
     `,
-    features: {
-      gwr_e: {
-        description: `
+      features: {
+        gwr_e: {
+          description: `
           <ul>
             <li>The formula changes to: (number_of_entries + 1) / number_of_copies
             <li>For example, if a giveaway has 2 copies and 6 entries, the current ratio is 3:1, but after you enter it, it will have 7 entries, so the ratio will increase to 4:1.</li>
           </ul>
         `,
-        name: `Show what the ratio will be when you enter the giveaway instead of the current ratio.`,
-        sg: true
-      },
-      gwr_a: {
-        description: `
+          name: `Show what the ratio will be when you enter the giveaway instead of the current ratio.`,
+          sg: true
+        },
+        gwr_a: {
+          description: `
           <ul>
             <li>Uses an advanced formula ((number_of_entries / time_open_in_milliseconds * duration_in_milliseconds) / number_of_copies) to calculate the ratio based on how much time the giveaway has been open and the duration of the giveaway. This gives you an estimate of what the ratio will be when the giveaway ends.</li>
           </ul>
         `,
-        features: {
-          gwr_a_b: {
-            name: `Show the basic ratio along with the advanced one (the advanced ratio will appear in a parenthesis, like "[Basic]:1 ([Advanced]:1)").`,
-            sg: true
-          }
+          features: {
+            gwr_a_b: {
+              name: `Show the basic ratio along with the advanced one (the advanced ratio will appear in a parenthesis, like "[Basic]:1 ([Advanced]:1)").`,
+              sg: true
+            }
+          },
+          name: `Use advanced formula.`,
+          sg: true
         },
-        name: `Use advanced formula.`,
-        sg: true
-      },
-      gwr_h: {
-        conflicts: [
-          {id: `gwc_h`, name: `Giveaway Winning Chance > Highlight the giveaway.`}
-        ],
-        description: `
+        gwr_h: {
+          conflicts: [
+            {id: `gwc_h`, name: `Giveaway Winning Chance > Highlight the giveaway.`}
+          ],
+          description: `
           <ul>
             <li>Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.</li>
           </ul>
         `,
-        inputItems: [
-          {
-            id: `gwr_h_width`,
-            prefix: `Image Border Width: `
-          }
-        ],
-        name: `Highlight the giveaway.`,
-        sg: true
-      }
-    },
-    id: `gwr`,
-    load: this.gwr,
-    name: `Giveaway Winning Ratio`,
-    sg: true,
-    type: `giveaways`
-  });
+          inputItems: [
+            {
+              id: `gwr_h_width`,
+              prefix: `Image Border Width: `
+            }
+          ],
+          name: `Highlight the giveaway.`,
+          sg: true
+        }
+      },
+      id: `gwr`,
+      load: this.gwr,
+      name: `Giveaway Winning Ratio`,
+      sg: true,
+      type: `giveaways`
+    };
+  }
 
   gwr() {
     this.esgst.giveawayFeatures.push(this.gwr_addRatios);
@@ -126,7 +129,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
     }
     if (this.esgst.enteredPath) {
       context.style.display = `inline-block`;
-    }    
+    }
     const items = [];
     if (!this.esgst.enteredPath) {
       items.push({
@@ -150,14 +153,14 @@ class GiveawaysGiveawayWinningRatio extends Module {
         children.push({
           attributes: basicAttributes,
           text: `${basicRatio}:1`,
-          type: `span`        
+          type: `span`
         }, {
           text: ` (`,
           type: `node`
         }, {
           attributes: advancedAttributes,
           text: `${advancedRatio}:1`,
-          type: `span`        
+          type: `span`
         }, {
           text: `)`,
           type: `node`
@@ -166,14 +169,14 @@ class GiveawaysGiveawayWinningRatio extends Module {
         children.push({
           attributes: advancedAttributes,
           text: `${advancedRatio}:1`,
-          type: `span`        
-        });     
+          type: `span`
+        });
       }
     } else {
       children.push({
         attributes: basicAttributes,
         text: `${basicRatio}:1`,
-        type: `span`        
+        type: `span`
       });
     }
     items.push({
