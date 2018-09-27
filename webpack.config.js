@@ -4,6 +4,7 @@
  * @typedef {Object} Environment
  * @property {boolean} development
  * @property {boolean} production
+ * @property {boolean} withBabel
  */
 
 const
@@ -41,6 +42,10 @@ const
 ;
 
 module.exports = /** @param {Environment} env */ env => {
+  if (env.production) {
+    env.withBabel = true;
+  }
+
   let cfg = {
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
     context: path.join(__dirname, './src/entry/'),
@@ -56,6 +61,14 @@ module.exports = /** @param {Environment} env */ env => {
     module: {
       rules: [
         {
+          test: /\.css$/,
+          loaders: [
+            loaders.style,
+            loaders.css
+          ]
+        }
+      ].concat(env.withBabel ? [
+        {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
           use: {
@@ -64,15 +77,8 @@ module.exports = /** @param {Environment} env */ env => {
               presets: ['@babel/preset-env']
             }
           }
-        },
-        {
-          test: /\.css$/,
-          loaders: [
-            loaders.style,
-            loaders.css
-          ]
         }
-      ]
+      ]: [])
     },
     plugins: [
       new plugins.banner({
