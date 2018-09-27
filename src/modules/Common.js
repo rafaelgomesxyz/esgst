@@ -6654,7 +6654,7 @@ class Common extends Module {
     switch (type) {
       case `import`:
         icon = `fa-sign-in esgst-rotate-90`;
-        onClick = this.loadImportFile;
+        onClick = this.loadImportFile.bind(this);
         prep = `from`;
         title1 = `Restore`;
         title2 = `Restoring`;
@@ -6662,7 +6662,7 @@ class Common extends Module {
         break;
       case `export`:
         icon = `fa-sign-out esgst-rotate-270`;
-        onClick = this.manageData;
+        onClick = this.manageData.bind(this);
         prep = `to`;
         title1 = `Backup`;
         title2 = `Backing up`;
@@ -6670,7 +6670,7 @@ class Common extends Module {
         break;
       case `delete`:
         icon = `fa-trash`;
-        onClick = this.confirmDataDeletion;
+        onClick = this.confirmDataDeletion.bind(this);
         prep = `from`;
         title1 = `Delete`;
         title2 = `Deleting`;

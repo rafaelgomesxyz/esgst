@@ -31,8 +31,8 @@ class GeneralAvatarPopout extends Module {
   }
 
   ap() {
-    this.esgst.endlessFeatures.push(this.ap_getAvatars);
-    this.esgst.userFeatures.push(this.ap_getUsers);
+    this.esgst.endlessFeatures.push(this.ap_getAvatars.bind(this));
+    this.esgst.userFeatures.push(this.ap_getUsers.bind(this));
   }
 
   ap_getUsers(users) {

@@ -214,20 +214,20 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       this.esgst.mgc_createTrainSwitch.dependencies.push(createTrainDescription);
       this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, `mgc_removeLinks`, false, `Remove previous/next links from the first/last wagons.`, false, false, `Disabling this keeps the links as plain text.`, this.esgst.mgc_removeLinks);
       let generateButton = new ButtonSet(`green`, `grey`, `fa-gear`, `fa-circle-o-notch fa-spin`, `Generate`, `Generating...`, this.mgc_generateFormat);
-      mgc.editButton = new ButtonSet(`green`, `grey`, `fa-edit`, `fa-circle-o-notch fa-spin`, `Edit`, `Editing...`, this.mgc_getValues.bind(null, true, mgc));
+      mgc.editButton = new ButtonSet(`green`, `grey`, `fa-edit`, `fa-circle-o-notch fa-spin`, `Edit`, `Editing...`, this.mgc_getValues.bind(this, true, mgc));
       mgc.editButton.set.classList.add(`esgst-hidden`);
-      addButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Add`, `Adding...`, this.mgc_getValues.bind(null, false, mgc));
-      importButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_importGiveaways.bind(null, mgc));
-      exportButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-down`, `fa-circle-o-notch fa-spin`, `Export`, `Exporting...`, this.mgc_exportGiveaways.bind(null, mgc));
-      shuffleButton = new ButtonSet(`green`, `grey`, `fa-random`, `fa-circle-o-notch fa-spin`, `Shuffle`, `Shuffling...`, this.mgc_shuffleGiveaways.bind(null, mgc));
-      emptyButton = new ButtonSet(`green`, `grey`, `fa-trash`, `fa-circle-o-notch fa-spin`, `Empty`, `Emptying...`, this.mgc_emptyGiveaways.bind(null, mgc));
-      attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach`, `Attaching...`, this.mgc_attachDiscussion.bind(null, mgc));
+      addButton = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Add`, `Adding...`, this.mgc_getValues.bind(this, false, mgc));
+      importButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_importGiveaways.bind(this, mgc));
+      exportButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-down`, `fa-circle-o-notch fa-spin`, `Export`, `Exporting...`, this.mgc_exportGiveaways.bind(this, mgc));
+      shuffleButton = new ButtonSet(`green`, `grey`, `fa-random`, `fa-circle-o-notch fa-spin`, `Shuffle`, `Shuffling...`, this.mgc_shuffleGiveaways.bind(this, mgc));
+      emptyButton = new ButtonSet(`green`, `grey`, `fa-trash`, `fa-circle-o-notch fa-spin`, `Empty`, `Emptying...`, this.mgc_emptyGiveaways.bind(this, mgc));
+      attachButton = new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach`, `Attaching...`, this.mgc_attachDiscussion.bind(this, mgc));
       this.esgst.mgc_createTrainSwitch.dependencies.push(attachButton.set);
       if (!this.esgst.mgc_createTrain) {
         attachButton.set.classList.add(`esgst-hidden`);
       }
-      viewButton = new ButtonSet(`green`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `View Results`, `Opening...`, this.mgc_viewResults.bind(null, mgc));
-      createButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Create`, `Creating...`, this.mgc_createGiveaways.bind(null, mgc, viewButton));
+      viewButton = new ButtonSet(`green`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `View Results`, `Opening...`, this.mgc_viewResults.bind(this, mgc));
+      createButton = new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Create`, `Creating...`, this.mgc_createGiveaways.bind(this, mgc, viewButton));
       viewButton.set.classList.add(`esgst-hidden`);
       section.appendChild(generateButton.set);
       section.appendChild(mgc.editButton.set);
@@ -917,8 +917,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     counter = progressPanel.lastElementChild;
     progress.current = counter.firstElementChild;
     progress.total = progress.current.nextElementSibling;
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_getGiveaways.bind(null, mgc, popup, progress, textArea)).set);
-    popup.open(this.mgc_focusTextArea.bind(null, textArea));
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-up`, `fa-circle-o-notch fa-spin`, `Import`, `Importing...`, this.mgc_getGiveaways.bind(this, mgc, popup, progress, textArea)).set);
+    popup.open(this.mgc_focusTextArea.bind(this, textArea));
     textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
     textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(this, popup, textArea));
@@ -1472,7 +1472,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       icon2: ``,
       title1: `Yes`,
       title2: ``,
-      callback1: this.mgc_createGiveaways_2.bind(null, mgc, viewButton, popup, callback)
+      callback1: this.mgc_createGiveaways_2.bind(this, mgc, viewButton, popup, callback)
     }).set);
     popup.description.appendChild(new ButtonSet_v2({
       color1: `red`,
@@ -1499,7 +1499,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     viewButton.set.classList.add(`esgst-hidden`);
     mgc.saveGiveaways = {};
     // noinspection JSIgnoredPromiseFromCall
-    this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc ? this.mgc_saveGiveaways.bind(null, mgc, this.mgc_completeCreation.bind(null, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(null, mgc, viewButton, callback));
+    this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc ? this.mgc_saveGiveaways.bind(this, mgc, this.mgc_completeCreation.bind(this, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(this, mgc, viewButton, callback));
   }
 
   async mgc_createGiveaway(i, mgc, n, callback) {
@@ -1694,9 +1694,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       } else {
         replaceCallback = this.mgc_getBoth;
       }
-      description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P](.+?)\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(null, i, mgc, false));
-      description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P]|\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(null, i, mgc, true));
-      description = description.replace(/\[ESGST-C](.+?)\[\/ESGST-C]/g, this.mgc_getCounter.bind(null, i, n));
+      description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P](.+?)\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(this, i, mgc, false));
+      description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P]|\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(this, i, mgc, true));
+      description = description.replace(/\[ESGST-C](.+?)\[\/ESGST-C]/g, this.mgc_getCounter.bind(this, i, n));
       if (mgc.discussion && (!this.esgst.mgc_bumpLast || i === n - 1)) {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, `[$1](/discussion/${mgc.discussion}/)`);
       } else {
@@ -1874,8 +1874,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       },
       type: `input`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Existing`, `Attaching...`, this.mgc_attachExistingDiscussion.bind(null, input, mgc, popup)).set);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach New`, `Attaching...`, this.mgc_attachNewDiscussion.bind(null, mgc, popup)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach Existing`, `Attaching...`, this.mgc_attachExistingDiscussion.bind(this, input, mgc, popup)).set);
+    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-paperclip`, `fa-circle-o-notch fa-spin`, `Attach New`, `Attaching...`, this.mgc_attachNewDiscussion.bind(this, mgc, popup)).set);
     popup.open();
   }
 
@@ -1912,7 +1912,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_addCreateAndAttachButton() {
     let rows;
     rows = document.getElementsByClassName(`form__rows`)[0];
-    rows.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Create & Attach`, `Creating & attaching...`, this.mgc_createAndAttachDiscussion.bind(null, rows)).set);
+    rows.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Create & Attach`, `Creating & attaching...`, this.mgc_createAndAttachDiscussion.bind(this, rows)).set);
   }
 
   mgc_createAndAttachDiscussion(rows) {

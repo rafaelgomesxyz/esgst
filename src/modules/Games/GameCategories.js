@@ -830,7 +830,7 @@ class GamesGameCategories extends Module {
 
   gc() {
     if (!this.esgst.menuPath || this.esgst.gbPath || this.esgst.gedPath || this.esgst.gePath) {
-      this.esgst.gameFeatures.push(this.gc_games);
+      this.esgst.gameFeatures.push(this.gc_games.bind(this));
       this.esgst.gcToFetch = {apps: {}, subs: {}};
     }
   }
@@ -2640,7 +2640,7 @@ class GamesGameCategories extends Module {
             panel.children[j].removeAttribute(`href`);
           }
         }
-        panel.addEventListener(`dragenter`, draggable_enter.bind(null, {
+        panel.addEventListener(`dragenter`, draggable_enter.bind(common, {
           context: panel,
           item: games[i]
         }));

@@ -34,9 +34,9 @@ class GeneralElementFilters extends Module {
 
   ef() {
     this.ef_hideElements(document);
-    this.esgst.endlessFeatures.push(this.ef_hideElements);
+    this.esgst.endlessFeatures.push(this.ef_hideElements.bind(this));
     if (this.esgst.sal || !this.esgst.wonPath) return;
-    this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysSteamActivationLinks.sal_addObservers);
+    this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysSteamActivationLinks.sal_addObservers.bind(this.esgst.modules.giveawaysSteamActivationLinks));
   }
 
   ef_hideElements(context, main, source, endless) {

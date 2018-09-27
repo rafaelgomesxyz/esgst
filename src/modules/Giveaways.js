@@ -22,7 +22,7 @@ class Giveaways extends Module {
   }
 
   giveaways() {
-    this.esgst.endlessFeatures.push(this.giveaways_load);
+    this.esgst.endlessFeatures.push(this.giveaways_load.bind(this));
   }
 
   async giveaways_load(context, main, source, endless) {
@@ -478,7 +478,7 @@ class Giveaways extends Module {
           type: `i`
         }]);
         hideButton = temp.nextElementSibling;
-        hideButton.addEventListener(`click`, hideGame.bind(null, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+        hideButton.addEventListener(`click`, hideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       } else if (this.esgst.updateHiddenGames) {
         hideButton.addEventListener(`click`, () => {
           this.esgst.hidingGame = {
@@ -569,19 +569,19 @@ class Giveaways extends Module {
       }
       if (!this.esgst.lockGiveawayColumns) {
         if (giveaway.columns) {
-          giveaway.columns.addEventListener(`dragenter`, draggable_enter.bind(null, {
+          giveaway.columns.addEventListener(`dragenter`, draggable_enter.bind(common, {
             context: giveaway.columns,
             item: giveaway
           }));
         }
         if (giveaway.panel) {
-          giveaway.panel.addEventListener(`dragenter`, draggable_enter.bind(null, {
+          giveaway.panel.addEventListener(`dragenter`, draggable_enter.bind(common, {
             context: giveaway.panel,
             item: giveaway
           }));
         }
         if (giveaway.heading) {
-          giveaway.heading.addEventListener(`dragenter`, draggable_enter.bind(null, {
+          giveaway.heading.addEventListener(`dragenter`, draggable_enter.bind(common, {
             context: giveaway.heading,
             item: giveaway
           }));

@@ -32,7 +32,7 @@ class GiveawaysEntryTracker extends Module {
 
   et() {
     if (this.esgst.enteredPath) {
-      this.esgst.endlessFeatures.push(this.et_getEntries);
+      this.esgst.endlessFeatures.push(this.et_getEntries.bind(this));
     }
     if (!this.esgst.sg) return;
     createElements(this.esgst.sg ? this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{

@@ -124,7 +124,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         this.chfl_reorder(chfl, key, true);
       }
     }
-    this.esgst.documentEvents.keydown.add(this.chfl_checkKey.bind(null, chfl));
+    this.esgst.documentEvents.keydown.add(this.chfl_checkKey.bind(this, chfl));
   }
 
   chfl_checkKey(chfl, event) {
@@ -322,7 +322,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           name: `Reset Links`,
           description: `Click here to reset the custom links.`
         }));
-        resetButton.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(createConfirmation, chfl, key), null));
+        resetButton.addEventListener(`click`, createConfirmation.bind(common, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(createConfirmation, chfl, key), null));
         for (const subKey in source.elements) {
           if (source.elements.hasOwnProperty(subKey)) {
             const element = source.elements[subKey],
@@ -532,7 +532,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: editId ? `Edit` : `Add`,
       title2: editId ? `Editing...` : `Adding...`,
-      callback1: this.chfl_addLink.bind(null, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)
+      callback1: this.chfl_addLink.bind(this, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)
     }).set);
     popup.open();
   }

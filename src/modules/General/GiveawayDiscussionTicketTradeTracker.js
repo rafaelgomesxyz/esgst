@@ -55,7 +55,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
   }
 
   async gdttt() {
-    this.esgst.endlessFeatures.push(this.gdttt_checkVisited);
+    this.esgst.endlessFeatures.push(this.gdttt_checkVisited.bind(this));
     if (!this.esgst.commentsPath) return;
     let match = location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
     let type = `${match[1]}s`;

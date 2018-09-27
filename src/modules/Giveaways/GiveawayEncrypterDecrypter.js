@@ -86,7 +86,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.ged_getGiveaways(ged, true);
     }
-    this.esgst.ged_addIcons = this.ged_addIcons.bind(null, ged);
+    this.esgst.ged_addIcons = this.ged_addIcons.bind(this, ged);
   }
 
   async ged_openPopup(ged, event) {
@@ -145,7 +145,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Load More`,
       title2: `Loading more...`,
-      callback1: this.ged_loadGiveaways.bind(null, ged)
+      callback1: this.ged_loadGiveaways.bind(this, ged)
     });
     ged.container.appendChild(ged.set.set);
     ged.set.trigger();

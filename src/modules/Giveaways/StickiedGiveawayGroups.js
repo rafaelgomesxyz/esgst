@@ -29,7 +29,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
       this.sgg_setGiveawayGroups();
     }
     if (this.esgst.groupsPath) {
-      this.esgst.endlessFeatures.push(this.sgg_setGroups);
+      this.esgst.endlessFeatures.push(this.sgg_setGroups.bind(this));
     }
   }
 
@@ -65,7 +65,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
           container.insertBefore(context, obj.separator);
         }
         new Button(context, `afterBegin`, {
-          callbacks: [this.sgg_stickyGroup.bind(null, obj, code, container, context, id), null, this.sgg_unstickyGroup.bind(null, obj, code, container, context, id), null],
+          callbacks: [this.sgg_stickyGroup.bind(this, obj, code, container, context, id), null, this.sgg_unstickyGroup.bind(this, obj, code, container, context, id), null],
           className: `esgst-sgg-button`,
           icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `sgg`,
@@ -99,7 +99,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
         continue;
       }
       new Button(element, `afterBegin`, {
-        callbacks: [this.sgg_stickyGroup.bind(null, {}, code, null, element, null), null, this.sgg_unstickyGroup.bind(null, {}, code, null, element, null), null],
+        callbacks: [this.sgg_stickyGroup.bind(this, {}, code, null, element, null), null, this.sgg_unstickyGroup.bind(this, {}, code, null, element, null), null],
         className: `esgst-sgg-button`,
         icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `sgg`,

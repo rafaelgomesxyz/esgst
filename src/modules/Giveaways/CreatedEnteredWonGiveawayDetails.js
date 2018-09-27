@@ -41,8 +41,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 
   cewgd() {
     if (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) return;
-    this.esgst.endlessFeatures.push(this.cewgd_addHeading);
-    this.esgst.giveawayFeatures.push(this.cewgd_getDetails_pre);
+    this.esgst.endlessFeatures.push(this.cewgd_addHeading.bind(this));
+    this.esgst.giveawayFeatures.push(this.cewgd_getDetails_pre.bind(this));
   }
 
   cewgd_addHeading(context, main, source, endless) {

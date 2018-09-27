@@ -37,7 +37,7 @@ class GeneralAccurateTimestamp extends Module {
   }
 
   at() {
-    this.esgst.endlessFeatures.push(this.at_getTimestamps);
+    this.esgst.endlessFeatures.push(this.at_getTimestamps.bind(this));
   }
 
   /**

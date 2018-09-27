@@ -33,7 +33,7 @@ class GeneralQuickInboxView extends Module {
         }
       },
       id: `qiv`,
-      load: this.qiv.bind(null, true),
+      load: this.qiv.bind(this, true),
       name: `Quick Inbox View`,
       sg: true,
       st: true,

@@ -24,7 +24,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
 
   cwsl() {
     if (this.esgst.wishlistPath) {
-      this.esgst.gameFeatures.push(this.cwsl_getGames);
+      this.esgst.gameFeatures.push(this.cwsl_getGames.bind(this));
     }
   }
 

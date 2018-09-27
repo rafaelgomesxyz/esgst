@@ -126,8 +126,8 @@ class CommentsCollapseExpandReplyButton extends Module {
     collapse = button.firstElementChild;
     expand = collapse.nextElementSibling;
     this.esgst.cerbButtons.push({
-      collapse: this.cerb_collapseReplies.bind(null, collapse, expand, replies),
-      expand: this.cerb_expandReplies.bind(null, collapse, expand, replies),
+      collapse: this.cerb_collapseReplies.bind(this, collapse, expand, replies),
+      expand: this.cerb_expandReplies.bind(this, collapse, expand, replies),
       permalink: permalink
     });
     collapse.addEventListener(`click`, this.cerb_collapseReplies.bind(this, collapse, expand, replies));

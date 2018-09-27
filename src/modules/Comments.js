@@ -17,7 +17,7 @@ class Comments extends Module {
   }
 
   comments() {
-    this.esgst.endlessFeatures.push(this.comments_load);
+    this.esgst.endlessFeatures.push(this.comments_load.bind(this));
   }
 
   async comments_load(context, main, source, endless, mainEndless) {

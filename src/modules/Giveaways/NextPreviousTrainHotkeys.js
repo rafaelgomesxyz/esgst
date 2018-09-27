@@ -62,7 +62,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
           }
         }
         if (previous || next) {
-          this.esgst.documentEvents.keydown.add(this.npth_loadGiveaway.bind(null, next, previous));
+          this.esgst.documentEvents.keydown.add(this.npth_loadGiveaway.bind(this, next, previous));
         }
       }
     }
