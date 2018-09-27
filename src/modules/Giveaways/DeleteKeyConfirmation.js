@@ -41,7 +41,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
         type: `span`
       }]);
       element.remove();
-      newElement.addEventListener(`click`, createConfirmation.bind(null, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(createConfirmation, newElement), null));
+      newElement.addEventListener(`click`, createConfirmation.bind(common, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(createConfirmation, newElement), null));
     }
   }
 

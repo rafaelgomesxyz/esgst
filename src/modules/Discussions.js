@@ -103,7 +103,7 @@ class Discussions extends Module {
           discussion.closed = true;
         }
         new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_close.bind(null, discussion), null, this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_open.bind(null, discussion), null],
+          callbacks: [this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_close.bind(this.esgst.modules.discussionsCloseOpenDiscussionButton, discussion), null, this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_open.bind(this.esgst.modules.discussionsCloseOpenDiscussionButton, discussion), null],
           className: `esgst-codb-button`,
           icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
           id: `codb`,
@@ -113,7 +113,7 @@ class Discussions extends Module {
       }
       if (this.esgst.df && this.esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
         new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [this.esgst.modules.discussionsDiscussionFilters.df_hideDiscussion.bind(null, discussion, main), null, this.esgst.modules.discussionsDiscussionFilters.df_unhideDiscussion.bind(null, discussion, main), null],
+          callbacks: [this.esgst.modules.discussionsDiscussionFilters.df_hideDiscussion.bind(this.esgst.modules.discussionsDiscussionFilters, discussion, main), null, this.esgst.modules.discussionsDiscussionFilters.df_unhideDiscussion.bind(this.esgst.modules.discussionsDiscussionFilters, discussion, main), null],
           className: `esgst-df-button`,
           icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `df_s`,
@@ -134,7 +134,7 @@ class Discussions extends Module {
           index = 2;
         }
         discussion.dhButton = new Button(discussion.heading.parentElement, `afterBegin`, {
-          callbacks: [this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion.bind(null, discussion.code, context, true), null, this.esgst.modules.discussionsDiscussionHighlighter.dh_unhighlightDiscussion.bind(null, discussion.code, context, true), null],
+          callbacks: [this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion.bind(this.esgst.modules.discussionsDiscussionHighlighter, discussion.code, context, true), null, this.esgst.modules.discussionsDiscussionHighlighter.dh_unhighlightDiscussion.bind(this.esgst.modules.discussionsDiscussionHighlighter, discussion.code, context, true), null],
           className: `esgst-dh-button`,
           icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
           id: `dh`,
@@ -147,7 +147,7 @@ class Discussions extends Module {
         if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
           context.classList.add(`esgst-relative`);
           new Button(context, `afterBegin`, {
-            callbacks: [this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `unsolved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `in progress`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `solved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(null, discussion.code, `off`), null],
+            callbacks: [this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `unsolved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `in progress`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `solved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `off`), null],
             className: `esgst-pm-button`,
             icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
             id: `pm`,

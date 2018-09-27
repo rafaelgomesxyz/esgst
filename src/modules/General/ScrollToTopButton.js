@@ -76,7 +76,7 @@ class GeneralScrollToTopButton extends Module {
         }]);
         break;
     }
-    button.addEventListener(`click`, animateScroll.bind(null, 0, () => {
+    button.addEventListener(`click`, animateScroll.bind(common, 0, () => {
       if (this.esgst.es && this.esgst.es.paginations) {
         this.esgst.modules.generalEndlessScrolling.es_changePagination(this.esgst.es, this.esgst.es.reverseScrolling ? this.esgst.es.paginations.length : 1);
       }

@@ -60,8 +60,8 @@ class GiveawaysHiddenGameRemover extends Module {
       icon2: `fa-times`,
       title1: `Remove`,
       title2: `Cancel`,
-      callback1: this.hgr_startRemover.bind(null, hgr),
-      callback2: this.hgr_stopRemover.bind(null, hgr)
+      callback1: this.hgr_startRemover.bind(this, hgr),
+      callback2: this.hgr_stopRemover.bind(this, hgr)
     }).set);
     hgr.progress = createElements(hgr.popup.description, `beforeEnd`, [{
       type: `div`

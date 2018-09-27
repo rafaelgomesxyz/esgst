@@ -265,7 +265,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Leave`,
         title2: `Leaving...`,
-        callback1: this.elgb_leaveGiveaway.bind(null, giveaway, main, source),
+        callback1: this.elgb_leaveGiveaway.bind(this, giveaway, main, source),
         set: giveaway.elgbButton
       }).set;
       giveaway.elgbButton.removeAttribute(`title`);
@@ -277,7 +277,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Enter`,
         title2: `Entering...`,
-        callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source),
+        callback1: this.elgb_enterGiveaway.bind(this, giveaway, main, null, source),
         set: giveaway.elgbButton
       }).set;
       giveaway.elgbButton.setAttribute(`title`, giveaway.error);
@@ -290,7 +290,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter`,
           title2: `Entering...`,
-          callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source),
+          callback1: this.elgb_enterGiveaway.bind(this, giveaway, main, null, source),
           set: giveaway.elgbButton
         }).set;
         giveaway.elgbButton.removeAttribute(`title`);
@@ -302,7 +302,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter`,
           title2: `Entering...`,
-          callback1: this.elgb_enterGiveaway.bind(null, giveaway, main, null, source),
+          callback1: this.elgb_enterGiveaway.bind(this, giveaway, main, null, source),
           set: giveaway.elgbButton
         }).set;
         giveaway.elgbButton.setAttribute(`title`, `Not Enough Points`);

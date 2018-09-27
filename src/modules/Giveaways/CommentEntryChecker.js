@@ -57,8 +57,8 @@ class GiveawaysCommentEntryChecker extends Module {
           icon2: `fa-times`,
           title1: `Check`,
           title2: `Cancel`,
-          callback1: this.cec_start.bind(null, obj),
-          callback2: this.cec_stop.bind(null, obj)
+          callback1: this.cec_start.bind(this, obj),
+          callback2: this.cec_stop.bind(this, obj)
         }
       ],
       addProgress: true,

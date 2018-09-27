@@ -144,7 +144,7 @@ class GiveawaysGridView extends Module {
       }]);
       giveaway.endTimeColumn_gv = giveaway.gvIcons.firstElementChild.firstElementChild;
       if (!this.esgst.lockGiveawayColumns) {
-        giveaway.gvIcons.addEventListener(`dragenter`, draggable_enter.bind(null, {
+        giveaway.gvIcons.addEventListener(`dragenter`, draggable_enter.bind(common, {
           context: giveaway.gvIcons,
           item: giveaway
         }));

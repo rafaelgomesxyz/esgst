@@ -88,8 +88,8 @@ class GeneralMultiManager extends Module {
     };
     obj.counterElements = {};
     obj.scope = context ? `popup` : `main`;
-    this.esgst.mm_enable = this.mm_enable.bind(null, obj);
-    this.esgst.mm_disable = this.mm_disable.bind(null, obj);
+    this.esgst.mm_enable = this.mm_enable.bind(this, obj);
+    this.esgst.mm_disable = this.mm_disable.bind(this, obj);
     obj.button.addEventListener(`click`, this.mm_openPopout.bind(this, obj, items, itemsKey));
     if (this.esgst.mm_enableGames) {
       this.esgst.gameFeatures.push(this.mm_getGames.bind(this));
@@ -140,8 +140,8 @@ class GeneralMultiManager extends Module {
       }]);
       obj.counterElements[key] = heading.lastElementChild;
       let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, this.esgst[`mm_enable${key}`]);
-      toggleSwitch.onEnabled = this.mm_enable.bind(null, obj, itemsKey === key ? items : null, key);
-      toggleSwitch.onDisabled = this.mm_disable.bind(null, obj, itemsKey === key ? items : null, key);
+      toggleSwitch.onEnabled = this.mm_enable.bind(this, obj, itemsKey === key ? items : null, key);
+      toggleSwitch.onDisabled = this.mm_disable.bind(this, obj, itemsKey === key ? items : null, key);
       this.mm_setSection(obj, createElements(obj.sections, `beforeEnd`, [{
         type: `div`
       }]), itemsKey === key ? items : null, key);
@@ -183,8 +183,8 @@ class GeneralMultiManager extends Module {
         select: `Add item to Multi-Manager selection`,
         unselect: `Remove item from Multi-Manager selection`
       });
-      checkbox.onPreEnabled = this.mm_selectItem.bind(null, obj, item, key, 1);
-      checkbox.onPreDisabled = this.mm_selectItem.bind(null, obj, item, key, 0);
+      checkbox.onPreEnabled = this.mm_selectItem.bind(this, obj, item, key, 1);
+      checkbox.onPreDisabled = this.mm_selectItem.bind(this, obj, item, key, 0);
       let itemKey = item.type ? `${item.type}_${item.code}` : item.code;
       if (!obj.checkboxes[key][itemKey]) {
         obj.checkboxes[key][itemKey] = [];
@@ -261,21 +261,21 @@ class GeneralMultiManager extends Module {
               color1: `grey`, color2: `grey`,
               icon1: `fa-square`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `All`, title2: ``,
-              callback1: selectSwitches.bind(null, obj.checkboxes[key], `check`, null)
+              callback1: selectSwitches.bind(common, obj.checkboxes[key], `check`, null)
             },
             {
               check: true,
               color1: `grey`, color2: `grey`,
               icon1: `fa-square-o`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `None`, title2: ``,
-              callback1: selectSwitches.bind(null, obj.checkboxes[key], `uncheck`, null)
+              callback1: selectSwitches.bind(common, obj.checkboxes[key], `uncheck`, null)
             },
             {
               check: true,
               color1: `grey`, color2: `grey`,
               icon1: `fa-plus-square-o`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Inverse`, title2: ``,
-              callback1: selectSwitches.bind(null, obj.checkboxes[key], `toggle`, null)
+              callback1: selectSwitches.bind(common, obj.checkboxes[key], `toggle`, null)
             }
           ],
           name: `Select:`
@@ -291,14 +291,14 @@ class GeneralMultiManager extends Module {
               color1: `green`, color2: `grey`,
               icon1: `fa-globe`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Links`, title2: ``,
-              callback1: this.mm_exportLinks.bind(null, obj, items, key)
+              callback1: this.mm_exportLinks.bind(this, obj, items, key)
             },
             {
               check: true,
               color1: `green`, color2: `grey`,
               icon1: `fa-pencil`, icon2: `fa-circle-o-notch fa-spin`,
               title1: `Custom`, title2: ``,
-              callback1: this.mm_exportCustom.bind(null, obj, items, key)
+              callback1: this.mm_exportCustom.bind(this, obj, items, key)
             }
           ],
           name: `Export to:`
@@ -319,28 +319,28 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
-            callback1: this.mm_hideGiveaways.bind(null, obj, items)
+            callback1: this.mm_hideGiveaways.bind(this, obj, items)
           },
           {
             check: this.esgst.gb,
             color1: `green`, color2: `grey`,
             icon1: `fa-bookmark`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Bookmark`, title2: ``,
-            callback1: this.mm_bookmarkGiveaways.bind(null, obj, items)
+            callback1: this.mm_bookmarkGiveaways.bind(this, obj, items)
           },
           {
             check: this.esgst.gb,
             color1: `green`, color2: `grey`,
             icon1: `fa-bookmark-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unbookmark`, title2: ``,
-            callback1: this.mm_unbookmarkGiveaways.bind(null, obj, items)
+            callback1: this.mm_unbookmarkGiveaways.bind(this, obj, items)
           },
           {
             check: this.esgst.ttec,
             color1: `green`, color2: `grey`,
             icon1: `fa-clock-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Calculate`, title2: ``,
-            callback1: this.mm_calculateGiveaways.bind(null, obj, items)
+            callback1: this.mm_calculateGiveaways.bind(this, obj, items)
           }
         ],
         [
@@ -349,7 +349,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-puzzle-piece`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Encrypted`, title2: ``,
-            callback1: this.mm_exportEncryptedGiveaways.bind(null, obj, items)
+            callback1: this.mm_exportEncryptedGiveaways.bind(this, obj, items)
           }
         ]
       ],
@@ -361,35 +361,35 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
-            callback1: this.mm_hideDiscussions.bind(null, obj, items)
+            callback1: this.mm_hideDiscussions.bind(this, obj, items)
           },
           {
             check: this.esgst.dh,
             color1: `green`, color2: `grey`,
             icon1: `fa-star`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Highlight`, title2: ``,
-            callback1: this.mm_highlightDiscussions.bind(null, obj, items)
+            callback1: this.mm_highlightDiscussions.bind(this, obj, items)
           },
           {
             check: this.esgst.dh,
             color1: `green`, color2: `grey`,
             icon1: `fa-star-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unhighlight`, title2: ``,
-            callback1: this.mm_unhighlightDiscussions.bind(null, obj, items)
+            callback1: this.mm_unhighlightDiscussions.bind(this, obj, items)
           },
           {
             check: this.esgst.gdttt,
             color1: `green`, color2: `grey`,
             icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Visit`, title2: ``,
-            callback1: this.mm_visitDiscussions.bind(null, obj, items)
+            callback1: this.mm_visitDiscussions.bind(this, obj, items)
           },
           {
             check: this.esgst.gdttt,
             color1: `green`, color2: `grey`,
             icon1: `fa-times`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unvisit`, title2: ``,
-            callback1: this.mm_unvisitDiscussions.bind(null, obj, items)
+            callback1: this.mm_unvisitDiscussions.bind(this, obj, items)
           }
         ],
         []
@@ -402,14 +402,14 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(null, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this, obj, items, key)
           },
           {
             check: this.esgst.wbc,
             color1: `green`, color2: `grey`,
             icon1: `fa-question-circle`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Check WL/BL`, title2: ``,
-            callback1: this.mm_selectWbcUsers.bind(null, obj, items)
+            callback1: this.mm_selectWbcUsers.bind(this, obj, items)
           }
         ],
         []
@@ -422,14 +422,14 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(null, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this.esgst.modules.tags, obj, items, key)
           },
           {
             check: true,
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
-            callback1: this.mm_hideGames.bind(null, obj, items)
+            callback1: this.mm_hideGames.bind(this, obj, items)
           }
         ],
         []
@@ -442,7 +442,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(null, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this.esgst.modules.tags, obj, items, key)
           }
         ],
         []
@@ -656,7 +656,7 @@ class GeneralMultiManager extends Module {
       color1: `grey`, color2: `grey`,
       icon1: `fa-copy`, icon2: `fa-circle-o-notch fa-spin`,
       title1: `Copy`, title2: `Copying...`,
-      callback1: this.mm_copyOutput.bind(null, obj, key)
+      callback1: this.mm_copyOutput.bind(this, obj, key)
     }).set);
   }
 
@@ -708,13 +708,13 @@ class GeneralMultiManager extends Module {
             .replace(/\[COMMENTS]/ig, item.comments)
             .replace(/\[COPIES]/ig, item.copies)
             .replace(/\[CREATOR]/ig, item.creator)
-            .replace(/\[END-TIME="(.+?)"]/ig, this.mm_formatDate.bind(null, item.endTime))
+            .replace(/\[END-TIME="(.+?)"]/ig, this.mm_formatDate.bind(this, item.endTime))
             .replace(/\[ENTRIES]/ig, item.entries)
             .replace(/\[LEVEL]/ig, item.level)
             .replace(/\[NAME]/ig, escapeMarkdown(item.name))
             .replace(/\[POINTS]/ig, item.points)
             .replace(/\[SHORT-URL]/ig, `https://www.steamgifts.com/giveaway/${item.code}/`)
-            .replace(/\[START-TIME="(.+?)"]/ig, this.mm_formatDate.bind(null, item.startTime))
+            .replace(/\[START-TIME="(.+?)"]/ig, this.mm_formatDate.bind(this, item.startTime))
             .replace(/\[STEAM-ID]/ig, item.id)
             .replace(/\[STEAM-TYPE]/ig, item.type.slice(0, -1))
             .replace(/\[STEAM-URL]/ig, `http://store.steampowered.com/${item.type.slice(0, -1)}/${item.id}`)
@@ -731,7 +731,7 @@ class GeneralMultiManager extends Module {
             .replace(/\[CATEGORY]/ig, escapeMarkdown(item.category))
             .replace(/\[CODE]/ig, item.code)
             .replace(/\[COMMENTS]/ig, item.comments)
-            .replace(/\[CREATED-TIME="(.+?)"]/ig, this.mm_formatDate.bind(null, item.createdTimestamp))
+            .replace(/\[CREATED-TIME="(.+?)"]/ig, this.mm_formatDate.bind(this, item.createdTimestamp))
             .replace(/\[POLL]/ig, item.poll ? `Yes` : `No`)
             .replace(/\[SHORT-URL]/ig, `https://www.steamgifts.com/discussion/${item.code}/`)
             .replace(/\[TITLE]/ig, escapeMarkdown(item.title))

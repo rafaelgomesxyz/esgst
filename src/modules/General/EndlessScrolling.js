@@ -163,7 +163,7 @@ class GeneralEndlessScrolling extends Module {
     const options = {
       rootMargin: `-${this.esgst.commentsTop + 1}px 0px 0px 0px`
     };
-    this.es.observer = new IntersectionObserver(this.es_observe.bind(null, es), options);
+    this.es.observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
     // noinspection JSIgnoredPromiseFromCall
     this.es_activate(es);
   }
@@ -245,9 +245,9 @@ class GeneralEndlessScrolling extends Module {
       icons: [`fa-refresh`],
       title: `Refresh all pages`
     });
-    this.esgst.es_refresh = this.es_refresh.bind(null, es);
+    this.esgst.es_refresh = this.es_refresh.bind(this, es);
     es.refreshButton.addEventListener(`click`, this.esgst.es_refresh);
-    this.esgst.es_refreshAll = this.es_refreshAll.bind(null, es);
+    this.esgst.es_refreshAll = this.es_refreshAll.bind(this, es);
     es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll);
     es.continuousButton.addEventListener(`click`, this.es_continuouslyLoad.bind(this, es));
     es.nextButton.addEventListener(`click`, this.es_stepNext.bind(this, es));
@@ -264,7 +264,7 @@ class GeneralEndlessScrolling extends Module {
     es.limitCount = 0;
     es.busy = false;
     es.paused = await getValue(`esPause`, false);
-    this.esgst.es_loadNext = this.es_loadNext.bind(null, es);
+    this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall
       this.es_pause(es, true);
@@ -276,7 +276,7 @@ class GeneralEndlessScrolling extends Module {
     const options = {
       rootMargin: `0px 0px ${innerHeight}px 0px`
     };
-    const observer = new IntersectionObserver(this.es_observe.bind(null, es), options);
+    const observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
     observer.observe(this.esgst.pagination);
     if (es.paused && es.reversePages) {
       this.esgst.es_loadNext();

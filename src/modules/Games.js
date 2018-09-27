@@ -96,7 +96,7 @@ class Games extends Module {
         if (this.esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
           const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
           if (removeButton) {
-            removeButton.addEventListener(`click`, updateHiddenGames.bind(null, id, type, true));
+            removeButton.addEventListener(`click`, updateHiddenGames.bind(common, id, type, true));
           }
         }
         if (!games[type][id]) {

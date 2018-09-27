@@ -183,7 +183,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       this.ags_createFilter(obj, filterDetails[i]);
     }
     obj.input.addEventListener(`keydown`,
-      triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
+      triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
     );
     icon.addEventListener(`click`, this.ags_searchQuery.bind(this, obj));
   }
@@ -308,10 +308,10 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       observeNumChange(minFilter, details.minKey);
       if (details.type === `input`) {
         maxFilter.addEventListener(`keypress`,
-          triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
+          triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
         );
         minFilter.addEventListener(`keypress`,
-          triggerOnEnter.bind(null, this.ags_searchQuery.bind(null, obj))
+          triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
         );
       }
       obj.filters.push({

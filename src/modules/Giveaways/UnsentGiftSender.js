@@ -188,8 +188,8 @@ class GiveawaysUnsentGiftSender extends Module {
         icon2: `fa-times-circle`,
         title1: `Send`,
         title2: `Cancel`,
-        callback1: this.ugs_start.bind(null, ugs),
-        callback2: this.ugs_cancel.bind(null, ugs)
+        callback1: this.ugs_start.bind(this, ugs),
+        callback2: this.ugs_cancel.bind(this, ugs)
       }).set);
       ugs.progress = createElements(ugs.popup.description, `beforeEnd`, [{
         type: `div`

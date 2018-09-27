@@ -45,7 +45,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
         container.insertBefore(context, obj.separator);
       }
       new Button(context, `afterBegin`, {
-        callbacks: [this.sgac_stickyCountry.bind(null, obj, container, context, id), null, this.sgac_unstickyCountry.bind(null, obj, container, context, id), null],
+        callbacks: [this.sgac_stickyCountry.bind(this, obj, container, context, id), null, this.sgac_unstickyCountry.bind(this, obj, container, context, id), null],
         className: `esgst-sgac-button`,
         icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
         id: `sgac`,

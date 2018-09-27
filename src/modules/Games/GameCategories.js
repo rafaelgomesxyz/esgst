@@ -2640,7 +2640,7 @@ class GamesGameCategories extends Module {
             panel.children[j].removeAttribute(`href`);
           }
         }
-        panel.addEventListener(`dragenter`, draggable_enter.bind(null, {
+        panel.addEventListener(`dragenter`, draggable_enter.bind(common, {
           context: panel,
           item: games[i]
         }));

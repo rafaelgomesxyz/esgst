@@ -253,7 +253,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       icon2: ``,
       title1: `View Raw List`,
       title2: ``,
-      callback1: this.gb_openList.bind(null, {bookmarked})
+      callback1: this.gb_openList.bind(this, {bookmarked})
     }).set, context);
     container.insertBefore(set.set, context);
     if (popup) {
@@ -534,7 +534,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       if (main && this.esgst.wonPath) return;
       if ((!main || !this.esgst.archivePath) && giveaway.creator !== this.esgst.username && giveaway.url && !giveaway.gbButton) {
         giveaway.gbButton = new Button(giveaway.headingName, `beforeBegin`, {
-          callbacks: [this.gb_bookmarkGiveaway.bind(null, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(null, giveaway, main), null],
+          callbacks: [this.gb_bookmarkGiveaway.bind(this, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(this, giveaway, main), null],
           className: `esgst-gb-button`,
           icons: [`fa-bookmark-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-bookmark`, `fa-circle-o-notch fa-spin`],
           id: `gb`,

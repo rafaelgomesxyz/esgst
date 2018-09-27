@@ -176,7 +176,7 @@ class GeneralAttachedImageCarousel extends Module {
     height = panel.offsetHeight + 25;
     image.style.maxHeight = `calc(90% - ${height}px)`;
     image.style.marginTop = `${height}px`;
-    image.firstElementChild.onload = this.aic_resizeImage.bind(null, image);
+    image.firstElementChild.onload = this.aic_resizeImage.bind(this, image);
     this.esgst.aicPrevious = panel.firstElementChild;
     this.esgst.aicNext = this.esgst.aicPrevious.nextElementSibling;
     if (i > 0) {

@@ -260,7 +260,7 @@ class Tags extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Save`,
         title2: `Saving...`,
-        callback1: this.tags_saveTags.bind(null, obj)
+        callback1: this.tags_saveTags.bind(this, obj)
       }],
       icon: `fa-tag`,
       isTemp: true,
@@ -306,9 +306,9 @@ class Tags extends Module {
         type: `text`
       },
       events: {
-        focus: this.tags_createTags.bind(null, obj),
-        input: this.tags_createTags.bind(null, obj),
-        keydown: triggerSetOnEnter.bind(null, obj.popup.buttons[0])
+        focus: this.tags_createTags.bind(this, obj),
+        input: this.tags_createTags.bind(this, obj),
+        keydown: triggerSetOnEnter.bind(this, obj.popup.buttons[0])
       },
       type: `input`
     }]);
@@ -333,7 +333,7 @@ class Tags extends Module {
             class: `esgst-tag-suggestion esgst-hidden`
           },
           events: {
-            click: this.tags_addSuggestion.bind(null, obj),
+            click: this.tags_addSuggestion.bind(this, obj),
             mouseenter: this.tags_selectSuggestion,
             mouseleave: this.tags_unselectSuggestion
           },
@@ -351,7 +351,7 @@ class Tags extends Module {
       type: `div`
     }]);
     obj.popup.description.appendChild(obj.popup.buttons[0].set);
-    obj.popup.open(this.tags_loadTags.bind(null, obj));
+    obj.popup.open(this.tags_loadTags.bind(this, obj));
   }
 
   async tags_saveTags(obj) {
@@ -757,7 +757,7 @@ class Tags extends Module {
         icon2: ``,
         title1: `Add Tags`,
         title2: ``,
-        callback1: this.tags_addTagsFromList.bind(null, obj)
+        callback1: this.tags_addTagsFromList.bind(this, obj)
       }],
       icon: `fa-list`,
       isTemp: true,
@@ -785,8 +785,8 @@ class Tags extends Module {
         item.style.backgroundColor = this.esgst[`${obj.key}_colors`][tag].bgColor;
       }
       const checkbox = new Checkbox(item);
-      checkbox.onEnabled = this.tags_selectTag.bind(null, obj, tag);
-      checkbox.onDisabled = this.tag_unselectTag.bind(null, obj, tag);
+      checkbox.onEnabled = this.tags_selectTag.bind(this, obj, tag);
+      checkbox.onDisabled = this.tag_unselectTag.bind(this, obj, tag);
     }
     obj.listPopup.open();
   }
