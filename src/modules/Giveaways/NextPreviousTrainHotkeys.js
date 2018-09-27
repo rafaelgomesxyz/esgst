@@ -18,7 +18,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
       </ul>
     `,
       id: `npth`,
-      load: this.npth,
+      load: this.npth.bind(this),
       name: `Next/Previous Train Hotkeys`,
       inputItems: [
         {

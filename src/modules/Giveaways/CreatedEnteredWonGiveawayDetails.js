@@ -32,7 +32,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       </ul>
     `,
       id: `cewgd`,
-      load: this.cewgd,
+      load: this.cewgd.bind(this),
       name: `Created/Entered/Won Giveaway Details`,
       sg: true,
       type: `giveaways`

@@ -15,7 +15,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
       </ul>
     `,
       id: `gwl`,
-      load: this.gwl,
+      load: this.gwl.bind(this),
       name: `Giveaway Winners Link`,
       sg: true,
       type: `giveaways`

@@ -16,7 +16,7 @@ class UsersSteamGiftsProfileButton extends Module {
       </ul>
     `,
       id: `sgpb`,
-      load: this.sgpb,
+      load: this.sgpb.bind(this),
       name: `SteamGifts Profile Button`,
       st: true,
       type: `users`

@@ -17,7 +17,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
       </ul>
     `,
       id: `sgg`,
-      load: this.sgg,
+      load: this.sgg.bind(this),
       name: `Stickied Giveaway Groups`,
       sg: true,
       type: `giveaways`

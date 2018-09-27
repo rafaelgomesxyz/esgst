@@ -24,7 +24,7 @@ class GeneralAttachedImageCarousel extends Module {
         }
       },
       id: `aic`,
-      load: this.aic,
+      load: this.aic.bind(this),
       name: `Attached Image Carousel`,
       sg: true,
       st: true,

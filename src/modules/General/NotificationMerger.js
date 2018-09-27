@@ -21,7 +21,7 @@ class GeneralNotificationMerger extends Module {
       </ul>
     `,
       id: `nm`,
-      load: this.nm,
+      load: this.nm.bind(this),
       name: `Notification Merger`,
       sg: true,
       st: true,

@@ -27,7 +27,7 @@ class UsersWhitelistBlacklistManager extends Module {
       </ul>
     `,
       id: `wbm`,
-      load: this.wbm,
+      load: this.wbm.bind(this),
       name: `Whitelist/Blacklist Manager`,
       sg: true,
       type: `users`

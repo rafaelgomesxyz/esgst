@@ -15,7 +15,7 @@ class GroupsGroupHighlighter extends Module {
       </ul>
     `,
       id: `gh`,
-      load: this.gh,
+      load: this.gh.bind(this),
       name: `Group Highlighter`,
       sg: true,
       sync: `Steam Groups`,

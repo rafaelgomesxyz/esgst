@@ -18,7 +18,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
       </ul>
     `,
       id: `rrbp`,
-      load: this.rrbp,
+      load: this.rrbp.bind(this),
       name: `Received Reply Box Popup`,
       sg: true,
       type: `comments`

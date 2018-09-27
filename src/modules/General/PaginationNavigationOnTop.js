@@ -15,7 +15,7 @@ class GeneralPaginationNavigationOnTop extends Module {
       </ul>
     `,
       id: `pnot`,
-      load: this.pnot,
+      load: this.pnot.bind(this),
       name: `Pagination Navigation On Top`,
       sg: true,
       st: true,

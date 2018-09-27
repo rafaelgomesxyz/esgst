@@ -11,7 +11,7 @@ class Giveaways_addToStorage extends Module {
     this.info = {
       endless: true,
       id: `giveaways_addToStorage`,
-      load: this.giveaways_addToStorage
+      load: this.giveaways_addToStorage.bind(this)
     };
   }
 

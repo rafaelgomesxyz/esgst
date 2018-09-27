@@ -18,7 +18,7 @@ class GeneralScrollToTopButton extends Module {
       </ul>
     `,
       id: `sttb`,
-      load: this.sttb,
+      load: this.sttb.bind(this),
       name: `Scroll To Top Button`,
       options: {
         title: `Show in:`,

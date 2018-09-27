@@ -28,7 +28,7 @@ class DiscussionsMainPostPopup extends Module {
         }
       },
       id: `mpp`,
-      load: this.mpp,
+      load: this.mpp.bind(this),
       name: `Main Post Popup`,
       sg: true,
       type: `discussions`

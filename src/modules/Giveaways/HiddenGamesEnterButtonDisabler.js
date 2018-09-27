@@ -15,7 +15,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
       </ul>
     `,
       id: `hgebd`,
-      load: this.hgebd,
+      load: this.hgebd.bind(this),
       name: `Hidden Game's Enter Button Disabler`,
       sg: true,
       sync: `Hidden Games`,

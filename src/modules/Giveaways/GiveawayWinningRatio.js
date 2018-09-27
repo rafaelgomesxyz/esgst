@@ -63,7 +63,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
         }
       },
       id: `gwr`,
-      load: this.gwr,
+      load: this.gwr.bind(this),
       name: `Giveaway Winning Ratio`,
       sg: true,
       type: `giveaways`

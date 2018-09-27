@@ -13,7 +13,7 @@ class Profile extends Module {
     this.info = {
       endless: true,
       id: `profile`,
-      load: this.profile
+      load: this.profile.bind(this)
     };
   }
 

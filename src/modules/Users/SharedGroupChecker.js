@@ -22,7 +22,7 @@ class UsersSharedGroupChecker extends Module {
       </ul>
     `,
       id: `sgc`,
-      load: this.sgc,
+      load: this.sgc.bind(this),
       name: `Shared Group Checker`,
       sg: true,
       type: `users`

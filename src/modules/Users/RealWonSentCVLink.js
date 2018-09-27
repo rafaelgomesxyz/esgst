@@ -22,7 +22,7 @@ class UsersRealWonSentCVLink extends Module {
         }
       },
       id: `rwscvl`,
-      load: this.rwscvl,
+      load: this.rwscvl.bind(this),
       name: `Real Won/Sent CV Link`,
       sg: true,
       type: `users`

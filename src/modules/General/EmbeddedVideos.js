@@ -16,7 +16,7 @@ class GeneralEmbeddedVideos extends Module {
       </ul>
     `,
       id: `ev`,
-      load: this.ev,
+      load: this.ev.bind(this),
       name: `Embedded Videos`,
       sg: true,
       st: true,

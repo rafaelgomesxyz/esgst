@@ -23,7 +23,7 @@ class GiveawaysHiddenGameRemover extends Module {
       </ul>
     `,
       id: `hgr`,
-      load: this.hgr,
+      load: this.hgr.bind(this),
       name: `Hidden Game Remover`,
       sg: true,
       type: `giveaways`

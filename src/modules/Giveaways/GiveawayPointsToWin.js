@@ -30,7 +30,7 @@ class GiveawaysGiveawayPointsToWin extends Module {
         }
       },
       id: `gptw`,
-      load: this.gptw,
+      load: this.gptw.bind(this),
       name: `Giveaway Points To Win`,
       sg: true,
       type: `giveaways`

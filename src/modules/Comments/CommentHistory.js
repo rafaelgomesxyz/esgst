@@ -21,7 +21,7 @@ class CommentsCommentHistory extends Module {
       </ul>
     `,
       id: `ch`,
-      load: this.ch,
+      load: this.ch.bind(this),
       name: `Comment History`,
       sg: true,
       type: `comments`

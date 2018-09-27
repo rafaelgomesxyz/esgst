@@ -31,7 +31,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
         }
       },
       id: `ggl`,
-      load: this.ggl,
+      load: this.ggl.bind(this),
       name: `Giveaway Group Loader`,
       options: {
         title: `Load as:`,

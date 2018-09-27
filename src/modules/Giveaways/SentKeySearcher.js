@@ -26,7 +26,7 @@ class GiveawaysSentKeySearcher extends Module {
       </ul>
     `,
       id: `sks`,
-      load: this.sks,
+      load: this.sks.bind(this),
       name: `Sent Key Searcher`,
       sg: true,
       type: `giveaways`

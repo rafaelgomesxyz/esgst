@@ -108,7 +108,7 @@ class GeneralEndlessScrolling extends Module {
         }
       },
       id: `es`,
-      load: this.es,
+      load: this.es.bind(this),
       name: `Endless Scrolling`,
       sg: true,
       st: true,

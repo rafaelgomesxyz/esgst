@@ -31,7 +31,7 @@ class GiveawaysGiveawayRecreator extends Module {
         }
       },
       id: `gr`,
-      load: this.gr,
+      load: this.gr.bind(this),
       name: `Giveaway Recreator`,
       sg: true,
       type: `giveaways`

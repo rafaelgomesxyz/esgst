@@ -6,7 +6,7 @@ class Users extends Module {
     this.info = {
       endless: true,
       id: `users`,
-      load: this.users
+      load: this.users.bind(this)
     };
   }
 

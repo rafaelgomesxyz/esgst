@@ -18,7 +18,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
       </ul>
     `,
       id: `ttec`,
-      load: this.ttec,
+      load: this.ttec.bind(this),
       name: `Time To Enter Calculator`,
       sg: true,
       type: `giveaways`

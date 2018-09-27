@@ -39,7 +39,7 @@ class GeneralCakeDayReminder extends Module {
         }
       },
       id: `cdr`,
-      load: this.cdr,
+      load: this.cdr.bind(this),
       name: `Cake Day Reminder`,
       sg: true,
       type: `general`

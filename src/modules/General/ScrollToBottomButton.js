@@ -18,7 +18,7 @@ class GeneralScrollToBottomButton extends Module {
       </ul>
     `,
       id: `stbb`,
-      load: this.stbb,
+      load: this.stbb.bind(this),
       name: `Scroll To Bottom Button`,
       options: {
         title: `Show in:`,

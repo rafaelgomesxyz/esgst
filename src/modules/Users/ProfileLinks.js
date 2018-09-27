@@ -39,7 +39,7 @@ class UsersProfileLinks extends Module {
         }
       },
       id: `pl`,
-      load: this.pl,
+      load: this.pl.bind(this),
       name: `Profile Links`,
       sg: true,
       type: `users`

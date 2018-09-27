@@ -17,7 +17,7 @@ class GiveawaysSteamActivationLinks extends Module {
       </ul>
     `,
       id: `sal`,
-      load: this.sal,
+      load: this.sal.bind(this),
       name: `Steam Activation Links`,
       options: {
         title: `Show links to:`,

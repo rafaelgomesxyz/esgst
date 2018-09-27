@@ -35,7 +35,7 @@ class GiveawaysGridView extends Module {
         }
       },
       id: `gv`,
-      load: this.gv,
+      load: this.gv.bind(this),
       name: `Grid View`,
       sg: true,
       type: `giveaways`

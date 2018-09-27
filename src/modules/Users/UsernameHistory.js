@@ -26,7 +26,7 @@ class UsersUsernameHistory extends Module {
       </ul>
     `,
       id: `uh`,
-      load: this.uh,
+      load: this.uh.bind(this),
       name: `Username History`,
       sg: true,
       type: `users`

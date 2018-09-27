@@ -13,7 +13,7 @@ class GeneralAttachedImageLoader extends Module {
       </ul>
     `,
       id: `ail`,
-      load: this.ail,
+      load: this.ail.bind(this),
       name: `Attached Image Loader`,
       sg: true,
       st: true,

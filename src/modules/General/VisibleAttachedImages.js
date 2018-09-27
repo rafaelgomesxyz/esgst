@@ -20,7 +20,7 @@ class GeneralVisibleAttachedImages extends Module {
         }
       },
       id: `vai`,
-      load: this.vai,
+      load: this.vai.bind(this),
       name: `Visible Attached Images`,
       sg: true,
       st: true,
