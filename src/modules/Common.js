@@ -8980,7 +8980,7 @@ class Common extends Module {
             headers: {
               authorization: `Bearer ${value}`,
               [`Dropbox-API-Arg`]: this.esgst.backupZip ? `{"path": "/${name}.zip"}` : `{"path": "/${name}.json"}`,
-              [`Content-Type`]: this.esgst.backupZip ? `application/octet-stream` : `text/plain; charset=dropbox-cors-hack`
+              [`Content-Type`]: `application/octet-stream`
             },
             method: `POST`,
             url: `https://content.dropboxapi.com/2/files/upload`
