@@ -219,7 +219,25 @@ class Common extends Module {
 
     for (const key in modules) {
       const module = modules[key];
-      if ((!module.info.endless && !this.esgst[module.info.id]) || !module.info.load) {
+      if (!module.info.endless && !this.esgst[module.info.id]) {
+        continue;
+      }
+      if (module.info.featureMap) {
+        for (const type in module.info.featureMap) {
+          if (!module.info.featureMap.hasOwnProperty(type)) {
+            continue;
+          }
+          const map = module.info.featureMap[type];
+          if (Array.isArray(map)) {
+            for (const item of map) {
+              this.esgst[`${type}Features`].push(module[item]);
+            }
+          } else {
+            this.esgst[`${type}Features`].push(module[map]);
+          }
+        }
+      }
+      if (!module.info.load) {
         continue;
       }
       try {
@@ -3484,7 +3502,7 @@ class Common extends Module {
       if (preset) {
         const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
         (await this.esgst.modules.discussions.discussions_get(rows[0], true)).forEach(discussion => {
-          if (!this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, discussion, preset.rules)) {
+          if (!this.esgst.modules.filters.filters_filterItem(`df`, filters, discussion, preset.rules)) {
             discussion.outerWrap.remove();
             filteredDiscussions += 1;
           } else {
@@ -3492,7 +3510,7 @@ class Common extends Module {
           }
         });
         (await this.esgst.modules.discussions.discussions_get(rows[1], true)).forEach(deal => {
-          if (!this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, deal, preset.rules)) {
+          if (!this.esgst.modules.filters.filters_filterItem(`df`, filters, deal, preset.rules)) {
             deal.outerWrap.remove();
             filteredDeals += 1;
           } else {
@@ -3532,7 +3550,7 @@ class Common extends Module {
       const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
       let i = revisedElements.length - (numDiscussions + filteredDiscussions + 1);
       while (numDiscussions < 5 && i > -1) {
-        if (!preset || this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, revisedElements[i], preset.rules)) {
+        if (!preset || this.esgst.modules.filters.filters_filterItem(`df`, filters, revisedElements[i], preset.rules)) {
           this.setMissingDiscussion(revisedElements[i]);
           rows[0].appendChild(revisedElements[i].outerWrap);
           numDiscussions += 1;
@@ -3542,7 +3560,7 @@ class Common extends Module {
       let elements = await this.esgst.modules.discussions.discussions_get(response2Html, true);
       i = elements.length - (numDeals + filteredDeals + 1);
       while (numDeals < 5 && i > -1) {
-        if (!preset || this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, elements[i], preset.rules)) {
+        if (!preset || this.esgst.modules.filters.filters_filterItem(`df`, filters, elements[i], preset.rules)) {
           this.setMissingDiscussion(elements[i]);
           rows[1].appendChild(elements[i].outerWrap);
           numDeals += 1;

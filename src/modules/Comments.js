@@ -12,12 +12,10 @@ class Comments extends Module {
     this.info = {
       endless: true,
       id: `comments`,
-      load: this.comments
+      featureMap: {
+        endless: `comments_load`
+      }
     };
-  }
-
-  comments() {
-    this.esgst.endlessFeatures.push(this.comments_load.bind(this));
   }
 
   async comments_load(context, main, source, endless, mainEndless) {
@@ -32,7 +30,7 @@ class Comments extends Module {
     }
     if (!main || this.esgst.commentsPath || this.esgst.inboxPath) {
       if (this.esgst.cf && this.esgst.cf.filteredCount && this.esgst[`cf_enable${this.esgst.cf.type}`]) {
-        this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.cf, false, endless);
+        this.esgst.modules.filters.filters_filter(this.esgst.cf, false, endless);
       }
     }
     if (this.esgst.ct) {

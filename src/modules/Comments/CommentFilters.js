@@ -98,12 +98,12 @@ class CommentsCommentFilters extends Module {
       `);
       if (this.esgst.hideButtons && this.esgst.hideButtons_cf) {
         if (this.esgst.leftButtonIds.indexOf(`cf`) > -1) {
-          this.esgst.leftButtons.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
+          this.esgst.leftButtons.insertBefore(this.esgst.modules.filters.filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          this.esgst.rightButtons.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`cf`, this.esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(this.esgst.modules.filters.filters_addContainer(`cf`, this.esgst.mainPageHeading));
         }
       } else {
-        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.filters.filters_addContainer(`cf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
   }

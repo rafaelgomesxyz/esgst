@@ -402,7 +402,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this, obj, items, key)
+            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this.esgst.modules.tags, obj, items, key)
           },
           {
             check: this.esgst.wbc,

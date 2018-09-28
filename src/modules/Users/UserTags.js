@@ -31,7 +31,7 @@ class UsersUserTags extends Module {
   }
 
   ut() {
-    this.esgst.userFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this, `ut`));
+    this.esgst.userFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `ut`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`ut`);
   }

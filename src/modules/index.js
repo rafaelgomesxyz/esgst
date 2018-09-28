@@ -144,6 +144,7 @@ import Profile from './Profile';
 import EndlessLoad from './EndlessLoad';
 import GeneralQuickInboxView from './General/QuickInboxView';
 import GeneralEndlessScrolling from './General/EndlessScrolling';
+import Filters from './Filters';
 import Tags from './Tags';
 
 let
@@ -292,6 +293,7 @@ let
   endlessLoad = new EndlessLoad,
   generalQuickInboxView = new GeneralQuickInboxView,
   generalEndlessScrolling = new GeneralEndlessScrolling,
+  filters = new Filters,
   tags = new Tags
 ;
 
@@ -442,5 +444,6 @@ export default {
   endlessLoad,
   generalQuickInboxView,
   generalEndlessScrolling,
+  filters,
   tags
 };

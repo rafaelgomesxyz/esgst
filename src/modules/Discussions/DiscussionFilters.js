@@ -235,12 +235,12 @@ class DiscussionsDiscussionFilters extends Module {
       `);
       if (this.esgst.hideButtons && this.esgst.hideButtons_df) {
         if (this.esgst.leftButtonIds.indexOf(`df`) > -1) {
-          this.esgst.leftButtons.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
+          this.esgst.leftButtons.insertBefore(this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
         } else {
-          this.esgst.rightButtons.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`df`, this.esgst.mainPageHeading));
+          this.esgst.rightButtons.appendChild(this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading));
         }
       } else {
-        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
       }
     }
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.adots || this.esgst.oadd) return;

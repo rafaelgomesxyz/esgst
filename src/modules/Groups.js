@@ -6,12 +6,10 @@ class Groups extends Module {
     this.info = {
       endless: true,
       id: `groups`,
-      load: this.groups
+      featureMap: {
+        endless: `groups_load`
+      }
     };
-  }
-
-  groups() {
-    this.esgst.endlessFeatures.push(this.groups_load.bind(this));
   }
 
   async groups_load(mainContext, main, source, endless) {

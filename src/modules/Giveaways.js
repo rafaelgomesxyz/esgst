@@ -17,12 +17,10 @@ class Giveaways extends Module {
     this.info = {
       endless: true,
       id: `giveaways`,
-      load: this.giveaways
+      featureMap: {
+        endless: `giveaways_load`
+      }
     };
-  }
-
-  giveaways() {
-    this.esgst.endlessFeatures.push(this.giveaways_load.bind(this));
   }
 
   async giveaways_load(context, main, source, endless) {
@@ -50,10 +48,10 @@ class Giveaways extends Module {
       sortContent(this.esgst[this.esgst.gas.mainKey], this.esgst.gas.mainKey, this.esgst[this.esgst.gas.optionKey]);
     }
     if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
-      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
+      this.esgst.modules.filters.filters_filter(this.esgst.gf, false, endless);
     }
     if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
-      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
+      this.esgst.modules.filters.filters_filter(this.esgst.gfPopup);
     }
     if (this.esgst.mm_enableGiveaways && this.esgst.mm_enable) {
       this.esgst.mm_enable(this.esgst[main ? `mainGiveaways` : `popupGiveaways`], `Giveaways`);
@@ -460,7 +458,7 @@ class Giveaways extends Module {
             type: `i`
           }]
         }]);
-        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this, button, giveaway));
+        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.giveawaysGiveawayRecreator.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway));
       }
     }
     let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);

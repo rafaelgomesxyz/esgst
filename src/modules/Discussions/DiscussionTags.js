@@ -28,7 +28,7 @@ class DiscussionsDiscussionTags extends Module {
   }
 
   dt() {
-    this.esgst.discussionFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this, `dt`));
+    this.esgst.discussionFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `dt`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`dt`);
   }

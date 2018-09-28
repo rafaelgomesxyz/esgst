@@ -14,12 +14,10 @@ class Discussions extends Module {
     this.info = {
       endless: true,
       id: `discussions`,
-      load: this.discussions
+      featureMap: {
+        endless: `discussions_load`
+      }
     };
-  }
-
-  discussions() {
-    this.esgst.endlessFeatures.push(this.discussions_load.bind(this));
   }
 
   async discussions_load(context, main, source, endless) {
@@ -38,7 +36,7 @@ class Discussions extends Module {
     }
     if (!main || this.esgst.discussionsPath) {
       if (this.esgst.df && this.esgst.df.filteredCount && this.esgst[`df_enable${this.esgst.df.type}`]) {
-        this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.df, false, endless);
+        this.esgst.modules.filters.filters_filter(this.esgst.df, false, endless);
       }
       if (this.esgst.ds && this.esgst.ds_auto) {
         sortContent(this.esgst.mainDiscussions, null, this.esgst.ds_option);
