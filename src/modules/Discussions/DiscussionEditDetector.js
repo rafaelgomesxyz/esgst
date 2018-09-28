@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -69,7 +69,7 @@ class DiscussionsDiscussionEditDetector extends Module {
       },
       type: `div`
     }]);
-    obj.set = new ButtonSet_v2({
+    obj.set = new ButtonSet({
       color1: `grey`,
       color2: `grey`,
       icon1: `fa-send`,

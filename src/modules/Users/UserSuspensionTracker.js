@@ -138,7 +138,12 @@ class UsersUserSuspensionTracker extends Module {
       this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     }
     this.esgst.ustCheckboxes = [];
-    new Popup(``, `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`, true).open();
+    new Popup({
+      addScrollable: true,
+      icon: ``,
+      isTemp: true,
+      title: `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ` Try sending the tickets that failed again later.` : ``}`
+    }).open();
   }
 
   async ust_check(code, obj) {
@@ -176,7 +181,12 @@ class UsersUserSuspensionTracker extends Module {
       tickets[code].sent = 1;
       await setValue(`tickets`, JSON.stringify(tickets));
       this.esgst.ustButton.remove();
-      new Popup(``, `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`, true).open();
+      new Popup({
+        addScrollable: true,
+        icon: ``,
+        isTemp: true,
+        title: `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`
+      }).open();
     } else {
       createElements(this.esgst.ustButton, `inner`, [{
         attributes: {
@@ -185,7 +195,12 @@ class UsersUserSuspensionTracker extends Module {
         type: `i`
       }]);
       this.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
-      new Popup(``, `An error occurred. Please try again later.`, true).open();
+      new Popup({
+        addScrollable: true,
+        icon: ``,
+        isTemp: true,
+        title: `An error occurred. Please try again later.`
+      }).open();
     }
   }
 

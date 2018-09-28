@@ -1,4 +1,4 @@
-import Popup_v2 from './Popup_v2';
+import Popup from './Popup';
 import {utils} from '../lib/jsUtils';
 import {common} from '../modules/Common';
 import esgst from './Esgst';
@@ -47,7 +47,7 @@ export default class Process {
         callback2: this.stop.bind(this)
       }
     ];
-    this.popup = new Popup_v2(this.popupDetails);
+    this.popup = new Popup(this.popupDetails);
     this.popup.open();
     if (this.urls) {
       this.index = 0;

@@ -1,10 +1,8 @@
 import {container} from '../class/Container';
 import Module from '../class/Module'
 import ButtonSet from '../class/ButtonSet';
-import ButtonSet_v2 from '../class/ButtonSet_v2';
 import Popout from '../class/Popout';
 import Popup from '../class/Popup';
-import Popup_v2 from '../class/Popup_v2';
 import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
 import JSZip from 'jszip';
@@ -1180,16 +1178,18 @@ class Common extends Module {
 
   showPatreonNotice() {
     if (!this.esgst.storage.patreonNotice) {
-      const popup = new Popup(`fa-dollar`, [{
-        text: `Hi! ESGST now has a Patreon page. If you want to support ESGST, please check it out: `,
-        type: `node`
-      }, {
-        attributes: {
-          href: `https://www.patreon.com/gsrafael01`
-        },
-        text: `https://www.patreon.com/gsrafael01`,
-        type: `a`
-      }], true);
+      const popup = new Popup({
+        addScrollable: true, icon: `fa-dollar`, isTemp: true, title: [{
+          text: `Hi! ESGST now has a Patreon page. If you want to support ESGST, please check it out: `,
+          type: `node`
+        }, {
+          attributes: {
+            href: `https://www.patreon.com/gsrafael01`
+          },
+          text: `https://www.patreon.com/gsrafael01`,
+          type: `a`
+        }]
+      });
       popup.onClose = this.setValue.bind(this, `patreonNotice`, true);
       popup.open();
     }
@@ -1202,15 +1202,17 @@ class Common extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
         this.esgst.dismissedOptions = this.esgst.toDismiss;
-        let popup = new Popup(`fa-smile-o`, [{
-          attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
-          },
-          type: `i`
-        }, {
-          text: ` Hi! ESGST is getting things ready for you. This will not take long...`,
-          type: `node`
-        }], true);
+        let popup = new Popup({
+          addScrollable: true, icon: `fa-smile-o`, isTemp: true, title: [{
+            attributes: {
+              class: `fa fa-circle-o-notch fa-spin`
+            },
+            type: `i`
+          }, {
+            text: ` Hi! ESGST is getting things ready for you. This will not take long...`,
+            type: `node`
+          }]
+        });
         popup.open();
         await this.checkSync(true, true);
         this.createElements(popup.title, `inner`, [{
@@ -1248,20 +1250,22 @@ class Common extends Module {
       for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--) {
       }
       if (i < 0 || !this.esgst.groups[i] || !this.esgst.groups[i].member) {
-        let popup = new Popup(`fa-steam`, [{
-          text: `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-bold`,
-            href: `http://steamcommunity.com/groups/esgst`
-          },
-          text: `Steam group`,
-          type: `a`
-        }, {
-          text: ` page, then another request from the settings menu (last button in the heading). Have a good day. :)`,
-          type: `node`
-        }]);
+        let popup = new Popup({
+          addScrollable: true, icon: `fa-steam`, isTemp: true, title: [{
+            text: `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the `,
+            type: `node`
+          }, {
+            attributes: {
+              class: `esgst-bold`,
+              href: `http://steamcommunity.com/groups/esgst`
+            },
+            text: `Steam group`,
+            type: `a`
+          }, {
+            text: ` page, then another request from the settings menu (last button in the heading). Have a good day. :)`,
+            type: `node`
+          }]
+        });
         this.createElements(popup.description, `beforeEnd`, [{
           attributes: {
             class: `esgst-description`
@@ -1288,7 +1292,12 @@ class Common extends Module {
 
   async addGiveawayToStorage() {
     let giveaway, ggiveaways, i, key, n, popup, ugd, user;
-    popup = new Popup(`fa-circle-o-notch fa-spin`, `Please wait... ESGST is adding this giveaway to the storage...`, true);
+    popup = new Popup({
+      addScrollable: true,
+      icon: `fa-circle-o-notch fa-spin`,
+      isTemp: true,
+      title: `Please wait... ESGST is adding this giveaway to the storage...`
+    });
     popup.open();
     let giveaways = await this.esgst.modules.giveaways.giveaways_get(document, true, location.href);
     if (giveaways.length) {
@@ -2278,7 +2287,12 @@ class Common extends Module {
     if (this.esgst.firstInstall) {
       await this.sync(syncer);
     } else if (syncer.autoSync || mainCallback || parameters) {
-      syncer.popup = new Popup(parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`, parameters ? `ESGST is syncing your data... ${this.esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}` : `Sync`, !this.esgst.minimizePanel);
+      syncer.popup = new Popup({
+        addScrollable: true,
+        icon: parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`,
+        settings: !this.esgst.minimizePanel,
+        title: parameters ? `ESGST is syncing your data... ${this.esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}` : `Sync`
+      });
       if (!syncer.autoSync && !parameters) {
         this.createElements(syncer.popup.description, `afterBegin`, [{
           attributes: {
@@ -2315,9 +2329,33 @@ class Common extends Module {
             type: `span`
           }]
         }]);
-        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, this.selectSwitches.bind(this, syncer.switches, `enable`, group)).set);
-        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, this.selectSwitches.bind(this, syncer.switches, `disable`, group)).set);
-        group.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, this.selectSwitches.bind(this, syncer.switches, `toggle`, group)).set);
+        group.appendChild(new ButtonSet({
+          color1: `grey`,
+          color2: `grey`,
+          icon1: `fa-square`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `All`,
+          title2: ``,
+          callback1: this.selectSwitches.bind(this, syncer.switches, `enable`, group)
+        }).set);
+        group.appendChild(new ButtonSet({
+          color1: `grey`,
+          color2: `grey`,
+          icon1: `fa-square-o`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `None`,
+          title2: ``,
+          callback1: this.selectSwitches.bind(this, syncer.switches, `disable`, group)
+        }).set);
+        group.appendChild(new ButtonSet({
+          color1: `grey`,
+          color2: `grey`,
+          icon1: `fa-plus-square-o`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Inverse`,
+          title2: ``,
+          callback1: this.selectSwitches.bind(this, syncer.switches, `toggle`, group)
+        }).set);
       }
       syncer.progress = this.createElements(syncer.popup.description, `beforeEnd`, [{
         attributes: {
@@ -2329,7 +2367,7 @@ class Common extends Module {
         type: `div`
       }]);
       if (!parameters) {
-        syncer.set = new ButtonSet_v2({
+        syncer.set = new ButtonSet({
           color1: `green`,
           color2: `grey`,
           icon1: `fa-refresh`,
@@ -3386,7 +3424,7 @@ class Common extends Module {
       return;
     }
     document.body.appendChild(popup);
-    new Popup(null, null, true, false, popup).open();
+    new Popup({addScrollable: true, icon: ``, isTemp: true, title: ``, popup: popup}).open();
     if (!this.esgst.st) {
       return;
     }
@@ -3608,7 +3646,7 @@ class Common extends Module {
       fixed = this.esgst.mainContext.firstElementChild;
       Container = fixed.nextElementSibling;
     } else {
-      popup = new Popup(`fa-gear`, `Settings`, true, true);
+      popup = new Popup({addScrollable: true, icon: `fa-gear`, isTemp: true, settings: true, title: `Settings`});
       popup.description.classList.add(`esgst-text-left`);
       fixed = popup.description;
       Container = popup.scrollable;
@@ -3884,7 +3922,7 @@ class Common extends Module {
     if (!tab) {
       popup.open();
       if (this.esgst.firstInstall) {
-        let pp = new Popup(`fa-check`, `Getting Started`, true);
+        let pp = new Popup({addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started`});
         this.createElements(pp.scrollable, `inner`, [{
           attributes: {
             class: `esgst-bold`
@@ -3981,7 +4019,7 @@ class Common extends Module {
       excludeItems: [],
       includeItems: [],
       name: name,
-      popup: new Popup(`fa-gear`, `[${name.toUpperCase()}] ${feature.name}`)
+      popup: new Popup({addScrollable: true, icon: `fa-gear`, title: `[${name.toUpperCase()}] ${feature.name}`})
     };
     obj.popup.description.classList.add(`esgst-text-left`);
     obj.include = this.createElements(obj.popup.scrollable, `beforeEnd`, [{
@@ -4008,7 +4046,7 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    group.appendChild(new ButtonSet_v2({
+    group.appendChild(new ButtonSet({
       color1: `grey`,
       color2: ``,
       icon1: `fa-plus-circle`,
@@ -4017,7 +4055,7 @@ class Common extends Module {
       title2: ``,
       callback1: this.addPath.bind(this, `include`, obj, {enabled: 1, pattern: ``})
     }).set);
-    group.appendChild(new ButtonSet_v2({
+    group.appendChild(new ButtonSet({
       color1: `grey`,
       color2: ``,
       icon1: `fa-plus-circle`,
@@ -4053,7 +4091,7 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    group.appendChild(new ButtonSet_v2({
+    group.appendChild(new ButtonSet({
       color1: `grey`,
       color2: ``,
       icon1: `fa-plus-circle`,
@@ -4062,7 +4100,7 @@ class Common extends Module {
       title2: ``,
       callback1: this.addPath.bind(this, `exclude`, obj, {enabled: 1, pattern: ``})
     }).set);
-    group.appendChild(new ButtonSet_v2({
+    group.appendChild(new ButtonSet({
       color1: `grey`,
       color2: ``,
       icon1: `fa-plus-circle`,
@@ -4074,7 +4112,7 @@ class Common extends Module {
         pattern: `^${this.escapeRegExp(location.pathname)}${this.escapeRegExp(location.search)}`
       })
     }).set);
-    obj.popup.description.appendChild(new ButtonSet_v2({
+    obj.popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check-circle`,
@@ -4204,7 +4242,12 @@ class Common extends Module {
             let setting = this.esgst.settings[`${Feature.conflicts[ci].id}_sg`];
             if ((setting.include && setting.enabled) || (!setting.include && setting)) {
               siwtchSg.disable();
-              new Popup(`fa-exclamation`, `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`, true).open();
+              new Popup({
+                addScrollable: true,
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`
+              }).open();
               ci = cn;
             }
           }
@@ -4259,7 +4302,12 @@ class Common extends Module {
             let setting = this.esgst.settings[`${Feature.conflicts[ci].id}_st`];
             if ((setting.include && setting.enabled) || (!setting.include && setting)) {
               siwtchSt.disable();
-              new Popup(`fa-exclamation`, `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`, true).open();
+              new Popup({
+                addScrollable: true,
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`
+              }).open();
               ci = cn;
             }
           }
@@ -5447,7 +5495,7 @@ class Common extends Module {
   }
 
   readHrAudioFile(id, event) {
-    let popup = new Popup(`fa-circle-o-notch fa-spin`, `Uploading...`);
+    let popup = new Popup({addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: `Uploading...`});
     popup.open();
     try {
       let reader = new FileReader();
@@ -6105,7 +6153,7 @@ class Common extends Module {
   setSMManageFilteredGiveaways(SMManageFilteredGiveaways) {
     let gfGiveaways, giveaway, hidden, i, key, n, popup, set;
     SMManageFilteredGiveaways.addEventListener(`click`, () => {
-      popup = new Popup(`fa-gift`, `Hidden Giveaways`, true);
+      popup = new Popup({addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways`});
       hidden = [];
       for (key in this.esgst.giveaways) {
         if (this.esgst.giveaways.hasOwnProperty(key)) {
@@ -6141,17 +6189,25 @@ class Common extends Module {
         type: `div`
       }]);
       if (n > 0) {
-        set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
-          // noinspection JSIgnoredPromiseFromCall
-          this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
-            i = value;
-            if (i > n) {
-              set.set.remove();
-            } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-              set.trigger();
-            }
-            callback();
-          });
+        set = new ButtonSet({
+          color1: `green`,
+          color2: `grey`,
+          icon1: `fa-plus`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Load more...`,
+          title2: `Loading more...`,
+          callback1: callback => {
+            // noinspection JSIgnoredPromiseFromCall
+            this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
+              i = value;
+              if (i > n) {
+                set.set.remove();
+              } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+                set.trigger();
+              }
+              callback();
+            });
+          }
         });
         popup.description.appendChild(set.set);
         popup.open();
@@ -6197,7 +6253,7 @@ class Common extends Module {
 
   async openManageDiscussionTagsPopup() {
     let context, input, popup, savedDiscussion, savedDiscussions, discussions;
-    popup = new Popup(`fa-tags`, `Manage discussion tags:`, true);
+    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage discussion tags:`});
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -6275,7 +6331,7 @@ class Common extends Module {
 
   async openManageUserTagsPopup() {
     let context, input, popup, savedUser, savedUsers, users;
-    popup = new Popup(`fa-tags`, `Manage user tags:`, true);
+    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage user tags:`});
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -6358,7 +6414,7 @@ class Common extends Module {
 
   async openManageGameTagsPopup() {
     let context, games, input, popup, savedGame, savedGames;
-    popup = new Popup(`fa-tags`, `Manage game tags:`, true);
+    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage game tags:`});
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -6483,7 +6539,7 @@ class Common extends Module {
 
   async openManageGroupTagsPopup() {
     let context, input, popup, savedGroups, groups;
-    popup = new Popup(`fa-tags`, `Manage group tags:`, true);
+    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage group tags:`});
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -6558,7 +6614,7 @@ class Common extends Module {
 
   setSMRecentUsernameChanges(SMRecentUsernameChanges) {
     SMRecentUsernameChanges.addEventListener(`click`, async () => {
-      const popup = new Popup(`fa-comments`, `Recent Username Changes`);
+      const popup = new Popup({addScrollable: true, icon: `fa-comments`, title: `Recent Username Changes`});
       popup.progress = this.createElements(popup.description, `beforeEnd`, [{
         type: `div`,
         children: [{
@@ -6700,9 +6756,15 @@ class Common extends Module {
       context.innerHTML = ``;
     } else {
       if (dm.autoBackup) {
-        popup = new Popup(`fa-circle-o-notch fa-spin`, `ESGST is backing up your data... ${this.esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}`, !this.esgst.minimizePanel, true);
+        popup = new Popup({
+          addScrollable: true,
+          icon: `fa-circle-o-notch fa-spin`,
+          isTemp: true,
+          settings: !this.esgst.minimizePanel,
+          title: `ESGST is backing up your data... ${this.esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}`
+        });
       } else {
-        popup = new Popup(icon, title1, true, true);
+        popup = new Popup({addScrollable: true, icon: icon, isTemp: true, settings: true, title: title1});
       }
       popup.description.classList.add(`esgst-text-left`);
       context = popup.scrollable;
@@ -7062,9 +7124,33 @@ class Common extends Module {
           type: `span`
         }]
       }]);
-      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square`, `fa-circle-o-notch fa-spin`, `All`, ``, this.selectSwitches.bind(this, dm.switches, `enable`, group1)).set);
-      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-square-o`, `fa-circle-o-notch fa-spin`, `None`, ``, this.selectSwitches.bind(this, dm.switches, `disable`, group1)).set);
-      group1.appendChild(new ButtonSet(`grey`, `grey`, `fa-plus-square-o`, `fa-circle-o-notch fa-spin`, `Inverse`, ``, this.selectSwitches.bind(this, dm.switches, `toggle`, group1)).set);
+      group1.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-square`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `All`,
+        title2: ``,
+        callback1: this.selectSwitches.bind(this, dm.switches, `enable`, group1)
+      }).set);
+      group1.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-square-o`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `None`,
+        title2: ``,
+        callback1: this.selectSwitches.bind(this, dm.switches, `disable`, group1)
+      }).set);
+      group1.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-plus-square-o`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Inverse`,
+        title2: ``,
+        callback1: this.selectSwitches.bind(this, dm.switches, `toggle`, group1)
+      }).set);
       group2 = this.createElements(container, `beforeEnd`, [{
         attributes: {
           class: `esgst-button-group`
@@ -7075,34 +7161,66 @@ class Common extends Module {
           type: `span`
         }]
       }]);
-      group2.appendChild(new ButtonSet(`green`, `grey`, `fa-desktop`, `fa-circle-o-notch fa-spin`, `Computer`, title2, callback => {
-        onClick(dm, false, false, false, false, () => {
-          // noinspection JSIgnoredPromiseFromCall
-          this.manageData(dm, false, false, false, true);
-          callback();
-        });
+      group2.appendChild(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-desktop`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Computer`,
+        title2: title2,
+        callback1: callback => {
+          onClick(dm, false, false, false, false, () => {
+            // noinspection JSIgnoredPromiseFromCall
+            this.manageData(dm, false, false, false, true);
+            callback();
+          });
+        }
       }).set);
       if (type !== `delete`) {
-        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-dropbox`, `fa-circle-o-notch fa-spin`, `Dropbox`, title2, callback => {
-          onClick(dm, true, false, false, false, () => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.manageData(dm, false, false, false, true);
-            callback();
-          });
+        group2.appendChild(new ButtonSet({
+          color1: `green`,
+          color2: `grey`,
+          icon1: `fa-dropbox`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Dropbox`,
+          title2: title2,
+          callback1: callback => {
+            onClick(dm, true, false, false, false, () => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.manageData(dm, false, false, false, true);
+              callback();
+            });
+          }
         }).set);
-        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-google`, `fa-circle-o-notch fa-spin`, `Google Drive`, title2, callback => {
-          onClick(dm, false, true, false, false, () => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.manageData(dm, false, false, false, true);
-            callback();
-          });
+        group2.appendChild(new ButtonSet({
+          color1: `green`,
+          color2: `grey`,
+          icon1: `fa-google`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Google Drive`,
+          title2: title2,
+          callback1: callback => {
+            onClick(dm, false, true, false, false, () => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.manageData(dm, false, false, false, true);
+              callback();
+            });
+          }
         }).set);
-        group2.appendChild(new ButtonSet(`green`, `grey`, `fa-windows`, `fa-circle-o-notch fa-spin`, `OneDrive`, title2, callback => {
-          onClick(dm, false, false, true, false, () => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.manageData(dm, false, false, false, true);
-            callback();
-          });
+        group2.appendChild(new ButtonSet({
+          color1: `green`,
+          color2: `grey`,
+          icon1: `fa-windows`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `OneDrive`,
+          title2: title2,
+          callback1: callback => {
+            onClick(dm, false, false, true, false, () => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.manageData(dm, false, false, false, true);
+              callback();
+            });
+          }
         }).set);
       }
       if (!openInTab) {
@@ -7115,7 +7233,7 @@ class Common extends Module {
   }
 
   loadDataCleaner() {
-    let popup = new Popup(`fa-paint-brush`, `Clean old data:`);
+    let popup = new Popup({addScrollable: true, icon: `fa-paint-brush`, title: `Clean old data:`});
     this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-bold esgst-description esgst-red`
@@ -7208,7 +7326,7 @@ class Common extends Module {
       type: `node`
     }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
     new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, this.esgst.cleanDuplicates);
-    popup.description.appendChild(new ButtonSet_v2({
+    popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check`,
@@ -7555,7 +7673,7 @@ class Common extends Module {
         }
         await this.setValues(toSave);
         const newSize = await this.manageData(dm, false, false, false, true);
-        const successPopup = new Popup_v2({
+        const successPopup = new Popup({
           icon: `fa-check`,
           title: [{
             text: `Success! The selected data was cleaned.`,
@@ -8782,7 +8900,11 @@ class Common extends Module {
   }
 
   getDataSizes(dm) {
-    let spacePopup = new Popup(`fa-circle-o-notch fa-spin`, `Calculating data sizes...`);
+    let spacePopup = new Popup({
+      addScrollable: true,
+      icon: `fa-circle-o-notch fa-spin`,
+      title: `Calculating data sizes...`
+    });
     spacePopup.open(this.manageData.bind(this, dm, false, false, false, spacePopup));
   }
 
@@ -8879,7 +9001,12 @@ class Common extends Module {
         }
       } else {
         let canceled = true;
-        let popup = new Popup(`fa-dropbox`, `Select a file to restore:`, true);
+        let popup = new Popup({
+          addScrollable: true,
+          icon: `fa-dropbox`,
+          isTemp: true,
+          title: `Select a file to restore:`
+        });
         popup.onClose = () => {
           if (canceled) {
             callback();
@@ -8979,7 +9106,12 @@ class Common extends Module {
         }
       } else {
         let canceled = true;
-        let popup = new Popup(`fa-google`, `Select a file to restore:`, true);
+        let popup = new Popup({
+          addScrollable: true,
+          icon: `fa-google`,
+          isTemp: true,
+          title: `Select a file to restore:`
+        });
         popup.onClose = () => {
           if (canceled) {
             callback();
@@ -9067,7 +9199,12 @@ class Common extends Module {
         }
       } else {
         let canceled = true;
-        let popup = new Popup(`fa-windows`, `Select a file to restore:`, true);
+        let popup = new Popup({
+          addScrollable: true,
+          icon: `fa-windows`,
+          isTemp: true,
+          title: `Select a file to restore:`
+        });
         let entries = this.createElements(popup.scrollable, `beforeEnd`, [{
           attributes: {
             class: `popup__keys__list`
@@ -9251,7 +9388,7 @@ class Common extends Module {
       if (popup) {
         popup.open();
       } else {
-        popup = new Popup(`fa-eye-slash`, `Filtered Users`);
+        popup = new Popup({addScrollable: true, icon: `fa-eye-slash`, title: `Filtered Users`});
         let users = JSON.parse(await this.getValue(`users`));
         let filtered = [];
         for (let key in users.users) {
@@ -9386,27 +9523,43 @@ class Common extends Module {
         onChoice2();
       }
     } else {
-      let popup = new Popup(`fa-list`, title, true);
+      let popup = new Popup({addScrollable: true, icon: `fa-list`, isTemp: true, title: title});
       new ToggleSwitch(popup.description, `cfh_img_remember`, false, `Never ask again.`, false, false, `Remembers which option you choose forever.`, this.esgst.settings.cfh_img_remember);
-      popup.description.appendChild(new ButtonSet(choice1Color, ``, choice1Icon, ``, choice1Title, ``, callback => {
-        if (this.esgst.settings.cfh_img_remember) {
-          // noinspection JSIgnoredPromiseFromCall
-          this.setValue(`cfh_img_choice`, 1);
-          this.esgst.cfh_img_choice = 1;
+      popup.description.appendChild(new ButtonSet({
+        color1: choice1Color,
+        color2: ``,
+        icon1: choice1Icon,
+        icon2: ``,
+        title1: choice1Title,
+        title2: ``,
+        callback1: callback => {
+          if (this.esgst.settings.cfh_img_remember) {
+            // noinspection JSIgnoredPromiseFromCall
+            this.setValue(`cfh_img_choice`, 1);
+            this.esgst.cfh_img_choice = 1;
+          }
+          callback();
+          popup.close();
+          onChoice1();
         }
-        callback();
-        popup.close();
-        onChoice1();
       }).set);
-      popup.description.appendChild(new ButtonSet(choice2Color, ``, choice2Icon, ``, choice2Title, ``, callback => {
-        if (this.esgst.settings.cfh_img_remember) {
-          // noinspection JSIgnoredPromiseFromCall
-          this.setValue(`cfh_img_choice`, 2);
-          this.esgst.cfh_img_choice = 2;
+      popup.description.appendChild(new ButtonSet({
+        color1: choice2Color,
+        color2: ``,
+        icon1: choice2Icon,
+        icon2: ``,
+        title1: choice2Title,
+        title2: ``,
+        callback1: callback => {
+          if (this.esgst.settings.cfh_img_remember) {
+            // noinspection JSIgnoredPromiseFromCall
+            this.setValue(`cfh_img_choice`, 2);
+            this.esgst.cfh_img_choice = 2;
+          }
+          callback();
+          popup.close();
+          onChoice2();
         }
-        callback();
-        popup.close();
-        onChoice2();
       }).set);
       popup.open();
     }
@@ -12303,33 +12456,43 @@ class Common extends Module {
 
   hideGame(button, id, name, steamId, steamType) {
     let elements, i, popup;
-    popup = new Popup(`fa-eye-slash`, [{
-      text: `Would you like to hide all giveaways for `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-bold`
-      },
-      text: name,
-      type: `span`
-    }, {
-      text: `?`,
-      type: `node`
-    }], true);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, async callback => {
-      await this.request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
-        method: `POST`,
-        url: `/ajax.php`
-      });
-      await this.updateHiddenGames(steamId, steamType);
-      elements = document.querySelectorAll(`.giveaway__row-outer-wrap[data-game-id="${id}"]`);
-      for (i = elements.length - 1; i > -1; --i) {
-        elements[i].remove();
+    popup = new Popup({
+      addScrollable: true, icon: `fa-eye-slash`, title: [{
+        text: `Would you like to hide all giveaways for `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: name,
+        type: `span`
+      }, {
+        text: `?`,
+        type: `node`
+      }]
+    });
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check-circle`,
+      icon2: `fa-refresh fa-spin`,
+      title1: `Yes`,
+      title2: `Please wait...`,
+      callback1: async callback => {
+        await this.request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
+          method: `POST`,
+          url: `/ajax.php`
+        });
+        await this.updateHiddenGames(steamId, steamType);
+        elements = document.querySelectorAll(`.giveaway__row-outer-wrap[data-game-id="${id}"]`);
+        for (i = elements.length - 1; i > -1; --i) {
+          elements[i].remove();
+        }
+        button.remove();
+        callback();
+        popup.close();
       }
-      button.remove();
-      callback();
-      popup.close();
     }).set);
     this.createElements(popup.actions.firstElementChild, `outer`, [{
       attributes: {
@@ -12343,29 +12506,39 @@ class Common extends Module {
 
   unhideGame(button, id, name, steamId, steamType) {
     let popup;
-    popup = new Popup(`fa-eye-slash`, [{
-      text: `Would you like to unhide all giveaways for `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-bold`
-      },
-      text: name,
-      type: `span`
-    }, {
-      text: `?`,
-      type: `node`
-    }], true);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check-circle`, `fa-refresh fa-spin`, `Yes`, `Please wait...`, async callback => {
-      await this.request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${id}`,
-        method: `POST`,
-        url: `/ajax.php`
-      });
-      await this.updateHiddenGames(steamId, steamType, true);
-      button.remove();
-      callback();
-      popup.close();
+    popup = new Popup({
+      addScrollable: true, icon: `fa-eye-slash`, isTemp: true, title: [{
+        text: `Would you like to unhide all giveaways for `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: name,
+        type: `span`
+      }, {
+        text: `?`,
+        type: `node`
+      }]
+    });
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check-circle`,
+      icon2: `fa-refresh fa-spin`,
+      title1: `Yes`,
+      title2: `Please wait...`,
+      callback1: async callback => {
+        await this.request({
+          data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${id}`,
+          method: `POST`,
+          url: `/ajax.php`
+        });
+        await this.updateHiddenGames(steamId, steamType, true);
+        button.remove();
+        callback();
+        popup.close();
+      }
     }).set);
     this.createElements(popup.actions.firstElementChild, `outer`, [{
       attributes: {
@@ -12378,7 +12551,12 @@ class Common extends Module {
   }
 
   async requestGroupInvite() {
-    let popup = new Popup(`fa-circle-o-notch fa-spin`, `Sending request...`, true);
+    let popup = new Popup({
+      addScrollable: true,
+      icon: `fa-circle-o-notch fa-spin`,
+      isTemp: true,
+      title: `Sending request...`
+    });
     popup.open();
     if (this.esgst.username) {
       await this.request({
@@ -13807,7 +13985,7 @@ class Common extends Module {
       resolve(url);
       return;
     }
-    obj.popup = new Popup_v2({
+    obj.popup = new Popup({
       icon: `fa-gear`,
       title: `Select the options that you want:`,
       buttons: [
@@ -14019,21 +14197,25 @@ class Common extends Module {
 
   createAlert(message) {
     let popup;
-    popup = new Popup(`fa-exclamation`, message, true);
+    popup = new Popup({addScrollable: true, icon: `fa-exclamation`, isTemp: true, title: message});
     popup.open();
   }
 
   createConfirmation(message, onYes, onNo, event) {
     let callback, popup;
     callback = onNo;
-    popup = new Popup(`fa-question`, message, true);
-    popup.description.appendChild(new ButtonSet(`green`, ``, `fa-check`, ``, `Yes`, ``, () => {
-      callback = onYes;
-      popup.close();
+    popup = new Popup({addScrollable: true, icon: `fa-question`, isTemp: true, title: message});
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: () => {
+        callback = onYes;
+        popup.close();
+      }
     }).set);
-    popup.description.appendChild(new ButtonSet(`red`, ``, `fa-times`, ``, `No`, ``, () => {
-      callback = onNo;
-      popup.close();
+    popup.description.appendChild(new ButtonSet({
+      color1: `red`, color2: ``, icon1: `fa-times`, icon2: ``, title1: `No`, title2: ``, callback1: () => {
+        callback = onNo;
+        popup.close();
+      }
     }).set);
     popup.onClose = () => {
       if (callback) {
@@ -14801,7 +14983,7 @@ class Common extends Module {
       });
       index -= 1;
     }
-    const popup = new Popup(`fa-file-text-o`, `Changelog`, true);
+    const popup = new Popup({addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: `Changelog`});
     this.createElements(popup.scrollable, `afterBegin`, [{
       attributes: {
         class: `esgst-text-left markdown`

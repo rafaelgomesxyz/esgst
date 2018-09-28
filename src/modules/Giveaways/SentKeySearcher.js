@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {utils} from '../../lib/jsUtils';
@@ -44,7 +44,7 @@ class GiveawaysSentKeySearcher extends Module {
       sks.popup.open();
       return;
     }
-    sks.popup = new Popup(`fa-key`, `Search for keys:`);
+    sks.popup = new Popup({addScrollable: true, icon: `fa-key`, title: `Search for keys:`});
     sks.textArea = createElements(sks.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
@@ -123,7 +123,7 @@ class GiveawaysSentKeySearcher extends Module {
     sks.results = createElements(sks.popup.scrollable, `beforeEnd`, [{
       type: `div`
     }]);
-    sks.popup.description.appendChild(new ButtonSet_v2({
+    sks.popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-search`,

@@ -79,12 +79,12 @@ class CommentsCommentSearcher extends Module {
         addProgress: true,
         addScrollable: `left`
       },
-      init: this.cs_init,
+      init: this.cs_init.bind(this),
       requests: [
         {
           source: this.esgst.discussionPath,
           url: this.esgst.searchUrl,
-          request: this.cs_request
+          request: this.cs_request.bind(this)
         }
       ]
     });

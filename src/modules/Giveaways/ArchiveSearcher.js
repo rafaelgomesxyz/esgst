@@ -55,10 +55,10 @@ class GiveawaysArchiveSearcher extends Module {
         addProgress: true,
         addScrollable: `left`
       },
-      init: this.as_init,
+      init: this.as_init.bind(this),
       requests: [
         {
-          request: this.as_request
+          request: this.as_request.bind(this)
         }
       ]
     });

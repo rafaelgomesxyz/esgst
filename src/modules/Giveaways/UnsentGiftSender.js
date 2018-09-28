@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {utils} from '../../lib/jsUtils';
@@ -62,7 +62,7 @@ class GiveawaysUnsentGiftSender extends Module {
   ugs_openPopup(ugs) {
     let checkMemberSwitch, checkDifferenceSwitch;
     if (!ugs.popup) {
-      ugs.popup = new Popup(`fa-gift`, `Send unsent gifts:`);
+      ugs.popup = new Popup({addScrollable: true, icon: `fa-gift`, title: `Send unsent gifts:`});
       new ToggleSwitch(ugs.popup.description, `ugs_checkRules`, false, `Do not send if the winner has any not activated/multiple wins.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkRules);
       checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkMember);
       checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [{
@@ -181,7 +181,7 @@ class GiveawaysUnsentGiftSender extends Module {
       ugs.leftover = ugs.unsent.nextElementSibling;
       ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
       ugs.leftoverGifts = ugs.leftover.lastElementChild;
-      ugs.popup.description.appendChild(new ButtonSet_v2({
+      ugs.popup.description.appendChild(new ButtonSet({
         color1: `green`,
         color2: `red`,
         icon1: `fa-send`,

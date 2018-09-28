@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import Popup_v2 from '../../class/Popup_v2';
+import Popup from '../../class/Popup';
 import {common} from '../Common';
 
 const
@@ -47,7 +47,7 @@ class TradesHaveWantListChecker extends Module {
       obj.popup.open();
       return;
     }
-    obj.popup = new Popup_v2({
+    obj.popup = new Popup({
       icon: `fa-list`,
       title: `Have/Want List Checker`,
       addScrollable: `left`

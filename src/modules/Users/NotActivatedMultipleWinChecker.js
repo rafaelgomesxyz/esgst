@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
@@ -165,7 +165,11 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   namwc_setPopup(obj) {
-    obj.popup = new Popup(obj.isMenu ? `fa-cog` : `fa-question`, obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ``} not activated / multiple wins:`);
+    obj.popup = new Popup({
+      addScrollable: true,
+      icon: obj.isMenu ? `fa-cog` : `fa-question`,
+      title: obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ``} not activated / multiple wins:`
+    });
     if (!obj.isMenu) {
       createElements(obj.popup.scrollable, `beforeBegin`, [{
         type: `div`
@@ -189,7 +193,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         text: `If a user is highlighted, that means that they have been either checked for the first time or updated`,
         type: `div`
       }]);
-      obj.popup.description.insertBefore(new ButtonSet_v2({
+      obj.popup.description.insertBefore(new ButtonSet({
         color1: `green`,
         color2: `grey`,
         icon1: `fa-question-circle`,

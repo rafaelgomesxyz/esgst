@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
@@ -99,7 +99,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     } else if (this.esgst.ged_t || (event && event.button === 1)) {
       open(`/esgst/decrypted-giveaways`);
     } else {
-      ged.popup = new Popup(`fa-star`, `Decrypted Giveaways`, true);
+      ged.popup = new Popup({addScrollable: true, icon: `fa-star`, isTemp: true, title: `Decrypted Giveaways`});
       ged.container = ged.popup.description;
       ged.context = ged.popup.scrollable;
       ged.popup.open();
@@ -138,7 +138,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       },
       type: `div`
     }]);
-    ged.set = new ButtonSet_v2({
+    ged.set = new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-plus`,

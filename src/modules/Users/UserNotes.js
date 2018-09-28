@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {common} from '../Common';
 
@@ -82,20 +82,22 @@ class UsersUserNotes extends Module {
 
   un_open(profile) {
     let set;
-    profile.unPopup = new Popup(`fa-sticky-note`, [{
-      text: `Edit user notes for `,
-      type: `node`
-    }, {
-      text: profile.name,
-      type: `span`
-    }, {
-      text: `:`,
-      type: `node`
-    }], true);
+    profile.unPopup = new Popup({
+      addScrollable: true, icon: `fa-sticky-note`, isTemp: true, title: [{
+        text: `Edit user notes for `,
+        type: `node`
+      }, {
+        text: profile.name,
+        type: `span`
+      }, {
+        text: `:`,
+        type: `node`
+      }]
+    });
     profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    set = new ButtonSet_v2({
+    set = new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check`,

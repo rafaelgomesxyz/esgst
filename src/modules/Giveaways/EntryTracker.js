@@ -126,7 +126,7 @@ class GiveawaysEntryTracker extends Module {
         };
       }
     }
-    let popup = new Popup(`fa-history`, `Entry Tracker`, true);
+    let popup = new Popup({addScrollable: true, icon: `fa-history`, isTemp: true, title: `Entry Tracker`});
     let rows = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left esgst-float-right table`,

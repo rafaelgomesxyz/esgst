@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import Popup_v2 from '../../class/Popup_v2';
+import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -359,7 +359,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   cewgd_openWinnersPopup(details) {
-    const popup = new Popup_v2({
+    const popup = new Popup({
       icon: `fa-users`,
       title: `Winners`,
       addScrollable: `left`

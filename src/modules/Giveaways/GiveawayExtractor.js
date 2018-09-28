@@ -119,7 +119,7 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       };
     } else {
-      ge.popup = new Popup(`fa-gift`, `Extracted giveaways:`);
+      ge.popup = new Popup({addScrollable: true, icon: `fa-gift`, title: `Extracted giveaways:`});
     }
     ge.results = createElements(ge.popup.scrollable, `beforeEnd`, [{
       attributes: {
@@ -144,40 +144,49 @@ class GiveawaysGiveawayExtractor extends Module {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
-    ge.set = new ButtonSet(`green`, `grey`, `fa-search`, `fa-times`, `Extract`, `Cancel`, callback => {
-      if (ge.callback) {
-        createElements(ge.results, `beforeEnd`, [{
-          type: `div`
-        }]);
-        ge.callback();
-      } else {
-        ge.isCanceled = false;
-        if (ge.button) {
-          ge.button.classList.add(`esgst-busy`);
+    ge.set = new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-search`,
+      icon2: `fa-times`,
+      title1: `Extract`,
+      title2: `Cancel`,
+      callback1: callback => {
+        if (ge.callback) {
+          createElements(ge.results, `beforeEnd`, [{
+            type: `div`
+          }]);
+          ge.callback();
+        } else {
+          ge.isCanceled = false;
+          if (ge.button) {
+            ge.button.classList.add(`esgst-busy`);
+          }
+          this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+            attributes: {
+              class: `fa fa-circle-o-notch fa-spin`
+            },
+            type: `i`
+          }, {
+            text: ge.total,
+            type: `span`
+          }, {
+            text: ` giveaways extracted.`,
+            type: `node`
+          }]);
+          createElements(ge.results, `beforeEnd`, [{
+            type: `div`
+          }]);
+          ge.mainCallback = callback;
+          let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
+          this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, callback));
         }
-        this.esgst.modules.common.createElements(ge.progress, `inner`, [{
-          attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
-          },
-          type: `i`
-        }, {
-          text: ge.total,
-          type: `span`
-        }, {
-          text: ` giveaways extracted.`,
-          type: `node`
-        }]);
-        createElements(ge.results, `beforeEnd`, [{
-          type: `div`
-        }]);
-        ge.mainCallback = callback;
-        let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
-        this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, callback));
+      },
+      callback2: () => {
+        ge.isCanceled = true;
+        // noinspection JSIgnoredPromiseFromCall
+        this.ge_completeExtraction(ge);
       }
-    }, () => {
-      ge.isCanceled = true;
-      // noinspection JSIgnoredPromiseFromCall
-      this.ge_completeExtraction(ge);
     });
     ge.popup.description.appendChild(ge.set.set);
     ge.progress = createElements(ge.popup.description, `beforeEnd`, [{

@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {utils} from '../../lib/jsUtils';
@@ -45,7 +45,7 @@ class GiveawaysHiddenGameRemover extends Module {
       hgr.popup.open();
       return;
     }
-    hgr.popup = new Popup(`fa-times`, `Remove hidden games:`);
+    hgr.popup = new Popup({addScrollable: true, icon: `fa-times`, title: `Remove hidden games:`});
     hgr.removed = createElements(hgr.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `markdown`
@@ -53,7 +53,7 @@ class GiveawaysHiddenGameRemover extends Module {
       type: `div`
     }]);
     new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, this.esgst.hgr_removeOwned);
-    hgr.popup.description.appendChild(new ButtonSet_v2({
+    hgr.popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-arrow-circle-right`,

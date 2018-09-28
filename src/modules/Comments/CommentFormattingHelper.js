@@ -1,9 +1,7 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
-import Popup_v2 from '../../class/Popup_v2';
 import {common} from '../Common';
 
 const
@@ -647,7 +645,7 @@ class CommentsCommentFormattingHelper extends Module {
               });
             } else {
               let emoji, emojis, filter, i;
-              popup = new Popup_v2({icon: `fa-smile-o`, title: `Select emojis:`, addScrollable: true});
+              popup = new Popup({icon: `fa-smile-o`, title: `Select emojis:`, addScrollable: true});
               filter = popup.getScrollable([{
                 attributes: {
                   placeholder: `Filter emojis...`,
@@ -965,7 +963,7 @@ class CommentsCommentFormattingHelper extends Module {
             if (popup) {
               popup.open();
             } else {
-              popup = new Popup(`fa-table`, `Add a table:`);
+              popup = new Popup({addScrollable: true, icon: `fa-table`, title: `Add a table:`});
               item.setPopup(popup);
               popup.open();
             }
@@ -5838,7 +5836,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_uploadImage(authorization, popout, url) {
     let input, popup, warning;
-    popup = new Popup(`fa-upload`, `Upload Image`, true);
+    popup = new Popup({addScrollable: true, icon: `fa-upload`, isTemp: true, title: `Upload Image`});
     input = createElements(popup.description, `beforeEnd`, [{
       attributes: {
         type: `file`
@@ -5851,29 +5849,37 @@ class CommentsCommentFormattingHelper extends Module {
       },
       type: `div`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-upload`, `fa-circle-o-notch fa-spin`, `Upload`, `Uploading...`, callback => {
-      let file = input.files[0];
-      if (file) {
-        if (file.type.match(/^image/)) {
-          if (file.size / 1024 / 1024 <= 10) {
-            let reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, callback);
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-upload`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Upload`,
+      title2: `Uploading...`,
+      callback1: callback => {
+        let file = input.files[0];
+        if (file) {
+          if (file.type.match(/^image/)) {
+            if (file.size / 1024 / 1024 <= 10) {
+              let reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, callback);
+            } else {
+              createFadeMessage(warning, `Image is larger than 10 MB!`);
+              callback();
+            }
           } else {
-            createFadeMessage(warning, `Image is larger than 10 MB!`);
+            createFadeMessage(warning, `File is not an image!`);
             callback();
           }
         } else {
-          createFadeMessage(warning, `File is not an image!`);
+          createFadeMessage(warning, `No file was loaded!`);
           callback();
         }
-      } else {
-        createFadeMessage(warning, `No file was loaded!`);
-        callback();
       }
     }).set);
     if (this.esgst.cfh_img_remember) {
-      popup.description.appendChild(new ButtonSet_v2({
+      popup.description.appendChild(new ButtonSet({
         color1: `grey`,
         color2: `grey`,
         icon1: `fa-rotate-left`,
@@ -6166,7 +6172,12 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_openReplyPopup(description, name, replies, summary) {
     let descriptionArea, nameArea, panel, popup;
-    popup = new Popup(`fa-floppy-o`, summary ? `Edit reply:` : `Save new reply:`, true);
+    popup = new Popup({
+      addScrollable: true,
+      icon: `fa-floppy-o`,
+      isTemp: true,
+      title: summary ? `Edit reply:` : `Save new reply:`
+    });
     createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
@@ -6242,7 +6253,15 @@ class CommentsCommentFormattingHelper extends Module {
     if (this.esgst.cfh) {
       this.cfh_addPanel(descriptionArea);
     }
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)).set);
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Save`,
+      title2: `Saving...`,
+      callback1: this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)
+    }).set);
     popup.open();
   }
 

@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import Popup_v2 from '../../class/Popup_v2';
+import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -46,7 +46,7 @@ class GiveawaysCommentEntryChecker extends Module {
       obj.popup.open();
       return;
     }
-    obj.popup = new Popup_v2({
+    obj.popup = new Popup({
       icon: `fa-question`,
       title: `Check Comments/Entries`,
       buttons: [

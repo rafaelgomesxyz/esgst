@@ -8,12 +8,12 @@ import 'webpack-jquery-ui';
 
 // jQuery QueryBuilder want global interact object
 import interact from 'interactjs/dist/interact.min';
+
 window.interact = interact;
 
 import 'jQuery-QueryBuilder/dist/js/query-builder.standalone.min';
 
 import Popup from './class/Popup';
-import Popup_v2 from './class/Popup_v2';
 import {utils} from './lib/jsUtils';
 import esgst from './class/Esgst';
 
@@ -255,7 +255,7 @@ import esgst from './class/Esgst';
             }
           ];
         }
-        new Popup_v2(details).open();
+        new Popup(details).open();
       };
       envFunctions.continueRequest = details =>
         new Promise(async resolve => {
@@ -690,7 +690,7 @@ import esgst from './class/Esgst';
         } else {
           message = `A new ESGST version is available.`;
         }
-        popup = new Popup(`fa-exclamation`, message, true);
+        popup = new Popup({addScrollable: true, icon: `fa-exclamation`, isTemp: true, title: message});
         common.createElements(popup.actions, `afterBegin`, [{
           text: `Update`,
           type: `span`

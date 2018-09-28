@@ -1,7 +1,6 @@
 import Module from '../../class/Module';
 import Button from '../../class/Button';
 import ButtonSet from '../../class/ButtonSet';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
@@ -217,7 +216,12 @@ class GiveawaysGiveawayBookmarks extends Module {
         if (this.esgst.gb_t || event.button === 1) {
           open(`/esgst/bookmarked-giveaways`);
         } else {
-          let popup = new Popup(`fa-bookmark`, `Bookmarked Giveaways`, true);
+          let popup = new Popup({
+            addScrollable: true,
+            icon: `fa-bookmark`,
+            isTemp: true,
+            title: `Bookmarked Giveaways`
+          });
           this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
         }
       });
@@ -234,19 +238,27 @@ class GiveawaysGiveawayBookmarks extends Module {
       },
       type: `div`
     }]);
-    let set = new ButtonSet(`green`, `grey`, `fa-plus`, `fa-circle-o-notch fa-spin`, `Load more...`, `Loading more...`, callback => {
-      // noinspection JSIgnoredPromiseFromCall
-      this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
-        i = value;
-        if (i > n) {
-          set.set.remove();
-        } else if (this.esgst.es_gb && context.scrollHeight <= context.offsetHeight) {
-          set.trigger();
-        }
-        callback();
-      });
+    let set = new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-plus`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Load more...`,
+      title2: `Loading more...`,
+      callback1: callback => {
+        // noinspection JSIgnoredPromiseFromCall
+        this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
+          i = value;
+          if (i > n) {
+            set.set.remove();
+          } else if (this.esgst.es_gb && context.scrollHeight <= context.offsetHeight) {
+            set.trigger();
+          }
+          callback();
+        });
+      }
     });
-    container.insertBefore(new ButtonSet_v2({
+    container.insertBefore(new ButtonSet({
       color1: `grey`,
       color2: ``,
       icon1: `fa-list`,
@@ -307,7 +319,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       gb.popup.open();
       return;
     }
-    gb.popup = new Popup(`fa-list`, `Bookmarked Giveaways (Raw List)`);
+    gb.popup = new Popup({addScrollable: true, icon: `fa-list`, title: `Bookmarked Giveaways (Raw List)`});
     for (const giveaway of gb.bookmarked) {
       const attributes = {
         class: `table__column__secondary-link`,

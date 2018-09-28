@@ -46,8 +46,8 @@ class GiveawaysGiveawayGroupLoader extends Module {
   ggl() {
     this.esgst.giveawayFeatures.push(
       (this.esgst.ggl_index === 0 ?
-        this.ggl_getGiveaways :
-        this.ggl_setButtons
+          this.ggl_getGiveaways :
+          this.ggl_setButtons
       ).bind(this)
     );
   }
@@ -122,13 +122,15 @@ class GiveawaysGiveawayGroupLoader extends Module {
             }
           } else {
             if (this.esgst.ggl_index === 3) {
-              context = new Popup(`fa-user`, [{
-                attributes: {
-                  href: `${giveaway.url}/groups`
-                },
-                text: `Giveaway Groups`,
-                type: `a`
-              }]);
+              context = new Popup({
+                addScrollable: true, icon: `fa-user`, title: [{
+                  attributes: {
+                    href: `${giveaway.url}/groups`
+                  },
+                  text: `Giveaway Groups`,
+                  type: `a`
+                }]
+              });
               container = context.scrollable;
               context.open();
             } else {

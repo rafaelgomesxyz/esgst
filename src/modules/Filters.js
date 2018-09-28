@@ -1,8 +1,7 @@
 import Module from '../class/Module';
-import ButtonSet_v2 from '../class/ButtonSet_v2';
+import ButtonSet from '../class/ButtonSet';
 import Checkbox from '../class/Checkbox';
 import Popup from '../class/Popup';
-import Popup_v2 from '../class/Popup_v2';
 import ToggleSwitch from '../class/ToggleSwitch';
 import {utils} from '../lib/jsUtils';
 import {common} from './Common';
@@ -302,7 +301,7 @@ class Filters extends Module {
 
     advancedFilters.previousElementSibling.addEventListener(`click`, this.filter_manual.bind(this, {}));
 
-    presetPanel.appendChild(new ButtonSet_v2({
+    presetPanel.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check`,
@@ -976,7 +975,7 @@ class Filters extends Module {
       obj.popup.open();
       return;
     }
-    obj.popup = new Popup_v2({
+    obj.popup = new Popup({
       icon: `fa-book`,
       title: `Advanced Filters Manual`,
       addScrollable: `left`
@@ -1751,7 +1750,7 @@ class Filters extends Module {
   }
 
   async filters_openPresetPopup(obj) {
-    const popup = new Popup(`fa-sliders`, `Manage presets:`, true);
+    const popup = new Popup({addScrollable: true, icon: `fa-sliders`, isTemp: true, title: `Manage presets:`});
     createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
