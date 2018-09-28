@@ -7,9 +7,8 @@ import 'jquery';
 import 'webpack-jquery-ui';
 
 // jQuery QueryBuilder want global interact object
-import interactFactory from 'interactjs/dist/interact.min';
-
-window.interact = interactFactory(window);
+import interact from 'interactjs/dist/interact.min';
+window.interact = interact;
 
 import 'jQuery-QueryBuilder/dist/js/query-builder.standalone.min';
 
