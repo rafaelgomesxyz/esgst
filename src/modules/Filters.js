@@ -8,7 +8,7 @@ import {utils} from '../lib/jsUtils';
 import {common} from './Common';
 
 const
-  isSet = utils.createElements.bind(utils),
+  isSet = utils.isSet.bind(utils),
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
