@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popout from '../../class/Popout';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
@@ -114,7 +114,7 @@ class DiscussionsDiscussionsSorter extends Module {
     options.value = this.esgst.ds_option;
     let callback = saveAndSortContent.bind(common, `ds_option`, `mainDiscussions`, options, null);
     options.addEventListener(`change`, callback);
-    obj.popout.popout.appendChild(new ButtonSet_v2({
+    obj.popout.popout.appendChild(new ButtonSet({
       color1: `green`,
       color2: ``,
       icon1: `fa-arrow-circle-right`,

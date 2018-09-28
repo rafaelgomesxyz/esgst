@@ -1,6 +1,6 @@
 import Module from '../class/Module';
 import Checkbox from '../class/Checkbox';
-import Popup_v2 from '../class/Popup_v2';
+import Popup from '../class/Popup';
 import {utils} from '../lib/jsUtils';
 import {common} from './Common';
 
@@ -251,7 +251,7 @@ class Tags extends Module {
     if (event) {
       event.stopPropagation();
     }
-    obj.popup = new Popup_v2({
+    obj.popup = new Popup({
       addScrollable: true,
       buttons: [{
         color1: `green`,
@@ -748,7 +748,7 @@ class Tags extends Module {
   }
 
   async tags_showTagList(obj) {
-    obj.listPopup = new Popup_v2({
+    obj.listPopup = new Popup({
       addScrollable: true,
       buttons: [{
         color1: `green`,

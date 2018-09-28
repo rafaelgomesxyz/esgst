@@ -27,14 +27,14 @@ class UsersWhitelistBlacklistManager extends Module {
       </ul>
     `,
       id: `wbm`,
-      load: this.wbm,
+      load: this.wbm_init,
       name: `Whitelist/Blacklist Manager`,
       sg: true,
       type: `users`
     };
   }
 
-  wbm() {
+  wbm_init() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
     let wbm = {};
     if (this.esgst.whitelistPath) {
@@ -54,7 +54,7 @@ class UsersWhitelistBlacklistManager extends Module {
 
   wbm_openPopup(wbm) {
     if (!wbm.popup) {
-      wbm.popup = new Popup(`fa-gear`, `Manage ${wbm.name}:`);
+      wbm.popup = new Popup({addScrollable: true, icon: `fa-gear`, title: `Manage ${wbm.name}:`});
       new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, this.esgst.wbm_useCache);
       new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [{
         text: `Only clear users who are tagged with these specific tags (separate with comma): `,
@@ -90,9 +90,36 @@ class UsersWhitelistBlacklistManager extends Module {
         },
         type: `div`
       }]);
-      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-up`, `fa-times`, `Import`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_importList.bind(this, wbm)), this.wbm_cancel.bind(this, wbm)).set);
-      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-down`, `fa-times`, `Export`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_exportList.bind(this, wbm, [], 1)), this.wbm_cancel.bind(this, wbm)).set);
-      wbm.popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-trash`, `fa-times`, `Clear`, `Cancel`, this.wbm_start.bind(this, wbm, this.wbm_clearList.bind(this, wbm, [], 1)), this.wbm_cancel.bind(this, wbm)).set);
+      wbm.popup.description.appendChild(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-arrow-up`,
+        icon2: `fa-times`,
+        title1: `Import`,
+        title2: `Cancel`,
+        callback1: this.wbm_start.bind(this, wbm, this.wbm_importList.bind(this, wbm)),
+        callback2: this.wbm_cancel.bind(this, wbm)
+      }).set);
+      wbm.popup.description.appendChild(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-arrow-down`,
+        icon2: `fa-times`,
+        title1: `Export`,
+        title2: `Cancel`,
+        callback1: this.wbm_start.bind(this, wbm, this.wbm_exportList.bind(this, wbm, [], 1)),
+        callback2: this.wbm_cancel.bind(this, wbm)
+      }).set);
+      wbm.popup.description.appendChild(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-trash`,
+        icon2: `fa-times`,
+        title1: `Clear`,
+        title2: `Cancel`,
+        callback1: this.wbm_start.bind(this, wbm, this.wbm_clearList.bind(this, wbm, [], 1)),
+        callback2: this.wbm_cancel.bind(this, wbm)
+      }).set);
       wbm.results = createElements(wbm.popup.scrollable, `beforeEnd`, [{
         type: `div`
       }]);

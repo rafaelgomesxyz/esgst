@@ -68,10 +68,10 @@ class CommentsCommentHistory extends Module {
       },
       urls: {
         id: `ch`,
-        init: this.ch_initUrls,
+        init: this.ch_initUrls.bind(this),
         perLoad: 5,
         request: {
-          request: this.ch_requestUrl
+          request: this.ch_requestUrl.bind(this)
         }
       }
     });

@@ -279,9 +279,9 @@ class UsersUserGiveawayData extends Module {
       requests: [
         {
           url: `/user/${user.username}${key === `won` ? `/giveaways/won` : ``}/search?page=`,
-          request: this.ugd_requestGiveaways
+          request: this.ugd_requestGiveaways.bind(this)
         },
-        this.ugd_requestGiveawaysDone
+        this.ugd_requestGiveawaysDone.bind(this)
       ]
     };
     return new Process(details);

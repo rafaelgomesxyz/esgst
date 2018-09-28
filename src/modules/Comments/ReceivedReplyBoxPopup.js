@@ -41,18 +41,26 @@ class CommentsReceivedReplyBoxPopup extends Module {
 
   rrbp_openPopup(giveaway) {
     let popup, progress, textArea;
-    popup = new Popup(`fa-comment`, `Add a comment:`);
+    popup = new Popup({addScrollable: true, icon: `fa-comment`, title: `Add a comment:`});
     textArea = createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
     if (this.esgst.cfh) {
       this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
     }
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, callback => {
-      progress.innerHTML = ``;
-      saveComment(``, ``, textArea.value, giveaway.url, progress, callback, () => {
-        popup.close();
-      });
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Save`,
+      title2: `Saving...`,
+      callback1: callback => {
+        progress.innerHTML = ``;
+        saveComment(``, ``, textArea.value, giveaway.url, progress, callback, () => {
+          popup.close();
+        });
+      }
     }).set);
     progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
     popup.open(() => {

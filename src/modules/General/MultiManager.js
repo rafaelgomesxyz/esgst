@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Checkbox from '../../class/Checkbox';
 import Popout from '../../class/Popout';
 import Process from '../../class/Process';
@@ -462,7 +462,7 @@ class GeneralMultiManager extends Module {
       let buttons = sections[key][i].concat(section.buttons);
       buttons.forEach(button => {
         if (!button.check) return;
-        let element = new ButtonSet_v2(button).set;
+        let element = new ButtonSet(button).set;
         if (group.children.length === 4) {
           group = createElements(context, `beforeEnd`, [{
             attributes: {
@@ -529,9 +529,9 @@ class GeneralMultiManager extends Module {
               arguments: [items],
               doNotTrigger: true,
               id: `mm`,
-              init: this.mm_initUrls,
+              init: this.mm_initUrls.bind(this),
               request: {
-                request: this.mm_getSearchReplaceUrlRequest
+                request: this.mm_getSearchReplaceUrlRequest.bind(this)
               },
               restart: true
             }
@@ -652,7 +652,7 @@ class GeneralMultiManager extends Module {
       },
       type: `div`
     }]);
-    context.appendChild(new ButtonSet_v2({
+    context.appendChild(new ButtonSet({
       color1: `grey`, color2: `grey`,
       icon1: `fa-copy`, icon2: `fa-circle-o-notch fa-spin`,
       title1: `Copy`, title2: `Copying...`,

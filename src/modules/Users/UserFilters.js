@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
@@ -89,23 +89,25 @@ class UsersUserFilters extends Module {
 
   uf_open(profile) {
     let resetSet, saveSet;
-    profile.ufPopup = new Popup(`fa-eye`, [{
-      text: `Apply user filters for `,
-      type: `node`
-    }, {
-      text: profile.name,
-      type: `span`
-    }, {
-      text: `:`,
-      type: `node`
-    }], true);
+    profile.ufPopup = new Popup({
+      addScrollable: true, icon: `fa-eye`, isTemp: true, title: [{
+        text: `Apply user filters for `,
+        type: `node`
+      }, {
+        text: profile.name,
+        type: `span`
+      }, {
+        text: `:`,
+        type: `node`
+      }]
+    });
     profile.ufOptions = createElements(profile.ufPopup.description, `beforeEnd`, [{
       type: `div`
     }]);
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
     profile.ufPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's posts.`, false, false, `Hides the user's posts everywhere.`, profile.ufValues.posts);
-    saveSet = new ButtonSet_v2({
+    saveSet = new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check`,
@@ -114,7 +116,7 @@ class UsersUserFilters extends Module {
       title2: `Saving...`,
       callback1: this.uf_save.bind(this, profile, false)
     });
-    resetSet = new ButtonSet_v2({
+    resetSet = new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-rotate-left`,

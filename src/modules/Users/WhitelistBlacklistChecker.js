@@ -117,7 +117,11 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.Update = !Context;
     WBC.B = !this.esgst.wbc_hb;
     WBC.Username = this.esgst.username;
-    popup = new Popup(WBC.Update ? `fa-cog` : `fa-question`, WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`);
+    popup = new Popup({
+      addScrollable: true,
+      icon: WBC.Update ? `fa-cog` : `fa-question`,
+      title: WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`
+    });
     if (location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
       WBC.User = {
         Username: document.getElementsByClassName(`featured__heading__medium`)[0].textContent,
@@ -264,25 +268,34 @@ class UsersWhitelistBlacklistChecker extends Module {
       text: `If an user is highlighted, that means they have been either checked for the first time or updated.`,
       type: `div`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, WBC.Update ? `fa-refresh` : `fa-question-circle`, `fa-times-circle`, WBC.Update ? `Update` : `Check`, `Cancel`, Callback => {
-      WBC.ShowResults = false;
-      WBCButton.classList.add(`esgst-busy`);
-      // noinspection JSIgnoredPromiseFromCall
-      this.wbc_setCheck(WBC, skip, () => {
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: WBC.Update ? `fa-refresh` : `fa-question-circle`,
+      icon2: `fa-times-circle`,
+      title1: WBC.Update ? `Update` : `Check`,
+      title2: `Cancel`,
+      callback1: callback => {
+        WBC.ShowResults = false;
+        WBCButton.classList.add(`esgst-busy`);
+        // noinspection JSIgnoredPromiseFromCall
+        this.wbc_setCheck(WBC, skip, () => {
+          skip.innerHTML = ``;
+          WBCButton.classList.remove(`esgst-busy`);
+          callback();
+          WBC.popup.setDone();
+        });
+      },
+      callback2: () => {
         skip.innerHTML = ``;
+        clearInterval(WBC.Request);
+        clearInterval(WBC.Save);
+        WBC.Canceled = true;
+        setTimeout(() => {
+          WBC.Progress.innerHTML = ``;
+        }, 500);
         WBCButton.classList.remove(`esgst-busy`);
-        Callback();
-        WBC.popup.setDone();
-      });
-    }, () => {
-      skip.innerHTML = ``;
-      clearInterval(WBC.Request);
-      clearInterval(WBC.Save);
-      WBC.Canceled = true;
-      setTimeout(() => {
-        WBC.Progress.innerHTML = ``;
-      }, 500);
-      WBCButton.classList.remove(`esgst-busy`);
+      }
     }).set);
     skip = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
     WBC.Progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
@@ -406,9 +419,17 @@ class UsersWhitelistBlacklistChecker extends Module {
           this.wbc_setResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
         }
       } else {
-        skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
-          callback();
-          WBC.manualSkip = true;
+        skip.appendChild(new ButtonSet({
+          color1: `green`,
+          color2: ``,
+          icon1: `fa-forward`,
+          icon2: ``,
+          title1: `Skip User`,
+          title2: ``,
+          callback1: callback => {
+            callback();
+            WBC.manualSkip = true;
+          }
         }).set);
         // noinspection JSIgnoredPromiseFromCall
         this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
@@ -434,18 +455,34 @@ class UsersWhitelistBlacklistChecker extends Module {
         WBC.lastPage = this.esgst.wbc_checkPages ? `of ${this.esgst.wbc_maxPage}` : ``;
         // noinspection JSIgnoredPromiseFromCall
         this.wbc_getUsers(WBC, this.esgst.wbc_checkPages ? (this.esgst.wbc_minPage - 1) : 0, this.esgst.currentPage, this.esgst.searchUrl, () => {
-          skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
-            callback();
-            WBC.manualSkip = true;
+          skip.appendChild(new ButtonSet({
+            color1: `green`,
+            color2: ``,
+            icon1: `fa-forward`,
+            icon2: ``,
+            title1: `Skip User`,
+            title2: ``,
+            callback1: callback => {
+              callback();
+              WBC.manualSkip = true;
+            }
           }).set);
           WBC.Users = sortArray(WBC.Users);
           // noinspection JSIgnoredPromiseFromCall
           this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
         });
       } else {
-        skip.appendChild(new ButtonSet(`green`, ``, `fa-forward`, ``, `Skip User`, ``, callback => {
-          callback();
-          WBC.manualSkip = true;
+        skip.appendChild(new ButtonSet({
+          color1: `green`,
+          color2: ``,
+          icon1: `fa-forward`,
+          icon2: ``,
+          title1: `Skip User`,
+          title2: ``,
+          callback1: callback => {
+            callback();
+            WBC.manualSkip = true;
+          }
         }).set);
         WBC.Users = sortArray(WBC.Users);
         // noinspection JSIgnoredPromiseFromCall

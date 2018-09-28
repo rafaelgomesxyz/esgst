@@ -260,10 +260,10 @@ class DiscussionsDiscussionFilters extends Module {
       },
       urls: {
         id: `df`,
-        init: this.df_initUrls,
+        init: this.df_initUrls.bind(this),
         perLoad: 5,
         request: {
-          request: this.df_requestUrl
+          request: this.df_requestUrl.bind(this)
         }
       }
     });

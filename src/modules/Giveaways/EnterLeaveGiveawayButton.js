@@ -1,6 +1,5 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
@@ -258,7 +257,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   elgb_addButton(giveaway, main, source) {
     let doAppend = !giveaway.elgbButton;
     if (giveaway.entered) {
-      giveaway.elgbButton = new ButtonSet_v2({
+      giveaway.elgbButton = new ButtonSet({
         color1: `yellow`,
         color2: `grey`,
         icon1: `fa-minus-circle`,
@@ -270,7 +269,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }).set;
       giveaway.elgbButton.removeAttribute(`title`);
     } else if (giveaway.error) {
-      giveaway.elgbButton = new ButtonSet_v2({
+      giveaway.elgbButton = new ButtonSet({
         color1: `red`,
         color2: `grey`,
         icon1: `fa-plus-circle`,
@@ -283,7 +282,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.elgbButton.setAttribute(`title`, giveaway.error);
     } else {
       if (giveaway.points <= this.esgst.points) {
-        giveaway.elgbButton = new ButtonSet_v2({
+        giveaway.elgbButton = new ButtonSet({
           color1: `green`,
           color2: `grey`,
           icon1: `fa-plus-circle`,
@@ -295,7 +294,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }).set;
         giveaway.elgbButton.removeAttribute(`title`);
       } else {
-        giveaway.elgbButton = new ButtonSet_v2({
+        giveaway.elgbButton = new ButtonSet({
           color1: `red`,
           color2: `grey`,
           icon1: `fa-plus-circle`,
@@ -320,42 +319,60 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   async elgb_openPopup(giveaway, main, source, mainCallback) {
-    let popup = new Popup(`fa-file-text-o`, [{
-      attributes: {
-        href: giveaway.url
-      },
-      type: `a`,
-      children: [{
-        text: giveaway.name,
-        type: `span`
+    let popup = new Popup({
+      addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: [{
+        attributes: {
+          href: giveaway.url
+        },
+        type: `a`,
+        children: [{
+          text: giveaway.name,
+          type: `span`
+        }]
+      }, {
+        text: ` by `,
+        type: `node`
+      }, {
+        attributes: {
+          href: `/user/${giveaway.creator}`
+        }, text: giveaway.creator,
+        type: `a`
       }]
-    }, {
-      text: ` by `,
-      type: `node`
-    }, {
-      attributes: {
-        href: `/user/${giveaway.creator}`
-      }, text: giveaway.creator,
-      type: `a`
-    }], true);
+    });
     if (giveaway.entered) {
-      let set = new ButtonSet(`yellow`, `grey`, `fa-minus-circle`, `fa-circle-o-notch fa-spin`, `Leave Giveaway`, `Leaving...`, callback => {
-        // noinspection JSIgnoredPromiseFromCall
-        this.elgb_leaveGiveaway(giveaway, main, source, () => {
-          callback();
-          popup.close();
-        });
+      let set = new ButtonSet({
+        color1: `yellow`,
+        color2: `grey`,
+        icon1: `fa-minus-circle`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Leave Giveaway`,
+        title2: `Leaving...`,
+        callback1: callback => {
+          // noinspection JSIgnoredPromiseFromCall
+          this.elgb_leaveGiveaway(giveaway, main, source, () => {
+            callback();
+            popup.close();
+          });
+        }
       });
       popup.description.appendChild(set.set);
     } else {
       let games = JSON.parse(await getValue(`games`));
       if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= this.esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !this.esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
-        let set = new ButtonSet(`green`, `grey`, `fa-plus-circle`, `fa-circle-o-notch fa-spin`, `Enter Giveaway`, `Entering...`, callback => {
-          // noinspection JSIgnoredPromiseFromCall
-          this.elgb_enterGiveaway(giveaway, main, true, source, () => {
-            callback();
-            popup.close();
-          });
+        let set = new ButtonSet({
+          color1: `green`,
+          color2: `grey`,
+          icon1: `fa-plus-circle`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Enter Giveaway`,
+          title2: `Entering...`,
+          callback1: callback => {
+            // noinspection JSIgnoredPromiseFromCall
+            this.elgb_enterGiveaway(giveaway, main, true, source, () => {
+              callback();
+              popup.close();
+            });
+          }
         });
         popup.description.appendChild(set.set);
       }
@@ -418,24 +435,40 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       if (this.esgst.cfh) {
         this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(box);
       }
-      popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-arrow-circle-right`, `fa-circle-o-notch fa-spin`, `Add Comment`, `Saving...`, async callback => {
-        if (box.value) {
-          await request({
-            data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
-            method: `POST`,
-            url: giveaway.url
-          });
+      popup.description.appendChild(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-arrow-circle-right`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Add Comment`,
+        title2: `Saving...`,
+        callback1: async callback => {
+          if (box.value) {
+            await request({
+              data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
+              method: `POST`,
+              url: giveaway.url
+            });
+          }
+          callback();
+          popup.close();
         }
-        callback();
-        popup.close();
       }).set);
     }
     if (description && this.esgst.elgb_f) {
-      let set = new ButtonSet(`grey`, `grey`, `fa-eye`, `fa-circle-o-notch fa-spin`, `Add Description To Filters`, `Filtering...`, async callback => {
-        this.esgst.elgb_filters = `${this.esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-        await setSetting(`elgb_filters`, this.esgst.elgb_filters);
-        callback();
-        set.remove();
+      let set = new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-eye`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Add Description To Filters`,
+        title2: `Filtering...`,
+        callback1: async callback => {
+          this.esgst.elgb_filters = `${this.esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+          await setSetting(`elgb_filters`, this.esgst.elgb_filters);
+          callback();
+          set.remove();
+        }
       }).set;
       popup.description.appendChild(set);
     }

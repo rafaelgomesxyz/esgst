@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import ButtonSet_v2 from '../../class/ButtonSet_v2';
+import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
@@ -354,7 +354,12 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
   chfl_openPopup(chfl, editId, key, event) {
     event.preventDefault();
-    let popup = new Popup(editId ? `fa-edit` : `fa-plus`, `${editId ? `Edit` : `Add`} Custom Link`, true);
+    let popup = new Popup({
+      addScrollable: true,
+      icon: editId ? `fa-edit` : `fa-plus`,
+      isTemp: true,
+      title: `${editId ? `Edit` : `Add`} Custom Link`
+    });
     let description = createElements(popup.description, `beforeEnd`, [{
       type: `div`,
       children: [{
@@ -525,7 +530,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         break;
       }
     }
-    popup.description.appendChild(new ButtonSet_v2({
+    popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: editId ? `fa-edit` : `fa-plus-circle`,

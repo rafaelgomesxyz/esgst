@@ -58,7 +58,7 @@ class UsersSharedGroupChecker extends Module {
     if (profile.sgcPopup) {
       profile.sgcPopup.open();
     } else {
-      profile.sgcPopup = new Popup(`fa-users`, `Shared Groups`);
+      profile.sgcPopup = new Popup({addScrollable: true, icon: `fa-users`, title: `Shared Groups`});
       profile.sgcProgress = createElements(profile.sgcPopup.description, `beforeEnd`, [{
         type: `div`,
         children: [{

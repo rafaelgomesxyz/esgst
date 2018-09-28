@@ -33,17 +33,25 @@ class CommentsReplyBoxPopup extends Module {
     if (!this.esgst.replyBox) return;
 
     let button = createHeadingButton({id: `rbp`, icons: [`fa-comment`], title: `Add a comment`});
-    let popup = new Popup(`fa-comment`, `Add a comment:`);
+    let popup = new Popup({addScrollable: true, icon: `fa-comment`, title: `Add a comment:`});
     popup.textArea = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         name: `description`
       },
       type: `textarea`
     }]);
-    popup.description.appendChild(new ButtonSet(`green`, `grey`, `fa-check`, `fa-circle-o-notch fa-spin`, `Save`, `Saving...`, Callback => {
-      popup.progress.innerHTML = ``;
-      saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
-        Callback);
+    popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-check`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Save`,
+      title2: `Saving...`,
+      callback1: callback => {
+        popup.progress.innerHTML = ``;
+        saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
+          callback);
+      }
     }).set);
     popup.progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));

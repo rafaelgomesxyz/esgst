@@ -98,13 +98,15 @@ class GiveawaysGiveawayCountryLoader extends Module {
               }
             } else {
               if (this.esgst.gcl_index === 2) {
-                context = new Popup(`fa-globe`, [{
-                  attributes: {
-                    href: `${giveaway.url}/region-restrictions`
-                  },
-                  text: `Giveaway Countries`,
-                  type: `a`
-                }]);
+                context = new Popup({
+                  addScrollable: true, icon: `fa-globe`, title: [{
+                    attributes: {
+                      href: `${giveaway.url}/region-restrictions`
+                    },
+                    text: `Giveaway Countries`,
+                    type: `a`
+                  }]
+                });
                 container = context.scrollable;
                 context.open();
               } else {
