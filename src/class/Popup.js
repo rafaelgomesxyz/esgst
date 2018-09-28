@@ -1,12 +1,20 @@
 import {container} from '../class/Container';
 
 export default class Popup {
+  /**
+   *
+   * @param icon
+   * @param title
+   * @param temp
+   * @param settings
+   * @param popup
+   * @property {function} this.onClose
+   */
   constructor(icon, title, temp, settings, popup = null) {
     /** @type {HTMLElement} */
     this.scrollable = null;
     /** @type {HTMLElement} */
     this.minimizeLink = null;
-    /** @type {function} */
     this.onClose = null;
     this.isCreated = !popup;
     this.temp = temp;

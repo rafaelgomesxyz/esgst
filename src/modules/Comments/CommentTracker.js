@@ -247,7 +247,7 @@ class CommentsCommentTracker extends Module {
       }
     }
     if (this.esgst.df && this.esgst.df.filteredCount && this.esgst[`df_enable${this.esgst.df.type}`]) {
-      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.df, false, endless);
+      this.esgst.modules.filters.filters_filter(this.esgst.df, false, endless);
     }
     if (this.esgst.ustButton) {
       if (this.esgst.numUstTickets > 0) {

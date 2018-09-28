@@ -249,14 +249,14 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
     }
     const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-      if (!preset || this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
+      if (!preset || this.esgst.modules.filters.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
         discussionsRows.appendChild(elements[j].outerWrap);
         i += 1;
       }
     }
     elements = await this.esgst.modules.discussions.discussions_get(response2Html, true);
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-      if (!preset || this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
+      if (!preset || this.esgst.modules.filters.filters_filterItem(`df`, filters, elements[j], preset.rules)) {
         dealsRows.appendChild(elements[j].outerWrap);
         i += 1;
       }

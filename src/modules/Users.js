@@ -6,12 +6,10 @@ class Users extends Module {
     this.info = {
       endless: true,
       id: `users`,
-      load: this.users
+      featureMap: {
+        endless: `users_load`
+      }
     };
-  }
-
-  users() {
-    this.esgst.endlessFeatures.push(this.users_load.bind(this));
   }
 
   async users_load(mainContext, main, source, endless) {

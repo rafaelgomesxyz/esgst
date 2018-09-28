@@ -379,13 +379,13 @@ class GeneralEndlessScrolling extends Module {
         await endless_load(es.mainContext, true, null, currentPage);
         this.es_setRemoveEntry(es.mainContext);
         if (this.esgst.gf && this.esgst.gf.filteredCount) {
-          this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.gf);
+          this.esgst.modules.filters.filters_updateCount(this.esgst.gf);
         }
         if (this.esgst.df && this.esgst.df.filteredCount) {
-          this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.df);
+          this.esgst.modules.filters.filters_updateCount(this.esgst.df);
         }
         if (this.esgst.cf && this.esgst.cf.filteredCount) {
-          this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.cf);
+          this.esgst.modules.filters.filters_updateCount(this.esgst.cf);
         }
         if (this.esgst.ts && !this.esgst.us) {
           this.esgst.modules.generalTableSorter.ts_sortTables();
@@ -672,13 +672,13 @@ class GeneralEndlessScrolling extends Module {
         type: `i`
       }]);
       if (this.esgst.gf && this.esgst.gf.filteredCount) {
-        this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.gf);
+        this.esgst.modules.filters.filters_updateCount(this.esgst.gf);
       }
       if (this.esgst.df && this.esgst.df.filteredCount) {
-        this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.df);
+        this.esgst.modules.filters.filters_updateCount(this.esgst.df);
       }
       if (this.esgst.cf && this.esgst.cf.filteredCount) {
-        this.esgst.modules.giveawaysGiveawayFilters.filters_updateCount(this.esgst.cf);
+        this.esgst.modules.filters.filters_updateCount(this.esgst.cf);
       }
       if (this.esgst.ts && !this.esgst.us) {
         this.esgst.modules.generalTableSorter.ts_sortTables();

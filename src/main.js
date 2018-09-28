@@ -11,7 +11,7 @@ import interactFactory from 'interactjs/dist/interact.min';
 
 window.interact = interactFactory(window);
 
-import 'jQuery-QueryBuilder/dist/js/query-builder.min';
+import 'jQuery-QueryBuilder/dist/js/query-builder.standalone.min';
 
 import Popup from './class/Popup';
 import Popup_v2 from './class/Popup_v2';

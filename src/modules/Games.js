@@ -16,12 +16,10 @@ class Games extends Module {
     this.info = {
       endless: true,
       id: `games`,
-      load: this.games
+      featureMap: {
+        endless: `games_load`
+      }
     };
-  }
-
-  games() {
-    this.esgst.endlessFeatures.push(this.games_load.bind(this));
   }
 
   async games_load(context, main, source, endless) {
@@ -181,7 +179,7 @@ class Games extends Module {
             return x;
           });
           if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
-            this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
+            this.esgst.modules.filters.filters_filter(this.esgst.gf);
           }
           lockAndSaveGames(games);
         }
