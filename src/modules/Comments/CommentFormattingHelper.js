@@ -5693,6 +5693,9 @@ class CommentsCommentFormattingHelper extends Module {
         }
         console.log(emoji);
         const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
+        if (!emojiData) {
+          return null;
+        }
         emoji = emojiData.emoji;
         return {
           attributes: {
@@ -5702,7 +5705,7 @@ class CommentsCommentFormattingHelper extends Module {
           text: emoji,
           type: `span`
         };
-      });
+      }).filter(emoji => emoji !== null);
   }
 
   cfh_setTextAreas(context, main, source, endless) {
