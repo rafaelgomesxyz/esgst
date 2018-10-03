@@ -5,6 +5,7 @@
  * @property {boolean} development
  * @property {boolean} production
  * @property {boolean} withBabel
+ * @property {boolean} withWatch
  */
 
 const
@@ -103,7 +104,7 @@ module.exports = /** @param {Environment} env */ env => {
     ].concat(env.sizeAnalyzer ? [
       new plugins.sizeAnalyzer
     ] : []),
-      watch: env.development,
+      watch: env.development && env.withWatch,
       watchOptions: {
       ignored: /node_modules/,
       poll: 1000,

@@ -4401,7 +4401,7 @@ class Common extends Module {
           popout = new Popout(`esgst-feature-description markdown`, tooltip, 100);
           popout.popout.style.maxHeight = `300px`;
           popout.popout.style.overflow = `auto`;
-          this.createElements(popout.popout, `inner`, [...(Array.from(parseHtml(Feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName)).body.childNodes).map(x => {
+          this.createElements(popout.popout, `inner`, [...(Array.from(parseHtml(Feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName.bind(this))).body.childNodes).map(x => {
             return {
               context: x
             };
@@ -9260,7 +9260,7 @@ class Common extends Module {
     let lock = {
       key: key,
       threshold: threshold,
-      uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, this.createUuid)
+      uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, this.createUuid.bind(this))
     };
     await this.checkLock(lock);
     return this.setValue.bind(this, key, `{}`);

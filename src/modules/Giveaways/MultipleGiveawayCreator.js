@@ -1611,7 +1611,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
         // noinspection JSIgnoredPromiseFromCall
         this.mgc_checkCreation(i, mgc, n, callback, await request({
-          data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime),
+          data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
           method: `POST`,
           url: `/giveaways/new`
         }));
@@ -1656,7 +1656,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           popup.close();
           const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
           setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({
-            data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime),
+            data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
             method: `POST`,
             url: `/giveaways/new`
           })), 0);

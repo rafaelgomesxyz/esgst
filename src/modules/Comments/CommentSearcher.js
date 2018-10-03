@@ -93,7 +93,7 @@ class CommentsCommentSearcher extends Module {
   cs_init(obj) {
     obj.usernames = obj.popup.getTextInputValue(0)
       .toLowerCase()
-      .replace(/(,\s*)+/g, this.cs_format)
+      .replace(/(,\s*)+/g, this.cs_format.bind(this))
       .split(`, `);
     let match = location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
     obj.code = match[2];
