@@ -1,5 +1,3 @@
-extension.zip
-manifest.json.bkp
-node_modules/
-package.json
-package-lock.json
+/build/*
+!/build/.gitignore
+/node_modules

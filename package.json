@@ -1,0 +1,65 @@
+{
+  "name": "esgst",
+  "version": "7.27.0",
+  "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
+  "main": "ESGST.meta.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --env.production",
+    "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
+    "build-dev-without-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
+    "build-dev-without-watch": "./node_modules/.bin/webpack --env.development --env.withBabel",
+    "build-dev-without-babel-watch": "./node_modules/.bin/webpack --env.development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsrafael01/ESGST.git"
+  },
+  "keywords": [
+    "esgst",
+    "steamgifts"
+  ],
+  "author": "gsrafael01",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/gsrafael01/ESGST/issues"
+  },
+  "homepage": "https://github.com/gsrafael01/ESGST#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "calfinated": "^1.4.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.6.0",
+    "file-loader": "^2.0.0",
+    "image-webpack-loader": "^4.3.1",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
+    "progress-bar-webpack-plugin": "^1.11.0",
+    "style-loader": "^0.23.0",
+    "transfer-webpack-plugin": "^0.1.4",
+    "url-loader": "^1.1.1",
+    "webpack": "^4.16.5",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "awesome-bootstrap-checkbox": "^0.3.7",
+    "font-awesome": "^4.7.0",
+    "interactjs": "^1.3.4",
+    "intersection-observer": "^0.5.0",
+    "intersection-observer-polyfill": "^0.1.0",
+    "jQuery-QueryBuilder": "^2.5.2",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "jszip": "^3.1.5",
+    "text-encoding": "^0.6.4",
+    "webpack-jquery-ui": "^2.0.1"
+  }
+}
