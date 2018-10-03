@@ -1991,7 +1991,7 @@ class Esgst {
 
     this.gc_f = null;
 
-    this.draggable = null;
+    this.draggable = {};
 
     this.nrf_clearCache = null;
 
