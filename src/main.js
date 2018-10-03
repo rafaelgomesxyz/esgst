@@ -187,7 +187,7 @@ import esgst from './class/Esgst';
             resolve();
           }));
       };
-      envFunctions.setValue = (key, value) => envFunctions.setValues({[key]: value});
+      envFunctions.setValue = (key, value) => { return envFunctions.setValues({[key]: value}); };
       envFunctions.getValue = async (key, value) => utils.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
       envFunctions.getValues = values =>
         new Promise(resolve => {
@@ -209,7 +209,7 @@ import esgst from './class/Esgst';
             resolve();
           })
         );
-      envFunctions.delValue = key => envFunctions.delValues([key]);
+      envFunctions.delValue = key => { return envFunctions.delValues([key]); };
       envFunctions.getStorage = () =>
         new Promise(resolve =>
           envVariables.browser.runtime.sendMessage({
