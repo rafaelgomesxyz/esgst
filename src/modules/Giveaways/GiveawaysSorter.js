@@ -281,7 +281,7 @@ class GiveawaysGiveawaysSorter extends Module {
       children
     }]);
     options.value = this.esgst[this.esgst.gas.optionKey];
-    let callback = saveAndSortContent.bind(common, this.esgst.gas.optionKey, this.esgst.gas.mainKey, options, null);
+    let callback = saveAndSortContent.bind(common, this.esgst.gas.optionKey, this.esgst.gas.mainKey, options);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet({
       color1: `green`,

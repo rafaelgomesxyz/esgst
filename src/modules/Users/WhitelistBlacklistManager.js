@@ -97,7 +97,9 @@ class UsersWhitelistBlacklistManager extends Module {
         icon2: `fa-times`,
         title1: `Import`,
         title2: `Cancel`,
-        callback1: this.wbm_start.bind(this, wbm, this.wbm_importList.bind(this, wbm)),
+        callback1: () => {
+          return new Promise(resolve => this.wbm_start(wbm, this.wbm_importList.bind(this, wbm), resolve));
+        },
         callback2: this.wbm_cancel.bind(this, wbm)
       }).set);
       wbm.popup.description.appendChild(new ButtonSet({
@@ -107,7 +109,9 @@ class UsersWhitelistBlacklistManager extends Module {
         icon2: `fa-times`,
         title1: `Export`,
         title2: `Cancel`,
-        callback1: this.wbm_start.bind(this, wbm, this.wbm_exportList.bind(this, wbm, [], 1)),
+        callback1: () => {
+          return new Promise(resolve => this.wbm_start(wbm, this.wbm_exportList.bind(this, wbm, [], 1), resolve));
+        },
         callback2: this.wbm_cancel.bind(this, wbm)
       }).set);
       wbm.popup.description.appendChild(new ButtonSet({
@@ -117,7 +121,9 @@ class UsersWhitelistBlacklistManager extends Module {
         icon2: `fa-times`,
         title1: `Clear`,
         title2: `Cancel`,
-        callback1: this.wbm_start.bind(this, wbm, this.wbm_clearList.bind(this, wbm, [], 1)),
+        callback1: () => {
+          return new Promise(resolve => this.wbm_start(wbm, this.wbm_clearList.bind(this, wbm, [], 1), resolve));
+        },
         callback2: this.wbm_cancel.bind(this, wbm)
       }).set);
       wbm.results = createElements(wbm.popup.scrollable, `beforeEnd`, [{

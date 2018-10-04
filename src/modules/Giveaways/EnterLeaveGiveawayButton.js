@@ -264,7 +264,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Leave`,
         title2: `Leaving...`,
-        callback1: this.elgb_leaveGiveaway.bind(this, giveaway, main, source),
+        callback1: () => {
+          return new Promise(resolve => this.elgb_leaveGiveaway(giveaway, main, source, resolve));
+        },
         set: giveaway.elgbButton
       }).set;
       giveaway.elgbButton.removeAttribute(`title`);
@@ -276,7 +278,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Enter`,
         title2: `Entering...`,
-        callback1: this.elgb_enterGiveaway.bind(this, giveaway, main, null, source),
+        callback1: () => {
+          return new Promise(resolve => this.elgb_enterGiveaway(giveaway, main, null, source, resolve));
+        },
         set: giveaway.elgbButton
       }).set;
       giveaway.elgbButton.setAttribute(`title`, giveaway.error);
@@ -289,7 +293,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter`,
           title2: `Entering...`,
-          callback1: this.elgb_enterGiveaway.bind(this, giveaway, main, null, source),
+          callback1: () => {
+            return new Promise(resolve => this.elgb_enterGiveaway(giveaway, main, null, source, resolve));
+          },
           set: giveaway.elgbButton
         }).set;
         giveaway.elgbButton.removeAttribute(`title`);
@@ -301,7 +307,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter`,
           title2: `Entering...`,
-          callback1: this.elgb_enterGiveaway.bind(this, giveaway, main, null, source),
+          callback1: () => {
+            return new Promise(resolve => this.elgb_enterGiveaway(giveaway, main, null, source, resolve));
+          },
           set: giveaway.elgbButton
         }).set;
         giveaway.elgbButton.setAttribute(`title`, `Not Enough Points`);
@@ -347,11 +355,13 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Leave Giveaway`,
         title2: `Leaving...`,
-        callback1: callback => {
-          // noinspection JSIgnoredPromiseFromCall
-          this.elgb_leaveGiveaway(giveaway, main, source, () => {
-            callback();
-            popup.close();
+        callback1: () => {
+          return new Promise(resolve => {
+            // noinspection JSIgnoredPromiseFromCall
+            this.elgb_leaveGiveaway(giveaway, main, source, () => {
+              resolve();
+              popup.close();
+            });
           });
         }
       });
@@ -366,11 +376,13 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter Giveaway`,
           title2: `Entering...`,
-          callback1: callback => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.elgb_enterGiveaway(giveaway, main, true, source, () => {
-              callback();
-              popup.close();
+          callback1: () => {
+            return new Promise(resolve => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.elgb_enterGiveaway(giveaway, main, true, source, () => {
+                resolve();
+                popup.close();
+              });
             });
           }
         });
@@ -442,7 +454,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Add Comment`,
         title2: `Saving...`,
-        callback1: async callback => {
+        callback1: async () => {
           if (box.value) {
             await request({
               data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
@@ -450,7 +462,6 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
               url: giveaway.url
             });
           }
-          callback();
           popup.close();
         }
       }).set);
@@ -463,10 +474,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Add Description To Filters`,
         title2: `Filtering...`,
-        callback1: async callback => {
+        callback1: async () => {
           this.esgst.elgb_filters = `${this.esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
           await setSetting(`elgb_filters`, this.esgst.elgb_filters);
-          callback();
           set.remove();
         }
       }).set;

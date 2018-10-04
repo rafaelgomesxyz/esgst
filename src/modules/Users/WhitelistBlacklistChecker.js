@@ -275,15 +275,17 @@ class UsersWhitelistBlacklistChecker extends Module {
       icon2: `fa-times-circle`,
       title1: WBC.Update ? `Update` : `Check`,
       title2: `Cancel`,
-      callback1: callback => {
-        WBC.ShowResults = false;
-        WBCButton.classList.add(`esgst-busy`);
-        // noinspection JSIgnoredPromiseFromCall
-        this.wbc_setCheck(WBC, skip, () => {
-          skip.innerHTML = ``;
-          WBCButton.classList.remove(`esgst-busy`);
-          callback();
-          WBC.popup.setDone();
+      callback1: () => {
+        return new Promise(resolve => {
+          WBC.ShowResults = false;
+          WBCButton.classList.add(`esgst-busy`);
+          // noinspection JSIgnoredPromiseFromCall
+          this.wbc_setCheck(WBC, skip, () => {
+            skip.innerHTML = ``;
+            WBCButton.classList.remove(`esgst-busy`);
+            resolve();
+            WBC.popup.setDone();
+          });
         });
       },
       callback2: () => {
@@ -426,8 +428,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           icon2: ``,
           title1: `Skip User`,
           title2: ``,
-          callback1: callback => {
-            callback();
+          callback1: () => {
             WBC.manualSkip = true;
           }
         }).set);
@@ -462,8 +463,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             icon2: ``,
             title1: `Skip User`,
             title2: ``,
-            callback1: callback => {
-              callback();
+            callback1: () => {
               WBC.manualSkip = true;
             }
           }).set);
@@ -479,8 +479,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           icon2: ``,
           title1: `Skip User`,
           title2: ``,
-          callback1: callback => {
-            callback();
+          callback1: () => {
             WBC.manualSkip = true;
           }
         }).set);

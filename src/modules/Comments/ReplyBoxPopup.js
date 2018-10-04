@@ -47,10 +47,9 @@ class CommentsReplyBoxPopup extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save`,
       title2: `Saving...`,
-      callback1: callback => {
+      callback1: async () => {
         popup.progress.innerHTML = ``;
-        saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress,
-          callback);
+        await saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress);
       }
     }).set);
     popup.progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);

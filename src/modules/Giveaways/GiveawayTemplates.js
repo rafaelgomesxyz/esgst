@@ -61,38 +61,40 @@ class GiveawaysGiveawayTemplates extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Create Giveaway`,
       title2: `Creating...`,
-      callback1: async callback => {
-        let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
-        data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
-        data += `type=${document.querySelector(`[name="type"]`).value}&`;
-        data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
-        data += `key_string=${encodeURIComponent(document.querySelector(`[name="key_string"]`).value)}&`;
-        data += `timezone=${new Date().getTimezoneOffset()}&`;
-        data += `start_time=${encodeURIComponent(document.querySelector(`[name="start_time"]`).value)}&`;
-        data += `end_time=${encodeURIComponent(document.querySelector(`[name="end_time"]`).value)}&`;
-        data += `region_restricted=${document.querySelector(`[name="region_restricted"]`).value}&`;
-        data += `country_item_string=${encodeURIComponent(document.querySelector(`[name="country_item_string"]`).value.trim())}&`;
-        data += `group_item_string=${encodeURIComponent(document.querySelector(`[name="group_item_string"]`).value.trim())}&`;
-        data += `who_can_enter=${document.querySelector(`[name="who_can_enter"]`).value}&`;
-        data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
-        data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
-        data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
-        const response = await request({
-          data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime),
-          method: `POST`,
-          url: `/giveaways/new`
-        });
-        if (response.finalUrl.match(/\/giveaways\/new/)) {
-          callback();
-          const errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
-          let message = `Unable to create giveaway because of the following errors:\n\n`;
-          for (const error of errors) {
-            message += `* ${error.textContent.trim()}`;
+      callback1: async () => {
+        return new Promise(async resolve => {
+          let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
+          data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
+          data += `type=${document.querySelector(`[name="type"]`).value}&`;
+          data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
+          data += `key_string=${encodeURIComponent(document.querySelector(`[name="key_string"]`).value)}&`;
+          data += `timezone=${new Date().getTimezoneOffset()}&`;
+          data += `start_time=${encodeURIComponent(document.querySelector(`[name="start_time"]`).value)}&`;
+          data += `end_time=${encodeURIComponent(document.querySelector(`[name="end_time"]`).value)}&`;
+          data += `region_restricted=${document.querySelector(`[name="region_restricted"]`).value}&`;
+          data += `country_item_string=${encodeURIComponent(document.querySelector(`[name="country_item_string"]`).value.trim())}&`;
+          data += `group_item_string=${encodeURIComponent(document.querySelector(`[name="group_item_string"]`).value.trim())}&`;
+          data += `who_can_enter=${document.querySelector(`[name="who_can_enter"]`).value}&`;
+          data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
+          data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
+          data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
+          const response = await request({
+            data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime),
+            method: `POST`,
+            url: `/giveaways/new`
+          });
+          if (response.finalUrl.match(/\/giveaways\/new/)) {
+            resolve();
+            const errors = parseHtml(response.responseText).getElementsByClassName(`form__row__error`);
+            let message = `Unable to create giveaway because of the following errors:\n\n`;
+            for (const error of errors) {
+              message += `* ${error.textContent.trim()}`;
+            }
+            alert(message);
+          } else {
+            location.href = response.finalUrl;
           }
-          alert(message);
-        } else {
-          location.href = response.finalUrl;
-        }
+        });
       }
     });
     rows.appendChild(createGiveawayButton.set);

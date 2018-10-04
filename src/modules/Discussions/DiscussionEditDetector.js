@@ -85,15 +85,17 @@ class DiscussionsDiscussionEditDetector extends Module {
     obj.status.innerHTML = ``;
 
     if (!obj.commentUrl) {
-      saveComment(
+      const result = await saveComment(
         obj.tradeCode,
         obj.parentId.value,
         obj.description.value,
         obj.url,
         obj.status,
-        null,
-        obj.callback
+        !!obj.callback
       );
+      if (obj.callback) {
+        obj.callback(result.id, result.response, result.status);
+      }
       return;
     }
 
@@ -114,15 +116,17 @@ class DiscussionsDiscussionEditDetector extends Module {
       : `/ajax.php`;
 
     if (obj.checked || !this.esgst.rfi_c) {
-      saveComment(
+      const result = await saveComment(
         obj.tradeCode,
         obj.parentId,
         obj.description.value,
         obj.url,
         obj.status,
-        null,
-        obj.callback
+        !!obj.callback
       );
+      if (obj.callback) {
+        obj.callback(result.id, result.response, response.status);
+      }
       return;
     }
 
@@ -168,15 +172,17 @@ class DiscussionsDiscussionEditDetector extends Module {
       }]);
       obj.checked = true;
     } else {
-      saveComment(
+      const result = await saveComment(
         obj.tradeCode,
         obj.parentId,
         obj.description.value,
         obj.url,
         obj.status,
-        null,
-        obj.callback
+        !!obj.callback
       );
+      if (obj.callback) {
+        obj.callback(result.id, result.response, result.status);
+      }
     }
   }
 }

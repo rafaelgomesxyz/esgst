@@ -515,119 +515,57 @@ class Common extends Module {
 
 // Helper
 
-  async saveComment(tradeCode, parentId, description, url, status, callback, mainCallback) {
-    let data = `xsrf_token=${this.esgst.xsrfToken}&do=${this.esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
+  async saveComment(tradeCode, parentId, description, url, status, goToLocation) {
+    const data = `xsrf_token=${this.esgst.xsrfToken}&do=${this.esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
+    let id = null;
     let response = await this.request({data, method: `POST`, url});
+    let responseHtml = null;
+    let success = true;
     if (this.esgst.sg) {
-      if (response.redirected && url === response.finalUrl) {
-        let id;
-        let responseHtml = parseHtml(response.responseText);
+      if ((response.redirected && url === response.finalUrl) || url !== response.finalUrl) {
+        if (url !== response.finalUrl) {
+          response = await this.request({data, method: `POST`, url: response.finalUrl});
+        }
+        responseHtml = parseHtml(response.responseText);
         if (parentId) {
           id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
         } else {
-          let elements = responseHtml.getElementsByClassName(`comments`);
+          const elements = responseHtml.getElementsByClassName(`comments`);
           id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-        }
-        if (this.esgst.ch) {
-          // noinspection JSIgnoredPromiseFromCall
-          this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
-        }
-        if (mainCallback) {
-          if (callback) {
-            callback();
-          }
-          mainCallback(id, response, status);
-        } else {
-          await this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_saveGiveaways(responseHtml.getElementById(id).closest(`.comment`), id);
-          if (callback) {
-            callback();
-          }
-          location.href = `/go/comment/${id}`;
-        }
-      } else if (url !== response.finalUrl) {
-        response = await this.request({data, method: `POST`, url: response.finalUrl});
-        let id;
-        let responseHtml = parseHtml(response.responseText);
-        if (parentId) {
-          id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-        } else {
-          let elements = responseHtml.getElementsByClassName(`comments`);
-          id = elements[elements.length - 1].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
-        }
-        if (this.esgst.ch) {
-          // noinspection JSIgnoredPromiseFromCall
-          this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
-        }
-        if (mainCallback) {
-          if (callback) {
-            callback();
-          }
-          mainCallback(id, response, status);
-        } else {
-          await this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_saveGiveaways(responseHtml.getElementById(id).closest(`.comment`), id);
-          if (callback) {
-            callback();
-          }
-          location.href = `/go/comment/${id}`;
         }
       } else {
-        if (callback) {
-          callback();
-        }
-        if (mainCallback) {
-          mainCallback(null, null, status);
-        } else {
-          this.createElements(status, `inner`, [{
-            attributes: {
-              class: `fa fa-times-circle`
-            },
-            type: `i`
-          }, {
-            text: `Failed!`,
-            type: `span`
-          }]);
-        }
+        success = false;
       }
     } else {
-      let responseJson = JSON.parse(response.responseText);
+      const responseJson = JSON.parse(response.responseText);
       if (responseJson.success) {
-        let responseHtml = parseHtml(responseJson.html);
-        let id = responseHtml.getElementsByClassName(`comment_outer`)[0].id;
-        if (this.esgst.ch) {
-          // noinspection JSIgnoredPromiseFromCall
-          this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
-        }
-        if (mainCallback) {
-          if (callback) {
-            callback();
-          }
-          mainCallback(id, response, status);
-        } else {
-          await this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_saveGiveaways(responseHtml.getElementById(id), id);
-          if (callback) {
-            callback();
-          }
-          location.href = `/go/comment/${id}`;
-        }
+        responseHtml = parseHtml(responseJson.html);
+        id = responseHtml.getElementsByClassName(`comment_outer`)[0].id;
       } else {
-        if (callback) {
-          callback();
-        }
-        if (mainCallback) {
-          mainCallback(null, null, status);
-        } else {
-          this.createElements(status, `inner`, [{
-            attributes: {
-              class: `fa fa-times-circle`
-            },
-            type: `i`
-          }, {
-            text: `Failed!`,
-            type: `span`
-          }]);
-        }
+        success = false;
       }
     }
+    if (!success) {
+      this.createElements(status, `inner`, [{
+        attributes: {
+          class: `fa fa-times-circle`
+        },
+        type: `i`
+      }, {
+        text: `Failed!`,
+        type: `span`
+      }]);
+      return {id: null, response: null,status};
+    }
+    if (this.esgst.ch) {
+      // noinspection JSIgnoredPromiseFromCall
+      this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
+    }
+    if (!goToLocation) {
+      return {id, response, status};
+    }
+    await this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_saveGiveaways(this.esgst.sg ? responseHtml.getElementById(id).closest(`.comment`) : responseHtml.getElementById(id), id);
+    location.href = `/go/comment/${id}`;
   }
 
   getFeatures() {
@@ -3487,10 +3425,7 @@ class Common extends Module {
     this.setLocalValue(`wonCount`, count);
   }
 
-  saveAndSortContent(key, mainKey, options, callback) {
-    if (callback) {
-      callback();
-    }
+  saveAndSortContent(key, mainKey, options) {
     this.sortContent(this.esgst[mainKey], mainKey, options.value);
     // noinspection JSIgnoredPromiseFromCall
     this.setSetting(key, options.value);
@@ -6196,16 +6131,18 @@ class Common extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Load more...`,
           title2: `Loading more...`,
-          callback1: callback => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
-              i = value;
-              if (i > n) {
-                set.set.remove();
-              } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-                set.trigger();
-              }
-              callback();
+          callback1: () => {
+            return new Promise(resolve => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
+                i = value;
+                if (i > n) {
+                  set.set.remove();
+                } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+                  set.trigger();
+                }
+                resolve();
+              });
             });
           }
         });
@@ -7168,11 +7105,13 @@ class Common extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Computer`,
         title2: title2,
-        callback1: callback => {
-          onClick(dm, false, false, false, false, () => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.manageData(dm, false, false, false, true);
-            callback();
+        callback1: () => {
+          return new Promise(resolve => {
+            onClick(dm, false, false, false, false, () => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.manageData(dm, false, false, false, true);
+              resolve();
+            });
           });
         }
       }).set);
@@ -7184,11 +7123,13 @@ class Common extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Dropbox`,
           title2: title2,
-          callback1: callback => {
-            onClick(dm, true, false, false, false, () => {
-              // noinspection JSIgnoredPromiseFromCall
-              this.manageData(dm, false, false, false, true);
-              callback();
+          callback1: () => {
+            return new Promise(resolve => {
+              onClick(dm, true, false, false, false, () => {
+                // noinspection JSIgnoredPromiseFromCall
+                this.manageData(dm, false, false, false, true);
+                resolve();
+              });
             });
           }
         }).set);
@@ -7199,11 +7140,13 @@ class Common extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Google Drive`,
           title2: title2,
-          callback1: callback => {
-            onClick(dm, false, true, false, false, () => {
-              // noinspection JSIgnoredPromiseFromCall
-              this.manageData(dm, false, false, false, true);
-              callback();
+          callback1: () => {
+            return new Promise(resolve => {
+              onClick(dm, false, true, false, false, () => {
+                // noinspection JSIgnoredPromiseFromCall
+                this.manageData(dm, false, false, false, true);
+                resolve();
+              });
             });
           }
         }).set);
@@ -7214,11 +7157,13 @@ class Common extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `OneDrive`,
           title2: title2,
-          callback1: callback => {
-            onClick(dm, false, false, true, false, () => {
-              // noinspection JSIgnoredPromiseFromCall
-              this.manageData(dm, false, false, false, true);
-              callback();
+          callback1: () => {
+            return new Promise(resolve => {
+              onClick(dm, false, false, true, false, () => {
+                // noinspection JSIgnoredPromiseFromCall
+                this.manageData(dm, false, false, false, true);
+                resolve();
+              });
             });
           }
         }).set);
@@ -9532,15 +9477,17 @@ class Common extends Module {
         icon2: ``,
         title1: choice1Title,
         title2: ``,
-        callback1: callback => {
-          if (this.esgst.settings.cfh_img_remember) {
-            // noinspection JSIgnoredPromiseFromCall
-            this.setValue(`cfh_img_choice`, 1);
-            this.esgst.cfh_img_choice = 1;
-          }
-          callback();
-          popup.close();
-          onChoice1();
+        callback1: () => {
+          return new Promise(resolve => {
+            if (this.esgst.settings.cfh_img_remember) {
+              // noinspection JSIgnoredPromiseFromCall
+              this.setValue(`cfh_img_choice`, 1);
+              this.esgst.cfh_img_choice = 1;
+            }
+            resolve();
+            popup.close();
+            onChoice1();
+          });
         }
       }).set);
       popup.description.appendChild(new ButtonSet({
@@ -9550,15 +9497,17 @@ class Common extends Module {
         icon2: ``,
         title1: choice2Title,
         title2: ``,
-        callback1: callback => {
-          if (this.esgst.settings.cfh_img_remember) {
-            // noinspection JSIgnoredPromiseFromCall
-            this.setValue(`cfh_img_choice`, 2);
-            this.esgst.cfh_img_choice = 2;
-          }
-          callback();
-          popup.close();
-          onChoice2();
+        callback1: () => {
+          return new Promise(resolve => {
+            if (this.esgst.settings.cfh_img_remember) {
+              // noinspection JSIgnoredPromiseFromCall
+              this.setValue(`cfh_img_choice`, 2);
+              this.esgst.cfh_img_choice = 2;
+            }
+            resolve();
+            popup.close();
+            onChoice2();
+          });
         }
       }).set);
       popup.open();
@@ -9581,7 +9530,7 @@ class Common extends Module {
     this.downloadFile(JSON.stringify(data), name);
   }
 
-  async selectSwitches(switches, type, settings, callback) {
+  async selectSwitches(switches, type, settings) {
     for (let key in switches) {
       if (switches.hasOwnProperty(key)) {
         let toggleSwitch = switches[key];
@@ -9616,9 +9565,6 @@ class Common extends Module {
         type: `i`
       }]);
       setTimeout(() => message.remove(), 2500);
-    }
-    if (callback) {
-      callback();
     }
   }
 
@@ -12478,7 +12424,7 @@ class Common extends Module {
       icon2: `fa-refresh fa-spin`,
       title1: `Yes`,
       title2: `Please wait...`,
-      callback1: async callback => {
+      callback1: async () => {
         await this.request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
           method: `POST`,
@@ -12490,7 +12436,6 @@ class Common extends Module {
           elements[i].remove();
         }
         button.remove();
-        callback();
         popup.close();
       }
     }).set);
@@ -12528,7 +12473,7 @@ class Common extends Module {
       icon2: `fa-refresh fa-spin`,
       title1: `Yes`,
       title2: `Please wait...`,
-      callback1: async callback => {
+      callback1: async () => {
         await this.request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${id}`,
           method: `POST`,
@@ -12536,7 +12481,6 @@ class Common extends Module {
         });
         await this.updateHiddenGames(steamId, steamType, true);
         button.remove();
-        callback();
         popup.close();
       }
     }).set);

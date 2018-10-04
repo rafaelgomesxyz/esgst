@@ -245,16 +245,18 @@ class GiveawaysGiveawayBookmarks extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Load more...`,
       title2: `Loading more...`,
-      callback1: callback => {
-        // noinspection JSIgnoredPromiseFromCall
-        this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
-          i = value;
-          if (i > n) {
-            set.set.remove();
-          } else if (this.esgst.es_gb && context.scrollHeight <= context.offsetHeight) {
-            set.trigger();
-          }
-          callback();
+      callback1: () => {
+        return new Promise(resolve => {
+          // noinspection JSIgnoredPromiseFromCall
+          this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, value => {
+            i = value;
+            if (i > n) {
+              set.set.remove();
+            } else if (this.esgst.es_gb && context.scrollHeight <= context.offsetHeight) {
+              set.trigger();
+            }
+            resolve();
+          });
         });
       }
     });
