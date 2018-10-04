@@ -91,16 +91,16 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     await Promise.all(promises);
     let deleteLock = await createLock(`giveawayLock`, 300);
-    for (let i = 0, n = this.cewgd.giveaways.length; i < n; ++i) {
-      let currentGiveaway = this.cewgd.giveaways[i];
+    for (let i = 0, n = cewgd.giveaways.length; i < n; ++i) {
+      let currentGiveaway = cewgd.giveaways[i];
       if (cewgd.savedGiveaways[currentGiveaway.code]) {
         for (let key in currentGiveaway) {
           if (currentGiveaway.hasOwnProperty(key)) {
-            this.cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
+            cewgd.savedGiveaways[currentGiveaway.code][key] = currentGiveaway[key];
           }
         }
       } else {
-        this.cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
+        cewgd.savedGiveaways[currentGiveaway.code] = currentGiveaway;
       }
     }
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
@@ -117,18 +117,18 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     let giveaway = giveaways[i];
     let code = giveaway.code;
     let j;
-    if (this.esgst.createdPath && this.cewgd.savedGiveaways[code] && this.cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
+    if (this.esgst.createdPath && cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
       console.log(`ESGST Log: CEWGD 0`);
-      for (j = this.cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
-        let winner = this.cewgd.savedGiveaways[code].winners[j];
+      for (j = cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
+        let winner = cewgd.savedGiveaways[code].winners[j];
         if (winner.status !== `Received` && winner.status !== `Not Received`) {
           break;
         }
       }
     }
-    if (cewgd.savedGiveaways[code] && this.cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || this.cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
+    if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
       console.log(`ESGST Log: CEWGD 1`);
-      this.cewgd_addDetails(giveaway, this.cewgd.savedGiveaways[code]);
+      this.cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
     } else if (this.esgst.createdPath) {
       console.log(`ESGST Log: CEWGD 2`);
       console.log(`ESGST Log: Updating winners for ${code}...`);
@@ -168,7 +168,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         nextPage += 1;
       } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
       if (currentGiveaway) {
-        this.cewgd.giveaways.push(currentGiveaway);
+        cewgd.giveaways.push(currentGiveaway);
         this.cewgd_addDetails(giveaway, currentGiveaway);
       }
     } else {
@@ -178,9 +178,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       let currentGiveaways = await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
       if (currentGiveaways.length > 0) {
         let currentGiveaway = currentGiveaways[0];
-        this.cewgd.giveaways.push(currentGiveaway);
+        cewgd.giveaways.push(currentGiveaway);
         this.cewgd_addDetails(giveaway, currentGiveaway);
-        this.cewgd.count += 1;
+        cewgd.count += 1;
       } else {
         createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
           attributes: {
