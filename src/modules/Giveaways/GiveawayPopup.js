@@ -39,19 +39,21 @@ class GiveawaysGiveawayPopup extends Module {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: ``,
           title2: ``,
-          callback1: callback => {
-            // noinspection JSIgnoredPromiseFromCall
-            this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_openPopup(giveaway, main, source, error => {
-              if (error) {
-                buttonSet.firstElementChild.classList.remove(`form__saving-button`, `grey`);
-                buttonSet.firstElementChild.classList.add(`sidebar__error`, `red`);
-                buttonSet.title = getFeatureTooltip(`gp`, `Could not access giveaway`);
-              } else if (buttonSet.firstElementChild.classList.contains(`sidebar__error`)) {
-                buttonSet.firstElementChild.classList.remove(`sidebar__error`, `red`);
-                buttonSet.firstElementChild.classList.add(`form__saving-button`, `grey`);
-                buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
-              }
-              callback();
+          callback1: () => {
+            return new Promise(resolve => {
+              // noinspection JSIgnoredPromiseFromCall
+              this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_openPopup(giveaway, main, source, error => {
+                if (error) {
+                  buttonSet.firstElementChild.classList.remove(`form__saving-button`, `grey`);
+                  buttonSet.firstElementChild.classList.add(`sidebar__error`, `red`);
+                  buttonSet.title = getFeatureTooltip(`gp`, `Could not access giveaway`);
+                } else if (buttonSet.firstElementChild.classList.contains(`sidebar__error`)) {
+                  buttonSet.firstElementChild.classList.remove(`sidebar__error`, `red`);
+                  buttonSet.firstElementChild.classList.add(`form__saving-button`, `grey`);
+                  buttonSet.title = getFeatureTooltip(`gp`, `View giveaway description/add a comment`);
+                }
+                resolve();
+              });
             });
           }
         }).set;

@@ -151,36 +151,38 @@ class GiveawaysGiveawayExtractor extends Module {
       icon2: `fa-times`,
       title1: `Extract`,
       title2: `Cancel`,
-      callback1: callback => {
-        if (ge.callback) {
-          createElements(ge.results, `beforeEnd`, [{
-            type: `div`
-          }]);
-          ge.callback();
-        } else {
-          ge.isCanceled = false;
-          if (ge.button) {
-            ge.button.classList.add(`esgst-busy`);
+      callback1: () => {
+        return new Promise(resolve => {
+          if (ge.callback) {
+            createElements(ge.results, `beforeEnd`, [{
+              type: `div`
+            }]);
+            ge.callback();
+          } else {
+            ge.isCanceled = false;
+            if (ge.button) {
+              ge.button.classList.add(`esgst-busy`);
+            }
+            this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+              attributes: {
+                class: `fa fa-circle-o-notch fa-spin`
+              },
+              type: `i`
+            }, {
+              text: ge.total,
+              type: `span`
+            }, {
+              text: ` giveaways extracted.`,
+              type: `node`
+            }]);
+            createElements(ge.results, `beforeEnd`, [{
+              type: `div`
+            }]);
+            ge.mainCallback = resolve;
+            let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
+            this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, resolve));
           }
-          this.esgst.modules.common.createElements(ge.progress, `inner`, [{
-            attributes: {
-              class: `fa fa-circle-o-notch fa-spin`
-            },
-            type: `i`
-          }, {
-            text: ge.total,
-            type: `span`
-          }, {
-            text: ` giveaways extracted.`,
-            type: `node`
-          }]);
-          createElements(ge.results, `beforeEnd`, [{
-            type: `div`
-          }]);
-          ge.mainCallback = callback;
-          let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
-          this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, callback));
-        }
+        });
       },
       callback2: () => {
         ge.isCanceled = true;

@@ -112,7 +112,7 @@ class DiscussionsDiscussionsSorter extends Module {
       }]
     }]);
     options.value = this.esgst.ds_option;
-    let callback = saveAndSortContent.bind(common, `ds_option`, `mainDiscussions`, options, null);
+    let callback = saveAndSortContent.bind(common, `ds_option`, `mainDiscussions`, options);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet({
       color1: `green`,

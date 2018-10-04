@@ -53,7 +53,7 @@ export default class ButtonSet {
       this.button1.addEventListener(`click`, async () => {
         this.isCanceled = false;
         this.toggle();
-        await this.callback1(this.toggle.bind(this));
+        await this.callback1();
         if (!this.isCanceled) {
           this.toggle();
         }
@@ -64,7 +64,7 @@ export default class ButtonSet {
       this.button2.addEventListener(`click`, async () => {
         this.isCanceled = true;
         this.toggle();
-        await this.callback2(this.toggle.bind(this));
+        await this.callback2();
       });
     }
     if (details.input) {

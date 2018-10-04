@@ -840,7 +840,7 @@ class CommentsCommentFormattingHelper extends Module {
           filter.addEventListener(`input`, this.cfh_filterReplies.bind(this, replies));
           this.esgst.cfh.undoDelete.addEventListener(`click`, this.cfh_undoDelete.bind(this));
           addButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, null, null, replies, null));
-          saveButton.addEventListener(`click`, () => this.cfh_saveReply(this.esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null, null));
+          saveButton.addEventListener(`click`, () => this.cfh_saveReply(this.esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null));
         },
         callback: popout => {
           popout.firstElementChild.firstElementChild.focus();
@@ -5859,26 +5859,28 @@ class CommentsCommentFormattingHelper extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Upload`,
       title2: `Uploading...`,
-      callback1: callback => {
-        let file = input.files[0];
-        if (file) {
-          if (file.type.match(/^image/)) {
-            if (file.size / 1024 / 1024 <= 10) {
-              let reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, callback);
+      callback1: () => {
+        return new Promise(resolve => {
+          let file = input.files[0];
+          if (file) {
+            if (file.type.match(/^image/)) {
+              if (file.size / 1024 / 1024 <= 10) {
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, resolve);
+              } else {
+                createFadeMessage(warning, `Image is larger than 10 MB!`);
+                resolve();
+              }
             } else {
-              createFadeMessage(warning, `Image is larger than 10 MB!`);
-              callback();
+              createFadeMessage(warning, `File is not an image!`);
+              resolve();
             }
           } else {
-            createFadeMessage(warning, `File is not an image!`);
-            callback();
+            createFadeMessage(warning, `No file was loaded!`);
+            resolve();
           }
-        } else {
-          createFadeMessage(warning, `No file was loaded!`);
-          callback();
-        }
+        });
       }
     }).set);
     if (this.esgst.cfh_img_remember) {
@@ -6119,7 +6121,7 @@ class CommentsCommentFormattingHelper extends Module {
       this.esgst.cfh.textArea.focus();
     });
     editButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, savedReply.description, savedReply.name, replies, summary));
-    replaceButton.addEventListener(`click`, () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary, null));
+    replaceButton.addEventListener(`click`, () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary));
     editButton.nextElementSibling.addEventListener(`click`, async () => {
       let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
       let i;
@@ -6268,7 +6270,7 @@ class CommentsCommentFormattingHelper extends Module {
     popup.open();
   }
 
-  async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary, callback) {
+  async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
     let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
     if (descVal && nameVal) {
       let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
@@ -6290,12 +6292,10 @@ class CommentsCommentFormattingHelper extends Module {
         this.cfh_setReply(replies, savedReply);
       }
       await setValue(`savedReplies`, JSON.stringify(savedReplies));
-      if (callback) {
-        callback();
+      if (popup) {
         popup.close();
       }
-    } else if (callback) {
-      callback();
+    } else if (popup) {
       createAlert(`Both fields are required.`);
     }
   }

@@ -55,11 +55,10 @@ class CommentsReceivedReplyBoxPopup extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save`,
       title2: `Saving...`,
-      callback1: callback => {
+      callback1: async () => {
         progress.innerHTML = ``;
-        saveComment(``, ``, textArea.value, giveaway.url, progress, callback, () => {
-          popup.close();
-        });
+        await saveComment(``, ``, textArea.value, giveaway.url, progress);
+        popup.close();
       }
     }).set);
     progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);

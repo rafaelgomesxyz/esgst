@@ -309,7 +309,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         icon2: `fa-circle-o-notch fa-spin`,
         title1: `Create`,
         title2: `Creating...`,
-        callback1: this.mgc_createGiveaways.bind(this, mgc, viewButton)
+        callback1: () => {
+          return new Promise(resolve => this.mgc_createGiveaways(mgc, viewButton, resolve));
+        }
       });
       viewButton.set.classList.add(`esgst-hidden`);
       section.appendChild(generateButton.set);
@@ -385,8 +387,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
   }
 
-  mgc_generateFormat(callback) {
-    callback();
+  mgc_generateFormat() {
     let popup = new Popup({addScrollable: true, icon: `fa-gear`, title: `Generate formats:`});
     createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -719,7 +720,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.open();
   }
 
-  mgc_getValues(edit, mgc, callback) {
+  mgc_getValues(edit, mgc) {
     let values = {
       gameId: mgc.gameId.value,
       gameType: mgc.gameType.value,
@@ -754,7 +755,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     } else {
       createAlert(`You must first fill the details of the giveaway.`);
     }
-    callback();
   }
 
   mgc_addGiveaway(edit, mgc, values) {
@@ -859,8 +859,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     this.mgc_updateCache(mgc);
   }
 
-  mgc_importGiveaways(mgc, callback) {
-    callback();
+  mgc_importGiveaways(mgc) {
     let counter, popup, progress, progressPanel, textArea;
     popup = new Popup({addScrollable: true, icon: `fa-arrow-up`, isTemp: true, title: `Import Giveaways`});
     popup.popup.classList.add(`esgst-popup-large`);
@@ -1007,7 +1006,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Import`,
       title2: `Importing...`,
-      callback1: this.mgc_getGiveaways.bind(this, mgc, popup, progress, textArea)
+      callback1:  () => {
+        return new Promise(resolve => this.mgc_getGiveaways(mgc, popup, progress, textArea, resolve));
+      }
     }).set);
     popup.open(this.mgc_focusTextArea.bind(this, textArea));
     textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
@@ -1312,8 +1313,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     textArea.focus();
   }
 
-  mgc_exportGiveaways(mgc, mainCallback) {
-    mainCallback();
+  mgc_exportGiveaways(mgc) {
     let file, i, j, n, popup, values;
     popup = new Popup({addScrollable: true, icon: `fa-arrow-down`, title: `Export`});
     new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, this.esgst.mgc_reversePosition);
@@ -1324,7 +1324,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       icon2: ``,
       title1: `Export`,
       title2: ``,
-      callback1: callback => {
+      callback1: () => {
         file = ``;
         for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
           values = mgc.giveaways.children[i].title.split(/\n/);
@@ -1345,13 +1345,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           }
         }
         downloadFile(file, `giveaways.txt`);
-        callback();
       }
     }).set);
     popup.open();
   }
 
-  mgc_emptyGiveaways(mgc, callback) {
+  mgc_emptyGiveaways(mgc) {
     if (confirm(`Are you sure you want to empty the creator?`)) {
       delLocalValue(`mgcCache`);
       this.esgst.busy = false;
@@ -1362,7 +1361,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       mgc.copies.value = `1`;
       mgc.keys.value = ``;
     }
-    callback();
   }
 
   mgc_createGiveaways(mgc, viewButton, callback) {
@@ -1918,10 +1916,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
   }
 
-  mgc_shuffleGiveaways(mgc, callback) {
+  mgc_shuffleGiveaways(mgc) {
     if (!mgc.datas.length) {
       createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
-      callback();
       return;
     }
     let i;
@@ -1929,7 +1926,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       mgc.giveaways.appendChild(mgc.giveaways.children[Math.random() * i | 0]);
     }
     this.mgc_updateCache(mgc);
-    callback();
   }
 
   mgc_updateCache(mgc) {
@@ -1941,9 +1937,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     setLocalValue(`mgcCache`, JSON.stringify(cache));
   }
 
-  mgc_attachDiscussion(mgc, callback) {
+  mgc_attachDiscussion(mgc) {
     let input, popup;
-    callback();
     popup = new Popup({addScrollable: true, icon: `fa-comments`, title: `Attach discussion:`});
     createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -1995,17 +1990,18 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Attach New`,
       title2: `Attaching...`,
-      callback1: this.mgc_attachNewDiscussion.bind(this, mgc, popup)
+      callback1: () => {
+        return new Promise(resolve => this.mgc_attachNewDiscussion(mgc, popup ,resolve));
+      }
     }).set);
     popup.open();
   }
 
-  mgc_attachExistingDiscussion(input, mgc, popup, callback) {
+  mgc_attachExistingDiscussion(input, mgc, popup) {
     mgc.discussion = input.value;
     mgc.discussionPanel.classList.remove(`esgst-hidden`);
     mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
     mgc.discussionLink.textContent = mgc.discussion;
-    callback();
     popup.close();
   }
 
@@ -2062,7 +2058,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     mgc.discussionPanel.classList.add(`esgst-hidden`);
   }
 
-  async mgc_viewResults(mgc, callback) {
+  async mgc_viewResults(mgc) {
     const popup = new Popup({addScrollable: true, icon: `fa-eye`, title: `Results`});
     const items = [];
     for (const item of mgc.created) {
@@ -2086,7 +2082,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       this.esgst.modules.generalMultiManager.mm(heading, giveaways, `Giveaways`);
     }
     popup.open();
-    callback();
   }
 
   mgc_removeGiveaway(mgc) {
