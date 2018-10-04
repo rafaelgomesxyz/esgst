@@ -15,8 +15,6 @@ const
   packageJson = require('./package.json'),
   webpack = require('webpack'),
   plugins = {
-    clean: require('clean-webpack-plugin'),
-    transfer: require('transfer-webpack-plugin'),
     sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     progressBar: require('progress-bar-webpack-plugin'),
     banner: webpack.BannerPlugin,
