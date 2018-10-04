@@ -32,7 +32,7 @@ class Filters extends Module {
     };
     switch (id) {
       case `gf`:
-        obj.filters = this.gf_getFilters(popup);
+        obj.filters = this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(popup);
         break;
       case `df`:
         obj.filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
