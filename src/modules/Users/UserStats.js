@@ -98,7 +98,7 @@ class UsersUserStats extends Module {
               class: `table__column--width-small text-center`
             },
             type: `div`,
-            children: Array.from(element.nextElementSibling.children).map(x => {
+            children: Array.from(element.nextElementSibling.childNodes).map(x => {
               return {
                 context: x
               };
@@ -124,7 +124,7 @@ class UsersUserStats extends Module {
               class: `table__column--width-small text-center`
             },
             type: `div`,
-            children: Array.from(element.nextElementSibling.children).map(x => {
+            children: Array.from(element.nextElementSibling.childNodes).map(x => {
               return {
                 context: x
               };
@@ -151,7 +151,7 @@ class UsersUserStats extends Module {
               class: `table__column--width-small text-center`
             },
             type: `div`,
-            children: Array.from(element.nextElementSibling.children).map(x => {
+            children: Array.from(element.nextElementSibling.childNodes).map(x => {
               return {
                 context: x
               };
@@ -165,7 +165,7 @@ class UsersUserStats extends Module {
               class: `table__column--width-small text-center`
             },
             type: `div`,
-            children: Array.from(profile.sentRow.nextElementSibling.lastElementChild.children).map(x => {
+            children: Array.from(profile.sentRow.nextElementSibling.lastElementChild.childNodes).map(x => {
               return {
                 context: x
               };
