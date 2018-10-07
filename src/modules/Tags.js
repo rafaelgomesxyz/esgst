@@ -97,8 +97,8 @@ class Tags extends Module {
     }
     this.esgst[`${key}Tags`] = sortArray(this.esgst[`${key}Tags`], true, `count`).map(x => x.tag);
     if (this.esgst[`${key}_s`]) {
-      this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions);
-      this.esgst.documentEvents.click.add(this.tags_closeSuggestions);
+      this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
+      this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));
     }
   }
 
