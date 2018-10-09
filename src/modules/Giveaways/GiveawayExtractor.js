@@ -83,22 +83,14 @@ class GiveawaysGiveawayExtractor extends Module {
     };
   }
 
-  ge() {
-    // noinspection JSIgnoredPromiseFromCall
-    this.ge_addButton(false, `Extract all giveaways`);
-    if (this.esgst.ge_o) {
-      // noinspection JSIgnoredPromiseFromCall
-      this.ge_addButton(true, `Extract only from the current giveaway onward`, [`fa-forward`]);
-    }
-  }
-
-  async ge_addButton(extractOnward, title, extraIcons = []) {
+  async ge() {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
-      let ge = {
-        button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title}),
-        extractOnward
-      };
-      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
+      // noinspection JSIgnoredPromiseFromCall
+      this.ge_addButton(false, `Extract all giveaways`);
+      if (this.esgst.ge_o) {
+        // noinspection JSIgnoredPromiseFromCall
+        this.ge_addButton(true, `Extract only from the current giveaway onward`, [`fa-forward`]);
+      }
     } else if (this.esgst.gePath) {
       const parameters = getParameters();
       let ge = {
@@ -107,6 +99,14 @@ class GiveawaysGiveawayExtractor extends Module {
       };
       this.ge_openPopup(ge);
     }
+  }
+
+  ge_addButton(extractOnward, title, extraIcons = []) {
+    let ge = {
+      button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title}),
+      extractOnward
+    };
+    setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
   }
 
   ge_openPopup(ge) {
