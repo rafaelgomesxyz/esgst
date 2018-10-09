@@ -73,7 +73,7 @@ class DiscussionsMainPostPopup extends Module {
         MPPPost.classList.remove(`esgst-mpp-visible`);
         MPPPost.classList.add(`esgst-mpp-hidden`);
       }
-      let popup = new Popup({addScrollable: true, icon: ``, title: ``, popup: MPPPost});
+      let popup = new Popup({icon: ``, title: ``, popup: MPPPost});
       MPPPost.classList.add(`esgst-mpp-popup`);
       popup.open();
       popup.onClose = () => {

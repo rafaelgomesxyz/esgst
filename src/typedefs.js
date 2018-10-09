@@ -241,7 +241,13 @@
  */
 
 /**
+ * @typedef {Object} EsgstSetting
+ * @property {Object[]} include
+ * @property {Object[]} exclude
+ */
+/**
  * @typedef {Object} EsgstSettings
+ * @property {EsgstSetting} es_sg
  * @property {boolean} groupPopupDismissed
  * @property {boolean} esgst_st
  * @property {boolean} at_g_sg

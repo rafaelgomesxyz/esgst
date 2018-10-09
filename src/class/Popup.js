@@ -134,7 +134,7 @@ export default class Popup {
         type: `div`
       }]);
     }
-    if (details.addScrollable) {
+    if (details.addScrollable && !details.popup) {
       this.scrollable = container.common.createElements(this.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-popup-scrollable`
@@ -301,6 +301,10 @@ export default class Popup {
     this.progressMessage = null;
     this.overallProgress.textContent = ``;
     this.scrollable.innerHTML = ``;
+  }
+
+  setTitle(title) {
+    this.title.textContent = title;
   }
 
   /**

@@ -2,6 +2,9 @@ import {container} from '../class/Container';
 
 export default class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
+    if (className === `esgst-hidden-buttons`) {
+      this.isDynamicHeight = true;
+    }
     this.onClose = null;
     this.onOpen = onOpen;
     this.context = context;
@@ -105,7 +108,9 @@ export default class Popout {
 
   reposition(context = null) {
     let contextLeft, contextRect, contextTop, popoutHeight, popoutWidth, popupRect;
-    this.popout.style.height = ``;
+    if (!this.isDynamicHeight) {
+      this.popout.style.height = ``;
+    }
     this.popout.style.left = `0`;
     this.popout.style.top = `0`;
     this.context = context || this.context;
@@ -124,7 +129,9 @@ export default class Popout {
       Math.min(oldHeight, document.documentElement.clientHeight - (contextTop + contextRect.height + difference)),
       Math.min(oldHeight, contextTop - difference)
     );
-    this.popout.style.height = `${newHeight}px`;
+    if (!this.isDynamicHeight) {
+      this.popout.style.height = `${newHeight}px`;
+    }
     if (container.esgst.qiv && container.esgst.qiv.popout === this && container.esgst.qiv.comments) {
       container.esgst.qiv.comments.style.maxHeight = `${newHeight - container.esgst.qiv.comments.offsetTop}px`;
     }

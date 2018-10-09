@@ -5691,7 +5691,6 @@ class CommentsCommentFormattingHelper extends Module {
         if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
           emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
         }
-        console.log(emoji);
         const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         if (!emojiData) {
           return null;

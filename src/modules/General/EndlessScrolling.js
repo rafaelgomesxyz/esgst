@@ -10,10 +10,9 @@ const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   endless_load = common.endless_load.bind(common),
-  getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   reverseComments = common.reverseComments.bind(common),
-  setValue = common.setValue.bind(common)
+  setSetting = common.setSetting.bind(common)
 ;
 
 class GeneralEndlessScrolling extends Module {
@@ -111,6 +110,10 @@ class GeneralEndlessScrolling extends Module {
       name: `Endless Scrolling`,
       sg: true,
       st: true,
+      includeOptions: [{
+        id: `pause`,
+        name: `Paused`
+      }],
       type: `general`
     };
   }
@@ -262,7 +265,7 @@ class GeneralEndlessScrolling extends Module {
     es.isLimited = false;
     es.limitCount = 0;
     es.busy = false;
-    es.paused = await getValue(`esPause`, false);
+    es.paused = this.esgst.currentSettings.es.current.options && this.esgst.currentSettings.es.current.options.pause;
     this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall
@@ -588,7 +591,19 @@ class GeneralEndlessScrolling extends Module {
     es.pauseButton.classList.add(`esgst-hidden`);
     es.resumeButton.classList.remove(`esgst-hidden`);
     if (!firstRun) {
-      await setValue(`esPause`, es.paused);
+      const setting = this.esgst.currentSettings.es.setting;
+      setting.include = setting.include.map(item => {
+        if (item !== this.esgst.currentSettings.es.current) {
+          return item;
+        }
+        if (!item.options) {
+          item.options = {};
+        }
+        item.options.pause = es.paused;
+        this.esgst.currentSettings.es.current = item;
+        return item;
+      });
+      await setSetting(`es`, setting, true);
     }
     es.continuous = false;
     createElements(es.continuousButton, `inner`, [{
@@ -604,7 +619,19 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton.classList.add(`esgst-hidden`);
     es.pauseButton.classList.remove(`esgst-hidden`);
     if (!firstRun) {
-      await setValue(`esPause`, es.paused);
+      const setting = this.esgst.currentSettings.es.setting;
+      setting.include = setting.include.map(item => {
+        if (item !== this.esgst.currentSettings.es.current) {
+          return item;
+        }
+        if (!item.options) {
+          item.options = {};
+        }
+        item.options.pause = es.paused;
+        this.esgst.currentSettings.es.current = item;
+        return item;
+      });
+      await setSetting(`es`, setting, true);
     }
     if (this.esgst.pagination.getAttribute(`data-esgst-intersecting`)) {
       this.esgst.es_loadNext(null, true);
