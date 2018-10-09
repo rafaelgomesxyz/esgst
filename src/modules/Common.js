@@ -1781,6 +1781,10 @@ class Common extends Module {
       let i = setting.include.length - 1;
       while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
       if (i > -1) {
+        this.esgst.currentSettings[id] = {
+          current: setting.include[i],
+          setting,
+        };
         check = true;
       }
       i = setting.exclude.length - 1;
@@ -3971,7 +3975,7 @@ class Common extends Module {
       icon2: ``,
       title1: `Add New`,
       title2: ``,
-      callback1: this.addPath.bind(this, `include`, obj, {enabled: 1, pattern: ``})
+      callback1: this.addPath.bind(this, feature, `include`, obj, {enabled: 1, pattern: ``})
     }).set);
     group.appendChild(new ButtonSet({
       color1: `grey`,
@@ -3980,7 +3984,7 @@ class Common extends Module {
       icon2: ``,
       title1: `Add Current`,
       title2: ``,
-      callback1: this.addPath.bind(this, `include`, obj, {
+      callback1: this.addPath.bind(this, feature, `include`, obj, {
         enabled: 1,
         pattern: `^${this.escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${this.escapeRegExp(location.search)}`
       })
@@ -4016,7 +4020,7 @@ class Common extends Module {
       icon2: ``,
       title1: `Add New`,
       title2: ``,
-      callback1: this.addPath.bind(this, `exclude`, obj, {enabled: 1, pattern: ``})
+      callback1: this.addPath.bind(this, feature, `exclude`, obj, {enabled: 1, pattern: ``})
     }).set);
     group.appendChild(new ButtonSet({
       color1: `grey`,
@@ -4025,7 +4029,7 @@ class Common extends Module {
       icon2: ``,
       title1: `Add Current`,
       title2: ``,
-      callback1: this.addPath.bind(this, `exclude`, obj, {
+      callback1: this.addPath.bind(this, feature, `exclude`, obj, {
         enabled: 1,
         pattern: `^${this.escapeRegExp(location.pathname)}${this.escapeRegExp(location.search)}`
       })
@@ -4040,12 +4044,12 @@ class Common extends Module {
       callback1: this.savePaths.bind(this, id, obj)
     }).set);
     obj.setting = this.getFeaturePath(feature, id, obj.name);
-    obj.setting.include.forEach(path => this.addPath(`include`, obj, path));
-    obj.setting.exclude.forEach(path => this.addPath(`exclude`, obj, path));
+    obj.setting.include.forEach(path => this.addPath(feature, `include`, obj, path));
+    obj.setting.exclude.forEach(path => this.addPath(feature, `exclude`, obj, path));
     obj.popup.open();
   }
 
-  addPath(key, obj, path) {
+  addPath(feature, key, obj, path) {
     let item = {};
     item.container = this.createElements(obj[key], `beforeEnd`, [{
       type: `div`
@@ -4075,6 +4079,21 @@ class Common extends Module {
       type: `i`
     }]);
     obj[`${key}Items`].push(item);
+    if (key === `include` && feature.includeOptions) {
+      item.options = [];
+      const optionsContainer = this.createElements(item.container, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-form-row-indent`
+        },
+        type: `div`
+      }]);
+      for (const option of feature.includeOptions) {
+        item.options.push({
+          id: option.id,
+          switch: new ToggleSwitch(optionsContainer, null, true, option.name, false, false, null, !!(path.options && path.options[option.id]))
+        });
+      }
+    }
     item.input.focus();
   }
 
@@ -4104,16 +4123,23 @@ class Common extends Module {
   savePaths(id, obj) {
     obj.setting.include = [];
     obj.setting.exclude = [];
-    for (let i = 0, n = obj.includeItems.length; i < n; i++) {
-      obj.setting.include.push({
-        enabled: obj.includeItems[i].switch.value ? 1 : 0,
-        pattern: obj.includeItems[i].input.value
-      });
+    for (const item of obj.includeItems) {
+      const setting = {
+        enabled: item.switch.value ? 1 : 0,
+        pattern: item.input.value
+      };
+      if (item.options) {
+        setting.options = {};
+        for (const option of item.options) {
+          setting.options[option.id] = option.switch.value ? 1 : 0;
+        }
+      }
+      obj.setting.include.push(setting);
     }
-    for (let i = 0, n = obj.excludeItems.length; i < n; i++) {
+    for (const item of obj.excludeItems) {
       obj.setting.exclude.push({
-        enabled: obj.excludeItems[i].switch.value ? 1 : 0,
-        pattern: obj.excludeItems[i].input.value
+        enabled: item.switch.value ? 1 : 0,
+        pattern: item.input.value
       });
     }
     obj.popup.close();
@@ -12646,6 +12672,11 @@ class Common extends Module {
     if (obj.item.gcPanel) {
       obj.item.gcPanel.style.flexWrap = `wrap`;
       obj.item.gcPanel.style.maxWidth = `${obj.item.gcPanel.offsetWidth}px`;
+    }
+    if (!obj.item.innerWrap && obj.item.outerWrap) {
+      obj.item.outerWrap.style.flexWrap = `wrap`;
+      obj.item.outerWrap.style.maxWidth = `${obj.item.outerWrap}px`;
+
     }
     await this.timeout(0);
     if (obj.item.gvIcons && obj.item.gvIcons.children.length < 1) {
