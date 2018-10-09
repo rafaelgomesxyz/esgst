@@ -1,5 +1,6 @@
 /** @var {Object} webpack.BannerPlugin */
 /** @var {Object} webpack.ProvidePlugin */
+// noinspection NodeJsCodingAssistanceForCoreModules
 /**
  * @typedef {Object} Environment
  * @property {boolean} development
@@ -45,14 +46,17 @@ module.exports = /** @param {Environment} env */ env => {
     env.withBabel = true;
   }
 
+  const entry = {
+    [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js']
+  };
+  if (env.production) {
+    entry[BUILD_PATHS.MONKEY] = ['./monkey/index.js'];
+  }
   let cfg = {
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
     context: path.join(__dirname, './src/entry/'),
-    entry: {
-      [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
-      [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'],
-      [BUILD_PATHS.MONKEY]: ['./monkey/index.js']
-    },
+    entry,
     output: {
       path: __dirname,
       filename: "[name].js"
