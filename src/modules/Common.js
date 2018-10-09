@@ -181,33 +181,48 @@ class Common extends Module {
       this.minimizePanel_add();
     }
 
-    let hiddenButtonsBefore, hiddenButtonsAfter;
+    if (this.esgst.mainPageHeading) {
+      this.esgst.leftMainPageHeadingButtons = this.createElements(this.esgst.mainPageHeading, `afterBegin`, [{
+        attributes: {
+          class: `esgst-page-heading esgst-page-heading-buttons`
+        },
+        type: `div`
+      }]) ;
+      this.esgst.rightMainPageHeadingButtons = this.createElements(this.esgst.mainPageHeading, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-page-heading esgst-page-heading-buttons`
+        },
+        type: `div`
+      }]) ;
+    }
+
+    let hideButtonsLeft, hideButtonsRight;
     if (this.esgst.hideButtons) {
-      hiddenButtonsBefore = document.createElement(`div`);
-      hiddenButtonsBefore.className = `esgst-heading-button`;
-      hiddenButtonsBefore.title = this.getFeatureTooltip(`hideButtons`);
-      this.createElements(hiddenButtonsBefore, `inner`, [{
+      hideButtonsLeft = document.createElement(`div`);
+      hideButtonsLeft.className = `esgst-heading-button`;
+      hideButtonsLeft.title = this.getFeatureTooltip(`hideButtons`);
+      this.createElements(hideButtonsLeft, `inner`, [{
         attributes: {
           class: `fa fa-ellipsis-v`
         },
         type: `i`
       }]);
-      this.esgst.leftButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hiddenButtonsBefore, 0, true).popout, `beforeEnd`, [{
+      this.esgst.leftButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsLeft, 0, true).popout, `beforeEnd`, [{
         attributes: {
           class: `esgst-page-heading`
         },
         type: `div`
       }]);
-      hiddenButtonsAfter = document.createElement(`div`);
-      hiddenButtonsAfter.className = `esgst-heading-button`;
-      hiddenButtonsAfter.title = this.getFeatureTooltip(`hideButtons`);
-      this.createElements(hiddenButtonsAfter, `inner`, [{
+      hideButtonsRight = document.createElement(`div`);
+      hideButtonsRight.className = `esgst-heading-button`;
+      hideButtonsRight.title = this.getFeatureTooltip(`hideButtons`);
+      this.createElements(hideButtonsRight, `inner`, [{
         attributes: {
           class: `fa fa-ellipsis-v`
         },
         type: `i`
       }]);
-      this.esgst.rightButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hiddenButtonsAfter, 0, true).popout, `beforeEnd`, [{
+      this.esgst.rightButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsRight, 0, true).popout, `beforeEnd`, [{
         attributes: {
           class: `esgst-page-heading`
         },
@@ -262,17 +277,27 @@ class Common extends Module {
       }
     }
 
-    if (this.esgst.hideButtons && this.esgst.mainPageHeading) {
-      if (!this.esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
-        hiddenButtonsBefore.classList.add(`esgst-hidden`);
+    if (this.esgst.mainPageHeading) {
+      if (!this.esgst.leftMainPageHeadingButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
+        this.esgst.leftMainPageHeadingButtons.classList.add(`esgst-hidden`);
       }
-      if (!this.esgst.rightButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
-        hiddenButtonsAfter.classList.add(`esgst-hidden`);
+      if (!this.esgst.rightMainPageHeadingButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
+        this.esgst.rightMainPageHeadingButtons.classList.add(`esgst-hidden`);
       }
-      this.esgst.mainPageHeading.insertBefore(hiddenButtonsBefore, this.esgst.mainPageHeading.firstElementChild);
-      this.esgst.mainPageHeading.appendChild(hiddenButtonsAfter);
+      if (this.esgst.hideButtons) {
+        if (!this.esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
+          hideButtonsLeft.classList.add(`esgst-hidden`);
+        }
+        if (!this.esgst.rightButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
+          hideButtonsRight.classList.add(`esgst-hidden`);
+        }
+        this.esgst.mainPageHeading.insertBefore(hideButtonsLeft, this.esgst.mainPageHeading.firstElementChild);
+        this.esgst.mainPageHeading.appendChild(hideButtonsRight);
+      }
     }
-    this.reorderButtons(hiddenButtonsBefore, this.esgst.leftButtons, hiddenButtonsAfter, this.esgst.rightButtons);
+    if (!this.esgst.lockMainPageHeadingButtons) {
+      this.reorderButtons();
+    }
     if (document.readyState === `complete`) {
       this.goToComment(this.esgst.originalHash);
     } else {
@@ -708,6 +733,11 @@ class Common extends Module {
             sg: true,
             st: true
           },
+          lockMainPageHeadingButtons: {
+            name: `Lock main page heading buttons so that they are not draggable (they will remain in the set order).`,
+            sg: true,
+            st: true
+          },
           hideButtons: {
             description: `
             <ul>
@@ -1032,7 +1062,7 @@ class Common extends Module {
         if (type.match(/^(others|themes)$/)) {
           continue;
         }
-        const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].type === type).sort((x, y) => {
+        const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].info.type === type).sort((x, y) => {
           return this.esgst.modules[x].info.id.localeCompare(this.esgst.modules[y].info.id, {sensitivity: `base`});
         });
         for (const key of typeModules) {
@@ -1088,7 +1118,25 @@ class Common extends Module {
   }
 
   createHeadingButton(details) {
-    const [key, position] = this.esgst.leftButtonIds.indexOf(details.orderId || details.id) > -1 ? [`leftButtons`, `afterBegin`] : [`rightButtons`, `beforeEnd`];
+    let context = details.context;
+    const id = details.orderId || details.id;
+    if (!context) {
+      if (this.esgst.hideButtons && this.esgst[`hideButtons_${id}`]) {
+        if (this.esgst.leftButtonIds.indexOf(id) > -1) {
+          context = this.esgst.leftButtons;
+        } else {
+          context = this.esgst.rightButtons;
+        }
+      } else if (this.esgst.leftMainPageHeadingIds.indexOf(id) > -1) {
+        context = this.esgst.leftMainPageHeadingButtons;
+      } else {
+        context = this.esgst.rightMainPageHeadingButtons;
+      }
+    }
+    if (details.element) {
+      context.appendChild(details.element);
+      return context.lastElementChild;
+    }
     const children = [];
     if (details.isSwitch) {
       children.push({
@@ -1103,9 +1151,10 @@ class Common extends Module {
         type: `i`
       });
     }
-    return this.createElements(details.context || (this.esgst.hideButtons && this.esgst[`hideButtons_${details.orderId || details.id}`] ? this.esgst[key] : this.esgst.mainPageHeading), position, [{
+    return this.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-heading-button`,
+        [`data-draggable-id`]: id,
         id: `esgst-${details.id}`,
         title: this.getFeatureTooltip(details.featureId || details.id, details.title)
       },
@@ -1450,118 +1499,52 @@ class Common extends Module {
     }
   }
 
-  reorderButtons(leftButton, leftButtons, rightButton, rightButtons) {
-    let leftHidden, rightHidden, source;
-    leftHidden = leftButton && leftButton.classList.contains(`esgst-hidden`);
-    rightHidden = rightButton && rightButton.classList.contains(`esgst-hidden`);
-    this.esgst.leftButtonIds.forEach(id => {
-      let button = document.getElementById(`esgst-${id}`);
-      if (button) {
-        let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
-        button.parentElement.insertBefore(button, leftHidden || !this.esgst.hideButtons || this.esgst[key] ? button.parentElement.firstElementChild : button.parentElement.firstElementChild.nextElementSibling);
-        button.setAttribute(`draggable`, `true`);
-        button.addEventListener(`dragstart`, event => {
-          event.dataTransfer.setData(`text/plain`, ``);
-          source = button;
-        });
-        button.addEventListener(`dragenter`, () => {
-          let current;
-          current = source;
-          do {
-            current = current.previousElementSibling;
-            if (current && current === button) {
-              current.parentElement.insertBefore(source, current);
-              return;
-            }
-          } while (current);
-          button.parentElement.insertBefore(source, button.nextElementSibling);
-        });
-        button.addEventListener(`dragend`, async () => {
-          let i, nextSiblingId, previousSiblingId, siblingId;
-          if (this.esgst.hideButtons) {
-            if (leftButtons.contains(button) || rightButtons.contains(button)) {
-              if (!this.esgst[key]) {
-                await this.setSetting(key, true, this.esgst.sg, this.esgst.st);
-              }
-            } else if (this.esgst[key]) {
-              await this.setSetting(key, false, this.esgst.sg, this.esgst.st);
-            }
-          }
-          previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
-          nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
-          siblingId = previousSiblingId || nextSiblingId;
-          if (siblingId) {
-            i = this.esgst.rightButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
-            this.esgst.leftButtonIds.splice(this.esgst.leftButtonIds.indexOf(id), 1);
-            if (i > -1) {
-              this.esgst.rightButtonIds.splice(i, 0, id);
-            } else if (previousSiblingId) {
-              this.esgst.leftButtonIds.splice(this.esgst.leftButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]), 0, id);
-            } else {
-              this.esgst.leftButtonIds.splice(this.esgst.leftButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]) + 1, 0, id);
-            }
-            await this.setSetting(`leftButtonIds`, this.esgst.leftButtonIds);
-            await this.setSetting(`rightButtonIds`, this.esgst.rightButtonIds);
-          }
-        });
+  reorderButtons() {
+    const items = [{
+      context: this.esgst.leftButtons,
+      id: `leftButtonIds`
+    }, {
+      context: this.esgst.rightButtons,
+      id: `rightButtonIds`
+    }, {
+      context: this.esgst.leftMainPageHeadingButtons,
+      id: `leftMainPageHeadingIds`
+    }, {
+      context: this.esgst.rightMainPageHeadingButtons,
+      id: `rightMainPageHeadingIds`
+    }];
+    for (const item of items) {
+      if (!item.context) {
+        continue;
       }
-    });
-    this.esgst.rightButtonIds.forEach(id => {
-      let button = document.getElementById(`esgst-${id}`);
-      if (button) {
-        let key = id === `esResume` ? `hideButtons_esPause` : `hideButtons_${id}`;
-        if (rightHidden || !this.esgst.hideButtons || this.esgst[key]) {
-          button.parentElement.appendChild(button);
-        } else {
-          button.parentElement.insertBefore(button, button.parentElement.lastElementChild);
+      for (const id of this.esgst[item.id]) {
+        const elements = item.context.querySelectorAll(`[data-draggable-id="${id}"]`);
+        for (const element of elements) {
+          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
+            element.remove();
+            continue;
+          }
+          item.context.appendChild(element);
         }
-        button.setAttribute(`draggable`, `true`);
-        button.addEventListener(`dragstart`, event => {
-          event.dataTransfer.setData(`text/plain`, ``);
-          source = button;
-        });
-        button.addEventListener(`dragenter`, () => {
-          let current;
-          current = source;
-          do {
-            current = current.previousElementSibling;
-            if (current && current === button) {
-              current.parentElement.insertBefore(source, current);
-              return;
-            }
-          } while (current);
-          button.parentElement.insertBefore(source, button.nextElementSibling);
-        });
-        button.addEventListener(`dragend`, async () => {
-          let i, nextSiblingId, previousSiblingId, siblingId;
-          if (this.esgst.hideButtons) {
-            if (leftButtons.contains(button) || rightButtons.contains(button)) {
-              if (!this.esgst[key]) {
-                await this.setSetting(key, true, this.esgst.sg, this.esgst.st);
-              }
-            } else if (this.esgst[key]) {
-              await this.setSetting(key, false, this.esgst.sg, this.esgst.st);
-            }
-          }
-          previousSiblingId = button.previousElementSibling && !button.previousElementSibling.classList.contains(`esgst-hidden`) && button.previousElementSibling.id;
-          nextSiblingId = button.nextElementSibling && !button.nextElementSibling.classList.contains(`esgst-hidden`) && button.nextElementSibling.id;
-          siblingId = previousSiblingId || nextSiblingId;
-          if (siblingId) {
-            i = this.esgst.leftButtonIds.indexOf(siblingId.split(`esgst-`)[1]);
-            this.esgst.rightButtonIds.splice(this.esgst.rightButtonIds.indexOf(id), 1);
-            if (i > -1) {
-              this.esgst.leftButtonIds.splice(i, 0, id);
-            } else if (previousSiblingId) {
-              this.esgst.rightButtonIds.splice(this.esgst.rightButtonIds.indexOf(previousSiblingId.split(`esgst-`)[1]) + 1, 0, id);
-            } else {
-              this.esgst.rightButtonIds.splice(this.esgst.rightButtonIds.indexOf(nextSiblingId.split(`esgst-`)[1]), 0, id);
-            }
-            await this.setSetting(`leftButtonIds`, this.esgst.leftButtonIds);
-            await this.setSetting(`rightButtonIds`, this.esgst.rightButtonIds);
-          }
-        });
+        if (!elements.length) {
+          this.createElements(item.context, `beforeEnd`, [{
+            attributes: {
+              class: `esgst-draggable-placeholder esgst-hidden`,
+              [`data-draggable-id`]: id
+            },
+            text: id,
+            type: `span`
+          }]);
+        }
       }
-    });
+      this.draggable_set({
+        context: item.context,
+        id: item.id,
+        item: {
+          outerWrap: item.context
+        }
+      });
+    }
   }
 
   repositionPopups() {
@@ -4414,6 +4397,82 @@ class Common extends Module {
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `gc_o_a`) {
       this.addGcAltMenuPanel(SMFeatures);
+      SMFeatures.classList.remove(`esgst-hidden`);
+    } else if (ID === `lockMainPageHeadingButtons`) {
+      let select = this.createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`,
+        },
+        type: `div`,
+        children: [{
+          text: `Select an option below and click on the button to reset the order:`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          type: `select`,
+          children: [{
+            attributes: {
+              value: `leftMainPageHeadingIds`
+            },
+            text: `Left Buttons [${this.esgst.leftMainPageHeadingIds.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `rightMainPageHeadingIds`
+            },
+            text: `Right Buttons [${this.esgst.rightMainPageHeadingIds.join(`, `)}]`,
+            type: `option`
+          }]
+        }, {
+          type: `br`
+        }, {
+          attributes: {
+            class: `form__saving-button esgst-sm-colors-default`
+          },
+          text: `Reset Order`,
+          type: `div`
+        }]
+      }]).firstElementChild.nextElementSibling;
+      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(this, select));
+      SMFeatures.classList.remove(`esgst-hidden`);
+    } else if (ID === `hideButtons`) {
+      let select = this.createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`,
+        },
+        type: `div`,
+        children: [{
+          text: `Select an option below and click on the button to reset the order:`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          type: `select`,
+          children: [{
+            attributes: {
+              value: `leftButtonIds`
+            },
+            text: `Left Buttons [${this.esgst.leftButtonIds.join(`, `)}]`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `rightButtonIds`
+            },
+            text: `Right Buttons [${this.esgst.rightButtonIds.join(`, `)}]`,
+            type: `option`
+          }]
+        }, {
+          type: `br`
+        }, {
+          attributes: {
+            class: `form__saving-button esgst-sm-colors-default`
+          },
+          text: `Reset Order`,
+          type: `div`
+        }]
+      }]).firstElementChild.nextElementSibling;
+      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(this, select));
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `lockGiveawayColumns`) {
       let select = this.createElements(SMFeatures, `beforeEnd`, [{
@@ -9754,6 +9813,13 @@ class Common extends Module {
     `;
     }
     style += `
+    .esgst-page-heading-buttons {
+      background: none;
+      border: none;
+      margin: 0 !important;
+      padding: 0;
+    }
+    
     .esgst-inline-list >*:not(:last-child) {
       margin-right: 15px;
     }

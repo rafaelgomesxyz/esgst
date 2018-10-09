@@ -11,15 +11,10 @@ export default class Module {
       },
       name: 'Unknown'
     };
-    this.info.id += (new Date).getTime();
   }
 
   init() {
     return this.info.load.call(this);
-  }
-
-  get type() {
-    return this.info.type;
   }
 
   /**

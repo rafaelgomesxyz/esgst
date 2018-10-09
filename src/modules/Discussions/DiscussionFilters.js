@@ -7,6 +7,7 @@ const
   sortArray = utils.sortArray.bind(utils),
   checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
   createElements = common.createElements.bind(common),
+  createHeadingButton = common.createHeadingButton.bind(common),
   createLock = common.createLock.bind(common),
   endless_load = common.endless_load.bind(common),
   getValue = common.getValue.bind(common),
@@ -233,15 +234,10 @@ class DiscussionsDiscussionFilters extends Module {
           top: ${this.esgst.commentsTop - 5}px;
         }
       `);
-      if (this.esgst.hideButtons && this.esgst.hideButtons_df) {
-        if (this.esgst.leftButtonIds.indexOf(`df`) > -1) {
-          this.esgst.leftButtons.insertBefore(this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
-        } else {
-          this.esgst.rightButtons.appendChild(this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading));
-        }
-      } else {
-        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
-      }
+      createHeadingButton({
+        element: this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading),
+        id: `df`
+      });
     }
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.adots || this.esgst.oadd) return;
     await checkMissingDiscussions();
