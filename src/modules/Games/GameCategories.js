@@ -3,6 +3,7 @@ import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
 const
+  isSet = utils.isSet.bind(utils),
   parseHtml = utils.parseHtml.bind(utils),
   sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
@@ -1841,7 +1842,7 @@ class GamesGameCategories extends Module {
             }
             break;
           case `gc_gi`:
-            if (cache && cache.price) {
+            if (cache && isSet(cache.price)) {
               let price = cache.price;
               const heading = games[0].heading;
               if (heading) {

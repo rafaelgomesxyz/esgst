@@ -47,11 +47,11 @@ class GiveawaysGiveawayExtractor extends Module {
         ge_o: {
           description: `
           <ul>
-            <li>With this option enabled, if you use the feature in the 6th giveaway of a train and the train has links to the previous giveaways, it will not go back and extract giveaways 1-5.</li>
+            <li>With this option enabled, a second button is added to the main page heading that when used, for example, in the 6th giveaway of a train that has links to the previous giveaways, will not go back and extract giveaways 1-5.</li>
             <li>This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.</li>
           </ul>
         `,
-          name: `Only extract from the current giveaway onward.`,
+          name: `Add button to only extract from the current giveaway onward.`,
           sg: true
         },
         ge_sgt: {
@@ -83,15 +83,27 @@ class GiveawaysGiveawayExtractor extends Module {
     };
   }
 
-  async ge() {
+  ge() {
+    // noinspection JSIgnoredPromiseFromCall
+    this.ge_addButton(false, `Extract all giveaways`);
+    if (this.esgst.ge_o) {
+      // noinspection JSIgnoredPromiseFromCall
+      this.ge_addButton(true, `Extract only from the current giveaway onward`, [`fa-forward`]);
+    }
+  }
+
+  async ge_addButton(extractOnward, title, extraIcons = []) {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
       let ge = {
-        button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`], title: `Extract giveaways`})
+        button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title}),
+        extractOnward
       };
-      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
+      setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
     } else if (this.esgst.gePath) {
+      const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({method: `GET`, url: getParameters().url})).responseText)
+        context: parseHtml((await request({method: `GET`, url: parameters.url})).responseText),
+        extractOnward: !!parameters.extractOnward
       };
       this.ge_openPopup(ge);
     }
@@ -362,7 +374,7 @@ class GiveawaysGiveawayExtractor extends Module {
         if (!match) continue;
       }
       let code = match[1];
-      if (!this.esgst.ge_o || this.esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
+      if (!ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
         if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
           giveaways.push(code);
         }

@@ -52,6 +52,7 @@ class Filters extends Module {
     const headingButton = document.createElement(`div`);
     headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
     headingButton.id = `esgst-${obj.id}`;
+    headingButton.setAttribute(`data-draggable-id`, obj.id);
     createElements(headingButton, `inner`, [{
       attributes: {
         class: `esgst-gf-toggle-switch`

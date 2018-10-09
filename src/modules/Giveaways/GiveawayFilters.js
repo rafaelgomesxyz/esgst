@@ -3,6 +3,7 @@ import Button from '../../class/Button';
 import {common} from '../Common';
 
 const
+  createHeadingButton = common.createHeadingButton.bind(common),
   createLock = common.createLock.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
@@ -700,15 +701,10 @@ class GiveawaysGiveawayFilters extends Module {
           top: ${this.esgst.commentsTop - 5}px;
         }
       `);
-      if (this.esgst.hideButtons && this.esgst.hideButtons_gf) {
-        if (this.esgst.leftButtonIds.indexOf(`gf`) > -1) {
-          this.esgst.leftButtons.insertBefore(this.esgst.modules.filters.filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.leftButtons.firstElementChild);
-        } else {
-          this.esgst.rightButtons.appendChild(this.esgst.modules.filters.filters_addContainer(`gf`, this.esgst.mainPageHeading));
-        }
-      } else {
-        this.esgst.mainPageHeading.insertBefore(this.esgst.modules.filters.filters_addContainer(`gf`, this.esgst.mainPageHeading), this.esgst.mainPageHeading.firstElementChild);
-      }
+      createHeadingButton({
+        element: this.esgst.modules.filters.filters_addContainer(`gf`, this.esgst.mainPageHeading),
+        id: `gf`
+      });
     }
     if (location.pathname.match(/^\/account\/settings\/giveaways$/) && (this.esgst.gf_os || this.esgst.gf_alreadyOwned || this.esgst.gf_dlcMissingBase || this.esgst.gf_aboveLevel || this.esgst.gf_manuallyFiltered)) {
       let key,
