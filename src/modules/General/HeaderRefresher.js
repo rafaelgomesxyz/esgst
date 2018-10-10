@@ -328,7 +328,11 @@ class GeneralHeaderRefresher extends Module {
         while (nextRefresh > 15) {
           nextRefresh -= 15;
         }
-        this.esgst.pointsContainer.title = getFeatureTooltip(`ttpcc`, `${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100)} to 400P`);
+        const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100);
+        this.esgst.pointsContainer.title = getFeatureTooltip(`ttpcc`, `${time} to 400P`);
+        if (this.esgst.ttpcc_a) {
+          this.esgst.pointsContainer.textContent = `${this.esgst.points}P / ${time} to 400`;
+        }
       }
       this.esgst.levelContainer = this.esgst.mainButton.lastElementChild;
       this.esgst.level = parseInt(this.esgst.levelContainer.textContent.match(/\d+/)[0]);

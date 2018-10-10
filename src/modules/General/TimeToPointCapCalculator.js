@@ -9,6 +9,12 @@ class GeneralTimeToPointCapCalculator extends Module {
         <li>If you have less than 400P and you hover over the number of points this.esgst.modules.generalAccurateTimestamp.at the header of any page, it shows how much time you have to wait until you have 400P.</li>
       </ul>
     `,
+      features: {
+        ttpcc_a: {
+          name: `Show time alongside points.`,
+          sg: true
+        }
+      },
       id: `ttpcc`,
       name: `Time To Point Cap Calculator`,
       sg: true,

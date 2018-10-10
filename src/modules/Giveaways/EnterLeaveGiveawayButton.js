@@ -25,6 +25,15 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       </ul>
     `,
       features: {
+        elgb_b: {
+          description: `
+          <ul>
+            <li>Requires [id=gb] enabled.</li>
+          </ul>
+        `,
+          name: `Automatically bookmark giveaways when trying to enter them without enough points .`,
+          sg: true
+        },
         elgb_c: {
           name: `Cache repeated descriptions from the same creator for 1 hour and only show them once.`,
           sg: true
@@ -212,6 +221,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       if (responseJson.type === `success`) {
         removeButton.classList.remove(`esgst-hidden`);
       } else {
+        if (this.esgst.elgb_b && this.esgst.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
+          // noinspection JSIgnoredPromiseFromCall
+          giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
+        }
         errorButton.classList.remove(`esgst-hidden`);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
@@ -555,6 +568,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         this.elgb_openPopup(giveaway, main, source);
       }
     } else {
+      if (this.esgst.elgb_b && this.esgst.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
+        // noinspection JSIgnoredPromiseFromCall
+        giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
+      }
       giveaway.entered = false;
       giveaway.error = responseJson.msg;
       this.elgb_addButton(giveaway, main, source);

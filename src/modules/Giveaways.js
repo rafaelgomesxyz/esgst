@@ -458,7 +458,7 @@ class Giveaways extends Module {
             type: `i`
           }]
         }]);
-        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.giveawaysGiveawayRecreator.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway));
+        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway));
       }
     }
     let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);

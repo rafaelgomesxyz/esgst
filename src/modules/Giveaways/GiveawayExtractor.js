@@ -84,7 +84,7 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   async ge() {
-    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`))) {
+    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"], .markdown [href*="itstoohard.com/puzzle/"], .markdown [href*="jigidi.com/solve.php?id="]`))) {
       // noinspection JSIgnoredPromiseFromCall
       this.ge_addButton(false, `Extract all giveaways`);
       if (this.esgst.ge_o) {
@@ -120,6 +120,8 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.bumpLink = ``;
     ge.points = 0;
     ge.sgToolsCount = 0;
+    ge.ithLinks = [];
+    ge.jigidiLinks = [];
     ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
     if (this.esgst.gePath) {
       ge.popup = {
@@ -392,6 +394,8 @@ class GiveawaysGiveawayExtractor extends Module {
     if (next.count > 0) {
       giveaways.push(next.code);
     }
+    ge.ithLinks = ge.ithLinks.concat(...Array.from(context.querySelectorAll(`.markdown [href*="itstoohard.com/puzzle/"]`)).map(element => element.getAttribute(`href`)));
+    ge.jigidiLinks = ge.jigidiLinks.concat(...Array.from(context.querySelectorAll(`.markdown [href*="jigidi.com/solve.php?id="]`)).map(element => element.getAttribute(`href`)));
     return giveaways;
   }
 
@@ -427,6 +431,17 @@ class GiveawaysGiveawayExtractor extends Module {
       text: `${ge.points}P required to enter all giveaways.`,
       type: `node`
     });
+    for (const link of ge.ithLinks.concat(ge.jigidiLinks)) {
+      items[0].children.push({
+        type: `br`
+      }, {
+        attributes: {
+          href: link
+        },
+        text: link,
+          type: `a`
+      });
+    }
     createElements(ge.results, `afterBegin`, items);
     createElements(ge.results, `beforeEnd`, items);
     ge.set.set.remove();
