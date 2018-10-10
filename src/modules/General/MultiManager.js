@@ -2,10 +2,12 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Checkbox from '../../class/Checkbox';
 import Popout from '../../class/Popout';
+import Popup from '../../class/Popup';
 import Process from '../../class/Process';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import vdf from 'simple-vdf';
 
 const
   formatDate = utils.formatDate.bind(utils),
@@ -15,6 +17,7 @@ const
   createFadeMessage = common.createFadeMessage.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createTooltip = common.createTooltip.bind(common),
+  downloadFile = common.downloadFile.bind(common),
   escapeMarkdown = common.escapeMarkdown.bind(common),
   getChildByClassName = common.getChildByClassName.bind(common),
   lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
@@ -430,6 +433,13 @@ class GeneralMultiManager extends Module {
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
             callback1: this.mm_hideGames.bind(this, obj, items)
+          },
+          {
+            check: true,
+            color1: `green`, color2: `grey`,
+            icon1: `fa-clone`, icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Categorize`, title2: ``,
+            callback1: this.mm_categorizeGames.bind(this, obj, items)
           }
         ],
         []
@@ -1085,6 +1095,108 @@ class GeneralMultiManager extends Module {
     if (notFound.length) {
       alert(`The following games were not found and therefore not hidden: ${notFound.join(`, `)}`);
     }
+  }
+
+  async mm_categorizeGames(obj, items) {
+    const popup = new Popup({
+      addScrollable: true,
+      buttons: [{
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-check`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Categorize`,
+        title2: `Categorizing...`,
+        callback1: this.mm_loadFile.bind(this, obj, items)
+      }],
+      icon: `fa-clone`,
+      textInputs: [{
+        placeholder: `Category1, Category2, Category3, ...`
+      }],
+      title: [{
+        text: `Categorize Games`,
+        type: `node`
+      }, {
+        attributes: {
+          class: `fa fa-question-circle`
+        },
+        type: `i`
+      }]
+    });
+    obj.categorizePopup = popup;
+    obj.categorizeInput = createElements(popup.description, `afterBegin`, [{
+      attributes: {
+        type: `file`
+      },
+      type: `input`
+    }]);
+    createTooltip(popup.title.lastElementChild, `
+      How To Use
+      <br>
+      <br> 
+      1. Exit Steam.
+      <br> 
+      2. Click "Browse..." to select a file from your computer.
+      <br> 
+      3. Navigate to where "sharedconfig.vdf" is located and select it. The file should be located at "[YourSteamFolder]/userdata/[YourSteamId]/7/remote".
+      <br> 
+      4. Enter the categories that you want to assign to the games, separated by a comma and followed by a space.
+      <br> 
+      5. Click "Categorize".
+      <br> 
+      6. If you did everything correctly, a new "sharedconfig.vdf" file will be downloaded to your computer.
+      <br> 
+      7. Replace the old file with the new file. Make sure to make a backup of the old file, just in case.
+      <br> 
+      8. Start Steam. You should see the games categorized as you wanted.
+      <br> 
+    `);
+    popup.open();
+  }
+
+  mm_loadFile(obj, items) {
+    return new Promise(resolve => {
+      const file = obj.categorizeInput.files[0];
+      if (!file) {
+        alert(`No file selected!`);
+        resolve();
+        return;
+      }
+      if (file.name !== `sharedconfig.vdf`) {
+        alert(`File invalid!`);
+        resolve();
+        return;
+      }
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = this.mm_readFile.bind(this, obj, items, reader, resolve);
+    });
+  }
+
+  mm_readFile(obj, items, reader, resolve) {
+    if (!reader) {
+      alert(`An error occurred!`);
+      resolve();
+      return;
+    }
+    const categories = obj.categorizePopup.getTextInputValue(0).replace(/,\s*/g, `,`).split(/,/);
+    const data = vdf.parse(reader.result);
+    for (const item of items) {
+      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || item.type !== `apps`) {
+        continue;
+      }
+      const game = data.UserRoamingConfigStore.Software.Valve.Steam.Apps[item.code];
+      if (!game) {
+        continue;
+      }
+      if (!game.tags) {
+        game.tags = [];
+      }
+      game.tags.push(...categories);
+      game.tags = Array.from(new Set(game.tags));
+    }
+    downloadFile(vdf.stringify(data, true), `sharedconfig.vdf`);
+    resolve();
   }
 }
 
