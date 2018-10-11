@@ -14280,7 +14280,6 @@ class Common extends Module {
 
         }
       },
-
       {
         date: `October 11, 2018`,
         version: `8.0.0`,
@@ -14306,7 +14305,6 @@ class Common extends Module {
           902: `Change Content-Type header in Dropbox requests to application/octet-stream`
         }
       },
-
       {
         date: `September 15, 2018`,
         version: `7.27.2`,

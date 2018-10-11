@@ -69,7 +69,7 @@ module.exports = /** @param {Environment} env */ async env => {
     console.log(markdown);
     console.log(steamLog);
 
-    let file = null;
+    let file;
 
     // Update Esgst.js
     file = fs.readFileSync(path.join(__dirname, './src/class/Esgst.js'), 'utf8');
@@ -112,11 +112,10 @@ module.exports = /** @param {Environment} env */ async env => {
 
   const entry = {
     [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js']
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'] ,
+    [BUILD_PATHS.MONKEY]: ['./monkey/index.js']
   };
-  if (env.production) {
-    entry[BUILD_PATHS.MONKEY] = ['./monkey/index.js'];
-  }
+
   let cfg = {
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
     context: path.join(__dirname, './src/entry/'),
