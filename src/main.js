@@ -187,7 +187,9 @@ import esgst from './class/Esgst';
             resolve();
           }));
       };
-      envFunctions.setValue = (key, value) => { return envFunctions.setValues({[key]: value}); };
+      envFunctions.setValue = (key, value) => {
+        return envFunctions.setValues({[key]: value});
+      };
       envFunctions.getValue = async (key, value) => utils.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
       envFunctions.getValues = values =>
         new Promise(resolve => {
@@ -209,7 +211,9 @@ import esgst from './class/Esgst';
             resolve();
           })
         );
-      envFunctions.delValue = key => { return envFunctions.delValues([key]); };
+      envFunctions.delValue = key => {
+        return envFunctions.delValues([key]);
+      };
       envFunctions.getStorage = () =>
         new Promise(resolve =>
           envVariables.browser.runtime.sendMessage({
@@ -1327,10 +1331,10 @@ import esgst from './class/Esgst';
       {id: `ust`, side: `left`},
       {id: `wbm`, side: `left`}
     ].forEach(item => {
-      if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0) {
-        esgst[`${item.side}ButtonIds`].push(item.id);
-        esgst.settings.leftButtonIds = esgst.leftButtonIds;
-        esgst.settings.rightButtonIds = esgst.rightButtonIds;
+      if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0 && esgst.leftMainPageHeadingIds.indexOf(item.id) < 0 && esgst.rightMainPageHeadingIds.indexOf(item.id) < 0) {
+        esgst[`${item.side}MainPageHeadingIds`].push(item.id);
+        esgst.settings.leftMainPageHeadingIds = esgst.leftMainPageHeadingIds;
+        esgst.settings.rightMainPageHeadingIds = esgst.rightMainPageHeadingIds;
         esgst.settingsChanged = true;
       }
     });
@@ -1461,225 +1465,276 @@ import esgst from './class/Esgst';
         }
       }
     });
+    if (esgst.settings.elementOrdering !== `1`) {
+      const oldLeftButtonIds = JSON.stringify(esgst.settings.leftButtonIds);
+      const oldRightButtonIds = JSON.stringify(esgst.settings.rightButtonIds);
+      const oldLeftMainPageHeadingIds = JSON.stringify(esgst.settings.leftMainPageHeadingIds);
+      const oldRightMainPageHeadingIds = JSON.stringify(esgst.settings.rightMainPageHeadingIds);
+      for (let i = esgst.settings.leftButtonIds.length - 1; i > -1; i--) {
+        const id = esgst.settings.leftButtonIds[i];
+        if (!esgst.settings[`hideButtons_${id}_sg`]) {
+          esgst.settings.leftMainPageHeadingIds.push(id);
+          esgst.settings.leftButtonIds.splice(i, 1);
+        } else if (esgst.settings.rightButtonIds.indexOf(id) > -1) {
+          esgst.settings.leftButtonIds.splice(i, 1);
+        }
+      }
+      for (let i = esgst.settings.rightButtonIds.length - 1; i > -1; i--) {
+        const id = esgst.settings.rightButtonIds[i];
+        if (!esgst.settings[`hideButtons_${id}_sg`]) {
+          esgst.settings.rightMainPageHeadingIds.push(id);
+          esgst.settings.rightButtonIds.splice(i, 1);
+        } else if (esgst.settings.leftButtonIds.indexOf(id) > -1) {
+          esgst.settings.rightButtonIds.splice(i, 1);
+        }
+      }
+      for (let i = esgst.settings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
+        const id = esgst.settings.leftMainPageHeadingIds[i];
+        if (esgst.settings[`hideButtons_${id}_sg`]) {
+          esgst.settings.leftButtonIds.push(id);
+          esgst.settings.leftMainPageHeadingIds.splice(i, 1);
+        } else if (esgst.settings.rightMainPageHeadingIds.indexOf(id) > -1) {
+          esgst.settings.leftMainPageHeadingIds.splice(i, 1);
+        }
+      }
+      for (let i = esgst.settings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
+        const id = esgst.settings.rightMainPageHeadingIds[i];
+        if (esgst.settings[`hideButtons_${id}_sg`]) {
+          esgst.settings.rightButtonIds.push(id);
+          esgst.settings.rightMainPageHeadingIds.splice(i, 1);
+        } else if (esgst.settings.leftMainPageHeadingIds.indexOf(id) > -1) {
+          esgst.settings.rightMainPageHeadingIds.splice(i, 1);
+        }
+      }
+      esgst.settings.leftButtonIds = Array.from(new Set(esgst.settings.leftButtonIds));
+      esgst.settings.rightButtonIds = Array.from(new Set(esgst.settings.rightButtonIds));
+      esgst.settings.leftMainPageHeadingIds = Array.from(new Set(esgst.settings.leftMainPageHeadingIds));
+      esgst.settings.rightMainPageHeadingIds = Array.from(new Set(esgst.settings.rightMainPageHeadingIds));
+      if (oldLeftButtonIds !== JSON.stringify(esgst.settings.leftButtonIds)) {
+        esgst.leftButtonIds = esgst.settings.leftButtonIds;
+      }
+      if (oldRightButtonIds !== JSON.stringify(esgst.settings.rightButtonIds)) {
+        esgst.rightButtonIds = esgst.settings.rightButtonIds;
+      }
+      if (oldLeftMainPageHeadingIds !== JSON.stringify(esgst.settings.leftMainPageHeadingIds)) {
+        esgst.leftMainPageHeadingIds = esgst.settings.leftMainPageHeadingIds;
+      }
+      if (oldRightMainPageHeadingIds !== JSON.stringify(esgst.settings.rightMainPageHeadingIds)) {
+        esgst.rightMainPageHeadingIds = esgst.settings.rightMainPageHeadingIds;
+      }
+      esgst.settings.elementOrdering = `1`;
+      esgst.settingsChanged = true;
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', load.bind(null, toDelete, toSet));
+    } else {
+      // noinspection JSIgnoredPromiseFromCall
+      load(toDelete, toSet);
+    }
+  }
 
-    async function load(toDelete, toSet) {
+  async function load(toDelete, toSet) {
+    if (esgst.menuPath) {
+      common.createElements(document.head, `beforeEnd`, [{
+        attributes: {
+          href: `https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css`,
+          rel: `stylesheet`
+        },
+        type: `link`
+      }]);
+      const element = document.querySelector(`[href*="https://cdn.steamgifts.com/css/static.css"]`);
+      if (element) {
+        element.remove();
+      }
+      document.body.innerHTML = ``;
+    }
+    common.addStyle();
+    if (esgst.sg) {
+      try {
+        let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+        if (esgst.settings.avatar !== avatar) {
+          esgst.avatar = esgst.settings.avatar = avatar;
+          esgst.settingsChanged = true;
+        }
+        let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
+        if (esgst.settings.username_sg !== username) {
+          esgst.username = esgst.settings.username_sg = username;
+          esgst.settingsChanged = true;
+        }
+        if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
+          let responseHtml = utils.parseHtml((await common.request({
+            method: `GET`,
+            url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`
+          })).responseText);
+          let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
+          for (let i = 0, n = elements.length; i < n; i++) {
+            let element = elements[i];
+            if (element.textContent === `Registered`) {
+              esgst.registrationDate = esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+              break;
+            }
+          }
+          esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+          esgst.settingsChanged = true;
+        }
+      } catch (e) { /**/
+      }
+    } else {
+      try {
+        let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+        if (esgst.settings.avatar !== avatar) {
+          esgst.avatar = esgst.settings.avatar = avatar;
+          esgst.settingsChanged = true;
+        }
+        let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
+        if (esgst.settings.username_st !== username) {
+          esgst.username = esgst.settings.username_st = username;
+          esgst.settingsChanged = true;
+        }
+      } catch (e) { /**/
+      }
+    }
+    if (esgst.settingsChanged) {
+      toSet.settings = JSON.stringify(esgst.settings);
+    }
+    if (Object.keys(toSet).length) {
+      await envFunctions.setValues(toSet);
+    }
+    if (Object.keys(toDelete).length) {
+      await envFunctions.delValues(toDelete);
+    }
+
+    // now that all values are set esgst can begin to load
+
+    /* [URLR] URL Redirector */
+    if (esgst.urlr && location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+      location.href = `${location.href}/`;
+    }
+
+    if (location.pathname.match(/esgst-settings/)) {
+      location.href = `/esgst/settings`;
+    } else if (location.pathname.match(/esgst-sync/)) {
+      location.href = `/esgst/sync`;
+    } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
+      await envFunctions.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+      close();
+    } else if (location.pathname.match(/^\/esgst\/google-drive/)) {
+      await envFunctions.setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+      close();
+    } else if (location.pathname.match(/^\/esgst\/onedrive/)) {
+      await envFunctions.setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+      close();
+    } else if (location.pathname.match(/^\/esgst\/imgur/)) {
+      await envFunctions.setValue(`imgurToken`, location.hash.match(/access_token=(.+?)&/)[1]);
+      close();
+    } else {
+      esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
+      if (!esgst.logoutButton && !esgst.menuPath) {
+        // user is not logged in
+        return;
+      }
+      if (esgst.st && !esgst.settings.esgst_st) {
+        // esgst is not enabled for steamtrades
+        return;
+      }
+      esgst.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
+      await common.getElements();
+      if (esgst.sg && !esgst.menuPath) {
+        // noinspection JSIgnoredPromiseFromCall
+        common.checkSync()
+      }
+      if (esgst.autoBackup) {
+        common.checkBackup();
+      }
+      if (esgst.profilePath && esgst.autoSync) {
+        document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, common.setSync.bind(common, true, null, null));
+      }
       if (esgst.menuPath) {
-        common.createElements(document.head, `beforeEnd`, [{
-          attributes: {
-            href: `https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css`,
-            rel: `stylesheet`
-          },
-          type: `link`
-        }]);
-        const element = document.querySelector(`[href*="https://cdn.steamgifts.com/css/static.css"]`);
-        if (element) {
-          element.remove();
-        }
-        document.body.innerHTML = ``;
-      }
-      common.addStyle();
-      if (esgst.sg) {
-        try {
-          let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
-          if (esgst.settings.avatar !== avatar) {
-            esgst.avatar = esgst.settings.avatar = avatar;
-            esgst.settingsChanged = true;
-          }
-          let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
-          if (esgst.settings.username_sg !== username) {
-            esgst.username = esgst.settings.username_sg = username;
-            esgst.settingsChanged = true;
-          }
-          if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
-            let responseHtml = utils.parseHtml((await common.request({
-              method: `GET`,
-              url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`
-            })).responseText);
-            let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
-            for (let i = 0, n = elements.length; i < n; i++) {
-              let element = elements[i];
-              if (element.textContent === `Registered`) {
-                esgst.registrationDate = esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
-                break;
-              }
-            }
-            esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
-            esgst.settingsChanged = true;
-          }
-        } catch (e) { /**/
-        }
-      } else {
-        try {
-          let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
-          if (esgst.settings.avatar !== avatar) {
-            esgst.avatar = esgst.settings.avatar = avatar;
-            esgst.settingsChanged = true;
-          }
-          let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
-          if (esgst.settings.username_st !== username) {
-            esgst.username = esgst.settings.username_st = username;
-            esgst.settingsChanged = true;
-          }
-        } catch (e) { /**/
-        }
-      }
-      if (esgst.settingsChanged) {
-        toSet.settings = JSON.stringify(esgst.settings);
-      }
-      if (Object.keys(toSet).length) {
-        await envFunctions.setValues(toSet);
-      }
-      if (Object.keys(toDelete).length) {
-        await envFunctions.delValues(toDelete);
-      }
-
-      // now that all values are set esgst can begin to load
-
-      /* [URLR] URL Redirector */
-      if (esgst.urlr && location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
-        location.href = `${location.href}/`;
-      }
-
-      if (location.pathname.match(/esgst-settings/)) {
-        location.href = `/esgst/settings`;
-      } else if (location.pathname.match(/esgst-sync/)) {
-        location.href = `/esgst/sync`;
-      } else if (location.pathname.match(/^\/esgst\/dropbox/)) {
-        await envFunctions.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-        close();
-      } else if (location.pathname.match(/^\/esgst\/google-drive/)) {
-        await envFunctions.setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-        close();
-      } else if (location.pathname.match(/^\/esgst\/onedrive/)) {
-        await envFunctions.setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-        close();
-      } else if (location.pathname.match(/^\/esgst\/imgur/)) {
-        await envFunctions.setValue(`imgurToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-        close();
-      } else {
-        esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
-        if (!esgst.logoutButton && !esgst.menuPath) {
-          // user is not logged in
-          return;
-        }
-        if (esgst.st && !esgst.settings.esgst_st) {
-          // esgst is not enabled for steamtrades
-          return;
-        }
-        esgst.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
-        await common.getElements();
-        if (esgst.sg && !esgst.menuPath) {
-          // noinspection JSIgnoredPromiseFromCall
-          common.checkSync()
-        }
-        if (esgst.autoBackup) {
-          common.checkBackup();
-        }
-        if (esgst.profilePath && esgst.autoSync) {
-          document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, common.setSync.bind(common, true, null, null));
-        }
-        if (esgst.menuPath) {
-          esgst.favicon.href = esgst.icon;
-          if (esgst.actionPage) {
-            common.createElements(document.body, `inner`, [{
+        esgst.favicon.href = esgst.icon;
+        if (esgst.actionPage) {
+          common.createElements(document.body, `inner`, [{
+            attributes: {
+              class: `page__outer-wrap`
+            },
+            type: `div`,
+            children: [{
               attributes: {
-                class: `page__outer-wrap`
+                class: `page__inner-wrap`
               },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `page__inner-wrap`
-                },
-                type: `div`
-              }]
-            }]);
-            esgst.pageOuterWrap = document.body.firstElementChild;
-            esgst.pageOuterWrap.style.width = `calc(100% - ${innerWidth - document.documentElement.offsetWidth}px)`;
-            esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
-          } else {
-            let response = await common.request({
-              method: `GET`,
-              url: esgst.sg ? `https://www.steamgifts.com/` : `https://www.steamtrades.com`
-            });
-            let responseHtml = utils.parseHtml(response.responseText);
-            common.createElements(document.body, `inner`, [{
-              context: responseHtml.getElementsByTagName(`header`)[0]
-            }, {
+              type: `div`
+            }]
+          }]);
+          esgst.pageOuterWrap = document.body.firstElementChild;
+          esgst.pageOuterWrap.style.width = `calc(100% - ${innerWidth - document.documentElement.offsetWidth}px)`;
+          esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
+        } else {
+          let response = await common.request({
+            method: `GET`,
+            url: esgst.sg ? `https://www.steamgifts.com/` : `https://www.steamtrades.com`
+          });
+          let responseHtml = utils.parseHtml(response.responseText);
+          common.createElements(document.body, `inner`, [{
+            context: responseHtml.getElementsByTagName(`header`)[0]
+          }, {
+            attributes: {
+              class: `page__outer-wrap`
+            },
+            type: `div`,
+            children: [{
               attributes: {
-                class: `page__outer-wrap`
+                class: `page__inner-wrap`
               },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `page__inner-wrap`
-                },
-                type: `div`
-              }]
-            }, {
-              context: responseHtml.getElementsByClassName(`footer__outer-wrap`)[0]
-            }]);
-            esgst.header = /** @type {HTMLElement} */ document.body.firstElementChild;
-            esgst.footer = /** @type {HTMLElement} */ document.body.lastElementChild;
-            esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName(`nav__left-container`)[0];
-            esgst.pageOuterWrap = esgst.header.nextElementSibling;
-            esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
-            esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
-            if (esgst.logoutButton) {
-              esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
-            }
-            await esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
+              type: `div`
+            }]
+          }, {
+            context: responseHtml.getElementsByClassName(`footer__outer-wrap`)[0]
+          }]);
+          esgst.header = /** @type {HTMLElement} */ document.body.firstElementChild;
+          esgst.footer = /** @type {HTMLElement} */ document.body.lastElementChild;
+          esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName(`nav__left-container`)[0];
+          esgst.pageOuterWrap = esgst.header.nextElementSibling;
+          esgst.mainContext = esgst.pageOuterWrap.lastElementChild;
+          esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
+          if (esgst.logoutButton) {
+            esgst.xsrfToken = esgst.logoutButton.getAttribute(`data-form`).match(/xsrf_token=(.+)/)[1];
           }
+          await esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
+        }
 
-          if (esgst.settingsPath) {
-            document.title = `ESGST - Settings`;
-            common.loadMenu(true);
-          } else if (esgst.importMenuPath) {
-            document.title = `ESGST - Restore`;
-            common.loadDataManagement(true, `import`);
-          } else if (esgst.exportMenuPath) {
-            document.title = `ESGST - Backup`;
-            common.loadDataManagement(true, `export`);
-          } else if (esgst.deleteMenuPath) {
-            document.title = `ESGST - Delete`;
-            common.loadDataManagement(true, `delete`);
-          } else if (esgst.gbPath) {
-            document.title = `ESGST - Giveaway Bookmarks`;
-            esgst.originalTitle = `ESGST - Giveaway Bookmarks`;
-          } else if (esgst.gedPath) {
-            document.title = `ESGST - Decrypted Giveaways`;
-            esgst.originalTitle = `ESGST - Decrypted Giveaways`;
-          } else if (esgst.gePath) {
-            document.title = `ESGST - Extracted Giveaways`;
-            esgst.originalTitle = `ESGST - Extracted Giveaways`;
-          } else if (esgst.glwcPath) {
-            document.title = `ESGST - Group Library/Wishlist Checker`;
-            esgst.originalTitle = `ESGST - Group Library/Wishlist Checker`;
-          } else if (location.pathname.match(/esgst\/sync/)) {
-            await common.setSync();
-          }
+        if (esgst.settingsPath) {
+          document.title = `ESGST - Settings`;
+          common.loadMenu(true);
+        } else if (esgst.importMenuPath) {
+          document.title = `ESGST - Restore`;
+          common.loadDataManagement(true, `import`);
+        } else if (esgst.exportMenuPath) {
+          document.title = `ESGST - Backup`;
+          common.loadDataManagement(true, `export`);
+        } else if (esgst.deleteMenuPath) {
+          document.title = `ESGST - Delete`;
+          common.loadDataManagement(true, `delete`);
+        } else if (esgst.gbPath) {
+          document.title = `ESGST - Giveaway Bookmarks`;
+          esgst.originalTitle = `ESGST - Giveaway Bookmarks`;
+        } else if (esgst.gedPath) {
+          document.title = `ESGST - Decrypted Giveaways`;
+          esgst.originalTitle = `ESGST - Decrypted Giveaways`;
+        } else if (esgst.gePath) {
+          document.title = `ESGST - Extracted Giveaways`;
+          esgst.originalTitle = `ESGST - Extracted Giveaways`;
+        } else if (esgst.glwcPath) {
+          document.title = `ESGST - Group Library/Wishlist Checker`;
+          esgst.originalTitle = `ESGST - Group Library/Wishlist Checker`;
+        } else if (location.pathname.match(/esgst\/sync/)) {
+          await common.setSync();
+        }
 
-          // make the header dropdown menus work
-          let elements = document.querySelectorAll(`nav .nav__button--is-dropdown-arrow`);
-          for (let element of elements) {
-            element.addEventListener(`click`, event => {
-              let isSelected = element.classList.contains(`is-selected`);
-              let buttons = document.querySelectorAll(`nav .nav__button`);
-              for (let button of buttons) {
-                button.classList.remove(`is-selected`);
-              }
-              let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
-              for (let dropdown of dropdowns) {
-                dropdown.classList.add(`is-hidden`);
-              }
-              if (!isSelected) {
-                element.classList.add(`is-selected`);
-                (element.previousElementSibling.previousElementSibling || element.nextElementSibling).classList.remove(`is-hidden`);
-              }
-              event.stopPropagation();
-            });
-          }
-          document.addEventListener(`click`, () => {
-            let buttons = document.querySelectorAll(`nav .nav__button, .page__heading__button--is-dropdown`);
+        // make the header dropdown menus work
+        let elements = document.querySelectorAll(`nav .nav__button--is-dropdown-arrow`);
+        for (let element of elements) {
+          element.addEventListener(`click`, event => {
+            let isSelected = element.classList.contains(`is-selected`);
+            let buttons = document.querySelectorAll(`nav .nav__button`);
             for (let button of buttons) {
               button.classList.remove(`is-selected`);
             }
@@ -1687,22 +1742,30 @@ import esgst from './class/Esgst';
             for (let dropdown of dropdowns) {
               dropdown.classList.add(`is-hidden`);
             }
+            if (!isSelected) {
+              element.classList.add(`is-selected`);
+              (element.previousElementSibling.previousElementSibling || element.nextElementSibling).classList.remove(`is-hidden`);
+            }
+            event.stopPropagation();
           });
         }
-
-        envFunctions.addHeaderMenu();
-        common.showPatreonNotice();
-        // noinspection JSIgnoredPromiseFromCall
-        common.checkNewVersion();
-        await common.loadFeatures(esgst.modules);
+        document.addEventListener(`click`, () => {
+          let buttons = document.querySelectorAll(`nav .nav__button, .page__heading__button--is-dropdown`);
+          for (let button of buttons) {
+            button.classList.remove(`is-selected`);
+          }
+          let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
+          for (let dropdown of dropdowns) {
+            dropdown.classList.add(`is-hidden`);
+          }
+        });
       }
-    }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', load.bind(null, toDelete, toSet));
-    } else {
+      envFunctions.addHeaderMenu();
+      common.showPatreonNotice();
       // noinspection JSIgnoredPromiseFromCall
-      load(toDelete, toSet);
+      common.checkNewVersion();
+      await common.loadFeatures(esgst.modules);
     }
   }
 

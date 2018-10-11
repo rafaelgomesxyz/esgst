@@ -3,8 +3,6 @@ import {common} from './Common';
 
 const
   createElements = common.createElements.bind(common),
-  draggable_enter = common.draggable_enter.bind(common),
-  draggable_set = common.draggable_set.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getUser = common.getUser.bind(common),
   hideGame = common.hideGame.bind(common),
@@ -41,7 +39,7 @@ class Giveaways extends Module {
     for (let feature of this.esgst.giveawayFeatures) {
       await feature(giveaways, main, source);
     }
-    if (!this.esgst.lockGiveawayColumns && (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath)) {
+    if (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath) {
       giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
     }
     if (this.esgst.gas && this.esgst[this.esgst.gas.autoKey]) {
@@ -565,26 +563,6 @@ class Giveaways extends Module {
       if (giveaway.touhouBox) {
         giveaway.touhouBox.setAttribute(`data-draggable-id`, `touhou`);
       }
-      if (!this.esgst.lockGiveawayColumns) {
-        if (giveaway.columns) {
-          giveaway.columns.addEventListener(`dragenter`, draggable_enter.bind(common, {
-            context: giveaway.columns,
-            item: giveaway
-          }));
-        }
-        if (giveaway.panel) {
-          giveaway.panel.addEventListener(`dragenter`, draggable_enter.bind(common, {
-            context: giveaway.panel,
-            item: giveaway
-          }));
-        }
-        if (giveaway.heading) {
-          giveaway.heading.addEventListener(`dragenter`, draggable_enter.bind(common, {
-            context: giveaway.heading,
-            item: giveaway
-          }));
-        }
-      }
     }
     return {
       giveaway: giveaway,
@@ -619,11 +597,10 @@ class Giveaways extends Module {
       for (const id of (giveaway.gvIcons ? this.esgst.giveawayColumns_gv : this.esgst.giveawayColumns)) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
-          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
-            element.remove();
+          (giveaway.gvIcons || giveaway.columns).appendChild(element);
+          if (giveaway.elementOrdering) {
             continue;
           }
-          (giveaway.gvIcons || giveaway.columns).appendChild(element);
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.add(`esgst-giveaway-column-button`);
           }
@@ -637,32 +614,16 @@ class Giveaways extends Module {
             element.style.backgroundColor = ``;
           }
         }
-        if (!elements.length) {
-          createElements(giveaway.gvIcons || giveaway.columns, `beforeEnd`, [{
-            attributes: {
-              class: `esgst-draggable-placeholder esgst-hidden`,
-              [`data-draggable-id`]: id
-            },
-            text: id,
-            type: `span`
-          }]);
-        }
       }
-      draggable_set({
-        context: giveaway.gvIcons || giveaway.columns,
-        id: `giveawayColumns`,
-        item: giveaway
-      });
     }
     if (giveaway.panel) {
       for (const id of (giveaway.gvIcons ? this.esgst.giveawayPanel_gv : this.esgst.giveawayPanel)) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
-          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
-            element.remove();
+          giveaway.panel.appendChild(element);
+          if (giveaway.elementOrdering) {
             continue;
           }
-          giveaway.panel.appendChild(element);
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
@@ -675,32 +636,16 @@ class Giveaways extends Module {
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
         }
-        if (!elements.length) {
-          createElements(giveaway.panel, `beforeEnd`, [{
-            attributes: {
-              class: `esgst-draggable-placeholder esgst-hidden`,
-              [`data-draggable-id`]: id
-            },
-            text: id,
-            type: `span`
-          }]);
-        }
       }
-      draggable_set({
-        context: giveaway.panel,
-        id: `giveawayPanel`,
-        item: giveaway
-      });
     }
     if (giveaway.heading) {
       for (const id of (giveaway.gvIcons ? this.esgst.giveawayHeading_gv : this.esgst.giveawayHeading)) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
-          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
-            element.remove();
+          giveaway.heading.appendChild(element);
+          if (giveaway.elementOrdering) {
             continue;
           }
-          giveaway.heading.appendChild(element);
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
@@ -713,32 +658,16 @@ class Giveaways extends Module {
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
         }
-        if (!elements.length) {
-          createElements(giveaway.heading, `beforeEnd`, [{
-            attributes: {
-              class: `esgst-draggable-placeholder esgst-hidden`,
-              [`data-draggable-id`]: id
-            },
-            text: id,
-            type: `span`
-          }]);
-        }
       }
-      draggable_set({
-        context: giveaway.heading,
-        id: `giveawayHeading`,
-        item: giveaway
-      });
     }
     if (giveaway.links) {
       for (const id of (giveaway.gvIcons ? this.esgst.giveawayLinks_gv : this.esgst.giveawayLinks)) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
-          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
-            element.remove();
+          giveaway.links.appendChild(element);
+          if (giveaway.elementOrdering) {
             continue;
           }
-          giveaway.links.appendChild(element);
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
@@ -751,32 +680,16 @@ class Giveaways extends Module {
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
         }
-        if (!elements.length) {
-          createElements(giveaway.links, `beforeEnd`, [{
-            attributes: {
-              class: `esgst-draggable-placeholder esgst-hidden`,
-              [`data-draggable-id`]: id
-            },
-            text: id,
-            type: `span`
-          }]);
-        }
       }
-      draggable_set({
-        context: giveaway.links,
-        id: `giveawayLinks`,
-        item: giveaway
-      });
     }
     if (giveaway.gcPanel) {
       for (const id of (giveaway.gvIcons ? this.esgst.gc_categories_gv : this.esgst.gc_categories)) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
-          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
-            element.remove();
+          giveaway.gcPanel.appendChild(element);
+          if (giveaway.elementOrdering) {
             continue;
           }
-          giveaway.gcPanel.appendChild(element);
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
@@ -789,22 +702,7 @@ class Giveaways extends Module {
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
         }
-        if (!elements.length) {
-          createElements(giveaway.gcPanel, `beforeEnd`, [{
-            attributes: {
-              class: `esgst-draggable-placeholder esgst-hidden`,
-              [`data-draggable-id`]: id
-            },
-            text: id,
-            type: `span`
-          }]);
-        }
       }
-      draggable_set({
-        context: giveaway.gcPanel,
-        id: `gc_categories`,
-        item: giveaway
-      });
     }
   }
 }

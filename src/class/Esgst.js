@@ -237,7 +237,6 @@ class Esgst {
       ],
       cdr_days: 7,
       addNoCvGames_sg: false,
-      lockGiveawayColumns_sg: false,
       staticPopups_width: `900px`,
       hgr_removeOwned: true,
       giveawayColumns: [`ged`, `endTime`, `winners`, `startTime`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
@@ -518,7 +517,7 @@ class Esgst {
       lastSyncNoCvGames: 0,
       lastSyncHltbTimes: 0,
       lastSyncGiveaways: 0,
-      leftMainPageHeadingIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `mm`, `hgr`, `gv`, `gts`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `as`, `aic`],
+      leftMainPageHeadingIds: [],
       leftButtonIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `mm`, `hgr`, `gv`, `gts`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `as`, `aic`],
       mgc_createTrain: true,
       mgc_bumpLast: true,
@@ -531,7 +530,7 @@ class Esgst {
       npth_previousKey: `ArrowLeft`,
       npth_nextKey: `ArrowRight`,
       nrf_searchMultiple: false,
-      rightMainPageHeadingIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`],
+      rightMainPageHeadingIds: [],
       rightButtonIds: [`esResume`, `esPause`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`],
       sal_index: 2,
       sk_closePopups: `escape`,
@@ -826,8 +825,6 @@ class Esgst {
     this.askFileName = undefined;
 
     this.pageOuterWrap = null;
-
-    this.hideButtons = null;
 
     this.leftButtons = null;
 
@@ -1480,8 +1477,6 @@ class Esgst {
 
     this.gf_s = null;
 
-    this.hideButtons_gf = null;
-
     this.gf_os = null;
 
     this.gf_alreadyOwned = null;
@@ -1555,8 +1550,6 @@ class Esgst {
     this.gwr_h = null;
 
     this.gv_spacing = null;
-
-    this.lockGiveawayColumns = null;
 
     this.hgr_removeOwned = null;
 
@@ -1905,8 +1898,6 @@ class Esgst {
     this.cerbButtons = null;
 
     this.cf_m = null;
-
-    this.hideButtons_cf = null;
 
     this.cfhEmojis = null;
 
