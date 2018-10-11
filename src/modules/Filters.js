@@ -2187,7 +2187,7 @@ class Filters extends Module {
         const list = rules.value.toLowerCase().split(/,\s/);
 
         if (rules.operator === `contains`) {
-          if (!item[key]) {
+          if (!item[key] || !Array.isArray(item[key])) {
             filtered = false;
             break;
           }
@@ -2197,7 +2197,9 @@ class Filters extends Module {
           }
           filtered = i > -1;
         } else {
-          if (!item[key]) break;
+          if (!item[key] || !Array.isArray(item[key])) {
+            break;
+          }
 
           let i;
           for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {

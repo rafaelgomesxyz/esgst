@@ -1506,8 +1506,8 @@ import esgst from './class/Esgst';
           esgst.settings.rightMainPageHeadingIds.splice(i, 1);
         }
       }
-      esgst.settings.leftButtonIds = Array.from(new Set(esgst.settings.leftButtonIds));
-      esgst.settings.rightButtonIds = Array.from(new Set(esgst.settings.rightButtonIds));
+      esgst.settings.leftButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.settings.leftButtonIds));
+      esgst.settings.rightButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.settings.rightButtonIds));
       esgst.settings.leftMainPageHeadingIds = Array.from(new Set(esgst.settings.leftMainPageHeadingIds));
       esgst.settings.rightMainPageHeadingIds = Array.from(new Set(esgst.settings.rightMainPageHeadingIds));
       if (oldLeftButtonIds !== JSON.stringify(esgst.settings.leftButtonIds)) {

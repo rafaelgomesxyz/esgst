@@ -512,7 +512,7 @@ class UsersUserGiveawayData extends Module {
         }
       }
     }
-    obj.requests.push(this.ugd_requestGiveawaysDone_2);
+    obj.requests.push(this.ugd_requestGiveawaysDone_2.bind(this));
   }
 
   async ugd_requestGiveawaysDone_2(obj) {
@@ -1092,7 +1092,7 @@ class UsersUserGiveawayData extends Module {
               },
               text: item.value,
               type: `span`
-            }, key === `username` ? {
+            }, key === `username` || key === `creator` ? {
               attributes: {
                 class: `fa fa-question-circle`,
                 title: item.values.join(`, `)

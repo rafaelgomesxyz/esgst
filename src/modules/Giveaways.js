@@ -89,7 +89,8 @@ class Giveaways extends Module {
     let chance, giveaway, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
     giveaway = {
       creators: [],
-      groups: []
+      groups: [],
+      winners: []
     };
     giveaway.outerWrap = context;
     giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
@@ -529,12 +530,17 @@ class Giveaways extends Module {
           continue;
         }
         const winners = column.textContent.trim().split(/,\s/).filter(x => x);
+        if (key === `received`) {
+          giveaway.winners = winners.map(x => x.toLowerCase());
+        }
         giveaway.winnerColumns[key] = {column, status, winners};
         column.setAttribute(`data-draggable-id`, `winners`);
         column = column.nextElementSibling;
       }
     }
-    giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
+    if (!giveaway.winners || !giveaway.winners.length) {
+      giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
+    }
     if (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath) {
       if (giveaway.endTimeColumn) {
         giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);

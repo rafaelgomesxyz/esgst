@@ -1180,6 +1180,10 @@ class GeneralMultiManager extends Module {
       return;
     }
     const categories = obj.categorizePopup.getTextInputValue(0).replace(/,\s*/g, `,`).split(/,/);
+    /**
+     * @type {Object}
+     * @property {Object} UserRoamingConfigStore.Software.Valve.Steam.Apps
+     */
     const data = vdf.parse(reader.result);
     for (const item of items) {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || item.type !== `apps`) {

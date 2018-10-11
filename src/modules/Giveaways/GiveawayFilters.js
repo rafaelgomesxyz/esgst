@@ -472,6 +472,15 @@ class GiveawaysGiveawayFilters extends Module {
               name: `Creators`,
               sg: true
             },
+            gf_winners: {
+              description: `
+              <ul>
+                <li>Allows you to filter giveaways by winner.</li>
+              </ul>
+            `,
+              name: `Winners`,
+              sg: true
+            },
             gf_learning: {
               description: `
               <ul>
@@ -1041,6 +1050,12 @@ class GiveawaysGiveawayFilters extends Module {
         check: true,
         list: true,
         name: `Creators`,
+        type: `string`
+      },
+      winners: {
+        check: true,
+        list: true,
+        name: `Winners`,
         type: `string`
       },
       learning: {
