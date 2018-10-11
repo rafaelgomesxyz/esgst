@@ -5,7 +5,6 @@ import {common} from '../Common';
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
-  draggable_enter = common.draggable_enter.bind(common),
   getRemainingTime = common.getRemainingTime.bind(common),
   setSetting = common.setSetting.bind(common)
 ;

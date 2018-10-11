@@ -104,7 +104,7 @@ class UsersSentWonRatio extends Module {
             },
             {
               color: `#8f96a6`,
-              name: `$${realCVRatio}`
+              name: `${realCVRatio}`
             }
           ],
           icon: [
@@ -146,7 +146,7 @@ class UsersSentWonRatio extends Module {
           attributes: {
             [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
           },
-          text: this.esgst.vrcv ? `${cvRatio} / $${realCVRatio.toLocaleString(`en`)}` : cvRatio,
+          text: this.esgst.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString(`en`)}` : cvRatio,
           type: `span`
         }, {
           text: `)`,

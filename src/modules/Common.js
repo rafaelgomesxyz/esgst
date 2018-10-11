@@ -1851,10 +1851,14 @@ class Common extends Module {
         return;
       }
     }
-    responseHtml = parseHtml((await this.request({
+    const response = await this.request({
       method: `GET`,
       url: `https://www.steamgifts.com/user/${user.username}`
-    })).responseText);
+    });
+    if (!response.finalUrl.match(/\/user\//)) {
+      return;
+    }
+    responseHtml = parseHtml(response.responseText);
     user.steamId = responseHtml.querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
     input = responseHtml.querySelector(`[name="child_user_id"]`);
     if (input) {
@@ -3749,9 +3753,6 @@ class Common extends Module {
     const obj_gv = {
       elementOrdering: true,
       outerWrap: this.createElements(context, `beforeEnd`, [{
-        text: `Grid View`,
-        type: `strong`
-      }, {
         attributes: {
           class: `esgst-element-ordering-container`
         },
@@ -3888,19 +3889,21 @@ class Common extends Module {
       group: `mainPageHeading`,
       id: `leftButtonIds`,
       key: `leftButtons`,
-      name: `Left Buttons (Hidden)`,
+      name: `Left Main Page Heading Buttons (Hidden)`,
+      tooltip: `Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the left side of the heading.`,
       labels: {}
     }, {
       group: `mainPageHeading`,
       id: `rightButtonIds`,
       key: `rightButtons`,
-      name: `Right Buttons (Hidden)`,
+      name: `Right Main Page Heading Buttons (Hidden)`,
+      tooltip: `Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the  right side of the heading.`,
       labels: {}
     },{
       group: `mainPageHeading`,
       id: `leftMainPageHeadingIds`,
       key: `leftMainPageHeadingButtons`,
-      name: `Left Buttons`,
+      name: `Left Main Page Heading Buttons`,
       labels: {
         aic: `Attached Images Carousel`,
         as:  `Archive Searcher`,
@@ -3925,7 +3928,7 @@ class Common extends Module {
         sks: `Sent Keys Searcher`,
         tb: `Trade Bumper`,
         ugs: `Unsent Gifts Sender`,
-        ust: `User Suspention Tracker`,
+        ust: `User Suspension Tracker`,
         wbc: `Whitelist/Blacklist Checker`,
         wbm: `Whitelist/Blacklist Manager`,
         wbsAsc: `Whitelist/Blacklist Sorter (Ascending)`,
@@ -3935,7 +3938,7 @@ class Common extends Module {
       group: `mainPageHeading`,
       id: `rightMainPageHeadingIds`,
       key: `rightMainPageHeadingButtons`,
-      name: `Right Buttons`,
+      name: `Right Main Page Heading Buttons`,
       labels: {
         esContinuous: `Endless Scrolling (Continuously Load)`,
         esNext: `Endless Scrolling (Load Next),`,
@@ -3951,19 +3954,28 @@ class Common extends Module {
     for  (const item of items) {
       const children = [];
       for (const id in item.labels) {
+        if (!item.labels.hasOwnProperty(id)) {
+          continue;
+        }
         children.push({
           attributes: {
             [`data-draggable-id`]: id,
             [`data-draggable-group`]: item.group
           },
-          text: item.labels[id] || id,
+          text: item.labels[id],
           type: `div`
         });
       }
       const section = this.createElements((item.isGridView ? obj_gv : obj).outerWrap, `beforeEnd`, [{
-        text: item.name,
+        text: `${item.name}${item.isGridView ? ` (Grid View)` : ``}`,
         type: `strong`
-      }, {
+      }, item.tooltip ? {
+        attributes: {
+          class: `fa fa-question-circle`,
+          title: item.tooltip
+        },
+        type: `i`
+      } : null,{
         attributes: {
           class: `esgst-element-ordering-box`
         },
@@ -3996,17 +4008,20 @@ class Common extends Module {
       if (item.includeGridView) {
         const children_gv = [];
         for (const id in item.labels) {
+          if (!item.labels.hasOwnProperty(id)) {
+            return;
+          }
           children_gv.push({
             attributes: {
               [`data-draggable-id`]: id,
               [`data-draggable-group`]: `${item.group}_gv`
             },
-            text: item.labels[id] || id,
+            text: item.labels[id],
             type: `div`
           });
         }
         const section_gv = this.createElements(obj_gv.outerWrap, `beforeEnd`, [{
-          text: item.name,
+          text: `${item.name} (Grid View)`,
           type: `strong`
         }, {
           attributes: {
@@ -12628,6 +12643,7 @@ class Common extends Module {
       return;
     }
     if (element.getAttribute(`data-draggable-group`) !== this.esgst.draggable.dragged.getAttribute(`data-draggable-group`)) {
+      alert(`Cannot move this element to this group.`);
       return;
     }
     let current = this.esgst.draggable.dragged;
