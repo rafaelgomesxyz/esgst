@@ -14274,6 +14274,32 @@ class Common extends Module {
   loadChangelog(version) {
     const changelog = [
       {
+        date: `October 11, 2018`,
+        version: `8.0.0`,
+        changelog: {
+          965: `Add "Winners" giveaway filter`,
+          964: `Add option to categorize Steam games to Multi Manager`,
+          963: `Extract ItsTooHard and Jigidi links with Giveaway Extractor`,
+          962: `Add option to automatically bookmark giveaways when trying to enter them without enough points to Enter/Leave Giveaway Button`,
+          961: `Add option to display time to point cap alongside with points at the header`,
+          960: `Add new section to the settings menu to handle elements order and prevent them from being draggable in all pages`,
+          959: `Add option to use different pause settings in Endless Scrolling depending on the include path`,
+          958: `Add option to reset left/right main page heading buttons order`,
+          957: `Extend new draggable system to left/right main page heading buttons`,
+          956: `Add which games were won from the listed users to User Giveaway Data`,
+          950: `Fix HTML in User Stats`,
+          949: `Fix a bug that does not show giveaway info category for games with 0P`,
+          946: `Add a button for 2.14.4 "Only extract from the current giveaway onward"`,
+          937: `Add a new game category and giveaway filter: Followed`,
+          936: `Make elements in the giveaway links draggable`,
+          935: `Fix a bug that empties the header points when removing someone from the whitelist`,
+          933: `Fix HTML in Multiple Giveaway Creator`,
+          925: `Make elements in the giveaway heading draggable`,
+          902: `Change Content-Type header in Dropbox requests to application/octet-stream`
+        }
+      },
+
+      {
         date: `September 15, 2018`,
         version: `7.27.2`,
         changelog: {

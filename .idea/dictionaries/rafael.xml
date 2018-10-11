@@ -123,7 +123,10 @@
       <w>imgur</w>
       <w>isthereanydeal</w>
       <w>itadi</w>
+      <w>itstoohard</w>
       <w>ivoire</w>
+      <w>jigidi</w>
+      <w>jsdom</w>
       <w>keycap</w>
       <w>keydown</w>
       <w>keypress</w>
@@ -144,6 +147,7 @@
       <w>memberslistxml</w>
       <w>metascore</w>
       <w>minified</w>
+      <w>minify</w>
       <w>miquelon</w>
       <w>mmmm</w>
       <w>moai</w>
@@ -205,6 +209,7 @@
       <w>readystatechange</w>
       <w>recreator</w>
       <w>redirector</w>
+      <w>regenerator</w>
       <w>removepoll</w>
       <w>reroll</w>
       <w>rerolls</w>
@@ -222,6 +227,7 @@
       <w>sgpb</w>
       <w>sgppsupport</w>
       <w>sgtools</w>
+      <w>sharedconfig</w>
       <w>shouldn</w>
       <w>singleplayer</w>
       <w>sint</w>
@@ -278,6 +284,7 @@
       <w>unviewed</w>
       <w>unvisit</w>
       <w>urlr</w>
+      <w>userdata</w>
       <w>usernames</w>
       <w>userscript</w>
       <w>userstyles</w>
