@@ -14275,6 +14275,14 @@ class Common extends Module {
     const changelog = [
       {
         date: `October 11, 2018`,
+        version: `8.0.1`,
+        changelog: {
+
+        }
+      },
+
+      {
+        date: `October 11, 2018`,
         version: `8.0.0`,
         changelog: {
           965: `Add "Winners" giveaway filter`,

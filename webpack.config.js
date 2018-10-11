@@ -92,7 +92,7 @@ module.exports = /** @param {Environment} env */ async env => {
     // Update manifest.json
     file = fs.readFileSync(path.join(__dirname, './Extension/manifest.json'), 'utf8');
     file = file
-      .replace(/version:\s".+?"/, `version: "${packageJson.version}"`);
+      .replace(/"version":\s".+?"/, `"version": "${packageJson.version}"`);
     fs.writeFileSync(path.join(__dirname, './Extension/manifest.json'), file);
 
     // Update ESGST.meta.js
