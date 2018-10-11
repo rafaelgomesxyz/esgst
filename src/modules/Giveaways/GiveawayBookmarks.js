@@ -555,6 +555,7 @@ class GiveawaysGiveawayBookmarks extends Module {
           index: this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
           titles: [`Bookmark giveaway`, `Bookmarking giveaway...`, `Unbookmark giveaway`, `Unbookmarking giveaway...`]
         });
+        giveaway.gbButton.button.setAttribute(`data-draggable-id`, `gb`);
         if ((giveaway.entered || (this.esgst.enteredPath && main)) && !this.esgst.gb_se) {
           giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }

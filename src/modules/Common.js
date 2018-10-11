@@ -197,38 +197,34 @@ class Common extends Module {
     }
 
     let hideButtonsLeft, hideButtonsRight;
-    if (this.esgst.hideButtons) {
-      hideButtonsLeft = document.createElement(`div`);
-      hideButtonsLeft.className = `esgst-heading-button`;
-      hideButtonsLeft.title = this.getFeatureTooltip(`hideButtons`);
-      this.createElements(hideButtonsLeft, `inner`, [{
-        attributes: {
-          class: `fa fa-ellipsis-v`
-        },
-        type: `i`
-      }]);
-      this.esgst.leftButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsLeft, 0, true).popout, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-page-heading`
-        },
-        type: `div`
-      }]);
-      hideButtonsRight = document.createElement(`div`);
-      hideButtonsRight.className = `esgst-heading-button`;
-      hideButtonsRight.title = this.getFeatureTooltip(`hideButtons`);
-      this.createElements(hideButtonsRight, `inner`, [{
-        attributes: {
-          class: `fa fa-ellipsis-v`
-        },
-        type: `i`
-      }]);
-      this.esgst.rightButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsRight, 0, true).popout, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-page-heading`
-        },
-        type: `div`
-      }]);
-    }
+    hideButtonsLeft = document.createElement(`div`);
+    hideButtonsLeft.className = `esgst-heading-button`;
+    this.createElements(hideButtonsLeft, `inner`, [{
+      attributes: {
+        class: `fa fa-ellipsis-v`
+      },
+      type: `i`
+    }]);
+    this.esgst.leftButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsLeft, 0, true).popout, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-page-heading`
+      },
+      type: `div`
+    }]);
+    hideButtonsRight = document.createElement(`div`);
+    hideButtonsRight.className = `esgst-heading-button`;
+    this.createElements(hideButtonsRight, `inner`, [{
+      attributes: {
+        class: `fa fa-ellipsis-v`
+      },
+      type: `i`
+    }]);
+    this.esgst.rightButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsRight, 0, true).popout, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-page-heading`
+      },
+      type: `div`
+    }]);
 
     for (const key in modules) {
       const module = modules[key];
@@ -284,20 +280,16 @@ class Common extends Module {
       if (!this.esgst.rightMainPageHeadingButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
         this.esgst.rightMainPageHeadingButtons.classList.add(`esgst-hidden`);
       }
-      if (this.esgst.hideButtons) {
-        if (!this.esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
-          hideButtonsLeft.classList.add(`esgst-hidden`);
-        }
-        if (!this.esgst.rightButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
-          hideButtonsRight.classList.add(`esgst-hidden`);
-        }
-        this.esgst.mainPageHeading.insertBefore(hideButtonsLeft, this.esgst.mainPageHeading.firstElementChild);
-        this.esgst.mainPageHeading.appendChild(hideButtonsRight);
+      if (!this.esgst.leftButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
+        hideButtonsLeft.classList.add(`esgst-hidden`);
       }
+      if (!this.esgst.rightButtons.querySelector(`.esgst-heading-button:not(.esgst-hidden)`)) {
+        hideButtonsRight.classList.add(`esgst-hidden`);
+      }
+      this.esgst.mainPageHeading.insertBefore(hideButtonsLeft, this.esgst.mainPageHeading.firstElementChild);
+      this.esgst.mainPageHeading.appendChild(hideButtonsRight);
     }
-    if (!this.esgst.lockMainPageHeadingButtons) {
-      this.reorderButtons();
-    }
+    this.reorderButtons(this.esgst);
     if (document.readyState === `complete`) {
       this.goToComment(this.esgst.originalHash);
     } else {
@@ -733,178 +725,6 @@ class Common extends Module {
             sg: true,
             st: true
           },
-          lockMainPageHeadingButtons: {
-            name: `Lock main page heading buttons so that they are not draggable (they will remain in the set order).`,
-            sg: true,
-            st: true
-          },
-          hideButtons: {
-            description: `
-            <ul>
-              <li>Adds 2 buttons (<i class="fa fa-ellipsis-h"></i>) to left/right sides of the main page heading of any page that when clicked open a popout where you can hide other buttons from the main page heading to reduce the used space of the buttons.</li>
-            </ul>
-          `,
-            features: {
-              hideButtons_as: {
-                name: `Archive Searcher Button`,
-                sg: true
-              },
-              hideButtons_aic: {
-                name: `Attached Image Carousel Button`,
-                sg: true
-              },
-              hideButtons_cf: {
-                name: `Comment Filters Button`,
-                sg: true
-              },
-              hideButtons_cs: {
-                name: `Comment Searcher`,
-                sg: true,
-                st: true
-              },
-              hideButtons_ctGo: {
-                name: `Comment Tracker Button - Go to first unread.`,
-                sg: true,
-                st: true
-              },
-              hideButtons_ctRead: {
-                name: `Comment Tracker Button - Read all.`,
-                sg: true,
-                st: true
-              },
-              hideButtons_ctUnread: {
-                name: `Comment Tracker Button - Unread all.`,
-                sg: true,
-                st: true
-              },
-              hideButtons_cec: {
-                name: `Comment/Entry Checker Button`,
-                sg: true
-              },
-              hideButtons_df: {
-                name: `Discussion Filters Button`,
-                sg: true
-              },
-              hideButtons_ds: {
-                name: `Discussions Sorter Button`,
-                sg: true
-              },
-              hideButtons_esContinuous: {
-                name: `Endless Scrolling Button - Continuously Load`,
-                sg: true,
-                st: true
-              },
-              hideButtons_esNext: {
-                name: `Endless Scrolling Button - Load Next Page`,
-                sg: true,
-                st: true
-              },
-              hideButtons_esPause: {
-                name: `Endless Scrolling Button - Pause/Resume`,
-                sg: true,
-                st: true
-              },
-              hideButtons_esRefresh: {
-                name: `Endless Scrolling Button - Refresh`,
-                sg: true,
-                st: true
-              },
-              hideButtons_esRefreshAll: {
-                name: `Endless Scrolling Button - Refresh All`,
-                sg: true,
-                st: true
-              },
-              hideButtons_ge: {
-                name: `Giveaway Extractor Button`,
-                sg: true
-              },
-              hideButtons_gf: {
-                name: `Giveaway Filters Button`,
-                sg: true
-              },
-              hideButtons_gts: {
-                name: `Giveaway Templates Button`,
-                sg: true
-              },
-              hideButtons_gas: {
-                name: `Giveaways Sorter Button`,
-                sg: true
-              },
-              hideButtons_gv: {
-                name: `Grid View Button`,
-                sg: true
-              },
-              hideButtons_glwc: {
-                name: `Group Library/Wishlist Checker Button`,
-                sg: true,
-              },
-              hideButtons_hgr: {
-                name: `Hidden Game Remover Button`,
-                sg: true
-              },
-              hideButtons_mpp: {
-                name: `Main Post Popup Button`,
-                sg: true,
-                st: true
-              },
-              hideButtons_mm: {
-                name: `Multi-Manager`,
-                sg: true
-              },
-              hideButtons_namwc: {
-                name: `Not Activated/Multiple Win Checker Button`,
-                sg: true
-              },
-              hideButtons_rbp: {
-                name: `Reply Box Popup Button`,
-                sg: true,
-                st: true
-              },
-              hideButtons_stbb: {
-                name: `Scroll To Bottom  Button`,
-                sg: true
-              },
-              hideButtons_sttb: {
-                name: `Scroll To Top Button`,
-                sg: true
-              },
-              hideButtons_sks: {
-                name: `Sent Key Searcher Button`,
-                sg: true
-              },
-              hideButtons_tb: {
-                name: `Trade Bumper Button`,
-                st: true
-              },
-              hideButtons_ugs: {
-                name: `Unsent Gift Sender Button`,
-                sg: true
-              },
-              hideButtons_wbc: {
-                name: `Whitelist/Blacklist Checker Button`,
-                sg: true
-              },
-              hideButtons_wbm: {
-                name: `Whitelist/Blacklist Manager Button`,
-                sg: true
-              },
-              hideButtons_wbsAsc: {
-                name: `Whitelist/Blacklist Sorter Button - Ascending`,
-                sg: true
-              },
-              hideButtons_wbsDesc: {
-                name: `Whitelist/Blacklist Sorter Button - Descending`,
-                sg: true
-              }
-            },
-            name: `Hide buttons at the left/right sides of the main page heading to reduce the used space.`,
-            sg: true,
-            st: true
-          },
-          lockGiveawayColumns: {
-            name: `Lock giveaway columns so that they are not draggable (they will remain in the set order).`,
-            sg: true
-          },
           staticPopups: {
             features: {
               staticPopups_f: {
@@ -1121,12 +941,10 @@ class Common extends Module {
     let context = details.context;
     const id = details.orderId || details.id;
     if (!context) {
-      if (this.esgst.hideButtons && this.esgst[`hideButtons_${id}`]) {
-        if (this.esgst.leftButtonIds.indexOf(id) > -1) {
-          context = this.esgst.leftButtons;
-        } else {
-          context = this.esgst.rightButtons;
-        }
+      if (this.esgst.leftButtonIds.indexOf(id) > -1) {
+        context = this.esgst.leftButtons;
+      } else if (this.esgst.rightButtonIds.indexOf(id) > -1) {
+        context = this.esgst.rightButtons;
       } else if (this.esgst.leftMainPageHeadingIds.indexOf(id) > -1) {
         context = this.esgst.leftMainPageHeadingButtons;
       } else {
@@ -1499,18 +1317,18 @@ class Common extends Module {
     }
   }
 
-  reorderButtons() {
+  reorderButtons(obj) {
     const items = [{
-      context: this.esgst.leftButtons,
+      context: obj.leftButtons,
       id: `leftButtonIds`
     }, {
-      context: this.esgst.rightButtons,
+      context: obj.rightButtons,
       id: `rightButtonIds`
     }, {
-      context: this.esgst.leftMainPageHeadingButtons,
+      context: obj.leftMainPageHeadingButtons,
       id: `leftMainPageHeadingIds`
     }, {
-      context: this.esgst.rightMainPageHeadingButtons,
+      context: obj.rightMainPageHeadingButtons,
       id: `rightMainPageHeadingIds`
     }];
     for (const item of items) {
@@ -1518,32 +1336,11 @@ class Common extends Module {
         continue;
       }
       for (const id of this.esgst[item.id]) {
-        const elements = item.context.querySelectorAll(`[data-draggable-id="${id}"]`);
+        const elements = (obj.mainPageHeading || obj.outerWrap).querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
-          if (element.classList.contains(`esgst-draggable-placeholder`) && elements.length > 1) {
-            element.remove();
-            continue;
-          }
           item.context.appendChild(element);
         }
-        if (!elements.length) {
-          this.createElements(item.context, `beforeEnd`, [{
-            attributes: {
-              class: `esgst-draggable-placeholder esgst-hidden`,
-              [`data-draggable-id`]: id
-            },
-            text: id,
-            type: `span`
-          }]);
-        }
       }
-      this.draggable_set({
-        context: item.context,
-        id: item.id,
-        item: {
-          outerWrap: item.context
-        }
-      });
     }
   }
 
@@ -3743,6 +3540,9 @@ class Common extends Module {
         }
       }
     }
+    const elementOrdering = this.createMenuSection(SMMenu, null, i, `Element Ordering`);
+    this.setElementOrderingSection(elementOrdering.lastElementChild);
+    i += 1;
     this.createMenuSection(SMMenu, [{
       attributes: {
         class: `esgst-steam-api-key`,
@@ -3934,6 +3734,323 @@ class Common extends Module {
         this.esgst.firstInstall = false;
       }
     }
+  }
+
+  setElementOrderingSection(context) {
+    const obj = {
+      elementOrdering: true,
+      outerWrap: this.createElements(context, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-element-ordering-container`
+        },
+        type: `div`
+      }])
+    };
+    const obj_gv = {
+      elementOrdering: true,
+      outerWrap: this.createElements(context, `beforeEnd`, [{
+        text: `Grid View`,
+        type: `strong`
+      }, {
+        attributes: {
+          class: `esgst-element-ordering-container`
+        },
+        type: `div`
+      }])
+    };
+    const items = [{
+      includeGridView: true,
+      group: `giveaways`,
+      id: `gc_categories`,
+      key: `gcPanel`,
+      name: `Game Categories`,
+      labels: {
+        gc_fcv: `Full CV`,
+        gc_rcv: `Reduced CV`,
+        gc_ncv: `No CV`,
+        gc_h: `Hidden`,
+        gc_i: `Ignored`,
+        gc_o: `Owned`,
+        gc_w: `Wishlisted`,
+        gc_f: `Followed`,
+        gc_pw: `Previously Won`,
+        gc_a: `Achievements`,
+        gc_sp: `Singleplayer`,
+        gc_mp: `Multiplayer`,
+        gc_sc: `Steam Cloud`,
+        gc_tc: `Trading Cards`,
+        gc_l: `Linux`,
+        gc_m: `Mac`,
+        gc_ea: `Early Access`,
+        gc_lg: `Learning`,
+        gc_rm: `Removed`,
+        gc_dlc: `DLC`,
+        gc_p: `Package`,
+        gc_gi: `Giveaway Info`,
+        gc_r: `Rating`,
+        gc_hltb: `HLTB`,
+        gc_rd: `Release Date`,
+        gc_g: `Genres`
+      }
+    }, {
+      includeGridView: true,
+      group: `giveaways`,
+      id: `giveawayHeading`,
+      key: `heading`,
+      name: `Giveaway Heading`,
+      labels: {
+        gr: `Giveaway Recreator`,
+        gb: `Giveaway Bookmarks`,
+        gf: `Giveaway Filters`,
+        egh: `Entered Game Highlighter`,
+        name: `Game Name`,
+        points: `Points`,
+        copies: `Copies`,
+        steam: `Steam Link`,
+        search: `Search Link`,
+        hideGame: `Hide Game`,
+        gt: `Game Tags`
+      }
+    }, {
+      group: `giveaways`,
+      id: `giveawayColumns`,
+      key: `columns`,
+      name: `Giveaway Columns`,
+      labels: {
+        ged: `Giveaway Encrypter/Decrypter`,
+        endTime: `End Time`,
+        winners: `Winners`,
+        startTime: `Start Time`,
+        touhou: `Touhou`,
+        inviteOnly: `Invite Only`,
+        whitelist: `Whitelist`,
+        group: `Group`,
+        regionRestricted: `Region Restricted`,
+        level: `Level`
+      }
+    }, {
+      isGridView: true,
+      group: `giveaways_gv`,
+      id: `giveawayColumns_gv`,
+      key: `gvIcons`,
+      name: `Giveaway Columns`,
+      labels: {
+        sgTools: `SGTools`,
+        ged: `Giveaway Encrypter/Decrypter`,
+        time: `End/Start Time`,
+        touhou: `Touhou`,
+        inviteOnly: `Invite Only`,
+        whitelist: `Whitelist`,
+        group: `Group`,
+        regionRestricted: `Region Restricted`,
+        level: `Level`
+      }
+    }, {
+      group: `giveaways`,
+      id: `giveawayPanel`,
+      key: `panel`,
+      name: `Giveaway Panel`,
+      labels: {
+        ttec: `Time To Enter Calculator`,
+        gwc: `Giveaway Winning Chance`,
+        gwr: `Giveaway Winning Ratio`,
+        gptw: `Giveaway Points To Win`,
+        gp: `Giveaway Popup`,
+        elgb: `Enter/Leave Giveaway Button`,
+        sgTools: `SGTools`
+      }
+    }, {
+      isGridView: true,
+      group: `giveaways_gv`,
+      id: `giveawayPanel_gv`,
+      key: `panel`,
+      name: `Giveaway Panel`,
+      labels: {
+        ttec: `Time To Enter Calculator`,
+        gwc: `Giveaway Winning Chance`,
+        gwr: `Giveaway Winning Ratio`,
+        gptw: `Giveaway Points To Win`,
+        gp: `Giveaway Popup`,
+        elgb: `Enter/Leave Giveaway Button`
+      }
+    }, {
+      includeGridView: true,
+      group: `giveaways`,
+      id: `giveawayLinks`,
+      key: `links`,
+      name: `Giveaway Links`,
+      labels: {
+        entries: `Entries`,
+        winners_count: `Winners Count`,
+        comments: `Comments`
+      }
+    }, {
+      group: `mainPageHeading`,
+      id: `leftButtonIds`,
+      key: `leftButtons`,
+      name: `Left Buttons (Hidden)`,
+      labels: {}
+    }, {
+      group: `mainPageHeading`,
+      id: `rightButtonIds`,
+      key: `rightButtons`,
+      name: `Right Buttons (Hidden)`,
+      labels: {}
+    },{
+      group: `mainPageHeading`,
+      id: `leftMainPageHeadingIds`,
+      key: `leftMainPageHeadingButtons`,
+      name: `Left Buttons`,
+      labels: {
+        aic: `Attached Images Carousel`,
+        as:  `Archive Searcher`,
+        cec: `Comment/Entry Checker`,
+        cf: `Comment Filters`,
+        cs: `Comment Searcher`,
+        ctGo: `Comment Tracker (Go To Unread)`,
+        ctRead: `Comment Tracker (Mark As Read)`,
+        ctUnread: `Comment Tracker (Mark As Unread)`,
+        df: `Discussion Filters`,
+        ds: `Discussion Sorter`,
+        gas: `Giveaway Sorter`,
+        ge: `Giveaway Extractor`,
+        gf: `Giveaway Filters`,
+        glwc: `Group Library/Wishlist Checker`,
+        gts: `Giveaway Templates`,
+        gv: `Grid View`,
+        hgr: `Hidden Games Remover`,
+        mpp: `Main Post Popup`,
+        namwc: `Not Activated/Multiple Wins Checker`,
+        rbp: `Reply Box Popup`,
+        sks: `Sent Keys Searcher`,
+        tb: `Trade Bumper`,
+        ugs: `Unsent Gifts Sender`,
+        ust: `User Suspention Tracker`,
+        wbc: `Whitelist/Blacklist Checker`,
+        wbm: `Whitelist/Blacklist Manager`,
+        wbsAsc: `Whitelist/Blacklist Sorter (Ascending)`,
+        wbsDesc: `Whitelist/Blacklist Sorter (Descending)`
+      }
+    },{
+      group: `mainPageHeading`,
+      id: `rightMainPageHeadingIds`,
+      key: `rightMainPageHeadingButtons`,
+      name: `Right Buttons`,
+      labels: {
+        esContinuous: `Endless Scrolling (Continuously Load)`,
+        esNext: `Endless Scrolling (Load Next),`,
+        esResume: `Endless Scrolling (Resume)`,
+        esPause: `Endless Scrolling (Pause)`,
+        esRefresh: `Endless Scrolling (Refresh)`,
+        esRefreshAll: `Endless Scrolling (Refresh All)`,
+        mm: `Multi-Manager`,
+        stbb: `Scroll To Bottom Button`,
+        sttb: `Scroll To Top Button`
+      }
+    }];
+    for  (const item of items) {
+      const children = [];
+      for (const id in item.labels) {
+        children.push({
+          attributes: {
+            [`data-draggable-id`]: id,
+            [`data-draggable-group`]: item.group
+          },
+          text: item.labels[id] || id,
+          type: `div`
+        });
+      }
+      const section = this.createElements((item.isGridView ? obj_gv : obj).outerWrap, `beforeEnd`, [{
+        text: item.name,
+        type: `strong`
+      }, {
+        attributes: {
+          class: `esgst-element-ordering-box`
+        },
+        type: `div`,
+        children
+      }]);
+      (item.isGridView ? obj_gv : obj).outerWrap.insertBefore(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-undo`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Reset`,
+        title2: `Resetting`,
+        callback1: this.resetElementOrdering.bind(this, item.id, obj, obj_gv)
+      }).set, section);
+      (item.isGridView ? obj_gv : obj)[item.key] = section;
+      section.addEventListener(`dragenter`, this.draggable_enter.bind(this, {
+        context: section,
+        item: {
+          outerWrap: section
+        }
+      }));
+      this.draggable_set({
+        context: section,
+        id: item.id,
+        item: {
+          outerWrap: section
+        }
+      });
+      if (item.includeGridView) {
+        const children_gv = [];
+        for (const id in item.labels) {
+          children_gv.push({
+            attributes: {
+              [`data-draggable-id`]: id,
+              [`data-draggable-group`]: `${item.group}_gv`
+            },
+            text: item.labels[id] || id,
+            type: `div`
+          });
+        }
+        const section_gv = this.createElements(obj_gv.outerWrap, `beforeEnd`, [{
+          text: item.name,
+          type: `strong`
+        }, {
+          attributes: {
+            class: `esgst-element-ordering-box`
+          },
+          type: `div`,
+          children: children_gv
+        }]);
+        obj_gv.outerWrap.insertBefore(new ButtonSet({
+          color1: `grey`,
+          color2: `grey`,
+          icon1: `fa-undo`,
+          icon2: `fa-circle-o-notch fa-spin`,
+          title1: `Reset`,
+          title2: `Resetting`,
+          callback1: this.resetElementOrdering.bind(this, `${item.id}_gv`, obj, obj_gv)
+        }).set, section_gv);
+        obj_gv[item.key] = section_gv;
+        section_gv.addEventListener(`dragenter`, this.draggable_enter.bind(this, {
+          context: section_gv,
+          item: {
+            outerWrap: section_gv
+          }
+        }));
+        this.draggable_set({
+          context: section_gv,
+          id: `${item.id}_gv`,
+          item: {
+            outerWrap: section_gv
+          }
+        });
+      }
+    }
+    this.esgst.modules.giveaways.giveaways_reorder(obj);
+    this.esgst.modules.giveaways.giveaways_reorder(obj_gv);
+    this.reorderButtons(obj);
+  }
+
+  async resetElementOrdering(id, obj, obj_gv) {
+    this.esgst[id] = this.esgst.settings[id] = this.esgst.defaultValues[id];
+    await this.setValue(`settings`, JSON.stringify(this.esgst.settings));
+    this.esgst.modules.giveaways.giveaways_reorder(obj);
+    this.esgst.modules.giveaways.giveaways_reorder(obj_gv);
+    this.reorderButtons(obj);
   }
 
   openPathsPopup(feature, id, name) {
@@ -4423,156 +4540,6 @@ class Common extends Module {
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `gc_o_a`) {
       this.addGcAltMenuPanel(SMFeatures);
-      SMFeatures.classList.remove(`esgst-hidden`);
-    } else if (ID === `lockMainPageHeadingButtons`) {
-      let select = this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`,
-        },
-        type: `div`,
-        children: [{
-          text: `Select an option below and click on the button to reset the order:`,
-          type: `node`
-        }, {
-          type: `br`
-        }, {
-          type: `select`,
-          children: [{
-            attributes: {
-              value: `leftMainPageHeadingIds`
-            },
-            text: `Left Buttons [${this.esgst.leftMainPageHeadingIds.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `rightMainPageHeadingIds`
-            },
-            text: `Right Buttons [${this.esgst.rightMainPageHeadingIds.join(`, `)}]`,
-            type: `option`
-          }]
-        }, {
-          type: `br`
-        }, {
-          attributes: {
-            class: `form__saving-button esgst-sm-colors-default`
-          },
-          text: `Reset Order`,
-          type: `div`
-        }]
-      }]).firstElementChild.nextElementSibling;
-      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(this, select));
-      SMFeatures.classList.remove(`esgst-hidden`);
-    } else if (ID === `hideButtons`) {
-      let select = this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`,
-        },
-        type: `div`,
-        children: [{
-          text: `Select an option below and click on the button to reset the order:`,
-          type: `node`
-        }, {
-          type: `br`
-        }, {
-          type: `select`,
-          children: [{
-            attributes: {
-              value: `leftButtonIds`
-            },
-            text: `Left Buttons [${this.esgst.leftButtonIds.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `rightButtonIds`
-            },
-            text: `Right Buttons [${this.esgst.rightButtonIds.join(`, `)}]`,
-            type: `option`
-          }]
-        }, {
-          type: `br`
-        }, {
-          attributes: {
-            class: `form__saving-button esgst-sm-colors-default`
-          },
-          text: `Reset Order`,
-          type: `div`
-        }]
-      }]).firstElementChild.nextElementSibling;
-      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(this, select));
-      SMFeatures.classList.remove(`esgst-hidden`);
-    } else if (ID === `lockGiveawayColumns`) {
-      let select = this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`,
-        },
-        type: `div`,
-        children: [{
-          text: `Select an option below and click on the button to reset the order:`,
-          type: `node`
-        }, {
-          type: `br`
-        }, {
-          type: `select`,
-          children: [{
-            attributes: {
-              value: `giveawayColumns`
-            },
-            text: `Giveaway Columns [${this.esgst.giveawayColumns.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayPanel`
-            },
-            text: `Giveaway Panel [${this.esgst.giveawayPanel.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayHeading`
-            },
-            text: `Giveaway Heading [${this.esgst.giveawayHeading.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayLinks`
-            },
-            text: `Giveaway Links [${this.esgst.giveawayLinks.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayColumns_gv`
-            },
-            text: `Giveaway Columns (Grid View) [${this.esgst.giveawayColumns_gv.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayPanel_gv`
-            },
-            text: `Giveaway Panel (Grid View) [${this.esgst.giveawayPanel_gv.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayHeading_gv`
-            },
-            text: `Giveaway Heading (Grid View) [${this.esgst.giveawayHeading_gv.join(`, `)}]`,
-            type: `option`
-          }, {
-            attributes: {
-              value: `giveawayLinks_gv`
-            },
-            text: `Giveaway Links (Grid View) [${this.esgst.giveawayLinks_gv.join(`, `)}]`,
-            type: `option`
-          }]
-        }, {
-          type: `br`
-        }, {
-          attributes: {
-            class: `form__saving-button esgst-sm-colors-default`
-          },
-          text: `Reset Order`,
-          type: `div`
-        }]
-      }]).firstElementChild.nextElementSibling;
-      select.nextElementSibling.nextElementSibling.addEventListener(`click`, this.resetOrder.bind(this, select));
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (Feature.colors || Feature.background) {
       let color = this.esgst[`${ID}_color`];
@@ -9380,38 +9347,6 @@ class Common extends Module {
     this.setValue(`settings`, JSON.stringify(this.esgst.settings));
   }
 
-  async resetOrder(select, event) {
-    let message = this.createElements(event.currentTarget, `afterEnd`, [{
-      attributes: {
-        class: `esgst-description esgst-bold`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
-        },
-        type: `i`
-      }, {
-        text: ` Saving...`,
-        type: `node`
-      }]
-    }]);
-    let key = select.value;
-    this.esgst.settings[key] = this.esgst.defaultValues[key];
-    await this.setValue(`settings`, JSON.stringify(this.esgst.settings));
-    message.classList.add(`esgst-green`);
-    this.createElements(message, `inner`, [{
-      attributes: {
-        class: `fa fa-check`
-      },
-      type: `i`
-    }, {
-      text: ` Saved!`,
-      type: `node`
-    }]);
-    setTimeout(() => message.remove(), 2500);
-  }
-
   setSMManageFilteredUsers(SMManageFilteredUsers) {
     let popup;
     SMManageFilteredUsers.addEventListener(`click`, async () => {
@@ -9839,6 +9774,25 @@ class Common extends Module {
     `;
     }
     style += `
+    .esgst-element-ordering-container, .esgst-element-ordering-container >* {
+      margin: 5px;
+    }
+    
+    .esgst-element-ordering-box {
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      padding: 5px;
+    }
+    
+    .esgst-element-ordering-box >* {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: move;
+      display: inline-block;
+      margin: 5px;
+      padding: 5px;
+    }
+    
     .esgst-page-heading-buttons {
       background: none;
       border: none;
@@ -12654,53 +12608,6 @@ class Common extends Module {
     if (obj.addTrash) {
       this.draggable_setTrash(obj);
     }
-    if (obj.item.gvIcons) {
-      obj.item.gvIcons.style.flexWrap = `wrap`;
-      obj.item.gvIcons.style.maxWidth = `${obj.item.gvIcons.offsetWidth}px`;
-    } else if (obj.item.columns) {
-      obj.item.columns.style.flexWrap = `wrap`;
-      obj.item.columns.style.maxWidth = `${obj.item.columns.offsetWidth}px`;
-    }
-    if (obj.item.panel) {
-      obj.item.panel.style.flexWrap = `wrap`;
-      obj.item.panel.style.maxWidth = `${obj.item.panel.offsetWidth}px`;
-    }
-    if (obj.item.heading) {
-      obj.item.heading.style.flexWrap = `wrap`;
-      obj.item.heading.style.maxWidth = `${obj.item.heading.offsetWidth}px`;
-    }
-    if (obj.item.gcPanel) {
-      obj.item.gcPanel.style.flexWrap = `wrap`;
-      obj.item.gcPanel.style.maxWidth = `${obj.item.gcPanel.offsetWidth}px`;
-    }
-    if (!obj.item.innerWrap && obj.item.outerWrap) {
-      obj.item.outerWrap.style.flexWrap = `wrap`;
-      obj.item.outerWrap.style.maxWidth = `${obj.item.outerWrap}px`;
-
-    }
-    await this.timeout(0);
-    if (obj.item.gvIcons && obj.item.gvIcons.children.length < 1) {
-      obj.item.gvIcons.style.height = `25px`;
-      obj.item.gvIcons.style.width = `100%`;
-    } else if (obj.item.columns && obj.item.columns.children.length < 1) {
-      obj.item.columns.style.height = `25px`;
-      obj.item.columns.style.width = `100%`;
-    }
-    if (obj.item.panel && obj.item.panel.children.length < 1) {
-      obj.item.panel.style.height = `25px`;
-      obj.item.panel.style.width = `100%`;
-    }
-    if (obj.item.gcPanel && obj.item.gcPanel.children.length < 1) {
-      obj.item.gcPanel.style.height = `25px`;
-      obj.item.gcPanel.style.width = `100%`;
-    }
-    if (!obj.item.outerWrap) {
-      return;
-    }
-    const placeholders = obj.item.outerWrap.querySelectorAll(`.esgst-draggable-placeholder`);
-    for (const placeholder of placeholders) {
-      placeholder.classList.remove(`esgst-hidden`);
-    }
   }
 
   draggable_enter(obj, event) {
@@ -12718,6 +12625,9 @@ class Common extends Module {
       if (obj.context.children.length < 1) {
         obj.context.appendChild(this.esgst.draggable.dragged);
       }
+      return;
+    }
+    if (element.getAttribute(`data-draggable-group`) !== this.esgst.draggable.dragged.getAttribute(`data-draggable-group`)) {
       return;
     }
     let current = this.esgst.draggable.dragged;
@@ -12740,39 +12650,6 @@ class Common extends Module {
     if (this.esgst.draggable.trash) {
       this.esgst.draggable.trash.remove();
       this.esgst.draggable.trash = null;
-    }
-    if (obj.item.gvIcons) {
-      obj.item.gvIcons.style.flexWrap = ``;
-      obj.item.gvIcons.style.maxWidth = ``;
-      obj.item.gvIcons.style.height = ``;
-      obj.item.gvIcons.style.width = ``;
-    } else if (obj.item.columns) {
-      obj.item.columns.style.flexWrap = ``;
-      obj.item.columns.style.maxWidth = ``;
-      obj.item.columns.style.height = ``;
-      obj.item.columns.style.width = ``;
-    }
-    if (obj.item.panel) {
-      obj.item.panel.style.flexWrap = ``;
-      obj.item.panel.style.maxWidth = ``;
-      obj.item.panel.style.height = ``;
-      obj.item.panel.style.width = ``;
-    }
-    if (obj.item.heading) {
-      obj.item.heading.style.flexWrap = ``;
-      obj.item.heading.style.maxWidth = ``;
-    }
-    if (obj.item.gcPanel) {
-      obj.item.gcPanel.style.flexWrap = ``;
-      obj.item.gcPanel.style.maxWidth = ``;
-      obj.item.gcPanel.style.height = ``;
-      obj.item.gcPanel.style.width = ``;
-    }
-    if (obj.item.outerWrap) {
-      const placeholders = obj.item.outerWrap.querySelectorAll(`.esgst-draggable-placeholder`);
-      for (const placeholder of placeholders) {
-        placeholder.classList.add(`esgst-hidden`);
-      }
     }
     if (this.esgst.draggable.destination === obj.item.columns || this.esgst.draggable.destination === obj.item.gvIcons) {
       if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
