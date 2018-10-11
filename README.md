@@ -236,6 +236,28 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.0.0 (October 11, 2018)**
+
+* [#965](https://github.com/gsrafael01/ESGST/issues/965) Add "Winners" giveaway filter
+* [#964](https://github.com/gsrafael01/ESGST/issues/964) Add option to categorize Steam games to Multi Manager
+* [#963](https://github.com/gsrafael01/ESGST/issues/963) Extract ItsTooHard and Jigidi links with Giveaway Extractor
+* [#962](https://github.com/gsrafael01/ESGST/issues/962) Add option to automatically bookmark giveaways when trying to enter them without enough points to Enter/Leave Giveaway Button
+* [#961](https://github.com/gsrafael01/ESGST/issues/961) Add option to display time to point cap alongside with points at the header
+* [#960](https://github.com/gsrafael01/ESGST/issues/960) Add new section to the settings menu to handle elements order and prevent them from being draggable in all pages
+* [#959](https://github.com/gsrafael01/ESGST/issues/959) Add option to use different pause settings in Endless Scrolling depending on the include path
+* [#958](https://github.com/gsrafael01/ESGST/issues/958) Add option to reset left/right main page heading buttons order
+* [#957](https://github.com/gsrafael01/ESGST/issues/957) Extend new draggable system to left/right main page heading buttons
+* [#956](https://github.com/gsrafael01/ESGST/issues/956) Add which games were won from the listed users to User Giveaway Data
+* [#950](https://github.com/gsrafael01/ESGST/issues/950) Fix HTML in User Stats
+* [#949](https://github.com/gsrafael01/ESGST/issues/949) Fix a bug that does not show giveaway info category for games with 0P
+* [#946](https://github.com/gsrafael01/ESGST/issues/946) Add a button for 2.14.4 "Only extract from the current giveaway onward"
+* [#937](https://github.com/gsrafael01/ESGST/issues/937) Add a new game category and giveaway filter: Followed
+* [#936](https://github.com/gsrafael01/ESGST/issues/936) Make elements in the giveaway links draggable
+* [#935](https://github.com/gsrafael01/ESGST/issues/935) Fix a bug that empties the header points when removing someone from the whitelist
+* [#933](https://github.com/gsrafael01/ESGST/issues/933) Fix HTML in Multiple Giveaway Creator
+* [#925](https://github.com/gsrafael01/ESGST/issues/925) Make elements in the giveaway heading draggable
+* [#902](https://github.com/gsrafael01/ESGST/issues/902) Change Content-Type header in Dropbox requests to application/octet-stream
+
 **7.26.3 (August 15, 2018)**
 
 * [#889](https://github.com/revilheart/ESGST/issues/889) Fix some bugs in Trade Bumper

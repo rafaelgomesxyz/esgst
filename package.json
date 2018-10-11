@@ -1,6 +1,6 @@
 {
   "name": "esgst",
-  "version": "7.27.0",
+  "version": "8.0.0",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "main": "ESGST.meta.js",
   "scripts": {
@@ -32,11 +32,14 @@
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
+    "babel-minify": "^0.5.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "calfinated": "^1.4.1",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.0",
     "file-loader": "^2.0.0",
+    "jsdom": "^12.2.0",
+    "node-fetch": "^2.2.0",
     "progress-bar-webpack-plugin": "^1.11.0",
     "style-loader": "^0.23.0",
     "url-loader": "^1.1.1",

@@ -10,6 +10,9 @@
  */
 
 const
+  fetch = require('node-fetch'),
+  jsdom = require('jsdom'),
+  { JSDOM } = jsdom,
   fs = require('fs'),
   path = require('path'),
   calfinated = require('calfinated')(),
@@ -41,8 +44,69 @@ const
   }
 ;
 
-module.exports = /** @param {Environment} env */ env => {
+module.exports = /** @param {Environment} env */ async env => {
   if (env.production) {
+    // Get version issues.
+    const response = await fetch(`https://github.com/gsrafael01/ESGST/issues?q=is%3Aclosed+milestone%3A${packageJson.version}`);
+    const responseText = await response.text();
+    const dom = new JSDOM(responseText);
+    const issues = dom.window.document.getElementsByClassName(`link-gray-dark`);
+    let changeLog = ``;
+    let markdown = ``;
+    let steamLog = `[list]\n`;
+    for (const issue of issues) {
+      const number = issue.getAttribute(`href`).match(/\/issues\/(\d+)/)[1];
+      const url = `https://github.com/gsrafael01/ESGST/issues/${number}`;
+      const title = issue.textContent.trim();
+      changeLog += `          ${number}: \`${title}\`,\n`;
+      markdown += `* [#${number}](${url}) ${title}\n`;
+      steamLog += `  [*] [url=${url}]#${number}[/url] ${title}\n`;
+    }
+    changeLog = changeLog.slice(0, -2);
+    markdown = markdown.slice(0, -1);
+    steamLog += `[/list]`;
+    console.log(changeLog);
+    console.log(markdown);
+    console.log(steamLog);
+
+    let file = null;
+
+    // Update Esgst.js
+    file = fs.readFileSync(path.join(__dirname, './src/class/Esgst.js'), 'utf8');
+    file = file
+      .replace(/currentVersion\s=\s`(.+?)`;/, `currentVersion = \`${packageJson.version}\`;`)
+      .replace(/devVersion\s=\s`(.+?)`;/, `devVersion = \`${packageJson.version}\`;`);
+    fs.writeFileSync(path.join(__dirname, './src/class/Esgst.js'), file);
+
+    // Get date.
+    let currentDate = new Date();
+    const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+    currentDate = `${months[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
+
+    // Update Common.js
+    file = fs.readFileSync(path.join(__dirname, './src/modules/Common.js'), 'utf8');
+    file = file
+      .replace(/changelog\s=\s\[/, `changelog = [\n      {\n        date: \`${currentDate}\`,\n        version: \`${packageJson.version}\`,\n        changelog: {\n${changeLog}\n        }\n      },\n`);
+    fs.writeFileSync(path.join(__dirname, './src/modules/Common.js'), file);
+
+    // Update manifest.json
+    file = fs.readFileSync(path.join(__dirname, './Extension/manifest.json'), 'utf8');
+    file = file
+      .replace(/version:\s".+?"/, `version: "${packageJson.version}"`);
+    fs.writeFileSync(path.join(__dirname, './Extension/manifest.json'), file);
+
+    // Update ESGST.meta.js
+    file = fs.readFileSync(path.join(__dirname, './ESGST.meta.js'), 'utf8');
+    file = file
+      .replace(/@version.+/, `@version ${packageJson.version}`);
+    fs.writeFileSync(path.join(__dirname, './ESGST.meta.js'), file);
+
+    // Update README.md
+    file = fs.readFileSync(path.join(__dirname, './README.md'), 'utf8');
+    file = file
+      .replace(/##\sChangelog/, `## Changelog\n\n**${packageJson.version} (${currentDate})**\n\n${markdown}`);
+    fs.writeFileSync(path.join(__dirname, './README.md'), file);
+
     env.withBabel = true;
   }
 
@@ -87,8 +151,9 @@ module.exports = /** @param {Environment} env */ env => {
       new plugins.banner({
         raw: true,
         entryOnly: true,
-        banner: context => {
-          let bannerFile = path.join(cfg.context, path.dirname(context.chunk.name), 'banner.js');
+        test: /user\.js$/,
+        banner: () => {
+          let bannerFile = path.join(__dirname, './src/entry/monkey/banner.js');
           if (!fs.existsSync(bannerFile)) {
             return '';
           }
@@ -112,7 +177,7 @@ module.exports = /** @param {Environment} env */ env => {
       poll: 1000,
       aggregateTimeout: 1000
     },
-    devtool: env.development ? 'source-map' : null
+    devtool: env.development ? 'source-map' : false
   };
 
   return cfg;
