@@ -1466,61 +1466,61 @@ import esgst from './class/Esgst';
       }
     });
     if (esgst.settings.elementOrdering !== `1`) {
-      const oldLeftButtonIds = JSON.stringify(esgst.settings.leftButtonIds);
-      const oldRightButtonIds = JSON.stringify(esgst.settings.rightButtonIds);
-      const oldLeftMainPageHeadingIds = JSON.stringify(esgst.settings.leftMainPageHeadingIds);
-      const oldRightMainPageHeadingIds = JSON.stringify(esgst.settings.rightMainPageHeadingIds);
-      for (let i = esgst.settings.leftButtonIds.length - 1; i > -1; i--) {
-        const id = esgst.settings.leftButtonIds[i];
+      const oldLeftButtonIds = JSON.stringify(esgst.leftButtonIds);
+      const oldRightButtonIds = JSON.stringify(esgst.rightButtonIds);
+      const oldLeftMainPageHeadingIds = JSON.stringify(esgst.leftMainPageHeadingIds);
+      const oldRightMainPageHeadingIds = JSON.stringify(esgst.rightMainPageHeadingIds);
+      for (let i = esgst.leftButtonIds.length - 1; i > -1; i--) {
+        const id = esgst.leftButtonIds[i];
         if (!esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.settings.leftMainPageHeadingIds.push(id);
-          esgst.settings.leftButtonIds.splice(i, 1);
-        } else if (esgst.settings.rightButtonIds.indexOf(id) > -1) {
-          esgst.settings.leftButtonIds.splice(i, 1);
+          esgst.leftMainPageHeadingIds.push(id);
+          esgst.leftButtonIds.splice(i, 1);
+        } else if (esgst.rightButtonIds.indexOf(id) > -1) {
+          esgst.leftButtonIds.splice(i, 1);
         }
       }
-      for (let i = esgst.settings.rightButtonIds.length - 1; i > -1; i--) {
-        const id = esgst.settings.rightButtonIds[i];
+      for (let i = esgst.rightButtonIds.length - 1; i > -1; i--) {
+        const id = esgst.rightButtonIds[i];
         if (!esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.settings.rightMainPageHeadingIds.push(id);
-          esgst.settings.rightButtonIds.splice(i, 1);
-        } else if (esgst.settings.leftButtonIds.indexOf(id) > -1) {
-          esgst.settings.rightButtonIds.splice(i, 1);
+          esgst.rightMainPageHeadingIds.push(id);
+          esgst.rightButtonIds.splice(i, 1);
+        } else if (esgst.leftButtonIds.indexOf(id) > -1) {
+          esgst.rightButtonIds.splice(i, 1);
         }
       }
-      for (let i = esgst.settings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
-        const id = esgst.settings.leftMainPageHeadingIds[i];
+      for (let i = esgst.leftMainPageHeadingIds.length - 1; i > -1; i--) {
+        const id = esgst.leftMainPageHeadingIds[i];
         if (esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.settings.leftButtonIds.push(id);
-          esgst.settings.leftMainPageHeadingIds.splice(i, 1);
-        } else if (esgst.settings.rightMainPageHeadingIds.indexOf(id) > -1) {
-          esgst.settings.leftMainPageHeadingIds.splice(i, 1);
+          esgst.leftButtonIds.push(id);
+          esgst.leftMainPageHeadingIds.splice(i, 1);
+        } else if (esgst.rightMainPageHeadingIds.indexOf(id) > -1) {
+          esgst.leftMainPageHeadingIds.splice(i, 1);
         }
       }
-      for (let i = esgst.settings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
-        const id = esgst.settings.rightMainPageHeadingIds[i];
+      for (let i = esgst.rightMainPageHeadingIds.length - 1; i > -1; i--) {
+        const id = esgst.rightMainPageHeadingIds[i];
         if (esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.settings.rightButtonIds.push(id);
-          esgst.settings.rightMainPageHeadingIds.splice(i, 1);
-        } else if (esgst.settings.leftMainPageHeadingIds.indexOf(id) > -1) {
-          esgst.settings.rightMainPageHeadingIds.splice(i, 1);
+          esgst.rightButtonIds.push(id);
+          esgst.rightMainPageHeadingIds.splice(i, 1);
+        } else if (esgst.leftMainPageHeadingIds.indexOf(id) > -1) {
+          esgst.rightMainPageHeadingIds.splice(i, 1);
         }
       }
-      esgst.settings.leftButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.settings.leftButtonIds));
-      esgst.settings.rightButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.settings.rightButtonIds));
-      esgst.settings.leftMainPageHeadingIds = Array.from(new Set(esgst.settings.leftMainPageHeadingIds));
-      esgst.settings.rightMainPageHeadingIds = Array.from(new Set(esgst.settings.rightMainPageHeadingIds));
-      if (oldLeftButtonIds !== JSON.stringify(esgst.settings.leftButtonIds)) {
-        esgst.leftButtonIds = esgst.settings.leftButtonIds;
+      esgst.leftButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.leftButtonIds));
+      esgst.rightButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.rightButtonIds));
+      esgst.leftMainPageHeadingIds = Array.from(new Set(esgst.leftMainPageHeadingIds));
+      esgst.rightMainPageHeadingIds = Array.from(new Set(esgst.rightMainPageHeadingIds));
+      if (oldLeftButtonIds !== JSON.stringify(esgst.leftButtonIds)) {
+        esgst.settings.leftButtonIds = esgst.leftButtonIds;
       }
-      if (oldRightButtonIds !== JSON.stringify(esgst.settings.rightButtonIds)) {
-        esgst.rightButtonIds = esgst.settings.rightButtonIds;
+      if (oldRightButtonIds !== JSON.stringify(esgst.rightButtonIds)) {
+        esgst.settings.rightButtonIds = esgst.rightButtonIds;
       }
-      if (oldLeftMainPageHeadingIds !== JSON.stringify(esgst.settings.leftMainPageHeadingIds)) {
-        esgst.leftMainPageHeadingIds = esgst.settings.leftMainPageHeadingIds;
+      if (oldLeftMainPageHeadingIds !== JSON.stringify(esgst.leftMainPageHeadingIds)) {
+        esgst.settings.leftMainPageHeadingIds = esgst.leftMainPageHeadingIds;
       }
-      if (oldRightMainPageHeadingIds !== JSON.stringify(esgst.settings.rightMainPageHeadingIds)) {
-        esgst.rightMainPageHeadingIds = esgst.settings.rightMainPageHeadingIds;
+      if (oldRightMainPageHeadingIds !== JSON.stringify(esgst.rightMainPageHeadingIds)) {
+        esgst.settings.rightMainPageHeadingIds = esgst.rightMainPageHeadingIds;
       }
       esgst.settings.elementOrdering = `1`;
       esgst.settingsChanged = true;

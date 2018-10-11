@@ -236,6 +236,10 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.0.1 (October 11, 2018)**
+
+
+
 **8.0.0 (October 11, 2018)**
 
 * [#965](https://github.com/gsrafael01/ESGST/issues/965) Add "Winners" giveaway filter
