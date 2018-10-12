@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="401c8206-063f-4cc2-a242-4e638caacb21" name="Default Changelist" comment="">
+    <list default="true" id="401c8206-063f-4cc2-a242-4e638caacb21" name="Default Changelist" comment="- #966">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ESGST.user.js" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ESGST.user.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.user.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Extension/esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Extension/esgst.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/class/Esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/class/Esgst.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/class/Module.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/class/Module.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Common.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -49,7 +40,7 @@
         <counts>
           <entry key="babelrc" value="2" />
           <entry key="gitignore" value="1" />
-          <entry key="js" value="332" />
+          <entry key="js" value="334" />
           <entry key="json" value="12" />
           <entry key="md" value="1" />
           <entry key="sh" value="2" />
@@ -59,7 +50,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="14" />
-          <entry key="JavaScript" value="332" />
+          <entry key="JavaScript" value="334" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -67,19 +58,19 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="babelrc" value="17" />
-          <entry key="js" value="28725" />
+          <entry key="js" value="28727" />
           <entry key="json" value="225" />
           <entry key="md" value="2" />
           <entry key="sh" value="51" />
-          <entry key="txt" value="482" />
+          <entry key="txt" value="511" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="28" />
           <entry key="JSON" value="242" />
-          <entry key="JavaScript" value="28697" />
-          <entry key="PLAIN_TEXT" value="535" />
+          <entry key="JavaScript" value="28699" />
+          <entry key="PLAIN_TEXT" value="564" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -117,20 +108,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/typedefs.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-1511">
               <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/modules/General/VisibleFullLevel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
             </state>
           </provider>
         </entry>
@@ -177,11 +159,37 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="Rafael" />
         <option value="Rafael &lt;gsrafael01@gmail.com&gt;" />
+        <option value="Rafael" />
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/dev" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -263,7 +271,10 @@
     <option name="width" value="1446" />
     <option name="height" value="872" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -286,12 +297,6 @@
               <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
               <item name="ESGST" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="class" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
@@ -320,7 +325,7 @@
     <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Background" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -339,7 +344,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.build-dev-without-babel-watch">
+  <component name="RunManager" selected="Node.js.VisibleFullLevel.js">
+    <configuration name="VisibleFullLevel.js" type="NodeJSConfigurationType" factoryName="Node.js" nameIsGenerated="true" path-to-js-file="VisibleFullLevel.js" working-dir="$PROJECT_DIR$/src/modules/General">
+      <method v="2" />
+    </configuration>
     <configuration name="build-dev-without-babel-watch" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -371,6 +379,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Node.js.VisibleFullLevel.js" />
       <item itemvalue="npm.build-dev-without-babel-watch" />
       <item itemvalue="npm.build-dev-without-watch" />
       <item itemvalue="npm.build" />
@@ -384,7 +393,7 @@
     </recent_temporary>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -411,7 +420,7 @@
       <workItem from="1539295043180" duration="96000" />
       <workItem from="1539295551831" duration="2317000" />
       <workItem from="1539300682721" duration="1926000" />
-      <workItem from="1539306117673" duration="1862000" />
+      <workItem from="1539306117673" duration="2893000" />
     </task>
     <task id="LOCAL-00001" summary="- Fix ButtonSet usage&#10;- Remove CompletionCheck">
       <created>1538627946823</created>
@@ -476,28 +485,34 @@
       <option name="project" value="LOCAL" />
       <updated>1539302218463</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- Add a new feature: Visible Full Level (close #966)">
+      <created>1539308073529</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1539308073529</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71532000" />
+    <option name="totallyTimeSpent" value="72563000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1446" height="872" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" sideWeight="0.50067115" side_tool="true" weight="0.24947146" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32885906" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.32885906" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.32885906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32885906" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49964765" weight="0.32885906" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010571" side_tool="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Inspection Results" order="11" sideWeight="0.49964765" weight="0.32885906" />
@@ -519,6 +534,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
+    <confirmRemoveEmptyChangelist value="2" />
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
@@ -531,7 +547,9 @@
     <MESSAGE value="- Bug fixes&#10;- Add new section to the settings menu to handle elements order and prevent them from being draggable in all pages (close #960)" />
     <MESSAGE value="- Bug fixes&#10;- Add which games were won from the listed users to User Giveaway Data (close #956)&#10;- Add &quot;Winners&quot; giveaway filter (close #965)" />
     <MESSAGE value="- Fix a bug that refreshes the page after commenting with Multi-Reply (close #969)&#10;- Fix a bug that does not show replies in the inbox page with Reply From Inbox (close #970)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fix a bug that refreshes the page after commenting with Multi-Reply (close #969)&#10;- Fix a bug that does not show replies in the inbox page with Reply From Inbox (close #970)" />
+    <MESSAGE value="- Add a new feature: Visible Full Level (close #966)" />
+    <MESSAGE value="- #966" />
+    <option name="LAST_COMMIT_MESSAGE" value="- #966" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/modules/Discussions/MainPostPopup.js">
@@ -841,13 +859,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/typedefs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1511">
-          <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/General/HeaderRefresher.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="31">
@@ -867,8 +878,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/General/VisibleFullLevel.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        <state relative-caret-position="510">
+          <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/typedefs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1511">
+          <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
         </state>
       </provider>
     </entry>
