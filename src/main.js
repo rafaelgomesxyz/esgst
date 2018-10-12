@@ -1534,6 +1534,10 @@ import esgst from './class/Esgst';
   }
 
   async function load(toDelete, toSet) {
+    const mainStyle = document.getElementById(`esgst-main-style`);
+    if (mainStyle) {
+      document.head.insertBefore(mainStyle, document.head.firstElementChild);
+    }
     if (esgst.menuPath) {
       common.createElements(document.head, `beforeEnd`, [{
         attributes: {
