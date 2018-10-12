@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="401c8206-063f-4cc2-a242-4e638caacb21" name="Default Changelist" comment="">
+    <list default="true" id="401c8206-063f-4cc2-a242-4e638caacb21" name="Default Changelist" comment="- #968">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ESGST.user.js" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ESGST.user.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.user.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Extension/esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Extension/esgst.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/class/Esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/class/Esgst.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/General/PointsVisualizer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/General/PointsVisualizer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Common.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Giveaways.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Giveaways.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -48,7 +47,7 @@
         <counts>
           <entry key="babelrc" value="2" />
           <entry key="gitignore" value="1" />
-          <entry key="js" value="359" />
+          <entry key="js" value="361" />
           <entry key="json" value="12" />
           <entry key="md" value="1" />
           <entry key="sh" value="2" />
@@ -58,7 +57,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="14" />
-          <entry key="JavaScript" value="359" />
+          <entry key="JavaScript" value="361" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -66,19 +65,19 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="babelrc" value="17" />
-          <entry key="js" value="35032" />
+          <entry key="js" value="35122" />
           <entry key="json" value="225" />
           <entry key="md" value="2" />
           <entry key="sh" value="51" />
-          <entry key="txt" value="543" />
+          <entry key="txt" value="565" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="28" />
           <entry key="JSON" value="242" />
-          <entry key="JavaScript" value="35004" />
-          <entry key="PLAIN_TEXT" value="596" />
+          <entry key="JavaScript" value="35094" />
+          <entry key="PLAIN_TEXT" value="618" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -105,10 +104,31 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="649" column="35" selection-start-line="649" selection-start-column="35" selection-end-line="649" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
-              <caret line="9378" column="26" selection-start-line="9378" selection-start-column="18" selection-end-line="9378" selection-end-column="26" />
+              <caret line="12715" column="66" selection-start-line="12715" selection-start-column="52" selection-end-line="12715" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/modules/Giveaways.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="613" column="52" selection-start-line="613" selection-start-column="38" selection-end-line="613" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -116,7 +136,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/lib/jsUtils/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
+            <state relative-caret-position="151">
               <caret line="141" column="5" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
             </state>
           </provider>
@@ -126,8 +146,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>devversion</find>
-      <find>savecomment</find>
       <find>.load</find>
       <find>levelcontainer</find>
       <find>levelcontainer =</find>
@@ -145,7 +163,6 @@
       <find>#7ab97a</find>
       <find>rgba(96, 159, 96, 0.5)</find>
       <find>transparenc</find>
-      <find>resetColor</find>
       <find>this.setSetting(`${id}_${colorId}`, hex2rgba(hexInput.value, alphaInput.value));</find>
       <find>hex2Rgba</find>
       <find>lpv_barcolor</find>
@@ -156,6 +173,9 @@
       <find>addColorObserver</find>
       <find>console.log</find>
       <find>rgba2hex</find>
+      <find>resetColor</find>
+      <find>dev.</find>
+      <find>giveaway__icon</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -233,7 +253,6 @@
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayBookmarks.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayFilters.js" />
         <option value="$PROJECT_DIR$/src/modules/Filters.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways.js" />
         <option value="$PROJECT_DIR$/src/modules/Users/UserGiveawayData.js" />
         <option value="$PROJECT_DIR$/src/modules/Users/SentWonRatio.js" />
         <option value="$PROJECT_DIR$/src/modules/General/MultiManager.js" />
@@ -256,11 +275,12 @@
         <option value="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayExtractor.js" />
         <option value="$PROJECT_DIR$/Extension/esgst.js" />
-        <option value="$PROJECT_DIR$/src/class/Esgst.js" />
         <option value="$PROJECT_DIR$/src/modules/General/PointsVisualizer.js" />
         <option value="$PROJECT_DIR$/src/lib/jsUtils/index.js" />
         <option value="$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js" />
         <option value="$PROJECT_DIR$/src/modules/Common.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways.js" />
+        <option value="$PROJECT_DIR$/src/class/Esgst.js" />
       </list>
     </option>
   </component>
@@ -524,7 +544,7 @@
       <workItem from="1539295551831" duration="2317000" />
       <workItem from="1539300682721" duration="1926000" />
       <workItem from="1539306117673" duration="3247000" />
-      <workItem from="1539349758249" duration="10130000" />
+      <workItem from="1539349758249" duration="10873000" />
     </task>
     <task id="LOCAL-00001" summary="- Fix ButtonSet usage&#10;- Remove CompletionCheck">
       <created>1538627946823</created>
@@ -610,22 +630,36 @@
       <option name="project" value="LOCAL" />
       <updated>1539357070317</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="- Add option to change Level Progress Visualizer and Points Visualizer bar colors (close #968)">
+      <created>1539363149396</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1539363149397</updated>
+    </task>
+    <task id="LOCAL-00014" summary="- #968">
+      <created>1539363213496</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1539363213496</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83047000" />
+    <option name="totallyTimeSpent" value="83790000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1446" height="872" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" sideWeight="0.50067115" side_tool="true" weight="0.24947146" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32885906" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.32885906" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -669,7 +703,9 @@
     <MESSAGE value="- Add a new feature: Visible Full Level (close #966)" />
     <MESSAGE value="- #966" />
     <MESSAGE value="- Make Level Progress Visualizer and Points Visualizer compatible (close #967)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Make Level Progress Visualizer and Points Visualizer compatible (close #967)" />
+    <MESSAGE value="- Add option to change Level Progress Visualizer and Points Visualizer bar colors (close #968)" />
+    <MESSAGE value="- #968" />
+    <option name="LAST_COMMIT_MESSAGE" value="- #968" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/modules/General/EndlessScrolling.js">
@@ -739,13 +775,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="324" column="13" selection-start-line="324" selection-start-column="9" selection-end-line="324" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="533" column="62" selection-start-line="533" selection-start-column="62" selection-end-line="533" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -969,27 +998,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="52" column="37" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/typedefs.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="291">
           <caret line="353" column="3" selection-start-line="353" selection-start-column="3" selection-end-line="353" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/lib/jsUtils/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="141" column="5" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -1007,10 +1019,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/lib/jsUtils/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="141" column="5" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
-          <caret line="9378" column="26" selection-start-line="9378" selection-start-column="18" selection-end-line="9378" selection-end-column="26" />
+          <caret line="12715" column="66" selection-start-line="12715" selection-start-column="52" selection-end-line="12715" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="613" column="52" selection-start-line="613" selection-start-column="38" selection-end-line="613" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="649" column="35" selection-start-line="649" selection-start-column="35" selection-end-line="649" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
