@@ -335,6 +335,7 @@ class GeneralHeaderRefresher extends Module {
         }
       }
       this.esgst.levelContainer = this.esgst.mainButton.lastElementChild;
+      await this.esgst.onLevelContainerUpdated();
       this.esgst.level = parseInt(this.esgst.levelContainer.textContent.match(/\d+/)[0]);
       this.esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
       if (this.esgst.createdButton) {
