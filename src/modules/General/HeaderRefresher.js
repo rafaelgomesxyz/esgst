@@ -312,9 +312,11 @@ class GeneralHeaderRefresher extends Module {
     }
     if (this.esgst.lpv) {
       this.esgst.modules.generalLevelProgressVisualizer.lpv_setStyle();
-    } else if (this.esgst.pv) {
+    }
+    if (this.esgst.pv) {
       this.esgst.modules.generalPointsVisualizer.pv_setStyle();
     }
+    this.esgst.modules.generalLevelProgressVisualizer.joinStyles();
   }
 
   async hr_refreshHeaderElements(context) {
@@ -335,6 +337,7 @@ class GeneralHeaderRefresher extends Module {
         }
       }
       this.esgst.levelContainer = this.esgst.mainButton.lastElementChild;
+      await this.esgst.onLevelContainerUpdated();
       this.esgst.level = parseInt(this.esgst.levelContainer.textContent.match(/\d+/)[0]);
       this.esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
       if (this.esgst.createdButton) {

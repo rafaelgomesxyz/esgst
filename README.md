@@ -236,6 +236,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.0.2 (October 12, 2018)**
+
+* [#975](https://github.com/gsrafael01/ESGST/issues/975) Fix style issues
+* [#974](https://github.com/gsrafael01/ESGST/issues/974) Make Level Progress Visualizer and Points Visualizer bars dynamically adjust to the size of the button
+* [#973](https://github.com/gsrafael01/ESGST/issues/973) Fix a style issue that lowers the opacity of the points/copies elements
+* [#970](https://github.com/gsrafael01/ESGST/issues/970) Fix a bug that does not show replies in the inbox page with Reply From Inbox
+* [#969](https://github.com/gsrafael01/ESGST/issues/969) Fix a bug that refreshes the page after commenting with Multi-Reply
+* [#968](https://github.com/gsrafael01/ESGST/issues/968) Add option to change Level Progress Visualizer and Points Visualizer bar colors
+* [#967](https://github.com/gsrafael01/ESGST/issues/967) Make Level Progress Visualizer and Points Visualizer compatible
+* [#966](https://github.com/gsrafael01/ESGST/issues/966) Add a new feature: Visible Full Level
+
 **8.0.1 (October 11, 2018)**
 
 
