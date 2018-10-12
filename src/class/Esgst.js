@@ -4,6 +4,17 @@ import modules from '../modules';
 
 class Esgst {
   constructor() {
+    this.triggerFunctions = {
+      onLevelContainerUpdated: []
+    };
+
+    for (const key in this.triggerFunctions) {
+      if (!this.triggerFunctions.hasOwnProperty(key)) {
+        return;
+      }
+      this[key] = this.triggerFunction.bind(this, key);
+    }
+
     this.currentSettings = {};
 
     this.urlr = null;
@@ -2056,6 +2067,12 @@ class Esgst {
     this.blacklistPath = location.pathname.match(/^\/account\/manage\/blacklist/);
     this.inboxPath = location.pathname.match(/^\/messages/);
     this.groupsPath = location.pathname.match(/^\/account\/steam\/groups/);
+  }
+
+  async triggerFunction(key) {
+    for (const func of this.triggerFunctions[key]) {
+      await func();
+    }
   }
 }
 

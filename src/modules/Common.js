@@ -246,9 +246,6 @@ class Common extends Module {
           }
         }
       }
-      if (!module.info.load) {
-        continue;
-      }
       try {
         await module.init();
       } catch (e) {

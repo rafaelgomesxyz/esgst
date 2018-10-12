@@ -14,6 +14,9 @@ export default class Module {
   }
 
   init() {
+    if (!this.info.load) {
+      return;
+    }
     return this.info.load.call(this);
   }
 
