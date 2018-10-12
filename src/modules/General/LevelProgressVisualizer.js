@@ -13,6 +13,14 @@ class GeneralLevelProgressVisualizer extends Module {
   constructor() {
     super();
     this.info = {
+      colors: {
+        barColor: `Bar Color`,
+        projectedBarColor: `Projected Bar Color`,
+        barColorHover: `Bar Color (Hover / Account Page)`,
+        projectedBarColorHover: `Projected Bar Color (Hover / Account Page)`,
+        barColorSelected: `Bar Color (Account Page Hover)`,
+        projectedBarColorSelected: `Projected Bar Color (Account Page Hover)`
+      },
       description: `
       <ul>
         <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
@@ -77,12 +85,18 @@ class GeneralLevelProgressVisualizer extends Module {
       projectedSecondBar = `${Math.max(0, newProgress - 157)}px`;
       this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
     }
+    const barColor = this.esgst.lpv_barColor;
+    const projectedBarColor = this.esgst.lpv_projectedBarColor;
+    const barColorHover = this.esgst.lpv_barColorHover;
+    const projectedBarColorHover = this.esgst.lpv_projectedBarColorHover;
+    const barColorSelected = this.esgst.lpv_barColorSelected;
+    const projectedBarColorSelected = this.esgst.lpv_projectedBarColorSelected;
     this.esgst.lpvStyleArray = [{
       selector: `.esgst-lpv-container`,
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `linear-gradient(to right, ${barColor} ${firstBar}, ${projectedBarColor} ${firstBar}, ${projectedBarColor} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%))`
         ]
       }]
@@ -91,7 +105,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
         ]
       }]
@@ -100,7 +114,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
         ]
       }]
@@ -109,7 +123,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `linear-gradient(to right, ${barColor} ${secondBar}, ${projectedBarColor} ${secondBar}, ${projectedBarColor} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%))`
         ]
       }]
@@ -118,7 +132,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%))`
         ]
       }]
@@ -127,7 +141,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) `
         ]
       }]
@@ -136,7 +150,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `linear-gradient(to right, ${barColorSelected} ${firstBar}, ${projectedBarColorSelected} ${firstBar}, ${projectedBarColorSelected} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) `
         ]
       }]
@@ -145,7 +159,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%))`
         ]
       }]
@@ -154,7 +168,7 @@ class GeneralLevelProgressVisualizer extends Module {
       rules: [{
         name: `background-image`,
         values: [
-          `linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) `
         ]
       }]
@@ -163,8 +177,6 @@ class GeneralLevelProgressVisualizer extends Module {
 
   joinStyles() {
     let style;
-    console.log(this.esgst.lpvStyleArray);
-    console.log(this.esgst.pvStyleArray);
     if (this.esgst.lpvStyleArray) {
       style = JSON.parse(JSON.stringify(this.esgst.lpvStyleArray));
       if (this.esgst.pvStyleArray) {
@@ -197,7 +209,6 @@ class GeneralLevelProgressVisualizer extends Module {
     } else if (this.esgst.pvStyleArray) {
       style = JSON.parse(JSON.stringify(this.esgst.pvStyleArray));
     }
-    console.log(style);
     if (!style || !Array.isArray(style)) {
       return;
     }
