@@ -30,9 +30,11 @@ class GeneralPointsVisualizer extends Module {
   pv_setStyle() {
     const points = Math.min(400, this.esgst.points);
     const percentage = points / 400 * 100;
-    const progress = parseInt(percentage * 1.86); // 186px is the width of the button
+    const mainButtonWidth = this.esgst.mainButton.offsetWidth;
+    const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
+    const progress = parseInt(percentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${progress}px`;
-    const secondBar = `${Math.max(0, progress - 157)}px`; // 157px is the width of the button without the arrow
+    const secondBar = `${Math.max(0, progress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
     const barColor = this.esgst.pv_barColor;
     const barColorHover = this.esgst.pv_barColorHover;
     const barColorSelected = this.esgst.pv_barColorSelected;
