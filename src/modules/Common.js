@@ -18,6 +18,8 @@ const
   formatDate = utils.formatDate.bind(utils),
   isSet = utils.isSet.bind(utils),
   parseHtml = utils.parseHtml.bind(utils),
+  rgba2Hex = utils.rgba2Hex.bind(utils),
+  hex2Rgba = utils.hex2Rgba.bind(utils),
   sortArray = utils.sortArray.bind(utils)
 ;
 
@@ -4554,46 +4556,70 @@ class Common extends Module {
       this.addGcAltMenuPanel(SMFeatures);
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (Feature.colors || Feature.background) {
-      let color = this.esgst[`${ID}_color`];
-      let bgColor = this.esgst[`${ID}_bgColor`];
-      this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`
-        },
-        type: `div`,
-        children: [...(Feature.background ? [null] : [{
-          text: `Text: `,
+      if (typeof Feature.background === `boolean`) {
+        Feature.colors = {
+          bgColor: `Background`
+        };
+      } else if (typeof Feature.colors === `boolean`) {
+        Feature.colors = {
+          color: `Text`,
+          bgColor: `Background`
+        };
+      }
+      const children = [];
+      for (const id in Feature.colors) {
+        const color = rgba2Hex(this.esgst[`${ID}_${id}`]);
+        children.push({
+          text: `${Feature.colors[id]}: `,
+          type: `strong`
+        }, {
+          type: `br`
+        }, {
+          attributes: {
+            [`data-color-id`]: id,
+            type: `color`,
+            value: color.hex
+          },
+          type: `input`
+        }, {
+          text: ` Opacity: `,
           type: `node`
         }, {
           attributes: {
-            type: `color`,
-            value: color
+            max: `1.0`,
+            min: `0.0`,
+            step: `0.1`,
+            type: `number`,
+            value: color.alpha
           },
           type: `input`
-        }]), {
-          text: `Background: `,
-          type: `node`
         }, {
-          attributes: {
-            type: `color`,
-            value: bgColor
-          },
-          type: `input`
+          text: ` `,
+          type: `node`
         }, {
           attributes: {
             class: `form__saving-button esgst-sm-colors-default`
           },
-          text: `Use Default`,
+          text: `Reset`,
           type: `div`
-        }]
-      }]);
-      let colorContext = SMFeatures.lastElementChild.firstElementChild;
-      let bgColorContext = Feature.background ? colorContext : colorContext.nextElementSibling;
-      if (!Feature.background) {
-        this.addColorObserver(colorContext, ID, `color`);
+        }, {
+          type: `br`
+        });
       }
-      this.addColorObserver(bgColorContext, ID, `bgColor`);
-      bgColorContext.nextElementSibling.addEventListener(`click`, this.resetColor.bind(this, bgColorContext, Feature.background ? null : colorContext, ID));
+      const context = this.createElements(SMFeatures, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-sm-colors`
+        },
+        type: `div`,
+        children
+      }]);
+      const elements = context.querySelectorAll(`[data-color-id]`);
+      for (const hexInput of elements) {
+        const colorId =  hexInput.getAttribute(`data-color-id`);
+        const alphaInput = hexInput.nextElementSibling;
+        this.addColorObserver(hexInput, alphaInput, ID, colorId);
+        alphaInput.nextElementSibling.addEventListener(`click`, this.resetColor.bind(this, hexInput, alphaInput, ID, colorId));
+      }
       if (ID === `gc_g`) {
         let input = this.createElements(SMFeatures, `beforeEnd`, [{
           attributes: {
@@ -6142,10 +6168,14 @@ class Common extends Module {
     });
   }
 
-  addColorObserver(context, id, key) {
-    context.addEventListener(`change`, () => {
+  addColorObserver(hexInput, alphaInput, id, colorId) {
+    hexInput.addEventListener(`change`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`${id}_${key}`, context.value);
+      this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
+    });
+    alphaInput.addEventListener(`change`, () => {
+      // noinspection JSIgnoredPromiseFromCall
+      this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
     });
   }
 
@@ -9348,15 +9378,12 @@ class Common extends Module {
     version.textContent = `v${(match && match[2]) || `Unknown`}`;
   }
 
-  resetColor(bgColorContext, colorContext, id) {
-    if (colorContext) {
-      colorContext.value = this.esgst.defaultValues[`${id}_color`];
-      this.esgst.settings[`${id}_color`] = colorContext.value;
-    }
-    bgColorContext.value = this.esgst.defaultValues[`${id}_bgColor`];
-    this.esgst.settings[`${id}_bgColor`] = bgColorContext.value;
+  resetColor(hexInput, alphaInput, id, colorId) {
+    const color = rgba2Hex(this.esgst.defaultValues[`${id}_${colorId}`]);
+    hexInput.value = color.hex;
+    alphaInput.value = color.alpha;
     // noinspection JSIgnoredPromiseFromCall
-    this.setValue(`settings`, JSON.stringify(this.esgst.settings));
+    this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
   }
 
   setSMManageFilteredUsers(SMManageFilteredUsers) {
