@@ -13,9 +13,6 @@ class GeneralLevelProgressVisualizer extends Module {
   constructor() {
     super();
     this.info = {
-      conflicts: [
-        {id: `pv`, name: `Points Visualizer`}
-      ],
       description: `
       <ul>
         <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
@@ -32,8 +29,11 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   lpv() {
-    if (this.esgst.hr) return;
+    if (this.esgst.hr) {
+      return;
+    }
     this.lpv_setStyle();
+    this.joinStyles();
   }
 
   lpv_setStyle() {
@@ -77,6 +77,138 @@ class GeneralLevelProgressVisualizer extends Module {
       projectedSecondBar = `${Math.max(0, newProgress - 157)}px`;
       this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
     }
+    this.esgst.lpvStyleArray = [{
+      selector: `.esgst-lpv-container`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container .nav__button--is-dropdown:hover`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow:hover`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow `,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) `
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown:hover`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) `
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected)`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected `,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) `
+        ]
+      }]
+    }] ;
+  }
+
+  joinStyles() {
+    let style;
+    console.log(this.esgst.lpvStyleArray);
+    console.log(this.esgst.pvStyleArray);
+    if (this.esgst.lpvStyleArray) {
+      style = JSON.parse(JSON.stringify(this.esgst.lpvStyleArray));
+      if (this.esgst.pvStyleArray) {
+        for (const [i, item] of style.entries()) {
+          for (const [j, rule] of item.rules.entries()) {
+            rule.values = rule.values.concat(JSON.parse(JSON.stringify(this.esgst.pvStyleArray[i].rules[j].values)));
+          }
+          item.rules.push({
+            name: `background-position`,
+            values: [
+              `left top`,
+              `left top`,
+              `left bottom`,
+              `left bottom`
+            ]
+          }, {
+            name: `background-repeat`,
+            values: new Array(4).fill(`no-repeat`)
+          }, {
+            name: `background-size`,
+            values: [
+              `auto 50%`,
+              `0`,
+              `auto 50%`,
+              `auto`
+            ]
+          });
+        }
+      }
+    } else if (this.esgst.pvStyleArray) {
+      style = JSON.parse(JSON.stringify(this.esgst.pvStyleArray));
+    }
+    console.log(style);
+    if (!style || !Array.isArray(style)) {
+      return;
+    }
+    let styleString = ``;
+    for (const item of style) {
+      styleString += `${item.selector} {\n`;
+      for (const rule of item.rules) {
+        styleString += `  ${rule.name}: ${rule.values.join(`, `)} !important;\n`;
+      }
+      styleString += `}\n\n`;
+    }
     if (!this.esgst.lpvStyle) {
       this.esgst.lpvStyle = createElements(this.esgst.style, `afterEnd`, [{
         attributes: {
@@ -85,35 +217,7 @@ class GeneralLevelProgressVisualizer extends Module {
         type: `style`
       }]);
     }
-    this.esgst.lpvStyle.textContent = `
-      .esgst-lpv-container {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
-      }
-      .esgst-lpv-container .nav__button--is-dropdown:hover {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%)) !important;
-      }
-      .esgst-lpv-container .nav__button--is-dropdown-arrow:hover {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%)) !important;
-      }
-      .esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown:hover {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected) {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
-      }
-    `;
+    this.esgst.lpvStyle.textContent = styleString;
     this.esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
   }
 
