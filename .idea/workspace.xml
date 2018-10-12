@@ -15,7 +15,7 @@
     <session id="683583091">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="17" />
+          <entry key="project.closed" value="18" />
           <entry key="project.open.time.104" value="1" />
           <entry key="project.open.time.106" value="1" />
           <entry key="project.open.time.26" value="1" />
@@ -40,7 +40,7 @@
         <counts>
           <entry key="babelrc" value="2" />
           <entry key="gitignore" value="1" />
-          <entry key="js" value="334" />
+          <entry key="js" value="336" />
           <entry key="json" value="12" />
           <entry key="md" value="1" />
           <entry key="sh" value="2" />
@@ -50,7 +50,7 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="14" />
-          <entry key="JavaScript" value="334" />
+          <entry key="JavaScript" value="336" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -62,7 +62,7 @@
           <entry key="json" value="225" />
           <entry key="md" value="2" />
           <entry key="sh" value="51" />
-          <entry key="txt" value="511" />
+          <entry key="txt" value="519" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -70,7 +70,7 @@
           <entry key="HTML" value="28" />
           <entry key="JSON" value="242" />
           <entry key="JavaScript" value="28699" />
-          <entry key="PLAIN_TEXT" value="564" />
+          <entry key="PLAIN_TEXT" value="572" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -111,8 +111,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/typedefs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1511">
-              <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
+            <state relative-caret-position="291">
+              <caret line="353" column="3" lean-forward="true" selection-start-line="353" selection-start-column="3" selection-end-line="353" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -420,7 +420,7 @@
       <workItem from="1539295043180" duration="96000" />
       <workItem from="1539295551831" duration="2317000" />
       <workItem from="1539300682721" duration="1926000" />
-      <workItem from="1539306117673" duration="2893000" />
+      <workItem from="1539306117673" duration="3247000" />
     </task>
     <task id="LOCAL-00001" summary="- Fix ButtonSet usage&#10;- Remove CompletionCheck">
       <created>1538627946823</created>
@@ -492,16 +492,24 @@
       <option name="project" value="LOCAL" />
       <updated>1539308073529</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="- #966">
+      <created>1539309144084</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1539309144084</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72563000" />
+    <option name="totallyTimeSpent" value="72917000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1446" height="872" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" sideWeight="0.50067115" side_tool="true" weight="0.24947146" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -885,8 +893,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/typedefs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1511">
-          <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
+        <state relative-caret-position="291">
+          <caret line="353" column="3" lean-forward="true" selection-start-line="353" selection-start-column="3" selection-end-line="353" selection-end-column="3" />
         </state>
       </provider>
     </entry>
