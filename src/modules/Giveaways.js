@@ -610,7 +610,7 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.add(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
           if (element.getAttribute(`data-color`)) {
@@ -633,7 +633,7 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
           if (element.getAttribute(`data-color`)) {
@@ -655,7 +655,7 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.add(`giveaway__icon`);
           }
           if (element.getAttribute(`data-color`)) {
@@ -677,7 +677,7 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
           if (element.getAttribute(`data-color`)) {
@@ -699,7 +699,7 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
           if (element.getAttribute(`data-color`)) {

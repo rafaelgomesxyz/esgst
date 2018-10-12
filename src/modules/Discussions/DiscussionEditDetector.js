@@ -91,7 +91,7 @@ class DiscussionsDiscussionEditDetector extends Module {
         obj.description.value,
         obj.url,
         obj.status,
-        !!obj.callback
+        !obj.callback
       );
       if (obj.callback) {
         obj.callback(result.id, result.response, result.status);
@@ -122,7 +122,7 @@ class DiscussionsDiscussionEditDetector extends Module {
         obj.description.value,
         obj.url,
         obj.status,
-        !!obj.callback
+        !obj.callback
       );
       if (obj.callback) {
         obj.callback(result.id, result.response, response.status);
@@ -178,7 +178,7 @@ class DiscussionsDiscussionEditDetector extends Module {
         obj.description.value,
         obj.url,
         obj.status,
-        !!obj.callback
+        !obj.callback
       );
       if (obj.callback) {
         obj.callback(result.id, result.response, result.status);

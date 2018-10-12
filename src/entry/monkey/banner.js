@@ -1,3 +1,4 @@
+/* @preserve
 // ==UserScript==
 // @name ESGST
 // @namespace ESGST
@@ -41,3 +42,4 @@
 // @run-at document-start
 // @noframes
 // ==/UserScript==
+*/

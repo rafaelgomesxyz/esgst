@@ -13,9 +13,14 @@ class GeneralLevelProgressVisualizer extends Module {
   constructor() {
     super();
     this.info = {
-      conflicts: [
-        {id: `pv`, name: `Points Visualizer`}
-      ],
+      colors: {
+        barColor: `Bar Color`,
+        projectedBarColor: `Projected Bar Color`,
+        barColorHover: `Bar Color (Hover / Account Page)`,
+        projectedBarColorHover: `Projected Bar Color (Hover / Account Page)`,
+        barColorSelected: `Bar Color (Account Page Hover)`,
+        projectedBarColorSelected: `Projected Bar Color (Account Page Hover)`
+      },
       description: `
       <ul>
         <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
@@ -32,8 +37,11 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   lpv() {
-    if (this.esgst.hr) return;
+    if (this.esgst.hr) {
+      return;
+    }
     this.lpv_setStyle();
+    this.joinStyles();
   }
 
   lpv_setStyle() {
@@ -54,9 +62,11 @@ class GeneralLevelProgressVisualizer extends Module {
     cache.level = currentLevel;
     setLocalValue(`lpvCache`, JSON.stringify(cache));
     const currentPercentage = parseInt(round(currentLevel - currentBase) * 100);
-    const currentProgress = parseInt(currentPercentage * 1.86); // 186px is the width of the button
+    const mainButtonWidth = this.esgst.mainButton.offsetWidth;
+    const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
+    const currentProgress = parseInt(currentPercentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${currentProgress}px`;
-    const secondBar = `${Math.max(0, currentProgress - 157)}px`; // 157px is the width of the button without the arrow
+    const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
     let projectedFirstBar = `0`;
     let projectedSecondBar = `0`;
     const cv = this.lpv_getCv();
@@ -72,10 +82,145 @@ class GeneralLevelProgressVisualizer extends Module {
       console.log(`Final predicted level: ${newLevel}`);
       const newBase = parseInt(newLevel);
       const newPercentage = parseInt(round(newLevel - newBase) * 100);
-      const newProgress = parseInt(Math.min(100, newPercentage) * 1.86);
+      const newProgress = parseInt(Math.min(100, newPercentage) * (fullButtonWidth / 100));
       projectedFirstBar = `${newProgress}px`;
-      projectedSecondBar = `${Math.max(0, newProgress - 157)}px`;
+      projectedSecondBar = `${Math.max(0, newProgress - mainButtonWidth)}px`;
       this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
+    }
+    const barColor = this.esgst.lpv_barColor;
+    const projectedBarColor = this.esgst.lpv_projectedBarColor;
+    const barColorHover = this.esgst.lpv_barColorHover;
+    const projectedBarColorHover = this.esgst.lpv_projectedBarColorHover;
+    const barColorSelected = this.esgst.lpv_barColorSelected;
+    const projectedBarColorSelected = this.esgst.lpv_projectedBarColorSelected;
+    this.esgst.lpvStyleArray = [{
+      selector: `.esgst-lpv-container`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColor} ${firstBar}, ${projectedBarColor} ${firstBar}, ${projectedBarColor} ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container .nav__button--is-dropdown:hover`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow:hover`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColor} ${secondBar}, ${projectedBarColor} ${secondBar}, ${projectedBarColor} ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow `,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) `
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown:hover`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorSelected} ${firstBar}, ${projectedBarColorSelected} ${firstBar}, ${projectedBarColorSelected} ${projectedFirstBar}, transparent ${firstBar})`,
+          `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) `
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected)`,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%))`
+        ]
+      }]
+    }, {
+      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected `,
+      rules: [{
+        name: `background-image`,
+        values: [
+          `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
+          `var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) `
+        ]
+      }]
+    }] ;
+  }
+
+  joinStyles() {
+    let style;
+    if (this.esgst.lpvStyleArray) {
+      style = JSON.parse(JSON.stringify(this.esgst.lpvStyleArray));
+      if (this.esgst.pvStyleArray) {
+        for (const [i, item] of style.entries()) {
+          for (const [j, rule] of item.rules.entries()) {
+            rule.values = rule.values.concat(JSON.parse(JSON.stringify(this.esgst.pvStyleArray[i].rules[j].values)));
+          }
+          item.rules.push({
+            name: `background-position`,
+            values: [
+              `left top`,
+              `left top`,
+              `left bottom`,
+              `left bottom`
+            ]
+          }, {
+            name: `background-repeat`,
+            values: new Array(4).fill(`no-repeat`)
+          }, {
+            name: `background-size`,
+            values: [
+              `auto 50%`,
+              `0`,
+              `auto 50%`,
+              `auto`
+            ]
+          });
+        }
+      }
+    } else if (this.esgst.pvStyleArray) {
+      style = JSON.parse(JSON.stringify(this.esgst.pvStyleArray));
+    }
+    if (!style || !Array.isArray(style)) {
+      return;
+    }
+    let styleString = ``;
+    for (const item of style) {
+      styleString += `${item.selector} {\n`;
+      for (const rule of item.rules) {
+        styleString += `  ${rule.name}: ${rule.values.join(`, `)} !important;\n`;
+      }
+      styleString += `}\n\n`;
     }
     if (!this.esgst.lpvStyle) {
       this.esgst.lpvStyle = createElements(this.esgst.style, `afterEnd`, [{
@@ -85,35 +230,7 @@ class GeneralLevelProgressVisualizer extends Module {
         type: `style`
       }]);
     }
-    this.esgst.lpvStyle.textContent = `
-      .esgst-lpv-container {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${firstBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%)) !important;
-      }
-      .esgst-lpv-container .nav__button--is-dropdown:hover {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%)) !important;
-      }
-      .esgst-lpv-container .nav__button--is-dropdown-arrow:hover {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%)) !important;
-      }
-      .esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar, #609f60) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${secondBar}, var(--esgst-lpv-bar-projected, rgba(96, 159, 96, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${firstBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-hover, #6dac6d) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${secondBar}, var(--esgst-lpv-bar-hover-projected, rgba(122, 185, 122, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown:hover {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${firstBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedFirstBar}, transparent ${firstBar}), var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected) {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) !important;
-      }
-      .esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected {
-        background-image: linear-gradient(to right, var(--esgst-lpv-bar-selected, #7ab97a) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${secondBar}, var(--esgst-lpv-bar-selected-projected, rgba(147, 210, 147, 0.5)) ${projectedSecondBar}, transparent ${secondBar}), var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) !important;
-      }
-    `;
+    this.esgst.lpvStyle.textContent = styleString;
     this.esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
   }
 

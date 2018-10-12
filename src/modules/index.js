@@ -1,4 +1,5 @@
 import {common} from './Common';
+import VisibleFullLevel from './General/VisibleFullLevel';
 import GiveawaysBlacklistGiveawayLoader from './Giveaways/BlacklistGiveawayLoader';
 import GeneralNarrowSidebar from './General/NarrowSidebar';
 import GeneralHiddenCommunityPoll from './General/HiddenCommunityPoll';
@@ -148,6 +149,7 @@ import Filters from './Filters';
 import Tags from './Tags';
 
 let
+  visibleFullLevel = new VisibleFullLevel,
   giveawaysBlacklistGiveawayLoader = new GiveawaysBlacklistGiveawayLoader,
   generalNarrowSidebar = new GeneralNarrowSidebar,
   generalHiddenCommunityPoll = new GeneralHiddenCommunityPoll,
@@ -299,6 +301,7 @@ let
 
 export default {
   common,
+  visibleFullLevel,
   giveawaysBlacklistGiveawayLoader,
   generalNarrowSidebar,
   generalHiddenCommunityPoll,
