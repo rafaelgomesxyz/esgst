@@ -12712,10 +12712,10 @@ class Common extends Module {
       }
     }
     if (this.esgst.draggable.destination === obj.item.heading) {
-      if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+      if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
         this.esgst.draggable.dragged.classList.add(`giveaway__icon`);
       }
-    } else if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/points|copies|steam|search|hideGame/)) {
+    } else if (this.esgst.draggable.dragged.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
       this.esgst.draggable.dragged.classList.remove(`giveaway__icon`);
     }
     if (this.esgst.draggable.deleted) {
