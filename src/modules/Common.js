@@ -6595,6 +6595,52 @@ class Common extends Module {
           this.setSetting(`exportBackupIndex`, select.selectedIndex);
         });
       }
+      if (type === `import` || type === `export`) {
+        this.observeChange(new ToggleSwitch(container, `usePreferredGoogle`, false, [{
+          text: `Use preferred Google account: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-switch-input esgst-switch-input-large`,
+            placeholder: `example@gmail.com`,
+            type: `text`
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `esgst-bold esgst-clickable`
+          },
+          events: {
+            click: () => {
+              alert(this.esgst.settings.preferredGoogle || `No email address defined`);
+            }
+          },
+          text: `Reveal`,
+          type: `span`
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`) ;
+        this.observeChange(new ToggleSwitch(container, `usePreferredMicrosoft`, false, [{
+          text: `Use preferred Microsoft account: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-switch-input esgst-switch-input-large`,
+            placeholder: `example@outlook.com`,
+            type: `text`
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `esgst-bold esgst-clickable`
+          },
+          events: {
+            click: () => {
+              alert(this.esgst.settings.preferredMicrosoft || `No email address defined`);
+            }
+          },
+          text: `Reveal`,
+          type: `span`
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`) ;
+      }
       dm.message = this.createElements(container, `beforeEnd`, [{
         attributes: {
           class: `esgst-description`
@@ -8326,12 +8372,12 @@ class Common extends Module {
           this.checkDropboxComplete(data, dm, callback);
         } else if (googleDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 2)) {
           await this.delValue(`googleDriveToken`);
-          this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+          this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkGoogleDriveComplete(data, dm, callback);
         } else if (oneDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 3)) {
           await this.delValue(`oneDriveToken`);
-          this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+          this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkOneDriveComplete(data, dm, callback);
         } else {
@@ -8418,12 +8464,12 @@ class Common extends Module {
       this.checkDropboxComplete(null, dm, callback);
     } else if (googleDrive) {
       await this.delValue(`googleDriveToken`);
-      this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+      this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkGoogleDriveComplete(null, dm, callback);
     } else if (oneDrive) {
       await this.delValue(`oneDriveToken`);
-      this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+      this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkOneDriveComplete(null, dm, callback);
     } else {
