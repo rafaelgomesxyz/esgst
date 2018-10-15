@@ -610,11 +610,11 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.add(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.firstElementChild.style.color = element.getAttribute(`data-bgColor`);
             element.style.color = ``;
             element.style.backgroundColor = ``;
@@ -633,11 +633,11 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
@@ -655,11 +655,11 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.add(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
@@ -677,11 +677,11 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
@@ -699,11 +699,11 @@ class Giveaways extends Module {
           if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
