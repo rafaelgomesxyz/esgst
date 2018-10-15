@@ -7,16 +7,8 @@
       <change beforePath="$PROJECT_DIR$/ESGST.user.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.user.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Extension/esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Extension/esgst.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Extension/eventPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/eventPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Extension/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Extension/manifest.json.bkp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/class/Esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/class/Esgst.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modules/Common.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Games/GameCategories.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Games/GameCategories.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Giveaways.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Giveaways.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinnersLink.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinnersLink.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modules/Giveaways/GridView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Giveaways/GridView.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,7 +21,7 @@
     <session id="683583091">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="20" />
+          <entry key="project.closed" value="21" />
           <entry key="project.open.time.104" value="1" />
           <entry key="project.open.time.106" value="1" />
           <entry key="project.open.time.26" value="1" />
@@ -39,7 +31,7 @@
           <entry key="project.open.time.58" value="1" />
           <entry key="project.open.time.63" value="1" />
           <entry key="project.open.time.66" value="2" />
-          <entry key="project.open.time.68" value="1" />
+          <entry key="project.open.time.68" value="2" />
           <entry key="project.open.time.69" value="1" />
           <entry key="project.open.time.72" value="1" />
           <entry key="project.open.time.73" value="1" />
@@ -48,7 +40,7 @@
           <entry key="project.open.time.81" value="2" />
           <entry key="project.open.time.82" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="22" />
+          <entry key="project.opened" value="23" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -56,7 +48,7 @@
           <entry key="babelrc" value="2" />
           <entry key="css" value="4" />
           <entry key="gitignore" value="1" />
-          <entry key="js" value="381" />
+          <entry key="js" value="383" />
           <entry key="json" value="14" />
           <entry key="md" value="1" />
           <entry key="sh" value="2" />
@@ -67,7 +59,7 @@
         <counts>
           <entry key="CSS" value="4" />
           <entry key="JSON" value="16" />
-          <entry key="JavaScript" value="381" />
+          <entry key="JavaScript" value="383" />
           <entry key="PLAIN_TEXT" value="4" />
           <entry key="TypeScript" value="1" />
         </counts>
@@ -76,11 +68,11 @@
         <counts>
           <entry key="babelrc" value="17" />
           <entry key="css" value="11" />
-          <entry key="js" value="36221" />
+          <entry key="js" value="38166" />
           <entry key="json" value="271" />
           <entry key="md" value="2" />
           <entry key="sh" value="51" />
-          <entry key="txt" value="617" />
+          <entry key="txt" value="712" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
@@ -88,13 +80,13 @@
           <entry key="CSS" value="11" />
           <entry key="HTML" value="28" />
           <entry key="JSON" value="288" />
-          <entry key="JavaScript" value="36193" />
-          <entry key="PLAIN_TEXT" value="670" />
+          <entry key="JavaScript" value="38138" />
+          <entry key="PLAIN_TEXT" value="765" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="ESLintLanguageService" value="19" />
+          <entry key="ESLintLanguageService" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -115,14 +107,32 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="140">
-              <caret line="649" column="36" selection-start-line="649" selection-start-column="36" selection-end-line="649" selection-end-column="36" />
+              <caret line="649" column="35" selection-start-line="649" selection-start-column="35" selection-end-line="649" selection-end-column="35" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/modules/General/HeaderRefresher.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="413" column="5" selection-start-line="413" selection-start-column="5" selection-end-line="413" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="395">
+              <caret line="8473" column="53" selection-start-line="8473" selection-start-column="53" selection-end-line="8473" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -140,10 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>hex2Rgba</find>
-      <find>lpv_barcolor</find>
-      <find>var\(--esgst-.+?, \$\{(.+?)}\)</find>
-      <find>var</find>
       <find>defaultvalues</find>
       <find>rgba2Hex</find>
       <find>addColorObserver</find>
@@ -170,6 +176,10 @@
       <find>gc_addCategory</find>
       <find>isInstant</find>
       <find>.giveaway__heading</find>
+      <find>backup to</find>
+      <find>usepreferred</find>
+      <find>oauth</find>
+      <find>oauth2</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -270,12 +280,12 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinnersLink.js" />
         <option value="$PROJECT_DIR$/Extension/manifest.json" />
-        <option value="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways.js" />
         <option value="$PROJECT_DIR$/src/modules/Games/GameCategories.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GridView.js" />
         <option value="$PROJECT_DIR$/src/modules/Common.js" />
         <option value="$PROJECT_DIR$/src/class/Esgst.js" />
+        <option value="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" />
       </list>
     </option>
   </component>
@@ -430,60 +440,7 @@
               <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
               <item name="ESGST" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="class" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="entry" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="entry" type="462c0819:PsiDirectoryNode" />
-              <item name="monkey" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="jsUtils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="Games" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="General" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="Giveaways" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -597,7 +554,8 @@
       <workItem from="1539306117673" duration="3247000" />
       <workItem from="1539349758249" duration="12344000" />
       <workItem from="1539366618955" duration="2896000" />
-      <workItem from="1539604764703" duration="3310000" />
+      <workItem from="1539604764703" duration="3616000" />
+      <workItem from="1539613120604" duration="3025000" />
     </task>
     <task id="LOCAL-00001" summary="- Fix ButtonSet usage&#10;- Remove CompletionCheck">
       <created>1538627946823</created>
@@ -718,15 +676,21 @@
       <option name="project" value="LOCAL" />
       <updated>1539367538612</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="- Fix a style issue with game categories that are moved to the giveaway columns (close #979)&#10;- Fix a bug that duplicates game categories (close #980)&#10;- Fix a bug in Giveaway Winners Link (close #981)&#10;- Fix a style issue in Grid View (close #982)">
+      <created>1539608351217</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1539608351218</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91467000" />
+    <option name="totallyTimeSpent" value="94798000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1446" height="872" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" sideWeight="0.50067115" side_tool="true" weight="0.24947146" />
@@ -782,7 +746,9 @@
     <MESSAGE value="- Fix a style issue that lowers the opacity of the points/copies elements (close #973)" />
     <MESSAGE value="- Make Level Progress Visualizer and Points Visualizer bars dynamically adjust to the size of the button  (close #974)" />
     <MESSAGE value="- Fix style issues (close #975)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fix style issues (close #975)" />
+    <MESSAGE value="- Fix a style issue with game categories that are moved to the giveaway columns (close #979)&#10;- Fix a bug that duplicates game categories (close #980)&#10;- Fix a bug in Giveaway Winners Link (close #981)&#10;- Fix a style issue in Grid View (close #982)" />
+    <MESSAGE value="- Add option to use preferred Google/Microsoft account when restoring/backing up (close #978)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Add option to use preferred Google/Microsoft account when restoring/backing up (close #978)" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/class/ButtonSet.js">
@@ -1053,34 +1019,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinnersLink.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="48" column="79" selection-start-line="48" selection-start-column="79" selection-end-line="48" selection-end-column="79" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Extension/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="15" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/General/HeaderRefresher.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="434" column="40" selection-start-line="434" selection-start-column="40" selection-end-line="434" selection-end-column="40" />
         </state>
       </provider>
     </entry>
@@ -1095,10 +1037,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="259">
           <caret line="2636" column="47" selection-start-line="2636" selection-start-column="47" selection-end-line="2636" selection-end-column="47" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-            <element signature="e#52297#97338#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1109,20 +1047,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="106">
-          <caret line="11320" column="19" selection-start-line="11320" selection-start-column="19" selection-end-line="11320" selection-end-column="19" />
+        <state relative-caret-position="204">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Extension/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="15" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/General/HeaderRefresher.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="413" column="5" selection-start-line="413" selection-start-column="5" selection-end-line="413" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
-          <caret line="649" column="36" selection-start-line="649" selection-start-column="36" selection-end-line="649" selection-end-column="36" />
+          <caret line="649" column="35" selection-start-line="649" selection-start-column="35" selection-end-line="649" selection-end-column="35" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="8473" column="53" selection-start-line="8473" selection-start-column="53" selection-end-line="8473" selection-end-column="53" />
         </state>
       </provider>
     </entry>
