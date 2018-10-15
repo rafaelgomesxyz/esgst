@@ -167,12 +167,6 @@ class GiveawaysGridView extends Module {
         },
         type: `div`
       }]);
-      createElements(giveaway.headingName, `afterEnd`, [{
-        type: `br`
-      }]);
-      createElements(giveaway.pointsContainer, `afterEnd`, [{
-        type: `br`
-      }]);
       giveaway.endTimeColumn.classList.add(`esgst-hidden`);
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);
       giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);

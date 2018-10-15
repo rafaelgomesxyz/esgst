@@ -9301,6 +9301,10 @@ class Common extends Module {
       padding: 0;
     }
     
+     .esgst-page-heading-buttons >* {
+      margin-right: 5px;
+    }
+    
     .esgst-inline-list >*:not(:last-child) {
       margin-right: 15px;
     }
@@ -11314,16 +11318,14 @@ class Common extends Module {
     }
 
     .esgst-gv-popout .giveaway__heading {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
       height: auto;
     }
 
     .esgst-gv-popout .giveaway__heading__name {
       display: inline-block;
       font-size: 12px;
-      max-width: 150px;
-      overflow: hidden;
-      text-overflow: ellipsis;
       vertical-align: middle;
     }
 
