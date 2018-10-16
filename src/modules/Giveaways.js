@@ -94,7 +94,7 @@ class Giveaways extends Module {
     };
     giveaway.outerWrap = context;
     giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
-    info = this.esgst.modules.games.games_getInfo(giveaway.outerWrap);
+    info = await this.esgst.modules.games.games_getInfo(giveaway.outerWrap);
     if (info) {
       giveaway.id = info.id;
       giveaway.type = info.type;

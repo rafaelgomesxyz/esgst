@@ -118,7 +118,7 @@ class GiveawaysHiddenGameRemover extends Module {
       let elements = context.getElementsByClassName(`table__row-outer-wrap`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
-        let info = this.esgst.modules.games.games_getInfo(element);
+        let info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
         let game = this.esgst.games[info.type][info.id];
         if (this.esgst.hgr_removeOwned && (!game || !game.owned)) continue;
