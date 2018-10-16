@@ -1,4 +1,9 @@
 {
+  "applications": {
+    "gecko": {
+      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
+    }
+  },
   "author": "gsrafael01",
   "background": {
     "scripts": [
@@ -54,6 +59,6 @@
   "web_accessible_resources": [
     "icon.png"
   ],
-  "version": "8.0.2",
+  "version": "8.0.3",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

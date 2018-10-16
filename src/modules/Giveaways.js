@@ -39,9 +39,7 @@ class Giveaways extends Module {
     for (let feature of this.esgst.giveawayFeatures) {
       await feature(giveaways, main, source);
     }
-    if (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath) {
-      giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
-    }
+    giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
     if (this.esgst.gas && this.esgst[this.esgst.gas.autoKey]) {
       sortContent(this.esgst[this.esgst.gas.mainKey], this.esgst.gas.mainKey, this.esgst[this.esgst.gas.optionKey]);
     }
@@ -94,7 +92,7 @@ class Giveaways extends Module {
     };
     giveaway.outerWrap = context;
     giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
-    info = this.esgst.modules.games.games_getInfo(giveaway.outerWrap);
+    info = await this.esgst.modules.games.games_getInfo(giveaway.outerWrap);
     if (info) {
       giveaway.id = info.id;
       giveaway.type = info.type;
@@ -157,29 +155,11 @@ class Giveaways extends Module {
     thinHeadings = giveaway.innerWrap.querySelectorAll(`.giveaway__heading__thin:not(.dyegb_playtime):not(.dyegb_achievement), .featured__heading__small`);
     n = thinHeadings.length;
     giveaway.points = 0;
+    giveaway.copiesContainer = null;
     if (n > 0) {
       if (n > 1) {
+        giveaway.copiesContainer = thinHeadings[0];
         giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
-        if (this.esgst.gch && !giveaway.pinned) {
-          let color, bgColor;
-          for (const colors of this.esgst.gch_colors) {
-            if (giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper)) {
-              color = colors.color;
-              bgColor = colors.bgColor;
-              break;
-            }
-          }
-          thinHeadings[0].classList.add(`esgst-bold`);
-          if (color) {
-            thinHeadings[0].style.color = color;
-            if (bgColor) {
-              thinHeadings[0].classList.add(`esgst-gch-highlight`);
-              thinHeadings[0].style.backgroundColor = bgColor;
-            }
-          } else {
-            thinHeadings[0].classList.add(`esgst-red`);
-          }
-        }
         giveaway.pointsContainer = thinHeadings[1];
         giveaway.points = parseInt(thinHeadings[1].textContent.match(/\d+/)[0]);
       } else {
@@ -489,7 +469,7 @@ class Giveaways extends Module {
       hideButton.setAttribute(`data-draggable-id`, `hideGame`);
     }
     for (const child of giveaway.heading.children) {
-      if (child.classList.contains(`giveaway__heading__name`)) {
+      if (child.classList.contains(`giveaway__heading__name`) || child.classList.contains(`featured__heading__medium`)) {
         child.setAttribute(`data-draggable-id`, `name`);
         continue;
       }
@@ -541,34 +521,32 @@ class Giveaways extends Module {
     if (!giveaway.winners || !giveaway.winners.length) {
       giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
     }
-    if (!main || this.esgst.giveawaysPath || this.esgst.userPath || this.esgst.groupPath) {
-      if (giveaway.endTimeColumn) {
-        giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
-      }
-      if (giveaway.startTimeColumn) {
-        giveaway.startTimeColumn.setAttribute(`data-draggable-id`, `startTime`);
-      }
-      if (giveaway.inviteOnly) {
-        giveaway.inviteOnly.setAttribute(`data-draggable-id`, `inviteOnly`);
-      }
-      if (giveaway.whitelist) {
-        giveaway.whitelist.setAttribute(`data-draggable-id`, `whitelist`);
-      }
-      if (giveaway.group) {
-        giveaway.group.setAttribute(`data-draggable-id`, `group`);
-      }
-      if (giveaway.regionRestricted) {
-        giveaway.regionRestricted.setAttribute(`data-draggable-id`, `regionRestricted`);
-      }
-      if (giveaway.levelColumn) {
-        giveaway.levelColumn.setAttribute(`data-draggable-id`, `level`);
-      }
-      if (giveaway.sourceColumn) {
-        giveaway.sourceColumn.setAttribute(`data-draggable-id`, `ged`);
-      }
-      if (giveaway.touhouBox) {
-        giveaway.touhouBox.setAttribute(`data-draggable-id`, `touhou`);
-      }
+    if (giveaway.endTimeColumn) {
+      giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
+    }
+    if (giveaway.startTimeColumn) {
+      giveaway.startTimeColumn.setAttribute(`data-draggable-id`, `startTime`);
+    }
+    if (giveaway.inviteOnly) {
+      giveaway.inviteOnly.setAttribute(`data-draggable-id`, `inviteOnly`);
+    }
+    if (giveaway.whitelist) {
+      giveaway.whitelist.setAttribute(`data-draggable-id`, `whitelist`);
+    }
+    if (giveaway.group) {
+      giveaway.group.setAttribute(`data-draggable-id`, `group`);
+    }
+    if (giveaway.regionRestricted) {
+      giveaway.regionRestricted.setAttribute(`data-draggable-id`, `regionRestricted`);
+    }
+    if (giveaway.levelColumn) {
+      giveaway.levelColumn.setAttribute(`data-draggable-id`, `level`);
+    }
+    if (giveaway.sourceColumn) {
+      giveaway.sourceColumn.setAttribute(`data-draggable-id`, `ged`);
+    }
+    if (giveaway.touhouBox) {
+      giveaway.touhouBox.setAttribute(`data-draggable-id`, `touhou`);
     }
     return {
       giveaway: giveaway,
@@ -607,19 +585,22 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
             element.classList.add(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.firstElementChild.style.color = element.getAttribute(`data-bgColor`);
             element.style.color = ``;
             element.style.backgroundColor = ``;
           }
         }
+      }
+      if (giveaway.columns && giveaway.avatar && giveaway.columns.contains(giveaway.avatar)) {
+        giveaway.columns.appendChild(giveaway.avatar);
       }
     }
     if (giveaway.panel) {
@@ -630,14 +611,15 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
-            element.classList.remove(`esgst-giveaway-column-button`);
+          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
+            element.classList.remove(`esgst-giveaway-column-button`, this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          } else {
+            element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
@@ -652,14 +634,14 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.add(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
@@ -674,14 +656,14 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }
@@ -696,14 +678,14 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/elgb|gp/)) {
+          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
             element.classList.remove(`esgst-giveaway-column-button`);
           }
-          if (element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
             element.classList.remove(`giveaway__icon`);
           }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
           if (element.getAttribute(`data-color`)) {
-            element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
             element.style.color = element.getAttribute(`data-color`);
             element.style.backgroundColor = element.getAttribute(`data-bgColor`);
           }

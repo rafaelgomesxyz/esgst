@@ -421,7 +421,7 @@ class Common extends Module {
       let element = elements[i];
       let date = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
       if (!date) continue;
-      let info = this.esgst.modules.games.games_getInfo(element);
+      let info = await this.esgst.modules.games.games_getInfo(element);
       if (!info || (this.esgst.games[info.type][info.id] && this.esgst.games[info.type][info.id].noCV)) {
         continue;
       }
@@ -3202,7 +3202,7 @@ class Common extends Module {
       }
       for (const element of elements) {
         if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden), .table__column--gift-feedback .trigger-popup .icon-red`)) continue;
-        const info = this.esgst.modules.games.games_getInfo(element);
+        const info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
         if (!savedGames[info.type][info.id]) {
           savedGames[info.type][info.id] = {};
@@ -5728,7 +5728,7 @@ class Common extends Module {
           queue: true,
           url: `https://www.steamgifts.com/giveaway/${hidden[i].code}/`
         });
-        giveaway = this.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+        giveaway = await this.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
         if (giveaway) {
           this.createElements(gfGiveaways, `beforeEnd`, giveaway.html);
           await this.endless_load(gfGiveaways.lastElementChild, false, `gf`);
@@ -6594,6 +6594,52 @@ class Common extends Module {
           // noinspection JSIgnoredPromiseFromCall
           this.setSetting(`exportBackupIndex`, select.selectedIndex);
         });
+      }
+      if (type === `import` || type === `export`) {
+        this.observeChange(new ToggleSwitch(container, `usePreferredGoogle`, false, [{
+          text: `Use preferred Google account: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-switch-input esgst-switch-input-large`,
+            placeholder: `example@gmail.com`,
+            type: `text`
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `esgst-bold esgst-clickable`
+          },
+          events: {
+            click: () => {
+              alert(this.esgst.settings.preferredGoogle || `No email address defined`);
+            }
+          },
+          text: `Reveal`,
+          type: `span`
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`) ;
+        this.observeChange(new ToggleSwitch(container, `usePreferredMicrosoft`, false, [{
+          text: `Use preferred Microsoft account: `,
+          type: `node`
+        }, {
+          attributes: {
+            class: `esgst-switch-input esgst-switch-input-large`,
+            placeholder: `example@outlook.com`,
+            type: `text`
+          },
+          type: `input`
+        }, {
+          attributes: {
+            class: `esgst-bold esgst-clickable`
+          },
+          events: {
+            click: () => {
+              alert(this.esgst.settings.preferredMicrosoft || `No email address defined`);
+            }
+          },
+          text: `Reveal`,
+          type: `span`
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`) ;
       }
       dm.message = this.createElements(container, `beforeEnd`, [{
         attributes: {
@@ -8326,12 +8372,12 @@ class Common extends Module {
           this.checkDropboxComplete(data, dm, callback);
         } else if (googleDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 2)) {
           await this.delValue(`googleDriveToken`);
-          this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+          this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkGoogleDriveComplete(data, dm, callback);
         } else if (oneDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 3)) {
           await this.delValue(`oneDriveToken`);
-          this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+          this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkOneDriveComplete(data, dm, callback);
         } else {
@@ -8418,12 +8464,12 @@ class Common extends Module {
       this.checkDropboxComplete(null, dm, callback);
     } else if (googleDrive) {
       await this.delValue(`googleDriveToken`);
-      this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+      this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkGoogleDriveComplete(null, dm, callback);
     } else if (oneDrive) {
       await this.delValue(`oneDriveToken`);
-      this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+      this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkOneDriveComplete(null, dm, callback);
     } else {
@@ -9299,6 +9345,10 @@ class Common extends Module {
       border: none;
       margin: 0 !important;
       padding: 0;
+    }
+    
+     .esgst-page-heading-buttons >* {
+      margin-right: 5px;
     }
     
     .esgst-inline-list >*:not(:last-child) {
@@ -11314,16 +11364,14 @@ class Common extends Module {
     }
 
     .esgst-gv-popout .giveaway__heading {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
       height: auto;
     }
 
     .esgst-gv-popout .giveaway__heading__name {
       display: inline-block;
       font-size: 12px;
-      max-width: 150px;
-      overflow: hidden;
-      text-overflow: ellipsis;
       vertical-align: middle;
     }
 
@@ -12722,7 +12770,7 @@ class Common extends Module {
     });
   }
 
-  buildGiveaway(context, url, errorMessage, blacklist) {
+  async buildGiveaway(context, url, errorMessage, blacklist) {
     let ended, avatar, code, column, columns, comments, counts, endTime, endTimeColumn, entered, entries, giveaway,
       heading, headingName, i, id, icons, image, n, removeEntryButton, started, startTimeColumn, thinHeadings;
     giveaway = context.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
@@ -12775,7 +12823,7 @@ class Common extends Module {
       endTimeColumn = columns.firstElementChild;
       endTimeColumn.classList.remove(`featured__column`);
       if (sgTools) {
-        let info = this.esgst.modules.games.games_getInfo(giveaway);
+        let info = await this.esgst.modules.games.games_getInfo(giveaway);
         if (info) {
           this.createElements(heading, `beforeEnd`, [{
             attributes: {
@@ -13759,6 +13807,23 @@ class Common extends Module {
 
   loadChangelog(version) {
     const changelog = [
+      {
+        date: `October 16, 2018`,
+        version: `8.0.3`,
+        changelog: {
+          985: `Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS`,
+          984: `Fix dragging system for giveaway pages`,
+          983: `Fix a bug that does not highlight copies from pinned giveaways in Giveaway Copy Highlighter`,
+          982: `Fix a style issue in Grid View`,
+          981: `Fix a bug in Giveaway Winners Link`,
+          980: `Fix a bug that duplicates game categories`,
+          979: `Fix a style issue with game categories that are moved to the giveaway columns`,
+          978: `Add option to use preferred Google/Microsoft account when restoring/backing up`,
+          977: `Fix a style issue that decreases the opacity of giveaway icons in the giveaway page`,
+          922: `Load package data without having to reload the page in Game Categories`
+        }
+      },
+
       {
         date: `October 12, 2018`,
         version: `8.0.2`,

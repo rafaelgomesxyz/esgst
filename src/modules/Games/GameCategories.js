@@ -2626,6 +2626,10 @@ class GamesGameCategories extends Module {
           delete this.esgst.gcToFetch[type][id];
         }
       }
+      const oldElements = games[i].container.querySelectorAll(`.esgst-gc`);
+      for (const element of oldElements) {
+        element.remove();
+      }
       panel = games[i].container.getElementsByClassName(`esgst-gc-panel`)[0];
       if (panel && !panel.getAttribute(`data-gcReady`)) {
         if (this.esgst.gc_il && !this.esgst.giveawayPath) {
