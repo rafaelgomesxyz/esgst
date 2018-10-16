@@ -1,6 +1,7 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import {common} from '../Common';
+import 'jquery-ui/ui/widgets/slider';
 
 const
   createElements = common.createElements.bind(common),

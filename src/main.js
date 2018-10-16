@@ -4,7 +4,6 @@
 import './assets/css';
 
 import 'jquery';
-import 'webpack-jquery-ui';
 
 // jQuery QueryBuilder want global interact object
 import interact from 'interactjs/dist/interact.min';
