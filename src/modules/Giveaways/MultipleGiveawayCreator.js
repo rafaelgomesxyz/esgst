@@ -4,6 +4,7 @@ import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 import {utils} from '../../lib/jsUtils';
+import 'jquery-ui/ui/widgets/progressbar';
 
 const
   formatDate = utils.formatDate.bind(utils),
