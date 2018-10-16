@@ -71,10 +71,13 @@ class Games extends Module {
     }
     matches = context.querySelectorAll(matchesQuery);
     for (i = 0, n = matches.length; i < n; ++i) {
-      game = {
-        container: matches[i]
-      };
-      game.outerWrap = game.container;
+      game = this.esgst.mainGiveaways.filter(x => x.outerWrap === matches[i])[0];
+      if (!game) {
+        game = {
+          outerWrap: matches[i]
+        };
+      }
+      game.container = game.outerWrap;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
       game.table = !!game.container.closest(`table`);
       game.grid = game.container.closest(`.esgst-gv-view`);
