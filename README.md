@@ -236,6 +236,19 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.0.3 (October 16, 2018)**
+
+* [#985](https://github.com/gsrafael01/ESGST/issues/985) Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS
+* [#984](https://github.com/gsrafael01/ESGST/issues/984) Fix dragging system for giveaway pages
+* [#983](https://github.com/gsrafael01/ESGST/issues/983) Fix a bug that does not highlight copies from pinned giveaways in Giveaway Copy Highlighter
+* [#982](https://github.com/gsrafael01/ESGST/issues/982) Fix a style issue in Grid View
+* [#981](https://github.com/gsrafael01/ESGST/issues/981) Fix a bug in Giveaway Winners Link
+* [#980](https://github.com/gsrafael01/ESGST/issues/980) Fix a bug that duplicates game categories
+* [#979](https://github.com/gsrafael01/ESGST/issues/979) Fix a style issue with game categories that are moved to the giveaway columns
+* [#978](https://github.com/gsrafael01/ESGST/issues/978) Add option to use preferred Google/Microsoft account when restoring/backing up
+* [#977](https://github.com/gsrafael01/ESGST/issues/977) Fix a style issue that decreases the opacity of giveaway icons in the giveaway page
+* [#922](https://github.com/gsrafael01/ESGST/issues/922) Load package data without having to reload the page in Game Categories
+
 **8.0.2 (October 12, 2018)**
 
 * [#975](https://github.com/gsrafael01/ESGST/issues/975) Fix style issues
