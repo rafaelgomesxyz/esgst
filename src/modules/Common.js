@@ -13808,6 +13808,23 @@ class Common extends Module {
   loadChangelog(version) {
     const changelog = [
       {
+        date: `October 16, 2018`,
+        version: `8.0.3`,
+        changelog: {
+          985: `Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS`,
+          984: `Fix dragging system for giveaway pages`,
+          983: `Fix a bug that does not highlight copies from pinned giveaways in Giveaway Copy Highlighter`,
+          982: `Fix a style issue in Grid View`,
+          981: `Fix a bug in Giveaway Winners Link`,
+          980: `Fix a bug that duplicates game categories`,
+          979: `Fix a style issue with game categories that are moved to the giveaway columns`,
+          978: `Add option to use preferred Google/Microsoft account when restoring/backing up`,
+          977: `Fix a style issue that decreases the opacity of giveaway icons in the giveaway page`,
+          922: `Load package data without having to reload the page in Game Categories`
+        }
+      },
+
+      {
         date: `October 12, 2018`,
         version: `8.0.2`,
         changelog: {

@@ -1209,6 +1209,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             k++;
           } while ((this.esgst.mgc_groupKeys && found) || (this.esgst.mgc_groupAllKeys && giveaways[k + 1]));
         }
+        // noinspection JSIgnoredPromiseFromCall
         this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({
           data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`,
           method: `POST`,
