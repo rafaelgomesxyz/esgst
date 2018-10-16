@@ -46,7 +46,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
           },
           type: `i`
         }, {
-          text: `${giveaway.winners} winners`,
+          text: `${Array.isArray(giveaway.winners) ? giveaway.winners.length : giveaway.winners} winners`,
           type: `span`
         }]
       }]);

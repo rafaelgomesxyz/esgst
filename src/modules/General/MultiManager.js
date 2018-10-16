@@ -1073,7 +1073,7 @@ class GeneralMultiManager extends Module {
       let found = false;
       for (let i = elements.length - 1; i > -1; i--) {
         const element = elements[i],
-          info = this.esgst.modules.games.games_getInfo(element);
+          info = await this.esgst.modules.games.games_getInfo(element);
         if (info && info.type === item.type && info.id === item.code) {
           await request({
             data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${element.getAttribute(`data-autocomplete-id`)}`,

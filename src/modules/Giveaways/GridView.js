@@ -1,6 +1,7 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import {common} from '../Common';
+import 'jquery-ui/ui/widgets/slider';
 
 const
   createElements = common.createElements.bind(common),
@@ -166,12 +167,6 @@ class GiveawaysGridView extends Module {
           style: `clear: both;`
         },
         type: `div`
-      }]);
-      createElements(giveaway.headingName, `afterEnd`, [{
-        type: `br`
-      }]);
-      createElements(giveaway.pointsContainer, `afterEnd`, [{
-        type: `br`
       }]);
       giveaway.endTimeColumn.classList.add(`esgst-hidden`);
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);

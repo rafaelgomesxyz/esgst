@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Get version number.
-version=$(cat src/class/Esgst.js | grep -Po '(?<=devVersion:\s`).+?(?=(\s.+?)?`)')
+version=$(cat src/class/Esgst.js | grep -Po '(?<=devVersion\s=\s`).+?(?=(\s.+?)?`)')
 
 # Update manifest.json
 cp Extension/manifest.json Extension/manifest.json.bkp
