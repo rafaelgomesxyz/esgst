@@ -267,7 +267,7 @@ class GiveawaysGiveawayExtractor extends Module {
           let bumpLink, button, giveaway, giveaways, n, responseHtml;
           responseHtml = parseHtml(response.responseText);
           button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
-          giveaway = buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
+          giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           if (giveaway) {
             createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
             ge.points += giveaway.points;
@@ -307,7 +307,7 @@ class GiveawaysGiveawayExtractor extends Module {
             let response = await request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
             let bumpLink, giveaway, giveaways, n, responseHtml;
             responseHtml = parseHtml(response.responseText);
-            giveaway = buildGiveaway(responseHtml, response.finalUrl, null, true);
+            giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
             if (giveaway) {
               createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
               ge.points += giveaway.points;

@@ -23,7 +23,7 @@ class Games extends Module {
   }
 
   async games_load(context, main, source, endless) {
-    let games = this.games_get(context, main, endless ? this.esgst.games : JSON.parse(await getValue(`games`)), endless);
+    let games = await this.games_get(context, main, endless ? this.esgst.games : JSON.parse(await getValue(`games`)), endless);
     if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
     [`apps`, `subs`].forEach(type => {
       for (let id in games[type]) {
@@ -55,7 +55,7 @@ class Games extends Module {
     }
   }
 
-  games_get(context, main, savedGames, endless) {
+  async games_get(context, main, savedGames, endless) {
     let game, games, i, id, info, matches, n, headingQuery, matchesQuery, type;
     games = {
       apps: {},
@@ -82,7 +82,7 @@ class Games extends Module {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
       }
       game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
-      info = this.games_getInfo(game.container);
+      info = await this.games_getInfo(game.container);
       game.heading = game.container.querySelector(headingQuery);
       if (info && game.heading) {
         game.headingName = game.heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || game.heading;
@@ -110,83 +110,77 @@ class Games extends Module {
     return games;
   }
 
-  games_getInfo(context) {
-    const missing = context.querySelector(`.table_image_thumbnail_missing`);
+  async games_getInfo(context) {
     const link = context.querySelector(`[href*="/app/"], [href*="/sub/"]`);
     const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"]`);
     if (link || image) {
       const url = (link && link.getAttribute(`href`)) || (image && image.getAttribute(`style`));
-      if (url) {
-        const info = url.match(/\/(app|sub)s?\/(\d+)/);
-        return {
-          type: `${info[1]}s`,
-          id: info[2]
-        };
-      } else {
+      if (!url) {
         return null;
       }
-    } else if (missing) {
-      const heading = context.querySelector(`.table__column__heading`);
-      if (!heading) {
-        return null;
-      }
-      const name = heading.textContent.trim();
-      for (const id in this.esgst.games.apps) {
-        if (this.esgst.games.apps.hasOwnProperty(id)) {
-          if (this.esgst.games.apps[id].name === name) {
-            return {
-              type: `apps`,
-              id: id
-            };
-          }
-        }
-      }
-      for (const id in this.esgst.games.subs) {
-        if (this.esgst.games.subs.hasOwnProperty(id)) {
-          if (this.esgst.games.subs[id].name === name) {
-            return {
-              type: `subs`,
-              id: id
-            };
-          }
-        }
-      }
-      request({method: `GET`, url: heading.getAttribute(`href`)}).then(async response => {
-        const html = parseHtml(response.responseText);
-        const giveaway = (await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl))[0];
-        if (giveaway && giveaway.gameType && giveaway.gameSteamId) {
-          const games = {
-            apps: {},
-            subs: {}
-          };
-          games[giveaway.gameType][giveaway.gameSteamId] = {
-            name
-          };
-          this.esgst.mainGiveaways.map(x => {
-            if (x.name !== name || x.id) {
-              return x;
-            }
-            x.id = giveaway.gameSteamId;
-            x.type = giveaway.gameType;
-            if (this.esgst.games && this.esgst.games[x.type][x.id]) {
-              const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
-              for (const key of keys) {
-                if (this.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
-                  x[key] = true;
-                }
-              }
-            }
-            return x;
-          });
-          if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
-            this.esgst.modules.filters.filters_filter(this.esgst.gf);
-          }
-          lockAndSaveGames(games);
-        }
-      });
-    } else {
+      const info = url.match(/\/(app|sub)s?\/(\d+)/);
+      return {
+        id: info[2],
+        type: `${info[1]}s`
+      };
+    }
+    const missing = context.querySelector(`.table_image_thumbnail_missing`);
+    if (!missing) {
       return null;
     }
+    const heading = context.querySelector(`.table__column__heading`);
+    if (!heading) {
+      return null;
+    }
+    const name = heading.textContent.trim();
+    for (const type of [`apps`, `subs`]) {
+      for (const id in this.esgst.games[type]) {
+        if (!this.esgst.games[type].hasOwnProperty(id)) {
+          continue;
+        }
+        if (this.esgst.games[type][id].name === name) {
+          return {id, type};
+        }
+      }
+    }
+    const response = await request({
+      method: `GET`,
+      url: heading.getAttribute(`href`)
+    });
+    const html = parseHtml(response.responseText);
+    const giveaway = (await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl))[0];
+    if (!giveaway || !giveaway.gameType || !giveaway.gameSteamId) {
+      return null;
+    }
+    const games = {
+      apps: {},
+      subs: {}
+    };
+    games[giveaway.gameType][giveaway.gameSteamId] = {name};
+    this.esgst.mainGiveaways.map(x => {
+      if (x.name !== name || x.id) {
+        return x;
+      }
+      x.id = giveaway.gameSteamId;
+      x.type = giveaway.gameType;
+      if (this.esgst.games && this.esgst.games[x.type][x.id]) {
+        const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+        for (const key of keys) {
+          if (this.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+            x[key] = true;
+          }
+        }
+      }
+      return x;
+    });
+    if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+      this.esgst.modules.filters.filters_filter(this.esgst.gf);
+    }
+    lockAndSaveGames(games);
+    return {
+      id: giveaway.gameSteamId,
+      type: giveaway.gameType
+    };
   }
 }
 

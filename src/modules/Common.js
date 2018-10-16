@@ -421,7 +421,7 @@ class Common extends Module {
       let element = elements[i];
       let date = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
       if (!date) continue;
-      let info = this.esgst.modules.games.games_getInfo(element);
+      let info = await this.esgst.modules.games.games_getInfo(element);
       if (!info || (this.esgst.games[info.type][info.id] && this.esgst.games[info.type][info.id].noCV)) {
         continue;
       }
@@ -3202,7 +3202,7 @@ class Common extends Module {
       }
       for (const element of elements) {
         if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden), .table__column--gift-feedback .trigger-popup .icon-red`)) continue;
-        const info = this.esgst.modules.games.games_getInfo(element);
+        const info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
         if (!savedGames[info.type][info.id]) {
           savedGames[info.type][info.id] = {};
@@ -5728,7 +5728,7 @@ class Common extends Module {
           queue: true,
           url: `https://www.steamgifts.com/giveaway/${hidden[i].code}/`
         });
-        giveaway = this.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+        giveaway = await this.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
         if (giveaway) {
           this.createElements(gfGiveaways, `beforeEnd`, giveaway.html);
           await this.endless_load(gfGiveaways.lastElementChild, false, `gf`);
@@ -12770,7 +12770,7 @@ class Common extends Module {
     });
   }
 
-  buildGiveaway(context, url, errorMessage, blacklist) {
+  async buildGiveaway(context, url, errorMessage, blacklist) {
     let ended, avatar, code, column, columns, comments, counts, endTime, endTimeColumn, entered, entries, giveaway,
       heading, headingName, i, id, icons, image, n, removeEntryButton, started, startTimeColumn, thinHeadings;
     giveaway = context.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];
@@ -12823,7 +12823,7 @@ class Common extends Module {
       endTimeColumn = columns.firstElementChild;
       endTimeColumn.classList.remove(`featured__column`);
       if (sgTools) {
-        let info = this.esgst.modules.games.games_getInfo(giveaway);
+        let info = await this.esgst.modules.games.games_getInfo(giveaway);
         if (info) {
           this.createElements(heading, `beforeEnd`, [{
             attributes: {

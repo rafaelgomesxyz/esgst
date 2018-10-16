@@ -152,10 +152,10 @@ class GiveawaysRealCVCalculator extends Module {
       } else {
         button = document.getElementsByClassName(`js__submit-form`)[0];
         let input = document.querySelector(`[name="game_id"]`);
-        button.addEventListener(`click`, () => {
+        button.addEventListener(`click`, async () => {
           let selectedId = input.value;
           let selected = document.querySelector(`[data-autocomplete-id="${selectedId}"]`);
-          let info = this.esgst.modules.games.games_getInfo(selected);
+          let info = await this.esgst.modules.games.games_getInfo(selected);
           setValue(`rcvcGame`, {
             type: info.type,
             id: info.id

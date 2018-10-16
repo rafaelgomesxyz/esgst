@@ -720,7 +720,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.open();
   }
 
-  mgc_getValues(edit, mgc) {
+  async mgc_getValues(edit, mgc) {
     let values = {
       gameId: mgc.gameId.value,
       gameType: mgc.gameType.value,
@@ -739,7 +739,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       values.groups = mgc.groups.value.trim();
       values.level = mgc.level.value;
       values.description = mgc.description.value;
-      values.steam = this.esgst.modules.games.games_getInfo(document.querySelector(`[data-autocomplete-id="${values.gameId}"]`));
+      values.steam = await this.esgst.modules.games.games_getInfo(document.querySelector(`[data-autocomplete-id="${values.gameId}"]`));
       if ((this.esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P|\[ESGST-N/)) || !this.esgst.mgc_createTrain) {
         if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B]/)) || !mgc.discussion) {
           this.mgc_addGiveaway(edit, mgc, values);
@@ -1222,7 +1222,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
   }
 
-  mgc_getGiveaway(giveaways, i, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
+  async mgc_getGiveaway(giveaways, i, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
     let button, conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
     elements = parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
     exactMatch = null;
@@ -1231,7 +1231,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       element = elements[k];
       if (element.getAttribute(`data-autocomplete-name`).toLowerCase() === name) {
         if (steamInfo) {
-          info = this.esgst.modules.games.games_getInfo(element);
+          info = await this.esgst.modules.games.games_getInfo(element);
           if (steamInfo.type === info.type && steamInfo.id === info.id) {
             exactMatch = element;
             break;
@@ -1240,7 +1240,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           matches.push(element);
         }
       } else if (steamInfo) {
-        info = this.esgst.modules.games.games_getInfo(element);
+        info = await this.esgst.modules.games.games_getInfo(element);
         if (steamInfo.type === info.type && steamInfo.id === info.id) {
           exactMatch = element;
           break;
@@ -1253,7 +1253,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (exactMatch) {
       values.gameName = exactMatch.getAttribute(`data-autocomplete-name`);
       values.gameId = exactMatch.getAttribute(`data-autocomplete-id`);
-      values.steam = this.esgst.modules.games.games_getInfo(exactMatch);
+      values.steam = await this.esgst.modules.games.games_getInfo(exactMatch);
       this.mgc_addGiveaway(false, mgc, values);
       value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
       $(progress.bar).progressbar(`option`, `value`, value);
@@ -1282,11 +1282,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           icon2: ``,
           title1: `Select`,
           title2: ``,
-          callback1: () => {
+          callback1: async () => {
             conflictPopup.close();
             values.gameName = element.getAttribute(`data-autocomplete-name`);
             values.gameId = element.getAttribute(`data-autocomplete-id`);
-            values.steam = this.esgst.modules.games.games_getInfo(element);
+            values.steam = await this.esgst.modules.games.games_getInfo(element);
             this.mgc_addGiveaway(false, mgc, values);
             value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
             $(progress.bar).progressbar(`option`, `value`, value);
@@ -1675,7 +1675,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       responseHtml = parseHtml(response.responseText);
       mgc.created.push({
         giveaway: giveaway,
-        html: buildGiveaway(responseHtml, response.finalUrl).html,
+        html: await buildGiveaway(responseHtml, response.finalUrl).html,
         url: response.finalUrl
       });
       if (this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc) {
