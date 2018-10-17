@@ -291,6 +291,16 @@ class CommentsCommentFormattingHelper extends Module {
           name: `GitHub Wiki SteamGifts Integration`,
           sg: true,
           st: true
+        },
+        cfh_showAlways: {
+          description: `
+          <ul>
+            <li>Comment Formatting Helper will be showed immediately</li>
+          </ul>
+          `,
+          name: 'Always Show Helper',
+          sg: true,
+          st: true
         }
       },
       id: `cfh`,
@@ -5711,6 +5721,20 @@ class CommentsCommentFormattingHelper extends Module {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       elements[i].onfocus = this.cfh_addPanel.bind(this, elements[i]);
+
+      if (this.esgst.cfh_showAlways && elements[i].offsetParent) {
+        this.cfh_addPanel(elements[i]);
+      }
+    }
+
+    if (this.esgst.cfh_showAlways) {
+      const descriptionEdit = context.querySelector('.page__description__edit');
+      if (descriptionEdit) {
+        descriptionEdit.onclick = this.cfh_addPanel.bind(
+          this,
+          descriptionEdit.closest('.page__description').querySelector('textarea')
+        );
+      }
     }
   }
 
