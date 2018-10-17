@@ -149,7 +149,7 @@ class Tags extends Module {
     }
   }
 
-  tags_addButtons(key, items) {
+  async tags_addButtons(key, items) {
     items = items.all || items;
     for (const item of items) {
       const obj = {item, key};
@@ -175,7 +175,7 @@ class Tags extends Module {
         }]).addEventListener(`click`, this.tags_openPopup.bind(this, obj));
       }
       if (item.saved && item.saved.tags) {
-        this.tags_addTags(item, obj, item.saved.tags);
+        await this.tags_addTags(item, obj, item.saved.tags);
       }
     }
   }
@@ -469,15 +469,15 @@ class Tags extends Module {
     await setSetting(`${obj.key}_colors`, this.esgst[`${obj.key}_colors`]);
     if (obj.items) {
       for (const item of obj.items) {
-        this.tags_addTags(item, obj, item.multiTags);
+        await this.tags_addTags(item, obj, item.multiTags);
       }
     } else {
-      this.tags_addTags(obj.item, obj, tags);
+      await this.tags_addTags(obj.item, obj, tags);
     }
     obj.popup.close();
   }
 
-  tags_addTags(item, obj, tags) {
+  async tags_addTags(item, obj, tags) {
     let items = null;
     switch (obj.key) {
       case `dt`:
@@ -487,7 +487,7 @@ class Tags extends Module {
         items = this.esgst.currentGroups[item.code || item.id].elements;
         break;
       case `gt`:
-        items = this.esgst.modules.games.games_get(document, true, this.esgst.games)[item.type][item.code || item.id];
+        items = await this.esgst.modules.games.games_get(document, true, this.esgst.games)[item.type][item.code || item.id];
         break;
       case `ut`:
         items = this.esgst.currentUsers[item.code || item.id].elements;
