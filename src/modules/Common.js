@@ -11372,6 +11372,9 @@ class Common extends Module {
     .esgst-gv-popout .giveaway__heading__name {
       display: inline-block;
       font-size: 12px;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       vertical-align: middle;
     }
 

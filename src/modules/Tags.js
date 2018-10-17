@@ -487,7 +487,7 @@ class Tags extends Module {
         items = this.esgst.currentGroups[item.code || item.id].elements;
         break;
       case `gt`:
-        items = await this.esgst.modules.games.games_get(document, true, this.esgst.games)[item.type][item.code || item.id];
+        items = (await this.esgst.modules.games.games_get(document, true, this.esgst.games))[item.type][item.code || item.id];
         break;
       case `ut`:
         items = this.esgst.currentUsers[item.code || item.id].elements;
