@@ -242,7 +242,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       let giveaway = ged.giveaways[ged.i];
       ged.i += 1;
       let response = await request({method: `GET`, url: `/giveaway/${giveaway.code}/`});
-      let builtGiveaway = buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+      let builtGiveaway = await buildGiveaway(parseHtml(response.responseText), response.finalUrl);
       if (!builtGiveaway || !builtGiveaway.started) {
         continue;
       }

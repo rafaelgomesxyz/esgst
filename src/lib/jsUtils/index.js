@@ -17,7 +17,6 @@ export default class Utils {
     this.parser = new DOMParser();
   }
 
-
   compareTypes(variable, type) {
     return Object.prototype.toString.call(variable) === `[object ${type}]`;
   }
@@ -116,6 +115,39 @@ export default class Utils {
         sensitivity: `base`
       }) * modifier;
     });
+  }
+
+  rgba2Hex(string) {
+    const match = string.match(/rgba?\((\d+?),\s*(\d+?),\s*(\d+?)(,\s*(.+?))?\)/);
+    if (!match) {
+      return {
+        hex: string,
+        alpha: 1.0
+      };
+    }
+    const red = parseInt(match[1]);
+    const green = parseInt(match[2]);
+    const blue = parseInt(match[3]);
+    const alpha = (match[5] && parseFloat(match[5])) || 1.0;
+    return {
+      hex: `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`,
+      alpha
+    };
+  }
+
+  hex2Rgba(hex, alpha) {
+    alpha = parseFloat(alpha);
+    if (alpha === 1.0) {
+      return hex;
+    }
+    const match = hex.match(/[\dA-Fa-f]{2}/g);
+    if (!match) {
+      return ``;
+    }
+    const red = parseInt(match[0], 16);
+    const green = parseInt(match[1], 16);
+    const blue = parseInt(match[2], 16);
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   }
 }
 

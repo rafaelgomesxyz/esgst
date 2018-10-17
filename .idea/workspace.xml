@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="401c8206-063f-4cc2-a242-4e638caacb21" name="Default Changelist" comment="- #966">
+    <list default="true" id="401c8206-063f-4cc2-a242-4e638caacb21" name="Default Changelist" comment="- Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS (close #985)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ESGST.meta.js" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.meta.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ESGST.user.js" beforeDir="false" afterPath="$PROJECT_DIR$/ESGST.user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Extension/esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/esgst.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Extension/eventPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/eventPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Extension/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Extension/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/releaseVersion.sh" beforeDir="false" afterPath="$PROJECT_DIR$/releaseVersion.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/class/Esgst.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/class/Esgst.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Common.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/Giveaways/MultipleGiveawayCreator.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/Giveaways/MultipleGiveawayCreator.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,7 +26,7 @@
     <session id="683583091">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="17" />
+          <entry key="project.closed" value="24" />
           <entry key="project.open.time.104" value="1" />
           <entry key="project.open.time.106" value="1" />
           <entry key="project.open.time.26" value="1" />
@@ -25,57 +36,66 @@
           <entry key="project.open.time.58" value="1" />
           <entry key="project.open.time.63" value="1" />
           <entry key="project.open.time.66" value="2" />
-          <entry key="project.open.time.68" value="1" />
+          <entry key="project.open.time.68" value="2" />
           <entry key="project.open.time.69" value="1" />
           <entry key="project.open.time.72" value="1" />
           <entry key="project.open.time.73" value="1" />
           <entry key="project.open.time.76" value="1" />
-          <entry key="project.open.time.79" value="1" />
-          <entry key="project.open.time.81" value="1" />
+          <entry key="project.open.time.79" value="2" />
+          <entry key="project.open.time.81" value="3" />
+          <entry key="project.open.time.82" value="1" />
+          <entry key="project.open.time.84" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="19" />
+          <entry key="project.open.time.90" value="1" />
+          <entry key="project.open.time.92" value="1" />
+          <entry key="project.opened" value="27" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="babelrc" value="2" />
+          <entry key="css" value="5" />
           <entry key="gitignore" value="1" />
-          <entry key="js" value="334" />
-          <entry key="json" value="12" />
+          <entry key="js" value="413" />
+          <entry key="js___jb_tmp___" value="1" />
+          <entry key="json" value="15" />
           <entry key="md" value="1" />
-          <entry key="sh" value="2" />
+          <entry key="sh" value="3" />
           <entry key="ts" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JSON" value="14" />
-          <entry key="JavaScript" value="334" />
-          <entry key="PLAIN_TEXT" value="4" />
+          <entry key="CSS" value="5" />
+          <entry key="JSON" value="17" />
+          <entry key="JavaScript" value="413" />
+          <entry key="PLAIN_TEXT" value="6" />
           <entry key="TypeScript" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="babelrc" value="17" />
-          <entry key="js" value="28727" />
-          <entry key="json" value="225" />
+          <entry key="css" value="11" />
+          <entry key="js" value="40027" />
+          <entry key="json" value="274" />
           <entry key="md" value="2" />
-          <entry key="sh" value="51" />
-          <entry key="txt" value="511" />
+          <entry key="sh" value="55" />
+          <entry key="txt" value="783" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
+          <entry key="CSS" value="11" />
           <entry key="HTML" value="28" />
-          <entry key="JSON" value="242" />
-          <entry key="JavaScript" value="28699" />
-          <entry key="PLAIN_TEXT" value="564" />
+          <entry key="JSON" value="291" />
+          <entry key="JavaScript" value="39999" />
+          <entry key="PLAIN_TEXT" value="840" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="ESLintLanguageService" value="16" />
+          <entry key="ESLintLanguageService" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -88,31 +108,43 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.config.js">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1989">
-              <caret line="117" selection-start-line="117" selection-end-line="117" />
+            <state relative-caret-position="34">
+              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
+        <entry file="file://$PROJECT_DIR$/src/class/Module.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
-              <caret line="6" column="25" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="25" />
+              <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/MultipleGiveawayCreator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="1212" column="13" selection-start-line="1212" selection-start-column="13" selection-end-line="1212" selection-end-column="13" />
               <folding>
-                <element signature="e#0#45#0" expanded="true" />
+                <element signature="e#0#40#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/typedefs.js">
+        <entry file="file://$PROJECT_DIR$/src/modules/Comments/CommentFormattingHelper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1511">
-              <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
+            <state relative-caret-position="191">
+              <caret line="572" column="44" lean-forward="true" selection-start-line="572" selection-start-column="44" selection-end-line="572" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#40#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -121,39 +153,49 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>hasStore</find>
-      <find>indexof</find>
-      <find>username</find>
-      <find>ugd_requestGiveawaysDone_2</find>
-      <find>push</find>
-      <find>lpv_getCv</find>
-      <find>dev.</find>
-      <find>predictedLevel</find>
-      <find>7.26.3</find>
-      <find>production</find>
-      <find>version:</find>
-      <find>version: `</find>
-      <find>version</find>
-      <find>changelog</find>
-      <find>## Changelog</find>
-      <find>8.0.0</find>
-      <find>file</find>
-      <find>leftbuttonids</find>
-      <find>leftButtonIds</find>
-      <find>settings.leftMainPageHeadingIds</find>
-      <find>settings.leftButtonIds</find>
-      <find>settings.rightMainPageHeadingIds</find>
-      <find>leftMainPageHeadingIds</find>
-      <find>saveComment</find>
-      <find>devversion</find>
-      <find>savecomment</find>
-      <find>.load</find>
-      <find>levelcontainer</find>
-      <find>levelcontainer =</find>
-      <find>triggerFunctions</find>
+      <find>usepreferred</find>
+      <find>oauth</find>
+      <find>oauth2</find>
+      <find>gc_getGames</find>
+      <find>buildGiveaway</find>
+      <find>games_getInfo</find>
+      <find>gch</find>
+      <find>pointsContainer</find>
+      <find>featuremap</find>
+      <find>featured__heading</find>
+      <find>createElements</find>
+      <find>giveaway.columns</find>
+      <find>copiescontainer</find>
+      <find>giveaway.headingname</find>
+      <find>giveaway.heading</find>
+      <find>esgst-gptw</find>
+      <find>giveaway.image</find>
+      <find>featured__colum</find>
+      <find>giveaways_reorder</find>
+      <find>reord</find>
+      <find>giveaway.avatar</find>
+      <find>console</find>
+      <find>console.log</find>
+      <find>moz-document</find>
+      <find>datepicker</find>
+      <find>jquery</find>
+      <find>getThemeCss</find>
+      <find>$(</find>
+      <find>dev</find>
+      <find>cfh_insertTableRows</find>
     </findStrings>
     <replaceStrings>
       <replace />
+      <replace>${projectedBarColor}</replace>
+      <replace>${projectedBarColorHover}</replace>
+      <replace>${projectedBarColorSelected}</replace>
+      <replace>${barColor}</replace>
+      <replace>${barColorHover}</replace>
+      <replace>${barColorSelected}</replace>
+      <replace>hex2Rgba</replace>
+      <replace>\$\{$1}</replace>
+      <replace>!important;</replace>
+      <replace>/^(elgb|gp)$/</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -191,60 +233,63 @@
       </branch-storage>
     </excluded-from-favorite>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/modules/Common.js" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawaysSorter.js" />
-        <option value="$PROJECT_DIR$/src/modules/Discussions/DiscussionsSorter.js" />
-        <option value="$PROJECT_DIR$/src/modules/Users/WhitelistBlacklistChecker.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayPopup.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayTemplates.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways/MultipleGiveawayCreator.js" />
-        <option value="$PROJECT_DIR$/src/modules/Users/UserStats.js" />
-        <option value="$PROJECT_DIR$/src/modules/Comments/CollapseExpandReplyButton.js" />
-        <option value="$PROJECT_DIR$/src/modules/Users/WhitelistBlacklistSorter.js" />
-        <option value="$PROJECT_DIR$/src/modules/Users/WhitelistBlacklistManager.js" />
-        <option value="$PROJECT_DIR$/src/modules/Comments/CommentFilters.js" />
-        <option value="$PROJECT_DIR$/src/modules/Discussions/DiscussionFilters.js" />
-        <option value="$PROJECT_DIR$/src/class/Popout.js" />
         <option value="$PROJECT_DIR$/src/modules/Discussions/MainPostPopup.js" />
-        <option value="$PROJECT_DIR$/src/modules/Comments/CommentFormattingHelper.js" />
         <option value="$PROJECT_DIR$/src/typedefs.js" />
         <option value="$PROJECT_DIR$/src/class/Popup.js" />
         <option value="$PROJECT_DIR$/src/modules/General/EndlessScrolling.js" />
         <option value="$PROJECT_DIR$/src/modules/General/TimeToPointCapCalculator.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/EnterLeaveGiveawayButton.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayExtractor.js" />
-        <option value="$PROJECT_DIR$/src/modules/Games/GameCategories.js" />
         <option value="$PROJECT_DIR$/src/eventPage.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayBookmarks.js" />
         <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayFilters.js" />
         <option value="$PROJECT_DIR$/src/modules/Filters.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways.js" />
         <option value="$PROJECT_DIR$/src/modules/Users/UserGiveawayData.js" />
-        <option value="$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js" />
         <option value="$PROJECT_DIR$/src/modules/Users/SentWonRatio.js" />
-        <option value="$PROJECT_DIR$/src/modules/General/MultiManager.js" />
-        <option value="$PROJECT_DIR$/src/modules/Giveaways/GridView.js" />
         <option value="$PROJECT_DIR$/src/loader.js" />
-        <option value="$PROJECT_DIR$/Extension/esgst.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/ESGST.meta.js" />
         <option value="$PROJECT_DIR$/Extension/manifest_production.json" />
         <option value="$PROJECT_DIR$/.babelrc" />
-        <option value="$PROJECT_DIR$/releaseVersion.sh" />
-        <option value="$PROJECT_DIR$/src/main.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/ESGST.user.js" />
-        <option value="$PROJECT_DIR$/webpack.config.js" />
-        <option value="$PROJECT_DIR$/Extension/manifest.json" />
         <option value="$PROJECT_DIR$/src/modules/Discussions/DiscussionEditDetector.js" />
         <option value="$PROJECT_DIR$/src/modules/index.js" />
         <option value="$PROJECT_DIR$/src/class/Module.js" />
-        <option value="$PROJECT_DIR$/src/modules/Common.js" />
-        <option value="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" />
-        <option value="$PROJECT_DIR$/src/class/Esgst.js" />
         <option value="$PROJECT_DIR$/src/modules/General/VisibleFullLevel.js" />
+        <option value="$PROJECT_DIR$/Extension/esgst.js" />
+        <option value="$PROJECT_DIR$/src/lib/jsUtils/index.js" />
+        <option value="$PROJECT_DIR$/src/modules/General/PointsVisualizer.js" />
+        <option value="$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js" />
+        <option value="$PROJECT_DIR$/src/entry/monkey/banner.js" />
+        <option value="$PROJECT_DIR$/webpack.config.js" />
+        <option value="$PROJECT_DIR$/src/assets/css/patches/query-builder.css" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinnersLink.js" />
+        <option value="$PROJECT_DIR$/Extension/manifest.json" />
+        <option value="$PROJECT_DIR$/src/modules/Games/GameCategories.js" />
+        <option value="$PROJECT_DIR$/src/modules/General/HeaderRefresher.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/RealCVCalculator.js" />
+        <option value="$PROJECT_DIR$/src/modules/General/MultiManager.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/HiddenGameRemover.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayExtractor.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayEncrypterDecrypter.js" />
+        <option value="$PROJECT_DIR$/src/modules/Common.js" />
+        <option value="$PROJECT_DIR$/src/modules/Tags.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayCopyHighlighter.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/GiveawayPointsToWin.js" />
+        <option value="$PROJECT_DIR$/src/modules/Games.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways.js" />
+        <option value="$PROJECT_DIR$/src/main.js" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/GridView.js" />
+        <option value="$PROJECT_DIR$/src/class/Esgst.js" />
+        <option value="$PROJECT_DIR$/releaseVersion.sh" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/modules/Giveaways/MultipleGiveawayCreator.js" />
+        <option value="$PROJECT_DIR$/src/modules/Comments/CommentFormattingHelper.js" />
       </list>
     </option>
   </component>
@@ -270,6 +315,74 @@
     <option name="y" value="31" />
     <option name="width" value="1446" />
     <option name="height" value="872" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Code style issuesCSS</id>
+          </State>
+          <State>
+            <id>Code style issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Cucumber</id>
+          </State>
+          <State>
+            <id>Dockerfile</id>
+          </State>
+          <State>
+            <id>File Watchers</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>HTML</id>
+          </State>
+          <State>
+            <id>Invalid elementsCSS</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Probable bugsCSS</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
+          </State>
+          <State>
+            <id>RELAX NG</id>
+          </State>
+          <State>
+            <id>TypeScript</id>
+          </State>
+          <State>
+            <id>XML</id>
+          </State>
+          <State>
+            <id>YAML</id>
+          </State>
+          <State>
+            <id>docker-compose</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Angular</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -304,13 +417,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ESGST" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ESGST" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="modules" type="462c0819:PsiDirectoryNode" />
-              <item name="General" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -325,7 +431,7 @@
     <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Background" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -344,7 +450,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.VisibleFullLevel.js">
+  <component name="RunManager" selected="npm.build">
     <configuration name="VisibleFullLevel.js" type="NodeJSConfigurationType" factoryName="Node.js" nameIsGenerated="true" path-to-js-file="VisibleFullLevel.js" working-dir="$PROJECT_DIR$/src/modules/General">
       <method v="2" />
     </configuration>
@@ -386,8 +492,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.build-dev-without-babel-watch" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.build-dev-without-babel-watch" />
         <item itemvalue="npm.build-dev-without-watch" />
       </list>
     </recent_temporary>
@@ -420,7 +526,15 @@
       <workItem from="1539295043180" duration="96000" />
       <workItem from="1539295551831" duration="2317000" />
       <workItem from="1539300682721" duration="1926000" />
-      <workItem from="1539306117673" duration="2893000" />
+      <workItem from="1539306117673" duration="3247000" />
+      <workItem from="1539349758249" duration="12344000" />
+      <workItem from="1539366618955" duration="2896000" />
+      <workItem from="1539604764703" duration="3616000" />
+      <workItem from="1539613120604" duration="3067000" />
+      <workItem from="1539655176111" duration="1798000" />
+      <workItem from="1539709642955" duration="2124000" />
+      <workItem from="1539721770325" duration="4318000" />
+      <workItem from="1539727189786" duration="1282000" />
     </task>
     <task id="LOCAL-00001" summary="- Fix ButtonSet usage&#10;- Remove CompletionCheck">
       <created>1538627946823</created>
@@ -492,21 +606,106 @@
       <option name="project" value="LOCAL" />
       <updated>1539308073529</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="- #966">
+      <created>1539309144084</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1539309144084</updated>
+    </task>
+    <task id="LOCAL-00012" summary="- Make Level Progress Visualizer and Points Visualizer compatible (close #967)">
+      <created>1539357070317</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1539357070317</updated>
+    </task>
+    <task id="LOCAL-00013" summary="- Add option to change Level Progress Visualizer and Points Visualizer bar colors (close #968)">
+      <created>1539363149396</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1539363149397</updated>
+    </task>
+    <task id="LOCAL-00014" summary="- #968">
+      <created>1539363213496</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1539363213496</updated>
+    </task>
+    <task id="LOCAL-00015" summary="- Fix a style issue that lowers the opacity of the points/copies elements (close #973)">
+      <created>1539363754502</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1539363754502</updated>
+    </task>
+    <task id="LOCAL-00016" summary="- Make Level Progress Visualizer and Points Visualizer bars dynamically adjust to the size of the button  (close #974)">
+      <created>1539364396421</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1539364396421</updated>
+    </task>
+    <task id="LOCAL-00017" summary="- Fix style issues (close #975)">
+      <created>1539367538611</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1539367538612</updated>
+    </task>
+    <task id="LOCAL-00018" summary="- Fix a style issue with game categories that are moved to the giveaway columns (close #979)&#10;- Fix a bug that duplicates game categories (close #980)&#10;- Fix a bug in Giveaway Winners Link (close #981)&#10;- Fix a style issue in Grid View (close #982)">
+      <created>1539608351217</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1539608351218</updated>
+    </task>
+    <task id="LOCAL-00019" summary="- Add option to use preferred Google/Microsoft account when restoring/backing up (close #978)">
+      <created>1539616188977</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1539616188977</updated>
+    </task>
+    <task id="LOCAL-00020" summary="- Load package data without having to reload the page in Game Categories (close #922)">
+      <created>1539710073128</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1539710073132</updated>
+    </task>
+    <task id="LOCAL-00021" summary="- Fix a bug that does not highlight copies from pinned giveaways in Giveaway Copy Highlighter (close #983)&#10;- Fix dragging system for giveaway pages (close #984)">
+      <created>1539724391535</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1539724391536</updated>
+    </task>
+    <task id="LOCAL-00022" summary="- Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS (close #985)">
+      <created>1539727453472</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1539727453472</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="72563000" />
+    <option name="totallyTimeSpent" value="104362000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-3" y="31" width="1446" height="872" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49932885" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" sideWeight="0.50067115" side_tool="true" weight="0.24947146" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32885906" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.32885906" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.32885906" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -549,174 +748,20 @@
     <MESSAGE value="- Fix a bug that refreshes the page after commenting with Multi-Reply (close #969)&#10;- Fix a bug that does not show replies in the inbox page with Reply From Inbox (close #970)" />
     <MESSAGE value="- Add a new feature: Visible Full Level (close #966)" />
     <MESSAGE value="- #966" />
-    <option name="LAST_COMMIT_MESSAGE" value="- #966" />
+    <MESSAGE value="- Make Level Progress Visualizer and Points Visualizer compatible (close #967)" />
+    <MESSAGE value="- Add option to change Level Progress Visualizer and Points Visualizer bar colors (close #968)" />
+    <MESSAGE value="- #968" />
+    <MESSAGE value="- Fix a style issue that lowers the opacity of the points/copies elements (close #973)" />
+    <MESSAGE value="- Make Level Progress Visualizer and Points Visualizer bars dynamically adjust to the size of the button  (close #974)" />
+    <MESSAGE value="- Fix style issues (close #975)" />
+    <MESSAGE value="- Fix a style issue with game categories that are moved to the giveaway columns (close #979)&#10;- Fix a bug that duplicates game categories (close #980)&#10;- Fix a bug in Giveaway Winners Link (close #981)&#10;- Fix a style issue in Grid View (close #982)" />
+    <MESSAGE value="- Add option to use preferred Google/Microsoft account when restoring/backing up (close #978)" />
+    <MESSAGE value="- Load package data without having to reload the page in Game Categories (close #922)" />
+    <MESSAGE value="- Fix a bug that does not highlight copies from pinned giveaways in Giveaway Copy Highlighter (close #983)&#10;- Fix dragging system for giveaway pages (close #984)" />
+    <MESSAGE value="- Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS (close #985)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Fix a style conflict between jQuery UI' CSS and SteamGifts' CSS (close #985)" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/modules/Discussions/MainPostPopup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="75" column="29" selection-start-line="75" selection-start-column="29" selection-end-line="75" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/ToggleSwitch.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/General/EndlessScrolling.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="44" selection-start-line="14" selection-start-column="44" selection-end-line="14" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/EnterLeaveGiveawayButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayRecreator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="50" column="8" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayExtractor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7446">
-          <caret line="442" column="7" selection-start-line="442" selection-start-column="7" selection-end-line="442" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/Popup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2567">
-          <caret line="152" column="14" selection-start-line="152" selection-start-column="14" selection-end-line="152" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Games/GameCategories.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="1519" column="34" selection-start-line="1519" selection-start-column="34" selection-end-line="1519" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/PinnedGiveawaysButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="47" column="61" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Comments/CommentFormattingHelper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="734" column="23" selection-start-line="734" selection-start-column="10" selection-end-line="734" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/ButtonSet.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/eventPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="263" column="42" selection-start-line="263" selection-start-column="42" selection-end-line="263" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayBookmarks.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="324" column="13" selection-start-line="324" selection-start-column="9" selection-end-line="324" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="533" column="62" selection-start-line="533" selection-start-column="62" selection-end-line="533" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayFilters.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="471" column="29" selection-start-line="471" selection-start-column="21" selection-end-line="471" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Filters.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="2197" column="28" selection-start-line="2197" selection-start-column="28" selection-end-line="2197" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Users/UserGiveawayData.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="1111" column="56" lean-forward="true" selection-start-line="1111" selection-start-column="56" selection-end-line="1111" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Profile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1581" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Users/SentWonRatio.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="148" column="48" selection-start-line="148" selection-start-column="48" selection-end-line="148" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2605">
-          <caret line="198" column="37" selection-start-line="198" selection-start-column="37" selection-end-line="198" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/General/MultiManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="1183" column="21" selection-start-line="1183" selection-start-column="21" selection-end-line="1183" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GridView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="64" selection-start-line="6" selection-start-column="64" selection-end-line="6" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/UnsentGiftSender.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="745" column="24" selection-start-line="745" selection-start-column="24" selection-end-line="745" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/loader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="45" selection-start-line="1" selection-start-column="45" selection-end-line="1" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/entry/monkey/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Extension/eventPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -728,13 +773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="17143" column="17" selection-start-line="17143" selection-start-column="17" selection-end-line="17143" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Extension/esgst.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="86348" column="49" selection-start-line="86348" selection-start-column="49" selection-end-line="86348" selection-end-column="49" />
         </state>
       </provider>
     </entry>
@@ -753,38 +791,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Extension/manifest_production.json" />
-    <entry file="file://$PROJECT_DIR$/releaseVersion.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="1515" column="71" lean-forward="true" selection-start-line="1515" selection-start-column="71" selection-end-line="1515" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ESGST.user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/entry/monkey/banner.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="26" selection-start-line="16" selection-start-column="26" selection-end-line="16" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -796,13 +806,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ESGST.dev.user.js" />
-    <entry file="file://$PROJECT_DIR$/Extension/manifest.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="1" selection-start-column="1" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/Comments/ReceivedReplyBoxPopup.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -824,55 +827,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1989">
-          <caret line="117" selection-start-line="117" selection-end-line="117" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/Module.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="10" lean-forward="true" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="248" column="11" lean-forward="true" selection-start-line="248" selection-start-column="11" selection-end-line="248" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="71" lean-forward="true" selection-start-line="4" selection-start-column="71" selection-end-line="4" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/modules/General/TimeToPointCapCalculator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="22" column="3" selection-end-line="25" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/modules/General/HeaderRefresher.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="318" lean-forward="true" selection-start-line="318" selection-end-line="318" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="25" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -883,10 +841,281 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="66" column="63" selection-start-line="66" selection-start-column="47" selection-end-line="66" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Extension/esgst.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="56504" column="26" lean-forward="true" selection-start-line="56504" selection-start-column="26" selection-end-line="56513" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entry/monkey/banner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="44" column="2" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/General/LevelProgressVisualizer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="65" column="76" selection-start-line="65" selection-start-column="76" selection-end-line="65" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/General/PointsVisualizer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="33" column="75" selection-start-line="33" selection-start-column="75" selection-end-line="33" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/css/bootstrap/index.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/css/patches/query-builder.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/typedefs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1511">
-          <caret line="247" column="3" selection-start-line="247" selection-start-column="3" selection-end-line="247" selection-end-column="3" />
+        <state relative-caret-position="291">
+          <caret line="353" column="3" selection-start-line="353" selection-start-column="3" selection-end-line="353" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lib/jsUtils/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="141" column="5" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinnersLink.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="48" column="79" selection-start-line="48" selection-start-column="79" selection-end-line="48" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/RealCVCalculator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="154" column="54" lean-forward="true" selection-start-line="154" selection-start-column="54" selection-end-line="154" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/General/MultiManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="1075" column="23" selection-start-line="1075" selection-start-column="23" selection-end-line="1075" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/HiddenGameRemover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="117" column="76" lean-forward="true" selection-start-line="117" selection-start-column="76" selection-end-line="117" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayExtractor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="269" column="40" selection-start-line="269" selection-start-column="27" selection-end-line="269" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayEncrypterDecrypter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="244" column="32" selection-start-line="244" selection-start-column="32" selection-end-line="244" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/General/HeaderRefresher.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="413" column="5" selection-start-line="413" selection-start-column="5" selection-end-line="413" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Tags.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="792">
+          <caret line="177" column="19" selection-start-line="177" selection-start-column="19" selection-end-line="177" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayWinningChance.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="84" column="25" selection-start-line="84" selection-start-column="25" selection-end-line="84" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Games/GameCategories.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="1247" column="42" selection-start-line="1247" selection-start-column="42" selection-end-line="1247" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayPointsToWin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="54" column="17" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Games.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="50" column="13" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/css/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-54453">
+          <caret line="270" column="5" selection-start-line="270" selection-start-column="5" selection-end-line="270" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/webpack-jquery-ui/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-655" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/css/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+          <folding>
+            <element signature="e#103#134#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GiveawayCopyHighlighter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202385">
+          <caret line="11914" column="36" selection-start-line="11914" selection-start-column="25" selection-end-line="11914" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="10" selection-start-line="42" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/GridView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/Esgst.js___jb_tmp___">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="649" column="12" selection-start-line="649" selection-start-column="9" selection-end-line="649" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/Esgst.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="649" column="35" selection-start-line="649" selection-start-column="35" selection-end-line="649" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+          <folding>
+            <element signature="e#61#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Extension/manifest.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="15" selection-start-line="1" selection-start-column="15" selection-end-line="1" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/releaseVersion.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="62" selection-start-line="3" selection-start-column="62" selection-end-line="3" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/class/Module.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways/MultipleGiveawayCreator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="1212" column="13" selection-start-line="1212" selection-start-column="13" selection-end-line="1212" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Giveaways.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="511" column="70" selection-start-line="511" selection-start-column="70" selection-end-line="511" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/modules/Comments/CommentFormattingHelper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="572" column="44" lean-forward="true" selection-start-line="572" selection-start-column="44" selection-end-line="572" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -312,9 +312,11 @@ class GeneralHeaderRefresher extends Module {
     }
     if (this.esgst.lpv) {
       this.esgst.modules.generalLevelProgressVisualizer.lpv_setStyle();
-    } else if (this.esgst.pv) {
+    }
+    if (this.esgst.pv) {
       this.esgst.modules.generalPointsVisualizer.pv_setStyle();
     }
+    this.esgst.modules.generalLevelProgressVisualizer.joinStyles();
   }
 
   async hr_refreshHeaderElements(context) {
