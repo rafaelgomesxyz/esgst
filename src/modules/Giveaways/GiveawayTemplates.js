@@ -585,7 +585,7 @@ class GiveawaysGiveawayTemplates extends Module {
       savedTemplate.whoCanEnter = savedTemplate.type;
     }
     currentDate = new Date();
-    document.querySelector(`[data-checkbox-value="${savedTemplate.gameType}"]`).click();
+    this.clickCheckbox(savedTemplate.gameType);
     if (savedTemplate.edit) {
       document.querySelector(`[name="start_time"]`).value = savedTemplate.startTime;
       document.querySelector(`[name="end_time"]`).value = savedTemplate.endTime;
@@ -660,7 +660,7 @@ class GiveawaysGiveawayTemplates extends Module {
     if (!savedTemplate.region.match(/^[10]$/)) {
       savedTemplate.region = `0`;
     }
-    document.querySelector(`[data-checkbox-value="${savedTemplate.region}"]`).click();
+    this.clickCheckbox(savedTemplate.region);
     if (savedTemplate.countries) {
       matches = document.querySelector(`.form_list[data-input="country_item_string"]`).children;
       countries = savedTemplate.countries.trim().split(/\s/);
@@ -674,7 +674,7 @@ class GiveawaysGiveawayTemplates extends Module {
         }
       }
     }
-    document.querySelector(`[data-checkbox-value="${savedTemplate.whoCanEnter}"]`).click();
+    this.clickCheckbox(savedTemplate.whoCanEnter);
     if (savedTemplate.gameName) {
       document.getElementsByClassName(`js__autocomplete-name`)[0].value = savedTemplate.gameName;
     }
@@ -774,6 +774,16 @@ class GiveawaysGiveawayTemplates extends Module {
     let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
     savedTemplates.splice(gts.sourceNewIndex, 0, savedTemplates.splice(gts.sourceIndex, 1)[0]);
     setValue(`templates`, JSON.stringify(savedTemplates));
+  }
+
+  clickCheckbox(value) {
+    if (value === null) {
+      return;
+    }
+    let checkbox = document.querySelector(`[data-checkbox-value="${value}"]`);
+    if (checkbox) {
+      checkbox.click();
+    }
   }
 }
 
