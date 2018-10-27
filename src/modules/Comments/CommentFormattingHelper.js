@@ -5709,8 +5709,17 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_setTextAreas(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
-    for (let i = elements.length - 1; i > -1; --i) {
-      elements[i].onfocus = this.cfh_addPanel.bind(this, elements[i]);
+    let hasAdded = false;
+    for (const element of elements) {
+      element.onfocus = this.cfh_addPanel.bind(this, element);
+      if (!hasAdded && !element.closest(`.is-hidden, .is_hidden, .esgst-hidden`)) {
+        this.cfh_addPanel(element);
+        hasAdded = true;
+      }
+    }
+    const descriptionEdit = context.querySelector(`.page__description__edit`);
+    if (descriptionEdit) {
+      descriptionEdit.addEventListener(`click`, this.cfh_addPanel.bind(this,  descriptionEdit.closest(`.page__description`).querySelector(`textarea`)));
     }
   }
 
