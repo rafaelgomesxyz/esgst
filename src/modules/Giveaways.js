@@ -440,7 +440,7 @@ class Giveaways extends Module {
         button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway));
       }
     }
-    let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
+    let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);    
     if (hideButton && !hideButton.classList.contains(`fa-eye`)) {
       if (!main || endless) {
         if (hideButton.classList.contains(`featured__giveaway__hide`)) {
@@ -466,7 +466,11 @@ class Giveaways extends Module {
       }
     }
     if (hideButton) {
-      hideButton.setAttribute(`data-draggable-id`, `hideGame`);
+      if (hideButton.classList.contains(`featured__giveaway__hide`)) {
+        hideButton.parentElement.setAttribute(`data-draggable-id`, `hideGame`);
+      } else {
+        hideButton.setAttribute(`data-draggable-id`, `hideGame`);
+      }
     }
     for (const child of giveaway.heading.children) {
       if (child.classList.contains(`giveaway__heading__name`) || child.classList.contains(`featured__heading__medium`)) {
