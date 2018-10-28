@@ -114,6 +114,9 @@ class Games extends Module {
   }
 
   async games_getInfo(context) {
+    if (!context) {
+      return null;
+    }
     const link = context.querySelector(`[href*="/app/"], [href*="/sub/"]`);
     const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"]`);
     if (link || image) {
