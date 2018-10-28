@@ -115,9 +115,11 @@ module.exports = /** @param {Environment} env */ async env => {
 
   const entry = {
     [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'] ,
-    [BUILD_PATHS.MONKEY]: ['./monkey/index.js']
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js']
   };
+  if (env.production) {
+    entry[BUILD_PATHS.MONKEY] = ['./monkey/index.js'];
+  }
 
   let cfg = {
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),

@@ -172,7 +172,7 @@ class GeneralMultiManager extends Module {
 
   mm_enable(obj, items, key) {
     if (!items) {
-      items = this.esgst[obj.scope + key];
+      items = this.esgst[`${obj.scope}${key}`];
     }
     items.forEach(item => {
       let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
@@ -186,6 +186,8 @@ class GeneralMultiManager extends Module {
         select: `Add item to Multi-Manager selection`,
         unselect: `Remove item from Multi-Manager selection`
       });
+      item[`mmCheckbox${key}`] = checkbox;
+      checkbox.checkbox.setAttribute(`data-mm-key`, key);
       checkbox.onPreEnabled = this.mm_selectItem.bind(this, obj, item, key, 1);
       checkbox.onPreDisabled = this.mm_selectItem.bind(this, obj, item, key, 0);
       let itemKey = item.type ? `${item.type}_${item.code}` : item.code;
@@ -200,7 +202,7 @@ class GeneralMultiManager extends Module {
   mm_disable(obj, items, key) {
     obj.checkboxes[key] = {};
     if (!items) {
-      items = this.esgst[obj.scope + key];
+      items = this.esgst[`${obj.scope}${key}`];
     }
     items.forEach(item => {
       let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
@@ -212,7 +214,36 @@ class GeneralMultiManager extends Module {
     this.mm_resetCounters(obj);
   }
 
-  mm_selectItem(obj, item, key, value) {
+  mm_selectItem(obj, item, key, value, event) {
+    if (event) {
+      if (event.shiftKey) {
+        const currentKey = `mmCheckbox${key}`;
+        const items = this.esgst[`${obj.scope}${key}`];
+        const elements = document.querySelectorAll(`[data-mm-key="${key}"]`);
+        let foundStart = false;
+        for (const element of elements) {
+          if (element.closest(`.is-hidden, .is_hidden, .esgst-hidden`)) {
+            continue;
+          }
+          if (!foundStart) {
+            if (element === this.esgst.mmSelectionStart) {
+              foundStart = true;
+            }
+            continue;
+          }
+          if (element === (item[currentKey] && item[currentKey].checkbox)) {
+            break;
+          }
+          const currentItem = items.filter(subItem => element === (subItem[currentKey] && subItem[currentKey].checkbox))[0];
+          if (currentItem) {
+            currentItem[currentKey].change(true, null, null, event);
+          }
+        }
+        this.esgst.mmSelectionStart = null;
+      } else {
+        this.esgst.mmSelectionStart = event.currentTarget;
+      }
+    }
     let isNew = false;
     item.mm = value;
     obj.checkboxes[key][item.type ? `${item.type}_${item.code}` : item.code].forEach(checkbox => {
@@ -232,7 +263,7 @@ class GeneralMultiManager extends Module {
         }
       }
     });
-    if (isNew && item.outerWrap.offsetParent) {
+    if (isNew && (!value || item.outerWrap.offsetParent)) {
       obj.counters[key] += (value ? 1 : -1);
       if (obj.counterElements[key]) {
         obj.counterElements[key].textContent = obj.counters[key];
