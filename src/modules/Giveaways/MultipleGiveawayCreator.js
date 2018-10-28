@@ -740,7 +740,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       values.groups = mgc.groups.value.trim();
       values.level = mgc.level.value;
       values.description = mgc.description.value;
-      values.steam = await this.esgst.modules.games.games_getInfo(document.querySelector(`[data-autocomplete-id="${values.gameId}"]`));
+      const context = document.querySelector(`[data-autocomplete-id="${values.gameId}"]`);
+      if (context) {
+        values.steam = await this.esgst.modules.games.games_getInfo(context);
+      }
+      if (!values.steam) {
+        values.steam = mgc.values[mgc.editPos] && mgc.values[mgc.editPos].steam;
+      }
       if ((this.esgst.mgc_createTrain && mgc.description.value.match(/\[ESGST-P|\[ESGST-N/)) || !this.esgst.mgc_createTrain) {
         if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B]/)) || !mgc.discussion) {
           this.mgc_addGiveaway(edit, mgc, values);
@@ -785,9 +791,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     values.description = values.description
       .replace(/\[ESGST-LEVEL]/ig, values.level)
       .replace(/\[ESGST-NAME]/ig, values.gameName)
-      .replace(/\[ESGST-STEAM-ID]/ig, values.steam.id)
-      .replace(/\[ESGST-STEAM-TYPE]/ig, values.steam.type.slice(0, -1))
-      .replace(/\[ESGST-STEAM-URL]/ig, `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`);
+      .replace(/\[ESGST-STEAM-ID]/ig, values.steam ? values.steam.id : `$0`)
+      .replace(/\[ESGST-STEAM-TYPE]/ig, values.steam ? values.steam.type.slice(0, -1) : `$0`)
+      .replace(/\[ESGST-STEAM-URL]/ig, values.steam ? `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}` : `$0`);
     details += `Level ${values.level}\n\n${values.description}`;
     data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${encodeURIComponent(values.keys)}&timezone=${mgc.timezone}&start_time=${encodeURIComponent(values.startTime)}&end_time=${encodeURIComponent(values.endTime)}&region_restricted=${values.region}&country_item_string=${encodeURIComponent(values.countries)}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${encodeURIComponent(values.groups)}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
     if (edit) {
@@ -824,7 +830,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     mgc.gameId.value = values.gameId;
     mgc.gameType.value = values.gameType;
     mgc.copies.value = values.copies;
-    mgc.keys.value = values.keys;
+    mgc.keys.value = values.keys || ``;
     mgc.gameName.value = values.gameName;
     mgc.startTime.value = values.startTime;
     mgc.endTime.value = values.endTime;
