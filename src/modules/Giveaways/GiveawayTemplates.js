@@ -250,7 +250,7 @@ class GiveawaysGiveawayTemplates extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save Template`,
       title2: `Saving...`,
-      callback1: async callback => {
+      callback1: async () => {
         let i, n, template, savedTemplates, startDate, endDate;
         if (gts.input.value) {
           warning.classList.add(`esgst-hidden`);
@@ -324,10 +324,8 @@ class GiveawaysGiveawayTemplates extends Module {
           }
           await setValue(`templates`, JSON.stringify(savedTemplates));
           deleteLock();
-          callback();
         } else {
           warning.classList.remove(`esgst-hidden`);
-          callback();
         }
       }
     });
