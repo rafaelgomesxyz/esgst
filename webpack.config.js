@@ -58,8 +58,10 @@ module.exports = /** @param {Environment} env */ async env => {
     let markdown = ``;
     let steamLog = `[list]\n`;
     for (const issue of issues) {
-      const number = issue.getAttribute(`href`).match(/\/issues\/(\d+)/)[1];
-      const url = `https://github.com/gsrafael01/ESGST/issues/${number}`;
+      const match = issue.getAttribute(`href`).match(/\/(issues|pull)\/(\d+)/);
+      const type = match[1];
+      const number = match[2];
+      const url = `https://github.com/gsrafael01/ESGST/${type}/${number}`;
       const title = issue.textContent.trim();
       changeLog += `          ${number}: \`${title}\`,\n`;
       markdown += `* [#${number}](${url}) ${title}\n`;
