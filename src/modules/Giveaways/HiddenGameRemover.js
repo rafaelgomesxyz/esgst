@@ -19,7 +19,7 @@ class GiveawaysHiddenGameRemover extends Module {
       description: `
       <ul>
         <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
-        <li>There is also an option to remove only the games that you own.</li>
+        <li>There is also an option to remove only the games that you own or only the games that you have wishlisted.</li>
       </ul>
     `,
       id: `hgr`,
@@ -52,7 +52,8 @@ class GiveawaysHiddenGameRemover extends Module {
       },
       type: `div`
     }]);
-    new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If disabled, all games will be removed.`, this.esgst.hgr_removeOwned);
+    new ToggleSwitch(hgr.popup.description, `hgr_removeOwned`, false, `Only remove owned games.`, false, false, `If "Only remove wishlisted games." is enabled as well, only games that are either owned or wishlisted will be removed.`, this.esgst.hgr_removeOwned);
+    new ToggleSwitch(hgr.popup.description, `hgr_removeWishlisted`, false, `Only remove wishlisted games.`, false, false, `If "Only remove owned games." is enabled as well, only games that are either owned or wishlisted will be removed.`, this.esgst.hgr_removeWishlisted);
     hgr.popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
@@ -121,7 +122,9 @@ class GiveawaysHiddenGameRemover extends Module {
         let info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
         let game = this.esgst.games[info.type][info.id];
-        if (this.esgst.hgr_removeOwned && (!game || !game.owned)) continue;
+        if ((this.esgst.hgr_removeOwned && (!game || !game.owned)) && (this.esgst.hgr_removeWishlisted && (!game || !game.wishlisted))) {
+          continue;
+        }
         let button = element.getElementsByClassName(`table__remove-default`)[0];
         if (context === document) {
           button.dispatchEvent(new Event(`click`));

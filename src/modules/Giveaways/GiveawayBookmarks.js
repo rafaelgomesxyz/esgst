@@ -36,6 +36,10 @@ class GiveawaysGiveawayBookmarks extends Module {
           name: `Automatically unbookmark entered giveaways.`,
           sg: true
         },
+        gb_ui: {
+          name: `Automatically unbookmark inaccessible giveaways.`,
+          sg: true
+        },
         gb_h: {
           description: `
           <ul>
@@ -122,7 +126,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     }
   }
 
-  async gb_addButton(button) {
+  gb_addButton(button) {
     let i, n;
     let bookmarked = [], endingSoon = 1, started = 0, ending = 0;
     if (this.esgst.gb_h && button) {
@@ -533,6 +537,15 @@ class GiveawaysGiveawayBookmarks extends Module {
             setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
           }
         } else {
+          if (this.esgst.gb_ui) {
+            let deleteLock = await createLock(`giveawayLock`, 300);
+            let giveaways = JSON.parse(await getValue(`giveaways`));
+            if (giveaways[bookmarked[i].code]) {
+              delete giveaways[bookmarked[i].code].bookmarked;
+            }
+            await setValue(`giveaways`, JSON.stringify(giveaways));
+            deleteLock();
+          }
           setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
         }
       } else {

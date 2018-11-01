@@ -1,3 +1,7 @@
 /build/*
 !/build/.gitignore
 /node_modules
+extension.zip
+src.zip
+README.txt
+.gitignore

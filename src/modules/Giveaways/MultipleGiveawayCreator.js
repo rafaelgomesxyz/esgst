@@ -1683,7 +1683,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       responseHtml = parseHtml(response.responseText);
       mgc.created.push({
         giveaway: giveaway,
-        html: await buildGiveaway(responseHtml, response.finalUrl).html,
+        html: (await buildGiveaway(responseHtml, response.finalUrl)).html,
         url: response.finalUrl
       });
       if (this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi) || this.esgst.lpv || this.esgst.rcvc) {

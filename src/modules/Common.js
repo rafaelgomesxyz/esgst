@@ -490,7 +490,7 @@ class Common extends Module {
   }
 
   async endless_load(context, main, source, endless, mainEndless) {
-    if (!mainEndless) {
+    if (!Object.keys(this.esgst.edited).length && !mainEndless) {
       this.esgst.edited = {};
       let values = await this.getValues({
         discussions: `{}`,
@@ -523,6 +523,7 @@ class Common extends Module {
           newValues[key] = JSON.stringify(this.esgst[key]);
         }
       }
+      this.esgst.edited = {};
       if (Object.keys(newValues).length) {
         this.setValues(newValues);
       }
@@ -721,6 +722,16 @@ class Common extends Module {
           },
           enableByDefault: {
             name: `Enable new features and functionalities by default.`,
+            sg: true,
+            st: true
+          },
+          fallbackSteamApi: {
+            description: `
+              <ul>
+                <li>With this option enabled, if you sync your games without being logged in to Steam, the Steam API will be used instead (less complete, so some of your games will be removed until you sync while logged in).</li>
+              </ul>
+            `,
+            name: `Fallback to Steam API when syncing without being logged in.`,
             sg: true,
             st: true
           },
@@ -1598,30 +1609,6 @@ class Common extends Module {
         }
       }
     }
-  }
-
-  toggleHeaderMenu(arrow, dropdown) {
-    if (this.esgst.sg) {
-      let buttons = document.querySelectorAll(`nav .nav__button`);
-      for (let button of buttons) {
-        button.classList.remove(`is-selected`);
-      }
-      let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
-      for (let dropdown of dropdowns) {
-        dropdown.classList.add(`is-hidden`);
-      }
-    } else {
-      let buttons = document.querySelectorAll(`.nav_btn_dropdown, .page_heading_btn_dropdown`);
-      for (let button of buttons) {
-        button.classList.remove(`is_selected`);
-      }
-      let dropdowns = document.querySelectorAll(`.dropdown`);
-      for (let dropdown of dropdowns) {
-        dropdown.classList.add(`is_hidden`);
-      }
-    }
-    arrow.classList.toggle(`selected`);
-    dropdown.classList.toggle(`esgst-hidden`);
   }
 
   getFeatureTooltip(id, title = ``) {
@@ -2765,7 +2752,9 @@ class Common extends Module {
       });
     }
     console.log(hasApi, hasStore);
-    if (!hasApi && !hasStore) return;
+    if ((!hasApi || !this.esgst.fallbackSteamApi) && !hasStore) {
+      return;
+    }
 
     // delete old data
     const savedGames = (altAccount && altAccount.games) || JSON.parse(await this.getValue(`games`)),
@@ -12550,13 +12539,6 @@ class Common extends Module {
 
   validateValue(value) {
     return typeof value === `undefined` || value;
-  }
-
-  closeHeaderMenu(arrow, dropdown, menu, event) {
-    if (!menu.contains(event.target) && arrow.classList.contains(`selected`)) {
-      arrow.classList.remove(`selected`);
-      dropdown.classList.add(`esgst-hidden`);
-    }
   }
 
   setSiblingsOpacity(element, Opacity) {
