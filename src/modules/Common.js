@@ -13793,6 +13793,27 @@ class Common extends Module {
   loadChangelog(version) {
     const changelog = [
       {
+        date: `November 1, 2018`,
+        version: `8.0.4`,
+        changelog: {
+          1007: `Fix a bug that happens when trying to recreate a giveaway in Giveaway Recreator`,
+          1006: `Fix a bug that happens when trying to view the results in Multiple Giveaway Creator`,
+          1005: `Add option to automatically unbookmark inaccessible giveaways to Giveaway Bookmarks`,
+          1004: `Fix a bug that does not automatically unbookmark ended giveaways in Giveaway Bookmarks`,
+          1003: `Fix a bug that happens when saving a template in Giveaway Templates`,
+          1000: `Add option to remove only wishlisted games to Hidden Games Remover`,
+          999: `Fix a bug that happens when trying to edit a giveaway in Multiple Giveaway Creator`,
+          996: `Allow multiple checkbox selection with Shift key in Multi-Manager`,
+          995: `Fix a bug that happens when applying a template in Giveaway Templates`,
+          994: `Add option to fallback to the Steam API when syncing without being logged in`,
+          993: `Automatically add panel to the first visible text area in Comment Formatting Helper`,
+          992: `Fix a style issue in Grid View`,
+          988: `Fix a style issue that increases the hide giveaway button opacity`,
+          987: `Fix a bug that prevents game tags from being shown`
+        }
+      },
+
+      {
         date: `October 16, 2018`,
         version: `8.0.3`,
         changelog: {
