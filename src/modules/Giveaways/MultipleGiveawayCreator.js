@@ -1849,7 +1849,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_getPrevious(i, mgc, single, fullMatch, match1, match2, match3) {
     let match, prev, prevPref, prevSuf;
     if ((single && match1) || !single) {
-      match = match1.match(/(.*?)\[P(.+?)\[\/P(.*?)$/);
+      match = match1.match(/(.*?)\[P](.+?)\[\/P](.*?)$/);
       if (match) {
         prevPref = match[1];
         prev = match[2];
@@ -1878,7 +1878,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         return this.mgc_getNext(i, mgc, true, fullMatch, null, match2);
       }
     } else {
-      match = match1.match(/(.*?)\[P(.+?)\[\/P(.*?)$/);
+      match = match1.match(/(.*?)\[P](.+?)\[\/P](.*?)$/);
       if (match) {
         prevPref = match[1];
         prev = match[2];
@@ -1888,7 +1888,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         prev = match1;
         prevSuf = ``;
       }
-      match = match3.match(/(.*?)\[N(.+?)\[\/N(.*?)$/);
+      match = match3.match(/(.*?)\[N](.+?)\[\/N](.*?)$/);
       if (match) {
         nextPref = match[1];
         next = match[2];
