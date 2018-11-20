@@ -172,7 +172,7 @@ class Tags extends Module {
             },
             type: `span`
           }]
-        }]).addEventListener(`click`, this.tags_openPopup.bind(this, obj));
+        }]).addEventListener(`click`, this.tags_openPopup.bind(this, obj), true);
       }
       if (item.saved && item.saved.tags) {
         item.tags = item.saved.tags.map(tag => tag.toLowerCase());
@@ -250,6 +250,7 @@ class Tags extends Module {
 
   async tags_openPopup(obj, event) {
     if (event) {
+      event.preventDefault();
       event.stopPropagation();
     }
     obj.popup = new Popup({

@@ -196,8 +196,21 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   cewgd_addDetails(giveaway, details) {
     let type, typeColumn;
     if (!giveaway.id) {
-      giveaway.id = details.gameSteamId;
-      giveaway.type = details.gameType;
+      const steamGiftCard = giveaway.name.match(/^\$(.+?)\sSteam\sGift\sCard$/);
+      if (steamGiftCard) {
+        giveaway.points = parseInt(steamGiftCard[1].replace(/,/g, ``));
+        giveaway.id = `SteamGiftCard${giveaway.points}`;
+        giveaway.type = `apps`;
+      } else if (details.gameSteamId && details.gameType) {
+        giveaway.id = details.gameSteamId;
+        giveaway.type = details.gameType;
+      } else {
+        const humbleBundle = giveaway.name.match(/^Humble.+?Bundle/);
+        if (humbleBundle) {
+          giveaway.id = giveaway.name.replace(/\s/g, ``);
+          giveaway.type = `apps`;
+        }
+      }
       if (this.esgst.games && this.esgst.games[giveaway.type][giveaway.id]) {
         const keys = [`owned`, `wishlisted`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
         for (const key of keys) {
