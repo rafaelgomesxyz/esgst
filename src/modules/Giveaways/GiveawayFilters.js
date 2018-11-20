@@ -641,6 +641,16 @@ class GiveawaysGiveawayFilters extends Module {
               name: `Genres`,
               sg: true
             },
+            gf_tags: {
+              description: `
+              <ul>
+                <li>Allows you to filter giveaways by game tags.</li>
+                <li>This option requires [id=gt] enabled to work.</li>
+              </ul>
+            `,
+              name: `Game Tags`,
+              sg: true
+            },
             gf_os: {
               description: `
               <ul>
@@ -1153,6 +1163,12 @@ class GiveawaysGiveawayFilters extends Module {
         check: true,
         list: true,
         name: `Genres`,
+        type: `string`
+      },
+      tags: {
+        check: true,
+        list: true,
+        name: `Game Tags`,
         type: `string`
       }
     };

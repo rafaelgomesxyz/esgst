@@ -175,6 +175,7 @@ class Tags extends Module {
         }]).addEventListener(`click`, this.tags_openPopup.bind(this, obj));
       }
       if (item.saved && item.saved.tags) {
+        item.tags = item.saved.tags.map(tag => tag.toLowerCase());
         await this.tags_addTags(item, obj, item.saved.tags);
       }
     }
