@@ -213,6 +213,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
       giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
+    if (giveaway.gptwContext) {
+      this.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
+    }
     giveaway.level = details.level;
     /**
      * @type {ElementsArrayItem[]}
