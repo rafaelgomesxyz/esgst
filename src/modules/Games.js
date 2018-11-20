@@ -87,27 +87,46 @@ class Games extends Module {
       game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
       info = await this.games_getInfo(game.container);
       game.heading = game.container.querySelector(headingQuery);
-      if (info && game.heading) {
+      if (game.heading) {
         game.headingName = game.heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || game.heading;
-        game.name = game.headingName.textContent;
-        id = info.id;
-        type = info.type;
-        game.id = id;
-        game.type = type;
-        if (this.esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
-          const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
-          if (removeButton) {
-            removeButton.addEventListener(`click`, updateHiddenGames.bind(common, id, type, true));
+        if (!game.name) {
+          game.name = game.headingName.textContent;
+        }
+        const steamGiftCard = game.name.match(/^\$(.+?)\sSteam\sGift\sCard$/);
+        if (steamGiftCard) {
+          game.points = parseInt(steamGiftCard[1].replace(/,/g, ``));
+          info = {
+            id: `SteamGiftCard${game.points}`,
+            type: `apps`
+          };
+        }
+        const humbleBundle = game.name.match(/^Humble.+?Bundle/);
+        if (humbleBundle) {
+          info = {
+            id: game.name.replace(/\s/g, ``),
+            type: `apps`
+          };
+        }
+        if (info) {
+          id = info.id;
+          type = info.type;
+          game.id = id;
+          game.type = type;
+          if (this.esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
+            const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
+            if (removeButton) {
+              removeButton.addEventListener(`click`, updateHiddenGames.bind(common, id, type, true));
+            }
           }
+          if (!games[type][id]) {
+            games[type][id] = [];
+          }
+          game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading;
+          game.tagPosition = `afterEnd`;
+          game.saved = this.esgst.games[type][id];
+          games[type][id].push(game);
+          games.all.push(game);
         }
-        if (!games[type][id]) {
-          games[type][id] = [];
-        }
-        game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading;
-        game.tagPosition = `afterEnd`;
-        game.saved = this.esgst.games[type][id];
-        games[type][id].push(game);
-        games.all.push(game);
       }
     }
     return games;

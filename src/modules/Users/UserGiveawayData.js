@@ -816,10 +816,10 @@ class UsersUserGiveawayData extends Module {
      * @property {Playtime[]} obj.playtimes
      */
 
-    const appId = parseInt(id);
+    const appId = id;
     let i;
     if (obj.playtimes) {
-      for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid !== appId; i--) {
+      for (i = obj.playtimes.length - 1; i > -1 && obj.playtimes[i].appid != appId; i--) {
       }
     }
     const giveaways = obj.games[packageId ? `subs` : `apps`][packageId || id];

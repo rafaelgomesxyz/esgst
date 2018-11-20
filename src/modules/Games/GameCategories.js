@@ -843,12 +843,12 @@ class GamesGameCategories extends Module {
 
   async gc_getGames(games, main, source, endless, filtersChanged) {
     let gc = {
-      apps: Object.keys(games.apps).map(x => parseInt(x)),
+      apps: Object.keys(games.apps),
       cache: {
         apps: {},
         subs: {}
       },
-      subs: Object.keys(games.subs).map(x => parseInt(x))
+      subs: Object.keys(games.subs)
     };
 
     // get categories
