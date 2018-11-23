@@ -8,6 +8,7 @@ import {utils} from '../lib/jsUtils';
 import JSZip from 'jszip';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import {TextEncoder} from 'text-encoding/lib/encoding';
+import dateFns_format from 'date-fns/format';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
@@ -15,7 +16,6 @@ import {TextEncoder} from 'text-encoding/lib/encoding';
  */
 
 const
-  formatDate = utils.formatDate.bind(utils),
   isSet = utils.isSet.bind(utils),
   parseHtml = utils.parseHtml.bind(utils),
   rgba2Hex = utils.rgba2Hex.bind(utils),
@@ -12451,46 +12451,7 @@ class Common extends Module {
   }
 
   getTimestamp(seconds, is24Clock, isShowSeconds) {
-    if (is24Clock) {
-      if (isShowSeconds) {
-        return formatDate(`[MMM] [D], [YYYY], [H]:[HMM]:[SS]`, seconds);
-      }
-      return formatDate(`[MMM] [D], [YYYY], [H]:[HMM]`, seconds);
-    }
-    if (isShowSeconds) {
-      return formatDate(`[MMM] [D], [YYYY], [H12]:[HMM]:[SS][XX]`, seconds);
-    }
-    return formatDate(`[MMM] [D], [YYYY], [H12]:[HMM][XX]`, seconds);
-  }
-
-  getRemainingTime(time) {
-    let d, dif, h, m, s, w;
-    dif = time - Date.now();
-    if (dif < 0) {
-      dif *= -1;
-    }
-    w = Math.floor(dif / 604800000);
-    if (w > 0) {
-      return `${w}w`;
-    } else {
-      d = Math.floor(dif / 86400000);
-      if (d > 0) {
-        return `${d}d`;
-      } else {
-        h = Math.floor(dif / 3600000);
-        if (h > 0) {
-          return `${h}h`;
-        } else {
-          m = Math.floor(dif / 60000);
-          if (m > 0) {
-            return `${m}m`;
-          } else {
-            s = Math.floor(dif / 1000);
-            return `${s}s`;
-          }
-        }
-      }
-    }
+    return dateFns_format(seconds, `MMM d, yyyy, ${is24Clock ? `H` : `h`}:mm${isShowSeconds ? `:ss` : ``}${is24Clock ? `` : ` a`}`);
   }
 
   /**
@@ -14625,10 +14586,12 @@ class Common extends Module {
    * @returns {PlayerAchievementsSteamApiResponse}
    */
   async getPlayerAchievements(appId, steamId) {
-    return JSON.parse((await this.request({
+    const text = (await this.request({
       method: `GET`,
       url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.esgst.steamApiKey}&steamid=${steamId}`
-    }).responseText));
+    })).responseText;
+    console.log(text);
+    return JSON.parse(text);
   }
 
   /**

@@ -1,7 +1,8 @@
 /build/*
-!/build/.gitignore
+!/build/.gitignoregit 
 /node_modules
 extension.zip
 src.zip
 README.txt
 .gitignore
+package-lock.json

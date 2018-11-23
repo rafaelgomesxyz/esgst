@@ -4,10 +4,10 @@ import Checkbox from '../../class/Checkbox';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import dateFns_format from 'date-fns/format';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
-  formatDate = utils.formatDate.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createLock = common.createLock.bind(common),
@@ -605,9 +605,9 @@ class GiveawaysGiveawayTemplates extends Module {
         newEndTime.setDate(newStartTime.getDate() + days);
         newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
       } else if (savedTemplate.startTime) {
         startTime = new Date(savedTemplate.startTime);
         newStartTime = new Date(currentDate.getTime());
@@ -617,9 +617,9 @@ class GiveawaysGiveawayTemplates extends Module {
         }
         newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
       } else if (savedTemplate.endTime) {
         endTime = new Date(savedTemplate.endTime);
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
@@ -629,30 +629,30 @@ class GiveawaysGiveawayTemplates extends Module {
           newEndTime.setDate(newEndTime.getDate() + 1);
         }
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
       } else {
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
         newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration);
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
       }
       if (savedTemplate.startDate) {
         newStartTime.setFullYear(savedTemplate.startDate.year);
         newStartTime.setMonth(savedTemplate.startDate.month);
         newStartTime.setDate(savedTemplate.startDate.day);
         document.querySelector(`[name="start_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newStartTime);
+          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
       }
       if (savedTemplate.endDate) {
         newEndTime.setFullYear(savedTemplate.endDate.year);
         newEndTime.setMonth(savedTemplate.endDate.month);
         newEndTime.setDate(savedTemplate.endDate.day);
         document.querySelector(`[name="end_time"]`).value =
-          formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, newEndTime);
+          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
       }
     }
     if (!savedTemplate.region.match(/^[10]$/)) {
