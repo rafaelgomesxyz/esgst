@@ -2,11 +2,11 @@ import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import {common} from '../Common';
 import 'jquery-ui/ui/widgets/slider';
+import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
 
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
-  getRemainingTime = common.getRemainingTime.bind(common),
   setSetting = common.setSetting.bind(common)
 ;
 
@@ -110,6 +110,7 @@ class GiveawaysGridView extends Module {
         giveaway.outerWrap.style.margin = `${this.esgst.gv_spacing}px`;
       }
       giveaway.innerWrap.classList.add(`esgst-gv-box`);
+      const now = Date.now();
       giveaway.gvIcons = createElements(giveaway.innerWrap, `afterBegin`, [{
         attributes: {
           class: `esgst-gv-icons giveaway__columns`
@@ -126,7 +127,7 @@ class GiveawaysGridView extends Module {
             attributes: {
               title: `${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}`
             },
-            text: getRemainingTime(giveaway.endTime),
+            text: dateFns_formatDistanceStrict(giveaway.endTime, now, {locale: this.esgst.formatDistanceLocale}),
             type: `span`
           }, {
             attributes: {
@@ -137,7 +138,7 @@ class GiveawaysGridView extends Module {
             attributes: {
               title: `Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}`
             },
-            text: getRemainingTime(giveaway.startTime),
+            text: dateFns_formatDistanceStrict(giveaway.startTime, now, {locale: this.esgst.formatDistanceLocale}),
             type: `span`
           }]
         }]

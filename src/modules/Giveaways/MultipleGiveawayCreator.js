@@ -5,9 +5,9 @@ import ToggleSwitch from '../../class/ToggleSwitch';
 import {common} from '../Common';
 import {utils} from '../../lib/jsUtils';
 import 'jquery-ui/ui/widgets/progressbar';
+import dateFns_format from 'date-fns/format';
 
 const
-  formatDate = utils.formatDate.bind(utils),
   parseHtml = utils.parseHtml.bind(utils),
   buildGiveaway = common.buildGiveaway.bind(common),
   copyValue = common.copyValue.bind(common),
@@ -1635,7 +1635,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_correctTime(fullMatch, match1) {
     const offsetTime = Date.now() + 5000;
     if ((new Date(decodeURIComponent(match1)).getTime()) < offsetTime) {
-      return `start_time=${encodeURIComponent(formatDate(`[MMM] [D], [YYYY] [H12]:[HMM] [XX]`, offsetTime))}&`;
+      return `start_time=${encodeURIComponent(dateFns_format(offsetTime, this.esgst.newGiveawayDateFormat))}&`;
     } else {
       return fullMatch;
     }

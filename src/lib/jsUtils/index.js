@@ -1,57 +1,10 @@
 export default class Utils {
   constructor() {
-    this.months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
     this.parser = new DOMParser();
   }
 
   compareTypes(variable, type) {
     return Object.prototype.toString.call(variable) === `[object ${type}]`;
-  }
-
-  formatDate(template, date) {
-    if (!this.isSet(template)) {
-      template = `[MMMM] [D], [YYYY], [H12]:[HMM] [XX]`;
-    }
-    if (!this.isSet(date)) {
-      date = new Date();
-    }
-    if (this.isNumber(date)) {
-      date = new Date(date);
-    }
-    if (!this.isValidDate(date)) {
-      throw `Invalid date`;
-    }
-
-    return template
-      .replace(/\[D]/i, date.getDate())
-      .replace(/\[DD]/i, `0${date.getDate()}`.slice(-2))
-      .replace(/\[M]/i, (date.getMonth() + 1).toString())
-      .replace(/\[MM]/i, `0${date.getMonth() + 1}`.slice(-2))
-      .replace(/\[MMM]/i, this.months[date.getMonth()].slice(0, 3))
-      .replace(/\[MMMM]/i, this.months[date.getMonth()])
-      .replace(/\[YYYY]/i, date.getFullYear().toString())
-      .replace(/\[H]/i, date.getHours().toString())
-      .replace(/\[HH]/i, `0${date.getHours()}`.slice(-2))
-      .replace(/\[H12]/i, `${date.getHours() % 12}`.replace(/^0$/, `12`))
-      .replace(/\[HH12]/i, `0${date.getHours() % 12}`.slice(-2).replace(/^0$/, `12`))
-      .replace(/\[HM]/i, date.getMinutes().toString())
-      .replace(/\[HMM]/i, `0${date.getMinutes()}`.slice(-2))
-      .replace(/\[S]/i, date.getSeconds().toString())
-      .replace(/\[SS]/i, `0${date.getSeconds()}`.slice(-2))
-      .replace(/\[XX]/i, date.getHours() < 12 ? `am` : `pm`);
   }
 
   isNumber(number) {

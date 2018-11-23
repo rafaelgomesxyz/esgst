@@ -3,9 +3,9 @@ import Process from '../../class/Process';
 import Table from '../../class/Table';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import dateFns_format from 'date-fns/format';
 
 const
-  formatDate = utils.formatDate.bind(utils),
   sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
@@ -162,7 +162,7 @@ class UsersUserGiveawayData extends Module {
           attributes: {
             class: `esgst-italic`
           },
-          text: `Last checked ${formatDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
+          text: `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`,
           type: `span`
         }]
       }]
@@ -270,7 +270,7 @@ class UsersUserGiveawayData extends Module {
           attributes: {
             class: `esgst-italic`
           },
-          text: `Last checked ${formatDate(`[MMM] [DD], [YYYY], [HH]:[HMM]:[SS]`, ugdCache.lastCheck)}.`,
+          text: `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`,
           type: `span`
         }] : null
       },

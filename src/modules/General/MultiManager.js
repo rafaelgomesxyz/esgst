@@ -8,9 +8,9 @@ import ToggleSwitch from '../../class/ToggleSwitch';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 import vdf from 'simple-vdf';
+import dateFns_format from 'date-fns/format';
 
 const
-  formatDate = utils.formatDate.bind(utils),
   parseHtml = utils.parseHtml.bind(utils),
   sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
@@ -646,32 +646,13 @@ class GeneralMultiManager extends Module {
         <li>[name] - The name of the group.</li>
         <li>[url] - The short URL of the group (https://www.steamgifts.com/group/XXXXX/).</li>
       </ul>
-      <div class="esgst-bold">Date Templates:</div>
-      <ul>
-        <li>[d] - The number of the day with no leading zeroes if it is lower than 10.</li>
-        <li>[dd] - The number of the day with leading zeroes if it is lower than 10.</li>
-        <li>[m] - The number of the month with no leading zeroes if it is lower than 10.</li>
-        <li>[mm] - The number of the month with leading zeroes if it is lower than 10.</li>
-        <li>[mmm] - The name of the month abbreviated to 3 letters ("Jan", "Feb", etc...).</li>
-        <li>[mmmm] - The full name of the month.</li>
-        <li>[yyyy] - The year.</li>
-        <li>[h] - The number of hours with no leading zeroes if it is lower than 10, using the 24-hour clock.</li>
-        <li>[hh] - The number of hours with leading zeroes if it is lower than 10, using the 24-hour clock.</li>
-        <li>[h12] - The number of hours with no leading zeroes if it is lower than 10, using the 12-hour clock.</li>
-        <li>[hh12] - The number of hours with leading zeroes if it is lower than 10, using the 12-hour clock.</li>
-        <li>[hm] - The number of minutes with no leading zeroes if it is lower than 10.</li>
-        <li>[hmm] - The number of minutes with leading zeroes if it is lower than 10.</li>
-        <li>[s] - The number of seconds with no leading zeroes if it is lower than 10.</li>
-        <li>[ss] - The number of seconds with leading zeroes if it is lower than 10.</li>
-        <li>[xx] - "am" or "pm". Remember to use h12 or hh12 if you use this template.</li>
-      </ul>
-      <div>You can use any symbol except for """ to separate things in your date templates. For example: "[mmm] [d], [yyyy] [h]:[hmm]", "[yyyy]-[mm]-[dd] [hh]:[hmm]", etc...</div>
+      <div>For the date templates, ESGST uses date-fns, so check the accepted tokens <a href="https://date-fns.org/v1.29.0/docs/format">here</a>.</div>
       <br/>
       <div>Here is an example that generates a table with links to giveaways sorted in ascending order:</div>
       <br/>
       <div>Game | Giveaway | Level | Points | Ends</div>
       <div>:-: | :-: | :-: | :-: | :-:</div>
-      <div>[line-asc][[name]]([steam-url]) | [Enter]([short-url]) | [level] | [points] | [end-time="[mmm] [d], [yyyy]"][/line]
+      <div>[line-asc][[name]]([steam-url]) | [Enter]([short-url]) | [level] | [points] | [end-time="MMM D, YYYY"][/line]
       <br/>
       <br/>
     `);
@@ -820,7 +801,7 @@ class GeneralMultiManager extends Module {
   }
 
   mm_formatDate(timestamp, match, p1) {
-    return escapeMarkdown(formatDate(p1, timestamp));
+    return escapeMarkdown(dateFns_format(timestamp, p1));
   }
 
   mm_initUrls(obj, items) {

@@ -1,10 +1,10 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import dateFns_format from 'date-fns/format';
+import dateFns_isSameDay from 'date-fns/isSameDay';
 
 const
-  formatDate = utils.formatDate.bind(utils),
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getTimestamp = common.getTimestamp.bind(common),
@@ -96,7 +96,7 @@ class GiveawaysEntryTracker extends Module {
           type: `node`
         }]
       });
-      let date = formatDate(`[MMM] [D], [YYYY]`, entry.timestamp);
+      let date = dateFns_format(entry.timestamp, `MMM d, yyyy`);
       let key = new Date(date).getTime();
       if (!dates[key]) {
         dates[key] = {
@@ -120,7 +120,7 @@ class GiveawaysEntryTracker extends Module {
       currentDate = dateObj.getTime();
       if (!dates[currentDate]) {
         dates[currentDate] = {
-          date: formatDate(`[MMM] [D], [YYYY]`, currentDate),
+          date: dateFns_format(currentDate, `MMM d, yyyy`),
           entered: 0,
           left: 0
         };
@@ -332,7 +332,7 @@ class GiveawaysEntryTracker extends Module {
     let entries = JSON.parse(await getValue(`entries`, `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
-      if (date !== formatDate(`[MMM] [D], [YYYY]`, entry.timestamp)) continue;
+      if (!dateFns_isSameDay(date, entry.timestamp)) continue;
       entries.splice(i, 1);
     }
     await setValue(`entries`, JSON.stringify(entries));
