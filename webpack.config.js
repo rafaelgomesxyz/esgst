@@ -53,7 +53,7 @@ module.exports = /** @param {Environment} env */ async env => {
     const response = await fetch(`https://github.com/gsrafael01/ESGST/issues?q=is%3Aclosed+milestone%3A${packageJson.version}`);
     const responseText = await response.text();
     const dom = new JSDOM(responseText);
-    const issues = dom.window.document.getElementsByClassName(`link-gray-dark`);
+    const issues = dom.window.document.getElementsByClassName(`link-gray-dark v-align-middle no-underline h4 js-navigation-open`);
     let changeLog = ``;
     let markdown = ``;
     let steamLog = `[list]\n`;

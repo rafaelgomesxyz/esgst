@@ -236,6 +236,17 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.0.5 (November 26, 2018)**
+
+* [#1021](https://github.com/gsrafael01/ESGST/issues/1021) Fix a bug that detects wrong removed games when syncing
+* [#1020](https://github.com/gsrafael01/ESGST/issues/1020) Fix a bug in Reply Box Popup that does not go to the comment after posting
+* [#1019](https://github.com/gsrafael01/ESGST/issues/1019) Use date-fns to format and display dates
+* [#1017](https://github.com/gsrafael01/ESGST/issues/1017) Detect giveaways for Steam gift cards and Humble bundles
+* [#1016](https://github.com/gsrafael01/ESGST/issues/1016) Change package scripts
+* [#1013](https://github.com/gsrafael01/ESGST/issues/1013) Add giveaway filter "Game Tags"
+* [#1009](https://github.com/gsrafael01/ESGST/issues/1009) Fix a bug that does not format train links correctly in Multiple Giveaway Creator
+* [#1008](https://github.com/gsrafael01/ESGST/issues/1008) Fix a bug that does not calculate points to win in the entered page
+
 **8.0.4 (November 1, 2018)**
 
 * [#1007](https://github.com/gsrafael01/ESGST/issues/1007) Fix a bug that happens when trying to recreate a giveaway in Giveaway Recreator
