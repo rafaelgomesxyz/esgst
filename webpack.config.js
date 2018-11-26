@@ -142,14 +142,13 @@ module.exports = /** @param {Environment} env */ async env => {
         }
       ].concat(env.withBabel ? [
         {
-          test: /\.jsx?$/,
+          test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: [
-                '@babel/preset-env',
-                '@babel/preset-react'
+                '@babel/preset-env'
               ]
             }
           }
