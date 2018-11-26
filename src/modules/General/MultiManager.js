@@ -646,13 +646,13 @@ class GeneralMultiManager extends Module {
         <li>[name] - The name of the group.</li>
         <li>[url] - The short URL of the group (https://www.steamgifts.com/group/XXXXX/).</li>
       </ul>
-      <div>For the date templates, ESGST uses date-fns, so check the accepted tokens <a href="https://date-fns.org/v1.29.0/docs/format">here</a>.</div>
+      <div>For the date templates, ESGST uses date-fns v2.0.0-alpha.25, so check the accepted tokens <a href="https://date-fns.org/v2.0.0-alpha.25/docs/Getting-Started">here</a>.</div>
       <br/>
       <div>Here is an example that generates a table with links to giveaways sorted in ascending order:</div>
       <br/>
       <div>Game | Giveaway | Level | Points | Ends</div>
       <div>:-: | :-: | :-: | :-: | :-:</div>
-      <div>[line-asc][[name]]([steam-url]) | [Enter]([short-url]) | [level] | [points] | [end-time="MMM D, YYYY"][/line]
+      <div>[line-asc][[name]]([steam-url]) | [Enter]([short-url]) | [level] | [points] | [end-time="MMM d, yyyy"][/line]
       <br/>
       <br/>
     `);
