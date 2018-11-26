@@ -1611,6 +1611,30 @@ class Common extends Module {
     }
   }
 
+  toggleHeaderMenu(arrow, dropdown) {
+    if (this.esgst.sg) {
+      let buttons = document.querySelectorAll(`nav .nav__button`);
+      for (let button of buttons) {
+        button.classList.remove(`is-selected`);
+      }
+      let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
+      for (let dropdown of dropdowns) {
+        dropdown.classList.add(`is-hidden`);
+      }
+    } else {
+      let buttons = document.querySelectorAll(`.nav_btn_dropdown, .page_heading_btn_dropdown`);
+      for (let button of buttons) {
+        button.classList.remove(`is_selected`);
+      }
+      let dropdowns = document.querySelectorAll(`.dropdown`);
+      for (let dropdown of dropdowns) {
+        dropdown.classList.add(`is_hidden`);
+      }
+    }
+    arrow.classList.toggle(`selected`);
+    dropdown.classList.toggle(`esgst-hidden`);
+  }
+
   getFeatureTooltip(id, title = ``) {
     if (this.esgst.showFeatureNumber) {
       if (title) {
@@ -12500,6 +12524,13 @@ class Common extends Module {
 
   validateValue(value) {
     return typeof value === `undefined` || value;
+  }
+  
+  closeHeaderMenu(arrow, dropdown, menu, event) {
+    if (!menu.contains(event.target) && arrow.classList.contains(`selected`)) {
+      arrow.classList.remove(`selected`);
+      dropdown.classList.add(`esgst-hidden`);
+    }
   }
 
   setSiblingsOpacity(element, Opacity) {

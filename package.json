@@ -6,7 +6,9 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --env.production",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
-    "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch"
+    "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
+    "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
+    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch"
   },
   "repository": {
     "type": "git",
@@ -27,12 +29,10 @@
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
-    "@babel/preset-react": "7.0.0",
     "@babel/runtime": "^7.0.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
     "babel-minify": "^0.5.0",
-    "babel-plugin-react": "1.0.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "calfinated": "^1.4.1",
     "css-loader": "^1.0.0",
@@ -56,8 +56,6 @@
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "jszip": "^3.1.5",
-    "react": "16.6.0",
-    "react-dom": "16.6.0",
     "simple-vdf": "^1.1.1",
     "text-encoding": "^0.6.4"
   }

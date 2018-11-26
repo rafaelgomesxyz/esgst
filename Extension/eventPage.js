@@ -86,849 +86,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../../node_modules/@babel/runtime/helpers/asyncToGenerator.js":
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-module.exports = _asyncToGenerator;
-
-/***/ }),
-
-/***/ "../../node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js":
-/*!*****************************************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js ***!
-  \*****************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// This method of obtaining a reference to the global object needs to be
-// kept identical to the way it is obtained in runtime.js
-var g = (function() {
-  return this || (typeof self === "object" && self);
-})() || Function("return this")();
-
-// Use `getOwnPropertyNames` because not all browsers support calling
-// `hasOwnProperty` on the global `self` object in a worker. See #183.
-var hadRuntime = g.regeneratorRuntime &&
-  Object.getOwnPropertyNames(g).indexOf("regeneratorRuntime") >= 0;
-
-// Save the old regeneratorRuntime in case it needs to be restored later.
-var oldRuntime = hadRuntime && g.regeneratorRuntime;
-
-// Force reevalutation of runtime.js.
-g.regeneratorRuntime = undefined;
-
-module.exports = __webpack_require__(/*! ./runtime */ "../../node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js");
-
-if (hadRuntime) {
-  // Restore the original runtime.
-  g.regeneratorRuntime = oldRuntime;
-} else {
-  // Remove the global property added by runtime.js.
-  try {
-    delete g.regeneratorRuntime;
-  } catch(e) {
-    g.regeneratorRuntime = undefined;
-  }
-}
-
-
-/***/ }),
-
-/***/ "../../node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js":
-/*!**********************************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime.js ***!
-  \**********************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-!(function(global) {
-  "use strict";
-
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined; // More compressible than void 0.
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-
-  var inModule = typeof module === "object";
-  var runtime = global.regeneratorRuntime;
-  if (runtime) {
-    if (inModule) {
-      // If regeneratorRuntime is defined globally and we're in a module,
-      // make the exports object identical to regeneratorRuntime.
-      module.exports = runtime;
-    }
-    // Don't bother evaluating the rest of this file if the runtime was
-    // already defined globally.
-    return;
-  }
-
-  // Define the runtime globally (as expected by generated code) as either
-  // module.exports (if we're in a module) or a new, empty object.
-  runtime = global.regeneratorRuntime = inModule ? module.exports : {};
-
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-
-    // The ._invoke method unifies the implementations of the .next,
-    // .throw, and .return methods.
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-
-    return generator;
-  }
-  runtime.wrap = wrap;
-
-  // Try/catch helper to minimize deoptimizations. Returns a completion
-  // record like context.tryEntries[i].completion. This interface could
-  // have been (and was previously) designed to take a closure to be
-  // invoked without arguments, but in all the cases we care about we
-  // already have an existing method we want to call, so there's no need
-  // to create a new function object. We can even get away with assuming
-  // the method takes exactly one argument, since that happens to be true
-  // in every case, so we don't have to touch the arguments object. The
-  // only additional allocation required is the completion record, which
-  // has a stable shape and so hopefully should be cheap to allocate.
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
-    }
-  }
-
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-
-  // Returning this object from the innerFn has the same effect as
-  // breaking out of the dispatch switch statement.
-  var ContinueSentinel = {};
-
-  // Dummy constructor functions that we use as the .constructor and
-  // .constructor.prototype properties for functions that return Generator
-  // objects. For full spec compliance, you may wish to configure your
-  // minifier not to mangle the names of these two functions.
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-
-  // This is a polyfill for %IteratorPrototype% for environments that
-  // don't natively support it.
-  var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
-    return this;
-  };
-
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
-      NativeIteratorPrototype !== Op &&
-      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    // This environment has a native %IteratorPrototype%; use it instead
-    // of the polyfill.
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
-  GeneratorFunctionPrototype[toStringTagSymbol] =
-    GeneratorFunction.displayName = "GeneratorFunction";
-
-  // Helper for defining the .next, .throw, and .return methods of the
-  // Iterator interface in terms of a single ._invoke method.
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      prototype[method] = function(arg) {
-        return this._invoke(method, arg);
-      };
-    });
-  }
-
-  runtime.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        // For the native GeneratorFunction constructor, the best we can
-        // do is to check its .name property.
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-
-  runtime.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      if (!(toStringTagSymbol in genFun)) {
-        genFun[toStringTagSymbol] = "GeneratorFunction";
-      }
-    }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-
-  // Within the body of any async function, `await x` is transformed to
-  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
-  // `hasOwn.call(value, "__await")` to determine if the yielded value is
-  // meant to be awaited.
-  runtime.awrap = function(arg) {
-    return { __await: arg };
-  };
-
-  function AsyncIterator(generator) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
-      } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return Promise.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
-          });
-        }
-
-        return Promise.resolve(value).then(function(unwrapped) {
-          // When a yielded Promise is resolved, its final value becomes
-          // the .value of the Promise<{value,done}> result for the
-          // current iteration.
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          // If a rejected Promise was yielded, throw the rejection back
-          // into the async generator function so it can be handled there.
-          return invoke("throw", error, resolve, reject);
-        });
-      }
-    }
-
-    var previousPromise;
-
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new Promise(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-
-      return previousPromise =
-        // If enqueue has been called before, then we want to wait until
-        // all previous Promises have been resolved before calling invoke,
-        // so that results are always delivered in the correct order. If
-        // enqueue has not been called before, then it is important to
-        // call invoke immediately, without waiting on a callback to fire,
-        // so that the async generator function has the opportunity to do
-        // any necessary setup in a predictable way. This predictability
-        // is why the Promise constructor synchronously invokes its
-        // executor callback, and why async functions synchronously
-        // execute code before the first await. Since we implement simple
-        // async functions in terms of async generators, it is especially
-        // important to get this right, even though it requires care.
-        previousPromise ? previousPromise.then(
-          callInvokeWithMethodAndArg,
-          // Avoid propagating failures to Promises returned by later
-          // invocations of the iterator.
-          callInvokeWithMethodAndArg
-        ) : callInvokeWithMethodAndArg();
-    }
-
-    // Define the unified helper method that is used to implement .next,
-    // .throw, and .return (see defineIteratorMethods).
-    this._invoke = enqueue;
-  }
-
-  defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
-    return this;
-  };
-  runtime.AsyncIterator = AsyncIterator;
-
-  // Note that simple async functions are implemented on top of
-  // AsyncIterator objects; they just return a Promise for the value of
-  // the final result produced by the iterator.
-  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList)
-    );
-
-    return runtime.isGeneratorFunction(outerFn)
-      ? iter // If outerFn is a generator, return the full iterator.
-      : iter.next().then(function(result) {
-          return result.done ? result.value : iter.next();
-        });
-  };
-
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-
-        // Be forgiving, per 25.3.3.3.3 of the spec:
-        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
-        return doneResult();
-      }
-
-      context.method = method;
-      context.arg = arg;
-
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-
-        if (context.method === "next") {
-          // Setting context._sent for legacy support of Babel's
-          // function.sent implementation.
-          context.sent = context._sent = context.arg;
-
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-
-          context.dispatchException(context.arg);
-
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-
-        state = GenStateExecuting;
-
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          // If an exception is thrown from innerFn, we leave state ===
-          // GenStateExecuting and loop back for another invocation.
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-
-          return {
-            value: record.arg,
-            done: context.done
-          };
-
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          // Dispatch the exception by looping back around to the
-          // context.dispatchException(context.arg) call above.
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
-    };
-  }
-
-  // Call delegate.iterator[context.method](context.arg) and handle the
-  // result, either by returning a { value, done } result from the
-  // delegate iterator, or by modifying context.method and context.arg,
-  // setting context.delegate to null, and returning the ContinueSentinel.
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined) {
-      // A .throw or .return when the delegate iterator has no .throw
-      // method always terminates the yield* loop.
-      context.delegate = null;
-
-      if (context.method === "throw") {
-        if (delegate.iterator.return) {
-          // If the delegate iterator has a return method, give it a
-          // chance to clean up.
-          context.method = "return";
-          context.arg = undefined;
-          maybeInvokeDelegate(delegate, context);
-
-          if (context.method === "throw") {
-            // If maybeInvokeDelegate(context) changed context.method from
-            // "return" to "throw", let that override the TypeError below.
-            return ContinueSentinel;
-          }
-        }
-
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-
-      return ContinueSentinel;
-    }
-
-    var record = tryCatch(method, delegate.iterator, context.arg);
-
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    var info = record.arg;
-
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-
-    if (info.done) {
-      // Assign the result of the finished delegate to the temporary
-      // variable specified by delegate.resultName (see delegateYield).
-      context[delegate.resultName] = info.value;
-
-      // Resume execution at the desired location (see delegateYield).
-      context.next = delegate.nextLoc;
-
-      // If context.method was "throw" but the delegate handled the
-      // exception, let the outer generator proceed normally. If
-      // context.method was "next", forget context.arg since it has been
-      // "consumed" by the delegate iterator. If context.method was
-      // "return", allow the original .return call to continue in the
-      // outer generator.
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined;
-      }
-
-    } else {
-      // Re-yield the result returned by the delegate method.
-      return info;
-    }
-
-    // The delegate iterator is finished, so forget it and continue with
-    // the outer generator.
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-
-  // Define Generator.prototype.{next,throw,return} in terms of the
-  // unified ._invoke helper method.
-  defineIteratorMethods(Gp);
-
-  Gp[toStringTagSymbol] = "Generator";
-
-  // A Generator should always return itself as the iterator object when the
-  // @@iterator function is called on it. Some browsers' implementations of the
-  // iterator prototype chain incorrectly implement this, causing the Generator
-  // object to not be returned from this call. This ensures that doesn't happen.
-  // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
-    return this;
-  };
-
-  Gp.toString = function() {
-    return "[object Generator]";
-  };
-
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-
-    this.tryEntries.push(entry);
-  }
-
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-
-  function Context(tryLocsList) {
-    // The root entry object (effectively a try statement without a catch
-    // or a finally block) gives us a place to store values thrown from
-    // locations where there is no enclosing try statement.
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-
-  runtime.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-
-    // Rather than returning an object with a next method, we keep
-    // things simple and return the next function itself.
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-
-      // To avoid creating an additional object, we just hang the .value
-      // and .done properties off the next function object itself. This
-      // also ensures that the minifier will not anonymize the function.
-      next.done = true;
-      return next;
-    };
-  };
-
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
-            }
-          }
-
-          next.value = undefined;
-          next.done = true;
-
-          return next;
-        };
-
-        return next.next = next;
-      }
-    }
-
-    // Return an iterator with no values.
-    return { next: doneResult };
-  }
-  runtime.values = values;
-
-  function doneResult() {
-    return { value: undefined, done: true };
-  }
-
-  Context.prototype = {
-    constructor: Context,
-
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      // Resetting context._sent for legacy support of Babel's
-      // function.sent implementation.
-      this.sent = this._sent = undefined;
-      this.done = false;
-      this.delegate = null;
-
-      this.method = "next";
-      this.arg = undefined;
-
-      this.tryEntries.forEach(resetTryEntry);
-
-      if (!skipTempReset) {
-        for (var name in this) {
-          // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined;
-          }
-        }
-      }
-    },
-
-    stop: function() {
-      this.done = true;
-
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-
-      return this.rval;
-    },
-
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-
-        if (caught) {
-          // If the dispatched exception was caught by a catch block,
-          // then let that catch block handle the exception normally.
-          context.method = "next";
-          context.arg = undefined;
-        }
-
-        return !! caught;
-      }
-
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-
-        if (entry.tryLoc === "root") {
-          // Exception thrown outside of any try block that could handle
-          // it, so set the completion value of the entire function to
-          // throw the exception.
-          return handle("end");
-        }
-
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        // Ignore the finally entry if control is not jumping to a
-        // location outside the try/catch block.
-        finallyEntry = null;
-      }
-
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
-        return ContinueSentinel;
-      }
-
-      return this.complete(record);
-    },
-
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-
-      return ContinueSentinel;
-    },
-
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-
-      // The context.catch method must only be called with a location
-      // argument that corresponds to a known catch block.
-      throw new Error("illegal catch attempt");
-    },
-
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-
-      if (this.method === "next") {
-        // Deliberately forget the last sent value so that we don't
-        // accidentally pass it on to the delegate.
-        this.arg = undefined;
-      }
-
-      return ContinueSentinel;
-    }
-  };
-})(
-  // In sloppy mode, unbound `this` refers to the global object, fallback to
-  // Function constructor if we're in global strict mode. That is sadly a form
-  // of indirect eval which violates Content Security Policy.
-  (function() {
-    return this || (typeof self === "object" && self);
-  })() || Function("return this")()
-);
-
-
-/***/ }),
-
-/***/ "../../node_modules/@babel/runtime/regenerator/index.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/@babel/runtime/regenerator/index.js ***!
-  \***********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(/*! regenerator-runtime */ "../../node_modules/@babel/runtime/node_modules/regenerator-runtime/runtime-module.js");
-
-
-/***/ }),
-
 /***/ "../../node_modules/base64-js/index.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/base64-js/index.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/base64-js/index.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1089,9 +250,9 @@ function fromByteArray (uint8) {
 /***/ }),
 
 /***/ "../../node_modules/buffer/index.js":
-/*!***************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/buffer/index.js ***!
-  \***************************************************************************/
+/*!**************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/buffer/index.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2891,9 +2052,9 @@ function isnan (val) {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/fn/set-immediate.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/fn/set-immediate.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/fn/set-immediate.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2903,9 +2064,9 @@ module.exports = __webpack_require__(/*! ../modules/_core */ "../../node_modules
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_a-function.js":
-/*!**************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_a-function.js ***!
-  \**************************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_a-function.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2917,9 +2078,9 @@ module.exports = function(it){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_an-object.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_an-object.js ***!
-  \*************************************************************************************************/
+/*!************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_an-object.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2932,9 +2093,9 @@ module.exports = function(it){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_cof.js":
-/*!*******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_cof.js ***!
-  \*******************************************************************************************/
+/*!******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_cof.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2947,9 +2108,9 @@ module.exports = function(it){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_core.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_core.js ***!
-  \********************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_core.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -2959,9 +2120,9 @@ if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_ctx.js":
-/*!*******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_ctx.js ***!
-  \*******************************************************************************************/
+/*!******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_ctx.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2989,9 +2150,9 @@ module.exports = function(fn, that, length){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_descriptors.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_descriptors.js ***!
-  \***************************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_descriptors.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3003,9 +2164,9 @@ module.exports = !__webpack_require__(/*! ./_fails */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_dom-create.js":
-/*!**************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_dom-create.js ***!
-  \**************************************************************************************************/
+/*!*************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_dom-create.js ***!
+  \*************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3020,9 +2181,9 @@ module.exports = function(it){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_export.js":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_export.js ***!
-  \**********************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_export.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3091,9 +2252,9 @@ module.exports = $export;
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_fails.js":
-/*!*********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_fails.js ***!
-  \*********************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_fails.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3108,9 +2269,9 @@ module.exports = function(exec){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_global.js":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_global.js ***!
-  \**********************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_global.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3122,9 +2283,9 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_hide.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_hide.js ***!
-  \********************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_hide.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3140,9 +2301,9 @@ module.exports = __webpack_require__(/*! ./_descriptors */ "../../node_modules/c
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_html.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_html.js ***!
-  \********************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_html.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3151,9 +2312,9 @@ module.exports = __webpack_require__(/*! ./_global */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_ie8-dom-define.js":
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_ie8-dom-define.js ***!
-  \******************************************************************************************************/
+/*!*****************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_ie8-dom-define.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3164,9 +2325,9 @@ module.exports = !__webpack_require__(/*! ./_descriptors */ "../../node_modules/
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_invoke.js":
-/*!**********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_invoke.js ***!
-  \**********************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_invoke.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3190,9 +2351,9 @@ module.exports = function(fn, args, that){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_is-object.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_is-object.js ***!
-  \*************************************************************************************************/
+/*!************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_is-object.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3203,9 +2364,9 @@ module.exports = function(it){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_object-dp.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_object-dp.js ***!
-  \*************************************************************************************************/
+/*!************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_object-dp.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3229,9 +2390,9 @@ exports.f = __webpack_require__(/*! ./_descriptors */ "../../node_modules/core-j
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_property-desc.js":
-/*!*****************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_property-desc.js ***!
-  \*****************************************************************************************************/
+/*!****************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_property-desc.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3247,9 +2408,9 @@ module.exports = function(bitmap, value){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_task.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_task.js ***!
-  \********************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_task.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3332,9 +2493,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/_to-primitive.js":
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/_to-primitive.js ***!
-  \****************************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/_to-primitive.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3354,9 +2515,9 @@ module.exports = function(it, S){
 /***/ }),
 
 /***/ "../../node_modules/core-js/library/modules/web.immediate.js":
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-js/library/modules/web.immediate.js ***!
-  \****************************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-js/library/modules/web.immediate.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3370,9 +2531,9 @@ $export($export.G + $export.B, {
 /***/ }),
 
 /***/ "../../node_modules/core-util-is/lib/util.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/core-util-is/lib/util.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/core-util-is/lib/util.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3489,9 +2650,9 @@ function objectToString(o) {
 /***/ }),
 
 /***/ "../../node_modules/events/events.js":
-/*!****************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/events/events.js ***!
-  \****************************************************************************/
+/*!***************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/events/events.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3802,9 +2963,9 @@ function isUndefined(arg) {
 /***/ }),
 
 /***/ "../../node_modules/ieee754/index.js":
-/*!****************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/ieee754/index.js ***!
-  \****************************************************************************/
+/*!***************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/ieee754/index.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -3897,9 +3058,9 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 /***/ }),
 
 /***/ "../../node_modules/immediate/lib/browser.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/immediate/lib/browser.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/immediate/lib/browser.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3979,9 +3140,9 @@ function immediate(task) {
 /***/ }),
 
 /***/ "../../node_modules/inherits/inherits_browser.js":
-/*!****************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/inherits/inherits_browser.js ***!
-  \****************************************************************************************/
+/*!***************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/inherits/inherits_browser.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4013,9 +3174,9 @@ if (typeof Object.create === 'function') {
 /***/ }),
 
 /***/ "../../node_modules/isarray/index.js":
-/*!****************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/isarray/index.js ***!
-  \****************************************************************************/
+/*!***************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/isarray/index.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -4029,9 +3190,9 @@ module.exports = Array.isArray || function (arr) {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/base64.js":
-/*!*******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/base64.js ***!
-  \*******************************************************************************/
+/*!******************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/base64.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4147,9 +3308,9 @@ exports.decode = function(input) {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/compressedObject.js":
-/*!*****************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/compressedObject.js ***!
-  \*****************************************************************************************/
+/*!****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/compressedObject.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4234,9 +3395,9 @@ module.exports = CompressedObject;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/compressions.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/compressions.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/compressions.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4260,9 +3421,9 @@ exports.DEFLATE = __webpack_require__(/*! ./flate */ "../../node_modules/jszip/l
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/crc32.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/crc32.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/crc32.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4349,9 +3510,9 @@ module.exports = function crc32wrapper(input, crc) {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/defaults.js":
-/*!*********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/defaults.js ***!
-  \*********************************************************************************/
+/*!********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/defaults.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4372,9 +3533,9 @@ exports.dosPermissions = null;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/external.js":
-/*!*********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/external.js ***!
-  \*********************************************************************************/
+/*!********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/external.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4403,9 +3564,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/flate.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/flate.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/flate.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4500,9 +3661,9 @@ exports.uncompressWorker = function () {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/generate/ZipFileWorker.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/generate/ZipFileWorker.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/generate/ZipFileWorker.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5052,9 +4213,9 @@ module.exports = ZipFileWorker;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/generate/index.js":
-/*!***************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/generate/index.js ***!
-  \***************************************************************************************/
+/*!**************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/generate/index.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5121,9 +4282,9 @@ exports.generateWorker = function (zip, options, comment) {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/index.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/index.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/index.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5185,9 +4346,9 @@ module.exports = JSZip;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/load.js":
-/*!*****************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/load.js ***!
-  \*****************************************************************************/
+/*!****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/load.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5279,9 +4440,9 @@ module.exports = function(data, options) {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/nodejs/NodejsStreamInputAdapter.js":
-/*!********************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/nodejs/NodejsStreamInputAdapter.js ***!
-  \********************************************************************************************************/
+/*!*******************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/nodejs/NodejsStreamInputAdapter.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5365,9 +4526,9 @@ module.exports = NodejsStreamInputAdapter;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js":
-/*!*********************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js ***!
-  \*********************************************************************************************************/
+/*!********************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js ***!
+  \********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5419,9 +4580,9 @@ module.exports = NodejsStreamOutputAdapter;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/nodejsUtils.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/nodejsUtils.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/nodejsUtils.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5484,9 +4645,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/object.js":
-/*!*******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/object.js ***!
-  \*******************************************************************************/
+/*!******************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/object.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5885,9 +5046,9 @@ module.exports = out;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/readable-stream-browser.js":
-/*!************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/readable-stream-browser.js ***!
-  \************************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/readable-stream-browser.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5905,9 +5066,9 @@ module.exports = __webpack_require__(/*! stream */ "../../node_modules/stream-br
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/reader/ArrayReader.js":
-/*!*******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/reader/ArrayReader.js ***!
-  \*******************************************************************************************/
+/*!******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/reader/ArrayReader.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5974,9 +5135,9 @@ module.exports = ArrayReader;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/reader/DataReader.js":
-/*!******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/reader/DataReader.js ***!
-  \******************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/reader/DataReader.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6102,9 +5263,9 @@ module.exports = DataReader;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/reader/NodeBufferReader.js":
-/*!************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/reader/NodeBufferReader.js ***!
-  \************************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/reader/NodeBufferReader.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6133,9 +5294,9 @@ module.exports = NodeBufferReader;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/reader/StringReader.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/reader/StringReader.js ***!
-  \********************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/reader/StringReader.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6183,9 +5344,9 @@ module.exports = StringReader;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/reader/Uint8ArrayReader.js":
-/*!************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/reader/Uint8ArrayReader.js ***!
-  \************************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/reader/Uint8ArrayReader.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6217,9 +5378,9 @@ module.exports = Uint8ArrayReader;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/reader/readerFor.js":
-/*!*****************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/reader/readerFor.js ***!
-  \*****************************************************************************************/
+/*!****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/reader/readerFor.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6257,9 +5418,9 @@ module.exports = function (data) {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/signature.js":
-/*!**********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/signature.js ***!
-  \**********************************************************************************/
+/*!*********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/signature.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6276,9 +5437,9 @@ exports.DATA_DESCRIPTOR = "PK\x07\x08";
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/stream/ConvertWorker.js":
-/*!*********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/stream/ConvertWorker.js ***!
-  \*********************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/stream/ConvertWorker.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6314,9 +5475,9 @@ module.exports = ConvertWorker;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/stream/Crc32Probe.js":
-/*!******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/stream/Crc32Probe.js ***!
-  \******************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/stream/Crc32Probe.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6350,9 +5511,9 @@ module.exports = Crc32Probe;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/stream/DataLengthProbe.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/stream/DataLengthProbe.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/stream/DataLengthProbe.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6391,9 +5552,9 @@ module.exports = DataLengthProbe;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/stream/DataWorker.js":
-/*!******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/stream/DataWorker.js ***!
-  \******************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/stream/DataWorker.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6519,9 +5680,9 @@ module.exports = DataWorker;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/stream/GenericWorker.js":
-/*!*********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/stream/GenericWorker.js ***!
-  \*********************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/stream/GenericWorker.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6794,9 +5955,9 @@ module.exports = GenericWorker;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/stream/StreamHelper.js":
-/*!********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/stream/StreamHelper.js ***!
-  \********************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/stream/StreamHelper.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7019,9 +6180,9 @@ module.exports = StreamHelper;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/support.js":
-/*!********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/support.js ***!
-  \********************************************************************************/
+/*!*******************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/support.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7070,9 +6231,9 @@ try {
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/utf8.js":
-/*!*****************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/utf8.js ***!
-  \*****************************************************************************/
+/*!****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/utf8.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7357,9 +6518,9 @@ exports.Utf8EncodeWorker = Utf8EncodeWorker;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/utils.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/utils.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/utils.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7845,9 +7006,9 @@ exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinarySt
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/zipEntries.js":
-/*!***********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/zipEntries.js ***!
-  \***********************************************************************************/
+/*!**********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/zipEntries.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8119,9 +7280,9 @@ module.exports = ZipEntries;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/zipEntry.js":
-/*!*********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/zipEntry.js ***!
-  \*********************************************************************************/
+/*!********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/zipEntry.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8423,9 +7584,9 @@ module.exports = ZipEntry;
 /***/ }),
 
 /***/ "../../node_modules/jszip/lib/zipObject.js":
-/*!**********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/jszip/lib/zipObject.js ***!
-  \**********************************************************************************/
+/*!*********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/jszip/lib/zipObject.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8568,9 +7729,9 @@ module.exports = ZipObject;
 /***/ }),
 
 /***/ "../../node_modules/lie/lib/browser.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/lie/lib/browser.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/lie/lib/browser.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8833,9 +7994,9 @@ function race(iterable) {
 /***/ }),
 
 /***/ "../../node_modules/pako/index.js":
-/*!*************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/index.js ***!
-  \*************************************************************************/
+/*!************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/index.js ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8859,9 +8020,9 @@ module.exports = pako;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/deflate.js":
-/*!*******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/deflate.js ***!
-  \*******************************************************************************/
+/*!******************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/deflate.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9271,9 +8432,9 @@ exports.gzip = gzip;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/inflate.js":
-/*!*******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/inflate.js ***!
-  \*******************************************************************************/
+/*!******************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/inflate.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9701,9 +8862,9 @@ exports.ungzip  = inflate;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/utils/common.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/utils/common.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/utils/common.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9818,9 +8979,9 @@ exports.setTyped(TYPED_OK);
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/utils/strings.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/utils/strings.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/utils/strings.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10015,9 +9176,9 @@ exports.utf8border = function (buf, max) {
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/adler32.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/adler32.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/adler32.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10078,9 +9239,9 @@ module.exports = adler32;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/constants.js":
-/*!**************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/constants.js ***!
-  \**************************************************************************************/
+/*!*************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/constants.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10158,9 +9319,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/crc32.js":
-/*!**********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/crc32.js ***!
-  \**********************************************************************************/
+/*!*********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/crc32.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10229,9 +9390,9 @@ module.exports = crc32;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/deflate.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/deflate.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/deflate.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12115,9 +11276,9 @@ exports.deflateTune = deflateTune;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/gzheader.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/gzheader.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/gzheader.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12185,9 +11346,9 @@ module.exports = GZheader;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/inffast.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/inffast.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/inffast.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12542,9 +11703,9 @@ module.exports = function inflate_fast(strm, start) {
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/inflate.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/inflate.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/inflate.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14110,9 +13271,9 @@ exports.inflateUndermine = inflateUndermine;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/inftrees.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/inftrees.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/inftrees.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14465,9 +13626,9 @@ module.exports = function inflate_table(type, lens, lens_index, codes, table, ta
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/messages.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/messages.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/messages.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14509,9 +13670,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/trees.js":
-/*!**********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/trees.js ***!
-  \**********************************************************************************/
+/*!*********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/trees.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15741,9 +14902,9 @@ exports._tr_align = _tr_align;
 /***/ }),
 
 /***/ "../../node_modules/pako/lib/zlib/zstream.js":
-/*!************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/pako/lib/zlib/zstream.js ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/pako/lib/zlib/zstream.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15800,9 +14961,9 @@ module.exports = ZStream;
 /***/ }),
 
 /***/ "../../node_modules/process-nextick-args/index.js":
-/*!*****************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/process-nextick-args/index.js ***!
-  \*****************************************************************************************/
+/*!****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/process-nextick-args/index.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -15857,9 +15018,9 @@ function nextTick(fn, arg1, arg2, arg3) {
 /***/ }),
 
 /***/ "../../node_modules/process/browser.js":
-/*!******************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/process/browser.js ***!
-  \******************************************************************************/
+/*!*****************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/process/browser.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -16052,9 +15213,9 @@ process.umask = function() { return 0; };
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/duplex-browser.js":
-/*!*********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/duplex-browser.js ***!
-  \*********************************************************************************************/
+/*!********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/duplex-browser.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16064,9 +15225,9 @@ module.exports = __webpack_require__(/*! ./lib/_stream_duplex.js */ "../../node_
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/_stream_duplex.js":
-/*!*************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/_stream_duplex.js ***!
-  \*************************************************************************************************/
+/*!************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/_stream_duplex.js ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16206,9 +15367,9 @@ Duplex.prototype._destroy = function (err, cb) {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/_stream_passthrough.js":
-/*!******************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/_stream_passthrough.js ***!
-  \******************************************************************************************************/
+/*!*****************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/_stream_passthrough.js ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16264,9 +15425,9 @@ PassThrough.prototype._transform = function (chunk, encoding, cb) {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/_stream_readable.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/_stream_readable.js ***!
-  \***************************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/_stream_readable.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17295,9 +16456,9 @@ function indexOf(xs, x) {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/_stream_transform.js":
-/*!****************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/_stream_transform.js ***!
-  \****************************************************************************************************/
+/*!***************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/_stream_transform.js ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17520,9 +16681,9 @@ function done(stream, er, data) {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/_stream_writable.js":
-/*!***************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/_stream_writable.js ***!
-  \***************************************************************************************************/
+/*!**************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/_stream_writable.js ***!
+  \**************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18219,9 +17380,9 @@ Writable.prototype._destroy = function (err, cb) {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/internal/streams/BufferList.js":
-/*!**************************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/internal/streams/BufferList.js ***!
-  \**************************************************************************************************************/
+/*!*************************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/internal/streams/BufferList.js ***!
+  \*************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18309,9 +17470,9 @@ if (util && util.inspect && util.inspect.custom) {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/internal/streams/destroy.js":
-/*!***********************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/internal/streams/destroy.js ***!
-  \***********************************************************************************************************/
+/*!**********************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/internal/streams/destroy.js ***!
+  \**********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18394,9 +17555,9 @@ module.exports = {
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/lib/internal/streams/stream-browser.js":
-/*!******************************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/lib/internal/streams/stream-browser.js ***!
-  \******************************************************************************************************************/
+/*!*****************************************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/lib/internal/streams/stream-browser.js ***!
+  \*****************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18406,9 +17567,9 @@ module.exports = __webpack_require__(/*! events */ "../../node_modules/events/ev
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/passthrough.js":
-/*!******************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/passthrough.js ***!
-  \******************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/passthrough.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18418,9 +17579,9 @@ module.exports = __webpack_require__(/*! ./readable */ "../../node_modules/reada
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/readable-browser.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/readable-browser.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/readable-browser.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18436,9 +17597,9 @@ exports.PassThrough = __webpack_require__(/*! ./lib/_stream_passthrough.js */ ".
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/transform.js":
-/*!****************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/transform.js ***!
-  \****************************************************************************************/
+/*!***************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/transform.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18448,9 +17609,9 @@ module.exports = __webpack_require__(/*! ./readable */ "../../node_modules/reada
 /***/ }),
 
 /***/ "../../node_modules/readable-stream/writable-browser.js":
-/*!***********************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/readable-stream/writable-browser.js ***!
-  \***********************************************************************************************/
+/*!**********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/readable-stream/writable-browser.js ***!
+  \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18460,9 +17621,9 @@ module.exports = __webpack_require__(/*! ./lib/_stream_writable.js */ "../../nod
 /***/ }),
 
 /***/ "../../node_modules/safe-buffer/index.js":
-/*!********************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/safe-buffer/index.js ***!
-  \********************************************************************************/
+/*!*******************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/safe-buffer/index.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18533,9 +17694,9 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 /***/ }),
 
 /***/ "../../node_modules/setimmediate/setImmediate.js":
-/*!****************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/setimmediate/setImmediate.js ***!
-  \****************************************************************************************/
+/*!***************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/setimmediate/setImmediate.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18731,9 +17892,9 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 /***/ }),
 
 /***/ "../../node_modules/stream-browserify/index.js":
-/*!**************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/stream-browserify/index.js ***!
-  \**************************************************************************************/
+/*!*************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/stream-browserify/index.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18869,9 +18030,9 @@ Stream.prototype.pipe = function(dest, options) {
 /***/ }),
 
 /***/ "../../node_modules/string_decoder/lib/string_decoder.js":
-/*!************************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/string_decoder/lib/string_decoder.js ***!
-  \************************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/string_decoder/lib/string_decoder.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19176,9 +18337,9 @@ function simpleEnd(buf) {
 /***/ }),
 
 /***/ "../../node_modules/timers-browserify/main.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/timers-browserify/main.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/timers-browserify/main.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19251,9 +18412,9 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ }),
 
 /***/ "../../node_modules/util-deprecate/browser.js":
-/*!*************************************************************************************!*\
-  !*** C:/Users/Rafael/Documents/GitHub/ESGST/node_modules/util-deprecate/browser.js ***!
-  \*************************************************************************************/
+/*!************************************************************************!*\
+  !*** /home/rafael/GitHub/ESGST/node_modules/util-deprecate/browser.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -19369,1018 +18530,344 @@ module.exports = g;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "../../node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "../../node_modules/@babel/runtime/helpers/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jszip */ "../../node_modules/jszip/lib/index.js");
-/* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jszip__WEBPACK_IMPORTED_MODULE_2__);
-
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jszip */ "../../node_modules/jszip/lib/index.js");
+/* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jszip__WEBPACK_IMPORTED_MODULE_0__);
 
 
 /**
  * @property {Object} browser.cookies
  */
+const browser = (global.chrome && global.chrome.runtime) ? global.chrome : global.browser;
+let storage = null;
 
-var browser = global.chrome && global.chrome.runtime ? global.chrome : global.browser;
-var storage = null;
-browser.storage.local.get("settings",
-/*#__PURE__*/
-function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(result) {
-    var settings, currentTab;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            /**
-             *
-             * @type {object}
-             * @property {boolean} activateTab_sg
-             * @property {boolean} activateTab_st
-             */
-            settings = result.settings ? JSON.parse(result.settings) : {};
-
-            if (!(!settings.activateTab_sg && !settings.activateTab_st)) {
-              _context.next = 3;
-              break;
-            }
-
-            return _context.abrupt("return");
-
-          case 3:
-            _context.next = 5;
-            return queryTabs({
-              active: true
-            });
-
-          case 5:
-            currentTab = _context.sent[0];
-
-            if (!settings.activateTab_sg) {
-              _context.next = 9;
-              break;
-            }
-
-            _context.next = 9;
-            return activateTab("steamgifts");
-
-          case 9:
-            if (!settings.activateTab_st) {
-              _context.next = 12;
-              break;
-            }
-
-            _context.next = 12;
-            return activateTab("steamtrades");
-
-          case 12:
-            if (!(currentTab && currentTab.id)) {
-              _context.next = 15;
-              break;
-            }
-
-            _context.next = 15;
-            return updateTab(currentTab.id, {
-              active: true
-            });
-
-          case 15:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, this);
-  }));
-
-  return function (_x) {
-    return _ref.apply(this, arguments);
-  };
-}());
+browser.storage.local.get(`settings`, async result => {
+  /**
+   *
+   * @type {object}
+   * @property {boolean} activateTab_sg
+   * @property {boolean} activateTab_st
+   */
+  const settings = result.settings ? JSON.parse(result.settings) : {};
+  if (!settings.activateTab_sg && !settings.activateTab_st) {
+    return;
+  }
+  // Get the currently active tab.
+  const currentTab = (await queryTabs({active: true}))[0];
+  if (settings.activateTab_sg) {
+    // Set the SG tab as active.
+    await activateTab(`steamgifts`);
+  }
+  if (settings.activateTab_st) {
+    // Set the ST tab as active.
+    await activateTab(`steamtrades`);
+  }
+  // Go back to the previously active tab.  
+  if (currentTab && currentTab.id) {
+    await updateTab(currentTab.id, {active: true});
+  }
+});
 
 function sendMessage(action, sender, values) {
-  browser.tabs.query({
-    url: ["*://*.steamgifts.com/*", "*://*.steamtrades.com/*"]
-  }, function (tabs) {
-    tabs.forEach(function (tab) {
+  browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
+    tabs.forEach(tab => {
       if (tab.id === sender.tab.id) return;
       browser.tabs.sendMessage(tab.id, JSON.stringify({
         action: action,
         values: values
-      }), function () {});
+      }), () => {
+      });
     });
   });
 }
 
-function getZip(_x2, _x3) {
-  return _getZip.apply(this, arguments);
-}
-
-function _getZip() {
-  _getZip = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(data, fileName) {
-    var zip;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            zip = new jszip__WEBPACK_IMPORTED_MODULE_2___default.a();
-            zip.file(fileName, data);
-            _context2.next = 4;
-            return zip.generateAsync({
-              compression: "DEFLATE",
-              compressionOptions: {
-                level: 9
-              },
-              type: "blob"
-            });
-
-          case 4:
-            return _context2.abrupt("return", _context2.sent);
-
-          case 5:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2, this);
+async function getZip(data, fileName) {
+  const zip = new jszip__WEBPACK_IMPORTED_MODULE_0___default.a();
+  zip.file(fileName, data);
+  return (await zip.generateAsync({
+    compression: `DEFLATE`,
+    compressionOptions: {
+      level: 9
+    },
+    type: `blob`
   }));
-  return _getZip.apply(this, arguments);
 }
 
-function readZip(_x4) {
-  return _readZip.apply(this, arguments);
+async function readZip(data) {
+  const zip = new jszip__WEBPACK_IMPORTED_MODULE_0___default.a(),
+    /** @property {Object} files */
+    contents = await zip.loadAsync(data),
+    keys = Object.keys(contents.files),
+    output = [];
+  for (const key of keys) {
+    output.push({
+      name: key,
+      value: await zip.file(key).async(`string`)
+    });
+  }
+  return output;
 }
 
-function _readZip() {
-  _readZip = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(data) {
-    var zip, contents, keys, output, _i, key;
+async function doFetch(parameters, request, sender, callback) {
+  if (request.fileName) {
+    parameters.body = await getZip(parameters.body, request.fileName);
+  }
 
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            zip = new jszip__WEBPACK_IMPORTED_MODULE_2___default.a();
-            _context3.next = 3;
-            return zip.loadAsync(data);
+  let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
+  let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
 
-          case 3:
-            contents = _context3.sent;
-            keys = Object.keys(contents.files);
-            output = [];
-            _i = 0;
+  // get no-container cookies
+  let cookies = await getCookies({
+    domain: domain
+  });
 
-          case 7:
-            if (!(_i < keys.length)) {
-              _context3.next = 19;
-              break;
-            }
+  const cookieHeader = parameters.headers.get(`Cookie`);
+  let setCookies = [];
+  if (cookieHeader) {
+    setCookies = cookieHeader
+      .split(/;\s/)
+      .map(x => {
+        const parts = x.match(/(.+?)=(.+?)/);
+        return {
+          name: parts[1],
+          url: url,
+          value: parts[2]
+        };
+      })
+      .filter(x => x && !cookies.filter(y => x.name === y.name).length);
+    for (const cookie of setCookies) {
+      await setCookie(cookie);
+    }
+  }
 
-            key = keys[_i];
-            _context3.t0 = output;
-            _context3.t1 = key;
-            _context3.next = 13;
-            return zip.file(key).async("string");
-
-          case 13:
-            _context3.t2 = _context3.sent;
-            _context3.t3 = {
-              name: _context3.t1,
-              value: _context3.t2
-            };
-
-            _context3.t0.push.call(_context3.t0, _context3.t3);
-
-          case 16:
-            _i++;
-            _context3.next = 7;
-            break;
-
-          case 19:
-            return _context3.abrupt("return", output);
-
-          case 20:
-          case "end":
-            return _context3.stop();
-        }
+  if (!request.manipulateCookies) {
+    let response = await fetch(request.url, parameters);
+    let responseText = request.blob
+      ? (await readZip(await response.blob()))[0].value
+      : await response.text();
+    for (const cookie of setCookies) {
+      await deleteCookie({
+        name: cookie.name,
+        url: url
+      });
+    }
+    callback(JSON.stringify({
+      finalUrl: response.url,
+      redirected: response.redirected,
+      responseText: responseText
+    }));
+    return;
+  }
+  browser.tabs.get(sender.tab.id, async tab => {
+    /**
+     * @property {string} tab.cookieStoreId
+     */
+    if (tab.cookieStoreId === `firefox-default`) {
+      let response = await fetch(request.url, parameters);
+      let responseText = request.blob
+        ? (await readZip(await response.blob()))[0].value
+        : await response.text();
+      for (const cookie of setCookies) {
+        await deleteCookie({
+          name: cookie.name,
+          url: url
+        });
       }
-    }, _callee3, this);
-  }));
-  return _readZip.apply(this, arguments);
-}
-
-function doFetch(_x5, _x6, _x7, _x8) {
-  return _doFetch.apply(this, arguments);
-}
-
-function _doFetch() {
-  _doFetch = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(parameters, request, sender, callback) {
-    var domain, url, cookies, cookieHeader, setCookies, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, cookie, response, responseText, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _cookie;
-
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-      while (1) {
-        switch (_context5.prev = _context5.next) {
-          case 0:
-            if (!request.fileName) {
-              _context5.next = 4;
-              break;
-            }
-
-            _context5.next = 3;
-            return getZip(parameters.body, request.fileName);
-
-          case 3:
-            parameters.body = _context5.sent;
-
-          case 4:
-            domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
-            url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1]; // get no-container cookies
-
-            _context5.next = 8;
-            return getCookies({
-              domain: domain
-            });
-
-          case 8:
-            cookies = _context5.sent;
-            cookieHeader = parameters.headers.get("Cookie");
-            setCookies = [];
-
-            if (!cookieHeader) {
-              _context5.next = 39;
-              break;
-            }
-
-            setCookies = cookieHeader.split(/;\s/).map(function (x) {
-              var parts = x.match(/(.+?)=(.+?)/);
-              return {
-                name: parts[1],
-                url: url,
-                value: parts[2]
-              };
-            }).filter(function (x) {
-              return x && !cookies.filter(function (y) {
-                return x.name === y.name;
-              }).length;
-            });
-            _iteratorNormalCompletion = true;
-            _didIteratorError = false;
-            _iteratorError = undefined;
-            _context5.prev = 16;
-            _iterator = setCookies[Symbol.iterator]();
-
-          case 18:
-            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context5.next = 25;
-              break;
-            }
-
-            cookie = _step.value;
-            _context5.next = 22;
-            return setCookie(cookie);
-
-          case 22:
-            _iteratorNormalCompletion = true;
-            _context5.next = 18;
-            break;
-
-          case 25:
-            _context5.next = 31;
-            break;
-
-          case 27:
-            _context5.prev = 27;
-            _context5.t0 = _context5["catch"](16);
-            _didIteratorError = true;
-            _iteratorError = _context5.t0;
-
-          case 31:
-            _context5.prev = 31;
-            _context5.prev = 32;
-
-            if (!_iteratorNormalCompletion && _iterator.return != null) {
-              _iterator.return();
-            }
-
-          case 34:
-            _context5.prev = 34;
-
-            if (!_didIteratorError) {
-              _context5.next = 37;
-              break;
-            }
-
-            throw _iteratorError;
-
-          case 37:
-            return _context5.finish(34);
-
-          case 38:
-            return _context5.finish(31);
-
-          case 39:
-            if (request.manipulateCookies) {
-              _context5.next = 85;
-              break;
-            }
-
-            _context5.next = 42;
-            return fetch(request.url, parameters);
-
-          case 42:
-            response = _context5.sent;
-
-            if (!request.blob) {
-              _context5.next = 53;
-              break;
-            }
-
-            _context5.t2 = readZip;
-            _context5.next = 47;
-            return response.blob();
-
-          case 47:
-            _context5.t3 = _context5.sent;
-            _context5.next = 50;
-            return (0, _context5.t2)(_context5.t3);
-
-          case 50:
-            _context5.t1 = _context5.sent[0].value;
-            _context5.next = 56;
-            break;
-
-          case 53:
-            _context5.next = 55;
-            return response.text();
-
-          case 55:
-            _context5.t1 = _context5.sent;
-
-          case 56:
-            responseText = _context5.t1;
-            _iteratorNormalCompletion2 = true;
-            _didIteratorError2 = false;
-            _iteratorError2 = undefined;
-            _context5.prev = 60;
-            _iterator2 = setCookies[Symbol.iterator]();
-
-          case 62:
-            if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-              _context5.next = 69;
-              break;
-            }
-
-            _cookie = _step2.value;
-            _context5.next = 66;
-            return deleteCookie({
-              name: _cookie.name,
-              url: url
-            });
-
-          case 66:
-            _iteratorNormalCompletion2 = true;
-            _context5.next = 62;
-            break;
-
-          case 69:
-            _context5.next = 75;
-            break;
-
-          case 71:
-            _context5.prev = 71;
-            _context5.t4 = _context5["catch"](60);
-            _didIteratorError2 = true;
-            _iteratorError2 = _context5.t4;
-
-          case 75:
-            _context5.prev = 75;
-            _context5.prev = 76;
-
-            if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-              _iterator2.return();
-            }
-
-          case 78:
-            _context5.prev = 78;
-
-            if (!_didIteratorError2) {
-              _context5.next = 81;
-              break;
-            }
-
-            throw _iteratorError2;
-
-          case 81:
-            return _context5.finish(78);
-
-          case 82:
-            return _context5.finish(75);
-
-          case 83:
-            callback(JSON.stringify({
-              finalUrl: response.url,
-              redirected: response.redirected,
-              responseText: responseText
-            }));
-            return _context5.abrupt("return");
-
-          case 85:
-            browser.tabs.get(sender.tab.id,
-            /*#__PURE__*/
-            function () {
-              var _ref2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-              /*#__PURE__*/
-              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(tab) {
-                var _response, _responseText, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, _cookie2, containerCookies, i, _cookie3, _i2, _cookie4, response, responseText, _i3, _cookie5, _i4, _cookie6, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _cookie7;
-
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
-                  while (1) {
-                    switch (_context4.prev = _context4.next) {
-                      case 0:
-                        if (!(tab.cookieStoreId === "firefox-default")) {
-                          _context4.next = 46;
-                          break;
-                        }
-
-                        _context4.next = 3;
-                        return fetch(request.url, parameters);
-
-                      case 3:
-                        _response = _context4.sent;
-
-                        if (!request.blob) {
-                          _context4.next = 14;
-                          break;
-                        }
-
-                        _context4.t1 = readZip;
-                        _context4.next = 8;
-                        return _response.blob();
-
-                      case 8:
-                        _context4.t2 = _context4.sent;
-                        _context4.next = 11;
-                        return (0, _context4.t1)(_context4.t2);
-
-                      case 11:
-                        _context4.t0 = _context4.sent[0].value;
-                        _context4.next = 17;
-                        break;
-
-                      case 14:
-                        _context4.next = 16;
-                        return _response.text();
-
-                      case 16:
-                        _context4.t0 = _context4.sent;
-
-                      case 17:
-                        _responseText = _context4.t0;
-                        _iteratorNormalCompletion3 = true;
-                        _didIteratorError3 = false;
-                        _iteratorError3 = undefined;
-                        _context4.prev = 21;
-                        _iterator3 = setCookies[Symbol.iterator]();
-
-                      case 23:
-                        if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
-                          _context4.next = 30;
-                          break;
-                        }
-
-                        _cookie2 = _step3.value;
-                        _context4.next = 27;
-                        return deleteCookie({
-                          name: _cookie2.name,
-                          url: url
-                        });
-
-                      case 27:
-                        _iteratorNormalCompletion3 = true;
-                        _context4.next = 23;
-                        break;
-
-                      case 30:
-                        _context4.next = 36;
-                        break;
-
-                      case 32:
-                        _context4.prev = 32;
-                        _context4.t3 = _context4["catch"](21);
-                        _didIteratorError3 = true;
-                        _iteratorError3 = _context4.t3;
-
-                      case 36:
-                        _context4.prev = 36;
-                        _context4.prev = 37;
-
-                        if (!_iteratorNormalCompletion3 && _iterator3.return != null) {
-                          _iterator3.return();
-                        }
-
-                      case 39:
-                        _context4.prev = 39;
-
-                        if (!_didIteratorError3) {
-                          _context4.next = 42;
-                          break;
-                        }
-
-                        throw _iteratorError3;
-
-                      case 42:
-                        return _context4.finish(39);
-
-                      case 43:
-                        return _context4.finish(36);
-
-                      case 44:
-                        callback(JSON.stringify({
-                          finalUrl: _response.url,
-                          redirected: _response.redirected,
-                          responseText: _responseText
-                        }));
-                        return _context4.abrupt("return");
-
-                      case 46:
-                        _context4.next = 48;
-                        return getCookies({
-                          domain: domain,
-                          storeId: tab.cookieStoreId
-                        });
-
-                      case 48:
-                        containerCookies = _context4.sent;
-                        i = cookies.length - 1;
-
-                      case 50:
-                        if (!(i > -1)) {
-                          _context4.next = 57;
-                          break;
-                        }
-
-                        _cookie3 = cookies[i];
-                        _context4.next = 54;
-                        return deleteCookie({
-                          name: _cookie3.name,
-                          url: url
-                        });
-
-                      case 54:
-                        i--;
-                        _context4.next = 50;
-                        break;
-
-                      case 57:
-                        _i2 = containerCookies.length - 1;
-
-                      case 58:
-                        if (!(_i2 > -1)) {
-                          _context4.next = 69;
-                          break;
-                        }
-
-                        _cookie4 = containerCookies[_i2];
-                        _cookie4.url = request.url;
-                        /** @property {boolean} cookie.hostOnly */
-
-                        delete _cookie4.hostOnly;
-                        delete _cookie4.session;
-                        delete _cookie4.storeId;
-                        _context4.next = 66;
-                        return setCookie(_cookie4);
-
-                      case 66:
-                        _i2--;
-                        _context4.next = 58;
-                        break;
-
-                      case 69:
-                        _context4.next = 71;
-                        return fetch(request.url, parameters);
-
-                      case 71:
-                        response = _context4.sent;
-
-                        if (!request.blob) {
-                          _context4.next = 82;
-                          break;
-                        }
-
-                        _context4.t5 = readZip;
-                        _context4.next = 76;
-                        return response.blob();
-
-                      case 76:
-                        _context4.t6 = _context4.sent;
-                        _context4.next = 79;
-                        return (0, _context4.t5)(_context4.t6);
-
-                      case 79:
-                        _context4.t4 = _context4.sent[0].value;
-                        _context4.next = 85;
-                        break;
-
-                      case 82:
-                        _context4.next = 84;
-                        return response.text();
-
-                      case 84:
-                        _context4.t4 = _context4.sent;
-
-                      case 85:
-                        responseText = _context4.t4;
-                        _i3 = containerCookies.length - 1;
-
-                      case 87:
-                        if (!(_i3 > -1)) {
-                          _context4.next = 94;
-                          break;
-                        }
-
-                        _cookie5 = containerCookies[_i3];
-                        _context4.next = 91;
-                        return deleteCookie({
-                          name: _cookie5.name,
-                          url: url
-                        });
-
-                      case 91:
-                        _i3--;
-                        _context4.next = 87;
-                        break;
-
-                      case 94:
-                        _i4 = cookies.length - 1;
-
-                      case 95:
-                        if (!(_i4 > -1)) {
-                          _context4.next = 106;
-                          break;
-                        }
-
-                        _cookie6 = cookies[_i4];
-                        _cookie6.url = request.url;
-                        delete _cookie6.hostOnly;
-                        delete _cookie6.session;
-                        delete _cookie6.storeId;
-                        _context4.next = 103;
-                        return setCookie(_cookie6);
-
-                      case 103:
-                        _i4--;
-                        _context4.next = 95;
-                        break;
-
-                      case 106:
-                        _iteratorNormalCompletion4 = true;
-                        _didIteratorError4 = false;
-                        _iteratorError4 = undefined;
-                        _context4.prev = 109;
-                        _iterator4 = setCookies[Symbol.iterator]();
-
-                      case 111:
-                        if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
-                          _context4.next = 118;
-                          break;
-                        }
-
-                        _cookie7 = _step4.value;
-                        _context4.next = 115;
-                        return deleteCookie({
-                          name: _cookie7.name,
-                          url: url
-                        });
-
-                      case 115:
-                        _iteratorNormalCompletion4 = true;
-                        _context4.next = 111;
-                        break;
-
-                      case 118:
-                        _context4.next = 124;
-                        break;
-
-                      case 120:
-                        _context4.prev = 120;
-                        _context4.t7 = _context4["catch"](109);
-                        _didIteratorError4 = true;
-                        _iteratorError4 = _context4.t7;
-
-                      case 124:
-                        _context4.prev = 124;
-                        _context4.prev = 125;
-
-                        if (!_iteratorNormalCompletion4 && _iterator4.return != null) {
-                          _iterator4.return();
-                        }
-
-                      case 127:
-                        _context4.prev = 127;
-
-                        if (!_didIteratorError4) {
-                          _context4.next = 130;
-                          break;
-                        }
-
-                        throw _iteratorError4;
-
-                      case 130:
-                        return _context4.finish(127);
-
-                      case 131:
-                        return _context4.finish(124);
-
-                      case 132:
-                        callback(JSON.stringify({
-                          finalUrl: response.url,
-                          redirected: response.redirected,
-                          responseText: responseText
-                        }));
-
-                      case 133:
-                      case "end":
-                        return _context4.stop();
-                    }
-                  }
-                }, _callee4, this, [[21, 32, 36, 44], [37,, 39, 43], [109, 120, 124, 132], [125,, 127, 131]]);
-              }));
-
-              return function (_x11) {
-                return _ref2.apply(this, arguments);
-              };
-            }());
-
-          case 86:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, this, [[16, 27, 31, 39], [32,, 34, 38], [60, 71, 75, 83], [76,, 78, 82]]);
-  }));
-  return _doFetch.apply(this, arguments);
+      callback(JSON.stringify({
+        finalUrl: response.url,
+        redirected: response.redirected,
+        responseText: responseText
+      }));
+      return;
+    }
+
+    // get container cookies
+    let containerCookies = await getCookies({
+      domain: domain,
+      storeId: tab.cookieStoreId
+    });
+
+    // delete no-container cookies
+    for (let i = cookies.length - 1; i > -1; i--) {
+      let cookie = cookies[i];
+      await deleteCookie({
+        name: cookie.name,
+        url: url
+      });
+    }
+    // set container cookies to no-container scope
+    for (let i = containerCookies.length - 1; i > -1; i--) {
+      let cookie = containerCookies[i];
+      cookie.url = request.url;
+      /** @property {boolean} cookie.hostOnly */
+      delete cookie.hostOnly;
+      delete cookie.session;
+      delete cookie.storeId;
+      await setCookie(cookie);
+    }
+
+    // request
+    let response = await fetch(request.url, parameters);
+    let responseText = request.blob
+      ? (await readZip(await response.blob()))[0].value
+      : await response.text();
+
+    // delete container cookies from no-container scope
+    for (let i = containerCookies.length - 1; i > -1; i--) {
+      let cookie = containerCookies[i];
+      await deleteCookie({
+        name: cookie.name,
+        url: url
+      });
+    }
+    // restore no-container cookies
+    for (let i = cookies.length - 1; i > -1; i--) {
+      let cookie = cookies[i];
+      cookie.url = request.url;
+      delete cookie.hostOnly;
+      delete cookie.session;
+      delete cookie.storeId;
+      await setCookie(cookie);
+    }
+
+    for (const cookie of setCookies) {
+      await deleteCookie({
+        name: cookie.name,
+        url: url
+      });
+    }
+    callback(JSON.stringify({
+      finalUrl: response.url,
+      redirected: response.redirected,
+      responseText: responseText
+    }));
+  });
 }
 
 function getCookies(details) {
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     browser.cookies.getAll(details, resolve);
   });
 }
 
 function setCookie(details) {
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     browser.cookies.set(details, resolve);
   });
 }
 
 function deleteCookie(details) {
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     browser.cookies.remove(details, resolve);
   });
 }
 
-browser.runtime.onMessage.addListener(function (request, sender, callback) {
-  var key, keys, parameters, values;
-
+browser.runtime.onMessage.addListener((request, sender, callback) => {
+  let key, keys, parameters, values;
   switch (request.action) {
-    case "delValues":
+    case `delValues`:
       keys = JSON.parse(request.keys);
-      browser.storage.local.remove(keys, function () {
-        keys.forEach(function (key) {
+      browser.storage.local.remove(keys, () => {
+        keys.forEach(key => {
           delete storage[key];
         });
-        sendMessage("delValues", sender, keys);
+        sendMessage(`delValues`, sender, keys);
         callback();
       });
       break;
-
-    case "fetch":
+    case `fetch`:
       parameters = JSON.parse(request.parameters);
-      parameters.headers = new Headers(parameters.headers); // noinspection JSIgnoredPromiseFromCall
-
+      parameters.headers = new Headers(parameters.headers);
+      // noinspection JSIgnoredPromiseFromCall
       doFetch(parameters, request, sender, callback);
       break;
-
-    case "getStorage":
+    case `getStorage`:
       if (storage) {
         callback(JSON.stringify(storage));
       } else {
-        browser.storage.local.get(null, function (stg) {
+        browser.storage.local.get(null, stg => {
           storage = stg;
           callback(JSON.stringify(storage));
         });
       }
-
       break;
-
-    case "reload":
+    case `reload`:
       browser.runtime.reload();
       callback();
       break;
-
-    case "setValues":
+    case `setValues`:
       values = JSON.parse(request.values);
-      browser.storage.local.set(values, function () {
+      browser.storage.local.set(values, () => {
         for (key in values) {
           if (values.hasOwnProperty(key)) {
             storage[key] = values[key];
           }
         }
-
-        sendMessage("setValues", sender, values);
+        sendMessage(`setValues`, sender, values);
         callback();
       });
       break;
-
-    case "tabs":
+    case `tabs`:
       // noinspection JSIgnoredPromiseFromCall
       getTabs(request);
       break;
   }
-
   return true;
 });
 
-function getTabs(_x9) {
-  return _getTabs.apply(this, arguments);
-}
-
-function _getTabs() {
-  _getTabs = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(request) {
-    var items, any, i, n, item, tab, _tab;
-
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
-            items = [{
-              id: "inbox_sg",
-              pattern: "*://*.steamgifts.com/messages*",
-              url: "https://www.steamgifts.com/messages"
-            }, {
-              id: "inbox_st",
-              pattern: "*://*.steamtrades.com/messages*",
-              url: "https://www.steamtrades.com/messages"
-            }, {
-              id: "wishlist",
-              pattern: "*://*.steamgifts.com/giveaways/search?*type=wishlist*",
-              url: "https://www.steamgifts.com/giveaways/search?type=wishlist"
-            }, {
-              id: "won",
-              pattern: "*://*.steamgifts.com/giveaways/won*",
-              url: "https://www.steamgifts.com/giveaways/won"
-            }];
-            any = false;
-            i = 0, n = items.length;
-
-          case 3:
-            if (!(i < n)) {
-              _context6.next = 20;
-              break;
-            }
-
-            item = items[i];
-
-            if (request[item.id]) {
-              _context6.next = 7;
-              break;
-            }
-
-            return _context6.abrupt("continue", 17);
-
-          case 7:
-            _context6.next = 9;
-            return queryTabs({
-              url: item.pattern
-            });
-
-          case 9:
-            tab = _context6.sent[0];
-
-            if (!(tab && tab.id)) {
-              _context6.next = 16;
-              break;
-            }
-
-            _context6.next = 13;
-            return updateTab(tab.id, {
-              active: true
-            });
-
-          case 13:
-            if (request.refresh) {
-              browser.tabs.reload(tab.id);
-            }
-
-            _context6.next = 17;
-            break;
-
-          case 16:
-            if (request.any) {
-              any = true;
-            } else {
-              open(item.url);
-            }
-
-          case 17:
-            i++;
-            _context6.next = 3;
-            break;
-
-          case 20:
-            if (!any) {
-              _context6.next = 27;
-              break;
-            }
-
-            _context6.next = 23;
-            return queryTabs({
-              url: "*://*.steamgifts.com/*"
-            });
-
-          case 23:
-            _tab = _context6.sent[0];
-
-            if (!(_tab && _tab.id)) {
-              _context6.next = 27;
-              break;
-            }
-
-            _context6.next = 27;
-            return updateTab(_tab.id, {
-              active: true
-            });
-
-          case 27:
-          case "end":
-            return _context6.stop();
-        }
+async function getTabs(request) {
+  let items = [
+    {id: `inbox_sg`, pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
+    {id: `inbox_st`, pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
+    {
+      id: `wishlist`,
+      pattern: `*://*.steamgifts.com/giveaways/search?*type=wishlist*`,
+      url: `https://www.steamgifts.com/giveaways/search?type=wishlist`
+    },
+    {id: `won`, pattern: `*://*.steamgifts.com/giveaways/won*`, url: `https://www.steamgifts.com/giveaways/won`},
+  ];
+  let any = false;
+  for (let i = 0, n = items.length; i < n; i++) {
+    let item = items[i];
+    if (!request[item.id]) {
+      continue;
+    }
+    let tab = (await queryTabs({url: item.pattern}))[0];
+    if (tab && tab.id) {
+      await updateTab(tab.id, {active: true});
+      if (request.refresh) {
+        browser.tabs.reload(tab.id);
       }
-    }, _callee6, this);
-  }));
-  return _getTabs.apply(this, arguments);
+    } else if (request.any) {
+      any = true;
+    } else {
+      open(item.url);
+    }
+  }
+  if (any) {
+    let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
+    if (tab && tab.id) {
+      await updateTab(tab.id, {active: true});
+    }
+  }
 }
 
 function queryTabs(query) {
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     browser.tabs.query(query, resolve);
   });
 }
 
 function updateTab(id, parameters) {
-  return new Promise(function (resolve) {
+  return new Promise(resolve => {
     browser.tabs.update(id, parameters, resolve);
   });
 }
 
-function activateTab(_x10) {
-  return _activateTab.apply(this, arguments);
-}
-
-function _activateTab() {
-  _activateTab = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-  /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(host) {
-    var tab;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
-      while (1) {
-        switch (_context7.prev = _context7.next) {
-          case 0:
-            _context7.next = 2;
-            return queryTabs({
-              url: "*://*.".concat(host, ".com/*")
-            });
-
-          case 2:
-            tab = _context7.sent[0];
-
-            if (!(tab && tab.id)) {
-              _context7.next = 6;
-              break;
-            }
-
-            _context7.next = 6;
-            return updateTab(tab.id, {
-              active: true
-            });
-
-          case 6:
-          case "end":
-            return _context7.stop();
-        }
-      }
-    }, _callee7, this);
-  }));
-  return _activateTab.apply(this, arguments);
+async function activateTab(host) {
+  const tab = (await queryTabs({url: `*://*.${host}.com/*`}))[0];
+  if (tab && tab.id) {
+    await updateTab(tab.id, {active: true});
+  }
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node_modules/webpack/buildin/global.js */ "../../node_modules/webpack/buildin/global.js")))
 

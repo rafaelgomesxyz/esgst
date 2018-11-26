@@ -16,11 +16,6 @@ import Popup from './class/Popup';
 import {utils} from './lib/jsUtils';
 import esgst from './class/Esgst';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {ErrorBoundary} from './components/ErrorBoundary.jsx';
-import {HeaderMenu} from './components/HeaderMenu.jsx';
-
 /** @var {object} GM */
 /** @var {function} GM_getValue */
 /** @var {function} GM_setValue */
@@ -314,7 +309,7 @@ import {HeaderMenu} from './components/HeaderMenu.jsx';
         if (!esgst.header) {
           return;
         }
-        let className, context, position;
+        let arrow, button, className, context, dropdown, menu, position;
         if (esgst.sg) {
           className = `nav__left-container`;
           position = `beforeEnd`;
@@ -322,8 +317,310 @@ import {HeaderMenu} from './components/HeaderMenu.jsx';
           className = `nav_logo`;
           position = `afterEnd`;
         }
-        context = common.createElements(document.getElementsByClassName(className)[0], position, [{type: `div`}]);
-        ReactDOM.render(<ErrorBoundary><HeaderMenu/></ErrorBoundary>, context);
+        context = document.getElementsByClassName(className)[0];
+        menu = common.createElements(context, position, [{
+          attributes: {
+            class: `esgst-header-menu`,
+            id: `esgst`,
+            title: common.getFeatureTooltip()
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-header-menu-relative-dropdown esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-header-menu-absolute-dropdown`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/gsrafael01/ESGST`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-github grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `GitHub`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the GitHub page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/gsrafael01/ESGST/issues`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-bug red`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Bugs/Suggestions`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Report bugs and/or make suggestions.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/gsrafael01/ESGST/milestones`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-map-signs blue`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Milestones`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out what's coming in the next version.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.steamgifts.com/discussion/TDyzv/`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-commenting green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Discussion`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the discussion page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `http://steamcommunity.com/groups/esgst`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-steam green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Steam Group`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit/join the Steam group.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  id: `esgst-changelog`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-file-text-o yellow`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Changelog`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out the changelog.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.patreon.com/gsrafael01`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-dollar grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Patreon`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Become a patron to support ESGST!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-paypal grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Paypal (gsrafael01@gmail.com)`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Donate to support ESGST. Thank you!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Current Version: ${esgst.devVersion}`,
+                    type: `p`
+                  }]
+                }]
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa`
+              },
+              type: `i`,
+              children: [{
+                attributes: {
+                  src: esgst.icon
+                },
+                type: `img`
+              }]
+            }, {
+              text: `ESGST`,
+              type: `node`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button arrow`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-angle-down`
+              },
+              type: `i`
+            }]
+          }]
+        }]);
+        dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
+        button = dropdown.nextElementSibling;
+        arrow = button.nextElementSibling;
+        button.addEventListener(`mousedown`, event => {
+          if (event.button === 2) return;
+          event.preventDefault();
+          if (esgst.openSettingsInTab || event.button === 1) {
+            open(`/esgst/settings`);
+          } else {
+            common.loadMenu();
+          }
+        });
+        arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
+        document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
       };
       envVariables.browser.runtime.onMessage.addListener(message => {
         let key;
@@ -459,7 +756,7 @@ import {HeaderMenu} from './components/HeaderMenu.jsx';
         if (!esgst.header) {
           return;
         }
-        let className, context, position;
+        let arrow, button, className, context, dropdown, menu, position;
         if (esgst.sg) {
           className = `nav__left-container`;
           position = `beforeEnd`;
@@ -467,8 +764,338 @@ import {HeaderMenu} from './components/HeaderMenu.jsx';
           className = `nav_logo`;
           position = `afterEnd`;
         }
-        context = common.createElements(document.getElementsByClassName(className)[0], position, [{type: `div`}]);
-        ReactDOM.render(<ErrorBoundary><HeaderMenu/></ErrorBoundary>, context);
+        context = document.getElementsByClassName(className)[0];
+        menu = common.createElements(context, position, [{
+          attributes: {
+            class: `esgst-header-menu`,
+            id: `esgst`,
+            title: common.getFeatureTooltip()
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `esgst-header-menu-relative-dropdown esgst-hidden`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `esgst-header-menu-absolute-dropdown`
+              },
+              type: `div`,
+              children: [{
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  id: `esgst-update`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-refresh blue`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Update`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check for updates.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/gsrafael01/ESGST`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-github grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `GitHub`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the GitHub page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/gsrafael01/ESGST/issues`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-bug red`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Bugs/Suggestions`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Report bugs and/or make suggestions.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://github.com/gsrafael01/ESGST/milestones`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-map-signs blue`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Milestones`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out what's coming in the next version.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.steamgifts.com/discussion/TDyzv/`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-commenting green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Discussion`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit the discussion page.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `http://steamcommunity.com/groups/esgst`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-steam green`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Steam Group`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Visit/join the Steam group.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  id: `esgst-changelog`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-file-text-o yellow`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Changelog`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Check out the changelog.`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://www.patreon.com/gsrafael01`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-dollar grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Patreon`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Become a patron to support ESGST!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-paypal grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Paypal (gsrafael01@gmail.com)`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Donate to support ESGST. Thank you!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row esgst-version-row`
+                },
+                type: `div`,
+                children: [{
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Current Version: ${esgst.devVersion}`,
+                    type: `p`
+                  }]
+                }]
+              }]
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa`
+              },
+              type: `i`,
+              children: [{
+                attributes: {
+                  src: esgst.icon
+                },
+                type: `img`
+              }]
+            }, {
+              text: `ESGST`,
+              type: `node`
+            }]
+          }, {
+            attributes: {
+              class: `esgst-header-menu-button arrow`
+            },
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-angle-down`
+              },
+              type: `i`
+            }]
+          }]
+        }]);
+        dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
+        button = dropdown.nextElementSibling;
+        arrow = button.nextElementSibling;
+        button.addEventListener(`mousedown`, event => {
+          if (event.button === 2) return;
+          event.preventDefault();
+          if (esgst.openSettingsInTab || event.button === 1) {
+            open(`/esgst/settings`);
+          } else {
+            common.loadMenu();
+          }
+        });
+        arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
+        document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
+        document.getElementById(`esgst-update`).addEventListener(`click`, common.checkUpdate.bind(common));
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
       };
     }
 
