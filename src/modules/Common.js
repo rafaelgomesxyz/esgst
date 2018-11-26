@@ -13785,6 +13785,21 @@ class Common extends Module {
   loadChangelog(version) {
     const changelog = [
       {
+        date: `November 26, 2018`,
+        version: `8.0.5`,
+        changelog: {
+          1021: `Fix a bug that detects wrong removed games when syncing`,
+          1020: `Fix a bug in Reply Box Popup that does not go to the comment after posting`,
+          1019: `Use date-fns to format and display dates`,
+          1017: `Detect giveaways for Steam gift cards and Humble bundles`,
+          1016: `Change package scripts`,
+          1013: `Add giveaway filter "Game Tags"`,
+          1009: `Fix a bug that does not format train links correctly in Multiple Giveaway Creator`,
+          1008: `Fix a bug that does not calculate points to win in the entered page`
+        }
+      },
+
+      {
         date: `November 1, 2018`,
         version: `8.0.4`,
         changelog: {
