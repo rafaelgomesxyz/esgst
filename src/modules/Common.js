@@ -12525,7 +12525,7 @@ class Common extends Module {
   validateValue(value) {
     return typeof value === `undefined` || value;
   }
-  
+
   closeHeaderMenu(arrow, dropdown, menu, event) {
     if (!menu.contains(event.target) && arrow.classList.contains(`selected`)) {
       arrow.classList.remove(`selected`);

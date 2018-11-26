@@ -49,7 +49,8 @@ class CommentsReplyBoxPopup extends Module {
       title2: `Saving...`,
       callback1: async () => {
         popup.progress.innerHTML = ``;
-        await saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress);
+        await saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress, true);
+
       }
     }).set);
     popup.progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
