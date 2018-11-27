@@ -12,6 +12,8 @@ import dateFns_format from 'date-fns/format';
 import SidebarNavigation from '../lib/SgStUtils/SidebarNavigation';
 import PageHeading from '../lib/SgStUtils/PageHeading';
 import FormRows from '../lib/SgStUtils/FormRows';
+import Checkbox from '../class/Checkbox';
+import FormNotification from '../lib/SgStUtils/FormNotification';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
@@ -1430,6 +1432,16 @@ class Common extends Module {
     }
   }
 
+  async lockAndSaveSettings() {
+    const deleteLock = await this.createLock(`settingsLock`, 100);
+    const settings = JSON.parse(await this.getValue(`settings`, `{}`));
+    for (const key in this.esgst.settings) {
+      settings[key] = this.esgst.settings[key];
+    }
+    await this.setValue(`settings`, JSON.stringify(settings));
+    deleteLock();
+  }
+
   async setSetting() {
     const deleteLock = await this.createLock(`settingsLock`, 100);
     const settings = JSON.parse(await this.getValue(`settings`, `{}`));
@@ -2073,9 +2085,9 @@ class Common extends Module {
     if (this.esgst.firstInstall) {
       await this.sync(syncer);
     } else {
-      syncer.container = this.esgst.sidebar.nextElementSibling;
-      syncer.container.innerHTML = ``;
-      PageHeading(syncer.container, {
+      const context = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+      PageHeading(context, {
         items: [
           {
             name: `ESGST`
@@ -2085,146 +2097,192 @@ class Common extends Module {
           }
         ]
       });
-      if (syncer.parameters) {
-        syncer.container.insertAdjacentText(`beforeEnd`, `ESGST is syncing your data... Do not close this window.`);
-      }
-      if (!syncer.parameters) {
-        this.createElements(syncer.container, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-description`
-          },
-          text: `By selecting a number X in the dropdown menu next to each data other than 0, you are enabling automatic sync for that data (which means the data will be synced every X days).`,
-          type: `div`
-        }]);
-        syncer.switches = {
-          syncGroups: new ToggleSwitch(syncer.container, `syncGroups`, false, `Steam Groups`, false, false, null, this.esgst.syncGroups),
-          syncWhitelist: new ToggleSwitch(syncer.container, `syncWhitelist`, false, `Whitelist`, false, false, null, this.esgst.syncWhitelist),
-          syncBlacklist: new ToggleSwitch(syncer.container, `syncBlacklist`, false, `Blacklist`, false, false, null, this.esgst.syncBlacklist),
-          syncHiddenGames: new ToggleSwitch(syncer.container, `syncHiddenGames`, false, `Hidden Games`, false, false, null, this.esgst.syncHiddenGames),
-          syncGames: new ToggleSwitch(syncer.container, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, this.esgst.syncGames),
-          syncFollowedGames: new ToggleSwitch(syncer.container, `syncFollowedGames`, false, `Followed Games`, false, false, null, this.esgst.syncFollowedGames),
-          syncWonGames: new ToggleSwitch(syncer.container, `syncWonGames`, false, `Won Games`, false, false, null, this.esgst.syncWonGames),
-          syncReducedCvGames: new ToggleSwitch(syncer.container, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, this.esgst.syncReducedCvGames),
-          syncNoCvGames: new ToggleSwitch(syncer.container, `syncNoCvGames`, false, `No CV Games`, false, false, null, this.esgst.syncNoCvGames),
-          syncHltbTimes: new ToggleSwitch(syncer.container, `syncHltbTimes`, false, `HLTB Times`, false, false, null, this.esgst.syncHltbTimes),
-          syncGiveaways: new ToggleSwitch(syncer.container, `syncGiveaways`, false, `Giveaways`, false, false, null, this.esgst.syncGiveaways)
-        };
-        for (let id in syncer.switches) {
-          if (syncer.switches.hasOwnProperty(id)) {
-            this.setAutoSync(id, syncer.switches);
-          }
-        }
-        let group = this.createElements(syncer.container, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-button-group`
-          },
-          type: `div`,
-          children: [{
-            text: `Select:`,
-            type: `span`
-          }]
-        }]);
-        group.appendChild(new ButtonSet({
-          color1: `grey`,
-          color2: `grey`,
-          icon1: `fa-square`,
-          icon2: `fa-circle-o-notch fa-spin`,
-          title1: `All`,
-          title2: ``,
-          callback1: this.selectSwitches.bind(this, syncer.switches, `enable`, group)
-        }).set);
-        group.appendChild(new ButtonSet({
-          color1: `grey`,
-          color2: `grey`,
-          icon1: `fa-square-o`,
-          icon2: `fa-circle-o-notch fa-spin`,
-          title1: `None`,
-          title2: ``,
-          callback1: this.selectSwitches.bind(this, syncer.switches, `disable`, group)
-        }).set);
-        group.appendChild(new ButtonSet({
-          color1: `grey`,
-          color2: `grey`,
-          icon1: `fa-plus-square-o`,
-          icon2: `fa-circle-o-notch fa-spin`,
-          title1: `Inverse`,
-          title2: ``,
-          callback1: this.selectSwitches.bind(this, syncer.switches, `toggle`, group)
-        }).set);
-      }
-      syncer.progress = this.createElements(syncer.container, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-hidden esgst-popup-progress`
-        },
-        type: `div`
-      }]);
-      syncer.results = this.createElements(syncer.container, `beforeEnd`, [{
-        type: `div`
-      }]);
-      syncer.set = new ButtonSet({
+      $(context).append(`
+        <div style="display: flex;">
+          <div class="esgst-sync-options" style="flex: 1;"></div>
+          <div class="esgst-sync-area" style="flex: 1;"></div>
+        </div>
+      `);
+      $(context).append(new ButtonSet({
         color1: `green`,
         color2: `grey`,
-        icon1: `fa-refresh`,
-        icon2: `fa-times`,
-        title1: `Sync`,
-        title2: `Cancel`,
-        callback1: this.sync.bind(this, syncer),
-        callback2: this.cancelSync.bind(this, syncer)
-      });
-      syncer.container.appendChild(syncer.set.set);
-      if (syncer.parameters) {
-        syncer.set.trigger();
+        icon1: ``,
+        icon2: ``,
+        title1: `Save Changes`,
+        title2: `Saving...`,
+        callback1: async () => {
+          await this.lockAndSaveSettings();
+          window.location.reload();
+        }
+      }).set);
+      syncer.container = $(context).find(`.esgst-sync-options`)[0];
+      syncer.area = $(context).find(`.esgst-sync-area`)[0];
+      syncer.manual = {
+        check: true,
+        name: `Manual`
+      };
+      syncer.automatic = {
+        check: true,
+        name: `Automatic`
+      };
+      FormRows(syncer.container, {items:[syncer.manual, syncer.automatic]});
+      syncer.switches = {
+        syncGroups: {
+          key: `Groups`,
+          name: `Groups`
+        },
+        syncWhitelist: {
+          key: `Whitelist`,
+          name: `Whitelist`
+        },
+        syncBlacklist: {
+          key: `Blacklist`,
+          name: `Blacklist`
+        },
+        syncHiddenGames: {
+          key: `HiddenGames`,
+          name: `Hidden Games`
+        },
+        syncGames: {
+          key: `Games`,
+          name: `Owned/Wishlisted/Ignored Games`
+        },
+        syncFollowedGames: {
+          key: `FollowedGames`,
+          name: `Followed Games`
+        },
+        syncWonGames: {
+          key: `WonGames`,
+          name: `Won Games`
+        },
+        syncReducedCvGames: {
+          key: `ReducedCvGames`,
+          name: `Reduced CV Games`
+        },
+        syncNoCvGames: {
+          key: `NoCvGames`,
+          name: `No CV Games`
+        },
+        syncHltbTimes: {
+          key: `HltbTimes`,
+          name: `HLTB Times`
+        },
+        syncGiveaways: {
+          key: `Giveaways`,
+          name: `Giveaways`
+        }
+      };
+      for (let id in syncer.switches) {
+        if (syncer.switches.hasOwnProperty(id)) {
+          const info = syncer.switches[id];
+          const element = $(`
+            <div>
+              <span class="cb"></span>
+              <span class="name"></span>
+            </div>
+          `);
+          element.appendTo(syncer.manual.context);
+          const checkbox = new Checkbox(element.find(`.cb`)[0], this.esgst[`sync${info.key}`]);
+          checkbox.onChange = () => {
+            this.esgst.settings[`sync${info.key}`] = this.esgst[`sync${info.key}`] = checkbox.value
+          };
+          element.find(`.name`).text(info.name);
+          syncer.switches[id] = checkbox;
+          this.setAutoSync(info.key, info.name, syncer);
+          FormNotification(syncer.area, {
+            name: info.name,
+            success: !!this.esgst[`lastSync${info.key}`],
+            date: this.esgst[`lastSync${info.key}`]
+          });
+        }
       }
+      
+      this.createElements(syncer.automatic.context[0], `beforeEnd`, [{
+        attributes: {
+          class: `esgst-description`
+        },
+        text: `Select how often you want the automatic sync to run (in days) or 0 to disable it.`,
+        type: `div`
+      }]);
+      let group = this.createElements(syncer.manual.context[0], `beforeEnd`, [{
+        attributes: {
+          class: `esgst-button-group`
+        },
+        type: `div`,
+        children: [{
+          text: `Select:`,
+          type: `span`
+        }]
+      }]);
+      group.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-square`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `All`,
+        title2: ``,
+        callback1: this.selectSwitches.bind(this, syncer.switches, `check`, false)
+      }).set);
+      group.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-square-o`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `None`,
+        title2: ``,
+        callback1: this.selectSwitches.bind(this, syncer.switches, `uncheck`, false)
+      }).set);
+      group.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-plus-square-o`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Inverse`,
+        title2: ``,
+        callback1: this.selectSwitches.bind(this, syncer.switches, `toggle`, false)
+      }).set);
+    }
+    syncer.progress = this.createElements(syncer.area, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-hidden esgst-popup-progress`
+      },
+      type: `div`
+    }]);
+    syncer.results = this.createElements(syncer.area, `beforeEnd`, [{
+      type: `div`
+    }]);
+    syncer.set = new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-refresh`,
+      icon2: `fa-times`,
+      title1: `Sync`,
+      title2: `Cancel`,
+      callback1: this.sync.bind(this, syncer),
+      callback2: this.cancelSync.bind(this, syncer)
+    });
+    syncer.manual.context[0].appendChild(syncer.set.set);
+    if (syncer.parameters) {
+      syncer.set.trigger();
     }
   }
 
-  setAutoSync(id, switches) {
-    let html, i, key, select, toggleSwitch;
-    key = id.replace(/^sync/, ``);
-    toggleSwitch = switches[id];
-    html = [{
-      attributes: {
-        class: `esgst-auto-sync`
-      },
-      type: `select`,
-      children: []
-    }];
-    for (i = 0; i < 31; ++i) {
-      html[0].children.push({
-        text: i,
-        type: `option`
-      });
+  setAutoSync(key, name, syncer) {
+    let days = ``;
+    for (let i = 0; i < 31; ++i) {
+      days += `<option>${i}</option>`;
     }
-    select = this.createElements(toggleSwitch.name, `beforeEnd`, html);
+    const element = $(`
+      <div>
+        <select class="esgst-auto-sync">${days}</select>
+        <span></span>
+      </div>      
+    `);
+    element.appendTo(syncer.automatic.context[0]);
+    element.find(`span`).text(name);
+    const select = element.find(`select`)[0];
     select.selectedIndex = this.esgst[`autoSync${key}`];
-    this.observeNumChange(select, `autoSync${key}`);
-    if (this.esgst[`lastSync${key}`]) {
-      toggleSwitch.date = this.createElements(toggleSwitch.name, `beforeEnd`, [{
-        type: `span`,
-        children: [{
-          attributes: {
-            class: `fa fa-check-circle`
-          },
-          type: `i`
-        }, {
-          text: ` Last synced ${new Date(this.esgst[`lastSync${key}`]).toLocaleString()}`,
-          type: `node`
-        }]
-      }]);
-    } else {
-      toggleSwitch.date = this.createElements(toggleSwitch.name, `beforeEnd`, [{
-        type: `span`,
-        children: [{
-          attributes: {
-            class: `fa fa-times`
-          },
-          type: `i`
-        }, {
-          text: ` Never synced.`,
-          type: `node`
-        }]
-      }]);
-    }
+    select.onChange = () => this.esgst.settings[`autoSync${key}`] = this.esgst[`autoSync${key}`] = select.value;
   }
 
   cancelSync(syncer) {
@@ -2696,17 +2754,6 @@ class Common extends Module {
         if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && this.esgst.settings[id])) {
           await this.setSetting(`lastSync${key}`, currentTime);
           this.esgst[`lastSync${key}`] = currentTime;
-          if (syncer.switches && syncer.switches[id]) {
-            this.createElements(syncer.switches[id].date, `inner`, [{
-              attributes: {
-                class: `fa fa-check-circle`
-              },
-              type: `i`
-            }, {
-              text: ` Last synced ${string}`,
-              type: `node`
-            }]);
-          }
         }
       }
       this.createElements(syncer.progress, `inner`, [{
@@ -2718,7 +2765,7 @@ class Common extends Module {
     if (syncer.set && syncer.parameters) {
       syncer.set.set.remove();
     }
-    if (syncer.parameters && syncer.container) {
+    if (syncer.parameters) {
       window.alert(`Sync done! You can close this.`);
     }
   }

@@ -1,8 +1,4 @@
-import {common} from '../modules/Common';
-
-const
-  createElements = common.createElements.bind(common)
-;
+import {container} from './Container';
 
 export default class Checkbox {
   constructor(context, defaultValue, threeState, messages = {}) {
@@ -14,7 +10,7 @@ export default class Checkbox {
     this.isBlocked = false;
     this.value = defaultValue;
     this.isThreeState = threeState;
-    this.checkbox = createElements(context, `afterBegin`, [{
+    this.checkbox = container.common.createElements(context, `afterBegin`, [{
       attributes: {
         class: `esgst-checkbox`
       },
@@ -149,14 +145,23 @@ export default class Checkbox {
   check(callback) {
     this.preValue = this.input.checked = true;
     this.change(false, null, callback);
+    if (this.onChange) {
+      this.onChange();
+    }
   }
 
   uncheck(callback) {
     this.preValue = this.input.checked = false;
     this.change(false, null, callback);
+    if (this.onChange) {
+      this.onChange();
+    }
   }
 
   toggle(callback) {
     this.change(true, null, callback);
+    if (this.onChange) {
+      this.onChange();
+    }
   }
 }
