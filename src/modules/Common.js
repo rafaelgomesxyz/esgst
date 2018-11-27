@@ -9768,7 +9768,7 @@ class Common extends Module {
     }
 
     .esgst-qgs-container-expanded {
-      position: absolute;
+      position: ${this.esgst.qgs_index === `0` ? `absolute` : `static`};
     }
 
     .esgst-qgs-container-expanded .esgst-qgs-input {
