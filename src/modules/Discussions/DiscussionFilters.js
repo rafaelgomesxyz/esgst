@@ -243,11 +243,9 @@ class DiscussionsDiscussionFilters extends Module {
     await checkMissingDiscussions();
   }
 
-  df_menu(obj, event) {
-    if (obj.process) return;
-
+  df_menu(obj, button) {
     obj.process = new Process({
-      button: event.currentTarget,
+      button,
       popup: {
         icon: `fa-comments`,
         title: `Hidden Discussions`,
@@ -263,8 +261,6 @@ class DiscussionsDiscussionFilters extends Module {
         }
       }
     });
-    // noinspection JSIgnoredPromiseFromCall
-    obj.process.openPopup();
   }
 
   async df_initUrls(obj) {

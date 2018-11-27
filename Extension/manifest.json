@@ -1,16 +1,15 @@
 {
+  "applications": {
+    "gecko": {
+      "id": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
+    }
+  },
   "author": "gsrafael01",
   "background": {
     "scripts": [
       "eventPage.js"
     ],
     "persistent": true
-  },
-  "browser_action": {
-    "default_icon": {
-      "64": "icon.png"
-    },
-    "default_popup": "popup.html"
   },
   "content_scripts": [
     {

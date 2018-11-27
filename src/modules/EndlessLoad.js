@@ -16,9 +16,7 @@ class EndlessLoad extends Module {
   }
 
   async endlessLoad() {
-    if (!this.esgst.menuPath) {
-      await endless_load(document, true);
-    }
+    await endless_load(document, true);
   }
 }
 

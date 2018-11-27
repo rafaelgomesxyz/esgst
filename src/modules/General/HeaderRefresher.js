@@ -432,9 +432,9 @@ class GeneralHeaderRefresher extends Module {
         context.fillText(messageCount, 9, 14);
         this.esgst.favicon.href = canvas.toDataURL(`image/png`);
       };
-      image.src = this.esgst.menuPath ? this.esgst.icon : this.esgst[`${this.esgst.name}Icon`];
+      image.src = this.esgst[`${this.esgst.name}Icon`];
     } else {
-      this.esgst.favicon.href = this.esgst.menuPath ? this.esgst.icon : this.esgst[`${this.esgst.name}Icon`];
+      this.esgst.favicon.href = this.esgst[`${this.esgst.name}Icon`];
     }
     if (this.esgst.sg) {
       if (hr.points !== this.esgst.points) {

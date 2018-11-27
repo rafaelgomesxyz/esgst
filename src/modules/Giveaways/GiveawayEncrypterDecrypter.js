@@ -3,6 +3,7 @@ import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -59,7 +60,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let ged = {
       newGiveaways: []
     };
-    if (this.esgst.gedPath) {
+    if (this.esgst.accountPath && this.esgst.parameters.esgst === `ged`) {
       // noinspection JSIgnoredPromiseFromCall
       this.ged_openPopup(ged);
     } else {
@@ -94,10 +95,22 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       if (event.button === 2) return;
       event.preventDefault();
     }
-    if (this.esgst.gedPath) {
-      ged.container = ged.context = this.esgst.mainContext;
+    if (this.esgst.accountPath && this.esgst.parameters.esgst === `ged`) {
+      const context = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+      PageHeading(context, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: `Decrypted Giveaways`
+          }
+        ]
+      });
+      ged.container = ged.context = createElements(context, `beforeEnd`, [{type: `div`}]);
     } else if (this.esgst.ged_t || (event && event.button === 1)) {
-      open(`/esgst/decrypted-giveaways`);
+      open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
     } else {
       ged.popup = new Popup({addScrollable: true, icon: `fa-star`, isTemp: true, title: `Decrypted Giveaways`});
       ged.container = ged.popup.description;

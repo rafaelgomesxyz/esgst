@@ -39,7 +39,7 @@ class GamesEnteredGameHighlighter extends Module {
           button.addEventListener(`click`, this.egh_saveGame.bind(this, game.id, game.type));
         }
       }
-      if (!this.esgst.menuPath && this.esgst.games[game.type][game.id] && this.esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
+      if (this.esgst.games[game.type][game.id] && this.esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
         createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
           attributes: {
             [`data-draggable-id`]: `egh`,

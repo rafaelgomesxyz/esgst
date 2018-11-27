@@ -516,7 +516,7 @@ class CommentsCommentFormattingHelper extends Module {
           imgur.addEventListener(`click`, () => {
             multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(this, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
               await delValue(`imgurToken`);
-              openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token`);
+              openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);
               // noinspection JSIgnoredPromiseFromCall
               this.cfh_checkImgur(popout, url);
             });

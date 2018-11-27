@@ -40,10 +40,11 @@ export default class Popup {
         type: `div`,
         children: [{
           attributes: {
-            class: `esgst-hidden`
+            class: `esgst-hidden`,
+            href: `https://www.steamgifts.com/account/settings/profile?esgst=settings`
           },
           text: `Settings`,
-          type: `span`
+          type: `a`
         }, {
           attributes: {
             class: `esgst-popup-close`
@@ -62,15 +63,6 @@ export default class Popup {
       if (!details.settings) {
         let settings = this.actions.firstElementChild;
         settings.classList.remove(`esgst-hidden`);
-        settings.addEventListener(`mousedown`, event => {
-          if (event.button === 2) return;
-          event.preventDefault();
-          if (container.esgst.openSettingsInTab || event.button === 1) {
-            open(`/esgst/settings`);
-          } else {
-            container.common.loadMenu();
-          }
-        });
       }
       this.description.nextElementSibling.lastElementChild.addEventListener(`click`, () => this.close());
     } else {
