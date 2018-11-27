@@ -4,6 +4,102 @@ import modules from '../modules';
 
 class Esgst {
   constructor() {
+    this.paths = {
+      sg: [
+        { name: `Everywhere`, pattern: `.*` },
+        { name: `Browse Giveaways`, pattern: `^/($|giveaways($|/search))` },
+        { name: `Browse Giveaways - All`, pattern: `^/($|giveaways($|/search\\?(?!type)))` },
+        { name: `Browse Giveaways - Wishlist`, pattern: `^/giveaways/search\\?type=wishlist` },
+        { name: `Browse Giveaways - Recommended`, pattern: `^/giveaways/search\\?type=recommended` },
+        { name: `Browse Giveaways - Group`, pattern: `^/giveaways/search\\?type=group` },
+        { name: `Browse Giveaways - New`, pattern: `^/giveaways/search\\?type=new` },
+        { name: `Community Wishlist`, pattern: `^/giveaways/wishlist` },
+        { name: `My Giveaways - New`, pattern: `^/giveaways/new` },
+        { name: `My Giveaways - Created`, pattern: `^/giveaways/created` },
+        { name: `My Giveaways - Entered`, pattern: `^/giveaways/entered` },
+        { name: `My Giveaways - Won`, pattern: `^/giveaways/won` },
+        { name: `Archive`, pattern: `^/archive` },
+        { name: `Archive - All`, pattern: `^/archive($|/search)` },
+        { name: `Archive - Coming Soon`, pattern: `^/archive/coming-soon` },
+        { name: `Archive - Open`, pattern: `^/archive/open` },
+        { name: `Archive - Closed`, pattern: `^/archive/closed` },
+        { name: `Archive - Deleted`, pattern: `^/archive/deleted` },
+        { name: `Bundle Games`, pattern: `^/bundle-games` },
+        { name: `Giveaway`, pattern: `^/giveaway/` },
+        { name: `Giveaway - Comments`, pattern: `^/giveaway/.+?/[^/]+($|/search)` },
+        { name: `Giveaway - Entries`, pattern: `^/giveaway/.+?/[^/]+/entries` },
+        { name: `Giveaway - Winners`, pattern: `^/giveaway/.+?/[^/]+/winners` },
+        { name: `Giveaway - Groups`, pattern: `^/giveaway/.+?/[^/]+/groups` },
+        { name: `Giveaway - Region Restrictions`, pattern: `^/giveaway/.{5}/[A-Za-z0-9-]+/region-restrictions` },
+        { name: `Group`, pattern: `^/group/` },
+        { name: `Group - Giveaways`, pattern: `^/group/.+?/[^/]+($|/search)` },
+        { name: `Group - Users`, pattern: `^/group/.+?/[^/]+/users` },
+        { name: `Group - Stats`, pattern: `^/group/.+?/[^/]+/stats` },
+        { name: `Group - Wishlist`, pattern: `^/group/.+?/[^/]+/wishlist` },
+        { name: `Discussions`, pattern: `^/discussions` },
+        { name: `Discussions - All`, pattern: `^/discussions($|/search)` },
+        { name: `Discussions - Announcements`, pattern: `^/discussions/announcements` },
+        { name: `Discussions - Bugs / Suggestions`, pattern: `^/discussions/bugs-suggestions` },
+        { name: `Discussions - Deals`, pattern: `^/discussions/deals` },
+        { name: `Discussions - General`, pattern: `^/discussions/general` },
+        { name: `Discussions - Group Recruitment`, pattern: `^/discussions/group-recruitment` },
+        { name: `Discussions - Let's Play Together`, pattern: `^/discussions/lets-play-together` },
+        { name: `Discussions - Off-Topic`, pattern: `^/discussions/off-topic` },
+        { name: `Discussions - Puzzles`, pattern: `^/discussions/puzzles` },
+        { name: `Discussions - Uncategorized`, pattern: `^/discussions/uncategorized` },
+        { name: `My Discussions - New`, pattern: `^/discussions/new` },
+        { name: `My Discussions - Edit`, pattern: `^/discussions/edit` },
+        { name: `My Discussions - Created`, pattern: `^/discussions/created` },
+        { name: `Discussion`, pattern: `^/discussion/` },
+        { name: `Tickets`, pattern: `^/support/tickets` },
+        { name: `Tickets - All`, pattern: `^/support/tickets($|/search)` },
+        { name: `Tickets - Change Giveaway Game`, pattern: `^/support/tickets/change-giveaway-game` },
+        { name: `Tickets - Delete Giveaway`, pattern: `^/support/tickets/delete-giveaway` },
+        { name: `Tickets - Other`, pattern: `^/support/tickets/other` },
+        { name: `Tickets - Request New Winner`, pattern: `^/support/tickets/request-new-winner` },
+        { name: `Tickets - Unsuspend Request`, pattern: `^/support/tickets/unsuspend-request` },
+        { name: `Tickets - User Report`, pattern: `^/support/tickets/user-report` },
+        { name: `Ticket`, pattern: `^/support/ticket/` },
+        { name: `User`, pattern: `^/user` },
+        { name: `User - Giveaways - Sent`, pattern: `^/user($|/search)` },
+        { name: `User - Giveaways - Won`, pattern: `^/user/giveaways/won` },
+        { name: `Messages`, pattern: `^/messages` },
+        { name: `Messages - All`, pattern: `^/messages($|/search)` },
+        { name: `Messages - Giveaways`, pattern: `^/messages/giveaways` },
+        { name: `Messages - Discussions`, pattern: `^/messages/discussions` },
+        { name: `Messages - Tickets`, pattern: `^/messages/tickets` },
+        { name: `Manage - Whitelist`, pattern: `^/account/manage/whitelist` },
+        { name: `Manage - Blacklist`, pattern: `^/account/manage/blacklist` },
+        { name: `Steam - Games`, pattern: `^/account/steam/games` },
+        { name: `Steam - Groups`, pattern: `^/account/steam/groups` },
+        { name: `Steam - Wishlist`, pattern: `^/account/steam/wishlist` },
+        { name: `About - Brand Assets`, pattern: `^/about/brand-assets$` },
+        { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting$` },
+        { name: `About - FAQ`, pattern: `^/about/faq$` },
+        { name: `About - Guidelines`, pattern: `^/about/guidelines$` },
+        { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy$` },
+        { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy$` },
+        { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service$` },
+        { name: `Settings - Profile`, pattern: `^/account/settings/profile$` },
+        { name: `Settings - Patreon`, pattern: `^/account/settings/patreon$` },
+        { name: `Settings - Giveaways`, pattern: `^/account/settings/giveaways$` },
+        { name: `Settings - Giveaways - Filters`, pattern: `^/account/settings/giveaways/filters` },
+        { name: `Settings - Email Notifications`, pattern: `^/account/settings/email-notifications$` },
+        { name: `Settings - Referrals`, pattern: `^/account/settings/referrals$` },
+        { name: `Privacy - Delete Account`, pattern: `^/account/privacy/delete-account$` },
+        { name: `Stats - Personal - Community`, pattern: `^/stats/personal/community$` },
+        { name: `Stats - Personal - Steam`, pattern: `^/stats/personal/steam$` },
+        { name: `Stats - Community - Giveaways`, pattern: `^/stats/community/giveaways$` },
+        { name: `Stats - Community - Discussions`, pattern: `^/stats/community/discussions$` },
+        { name: `Stats - Community - Comments`, pattern: `^/stats/community/comments$` },
+        { name: `Stats - Community - Support`, pattern: `^/stats/community/support$` },
+        { name: `Stats - Community - Users`, pattern: `^/stats/community/users$` },
+        { name: `Stats - Steam - Games`, pattern: `^/stats/steam/games$` }
+      ],
+      st: [
+        { name: `Everywhere`, pattern: `.*` }
+      ]
+    };
     this.formatDistanceLocale = {
       formatDistance: (token, count) => {
         switch (token) {
@@ -668,7 +764,7 @@ class Esgst {
     this.st = null;
 
     this.currentVersion = `8.0.5`;
-    this.devVersion = `8.0.6 (Dev.4)`;
+    this.devVersion = `8.0.6 (Dev.5)`;
     // noinspection SpellCheckingInspection
     this.icon = `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`;
     // noinspection SpellCheckingInspection
