@@ -9,6 +9,9 @@ import JSZip from 'jszip';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import {TextEncoder} from 'text-encoding/lib/encoding';
 import dateFns_format from 'date-fns/format';
+import SidebarNavigation from '../lib/SgStUtils/SidebarNavigation';
+import PageHeading from '../lib/SgStUtils/PageHeading';
+import FormRows from '../lib/SgStUtils/FormRows';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
@@ -173,12 +176,87 @@ class Common extends Module {
     }
   }
 
+  setSidebarActive(id) {
+    const selected = $(`.is-selected`);
+    selected.find(`i.fa-caret-right`).remove();
+    selected.removeClass(`is-selected`);
+    const newSelected = $(`#${id}`);
+    newSelected.addClass(`is-selected`);
+    newSelected.find(`a.sidebar__navigation__item__link`).prepend(`
+      <i class="fa fa-caret-right"></i>
+    `);
+  }
+
   /**
    *
    * @param {Object} modules
    * @returns {Promise<void>}
    */
   async loadFeatures(modules) {
+    if (this.esgst.accountPath) {
+      SidebarNavigation(this.esgst.sidebar, {
+        name: `ESGST`,
+        items: [
+          {
+            id: `settings`,
+            name: `Settings`,
+            url: `?esgst=settings`
+          },
+          {
+            id: `sync`,
+            name: `Sync`,
+            url: `?esgst=sync`
+          },
+          {
+            id: `backup`,
+            name: `Backup`,
+            url: `?esgst=backup`
+          },
+          {
+            id: `restore`,
+            name: `Restore`,
+            url: `?esgst=restore`
+          },
+          {
+            id: `delete`,
+            name: `Delete`,
+            url: `?esgst=delete`
+          },
+          {
+            id: `clean`,
+            name: `Clean`,
+            url: `?esgst=clean`
+          },
+          {
+            id: `data-management`,
+            name: `Data Management`,
+            url: `?esgst=data-management`
+          }
+        ]
+      });
+      if (this.esgst.parameters.esgst === `settings`) {
+        this.setSidebarActive(`settings`);
+        this.loadMenu();
+      } else if (this.esgst.parameters.esgst === `sync`) {
+        this.setSidebarActive(`sync`);
+        this.setSync();
+      } else if (this.esgst.parameters.esgst === `backup`) {
+        this.setSidebarActive(`backup`);
+        this.loadDataManagement(`export`);
+      } else if (this.esgst.parameters.esgst === `restore`) {
+        this.setSidebarActive(`restore`);
+        this.loadDataManagement(`import`);
+      } else if (this.esgst.parameters.esgst === `delete`) {
+        this.setSidebarActive(`delete`);
+        this.loadDataManagement(`delete`);
+      } else if (this.esgst.parameters.esgst === `clean`) {
+        this.setSidebarActive(`clean`);
+        this.loadDataCleaner();
+      } else if (this.esgst.parameters.esgst === `data-management`) {
+        this.setSidebarActive(`data-management`);
+        this.loadDM();
+      }
+    }
     if (this.esgst.minimizePanel) {
       this.minimizePanel_add();
     }
@@ -365,9 +443,7 @@ class Common extends Module {
     }
     url += `page=`;
     this.esgst.searchUrl = url;
-    if (!this.esgst.menuPath) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-    }
+    await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
     this.esgst.header = /** @type {HTMLElement} */ document.getElementsByTagName(`header`)[0];
     this.esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName(`nav__left-container`)[0];
     this.esgst.pagination = /** @type {HTMLElement} */ document.getElementsByClassName(`pagination`)[0];
@@ -774,16 +850,6 @@ class Common extends Module {
             </ul>
           `,
             name: `Retrieve game names when syncing.`,
-            sg: true,
-            st: true
-          },
-          openSettingsInTab: {
-            name: `Open settings menu in a separate tab.`,
-            sg: true,
-            st: true
-          },
-          openSyncInTab: {
-            name: `Open the automatic sync in a new tab.`,
             sg: true,
             st: true
           },
@@ -1980,61 +2046,50 @@ class Common extends Module {
     if (menu) {
       await this.setSync(false, callback);
     } else if (!isSyncing || currentDate - isSyncing > 1800000) {
-      if (this.esgst.openSyncInTab) {
-        let parameters = ``;
-        this.setLocalValue(`isSyncing`, currentDate);
-        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
-          if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
-            parameters += `${key}=1&`;
-          }
-        });
-        if (parameters) {
-          if (this.esgst.sg) {
-            open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
-          } else {
-            open(`/esgst/sync?${parameters.replace(/&$/, ``)}`);
-          }
-        } else {
-          this.delLocalValue(`isSyncing`);
+      let parameters = ``;
+      this.setLocalValue(`isSyncing`, currentDate);
+      [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
+        if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
+          parameters += `${key}=1&`;
         }
+      });
+      if (parameters) {
+        open(`https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${parameters.replace(/&$/, ``)}`);
       } else {
-        let parameters = {};
-        this.setLocalValue(`isSyncing`, currentDate);
-        [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
-          if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
-            parameters[key] = 1;
-          }
-        });
-        if (Object.keys(parameters).length > 0) {
-          await this.setSync(false, null, parameters);
-        } else {
-          this.delLocalValue(`isSyncing`);
-        }
+        this.delLocalValue(`isSyncing`);
       }
     }
   }
 
   /**
-   * @param [autoSync]
-   * @param [mainCallback]
-   * @param [parameters]
    * @returns {Promise<void>}
    */
-  async setSync(autoSync, mainCallback, parameters) {
+  async setSync() {
     let syncer = {};
-    syncer.autoSync = autoSync;
     syncer.canceled = false;
+    if (this.esgst.parameters.autoSync) {
+      syncer.parameters = this.esgst.parameters;
+    }
     if (this.esgst.firstInstall) {
       await this.sync(syncer);
-    } else if (syncer.autoSync || mainCallback || parameters) {
-      syncer.popup = new Popup({
-        addScrollable: true,
-        icon: parameters ? `fa-circle-o-notch fa-spin` : `fa-refresh`,
-        settings: !this.esgst.minimizePanel,
-        title: parameters ? `ESGST is syncing your data... ${this.esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}` : `Sync`
+    } else {
+      syncer.container = this.esgst.sidebar.nextElementSibling;
+      syncer.container.innerHTML = ``;
+      PageHeading(syncer.container, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: `Sync`
+          }
+        ]
       });
-      if (!syncer.autoSync && !parameters) {
-        this.createElements(syncer.popup.description, `afterBegin`, [{
+      if (syncer.parameters) {
+        syncer.container.insertAdjacentText(`beforeEnd`, `ESGST is syncing your data... Do not close this window.`);
+      }
+      if (!syncer.parameters) {
+        this.createElements(syncer.container, `beforeEnd`, [{
           attributes: {
             class: `esgst-description`
           },
@@ -2042,24 +2097,24 @@ class Common extends Module {
           type: `div`
         }]);
         syncer.switches = {
-          syncGroups: new ToggleSwitch(syncer.popup.scrollable, `syncGroups`, false, `Steam Groups`, false, false, null, this.esgst.syncGroups),
-          syncWhitelist: new ToggleSwitch(syncer.popup.scrollable, `syncWhitelist`, false, `Whitelist`, false, false, null, this.esgst.syncWhitelist),
-          syncBlacklist: new ToggleSwitch(syncer.popup.scrollable, `syncBlacklist`, false, `Blacklist`, false, false, null, this.esgst.syncBlacklist),
-          syncHiddenGames: new ToggleSwitch(syncer.popup.scrollable, `syncHiddenGames`, false, `Hidden Games`, false, false, null, this.esgst.syncHiddenGames),
-          syncGames: new ToggleSwitch(syncer.popup.scrollable, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, this.esgst.syncGames),
-          syncFollowedGames: new ToggleSwitch(syncer.popup.scrollable, `syncFollowedGames`, false, `Followed Games`, false, false, null, this.esgst.syncFollowedGames),
-          syncWonGames: new ToggleSwitch(syncer.popup.scrollable, `syncWonGames`, false, `Won Games`, false, false, null, this.esgst.syncWonGames),
-          syncReducedCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, this.esgst.syncReducedCvGames),
-          syncNoCvGames: new ToggleSwitch(syncer.popup.scrollable, `syncNoCvGames`, false, `No CV Games`, false, false, null, this.esgst.syncNoCvGames),
-          syncHltbTimes: new ToggleSwitch(syncer.popup.scrollable, `syncHltbTimes`, false, `HLTB Times`, false, false, null, this.esgst.syncHltbTimes),
-          syncGiveaways: new ToggleSwitch(syncer.popup.scrollable, `syncGiveaways`, false, `Giveaways`, false, false, null, this.esgst.syncGiveaways)
+          syncGroups: new ToggleSwitch(syncer.container, `syncGroups`, false, `Steam Groups`, false, false, null, this.esgst.syncGroups),
+          syncWhitelist: new ToggleSwitch(syncer.container, `syncWhitelist`, false, `Whitelist`, false, false, null, this.esgst.syncWhitelist),
+          syncBlacklist: new ToggleSwitch(syncer.container, `syncBlacklist`, false, `Blacklist`, false, false, null, this.esgst.syncBlacklist),
+          syncHiddenGames: new ToggleSwitch(syncer.container, `syncHiddenGames`, false, `Hidden Games`, false, false, null, this.esgst.syncHiddenGames),
+          syncGames: new ToggleSwitch(syncer.container, `syncGames`, false, `Owned/Wishlisted/Ignored Games`, false, false, null, this.esgst.syncGames),
+          syncFollowedGames: new ToggleSwitch(syncer.container, `syncFollowedGames`, false, `Followed Games`, false, false, null, this.esgst.syncFollowedGames),
+          syncWonGames: new ToggleSwitch(syncer.container, `syncWonGames`, false, `Won Games`, false, false, null, this.esgst.syncWonGames),
+          syncReducedCvGames: new ToggleSwitch(syncer.container, `syncReducedCvGames`, false, `Reduced CV Games`, false, false, null, this.esgst.syncReducedCvGames),
+          syncNoCvGames: new ToggleSwitch(syncer.container, `syncNoCvGames`, false, `No CV Games`, false, false, null, this.esgst.syncNoCvGames),
+          syncHltbTimes: new ToggleSwitch(syncer.container, `syncHltbTimes`, false, `HLTB Times`, false, false, null, this.esgst.syncHltbTimes),
+          syncGiveaways: new ToggleSwitch(syncer.container, `syncGiveaways`, false, `Giveaways`, false, false, null, this.esgst.syncGiveaways)
         };
         for (let id in syncer.switches) {
           if (syncer.switches.hasOwnProperty(id)) {
             this.setAutoSync(id, syncer.switches);
           }
         }
-        let group = this.createElements(syncer.popup.description, `beforeEnd`, [{
+        let group = this.createElements(syncer.container, `beforeEnd`, [{
           attributes: {
             class: `esgst-button-group`
           },
@@ -2097,55 +2152,29 @@ class Common extends Module {
           callback1: this.selectSwitches.bind(this, syncer.switches, `toggle`, group)
         }).set);
       }
-      syncer.progress = this.createElements(syncer.popup.description, `beforeEnd`, [{
+      syncer.progress = this.createElements(syncer.container, `beforeEnd`, [{
         attributes: {
           class: `esgst-hidden esgst-popup-progress`
         },
         type: `div`
       }]);
-      syncer.results = this.createElements(syncer.popup.scrollable, `afterBegin`, [{
+      syncer.results = this.createElements(syncer.container, `beforeEnd`, [{
         type: `div`
       }]);
-      if (!parameters) {
-        syncer.set = new ButtonSet({
-          color1: `green`,
-          color2: `grey`,
-          icon1: `fa-refresh`,
-          icon2: `fa-times`,
-          title1: `Sync`,
-          title2: `Cancel`,
-          callback1: this.sync.bind(this, syncer),
-          callback2: this.cancelSync.bind(this, syncer)
-        });
-        syncer.popup.description.appendChild(syncer.set.set);
-      }
-      syncer.popup.open();
-      if (syncer.autoSync) {
+      syncer.set = new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-refresh`,
+        icon2: `fa-times`,
+        title1: `Sync`,
+        title2: `Cancel`,
+        callback1: this.sync.bind(this, syncer),
+        callback2: this.cancelSync.bind(this, syncer)
+      });
+      syncer.container.appendChild(syncer.set.set);
+      if (syncer.parameters) {
         syncer.set.trigger();
-      } else if (parameters) {
-        syncer.parameters = parameters;
-        await this.sync(syncer);
       }
-    } else {
-      this.esgst.mainContext.innerHTML = ``;
-      let description = this.createElements(this.esgst.mainContext, `beforeEnd`, [{
-        attributes: {
-          class: `description`
-        },
-        type: `div`,
-        children: [{
-          type: `div`
-        }, {
-          attributes: {
-            class: `esgst-hidden esgst-popup-progress`
-          },
-          type: `div`
-        }]
-      }]);
-      syncer.results = description.firstElementChild;
-      syncer.progress = description.lastElementChild;
-      syncer.parameters = this.getParameters();
-      await this.sync(syncer);
     }
   }
 
@@ -2234,7 +2263,7 @@ class Common extends Module {
     }
 
     // sync groups
-    if (this.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && (this.esgst.settings.syncGroups || syncer.autoSync)))) {
+    if (this.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && this.esgst.settings.syncGroups))) {
       syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
       syncer.groups = {};
       let savedGroups = JSON.parse(await this.getValue(`groups`));
@@ -2379,7 +2408,7 @@ class Common extends Module {
     }
 
     // sync whitelist and blacklist
-    if (!syncer.autoSync && ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (this.esgst.settings.syncWhitelist || this.esgst.settings.syncBlacklist)))) {
+    if ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (this.esgst.settings.syncWhitelist || this.esgst.settings.syncBlacklist))) {
       if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && this.esgst.settings.syncWhitelist && this.esgst.settings.syncBlacklist)) {
         await this.deleteUserValues([`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`]);
         syncer.users = [];
@@ -2408,7 +2437,7 @@ class Common extends Module {
     }
 
     // sync hidden games
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && this.esgst.settings.syncHiddenGames))) {
+    if ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && this.esgst.settings.syncHiddenGames)) {
       syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
       syncer.hiddenGames = {
         apps: [],
@@ -2466,7 +2495,7 @@ class Common extends Module {
     }
 
     // sync wishlisted/owned/ignored games
-    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && (syncer.autoSync || this.esgst.settings.syncGames))) {
+    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && this.esgst.settings.syncGames)) {
       syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
       syncer.html = [];
       let apiResponse = null;
@@ -2507,7 +2536,7 @@ class Common extends Module {
     }
 
     // sync followed games
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && this.esgst.settings.syncFollowedGames))) {
+    if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && this.esgst.settings.syncFollowedGames)) {
       syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
       const response = await this.request({
         method: `GET`,
@@ -2537,7 +2566,7 @@ class Common extends Module {
     }
 
     // sync won games
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && this.esgst.settings.syncWonGames))) {
+    if ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && this.esgst.settings.syncWonGames)) {
       syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
       await this.getWonGames(`0`, syncer);
     }
@@ -2548,7 +2577,7 @@ class Common extends Module {
     }
 
     // sync reduced cv games
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && this.esgst.settings.syncReducedCvGames))) {
+    if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && this.esgst.settings.syncReducedCvGames)) {
       syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
       let result = JSON.parse((await this.request({
         method: `GET`,
@@ -2597,7 +2626,7 @@ class Common extends Module {
     }
 
     // sync no cv games
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && this.esgst.settings.syncNoCvGames))) {
+    if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && this.esgst.settings.syncNoCvGames)) {
       syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
       await this.lockAndSaveGames(JSON.parse((await this.request({
         method: `GET`,
@@ -2606,7 +2635,7 @@ class Common extends Module {
     }
 
     // sync hltb times
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && this.esgst.settings.syncHltbTimes))) {
+    if ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && this.esgst.settings.syncHltbTimes)) {
       syncer.progress.lastElementChild.textContent = `Syncing HLTB times...`;
       try {
         const responseText = (await this.request({
@@ -2643,7 +2672,7 @@ class Common extends Module {
     }
 
     // sync giveaways
-    if (!syncer.autoSync && ((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && this.esgst.settings.syncGiveaways)) && this.esgst.sg) {
+    if (((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && this.esgst.settings.syncGiveaways)) && this.esgst.sg) {
       syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
       const key = `sent`;
       const user = {
@@ -2659,31 +2688,24 @@ class Common extends Module {
       syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
       let currentDate = new Date();
       const currentTime = currentDate.getTime();
-      if (syncer.autoSync) {
-        await this.setSetting(`lastSyncGroups`, currentTime);
-        await this.setSetting(`lastSyncGames`, currentTime);
-        this.esgst.lastSyncGroups = currentTime;
-        this.esgst.lastSyncGames = currentTime;
-      } else {
-        let string = currentDate.toLocaleString();
-        let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
-        for (let i = keys.length - 1; i > -1; i--) {
-          let key = keys[i];
-          let id = `sync${key}`;
-          if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && this.esgst.settings[id])) {
-            await this.setSetting(`lastSync${key}`, currentTime);
-            this.esgst[`lastSync${key}`] = currentTime;
-            if (syncer.switches && syncer.switches[id]) {
-              this.createElements(syncer.switches[id].date, `inner`, [{
-                attributes: {
-                  class: `fa fa-check-circle`
-                },
-                type: `i`
-              }, {
-                text: ` Last synced ${string}`,
-                type: `node`
-              }]);
-            }
+      let string = currentDate.toLocaleString();
+      let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
+      for (let i = keys.length - 1; i > -1; i--) {
+        let key = keys[i];
+        let id = `sync${key}`;
+        if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && this.esgst.settings[id])) {
+          await this.setSetting(`lastSync${key}`, currentTime);
+          this.esgst[`lastSync${key}`] = currentTime;
+          if (syncer.switches && syncer.switches[id]) {
+            this.createElements(syncer.switches[id].date, `inner`, [{
+              attributes: {
+                class: `fa fa-check-circle`
+              },
+              type: `i`
+            }, {
+              text: ` Last synced ${string}`,
+              type: `node`
+            }]);
           }
         }
       }
@@ -2693,14 +2715,11 @@ class Common extends Module {
       }]);
       this.delLocalValue(`isSyncing`);
     }
-    if (syncer.set && syncer.autoSync) {
+    if (syncer.set && syncer.parameters) {
       syncer.set.set.remove();
     }
-    if (syncer.parameters && syncer.popup) {
-      syncer.popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
-      syncer.popup.icon.classList.add(`fa-check`);
-      syncer.popup.setTitle(`Sync done! You can close this popup now.`);
-      syncer.popup.setDone(true);
+    if (syncer.parameters && syncer.container) {
+      window.alert(`Sync done! You can close this.`);
     }
   }
 
@@ -3367,35 +3386,114 @@ class Common extends Module {
     }
   }
 
-  loadMenu(tab) {
-    let Container, SMManageFilteredUsers, popup, fixed;
+  loadDM() {
+    const options = {items:[
+      {
+        check: true,
+        name: `View recent username changes`,
+        callback: this.setSMRecentUsernameChanges.bind(this)
+      },
+      {
+        check: this.esgst.uf,
+        name: `See list of filtered users`,
+        callback: this.setSMManageFilteredUsers.bind(this)
+      },
+      {
+        check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
+        name: `Manage hidden giveaways`,
+        callback: this.setSMManageFilteredGiveaways.bind(this)
+      },
+      {
+        click: true,
+        check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
+        name: `Manage hidden discussions`,
+        callback: this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {})
+      },
+      {
+        check: this.esgst.sg && this.esgst.dt,
+        name: `Manage discussion tags`,
+        callback: this.openManageDiscussionTagsPopup.bind(this)
+      },
+      {
+        check: this.esgst.sg && this.esgst.ut,
+        name: `Manage user tags`,
+        callback: this.openManageUserTagsPopup.bind(this)
+      },
+      {
+        check: this.esgst.gt,
+        name: `Manage game tags`,
+        callback: this.openManageGameTagsPopup.bind(this)
+      },
+      {
+        check: this.esgst.gpt,
+        name: `Manage group tags`,
+        callback: this.openManageGroupTagsPopup.bind(this)
+      },
+      {
+        click: true,
+        check: this.esgst.wbc,
+        name: `Manage Whitelist / Blacklist Checker caches`,
+        callback: this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton.bind(this.esgst.modules.usersWhitelistBlacklistChecker, false)
+      },
+      {
+        click: true,
+        check: this.esgst.namwc,
+        name: `Manage Not Activated / Multiple Wins Checker caches`,
+        callback: this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup.bind(this.esgst.modules.usersNotActivatedMultipleWinChecker)
+      }
+    ]};
+    const context = this.esgst.sidebar.nextElementSibling;
+    context.innerHTML = ``;
+    PageHeading(context, {
+      items: [
+        {
+          name: `ESGST`
+        },
+        {
+          name: `Data Management`
+        }
+      ]
+    });
+    FormRows(context, options);
+    for (const item of options.items) {
+      if (!item.context) {
+        continue;
+      }
+      const set = new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: ``,
+        icon2: ``,
+        title1: `Open`,
+        title2: ``,
+        callback1: item.click ? null : () => item.callback(item.context[0])
+      }).set;
+      item.context.append(set);
+      if (item.click) {
+        item.callback(set);
+      }
+    }
+  }
 
+  loadMenu() {
     /** @type {HTMLInputElement} */
     let SMAPIKey;
 
-    if (tab) {
-      this.createElements(this.esgst.mainContext, `inner`, [{
-        type: `div`
-      }, {
-        attributes: {
-          class: `esgst-popup-scrollable`
+    const Container = this.esgst.sidebar.nextElementSibling;
+    Container.innerHTML = ``;
+
+    PageHeading(Container, {
+      items: [
+        {
+          name: `ESGST`
         },
-        type: `div`
-      }]);
-      fixed = this.esgst.mainContext.firstElementChild;
-      Container = fixed.nextElementSibling;
-    } else {
-      popup = new Popup({addScrollable: true, icon: `fa-gear`, isTemp: true, settings: true, title: `Settings`});
-      popup.description.classList.add(`esgst-text-left`);
-      fixed = popup.description;
-      Container = popup.scrollable;
-    }
-    this.createElements(fixed, `afterBegin`, [{
-      attributes: {
-        class: `esgst-page-heading`
-      },
-      type: `div`
-    }, {
+        {
+          name: `Settings`
+        }
+      ]
+    });
+
+    this.createElements(Container, `beforeEnd`, [{
       attributes: {
         class: `esgst-clear-container`
       },
@@ -3415,104 +3513,17 @@ class Common extends Module {
         type: `span`
       }]
     }]);
-    this.createElements(Container, `inner`, [{
+    this.createElements(Container, `beforeEnd`, [{
       attributes: {
         class: `esgst-settings-menu`
       },
       type: `div`
     }]);
-    const input = fixed.firstElementChild.nextElementSibling.firstElementChild;
+    const input = Container.firstElementChild.nextElementSibling.firstElementChild;
     input.addEventListener(`input`, this.filterSm.bind(this));
     input.addEventListener(`change`, this.filterSm.bind(this));
     this.setClearButton(input);
-    let heading = fixed.getElementsByClassName(`esgst-page-heading`)[0];
-    this.createSMButtons(heading, [{
-      Check: true,
-      Icons: [`fa-refresh`],
-      Name: `esgst-heading-button`,
-      Title: `Sync data`
-    }, {
-      Check: true,
-      Icons: [`fa-sign-in esgst-rotate-90`],
-      Name: `esgst-heading-button`,
-      Title: `Restore data`
-    }, {
-      Check: true,
-      Icons: [`fa-sign-out esgst-rotate-270`],
-      Name: `esgst-heading-button`,
-      Title: `Backup data`
-    }, {
-      Check: true,
-      Icons: [`fa-trash`],
-      Name: `esgst-heading-button`,
-      Title: `Delete data`
-    }, {
-      Check: true,
-      Icons: [`fa-gear`, `fa-arrow-circle-down`],
-      Name: `esgst-heading-button`,
-      Title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`
-    }, {
-      Check: true,
-      Icons: [`fa-paint-brush`],
-      Name: `esgst-heading-button`,
-      Title: `Clean old data`
-    }, {
-      Check: true,
-      Icons: [`fa-user`, `fa-history`],
-      Name: `SMViewUsernameChanges esgst-heading-button`,
-      Title: `View recent username changes`
-    }, {
-      Check: this.esgst.uf,
-      Icons: [`fa-user`, `fa-eye-slash`],
-      Name: `SMManageFilteredUsers esgst-heading-button`,
-      Title: `See list of filtered users`
-    }, {
-      Check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
-      Icons: [`fa-gift`, `fa-eye-slash`],
-      Name: `SMManageFilteredGiveaways esgst-heading-button`,
-      Title: `Manage hidden giveaways`
-    }, {
-      Check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
-      Icons: [`fa-comments`, `fa-eye-slash`],
-      Name: `SMManageFilteredDiscussions esgst-heading-button`,
-      Title: `Manage hidden discussions`
-    }, {
-      Check: this.esgst.sg && this.esgst.dt,
-      Icons: [`fa-comments`, `fa-tags`],
-      Name: `SMManageDiscussionTags esgst-heading-button`,
-      Title: `Manage discussion tags`
-    }, {
-      Check: this.esgst.sg && this.esgst.ut,
-      Icons: [`fa-user`, `fa-tags`],
-      Name: `SMManageUserTags esgst-heading-button`,
-      Title: `Manage user tags`
-    }, {
-      Check: this.esgst.gt,
-      Icons: [`fa-gamepad`, `fa-tags`],
-      Name: `SMManageGameTags esgst-heading-button`,
-      Title: `Manage game tags`
-    }, {
-      Check: this.esgst.gpt,
-      Icons: [`fa-users`, `fa-tags`],
-      Name: `SMManageGroupTags esgst-heading-button`,
-      Title: `Manage group tags`
-    }, {
-      Check: this.esgst.wbc,
-      Icons: [`fa-heart`, `fa-ban`, `fa-cog`],
-      Name: `esgst-wbc-button esgst-heading-button`,
-      Title: `Manage Whitelist / Blacklist Checker caches`
-    }, {
-      Check: this.esgst.namwc,
-      Icons: [`fa-trophy`, `fa-cog`],
-      Name: `esgst-namwc-button esgst-heading-button`,
-      Title: `Manage Not Activated / Multiple Wins Checker caches`
-    }, {
-      Check: true,
-      Icons: [`fa-steam`],
-      Name: `esgst-heading-button`,
-      Title: `Request access to the Steam group`
-    }]);
-    Container.style.maxHeight = `${innerHeight - (Container.offsetTop + 69)}px`;
+    let heading = Container.getElementsByClassName(`page__heading`)[0];
     let SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
     let i, type;
     i = 1;
@@ -3590,169 +3601,113 @@ class Common extends Module {
         type: `node`
       }]
     }], i, `Steam API Key`);
-    SMManageFilteredUsers = fixed.getElementsByClassName(`SMManageFilteredUsers`)[0];
-    let SMManageFilteredGiveaways = fixed.getElementsByClassName(`SMManageFilteredGiveaways`)[0];
-    let SMManageFilteredDiscussions = fixed.getElementsByClassName(`SMManageFilteredDiscussions`)[0];
-    let SMManageDiscussionTags = fixed.getElementsByClassName(`SMManageDiscussionTags`)[0];
-    let SMManageUserTags = fixed.getElementsByClassName(`SMManageUserTags`)[0];
-    let SMManageGameTags = fixed.getElementsByClassName(`SMManageGameTags`)[0];
-    let SMManageGroupTags = fixed.getElementsByClassName(`SMManageGroupTags`)[0];
-    let SMViewUsernameChanges = fixed.getElementsByClassName(`SMViewUsernameChanges`)[0];
-    if (this.esgst.wbc) {
-      this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(null, fixed.getElementsByClassName(`esgst-wbc-button`)[0]);
-    }
-    if (this.esgst.namwc) {
-      this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup({
-        button: fixed.getElementsByClassName(`esgst-namwc-button`)[0],
-        isMenu: true
-      });
-    }
+    Container.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: ``,
+      icon2: ``,
+      title1: `Download Copy`,
+      title2: ``,
+      callback1: () => this.exportSettings()
+    }).set);
     SMAPIKey = /** @type {HTMLInputElement} */ Container.getElementsByClassName(`esgst-steam-api-key`)[0];
     let key = this.esgst.steamApiKey;
     if (key) {
       SMAPIKey.value = key;
     }
-    heading.firstElementChild.addEventListener(`click`, async () => {
-      heading.firstElementChild.classList.add(`esgst-busy`);
-      await this.checkSync(true, true);
-      heading.firstElementChild.classList.remove(`esgst-busy`);
-    });
-    heading.firstElementChild.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(this, false, `import`, null));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(this, false, `export`, null));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataManagement.bind(this, false, `delete`, null));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.exportSettings.bind(this));
-    heading.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.addEventListener(`click`, this.loadDataCleaner.bind(this));
-    if (this.esgst.groups) {
-      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--) {
-      }
-      if (i < 0 || !this.esgst.groups[i] || !this.esgst.groups[i].member) {
-        heading.lastElementChild.addEventListener(`click`, this.requestGroupInvite.bind(this));
-      } else {
-        heading.lastElementChild.classList.add(`esgst-hidden`);
-      }
-    } else {
-      heading.lastElementChild.classList.add(`esgst-hidden`);
-    }
-    if (SMManageDiscussionTags) {
-      SMManageDiscussionTags.addEventListener(`click`, this.openManageDiscussionTagsPopup.bind(this));
-    }
-    if (SMManageUserTags) {
-      SMManageUserTags.addEventListener(`click`, this.openManageUserTagsPopup.bind(this));
-    }
-    if (SMManageGameTags) {
-      SMManageGameTags.addEventListener(`click`, this.openManageGameTagsPopup.bind(this));
-    }
-    if (SMManageGroupTags) {
-      SMManageGroupTags.addEventListener(`click`, this.openManageGroupTagsPopup.bind(this));
-    }
-    if (SMManageFilteredUsers) {
-      this.setSMManageFilteredUsers(SMManageFilteredUsers);
-    }
-    if (SMManageFilteredGiveaways) {
-      this.setSMManageFilteredGiveaways(SMManageFilteredGiveaways);
-    }
-    if (SMManageFilteredDiscussions) {
-      SMManageFilteredDiscussions.addEventListener(`click`, this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {}));
-    }
-    if (SMViewUsernameChanges) {
-      this.setSMRecentUsernameChanges(SMViewUsernameChanges);
-    }
     SMAPIKey.addEventListener(`input`, () => {
       // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`steamApiKey`, SMAPIKey.value);
     });
-    if (!tab) {
-      popup.open();
-      if (this.esgst.firstInstall) {
-        let pp = new Popup({addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started`});
-        this.createElements(pp.scrollable, `inner`, [{
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: `Here are some things you should know to help you get started:`,
-          type: `div`
-        }, {
-          type: `br`
-        }, {
-          attributes: {
-            class: `markdown`
-          },
-          type: `div`,
+    if (this.esgst.firstInstall) {
+      let pp = new Popup({addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started`});
+      this.createElements(pp.scrollable, `inner`, [{
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `Here are some things you should know to help you get started:`,
+        type: `div`
+      }, {
+        type: `br`
+      }, {
+        attributes: {
+          class: `markdown`
+        },
+        type: `div`,
+        children: [{
+          type: `ul`,
           children: [{
-            type: `ul`,
+            type: `li`,
             children: [{
-              type: `li`,
-              children: [{
-                text: `Bugs and suggestions should be reported on the `,
-                type: `node`
-              }, {
-                attributes: {
-                  href: `https://github.com/gsrafael01/ESGST/issues`
-                },
-                text: `GitHub page`,
-                type: `a`
-              }, {
-                text: `.`,
-                type: `node`
-              }]
-            }, {
-              text: `Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.`,
+              text: `Bugs and suggestions should be reported on the `,
               type: `node`
             }, {
-              type: `li`,
-              children: [{
-                text: `Hover over the `,
-                type: `node`
-              }, {
-                attributes: {
-                  class: `fa fa-question-circle`
-                },
-                type: `i`
-              }, {
-                text: ` icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.`,
-                type: `node`
-              }]
+              attributes: {
+                href: `https://github.com/gsrafael01/ESGST/issues`
+              },
+              text: `GitHub page`,
+              type: `a`
             }, {
-              type: `li`,
-              children: [{
-                text: `Some features rely on sync to work properly. These features have a `,
-                type: `node`
-              }, {
-                attributes: {
-                  class: `fa fa-refresh esgst-negative`
-                },
-                type: `i`
-              }, {
-                text: ` icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.`,
-                type: `node`
-              }]
-            }, {
-              type: `li`,
-              children: [{
-                text: `ESGST uses 2 terms to define a window opened in the same page: `,
-                type: `node`
-              }, {
-                text: `popout`,
-                type: `strong`
-              }, {
-                text: ` is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and `,
-                type: `node`
-              }, {
-                text: `popup`,
-                type: `strong`
-              }, {
-                text: ` is when the window opens in the center of the screen with a modal background behind it (like this one).`,
-                type: `node`
-              }]
-            }, {
-              text: `That's all for now, you can close this.`,
-              type: `li`
+              text: `.`,
+              type: `node`
             }]
+          }, {
+            text: `Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.`,
+            type: `node`
+          }, {
+            type: `li`,
+            children: [{
+              text: `Hover over the `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `fa fa-question-circle`
+              },
+              type: `i`
+            }, {
+              text: ` icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.`,
+              type: `node`
+            }]
+          }, {
+            type: `li`,
+            children: [{
+              text: `Some features rely on sync to work properly. These features have a `,
+              type: `node`
+            }, {
+              attributes: {
+                class: `fa fa-refresh esgst-negative`
+              },
+              type: `i`
+            }, {
+              text: ` icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.`,
+              type: `node`
+            }]
+          }, {
+            type: `li`,
+            children: [{
+              text: `ESGST uses 2 terms to define a window opened in the same page: `,
+              type: `node`
+            }, {
+              text: `popout`,
+              type: `strong`
+            }, {
+              text: ` is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and `,
+              type: `node`
+            }, {
+              text: `popup`,
+              type: `strong`
+            }, {
+              text: ` is when the window opens in the center of the screen with a modal background behind it (like this one).`,
+              type: `node`
+            }]
+          }, {
+            text: `That's all for now, you can close this.`,
+            type: `li`
           }]
-        }]);
-        pp.open();
-        this.esgst.firstInstall = false;
-      }
+        }]
+      }]);
+      pp.open();
+      this.esgst.firstInstall = false;
     }
   }
 
@@ -5654,9 +5609,8 @@ class Common extends Module {
     });
   }
 
-  setSMManageFilteredGiveaways(SMManageFilteredGiveaways) {
+  async setSMManageFilteredGiveaways(SMManageFilteredGiveaways) {
     let gfGiveaways, giveaway, hidden, i, key, n, popup, set;
-    SMManageFilteredGiveaways.addEventListener(`click`, () => {
       popup = new Popup({addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways`});
       hidden = [];
       for (key in this.esgst.giveaways) {
@@ -5729,7 +5683,6 @@ class Common extends Module {
         gfGiveaways.textContent = `No hidden giveaways found.`;
         popup.open();
       }
-    });
   }
 
   async loadGfGiveaways(i, n, hidden, gfGiveaways, popup, callback) {
@@ -6118,8 +6071,7 @@ class Common extends Module {
     }
   }
 
-  setSMRecentUsernameChanges(SMRecentUsernameChanges) {
-    SMRecentUsernameChanges.addEventListener(`click`, async () => {
+  async setSMRecentUsernameChanges(SMRecentUsernameChanges) {
       const popup = new Popup({addScrollable: true, icon: `fa-comments`, title: `Recent Username Changes`});
       popup.progress = this.createElements(popup.description, `beforeEnd`, [{
         type: `div`,
@@ -6164,7 +6116,6 @@ class Common extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.endless_load(popup.results);
       }
-    });
   }
 
   async getRecentChanges() {
@@ -6220,14 +6171,14 @@ class Common extends Module {
     let isBackingUp = this.getLocalValue(`isBackingUp`);
     if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - this.esgst.lastBackup > this.esgst.autoBackup_days * 86400000) {
       this.setLocalValue(`isBackingUp`, currentDate);
-      this.loadDataManagement(false, `export`, true);
+      open(`https://www.steamgifts.com/account/settings/profile?esgst=backup&autoBackup=true`);
     }
   }
 
-  loadDataManagement(openInTab, type, autoBackup) {
-    let container, context, group1, group2, i, icon, n, onClick, option, prep, popup, section, title1, title2;
+  loadDataManagement(type) {
+    let container, context, group1, group2, i, icon, n, onClick, option, prep, section, title1, title2;
     let dm = {
-      autoBackup: autoBackup,
+      autoBackup: this.esgst.parameters.autoBackup,
       type: type
     };
     dm[type] = true;
@@ -6257,27 +6208,23 @@ class Common extends Module {
         dm.pastTense = `deleted`;
         break;
     }
-    if (openInTab) {
-      context = container = this.esgst.mainContext;
-      context.innerHTML = ``;
-    } else {
-      if (dm.autoBackup) {
-        popup = new Popup({
-          addScrollable: true,
-          icon: `fa-circle-o-notch fa-spin`,
-          isTemp: true,
-          settings: !this.esgst.minimizePanel,
-          title: `ESGST is backing up your data... ${this.esgst.minimizePanel ? `You can close this popup, ESGST will notify you when it is done through the minimize panel.` : `Please do not close this popup until it is done.`}`
-        });
-      } else {
-        popup = new Popup({addScrollable: true, icon: icon, isTemp: true, settings: true, title: title1});
-      }
-      popup.description.classList.add(`esgst-text-left`);
-      context = popup.scrollable;
-      container = popup.description;
+    context = container = this.esgst.sidebar.nextElementSibling;
+    context.innerHTML = ``;
+    PageHeading(context, {
+      items: [
+        {
+          name: `ESGST`
+        },
+        {
+          name: title1
+        }
+      ]
+    });
+    if (dm.autoBackup) {
+      context.insertAdjacentHTML(`beforeEnd`, `ESGST is backing up your data... Do not close this window.`);
     }
     if (!dm.autoBackup) {
-      dm.computerSpace = this.createElements(container, `afterBegin`, [{
+      dm.computerSpace = this.createElements(container, `beforeEnd`, [{
         type: `div`,
         children: [{
           text: `Total: `,
@@ -6307,7 +6254,7 @@ class Common extends Module {
         name: `Decrypted Giveaways`
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `discussions`,
         name: `Discussions`,
         options: [
@@ -6347,7 +6294,7 @@ class Common extends Module {
         name: `Emojis`
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `entries`,
         name: `Entries`
       },
@@ -6375,7 +6322,7 @@ class Common extends Module {
         ]
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `giveaways`,
         name: `Giveaways`,
         options: [
@@ -6406,7 +6353,7 @@ class Common extends Module {
         ]
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `groups`,
         name: `Groups`,
         options: [
@@ -6425,7 +6372,7 @@ class Common extends Module {
         ]
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `rerolls`,
         name: `Rerolls`
       },
@@ -6445,17 +6392,17 @@ class Common extends Module {
         name: `SG Comment History`
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `stickiedCountries`,
         name: `Stickied Giveaway Countries`
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `templates`,
         name: `Templates`
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `tickets`,
         name: `Tickets`,
         options: [
@@ -6478,7 +6425,7 @@ class Common extends Module {
         ]
       },
       {
-        check: this.esgst.st,
+        check: true,
         key: `trades`,
         name: `Trades`,
         options: [
@@ -6536,7 +6483,7 @@ class Common extends Module {
         ]
       },
       {
-        check: this.esgst.sg,
+        check: true,
         key: `winners`,
         name: `Winners`
       }
@@ -6556,15 +6503,11 @@ class Common extends Module {
           oneDrive = true;
           break;
       }
-      popup.open();
       // noinspection JSIgnoredPromiseFromCall
       this.manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
         this.delLocalValue(`isBackingUp`);
         await this.setSetting(`lastBackup`, Date.now());
-        popup.icon.classList.remove(`fa-circle-o-notch`, `fa-spin`);
-        popup.icon.classList.add(`fa-check`);
-        popup.setTitle(`Backup done! You can close this popup now.`);
-        popup.setDone(true);
+        window.alert(`Backup done! You can close this now.`);
       });
     } else {
       for (i = 0, n = dm.options.length; i < n; ++i) {
@@ -6783,9 +6726,6 @@ class Common extends Module {
           }
         }).set);
       }
-      if (!openInTab) {
-        popup.open();
-      }
       if (this.esgst[`calculate${this.capitalizeFirstLetter(type)}`]) {
         this.getDataSizes(dm);
       }
@@ -6793,15 +6733,23 @@ class Common extends Module {
   }
 
   loadDataCleaner() {
-    let popup = new Popup({addScrollable: true, icon: `fa-paint-brush`, title: `Clean old data:`});
-    this.createElements(popup.description, `afterBegin`, [{
+    const context = this.esgst.sidebar.nextElementSibling;
+    context.innerHTML = ``;
+    PageHeading(context, {
+      items: [{
+        name: `ESGST`
+      }, {
+        name: `Clean`
+      }]
+    });
+    this.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold esgst-description esgst-red`
       },
       text: `Make sure to backup your data before using the cleaner.`,
       type: `div`
     }]);
-    this.observeNumChange(new ToggleSwitch(popup.description, `cleanDiscussions`, false, [{
+    this.observeNumChange(new ToggleSwitch(context, `cleanDiscussions`, false, [{
       text: `Discussions data older than `,
       type: `node`
     }, {
@@ -6815,7 +6763,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`);
-    this.observeNumChange(new ToggleSwitch(popup.description, `cleanEntries`, false, [{
+    this.observeNumChange(new ToggleSwitch(context, `cleanEntries`, false, [{
       text: `Entries data older than `,
       type: `node`
     }, {
@@ -6829,7 +6777,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, ``, this.esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
-    this.observeNumChange(new ToggleSwitch(popup.description, `cleanGiveaways`, false, [{
+    this.observeNumChange(new ToggleSwitch(context, `cleanGiveaways`, false, [{
       text: `Giveaways data older than `,
       type: `node`
     }, {
@@ -6843,7 +6791,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
-    this.observeNumChange(new ToggleSwitch(popup.description, `cleanSgCommentHistory`, false, [{
+    this.observeNumChange(new ToggleSwitch(context, `cleanSgCommentHistory`, false, [{
       text: `SteamGifts comment history data older than `,
       type: `node`
     }, {
@@ -6857,7 +6805,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, ``, this.esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
-    this.observeNumChange(new ToggleSwitch(popup.description, `cleanTickets`, false, [{
+    this.observeNumChange(new ToggleSwitch(context, `cleanTickets`, false, [{
       text: `Tickets data older than `,
       type: `node`
     }, {
@@ -6871,7 +6819,7 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
-    this.observeNumChange(new ToggleSwitch(popup.description, `cleanTrades`, false, [{
+    this.observeNumChange(new ToggleSwitch(context, `cleanTrades`, false, [{
       text: `Trades data older than `,
       type: `node`
     }, {
@@ -6885,8 +6833,8 @@ class Common extends Module {
       text: ` days.`,
       type: `node`
     }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
-    new ToggleSwitch(popup.description, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, this.esgst.cleanDuplicates);
-    popup.description.appendChild(new ButtonSet({
+    new ToggleSwitch(context, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, this.esgst.cleanDuplicates);
+    context.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check`,
@@ -6902,7 +6850,7 @@ class Common extends Module {
             name: `Decrypted Giveaways`
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `discussions`,
             name: `Discussions`,
             options: [
@@ -6942,7 +6890,7 @@ class Common extends Module {
             name: `Emojis`
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `entries`,
             name: `Entries`
           },
@@ -6970,7 +6918,7 @@ class Common extends Module {
             ]
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `giveaways`,
             name: `Giveaways`,
             options: [
@@ -7001,7 +6949,7 @@ class Common extends Module {
             ]
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `groups`,
             name: `Groups`,
             options: [
@@ -7020,7 +6968,7 @@ class Common extends Module {
             ]
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `rerolls`,
             name: `Rerolls`
           },
@@ -7040,17 +6988,17 @@ class Common extends Module {
             name: `SG Comment History`
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `stickiedCountries`,
             name: `Stickied Giveaway Countries`
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `templates`,
             name: `Templates`
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `tickets`,
             name: `Tickets`,
             options: [
@@ -7073,7 +7021,7 @@ class Common extends Module {
             ]
           },
           {
-            check: this.esgst.st,
+            check: true,
             key: `trades`,
             name: `Trades`,
             options: [
@@ -7131,7 +7079,7 @@ class Common extends Module {
             ]
           },
           {
-            check: this.esgst.sg,
+            check: true,
             key: `winners`,
             name: `Winners`
           }
@@ -7274,7 +7222,6 @@ class Common extends Module {
         successPopup.open();
       }
     }).set);
-    popup.open();
   }
 
   async manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
@@ -8380,17 +8327,17 @@ class Common extends Module {
       if (dm.type === `export` || this.esgst.settings.exportBackup) {
         if (dropbox || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 1)) {
           await this.delValue(`dropboxToken`);
-          this.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+          this.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=dropbox&client_id=nix7kvchwa8wdvj`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkDropboxComplete(data, dm, callback);
         } else if (googleDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 2)) {
           await this.delValue(`googleDriveToken`);
-          this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+          this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=google-drive&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkGoogleDriveComplete(data, dm, callback);
         } else if (oneDrive || (dm.type !== `export` && this.esgst.settings.exportBackupIndex === 3)) {
           await this.delValue(`oneDriveToken`);
-          this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+          this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=onedrive&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
           // noinspection JSIgnoredPromiseFromCall
           this.checkOneDriveComplete(data, dm, callback);
         } else {
@@ -8472,17 +8419,17 @@ class Common extends Module {
     let file;
     if (dropbox) {
       await this.delValue(`dropboxToken`);
-      this.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/esgst/dropbox&response_type=token&client_id=nix7kvchwa8wdvj`);
+      this.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=dropbox&client_id=nix7kvchwa8wdvj`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkDropboxComplete(null, dm, callback);
     } else if (googleDrive) {
       await this.delValue(`googleDriveToken`);
-      this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/google-drive&response_type=token&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+      this.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${this.esgst.settings.usePreferredGoogle ? `login_hint=${this.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=google-drive&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkGoogleDriveComplete(null, dm, callback);
     } else if (oneDrive) {
       await this.delValue(`oneDriveToken`);
-      this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/esgst/onedrive&response_type=token&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+      this.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${this.esgst.settings.usePreferredMicrosoft ? `login_hint=${this.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=onedrive&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
       // noinspection JSIgnoredPromiseFromCall
       this.checkOneDriveComplete(null, dm, callback);
     } else {
@@ -8907,9 +8854,8 @@ class Common extends Module {
     this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
   }
 
-  setSMManageFilteredUsers(SMManageFilteredUsers) {
+  async setSMManageFilteredUsers(SMManageFilteredUsers) {
     let popup;
-    SMManageFilteredUsers.addEventListener(`click`, async () => {
       if (popup) {
         popup.open();
       } else {
@@ -9037,7 +8983,6 @@ class Common extends Module {
         }
         popup.open();
       }
-    });
   }
 
   multiChoice(choice1Color, choice1Icon, choice1Title, choice2Color, choice2Icon, choice2Title, title, onChoice1, onChoice2) {
@@ -12103,41 +12048,6 @@ class Common extends Module {
       type: `a`
     }]);
     popup.open();
-  }
-
-  async requestGroupInvite() {
-    let popup = new Popup({
-      addScrollable: true,
-      icon: `fa-circle-o-notch fa-spin`,
-      isTemp: true,
-      title: `Sending request...`
-    });
-    popup.open();
-    if (this.esgst.username) {
-      await this.request({
-        data: `username=${this.esgst.username}`,
-        method: `POST`,
-        url: `https://script.google.com/macros/s/AKfycbw0odO9iXZBJmK54M_MUQ_IEv5l4RNzj7cEx_FWCZbrtNBNmQ/exec`
-      });
-      popup.icon.className = `fa fa-check`;
-      this.createElements(popup.title, `inner`, [{
-        text: `Request sent! If you have not done so already, you also need to send a request from the `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-bold`,
-          href: `http://steamcommunity.com/groups/esgst`
-        },
-        text: `Steam group`,
-        type: `a`
-      }, {
-        text: ` page. After that you should be accepted in 24 hours at most.`,
-        type: `node`
-      }]);
-    } else {
-      popup.icon.className = `fa-times-circle`;
-      popup.title.textContent = `Something went wrong, please try again later. If it continues to happen, please report the issue.`;
-    }
   }
 
   async checkUpdate() {

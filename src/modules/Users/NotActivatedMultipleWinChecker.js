@@ -165,6 +165,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   namwc_setPopup(obj) {
+    obj = obj.button ? obj : {button:obj,isMenu:true};
     obj.popup = new Popup({
       addScrollable: true,
       icon: obj.isMenu ? `fa-cog` : `fa-question`,

@@ -4,6 +4,7 @@ import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -78,9 +79,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 
   gb() {
     this.esgst.giveawayFeatures.push(this.gb_getGiveaways.bind(this));
-    let button = null;
-    if (!this.esgst.gbPath) {
-      button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
+    let button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
         attributes: {
           class: `nav__button-container esgst-hidden`,
           title: getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
@@ -99,7 +98,6 @@ class GiveawaysGiveawayBookmarks extends Module {
           }]
         }]
       }]);
-    }
     // noinspection JSIgnoredPromiseFromCall
     this.gb_addButton(button);
     if (this.esgst.gb_ue && this.esgst.enterGiveawayButton) {
@@ -208,17 +206,31 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       }
     }
-    if (this.esgst.gbPath) {
-      this.gb_loadGibs(bookmarked, this.esgst.mainContext, createElements(this.esgst.mainContext, `beforeEnd`, [{
+    if (this.esgst.accountPath && this.esgst.parameters.esgst === `gb`) {
+      const context = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+      PageHeading(context, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: `Bookmarked Giveaways`
+          }
+        ]
+      });
+      this.gb_loadGibs(bookmarked, context, createElements(context, `beforeEnd`, [{
         type: `div`
       }]));
     }
-    if (!this.esgst.gbPath && button) {
+    console.log(button);
+    if (button) {
       button.addEventListener(`mousedown`, event => {
+        alert(event.button);
         if (event.button === 2) return;
         event.preventDefault();
         if (this.esgst.gb_t || event.button === 1) {
-          open(`/esgst/bookmarked-giveaways`);
+          open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
         } else {
           let popup = new Popup({
             addScrollable: true,

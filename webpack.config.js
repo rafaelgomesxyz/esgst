@@ -33,9 +33,6 @@ const
     style: {
       loader: 'style-loader',
       options: {
-        attrs: {
-          id: 'esgst-main-style'
-        },
         singleton: true,
         insertInto: 'html'
       }

@@ -3,6 +3,7 @@ import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
+import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -91,7 +92,7 @@ class GiveawaysGiveawayExtractor extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.ge_addButton(true, `Extract only from the current giveaway onward`, [`fa-forward`]);
       }
-    } else if (this.esgst.gePath) {
+    } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
       const parameters = getParameters();
       let ge = {
         context: parseHtml((await request({method: `GET`, url: parameters.url})).responseText),
@@ -106,7 +107,7 @@ class GiveawaysGiveawayExtractor extends Module {
       button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title}),
       extractOnward
     };
-    setMouseEvent(ge.button, `ge_t`, `/esgst/extracted-giveaways?${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
+    setMouseEvent(ge.button, `ge_t`, `https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
   }
 
   ge_openPopup(ge) {
@@ -123,10 +124,23 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.ithLinks = [];
     ge.jigidiLinks = [];
     ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
-    if (this.esgst.gePath) {
+    if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
+      const context = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+      PageHeading(context, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: `Giveaway Extractor`
+          }
+        ]
+      });
+      const container = createElements(context, `beforeEnd`, [{type:`div`}]);
       ge.popup = {
-        description: this.esgst.mainContext,
-        scrollable: this.esgst.mainContext,
+        description: container,
+        scrollable: container,
         open: () => {
         },
         reposition: () => {
@@ -193,7 +207,7 @@ class GiveawaysGiveawayExtractor extends Module {
               type: `div`
             }]);
             ge.mainCallback = resolve;
-            let giveaways = this.ge_getGiveaways(ge, this.esgst.gePath ? ge.context : this.esgst.pageOuterWrap);
+            let giveaways = this.ge_getGiveaways(ge, this.esgst.accountPath && this.esgst.parameters.esgst === `ge` ? ge.context : this.esgst.pageOuterWrap);
             this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, resolve));
           }
         });

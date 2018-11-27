@@ -1,6 +1,7 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils'
 import {common} from '../Common';
+import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -36,26 +37,40 @@ class GroupsGroupLibraryWishlistChecker extends Module {
     if (this.esgst.whitelistPath || this.esgst.blacklistPath || this.esgst.groupPath) {
       let parameters;
       if (this.esgst.whitelistPath) {
-        parameters = `?url=account/manage/whitelist`;
+        parameters = `url=account/manage/whitelist`;
       } else if (this.esgst.blacklistPath) {
-        parameters = `?url=account/manage/blacklist`;
+        parameters = `url=account/manage/blacklist`;
       } else {
-        parameters = `?url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
+        parameters = `url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
       }
       createHeadingButton({
         id: `glwc`,
         icons: [`fa-folder`, `fa-star`],
         title: `Check libraries/wishlists`
       }).addEventListener(`click`, () => {
-        open(`/esgst/glwc${parameters}`);
+        open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
-    } else if (this.esgst.glwcPath) {
+    } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `glwc`) {
       let glwc = {}, parameters;
-      glwc.context = document.body.firstElementChild.nextElementSibling.firstElementChild;
-      glwc.progress = createElements(glwc.context, `beforeEnd`, [{
+      glwc.container = this.esgst.sidebar.nextElementSibling;
+      glwc.container.innerHTML = ``;
+      PageHeading(glwc.container, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: `Group Library/Wishlist Checker`
+          }
+        ]
+      });
+      glwc.progress = createElements(glwc.container, `beforeEnd`, [{
         type: `div`
       }]);
-      glwc.overallProgress = createElements(glwc.context, `beforeEnd`, [{
+      glwc.overallProgress = createElements(glwc.container, `beforeEnd`, [{
+        type: `div`
+      }]);
+      glwc.context = createElements(glwc.container, `beforeEnd`, [{
         type: `div`
       }]);
       parameters = getParameters();
@@ -226,6 +241,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       }
     } else {
+      glwc.progress.innerHTML = ``;
+      glwc.overallProgress.innerHTML = ``;
       this.glwc_showResults(glwc);
     }
   }
