@@ -39,6 +39,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
       },
       sg: true,
       sync: `Steam Groups`,
+      syncKeys: [`Groups`],
       type: `giveaways`
     };
   }

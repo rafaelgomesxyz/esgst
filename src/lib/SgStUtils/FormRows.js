@@ -20,8 +20,13 @@ export default function FormRows(context, options) {
     itemElement.find(`.form__heading__number`).text(i++);
     itemElement.find(`.form__heading__text`).text(item.name);    
     item.context = itemElement.find(`.form__row__indent`);
+    if (item.content) {
+      item.context.html(item.content);
+    }
     items.push(itemElement);
   }
-  rows.append(items);
-  $(context).append(rows);
+  if (items.length) {
+    rows.append(items);
+    $(context).append(rows);
+  }
 };

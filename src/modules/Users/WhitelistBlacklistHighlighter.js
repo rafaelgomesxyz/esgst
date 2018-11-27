@@ -51,7 +51,8 @@ class UsersWhitelistBlacklistHighlighter extends Module {
         exclude: [{enabled: 1, pattern: `^/account/manage/(whitelist|blacklist)`}]
       },
       st: true,
-      sync: `Whitelist and Blacklist`,
+      sync: `Blacklist, Whitelist`,
+      syncKeys: [`Blacklist`, `Whitelist`],
       type: `users`
     };
   }
