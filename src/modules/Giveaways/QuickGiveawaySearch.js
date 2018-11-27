@@ -25,13 +25,17 @@ class GiveawaysQuickGiveawaySearch extends Module {
       id: `qgs`,
       load: this.qgs,
       name: `Quick Giveaway Search`,
+      options: {
+        title: `Position:`,
+        values: [`Left`, `Right`]
+      },
       sg: true,
       type: `giveaways`
     };
   }
 
   qgs() {
-    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], `afterBegin`, [{
+    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], this.esgst.qgs_index === 0 ? `afterBegin` : `beforeEnd`, [{
       attributes: {
         class: `esgst-qgs-container`,
         title: getFeatureTooltip(`qgs`)
