@@ -117,6 +117,9 @@ export default class ToggleSwitch {
         this.onDisabled();
       }
     }
+    if (this.onChange) {
+      this.onChange(this.value);
+    }
   }
 
   enable(settings) {

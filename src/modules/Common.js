@@ -3331,7 +3331,7 @@ class Common extends Module {
     context.addEventListener(event, () => {
       let value = context[key];
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(id, value);
+      this.esgst.settings[id] = value;
       this.esgst[id] = value;
     });
   }
@@ -3341,7 +3341,7 @@ class Common extends Module {
     context.addEventListener(`change`, () => {
       let value = parseFloat(context[key]);
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(id, value);
+      this.esgst.settings[id] = value;
       this.esgst[id] = value;
     });
   }
@@ -3592,6 +3592,18 @@ class Common extends Module {
         <div class="esgst-settings-menu-feature esgst-menu-split-fixed">Click on a feature/option to see details about it here.</div>
       </div>
     `);
+    $(Container).append(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: ``,
+      icon2: ``,
+      title1: `Save Changes`,
+      title2: `Saving...`,
+      callback1: async () => {
+        await this.lockAndSaveSettings();
+        window.location.reload();
+      }
+    }).set);
     $(Container).on(`click`, `.esgst-settings-feature`, this.loadFeatureDetails.bind(this, null));
     this.esgst.featuresById = {};
     const input = Container.firstElementChild.nextElementSibling.firstElementChild;
@@ -3692,7 +3704,7 @@ class Common extends Module {
     }
     SMAPIKey.addEventListener(`input`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`steamApiKey`, SMAPIKey.value);
+      this.esgst.settings.steamApiKey = SMAPIKey.value;
     });
     if (this.esgst.firstInstall) {
       let pp = new Popup({addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started`});
@@ -4179,6 +4191,7 @@ class Common extends Module {
   }
 
   openPathsPopup(context, feature, id, name) {
+    feature.id = id;
     let obj = {
       excludeItems: [],
       includeItems: [],
@@ -4216,7 +4229,7 @@ class Common extends Module {
       icon2: ``,
       title1: `Add New`,
       title2: ``,
-      callback1: this.addPath.bind(this, feature, `include`, obj, {enabled: 1, pattern: ``})
+      callback1: this.addPath.bind(this, feature, `include`, obj, {enabled: 1, pattern: ``}, true)
     }).set);
     obj.exclude = this.createElements(obj.context, `beforeEnd`, [{
       attributes: {
@@ -4249,29 +4262,23 @@ class Common extends Module {
       icon2: ``,
       title1: `Add New`,
       title2: ``,
-      callback1: this.addPath.bind(this, feature, `exclude`, obj, {enabled: 1, pattern: ``})
-    }).set);
-    obj.context.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: `fa-check-circle`,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Save`,
-      title2: `Saving...`,
-      callback1: this.savePaths.bind(this, id, obj)
+      callback1: this.addPath.bind(this, feature, `exclude`, obj, {enabled: 1, pattern: ``}, true)
     }).set);
     obj.setting = this.getFeaturePath(feature, id, obj.name);
     obj.setting.include.forEach(path => this.addPath(feature, `include`, obj, path));
     obj.setting.exclude.forEach(path => this.addPath(feature, `exclude`, obj, path));
   }
 
-  addPath(feature, key, obj, path) {
+  addPath(feature, key, obj, path, userAdded) {
     let item = {};
     item.container = this.createElements(obj[key], `beforeEnd`, [{
       type: `div`
     }]);
     item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
     let found = false;
+    item.switch.onChange = () => {
+      this.savePaths(feature.id, obj);
+    };
     item.select = $(`
       <select class="esgst-switch-input esgst-switch-input-large">
         ${this.esgst.paths[obj.name].map(x => `<option ${x.pattern === path.pattern ? (found = true && `selected`) : ``} value="${x.pattern}">${x.name}</option>`)}
@@ -4297,9 +4304,13 @@ class Common extends Module {
         item.input.disabled = true;
         item.input.value = item.select[0].value;
       }
+      this.savePaths(feature.id, obj);
     });
     item.input.value = path.pattern;
-    item.input.addEventListener(`input`, this.validatePathRegex.bind(this, item));
+    item.input.addEventListener(`input`, () => {
+      this.validatePathRegex(item);
+      this.savePaths(feature.id, obj);
+    });
     this.createElements(item.container, `beforeEnd`, [{
       attributes: {
         class: `fa fa-times-circle esgst-clickable`,
@@ -4329,6 +4340,9 @@ class Common extends Module {
           switch: new ToggleSwitch(optionsContainer, null, true, option.name, false, false, null, !!(path.options && path.options[option.id]))
         });
       }
+    }
+    if (userAdded) {
+      this.savePaths(feature.id, obj);
     }
   }
 
@@ -4377,7 +4391,7 @@ class Common extends Module {
         pattern: item.input.value
       });
     }
-    await this.setSetting(`${id}_${obj.name}`, obj.setting);
+    this.esgst.settings[`${id}_${obj.name}`] = obj.setting;
   }
 
   dismissNewOption(id, event) {
@@ -4385,7 +4399,7 @@ class Common extends Module {
     if (this.esgst.dismissedOptions.indexOf(id) < 0) {
       this.esgst.dismissedOptions.push(id);
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`dismissedOptions`, this.esgst.dismissedOptions);
+      this.esgst.settings.dismissedOptions = this.esgst.dismissedOptions;
     }
   }
 
@@ -4406,7 +4420,11 @@ class Common extends Module {
     if (Feature.sg) {
       set1 = this.getFeaturePath(Feature, ID, `sg`);
       val1 = set1.enabled;
-      siwtchSg = new ToggleSwitch(Menu, ID, true, this.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
+      siwtchSg = new ToggleSwitch(Menu, null, true, this.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
+      siwtchSg.onChange = (value) => {
+        this.esgst.settings[`${ID}_sg`] = value;
+        this.esgst[ID] = value;
+      };
       if (Feature.conflicts) {
         siwtchSg.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -4459,7 +4477,11 @@ class Common extends Module {
     if (Feature.st && (this.esgst.settings.esgst_st || ID === `esgst`)) {
       set2 = this.getFeaturePath(Feature, ID, `st`);
       val2 = set2.enabled;
-      siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
+      siwtchSt = new ToggleSwitch(Menu, null, true, `[ST]`, false, true, null, val2);
+      siwtchSt.onChange = (value) => {
+        this.esgst.settings[`${ID}_st`] = value;
+        this.esgst[ID] = value;
+      };
       if (Feature.conflicts) {
         siwtchSt.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -4855,19 +4877,19 @@ class Common extends Module {
           } else if (item.event === `keydown`) {
             event.preventDefault();
             // noinspection JSIgnoredPromiseFromCall
-            this.setSetting(item.id, event.key);
+            this.esgst.settings[item.id] = event.key;
             this.esgst[item.id] = event.key;
             input.value = event.key;
           } else {
             // noinspection JSIgnoredPromiseFromCall
-            this.setSetting(item.id, input.value);
+            this.esgst.settings[item.id] = input.value;
             this.esgst[item.id] = input.value;
           }
         }, item.shortcutKey || false);
         if (item.shortcutKey) {
           input.addEventListener(`keyup`, () => {
             // noinspection JSIgnoredPromiseFromCall
-            this.setSetting(item.id, value);
+            this.esgst.settings[item.id] = value;
             this.esgst[item.id] = value;
             input.value = value;
           });
@@ -5030,7 +5052,8 @@ class Common extends Module {
       let string = btoa(binary);
       (await this.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`${id}_sound`, string);
+      this.esgst.settings[`${id}_sound`] = string;
+      this.esgst[`${id}_sound`] = string;
       popup.close();
     } catch (e) {
       console.log(e);
@@ -5066,7 +5089,7 @@ class Common extends Module {
       this.esgst[sm.categoryKey].push(sm.panel.children[i].id);
     }
     // noinspection JSIgnoredPromiseFromCall
-    this.setSetting(sm.categoryKey, this.esgst[sm.categoryKey]);
+    this.esgst.settings[sm.categoryKey] = this.esgst[sm.categoryKey];
   }
 
   addGwcrMenuPanel(context, id, key, background) {
@@ -5173,23 +5196,23 @@ class Common extends Module {
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(id, this.esgst[id]);
+      this.esgst.settings[id] = this.esgst[id];
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(id, this.esgst[id]);
+      this.esgst.settings[id] = this.esgst[id];
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(id, this.esgst[id]);
+      this.esgst.settings[id] = this.esgst[id];
     });
     if (bgColor) {
       bgColor.addEventListener(`change`, () => {
         colors.bgColor = bgColor.value;
         // noinspection JSIgnoredPromiseFromCall
-        this.setSetting(id, this.esgst[id]);
+        this.esgst.settings[id] = this.esgst[id];
       });
     }
     remove.addEventListener(`click`, () => {
@@ -5199,7 +5222,7 @@ class Common extends Module {
         if (i < n) {
           this.esgst[id].splice(i, 1);
           // noinspection JSIgnoredPromiseFromCall
-          this.setSetting(id, this.esgst[id]);
+          this.esgst.settings[id] = this.esgst[id];
           setting.remove();
         }
       }
@@ -5321,27 +5344,27 @@ class Common extends Module {
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
+      this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
+      this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
+      this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
     });
     bgColor.addEventListener(`change`, () => {
       colors.bgColor = bgColor.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
+      this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
     });
     icon.addEventListener(`change`, () => {
       colors.icon = icon.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
+      this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
     });
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
@@ -5351,7 +5374,7 @@ class Common extends Module {
         if (i < n) {
           this.esgst.gc_r_colors.splice(i, 1);
           // noinspection JSIgnoredPromiseFromCall
-          this.setSetting(`gc_r_colors`, this.esgst.gc_r_colors);
+          this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
           setting.remove();
         }
       }
@@ -5446,17 +5469,17 @@ class Common extends Module {
     genre.addEventListener(`change`, () => {
       colorSetting.genre = genre.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
+      this.esgst.settings[`gc_g_colors`] = this.esgst.gc_g_colors;
     });
     color.addEventListener(`change`, () => {
       colorSetting.color = color.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
+      this.esgst.settings[`gc_g_colors`] = this.esgst.gc_g_colors;
     });
     bgColor.addEventListener(`change`, () => {
       colorSetting.bgColor = bgColor.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
+      this.esgst.settings[`gc_g_colors`] = this.esgst.gc_g_colors;
     });
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
@@ -5465,7 +5488,7 @@ class Common extends Module {
         if (i < n) {
           this.esgst.gc_g_colors.splice(i, 1);
           // noinspection JSIgnoredPromiseFromCall
-          this.setSetting(`gc_g_colors`, this.esgst.gc_g_colors);
+          this.esgst.settings[`gc_g_colors`] = this.esgst.gc_g_colors;
           setting.remove();
         }
       }
@@ -5612,32 +5635,32 @@ class Common extends Module {
     steamId.addEventListener(`change`, () => {
       altSetting.steamId = steamId.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+      this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     name.addEventListener(`change`, () => {
       altSetting.name = name.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+      this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     color.addEventListener(`change`, () => {
       altSetting.color = color.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+      this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     bgColor.addEventListener(`change`, () => {
       altSetting.bgColor = bgColor.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+      this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     icon.addEventListener(`change`, () => {
       altSetting.icon = icon.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+      this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     label.addEventListener(`change`, () => {
       altSetting.label = label.value;
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+      this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     remove.addEventListener(`click`, () => {
       if (confirm(`Are you sure you want to delete this setting?`)) {
@@ -5646,7 +5669,7 @@ class Common extends Module {
         if (i < n) {
           this.esgst.gc_o_altAccounts.splice(i, 1);
           // noinspection JSIgnoredPromiseFromCall
-          this.setSetting(`gc_o_altAccounts`, this.esgst.gc_o_altAccounts);
+          this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
           setting.remove();
         }
       }
@@ -5656,11 +5679,11 @@ class Common extends Module {
   addColorObserver(hexInput, alphaInput, id, colorId) {
     hexInput.addEventListener(`change`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
+      this.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
     });
     alphaInput.addEventListener(`change`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
+      this.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
     });
   }
 
@@ -8906,7 +8929,7 @@ class Common extends Module {
     hexInput.value = color.hex;
     alphaInput.value = color.alpha;
     // noinspection JSIgnoredPromiseFromCall
-    this.setSetting(`${id}_${colorId}`, hex2Rgba(hexInput.value, alphaInput.value));
+    this.esgst.setting[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
   }
 
   async setSMManageFilteredUsers(SMManageFilteredUsers) {
@@ -12241,7 +12264,7 @@ class Common extends Module {
       if (key === `emojis`) {
         await this.setValue(key, JSON.stringify(this.esgst[key]));
       } else {
-        await this.setSetting(key, this.esgst[key]);
+        this.esgst.settings[key] = this.esgst[key];
       }
     }
     this.esgst.draggable.dragged = null;
