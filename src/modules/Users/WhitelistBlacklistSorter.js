@@ -28,7 +28,8 @@ class UsersWhitelistBlacklistSorter extends Module {
       load: this.wbs,
       name: `Whitelist/Blacklist Sorter`,
       sg: true,
-      sync: `Whitelist and Blacklist`,
+      sync: `Blacklist, Whitelist`,
+      syncKeys: [`Blacklist`, `Whitelist`],
       type: `users`
     };
   }

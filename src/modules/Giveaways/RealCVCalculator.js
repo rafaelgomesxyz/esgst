@@ -22,7 +22,8 @@ class GiveawaysRealCVCalculator extends Module {
       load: this.rcvc,
       name: `Real CV Calculator`,
       sg: true,
-      sync: `Giveaways, Reduced CV Games and No CV Games`,
+      sync: `Giveaways, No CV Games, Reduced CV Games`,
+      syncKeys: [`Giveaways`, `NoCvGames`, `ReducedCvGames`],
       type: `giveaways`
     };
   }

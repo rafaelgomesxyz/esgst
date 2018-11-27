@@ -72,6 +72,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       name: `Whitelist/Blacklist Checker`,
       sg: true,
       sync: `Steam Groups`,
+      syncKeys: [`Groups`],
       type: `users`
     };
   }

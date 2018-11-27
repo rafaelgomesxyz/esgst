@@ -31,7 +31,8 @@ class GeneralLevelProgressVisualizer extends Module {
       load: this.lpv,
       name: `Level Progress Visualizer`,
       sg: true,
-      sync: `Giveaways, Reduced CV Games and No CV Games`,
+      sync: `Giveaways, No CV Games, Reduced CV Games`,
+      syncKeys: [`Giveaways`, `NoCvGames`, `ReducedCvGames`],
       type: `general`
     };
   }

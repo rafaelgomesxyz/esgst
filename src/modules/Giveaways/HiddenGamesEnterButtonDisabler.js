@@ -19,6 +19,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
       name: `Hidden Game's Enter Button Disabler`,
       sg: true,
       sync: `Hidden Games`,
+      syncKeys: [`HiddenGames`],
       type: `giveaways`
     };
   }

@@ -705,7 +705,8 @@ class GiveawaysGiveawayFilters extends Module {
       load: this.gf,
       name: `Giveaway Filters`,
       sg: true,
-      sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Won Games, Reduced CV Games, No CV Games and Giveaways`,
+      sync: `Owned/Wishlisted/Ignored Games, Giveaways, Hidden Games, No CV Games, Reduced CV Games, Won Games`,
+      syncKeys: [`Games`, `Giveaways`, `HiddenGames`, `NoCvGames`, `ReducedCvGames`, `WonGames`],
       type: `giveaways`
     };
   }

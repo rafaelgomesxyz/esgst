@@ -339,7 +339,8 @@ class GamesGameCategories extends Module {
           }],
           name: `HLTB`,
           sg: true,
-          sync: `HLTB Times`
+          sync: `HLTB Times`,
+          syncKeys: [`HltbTimes`]
         },
         gc_i: {
           colors: true,
@@ -824,7 +825,8 @@ class GamesGameCategories extends Module {
       load: this.gc,
       name: `Game Categories`,
       sg: true,
-      sync: `Hidden Games, Owned/Wishlisted/Ignored Games, Reduced CV Games, No CV Games and Giveaways`,
+      sync: `Owned/Wishlisted/Ignored Games, Giveaways, Hidden Games, No CV Games, Reduced CV Games`,
+      syncKeys: [`Games`, `Giveaways`, `HiddenGames`, `NoCvGames`, `ReducedCvGames`],
       type: `games`
     };
   }

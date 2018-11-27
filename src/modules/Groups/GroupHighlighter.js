@@ -19,6 +19,7 @@ class GroupsGroupHighlighter extends Module {
       name: `Group Highlighter`,
       sg: true,
       sync: `Steam Groups`,
+      syncKeys: [`Groups`],
       type: `groups`
     };
   }

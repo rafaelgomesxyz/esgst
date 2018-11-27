@@ -3513,12 +3513,14 @@ class Common extends Module {
         type: `span`
       }]
     }]);
-    this.createElements(Container, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-settings-menu`
-      },
-      type: `div`
-    }]);
+    $(Container).append(`
+      <div style="display: flex;">
+        <div class="esgst-settings-menu" style="flex: 1;"></div>
+        <div class="esgst-settings-menu-feature" style="flex: 1;">Click on a feature/option to see details about it here.</div>
+      </div>
+    `);
+    $(Container).on(`click`, `.esgst-settings-feature`, this.loadFeatureDetails.bind(this, null));
+    this.esgst.featuresById = {};
     const input = Container.firstElementChild.nextElementSibling.firstElementChild;
     input.addEventListener(`input`, this.filterSm.bind(this));
     input.addEventListener(`change`, this.filterSm.bind(this));
@@ -3708,6 +3710,70 @@ class Common extends Module {
       }]);
       pp.open();
       this.esgst.firstInstall = false;
+    }
+    if (this.esgst.parameters.id) {
+      this.loadFeatureDetails(this.esgst.parameters.id);
+    }
+  }
+
+  loadFeatureDetails(id, event) {
+    if (!id) {
+      const element = event.currentTarget;
+      id = element.getAttribute(`data-id`);
+    }
+    const feature = this.esgst.featuresById[id];
+    const items = [];
+    if (feature.description) {
+      items.push({
+        check: true,
+        content: `<div class="markdown">${feature.description}</div>`,
+        name: `What does it do?`
+      });
+    }
+    const additionalOptions = {
+      check: true,
+      name: `Additional Options`
+    };
+    items.push(additionalOptions);
+    const syncRequirements = {
+      check: true,
+      name: `Sync Requirements`
+    };
+    if (feature.sync) {
+      items.push(syncRequirements);
+    }
+    const pathsSg = {
+      check: true,
+      name: `Where to run it on SteamGifts?`
+    };
+    const pathsSt = {
+      check: true,
+      name: `Where to run it on SteamTrades?`
+    };
+    items.push(pathsSg);
+    if (feature.st && this.esgst.settings.esgst_st) {
+      items.push(pathsSt);
+    }
+    const context = $(`.esgst-settings-menu-feature`);
+    context.html(`Click on a feature/option to see details about it here.`);
+    FormRows(context, {items});
+    if (additionalOptions.context) {
+      this.getSmFeatureAdditionalOptions(additionalOptions.context[0], feature, id);
+    }
+    if (syncRequirements.context) {
+      syncRequirements.context.append(`
+        <p>This feature requires the following data to be synced in order to function properly: <strong></strong></p>
+        <br>
+        <p>To sync these now, click <a class="table__column__secondary-link" target="_blank">here</a>.</p>
+      `).appendTo(syncRequirements.context)
+        .find(`strong`).text(feature.sync).end()
+        .find(`a`).attr(`href`, `https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`);
+    }
+    if (pathsSg.context) {
+      this.openPathsPopup(pathsSg.context[0], feature, id, `sg`);
+    }
+    if (pathsSt.context) {
+      this.openPathsPopup(pathsSt.context[0], feature, id, `st`);
     }
   }
 
@@ -4039,15 +4105,14 @@ class Common extends Module {
     this.reorderButtons(obj);
   }
 
-  openPathsPopup(feature, id, name) {
+  openPathsPopup(context, feature, id, name) {
     let obj = {
       excludeItems: [],
       includeItems: [],
       name: name,
-      popup: new Popup({addScrollable: true, icon: `fa-gear`, title: `[${name.toUpperCase()}] ${feature.name}`})
+      context: context
     };
-    obj.popup.description.classList.add(`esgst-text-left`);
-    obj.include = this.createElements(obj.popup.scrollable, `beforeEnd`, [{
+    obj.include = this.createElements(obj.context, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
@@ -4065,7 +4130,7 @@ class Common extends Module {
     }, {
       type: `div`
     }]);
-    let group = this.createElements(obj.popup.scrollable, `beforeEnd`, [{
+    let group = this.createElements(obj.context, `beforeEnd`, [{
       attributes: {
         class: `esgst-button-group`
       },
@@ -4092,7 +4157,7 @@ class Common extends Module {
         pattern: `^${this.escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${this.escapeRegExp(location.search)}`
       })
     }).set);
-    obj.exclude = this.createElements(obj.popup.scrollable, `beforeEnd`, [{
+    obj.exclude = this.createElements(obj.context, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
@@ -4110,7 +4175,7 @@ class Common extends Module {
     }, {
       type: `div`
     }]);
-    group = this.createElements(obj.popup.scrollable, `beforeEnd`, [{
+    group = this.createElements(obj.context, `beforeEnd`, [{
       attributes: {
         class: `esgst-button-group`
       },
@@ -4137,7 +4202,7 @@ class Common extends Module {
         pattern: `^${this.escapeRegExp(location.pathname)}${this.escapeRegExp(location.search)}`
       })
     }).set);
-    obj.popup.description.appendChild(new ButtonSet({
+    obj.context.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-check-circle`,
@@ -4149,7 +4214,6 @@ class Common extends Module {
     obj.setting = this.getFeaturePath(feature, id, obj.name);
     obj.setting.include.forEach(path => this.addPath(feature, `include`, obj, path));
     obj.setting.exclude.forEach(path => this.addPath(feature, `exclude`, obj, path));
-    obj.popup.open();
   }
 
   addPath(feature, key, obj, path) {
@@ -4223,7 +4287,7 @@ class Common extends Module {
     }
   }
 
-  savePaths(id, obj) {
+  async savePaths(id, obj) {
     obj.setting.include = [];
     obj.setting.exclude = [];
     for (const item of obj.includeItems) {
@@ -4245,9 +4309,7 @@ class Common extends Module {
         pattern: item.input.value
       });
     }
-    obj.popup.close();
-    // noinspection JSIgnoredPromiseFromCall
-    this.setSetting(`${id}_${obj.name}`, obj.setting);
+    await this.setSetting(`${id}_${obj.name}`, obj.setting);
   }
 
   dismissNewOption(id, event) {
@@ -4260,6 +4322,7 @@ class Common extends Module {
   }
 
   getSMFeature(Feature, ID, aaa) {
+    this.esgst.featuresById[ID] = Feature;
     let Menu, SMFeatures, isMainNew = false;
     Menu = document.createElement(`div`);
     Menu.id = `esgst_${ID}`;
@@ -4276,13 +4339,6 @@ class Common extends Module {
       set1 = this.getFeaturePath(Feature, ID, `sg`);
       val1 = set1.enabled;
       siwtchSg = new ToggleSwitch(Menu, ID, true, this.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
-      this.createElements(Menu, `beforeEnd`, [{
-        attributes: {
-          class: `fa fa-gear esgst-clickable`,
-          title: `Customize where the feature runs`
-        },
-        type: `i`
-      }]).addEventListener(`click`, this.openPathsPopup.bind(this, Feature, ID, `sg`));
       if (Feature.conflicts) {
         siwtchSg.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -4336,13 +4392,6 @@ class Common extends Module {
       set2 = this.getFeaturePath(Feature, ID, `st`);
       val2 = set2.enabled;
       siwtchSt = new ToggleSwitch(Menu, ID, true, `[ST]`, false, true, null, val2);
-      this.createElements(Menu, `beforeEnd`, [{
-        attributes: {
-          class: `fa fa-gear esgst-clickable`,
-          title: `Customize where the feature runs`
-        },
-        type: `i`
-      }]).addEventListener(`click`, this.openPathsPopup.bind(this, Feature, ID, `st`));
       if (Feature.conflicts) {
         siwtchSt.onEnabled = () => {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
@@ -4406,39 +4455,23 @@ class Common extends Module {
     }
     val = val1 || val2;
     this.createElements(Menu, `beforeEnd`, [{
-      text: typeof Feature.name === `string` ? `${this.esgst.settings.esgst_st ? `- ` : ``}${Feature.name} ` : ``,
-      type: `span`,
-      children: typeof Feature.name === `string` ? null : [this.esgst.settings.esgst_st ? {
-        text: `- `,
-        type: `node`
-      } : null,
+      attributes: {
+        class: `esgst-settings-feature table__column__secondary-link`,
+        'data-id': ID
+      },
+      text: typeof Feature.name === `string` ? Feature.name : ``,
+      type: `a`,
+      children: typeof Feature.name === `string` ? null : [
         ...Feature.name
       ]
-    }, ...(Feature.features ? [{
-      attributes: {
-        class: `fa fa-ellipsis-h`,
-        title: `This option has sub-options`
-      },
-      type: `i`
-    }] : [null]), ...(Feature.sync ? [{
-      attributes: {
-        class: `esgst-negative fa fa-refresh`,
-        title: `This feature requires ${Feature.sync} data to be synced (section 1 of this menu)`
-      },
-      type: `i`
-    }] : [null]), ...(Feature.description ? [{
-      attributes: {
-        class: `fa fa-question-circle esgst-clickable`
-      },
-      type: `i`
-    }] : [null]), {
+    }, {
       attributes: {
         class: `esgst-form-row-indent SMFeatures esgst-hidden`
       },
       type: `div`
     }]);
     SMFeatures = Menu.lastElementChild;
-    if (Feature.description) {
+    if (false && Feature.description) {
       let popout = null;
       let tooltip = SMFeatures.previousElementSibling;
       tooltip.addEventListener(`mouseenter`, () => {
@@ -4500,6 +4533,13 @@ class Common extends Module {
         }]);
       }
     }
+    return {
+      isNew: isMainNew,
+      menu: Menu
+    };
+  }
+
+  getSmFeatureAdditionalOptions(SMFeatures, Feature, ID) {
     if (ID === `gc`) {
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `gch`) {
@@ -4662,15 +4702,6 @@ class Common extends Module {
           }]);
         }
       }
-      if (siwtchSg) {
-        siwtchSg.dependencies.push(SMFeatures);
-      }
-      if (siwtchSt) {
-        siwtchSt.dependencies.push(SMFeatures);
-      }
-      if (val) {
-        SMFeatures.classList.remove(`esgst-hidden`);
-      }
     } else if (Feature.inputItems) {
       let container = this.createElements(SMFeatures, `beforeEnd`, [{
         attributes: {
@@ -4745,7 +4776,7 @@ class Common extends Module {
           input.nextElementSibling.addEventListener(`click`, async () => (await this.esgst.modules.generalHeaderRefresher.hr_createPlayer(this.esgst.settings[item.id] || this.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
         }
         if (typeof this.esgst.settings[item.id] === `undefined` && this.esgst.dismissedOptions.indexOf(item.id) < 0) {
-          isMainNew = true;
+          //isMainNew = true;
           this.createElements(context, `afterBegin`, [{
             attributes: {
               class: `esgst-bold esgst-red esgst-clickable`,
@@ -4793,15 +4824,6 @@ class Common extends Module {
           });
         }
       });
-      if (siwtchSg) {
-        siwtchSg.dependencies.push(SMFeatures);
-      }
-      if (siwtchSt) {
-        siwtchSt.dependencies.push(SMFeatures);
-      }
-      if (val) {
-        SMFeatures.classList.remove(`esgst-hidden`);
-      }
     } else if (Feature.theme) {
       const children = [{
         text: `Enabled from `,
@@ -4895,15 +4917,6 @@ class Common extends Module {
           this.setTheme();
         });
       }
-      if (siwtchSg) {
-        siwtchSg.dependencies.push(SMFeatures);
-      }
-      if (siwtchSt) {
-        siwtchSt.dependencies.push(SMFeatures);
-      }
-      if (val) {
-        SMFeatures.classList.remove(`esgst-hidden`);
-      }
     }
     if (Feature.options) {
       const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
@@ -4933,20 +4946,7 @@ class Common extends Module {
         select.firstElementChild.selectedIndex = selectedIndex;
         this.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, `selectedIndex`);
       }
-      if (siwtchSg) {
-        siwtchSg.dependencies.push(SMFeatures);
-      }
-      if (siwtchSt) {
-        siwtchSt.dependencies.push(SMFeatures);
-      }
-      if (val) {
-        SMFeatures.classList.remove(`esgst-hidden`);
-      }
     }
-    return {
-      isNew: isMainNew,
-      menu: Menu
-    };
   }
 
   readHrAudioFile(id, event) {
