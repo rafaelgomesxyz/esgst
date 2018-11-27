@@ -10,6 +10,6 @@ export default function FormNotification(context, options) {
       .text(options.name)
       .end()
     .find(`.date`)
-      .data(`timestamp`, options.date)
+      .attr(`data-timestamp`, options.date / 1e3)
       .text(dateFns_formatDistanceStrict(options.date, new Date()));
 }

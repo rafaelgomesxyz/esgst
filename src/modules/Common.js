@@ -335,6 +335,13 @@ class Common extends Module {
       }
     }
 
+    this.esgst.style.insertAdjacentText("beforeend", `
+      .esgst-menu-split-fixed {
+        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (this.esgst.ff ? 39 : 0)}px);
+        top: ${this.esgst.commentsTop + 25}px;
+      }
+    `);
+
     if (this.esgst.updateHiddenGames) {
       const hideButton = document.getElementsByClassName(`js__submit-hide-games`)[0];
       if (hideButton) {
@@ -2098,9 +2105,9 @@ class Common extends Module {
         ]
       });
       $(context).append(`
-        <div style="display: flex;">
-          <div class="esgst-sync-options" style="flex: 1;"></div>
-          <div class="esgst-sync-area" style="flex: 1;"></div>
+        <div class="esgst-menu-split">
+          <div class="esgst-sync-options"></div>
+          <div class="esgst-sync-area"></div>
         </div>
       `);
       $(context).append(new ButtonSet({
@@ -2126,7 +2133,7 @@ class Common extends Module {
         name: `Automatic`
       };
       FormRows(syncer.container, {items:[syncer.manual, syncer.automatic]});
-      syncer.switches = {
+      syncer.switchesKeys = {
         syncGroups: {
           key: `Groups`,
           name: `Groups`
@@ -2172,9 +2179,10 @@ class Common extends Module {
           name: `Giveaways`
         }
       };
-      for (let id in syncer.switches) {
-        if (syncer.switches.hasOwnProperty(id)) {
-          const info = syncer.switches[id];
+      syncer.switches = {};
+      for (let id in syncer.switchesKeys) {
+        if (syncer.switchesKeys.hasOwnProperty(id)) {
+          const info = syncer.switchesKeys[id];
           const element = $(`
             <div>
               <span class="cb"></span>
@@ -2182,9 +2190,9 @@ class Common extends Module {
             </div>
           `);
           element.appendTo(syncer.manual.context);
-          const checkbox = new Checkbox(element.find(`.cb`)[0], this.esgst[`sync${info.key}`]);
+          const checkbox = new Checkbox(element.find(`.cb`)[0], this.esgst[id]);
           checkbox.onChange = () => {
-            this.esgst.settings[`sync${info.key}`] = this.esgst[`sync${info.key}`] = checkbox.value
+            this.esgst.settings[`sync${info.key}`] = this.esgst[id] = checkbox.value
           };
           element.find(`.name`).text(info.name);
           syncer.switches[id] = checkbox;
@@ -2195,6 +2203,9 @@ class Common extends Module {
             date: this.esgst[`lastSync${info.key}`]
           });
         }
+      }
+      if (this.esgst.at) {
+        this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.area);
       }
       
       this.createElements(syncer.automatic.context[0], `beforeEnd`, [{
@@ -2264,6 +2275,23 @@ class Common extends Module {
     syncer.manual.context[0].appendChild(syncer.set.set);
     if (syncer.parameters) {
       syncer.set.trigger();
+    }
+  }
+
+  updateSyncDates(syncer) {
+    $(syncer.area).empty();    
+    for (let id in syncer.switchesKeys) {
+      if (syncer.switchesKeys.hasOwnProperty(id)) {
+        const info = syncer.switchesKeys[id];
+        FormNotification(syncer.area, {
+          name: info.name,
+          success: !!this.esgst[`lastSync${info.key}`],
+          date: this.esgst[`lastSync${info.key}`]
+        });
+      }
+    }
+    if (this.esgst.at) {
+      this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.area);
     }
   }
 
@@ -2762,9 +2790,7 @@ class Common extends Module {
       }]);
       this.delLocalValue(`isSyncing`);
     }
-    if (syncer.set && syncer.parameters) {
-      syncer.set.set.remove();
-    }
+    this.updateSyncDates(syncer);
     if (syncer.parameters) {
       window.alert(`Sync done! You can close this.`);
     }
@@ -3561,9 +3587,9 @@ class Common extends Module {
       }]
     }]);
     $(Container).append(`
-      <div style="display: flex;">
-        <div class="esgst-settings-menu" style="flex: 1;"></div>
-        <div class="esgst-settings-menu-feature" style="flex: 1;">Click on a feature/option to see details about it here.</div>
+      <div class="esgst-menu-split">
+        <div class="esgst-settings-menu"></div>
+        <div class="esgst-settings-menu-feature esgst-menu-split-fixed">Click on a feature/option to see details about it here.</div>
       </div>
     `);
     $(Container).on(`click`, `.esgst-settings-feature`, this.loadFeatureDetails.bind(this, null));
@@ -3773,7 +3799,7 @@ class Common extends Module {
     if (feature.description) {
       items.push({
         check: true,
-        content: `<div class="markdown">${feature.description}</div>`,
+        content: `<div class="markdown">${feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName.bind(this))}</div>`,
         name: `What does it do?`
       });
     }
@@ -4165,7 +4191,7 @@ class Common extends Module {
       },
       type: `div`,
       children: [{
-        text: `Include: `,
+        text: `Run it here: `,
         type: `node`
       }, {
         attributes: {
@@ -4192,25 +4218,13 @@ class Common extends Module {
       title2: ``,
       callback1: this.addPath.bind(this, feature, `include`, obj, {enabled: 1, pattern: ``})
     }).set);
-    group.appendChild(new ButtonSet({
-      color1: `grey`,
-      color2: ``,
-      icon1: `fa-plus-circle`,
-      icon2: ``,
-      title1: `Add Current`,
-      title2: ``,
-      callback1: this.addPath.bind(this, feature, `include`, obj, {
-        enabled: 1,
-        pattern: `^${this.escapeRegExp(location.href.match(/\/($|giveaways(?!.*(new|wishlist|created|entered|won)))/) ? `/($|giveaways(?!.*(new|wishlist|created|entered|won)))` : location.pathname)}${this.escapeRegExp(location.search)}`
-      })
-    }).set);
     obj.exclude = this.createElements(obj.context, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold`
       },
       type: `div`,
       children: [{
-        text: `Exclude: `,
+        text: `Do NOT run it here: `,
         type: `node`
       }, {
         attributes: {
@@ -4237,18 +4251,6 @@ class Common extends Module {
       title2: ``,
       callback1: this.addPath.bind(this, feature, `exclude`, obj, {enabled: 1, pattern: ``})
     }).set);
-    group.appendChild(new ButtonSet({
-      color1: `grey`,
-      color2: ``,
-      icon1: `fa-plus-circle`,
-      icon2: ``,
-      title1: `Add Current`,
-      title2: ``,
-      callback1: this.addPath.bind(this, feature, `exclude`, obj, {
-        enabled: 1,
-        pattern: `^${this.escapeRegExp(location.pathname)}${this.escapeRegExp(location.search)}`
-      })
-    }).set);
     obj.context.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
@@ -4269,13 +4271,33 @@ class Common extends Module {
       type: `div`
     }]);
     item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
-    item.input = this.createElements(item.container, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-switch-input esgst-switch-input-large`,
-        type: `text`
-      },
-      type: `input`
-    }]);
+    let found = false;
+    item.select = $(`
+      <select class="esgst-switch-input esgst-switch-input-large">
+        ${this.esgst.paths[obj.name].map(x => `<option ${x.pattern === path.pattern ? (found = true && `selected`) : ``} value="${x.pattern}">${x.name}</option>`)}
+        <option ${found ? `` : `selected`} value="custom">Custom</option>
+      </select>
+    `)
+    item.select.appendTo(item.container);
+    item.input = $(`
+      <input class="esgst-switch-input esgst-switch-input-large" disabled type="text">
+    `);
+    item.input.appendTo(item.container);
+    item.input = item.input[0];
+    if (item.select[0].value === `custom`) {
+      item.input.disabled = false;
+    } else {
+      item.input.disabled = true;
+    }
+    item.select.on(`change`, () => {
+      if (item.select[0].value === `custom`) {
+        item.input.disabled = false;
+        item.input.value = ``;
+      } else {
+        item.input.disabled = true;
+        item.input.value = item.select[0].value;
+      }
+    });
     item.input.value = path.pattern;
     item.input.addEventListener(`input`, this.validatePathRegex.bind(this, item));
     this.createElements(item.container, `beforeEnd`, [{
@@ -4308,7 +4330,6 @@ class Common extends Module {
         });
       }
     }
-    item.input.focus();
   }
 
   removePath(item, key, obj) {
@@ -4518,25 +4539,6 @@ class Common extends Module {
       type: `div`
     }]);
     SMFeatures = Menu.lastElementChild;
-    if (false && Feature.description) {
-      let popout = null;
-      let tooltip = SMFeatures.previousElementSibling;
-      tooltip.addEventListener(`mouseenter`, () => {
-        if (popout) {
-          popout.open(tooltip);
-        } else {
-          popout = new Popout(`esgst-feature-description markdown`, tooltip, 100);
-          popout.popout.style.maxHeight = `300px`;
-          popout.popout.style.overflow = `auto`;
-          this.createElements(popout.popout, `inner`, [...(Array.from(parseHtml(Feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName.bind(this))).body.childNodes).map(x => {
-            return {
-              context: x
-            };
-          }))]);
-          popout.open(tooltip);
-        }
-      });
-    }
     if (Feature.features) {
       let ft, i, id, isNew = false;
       i = 1;
@@ -4587,6 +4589,7 @@ class Common extends Module {
   }
 
   getSmFeatureAdditionalOptions(SMFeatures, Feature, ID) {
+    let has = true;
     if (ID === `gc`) {
       SMFeatures.classList.remove(`esgst-hidden`);
     } else if (ID === `gch`) {
@@ -4823,7 +4826,6 @@ class Common extends Module {
           input.nextElementSibling.addEventListener(`click`, async () => (await this.esgst.modules.generalHeaderRefresher.hr_createPlayer(this.esgst.settings[item.id] || this.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
         }
         if (typeof this.esgst.settings[item.id] === `undefined` && this.esgst.dismissedOptions.indexOf(item.id) < 0) {
-          //isMainNew = true;
           this.createElements(context, `afterBegin`, [{
             attributes: {
               class: `esgst-bold esgst-red esgst-clickable`,
@@ -4964,8 +4966,11 @@ class Common extends Module {
           this.setTheme();
         });
       }
+    } else {
+      has = false;
     }
     if (Feature.options) {
+      has = true;
       const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
       for (const [index, option] of options.entries()) {
         const currentKey = key.replace(/\*/, index);
@@ -4993,6 +4998,9 @@ class Common extends Module {
         select.firstElementChild.selectedIndex = selectedIndex;
         this.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, `selectedIndex`);
       }
+    }
+    if (!has) {
+      $(SMFeatures).append(`No additional options.`);
     }
   }
 
@@ -11625,6 +11633,20 @@ class Common extends Module {
   `;
     if (this.esgst.sg) {
       style += `
+      .esgst-menu-split {
+        display: flex;
+      }
+
+      .esgst-menu-split >* {
+        flex: 1;
+      }
+
+      .esgst-menu-split-fixed {
+        align-self: flex-start;
+        position: sticky;
+        overflow: auto;
+      }
+
       .esgst-header-menu {
         box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.07) inset, 1px 1px 0 rgba(255, 255, 255, 0.02) inset;
         background-image: linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%);
