@@ -142,7 +142,6 @@ import UsersSteamGiftsProfileButton from './Users/SteamGiftsProfileButton';
 import UsersSteamTradesProfileButton from './Users/SteamTradesProfileButton';
 import UsersProfileLinks from './Users/ProfileLinks';
 import Profile from './Profile';
-import EndlessLoad from './EndlessLoad';
 import GeneralQuickInboxView from './General/QuickInboxView';
 import GeneralEndlessScrolling from './General/EndlessScrolling';
 import Filters from './Filters';
@@ -292,7 +291,6 @@ let
   usersSteamTradesProfileButton = new UsersSteamTradesProfileButton,
   usersProfileLinks = new UsersProfileLinks,
   profile = new Profile,
-  endlessLoad = new EndlessLoad,
   generalQuickInboxView = new GeneralQuickInboxView,
   generalEndlessScrolling = new GeneralEndlessScrolling,
   filters = new Filters,
@@ -444,7 +442,6 @@ export default {
   usersSteamTradesProfileButton,
   usersProfileLinks,
   profile,
-  endlessLoad,
   generalQuickInboxView,
   generalEndlessScrolling,
   filters,

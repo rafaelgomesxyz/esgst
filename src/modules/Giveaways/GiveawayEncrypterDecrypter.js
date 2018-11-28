@@ -3,7 +3,6 @@ import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
-import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -98,7 +97,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     if (this.esgst.accountPath && this.esgst.parameters.esgst === `ged`) {
       const context = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
-      PageHeading(context, {
+      common.createPageHeading(context, `beforeEnd`, {
         items: [
           {
             name: `ESGST`

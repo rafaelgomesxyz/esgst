@@ -1,19 +1,16 @@
-import {container} from '../class/Container';
+import { container } from '../class/Container';
 import Module from '../class/Module'
 import ButtonSet from '../class/ButtonSet';
 import Popout from '../class/Popout';
 import Popup from '../class/Popup';
 import ToggleSwitch from '../class/ToggleSwitch';
-import {utils} from '../lib/jsUtils';
+import { utils } from '../lib/jsUtils';
 import JSZip from 'jszip';
 import IntersectionObserver from 'intersection-observer-polyfill';
-import {TextEncoder} from 'text-encoding/lib/encoding';
+import { TextEncoder } from 'text-encoding/lib/encoding';
 import dateFns_format from 'date-fns/format';
-import SidebarNavigation from '../lib/SgStUtils/SidebarNavigation';
-import PageHeading from '../lib/SgStUtils/PageHeading';
-import FormRows from '../lib/SgStUtils/FormRows';
+import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import Checkbox from '../class/Checkbox';
-import FormNotification from '../lib/SgStUtils/FormNotification';
 
 /**
  * @property {EnvironmentFunctions} envFunctions
@@ -26,7 +23,7 @@ const
   rgba2Hex = utils.rgba2Hex.bind(utils),
   hex2Rgba = utils.hex2Rgba.bind(utils),
   sortArray = utils.sortArray.bind(utils)
-;
+  ;
 
 class Common extends Module {
   constructor() {
@@ -179,14 +176,14 @@ class Common extends Module {
   }
 
   setSidebarActive(id) {
-    const selected = $(`.is-selected`);
-    selected.find(`i.fa-caret-right`).remove();
-    selected.removeClass(`is-selected`);
-    const newSelected = $(`#${id}`);
-    newSelected.addClass(`is-selected`);
-    newSelected.find(`a.sidebar__navigation__item__link`).prepend(`
-      <i class="fa fa-caret-right"></i>
-    `);
+    const selected = this.esgst.sidebar.querySelector(`.is-selected`);
+    selected.querySelector(`.fa-caret-right`).remove();
+    selected.classList.remove(`is-selected`);
+    const newSelected = document.querySelector(`#${id}`);
+    newSelected.classList.add(`is-selected`);
+    this.createElements_v2(newSelected.querySelector(`.sidebar__navigation__item__link`), `afterBegin`, [
+      [`i`, `fa fa-caret-right`]
+    ]);
   }
 
   /**
@@ -196,7 +193,7 @@ class Common extends Module {
    */
   async loadFeatures(modules) {
     if (this.esgst.accountPath) {
-      SidebarNavigation(this.esgst.sidebar, {
+      this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
         name: `ESGST`,
         items: [
           {
@@ -259,34 +256,26 @@ class Common extends Module {
         this.loadDM();
       }
     }
+
     if (this.esgst.minimizePanel) {
       this.minimizePanel_add();
     }
 
     if (this.esgst.mainPageHeading) {
-      this.esgst.leftMainPageHeadingButtons = this.createElements(this.esgst.mainPageHeading, `afterBegin`, [{
-        attributes: {
-          class: `esgst-page-heading esgst-page-heading-buttons`
-        },
-        type: `div`
-      }]) ;
-      this.esgst.rightMainPageHeadingButtons = this.createElements(this.esgst.mainPageHeading, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-page-heading esgst-page-heading-buttons`
-        },
-        type: `div`
-      }]) ;
+      this.esgst.leftMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, `afterBegin`, [
+        [`div`, `esgst-page-heading esgst-page-heading-buttons`]
+      ]);
+      this.esgst.rightMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, `beforeEnd`, [
+        [`div`, `esgst-page-heading esgst-page-heading-buttons`]
+      ]);
     }
 
     let hideButtonsLeft, hideButtonsRight;
     hideButtonsLeft = document.createElement(`div`);
     hideButtonsLeft.className = `esgst-heading-button`;
-    this.createElements(hideButtonsLeft, `inner`, [{
-      attributes: {
-        class: `fa fa-ellipsis-v`
-      },
-      type: `i`
-    }]);
+    this.createElements_v2(hideButtonsLeft, `inner`, [
+      [`i`, `fa fa-ellipsis-v`]
+    ]);
     this.esgst.leftButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsLeft, 0, true).popout, `beforeEnd`, [{
       attributes: {
         class: `esgst-page-heading`
@@ -333,6 +322,13 @@ class Common extends Module {
       } catch (e) {
         console.log(e);
       }
+    }
+
+    const customPage = this.esgst.customPages[this.esgst.parameters.esgst];
+    if (customPage && customPage.check) {
+      await customPage.load();
+    } else {
+      await this.endless_load(document, true);
     }
 
     this.esgst.style.insertAdjacentText("beforeend", `
@@ -464,6 +460,13 @@ class Common extends Module {
       this.esgst.enterGiveawayButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__entry-insert`)[0];
       this.esgst.leaveGiveawayButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__entry-delete`)[0];
       this.esgst.giveawayErrorButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__error`)[0];
+      const headings = document.querySelectorAll(`.sidebar__heading`);
+      for (const heading of headings) {
+        this.esgst.sidebarGroups.push({
+          heading: heading,
+          navigation: heading.nextElementSibling
+        });
+      }
     }
     this.esgst.activeDiscussions = /** @type {HTMLElement} */ document.querySelector(`.widget-container--margin-top:last-of-type`);
     this.esgst.pinnedGiveaways = /** @type {HTMLElement} */ document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
@@ -615,18 +618,18 @@ class Common extends Module {
     }
   }
 
-// Helper
+  // Helper
 
   async saveComment(tradeCode, parentId, description, url, status, goToLocation) {
     const data = `xsrf_token=${this.esgst.xsrfToken}&do=${this.esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
     let id = null;
-    let response = await this.request({data, method: `POST`, url});
+    let response = await this.request({ data, method: `POST`, url });
     let responseHtml = null;
     let success = true;
     if (this.esgst.sg) {
       if ((response.redirected && url === response.finalUrl) || url !== response.finalUrl) {
         if (url !== response.finalUrl) {
-          response = await this.request({data, method: `POST`, url: response.finalUrl});
+          response = await this.request({ data, method: `POST`, url: response.finalUrl });
         }
         responseHtml = parseHtml(response.responseText);
         if (parentId) {
@@ -657,14 +660,14 @@ class Common extends Module {
         text: `Failed!`,
         type: `span`
       }]);
-      return {id: null, response: null,status};
+      return { id: null, response: null, status };
     }
     if (this.esgst.ch) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
     }
     if (!goToLocation) {
-      return {id, response, status};
+      return { id, response, status };
     }
     await this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_saveGiveaways(this.esgst.sg ? responseHtml.getElementById(id).closest(`.comment`) : responseHtml.getElementById(id), id);
     location.href = `/go/comment/${id}`;
@@ -968,7 +971,7 @@ class Common extends Module {
           continue;
         }
         const typeModules = Object.keys(this.esgst.modules).filter(x => this.esgst.modules[x].info.type === type).sort((x, y) => {
-          return this.esgst.modules[x].info.id.localeCompare(this.esgst.modules[y].info.id, {sensitivity: `base`});
+          return this.esgst.modules[x].info.id.localeCompare(this.esgst.modules[y].info.id, { sensitivity: `base` });
         });
         for (const key of typeModules) {
           const module = this.esgst.modules[key];
@@ -1105,27 +1108,12 @@ class Common extends Module {
         });
         popup.open();
         await this.checkSync(true, true);
-        this.createElements(popup.title, `inner`, [{
-          attributes: {
-            class: `fa fa-check`
-          },
-          type: `i`
-        }, {
-          text: ` Thanks for installing ESGST, `,
-          type: `node`
-        }, {
-          text: this.esgst.username,
-          type: `span`
-        }, {
-          text: `. You are ready to go! Click on the `,
-          type: `node`
-        }, {
-          text: `Settings`,
-          type: `span`
-        }, {
-          text: ` link below to choose which features you want to use.`,
-          type: `node`
-        }]);
+        this.createElements_v2(popup.title, `inner`, [
+          [`i`, `fa fa-check`],
+          `Thanks for installing ESGST, ${this.esgst.username}. You are ready to go! Click on the`,
+          [`span`, `Settings`]
+          ` link below to choose which features you want to use.`
+        ]);
       } else {
         if (this.esgst.showChangelog) {
           this.loadChangelog(this.esgst.version);
@@ -1508,7 +1496,7 @@ class Common extends Module {
       case `egh`:
         if (name !== `sg`) return;
         setting.exclude = [
-          {enabled: this.validateValue(this.esgst.settings.egh_t_sg) ? 0 : 1, pattern: `^/discussion/`}
+          { enabled: this.validateValue(this.esgst.settings.egh_t_sg) ? 0 : 1, pattern: `^/discussion/` }
         ];
         return;
       case `es_pd`:
@@ -1576,18 +1564,18 @@ class Common extends Module {
       case `gc`:
         if (name !== `sg`) return;
         setting.exclude = [
-          {enabled: this.validateValue(this.esgst.settings.gc_t_sg) ? 0 : 1, pattern: `^/discussion/`}
+          { enabled: this.validateValue(this.esgst.settings.gc_t_sg) ? 0 : 1, pattern: `^/discussion/` }
         ];
         return;
       case `gc_gi`:
         if (name !== `sg`) return;
         if (this.validateValue(this.esgst.settings.gc_gi_t_sg)) {
           setting.include = [
-            {enabled: 1, pattern: `^/discussion`}
+            { enabled: 1, pattern: `^/discussion` }
           ];
         } else if (this.validateValue(this.esgst.settings.gc_gi_cew_sg)) {
           setting.include = [
-            {enabled: 1, pattern: `^/giveaways/(created|entered|won)/`}
+            { enabled: 1, pattern: `^/giveaways/(created|entered|won)/` }
           ];
         }
         return;
@@ -1596,19 +1584,19 @@ class Common extends Module {
         setting.enabled = this.esgst.settings.gc_o_altAccounts && this.esgst.settings.gc_o_altAccounts.length > 0 ? 1 : 0;
         if (this.validateValue(this.esgst.settings.gc_o_t_sg)) {
           setting.include = [
-            {enabled: 1, pattern: `^/discussion`}
+            { enabled: 1, pattern: `^/discussion` }
           ];
         }
         return;
       case `gt`:
         if (name !== `sg`) return;
         setting.exclude = [
-          {enabled: this.validateValue(this.esgst.settings.gt_t_sg) ? 0 : 1, pattern: `^/discussion/`}
+          { enabled: this.validateValue(this.esgst.settings.gt_t_sg) ? 0 : 1, pattern: `^/discussion/` }
         ];
         return;
       case `vai`:
         setting.exclude = [
-          {enabled: this.validateValue(this.esgst.settings[`vai_i_${name}`]) ? 1 : 0, pattern: `^/messages`}
+          { enabled: this.validateValue(this.esgst.settings[`vai_i_${name}`]) ? 1 : 0, pattern: `^/messages` }
         ];
         return;
       default:
@@ -1632,7 +1620,7 @@ class Common extends Module {
           setting.exclude = feature[name].exclude;
         }
       } else {
-        setting.include = [{enabled: setting.enabled, pattern: `.*`}];
+        setting.include = [{ enabled: setting.enabled, pattern: `.*` }];
       }
       if (setting.new) {
         this.getOldValues(id, name, setting);
@@ -1914,7 +1902,7 @@ class Common extends Module {
 
   async getUsername(list, save, user) {
     let match, response, responseHtml;
-    response = await this.request({method: `GET`, url: `https://www.steamgifts.com/go/user/${user.steamId}`});
+    response = await this.request({ method: `GET`, url: `https://www.steamgifts.com/go/user/${user.steamId}` });
     match = response.finalUrl.match(/\/user\/(.+)/);
     responseHtml = parseHtml(response.responseText);
     if (match) {
@@ -2094,7 +2082,7 @@ class Common extends Module {
     } else {
       const context = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
-      PageHeading(context, {
+      this.createPageHeading(context, `beforeEnd`, {
         items: [
           {
             name: `ESGST`
@@ -2104,13 +2092,14 @@ class Common extends Module {
           }
         ]
       });
-      $(context).append(`
-        <div class="esgst-menu-split">
-          <div class="esgst-sync-options"></div>
-          <div class="esgst-sync-area"></div>
-        </div>
-      `);
-      $(context).append(new ButtonSet({
+
+      this.createElements_v2(context, `beforeEnd`, [
+        [`div`, `esgst-menu-split`, [
+          [`div`, `esgst-sync-options`],
+          [`div`, `esgst-sync-area`]
+        ]]
+      ]);
+      context.appendChild(new ButtonSet({
         color1: `green`,
         color2: `grey`,
         icon1: ``,
@@ -2122,17 +2111,18 @@ class Common extends Module {
           window.location.reload();
         }
       }).set);
-      syncer.container = $(context).find(`.esgst-sync-options`)[0];
-      syncer.area = $(context).find(`.esgst-sync-area`)[0];
+      syncer.container = context.querySelector(`.esgst-sync-options`);
+      syncer.area = context.querySelector(`.esgst-sync-area`);
       syncer.manual = {
         check: true,
+        content: [],
         name: `Manual`
       };
       syncer.automatic = {
         check: true,
+        content: [],
         name: `Automatic`
       };
-      FormRows(syncer.container, {items:[syncer.manual, syncer.automatic]});
       syncer.switchesKeys = {
         syncGroups: {
           key: `Groups`,
@@ -2183,75 +2173,76 @@ class Common extends Module {
       for (let id in syncer.switchesKeys) {
         if (syncer.switchesKeys.hasOwnProperty(id)) {
           const info = syncer.switchesKeys[id];
-          const element = $(`
-            <div>
-              <span class="cb"></span>
-              <span class="name"></span>
-            </div>
-          `);
-          element.appendTo(syncer.manual.context);
-          const checkbox = new Checkbox(element.find(`.cb`)[0], this.esgst[id]);
+          const checkbox = new Checkbox(null, this.esgst[id]);
           checkbox.onChange = () => {
             this.esgst.settings[`sync${info.key}`] = this.esgst[id] = checkbox.value
           };
-          element.find(`.name`).text(info.name);
           syncer.switches[id] = checkbox;
+          syncer.manual.content.push(
+            [`div`, null, [
+              checkbox.checkbox,
+              ` `,
+              [`span`, null, info.name]
+            ]]
+          );
           this.setAutoSync(info.key, info.name, syncer);
-          FormNotification(syncer.area, {
+          this.createFormNotification(syncer.area, `beforeEnd`, {
             name: info.name,
             success: !!this.esgst[`lastSync${info.key}`],
             date: this.esgst[`lastSync${info.key}`]
           });
         }
       }
+      syncer.set = new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-refresh`,
+        icon2: `fa-times`,
+        title1: `Sync`,
+        title2: `Cancel`,
+        callback1: this.sync.bind(this, syncer),
+        callback2: this.cancelSync.bind(this, syncer)
+      });
+      syncer.manual.content.push(
+        [`div`, `esgst-button-group`, [
+          [`span`, null, `Select:`],
+          new ButtonSet({
+            color1: `grey`,
+            color2: `grey`,
+            icon1: `fa-square`,
+            icon2: `fa-circle-o-notch fa-spin`,
+            title1: `All`,
+            title2: ``,
+            callback1: this.selectSwitches.bind(this, syncer.switches, `check`, false)
+          }).set,
+          new ButtonSet({
+            color1: `grey`,
+            color2: `grey`,
+            icon1: `fa-square-o`,
+            icon2: `fa-circle-o-notch fa-spin`,
+            title1: `None`,
+            title2: ``,
+            callback1: this.selectSwitches.bind(this, syncer.switches, `uncheck`, false)
+          }).set,
+          new ButtonSet({
+            color1: `grey`,
+            color2: `grey`,
+            icon1: `fa-plus-square-o`,
+            icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Inverse`,
+            title2: ``,
+            callback1: this.selectSwitches.bind(this, syncer.switches, `toggle`, false)
+          }).set
+        ]],
+        syncer.set.set
+      );
+      syncer.automatic.content.push(
+        [`div`, `esgst-description`, `Select how often you want the automatic sync to run (in days) or 0 to disable it.`]
+      );
+      this.createFormRows(syncer.container, `beforeEnd`, { items: [syncer.manual, syncer.automatic] });
       if (this.esgst.at) {
         this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.area);
       }
-      
-      this.createElements(syncer.automatic.context[0], `beforeEnd`, [{
-        attributes: {
-          class: `esgst-description`
-        },
-        text: `Select how often you want the automatic sync to run (in days) or 0 to disable it.`,
-        type: `div`
-      }]);
-      let group = this.createElements(syncer.manual.context[0], `beforeEnd`, [{
-        attributes: {
-          class: `esgst-button-group`
-        },
-        type: `div`,
-        children: [{
-          text: `Select:`,
-          type: `span`
-        }]
-      }]);
-      group.appendChild(new ButtonSet({
-        color1: `grey`,
-        color2: `grey`,
-        icon1: `fa-square`,
-        icon2: `fa-circle-o-notch fa-spin`,
-        title1: `All`,
-        title2: ``,
-        callback1: this.selectSwitches.bind(this, syncer.switches, `check`, false)
-      }).set);
-      group.appendChild(new ButtonSet({
-        color1: `grey`,
-        color2: `grey`,
-        icon1: `fa-square-o`,
-        icon2: `fa-circle-o-notch fa-spin`,
-        title1: `None`,
-        title2: ``,
-        callback1: this.selectSwitches.bind(this, syncer.switches, `uncheck`, false)
-      }).set);
-      group.appendChild(new ButtonSet({
-        color1: `grey`,
-        color2: `grey`,
-        icon1: `fa-plus-square-o`,
-        icon2: `fa-circle-o-notch fa-spin`,
-        title1: `Inverse`,
-        title2: ``,
-        callback1: this.selectSwitches.bind(this, syncer.switches, `toggle`, false)
-      }).set);
     }
     syncer.progress = this.createElements(syncer.area, `beforeEnd`, [{
       attributes: {
@@ -2262,28 +2253,17 @@ class Common extends Module {
     syncer.results = this.createElements(syncer.area, `beforeEnd`, [{
       type: `div`
     }]);
-    syncer.set = new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: `fa-refresh`,
-      icon2: `fa-times`,
-      title1: `Sync`,
-      title2: `Cancel`,
-      callback1: this.sync.bind(this, syncer),
-      callback2: this.cancelSync.bind(this, syncer)
-    });
-    syncer.manual.context[0].appendChild(syncer.set.set);
-    if (syncer.parameters) {
+    if (syncer.parameters && syncer.set) {
       syncer.set.trigger();
     }
   }
 
   updateSyncDates(syncer) {
-    $(syncer.area).empty();    
+    syncer.area.innerHTML = ``;
     for (let id in syncer.switchesKeys) {
       if (syncer.switchesKeys.hasOwnProperty(id)) {
         const info = syncer.switchesKeys[id];
-        FormNotification(syncer.area, {
+        this.createFormNotification(syncer.area, `beforeEnd`, {
           name: info.name,
           success: !!this.esgst[`lastSync${info.key}`],
           date: this.esgst[`lastSync${info.key}`]
@@ -2296,21 +2276,16 @@ class Common extends Module {
   }
 
   setAutoSync(key, name, syncer) {
-    let days = ``;
+    let days = [];
     for (let i = 0; i < 31; ++i) {
-      days += `<option>${i}</option>`;
+      days.push([`option`, i === this.esgst[`autoSync${key}`] ? {selected: true} : null, i]);
     }
-    const element = $(`
-      <div>
-        <select class="esgst-auto-sync">${days}</select>
-        <span></span>
-      </div>      
-    `);
-    element.appendTo(syncer.automatic.context[0]);
-    element.find(`span`).text(name);
-    const select = element.find(`select`)[0];
-    select.selectedIndex = this.esgst[`autoSync${key}`];
-    select.onChange = () => this.esgst.settings[`autoSync${key}`] = this.esgst[`autoSync${key}`] = select.value;
+    syncer.automatic.content.push(
+      [`div`, null, [
+        [`select`, {class: `esgst-auto-sync`, onchange: event => this.esgst.settings[`autoSync${key}`] = this.esgst[`autoSync${key}`] = parseInt(event.currentTarget.value)}, days],
+        [`span`, null, name]
+      ]]
+    );
   }
 
   cancelSync(syncer) {
@@ -2436,9 +2411,9 @@ class Common extends Module {
               text: syncer.currentGroups[id],
               type: `a`
             }, {
-              text: `, `,
-              type: `node`
-            });
+                text: `, `,
+                type: `node`
+              });
           }
         }
       }
@@ -2452,9 +2427,9 @@ class Common extends Module {
               text: syncer.newGroups[id],
               type: `a`
             }, {
-              text: `, `,
-              type: `node`
-            });
+                text: `, `,
+                type: `node`
+              });
           }
         }
       }
@@ -2784,10 +2759,7 @@ class Common extends Module {
           this.esgst[`lastSync${key}`] = currentTime;
         }
       }
-      this.createElements(syncer.progress, `inner`, [{
-        text: `Synced!`,
-        type: `node`
-      }]);
+      this.createElements(syncer.progress, `inner`, [`Synced!`]);
       this.delLocalValue(`isSyncing`);
     }
     this.updateSyncDates(syncer);
@@ -2801,7 +2773,7 @@ class Common extends Module {
     let pagination = null;
     do {
       let elements, responseHtml;
-      responseHtml = parseHtml((await this.request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+      responseHtml = parseHtml((await this.request({ method: `GET`, url: `${url}${nextPage}` })).responseText);
       elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
       for (let i = 0, n = elements.length; i < n; ++i) {
         let element, user;
@@ -2905,9 +2877,9 @@ class Common extends Module {
 
     // add new data
     let newOwned = {
-        apps: [],
-        subs: []
-      },
+      apps: [],
+      subs: []
+    },
       numOwned = 0;
     if (hasApi) {
       apiJson.response.games.forEach(game => {
@@ -2979,9 +2951,9 @@ class Common extends Module {
       // get the wishlisted dates
       try {
         const responseText = (await this.request({
-            method: `GET`,
-            url: `http://store.steampowered.com/wishlist/profiles/${this.esgst.steamId}?l=en`
-          })).responseText,
+          method: `GET`,
+          url: `http://store.steampowered.com/wishlist/profiles/${this.esgst.steamId}?l=en`
+        })).responseText,
           match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
         if (match) {
           JSON.parse(match[1]).forEach(item => {
@@ -3019,9 +2991,9 @@ class Common extends Module {
           text: id,
           type: `a`
         }, {
-          text: `, `,
-          type: `node`
-        });
+            text: `, `,
+            type: `node`
+          });
       }
     });
     oldOwned.subs.forEach(id => {
@@ -3033,9 +3005,9 @@ class Common extends Module {
           text: id,
           type: `a`
         }, {
-          text: `, `,
-          type: `node`
-        });
+            text: `, `,
+            type: `node`
+          });
       }
     });
     newOwned.apps.forEach(id => {
@@ -3047,9 +3019,9 @@ class Common extends Module {
           text: id,
           type: `a`
         }, {
-          text: `, `,
-          type: `node`
-        });
+            text: `, `,
+            type: `node`
+          });
       }
     });
     newOwned.subs.forEach(id => {
@@ -3061,23 +3033,23 @@ class Common extends Module {
           text: id,
           type: `a`
         }, {
-          text: `, `,
-          type: `node`
-        });
+            text: `, `,
+            type: `node`
+          });
       }
     });
     if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 || addedOwned.subs.length > 0)) {
       syncer.html.push({
         type: `br`,
       }, {
-        attributes: {
-          class: `esgst-bold`
-        },
-        text: `Alt Account - ${altAccount.name}`,
-        type: `div`
-      }, {
-        type: `br`
-      });
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `Alt Account - ${altAccount.name}`,
+          type: `div`
+        }, {
+          type: `br`
+        });
     }
     removedOwned.apps.pop();
     removedOwned.subs.pop();
@@ -3242,7 +3214,7 @@ class Common extends Module {
           savedGroups.push(savedGroup);
         }
         if (!savedGroup.avatar || !savedGroup.steamId) {
-          const html = parseHtml((await this.request({method: `GET`, url: `/group/${code}/`})).responseText);
+          const html = parseHtml((await this.request({ method: `GET`, url: `/group/${code}/` })).responseText);
           savedGroup.avatar = html.getElementsByClassName(`global__image-inner-wrap`)[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
           savedGroup.steamId = html.getElementsByClassName(`sidebar__shortcut-inner-wrap`)[0].firstElementChild.getAttribute(`href`).match(/\d+/)[0];
         }
@@ -3258,7 +3230,7 @@ class Common extends Module {
       return;
     }
     document.body.appendChild(popup);
-    new Popup({addScrollable: true, icon: ``, isTemp: true, title: ``, popup: popup}).open();
+    new Popup({ addScrollable: true, icon: ``, isTemp: true, title: ``, popup: popup }).open();
     if (!this.esgst.st) {
       return;
     }
@@ -3298,9 +3270,9 @@ class Common extends Module {
         syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
       }
       const responseHtml = parseHtml((await this.request({
-          method: `GET`,
-          url: `/giveaways/won/search?page=${nextPage}`
-        })).responseText),
+        method: `GET`,
+        url: `/giveaways/won/search?page=${nextPage}`
+      })).responseText),
         elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
       if (!lastPage) {
         lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml);
@@ -3393,8 +3365,8 @@ class Common extends Module {
     }
     if (numDiscussions < 5 || numDeals < 5) {
       let [response1, response2] = await Promise.all([
-        this.request({method: `GET`, url: `/discussions`}),
-        this.request({method: `GET`, url: `/discussions/deals`})
+        this.request({ method: `GET`, url: `/discussions` }),
+        this.request({ method: `GET`, url: `/discussions/deals` })
       ]);
       let response1Html = parseHtml(response1.responseText);
       let response2Html = parseHtml(response2.responseText);
@@ -3460,64 +3432,66 @@ class Common extends Module {
   }
 
   loadDM() {
-    const options = {items:[
-      {
-        check: true,
-        name: `View recent username changes`,
-        callback: this.setSMRecentUsernameChanges.bind(this)
-      },
-      {
-        check: this.esgst.uf,
-        name: `See list of filtered users`,
-        callback: this.setSMManageFilteredUsers.bind(this)
-      },
-      {
-        check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
-        name: `Manage hidden giveaways`,
-        callback: this.setSMManageFilteredGiveaways.bind(this)
-      },
-      {
-        click: true,
-        check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
-        name: `Manage hidden discussions`,
-        callback: this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {})
-      },
-      {
-        check: this.esgst.sg && this.esgst.dt,
-        name: `Manage discussion tags`,
-        callback: this.openManageDiscussionTagsPopup.bind(this)
-      },
-      {
-        check: this.esgst.sg && this.esgst.ut,
-        name: `Manage user tags`,
-        callback: this.openManageUserTagsPopup.bind(this)
-      },
-      {
-        check: this.esgst.gt,
-        name: `Manage game tags`,
-        callback: this.openManageGameTagsPopup.bind(this)
-      },
-      {
-        check: this.esgst.gpt,
-        name: `Manage group tags`,
-        callback: this.openManageGroupTagsPopup.bind(this)
-      },
-      {
-        click: true,
-        check: this.esgst.wbc,
-        name: `Manage Whitelist / Blacklist Checker caches`,
-        callback: this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton.bind(this.esgst.modules.usersWhitelistBlacklistChecker, false)
-      },
-      {
-        click: true,
-        check: this.esgst.namwc,
-        name: `Manage Not Activated / Multiple Wins Checker caches`,
-        callback: this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup.bind(this.esgst.modules.usersNotActivatedMultipleWinChecker)
-      }
-    ]};
+    const options = {
+      items: [
+        {
+          check: true,
+          name: `View recent username changes`,
+          callback: this.setSMRecentUsernameChanges.bind(this)
+        },
+        {
+          check: this.esgst.uf,
+          name: `See list of filtered users`,
+          callback: this.setSMManageFilteredUsers.bind(this)
+        },
+        {
+          check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
+          name: `Manage hidden giveaways`,
+          callback: this.setSMManageFilteredGiveaways.bind(this)
+        },
+        {
+          click: true,
+          check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
+          name: `Manage hidden discussions`,
+          callback: this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {})
+        },
+        {
+          check: this.esgst.sg && this.esgst.dt,
+          name: `Manage discussion tags`,
+          callback: this.openManageDiscussionTagsPopup.bind(this)
+        },
+        {
+          check: this.esgst.sg && this.esgst.ut,
+          name: `Manage user tags`,
+          callback: this.openManageUserTagsPopup.bind(this)
+        },
+        {
+          check: this.esgst.gt,
+          name: `Manage game tags`,
+          callback: this.openManageGameTagsPopup.bind(this)
+        },
+        {
+          check: this.esgst.gpt,
+          name: `Manage group tags`,
+          callback: this.openManageGroupTagsPopup.bind(this)
+        },
+        {
+          click: true,
+          check: this.esgst.wbc,
+          name: `Manage Whitelist / Blacklist Checker caches`,
+          callback: this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton.bind(this.esgst.modules.usersWhitelistBlacklistChecker, false)
+        },
+        {
+          click: true,
+          check: this.esgst.namwc,
+          name: `Manage Not Activated / Multiple Wins Checker caches`,
+          callback: this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup.bind(this.esgst.modules.usersNotActivatedMultipleWinChecker)
+        }
+      ]
+    };
     const context = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    PageHeading(context, {
+    this.createPageHeading(context, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -3527,11 +3501,7 @@ class Common extends Module {
         }
       ]
     });
-    FormRows(context, options);
     for (const item of options.items) {
-      if (!item.context) {
-        continue;
-      }
       const set = new ButtonSet({
         color1: `green`,
         color2: `grey`,
@@ -3539,13 +3509,16 @@ class Common extends Module {
         icon2: ``,
         title1: `Open`,
         title2: ``,
-        callback1: item.click ? null : () => item.callback(item.context[0])
+        callback1: item.click ? null : () => item.callback(set)
       }).set;
-      item.context.append(set);
       if (item.click) {
         item.callback(set);
       }
+      item.content = [
+        set
+      ];
     }
+    this.createFormRows(context, `beforeEnd`, options);
   }
 
   loadMenu() {
@@ -3555,7 +3528,7 @@ class Common extends Module {
     const Container = this.esgst.sidebar.nextElementSibling;
     Container.innerHTML = ``;
 
-    PageHeading(Container, {
+    this.createPageHeading(Container, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -3586,13 +3559,13 @@ class Common extends Module {
         type: `span`
       }]
     }]);
-    $(Container).append(`
-      <div class="esgst-menu-split">
-        <div class="esgst-settings-menu"></div>
-        <div class="esgst-settings-menu-feature esgst-menu-split-fixed">Click on a feature/option to see details about it here.</div>
-      </div>
-    `);
-    $(Container).append(new ButtonSet({
+    this.createElements_v2(Container, `beforeEnd`, [
+      [`div`, `esgst-menu-split`, [
+        [`div`, `esgst-settings-menu`],
+        [`div`, `esgst-settings-menu-feature esgst-menu-split-fixed`, `Click on a feature/option to see details about it here.`]
+      ]]
+    ]);
+    Container.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: ``,
@@ -3604,7 +3577,7 @@ class Common extends Module {
         window.location.reload();
       }
     }).set);
-    $(Container).on(`click`, `.esgst-settings-feature`, this.loadFeatureDetails.bind(this, null));
+    Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, null));
     this.esgst.featuresById = {};
     const input = Container.firstElementChild.nextElementSibling.firstElementChild;
     input.addEventListener(`input`, this.filterSm.bind(this));
@@ -3707,7 +3680,7 @@ class Common extends Module {
       this.esgst.settings.steamApiKey = SMAPIKey.value;
     });
     if (this.esgst.firstInstall) {
-      let pp = new Popup({addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started`});
+      let pp = new Popup({ addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started` });
       this.createElements(pp.scrollable, `inner`, [{
         attributes: {
           class: `esgst-bold`
@@ -3803,63 +3776,72 @@ class Common extends Module {
 
   loadFeatureDetails(id, event) {
     if (!id) {
-      const element = event.currentTarget;
-      id = element.getAttribute(`data-id`);
+      if (event.target.matches(`.esgst-settings-feature`)) {
+        id = event.target.getAttribute(`data-id`);
+      } else {
+        return;
+      }
     }
     const feature = this.esgst.featuresById[id];
     const items = [];
     if (feature.description) {
       items.push({
         check: true,
-        content: `<div class="markdown">${feature.description.replace(/\[id=(.+?)]/g, this.getFeatureName.bind(this))}</div>`,
+        content: [
+          [`div`, `markdown`, `test`]
+        ],
         name: `What does it do?`
       });
     }
-    const additionalOptions = {
-      check: true,
-      name: `Additional Options`
-    };
-    items.push(additionalOptions);
-    const syncRequirements = {
-      check: true,
-      name: `Sync Requirements`
-    };
+    const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
+    if (additionalOptions) {
+      items.push({
+        check: true,
+        content: [
+          additionalOptions
+        ],
+        name: `Additional Options`
+      });
+    }
     if (feature.sync) {
-      items.push(syncRequirements);
+      items.push({
+        check: true,
+        content: [
+          [`p`, null, [
+            `This feature requires the following data to be synced in order to function properly: `,
+            [`strong`, null, feature.sync]
+          ]],
+          [`br`],
+          [`p`, null, [
+            `To sync these now, click `,
+            [`a`, {class: `table__column__secondary-link`, href: `https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank`}, `here`],
+            `.`
+          ]]
+        ],
+        name: `Sync Requirements`
+      });
     }
-    const pathsSg = {
-      check: true,
-      name: `Where to run it on SteamGifts?`
-    };
-    const pathsSt = {
-      check: true,
-      name: `Where to run it on SteamTrades?`
-    };
-    items.push(pathsSg);
+    if (feature.sg) {
+      items.push({
+        check: true,
+        content: [
+          this.openPathsPopup(feature, id, `sg`)
+        ],
+        name: `Where to run it on SteamGifts?`
+      });
+    }
     if (feature.st && this.esgst.settings.esgst_st) {
-      items.push(pathsSt);
+      items.push({
+        check: true,
+        content: [
+          this.openPathsPopup(feature, id, `st`)
+        ],
+        name: `Where to run it on SteamTrades?`
+      });
     }
-    const context = $(`.esgst-settings-menu-feature`);
-    context.html(`Click on a feature/option to see details about it here.`);
-    FormRows(context, {items});
-    if (additionalOptions.context) {
-      this.getSmFeatureAdditionalOptions(additionalOptions.context[0], feature, id);
-    }
-    if (syncRequirements.context) {
-      syncRequirements.context.append(`
-        <p>This feature requires the following data to be synced in order to function properly: <strong></strong></p>
-        <br>
-        <p>To sync these now, click <a class="table__column__secondary-link" target="_blank">here</a>.</p>
-      `).appendTo(syncRequirements.context)
-        .find(`strong`).text(feature.sync).end()
-        .find(`a`).attr(`href`, `https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`);
-    }
-    if (pathsSg.context) {
-      this.openPathsPopup(pathsSg.context[0], feature, id, `sg`);
-    }
-    if (pathsSt.context) {
-      this.openPathsPopup(pathsSt.context[0], feature, id, `st`);
-    }
+    const context = document.querySelector(`.esgst-settings-menu-feature`);
+    context.innerHTML = `Click on a feature/option to see details about it here.`;
+    this.createFormRows(context, `beforeEnd`, { items });
   }
 
   setElementOrderingSection(context) {
@@ -4021,14 +4003,14 @@ class Common extends Module {
       name: `Right Main Page Heading Buttons (Hidden)`,
       tooltip: `Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the  right side of the heading.`,
       labels: {}
-    },{
+    }, {
       group: `mainPageHeading`,
       id: `leftMainPageHeadingIds`,
       key: `leftMainPageHeadingButtons`,
       name: `Left Main Page Heading Buttons`,
       labels: {
         aic: `Attached Images Carousel`,
-        as:  `Archive Searcher`,
+        as: `Archive Searcher`,
         cec: `Comment/Entry Checker`,
         cf: `Comment Filters`,
         cs: `Comment Searcher`,
@@ -4056,7 +4038,7 @@ class Common extends Module {
         wbsAsc: `Whitelist/Blacklist Sorter (Ascending)`,
         wbsDesc: `Whitelist/Blacklist Sorter (Descending)`
       }
-    },{
+    }, {
       group: `mainPageHeading`,
       id: `rightMainPageHeadingIds`,
       key: `rightMainPageHeadingButtons`,
@@ -4073,7 +4055,7 @@ class Common extends Module {
         sttb: `Scroll To Top Button`
       }
     }];
-    for  (const item of items) {
+    for (const item of items) {
       const children = [];
       for (const id in item.labels) {
         if (!item.labels.hasOwnProperty(id)) {
@@ -4097,7 +4079,7 @@ class Common extends Module {
           title: item.tooltip
         },
         type: `i`
-      } : null,{
+      } : null, {
         attributes: {
           class: `esgst-element-ordering-box`
         },
@@ -4190,88 +4172,58 @@ class Common extends Module {
     this.reorderButtons(obj);
   }
 
-  openPathsPopup(context, feature, id, name) {
+  openPathsPopup(feature, id, name) {
     feature.id = id;
     let obj = {
+      exclude: { extend: this.addPath.bind(this) },
       excludeItems: [],
+      include: { extend: this.addPath.bind(this) },
       includeItems: [],
-      name: name,
-      context: context
+      name: name
     };
-    obj.include = this.createElements(obj.context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-bold`
-      },
-      type: `div`,
-      children: [{
-        text: `Run it here: `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: `Enter the paths where you want the feature to run here. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you want the feature to run and click 'Add Current'. '.*' means that the feature runs everywhere possible.`
-        },
-        type: `i`
-      }]
-    }, {
-      type: `div`
-    }]);
-    let group = this.createElements(obj.context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-button-group`
-      },
-      type: `div`
-    }]);
-    group.appendChild(new ButtonSet({
-      color1: `grey`,
-      color2: ``,
-      icon1: `fa-plus-circle`,
-      icon2: ``,
-      title1: `Add New`,
-      title2: ``,
-      callback1: this.addPath.bind(this, feature, `include`, obj, {enabled: 1, pattern: ``}, true)
-    }).set);
-    obj.exclude = this.createElements(obj.context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-bold`
-      },
-      type: `div`,
-      children: [{
-        text: `Do NOT run it here: `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: `Enter the paths where you do not want the feature to run here. This acts as an exception to the included paths, as in, the feature will run in every included path, except for the excluded paths. You need to use regular expressions, so if you are not familiar with them, just to go to the page where you do not want the feature to run and click 'Add Current'.`
-        },
-        type: `i`
-      }]
-    }, {
-      type: `div`
-    }]);
-    group = this.createElements(obj.context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-button-group`
-      },
-      type: `div`
-    }]);
-    group.appendChild(new ButtonSet({
-      color1: `grey`,
-      color2: ``,
-      icon1: `fa-plus-circle`,
-      icon2: ``,
-      title1: `Add New`,
-      title2: ``,
-      callback1: this.addPath.bind(this, feature, `exclude`, obj, {enabled: 1, pattern: ``}, true)
-    }).set);
+    const context = this.createElements_v2([
+      [`div`, `esgst-bold`, [
+        `Run it here: `,
+        [`i`, {class: `fa fa-question-circle`, title:`Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).`}]
+      ]],
+      [`div`, obj.include],
+      [`div`, `esgst-button-group`, [
+        new ButtonSet({
+          color1: `grey`,
+          color2: ``,
+          icon1: `fa-plus-circle`,
+          icon2: ``,
+          title1: `Add New`,
+          title2: ``,
+          callback1: () => obj.include.extend(feature, `include`, obj, { enabled: 1, pattern: `` }, true)
+        }).set
+      ]],
+      [`div`, `esgst-bold`, [
+        `Do NOT run it here: `,
+        [`i`, {class: `fa fa-question-circle`, title:`Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).`}]
+      ]],
+      [`div`, obj.exclude],
+      [`div`, `esgst-button-group`, [
+        new ButtonSet({
+          color1: `grey`,
+          color2: ``,
+          icon1: `fa-plus-circle`,
+          icon2: ``,
+          title1: `Add New`,
+          title2: ``,
+          callback1: () => obj.exclude.extend(feature, `exclude`, obj, { enabled: 1, pattern: `` }, true)
+        }).set
+      ]]
+    ]);
     obj.setting = this.getFeaturePath(feature, id, obj.name);
-    obj.setting.include.forEach(path => this.addPath(feature, `include`, obj, path));
-    obj.setting.exclude.forEach(path => this.addPath(feature, `exclude`, obj, path));
+    obj.setting.include.forEach(path => obj.include.extend(feature, `include`, obj, path));
+    obj.setting.exclude.forEach(path => obj.exclude.extend(feature, `exclude`, obj, path));
+    return context;
   }
 
-  addPath(feature, key, obj, path, userAdded) {
+  addPath(context, feature, key, obj, path, userAdded) {
     let item = {};
-    item.container = this.createElements(obj[key], `beforeEnd`, [{
+    item.container = this.createElements(context, `beforeEnd`, [{
       type: `div`
     }]);
     item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
@@ -4279,30 +4231,24 @@ class Common extends Module {
     item.switch.onChange = () => {
       this.savePaths(feature.id, obj);
     };
-    item.select = $(`
-      <select class="esgst-switch-input esgst-switch-input-large">
-        ${this.esgst.paths[obj.name].map(x => `<option ${x.pattern === path.pattern ? (found = true && `selected`) : ``} value="${x.pattern}">${x.name}</option>`)}
-        <option ${found ? `` : `selected`} value="custom">Custom</option>
-      </select>
-    `)
-    item.select.appendTo(item.container);
-    item.input = $(`
-      <input class="esgst-switch-input esgst-switch-input-large" disabled type="text">
-    `);
-    item.input.appendTo(item.container);
-    item.input = item.input[0];
-    if (item.select[0].value === `custom`) {
-      item.input.disabled = false;
-    } else {
-      item.input.disabled = true;
-    }
-    item.select.on(`change`, () => {
-      if (item.select[0].value === `custom`) {
+    item.select = this.createElements_v2(item.container, `beforeEnd`, [
+      [`select`, `esgst-switch-input esgst-switch-input-large`, [
+        ...(this.esgst.paths[obj.name].map(x =>
+          [`option`, Object.assign({value: x.pattern}, x.pattern === path.pattern && (found = true) ? {selected: true} : null), x.name]
+        )),
+        [`option`, Object.assign({value: `custom`}, found ? null : {selected: true}), `Custom`]
+      ]]
+    ]);
+    item.input = this.createElements_v2(item.container, `beforeEnd`, [
+      [`input`, {class: `esgst-switch-input esgst-switch-input-large`, disabled: item.select.value === `custom`, type: `text`}]
+    ]);
+    item.select.addEventListener(`change`, () => {
+      if (item.select.value === `custom`) {
         item.input.disabled = false;
         item.input.value = ``;
       } else {
         item.input.disabled = true;
-        item.input.value = item.select[0].value;
+        item.input.value = item.select.value;
       }
       this.savePaths(feature.id, obj);
     });
@@ -4317,7 +4263,7 @@ class Common extends Module {
         title: `Remove`
       },
       type: `i`
-    }]).addEventListener(`click`, this.removePath.bind(this, item, key, obj));
+    }]).addEventListener(`click`, this.removePath.bind(this, feature, item, key, obj));
     item.invalid = this.createElements(item.container, `beforeEnd`, [{
       attributes: {
         class: `fa fa-exclamation esgst-hidden esgst-red`,
@@ -4346,10 +4292,10 @@ class Common extends Module {
     }
   }
 
-  removePath(item, key, obj) {
+  removePath(feature, item, key, obj) {
     let i = obj[`${key}Items`].length - 1;
     if (i === 0 && key === `include`) {
-      alert(`At least 1 include path is required!`);
+      alert(`At least 1 place is required!`);
       return;
     }
     while (i > -1 && obj[`${key}Items`][i].input.value !== item.input.value) i--;
@@ -4357,6 +4303,7 @@ class Common extends Module {
       obj[`${key}Items`].splice(i, 1);
     }
     item.container.remove();
+    this.savePaths(feature.id, obj);
   }
 
   validatePathRegex(item) {
@@ -4611,6 +4558,7 @@ class Common extends Module {
   }
 
   getSmFeatureAdditionalOptions(SMFeatures, Feature, ID) {
+    return null;
     let has = true;
     if (ID === `gc`) {
       SMFeatures.classList.remove(`esgst-hidden`);
@@ -4653,38 +4601,38 @@ class Common extends Module {
           text: `${Feature.colors[id]}: `,
           type: `strong`
         }, {
-          type: `br`
-        }, {
-          attributes: {
-            [`data-color-id`]: id,
-            type: `color`,
-            value: color.hex
-          },
-          type: `input`
-        }, {
-          text: ` Opacity: `,
-          type: `node`
-        }, {
-          attributes: {
-            max: `1.0`,
-            min: `0.0`,
-            step: `0.1`,
-            type: `number`,
-            value: color.alpha
-          },
-          type: `input`
-        }, {
-          text: ` `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `form__saving-button esgst-sm-colors-default`
-          },
-          text: `Reset`,
-          type: `div`
-        }, {
-          type: `br`
-        });
+            type: `br`
+          }, {
+            attributes: {
+              [`data-color-id`]: id,
+              type: `color`,
+              value: color.hex
+            },
+            type: `input`
+          }, {
+            text: ` Opacity: `,
+            type: `node`
+          }, {
+            attributes: {
+              max: `1.0`,
+              min: `0.0`,
+              step: `0.1`,
+              type: `number`,
+              value: color.alpha
+            },
+            type: `input`
+          }, {
+            text: ` `,
+            type: `node`
+          }, {
+            attributes: {
+              class: `form__saving-button esgst-sm-colors-default`
+            },
+            text: `Reset`,
+            type: `div`
+          }, {
+            type: `br`
+          });
       }
       const context = this.createElements(SMFeatures, `beforeEnd`, [{
         attributes: {
@@ -4695,7 +4643,7 @@ class Common extends Module {
       }]);
       const elements = context.querySelectorAll(`[data-color-id]`);
       for (const hexInput of elements) {
-        const colorId =  hexInput.getAttribute(`data-color-id`);
+        const colorId = hexInput.getAttribute(`data-color-id`);
         const alphaInput = hexInput.nextElementSibling;
         this.addColorObserver(hexInput, alphaInput, ID, colorId);
         alphaInput.nextElementSibling.addEventListener(`click`, this.resetColor.bind(this, hexInput, alphaInput, ID, colorId));
@@ -4808,11 +4756,11 @@ class Common extends Module {
             attributes,
             type: `input`
           }, {
-            attributes: {
-              class: `fa fa-play-circle esgst-clickable`
-            },
-            type: `i`
-          });
+              attributes: {
+                class: `fa fa-play-circle esgst-clickable`
+              },
+              type: `i`
+            });
         } else {
           attributes.class = `esgst-switch-input esgst-switch-input-large`;
           attributes.type = attributes.type || `text`;
@@ -4821,12 +4769,12 @@ class Common extends Module {
             text: item.prefix || ``,
             type: `node`
           }, {
-            attributes,
-            type: `input`
-          }, {
-            text: item.suffix || ``,
-            type: `node`
-          });
+              attributes,
+              type: `input`
+            }, {
+              text: item.suffix || ``,
+              type: `node`
+            });
           if (item.tooltip) {
             children.push({
               attributes: {
@@ -4935,16 +4883,16 @@ class Common extends Module {
           text: `Update`,
           type: `div`
         }, {
-          type: `span`
-        });
+            type: `span`
+          });
       }
       let container = this.createElements(SMFeatures, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-sm-colors`
-          },
-          type: `div`,
-          children
-        }]),
+        attributes: {
+          class: `esgst-sm-colors`
+        },
+        type: `div`,
+        children
+      }]),
         startTime = container.firstElementChild,
         endTime = startTime.nextElementSibling;
       this.observeChange(startTime, `${ID}_startTime`);
@@ -4976,7 +4924,7 @@ class Common extends Module {
             text: ` Updating...`,
             type: `node`
           }]);
-          let theme = JSON.stringify((await this.request({method: `GET`, url})).responseText);
+          let theme = JSON.stringify((await this.request({ method: `GET`, url })).responseText);
           await this.setValue(ID, theme);
           this.createElements(button, `inner`, [{
             text: `Update`,
@@ -5021,13 +4969,10 @@ class Common extends Module {
         this.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, `selectedIndex`);
       }
     }
-    if (!has) {
-      $(SMFeatures).append(`No additional options.`);
-    }
   }
 
   readHrAudioFile(id, event) {
-    let popup = new Popup({addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: `Uploading...`});
+    let popup = new Popup({ addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: `Uploading...` });
     popup.open();
     try {
       let reader = new FileReader();
@@ -5689,78 +5634,78 @@ class Common extends Module {
 
   async setSMManageFilteredGiveaways(SMManageFilteredGiveaways) {
     let gfGiveaways, giveaway, hidden, i, key, n, popup, set;
-      popup = new Popup({addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways`});
-      hidden = [];
-      for (key in this.esgst.giveaways) {
-        if (this.esgst.giveaways.hasOwnProperty(key)) {
-          giveaway = this.esgst.giveaways[key];
-          if (giveaway.hidden && giveaway.code && giveaway.endTime) {
-            if (Date.now() >= giveaway.endTime) {
-              delete giveaway.hidden;
-            } else {
-              hidden.push(giveaway);
-            }
-          } else {
+    popup = new Popup({ addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways` });
+    hidden = [];
+    for (key in this.esgst.giveaways) {
+      if (this.esgst.giveaways.hasOwnProperty(key)) {
+        giveaway = this.esgst.giveaways[key];
+        if (giveaway.hidden && giveaway.code && giveaway.endTime) {
+          if (Date.now() >= giveaway.endTime) {
             delete giveaway.hidden;
+          } else {
+            hidden.push(giveaway);
           }
+        } else {
+          delete giveaway.hidden;
         }
       }
-      hidden = hidden.sort((a, b) => {
-        if (a.hidden > b.hidden) {
-          return -1;
-        } else if (a.hidden < b.hidden) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-      // noinspection JSIgnoredPromiseFromCall
-      this.setValue(`giveaways`, JSON.stringify(this.esgst.giveaways));
-      i = 0;
-      n = hidden.length;
-      gfGiveaways = this.createElements(popup.scrollable, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-text-left`
-        },
-        type: `div`
-      }]);
-      if (n > 0) {
-        set = new ButtonSet({
-          color1: `green`,
-          color2: `grey`,
-          icon1: `fa-plus`,
-          icon2: `fa-circle-o-notch fa-spin`,
-          title1: `Load more...`,
-          title2: `Loading more...`,
-          callback1: () => {
-            return new Promise(resolve => {
-              // noinspection JSIgnoredPromiseFromCall
-              this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
-                i = value;
-                if (i > n) {
-                  set.set.remove();
-                } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
-                  set.trigger();
-                }
-                resolve();
-              });
+    }
+    hidden = hidden.sort((a, b) => {
+      if (a.hidden > b.hidden) {
+        return -1;
+      } else if (a.hidden < b.hidden) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    // noinspection JSIgnoredPromiseFromCall
+    this.setValue(`giveaways`, JSON.stringify(this.esgst.giveaways));
+    i = 0;
+    n = hidden.length;
+    gfGiveaways = this.createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-text-left`
+      },
+      type: `div`
+    }]);
+    if (n > 0) {
+      set = new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-plus`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Load more...`,
+        title2: `Loading more...`,
+        callback1: () => {
+          return new Promise(resolve => {
+            // noinspection JSIgnoredPromiseFromCall
+            this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, value => {
+              i = value;
+              if (i > n) {
+                set.set.remove();
+              } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+                set.trigger();
+              }
+              resolve();
             });
-          }
-        });
-        popup.description.appendChild(set.set);
-        popup.open();
-        set.trigger();
-        if (this.esgst.es_gf) {
-          popup.scrollable.addEventListener(`scroll`, () => {
-            if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
-              set.trigger();
-            }
           });
         }
-      } else {
-        gfGiveaways.textContent = `No hidden giveaways found.`;
-        popup.open();
+      });
+      popup.description.appendChild(set.set);
+      popup.open();
+      set.trigger();
+      if (this.esgst.es_gf) {
+        popup.scrollable.addEventListener(`scroll`, () => {
+          if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
+            set.trigger();
+          }
+        });
       }
+    } else {
+      gfGiveaways.textContent = `No hidden giveaways found.`;
+      popup.open();
+    }
   }
 
   async loadGfGiveaways(i, n, hidden, gfGiveaways, popup, callback) {
@@ -5790,7 +5735,7 @@ class Common extends Module {
 
   async openManageDiscussionTagsPopup() {
     let context, input, popup, savedDiscussion, savedDiscussions, discussions;
-    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage discussion tags:`});
+    popup = new Popup({ addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage discussion tags:` });
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -5868,7 +5813,7 @@ class Common extends Module {
 
   async openManageUserTagsPopup() {
     let context, input, popup, savedUser, savedUsers, users;
-    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage user tags:`});
+    popup = new Popup({ addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage user tags:` });
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -5951,7 +5896,7 @@ class Common extends Module {
 
   async openManageGameTagsPopup() {
     let context, games, input, popup, savedGame, savedGames;
-    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage game tags:`});
+    popup = new Popup({ addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage game tags:` });
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -6076,7 +6021,7 @@ class Common extends Module {
 
   async openManageGroupTagsPopup() {
     let context, input, popup, savedGroups, groups;
-    popup = new Popup({addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage group tags:`});
+    popup = new Popup({ addScrollable: true, icon: `fa-tags`, isTemp: true, title: `Manage group tags:` });
     input = this.createElements(popup.description, `afterBegin`, [{
       attributes: {
         type: `text`
@@ -6150,50 +6095,50 @@ class Common extends Module {
   }
 
   async setSMRecentUsernameChanges(SMRecentUsernameChanges) {
-      const popup = new Popup({addScrollable: true, icon: `fa-comments`, title: `Recent Username Changes`});
-      popup.progress = this.createElements(popup.description, `beforeEnd`, [{
+    const popup = new Popup({ addScrollable: true, icon: `fa-comments`, title: `Recent Username Changes` });
+    popup.progress = this.createElements(popup.description, `beforeEnd`, [{
+      type: `div`,
+      children: [{
+        attributes: {
+          class: `fa fa-circle-o-notch fa-spin`
+        },
+        type: `i`
+      }, {
+        text: `Loading recent username changes...`,
+        type: `span`
+      }]
+    }]);
+    popup.results = this.createElements(popup.scrollable, `beforeEnd`, [{
+      attributes: {
+        class: `esgst-uh-popup`
+      },
+      type: `div`
+    }]);
+    popup.open();
+    const recentChanges = await this.getRecentChanges();
+    popup.progress.innerHTML = ``;
+    const items = [];
+    for (const change of recentChanges) {
+      items.push({
         type: `div`,
         children: [{
-          attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
-          },
-          type: `i`
+          text: `${change[0]} changed to `,
+          type: `node`
         }, {
-          text: `Loading recent username changes...`,
-          type: `span`
+          attributes: {
+            class: `esgst-bold`,
+            href: `/user/${change[1]}`
+          },
+          text: change[1],
+          type: `a`
         }]
-      }]);
-      popup.results = this.createElements(popup.scrollable, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-uh-popup`
-        },
-        type: `div`
-      }]);
-      popup.open();
-      const recentChanges = await this.getRecentChanges();
-      popup.progress.innerHTML = ``;
-      const items = [];
-      for (const change of recentChanges) {
-        items.push({
-          type: `div`,
-          children: [{
-            text: `${change[0]} changed to `,
-            type: `node`
-          }, {
-            attributes: {
-              class: `esgst-bold`,
-              href: `/user/${change[1]}`
-            },
-            text: change[1],
-            type: `a`
-          }]
-        });
-      }
-      this.createElements(popup.results, `inner`, items);
-      if (this.esgst.sg) {
-        // noinspection JSIgnoredPromiseFromCall
-        this.endless_load(popup.results);
-      }
+      });
+    }
+    this.createElements(popup.results, `inner`, items);
+    if (this.esgst.sg) {
+      // noinspection JSIgnoredPromiseFromCall
+      this.endless_load(popup.results);
+    }
   }
 
   async getRecentChanges() {
@@ -6288,7 +6233,7 @@ class Common extends Module {
     }
     context = container = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    PageHeading(context, {
+    this.createPageHeading(context, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -6651,7 +6596,7 @@ class Common extends Module {
           },
           text: `Reveal`,
           type: `span`
-        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`) ;
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`);
         this.observeChange(new ToggleSwitch(container, `usePreferredMicrosoft`, false, [{
           text: `Use preferred Microsoft account: `,
           type: `node`
@@ -6673,7 +6618,7 @@ class Common extends Module {
           },
           text: `Reveal`,
           type: `span`
-        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`) ;
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`);
       }
       dm.message = this.createElements(container, `beforeEnd`, [{
         attributes: {
@@ -6813,7 +6758,7 @@ class Common extends Module {
   loadDataCleaner() {
     const context = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    PageHeading(context, {
+    this.createPageHeading(context, `beforeEnd`, {
       items: [{
         name: `ESGST`
       }, {
@@ -8934,133 +8879,133 @@ class Common extends Module {
 
   async setSMManageFilteredUsers(SMManageFilteredUsers) {
     let popup;
-      if (popup) {
-        popup.open();
-      } else {
-        popup = new Popup({addScrollable: true, icon: `fa-eye-slash`, title: `Filtered Users`});
-        let users = JSON.parse(await this.getValue(`users`));
-        let filtered = [];
-        for (let key in users.users) {
-          if (users.users.hasOwnProperty(key)) {
-            if (users.users[key].uf && (users.users[key].uf.posts || users.users[key].uf.giveaways || users.users[key].uf.discussions)) {
-              filtered.push(users.users[key]);
-            }
+    if (popup) {
+      popup.open();
+    } else {
+      popup = new Popup({ addScrollable: true, icon: `fa-eye-slash`, title: `Filtered Users` });
+      let users = JSON.parse(await this.getValue(`users`));
+      let filtered = [];
+      for (let key in users.users) {
+        if (users.users.hasOwnProperty(key)) {
+          if (users.users[key].uf && (users.users[key].uf.posts || users.users[key].uf.giveaways || users.users[key].uf.discussions)) {
+            filtered.push(users.users[key]);
           }
         }
-        filtered.sort((a, b) => {
-          if (a.username > b.username) {
-            return -1;
-          } else {
-            return 1;
-          }
-        });
-        let table = this.createElements(popup.scrollable, `beforeEnd`, [{
+      }
+      filtered.sort((a, b) => {
+        if (a.username > b.username) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
+      let table = this.createElements(popup.scrollable, `beforeEnd`, [{
+        attributes: {
+          class: `table`
+        },
+        type: `div`,
+        children: [{
           attributes: {
-            class: `table`
+            class: `table__heading`
           },
           type: `div`,
           children: [{
             attributes: {
-              class: `table__heading`
+              class: `table__column--width-fill`
+            },
+            text: `Username`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: `Posts Hidden`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: `Discussions Hidden`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: `Giveaways Hidden`,
+            type: `div`
+          }]
+        }, {
+          attributes: {
+            class: `table__rows`
+          },
+          type: `div`
+        }]
+      }]);
+      for (let i = 0, n = filtered.length; i < n; ++i) {
+        const postsIcon = filtered[i].uf.posts ? `fa fa-check` : ``;
+        const discussionsIcon = filtered[i].uf.discussions ? `fa fa-check` : ``;
+        const giveawaysIcon = filtered[i].uf.giveaways ? `fa fa-check` : ``;
+        this.createElements(table.lastElementChild, `beforeEnd`, [{
+          attributes: {
+            class: `table__row-outer-wrap`
+          },
+          type: `div`,
+          children: [{
+            attributes: {
+              class: `table__row-inner-wrap`
             },
             type: `div`,
             children: [{
               attributes: {
                 class: `table__column--width-fill`
               },
-              text: `Username`,
-              type: `div`
-            }, {
-              attributes: {
-                class: `table__column--width-small`
-              },
-              text: `Posts Hidden`,
-              type: `div`
-            }, {
-              attributes: {
-                class: `table__column--width-small`
-              },
-              text: `Discussions Hidden`,
-              type: `div`
-            }, {
-              attributes: {
-                class: `table__column--width-small`
-              },
-              text: `Giveaways Hidden`,
-              type: `div`
-            }]
-          }, {
-            attributes: {
-              class: `table__rows`
-            },
-            type: `div`
-          }]
-        }]);
-        for (let i = 0, n = filtered.length; i < n; ++i) {
-          const postsIcon = filtered[i].uf.posts ? `fa fa-check` : ``;
-          const discussionsIcon = filtered[i].uf.discussions ? `fa fa-check` : ``;
-          const giveawaysIcon = filtered[i].uf.giveaways ? `fa fa-check` : ``;
-          this.createElements(table.lastElementChild, `beforeEnd`, [{
-            attributes: {
-              class: `table__row-outer-wrap`
-            },
-            type: `div`,
-            children: [{
-              attributes: {
-                class: `table__row-inner-wrap`
-              },
               type: `div`,
               children: [{
                 attributes: {
-                  class: `table__column--width-fill`
+                  href: `/user/${filtered[i].username}`
                 },
-                type: `div`,
-                children: [{
-                  attributes: {
-                    href: `/user/${filtered[i].username}`
-                  },
-                  text: filtered[i].username,
-                  type: `a`
-                }]
-              }, {
-                attributes: {
-                  class: `table__column--width-small`
-                },
-                type: `div`,
-                children: postsIcon ? [{
-                  attributes: {
-                    class: postsIcon
-                  },
-                  type: `i`
-                }] : null
-              }, {
-                attributes: {
-                  class: `table__column--width-small`
-                },
-                type: `div`,
-                children: discussionsIcon ? [{
-                  attributes: {
-                    class: discussionsIcon
-                  },
-                  type: `i`
-                }] : null
-              }, {
-                attributes: {
-                  class: `table__column--width-small`
-                },
-                type: `div`,
-                children: giveawaysIcon ? [{
-                  attributes: {
-                    class: giveawaysIcon
-                  },
-                  type: `i`
-                }] : null
+                text: filtered[i].username,
+                type: `a`
               }]
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              type: `div`,
+              children: postsIcon ? [{
+                attributes: {
+                  class: postsIcon
+                },
+                type: `i`
+              }] : null
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              type: `div`,
+              children: discussionsIcon ? [{
+                attributes: {
+                  class: discussionsIcon
+                },
+                type: `i`
+              }] : null
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              type: `div`,
+              children: giveawaysIcon ? [{
+                attributes: {
+                  class: giveawaysIcon
+                },
+                type: `i`
+              }] : null
             }]
-          }]);
-        }
-        popup.open();
+          }]
+        }]);
       }
+      popup.open();
+    }
   }
 
   multiChoice(choice1Color, choice1Icon, choice1Title, choice2Color, choice2Icon, choice2Title, title, onChoice1, onChoice2) {
@@ -9071,7 +9016,7 @@ class Common extends Module {
         onChoice2();
       }
     } else {
-      let popup = new Popup({addScrollable: true, icon: `fa-list`, isTemp: true, title: title});
+      let popup = new Popup({ addScrollable: true, icon: `fa-list`, isTemp: true, title: title });
       new ToggleSwitch(popup.description, `cfh_img_remember`, false, `Never ask again.`, false, false, `Remembers which option you choose forever.`, this.esgst.settings.cfh_img_remember);
       popup.description.appendChild(new ButtonSet({
         color1: choice1Color,
@@ -9120,7 +9065,7 @@ class Common extends Module {
   async exportSettings() {
     /** @type {EsgstSettings} */
     let settings = JSON.parse(await this.getValue(`settings`, `{}`));
-    let data = {settings};
+    let data = { settings };
 
     delete data.settings.avatar;
     delete data.settings.lastSync;
@@ -12370,7 +12315,7 @@ class Common extends Module {
           stickyTarget.classList.remove(`stuck`);
         }
       }
-    }, {threshold: 0});
+    }, { threshold: 0 });
 
     // Add the top sentinels to each section and attach an observer.
     const sentinels = this.addSentinels(`sticky_sentinel--top`);
@@ -12848,9 +12793,9 @@ class Common extends Module {
           text: ended ? this.getTimeSince(date) : this.getTimeSince(date, true),
           type: `span`
         }, {
-          text: ended ? ` ago ` : ` remaining `,
-          type: `node`
-        });
+            text: ended ? ` ago ` : ` remaining `,
+            type: `node`
+          });
         this.createElements(endTimeColumn.lastElementChild, `outer`, items);
       }
       endTime = parseInt(endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1000;
@@ -12873,9 +12818,9 @@ class Common extends Module {
           text: this.getTimeSince(date),
           type: `span`
         }, {
-          text: ` ago `,
-          type: `node`
-        });
+            text: ` ago `,
+            type: `node`
+          });
         this.createElements(startTimeColumn.firstElementChild, `outer`, items);
       }
       avatar = columns.lastElementChild;
@@ -13644,14 +13589,14 @@ class Common extends Module {
 
   createAlert(message) {
     let popup;
-    popup = new Popup({addScrollable: true, icon: `fa-exclamation`, isTemp: true, title: message});
+    popup = new Popup({ addScrollable: true, icon: `fa-exclamation`, isTemp: true, title: message });
     popup.open();
   }
 
   createConfirmation(message, onYes, onNo, event) {
     let callback, popup;
     callback = onNo;
-    popup = new Popup({addScrollable: true, icon: `fa-question`, isTemp: true, title: message});
+    popup = new Popup({ addScrollable: true, icon: `fa-question`, isTemp: true, title: message });
     popup.description.appendChild(new ButtonSet({
       color1: `green`, color2: ``, icon1: `fa-check`, icon2: ``, title1: `Yes`, title2: ``, callback1: () => {
         callback = onYes;
@@ -14511,9 +14456,9 @@ class Common extends Module {
               text: `#${key}`,
               type: `a`
             }, {
-              text: ` ${changelog[index].changelog[key]}`,
-              type: `node`
-            });
+                text: ` ${changelog[index].changelog[key]}`,
+                type: `node`
+              });
           }
           items.push(item);
         }
@@ -14525,12 +14470,12 @@ class Common extends Module {
         text: `v${changelog[index].version} (${changelog[index].date})`,
         type: `p`
       }, {
-        type: `ul`,
-        children: items
-      });
+          type: `ul`,
+          children: items
+        });
       index -= 1;
     }
-    const popup = new Popup({addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: `Changelog`});
+    const popup = new Popup({ addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: `Changelog` });
     this.createElements(popup.scrollable, `afterBegin`, [{
       attributes: {
         class: `esgst-text-left markdown`
@@ -14539,6 +14484,178 @@ class Common extends Module {
       children: html
     }]);
     popup.open();
+  }
+
+  createFormNotification(context, position, options) {
+    return this.createElements_v2(context, position, [
+      [`div`, `notification notification--${options.loading ? `default` : (options.success ? `success` : `warning`)}`, [
+        [`i`, `fa ${options.loading ? `fa-circle-o-notch fa-spin` : (options.success ? `fa-check-circle` : `fa-times-circle`)}`],
+        ` `,
+        ...(options.loading ? [
+          `Syncing `,
+          [`span`, options.name]
+        ] : (
+            options.success ? [
+              `Synced `,
+              [`span`, options.name],
+              ` `,
+              [`span`, { 'data-timestamp': options.date / 1e3 }, dateFns_formatDistanceStrict(options.date, new Date())],
+              ` ago.`
+            ] : [
+                `Never synced `,
+                [`span`, options.name]
+              ]
+          )
+        )
+      ]]
+    ]);
+  }
+
+  createFormRows(context, position, options) {
+    const items = [];
+    let i = 1;
+    for (const item of options.items) {
+      if (!item.check) {
+        continue;
+      }
+      items.push(
+        [`div`, `form__row`, [
+          [`div`, `form__heading`, [
+            [`div`, `form__heading__number`, i++],
+            [`div`, `form__heading__text`, item.name]
+          ]],
+          [`div`, `form__row__indent`, item.content]
+        ]]
+      );
+    }
+    return this.createElements_v2(context, position, [
+      [`div`, `form__rows`, items]
+    ]);
+  }
+
+  createPageHeading(context, position, options) {
+    const items = [];
+    for (const item of options.items) {
+      items.push(
+        [`a`, {href: item.url}, item.name],
+        [`i`, `fa fa-angle-right`]
+      );
+    }
+    return this.createElements_v2(context, position, [
+      [`div`, `page__heading`, [
+        [`div`, `page__heading__breadcrumbs`, items.slice(0, -1)]
+      ]]
+    ]);
+  }
+
+  createSidebarNavigation(context, position, options) {
+    const items = [];
+    for (const item of options.items) {
+      items.push(
+        [`li`, {class: `sidebar__navigation__item`, id: item.id}, [
+          [`a`, { class: `sidebar__navigation__item__link`, href: item.url }, [
+            [`div`, `sidebar__navigation__item__name`, item.name],
+            [`div`, `sidebar__navigation__item__underline`],
+            item.count
+              ? [`div`, `sidebar__navigation__item__count`, item.count]
+              : null
+          ]]
+        ]]
+      );
+    }
+    return this.createElements_v2(context, position, [
+      [`h3`, `sidebar__heading`, options.name],
+      [`ul`, `sidebar__navigation`, items]
+    ]);
+  }
+
+  createElements_v2(context, position, items) {
+    if (Array.isArray(context)) {
+      items = context;
+      context = null;
+    }
+    if (position && position === `inner`) {
+      context.innerHTML = ``;
+    }
+    if (!items || !items.length) {
+      return;
+    }
+    const fragment = document.createDocumentFragment();
+    let element = null;
+    this.buildElements_v2(fragment, items);
+    if (!context) {
+      return fragment;
+    }
+    switch (position) {
+      case `beforeBegin`:
+        context.parentElement.insertBefore(fragment, context);
+        element = context.previousElementSibling;
+        break;
+      case `afterBegin`:
+        context.insertBefore(fragment, context.firstElementChild);
+        element = context.firstElementChild;
+        break;
+      case `beforeEnd`:
+        context.appendChild(fragment);
+        element = context.lastElementChild;
+        break;
+      case `afterEnd`:
+        context.parentElement.insertBefore(fragment, context.nextElementSibling);
+        element = context.nextElementSibling;
+        break;
+      case `inner`:
+        context.appendChild(fragment);
+        element = context.firstElementChild;
+        break;
+      case `outer`:
+        context.parentElement.insertBefore(fragment, context);
+        element = context.previousElementSibling;
+        context.remove();
+        break;
+    }
+    return element;
+  }
+
+  buildElements_v2(context, items) {
+    for (const item of items) {
+      if (!item) {
+        continue;
+      }
+      if (typeof item === `string`) {
+        const node = document.createTextNode(item);
+        context.appendChild(node);
+        continue;
+      } else if (!Array.isArray(item)) {
+        context.appendChild(item);
+        continue;
+      }
+      const element = document.createElement(item[0]);
+      if (isSet(item[1])) {
+        if (typeof item[1] === `string`) {
+          element.className = item[1];
+        } else {
+          for (const key in item[1]) {
+            if (item[1].hasOwnProperty(key)) {
+              if (key === `extend`) {
+                item[1].extend = item[1].extend.bind(null, element);
+              } else if (key.match(/^on/)) {
+                element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+              } else {
+                element.setAttribute(key, item[1][key]);
+              }
+            }
+          }
+        }
+      }
+      if (isSet(item[2])) {
+        if (Array.isArray(item[2])) {
+          this.buildElements_v2(element, item[2]);
+        } else {
+          element.textContent = item[2];
+        }
+      }
+      context.appendChild(element);
+    }
   }
 
   createElements(context, position, items) {
@@ -14666,6 +14783,6 @@ export default Common;
 // Singleton
 let common = new Common;
 
-container.add({common});
+container.add({ common });
 
-export {common};
+export { common };

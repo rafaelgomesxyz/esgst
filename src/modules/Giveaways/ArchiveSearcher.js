@@ -1,5 +1,6 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
+import ButtonSet from '../../class/ButtonSet';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
 
@@ -15,7 +16,9 @@ class GiveawaysArchiveSearcher extends Module {
     this.info = {
       description: `
       <ul>
-        <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-search"></i>) to the main page heading of any <a href="https://www.steamgifts.com/archive">archive</a> page that allows you to search the archive by exact title/app id.</li>
+        <li>Allows you to search the archive by exact title or app id.</li>
+        <li>To search by exact title, wrap the title in double quotes, for example: "Dream"</li>
+        <li>To search by app id, use the "appid:id" format, for example: appid:229580</li>
       </ul>
     `,
       id: `as`,
@@ -26,54 +29,52 @@ class GiveawaysArchiveSearcher extends Module {
     };
   }
 
-  as_load() {
+  async as_load() {
+    this.esgst.customPages.as = {
+      check: this.esgst.archivePath,
+      load: async () => await this.as_init({})
+    };
+    
     if (!this.esgst.archivePath) return;
 
-    let category = location.pathname.match(/^\/archive\/(coming-soon|open|closed|deleted)/);
-    new Process({
-      headingButton: {
-        id: `as`,
-        icons: [`fa-folder`, `fa-search`],
-        title: `Search archive`
-      },
-      popup: {
-        icon: `fa-folder`,
-        title: `Search archive${category ? ` for ${category[1]} giveaways` : ``}:`,
-        options: [
-          {
-            check: true,
-            description: `Search by AppID.`,
-            id: `as_searchAppId`,
-            tooltip: `If unchecked, a search by exact title will be performed.`
-          }
-        ],
-        textInputs: [
-          {
-            placeholder: `Title/app id`
-          }
-        ],
-        addProgress: true,
-        addScrollable: `left`
-      },
-      init: this.as_init.bind(this),
-      requests: [
-        {
-          request: this.as_request.bind(this)
+    const input = document.querySelector(`.sidebar__search-input`);
+    input.addEventListener(`keypress`, event => {
+      if (event.key === `Enter` && input.value.match(/"|appid:/)) {
+        event.preventDefault();
+        const match = input.value.match(/"(.+?)"|appid:(.+)/);
+        let query = ``;
+        let isAppId = false;
+        if (match[1]) {
+          query = match[1];
+        } else {
+          query = match[2];
+          isAppId = true;
         }
-      ]
+        location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
+      }
     });
   }
 
   async as_init(obj) {
-    obj.query = obj.popup.getTextInputValue(0);
+    obj.query = decodeURIComponent(this.esgst.parameters.query);
     if (!obj.query) {
-      obj.popup.setError(`Please enter a title/app id.`);
-      return true;
+      return;
     }
 
+    const context = this.esgst.sidebar.nextElementSibling;
+    context.innerHTML = ``;
+    common.createPageHeading(context, `beforeEnd`, {items:[
+      {
+        name: `ESGST`
+      },
+      {
+        name: `Archive Searcher`
+      }
+    ]});
+    obj.context = context;
+
     // retrieve the game title from Steam
-    if (this.esgst.as_searchAppId) {
-      obj.popup.setProgress(`Retrieving game title...`);
+    if (this.esgst.parameters.isAppId) {
       let title = parseHtml((await request({
         method: `GET`,
         url: `https://steamcommunity.com/app/${obj.query}`
@@ -81,29 +82,58 @@ class GiveawaysArchiveSearcher extends Module {
       if (title) {
         obj.query = title.textContent;
       } else {
-        obj.button.classList.remove(`esgst-busy`);
-        obj.popup.setError(`Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).`);
-        return true;
+        window.alert(`Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).`);
+        return;
       }
     }
+
     obj.query = ((obj.query.length >= 50) ? obj.query.slice(0, 50) : obj.query).toLowerCase();
-    obj.total = 0;
-    obj.requests[0].url = `${location.href.match(/(.+?)(\/search.+?)?$/)[1]}/search?q=${encodeURIComponent(obj.query)}&page=`;
+    obj.page = 1;
+    obj.url = `${location.pathname}/search?q=${encodeURIComponent(obj.query)}&page=`;
+    obj.leftovers = [];
+    const set = new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: ``,
+      icon2: ``,
+      title1: `Load More`,
+      title2: `Loading...`,
+      callback1: async () => await this.as_request(obj)
+    });
+    obj.container = common.createElements_v2(obj.context, `beforeEnd`, [[`div`]]);
+    obj.context.appendChild(set.set);
+    set.trigger();
   }
 
-  async as_request(obj, details, response, responseHtml) {
-    obj.popup.setProgress(`Loading page ${details.nextPage}...`);
-    obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
-    let context = obj.popup.getScrollable();
-    let elements = responseHtml.getElementsByClassName(`table__row-outer-wrap`);
-    for (let i = 0, n = elements.length; i < n; i++) {
-      let element = elements[i];
-      if (element.getElementsByClassName(`table__column__heading`)[0].textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === obj.query) {
-        context.appendChild(element.cloneNode(true));
-        obj.total += 1;
-      }
+  async as_request(obj) {
+    obj.count = 0;
+    const context = common.createElements_v2(obj.container, `beforeEnd`, [[`div`]]);
+    while (obj.leftovers.length && obj.count < 25) {
+      const leftover = obj.leftovers.splice(0, 1)[0];
+      context.appendChild(leftover);
+      obj.count += 1;
     }
-    obj.popup.setOverallProgress(`${obj.total} giveaways found...`);
+    let pagination = null;
+    do {
+      const response = await request({
+        method: `GET`,
+        url: `${obj.url}${obj.page}`
+      });
+      const responseHtml = parseHtml(response.responseText);
+      const elements = responseHtml.querySelectorAll(`.table__row-outer-wrap`);
+      for (const element of elements) {
+        if (element.querySelector(`.table__column__heading`).textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === obj.query) {
+          if (obj.count < 25) {
+            context.appendChild(element.cloneNode(true));
+            obj.count += 1;
+          } else {
+            obj.leftovers.push(element.cloneNode(true));
+          }        
+        }
+      }
+      obj.page += 1;
+      pagination = responseHtml.querySelector(`.pagination__navigation`);
+    } while (obj.count < 25 && pagination && !pagination.lastElementChild.classList.contains(this.esgst.selectedClass));
     await endless_load(context);
   }
 }

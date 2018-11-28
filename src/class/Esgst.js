@@ -4,6 +4,10 @@ import modules from '../modules';
 
 class Esgst {
   constructor() {
+    this.customPages = {};
+    
+    this.sidebarGroups = [];
+
     this.paths = {
       sg: [
         { name: `Everywhere`, pattern: `.*` },
