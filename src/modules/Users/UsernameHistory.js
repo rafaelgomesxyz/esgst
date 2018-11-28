@@ -113,7 +113,7 @@ class UsersUsernameHistory extends Module {
           type: `span`
         }]
       }]);
-      createElements(list, `inner`, this.getUserNames(profile.steamId, profile.username).Usernames.map(x => {
+      createElements(list, `inner`, (await this.getUserNames(profile.steamId, profile.username)).Usernames.map(x => {
         return {
           text: x,
           type: `li`
