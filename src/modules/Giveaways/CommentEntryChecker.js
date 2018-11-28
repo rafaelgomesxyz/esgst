@@ -29,43 +29,35 @@ class GiveawaysCommentEntryChecker extends Module {
   }
 
   cec() {
-    if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
-
-    let obj = {
-      button: createHeadingButton({
-        id: `cec`,
-        icons: [`fa-comments`, `fa-ticket`, `fa-question-circle`],
-        title: `Check comments/entries`
-      })
+    this.esgst.customPages.cec = {
+      check: this.esgst.giveawayPath,
+      load: async () => await this.cec_openPopup({})
     };
-    obj.button.addEventListener(`click`, this.cec_openPopup.bind(this, obj));
+
+    if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
+    
+    common.createElements_v2(this.esgst.sidebarGroups[0].navigation, `beforeEnd`, [
+      [`a`, {class: `sidebar__navigation__item__link`, href: `entries?esgst=cec`}, [
+        [`i`, `fa fa-caret-right`],
+        [`div`, `sidebar__navigation__item__name`, `Comments vs Entries`],
+        [`div`, `sidebar__navigation__item__underline`]
+      ]]
+    ]);
   }
 
-  cec_openPopup(obj) {
-    if (obj.popup) {
-      obj.popup.open();
-      return;
-    }
-    obj.popup = new Popup({
-      icon: `fa-question`,
-      title: `Check Comments/Entries`,
-      buttons: [
+  async cec_openPopup(obj) {
+    const context = this.esgst.sidebar.nextElementSibling;
+    context.innerHTML = ``;
+    common.createPageHeading(context, `beforeEnd`, {
+      items: [
         {
-          color1: `green`,
-          color2: `grey`,
-          icon1: `fa-arrow-right`,
-          icon2: `fa-times`,
-          title1: `Check`,
-          title2: `Cancel`,
-          callback1: this.cec_start.bind(this, obj),
-          callback2: this.cec_stop.bind(this, obj)
+          name: `ESGST`
+        },
+        {
+          name: `Comment / Entry Checker`
         }
-      ],
-      addProgress: true,
-      addScrollable: true
+      ]
     });
-    obj.popup.open();
-    obj.popup.triggerButton(0);
   }
 
   async cec_start(obj) {

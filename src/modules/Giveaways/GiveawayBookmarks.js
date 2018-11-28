@@ -4,7 +4,6 @@ import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import {utils} from '../../lib/jsUtils';
 import {common} from '../Common';
-import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -209,7 +208,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     if (this.esgst.accountPath && this.esgst.parameters.esgst === `gb`) {
       const context = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
-      PageHeading(context, {
+      common.createPageHeading(context, `beforeEnd`, {
         items: [
           {
             name: `ESGST`

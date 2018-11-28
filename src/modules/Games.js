@@ -168,6 +168,9 @@ class Games extends Module {
         }
       }
     }
+    if (!heading.getAttribute(`href`)) {
+      return null;
+    }
     const response = await request({
       method: `GET`,
       url: heading.getAttribute(`href`)

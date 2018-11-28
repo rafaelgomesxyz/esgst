@@ -1,7 +1,6 @@
 import Module from '../../class/Module';
 import {utils} from '../../lib/jsUtils'
 import {common} from '../Common';
-import PageHeading from '../../lib/SgStUtils/PageHeading';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -54,7 +53,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       let glwc = {}, parameters;
       glwc.container = this.esgst.sidebar.nextElementSibling;
       glwc.container.innerHTML = ``;
-      PageHeading(glwc.container, {
+      common.createPageHeading(glwc.container, `beforeEnd`, {
         items: [
           {
             name: `ESGST`

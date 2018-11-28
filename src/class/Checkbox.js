@@ -10,36 +10,19 @@ export default class Checkbox {
     this.isBlocked = false;
     this.value = defaultValue;
     this.isThreeState = threeState;
-    this.checkbox = container.common.createElements(context, `afterBegin`, [{
-      attributes: {
-        class: `esgst-checkbox`
-      },
-      type: `span`,
-      children: [{
-        attributes: {
-          class: `esgst-hidden`,
-          type: `checkbox`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `fa fa-square-o`
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `fa fa-square`,
-          title: messages.select || ``
-        },
-        type: `i`
-      }, {
-        attributes: {
-          class: `fa fa-check-square`,
-          title: messages.unselect || ``
-        },
-        type: `i`
-      }]
-    }]);
+    const items = [
+      [`span`, `esgst-checkbox`, [
+        [`input`, {class: `esgst-hidden`, type: `checkbox`}],
+        [`i`, `fa fa-square-o`],
+        [`i`, {class: `fa fa-square`, type: messages.select || ``}],
+        [`i`, {class: `fa fa-check-square`, type: messages.unselect || ``}]
+      ]]
+    ];
+    if (context) {
+      this.checkbox = container.common.createElements_v2(context, `afterBegin`, items);
+    } else {
+      this.checkbox = container.common.createElements_v2(items).firstElementChild;
+    }
     this.input = this.checkbox.firstElementChild;
     this.disabled = this.input.nextElementSibling;
     this.none = this.disabled.nextElementSibling;
