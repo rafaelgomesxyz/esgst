@@ -1,19 +1,23 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayWinnersLink extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's `,
+            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, `winners`],
+            ` page.`
+          ]]
+        ]]
+      ],
       id: `gwl`,
       load: this.gwl,
       name: `Giveaway Winners Link`,

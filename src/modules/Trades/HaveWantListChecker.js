@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -9,17 +9,21 @@ const
   getTextNodesIn = common.getTextNodesIn.bind(common),
   request = common.request.bind(common),
   setLocalValue = common.setLocalValue.bind(common)
-;
+  ;
 
 class TradesHaveWantListChecker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-list"></i>) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-list` }],
+            `) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.`
+          ]]
+        ]]
+      ],
       id: `hwlc`,
       load: this.hwlc,
       name: `Have/Want List Checker`,
@@ -230,7 +234,7 @@ class TradesHaveWantListChecker extends Module {
         // Name has already been found (duplicate).
         continue;
       }
-      unidentified.push({name, parent});
+      unidentified.push({ name, parent });
     }
     if (key === `want`) {
       try {

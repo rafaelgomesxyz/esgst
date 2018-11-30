@@ -1,22 +1,26 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GroupsGroupStats extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your <a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some stats about each group.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your `,
+            [`a`, { href: `https://www.steamgifts.com/account/steam/groups` }, `groups`],
+            ` page that show some stats about each group.`
+          ]]
+        ]]
+      ],
       id: `gs`,
       load: this.gs,
       name: `Group Stats`,

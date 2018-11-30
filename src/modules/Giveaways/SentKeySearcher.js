@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -13,18 +13,26 @@ const
   observeChange = common.observeChange.bind(common),
   observeNumChange = common.observeNumChange.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysSentKeySearcher extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-key"></i> <i class="fa fa-search"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to search for a key or a set of keys in all of keys that you have ever sent.</li>
-        <li>There is also an option to export all of the keys that you have ever sent to a text file.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-key` }],
+            ` `,
+            [`i`, { class: `fa fa-search` }],
+            `) to the main page heading of your `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/created` }, `created`],
+            ` page that allows you to search for a key or a set of keys in all of keys that you have ever sent.`
+          ]],
+          [`li`, `There is also an option to export all of the keys that you have ever sent to a text file.`]
+        ]]
+      ],
       id: `sks`,
       load: this.sks,
       name: `Sent Key Searcher`,
@@ -35,8 +43,8 @@ class GiveawaysSentKeySearcher extends Module {
 
   sks() {
     if (!this.esgst.createdPath) return;
-    let button = createHeadingButton({id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys`});
-    button.addEventListener(`click`, this.sks_openPopup.bind(this, {button}));
+    let button = createHeadingButton({ id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys` });
+    button.addEventListener(`click`, this.sks_openPopup.bind(this, { button }));
   }
 
   sks_openPopup(sks) {
@@ -44,7 +52,7 @@ class GiveawaysSentKeySearcher extends Module {
       sks.popup.open();
       return;
     }
-    sks.popup = new Popup({addScrollable: true, icon: `fa-key`, title: `Search for keys:`});
+    sks.popup = new Popup({ addScrollable: true, icon: `fa-key`, title: `Search for keys:` });
     sks.textArea = createElements(sks.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
@@ -290,8 +298,8 @@ class GiveawaysSentKeySearcher extends Module {
       }
     }
     const items = [
-      {array: found, name: `Found`},
-      {array: notFound, name: `Did not find`}
+      { array: found, name: `Found` },
+      { array: notFound, name: `Did not find` }
     ];
     for (const item of items) {
       let n = item.array.length;

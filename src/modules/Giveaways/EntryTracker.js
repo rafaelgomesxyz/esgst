@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {common} from '../Common';
+import { common } from '../Common';
 import dateFns_format from 'date-fns/format';
 import dateFns_isSameDay from 'date-fns/isSameDay';
 
@@ -10,18 +10,22 @@ const
   getTimestamp = common.getTimestamp.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysEntryTracker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-ticket esgst-red"></i> My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).</li>
-        <li>An entry only appears in the history if you entered/left the giveaway after this feature was enabled.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-ticket esgst-red` }],
+            ` My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).`
+          ]],
+          [`li`, `An entry only appears in the history if you entered/left the giveaway after this feature was enabled.`]
+        ]]
+      ],
       id: `et`,
       load: this.et,
       name: `Entry Tracker`,
@@ -126,7 +130,7 @@ class GiveawaysEntryTracker extends Module {
         };
       }
     }
-    let popup = new Popup({addScrollable: true, icon: `fa-history`, isTemp: true, title: `Entry Tracker`});
+    let popup = new Popup({ addScrollable: true, icon: `fa-history`, isTemp: true, title: `Entry Tracker` });
     let rows = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-text-left esgst-float-right table`,

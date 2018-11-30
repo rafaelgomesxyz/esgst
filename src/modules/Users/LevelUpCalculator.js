@@ -1,20 +1,26 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class UsersLevelUpCalculator extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds how much real CV a user needs to level up (calculated using the information from <a href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>) to the "Contributor Level" row of their <a href="https://www.steamgifts.com/user/nobody">profile</a> page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds how much real CV a user needs to level up (calculated using the information from `,
+            [`a`, { href: `https://www.steamgifts.com/discussion/XaCbA/` }, `this discussion`],
+            `) to the "Contributor Level" row of their `,
+            [`a`, { href: `https://www.steamgifts.com/user/nobody` }, `profile`],
+            ` page.`
+          ]]
+        ]]
+      ],
       id: `luc`,
       load: this.luc,
       name: `Level Up Calculator`,

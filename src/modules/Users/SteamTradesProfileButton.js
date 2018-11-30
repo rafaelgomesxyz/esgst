@@ -1,21 +1,25 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   setSiblingsOpacity = common.setSiblingsOpacity.bind(common)
-;
+  ;
 
 class UsersSteamTradesProfileButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button next to the "Visit Steam Profile" button of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to go to their SteamTrades profile page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button next to the "Visit Steam Profile" button of a user's `
+            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ` page that allows you to go to their SteamTrades profile page.`
+          ]]
+        ]]
+      ],
       id: `stpb`,
       load: this.stpb,
       name: `SteamTrades Profile Button`,

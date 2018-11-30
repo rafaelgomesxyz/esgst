@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -12,18 +12,28 @@ const
   lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
   lockAndSaveGroups = common.lockAndSaveGroups.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayGroupLoader extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>If you click on/hover over (you can decide which one) the group icon (<i class="fa fa-user"></i>) of a giveaway (in any page) it shows the groups that the giveaway is for. There is also an option to automatically load the groups on page load and show them below the giveaway (which also works in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is enabled).</li>
-        <li>Has [id=gh] built-in.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `If you click on/hover over (you can decide which one) the group icon (`,
+            [`i`, { class: `fa fa-user` }],
+            `) of a giveaway(in any page) it shows the groups that the giveaway is for.There is also an option to automatically load the groups on page load and show them below the giveaway(which also works in your `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/created` }, `created`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/entered` }, `entered`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
+            ` pages if [id=cewgd] is enabled).`
+          ]],
+          [`li`, `Has[id = gh] built -in.`]
+        ]]
+      ],
       features: {
         ggl_m: {
           name: `Only show groups that you are a member of.`,
@@ -47,8 +57,8 @@ class GiveawaysGiveawayGroupLoader extends Module {
   ggl() {
     this.esgst.giveawayFeatures.push(
       (this.esgst.ggl_index === 0 ?
-          this.ggl_getGiveaways :
-          this.ggl_setButtons
+        this.ggl_getGiveaways :
+        this.ggl_setButtons
       ).bind(this)
     );
   }
@@ -426,7 +436,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
 
   async ggl_getGroups(groups, nextPage, newGroups, url, callback) {
     let code, element, elements, error, heading, i, match, n, pagination, responseHtml;
-    responseHtml = parseHtml((await request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+    responseHtml = parseHtml((await request({ method: `GET`, url: `${url}${nextPage}` })).responseText);
     error = responseHtml.getElementsByClassName(`table--summary`)[0];
     if (error) {
       setTimeout(callback, 0, null);

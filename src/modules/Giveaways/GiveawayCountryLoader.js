@@ -1,25 +1,29 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayCountryLoader extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>If you click on/hover over (you can decide which one) the region restricted icon (<i class="fa fa-globe"></i>) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `If you click on/hover over (you can decide which one) the region restricted icon (`,
+            [`i`, { class: `fa fa-globe` }],
+            `) of a giveaway (in any page) it shows the countries that the giveaway is restricted to.`
+          ]]
+        ]]
+      ],
       id: `gcl`,
       load: this.gcl,
       name: `Giveaway Country Loader`,

@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -8,18 +8,22 @@ const
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class CommentsCommentHistory extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-comments esgst-yellow"></i> My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.</li>
-        <li>A comment only appears in the history if it was submitted through the comment box of any of the following features: [id=ded], [id=mr], [id=rrbp], [id=rbp] and [id=rfi]. If you submit the comment through SteamGifts' native comment box it will not be added to the history.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-comments esgst-yellow` }],
+            ` My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.`
+          ]],
+          [`li`, `A comment only appears in the history if it was submitted through the comment box of any of the following features: [id = ded], [id = mr], [id = rrbp], [id = rbp] and[id = rfi].If you submit the comment through SteamGifts' native comment box it will not be added to the history.`]
+        ]]
+      ],
       id: `ch`,
       load: this.ch,
       name: `Comment History`,

@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 import Checkbox from '../../class/Checkbox';
 import Popout from '../../class/Popout';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -9,17 +9,21 @@ const
   observeChange = common.observeChange.bind(common),
   observeNumChange = common.observeNumChange.bind(common),
   triggerOnEnter = common.triggerOnEnter.bind(common)
-;
+  ;
 
 class GiveawaysAdvancedGiveawaySearch extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' <a href="https://www.steamgifts.com/discussion/8SzdT/">search parameters</a>.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' `,
+            [`a`, { href: `https://www.steamgifts.com/discussion/8SzdT/` }, `search parameters`],
+            `.`
+          ]]
+        ]]
+      ],
       id: `ags`,
       load: this.ags,
       name: `Advanced Giveaway Search`,
@@ -194,15 +198,15 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     }
     if (details.type === `checkbox`) {
       let element = createElements(obj.panel, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-ags-checkbox-filter`
-          },
-          type: `div`,
-          children: [{
-            text: details.name,
-            type: `span`
-          }]
-        }]),
+        attributes: {
+          class: `esgst-ags-checkbox-filter`
+        },
+        type: `div`,
+        children: [{
+          text: details.name,
+          type: `span`
+        }]
+      }]),
         filter = new Checkbox(
           element,
           this.esgst[details.key]
@@ -228,21 +232,21 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         });
       });
       let element = createElements(obj.panel, `beforeEnd`, [{
+        attributes: {
+          style: `display: block;`
+        },
+        type: `div`,
+        children: [{
+          text: `${details.name} `,
+          type: `node`
+        }, {
           attributes: {
-            style: `display: block;`
+            class: `esgst-ags-filter`
           },
-          type: `div`,
-          children: [{
-            text: `${details.name} `,
-            type: `node`
-          }, {
-            attributes: {
-              class: `esgst-ags-filter`
-            },
-            type: `class`,
-            children: html
-          }]
-        }]),
+          type: `class`,
+          children: html
+        }]
+      }]),
         filter = element.firstElementChild.firstElementChild;
       filter.value = this.esgst[details.key];
       observeNumChange(filter, details.key);

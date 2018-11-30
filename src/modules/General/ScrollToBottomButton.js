@@ -1,22 +1,26 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   animateScroll = common.animateScroll.bind(common),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GeneralScrollToBottomButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-chevron-down"></i>) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-chevron-down` }],
+            `) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.`
+          ]]
+        ]]
+      ],
       id: `stbb`,
       load: this.stbb,
       name: `Scroll To Bottom Button`,
@@ -56,7 +60,7 @@ class GeneralScrollToBottomButton extends Module {
         });
         break;
       case 1:
-        button = createHeadingButton({id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom`});
+        button = createHeadingButton({ id: `stbb`, icons: [`fa-chevron-down`], title: `Scroll to bottom` });
         button.classList.add(`esgst-stbb-button`);
         break;
       case 2:

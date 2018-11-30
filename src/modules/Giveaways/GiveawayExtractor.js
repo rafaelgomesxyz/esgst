@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -13,21 +13,27 @@ const
   getParameters = common.getParameters.bind(common),
   request = common.request.bind(common),
   setMouseEvent = common.setMouseEvent.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayExtractor extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-search"></i>) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.</li>
-        <li>The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.</li>
-        <li>The feature keeps extracting giveaways until it no longer finds a giveaway link in the page. To prevent a loop (and consequently duplicate results), it keeps track of which giveaways it has already extracted so that they are not extracted again.</li>
-        <li>If you use the feature in a giveaway page, it will add a "Bump" link to the results (when available).</li>
-        <li>This feature is useful for extracting trains (multiple giveaways linked to each other).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-gift` }],
+            ` `,
+            [`i`, { class: `fa fa-search` }],
+            `) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.`
+          ]],
+          [`li`, `The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.`],
+          [`li`, `The feature keeps extracting giveaways until it no longer finds a giveaway link in the page. To prevent a loop (and consequently duplicate results), it keeps track of which giveaways it has already extracted so that they are not extracted again.`],
+          [`li`, `If you use the feature in a giveaway page, it will add a "Bump" link to the results (when available).`],
+          [`li`, `This feature is useful for extracting trains (multiple giveaways linked to each other).`]
+        ]]
+      ],
       features: {
         ge_b: {
           background: true,
@@ -45,12 +51,12 @@ class GiveawaysGiveawayExtractor extends Module {
           sg: true
         },
         ge_o: {
-          description: `
-          <ul>
-            <li>With this option enabled, a second button is added to the main page heading that when used, for example, in the 6th giveaway of a train that has links to the previous giveaways, will not go back and extract giveaways 1-5.</li>
-            <li>This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, a second button is added to the main page heading that when used, for example, in the 6th giveaway of a train that has links to the previous giveaways, will not go back and extract giveaways 1-5.`],
+              [`li`, `This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`]
+            ]]
+          ],
           name: `Add button to only extract from the current giveaway onward.`,
           sg: true
         },
@@ -94,7 +100,7 @@ class GiveawaysGiveawayExtractor extends Module {
     } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
       const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({method: `GET`, url: parameters.url})).responseText),
+        context: parseHtml((await request({ method: `GET`, url: parameters.url })).responseText),
         extractOnward: !!parameters.extractOnward
       };
       this.ge_openPopup(ge);
@@ -103,7 +109,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
   ge_addButton(extractOnward, title, extraIcons = []) {
     let ge = {
-      button: createHeadingButton({id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title}),
+      button: createHeadingButton({ id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title }),
       extractOnward
     };
     setMouseEvent(ge.button, `ge_t`, `https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`, this.ge_openPopup.bind(this, ge));
@@ -136,7 +142,7 @@ class GiveawaysGiveawayExtractor extends Module {
           }
         ]
       });
-      const container = createElements(context, `beforeEnd`, [{type:`div`}]);
+      const container = createElements(context, `beforeEnd`, [{ type: `div` }]);
       ge.popup = {
         description: container,
         scrollable: container,
@@ -146,7 +152,7 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       };
     } else {
-      ge.popup = new Popup({addScrollable: true, icon: `fa-gift`, title: `Extracted giveaways:`});
+      ge.popup = new Popup({ addScrollable: true, icon: `fa-gift`, title: `Extracted giveaways:` });
     }
     ge.results = createElements(ge.popup.scrollable, `beforeEnd`, [{
       attributes: {
@@ -317,7 +323,7 @@ class GiveawaysGiveawayExtractor extends Module {
               }
             }
           } else if (!sgTools) {
-            let response = await request({anon: true, method: `GET`, url: `/giveaway/${code}/`});
+            let response = await request({ anon: true, method: `GET`, url: `/giveaway/${code}/` });
             let bumpLink, giveaway, giveaways, n, responseHtml;
             responseHtml = parseHtml(response.responseText);
             giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
@@ -448,12 +454,12 @@ class GiveawaysGiveawayExtractor extends Module {
       items[0].children.push({
         type: `br`
       }, {
-        attributes: {
-          href: link
-        },
-        text: link,
+          attributes: {
+            href: link
+          },
+          text: link,
           type: `a`
-      });
+        });
     }
     createElements(ge.results, `afterBegin`, items);
     createElements(ge.results, `beforeEnd`, items);

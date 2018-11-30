@@ -1,19 +1,19 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GeneralPaginationNavigationOnTop extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Moves the pagination navigation of any page to the main page heading of the page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Moves the pagination navigation of any page to the main page heading of the page.`]
+        ]]
+      ],
       id: `pnot`,
       load: this.pnot,
       name: `Pagination Navigation On Top`,

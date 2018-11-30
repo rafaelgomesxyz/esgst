@@ -1,21 +1,25 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayPopup extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-external-link"></i>) below a giveaway's start time (in any page) that allows you to read the description of the giveaway and/or add a comment to it without having to access it.</li>
-        <li>You can move the button around by dragging and dropping it.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-external-link` }],
+            ` ) below a giveaway's start time (in any page) that allows you to read the description of the giveaway and/or add a comment to it without having to access it.`
+          ]],
+          [`li`, `You can move the button around by dragging and dropping it.`]
+        ]]
+      ],
       id: `gp`,
       load: this.gp,
       name: `Giveaway Popup`,

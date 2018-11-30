@@ -4,11 +4,11 @@ class GeneralHiddenCommunityPoll extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Hides the community poll (if there is one) of the main page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Hides the community poll (if there is one) of the main page.`]
+        ]]
+      ],
       features: {
         hcp_v: {
           name: `Only hide the poll if you already voted in it.`,

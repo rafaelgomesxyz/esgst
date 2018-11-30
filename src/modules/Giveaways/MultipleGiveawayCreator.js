@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {common} from '../Common';
-import {utils} from '../../lib/jsUtils';
+import { common } from '../Common';
+import { utils } from '../../lib/jsUtils';
 import 'jquery-ui/ui/widgets/progressbar';
 import dateFns_format from 'date-fns/format';
 
@@ -26,22 +26,30 @@ const
   saveUser = common.saveUser.bind(common),
   setCountdown = common.setCountdown.bind(common),
   setLocalValue = common.setLocalValue.bind(common)
-;
+  ;
 
 class GiveawaysMultipleGiveawayCreator extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a section 0 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to create multiple giveaways at once.</li>
-        <li>There is also a special tool to create a train (multiple giveaways linked to each other), which has the option to automatically create a discussion for the train.</li>
-        <li>The icon <i class="fa fa-question-circle"></i> next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.</li>
-        <li>When you add a giveaway to the queue, a small numbered box appears at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.</li>
-        <li>You can re-order/remove a giveaway by dragging and dropping the box.</li>
-        <li>The giveaways will be created without reviewing or validating, so make sure that all of the fields were filled correctly or the creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next one instead).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a section 0 to the `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
+            ` page that allows you to create multiple giveaways at once.`
+          ]],
+          [`li`, `There is also a special tool to create a train (multiple giveaways linked to each other), which has the option to automatically create a discussion for the train.`],
+          [`li`, [
+            `The icon `,
+            [`i`, { class: `fa fa-question-circle` }],
+            `  next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.`
+          ]],
+          [`li`, `When you add a giveaway to the queue, a small numbered box appears at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.`],
+          [`li`, `You can re-order/remove a giveaway by dragging and dropping the box.`],
+          [`li`, `The giveaways will be created without reviewing or validating, so make sure that all of the fields were filled correctly or the creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next one instead).`]
+        ]]
+      ],
       id: `mgc`,
       load: this.mgc,
       name: `Multiple Giveaway Creator`,
@@ -389,7 +397,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_generateFormat() {
-    let popup = new Popup({addScrollable: true, icon: `fa-gear`, title: `Generate formats:`});
+    let popup = new Popup({ addScrollable: true, icon: `fa-gear`, title: `Generate formats:` });
     createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
@@ -868,7 +876,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_importGiveaways(mgc) {
     let counter, popup, progress, progressPanel, textArea;
-    popup = new Popup({addScrollable: true, icon: `fa-arrow-up`, isTemp: true, title: `Import Giveaways`});
+    popup = new Popup({ addScrollable: true, icon: `fa-arrow-up`, isTemp: true, title: `Import Giveaways` });
     popup.popup.classList.add(`esgst-popup-large`);
     createElements(popup.description, `afterBegin`, [{
       attributes: {
@@ -1013,12 +1021,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Import`,
       title2: `Importing...`,
-      callback1:  () => {
+      callback1: () => {
         return new Promise(resolve => this.mgc_getGiveaways(mgc, popup, progress, textArea, resolve));
       }
     }).set);
     popup.open(this.mgc_focusTextArea.bind(this, textArea));
-    textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
+    textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
     textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(this, popup, textArea));
   }
@@ -1029,7 +1037,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     interval = setInterval(() => {
       if (value !== textArea.value) {
         clearInterval(interval);
-        textArea.style.height = `${ innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
+        textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
         textArea.style.overflow = `auto`;
       }
     }, 250);
@@ -1323,7 +1331,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_exportGiveaways(mgc) {
     let file, i, j, n, popup, values;
-    popup = new Popup({addScrollable: true, icon: `fa-arrow-down`, title: `Export`});
+    popup = new Popup({ addScrollable: true, icon: `fa-arrow-down`, title: `Export` });
     new ToggleSwitch(popup.description, `mgc_reversePosition`, false, `Export keys in reverse position (before the name of the game).`, false, false, ``, this.esgst.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet({
       color1: `green`,
@@ -1490,8 +1498,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             text: key,
             type: `node`
           }, {
-            type: `br`
-          });
+              type: `br`
+            });
         }
       }
       createElements(rows, `beforeEnd`, [{
@@ -1523,9 +1531,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
               text: values.gameName,
               type: `a`
             } : {
-              text: values.gameName,
-              type: `span`
-            }]
+                text: values.gameName,
+                type: `span`
+              }]
           }, {
             attributes: {
               class: `table__column--width-small`
@@ -1793,7 +1801,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (i >= n || n - 1 === 0) {
       callback();
     } else {
-      let responseHtml = parseHtml((await request({method: `GET`, url: mgc.created[i].url})).responseText);
+      let responseHtml = parseHtml((await request({ method: `GET`, url: mgc.created[i].url })).responseText);
       let id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
       let description = responseHtml.querySelector(`[name="description"]`).value;
       let replaceCallback = null;
@@ -1947,7 +1955,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_attachDiscussion(mgc) {
     let input, popup;
-    popup = new Popup({addScrollable: true, icon: `fa-comments`, title: `Attach discussion:`});
+    popup = new Popup({ addScrollable: true, icon: `fa-comments`, title: `Attach discussion:` });
     createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`
@@ -1999,7 +2007,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       title1: `Attach New`,
       title2: `Attaching...`,
       callback1: () => {
-        return new Promise(resolve => this.mgc_attachNewDiscussion(mgc, popup ,resolve));
+        return new Promise(resolve => this.mgc_attachNewDiscussion(mgc, popup, resolve));
       }
     }).set);
     popup.open();
@@ -2067,7 +2075,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   async mgc_viewResults(mgc) {
-    const popup = new Popup({addScrollable: true, icon: `fa-eye`, title: `Results`});
+    const popup = new Popup({ addScrollable: true, icon: `fa-eye`, title: `Results` });
     const items = [];
     for (const item of mgc.created) {
       items.push(...item.html);

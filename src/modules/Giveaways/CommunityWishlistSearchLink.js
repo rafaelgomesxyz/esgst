@@ -1,19 +1,23 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common)
-;
+  ;
 
 class GiveawaysCommunityWishlistSearchLink extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Turns the numbers in the "Giveaways" column of any <a href="https://www.steamgifts.com/giveaways/wishlist">community wishlist</a> page into links that allow you to search for all of the active giveaways for the game (that are visible to you).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Turns the numbers in the "Giveaways" column of any `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/wishlist` }, `community wishlist`],
+            ` page into links that allow you to search for all of the active giveaways for the game (that are visible to you).<`
+          ]]
+        ]]
+      ],
       id: `cwsl`,
       load: this.cwsl,
       name: `Community Wishlist Search Link`,

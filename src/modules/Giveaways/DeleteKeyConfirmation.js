@@ -1,21 +1,25 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createConfirmation = common.createConfirmation.bind(common),
   createElements = common.createElements.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysDeleteKeyConfirmation extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Shows a confirmation popup if you try to delete a giveaway's key(s) (in any <a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Shows a confirmation popup if you try to delete a giveaway's key(s) (in any `,
+            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, `winners`],
+            ` page).`
+          ]]
+        ]]
+      ],
       id: `dkc`,
       load: this.dkc,
       name: `Delete Key Confirmation`,

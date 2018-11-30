@@ -4,11 +4,11 @@ class GeneralFixedHeader extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Keeps the header of any page at the top of the window while you scroll down the page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Keeps the header of any page at the top of the window while you scroll down the page.`]
+        ]]
+      ],
       id: `fh`,
       load: this.fh,
       name: `Fixed Header`,

@@ -182,7 +182,7 @@ class Common extends Module {
     const newSelected = document.querySelector(`#${id}`);
     newSelected.classList.add(`is-selected`);
     this.createElements_v2(newSelected.querySelector(`.sidebar__navigation__item__link`), `afterBegin`, [
-      [`i`, `fa fa-caret-right`]
+      [`i`, { class: `fa fa-caret-right` }]
     ]);
   }
 
@@ -263,10 +263,10 @@ class Common extends Module {
 
     if (this.esgst.mainPageHeading) {
       this.esgst.leftMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, `afterBegin`, [
-        [`div`, `esgst-page-heading esgst-page-heading-buttons`]
+        [`div`, { class: `esgst-page-heading esgst-page-heading-buttons` }]
       ]);
       this.esgst.rightMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, `beforeEnd`, [
-        [`div`, `esgst-page-heading esgst-page-heading-buttons`]
+        [`div`, { class: `esgst-page-heading esgst-page-heading-buttons` }]
       ]);
     }
 
@@ -274,7 +274,7 @@ class Common extends Module {
     hideButtonsLeft = document.createElement(`div`);
     hideButtonsLeft.className = `esgst-heading-button`;
     this.createElements_v2(hideButtonsLeft, `inner`, [
-      [`i`, `fa fa-ellipsis-v`]
+      [`i`, { class: `fa fa-ellipsis-v` }]
     ]);
     this.esgst.leftButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsLeft, 0, true).popout, `beforeEnd`, [{
       attributes: {
@@ -284,12 +284,9 @@ class Common extends Module {
     }]);
     hideButtonsRight = document.createElement(`div`);
     hideButtonsRight.className = `esgst-heading-button`;
-    this.createElements(hideButtonsRight, `inner`, [{
-      attributes: {
-        class: `fa fa-ellipsis-v`
-      },
-      type: `i`
-    }]);
+    this.createElements_v2(hideButtonsRight, `inner`, [
+      [`i`, { class: `fa fa-ellipsis-v` }]
+    ]);
     this.esgst.rightButtons = this.createElements(new Popout(`esgst-hidden-buttons`, hideButtonsRight, 0, true).popout, `beforeEnd`, [{
       attributes: {
         class: `esgst-page-heading`
@@ -702,24 +699,24 @@ class Common extends Module {
       others: {
         features: {
           activateTab: {
-            description: `
-            <ul>
-              <li>When a browser session is restored, you have to activate a tab so that it can be loaded. With this option enabled, ESGST automatically activates the first SG/ST tab open so that the extension can be injected immediately.</li>
-            </ul>
-          `,
+            description: [
+              [`ul`, [
+                [`li`, `When a browser session is restored, you have to activate a tab so that it can be loaded. With this option enabled, ESGST automatically activates the first SG/ST tab open so that the extension can be injected immediately.`]
+              ]]
+            ],
             extensionOnly: true,
             name: `Activate the first SG/ST tab if a browser session was restored.`,
             sg: true,
             st: true
           },
           manipulateCookies: {
-            description: `
-            <ul>
-              <li>You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...). With it enabled, ESGST will manipulate your cookies to make sure that requests are sent using the cookies from the current container you are on.</li>
-              <li>For example: you are only logged in on SteamGifts and Steam in the personal container. With this option disabled, when you try to sync your owned games on ESGST it will fail because it will use the default cookies (where you are not logged in). With this option enabled, the sync will succeed because the container cookies will be used instead (where you are logged in).</li>
-              <li>If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the manipulation occurs. Basically what happens is: the default cookies are backed up and replaced by the container cookies while the request is being made, and after the request is done the default cookies are restored. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.</li>
-            </ul>
-          `,
+            description: [
+              [`ul`, [
+                [`li`, `You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...). With it enabled, ESGST will manipulate your cookies to make sure that requests are sent using the cookies from the current container you are on.`],
+                [`li`, `For example: you are only logged in on SteamGifts and Steam in the personal container. With this option disabled, when you try to sync your owned games on ESGST it will fail because it will use the default cookies (where you are not logged in). With this option enabled, the sync will succeed because the container cookies will be used instead (where you are logged in).`],
+                [`li`, `If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the manipulation occurs. Basically what happens is: the default cookies are backed up and replaced by the container cookies while the request is being made, and after the request is done the default cookies are restored. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`]
+              ]]
+            ],
             extensionOnly: true,
             name: `Allow ESGST to manipulate your cookies when using Firefox containers.`,
             sg: true,
@@ -754,20 +751,20 @@ class Common extends Module {
             sg: true
           },
           updateHiddenGames: {
-            description: `
-            <ul>
-              <li>With this enabled, you no longer have to sync your hidden games every time you add/remove a game to/from the list.</li>
-            </ul>
-          `,
+            description: [
+              [`ul`, [
+                [`li`, `With this enabled, you no longer have to sync your hidden games every time you add/remove a game to/from the list.`]
+              ]]
+            ],
             name: `Automatically update hidden games when adding/removing a game to/from the list.`,
             sg: true
           },
           updateWhitelistBlacklist: {
-            description: `
-            <ul>
-              <li>With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.</li>
-            </ul>
-          `,
+            description: [
+              [`ul`, [
+                [`li`, `With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.`]
+              ]]
+            ],
             name: `Automatically update whitelist/blacklist when adding/removing a user to/from those lists.`,
             sg: true
           },
@@ -814,11 +811,11 @@ class Common extends Module {
             st: true
           },
           fallbackSteamApi: {
-            description: `
-              <ul>
-                <li>With this option enabled, if you sync your games without being logged in to Steam, the Steam API will be used instead (less complete, so some of your games will be removed until you sync while logged in).</li>
-              </ul>
-            `,
+            description: [
+              [`ul`, [
+                [`li`, `With this option enabled, if you sync your games without being logged in to Steam, the Steam API will be used instead (less complete, so some of your games will be removed until you sync while logged in).`]
+              ]]
+            ],
             name: `Fallback to Steam API when syncing without being logged in.`,
             sg: true,
             st: true
@@ -842,25 +839,25 @@ class Common extends Module {
             st: true
           },
           minimizePanel: {
-            description: `
-            <ul>
-              <li>When you close a non-temporary popup, it will be minimized to a panel that can be accessed by moving your mouse to the left corner of the window in any page. There you can quickly find and re-open all of the popups that you minimized.</li>
-              <li>A non-temporary popup is a popup that does not get destroyed when you close it. For example, the settings popup is a temporary popup - when you close it, the popup is destroyed, and when you click on the button to open the settings again, a new popup is created. The Whitelist/Blacklist Checker popup is an example of a non-temporary popup - if you close it and re-open it, it will be the exact same popup.</li>
-              <li>With this option enabled, the sync/backup popups become non-temporary, which allows you to close them and keep navigating through the page while ESGST is performing the sync/backup, without having to wait for it to finish.</li>
-              <li>Some popups will notify you when they are done. When this happens, a red bar will flash at the left side of the screen that only disappears when you open the minimize panel and re-open the popup that is requiring your attention.</li>
-            </ul>
-          `,
+            description: [
+              [`ul`, [
+                [`li`, `When you close a non-temporary popup, it will be minimized to a panel that can be accessed by moving your mouse to the left corner of the window in any page. There you can quickly find and re-open all of the popups that you minimized.`],
+                [`li`, `A non-temporary popup is a popup that does not get destroyed when you close it. For example, the settings popup is a temporary popup - when you close it, the popup is destroyed, and when you click on the button to open the settings again, a new popup is created. The Whitelist/Blacklist Checker popup is an example of a non-temporary popup - if you close it and re-open it, it will be the exact same popup.`],
+                [`li`, `With this option enabled, the sync/backup popups become non-temporary, which allows you to close them and keep navigating through the page while ESGST is performing the sync/backup, without having to wait for it to finish.`],
+                [`li`, `Some popups will notify you when they are done. When this happens, a red bar will flash at the left side of the screen that only disappears when you open the minimize panel and re-open the popup that is requiring your attention.`]
+              ]]
+            ],
             name: `Minimize non-temporary popups to a panel when closing them.`,
             sg: true,
             st: true
           },
           getSyncGameNames: {
-            description: `
-            <ul>
-              <li>With this disabled, only the app/sub ids of the games will appear.</li>
-              <li>This can lead to lots of requests to the Steam store, so only enable it if you truly need to see the names of the games that were added/removed.</li>
-            </ul>
-          `,
+            description: [
+              [`ul`, [
+                [`li`, `With this disabled, only the app/sub ids of the games will appear.`],
+                [`li`, `This can lead to lots of requests to the Steam store, so only enable it if you truly need to see the names of the games that were added/removed.`]
+              ]]
+            ],
             name: `Retrieve game names when syncing.`,
             sg: true,
             st: true
@@ -880,79 +877,44 @@ class Common extends Module {
       themes: {
         features: {
           sgDarkGrey: {
-            name: [{
-              attributes: {
-                class: `esgst-bold`,
-                href: `https://www.steamgifts.com/discussion/3rINT/`
-              },
-              text: `SG Dark Grey`,
-              type: `a`
-            }, {
-              text: ` by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`,
-              type: `node`
-            }],
+            name: [
+              [`a`, { class: `esgst-bold`, href: `https://www.steamgifts.com/discussion/3rINT/` }, `SG Dark Grey`],
+              ` by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`
+            ],
             sg: true,
             st: true,
             theme: `https://userstyles.org/styles/141670.css`
           },
           sgv2Dark: {
-            name: [{
-              attributes: {
-                class: `esgst-bold`,
-                href: `https://www.steamgifts.com/discussion/iO230/`
-              },
-              text: `SGv2 Dark`,
-              type: `a`
-            }, {
-              text: ` by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`,
-              type: `node`
-            }],
+            name: [
+              [`a`, { class: `esgst-bold`, href: `https://www.steamgifts.com/discussion/iO230/` }, `SGv2 Dark`],
+              ` by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`
+            ],
             sg: true,
             st: true,
             theme: `https://userstyles.org/styles/109810.css`
           },
           steamGiftiesBlack: {
-            name: [{
-              attributes: {
-                class: `esgst-bold`,
-                href: `https://www.steamgifts.com/discussion/62TRf/`
-              },
-              text: `SteamGifties Black`,
-              type: `a`
-            }, {
-              text: ` by Mully (Medium compatibility with ESGST elements)`,
-              type: `node`
-            }],
+            name: [
+              [`a`, { class: `esgst-bold`, href: `https://www.steamgifts.com/discussion/62TRf/` }, `SteamGifties Black`],
+              ` by Mully (Medium compatibility with ESGST elements)`
+            ],
             sg: true,
             theme: `https://userstyles.org/styles/110675.css`
           },
           steamGiftiesBlue: {
-            name: [{
-              attributes: {
-                class: `esgst-bold`,
-                href: `https://www.steamgifts.com/discussion/62TRf/`
-              },
-              text: `SteamGifties Blue`,
-              type: `a`
-            }, {
-              text: ` by Mully (Medium compatibility with ESGST elements)`,
-              type: `node`
-            }],
+            name: [
+              [`a`, { class: `esgst-bold`, href: `https://www.steamgifts.com/discussion/62TRf/` }, `SteamGifties Blue`],
+              ` by Mully (Medium compatibility with ESGST elements)`
+            ],
             sg: true,
             theme: `https://userstyles.org/styles/110491.css`
           },
           steamTradiesBlackBlue: {
-            name: [{
-              attributes: {
-                class: `esgst-bold`,
-                href: `https://www.steamgifts.com/discussion/FIdCm/`
-              },
-              text: `SteamTradies Black/Blue`,
-              type: `a`
-            }, {
-              text: ` by Mully (No compatibility with ESGST elements)`,
-              type: `node`
-            }],
+            name: [
+              [`a`, { class: `esgst-bold`, href: `https://www.steamgifts.com/discussion/FIdCm/` }, `SteamTradies Black/Blue`],
+              ` by Mully (No compatibility with ESGST elements)`
+            ],
             st: true,
             theme: `https://userstyles.org/styles/134348.css`
           },
@@ -1109,10 +1071,10 @@ class Common extends Module {
         popup.open();
         await this.checkSync(true, true);
         this.createElements_v2(popup.title, `inner`, [
-          [`i`, `fa fa-check`],
+          [`i`, { class: `fa fa-check` }],
           `Thanks for installing ESGST, ${this.esgst.username}. You are ready to go! Click on the`,
           [`span`, `Settings`]
-          ` link below to choose which features you want to use.`
+            ` link below to choose which features you want to use.`
         ]);
       } else {
         if (this.esgst.showChangelog) {
@@ -2094,9 +2056,9 @@ class Common extends Module {
       });
 
       this.createElements_v2(context, `beforeEnd`, [
-        [`div`, `esgst-menu-split`, [
-          [`div`, `esgst-sync-options`],
-          [`div`, `esgst-sync-area`]
+        [`div`, { class: `esgst-menu-split` }, [
+          [`div`, { class: `esgst-sync-options` }],
+          [`div`, { class: `esgst-sync-area` }]
         ]]
       ]);
       context.appendChild(new ButtonSet({
@@ -2179,10 +2141,10 @@ class Common extends Module {
           };
           syncer.switches[id] = checkbox;
           syncer.manual.content.push(
-            [`div`, null, [
+            [`div`, [
               checkbox.checkbox,
               ` `,
-              [`span`, null, info.name]
+              [`span`, info.name]
             ]]
           );
           this.setAutoSync(info.key, info.name, syncer);
@@ -2204,8 +2166,8 @@ class Common extends Module {
         callback2: this.cancelSync.bind(this, syncer)
       });
       syncer.manual.content.push(
-        [`div`, `esgst-button-group`, [
-          [`span`, null, `Select:`],
+        [`div`, { class: `esgst-button-group` }, [
+          [`span`, `Select:`],
           new ButtonSet({
             color1: `grey`,
             color2: `grey`,
@@ -2237,7 +2199,7 @@ class Common extends Module {
         syncer.set.set
       );
       syncer.automatic.content.push(
-        [`div`, `esgst-description`, `Select how often you want the automatic sync to run (in days) or 0 to disable it.`]
+        [`div`, { class: `esgst-description` }, `Select how often you want the automatic sync to run (in days) or 0 to disable it.`]
       );
       this.createFormRows(syncer.container, `beforeEnd`, { items: [syncer.manual, syncer.automatic] });
       if (this.esgst.at) {
@@ -2278,11 +2240,11 @@ class Common extends Module {
   setAutoSync(key, name, syncer) {
     let days = [];
     for (let i = 0; i < 31; ++i) {
-      days.push([`option`, i === this.esgst[`autoSync${key}`] ? {selected: true} : null, i]);
+      days.push([`option`, i === this.esgst[`autoSync${key}`] ? { selected: true } : null, i]);
     }
     syncer.automatic.content.push(
       [`div`, null, [
-        [`select`, {class: `esgst-auto-sync`, onchange: event => this.esgst.settings[`autoSync${key}`] = this.esgst[`autoSync${key}`] = parseInt(event.currentTarget.value)}, days],
+        [`select`, { class: `esgst-auto-sync`, onchange: event => this.esgst.settings[`autoSync${key}`] = this.esgst[`autoSync${key}`] = parseInt(event.currentTarget.value) }, days],
         [`span`, null, name]
       ]]
     );
@@ -3560,9 +3522,9 @@ class Common extends Module {
       }]
     }]);
     this.createElements_v2(Container, `beforeEnd`, [
-      [`div`, `esgst-menu-split`, [
-        [`div`, `esgst-settings-menu`],
-        [`div`, `esgst-settings-menu-feature esgst-menu-split-fixed`, `Click on a feature/option to see details about it here.`]
+      [`div`, { class: `esgst-menu-split` }, [
+        [`div`, { class: `esgst-settings-menu` }],
+        [`div`, { class: `esgst-settings-menu-feature esgst-menu-split-fixed` }, `Click on a feature/option to see details about it here.`]
       ]]
     ]);
     Container.appendChild(new ButtonSet({
@@ -3577,7 +3539,7 @@ class Common extends Module {
         window.location.reload();
       }
     }).set);
-    Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, null));
+    Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, undefined));
     this.esgst.featuresById = {};
     const input = Container.firstElementChild.nextElementSibling.firstElementChild;
     input.addEventListener(`input`, this.filterSm.bind(this));
@@ -3776,30 +3738,32 @@ class Common extends Module {
 
   loadFeatureDetails(id, event) {
     if (!id) {
-      if (event.target.matches(`.esgst-settings-feature`)) {
+      if (event && event.target.matches(`.esgst-settings-feature`)) {
         id = event.target.getAttribute(`data-id`);
-      } else {
-        return;
       }
     }
+    if (typeof id === `undefined`) {
+      return;
+    } else if (id === null) {
+      document.querySelector(`.esgst-settings-menu-feature`).innerHTML = `Click on a feature/option to see details about it here.`;
+      return;
+    } 
     const feature = this.esgst.featuresById[id];
     const items = [];
     if (feature.description) {
       items.push({
         check: true,
         content: [
-          [`div`, `markdown`, `test`]
+          [`div`, { class: `markdown` }, feature.description]
         ],
         name: `What does it do?`
       });
     }
     const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
-    if (additionalOptions) {
+    if (additionalOptions.length) {
       items.push({
         check: true,
-        content: [
-          additionalOptions
-        ],
+        content: additionalOptions,
         name: `Additional Options`
       });
     }
@@ -3807,14 +3771,14 @@ class Common extends Module {
       items.push({
         check: true,
         content: [
-          [`p`, null, [
+          [`p`, [
             `This feature requires the following data to be synced in order to function properly: `,
-            [`strong`, null, feature.sync]
+            [`strong`, feature.sync]
           ]],
           [`br`],
-          [`p`, null, [
+          [`p`, [
             `To sync these now, click `,
-            [`a`, {class: `table__column__secondary-link`, href: `https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank`}, `here`],
+            [`a`, { class: `table__column__secondary-link`, href: `https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank` }, `here`],
             `.`
           ]]
         ],
@@ -4182,12 +4146,12 @@ class Common extends Module {
       name: name
     };
     const context = this.createElements_v2([
-      [`div`, `esgst-bold`, [
+      [`div`, { class: `esgst-bold` }, [
         `Run it here: `,
-        [`i`, {class: `fa fa-question-circle`, title:`Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).`}]
+        [`i`, { class: `fa fa-question-circle`, title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
       ]],
       [`div`, obj.include],
-      [`div`, `esgst-button-group`, [
+      [`div`, { class: `esgst-button-group` }, [
         new ButtonSet({
           color1: `grey`,
           color2: ``,
@@ -4198,12 +4162,12 @@ class Common extends Module {
           callback1: () => obj.include.extend(feature, `include`, obj, { enabled: 1, pattern: `` }, true)
         }).set
       ]],
-      [`div`, `esgst-bold`, [
+      [`div`, { class: `esgst-bold` }, [
         `Do NOT run it here: `,
-        [`i`, {class: `fa fa-question-circle`, title:`Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).`}]
+        [`i`, { class: `fa fa-question-circle`, title: `Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
       ]],
       [`div`, obj.exclude],
-      [`div`, `esgst-button-group`, [
+      [`div`, { class: `esgst-button-group` }, [
         new ButtonSet({
           color1: `grey`,
           color2: ``,
@@ -4232,15 +4196,15 @@ class Common extends Module {
       this.savePaths(feature.id, obj);
     };
     item.select = this.createElements_v2(item.container, `beforeEnd`, [
-      [`select`, `esgst-switch-input esgst-switch-input-large`, [
+      [`select`, { class: `esgst-switch-input esgst-switch-input-large` }, [
         ...(this.esgst.paths[obj.name].map(x =>
-          [`option`, Object.assign({value: x.pattern}, x.pattern === path.pattern && (found = true) ? {selected: true} : null), x.name]
+          [`option`, Object.assign({ value: x.pattern }, x.pattern === path.pattern && (found = true) ? { selected: true } : null), x.name]
         )),
-        [`option`, Object.assign({value: `custom`}, found ? null : {selected: true}), `Custom`]
+        [`option`, Object.assign({ value: `custom` }, found ? null : { selected: true }), `Custom`]
       ]]
     ]);
     item.input = this.createElements_v2(item.container, `beforeEnd`, [
-      [`input`, {class: `esgst-switch-input esgst-switch-input-large`, disabled: item.select.value === `custom`, type: `text`}]
+      [`input`, { class: `esgst-switch-input esgst-switch-input-large`, disabled: item.select.value === `custom`, type: `text` }]
     ]);
     item.select.addEventListener(`change`, () => {
       if (item.select.value === `custom`) {
@@ -4372,8 +4336,8 @@ class Common extends Module {
         this.esgst.settings[`${ID}_sg`] = value;
         this.esgst[ID] = value;
       };
-      if (Feature.conflicts) {
-        siwtchSg.onEnabled = () => {
+      siwtchSg.onEnabled = () => {
+        if (Feature.conflicts) {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
             let setting = this.esgst.settings[`${Feature.conflicts[ci].id}_sg`];
             if ((setting.include && setting.enabled) || (!setting.include && setting)) {
@@ -4384,42 +4348,33 @@ class Common extends Module {
                 isTemp: true,
                 title: `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
-              ci = cn;
-            }
-          }
-          if (Feature.theme && SMFeatures) {
-            if (ID === `customTheme`) {
-              // noinspection JSIgnoredPromiseFromCall
-              this.setTheme();
-            } else {
-              this.updateTheme(SMFeatures);
+              return;
             }
           }
         }
-      } else if (Feature.theme) {
-        siwtchSg.onEnabled = () => {
-          if (SMFeatures) {
-            if (ID === `customTheme`) {
-              // noinspection JSIgnoredPromiseFromCall
-              this.setTheme();
-            } else {
-              this.updateTheme(SMFeatures);
-            }
+        this.loadFeatureDetails(ID);
+        if (Feature.theme && SMFeatures) {
+          if (ID === `customTheme`) {
+            // noinspection JSIgnoredPromiseFromCall
+            this.setTheme();
+          } else {
+            this.updateTheme(ID);
           }
         }
       }
-      if (Feature.theme) {
-        siwtchSg.onDisabled = () => {
+      siwtchSg.onDisabled = async () => {
+        if (Feature.theme) {
           if (ID === `customTheme`) {
             this.delLocalValue(`customTheme`);
           } else {
             this.delLocalValue(`theme`);
-            this.delValue(ID);
+            await this.delValue(ID);
           }
           // noinspection JSIgnoredPromiseFromCall
           this.setTheme();
-        };
-      }
+        }
+        this.loadFeatureDetails(null);
+      };
     }
     if (Feature.st && (this.esgst.settings.esgst_st || ID === `esgst`)) {
       set2 = this.getFeaturePath(Feature, ID, `st`);
@@ -4429,8 +4384,8 @@ class Common extends Module {
         this.esgst.settings[`${ID}_st`] = value;
         this.esgst[ID] = value;
       };
-      if (Feature.conflicts) {
-        siwtchSt.onEnabled = () => {
+      siwtchSt.onEnabled = () => {
+        if (Feature.conflicts) {
           for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
             let setting = this.esgst.settings[`${Feature.conflicts[ci].id}_st`];
             if ((setting.include && setting.enabled) || (!setting.include && setting)) {
@@ -4441,39 +4396,30 @@ class Common extends Module {
                 isTemp: true,
                 title: `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
-              ci = cn;
-            }
-          }
-          if (Feature.theme && SMFeatures) {
-            if (ID === `customTheme`) {
-              // noinspection JSIgnoredPromiseFromCall
-              this.setTheme();
-            } else {
-              this.updateTheme(SMFeatures);
+              return;
             }
           }
         }
-      } else if (Feature.theme) {
-        siwtchSt.onEnabled = () => {
-          if (SMFeatures) {
-            if (ID === `customTheme`) {
-              // noinspection JSIgnoredPromiseFromCall
-              this.setTheme();
-            } else {
-              this.updateTheme(SMFeatures);
-            }
+        this.loadFeatureDetails(ID);
+        if (Feature.theme && SMFeatures) {
+          if (ID === `customTheme`) {
+            // noinspection JSIgnoredPromiseFromCall
+            this.setTheme();
+          } else {
+            this.updateTheme(ID);
           }
         }
       }
-      if (Feature.theme) {
-        siwtchSt.onDisabled = () => {
+      siwtchSt.onDisabled = async () => {
+        if (Feature.theme) {
           if (ID !== `customTheme`) {
-            this.delValue(ID);
+            await this.delValue(ID);
           }
           // noinspection JSIgnoredPromiseFromCall
           this.setTheme();
-        };
-      }
+        }
+        this.loadFeatureDetails(null);
+      };
     }
     if (!siwtchSg && !siwtchSt) {
       Menu.lastElementChild.remove();
@@ -4491,22 +4437,10 @@ class Common extends Module {
       }]).addEventListener(`click`, this.dismissNewOption.bind(this, ID));
     }
     val = val1 || val2;
-    this.createElements(Menu, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-settings-feature table__column__secondary-link`,
-        'data-id': ID
-      },
-      text: typeof Feature.name === `string` ? Feature.name : ``,
-      type: `a`,
-      children: typeof Feature.name === `string` ? null : [
-        ...Feature.name
-      ]
-    }, {
-      attributes: {
-        class: `esgst-form-row-indent SMFeatures esgst-hidden`
-      },
-      type: `div`
-    }]);
+    this.createElements_v2(Menu, `beforeEnd`, [
+      [`a`, { class: `esgst-settings-feature table__column__secondary-link`, 'data-id': ID }, Feature.name],
+      [`div`, { class: `esgst-form-row-indent SMFeatures esgst-hidden` }]
+    ]);
     SMFeatures = Menu.lastElementChild;
     if (Feature.features) {
       let ft, i, id, isNew = false;
@@ -4557,32 +4491,22 @@ class Common extends Module {
     };
   }
 
-  getSmFeatureAdditionalOptions(SMFeatures, Feature, ID) {
-    return null;
-    let has = true;
-    if (ID === `gc`) {
-      SMFeatures.classList.remove(`esgst-hidden`);
-    } else if (ID === `gch`) {
-      this.addGwcrMenuPanel(SMFeatures, `gch_colors`, `copies`, true);
-      SMFeatures.classList.remove(`esgst-hidden`);
+  getSmFeatureAdditionalOptions(Feature, ID) {
+    let items = [];
+    if (ID === `gch`) {
+      items.push(this.addGwcrMenuPanel(`gch_colors`, `copies`, true));
     } else if (ID === `gwc`) {
-      this.addGwcrMenuPanel(SMFeatures, `gwc_colors`, `chance`);
-      SMFeatures.classList.remove(`esgst-hidden`);
+      items.push(this.addGwcrMenuPanel(`gwc_colors`, `chance`));
     } else if (ID === `gwr`) {
-      this.addGwcrMenuPanel(SMFeatures, `gwr_colors`, `ratio`);
-      SMFeatures.classList.remove(`esgst-hidden`);
+      items.push(this.addGwcrMenuPanel(`gwr_colors`, `ratio`));
     } else if (ID === `gptw`) {
-      this.addGwcrMenuPanel(SMFeatures, `gptw_colors`, `points to win`);
-      SMFeatures.classList.remove(`esgst-hidden`);
+      items.push(this.addGwcrMenuPanel(`gptw_colors`, `points to win`));
     } else if (ID === `geth`) {
-      this.addGwcrMenuPanel(SMFeatures, `geth_colors`, `hours`);
-      SMFeatures.classList.remove(`esgst-hidden`);
+      items.push(this.addGwcrMenuPanel(`geth_colors`, `hours`));
     } else if (ID === `gc_r`) {
-      this.addGcRatingPanel(SMFeatures);
-      SMFeatures.classList.remove(`esgst-hidden`);
+      items.push(this.addGcRatingPanel());
     } else if (ID === `gc_o_a`) {
-      this.addGcAltMenuPanel(SMFeatures);
-      SMFeatures.classList.remove(`esgst-hidden`);
+      items.push(this.addGcAltMenuPanel());
     } else if (Feature.colors || Feature.background) {
       if (typeof Feature.background === `boolean`) {
         Feature.colors = {
@@ -4597,50 +4521,20 @@ class Common extends Module {
       const children = [];
       for (const id in Feature.colors) {
         const color = rgba2Hex(this.esgst[`${ID}_${id}`]);
-        children.push({
-          text: `${Feature.colors[id]}: `,
-          type: `strong`
-        }, {
-            type: `br`
-          }, {
-            attributes: {
-              [`data-color-id`]: id,
-              type: `color`,
-              value: color.hex
-            },
-            type: `input`
-          }, {
-            text: ` Opacity: `,
-            type: `node`
-          }, {
-            attributes: {
-              max: `1.0`,
-              min: `0.0`,
-              step: `0.1`,
-              type: `number`,
-              value: color.alpha
-            },
-            type: `input`
-          }, {
-            text: ` `,
-            type: `node`
-          }, {
-            attributes: {
-              class: `form__saving-button esgst-sm-colors-default`
-            },
-            text: `Reset`,
-            type: `div`
-          }, {
-            type: `br`
-          });
+        children.push(
+          [`strong`, `${Feature.colors[id]}: `],
+          [`br`],
+          [`input`, { 'data-color-id': id, type: `color`, value: color.hex }],
+          ` Opacity: `,
+          [`input`, { max: `1.0`, min: `0.0`, step: `0.1`, type: `number`, value: color.alpha }],
+          ` `,
+          [`div`, { class: `form__saving-button esgst-sm-colors-default` }, `Reset`],
+          [`br`]
+        );
       }
-      const context = this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`
-        },
-        type: `div`,
-        children
-      }]);
+      const context = this.createElements_v2([
+        [`div`, { class: `esgst-sm-colors` }, children]
+      ]).firstElementChild;
       const elements = context.querySelectorAll(`[data-color-id]`);
       for (const hexInput of elements) {
         const colorId = hexInput.getAttribute(`data-color-id`);
@@ -4648,65 +4542,30 @@ class Common extends Module {
         this.addColorObserver(hexInput, alphaInput, ID, colorId);
         alphaInput.nextElementSibling.addEventListener(`click`, this.resetColor.bind(this, hexInput, alphaInput, ID, colorId));
       }
+      items.push(context);
       if (ID === `gc_g`) {
-        let input = this.createElements(SMFeatures, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-sm-colors`
-          },
-          type: `div`,
-          children: [{
-            text: `Only show the following genres: `,
-            type: `node`
-          }, {
-            attributes: {
-              type: `text`,
-              value: this.esgst.gc_g_filters
-            },
-            type: `input`
-          }, {
-            attributes: {
-              class: `fa fa-question-circle`,
-              title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2`
-            },
-            type: `i`
-          }]
-        }]);
+        const input = this.createElements_v2([
+          [`div`, { class: `esgst-sm-colors` }, [
+            `Only show the following genres: `,
+            [`input`, { type: `text`, value: this.esgst.gc_g_filters }],
+            [`i`, { class: `fa fa-question-circle`, title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
+          ]]
+        ]).firstElementChild;
         this.observeChange(input.firstElementChild, `gc_g_filters`);
-        this.addGcMenuPanel(SMFeatures);
+        items.push(input);
+        items.push(this.addGcMenuPanel());
       }
       if (Feature.input) {
-        let input = this.createElements(SMFeatures, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-sm-colors`
-          },
-          type: `div`,
-          children: [{
-            text: `Icon: `,
-            type: `node`
-          }, {
-            attributes: {
-              type: `text`,
-              value: this.esgst[`${ID}Icon`]
-            },
-            type: `input`
-          }, {
-            attributes: {
-              class: `esgst-clickable fa fa-question-circle`
-            },
-            type: `i`
-          }, {
-            type: `br`
-          }, {
-            text: `Label: `,
-            type: `node`
-          }, {
-            attributes: {
-              type: `text`,
-              value: this.esgst[`${ID}Label`]
-            },
-            type: `input`
-          }]
-        }]);
+        const input = this.createElements_v2([
+          [`div`, { class: `esgst-sm-colors` }, [
+            `Icon: `,
+            [`input`, { type: `text`, value: this.esgst[`${ID}Icon`] }],
+            [`i`, { class: `esgst-clickable fa fa-question-circle` }],
+            [`br`],
+            `Label: `,
+            [`input`, { type: `text`, value: this.esgst[`${ID}Label`] }]
+          ]]
+        ]).firstElementChild;
         this.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
         let icon = input.firstElementChild;
         let label = input.lastElementChild;
@@ -4721,14 +4580,12 @@ class Common extends Module {
             type: `i`
           }]);
         }
+        items.push(input);
       }
     } else if (Feature.inputItems) {
-      let container = this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`
-        },
-        type: `div`
-      }]);
+      let container = this.createElements_v2([
+        [`div`, { class: `esgst-sm-colors` }]
+      ]).firstElementChild;
       if (ID.match(/^(chfl|sk_)/)) {
         Feature.inputItems = [
           {
@@ -4843,58 +4700,31 @@ class Common extends Module {
           });
         }
       });
+      items.push(container);
     } else if (Feature.theme) {
-      const children = [{
-        text: `Enabled from `,
-        type: `node`
-      }, {
-        attributes: {
-          type: `text`,
-          value: this.esgst[`${ID}_startTime`]
-        },
-        type: `input`
-      }, {
-        text: ` to `,
-        type: `node`
-      }, {
-        attributes: {
-          type: `text`,
-          value: this.esgst[`${ID}_endTime`]
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.`
-        },
-        type: `i`
-      }, {
-        type: `br`
-      }];
+      const children = [
+        `Enabled from `,
+        [`input`, { type: `text`, value: this.esgst[`${ID}_startTime`] }],
+        ` to `,
+        [`input`, { type: `text`, value: this.esgst[`${ID}_endTime`] }],
+        [`i`, { class: `fa fa-question-circle`, title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.` }],
+        [`br`]
+      ];
       if (ID === `customTheme`) {
-        children.push({
-          type: `textarea`
-        });
+        children.push(
+          [`textarea`]
+        );
       } else {
-        children.push({
-          attributes: {
-            class: `form__saving-button esgst-sm-colors-default`
-          },
-          text: `Update`,
-          type: `div`
-        }, {
-            type: `span`
-          });
+        children.push(
+          [`div`, { class: `form__saving-button esgst-sm-colors-default`, id: ID }, `Update`],
+          [`span`]
+        );
       }
-      let container = this.createElements(SMFeatures, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-sm-colors`
-        },
-        type: `div`,
-        children
-      }]),
-        startTime = container.firstElementChild,
-        endTime = startTime.nextElementSibling;
+      let container = this.createElements_v2([
+        [`div`, { class: `esgst-sm-colors` }, children]
+      ]).firstElementChild;
+      let startTime = container.firstElementChild;
+      let endTime = startTime.nextElementSibling;
       this.observeChange(startTime, `${ID}_startTime`);
       this.observeChange(endTime, `${ID}_endTime`);
       if (ID === `customTheme`) {
@@ -4936,39 +4766,31 @@ class Common extends Module {
           this.setTheme();
         });
       }
-    } else {
-      has = false;
+      items.push(container);
     }
     if (Feature.options) {
-      has = true;
       const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
       for (const [index, option] of options.entries()) {
         const currentKey = key.replace(/\*/, index);
         const selectedIndex = this.esgst[`${ID}${currentKey}`];
         const children = [];
         for (const value of option.values) {
-          children.push({
-            text: value,
-            type: `option`
-          });
+          children.push(
+            [`option`, value]
+          );
         }
-        const select = this.createElements(SMFeatures, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-sm-colors`
-          },
-          type: `div`,
-          children: [{
-            text: option.title,
-            type: `node`
-          }, {
-            type: `select`,
-            children
-          }]
-        }]);
+        const select = this.createElements_v2([
+          [`div`, { class: `esgst-sm-colors` }, [
+            option.title,
+            [`select`, children]
+          ]]
+        ]).firstElementChild;
         select.firstElementChild.selectedIndex = selectedIndex;
         this.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, `selectedIndex`);
+        items.push(select);
       }
     }
+    return items;
   }
 
   readHrAudioFile(id, event) {
@@ -5037,32 +4859,17 @@ class Common extends Module {
     this.esgst.settings[sm.categoryKey] = this.esgst[sm.categoryKey];
   }
 
-  addGwcrMenuPanel(context, id, key, background) {
-    let button, colors, i, n, panel;
-    panel = this.createElements(context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-sm-colors`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `form__saving-button esgst-sm-colors-default`
-        },
-        type: `div`,
-        children: [{
-          text: `Add Color Setting`,
-          type: `span`
-        }]
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: `Allows you to set different colors for different ${key} ranges.`
-        },
-        type: `i`
-      }]
-    }]);
-    button = panel.firstElementChild;
-    for (i = 0, n = this.esgst[id].length; i < n; ++i) {
+  addGwcrMenuPanel(id, key, background) {
+    const panel = this.createElements_v2([
+      [`div`, { class: `esgst-sm-colors` }, [
+        [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
+          [`span`, `Add Color Setting`]
+        ]],
+        [`i`, { class: `fa fa-question-circle`, title: `Allows you to set different colors for different ${key} ranges.` }]
+      ]]
+    ]).firstElementChild;
+    const button = panel.firstElementChild;
+    for (let i = 0, n = this.esgst[id].length; i < n; ++i) {
       this.addGwcColorSetting(this.esgst[id][i], id, key, panel, background);
     }
     button.addEventListener(`click`, () => {
@@ -5077,6 +4884,7 @@ class Common extends Module {
       this.esgst[id].push(colors);
       this.addGwcColorSetting(colors, id, key, panel, background);
     });
+    return panel;
   }
 
   addGwcColorSetting(colors, id, key, panel, background) {
@@ -5174,29 +4982,15 @@ class Common extends Module {
     });
   }
 
-  addGcRatingPanel(context) {
-    let panel = this.createElements(context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-sm-colors`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `form__saving-button esgst-sm-colors-default`
-        },
-        type: `div`,
-        children: [{
-          text: `Add Rating Setting`,
-          type: `span`
-        }]
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: `Allows you to set different colors/icons for different rating ranges.`
-        },
-        type: `i`
-      }]
-    }]);
+  addGcRatingPanel() {
+    const panel = this.createElements_v2([
+      [`div`, { class: `esgst-sm-colors` }, [
+        [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
+          [`span`, `Add Rating Setting`]
+        ]],
+        [`i`, { class: `fa fa-question-circle`, title: `Allows you to set different colors/icons for different rating ranges.` }]
+      ]]
+    ]).firstElementChild;
     let button = panel.firstElementChild;
     for (let i = 0, n = this.esgst.gc_r_colors.length; i < n; ++i) {
       this.addGcRatingColorSetting(this.esgst.gc_r_colors[i], panel);
@@ -5212,6 +5006,7 @@ class Common extends Module {
       this.esgst.gc_r_colors.push(colors);
       this.addGcRatingColorSetting(colors, panel);
     });
+    return panel;
   }
 
   addGcRatingColorSetting(colors, panel) {
@@ -5326,30 +5121,16 @@ class Common extends Module {
     });
   }
 
-  addGcMenuPanel(context) {
-    let button, colorSetting, i, n, panel;
-    panel = this.createElements(context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-sm-colors`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `form__saving-button esgst-sm-colors-default`
-        },
-        type: `div`,
-        children: [{
-          text: `Add Custom Genre Setting`,
-          type: `span`
-        }]
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: `Allows you to color genres (colored genres will appear at the beginning of the list).`
-        },
-        type: `i`
-      }]
-    }]);
+  addGcMenuPanel() {
+    let button, colorSetting, i, n;
+    const panel = this.createElements_v2([
+      [`div`, { class: `esgst-sm-colors` }, [
+        [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
+          [`span`, `Add Custom Genre Setting`]
+        ]],
+        [`i`, { class: `fa fa-question-circle`, title: `Allows you to color genres (colored genres will appear at the beginning of the list).` }]
+      ]]
+    ]).firstElementChild;
     button = panel.firstElementChild;
     for (i = 0, n = this.esgst.gc_g_colors.length; i < n; ++i) {
       this.addGcColorSetting(this.esgst.gc_g_colors[i], panel);
@@ -5363,6 +5144,7 @@ class Common extends Module {
       this.esgst.gc_g_colors.push(colorSetting);
       this.addGcColorSetting(colorSetting, panel);
     });
+    return panel;
   }
 
   addGcColorSetting(colorSetting, panel) {
@@ -5440,24 +5222,15 @@ class Common extends Module {
     });
   }
 
-  addGcAltMenuPanel(context) {
-    let altSetting, button, i, n, panel;
-    panel = this.createElements(context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-sm-colors`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `form__saving-button esgst-sm-colors-default`
-        },
-        type: `div`,
-        children: [{
-          text: `Add Alt Account`,
-          type: `span`
-        }]
-      }]
-    }]);
+  addGcAltMenuPanel() {
+    let altSetting, button, i, n;
+    const panel = this.createElements_v2([
+      [`div`, { class: `esgst-sm-colors` }, [
+        [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
+          [`span`, `Add Alt Account`]
+        ]]
+      ]]
+    ]).firstElementChild;
     button = panel.firstElementChild;
     this.createTooltip(this.createElements(panel, `beforeEnd`, [{
       attributes: {
@@ -5490,6 +5263,7 @@ class Common extends Module {
       this.esgst.gc_o_altAccounts.push(altSetting);
       this.addGcAltSetting(altSetting, panel);
     });
+    return panel;
   }
 
   addGcAltSetting(altSetting, panel) {
@@ -14488,8 +14262,8 @@ class Common extends Module {
 
   createFormNotification(context, position, options) {
     return this.createElements_v2(context, position, [
-      [`div`, `notification notification--${options.loading ? `default` : (options.success ? `success` : `warning`)}`, [
-        [`i`, `fa ${options.loading ? `fa-circle-o-notch fa-spin` : (options.success ? `fa-check-circle` : `fa-times-circle`)}`],
+      [`div`, { class: `notification notification--${options.loading ? `default` : (options.success ? `success` : `warning`)}` }, [
+        [`i`, { class: `fa ${options.loading ? `fa-circle-o-notch fa-spin` : (options.success ? `fa-check-circle` : `fa-times-circle`)}` }],
         ` `,
         ...(options.loading ? [
           `Syncing `,
@@ -14519,17 +14293,17 @@ class Common extends Module {
         continue;
       }
       items.push(
-        [`div`, `form__row`, [
-          [`div`, `form__heading`, [
-            [`div`, `form__heading__number`, i++],
-            [`div`, `form__heading__text`, item.name]
+        [`div`, { class: `form__row` }, [
+          [`div`, { class: `form__heading` }, [
+            [`div`, { class: `form__heading__number` }, i++],
+            [`div`, { class: `form__heading__text` }, item.name]
           ]],
-          [`div`, `form__row__indent`, item.content]
+          [`div`, { class: `form__row__indent` }, item.content]
         ]]
       );
     }
     return this.createElements_v2(context, position, [
-      [`div`, `form__rows`, items]
+      [`div`, { class: `form__rows` }, items]
     ]);
   }
 
@@ -14537,13 +14311,13 @@ class Common extends Module {
     const items = [];
     for (const item of options.items) {
       items.push(
-        [`a`, {href: item.url}, item.name],
-        [`i`, `fa fa-angle-right`]
+        [`a`, { href: item.url }, item.name],
+        [`i`, { class: `fa fa-angle-right` }]
       );
     }
     return this.createElements_v2(context, position, [
-      [`div`, `page__heading`, [
-        [`div`, `page__heading__breadcrumbs`, items.slice(0, -1)]
+      [`div`, { class: `page__heading` }, [
+        [`div`, { class: `page__heading__breadcrumbs` }, items.slice(0, -1)]
       ]]
     ]);
   }
@@ -14552,20 +14326,20 @@ class Common extends Module {
     const items = [];
     for (const item of options.items) {
       items.push(
-        [`li`, {class: `sidebar__navigation__item`, id: item.id}, [
+        [`li`, { class: `sidebar__navigation__item`, id: item.id }, [
           [`a`, { class: `sidebar__navigation__item__link`, href: item.url }, [
-            [`div`, `sidebar__navigation__item__name`, item.name],
-            [`div`, `sidebar__navigation__item__underline`],
+            [`div`, { class: `sidebar__navigation__item__name` }, item.name],
+            [`div`, { class: `sidebar__navigation__item__underline` }],
             item.count
-              ? [`div`, `sidebar__navigation__item__count`, item.count]
+              ? [`div`, { class: `sidebar__navigation__item__count` }, item.count]
               : null
           ]]
         ]]
       );
     }
     return this.createElements_v2(context, position, [
-      [`h3`, `sidebar__heading`, options.name],
-      [`ul`, `sidebar__navigation`, items]
+      [`h3`, { class: `sidebar__heading` }, options.name],
+      [`ul`, { class: `sidebar__navigation` }, items]
     ]);
   }
 
@@ -14631,9 +14405,9 @@ class Common extends Module {
       }
       const element = document.createElement(item[0]);
       if (isSet(item[1])) {
-        if (typeof item[1] === `string`) {
-          element.className = item[1];
-        } else {
+        if (Array.isArray(item[1])) {
+          this.buildElements_v2(element, item[1]);
+        } else if (typeof item[1] === `object`) {
           for (const key in item[1]) {
             if (item[1].hasOwnProperty(key)) {
               if (key === `extend`) {
@@ -14645,6 +14419,8 @@ class Common extends Module {
               }
             }
           }
+        } else {
+          element.textContent = item[1];
         }
       }
       if (isSet(item[2])) {
@@ -14773,8 +14549,8 @@ class Common extends Module {
   /**
    * @param SMFeatures
    */
-  updateTheme(SMFeatures) {
-    SMFeatures.firstElementChild.lastElementChild.previousElementSibling.dispatchEvent(new Event(`click`));
+  updateTheme(id) {
+    document.querySelector(`#${id}`).dispatchEvent(new Event(`click`));
   }
 }
 

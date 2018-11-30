@@ -1,28 +1,32 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createHeadingButton = common.createHeadingButton.bind(common)
-;
+  ;
 
 class DiscussionsMainPostPopup extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Hides the main post of a discussion and adds a button (<i class="fa fa-home"></i>) to its main page heading that allows you to open the main post through a popup.</li>
-        <li>This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Hides the main post of a discussion and adds a button (`,
+            [`i`, { class: `fa fa-home` }],
+            `) to its main page heading that allows you to open the main post through a popup.`
+          ]],
+          [`li`, `This feature is useful if you have [id = fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`]
+        ]]
+      ],
       features: {
         mpp_r: {
-          description: `
-          <ul>
-            <li>This option requires [id=ct] enabled to work.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `This option requires[id = ct] enabled to work.`]
+            ]]
+          ],
           name: `Only hide the main post if it has been marked as read.`,
           sg: true
         }
@@ -39,7 +43,7 @@ class DiscussionsMainPostPopup extends Module {
     if (!this.esgst.discussionPath) {
       return;
     }
-    let button = createHeadingButton({id: `mpp`, icons: [`fa-home`], title: `Open the main post`});
+    let button = createHeadingButton({ id: `mpp`, icons: [`fa-home`], title: `Open the main post` });
     let MPPPost = document.createElement(`div`);
     MPPPost.className = `page__outer-wrap`;
     let Sibling;
@@ -73,7 +77,7 @@ class DiscussionsMainPostPopup extends Module {
         MPPPost.classList.remove(`esgst-mpp-visible`);
         MPPPost.classList.add(`esgst-mpp-hidden`);
       }
-      let popup = new Popup({icon: ``, title: ``, popup: MPPPost});
+      let popup = new Popup({ icon: ``, title: ``, popup: MPPPost });
       MPPPost.classList.add(`esgst-mpp-popup`);
       popup.open();
       popup.onClose = () => {

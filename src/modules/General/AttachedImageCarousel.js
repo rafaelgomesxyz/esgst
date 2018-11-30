@@ -1,21 +1,25 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common)
-;
+  ;
 
 class GeneralAttachedImageCarousel extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-image"></i>) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.</li>
-        <li>The carousel can also be opened by clicking on any attached image in the page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-image` }],
+            `) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.`
+          ]],
+          [`li`, `The carousel can also be opened by clicking on any attached image in the page.`]
+        ]]
+      ],
       features: {
         aic_b: {
           name: `Only trigger the carousel when clicking on the button in the main page heading.`,
@@ -36,7 +40,7 @@ class GeneralAttachedImageCarousel extends Module {
     this.esgst.endlessFeatures.push(this.aic_getImages.bind(this));
     this.esgst.documentEvents.keydown.add(this.aic_move.bind(this));
     if (!this.esgst.mainPageHeading) return;
-    this.esgst.aicButton = createHeadingButton({id: `aic`, icons: [`fa-image`], title: `View attached images`});
+    this.esgst.aicButton = createHeadingButton({ id: `aic`, icons: [`fa-image`], title: `View attached images` });
     this.esgst.aicButton.classList.add(`esgst-hidden`);
     this.esgst.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(this, 0, null));
   }

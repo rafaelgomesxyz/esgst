@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -9,18 +9,24 @@ const
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysIsThereAnyDealInfo extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a box to the sidebar of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from <a href="https://isthereanydeal.com">IsThereAnyDeal</a>.</li>
-        <li>Results are cached for 24 hours, so if you access a giveaway for the same game again within that timeframe, the information will not change.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a box to the sidebar of any `,
+            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, `giveaway`],
+            ` page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from `,
+            [`a`, { href: `https://isthereanydeal.com` }, `IsThereAnyDeal`],
+            `.`
+          ]],
+          [`li`, `Results are cached for 24 hours, so if you access a giveaway for the same game again within that timeframe, the information will not change.`]
+        ]]
+      ],
       id: `itadi`,
       load: this.itadi,
       name: `IsThereAnyDeal Info`,

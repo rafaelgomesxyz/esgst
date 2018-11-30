@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -7,7 +7,7 @@ const
   getLocalValue = common.getLocalValue.bind(common),
   round = common.round.bind(common),
   setLocalValue = common.setLocalValue.bind(common)
-;
+  ;
 
 class GeneralLevelProgressVisualizer extends Module {
   constructor() {
@@ -21,12 +21,12 @@ class GeneralLevelProgressVisualizer extends Module {
         barColorSelected: `Bar Color (Account Page Hover)`,
         projectedBarColorSelected: `Projected Bar Color (Account Page Hover)`
       },
-      description: `
-      <ul>
-        <li>Displays a green bar in the account button at the header of any page that represents your level progress.</li>
-        <li>Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Displays a green bar in the account button at the header of any page that represents your level progress.`],
+          [`li`, `Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.`]
+        ]]
+      ],
       id: `lpv`,
       load: this.lpv,
       name: `Level Progress Visualizer`,
@@ -175,7 +175,7 @@ class GeneralLevelProgressVisualizer extends Module {
           `var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) `
         ]
       }]
-    }] ;
+    }];
   }
 
   joinStyles() {
@@ -196,17 +196,17 @@ class GeneralLevelProgressVisualizer extends Module {
               `left bottom`
             ]
           }, {
-            name: `background-repeat`,
-            values: new Array(4).fill(`no-repeat`)
-          }, {
-            name: `background-size`,
-            values: [
-              `auto 50%`,
-              `0`,
-              `auto 50%`,
-              `auto`
-            ]
-          });
+              name: `background-repeat`,
+              values: new Array(4).fill(`no-repeat`)
+            }, {
+              name: `background-size`,
+              values: [
+                `auto 50%`,
+                `0`,
+                `auto 50%`,
+                `auto`
+              ]
+            });
         }
       }
     } else if (this.esgst.pvStyleArray) {

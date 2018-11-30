@@ -2,25 +2,37 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popout from '../../class/Popout';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   capitalizeFirstLetter = common.capitalizeFirstLetter.bind(common),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   saveAndSortContent = common.saveAndSortContent.bind(common)
-;
+  ;
 
 class GiveawaysGiveawaysSorter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaways">giveaways</a>/<a href="https://www.steamgifts.com/entered">entered</a>/<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).</li>
-        <li>There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-sort` }],
+            `) to the main page heading of any `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways` }, `giveaways`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/entered` }, `entered`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/group/SJ7Bu/` }, `group`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `user`],
+            ` page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).`
+          ]],
+          [`li`, `There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.`]
+        ]]
+      ],
       id: `gas`,
       load: this.gas,
       name: `Giveaways Sorter`,
@@ -53,7 +65,7 @@ class GiveawaysGiveawaysSorter extends Module {
     };
 
     let object = {
-      button: createHeadingButton({context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways`})
+      button: createHeadingButton({ context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways` })
     };
     object.button.addEventListener(`click`, this.gas_openPopout.bind(this, object));
   }
@@ -90,12 +102,12 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Points - Ascending`,
         type: `option`
       }, {
-        attributes: {
-          value: `points_desc`
-        },
-        text: `Points - Descending`,
-        type: `option`
-      });
+          attributes: {
+            value: `points_desc`
+          },
+          text: `Points - Descending`,
+          type: `option`
+        });
     }
     if (this.esgst.gc && this.esgst.gc_r && !this.esgst.enteredPath) {
       children.push({
@@ -105,12 +117,12 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Rating - Ascending`,
         type: `option`
       }, {
-        attributes: {
-          value: `rating_desc`
-        },
-        text: `Rating - Descending`,
-        type: `option`
-      });
+          attributes: {
+            value: `rating_desc`
+          },
+          text: `Rating - Descending`,
+          type: `option`
+        });
     }
     children.push({
       attributes: {
@@ -119,12 +131,12 @@ class GiveawaysGiveawaysSorter extends Module {
       text: `End Time - Ascending`,
       type: `option`
     }, {
-      attributes: {
-        value: `endTime_desc`
-      },
-      text: `End Time - Descending`,
-      type: `option`
-    });
+        attributes: {
+          value: `endTime_desc`
+        },
+        text: `End Time - Descending`,
+        type: `option`
+      });
     if (!this.esgst.enteredPath) {
       children.push({
         attributes: {
@@ -133,36 +145,36 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Start Time - Ascending`,
         type: `option`
       }, {
-        attributes: {
-          value: `startTime_desc`
-        },
-        text: `Start Time - Descending`,
-        type: `option`
-      }, {
-        attributes: {
-          value: `creator_asc`
-        },
-        text: `Creator - Ascending`,
-        type: `option`
-      }, {
-        attributes: {
-          value: `creator_desc`
-        },
-        text: `Creator - Descending`,
-        type: `option`
-      }, {
-        attributes: {
-          value: `comments_asc`
-        },
-        text: `Comments - Ascending`,
-        type: `option`
-      }, {
-        attributes: {
-          value: `comments_desc`
-        },
-        text: `Comments - Descending`,
-        type: `option`
-      });
+          attributes: {
+            value: `startTime_desc`
+          },
+          text: `Start Time - Descending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `creator_asc`
+          },
+          text: `Creator - Ascending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `creator_desc`
+          },
+          text: `Creator - Descending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `comments_asc`
+          },
+          text: `Comments - Ascending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `comments_desc`
+          },
+          text: `Comments - Descending`,
+          type: `option`
+        });
     }
     children.push({
       attributes: {
@@ -171,12 +183,12 @@ class GiveawaysGiveawaysSorter extends Module {
       text: `Entries - Ascending`,
       type: `option`
     }, {
-      attributes: {
-        value: `entries_desc`
-      },
-      text: `Entries - Descending`,
-      type: `option`
-    });
+        attributes: {
+          value: `entries_desc`
+        },
+        text: `Entries - Descending`,
+        type: `option`
+      });
     if (this.esgst.gwc) {
       children.push({
         attributes: {
@@ -185,24 +197,24 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Chance - Ascending`,
         type: `option`
       }, {
-        attributes: {
-          value: `chance_desc`
-        },
-        text: `Chance - Descending`,
-        type: `option`
-      }, {
-        attributes: {
-          value: `chancePerPoint_asc`
-        },
-        text: `Chance Per Point - Ascending`,
-        type: `option`
-      }, {
-        attributes: {
-          value: `chancePerPoint_desc`
-        },
-        text: `Chance Per Point - Descending`,
-        type: `option`
-      });
+          attributes: {
+            value: `chance_desc`
+          },
+          text: `Chance - Descending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `chancePerPoint_asc`
+          },
+          text: `Chance Per Point - Ascending`,
+          type: `option`
+        }, {
+          attributes: {
+            value: `chancePerPoint_desc`
+          },
+          text: `Chance Per Point - Descending`,
+          type: `option`
+        });
       if (this.esgst.gwc_a) {
         children.push({
           attributes: {
@@ -211,24 +223,24 @@ class GiveawaysGiveawaysSorter extends Module {
           text: `Projected Chance - Ascending`,
           type: `option`
         }, {
-          attributes: {
-            value: `projectedChance_desc`
-          },
-          text: `Projected Chance - Descending`,
-          type: `option`
-        }, {
-          attributes: {
-            value: `projectedChancePerPoint_asc`
-          },
-          text: `Projected Chance Per Point - Ascending`,
-          type: `option`
-        }, {
-          attributes: {
-            value: `projectedChancePerPoint_desc`
-          },
-          text: `Projected Chance Per Point - Descending`,
-          type: `option`
-        });
+            attributes: {
+              value: `projectedChance_desc`
+            },
+            text: `Projected Chance - Descending`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `projectedChancePerPoint_asc`
+            },
+            text: `Projected Chance Per Point - Ascending`,
+            type: `option`
+          }, {
+            attributes: {
+              value: `projectedChancePerPoint_desc`
+            },
+            text: `Projected Chance Per Point - Descending`,
+            type: `option`
+          });
       }
     }
     if (this.esgst.gwr) {
@@ -239,12 +251,12 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Ratio - Ascending`,
         type: `option`
       }, {
-        attributes: {
-          value: `ratio_desc`
-        },
-        text: `Ratio - Descending`,
-        type: `option`
-      });
+          attributes: {
+            value: `ratio_desc`
+          },
+          text: `Ratio - Descending`,
+          type: `option`
+        });
       if (this.esgst.gwr_a) {
         children.push({
           attributes: {
@@ -253,12 +265,12 @@ class GiveawaysGiveawaysSorter extends Module {
           text: `Projected Ratio - Ascending`,
           type: `option`
         }, {
-          attributes: {
-            value: `projectedRatio_desc`
-          },
-          text: `Projected Ratio - Descending`,
-          type: `option`
-        });
+            attributes: {
+              value: `projectedRatio_desc`
+            },
+            text: `Projected Ratio - Descending`,
+            type: `option`
+          });
       }
     }
     if (this.esgst.gptw) {
@@ -269,12 +281,12 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Points To Win - Ascending`,
         type: `option`
       }, {
-        attributes: {
-          value: `pointsToWin_desc`
-        },
-        text: `Points To Win - Descending`,
-        type: `option`
-      });
+          attributes: {
+            value: `pointsToWin_desc`
+          },
+          text: `Points To Win - Descending`,
+          type: `option`
+        });
     }
     let options = createElements(obj.popout.popout, `beforeEnd`, [{
       type: `select`,

@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Checkbox from '../../class/Checkbox';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 import dateFns_format from 'date-fns/format';
 
 const
@@ -15,18 +15,26 @@ const
   request = common.request.bind(common),
   setSetting = common.setSetting.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayTemplates extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a section 9 to the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.</li>
-        <li>Also adds a button (<i class="fa fa-file"></i>) to the main page heading of the same page that allows you manage all of the templates that have been saved and select the template that you want to use.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a section 9 to the `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
+            ` page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.`
+          ]],
+          [`li`, [
+            `Also adds a button (`,
+            [`i`, { class: `fa fa-file` }],
+            `) to the main page heading of the same page that allows you manage all of the templates that have been saved and select the template that you want to use.`
+          ]]
+        ]]
+      ],
       id: `gts`,
       load: this.gts,
       name: `Giveaway Templates`,
@@ -360,7 +368,7 @@ class GiveawaysGiveawayTemplates extends Module {
   }
 
   async gts_openPopup(gts) {
-    let popup = new Popup({addScrollable: true, icon: `fa-file`, isTemp: true, title: `View/apply templates:`});
+    let popup = new Popup({ addScrollable: true, icon: `fa-file`, isTemp: true, title: `View/apply templates:` });
     createElements(popup.description, `afterBegin`, [{
       attributes: {
         class: `esgst-description`

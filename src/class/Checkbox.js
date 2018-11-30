@@ -11,9 +11,9 @@ export default class Checkbox {
     this.value = defaultValue;
     this.isThreeState = threeState;
     const items = [
-      [`span`, `esgst-checkbox`, [
+      [`span`, {class: `esgst-checkbox`}, [
         [`input`, {class: `esgst-hidden`, type: `checkbox`}],
-        [`i`, `fa fa-square-o`],
+        [`i`, {class: `fa fa-square-o`}],
         [`i`, {class: `fa fa-square`, type: messages.select || ``}],
         [`i`, {class: `fa fa-check-square`, type: messages.unselect || ``}]
       ]]

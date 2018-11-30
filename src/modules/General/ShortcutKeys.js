@@ -4,11 +4,11 @@ class GeneralShortcutKeys extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Allows you to perform many different tasks by pressing certain keys.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Allows you to perform many different tasks by pressing certain keys.`]
+        ]]
+      ],
       features: {
         sk_cp: {
           inputItems: `sk_closePopups`,

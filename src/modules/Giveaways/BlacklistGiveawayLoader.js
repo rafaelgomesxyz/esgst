@@ -1,23 +1,23 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getElements = common.getElements.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysBlacklistGiveawayLoader extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>If you cannot access a giveaway for blacklist reasons (either because you have blacklisted the creator or the creator has blacklisted you), this feature requests the giveaway in anonymous mode (as if you were not logged in) and loads it to you.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `If you cannot access a giveaway for blacklist reasons (either because you have blacklisted the creator or the creator has blacklisted you), this feature requests the giveaway in anonymous mode (as if you were not logged in) and loads it to you.`]
+        ]]
+      ],
       id: `bgl`,
       load: this.bgl,
       name: `Blacklist Giveaway Loader`,
@@ -48,7 +48,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
       text: `Loading giveaway...`,
       type: `span`
     }]);
-    let responseHtml = parseHtml((await request({anon: true, method: `GET`, url: location.pathname})).responseText);
+    let responseHtml = parseHtml((await request({ anon: true, method: `GET`, url: location.pathname })).responseText);
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
       createElements(this.esgst.pageOuterWrap, `inner`, backup);
       createElements(this.esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild, `beforeEnd`, [{

@@ -9,11 +9,11 @@ class GeneralPointsVisualizer extends Module {
         barColorHover: `Bar Color (Hover / Account Page)`,
         barColorSelected: `Bar Color (Account Page Hover)`
       },
-      description: `
-      <ul>
-        <li>Displays a green bar in the account button at the header of any page that represents the amount of points that you have.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Displays a green bar in the account button at the header of any page that represents the amount of points that you have.`]
+        ]]
+      ],
       id: `pv`,
       load: this.pv,
       name: `Points Visualizer`,

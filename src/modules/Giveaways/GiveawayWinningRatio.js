@@ -1,39 +1,43 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayWinningRatio extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an element (<i class="fa fa-pie-chart"></i> [Ratio]:1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.</li>
-        <li>The ratio is calculated by rounding up the result of the following formula: number_of_entries / number_of_copies
-        <li>You can move the element around by dragging and dropping it.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an element (`,
+            [`i`, { class: `fa fa-pie-chart` }],
+            ` [Ratio]: 1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.`
+          ]],
+          [`li`, `The ratio is calculated by rounding up the result of the following formula: number_of_entries / number_of_copies`],
+          [`li`, `You can move the element around by dragging and dropping it.`]
+        ]]
+      ],
       features: {
         gwr_e: {
-          description: `
-          <ul>
-            <li>The formula changes to: (number_of_entries + 1) / number_of_copies
-            <li>For example, if a giveaway has 2 copies and 6 entries, the current ratio is 3:1, but after you enter it, it will have 7 entries, so the ratio will increase to 4:1.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `The formula changes to: (number_of_entries + 1) / number_of_copies`],
+              [`li`, `For example, if a giveaway has 2 copies and 6 entries, the current ratio is 3:1, but after you enter it, it will have 7 entries, so the ratio will increase to 4:1.`]
+            ]]
+          ],
           name: `Show what the ratio will be when you enter the giveaway instead of the current ratio.`,
           sg: true
         },
         gwr_a: {
-          description: `
-          <ul>
-            <li>Uses an advanced formula ((number_of_entries / time_open_in_milliseconds * duration_in_milliseconds) / number_of_copies) to calculate the ratio based on how much time the giveaway has been open and the duration of the giveaway. This gives you an estimate of what the ratio will be when the giveaway ends.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Uses an advanced formula ((number_of_entries / time_open_in_milliseconds * duration_in_milliseconds) / number_of_copies) to calculate the ratio based on how much time the giveaway has been open and the duration of the giveaway. This gives you an estimate of what the ratio will be when the giveaway ends.`]
+            ]]
+          ],
           features: {
             gwr_a_b: {
               name: `Show the basic ratio along with the advanced one (the advanced ratio will appear in a parenthesis, like "[Basic]:1 ([Advanced]:1)").`,
@@ -45,13 +49,13 @@ class GiveawaysGiveawayWinningRatio extends Module {
         },
         gwr_h: {
           conflicts: [
-            {id: `gwc_h`, name: `Giveaway Winning Chance > Highlight the giveaway.`}
+            { id: `gwc_h`, name: `Giveaway Winning Chance > Highlight the giveaway.` }
           ],
-          description: `
-          <ul>
-            <li>Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.`]
+            ]]
+          ],
           inputItems: [
             {
               id: `gwr_h_width`,
@@ -155,16 +159,16 @@ class GiveawaysGiveawayWinningRatio extends Module {
           text: `${basicRatio}:1`,
           type: `span`
         }, {
-          text: ` (`,
-          type: `node`
-        }, {
-          attributes: advancedAttributes,
-          text: `${advancedRatio}:1`,
-          type: `span`
-        }, {
-          text: `)`,
-          type: `node`
-        });
+            text: ` (`,
+            type: `node`
+          }, {
+            attributes: advancedAttributes,
+            text: `${advancedRatio}:1`,
+            type: `span`
+          }, {
+            text: `)`,
+            type: `node`
+          });
       } else {
         children.push({
           attributes: advancedAttributes,

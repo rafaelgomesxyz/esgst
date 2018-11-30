@@ -1,21 +1,29 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GiveawaysSteamActivationLinks extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds 2 optional icons (<i class="fa fa-steam"></i> for the Steam client and <i class="fa fa-globe"></i> for the browser) next to each key in the "Key" column of your <a href="https://www.steamgifts.com/giveaways/won">won</a> page that allow you to quickly activate a won game on Steam, either through the client or the browser.</li>
-        <li>When you click on the icon, the key is automatically copied to the clipboard.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds 2 optional icons (`,
+            [`i`, { class: `fa fa-steam` }],
+            ` for the Steam client and `,
+            [`i`, { class: `fa fa-globe` }],
+            ` for the browser) next to each key in the "Key" column of your `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
+            ` page that allow you to quickly activate a won game on Steam, either through the client or the browser.`
+          ]],
+          [`li`, `When you click on the icon, the key is automatically copied to the clipboard.`]
+        ]]
+      ],
       id: `sal`,
       load: this.sal,
       name: `Steam Activation Links`,

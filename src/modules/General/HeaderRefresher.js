@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -12,20 +12,20 @@ const
   setLocalValue = common.setLocalValue.bind(common),
   _USER_INFO = common._USER_INFO,
   browser = common.browser
-;
+  ;
 
 class GeneralHeaderRefresher extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.</li>
-        <li>There are also options to notify you when there are new wishlist giveaways open, when the key for a game you won is delivered, when you reach 400P and when you receive a new message.</li>
-        <li>You can upload a custom sound for the browser notifications.</li>
-        <li>If you enable the options to show browser notifications, you will be asked to give the permission to ESGST by your browser.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.`],
+          [`li`, `There are also options to notify you when there are new wishlist giveaways open, when the key for a game you won is delivered, when you reach 400P and when you receive a new message.`],
+          [`li`, `You can upload a custom sound for the browser notifications.`],
+          [`li`, `If you enable the options to show browser notifications, you will be asked to give the permission to ESGST by your browser.`]
+        ]]
+      ],
       features: {
         hr_w: {
           features: {
@@ -90,11 +90,11 @@ class GeneralHeaderRefresher extends Module {
           st: true
         },
         hr_c: {
-          description: `
-          <ul>
-            <li>With this option disabled, notifications will automatically close after a few seconds.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option disabled, notifications will automatically close after a few seconds.`]
+            ]]
+          ],
           name: `Only close notifications manually.`,
           sg: true,
           st: true
@@ -142,11 +142,11 @@ class GeneralHeaderRefresher extends Module {
           st: true
         },
         hr_a: {
-          description: `
-          <ul>
-            <li>With this option disabled, clicking on a notification will always open a new tab.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option disabled, clicking on a notification will always open a new tab.`]
+            ]]
+          ],
           extensionOnly: true,
           features: {
             hr_a_r: {

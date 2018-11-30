@@ -1,23 +1,29 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class UsersInboxWinnerHighlighter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an icon (<i class="fa fa-trophy"></i>) next to the username of a giveaway comment made by the giveaway's winner(s) (in the <a href="https://www.steamgifts.com/messages">inbox</a> page).</li>
-        <li>A winner is only highlighted if you sent the gift to them after this feature was enabled.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an icon (`,
+            [`i`, { class: `fa fa-trophy` }],
+            `) next to the username of a giveaway comment made by the giveaway's winner(s) (in the `,
+            [`a`, { href: `https://www.steamgifts.com/messages` }, `inbox`],
+            ` page).`
+          ]],
+          [`li`, `A winner is only highlighted if you sent the gift to them after this feature was enabled.`]
+        ]]
+      ],
       id: `iwh`,
       load: this.iwh,
       name: `Inbox Winner Highlighter`,

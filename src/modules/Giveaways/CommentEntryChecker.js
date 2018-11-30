@@ -1,25 +1,35 @@
 import Module from '../../class/Module';
-import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
+import Table from '../../class/Table';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   sortArray = utils.sortArray.bind(utils),
   createHeadingButton = common.createHeadingButton.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysCommentEntryChecker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-ticket"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any <a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.</li>
-        <li>If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-comments` }],
+            ` `,
+            [`i`, { class: `fa fa-ticket` }],
+            ` `,
+            [`i`, { class: `fa fa-question-circle` }],
+            ` ) to the main page heading of any `,
+            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, `giveaway`],
+            ` page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.`
+          ]],
+          [`li`, `If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`]
+        ]]
+      ],
       id: `cec`,
       load: this.cec,
       name: `Comment/Entry Checker`,
@@ -35,17 +45,19 @@ class GiveawaysCommentEntryChecker extends Module {
     };
 
     if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
-    
+
     common.createElements_v2(this.esgst.sidebarGroups[0].navigation, `beforeEnd`, [
-      [`a`, {class: `sidebar__navigation__item__link`, href: `entries?esgst=cec`}, [
-        [`i`, `fa fa-caret-right`],
-        [`div`, `sidebar__navigation__item__name`, `Comments vs Entries`],
-        [`div`, `sidebar__navigation__item__underline`]
+      [`li`, { class: `sidebar__navigation__item`, id: `cec` }, [
+        [`a`, { class: `sidebar__navigation__item__link`, href: `${this.esgst.path.replace(/\/entries/, ``)}/entries?esgst=cec` }, [
+          [`div`, { class: `sidebar__navigation__item__name` }, `Comments vs Entries`],
+          [`div`, { class: `sidebar__navigation__item__underline` }]
+        ]]
       ]]
     ]);
   }
 
-  async cec_openPopup(obj) {
+  async cec_openPopup() {
+    common.setSidebarActive(`cec`);
     const context = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
     common.createPageHeading(context, `beforeEnd`, {
@@ -58,11 +70,13 @@ class GiveawaysCommentEntryChecker extends Module {
         }
       ]
     });
+    const obj = { context };
+    obj.progress = common.createElements_v2(context, `beforeEnd`, [[`div`]]);
+    this.cec_start(obj);
   }
 
   async cec_start(obj) {
     obj.isCanceled = false;
-    obj.button.classList.add(`esgst-busy`);
 
     // get comments
     let comments = [];
@@ -72,8 +86,8 @@ class GiveawaysCommentEntryChecker extends Module {
       let pagination = null;
       let url = urls[i];
       do {
-        obj.popup.setProgress(`Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...</span>`);
-        let response = await request({method: `GET`, queue: true, url: `${url}${nextPage}`});
+        obj.progress.innerHTML = `Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...`;
+        let response = await request({ method: `GET`, queue: true, url: `${url}${nextPage}` });
         let responseHtml = parseHtml(response.responseText);
         let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
         for (let j = elements.length - 1; j > -1; j--) {
@@ -103,7 +117,7 @@ class GiveawaysCommentEntryChecker extends Module {
     let pagination = null;
     let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
     do {
-      obj.popup.setProgress(`Retrieving entries (page ${nextPage})...`);
+      obj.progress.innerHTML = `Retrieving entries (page ${nextPage})...`;
       let responseHtml = parseHtml((await request({
         method: `GET`,
         queue: true,
@@ -119,106 +133,104 @@ class GiveawaysCommentEntryChecker extends Module {
 
     if (obj.isCanceled) return;
 
-    obj.popup.removeButton(0);
-    obj.button.classList.remove(`esgst-busy`);
-    obj.popup.clearProgress();
+    obj.progress.innerHTML = ``;
 
     // calculate data
     comments = sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
     entries = sortArray(Array.from(/** @type {ArrayLike} */ new Set(entries)));
-    let both = [];
-    let commented = [];
+    let both = 0;
+    let commented = 0;
+    let entered = 0;
+    const rows = [];
     for (const user of comments) {
       if (entries.indexOf(user) > -1) {
         // user commented and entered
-        both.push({
-          attributes: {
-            href: `/user/${user}`
-          },
-          text: user,
-          type: `a`
-        }, {
-          text: `, `,
-          type: `node`
-        });
+        rows.push(
+          [
+            {
+              alignment: `left`, size: `fill`, value: [
+                {
+                  attributes: {
+                    class: `table__column__heading`,
+                    href: `/user/${user}`
+                  },
+                  text: user,
+                  type: `a`
+                }
+              ]
+            },
+            `Yes`,
+            `-`,
+            `-`
+          ]
+        );
+        both += 1;
       } else {
         // user commented but did not enter
-        commented.push({
-          attributes: {
-            href: `/user/${user}`
-          },
-          text: user,
-          type: `a`
-        }, {
-          text: `, `,
-          type: `node`
-        });
+        rows.push(
+          [
+            {
+              alignment: `left`, size: `fill`, value: [
+                {
+                  attributes: {
+                    class: `table__column__heading`,
+                    href: `/user/${user}`
+                  },
+                  text: user,
+                  type: `a`
+                }
+              ]
+            },
+            `-`,
+            `Yes`,
+            `-`
+          ]
+        );
+        commented += 1;
       }
     }
-    let entered = [];
     let total = comments.length;
     for (const user of entries) {
       if (comments.indexOf(user) < 0) {
-        // user entered but did not comment
-        entered.push({
-          attributes: {
-            href: `/user/${user}`
-          },
-          text: user,
-          type: `a`
-        }, {
-          text: `, `,
-          type: `node`
-        });
+        // user entered but did not comment        
+        rows.push(
+          [
+            {
+              alignment: `left`, size: `fill`, value: [
+                {
+                  attributes: {
+                    class: `table__column__heading`,
+                    href: `/user/${user}`
+                  },
+                  text: user,
+                  type: `a`
+                }
+              ]
+            },
+            `-`,
+            `-`,
+            `Yes`
+          ]
+        );
+        entered += 1;
         total += 1;
       }
     }
-    both.pop();
-    commented.pop();
-    entered.pop();
-    const items = [];
-    if (both.length > 0) {
-      items.push({
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: ` ${both.length} user${both.length > 1 ? `s` : ``} commented and entered (${Math.round(both.length / total * 10000) / 100}%): `,
-          type: `span`
-        }, ...both]
-      });
-    }
-    if (commented.length > 0) {
-      items.push({
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: `${commented.length} user${commented.length > 1 ? `s` : ``} commented but did not enter (${Math.round(commented.length / total * 10000) / 100}%): `,
-          type: `span`
-        }, ...commented]
-      });
-    }
-    if (entered.length > 0) {
-      items.push({
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: `${entered.length} user${entered.length > 1 ? `s` : ``} entered but did not comment (${Math.round(entered.length / total * 10000) / 100}%): `,
-          type: `span`
-        }, ...entered]
-      });
-    }
-    obj.popup.setScrollable(items);
+    const table = new Table([
+      [
+        { alignment: `left`, size: `fill`, value: `User` },
+        `Commented and Entered (${both} - ${Math.round(both / total * 10000) / 100}%)`,
+        `Commented but did not Enter (${commented} - ${Math.round(commented / total * 10000) / 100}%)`,
+        `Entered but did not Comment (${entered} - ${Math.round(entered / total * 10000) / 100}%)`
+      ],
+      ...rows
+    ]);
+    obj.context.appendChild(table.table);
+    await common.endless_load(obj.context);
   }
 
   cec_stop(obj) {
-    obj.button.classList.remove(`esgst-busy`);
-    obj.popup.clearProgress();
+    obj.progress.innerHTML = ``
     obj.isCanceled = true;
   }
 }

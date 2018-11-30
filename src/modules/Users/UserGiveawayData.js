@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
 import Table from '../../class/Table';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 import dateFns_format from 'date-fns/format';
 
 const
@@ -19,22 +19,28 @@ const
   saveUser = common.saveUser.bind(common),
   setLocalValue = common.setLocalValue.bind(common),
   setSetting = common.setSetting.bind(common)
-;
+  ;
 
 class UsersUserGiveawayData extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds 2 identical buttons (<i class="fa fa-bar-chart"></i>) to the "Gifts Won" and "Gifts Sent" rows of a user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allow you to gather data about their giveaways:</li>
-        <ul>
-          <li>The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games (DLCs cannot be counted, but packages will be listed with playtime > 0 and achievements > 0 if one or more of the games in the package have playtime/achievements).</li>
-          <li>The sent data contains a table with the number and percentage of sent giveaways per type/level and a list with the games that the user has most given away.</li>
-        </ul>
-        <li>Results are cached forever, so every time you check the same user again the feature will only retrieve the giveaways that they have created/won since the last check, unless you check them with the option to clear the cache enabled, in which case all of their giveaways will be retrieved again as if they were being checked for the first time.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds 2 identical buttons (`,
+            [`i`, { class: `fa fa-bar-chart` }],
+            `) to the "Gifts Won" and "Gifts Sent" rows of a user's `,
+            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ` page that allow you to gather data about their giveaways:`
+          ]],
+          [`ul`, [
+            [`li`, `The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games (DLCs cannot be counted, but packages will be listed with playtime > 0 and achievements > 0 if one or more of the games in the package have playtime/achievements).`],
+            [`li`, `The sent data contains a table with the number and percentage of sent giveaways per type/level and a list with the games that the user has most given away.`]
+          ]],
+          [`li`, `Results are cached forever, so every time you check the same user again the feature will only retrieve the giveaways that they have created/won since the last check, unless you check them with the option to clear the cache enabled, in which case all of their giveaways will be retrieved again as if they were being checked for the first time.`]
+        ]]
+      ],
       features: {
         ugd_s: {
           name: `Display playtime/achievement stats in the user's profile page.`,

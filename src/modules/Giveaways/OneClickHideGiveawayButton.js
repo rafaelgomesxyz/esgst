@@ -1,28 +1,32 @@
 import Module from '../../class/Module';
 import Button from '../../class/Button';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   request = common.request.bind(common),
   updateHiddenGames = common.updateHiddenGames.bind(common)
-;
+  ;
 
 class GiveawaysOneClickHideGiveawayButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>When you click on the icon <i class="fa fa-eye-slash"></i> next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `When you click on the icon `,
+            [`i`, { class: `fa fa-eye-slash` }],
+            `  next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.`
+          ]],
+        ]]
+      ],
       features: {
         ochgb_f: {
-          description: `
-          <ul>
-            <li>With this option enabled, when you hide a game, instead of all of the giveaways for the game being removed from the page, they are simply faded out.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, when you hide a game, instead of all of the giveaways for the game being removed from the page, they are simply faded out.`]
+            ]]
+          ],
           name: `Fade hidden giveaways instead of removing them.`,
           sg: true
         }

@@ -1,19 +1,19 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   getValue = common.getValue.bind(common)
-;
+  ;
 
 class GroupsGroupHighlighter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a green background to a group that you are a member of (in any page).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Adds a green background to a group that you are a member of (in any page).`]
+        ]]
+      ],
       id: `gh`,
       load: this.gh,
       name: `Group Highlighter`,

@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -7,18 +7,22 @@ const
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GamesEnteredGameHighlighter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an icon (<i class="fa fa-star"></i>) next to a game's name (in any page) to indicate that you have entered giveaways for the game in the past. Clicking on the icon unhighlights the game.</li>
-        <li>A game is only highlighted if you entered a giveaway for it after this feature was enabled.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an icon (`,
+            [`i`, { class: `fa fa-star` }],
+            `) next to a game's name (in any page) to indicate that you have entered giveaways for the game in the past. Clicking on the icon unhighlights the game.`
+          ]],
+          [`li`, `A game is only highlighted if you entered a giveaway for it after this feature was enabled.`]
+        ]]
+      ],
       id: `egh`,
       load: this.egh,
       name: `Entered Game Highlighter`,

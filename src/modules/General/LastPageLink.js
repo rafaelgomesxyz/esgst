@@ -1,19 +1,19 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common)
-;
+  ;
 
 class GeneralLastPageLink extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a "Last Page" link to the pagination navigation of some pages that do not have it. For example: discussion pages with 100+ pages, user pages, group pages with 100+ pages, etc...</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Adds a "Last Page" link to the pagination navigation of some pages that do not have it. For example: discussion pages with 100+ pages, user pages, group pages with 100+ pages, etc...`]
+        ]]
+      ],
       id: `lpl`,
       load: this.lpl,
       name: `Last Page Link`,

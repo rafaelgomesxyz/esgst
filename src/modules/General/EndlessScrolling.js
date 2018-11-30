@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
 
 const
@@ -13,29 +13,48 @@ const
   request = common.request.bind(common),
   reverseComments = common.reverseComments.bind(common),
   setSetting = common.setSetting.bind(common)
-;
+  ;
 
 class GeneralEndlessScrolling extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.</li>
-        <li>Adds multiple buttons to the main page heading of the page:</li>
-        <ul>
-          <li><i class="fa fa-play"></i> if the endless scrolling is paused and <i class="fa fa-pause"></i> if it is not, which allows you to pause/resume the endless scrolling.</li>
-          <li><i class="fa fa-step-forward"></i>, which allows you to load the next page without having to scroll down.</li>
-          <li><i class="fa fa-fast-forward"></i>, which allows you continuously load the next pages until either the last page is reached or you pause the endless scrolling.</li>
-          <li><i class="fa fa-refresh"></i> <i class="fa fa-map-marker"></i>, which allows you to refresh the page currently visible in the window.</li>
-          <li><i class="fa fa-refresh"></i>, which allows you to refresh all of the pages that have been loaded.</li>
-        </ul>
-        <li>You can choose whether or not to show page divisors (page headings separating each loaded page).</li>
-        <li>As you scroll through the page, the pagination navigation of the page changes according to the page currently visible in the window.</li>
-        <li>If you use the pagination navigation of the page to try to go to a page that has been loaded, it scrolls to the page instead of opening it.</li>
-        <li>There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.`],
+          [`li`, `Adds multiple buttons to the main page heading of the page:`],
+          [`ul`, [
+            [`li`, [
+              [`i`, { class: `fa fa-play` }],
+              ` if the endless scrolling is paused and `,
+              [`i`, { class: `fa fa-pause` }],
+              ` if it is not, which allows you to pause/resume the endless scrolling.`
+            ]],
+            [`li`, [
+              [`i`, { class: `fa fa-step-forward` }],
+              `, which allows you to load the next page without having to scroll down.`
+            ]],
+            [`li`, [
+              [`i`, { class: `fa fa-fast-forward` }],
+              `, which allows you continuously load the next pages until either the last page is reached or you pause the endless scrolling.`
+            ]],
+            [`li`, [
+              [`i`, { class: `fa fa-refresh` }],
+              ` `,
+              [`i`, { class: `fa fa-map-marker` }],
+              `, which allows you to refresh the page currently visible in the window.`
+            ]],
+            [`li`, [
+              [`i`, { class: `fa fa-refresh` }],
+              `, which allows you to refresh all of the pages that have been loaded.`
+            ]]
+          ]],
+          [`li`, `You can choose whether or not to show page divisors (page headings separating each loaded page).`],
+          [`li`, `As you scroll through the page, the pagination navigation of the page changes according to the page currently visible in the window.`],
+          [`li`, `If you use the pagination navigation of the page to try to go to a page that has been loaded, it scrolls to the page instead of opening it.`],
+          [`li`, `There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.`]
+        ]]
+      ],
       features: {
         es_ch: {
           name: `Enable for Comment History.`,
@@ -81,12 +100,12 @@ class GeneralEndlessScrolling extends Module {
           sg: true
         },
         es_r: {
-          description: `
-          <ul>
-            <li>Loads the pages of a discussion in descending order.</li>
-            <li>Loads the last page instead of the first one when visiting a discussion from the main/inbox page.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Loads the pages of a discussion in descending order.`],
+              [`li`, `Loads the last page instead of the first one when visiting a discussion from the main/inbox page.`]
+            ]]
+          ],
           name: `Enable reverse scrolling.`,
           sg: true
         },
@@ -95,11 +114,11 @@ class GeneralEndlessScrolling extends Module {
           sg: true
         },
         es_pd: {
-          description: `
-          <ul>
-            <li>With this option enabled, each loaded page is separated by a page heading, which makes it very clear where a page ends and another begins. With it disabled, there is no such distinction, so it looks like the entire page is a single page, giving a true endless feeling.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, each loaded page is separated by a page heading, which makes it very clear where a page ends and another begins. With it disabled, there is no such distinction, so it looks like the entire page is a single page, giving a true endless feeling.`]
+            ]]
+          ],
           name: `Show page divisors.`,
           sg: true,
           st: true
@@ -646,7 +665,7 @@ class GeneralEndlessScrolling extends Module {
       },
       type: `i`
     }]);
-    let response = await request({method: `GET`, url: `${this.esgst.searchUrl}${es.pageIndex}`});
+    let response = await request({ method: `GET`, url: `${this.esgst.searchUrl}${es.pageIndex}` });
     // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, false, null, response);
     if (this.esgst.giveawaysPath && this.esgst.es_rd) {
@@ -685,14 +704,14 @@ class GeneralEndlessScrolling extends Module {
       type: `i`
     }]);
     let page = es.reverseScrolling ? es.pageBase - 1 : es.pageBase + 1,
-      response = await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`});
+      response = await request({ method: `GET`, url: `${this.esgst.searchUrl}${page}` });
     // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, page, null, response);
     const promises = [];
     for (let i = 1, n = es.paginations.length; i < n; ++i) {
       page = es.reverseScrolling ? es.pageBase - (i + 1) : es.pageBase + (i + 1);
       // noinspection JSIgnoredPromiseFromCall
-      promises.push(this.es_getNext(es, true, page, null, await request({method: `GET`, url: `${this.esgst.searchUrl}${page}`})));
+      promises.push(this.es_getNext(es, true, page, null, await request({ method: `GET`, url: `${this.esgst.searchUrl}${page}` })));
     }
     if (!this.esgst.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
@@ -787,7 +806,7 @@ class GeneralEndlessScrolling extends Module {
           Data += `${Values[I].getAttribute(`name`)}=${Values[I].value}${I < (N - 1) ? `&` : ``}`;
         }
         Loading.classList.toggle(`is-hidden`);
-        let responseJson = JSON.parse((await request({data: Data, method: `POST`, url: `/ajax.php`})).responseText);
+        let responseJson = JSON.parse((await request({ data: Data, method: `POST`, url: `/ajax.php` })).responseText);
         if (responseJson.type === `success`) {
           Context.classList.add(`is-faded`);
           Complete.classList.toggle(`is-hidden`);

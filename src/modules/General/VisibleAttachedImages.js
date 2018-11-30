@@ -5,13 +5,13 @@ class GeneralVisibleAttachedImages extends Module {
     super();
     this.info = {
       conflicts: [
-        {id: `ail`, name: `Attached Image Loader`}
+        { id: `ail`, name: `Attached Image Loader` }
       ],
-      description: `
-      <ul>
-        <li>Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.`]
+        ]]
+      ],
       features: {
         vai_gifv: {
           name: `Rename .gifv images to .gif so that they are properly attached.`,

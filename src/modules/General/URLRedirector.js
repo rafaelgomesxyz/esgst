@@ -4,11 +4,11 @@ class GeneralURLRedirector extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".`]
+        ]]
+      ],
       id: `urlr`,
       name: `URL Redirector`,
       sg: true,

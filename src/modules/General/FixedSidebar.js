@@ -4,11 +4,11 @@ class GeneralFixedSidebar extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Keeps the sidebar of any page at the left side of the window while you scroll down the page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Keeps the sidebar of any page at the left side of the window while you scroll down the page.`]
+        ]]
+      ],
       id: `fs`,
       load: this.fs,
       name: `Fixed Sidebar`,
