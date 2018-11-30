@@ -33,6 +33,7 @@ import GiveawaysGiveawaysSorter from './Giveaways/GiveawaysSorter';
 import GiveawaysGiveawayBookmarks from './Giveaways/GiveawayBookmarks';
 import GamesGameCategories from './Games/GameCategories';
 import GiveawaysGiveawayCopyHighlighter from './Giveaways/GiveawayCopyHighlighter';
+import GiveawaysCustomGiveawayBackground from './Giveaways/CustomGiveawayBackground';
 import GeneralGiveawayDiscussionTicketTradeTracker from './General/GiveawayDiscussionTicketTradeTracker';
 import GiveawaysGiveawayExtractor from './Giveaways/GiveawayExtractor';
 import GiveawaysGiveawayEncrypterDecrypter from './Giveaways/GiveawayEncrypterDecrypter';
@@ -182,6 +183,7 @@ let
   giveawaysGiveawayBookmarks = new GiveawaysGiveawayBookmarks,
   gamesGameCategories = new GamesGameCategories,
   giveawaysGiveawayCopyHighlighter = new GiveawaysGiveawayCopyHighlighter,
+  giveawaysCustomGiveawayBackground = new GiveawaysCustomGiveawayBackground,
   generalGiveawayDiscussionTicketTradeTracker = new GeneralGiveawayDiscussionTicketTradeTracker,
   giveawaysGiveawayExtractor = new GiveawaysGiveawayExtractor,
   giveawaysGiveawayEncrypterDecrypter = new GiveawaysGiveawayEncrypterDecrypter,
@@ -333,6 +335,7 @@ export default {
   giveawaysGiveawayBookmarks,
   gamesGameCategories,
   giveawaysGiveawayCopyHighlighter,
+  giveawaysCustomGiveawayBackground,
   generalGiveawayDiscussionTicketTradeTracker,
   giveawaysGiveawayExtractor,
   giveawaysGiveawayEncrypterDecrypter,
