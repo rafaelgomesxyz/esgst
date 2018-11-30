@@ -50,7 +50,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
           },
           type: `i`
         }, {
-          text: `${Array.isArray(giveaway.winners) ? giveaway.winners.length : giveaway.winners} winners`,
+          text: `${giveaway.winners.length || giveaway.numWinners} winners`,
           type: `span`
         }]
       }]);
