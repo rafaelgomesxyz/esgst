@@ -168,7 +168,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
+          createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
             attributes: {
               class: `table__column--width-small text-center`
             },
@@ -194,7 +194,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         this.cewgd_addDetails(giveaway, currentGiveaway);
         cewgd.count += 1;
       } else {
-        createElements(giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
+        createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
           attributes: {
             class: `table__column--width-small text-center`
           },
