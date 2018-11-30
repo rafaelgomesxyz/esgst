@@ -257,6 +257,7 @@ class GeneralLevelProgressVisualizer extends Module {
           for (const code of items[id]) {
             const giveaway = this.esgst.giveaways[code];
             if (!giveaway) {
+              console.log(`Could not find giveaway ${code}...`);
               continue;
             }
             value = giveaway.points;

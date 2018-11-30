@@ -409,18 +409,18 @@ class UsersUserGiveawayData extends Module {
       const endTime = giveaway.endTime;
 
       // giveaway has not ended yet, so cannot store it
-      if (endTime >= currentTime) {
+      if (endTime >= currentTime && (obj.user.username !== this.esgst.username || obj.key !== `sent`)) {
         continue;
       }
 
-      if (!obj.timestamp) {
-        obj.timestamp = endTime;
-      }
-
       // giveaway has already been stored previously
-      if (endTime <= obj.userGiveaways[`${obj.key}Timestamp`]) {
+      if (endTime < obj.userGiveaways[`${obj.key}Timestamp`]) {
         found = true;
         break;
+      }
+
+      if (!obj.timestamp && endTime < currentTime) {
+        obj.timestamp = endTime;
       }
 
       const id = giveaway.gameSteamId;
@@ -434,23 +434,21 @@ class UsersUserGiveawayData extends Module {
         games[id] = [];
       }
       if (code) {
-        games[id].push(code);
+        if (games[id].indexOf(code) < 0) {
+          games[id].push(code);
+        }
         const savedGiveaway = this.esgst.giveaways[code];
         if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
-          console.log(`ESGST Log: UGD 0`);
           obj.giveaways[code] = giveaway;
           if (obj.key === `sent`) {
-            console.log(`ESGST Log: UGD 1`);
             giveaway.winners = [];
-            if (giveawayRaw.winners > 3) {
-              console.log(`ESGST Log: UGD 2`);
+            if ((giveawayRaw.winners.length || giveawayRaw.numWinners) > 3) {
               obj.requests.push({
                 giveaway: giveaway,
                 request: this.ugd_requestGiveaway,
                 url: `/giveaway/${code}/_/winners/search?page=`
               });
             } else {
-              console.log(`ESGST Log: UGD 3`);
               for (const key in giveawayRaw.winnerColumns) {
                 if (giveawayRaw.winnerColumns.hasOwnProperty(key)) {
                   const column = giveawayRaw.winnerColumns[key];
@@ -1046,7 +1044,6 @@ class UsersUserGiveawayData extends Module {
   }
 
   async ugd_requestGiveaway(obj, details, response, responseHtml) {
-    console.log(`ESGST Log: UGD 4`);
     const msg = `Retrieving giveaway winners (${details.giveaway.gameName})...`;
     if (obj.popup) {
       obj.popup.setProgress(msg);
@@ -1057,7 +1054,6 @@ class UsersUserGiveawayData extends Module {
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
       return true;
     }
-    console.log(`ESGST Log: UGD 5`);
 
     const elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
     const n = elements.length;

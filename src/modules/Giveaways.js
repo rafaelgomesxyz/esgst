@@ -497,6 +497,7 @@ class Giveaways extends Module {
      * @property {object} winnerColumns.noWinners
      */
     giveaway.winnerColumns = {};
+    giveaway.numWinners = 0;
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
       while (column && column !== giveaway.startTimeColumn) {
@@ -514,6 +515,7 @@ class Giveaways extends Module {
           continue;
         }
         const winners = column.textContent.trim().split(/,\s/).filter(x => x);
+        giveaway.numWinners += winners.length;
         if (key === `received`) {
           giveaway.winners = winners.map(x => x.toLowerCase());
         }
@@ -522,8 +524,8 @@ class Giveaways extends Module {
         column = column.nextElementSibling;
       }
     }
-    if (!giveaway.winners || !giveaway.winners.length) {
-      giveaway.winners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0, giveaway.copies);
+    if (!giveaway.numWinners) {
+      giveaway.numWinners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0,  giveaway.copies);
     }
     if (giveaway.endTimeColumn) {
       giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
@@ -567,7 +569,7 @@ class Giveaways extends Module {
         startTime: giveaway.startTime,
         started: giveaway.started,
         creator: giveaway.creator,
-        winners: giveaway.winners,
+        winners: giveaway.numWinners,
         entries: giveaway.entries,
         comments: giveaway.comments,
         level: giveaway.level,
