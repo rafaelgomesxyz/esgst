@@ -321,7 +321,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         type: `div`
       });
     }
-    typeColumn = createElements(giveaway.panel || giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, items2);
+    typeColumn = createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, items2);
     if (this.esgst.createdPath) {
       let n, winner, winnersColumn;
       winnersColumn = typeColumn.nextElementSibling.nextElementSibling;
