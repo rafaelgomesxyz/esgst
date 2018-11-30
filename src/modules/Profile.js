@@ -33,7 +33,7 @@ class Profile extends Module {
       } else {
         profile.id = ``;
       }
-      profile.username = profile.heading.textContent.replace(/\s[\s\S]*/, ``);
+      profile.username = profile.heading.querySelector(`.featured__heading__medium`).textContent.replace(/\s[\s\S]*/, ``);
       profile.steamButtonContainer = context.getElementsByClassName(`sidebar__shortcut-outer-wrap`)[0];
       profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
       profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
