@@ -97,7 +97,7 @@ class GiveawaysGiveawayWinningChance extends Module {
         } else {
           giveaway.chance = 100;
           giveaway.projectedChance = 100;
-          giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
+          giveaway.chancePerPoint = giveaway.chance / Math.max(1, giveaway.points);
           giveaway.projectedChancePerPoint = giveaway.chancePerPoint;
         }
       }
@@ -107,18 +107,18 @@ class GiveawaysGiveawayWinningChance extends Module {
   gwc_addChance(giveaway) {
     let advancedChance = 0, advancedColor, basicChance, basicColor, colors, entries, i;
     entries = giveaway.entered || giveaway.ended || giveaway.created || !this.esgst.gwc_e ? giveaway.entries : giveaway.entries + 1;
-    basicChance = entries > 0 ? Math.round(giveaway.copies / entries * 10000) / 100 : 100;
+    basicChance = entries > 0 ? giveaway.copies / entries * 100 : 100;
     basicChance = basicChance > 100 ? 100 : (basicChance <= 0 ? 0.01 : basicChance);
     if (this.esgst.gwc_a && !giveaway.ended && giveaway.startTime) {
-      advancedChance = entries > 0 ? Math.round(giveaway.copies / (entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) * 10000) / 100 : 100;
+      advancedChance = entries > 0 ? giveaway.copies / (entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) * 100 : 100;
       advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
     }
     giveaway.chance = basicChance;
     giveaway.projectedChance = advancedChance;
-    giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
-    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.chancePerPoint = giveaway.chance / Math.max(1, giveaway.points);
+    giveaway.projectedChancePerPoint = giveaway.projectedChance / Math.max(1, giveaway.points);
     if (giveaway.points) {
-      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${giveaway.chancePerPoint}% basic and ${giveaway.projectedChancePerPoint}% advanced per point)`);
+      giveaway.gwcContext.title = getFeatureTooltip(`gwc`, `Giveaway Winning Chance (${common.round(giveaway.chancePerPoint, 4)}% basic and ${common.round(giveaway.projectedChancePerPoint)}% advanced per point)`);
     }
     giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
     giveaway.gwcContext.setAttribute(`data-projectedChance`, giveaway.projectedChance);
@@ -170,14 +170,14 @@ class GiveawaysGiveawayWinningChance extends Module {
       if (this.esgst.gwc_a_b) {
         children.push({
           attributes: basicAttributes,
-          text: `${basicChance}%`,
+          text: `${common.round(basicChance)}%`,
           type: `span`
         }, {
             text: ` (`,
             type: `node`
           }, {
             attributes: advancedAttributes,
-            text: `${advancedChance}%`,
+            text: `${common.round(advancedChance)}%`,
             type: `span`
           }, {
             text: `)`,
@@ -186,14 +186,14 @@ class GiveawaysGiveawayWinningChance extends Module {
       } else {
         children.push({
           attributes: advancedAttributes,
-          text: `${advancedChance}%`,
+          text: `${common.round(advancedChance)}%`,
           type: `span`
         });
       }
     } else {
       children.push({
         attributes: basicAttributes,
-        text: `${basicChance}%`,
+        text: `${common.round(basicChance)}%`,
         type: `span`
       });
     }
