@@ -1331,61 +1331,6 @@ import esgst from './class/Esgst';
       delete esgst.settings.groups;
       esgst.settingsChanged = true;
     }
-    if (esgst.gc_categories.indexOf(`gc_rd`) < 0) {
-      esgst.gc_categories.push(`gc_rd`);
-      esgst.settings.gc_categories = esgst.gc_categories;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories.indexOf(`gc_pw`) < 0) {
-      esgst.gc_categories.push(`gc_pw`);
-      esgst.settings.gc_categories = esgst.gc_categories;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories_gv.indexOf(`gc_pw`) < 0) {
-      esgst.gc_categories_gv.push(`gc_pw`);
-      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories.indexOf(`gc_hltb`) < 0) {
-      esgst.gc_categories.push(`gc_hltb`);
-      esgst.settings.gc_categories = esgst.gc_categories;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories_gv.indexOf(`gc_hltb`) < 0) {
-      esgst.gc_categories_gv.push(`gc_hltb`);
-      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories.indexOf(`gc_sp`) < 0) {
-      esgst.gc_categories.push(`gc_sp`);
-      esgst.settings.gc_categories = esgst.gc_categories;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories_gv.indexOf(`gc_sp`) < 0) {
-      esgst.gc_categories_gv.push(`gc_sp`);
-      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories.indexOf(`gc_lg`) < 0) {
-      esgst.gc_categories.push(`gc_lg`);
-      esgst.settings.gc_categories = esgst.gc_categories;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories_gv.indexOf(`gc_lg`) < 0) {
-      esgst.gc_categories_gv.push(`gc_lg`);
-      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories.indexOf(`gc_f`) < 0) {
-      esgst.gc_categories.push(`gc_f`);
-      esgst.settings.gc_categories = esgst.gc_categories;
-      esgst.settingsChanged = true;
-    }
-    if (esgst.gc_categories_gv.indexOf(`gc_f`) < 0) {
-      esgst.gc_categories_gv.push(`gc_f`);
-      esgst.settings.gc_categories_gv = esgst.gc_categories_gv;
-      esgst.settingsChanged = true;
-    }
     if (esgst.gc_categories_ids.indexOf(`gc_f`) < 0) {
       esgst.gc_categories_ids.push(`gc_f`);
       esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
@@ -1397,49 +1342,6 @@ import esgst from './class/Esgst';
       if (bkpLength !== esgst[key].length) {
         esgst.settings[key] = esgst[key];
         esgst.settingsChanged = true;
-      }
-    });
-    [``, `_gv`].forEach(key => {
-      if (esgst[`giveawayColumns${key}`].indexOf(`sgTools`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`sgTools`) < 0) {
-        if (key === ``) {
-          esgst[`giveawayPanel${key}`].push(`sgTools`);
-          esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
-        } else {
-          esgst[`giveawayColumns${key}`].unshift(`sgTools`);
-          esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
-        }
-        esgst.settingsChanged = true;
-      }
-      if (esgst[`giveawayColumns${key}`].indexOf(`ged`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`ged`) < 0) {
-        esgst[`giveawayColumns${key}`].unshift(`ged`);
-        esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
-        esgst.settingsChanged = true;
-      }
-      if (esgst[`giveawayColumns${key}`].indexOf(`touhou`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`touhou`) < 0) {
-        esgst[`giveawayColumns${key}`].push(`touhou`);
-        esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
-        esgst.settingsChanged = true;
-      }
-      if (esgst[`giveawayColumns${key}`].indexOf(`gptw`) < 0 && esgst[`giveawayPanel${key}`].indexOf(`gptw`) < 0) {
-        esgst[`giveawayPanel${key}`].push(`gptw`);
-        esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
-        esgst.settingsChanged = true;
-      }
-      for (let i = esgst[`giveawayColumns${key}`].length - 1; i > -1; i--) {
-        let id = esgst[`giveawayColumns${key}`][i];
-        if (esgst[`giveawayPanel${key}`].indexOf(id) > -1) {
-          esgst[`giveawayColumns${key}`].splice(i, 1);
-          esgst.settings[`giveawayColumns${key}`] = esgst[`giveawayColumns${key}`];
-          esgst.settingsChanged = true;
-        }
-      }
-      for (let i = esgst[`giveawayPanel${key}`].length - 1; i > -1; i--) {
-        let id = esgst[`giveawayPanel${key}`][i];
-        if (esgst[`giveawayColumns${key}`].indexOf(id) > -1) {
-          esgst[`giveawayPanel${key}`].splice(i, 1);
-          esgst.settings[`giveawayPanel${key}`] = esgst[`giveawayPanel${key}`];
-          esgst.settingsChanged = true;
-        }
       }
     });
     if (esgst.settings.elementOrdering !== `1`) {
