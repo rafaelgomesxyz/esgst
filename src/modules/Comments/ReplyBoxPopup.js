@@ -1,25 +1,29 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   saveComment = common.saveComment.bind(common)
-;
+  ;
 
 class CommentsReplyBoxPopup extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-comment"></i>) to the main page heading of any page that allows you to add comments to the page through a popup.</li>
-        <li>This feature is useful if you have [id=fmph] enabled, which allows you to add comments to the page from any scrolling position.</li>
-        <li>Has [id=ded] built-in.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-comment` }],
+            `) to the main page heading of any page that allows you to add comments to the page through a popup.`
+          ]],
+          [`li`, `This feature is useful if you have [id = fmph] enabled, which allows you to add comments to the page from any scrolling position.`]
+          [`li`, `Has[id = ded] built -in.`]
+        ]]
+      ],
       id: `rbp`,
       load: this.rbp,
       name: `Reply Box Popup`,
@@ -32,8 +36,8 @@ class CommentsReplyBoxPopup extends Module {
   rbp() {
     if (!this.esgst.replyBox) return;
 
-    let button = createHeadingButton({id: `rbp`, icons: [`fa-comment`], title: `Add a comment`});
-    let popup = new Popup({addScrollable: true, icon: `fa-comment`, title: `Add a comment:`});
+    let button = createHeadingButton({ id: `rbp`, icons: [`fa-comment`], title: `Add a comment` });
+    let popup = new Popup({ addScrollable: true, icon: `fa-comment`, title: `Add a comment:` });
     popup.textArea = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         name: `description`
@@ -53,7 +57,7 @@ class CommentsReplyBoxPopup extends Module {
 
       }
     }).set);
-    popup.progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
+    popup.progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
   }
 }

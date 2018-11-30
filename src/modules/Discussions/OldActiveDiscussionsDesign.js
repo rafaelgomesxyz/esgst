@@ -1,31 +1,35 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class DiscussionsOldActiveDiscussionsDesign extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.</li>
-        <li>Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (<i class="fa fa-retweet"></i>) in the page heading of the active discussions that allows you to switch sections.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`],
+          [`li`, [
+            `Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (`,
+            [`i`, { class: `fa fa-retweet` }],
+            `) in the page heading of the active discussions that allows you to switch sections.`
+          ]]
+        ]]
+      ],
       features: {
         oadd_d: {
-          description: `
-          <ul>
-            <li>With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`]
+            ]]
+          ],
           name: `Show deals in the "Discussions" section.`,
           sg: true
         }
@@ -46,8 +50,8 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
   async oadd_load(refresh, callback) {
     let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html,
       response2Html, revisedElements;
-    response1Html = parseHtml((await request({method: `GET`, url: `/discussions`})).responseText);
-    response2Html = parseHtml((await request({method: `GET`, url: `/discussions/deals`})).responseText);
+    response1Html = parseHtml((await request({ method: `GET`, url: `/discussions` })).responseText);
+    response2Html = parseHtml((await request({ method: `GET`, url: `/discussions/deals` })).responseText);
     this.esgst.activeDiscussions.classList.add(`esgst-oadd`);
     createElements(this.esgst.activeDiscussions, `inner`, [{
       type: `div`,

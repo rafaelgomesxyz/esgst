@@ -1,26 +1,38 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayErrorSearchLinks extends Module {
   constructor() {
     super();
     this.info = {
       // by Royalgamer06
-      description: `
-      <ul>
-        <li>If you cannot access a giveaway because of many different reasons, a "Search Links" row is added to the table of the <a href="https://www.steamgifts.com/giveaway/FN2PK/">error</a> page containing 3 links that allow you to search for the game elsewhere:</li>
-        <ul>
-          <li>A SteamGifts icon that allows you to search for open giveaways of the game on SteamGifts.</li>
-          <li><i class="fa fa-steam"></i> allows you to search for the game on Steam.</li>
-          <li><i class="fa"><img src="https://steamdb.info/static/logos/favicon-16x16.png"></i> allows you to search for the game on SteamDB.</li>
-        </ul>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `If you cannot access a giveaway because of many different reasons, a "Search Links" row is added to the table of the `,
+            [`a`, { href: `https://www.steamgifts.com/giveaway/FN2PK/` }, `error`],
+            ` page containing 3 links that allow you to search for the game elsewhere:`
+          ]],
+          [`ul`, [
+            [`li`, `A SteamGifts icon that allows you to search for open giveaways of the game on SteamGifts.`],
+            [`li`, [
+              [`i`, { class: `fa fa-steam` }],
+              `  allows you to search for the game on Steam.`,
+            ]],
+            [`li`, [
+              [`i`, { class: `fa` }, [
+                [`img`, { src: `https://steamdb.info/static/logos/favicon-16x16.png` }]
+              ]],
+              ` allows you to search for the game on SteamDB.`
+            ]]
+          ]]
+        ]]
+      ],
       id: `gesl`,
       load: this.gesl,
       name: `Giveaway Error Search Links`,

@@ -4,11 +4,15 @@ class GeneralSearchMagnifyingGlassButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Turns the magnifying glass icon (<i class="fa fa-search"></i>) in the search field of any page into a button that submits the search when you click on it.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Turns the magnifying glass icon (`,
+            [`i`, { class: `fa fa-search` }],
+            `) in the search field of any page into a button that submits the search when you click on it.`
+          ]]
+        ]]
+      ],
       id: `smgb`,
       load: this.smgb,
       name: `Search Magnifying Glass Button`,
@@ -28,7 +32,11 @@ class GeneralSearchMagnifyingGlassButton extends Module {
       button.addEventListener(`click`, () => {
         let value = input.value.trim();
         if (value) {
-          location.href = `${this.esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
+          if (this.esgst.as && value.match(/"|id:/)) {
+            this.esgst.modules.giveawaysArchiveSearcher.as_openPage(input);
+          } else {
+            location.href = `${this.esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
+          }
         }
       });
     }

@@ -1,21 +1,27 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   unhideGame = common.unhideGame.bind(common)
-;
+  ;
 
 class GiveawaysUnhideGiveawayButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-eye"></i>) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-eye` }],
+            `) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your `,
+            [`a`, { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
+            ` page.`
+          ]]
+        ]]
+      ],
       id: `ugb`,
       load: this.ugb,
       name: `Unhide Giveaway Button`,

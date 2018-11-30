@@ -1,43 +1,49 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getTimestamp = common.getTimestamp.bind(common)
-;
+  ;
 
 class UsersWhitelistBlacklistHighlighter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an icon (<i class="fa fa-heart esgst-whitelist"></i> if the user is whitelisted and <i class="fa fa-ban esgst-blacklist"></i> if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.</li>
-        <li>If you hover over the icon, it shows the date when you added the user to your whitelist/blacklist.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an icon (`,
+            [`i`, { class: `fa fa-heart esgst-whitelist` }],
+            ` if the user is whitelisted and `,
+            [`i`, { class: `fa fa-ban esgst-blacklist` }],
+            ` if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.`
+          ]],
+          [`li`, `If you hover over the icon, it shows the date when you added the user to your whitelist/blacklist.`]
+        ]]
+      ],
       features: {
         wbh_b: {
           colors: true,
-          description: `
-          <ul>
-            <li>Adds a background color of your own preference to the user's username if they are blacklisted, instead of an icon.</li>
-            <li>If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Adds a background color of your own preference to the user's username if they are blacklisted, instead of an icon.`],
+              [`li`, `If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.`]
+            ]]
+          ],
           name: `Use background colors for blacklisted users instead of icons.`,
           sg: true,
           st: true
         },
         wbh_w: {
           colors: true,
-          description: `
-          <ul>
-            <li>Adds a background color of your own preference to the user's username if they are whitelisted, instead of an icon.</li>
-            <li>If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Adds a background color of your own preference to the user's username if they are whitelisted, instead of an icon.`],
+              [`li`, `If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.`]
+            ]]
+          ],
           name: `Use background colors for whitelisted users instead of icons.`,
           sg: true,
           st: true
@@ -47,8 +53,8 @@ class UsersWhitelistBlacklistHighlighter extends Module {
       load: this.wbh,
       name: `Whitelist/Blacklist Highlighter`,
       sg: {
-        include: [{enabled: 1, pattern: `.*`}],
-        exclude: [{enabled: 1, pattern: `^/account/manage/whitelist`}, {enabled: 1, pattern: `^/account/manage/blacklist`}]
+        include: [{ enabled: 1, pattern: `.*` }],
+        exclude: [{ enabled: 1, pattern: `^/account/manage/whitelist` }, { enabled: 1, pattern: `^/account/manage/blacklist` }]
       },
       st: true,
       sync: `Blacklist, Whitelist`,

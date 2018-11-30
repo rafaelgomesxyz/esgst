@@ -1,24 +1,24 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class CommentsMultiReply extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).</li>
-        <li>Has [id=ded] built-in.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).`],
+          [`li`, `Has[id = ded] built -in.`]
+        ]]
+      ],
       id: `mr`,
       load: this.mr,
       name: `Multi-Reply`,
@@ -425,7 +425,7 @@ class CommentsMultiReply extends Module {
       mr.delete.previousElementSibling.remove();
       mr.delete.addEventListener(`click`, async () => {
         // noinspection JSIgnoredPromiseFromCall
-        this.mr_editReply(mr, await request({data, method: `POST`, url: `/ajax.php`}));
+        this.mr_editReply(mr, await request({ data, method: `POST`, url: `/ajax.php` }));
       });
     }
   }
@@ -452,7 +452,7 @@ class CommentsMultiReply extends Module {
       mr.undelete.previousElementSibling.remove();
       mr.undelete.addEventListener(`click`, async () => {
         // noinspection JSIgnoredPromiseFromCall
-        this.mr_editReply(mr, await request({data, method: `POST`, url: `/ajax.php`}));
+        this.mr_editReply(mr, await request({ data, method: `POST`, url: `/ajax.php` }));
       });
     }
   }

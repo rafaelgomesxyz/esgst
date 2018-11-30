@@ -1,32 +1,36 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GeneralQuickInboxView extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>If you hover over the inbox icon (<i class="fa fa-envelope"></i>) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.</li>
-        <li>You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `If you hover over the inbox icon (`,
+            [`i`, { class: `fa fa-envelope` }],
+            `) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.`
+          ]],
+          [`li`, `You can also mark the messages as read from the popout and reply to them if [id = rfi] is enabled.`]
+        ]]
+      ],
       features: {
         qiv_p: {
-          description: `
-          <ul>
-            <li>Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).`]
+            ]]
+          ],
           name: `Preload the first page.`,
           sg: true,
           st: true
@@ -147,7 +151,7 @@ class GeneralQuickInboxView extends Module {
 
         if (preload) {
           const currentId = this.esgst.qiv.comments.querySelector(`[href*="/go/comment/"]`)
-              .getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1],
+            .getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1],
             comments = context.querySelectorAll(`.comment, .comment_outer`);
           let i = comments.length - 1;
           while (i > -1 && comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute(`href`).match(/\/go\/comment\/(.+)/)[1] !== currentId) i--;
@@ -253,7 +257,7 @@ class GeneralQuickInboxView extends Module {
       url = `/ajax.php`;
     }
     this.esgst.qiv.markReadButton.addEventListener(`click`, async () => {
-      await request({data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url});
+      await request({ data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: `POST`, url });
       this.esgst.qiv.markReadButton.remove();
       this.esgst.qiv.markReadButton = null;
       let elements = this.esgst.qiv.comments.querySelectorAll(`.comment__envelope`);

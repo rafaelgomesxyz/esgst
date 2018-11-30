@@ -1,21 +1,27 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common)
-;
+  ;
 
 class CommentsCommentSearcher extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-comments"></i> <i class="fa fa-search"></i>) to the main page heading of any page that allows you to search for comments made by specific users in the page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-comments` }],
+            ` `,
+            [`i`, { class: `fa fa-search` }],
+            `) to the main page heading of any page that allows you to search for comments made by specific users in the page.`
+          ]]
+        ]]
+      ],
       id: `cs`,
       load: this.cs,
       name: `Comment Searcher`,

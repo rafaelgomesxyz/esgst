@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -9,25 +9,31 @@ const
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class TradesTradeBumper extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-chevron-circle-up"></i>) to the main page heading of your <a href="https://www.steamtrades.com/trades/search?user=your-steam-id">created trades</a> page that allows you to bump all of your open trades at once.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-chevron-circle-up` }],
+            `) to the main page heading of your `,
+            [`a`, { href: `https://www.steamtrades.com/trades/search?user=your-steam-id` }, `created trades`],
+            ` page that allows you to bump all of your open trades at once.`
+          ]]
+        ]]
+      ],
       features: {
         tb_a: {
-          description: `
-          <ul>
-            <li>Automatically bumps all of your trades every hour.</li>
-            <li>Requires either SteamGifts or SteamTrades to be open, depending on where you have this option enabled.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Automatically bumps all of your trades every hour.`],
+              [`li`, `Requires either SteamGifts or SteamTrades to be open, depending on where you have this option enabled.`]
+            ]]
+          ],
           name: `Auto bump every hour.`,
           sg: true,
           st: true

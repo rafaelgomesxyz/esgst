@@ -1,21 +1,27 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class CommentsCollapseExpandReplyButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-plus-square"></i> if all of the replies in the page are collapsed and <i class="fa fa-minus-square"></i> if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.</li>
-        <li>Also adds the same button in front of each comment nested 1 level deep in the page, which allows you to collapse/expand the replies of the comment individually.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-plus-square` }],
+            ` if all of the replies in the page are collapsed and `,
+            [`i`, { class: `fa fa-minus-square` }],
+            ` if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.`
+          ]],
+          [`li`, `Also adds the same button in front of each comment nested 1 level deep in the page, which allows you to collapse/expand the replies of the comment individually.`]
+        ]]
+      ],
       features: {
         cerb_a: {
           name: `Automatically collapse all replies when visiting a page.`,

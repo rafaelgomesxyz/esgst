@@ -1,22 +1,22 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   getLocalValue = common.getLocalValue.bind(common),
   setLocalValue = common.setLocalValue.bind(common)
-;
+  ;
 
 class GeneralCakeDayReminder extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Shows a popup reminding you of your cake day on SteamGifts.</li>
-        <li>You can set it to remind you a specified number of days before your cake day.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Shows a popup reminding you of your cake day on SteamGifts.`],
+          [`li`, `You can set it to remind you a specified number of days before your cake day.`]
+        ]]
+      ],
       features: {
         cdr_b: {
           inputItems: [
@@ -29,11 +29,11 @@ class GeneralCakeDayReminder extends Module {
           sg: true
         },
         cdr_d: {
-          description: `
-          <ul>
-            <li>With this option enabled, the feature also reminds you if some days have already passed since your cake day and you had not logged in during that time.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, the feature also reminds you if some days have already passed since your cake day and you had not logged in during that time.`]
+            ]]
+          ],
           name: `Remind you on your cake day.`,
           sg: true
         }

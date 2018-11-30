@@ -1,19 +1,19 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common)
-;
+  ;
 
 class CommentsReplyBoxOnTop extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.`]
+        ]]
+      ],
       id: `rbot`,
       load: this.rbot,
       name: `Reply Box On Top`,

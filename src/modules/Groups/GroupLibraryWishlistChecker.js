@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils'
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils'
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -9,21 +9,33 @@ const
   createTooltip = common.createTooltip.bind(common),
   getParameters = common.getParameters.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GroupsGroupLibraryWishlistChecker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-folder"></i> <i class="fa fa-star"></i>) to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and any <a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.</li>
-        <li>The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).</li>
-        <li>Only the first 100 results are shown for each section, but you can use the search fields to find games that are outside of the top 100. If you are searching in the "Libraries" section, it is more accurate to search for games using their app id instead of their name, because the games in that section only have a name if they can also be found in the "Wishlists" section, as game names are not available in the libraries data and retrieving them would generate more requests to Steam, which is not good.</li>
-        <li>If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.</li>
-        <li>A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-folder` }],
+            ` `,
+            [`i`, { class: `fa fa-star` }],
+            ` ) to your `,
+            [`a`, { href: `https://www.steamgifts.com/account/manage/whitelist` }, `whitelist`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/account/manage/blacklist` }, `blacklist`],
+            ` pages and any `,
+            [`a`, { href: `https://www.steamgifts.com/group/SJ7Bu/` }, `group`],
+            ` page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.`
+          ]],
+          [`li`, `The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).`],
+          [`li`, `Only the first 100 results are shown for each section, but you can use the search fields to find games that are outside of the top 100. If you are searching in the "Libraries" section, it is more accurate to search for games using their app id instead of their name, because the games in that section only have a name if they can also be found in the "Wishlists" section, as game names are not available in the libraries data and retrieving them would generate more requests to Steam, which is not good.`],
+          [`li`, `If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.`],
+          [`li`, `A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.`]
+        ]]
+      ],
       id: `glwc`,
       load: this.glwc,
       name: `Group Library/Wishlist Checker`,
@@ -212,7 +224,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           let games = appInfo ? JSON.parse(appInfo[1]) : null;
           JSON.parse(wishlistData[1]).forEach(item => {
             let id = item.appid;
-            let game = {id};
+            let game = { id };
             if (games && games[id]) {
               game.logo = games[id].capsule;
               game.name = games[id].name;

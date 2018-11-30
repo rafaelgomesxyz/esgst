@@ -5,13 +5,13 @@ class GeneralAttachedImageLoader extends Module {
     super();
     this.info = {
       conflicts: [
-        {id: `vai`, name: `Visible Attached Images`}
+        { id: `vai`, name: `Visible Attached Images` }
       ],
-      description: `
-      <ul>
-        <li>Only loads an attached image (in any page) when you click on its "View attached image" button, instead of loading it on page load, which should speed up page loads.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Only loads an attached image (in any page) when you click on its "View attached image" button, instead of loading it on page load, which should speed up page loads.`]
+        ]]
+      ],
       id: `ail`,
       load: this.ail,
       name: `Attached Image Loader`,

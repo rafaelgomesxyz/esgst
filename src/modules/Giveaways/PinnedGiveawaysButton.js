@@ -1,19 +1,19 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common)
-;
+  ;
 
 class GiveawaysPinnedGiveawaysButton extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.`]
+        ]]
+      ],
       id: `pgb`,
       load: this.pgb,
       name: `Pinned Giveaways Button`,

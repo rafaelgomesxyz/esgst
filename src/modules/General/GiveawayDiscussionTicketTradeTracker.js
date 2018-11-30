@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -11,18 +11,28 @@ const
   setHoverOpacity = common.setHoverOpacity.bind(common),
   setLocalValue = common.setLocalValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-check"></i> if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any <a href="https://www.steamgifts.com/discussions">discussions</a>/<a href="https://www.steamgifts.com/support/tickets">tickets</a>/<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.</li>
-        <li>Giveaways/threads marked as visited are faded out in the page.</li>
-      <ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-check` }],
+            ` if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any `,
+            [`a`, { href: `https://www.steamgifts.com/discussions` }, `discussions`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/support/tickets` }, `tickets`],
+            `/`,
+            [`a`, { href: `https://www.steamtrades.com/trades` }, `trades`],
+            ` pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.`
+          ]],
+          [`li`, `Giveaways/threads marked as visited are faded out in the page.`]
+        ]]
+      ],
       features: {
         gdttt_g: {
           name: `Fade visited giveaways.`,

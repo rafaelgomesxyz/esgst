@@ -4,11 +4,11 @@ class GeneralNarrowSidebar extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Keeps the sidebar narrowed in all pages.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Keeps the sidebar narrowed in all pages.`]
+        ]]
+      ],
       id: `ns`,
       load: this.ns,
       name: `Narrow Sidebar`,

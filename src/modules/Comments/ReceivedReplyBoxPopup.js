@@ -1,22 +1,26 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   saveComment = common.saveComment.bind(common)
-;
+  ;
 
 class CommentsReceivedReplyBoxPopup extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Pops up a reply box when you mark a giveaway as received (in your <a href="https://www.steamgifts.com/giveaways/won">won</a> page) so that you can add a comment thanking the creator.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Pops up a reply box when you mark a giveaway as received (in your `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
+            ` page) so that you can add a comment thanking the creator.`
+          ]]
+        ]]
+      ],
       id: `rrbp`,
       load: this.rrbp,
       name: `Received Reply Box Popup`,
@@ -41,7 +45,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
 
   rrbp_openPopup(giveaway) {
     let popup, progress, textArea;
-    popup = new Popup({addScrollable: true, icon: `fa-comment`, title: `Add a comment:`});
+    popup = new Popup({ addScrollable: true, icon: `fa-comment`, title: `Add a comment:` });
     textArea = createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
@@ -61,7 +65,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
         popup.close();
       }
     }).set);
-    progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
+    progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     popup.open(() => {
       textArea.focus();
     });

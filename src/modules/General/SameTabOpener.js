@@ -4,11 +4,11 @@ class GeneralSameTabOpener extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Opens any link in the page in the same tab.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Opens any link in the page in the same tab.`]
+        ]]
+      ],
       id: `sto`,
       load: this.sto,
       name: `Same Tab Opener`,

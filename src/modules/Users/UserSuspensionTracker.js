@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
 import Checkbox from '../../class/Checkbox';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -12,36 +12,44 @@ const
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class UsersUserSuspensionTracker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.</li>
-        <li>It is impossible to retrieve that information automatically, so the database (which is kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this feature adds 2 identical buttons (<i class="fa fa-paper-plane"></i>) to the main page heading of 2 different locations:</li>
-        <ul>
-          <li>Your <a href="https://www.steamgifts.com/support/tickets">tickets</a> page, which allows you to send multiple tickets to the database at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:</li>
-          <ul>
-            <li>Clicking on an unchecked checkbox with the Ctrl key pressed will select all of the tickets.</li>
-            <li>Clicking on a checked checkbox with the Ctrl key pressed will unselect all of the tickets.</li>
-            <li>Clicking on any checkbox with the Alt key pressed will toggle all of the tickets (any tickets that were unselected will be selected and any tickets that were selected will be unselected).</li>
-          </ul>
-          <li>A ticket you created, which allows you to send that single ticket to the database.</li>
-        </ul>
-        <li>You can only send tickets that belong to one of the accepted categories to the database:</li>
-        <ul>
-          <li>Request New Winner > Did Not Activate Previous Wins This Month</li>
-          <li>Request New Winner > Other</li>
-          <li>User Report > Multiple Wins for the Same Game</li>
-          <li>User Report > Not Activating Won Gift</li>
-        </ul>
-        <li>When you send a ticket, the HTML containing all of the ticket's information (including any comments) is sent to the database, and the ticket is requested before being sent, which prevents users from tampering with the HTML.</li>
-        <li>After you send a ticket you will no longer have the option to send it again, to prevent duplicate entries.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `When checking a user with [id = namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.`],
+          [`li`, [
+            `It is impossible to retrieve that information automatically, so the database (which is kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this feature adds 2 identical buttons (`,
+            [`i`, { class: `fa fa-paper-plane` }],
+            `) to the main page heading of 2 different locations:`
+          ]],
+          [`ul`, [
+            [`li`, [
+              `Your `,
+              [`a`, { href: `https://www.steamgifts.com/support/tickets` }, `tickets`],
+              ` page, which allows you to send multiple tickets to the database at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:`
+              [`ul`, [
+                [`li`, `Clicking on an unchecked checkbox with the Ctrl key pressed will select all of the tickets.`],
+                [`li`, `Clicking on a checked checkbox with the Ctrl key pressed will unselect all of the tickets.`],
+                [`li`, `Clicking on any checkbox with the Alt key pressed will toggle all of the tickets (any tickets that were unselected will be selected and any tickets that were selected will be unselected).`]
+              ]]
+            ]],
+            [`li`, `A ticket you created, which allows you to send that single ticket to the database.`]
+          ]],
+          [`li`, `You can only send tickets that belong to one of the accepted categories to the database:`],
+          [`ul`, [
+            [`li`, `Request New Winner > Did Not Activate Previous Wins This Month`],
+            [`li`, `Request New Winner > Other`],
+            [`li`, `User Report > Multiple Wins for the Same Game`],
+            [`li`, `User Report > Not Activating Won Gift`]
+          ]],
+          [`li`, `When you send a ticket, the HTML containing all of the ticket's information (including any comments) is sent to the database, and the ticket is requested before being sent, which prevents users from tampering with the HTML.`],
+          [`li`, `After you send a ticket you will no longer have the option to send it again, to prevent duplicate entries.`]
+        ]]
+      ],
       id: `ust`,
       load: this.ust,
       name: `User Suspension Tracker`,
@@ -147,7 +155,7 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_check(code, obj) {
-    let responseHtml = parseHtml((await request({method: `GET`, url: `/support/ticket/${code}/`})).responseText);
+    let responseHtml = parseHtml((await request({ method: `GET`, url: `/support/ticket/${code}/` })).responseText);
     if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
     }
@@ -164,12 +172,12 @@ class UsersUserSuspensionTracker extends Module {
     }]);
     let error = JSON.parse(
       (await request({
-          data: `${code}=${encodeURIComponent(parseHtml(
-            (await request({method: `GET`, url: location.href})).responseText
-          ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
-          method: `POST`,
-          url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
-        })
+        data: `${code}=${encodeURIComponent(parseHtml(
+          (await request({ method: `GET`, url: location.href })).responseText
+        ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
+        method: `POST`,
+        url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
+      })
       ).responseText).error;
     if (error.length === 0) {
       let tickets = JSON.parse(await getValue(`tickets`));

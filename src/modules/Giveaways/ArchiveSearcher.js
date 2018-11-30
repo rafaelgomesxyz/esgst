@@ -1,26 +1,26 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
 import ButtonSet from '../../class/ButtonSet';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysArchiveSearcher extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Allows you to search the archive by exact title or app id.</li>
-        <li>To search by exact title, wrap the title in double quotes, for example: "Dream"</li>
-        <li>To search by app id, use the "appid:id" format, for example: appid:229580</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`,`Allows you to search the archive by exact title or app id.`],
+          [`li`, `To search by exact title, wrap the title in double quotes, for example: "Dream"`],
+          [`li`, `To search by app id, use the "id:[id]" format, for example: id:229580`]
+        ]]
+      ],
       id: `as`,
       load: this.as_load,
       name: `Archive Searcher`,
@@ -34,25 +34,31 @@ class GiveawaysArchiveSearcher extends Module {
       check: this.esgst.archivePath,
       load: async () => await this.as_init({})
     };
-    
+
     if (!this.esgst.archivePath) return;
 
     const input = document.querySelector(`.sidebar__search-input`);
     input.addEventListener(`keypress`, event => {
-      if (event.key === `Enter` && input.value.match(/"|appid:/)) {
-        event.preventDefault();
-        const match = input.value.match(/"(.+?)"|appid:(.+)/);
-        let query = ``;
-        let isAppId = false;
-        if (match[1]) {
-          query = match[1];
-        } else {
-          query = match[2];
-          isAppId = true;
-        }
-        location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
+      if (event.key === `Enter` && input.value.match(/"|id:/)) {
+        this.as_openPage(input, event);
       }
-    });
+    }, true);
+  }
+
+  as_openPage(input, event) {
+    if (event) {
+      event.preventDefault();
+    }
+    const match = input.value.match(/"(.+?)"|id:(.+)/);
+    let query = ``;
+    let isAppId = false;
+    if (match[1]) {
+      query = match[1];
+    } else {
+      query = match[2];
+      isAppId = true;
+    }
+    location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
   }
 
   async as_init(obj) {
@@ -63,15 +69,20 @@ class GiveawaysArchiveSearcher extends Module {
 
     const context = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    common.createPageHeading(context, `beforeEnd`, {items:[
-      {
-        name: `ESGST`
-      },
-      {
-        name: `Archive Searcher`
-      }
-    ]});
+    common.createPageHeading(context, `beforeEnd`, {
+      items: [
+        {
+          name: `ESGST`
+        },
+        {
+          name: `Archive Searcher`
+        }
+      ]
+    });
     obj.context = context;
+
+    const progress = common.createElements_v2(obj.context, `beforeEnd`, [[`div`]]);
+    progress.innerHTML = `Retrieving game title...`;
 
     // retrieve the game title from Steam
     if (this.esgst.parameters.isAppId) {
@@ -82,14 +93,16 @@ class GiveawaysArchiveSearcher extends Module {
       if (title) {
         obj.query = title.textContent;
       } else {
-        window.alert(`Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).`);
+        progress.innerHTML = `Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).`;
         return;
       }
     }
 
+    progress.innerHTML = ``;
+
     obj.query = ((obj.query.length >= 50) ? obj.query.slice(0, 50) : obj.query).toLowerCase();
     obj.page = 1;
-    obj.url = `${location.pathname}/search?q=${encodeURIComponent(obj.query)}&page=`;
+    obj.url = `${this.esgst.path}/search?q=${encodeURIComponent(obj.query)}&page=`;
     obj.leftovers = [];
     const set = new ButtonSet({
       color1: `green`,
@@ -128,7 +141,7 @@ class GiveawaysArchiveSearcher extends Module {
             obj.count += 1;
           } else {
             obj.leftovers.push(element.cloneNode(true));
-          }        
+          }
         }
       }
       obj.page += 1;

@@ -4,11 +4,15 @@ class GeneralHiddenBlacklistStats extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Hides the blacklist stats of your <a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Hides the blacklist stats of your `,
+            [`a`, { href: `https://www.steamgifts.com/stats/personal/community` }, `stats`],
+            ` page.`
+          ]]
+        ]]
+      ],
       id: `hbs`,
       load: this.hbs,
       name: `Hidden Blacklist Stats`,

@@ -1,20 +1,20 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   getTimestamp = common.getTimestamp.bind(common)
-;
+  ;
 
 class GeneralAccurateTimestamp extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Replaces a timestamp (in any page) with an accurate timestamp. For example, "2 hours ago" becomes "Jan 1, 2017, 0:00:00 - 2 hours ago".</li>
-        <li>You can choose whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Replaces a timestamp (in any page) with an accurate timestamp. For example, "2 hours ago" becomes "Jan 1, 2017, 0:00:00 - 2 hours ago".`],
+          [`li`, `You can choose whether to show seconds or not and whether to use a 12-hour clock or a 24-hour one.`]
+        ]]
+      ],
       features: {
         at_s: {
           name: `Show seconds.`,

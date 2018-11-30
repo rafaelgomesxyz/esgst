@@ -1,28 +1,28 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).</li>
-        <li>If you move it to the sidebar, some things will be changed to save some space:</li>
-        <ul>
-          <li>The username and avatar of the user who last posted to the discussion will be removed (the button to go to the last comment will remain).</li>
-          <li>If you have [id=ags] enabled, it will be hidden and only visible when hovering hover the search field.</li>
-          <li>If you have [id=at] enabled, it will not run inside of the active discussions.</li>
-          <li>If you have [id=ut] enabled, any user tags will be hidden inside of the active discussions (they will still be visible if you click on the tag button to edit them).</li>
-        </ul>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).`],
+          [`li`, `If you move it to the sidebar, some things will be changed to save some space:`],
+          [`ul`, [
+            [`li`, `The username and avatar of the user who last posted to the discussion will be removed (the button to go to the last comment will remain).`],
+            [`li`, `If you have[id = ags] enabled, it will be hidden and only visible when hovering hover the search field.`]
+          ]],
+          [`li`, `If you have[id = at] enabled, it will not run inside of the active discussions.`],
+          [`li`, `If you have[id = ut] enabled, any user tags will be hidden inside of the active discussions(they will still be visible if you click on the tag button to edit them).`]
+        ]]
+      ],
       id: `adots`,
       load: this.adots,
       name: `Active Discussions On Top/Sidebar`,

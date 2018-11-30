@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -9,37 +9,41 @@ const
   getTimeSince = common.getTimeSince.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class CommentsReplyFromInbox extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a "Reply" link next to a comment's "Permalink" (in your <a href="https://www.steamgifts.com/messages">inbox</a> page) that allows you to reply to the comment directly from your inbox.</li>
-        <li>It is essentially [id=mr] for the inbox page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a "Reply" link next to a comment's "Permalink" (in your `,
+            [`a`, { href: `https://www.steamgifts.com/messages` }, `inbox`],
+            ` page) that allows you to reply to the comment directly from your inbox.`
+          ]],
+          [`li`, `It is essentially[id = mr] for the inbox page.`]
+        ]]
+      ],
       features: {
         rfi_s: {
-          description: `
-          <ul>
-            <li>Caches any replies you submit for 1 week so that they are still in your inbox page when you refresh it.</li>
-            <li>If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Caches any replies you submit for 1 week so that they are still in your inbox page when you refresh it.`],
+              [`li`, `If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.`]
+            ]]
+          ],
           name: `Cache replies.`,
           sg: true,
           st: true
         },
         rfi_c: {
-          description: `
-          <ul>
-            <li>Whenever you try to submit a reply to a comment, the feature will check if there are other replies to that comment and show them to you so that you can review your reply before sending it.</li>
-            <li>This option is useful if you want to avoid repeating something that another user already said or discard your reply if someone else already said everything that you were going to say.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Whenever you try to submit a reply to a comment, the feature will check if there are other replies to that comment and show them to you so that you can review your reply before sending it.`],
+              [`li`, `This option is useful if you want to avoid repeating something that another user already said or discard your reply if someone else already said everything that you were going to say.`]
+            ]]
+          ],
           name: `Check if there are other replies to a comment before submitting a reply.`,
           sg: true,
           st: true

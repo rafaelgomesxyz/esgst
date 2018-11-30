@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -9,18 +9,18 @@ const
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common),
   saveComment = common.saveComment.bind(common)
-;
+  ;
 
 class DiscussionsDiscussionEditDetector extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.</li>
-        <li>This fixes a (unfortunately) very well-known bug on SteamGifts that does not submit a comment to a discussion if during the timeframe between the moment when you started to write it and the moment when you submitted it the title of the discussion title was edited.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Replaces SteamGifts' native comment box (in any page) with a comment box that ensures that any comment you submit is actually submitted.`],
+          [`li`, `This fixes a (unfortunately) very well-known bug on SteamGifts that does not submit a comment to a discussion if during the timeframe between the moment when you started to write it and the moment when you submitted it the title of the discussion title was edited.`]
+        ]]
+      ],
       id: `ded`,
       load: this.ded,
       name: `Discussion Edit Detector`,
@@ -49,7 +49,7 @@ class DiscussionsDiscussionEditDetector extends Module {
       context: context.parentElement,
       description: context.querySelector(`[name="description"]`),
       parentId: context.querySelector(`[name="parent_id"]`),
-      tradeCode: (context.querySelector(`[name="trade_code"]`) || {value: ``}).value,
+      tradeCode: (context.querySelector(`[name="trade_code"]`) || { value: `` }).value,
       url: this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
     };
     const container = context.getElementsByClassName(this.esgst.sg
@@ -100,9 +100,9 @@ class DiscussionsDiscussionEditDetector extends Module {
     }
 
     const response = await request({
-        method: `GET`,
-        url: obj.commentUrl
-      }),
+      method: `GET`,
+      url: obj.commentUrl
+    }),
       responseHtml = parseHtml(response.responseText),
       comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
     obj.parentId = this.esgst.sg

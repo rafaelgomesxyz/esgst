@@ -2,25 +2,39 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   saveUser = common.saveUser.bind(common)
-;
+  ;
 
 class UsersUserFilters extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-eye-slash"></i> if the user is being filtered and <i class="fa fa-eye"></i> if they are not) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).</li>
-        <li>Adds a text in parenthesis to the pagination of the page showing how many users in the page are being filtered by the filters.</li>
-        <li>Adds a button (<i class="fa fa-user"></i> <i class="fa fa-eye-slash"></i>) to the page heading of this menu that allows you to view all of the users that have been filtered.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-eye-slash` }],
+            ` if the user is being filtered and `,
+            [`i`, { class: `fa fa-eye` }],
+            ` if they are not) next to a user's username (in their `,
+            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ` page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).`
+          ]],
+          [`li`, `Adds a text in parenthesis to the pagination of the page showing how many users in the page are being filtered by the filters.`],
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-user` }],
+            ` `,
+            [`i`, { class: `fa fa-eye-slash` }],
+            `) to the page heading of this menu that allows you to view all of the users that have been filtered.`
+          ]]
+        ]]
+      ],
       features: {
         uf_d: {
           name: `Automatically hide discussions from blacklisted users.`,

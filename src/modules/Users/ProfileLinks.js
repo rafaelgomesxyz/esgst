@@ -1,21 +1,35 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class UsersProfileLinks extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Allows you to add links to your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a>/<a href="https://www.steamgifts.com/account/steam/games">games</a>/<a href="https://www.steamgifts.com/account/steam/games">groups</a>/<a href="https://www.steamgifts.com/account/steam/wishlist">wishlist</a> pages to the sidebar of your <a href="https://www.steamgifts.com/user/your-username">profile</a> page.</li>
-        <li>The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Allows you to add links to your `,
+            [`a`, { href: `https://www.steamgifts.com/account/manage/whitelist` }, `whitelist`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/account/manage/blacklist` }, `blacklist`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/account/steam/games` }, `games`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/account/steam/groups` }, `groups`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/account/steam/wishlist` }, `wishlist`],
+            ` pages to the sidebar of your `,
+            [`a`, { href: `https://www.steamgifts.com/user/your-username` }, `profile`],
+            ` page.`
+          ]],
+          [`li`, `The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.`]
+        ]]
+      ],
       features: {
         pl_w: {
           name: `Show whitelist link.`,
@@ -173,13 +187,13 @@ class UsersProfileLinks extends Module {
         text: section.name,
         type: `h3`
       }, {
-        attributes: {
-          class: `sidebar__navigation`,
-          title: getFeatureTooltip(`pl`)
-        },
-        type: `ul`,
-        children: list
-      });
+          attributes: {
+            class: `sidebar__navigation`,
+            title: getFeatureTooltip(`pl`)
+          },
+          type: `ul`,
+          children: list
+        });
     }
     createElements(this.esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0], `afterEnd`, items);
   }

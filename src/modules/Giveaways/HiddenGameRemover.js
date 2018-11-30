@@ -2,26 +2,34 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GiveawaysHiddenGameRemover extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-eye-slash"></i> <i class="fa fa-times-circle"></i>) to your <a href="https://www.steamgifts.com/account/settings/giveaways/filters">giveaway filters</a> page that allows you to remove all of the games that you have hidden.</li>
-        <li>There is also an option to remove only the games that you own or only the games that you have wishlisted.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-eye-slash` }],
+            ` `,
+            [`i`, { class: `fa fa-times-circle` }],
+            `) to your `,
+            [`a`, { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
+            ` page that allows you to remove all of the games that you have hidden.`
+          ]],
+          [`li`, `There is also an option to remove only the games that you own or only the games that you have wishlisted.`]
+        ]]
+      ],
       id: `hgr`,
       load: this.hgr,
       name: `Hidden Game Remover`,
@@ -37,7 +45,7 @@ class GiveawaysHiddenGameRemover extends Module {
       icons: [`fa-eye-slash`, `fa-times-circle`],
       title: `Remove games from the list`
     });
-    button.addEventListener(`click`, this.hgr_openPopup.bind(this, {button}));
+    button.addEventListener(`click`, this.hgr_openPopup.bind(this, { button }));
   }
 
   hgr_openPopup(hgr) {
@@ -45,7 +53,7 @@ class GiveawaysHiddenGameRemover extends Module {
       hgr.popup.open();
       return;
     }
-    hgr.popup = new Popup({addScrollable: true, icon: `fa-times`, title: `Remove hidden games:`});
+    hgr.popup = new Popup({ addScrollable: true, icon: `fa-times`, title: `Remove hidden games:` });
     hgr.removed = createElements(hgr.popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `markdown`
@@ -101,7 +109,7 @@ class GiveawaysHiddenGameRemover extends Module {
         nextPage += 1;
         continue;
       } else {
-        context = parseHtml((await request({method: `GET`, url: `${url}${nextPage}`})).responseText);
+        context = parseHtml((await request({ method: `GET`, url: `${url}${nextPage}` })).responseText);
       }
       if (!hgr.lastPage) {
         hgr.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);

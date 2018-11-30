@@ -2,24 +2,30 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popout from '../../class/Popout';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   saveAndSortContent = common.saveAndSortContent.bind(common)
-;
+  ;
 
 class DiscussionsDiscussionsSorter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-sort"></i>) to the main page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a> page that allows you to sort the discussions in the page by title, category, created time, author and number of comments.</li>
-        <li>There is also an option to automatically sort the discussions so that every time you open the page the discussions are already sorted by whatever option you prefer.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-sort` }],
+            ` ) to the main page heading of any `,
+            [`a`, { href: `https://www.steamgifts.com/discussions` }, `discussions`],
+            ` page that allows you to sort the discussions in the page by title, category, created time, author and number of comments.`
+          ]],
+          [`li`, `There is also an option to automatically sort the discussions so that every time you open the page the discussions are already sorted by whatever option you prefer.` ]
+        ]]
+      ],
       id: `ds`,
       load: this.ds,
       name: `Discussions Sorter`,
@@ -32,7 +38,7 @@ class DiscussionsDiscussionsSorter extends Module {
     if (!this.esgst.discussionsPath) return;
 
     let object = {
-      button: createHeadingButton({id: `ds`, icons: [`fa-sort`], title: `Sort discussions`})
+      button: createHeadingButton({ id: `ds`, icons: [`fa-sort`], title: `Sort discussions` })
     };
     object.button.addEventListener(`click`, this.ds_openPopout.bind(this, object));
   }

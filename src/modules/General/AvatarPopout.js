@@ -1,23 +1,23 @@
 import Module from '../../class/Module';
 import Popout from '../../class/Popout';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class GeneralAvatarPopout extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `If you click on/hover over (you can decide which one) a user/group's avatar/username, it shows a popout containing all of the basic information that you can find in their page.`]
+        ]]
+      ],
       id: `ap`,
       load: this.ap,
       name: `Avatar Popout`,
@@ -115,7 +115,7 @@ class GeneralAvatarPopout extends Module {
               }]);
               popout.open(apAvatar);
               let avatar, columns, i, link, n, reportButton, responseHtml, table;
-              responseHtml = parseHtml((await request({method: `GET`, url})).responseText);
+              responseHtml = parseHtml((await request({ method: `GET`, url })).responseText);
               popout.popout.innerHTML = ``;
               popout.popout.appendChild(responseHtml.getElementsByClassName(`featured__outer-wrap`)[0]);
               avatar = popout.popout.getElementsByClassName(`global__image-outer-wrap--avatar-large`)[0];

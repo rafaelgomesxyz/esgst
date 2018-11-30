@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -16,18 +16,30 @@ const
   request = common.request.bind(common),
   saveUsers = common.saveUsers.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysUnsentGiftSender extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-gift"></i> <i class="fa fa-send"></i>) to the main page heading of your <a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you to send all of your unsent gifts at once.</li>
-        <li>You can limit which gifts are sent based on whether or not the winner has any not activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>), whether or not the winner is still a member of the group and has a certain gift difference for group giveaways, and whether or not the winner is on your whitelist/blacklist.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-gift` }],
+            ` `,
+            [`i`, { class: `fa fa-send` }],
+            `) to the main page heading of your `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/created` }, `created`],
+            ` page that allows you to send all of your unsent gifts at once.`
+          ]],
+          [`li`, [
+            `You can limit which gifts are sent based on whether or not the winner has any not activated/multiple wins (using `,
+            [`a`, { href: `https://www.sgtools.info/` }, `SGTools`],
+            `), whether or not the winner is still a member of the group and has a certain gift difference for group giveaways, and whether or not the winner is on your whitelist/blacklist.`
+          ]]
+        ]]
+      ],
       id: `ugs`,
       load: this.ugs,
       name: `Unsent Gift Sender`,
@@ -38,8 +50,8 @@ class GiveawaysUnsentGiftSender extends Module {
 
   ugs() {
     if (this.esgst.createdPath) {
-      let button = createHeadingButton({id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts`});
-      button.addEventListener(`click`, this.ugs_openPopup.bind(this, {button}));
+      let button = createHeadingButton({ id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts` });
+      button.addEventListener(`click`, this.ugs_openPopup.bind(this, { button }));
     } else if (this.esgst.newTicketPath) {
       document.getElementsByClassName(`form__submit-button`)[0].addEventListener(`click`, this.ugs_saveReroll.bind(this, document.querySelector(`[name="category_id"]`), document.querySelector(`[name="reroll_winner_id"]`)));
     }
@@ -62,7 +74,7 @@ class GiveawaysUnsentGiftSender extends Module {
   ugs_openPopup(ugs) {
     let checkMemberSwitch, checkDifferenceSwitch;
     if (!ugs.popup) {
-      ugs.popup = new Popup({addScrollable: true, icon: `fa-gift`, title: `Send unsent gifts:`});
+      ugs.popup = new Popup({ addScrollable: true, icon: `fa-gift`, title: `Send unsent gifts:` });
       new ToggleSwitch(ugs.popup.description, `ugs_checkRules`, false, `Do not send if the winner has any not activated/multiple wins.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkRules);
       checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, this.esgst.ugs_checkMember);
       checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [{

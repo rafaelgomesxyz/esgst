@@ -1,19 +1,23 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   reverseComments = common.reverseComments.bind(common)
-;
+  ;
 
 class CommentsCommentReverser extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Reverses the comments of any <a href="https://www.steamgifts.com/discussion/e9zDo/">discussion</a> page so that they are ordered from newest to oldest.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Reverses the comments of any `,
+            [`a`, { href: `https://www.steamgifts.com/discussion/e9zDo/` }, `discussion`],
+            ` page so that they are ordered from newest to oldest.`
+          ]]
+        ]]
+      ],
       id: `cr`,
       load: this.cr,
       name: `Comment Reverser`,

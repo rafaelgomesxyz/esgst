@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
 import Process from '../../class/Process';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -9,19 +9,29 @@ const
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class DiscussionsDiscussionHighlighter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-star"></i> if the discussion is highlighted and <i class="fa fa-star-o"></i> if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.</li>
-        <li>Highlighted discussions have a green background.</li>
-        <li>Adds a button (<i class="fa fa-star esgst-yellow"></i> View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box at the header of any page that allows you to view all of the discussions that have been highlighted.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-star` }],
+            ` if the discussion is highlighted and `,
+            [`i`, { class: `fa fa-star-o` }],
+            ` if it is not) next to a discussion's title (in any page) that allows you to highlight the discussion.`
+          ]],
+          [`li`, `Highlighted discussions have a green background.`],
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-star esgst-yellow` }],
+            ` View Highlighted) to the dropdown menu accessible by clicking on the arrow in the "Discussions" box at the header of any page that allows you to view all of the discussions that have been highlighted.`
+          ]]
+        ]]
+      ],
       features: {
         dh_t: {
           name: `Pin any highlighted discussions in the page.`,

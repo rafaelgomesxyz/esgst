@@ -4,11 +4,11 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Removes SteamGifts' default fade for entered giveaways.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Removes SteamGifts' default fade for entered giveaways.`]
+        ]]
+      ],
       id: `ueg`,
       load: this.ueg,
       name: `Unfaded Entered Giveaway`,

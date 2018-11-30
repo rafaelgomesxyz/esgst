@@ -4,11 +4,11 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Allows you to highlight the end time of a giveaway (in any page) by coloring it based on how many hours there are left.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Allows you to highlight the end time of a giveaway (in any page) by coloring it based on how many hours there are left.`]
+        ]]
+      ],
       id: `geth`,
       load: this.geth,
       name: `Giveaway End Time Highlighter`,

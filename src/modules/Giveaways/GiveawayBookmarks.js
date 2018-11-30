@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import Button from '../../class/Button';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -15,18 +15,28 @@ const
   lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayBookmarks extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-bookmark"></i> if the giveaway is bookmarked and <i class="fa fa-bookmark-o"></i> if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.</li>
-        <li>Adds a button (<i class="fa fa-bookmark"></i>) next to the ESGST button at the header of any page that allows you to view all of the giveaways that have been bookmarked.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-bookmark` }],
+            ` if the giveaway is bookmarked and `,
+            [`i`, { class: `fa fa-bookmark-o` }],
+            ` if it is not) next to a giveaway's game name (in any page) that allows you to bookmark the giveaway so that you can enter it later.`
+          ]],
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-bookmark` }],
+            `) next to the ESGST button at the header of any page that allows you to view all of the giveaways that have been bookmarked.`
+          ]]
+        ]]
+      ],
       features: {
         gb_u: {
           name: `Automatically unbookmark ended giveaways.`,
@@ -41,14 +51,14 @@ class GiveawaysGiveawayBookmarks extends Module {
           sg: true
         },
         gb_h: {
-          description: `
-          <ul>
-            <li>Giveaways that have not started yet will not appear in the list of bookmarked giveaways. Instead, they will stay in a sort of hidden state until they start. When they start, the button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.</li>
-            <li>When giveaways are about to end (based on the number of hours specified below), the button will turn red.</li>
-            <li>If there are both started and ending giveaways, the button will be colored with a brown-ish color, as a mixture of the green and red colors.</li>
-            <li>If you hover over the button, it shows more details about how many giveaways have started and/or are ending.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Giveaways that have not started yet will not appear in the list of bookmarked giveaways. Instead, they will stay in a sort of hidden state until they start. When they start, the button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.`],
+              [`li`, `When giveaways are about to end (based on the number of hours specified below), the button will turn red.`],
+              [`li`, `If there are both started and ending giveaways, the button will be colored with a brown-ish color, as a mixture of the green and red colors.`],
+              [`li`, `If you hover over the button, it shows more details about how many giveaways have started and/or are ending.`]
+            ]]
+          ],
           inputItems: [
             {
               id: `gb_hours`,
@@ -79,24 +89,24 @@ class GiveawaysGiveawayBookmarks extends Module {
   gb() {
     this.esgst.giveawayFeatures.push(this.gb_getGiveaways.bind(this));
     let button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
+      attributes: {
+        class: `nav__button-container esgst-hidden`,
+        title: getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
+      },
+      type: `div`,
+      children: [{
         attributes: {
-          class: `nav__button-container esgst-hidden`,
-          title: getFeatureTooltip(`gb`, `View your bookmarked giveaways`)
+          class: `nav__button`
         },
         type: `div`,
         children: [{
           attributes: {
-            class: `nav__button`
+            class: `fa fa-bookmark`
           },
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `fa fa-bookmark`
-            },
-            type: `i`
-          }]
+          type: `i`
         }]
-      }]);
+      }]
+    }]);
     // noinspection JSIgnoredPromiseFromCall
     this.gb_addButton(button);
     if (this.esgst.gb_ue && this.esgst.enterGiveawayButton) {
@@ -282,7 +292,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       icon2: ``,
       title1: `View Raw List`,
       title2: ``,
-      callback1: this.gb_openList.bind(this, {bookmarked})
+      callback1: this.gb_openList.bind(this, { bookmarked })
     }).set, context);
     container.insertBefore(set.set, context);
     if (popup) {
@@ -336,7 +346,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       gb.popup.open();
       return;
     }
-    gb.popup = new Popup({addScrollable: true, icon: `fa-list`, title: `Bookmarked Giveaways (Raw List)`});
+    gb.popup = new Popup({ addScrollable: true, icon: `fa-list`, title: `Bookmarked Giveaways (Raw List)` });
     for (const giveaway of gb.bookmarked) {
       const attributes = {
         class: `table__column__secondary-link`,
@@ -381,7 +391,7 @@ class GiveawaysGiveawayBookmarks extends Module {
   async gb_loadGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
     if (i < n) {
       if (bookmarked[i]) {
-        let response = await request({method: `GET`, queue: true, url: `/giveaway/${bookmarked[i].code}/`});
+        let response = await request({ method: `GET`, queue: true, url: `/giveaway/${bookmarked[i].code}/` });
         let endTime;
         let responseHtml = parseHtml(response.responseText);
         let container = responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0];

@@ -4,11 +4,11 @@ class GeneralImageBorders extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Brings back image borders to SteamGifts.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Brings back image borders to SteamGifts.`]
+        ]]
+      ],
       id: `ib`,
       load: this.ib,
       name: `Image Borders`,

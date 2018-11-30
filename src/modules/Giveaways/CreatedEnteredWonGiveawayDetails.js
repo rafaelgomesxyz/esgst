@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -12,25 +12,37 @@ const
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds more details to each giveaway in your <a href="https://www.steamgifts.com/giveaways/created">created</a>/<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:</li>
-        <ul>
-          <li>How many points the giveaway is worth next to the game's name.</li>
-          <li>An icon (<i class="fa fa-steam"></i>) next to the game's name that links to the game's Steam store page.</li>
-          <li>For the entered/won pages only, the creator's username next to the giveaway's end time.</li>
-          <li>A column "Type" containing the giveaway's type (public, invite only, group, whitelist or region restricted).</li>
-          <li>A column "Level" containing the giveaway's level.</li>
-          <li>For the created page only, a column "Winner(s)" containing the giveaway's winner(s) and how many of them have marked it as received/not received.</li>
-        </ul>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds more details to each giveaway in your `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/created` }, `created`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/entered` }, `entered`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
+            ` pages:`
+          ]],
+          [`ul`, [
+            [`li`, `How many points the giveaway is worth next to the game's name.`],
+            [`li`, [
+              `An icon (`,
+              [`i`, { class: `fa fa-steam` }],
+              `) next to the game's name that links to the game's Steam store page.`
+            ]],
+            [`li`, `For the entered/won pages only, the creator's username next to the giveaway's end time.`],
+            [`li`, `A column "Type" containing the giveaway's type (public, invite only, group, whitelist or region restricted).`],
+            [`li`, `A column "Level" containing the giveaway's level.`],
+            [`li`, `For the created page only, a column "Winner(s)" containing the giveaway's winner(s) and how many of them have marked it as received/not received.`]
+          ]]
+        ]]
+      ],
       id: `cewgd`,
       load: this.cewgd,
       name: `Created/Entered/Won Giveaway Details`,
@@ -136,7 +148,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       let nextPage = 1;
       let pagination = null;
       do {
-        let response = await request({method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}`});
+        let response = await request({ method: `GET`, url: `${giveaway.url}/winners/search?page=${nextPage}` });
         let responseHtml = parseHtml(response.responseText);
         if (!currentGiveaway) {
           let currentGiveaways = await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
@@ -173,7 +185,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       }
     } else {
       console.log(`ESGST Log: CEWGD 3`);
-      let response = await request({method: `GET`, url: giveaway.url});
+      let response = await request({ method: `GET`, url: giveaway.url });
       let responseHtml = parseHtml(response.responseText);
       let currentGiveaways = await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
       if (currentGiveaways.length > 0) {

@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -15,17 +15,29 @@ const
   formatTags = common.formatTags.bind(common),
   request = common.request.bind(common),
   setSetting = common.setSetting.bind(common)
-;
+  ;
 
 class UsersWhitelistBlacklistManager extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-arrow-up"></i> <i class="fa fa-arrow-down"></i> <i class="fa fa-trash"></i>) to the main page heading of your <a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that allows you to import/export/clear your whitelist/blacklist.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-arrow-up` }],
+            ` `,
+            [`i`, { class: `fa fa-arrow-down` }],
+            ` `,
+            [`i`, { class: `fa fa-trash` }],
+            `) to the main page heading of your `,
+            [`a`, { href: `https://www.steamgifts.com/account/manage/whitelist` }, `whitelist`],
+            `/`,
+            [`a`, { href: `https://www.steamgifts.com/account/manage/blacklist` }, `blacklist`],
+            ` pages that allows you to import/export/clear your whitelist/blacklist.`
+          ]]
+        ]]
+      ],
       id: `wbm`,
       load: this.wbm_init,
       name: `Whitelist/Blacklist Manager`,
@@ -54,7 +66,7 @@ class UsersWhitelistBlacklistManager extends Module {
 
   wbm_openPopup(wbm) {
     if (!wbm.popup) {
-      wbm.popup = new Popup({addScrollable: true, icon: `fa-gear`, title: `Manage ${wbm.name}:`});
+      wbm.popup = new Popup({ addScrollable: true, icon: `fa-gear`, title: `Manage ${wbm.name}:` });
       new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, this.esgst.wbm_useCache);
       new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [{
         text: `Only clear users who are tagged with these specific tags (separate with comma): `,

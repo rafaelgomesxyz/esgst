@@ -1,21 +1,21 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GiveawaysQuickGiveawaySearch extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.</li>
-        <li>Has [id=ags] built-in.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.`],
+          [`li`, `Has[id = ags] built-in.`]
+        ]]
+      ],
       features: {
         qgs_h: {
           name: `Hide the native search on the main page.`,

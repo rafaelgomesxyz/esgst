@@ -1,19 +1,19 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common)
-;
+  ;
 
 class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.`]
+        ]]
+      ],
       id: `hgebd`,
       load: this.hgebd,
       name: `Hidden Game's Enter Button Disabler`,

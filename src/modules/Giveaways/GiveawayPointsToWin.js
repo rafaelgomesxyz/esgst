@@ -1,30 +1,34 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayPointsToWin extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an element (<i class="fa fa-rub"></i> [Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.</li>
-        <li>The points are calculated by rounding up (using 2 decimals) the result of the following formula: number_of_points / number_of_copies * number_of_entries
-        <li>You can move the element around by dragging and dropping it.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an element (`,
+            [`i`, { class: `fa fa-rub` }],
+            `[Points]) below a giveaway's start time (in any page) that shows how many points you would have to spend to win the giveaway.`
+          ]],
+          [`li`, `The points are calculated by rounding up (using 2 decimals) the result of the following formula: number_of_points / number_of_copies * number_of_entries`],
+          [`li`, `You can move the element around by dragging and dropping it.`]
+        ]]
+      ],
       features: {
         gptw_e: {
-          description: `
-          <ul>
-            <li>The formula changes to: number_of_points / number_of_copies * (number_of_entries + 1)
-            <li>For example, if a giveaway for 2 copies has 5 entries and is worth 10 points, the current points to win are 25, but after you enter it, it will have 6 entries, so the points will increase to 30.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `The formula changes to: number_of_points / number_of_copies * (number_of_entries + 1)`],
+              [`li`, `For example, if a giveaway for 2 copies has 5 entries and is worth 10 points, the current points to win are 25, but after you enter it, it will have 6 entries, so the points will increase to 30.`]
+            ]]
+          ],
           name: `Show what the points to win will be when you enter the giveaway instead of the current points to win.`,
           sg: true
         }

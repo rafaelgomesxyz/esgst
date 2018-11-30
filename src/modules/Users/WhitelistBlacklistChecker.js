@@ -2,8 +2,8 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -20,49 +20,75 @@ const
   observeNumChange = common.observeNumChange.bind(common),
   request = common.request.bind(common),
   saveUser = common.saveUser.bind(common)
-;
+  ;
 
 class UsersWhitelistBlacklistChecker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-question-circle"></i>) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.</li>
-        <li>That information is retrieved by searching for whitelist giveaways in the user's <a href="https://www.steamgifts.com/user/cg">profile</a> page and checking if you can access them. If no whitelist giveaways are found, the feature searches for group + whitelist giveaways instead and checks if you can access them using the groups that you are a member of to determine whether you can access them for being a group member or for being in the user's whitelist.</li>
-        <li>There are many options that allow you to narrow down the check: you can select which users to check, check only if the user has blacklisted you (which is faster than checking if they have whitelisted you because it does not need to find a whitelist giveaway), how many pages to check, whether or not to check again users that were already checked and whether or not to skip users that the feature is taking too long to find whitelist giveaways from.</li>
-        <li>There are also options to return whitelists/blacklists, which means that if a user that has whitelisted/blacklisted you is found, they will be whitelisted/blacklisted back.</li>
-        <li>Adds a button (<i class="fa fa-heart"></i> <i class="fa fa-ban"></i> <i class="fa fa-gear"></i>) to the page heading of this menu that allows you to view/update all of the users that have been checked.</li>
-        <li>Results are cached for 24 hours, so if you check the same user again within that timeframe, their status will not change, unless you check them with the option to clear the cache enabled.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-heart` }],
+            ` `,
+            [`i`, { class: `fa fa-ban` }],
+            ` `,
+            [`i`, { class: `fa fa-question-circle` }],
+            `) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.`
+          ]],
+          [`li`, [
+            `That information is retrieved by searching for whitelist giveaways in the user's `,
+            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ` page and checking if you can access them. If no whitelist giveaways are found, the feature searches for group + whitelist giveaways instead and checks if you can access them using the groups that you are a member of to determine whether you can access them for being a group member or for being in the user's whitelist.`
+          ]],
+          [`li`, `There are many options that allow you to narrow down the check: you can select which users to check, check only if the user has blacklisted you (which is faster than checking if they have whitelisted you because it does not need to find a whitelist giveaway), how many pages to check, whether or not to check again users that were already checked and whether or not to skip users that the feature is taking too long to find whitelist giveaways from.`],
+          [`li`, `There are also options to return whitelists/blacklists, which means that if a user that has whitelisted/blacklisted you is found, they will be whitelisted/blacklisted back.`],
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-heart` }],
+            ` `,
+            [`i`, { class: `fa fa-ban` }],
+            ` `,
+            [`i`, { class: `fa fa-gear` }],
+            `) to the page heading of this menu that allows you to view/update all of the users that have been checked.`
+          ]],
+          [`li`, `Results are cached for 24 hours, so if you check the same user again within that timeframe, their status will not change, unless you check them with the option to clear the cache enabled.`]
+        ]]
+      ],
       features: {
         wbc_h: {
-          description: `
-          <ul>
-            <li>Adds an icon (<i class="fa fa-check esgst-whitelist"></i> if the user has whitelisted you and <i class="fa fa-times esgst-blacklist"></i> if they have blacklisted you) next to a checked user's username (in any page).</li>
-            <li>If you hover over the icon, it shows the date when they were checked for the last time.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, [
+                `Adds an icon (`,
+                [`i`, { class: `fa fa-check esgst-whitelist` }],
+                ` if the user has whitelisted you and `,
+                [`i`, { class: `fa fa-times esgst-blacklist` }],
+                ` if they have blacklisted you) next to a checked user's username (in any page).`
+              ]],
+              [`li`, `If you hover over the icon, it shows the date when they were checked for the last time.`]
+            ]]
+          ],
           name: `Highlight checked users.`,
           sg: true,
           st: true
         },
         wbc_n: {
-          description: `
-          <ul>
-            <li>If you have [id=un] enabled, a note will be saved for a user if they were whitelisted/blacklisted back.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `If you have[id = un] enabled, a note will be saved for a user if they were whitelisted / blacklisted back.`]
+            ]]
+          ],
           name: `Save automatic notes when returning whitelists/blacklists.`,
           sg: true
         },
         wbc_hb: {
-          description: `
-          <ul>
-            <li>With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.`]
+            ]]
+          ],
           name: `Hide blacklist information.`,
           sg: true
         }
@@ -83,7 +109,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     }
     if (!this.esgst.mainPageHeading) return;
     let [icons, title] = !this.esgst.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
-    this.esgst.wbcButton = createHeadingButton({id: `wbc`, icons, title});
+    this.esgst.wbcButton = createHeadingButton({ id: `wbc`, icons, title });
     this.wbc_addButton(true, this.esgst.wbcButton);
   }
 
@@ -130,7 +156,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         SteamID64: document.querySelector(`a[href*="/profiles/"]`).href.match(/\d+/)[0],
       };
     }
-    popup.Options = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
+    popup.Options = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     if (WBC.User) {
       checkSingleSwitch = new ToggleSwitch(popup.Options, `wbc_checkSingle`, false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, this.esgst.wbc_checkSingle);
     }
@@ -192,10 +218,10 @@ class UsersWhitelistBlacklistChecker extends Module {
       },
       type: `input`
     },
-      {
-        text: ` pages.`,
-        type: `node`
-      }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
+    {
+      text: ` pages.`,
+      type: `node`
+    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
     new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, this.esgst.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {
@@ -300,10 +326,10 @@ class UsersWhitelistBlacklistChecker extends Module {
         WBCButton.classList.remove(`esgst-busy`);
       }
     }).set);
-    skip = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
-    WBC.Progress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
-    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{type: `div`}]);
-    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{type: `div`}]);
+    skip = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.Progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    WBC.OverallProgress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.Results = createElements(popup.scrollable, `beforeEnd`, [{ type: `div` }]);
     createResults(popup.Results, WBC, [{
       Icon: `fa fa-heart esgst-whitelist`,
       Description: `You are whitelisted by`,

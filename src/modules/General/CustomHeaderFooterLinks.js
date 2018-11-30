@@ -2,7 +2,7 @@ import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createConfirmation = common.createConfirmation.bind(common),
@@ -10,28 +10,38 @@ const
   generateHeaderMenuItem = common.generateHeaderMenuItem.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GeneralCustomHeaderFooterLinks extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Allows you to add custom links to the header dropdowns/footer of any page.</li>
-        <li>Already comes with some predefined links:</li>
-        <ul>
-          <li>Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New</li>
-          <li>Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let's Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized</li>
-          <li>Support: Real CV, Not Activated Wins, Multiple Wins</li>
-          <li>Help: Change Log</li>
-          <li>Account: Whitelist, Blacklist, Games, Groups, Wishlist</li>
-        </ul>
-        <li>If you press the Ctrl key with a dropdown open, the feature adds two buttons ("<i class="fa fa-plus-circle"></i> Add Custom Link" and "<i class="fa fa-undo"></i> Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (<i class="fa fa-edit"></i> to edit and <i class="fa fa-trash"></i> to remove) to each custom link in the dropdown that allow you to edit/remove the custom link.</li>
-        <li>If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.</li>
-        <li>You can move the custom links by dragging and dropping them.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Allows you to add custom links to the header dropdowns/footer of any page.`],
+          [`li`, `Already comes with some predefined links:`],
+          [`ul`, [
+            [`li`, `Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New`],
+            [`li`, `Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let's Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized`],
+            [`li`, `Support: Real CV, Not Activated Wins, Multiple Wins`],
+            [`li`, `Help: Change Log`],
+            [`li`, `Account: Whitelist, Blacklist, Games, Groups, Wishlist`]
+          ]],
+          [`li`, [
+            `If you press the Ctrl key with a dropdown open, the feature adds two buttons ("`,
+            [`i`, { class: `fa fa-plus-circle` }],
+            ` Add Custom Link" and "`,
+            [`i`, { class: `fa fa-undo` }],
+            ` Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (`,
+            [`i`, { class: `fa fa-edit` }],
+            ` to edit and `,
+            [`i`, { class: `fa fa-trash` }],
+            ` to remove) to each custom link in the dropdown that allow you to edit/remove the custom link.`
+          ]],
+          [`li`, `If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.`],
+          [`li`, `You can move the custom links by dragging and dropping them.`]
+        ]]
+      ],
       inputItems: `chfl_key`,
       id: `chfl`,
       load: this.chfl,

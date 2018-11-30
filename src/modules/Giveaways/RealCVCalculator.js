@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import {common} from '../Common';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -7,17 +7,17 @@ const
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysRealCVCalculator extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).`]
+        ]]
+      ],
       id: `rcvc`,
       load: this.rcvc,
       name: `Real CV Calculator`,

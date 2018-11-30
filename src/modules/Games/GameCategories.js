@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -13,61 +13,93 @@ const
   lockAndSaveGames = common.lockAndSaveGames.bind(common),
   request = common.request.bind(common),
   setLocalValue = common.setLocalValue.bind(common)
-;
+  ;
 
 class GamesGameCategories extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).</li>
-        <li>The categories can be reordered by dragging and dropping them. You can also drag and drop them between a giveaway's columns (where the end/start times and the creator's username are).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).`],
+          [`li`, `The categories can be reordered by dragging and dropping them. You can also drag and drop them between a giveaway's columns (where the end/start times and the creator's username are).`]
+        ]]
+      ],
       features: {
         gc_lr: {
-          description: `
-          <ul>
-            <li>With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).</li>
-            <li>With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).`],
+              [`li`, `With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.`]
+            ]]
+          ],
           name: `Limit requests to the Steam store.`,
           sg: true
         },
         gc_rt: {
-          description: `
-          <ul>
-            <li>Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Normally the categories only appear in the page after all requests have been made (meaning they all appear in the page at the same time). With this option enabled, the categories will appear as they are requested, so they appear in different times for each game.`]
+            ]]
+          ],
           name: `Show categories in real time.`,
           sg: true
         },
         gc_si: {
-          description: `
-          <ul>
-            <li>With this option enabled, the following categories appear instantly, since they do not need to be fetched from Steam: Full CV, Hidden, HLTB, Ignored, No CV, Owned, Package, Previously Won, Reduced CV, Wishlisted.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, the following categories appear instantly, since they do not need to be fetched from Steam: Full CV, Hidden, HLTB, Ignored, No CV, Owned, Package, Previously Won, Reduced CV, Wishlisted.`]
+            ]]
+          ],
           name: `Show categories that do not need to be fetched from Steam instantly.`,
           sg: true
         },
         gc_lp: {
-          description: `
-          <ul>
-            <li>"Achievements" links to the <a href="http://steamcommunity.com/stats">http://steamcommunity.com/stats</a> page of the game.</li>
-            <li>"Full CV", "Reduced CV" and "No CV" link to the <a href="https://www.steamgifts.com/bundle-games">https://www.steamgifts.com/bundle-games</a> page of the game.</li>
-            <li>"Giveaway Info" links to your profile page.</li>
-            <li>"Hidden" links to the <a href="https://www.steamgifts.com/account/settings/giveaways/filters">https://www.steamgifts.com/account/settings/giveaways/filters</a> page of the game.</li>
-            <li>"Owned" links to the <a href="https://www.steamgifts.com/account/steam/games">https://www.steamgifts.com/account/steam/games</a> page of the game.</li>
-            <li>"Removed" links to the <a href="http://steamdb.info">http://steamdb.info</a> page of the game.</li>
-            <li>"Trading Cards" links to the <a href="http://www.steamcardexchange.net/index.php">http://www.steamcardexchange.net/index.php</a> page of the game.</li>
-            <li>"Wishlist" links to the <a href="https://www.steamgifts.com/account/steam/wishlist">https://www.steamgifts.com/account/steam/wishlist</a> page of the game.</li>
-            <li>Every other category links to the <a href="http://store.steampowered.com">http://store.steampowered.com</a> page of the game.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, [
+                `"Achievements" links to the `,
+                [`a`, { href: `http://steamcommunity.com/stats` }, `http://steamcommunity.com/stats`],
+                ` page of the game.`
+              ]],
+              [`li`, [
+                `"Full CV", "Reduced CV" and "No CV" link to the `,
+                [`a`, { href: `https://www.steamgifts.com/bundle-games` }, `https://www.steamgifts.com/bundle-games`],
+                ` page of the game.`
+              ]],
+              [`li`, `"Giveaway Info" links to your profile page.`],
+              [`li`, [
+                `"Hidden" links to the `,
+                [`a`, { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `https://www.steamgifts.com/account/settings/giveaways/filters`],
+                ` page of the game.`
+              ]],
+              [`li`, [
+                `"Owned" links to the `,
+                [`a`, { href: `https://www.steamgifts.com/account/steam/games` }, `https://www.steamgifts.com/account/steam/games`],
+                ` page of the game.`
+              ]],
+              [`li`, [
+                `"Removed" links to the `,
+                [`a`, { href: `http://steamdb.info` }, `http://steamdb.info`],
+                ` page of the game.`
+              ]],
+              [`li`, [
+                `"Trading Cards" links to the `,
+                [`a`, { href: `http://www.steamcardexchange.net/index.php` }, `http://www.steamcardexchange.net/index.php`],
+                ` page of the game.`
+              ]],
+              [`li`, [
+                `"Wishlist" links to the `,
+                [`a`, { href: `https://www.steamgifts.com/account/steam/wishlist` }, `https://www.steamgifts.com/account/steam/wishlist`],
+                ` page of the game.`
+              ]],
+              [`li`, [
+                `Every other category links to the `,
+                [`a`, { href: `http://store.steampowered.com` }, `http://store.steampowered.com`],
+                ` page of the game.`
+              ]]
+            ]]
+          ],
           features: {
             gc_lp_gv: {
               name: `Enable for Grid View.`,
@@ -87,20 +119,20 @@ class GamesGameCategories extends Module {
         },
         gc_a: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game has achievements.</li>
-            <li>If you hover over the category, it shows how many achievements the game has.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game has achievements.`],
+              [`li`, `If you hover over the category, it shows how many achievements the game has.`]
+            ]]
+          ],
           features: {
             gc_a_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_a_s_i: {
                   name: `Use icons instead of initials.`,
@@ -117,19 +149,19 @@ class GamesGameCategories extends Module {
         },
         gc_dlc: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is a DLC.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is a DLC.`]
+            ]]
+          ],
           features: {
             gc_dlc_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_dlc_s_i: {
                   name: `Use icons instead of initials.`,
@@ -140,20 +172,26 @@ class GamesGameCategories extends Module {
               sg: true
             },
             gc_dlc_b: {
-              description: `
-              <ul>
-                <li>The icon <i class="fa fa-certificate"></i> will be added if the base is free, the icon <i class="fa fa-dollar"></i> will be added if it is not, and no icon will be added if the information is unavailable.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, [
+                    `The icon `,
+                    [`i`, { class: `fa fa-certificate` }],
+                    ` will be added if the base is free, the icon `,
+                    [`i`, { class: `fa fa-dollar` }],
+                    ` will be added if it is not, and no icon will be added if the information is unavailable.`
+                  ]]
+                ]]
+              ],
               name: `Indicate if the base game of the DLC is free.`,
               sg: true
             },
             gc_dlc_o: {
-              description: `
-              <ul>
-                <li>The same icon you use for the Owned category will be added if the base is owned.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `The same icon you use for the Owned category will be added if the base is owned.`]
+                ]]
+              ],
               name: `Indicate if the base game of the DLC is owned.`,
               sg: true
             }
@@ -164,19 +202,19 @@ class GamesGameCategories extends Module {
         },
         gc_ea: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is in early access.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is in early access.`]
+            ]]
+          ],
           features: {
             gc_ea_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_ea_s_i: {
                   name: `Use icons instead of initials.`,
@@ -193,19 +231,19 @@ class GamesGameCategories extends Module {
         },
         gc_f: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if you have followed the game on Steam.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if you have followed the game on Steam.`]
+            ]]
+          ],
           features: {
             gc_f_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_f_s_i: {
                   name: `Use icons instead of initials.`,
@@ -222,19 +260,19 @@ class GamesGameCategories extends Module {
         },
         gc_fcv: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game gives full CV when given away.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game gives full CV when given away.`]
+            ]]
+          ],
           features: {
             gc_fcv_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_fcv_s_i: {
                   name: `Use icons instead of initials.`,
@@ -251,29 +289,29 @@ class GamesGameCategories extends Module {
         },
         gc_g: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows the official genres of the game.</li>
-            <li>The genres/user-defined tags are listed in the same category, separated by a comma. If they exceed a certain width, a "..." is added and the rest is hidden (they can be seen by hovering over the category).</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows the official genres of the game.`],
+              [`li`, `The genres/user-defined tags are listed in the same category, separated by a comma. If they exceed a certain width, a "..." is added and the rest is hidden (they can be seen by hovering over the category).`]
+            ]]
+          ],
           features: {
             gc_g_s: {
-              description: `
-              <ul>
-                <li>With this option enabled, each genre/user-defined tag will have its own category instead of all of them being listed in the same one.</li>
-                <li>This option allows each separate category to be colored individually.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `With this option enabled, each genre/user-defined tag will have its own category instead of all of them being listed in the same one.`],
+                  [`li`, `This option allows each separate category to be colored individually.`]
+                ]]
+              ],
               name: `Show each genre/user-defined tag as a separate category.`,
               sg: true
             },
             gc_g_udt: {
-              description: `
-              <ul>
-                <li>Shows the user-defined tags that the game has in addition to the official genres.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the user-defined tags that the game has in addition to the official genres.`]
+                ]]
+              ],
               name: `User-Defined Tags`,
               sg: true
             }
@@ -283,29 +321,29 @@ class GamesGameCategories extends Module {
         },
         gc_gi: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows how many giveaways you have already made for the game and how much real CV you should get for a new giveaway.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows how many giveaways you have already made for the game and how much real CV you should get for a new giveaway.`]
+            ]]
+          ],
           name: `Giveaway Info`,
           sg: true
         },
         gc_h: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if you have hidden the game on SteamGifts.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if you have hidden the game on SteamGifts.`]
+            ]]
+          ],
           features: {
             gc_h_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_h_s_i: {
                   name: `Use icons instead of initials.`,
@@ -322,11 +360,11 @@ class GamesGameCategories extends Module {
         },
         gc_hltb: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows how long it takes on average to beat the game based on HowLongToBeat.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows how long it takes on average to beat the game based on HowLongToBeat.`]
+            ]]
+          ],
           options: [{
             title: `For singleplayer games, show:`,
             values: [`Main Story`, `Main + Extra`, `Completionist`]
@@ -344,19 +382,19 @@ class GamesGameCategories extends Module {
         },
         gc_i: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if you have ignored the game on Steam.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if you have ignored the game on Steam.`]
+            ]]
+          ],
           features: {
             gc_i_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_i_s_i: {
                   name: `Use icons instead of initials.`,
@@ -373,19 +411,19 @@ class GamesGameCategories extends Module {
         },
         gc_lg: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if Steam is learning about the game.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if Steam is learning about the game.`]
+            ]]
+          ],
           features: {
             gc_lg_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_lg_s_i: {
                   name: `Use icons instead of initials.`,
@@ -402,19 +440,19 @@ class GamesGameCategories extends Module {
         },
         gc_l: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is compatible with Linux.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is compatible with Linux.`]
+            ]]
+          ],
           features: {
             gc_l_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_l_s_i: {
                   name: `Use icons instead of initials.`,
@@ -431,19 +469,19 @@ class GamesGameCategories extends Module {
         },
         gc_m: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is compatible with Mac.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is compatible with Mac.`]
+            ]]
+          ],
           features: {
             gc_m_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_m_s_i: {
                   name: `Use icons instead of initials.`,
@@ -460,19 +498,19 @@ class GamesGameCategories extends Module {
         },
         gc_mp: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is multiplayer.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is multiplayer.`]
+            ]]
+          ],
           features: {
             gc_mp_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_mp_s_i: {
                   name: `Use icons instead of initials.`,
@@ -489,20 +527,20 @@ class GamesGameCategories extends Module {
         },
         gc_ncv: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game gives no CV when given away.</li>
-            <li>If you hover over the category, it shows the date since it gives no CV.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game gives no CV when given away.`],
+              [`li`, `If you hover over the category, it shows the date since it gives no CV.`]
+            ]]
+          ],
           features: {
             gc_ncv_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_ncv_s_i: {
                   name: `Use icons instead of initials.`,
@@ -523,19 +561,19 @@ class GamesGameCategories extends Module {
         },
         gc_o: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if you own the game.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if you own the game.`]
+            ]]
+          ],
           features: {
             gc_o_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_o_s_i: {
                   name: `Use icons instead of initials.`,
@@ -556,20 +594,20 @@ class GamesGameCategories extends Module {
         },
         gc_p: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is a package.</li>
-            <li>If you hover over the category, it shows how many items are contained in the package.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is a package.`],
+              [`li`, `If you hover over the category, it shows how many items are contained in the package.`]
+            ]]
+          ],
           features: {
             gc_p_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_p_s_i: {
                   name: `Use icons instead of initials.`,
@@ -586,23 +624,23 @@ class GamesGameCategories extends Module {
         },
         gc_pw: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if you have previously won the game.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if you have previously won the game.`]
+            ]]
+          ],
           features: {
             gc_pw_o: {
               name: `Do not show if the game already has the Owned category.`,
               sg: true
             },
             gc_pw_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_pw_s_i: {
                   name: `Use icons instead of initials.`,
@@ -618,11 +656,11 @@ class GamesGameCategories extends Module {
           sg: true
         },
         gc_r: {
-          description: `
-          <ul>
-            <li>Shows the overall rating that the game has on Steam.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows the overall rating that the game has on Steam.`]
+            ]]
+          ],
           features: {
             gc_r_s: {
               name: `Show the percentage and number of reviews next to the icon.`,
@@ -634,20 +672,20 @@ class GamesGameCategories extends Module {
         },
         gc_rcv: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game gives reduced CV when given away.</li>
-            <li>If you hover over the category, it shows the date since it gives reduced CV.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game gives reduced CV when given away.`],
+              [`li`, `If you hover over the category, it shows the date since it gives reduced CV.`]
+            ]]
+          ],
           features: {
             gc_rcv_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_rcv_s_i: {
                   name: `Use icons instead of initials.`,
@@ -660,15 +698,15 @@ class GamesGameCategories extends Module {
           },
           input: true,
           name: `Reduced CV`,
-          sg: {include: [{enabled: 1, pattern: `.*`}], exclude: [{enabled: 1, pattern: `^/bundle-games`}]}
+          sg: { include: [{ enabled: 1, pattern: `.*` }], exclude: [{ enabled: 1, pattern: `^/bundle-games` }] }
         },
         gc_rd: {
-          description: `
-          <ul>
-            <li>Shows the release date of the game.</li>
-            <li>If the game has no release date, a "?" will be shown instead.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows the release date of the game.`],
+              [`li`, `If the game has no release date, a "?" will be shown instead.`]
+            ]]
+          ],
           colors: true,
           input: true,
           name: `Release Date`,
@@ -676,19 +714,19 @@ class GamesGameCategories extends Module {
         },
         gc_rm: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game has been removed from the Steam store.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game has been removed from the Steam store.`]
+            ]]
+          ],
           features: {
             gc_rm_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_rm_s_i: {
                   name: `Use icons instead of initials.`,
@@ -705,19 +743,19 @@ class GamesGameCategories extends Module {
         },
         gc_sp: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game is singleplayer.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is singleplayer.`]
+            ]]
+          ],
           features: {
             gc_sp_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_sp_s_i: {
                   name: `Use icons instead of initials.`,
@@ -734,19 +772,19 @@ class GamesGameCategories extends Module {
         },
         gc_sc: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game has Steam Cloud.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game has Steam Cloud.`]
+            ]]
+          ],
           features: {
             gc_sc_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_sc_s_i: {
                   name: `Use icons instead of initials.`,
@@ -763,19 +801,19 @@ class GamesGameCategories extends Module {
         },
         gc_tc: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if the game has trading cards.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game has trading cards.`]
+            ]]
+          ],
           features: {
             gc_tc_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_tc_s_i: {
                   name: `Use icons instead of initials.`,
@@ -792,20 +830,20 @@ class GamesGameCategories extends Module {
         },
         gc_w: {
           colors: true,
-          description: `
-          <ul>
-            <li>Shows if you have wishlisted the game on Steam.</li>
-            <li>If you hover over the category, it shows the date when you added the game to your wishlist.</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if you have wishlisted the game on Steam.`],
+              [`li`, `If you hover over the category, it shows the date when you added the game to your wishlist.`]
+            ]]
+          ],
           features: {
             gc_w_s: {
-              description: `
-              <ul>
-                <li>Shows the category initials instead of its full name.</li>
-                <li>Not compatible with custom labels.</li>
-              </ul>
-            `,
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
               features: {
                 gc_w_s_i: {
                   name: `Use icons instead of initials.`,
@@ -833,7 +871,7 @@ class GamesGameCategories extends Module {
 
   gc() {
     this.esgst.gameFeatures.push(this.gc_games.bind(this));
-    this.esgst.gcToFetch = {apps: {}, subs: {}};
+    this.esgst.gcToFetch = { apps: {}, subs: {} };
   }
 
   gc_games(games, main, source, endless) {
@@ -1324,7 +1362,7 @@ class GamesGameCategories extends Module {
       }
       if (this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_g_udt) {
         let response = await request({
-          headers: {[`Cookie`]: `birthtime=0; mature_content=1`},
+          headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
           method: `GET`,
           notLimited: !this.esgst.gc_lr,
           url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`
@@ -1604,12 +1642,12 @@ class GamesGameCategories extends Module {
                   hltbTimes.vs += parseFloat(gc.cache.hltb[id].vs || 0);
                 }
               }
-              hltbTimes.mainStory = isNaN(hltbTimes.mainStory) ? `-` : `${hltbTimes.mainStory}h`;
-              hltbTimes.mainExtra = isNaN(hltbTimes.mainExtra) ? `-` : `${hltbTimes.mainExtra}h`;
-              hltbTimes.completionist = isNaN(hltbTimes.completionist) ? `-` : `${hltbTimes.completionist}h`;
-              hltbTimes.solo = isNaN(hltbTimes.solo) ? `-` : `${hltbTimes.solo}h`;
-              hltbTimes.coOp = isNaN(hltbTimes.coOp) ? `-` : `${hltbTimes.coOp}h`;
-              hltbTimes.vs = isNaN(hltbTimes.vs) ? `-` : `${hltbTimes.vs}h`;
+              hltbTimes.mainStory = isNaN(hltbTimes.mainStory) ? `- ` : `${hltbTimes.mainStory}h`;
+              hltbTimes.mainExtra = isNaN(hltbTimes.mainExtra) ? `- ` : `${hltbTimes.mainExtra}h`;
+              hltbTimes.completionist = isNaN(hltbTimes.completionist) ? `- ` : `${hltbTimes.completionist}h`;
+              hltbTimes.solo = isNaN(hltbTimes.solo) ? `- ` : `${hltbTimes.solo}h`;
+              hltbTimes.coOp = isNaN(hltbTimes.coOp) ? `- ` : `${hltbTimes.coOp}h`;
+              hltbTimes.vs = isNaN(hltbTimes.vs) ? `- ` : `${hltbTimes.vs}h`;
             } else {
               hltbTimes = hltb && hltb[id];
             }
@@ -1655,7 +1693,7 @@ class GamesGameCategories extends Module {
                 time = hltbTimes.mainStory || hltbTimes.mainExtra || hltbTimes.completionist || hltbTimes.solo || hltbTimes.coOp || hltbTimes.vs;
               }
               if (time) {
-                let title = `Average time to beat based on HowLongToBeat:\n\n`;
+                let title = `Average time to beat based on HowLongToBeat: \n\n`;
                 if (hltbTimes.mainStory) {
                   title += `Main Story: ${hltbTimes.mainStory}\n`;
                 }
@@ -1669,7 +1707,7 @@ class GamesGameCategories extends Module {
                   title += `Solo: ${hltbTimes.solo}\n`;
                 }
                 if (hltbTimes.coOp) {
-                  title += `Co-Op: ${hltbTimes.coOp}\n`;
+                  title += `Co - Op: ${hltbTimes.coOp}\n`;
                 }
                 if (hltbTimes.vs) {
                   title += `Vs.: ${hltbTimes.vs}\n`;
@@ -1737,7 +1775,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_i_s && this.esgst.gc_i_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_iIcon}`
+                    class: `fa fa-${this.esgst.gc_iIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -1840,7 +1878,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-won`,
                   [`data-draggable-id`]: `gc_pw`,
                   href: `https://www.steamgifts.com/user/${this.esgst.username}/won/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_pw`, `Previously Won`)
+                  title: getFeatureTooltip(`gc_pw`, `Previously Won`),
                 },
                 text: this.esgst.gc_pw_s ? (this.esgst.gc_pw_s_i ? `` : `PW`) : this.esgst.gc_pwLabel,
                 type: `a`,
@@ -1968,12 +2006,13 @@ class GamesGameCategories extends Module {
                 colors = {
                   bgColor: `#7f8c8d`,
                   color: `#ffffff`,
-                  icon: `fa-question-circle`
+                  icon: `fa - question - circle`
                 };
               }
               let match = cache.rating.match(/\((\d+)\)/);
               if (match) {
-                cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()})`);
+                cache.rating = cache.rating.replace(/\(\d+\)/, `(${parseInt(match[1]).toLocaleString()
+                  })`);
               }
               elements.push({
                 attributes: {
@@ -1992,12 +2031,12 @@ class GamesGameCategories extends Module {
                   },
                   type: `i`
                 } : {
-                  attributes: {
-                    style: `font-size: 14px;`
-                  },
-                  text: colors.icon,
-                  type: `span`
-                }, {
+                    attributes: {
+                      style: `font-size: 14px;`
+                    },
+                    text: colors.icon,
+                    type: `span`
+                  }, {
                   text: this.esgst.gc_r_s ? ` ${cache.rating}` : ``,
                   type: `node`
                 }]
@@ -2058,7 +2097,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_mp_s && this.esgst.gc_mp_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_mpIcon}`
+                    class: `fa fa-${this.esgst.gc_mpIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2090,7 +2129,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_sp_s && this.esgst.gc_sp_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_spIcon}`
+                    class: `fa fa-${this.esgst.gc_spIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2122,7 +2161,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_sc_s && this.esgst.gc_sc_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_scIcon}`
+                    class: `fa fa-${this.esgst.gc_scIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2154,7 +2193,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_tc_s && this.esgst.gc_tc_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_tcIcon}`
+                    class: `fa fa-${this.esgst.gc_tcIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2186,7 +2225,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_l_s && this.esgst.gc_l_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_lIcon}`
+                    class: `fa fa-${this.esgst.gc_lIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2218,7 +2257,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_m_s && this.esgst.gc_m_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_mIcon}`
+                    class: `fa fa-${this.esgst.gc_mIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2241,7 +2280,7 @@ class GamesGameCategories extends Module {
                 if (this.esgst.gc_dlc_s_i) {
                   children.push({
                     attributes: {
-                      class: `fa fa-${this.esgst.gc_dlcIcon}`
+                      class: `fa fa-${this.esgst.gc_dlcIcon} `
                     },
                     type: `i`
                   });
@@ -2384,7 +2423,7 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-package`,
                   [`data-draggable-id`]: `gc_p`,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
-                  title: getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``}${packageCount ? ` (${packageCount.num} owned)` : ``}`)
+                  title: getFeatureTooltip(`gc_p`, `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``} ${packageCount ? ` (${packageCount.num} owned)` : ``} `)
                 },
                 type: `a`,
                 children
@@ -2413,7 +2452,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_ea_s && this.esgst.gc_ea_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_eaIcon}`
+                    class: `fa fa-${this.esgst.gc_eaIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2445,7 +2484,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_lg_s && this.esgst.gc_lg_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_lgIcon}`
+                    class: `fa fa-${this.esgst.gc_lgIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2477,7 +2516,7 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children: this.esgst.gc_rm_s && this.esgst.gc_rm_s_i ? [{
                   attributes: {
-                    class: `fa fa-${this.esgst.gc_rmIcon}`
+                    class: `fa fa-${this.esgst.gc_rmIcon} `
                   },
                   type: `i`
                 }, count ? {
@@ -2493,7 +2532,7 @@ class GamesGameCategories extends Module {
                 attributes: {
                   class: `esgst-gc esgst-gc-releaseDate`,
                   [`data-draggable-id`]: `gc_rd`,
-                  [`data-timestamp`]: cache.releaseDate === `?` ? cache.releaseDate : cache.releaseDate / 1e3,
+                  [`data-timestamp`]: cache.releaseDate === ` ? ` ? cache.releaseDate : cache.releaseDate / 1e3,
                   href: `http://store.steampowered.com/${singularType}/${id}`,
                   title: getFeatureTooltip(`gc_rd`, `Release Date`)
                 },

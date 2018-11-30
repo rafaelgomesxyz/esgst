@@ -4,11 +4,11 @@ class VisibleFullLevel extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Displays the full level at the header, instead of only showing it when hovering over the level. For example, "Level 5" becomes "Lvl 5.25".</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, `Displays the full level at the header, instead of only showing it when hovering over the level. For example, "Level 5" becomes "Lvl 5.25".`]
+        ]]
+      ],
       id: `vfl`,
       name: `Visible Full Level`,
       sg: true,

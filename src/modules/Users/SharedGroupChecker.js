@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -10,17 +10,23 @@ const
   endless_load = common.endless_load.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   request = common.request.bind(common)
-;
+  ;
 
 class UsersSharedGroupChecker extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-users"></i>) next to a user's username (in their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to check which groups you are both members of.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-users` }],
+            `) next to a user's username (in their `,
+            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ` page) that allows you to check which groups you are both members of.`
+          ]]
+        ]]
+      ],
       id: `sgc`,
       load: this.sgc,
       name: `Shared Group Checker`,
@@ -58,7 +64,7 @@ class UsersSharedGroupChecker extends Module {
     if (profile.sgcPopup) {
       profile.sgcPopup.open();
     } else {
-      profile.sgcPopup = new Popup({addScrollable: true, icon: `fa-users`, title: `Shared Groups`});
+      profile.sgcPopup = new Popup({ addScrollable: true, icon: `fa-users`, title: `Shared Groups` });
       profile.sgcProgress = createElements(profile.sgcPopup.description, `beforeEnd`, [{
         type: `div`,
         children: [{
@@ -162,7 +168,7 @@ class UsersSharedGroupChecker extends Module {
     let responseHtml = parseHtml(response.responseText);
     let isLoggedIn = true;
     if (!responseHtml.getElementById(`groups_list`)) {
-      response = await request({method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups`});
+      response = await request({ method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups` });
       responseHtml = parseHtml(response.responseText);
       isLoggedIn = false;
     }

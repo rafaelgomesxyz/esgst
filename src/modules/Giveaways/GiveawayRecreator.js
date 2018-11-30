@@ -1,6 +1,6 @@
 import Module from '../../class/Module';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -9,17 +9,23 @@ const
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayRecreator extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an icon (<i class="fa fa-rotate-left"></i>) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the <a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an icon (`
+            [`i`, { class: `fa fa-rotate-left` }],
+            `) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the `,
+            [`a`, { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
+            ` page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.`
+          ]]
+        ]]
+      ],
       features: {
         gr_a: {
           name: `Show the icon for all created giveaways.`,
@@ -58,7 +64,7 @@ class GiveawaysGiveawayRecreator extends Module {
       type: `i`
     }]);
     if (this.esgst.createdPath) {
-      let response = await request({method: `GET`, url: giveaway.url});
+      let response = await request({ method: `GET`, url: giveaway.url });
       // noinspection JSIgnoredPromiseFromCall
       this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
     } else {

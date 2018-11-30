@@ -5,8 +5,8 @@ import Popout from '../../class/Popout';
 import Popup from '../../class/Popup';
 import Process from '../../class/Process';
 import ToggleSwitch from '../../class/ToggleSwitch';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 import vdf from 'simple-vdf';
 import dateFns_format from 'date-fns/format';
 
@@ -25,35 +25,39 @@ const
   lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
   request = common.request.bind(common),
   selectSwitches = common.selectSwitches.bind(common)
-;
+  ;
 
 class GeneralMultiManager extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds a button (<i class="fa fa-gears"></i>) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.</li>
-        <li>When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.</li>
-        <li>You can:</li>
-        <ul>
-          <li>Search and replace something in the description of the selected giveaways.</li>
-          <li>Hide the selected giveaways, if [id=gf_s] is enabled.</li>
-          <li>Bookmark/unbookmark the selected giveaways, if [id=gb] is enabled.</li>
-          <li>Calculate how much time you have to wait until you have enough points to enter the selected giveaways, if [id=ttec] is enabled.</li>
-          <li>Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.</li>
-          <li>Hide the selected discussions, if [id=df_s] is enabled.</li>
-          <li>Highlight/unhighlight the selected discussions, if [id=dh] is enabled.</li>
-          <li>Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.</li>
-          <li>Tag the selected users with the same tags, if [id=ut], is enabled.</li>
-          <li>Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.</li>
-          <li>Tag the selected games with the same tags, if [id=gt], is enabled.</li>
-          <li>Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.</li>
-          <li>Tag the selected groups with the same tags, if [id=gpt], is enabled.</li>
-        </ul>
-        <li>On SteamTrades you can only manage users.</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-gears` }],
+            `) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.`
+          ]],
+          [`li`, `When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.`],
+          [`li`, `You can:`],
+          [`ul`, [
+            [`li`, `Search and replace something in the description of the selected giveaways.`],
+            [`li`, `Hide the selected giveaways, if [id=gf_s] is enabled.`],
+            [`li`, `Bookmark/unbookmark the selected giveaways, if [id=gb] is enabled.`],
+            [`li`, `Calculate how much time you have to wait until you have enough points to enter the selected giveaways, if [id=ttec] is enabled.`],
+            [`li`, `Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.`],
+            [`li`, `Hide the selected discussions, if [id=df_s] is enabled.`],
+            [`li`, `Highlight/unhighlight the selected discussions, if [id=dh] is enabled.`],
+            [`li`, `Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.`],
+            [`li`, `Tag the selected users with the same tags, if [id=ut], is enabled.`],
+            [`li`, `Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.`],
+            [`li`, `Tag the selected games with the same tags, if [id=gt], is enabled.`],
+            [`li`, `Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.`],
+            [`li`, `Tag the selected groups with the same tags, if [id=gpt], is enabled.`]
+          ]],
+          [`li`, `On SteamTrades you can only manage users.`]
+        ]]
+      ],
       id: `mm`,
       load: this.mm,
       name: `Multi-Manager`,
@@ -183,9 +187,9 @@ class GeneralMultiManager extends Module {
         },
         type: `div`
       }]), false, false, {
-        select: `Add item to Multi-Manager selection`,
-        unselect: `Remove item from Multi-Manager selection`
-      });
+          select: `Add item to Multi-Manager selection`,
+          unselect: `Remove item from Multi-Manager selection`
+        });
       item[`mmCheckbox${key}`] = checkbox;
       checkbox.checkbox.setAttribute(`data-mm-key`, key);
       checkbox.onPreEnabled = this.mm_selectItem.bind(this, obj, item, key, 1);
@@ -1070,9 +1074,9 @@ class GeneralMultiManager extends Module {
 
   async mm_hideGames(obj, items) {
     const newItems = {
-        apps: {},
-        subs: {}
-      },
+      apps: {},
+      subs: {}
+    },
       notFound = [];
     for (const item of items) {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) continue;

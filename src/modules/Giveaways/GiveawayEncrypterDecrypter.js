@@ -1,8 +1,8 @@
 import Module from '../../class/Module';
 import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
-import {utils} from '../../lib/jsUtils';
-import {common} from '../Common';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -17,27 +17,41 @@ const
   request = common.request.bind(common),
   rot = common.rot.bind(common),
   setValue = common.setValue.bind(common)
-;
+  ;
 
 class GiveawaysGiveawayEncrypterDecrypter extends Module {
   constructor() {
     super();
     this.info = {
-      description: `
-      <ul>
-        <li>Adds an icon (<i class="fa fa-star"></i> if the giveaway is open, <i class="fa fa-star esgst-green"></i> if it is open and new, <i class="fa fa-star esgst-yellow"></i> if it is not open yet and <i class="fa fa-star esgst-red"></i> if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.</li>
-        <li>Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.</li>
-        <li>To add encrypted giveaways to your comments, check [id=cfh_g].</li>
-        <li>Adds a button (<i class="fa fa-star"></i>) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).</li>
-      </ul>
-    `,
+      description: [
+        [`ul`, [
+          [`li`, [
+            `Adds an icon (`,
+            [`i`, { class: `fa fa-star` }],
+            ` if the giveaway is open, `,
+            [`i`, { class: `fa fa-star esgst-green` }],
+            ` if it is open and new, `,
+            [`i`, { class: `fa fa-star esgst-yellow` }],
+            ` if it is not open yet and `,
+            [`i`, { class: `fa fa-star esgst-red` }],
+            ` if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.`
+          ]],
+          [`li`, `Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.`],
+          [`li`, `To add encrypted giveaways to your comments, check[id = cfh_g].`],
+          [`li`, [
+            `Adds a button (`,
+            [`i`, { class: `fa fa-star` }],
+            `) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).`
+          ]]
+        ]]
+      ],
       features: {
         ged_b: {
-          description: `
-          <ul>
-            <li>With this option enabled, the header button will always appear if there are decrypted giveaways in the page, even if they have already ended (but they will not be listed in the popup).</li>
-          </ul>
-        `,
+          description: [
+            [`ul`, [
+              [`li`, `With this option enabled, the header button will always appear if there are decrypted giveaways in the page, even if they have already ended (but they will not be listed in the popup).`]
+            ]]
+          ],
           name: `Always show the header button if there are decrypted giveaways in the page.`,
           sg: true
         },
@@ -107,11 +121,11 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           }
         ]
       });
-      ged.container = ged.context = createElements(context, `beforeEnd`, [{type: `div`}]);
+      ged.container = ged.context = createElements(context, `beforeEnd`, [{ type: `div` }]);
     } else if (this.esgst.ged_t || (event && event.button === 1)) {
       open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
     } else {
-      ged.popup = new Popup({addScrollable: true, icon: `fa-star`, isTemp: true, title: `Decrypted Giveaways`});
+      ged.popup = new Popup({ addScrollable: true, icon: `fa-star`, isTemp: true, title: `Decrypted Giveaways` });
       ged.container = ged.popup.description;
       ged.context = ged.popup.scrollable;
       ged.popup.open();
@@ -228,7 +242,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
   }
 
   async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
-    let response = await request({method: `GET`, url: `/giveaway/${code}/`});
+    let response = await request({ method: `GET`, url: `/giveaway/${code}/` });
     let giveaway = (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
     if (giveaway) {
       currentGiveaways[code] = giveaway;
@@ -253,7 +267,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       i += 1;
       let giveaway = ged.giveaways[ged.i];
       ged.i += 1;
-      let response = await request({method: `GET`, url: `/giveaway/${giveaway.code}/`});
+      let response = await request({ method: `GET`, url: `/giveaway/${giveaway.code}/` });
       let builtGiveaway = await buildGiveaway(parseHtml(response.responseText), response.finalUrl);
       if (!builtGiveaway || !builtGiveaway.started) {
         continue;
