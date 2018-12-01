@@ -4493,7 +4493,9 @@ class Common extends Module {
 
   getSmFeatureAdditionalOptions(Feature, ID) {
     let items = [];
-    if (ID === `gch`) {
+    if (ID === `ul`) {
+      items.push(this.addUlMenuPanel(`ul_links`));
+    } else if (ID === `gch`) {
       items.push(this.addGwcrMenuPanel(`gch_colors`, `copies`, true));
     } else if (ID === `gwc`) {
       items.push(this.addGwcrMenuPanel(`gwc_colors`, `chance`));
@@ -4980,6 +4982,70 @@ class Common extends Module {
         }
       }
     });
+  }
+
+  addUlMenuPanel(id) {
+    const panel = this.createElements_v2([
+      [`div`, { class: `esgst-sm-colors` }, [
+        [`div`],
+        [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => this.addUlMenuItem(id, panel) }, [
+          [`span`, `Add Link`]
+        ]],
+        [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => (this.esgst.settings[id] = this.esgst[id] = this.esgst.defaultValues[id]) && !(panel.firstElementChild.innerHTML = ``) && this.addUlMenuItems(id, panel) }, [
+          [`span`, `Reset`]
+        ]],
+        [`div`, { class: `form__input-description`}, [
+          `The default links should give you an idea of how the format works.`,
+          [`br`],
+          [`br`],
+          `As label, you can use FontAwesome icons (for example, "fa-icon"), image URLs (for example, "https://www.example.com/image.jpg") and plain text (for example, "Text"). You can also combine them (for example, "fa-icon https://www.example.com/image.jpg Text"). Images will be resized to 16x16.`,
+          [`br`],
+          [`br`],
+          `In the URL, you can use the templates %username% and %steamid%, they will be replaced with the user's username/Steam id.`
+        ]]
+      ]]
+    ]).firstElementChild;
+    this.addUlMenuItems(id, panel);
+    return panel;
+  }
+
+  addUlMenuItems(id, panel) {
+    for (const link of this.esgst[id]) {
+      this.addUlLink(id, link, panel);
+    }
+  }
+
+  addUlMenuItem(id, panel) {
+    const link = {
+      label: ``,
+      url: ``
+    };
+    this.esgst[id].push(link);
+    this.esgst.settings[id] = this.esgst[id];
+    this.addUlLink(id, link, panel);
+  }
+
+  addUlLink(id, link, panel) {
+    const setting = this.createElements_v2(panel.firstElementChild, `beforeEnd`, [
+      [`div`, [
+        `Label: `,
+        [`input`, {onchange: event => link.label = event.currentTarget.value, type: `text`, value: link.label}],
+        `URL: `,
+        [`input`, {onchange: event => link.url = event.currentTarget.value, type: `text`, value: link.url}],
+        [`i`, {class: `esgst-clickable fa fa-times`, onclick: () => this.removeUlLink(id, link, setting), title: `Delete this setting`}]
+      ]]
+    ]);
+  }
+
+  removeUlLink(id, link, setting) {
+    if (confirm(`Are you sure you want to delete this setting?`)) {
+      const index = this.esgst[id].indexOf(link);
+      if (index > -1) {
+        this.esgst[id].splice(index, 1);
+        this.esgst.settings[id] = this.esgst[id];
+        setting.remove();
+      }
+    }
   }
 
   addGcRatingPanel() {
