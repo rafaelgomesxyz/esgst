@@ -236,6 +236,10 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.2.1 (December 1, 2018)**
+
+* [#1032](https://github.com/gsrafael01/ESGST/issues/1032) Hotfix for v8.1.1
+
 **8.1.1 (December 1, 2018)**
 
 * [#1032](https://github.com/gsrafael01/ESGST/issues/1032) Hotfix for v8.1.0
