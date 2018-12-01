@@ -2055,7 +2055,7 @@ class Common extends Module {
 
   async runSilentBackup() {
     const button = this.addHeaderButton(`fa-sign-out fa-spin`, `active`, `ESGST is backing up your data... Please do not close this window.`);
-    this.esgst.parameters = Object.assign(this.esgst.parameters, {autoBackup: true});
+    this.esgst.parameters = Object.assign(this.esgst.parameters, { autoBackup: true });
     this.loadDataManagement(`export`, () => {
       button.changeIcon(`fa-check`);
       button.changeState(`inactive`);
@@ -3831,10 +3831,18 @@ class Common extends Module {
       }
     }
     const feature = this.esgst.featuresById[id];
+    const url = `https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${id}`;
     const items = [{
       check: true,
       content: feature.name,
       name: `Name`
+    }, {
+      check: true,
+      content: [
+        url,
+        [`i`, { 'data-clipboard-text': url, class: `icon_to_clipboard fa fa-fw fa-copy` }]
+      ],
+      name: `Link`
     }];
     let sgContext, stContext;
     if (feature.sg) {
@@ -4568,6 +4576,8 @@ class Common extends Module {
           }]
         }]);
       }
+    } else {
+      subMenu.classList.add(`esgst-hidden`);
     }
     return {
       isNew: isMainNew,
@@ -13086,21 +13096,19 @@ class Common extends Module {
   }
 
   filterSmFeature(feature, id, value) {
-    let element, found, subId;
-    found = false;
-    let exactFound = (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
-    if (feature.features) {
-      for (subId in feature.features) {
-        if (feature.features.hasOwnProperty(subId)) {
-          let result = this.filterSmFeature(feature.features[subId], subId, value);
-          found = found || result;
+    let found = (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
+    let exactFound = found;
+    if (!found) {
+      exactFound = found = (feature.description && JSON.stringify(feature.description).toLowerCase().match(value));
+      if (!found && feature.features) {
+        for (const subId in feature.features) {
+          if (feature.features.hasOwnProperty(subId)) {
+            found = this.filterSmFeature(feature.features[subId], subId, value) || found;
+          }
         }
       }
-      found = found || (feature.description && feature.description.toLowerCase().match(value)) || exactFound;
-    } else {
-      found = (feature.description && feature.description.toLowerCase().match(value)) || exactFound;
     }
-    element = document.getElementById(`esgst_${id}`);
+    let element = document.getElementById(`esgst_${id}`);
     if (element) {
       if (found) {
         element.classList.remove(`esgst-hidden`);
@@ -13108,7 +13116,7 @@ class Common extends Module {
         element.classList.add(`esgst-hidden`);
       }
       if (!exactFound) {
-        element.classList.add(`esgst-sm-faded`);
+        element.firstElementChild.nextElementSibling.classList.add(`esgst-faded`);
       }
     }
     return found;
@@ -14615,7 +14623,6 @@ class Common extends Module {
     const fragment = document.createDocumentFragment();
     let element = null;
     this.buildElements(fragment, items);
-    console.log(context, position, items);
     switch (position) {
       case `beforeBegin`:
         context.parentElement.insertBefore(fragment, context);
@@ -14703,7 +14710,6 @@ class Common extends Module {
       method: `GET`,
       url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.esgst.steamApiKey}&steamid=${steamId}`
     })).responseText;
-    console.log(text);
     return JSON.parse(text);
   }
 
