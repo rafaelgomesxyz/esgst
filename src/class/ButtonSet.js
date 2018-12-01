@@ -16,6 +16,9 @@ export default class ButtonSet {
       this.set = document.createElement(`div`);
       this.set.className = `esgst-button-set`;
     }
+    if (details.tooltip) {
+      this.set.title = details.tooltip;
+    }
     container.common.createElements(this.set, `inner`, [{
       attributes: {
         class: `${classes[details.color1]} btn_action ${details.color1}`

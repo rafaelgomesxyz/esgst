@@ -357,6 +357,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
+            tooltip: `Add selected giveaways to ESGST's single filter list`,
             callback1: this.mm_hideGiveaways.bind(this, obj, items)
           },
           {
@@ -399,6 +400,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
+            tooltip: `Add selected discussions to ESGST's single filter list`,
             callback1: this.mm_hideDiscussions.bind(this, obj, items)
           },
           {
@@ -467,6 +469,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
+            tooltip: `Add selected games to SteamGifts' filter list`,
             callback1: this.mm_hideGames.bind(this, obj, items)
           },
           {
@@ -589,7 +592,14 @@ class GeneralMultiManager extends Module {
         class: `esgst-description`
       },
       type: `div`,
-      children: [{
+      children: [...(key === `Games` ? [{
+        text: `You can enter Steam links for the games that you want to hide below (in the https://store.steampowered.com/app/909580/ format and with one link per line). If you click on "Hide" and the text area has links, the games in the text area will be hidden instead of the selected ones.`,
+        type: `node`
+      }, {
+        type: `br`
+      }, {
+        type: `br`
+      }] : []), {
         text: `Enter the custom format below. `,
         type: `node`
       }, {
@@ -1078,8 +1088,26 @@ class GeneralMultiManager extends Module {
       subs: {}
     },
       notFound = [];
+    const values = obj.textAreaGames.value
+      .split(/\n/)
+      .map(x => {
+        const match = x.match(/(app|sub)\/(\d+)/);
+        if (!match) {
+          return null;
+        }
+        return {
+          code: match[2],
+          fromTextArea: true,
+          name: x,
+          type: `${match[1]}s`
+        };
+      })
+      .filter(x => x);
+    if (values.length) {
+      items = values;
+    }
     for (const item of items) {
-      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) continue;
+      if (!item.fromTextArea && (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)))) continue;
 
       const elements = parseHtml(JSON.parse((await request({
         data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(item.code)}`,
