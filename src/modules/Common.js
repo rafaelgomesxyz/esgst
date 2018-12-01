@@ -13686,6 +13686,14 @@ class Common extends Module {
     const changelog = [
       {
         date: `December 1, 2018`,
+        version: `8.1.1`,
+        changelog: {
+          1032: `Hotfix for v8.1.0`
+        }
+      },
+
+      {
+        date: `December 1, 2018`,
         version: `8.1.0`,
         changelog: {
           1031: `Add a new feature: Entered Giveaways Stats`,
