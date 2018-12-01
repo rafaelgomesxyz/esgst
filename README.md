@@ -236,6 +236,22 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.0 (December 1, 2018)**
+
+* [#1031](https://github.com/gsrafael01/ESGST/issues/1031) Add a new feature: Entered Giveaways Stats
+* [#1030](https://github.com/gsrafael01/ESGST/issues/1030) Fix a bug in Giveaway Templates that does not create giveaways through the Create Giveaway button
+* [#1029](https://github.com/gsrafael01/ESGST/issues/1029) Fix a bug in Giveaway Filters that does not toggle SteamGifts filters
+* [#1028](https://github.com/gsrafael01/ESGST/issues/1028) Add a new feature: User Links
+* [#1027](https://github.com/gsrafael01/ESGST/issues/1027) Fix a bug that positions Created/Entered/Won Giveaway Details columns in the wrong order
+* [#1026](https://github.com/gsrafael01/ESGST/issues/1026) Fix a bug that does not load username history
+* [#1024](https://github.com/gsrafael01/ESGST/issues/1024) Specify the element to retrieve usernames from more
+* [#1023](https://github.com/gsrafael01/ESGST/issues/1023) Add option to position Quick Giveaway Search on the right to prevent it from moving the other buttons
+* [#1022](https://github.com/gsrafael01/ESGST/issues/1022) Revamp ESGST-generated pages/popups
+* [#1015](https://github.com/gsrafael01/ESGST/issues/1015) Add option to hide games from list to Multi-Manager
+* [#1014](https://github.com/gsrafael01/ESGST/issues/1014) Only round chance / chance per point when displaying it, but keep it unrounded internally for better accuracy
+* [#1012](https://github.com/gsrafael01/ESGST/issues/1012) Add a new feature: Custom Giveaway Background
+* [#990](https://github.com/gsrafael01/ESGST/issues/990) Fix a bug that does not allow some elements to be re-ordered
+
 **8.0.5 (November 26, 2018)**
 
 * [#1021](https://github.com/gsrafael01/ESGST/issues/1021) Fix a bug that detects wrong removed games when syncing
