@@ -1073,8 +1073,8 @@ class Common extends Module {
         this.createElements_v2(popup.title, `inner`, [
           [`i`, { class: `fa fa-check` }],
           `Thanks for installing ESGST, ${this.esgst.username}. You are ready to go! Click on the`,
-          [`span`, `Settings`]
-            ` link below to choose which features you want to use.`
+          [`span`, `Settings`],
+          ` link below to choose which features you want to use.`
         ]);
       } else {
         if (this.esgst.showChangelog) {
@@ -13684,6 +13684,14 @@ class Common extends Module {
 
   loadChangelog(version) {
     const changelog = [
+      {
+        date: `December 1, 2018`,
+        version: `8.1.2`,
+        changelog: {
+          1032: `Hotfix for v8.1.1`
+        }
+      },
+
       {
         date: `December 1, 2018`,
         version: `8.1.1`,

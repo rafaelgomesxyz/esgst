@@ -48,6 +48,6 @@
   "web_accessible_resources": [
     "icon.png"
   ],
-  "version": "8.1.1",
+  "version": "8.1.2",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
