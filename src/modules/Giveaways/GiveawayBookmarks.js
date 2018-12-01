@@ -235,7 +235,6 @@ class GiveawaysGiveawayBookmarks extends Module {
     console.log(button);
     if (button) {
       button.addEventListener(`mousedown`, event => {
-        alert(event.button);
         if (event.button === 2) return;
         event.preventDefault();
         if (this.esgst.gb_t || event.button === 1) {

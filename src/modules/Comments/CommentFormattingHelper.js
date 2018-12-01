@@ -320,7 +320,7 @@ class CommentsCommentFormattingHelper extends Module {
               [`li`, [
                 `Adds a button(`,
                 [`i`, { class: `fa fa-star` }],
-                `) to the panel that allows you to add encrypted giveaways(see[id = ged] for more details about them) to your comments.`
+                `) to the panel that allows you to add encrypted giveaways(see[id=ged] for more details about them) to your comments.`
               ]]
             ]]
           ],

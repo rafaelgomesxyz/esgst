@@ -37,7 +37,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
             ` if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.`
           ]],
           [`li`, `Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.`],
-          [`li`, `To add encrypted giveaways to your comments, check[id = cfh_g].`],
+          [`li`, `To add encrypted giveaways to your comments, check[id=cfh_g].`],
           [`li`, [
             `Adds a button (`,
             [`i`, { class: `fa fa-star` }],

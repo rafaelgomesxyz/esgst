@@ -31,7 +31,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
             [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
             ` pages if [id=cewgd] is enabled).`
           ]],
-          [`li`, `Has[id = gh] built -in.`]
+          [`li`, `Has[id=gh] built -in.`]
         ]]
       ],
       features: {

@@ -22,7 +22,7 @@ class CommentsReplyFromInbox extends Module {
             [`a`, { href: `https://www.steamgifts.com/messages` }, `inbox`],
             ` page) that allows you to reply to the comment directly from your inbox.`
           ]],
-          [`li`, `It is essentially[id = mr] for the inbox page.`]
+          [`li`, `It is essentially[id=mr] for the inbox page.`]
         ]]
       ],
       features: {

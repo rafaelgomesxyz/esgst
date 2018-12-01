@@ -25,7 +25,7 @@ class UsersUserTags extends Module {
             [`i`, { class: `fa fa-tags` }],
             `) to the page heading of this menu that allows you to manage all of the tags that have been saved.`
           ]],
-          [`li`, `This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username.For a long text, check [id = un].`]
+          [`li`, `This feature is recommended for cases where you want to associate a short text with a user, since the tags are displayed next to their username.For a long text, check [id=un].`]
         ]]
       ],
       features: {

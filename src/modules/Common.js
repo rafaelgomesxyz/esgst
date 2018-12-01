@@ -238,7 +238,7 @@ class Common extends Module {
         this.loadMenu();
       } else if (this.esgst.parameters.esgst === `sync`) {
         this.setSidebarActive(`sync`);
-        this.setSync();
+        await this.setSync();
       } else if (this.esgst.parameters.esgst === `backup`) {
         this.setSidebarActive(`backup`);
         this.loadDataManagement(`export`);
@@ -1069,7 +1069,7 @@ class Common extends Module {
           }]
         });
         popup.open();
-        await this.checkSync(true, true);
+        await this.checkSync(true);
         this.createElements_v2(popup.title, `inner`, [
           [`i`, { class: `fa fa-check` }],
           `Thanks for installing ESGST, ${this.esgst.username}. You are ready to go! Click on the`,
@@ -1670,6 +1670,29 @@ class Common extends Module {
     dropdown.classList.toggle(`esgst-hidden`);
   }
 
+  addHeaderButton(icon, state, title) {
+    const [query, position] = this.esgst.sg ? [`.nav__left-container`, `afterEnd`] : [`.nav_logo`, `afterEnd`];
+    const button = this.createElements_v2(document.querySelector(query), position, [
+      [`div`, { class: `nav__button-container nav__button-container--notification nav__button-container--${state}` }, [
+        [`span`, { class: `nav__button`, title }, [
+          [`i`, { class: `fa ${icon}` }]
+        ]]
+      ]]
+    ]);
+    return {
+      changeIcon(icon) {
+        button.firstElementChild.firstElementChild.className = `fa ${icon}`;
+      },
+      changeState(state) {
+        button.classList.remove(`nav__button-container--active`, `nav__button-container--inactive`);
+        button.classList.add(`nav__button-container--${state}`)
+      },
+      changeTitle(title) {
+        button.firstElementChild.title = title;
+      }
+    };
+  }
+
   getFeatureTooltip(id, title = ``) {
     if (this.esgst.showFeatureNumber) {
       if (title) {
@@ -1682,7 +1705,7 @@ class Common extends Module {
 
   getFeatureName(fullMatch, match) {
     let feature = this.getFeatureNumber(match);
-    return `${feature.number} "${feature.name}"`;
+    return `${feature.number} \\"${feature.name}\\"`;
   }
 
   getFeatureNumber(queryId) {
@@ -2009,11 +2032,11 @@ class Common extends Module {
     }
   }
 
-  async checkSync(menu, callback) {
+  async checkSync(menu) {
     let currentDate = Date.now();
     let isSyncing = this.getLocalValue(`isSyncing`);
     if (menu) {
-      await this.setSync(false, callback);
+      await this.setSync();
     } else if (!isSyncing || currentDate - isSyncing > 1800000) {
       let parameters = ``;
       this.setLocalValue(`isSyncing`, currentDate);
@@ -2023,24 +2046,46 @@ class Common extends Module {
         }
       });
       if (parameters) {
-        open(`https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${parameters.replace(/&$/, ``)}`);
+        this.runSilentSync(parameters);
       } else {
         this.delLocalValue(`isSyncing`);
       }
     }
   }
 
+  async runSilentBackup() {
+    const button = this.addHeaderButton(`fa-sign-out fa-spin`, `active`, `ESGST is backing up your data... Please do not close this window.`);
+    this.esgst.parameters = Object.assign(this.esgst.parameters, {autoBackup: true});
+    this.loadDataManagement(`export`, () => {
+      button.changeIcon(`fa-check`);
+      button.changeState(`inactive`);
+      button.changeTitle(`ESGST has finished backing up.`);
+    });
+  }
+
+  async runSilentSync(parameters) {
+    const button = this.addHeaderButton(`fa-refresh fa-spin`, `active`, `ESGST is syncing your data... Please do not close this window.`);
+    this.esgst.parameters = Object.assign(this.esgst.parameters, this.getParameters(`?autoSync=true&${parameters.replace(/&$/, ``)}`));
+    await this.setSync(true);
+    button.changeIcon(`fa-check`);
+    button.changeState(`inactive`);
+    button.changeTitle(`ESGST has finished syncing.`);
+  }
+
   /**
    * @returns {Promise<void>}
    */
-  async setSync() {
+  async setSync(isSilent = false) {
     let syncer = {};
     syncer.canceled = false;
+    syncer.isSilent = isSilent;
     if (this.esgst.parameters.autoSync) {
       syncer.parameters = this.esgst.parameters;
     }
-    if (this.esgst.firstInstall) {
+    if (this.esgst.firstInstall || syncer.isSilent) {
+      this.esgst.isSyncing = true;
       await this.sync(syncer);
+      this.esgst.isSyncing = false;
     } else {
       const context = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
@@ -2205,18 +2250,18 @@ class Common extends Module {
       if (this.esgst.at) {
         this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.area);
       }
-    }
-    syncer.progress = this.createElements(syncer.area, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-hidden esgst-popup-progress`
-      },
-      type: `div`
-    }]);
-    syncer.results = this.createElements(syncer.area, `beforeEnd`, [{
-      type: `div`
-    }]);
-    if (syncer.parameters && syncer.set) {
-      syncer.set.trigger();
+      syncer.progress = this.createElements(syncer.area, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-hidden esgst-popup-progress`
+        },
+        type: `div`
+      }]);
+      syncer.results = this.createElements(syncer.area, `beforeEnd`, [{
+        type: `div`
+      }]);
+      if (!this.esgst.isSyncing && syncer.parameters && syncer.set) {
+        syncer.set.trigger();
+      }
     }
   }
 
@@ -2263,16 +2308,18 @@ class Common extends Module {
   async sync(syncer) {
     if (!this.esgst.firstInstall) {
       await this.setSetting(`lastSync`, Date.now());
-      syncer.results.innerHTML = ``;
-      syncer.progress.classList.remove(`esgst-hidden`);
-      this.createElements(syncer.progress, `inner`, [{
-        attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
-        },
-        type: `i`
-      }, {
-        type: `span`
-      }]);
+      if (!syncer.isSilent) {
+        syncer.results.innerHTML = ``;
+        syncer.progress.classList.remove(`esgst-hidden`);
+        this.createElements(syncer.progress, `inner`, [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          type: `span`
+        }]);
+      }
     }
 
     // if this is the user's fist time using the script, only sync steam id and stop
@@ -2287,7 +2334,9 @@ class Common extends Module {
 
     // sync groups
     if (this.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && this.esgst.settings.syncGroups))) {
-      syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
+      }
       syncer.groups = {};
       let savedGroups = JSON.parse(await this.getValue(`groups`));
       if (!Array.isArray(savedGroups)) {
@@ -2422,7 +2471,9 @@ class Common extends Module {
           }, ...neww]
         });
       }
-      this.createElements(syncer.results, `afterBegin`, syncer.html);
+      if (!syncer.isSilent) {
+        this.createElements(syncer.results, `afterBegin`, syncer.html);
+      }
     }
 
     // if sync has been canceled stop
@@ -2435,22 +2486,32 @@ class Common extends Module {
       if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && this.esgst.settings.syncWhitelist && this.esgst.settings.syncBlacklist)) {
         await this.deleteUserValues([`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`]);
         syncer.users = [];
-        syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
+        if (!syncer.isSilent) {
+          syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
+        }
         await this.syncWhitelistBlacklist(`whitelisted`, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
-        syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
+        if (!syncer.isSilent) {
+          syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
+        }
         await this.syncWhitelistBlacklist(`blacklisted`, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
       } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && this.esgst.settings.syncWhitelist)) {
         await this.deleteUserValues([`whitelisted`, `whitelistedDate`]);
         syncer.users = [];
-        syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
+        if (!syncer.isSilent) {
+          syncer.progress.lastElementChild.textContent = `Syncing your whitelist...`;
+        }
         await this.syncWhitelistBlacklist(`whitelisted`, syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
       } else {
         await this.deleteUserValues([`blacklisted`, `blacklistedDate`]);
         syncer.users = [];
-        syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
+        if (!syncer.isSilent) {
+          syncer.progress.lastElementChild.textContent = `Syncing your blacklist...`;
+        }
         await this.syncWhitelistBlacklist(`blacklisted`, syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
       }
-      syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
+      }
       await this.saveUsers(syncer.users);
     }
 
@@ -2461,7 +2522,9 @@ class Common extends Module {
 
     // sync hidden games
     if ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && this.esgst.settings.syncHiddenGames)) {
-      syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing your hidden games...`;
+      }
       syncer.hiddenGames = {
         apps: [],
         subs: []
@@ -2519,7 +2582,9 @@ class Common extends Module {
 
     // sync wishlisted/owned/ignored games
     if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && this.esgst.settings.syncGames)) {
-      syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
+      }
       syncer.html = [];
       let apiResponse = null;
       if (this.esgst.steamApiKey) {
@@ -2544,7 +2609,7 @@ class Common extends Module {
         }
         await this.setSetting(`gc_o_altAccounts`, this.esgst.settings.gc_o_altAccounts);
       }
-      if (syncer.html.length) {
+      if (!syncer.isSilent && syncer.html.length) {
         this.createElements(syncer.results, `afterBegin`, syncer.html);
         if (this.esgst.getSyncGameNames) {
           // noinspection JSIgnoredPromiseFromCall
@@ -2560,7 +2625,9 @@ class Common extends Module {
 
     // sync followed games
     if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && this.esgst.settings.syncFollowedGames)) {
-      syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
+      }
       const response = await this.request({
         method: `GET`,
         url: `https://steamcommunity.com/my/followedgames/`
@@ -2590,7 +2657,9 @@ class Common extends Module {
 
     // sync won games
     if ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && this.esgst.settings.syncWonGames)) {
-      syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
+      }
       await this.getWonGames(`0`, syncer);
     }
 
@@ -2601,16 +2670,20 @@ class Common extends Module {
 
     // sync reduced cv games
     if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && this.esgst.settings.syncReducedCvGames)) {
-      syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
+      }
       let result = JSON.parse((await this.request({
         method: `GET`,
         url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`
       })).responseText);
       if (result.error) {
-        this.createElements(syncer.results, `afterBegin`, [{
-          text: `Unable to sync reduced CV games: ${result.error}`,
-          type: `node`
-        }]);
+        if (!syncer.isSilent) {
+          this.createElements(syncer.results, `afterBegin`, [{
+            text: `Unable to sync reduced CV games: ${result.error}`,
+            type: `node`
+          }]);
+        }
       } else {
         result = result.success;
         for (const id in this.esgst.games.apps) {
@@ -2650,7 +2723,9 @@ class Common extends Module {
 
     // sync no cv games
     if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && this.esgst.settings.syncNoCvGames)) {
-      syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
+      }
       await this.lockAndSaveGames(JSON.parse((await this.request({
         method: `GET`,
         url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`
@@ -2659,7 +2734,9 @@ class Common extends Module {
 
     // sync hltb times
     if ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && this.esgst.settings.syncHltbTimes)) {
-      syncer.progress.lastElementChild.textContent = `Syncing HLTB times...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing HLTB times...`;
+      }
       try {
         const responseText = (await this.request({
           method: `GET`,
@@ -2696,7 +2773,9 @@ class Common extends Module {
 
     // sync giveaways
     if (((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && this.esgst.settings.syncGiveaways)) && this.esgst.sg) {
-      syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
+      }
       const key = `sent`;
       const user = {
         steamId: this.esgst.steamId,
@@ -2708,10 +2787,10 @@ class Common extends Module {
 
     // finish sync
     if (!this.esgst.firstInstall) {
-      syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
-      let currentDate = new Date();
-      const currentTime = currentDate.getTime();
-      let string = currentDate.toLocaleString();
+      if (!syncer.isSilent) {
+        syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
+      }
+      const currentTime = Date.now();
       let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
       for (let i = keys.length - 1; i > -1; i--) {
         let key = keys[i];
@@ -2721,12 +2800,13 @@ class Common extends Module {
           this.esgst[`lastSync${key}`] = currentTime;
         }
       }
-      this.createElements(syncer.progress, `inner`, [`Synced!`]);
+      if (!syncer.isSilent) {
+        this.createElements(syncer.progress, `inner`, [`Synced!`]);
+      }
       this.delLocalValue(`isSyncing`);
     }
-    this.updateSyncDates(syncer);
-    if (syncer.parameters) {
-      window.alert(`Sync done! You can close this.`);
+    if (!syncer.isSilent) {
+      this.updateSyncDates(syncer);
     }
   }
 
@@ -3228,7 +3308,7 @@ class Common extends Module {
       nextPage = 1,
       pagination = null;
     do {
-      if (syncer) {
+      if (syncer && !syncer.isSilent) {
         syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
       }
       const responseHtml = parseHtml((await this.request({
@@ -3250,7 +3330,7 @@ class Common extends Module {
       }
       nextPage += 1;
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-    } while (syncer && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    } while ((!syncer || !syncer.canceled) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
     await this.lockAndSaveGames(savedGames);
     this.setLocalValue(`wonCount`, count);
   }
@@ -3524,7 +3604,10 @@ class Common extends Module {
     this.createElements_v2(Container, `beforeEnd`, [
       [`div`, { class: `esgst-menu-split` }, [
         [`div`, { class: `esgst-settings-menu` }],
-        [`div`, { class: `esgst-settings-menu-feature esgst-menu-split-fixed` }, `Click on a feature/option to see details about it here.`]
+        [`div`, { class: `esgst-settings-menu-feature esgst-menu-split-fixed` }, [
+          [`br`],
+          `Click on a feature/option to manage it here.`
+        ]]
       ]]
     ]);
     Container.appendChild(new ButtonSet({
@@ -3539,7 +3622,7 @@ class Common extends Module {
         window.location.reload();
       }
     }).set);
-    Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, undefined));
+    Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, null));
     this.esgst.featuresById = {};
     const input = Container.firstElementChild.nextElementSibling.firstElementChild;
     input.addEventListener(`input`, this.filterSm.bind(this));
@@ -3560,6 +3643,9 @@ class Common extends Module {
           j = 1;
           for (id in this.esgst.features[type].features) {
             if (this.esgst.features[type].features.hasOwnProperty(id)) {
+              if (id === `common`) {
+                continue;
+              }
               let feature, ft;
               feature = this.esgst.features[type].features[id];
               if (!feature.extensionOnly || this._USER_INFO.extension) {
@@ -3738,23 +3824,125 @@ class Common extends Module {
 
   loadFeatureDetails(id, event) {
     if (!id) {
-      if (event && event.target.matches(`.esgst-settings-feature`)) {
+      if (event.target.matches(`.esgst-settings-feature`)) {
         id = event.target.getAttribute(`data-id`);
+      } else {
+        return;
       }
     }
-    if (typeof id === `undefined`) {
-      return;
-    } else if (id === null) {
-      document.querySelector(`.esgst-settings-menu-feature`).innerHTML = `Click on a feature/option to see details about it here.`;
-      return;
-    } 
     const feature = this.esgst.featuresById[id];
     const items = [];
+    let sgContext, stContext;
+    if (feature.sg) {
+      const value = this.getFeaturePath(feature, id, `sg`).enabled;
+      sgContext = this.createElements_v2([[`div`]]).firstElementChild;
+      const sgSwitch = new ToggleSwitch(sgContext, null, true, this.esgst.settings.esgst_st ? `SteamGifts` : ``, true, false, null, value);
+      sgSwitch.onEnabled = () => {
+        this.esgst.settings[`${id}_sg`] = true;
+        this.esgst[id] = true;
+        if (feature.conflicts) {
+          for (const conflict of feature.conflicts) {
+            const setting = this.esgst.settings[`${conflict.id}_sg`];
+            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+              sgSwitch.disable();
+              new Popup({
+                addScrollable: true,
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              }).open();
+              return;
+            }
+          }
+        }
+        if (feature.theme) {
+          if (id === `customTheme`) {
+            this.setTheme();
+          } else {
+            this.updateTheme(id);
+          }
+        }
+        this.createElements_v2(document.querySelector(`#esgst-paths-sg`), `inner`, [
+          this.openPathsPopup(feature, id, `sg`)
+        ]);
+      };
+      sgSwitch.onDisabled = async () => {
+        this.esgst.settings[`${id}_sg`] = false;
+        this.esgst[id] = false;
+        if (feature.theme) {
+          if (id === `customTheme`) {
+            this.delLocalValue(`customTheme`);
+          } else {
+            this.delLocalValue(`theme`);
+            await this.delValue(id);
+          }
+          this.setTheme();
+        }
+        this.createElements_v2(document.querySelector(`#esgst-paths-sg`), `inner`, [
+          this.openPathsPopup(feature, id, `sg`)
+        ]);
+      };
+    }
+    if (feature.st && (this.esgst.settings.esgst_st || id === `esgst`)) {
+      const value = this.getFeaturePath(feature, id, `st`).enabled;
+      stContext = this.createElements_v2([[`div`]]).firstElementChild;
+      const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
+      stSwitch.onEnabled = () => {
+        this.esgst.settings[`${id}_st`] = true;
+        this.esgst[id] = true;
+        if (feature.conflicts) {
+          for (const conflict of feature.conflicts) {
+            const setting = this.esgst.settings[`${conflict.id}_st`];
+            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+              stSwitch.disable();
+              new Popup({
+                addScrollable: true,
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              }).open();
+              return;
+            }
+          }
+        }
+        if (feature.theme) {
+          if (id === `customTheme`) {
+            this.setTheme();
+          } else {
+            this.updateTheme(id);
+          }
+        }
+        this.createElements_v2(document.querySelector(`#esgst-paths-st`), `inner`, [
+          this.openPathsPopup(feature, id, `st`)
+        ]);
+      };
+      stSwitch.onDisabled = async () => {
+        this.esgst.settings[`${id}_st`] = false;
+        this.esgst[id] = false;
+        if (feature.theme) {
+          if (id === `customTheme`) {
+            this.delLocalValue(`customTheme`);
+          } else {
+            this.delLocalValue(`theme`);
+            await this.delValue(id);
+          }
+          this.setTheme();
+        }
+        this.createElements_v2(document.querySelector(`#esgst-paths-st`), `inner`, [
+          this.openPathsPopup(feature, id, `st`)
+        ]);
+      };
+    }
+    items.push({
+      check: true,
+      content: [sgContext, stContext],
+      name: `Enable/Disable`
+    });
     if (feature.description) {
       items.push({
         check: true,
         content: [
-          [`div`, { class: `markdown` }, feature.description]
+          [`div`, { class: `markdown` }, JSON.parse(JSON.stringify(feature.description).replace(/\[id=(.+?)]/g, this.getFeatureName.bind(this)))]
         ],
         name: `What does it do?`
       });
@@ -3791,6 +3979,7 @@ class Common extends Module {
         content: [
           this.openPathsPopup(feature, id, `sg`)
         ],
+        id: `esgst-paths-sg`,
         name: `Where to run it on SteamGifts?`
       });
     }
@@ -3800,11 +3989,12 @@ class Common extends Module {
         content: [
           this.openPathsPopup(feature, id, `st`)
         ],
+        id: `esgst-paths-st`,
         name: `Where to run it on SteamTrades?`
       });
     }
     const context = document.querySelector(`.esgst-settings-menu-feature`);
-    context.innerHTML = `Click on a feature/option to see details about it here.`;
+    context.innerHTML = `<br>Click on a feature/option to manage it here.`;
     this.createFormRows(context, `beforeEnd`, { items });
   }
 
@@ -4314,163 +4504,53 @@ class Common extends Module {
     }
   }
 
-  getSMFeature(Feature, ID, aaa) {
-    this.esgst.featuresById[ID] = Feature;
-    let Menu, SMFeatures, isMainNew = false;
-    Menu = document.createElement(`div`);
-    Menu.id = `esgst_${ID}`;
-    this.createElements(Menu, `beforeEnd`, [{
+  getSMFeature(feature, id, number) {
+    this.esgst.featuresById[id] = feature;
+    const menu = document.createElement(`div`);
+    menu.id = `esgst_${id}`;
+    this.createElements(menu, `beforeEnd`, [{
       attributes: {
         class: `esgst-sm-small-number esgst-form-heading-number`
       },
-      text: `${aaa}.`,
+      text: `${number}.`,
       type: `div`
     }]);
-    let val, val1, val2;
-    let siwtchSg, siwtchSt, set1, set2;
-    if (Feature.sg) {
-      set1 = this.getFeaturePath(Feature, ID, `sg`);
-      val1 = set1.enabled;
-      siwtchSg = new ToggleSwitch(Menu, null, true, this.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, val1);
-      siwtchSg.onChange = (value) => {
-        this.esgst.settings[`${ID}_sg`] = value;
-        this.esgst[ID] = value;
-      };
-      siwtchSg.onEnabled = () => {
-        if (Feature.conflicts) {
-          for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
-            let setting = this.esgst.settings[`${Feature.conflicts[ci].id}_sg`];
-            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
-              siwtchSg.disable();
-              new Popup({
-                addScrollable: true,
-                icon: `fa-exclamation`,
-                isTemp: true,
-                title: `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`
-              }).open();
-              return;
-            }
-          }
-        }
-        this.loadFeatureDetails(ID);
-        if (Feature.theme && SMFeatures) {
-          if (ID === `customTheme`) {
-            // noinspection JSIgnoredPromiseFromCall
-            this.setTheme();
-          } else {
-            this.updateTheme(ID);
-          }
-        }
-      }
-      siwtchSg.onDisabled = async () => {
-        if (Feature.theme) {
-          if (ID === `customTheme`) {
-            this.delLocalValue(`customTheme`);
-          } else {
-            this.delLocalValue(`theme`);
-            await this.delValue(ID);
-          }
-          // noinspection JSIgnoredPromiseFromCall
-          this.setTheme();
-        }
-        this.loadFeatureDetails(null);
-      };
-    }
-    if (Feature.st && (this.esgst.settings.esgst_st || ID === `esgst`)) {
-      set2 = this.getFeaturePath(Feature, ID, `st`);
-      val2 = set2.enabled;
-      siwtchSt = new ToggleSwitch(Menu, null, true, `[ST]`, false, true, null, val2);
-      siwtchSt.onChange = (value) => {
-        this.esgst.settings[`${ID}_st`] = value;
-        this.esgst[ID] = value;
-      };
-      siwtchSt.onEnabled = () => {
-        if (Feature.conflicts) {
-          for (let ci = 0, cn = Feature.conflicts.length; ci < cn; ++ci) {
-            let setting = this.esgst.settings[`${Feature.conflicts[ci].id}_st`];
-            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
-              siwtchSt.disable();
-              new Popup({
-                addScrollable: true,
-                icon: `fa-exclamation`,
-                isTemp: true,
-                title: `This feature conflicts with ${Feature.conflicts[ci].name}. While that feature is enabled, this feature cannot be enabled.`
-              }).open();
-              return;
-            }
-          }
-        }
-        this.loadFeatureDetails(ID);
-        if (Feature.theme && SMFeatures) {
-          if (ID === `customTheme`) {
-            // noinspection JSIgnoredPromiseFromCall
-            this.setTheme();
-          } else {
-            this.updateTheme(ID);
-          }
-        }
-      }
-      siwtchSt.onDisabled = async () => {
-        if (Feature.theme) {
-          if (ID !== `customTheme`) {
-            await this.delValue(ID);
-          }
-          // noinspection JSIgnoredPromiseFromCall
-          this.setTheme();
-        }
-        this.loadFeatureDetails(null);
-      };
-    }
-    if (!siwtchSg && !siwtchSt) {
-      Menu.lastElementChild.remove();
-      return null;
-    }
-    isMainNew = this.esgst.dismissedOptions.indexOf(ID) < 0 && (!set1 || set1.new) && (!set2 || set2.new);
+    let isMainNew = this.esgst.dismissedOptions.indexOf(id) < 0 && !this.esgst.settings[`${id}_sg`] && !this.esgst.settings[`${id}_st`];
     if (isMainNew) {
-      this.createElements(Menu.firstElementChild, `afterEnd`, [{
+      this.createElements(menu.firstElementChild, `afterEnd`, [{
         attributes: {
           class: `esgst-bold esgst-red esgst-clickable`,
           title: `This is a new feature/option. Click to dismiss.`
         },
         text: `[NEW]`,
         type: `span`
-      }]).addEventListener(`click`, this.dismissNewOption.bind(this, ID));
+      }]).addEventListener(`click`, this.dismissNewOption.bind(this, id));
     }
-    val = val1 || val2;
-    this.createElements_v2(Menu, `beforeEnd`, [
-      [`a`, { class: `esgst-settings-feature table__column__secondary-link`, 'data-id': ID }, Feature.name],
-      [`div`, { class: `esgst-form-row-indent SMFeatures esgst-hidden` }]
+    this.createElements_v2(menu, `beforeEnd`, [
+      [`a`, { class: `esgst-settings-feature table__column__secondary-link`, 'data-id': id }, feature.name],
+      [`div`, { class: `esgst-form-row-indent SMFeatures` }]
     ]);
-    SMFeatures = Menu.lastElementChild;
-    if (Feature.features) {
-      let ft, i, id, isNew = false;
-      i = 1;
-      for (id in Feature.features) {
-        if (Feature.features.hasOwnProperty(id)) {
-          if (!Feature.features[id].extensionOnly || this._USER_INFO.extension) {
-            ft = this.getSMFeature(Feature.features[id], id, i);
-            if (ft) {
-              if (ft.isNew) {
+    const subMenu = menu.lastElementChild;
+    if (feature.features) {
+      let i = 1;
+      let isNew = false;
+      for (const subId in feature.features) {
+        if (feature.features.hasOwnProperty(subId)) {
+          if (!feature.features[subId].extensionOnly || this._USER_INFO.extension) {
+            const subFeature = this.getSMFeature(feature.features[subId], subId, i);
+            if (subFeature) {
+              if (subFeature.isNew) {
                 isNew = true;
               }
-              SMFeatures.appendChild(ft.menu);
+              subMenu.appendChild(subFeature.menu);
               i += 1;
             }
           }
         }
       }
-      if (siwtchSg) {
-        siwtchSg.dependencies.push(SMFeatures);
-      }
-      if (siwtchSt) {
-        siwtchSt.dependencies.push(SMFeatures);
-      }
-      if (val) {
-        SMFeatures.classList.remove(`esgst-hidden`);
-      }
       isMainNew = isMainNew || isNew;
       if (isNew) {
-        this.createElements(Menu.firstElementChild, `afterEnd`, [{
+        this.createElements(menu.firstElementChild, `afterEnd`, [{
           attributes: {
             class: `esgst-bold esgst-red`,
             title: `There is a new feature/option in this section`
@@ -4487,7 +4567,7 @@ class Common extends Module {
     }
     return {
       isNew: isMainNew,
-      menu: Menu
+      menu
     };
   }
 
@@ -4994,7 +5074,7 @@ class Common extends Module {
         [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => (this.esgst.settings[id] = this.esgst[id] = this.esgst.defaultValues[id]) && !(panel.firstElementChild.innerHTML = ``) && this.addUlMenuItems(id, panel) }, [
           [`span`, `Reset`]
         ]],
-        [`div`, { class: `form__input-description`}, [
+        [`div`, { class: `form__input-description` }, [
           `The default links should give you an idea of how the format works.`,
           [`br`],
           [`br`],
@@ -5029,10 +5109,10 @@ class Common extends Module {
     const setting = this.createElements_v2(panel.firstElementChild, `beforeEnd`, [
       [`div`, [
         `Label: `,
-        [`input`, {onchange: event => link.label = event.currentTarget.value, type: `text`, value: link.label}],
+        [`input`, { onchange: event => link.label = event.currentTarget.value, type: `text`, value: link.label }],
         `URL: `,
-        [`input`, {onchange: event => link.url = event.currentTarget.value, type: `text`, value: link.url}],
-        [`i`, {class: `esgst-clickable fa fa-times`, onclick: () => this.removeUlLink(id, link, setting), title: `Delete this setting`}]
+        [`input`, { onchange: event => link.url = event.currentTarget.value, type: `text`, value: link.url }],
+        [`i`, { class: `esgst-clickable fa fa-times`, onclick: () => this.removeUlLink(id, link, setting), title: `Delete this setting` }]
       ]]
     ]);
   }
@@ -6034,14 +6114,14 @@ class Common extends Module {
     let isBackingUp = this.getLocalValue(`isBackingUp`);
     if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - this.esgst.lastBackup > this.esgst.autoBackup_days * 86400000) {
       this.setLocalValue(`isBackingUp`, currentDate);
-      open(`https://www.steamgifts.com/account/settings/profile?esgst=backup&autoBackup=true`);
+      this.runSilentBackup();
     }
   }
 
-  loadDataManagement(type) {
+  loadDataManagement(type, callback) {
     let container, context, group1, group2, i, icon, n, onClick, option, prep, section, title1, title2;
     let dm = {
-      autoBackup: this.esgst.parameters.autoBackup,
+      autoBackup: callback && this.esgst.parameters.autoBackup,
       type: type
     };
     dm[type] = true;
@@ -6083,10 +6163,31 @@ class Common extends Module {
         }
       ]
     });
-    if (dm.autoBackup) {
-      context.insertAdjacentHTML(`beforeEnd`, `ESGST is backing up your data... Do not close this window.`);
-    }
     if (!dm.autoBackup) {
+      context = container = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+      this.createPageHeading(context, `beforeEnd`, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: title1
+          }
+        ]
+      });
+      context = container = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+      this.createPageHeading(context, `beforeEnd`, {
+        items: [
+          {
+            name: `ESGST`
+          },
+          {
+            name: title1
+          }
+        ]
+      });
       dm.computerSpace = this.createElements(container, `beforeEnd`, [{
         type: `div`,
         children: [{
@@ -6370,7 +6471,7 @@ class Common extends Module {
       this.manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
         this.delLocalValue(`isBackingUp`);
         await this.setSetting(`lastBackup`, Date.now());
-        window.alert(`Backup done! You can close this now.`);
+        callback();
       });
     } else {
       for (i = 0, n = dm.options.length; i < n; ++i) {
@@ -12801,9 +12902,9 @@ class Common extends Module {
     }
   }
 
-  getParameters() {
+  getParameters(source) {
     let parameters = {};
-    location.search.replace(/^\?/, ``).split(/&/).forEach(item => {
+    (source || location.search).replace(/^\?/, ``).split(/&/).forEach(item => {
       const items = item.split(/=/);
       parameters[items[0]] = items[1];
     });
@@ -14364,7 +14465,7 @@ class Common extends Module {
             [`div`, { class: `form__heading__number` }, i++],
             [`div`, { class: `form__heading__text` }, item.name]
           ]],
-          [`div`, { class: `form__row__indent` }, item.content]
+          [`div`, { class: `form__row__indent`, id: item.id || `` }, item.content]
         ]]
       );
     }
@@ -14510,6 +14611,7 @@ class Common extends Module {
     const fragment = document.createDocumentFragment();
     let element = null;
     this.buildElements(fragment, items);
+    console.log(context, position, items);
     switch (position) {
       case `beforeBegin`:
         context.parentElement.insertBefore(fragment, context);

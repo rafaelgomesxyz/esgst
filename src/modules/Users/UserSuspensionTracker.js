@@ -20,7 +20,7 @@ class UsersUserSuspensionTracker extends Module {
     this.info = {
       description: [
         [`ul`, [
-          [`li`, `When checking a user with [id = namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.`],
+          [`li`, `When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.`],
           [`li`, [
             `It is impossible to retrieve that information automatically, so the database (which is kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this feature adds 2 identical buttons (`,
             [`i`, { class: `fa fa-paper-plane` }],

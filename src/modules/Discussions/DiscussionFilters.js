@@ -217,7 +217,7 @@ class DiscussionsDiscussionFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter discussions that you have highlighted.`],
-                  [`li`, `This option requires[id = dh] enabled to work.`]
+                  [`li`, `This option requires[id=dh] enabled to work.`]
                 ]]
               ],
               name: `Highlighted`,
@@ -227,7 +227,7 @@ class DiscussionsDiscussionFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter discussions that you have visited.`],
-                  [`li`, `This option requires[id = gdttt] enabled to work.`]
+                  [`li`, `This option requires[id=gdttt] enabled to work.`]
                 ]]
               ],
               name: `Visited`,
@@ -237,7 +237,7 @@ class DiscussionsDiscussionFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter discussions that you have read.`],
-                  [`li`, `This option requires[id = ct] enabled to work.`]
+                  [`li`, `This option requires[id=ct] enabled to work.`]
                 ]]
               ],
               name: `Unread`,

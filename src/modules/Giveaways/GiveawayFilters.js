@@ -211,7 +211,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by ratio (basic).`],
-                  [`li`, `This option requires[id = gwr] enabled to work.`]
+                  [`li`, `This option requires[id=gwr] enabled to work.`]
                 ]]
               ],
               name: `Ratio`,
@@ -221,7 +221,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by projected ratio (advanced).`],
-                  [`li`, `This option requires[id = gwr_a] enabled to work.`]
+                  [`li`, `This option requires[id=gwr_a] enabled to work.`]
                 ]]
               ],
               name: `Projected Ratio`,
@@ -231,7 +231,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by points to win.`],
-                  [`li`, `This option requires[id = gptw] enabled to work.`]
+                  [`li`, `This option requires[id=gptw] enabled to work.`]
                 ]]
               ],
               name: `Points To Win`,
@@ -241,7 +241,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by rating percentage of the game.`],
-                  [`li`, `This option requires[id = gc_r] enabled to work.`]
+                  [`li`, `This option requires[id=gc_r] enabled to work.`]
                 ]]
               ],
               name: `Rating`,
@@ -251,7 +251,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by the number of reviews that the game has.`],
-                  [`li`, `This option requires[id = gc_r] enabled to work.`]
+                  [`li`, `This option requires[id=gc_r] enabled to work.`]
                 ]]
               ],
               name: `Reviews`,
@@ -261,7 +261,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by release date of the game.`],
-                  [`li`, `This option requires[id = gc_rd] enabled to work.`]
+                  [`li`, `This option requires[id=gc_rd] enabled to work.`]
                 ]]
               ],
               name: `Release Date`,
@@ -324,7 +324,7 @@ class GiveawaysGiveawayFilters extends Module {
             gf_enterable: {
               description: [
                 [`ul`, [
-                  [`li`, `Allows you filter giveaways that are enterable in [id = ge].`]
+                  [`li`, `Allows you filter giveaways that are enterable in [id=ge].`]
                 ]]
               ],
               name: `Enterable`,
@@ -451,7 +451,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that you have previously entered giveaways for.`],
-                  [`li`, `This option requires[id = egh] enabled to work.`]
+                  [`li`, `This option requires[id=egh] enabled to work.`]
                 ]]
               ],
               name: `Previously Entered`,
@@ -497,7 +497,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter SGTools giveaways.`],
-                  [`li`, `This option requires[id = ge] enabled to work.`]
+                  [`li`, `This option requires[id=ge] enabled to work.`]
                 ]]
               ],
               name: `SGTools`,
@@ -507,7 +507,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by group.`],
-                  [`li`, `This option requires[id = ggl] enabled as "Panel (On Page Load)" to work.`]
+                  [`li`, `This option requires[id=ggl] enabled as "Panel (On Page Load)" to work.`]
                 ]]
               ],
               name: `Groups`,
@@ -535,7 +535,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that Steam is learning about.`],
-                  [`li`, `This option requires[id = gc_lg] enabled to work.`]
+                  [`li`, `This option requires[id=gc_lg] enabled to work.`]
                 ]]
               ],
               name: `Learning`,
@@ -545,7 +545,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that have been removed from the Steam store.`],
-                  [`li`, `This option requires[id = gc_rm] enabled to work.`]
+                  [`li`, `This option requires[id=gc_rm] enabled to work.`]
                 ]]
               ],
               name: `Removed`,
@@ -555,7 +555,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that have trading cards.`],
-                  [`li`, `This option requires[id = gc_tc] enabled to work.`]
+                  [`li`, `This option requires[id=gc_tc] enabled to work.`]
                 ]]
               ],
               name: `Trading Cards`,
@@ -565,7 +565,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that have achievements.`],
-                  [`li`, `This option requires[id = gc_a] enabled to work.`]
+                  [`li`, `This option requires[id=gc_a] enabled to work.`]
                 ]]
               ],
               name: `Achievements`,
@@ -575,7 +575,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are singleplayer.`],
-                  [`li`, `This option requires[id = gc_sp] enabled to work.`]
+                  [`li`, `This option requires[id=gc_sp] enabled to work.`]
                 ]]
               ],
               name: `Singleplayer`,
@@ -585,7 +585,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are multiplayer.`],
-                  [`li`, `This option requires[id = gc_mp] enabled to work.`]
+                  [`li`, `This option requires[id=gc_mp] enabled to work.`]
                 ]]
               ],
               name: `Multiplayer`,
@@ -595,7 +595,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that have Steam Cloud.`],
-                  [`li`, `This option requires[id = gc_sc] enabled to work.`]
+                  [`li`, `This option requires[id=gc_sc] enabled to work.`]
                 ]]
               ],
               name: `Steam Cloud`,
@@ -605,7 +605,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that have are compatible with Linux.`],
-                  [`li`, `This option requires[id = gc_l] enabled to work.`]
+                  [`li`, `This option requires[id=gc_l] enabled to work.`]
                 ]]
               ],
               name: `Linux`,
@@ -615,7 +615,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are compatible with Mac.`],
-                  [`li`, `This option requires[id = gc_m] enabled to work.`]
+                  [`li`, `This option requires[id=gc_m] enabled to work.`]
                 ]]
               ],
               name: `Mac`,
@@ -625,7 +625,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are DLCs.`],
-                  [`li`, `This option requires[id = gc_dlc] enabled to work.`]
+                  [`li`, `This option requires[id=gc_dlc] enabled to work.`]
                 ]]
               ],
               name: `DLC`,
@@ -635,7 +635,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are DLCs and have a base game that you own.`],
-                  [`li`, `This option requires[id = gc_dlc_o] enabled to work.`]
+                  [`li`, `This option requires[id=gc_dlc_o] enabled to work.`]
                 ]]
               ],
               name: `DLC (Owned Base)`,
@@ -645,7 +645,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are DLCs and have a free base game.`],
-                  [`li`, `This option requires[id = gc_dlc_b] enabled to work.`]
+                  [`li`, `This option requires[id=gc_dlc_b] enabled to work.`]
                 ]]
               ],
               name: `DLC (Free Base)`,
@@ -655,7 +655,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are DLCs and have a non-free base game.`],
-                  [`li`, `This option requires[id = gc_dlc_b] enabled to work.`]
+                  [`li`, `This option requires[id=gc_dlc_b] enabled to work.`]
                 ]]
               ],
               name: `DLC (Non-Free Base)`,
@@ -665,7 +665,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are packages.`],
-                  [`li`, `This option requires[id = gc_p] enabled to work.`]
+                  [`li`, `This option requires[id=gc_p] enabled to work.`]
                 ]]
               ],
               name: `Package`,
@@ -675,7 +675,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways for games that are in early access.`],
-                  [`li`, `This option requires[id = gc_ea] enabled to work.`]
+                  [`li`, `This option requires[id=gc_ea] enabled to work.`]
                 ]]
               ],
               name: `Early Access`,
@@ -685,7 +685,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by game genre.`],
-                  [`li`, `This option requires[id = gc_g] enabled to work.`]
+                  [`li`, `This option requires[id=gc_g] enabled to work.`]
                 ]]
               ],
               name: `Genres`,
@@ -695,7 +695,7 @@ class GiveawaysGiveawayFilters extends Module {
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by game tags.`],
-                  [`li`, `This option requires[id = gt] enabled to work.`]
+                  [`li`, `This option requires[id=gt] enabled to work.`]
                 ]]
               ],
               name: `Game Tags`,

@@ -1502,13 +1502,16 @@ import esgst from './class/Esgst';
       await common.getElements();
       if (esgst.sg) {
         // noinspection JSIgnoredPromiseFromCall
-        common.checkSync()
+        common.checkSync();
       }
       if (esgst.autoBackup) {
         common.checkBackup();
       }
       if (esgst.profilePath && esgst.autoSync) {
-        document.getElementsByClassName(`form__sync-default`)[0].addEventListener(`click`, () => open(`https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&Games=1&Groups=1`));
+        const el = document.getElementsByClassName(`form__sync-default`)[0];
+        if (el) {
+          el.addEventListener(`click`, () => common.runSilentSync(`Games=1&Groups=1`));
+        }
       }
 
       envFunctions.addHeaderMenu();
