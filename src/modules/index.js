@@ -132,6 +132,7 @@ import UsersUsernameHistory from './Users/UsernameHistory';
 import UsersUserNotes from './Users/UserNotes';
 import UsersUserFilters from './Users/UserFilters';
 import UsersSharedGroupChecker from './Users/SharedGroupChecker';
+import UsersUserLinks from './Users/UserLinks';
 import UsersRealWonSentCVLink from './Users/RealWonSentCVLink';
 import UsersUserGiveawayData from './Users/UserGiveawayData';
 import UsersNotActivatedMultipleWinChecker from './Users/NotActivatedMultipleWinChecker';
@@ -282,6 +283,7 @@ let
   usersUserNotes = new UsersUserNotes,
   usersUserFilters = new UsersUserFilters,
   usersSharedGroupChecker = new UsersSharedGroupChecker,
+  usersUserLinks = new UsersUserLinks,
   usersRealWonSentCVLink = new UsersRealWonSentCVLink,
   usersUserGiveawayData = new UsersUserGiveawayData,
   usersNotActivatedMultipleWinChecker = new UsersNotActivatedMultipleWinChecker,
@@ -434,6 +436,7 @@ export default {
   usersUserNotes,
   usersUserFilters,
   usersSharedGroupChecker,
+  usersUserLinks,
   usersRealWonSentCVLink,
   usersUserGiveawayData,
   usersNotActivatedMultipleWinChecker,
