@@ -282,7 +282,7 @@ class Giveaways extends Module {
       giveaway.links.classList.add(`esgst-giveaway-links`);
       giveaway.entriesLink = giveaway.links.firstElementChild;
       giveaway.commentsLink = giveaway.entriesLink.nextElementSibling;
-    } else {
+    } else if (this.esgst.giveawayPath) {
       giveaway.entriesLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[1];
       giveaway.commentsLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[0];
     }
