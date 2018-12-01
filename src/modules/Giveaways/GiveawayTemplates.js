@@ -87,7 +87,7 @@ class GiveawaysGiveawayTemplates extends Module {
           data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
           data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
           const response = await request({
-            data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime),
+            data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime.bind(this.esgst.modules.giveawaysMultipleGiveawayCreator)),
             method: `POST`,
             url: `/giveaways/new`
           });
