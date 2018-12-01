@@ -3831,7 +3831,11 @@ class Common extends Module {
       }
     }
     const feature = this.esgst.featuresById[id];
-    const items = [];
+    const items = [{
+      check: true,
+      content: feature.name,
+      name: `Name`
+    }];
     let sgContext, stContext;
     if (feature.sg) {
       const value = this.getFeaturePath(feature, id, `sg`).enabled;
