@@ -11,7 +11,7 @@ const
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  request = common.getFeatureTooltip.bind(common),
+  request = common.request.bind(common),
   setSetting = common.setSetting.bind(common)
 ;
 
