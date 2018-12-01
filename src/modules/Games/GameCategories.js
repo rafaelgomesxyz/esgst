@@ -1707,7 +1707,7 @@ class GamesGameCategories extends Module {
                   title += `Solo: ${hltbTimes.solo}\n`;
                 }
                 if (hltbTimes.coOp) {
-                  title += `Co - Op: ${hltbTimes.coOp}\n`;
+                  title += `Co-Op: ${hltbTimes.coOp}\n`;
                 }
                 if (hltbTimes.vs) {
                   title += `Vs.: ${hltbTimes.vs}\n`;
@@ -2006,7 +2006,7 @@ class GamesGameCategories extends Module {
                 colors = {
                   bgColor: `#7f8c8d`,
                   color: `#ffffff`,
-                  icon: `fa - question - circle`
+                  icon: `fa-question-circle`
                 };
               }
               let match = cache.rating.match(/\((\d+)\)/);

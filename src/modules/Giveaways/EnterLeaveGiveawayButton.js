@@ -94,7 +94,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   async elgb_addButtons(giveaways, main, source) {
     giveaways.forEach(giveaway => {
       if (giveaway.sgTools || (main && (this.esgst.elgb_p || this.esgst.createdPath || this.esgst.wonPath))) return;
-      if (giveaway.innerWrap.getElementsByClassName(`esgst - elgb - button`)[0]) {
+      if (giveaway.innerWrap.getElementsByClassName(`esgst-elgb-button`)[0]) {
         return;
       }
       if (this.esgst.enteredPath && main) {
@@ -105,7 +105,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         return;
       }
       if (this.esgst.giveawayPath && main) {
-        let sidebarButton = document.getElementsByClassName(`sidebar__error is - disabled`)[0];
+        let sidebarButton = document.getElementsByClassName(`sidebar__error is-disabled`)[0];
         if (!sidebarButton || sidebarButton.textContent.trim() !== `Not Enough Points`) {
           return;
         }
@@ -216,30 +216,30 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   async elgb_addEntry(addButton, addingButton, errorButton, giveaway, removeButton) {
-    addButton.classList.add(`esgst - hidden`);
-    addingButton.classList.remove(`esgst - hidden`);
+    addButton.classList.add(`esgst-hidden`);
+    addingButton.classList.remove(`esgst-hidden`);
     try {
       let responseJson = JSON.parse((await request({
-        data: `xsrf_token = ${this.esgst.xsrfToken}&do= entry_insert & code= ${giveaway.code} `,
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
         method: `POST`,
-        url: `/ ajax.php`
+        url: `/ajax.php`
       })).responseText);
       if (responseJson.type === `success`) {
-        removeButton.classList.remove(`esgst - hidden`);
+        removeButton.classList.remove(`esgst-hidden`);
       } else {
         if (this.esgst.elgb_b && this.esgst.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
           // noinspection JSIgnoredPromiseFromCall
           giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
         }
-        errorButton.classList.remove(`esgst - hidden`);
+        errorButton.classList.remove(`esgst-hidden`);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
     } catch (e) {
-      errorButton.classList.remove(`esgst - hidden`);
+      errorButton.classList.remove(`esgst-hidden`);
     }
-    addingButton.classList.add(`esgst - hidden`);
+    addingButton.classList.add(`esgst-hidden`);
     if (this.esgst.et) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, true, giveaway.name);
@@ -247,26 +247,26 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   async elgb_removeEntry(addButton, errorButton, giveaway, removeButton, removingButton) {
-    removeButton.classList.add(`esgst - hidden`);
-    removingButton.classList.remove(`esgst - hidden`);
+    removeButton.classList.add(`esgst-hidden`);
+    removingButton.classList.remove(`esgst-hidden`);
     try {
       let responseJson = JSON.parse((await request({
-        data: `xsrf_token = ${this.esgst.xsrfToken}&do= entry_delete & code= ${giveaway.code} `,
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
         method: `POST`,
-        url: `/ ajax.php`
+        url: `/ajax.php`
       })).responseText);
       if (responseJson.type === `success`) {
-        addButton.classList.remove(`esgst - hidden`);
+        addButton.classList.remove(`esgst-hidden`);
       } else {
-        errorButton.classList.remove(`esgst - hidden`);
+        errorButton.classList.remove(`esgst-hidden`);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
     } catch (e) {
-      errorButton.classList.remove(`esgst - hidden`);
+      errorButton.classList.remove(`esgst-hidden`);
     }
-    removingButton.classList.add(`esgst - hidden`);
+    removingButton.classList.add(`esgst-hidden`);
     if (this.esgst.et) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, false, giveaway.name);
@@ -279,8 +279,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.elgbButton = new ButtonSet({
         color1: `yellow`,
         color2: `grey`,
-        icon1: `fa - minus - circle`,
-        icon2: `fa - circle - o - notch fa - spin`,
+        icon1: `fa-minus-circle`,
+        icon2: `fa-circle-o-notch fa-spin`,
         title1: `Leave`,
         title2: `Leaving...`,
         callback1: () => {
@@ -293,8 +293,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.elgbButton = new ButtonSet({
         color1: `red`,
         color2: `grey`,
-        icon1: `fa - plus - circle`,
-        icon2: `fa - circle - o - notch fa - spin`,
+        icon1: `fa-plus-circle`,
+        icon2: `fa-circle-o-notch fa-spin`,
         title1: `Enter`,
         title2: `Entering...`,
         callback1: () => {
@@ -308,8 +308,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         giveaway.elgbButton = new ButtonSet({
           color1: `green`,
           color2: `grey`,
-          icon1: `fa - plus - circle`,
-          icon2: `fa - circle - o - notch fa - spin`,
+          icon1: `fa-plus-circle`,
+          icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter`,
           title2: `Entering...`,
           callback1: () => {
@@ -322,8 +322,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         giveaway.elgbButton = new ButtonSet({
           color1: `red`,
           color2: `grey`,
-          icon1: `fa - plus - circle`,
-          icon2: `fa - circle - o - notch fa - spin`,
+          icon1: `fa-plus-circle`,
+          icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter`,
           title2: `Entering...`,
           callback1: () => {
@@ -335,19 +335,19 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
     }
     if (doAppend) {
-      giveaway.elgbButton.classList.add(`esgst - elgb - button`);
+      giveaway.elgbButton.classList.add(`esgst-elgb-button`);
       if (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) {
         giveaway.elgbPanel.insertBefore(giveaway.elgbButton, giveaway.elgbPanel.firstElementChild);
       } else {
         giveaway.elgbPanel.appendChild(giveaway.elgbButton);
       }
-      giveaway.elgbButton.setAttribute(`data - draggable - id`, `elgb`);
+      giveaway.elgbButton.setAttribute(`data-draggable-id`, `elgb`);
     }
   }
 
   async elgb_openPopup(giveaway, main, source, mainCallback) {
     let popup = new Popup({
-      addScrollable: true, icon: `fa - file - text - o`, isTemp: true, title: [{
+      addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: [{
         attributes: {
           href: giveaway.url
         },
@@ -361,7 +361,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         type: `node`
       }, {
         attributes: {
-          href: `/ user / ${giveaway.creator} `
+          href: `/user/${giveaway.creator}`
         }, text: giveaway.creator,
         type: `a`
       }]
@@ -370,8 +370,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       let set = new ButtonSet({
         color1: `yellow`,
         color2: `grey`,
-        icon1: `fa - minus - circle`,
-        icon2: `fa - circle - o - notch fa - spin`,
+        icon1: `fa-minus-circle`,
+        icon2: `fa-circle-o-notch fa-spin`,
         title1: `Leave Giveaway`,
         title2: `Leaving...`,
         callback1: () => {
@@ -391,8 +391,8 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         let set = new ButtonSet({
           color1: `green`,
           color2: `grey`,
-          icon1: `fa - plus - circle`,
-          icon2: `fa - circle - o - notch fa - spin`,
+          icon1: `fa-plus-circle`,
+          icon2: `fa-circle-o-notch fa-spin`,
           title1: `Enter Giveaway`,
           title2: `Entering...`,
           callback1: () => {
@@ -411,7 +411,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     let description = null;
     if (this.esgst.elgb_d || (this.esgst.elgb_r && this.esgst.elgb_r_d) || mainCallback) {
       const responseHtml = parseHtml((await request({ method: `GET`, url: giveaway.url })).responseText);
-      if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer - wrap--giveaway`)[0]) {
+      if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0]) {
         mainCallback(true);
         return;
       }
@@ -453,7 +453,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
     }
     if (description) {
-      description.classList.add(`esgst - text - left`);
+      description.classList.add(`esgst-text-left`);
       createElements(popup.scrollable, `beforeEnd`, [{
         context: description
       }]);
@@ -469,14 +469,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       popup.description.appendChild(new ButtonSet({
         color1: `green`,
         color2: `grey`,
-        icon1: `fa - arrow - circle - right`,
-        icon2: `fa - circle - o - notch fa - spin`,
+        icon1: `fa-arrow-circle-right`,
+        icon2: `fa-circle-o-notch fa-spin`,
         title1: `Add Comment`,
         title2: `Saving...`,
         callback1: async () => {
           if (box.value) {
             await request({
-              data: `xsrf_token = ${this.esgst.xsrfToken}&do= comment_new & description= ${box.value} `,
+              data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
               method: `POST`,
               url: giveaway.url
             });
@@ -489,12 +489,12 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       let set = new ButtonSet({
         color1: `grey`,
         color2: `grey`,
-        icon1: `fa - eye`,
-        icon2: `fa - circle - o - notch fa - spin`,
+        icon1: `fa-eye`,
+        icon2: `fa-circle-o-notch fa-spin`,
         title1: `Add Description To Filters`,
         title2: `Filtering...`,
         callback1: async () => {
-          this.esgst.elgb_filters = `${this.esgst.elgb_filters}| ${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()} `;
+          this.esgst.elgb_filters = `${this.esgst.elgb_filters}| ${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
           await setSetting(`elgb_filters`, this.esgst.elgb_filters);
           set.remove();
         }
@@ -515,9 +515,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_enterGiveaway(giveaway, main, popup, source, callback) {
     const responseText = (await request({
-      data: `xsrf_token = ${this.esgst.xsrfToken}&do= entry_insert & code= ${giveaway.code} `,
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
       method: `POST`,
-      url: `/ ajax.php`
+      url: `/ajax.php`
     })).responseText;
     let responseJson = null;
     try {
@@ -532,7 +532,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }
     if (responseJson.type === `success`) {
       if (!this.esgst.giveawayPath || !main) {
-        giveaway.innerWrap.classList.add(`is - faded`);
+        giveaway.innerWrap.classList.add(`is-faded`);
       }
       giveaway.entered = true;
       giveaway.error = null;
@@ -557,13 +557,13 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
         }
         if (!this.esgst.gb_se) {
-          giveaway.gbButton.button.classList.add(`esgst - hidden`);
+          giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }
       }
-      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type} `]) {
+      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.filters.filters_filter(this.esgst.gf);
       }
-      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type} `]) {
+      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.filters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {
@@ -589,9 +589,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_leaveGiveaway(giveaway, main, source, callback) {
     const responseText = (await request({
-      data: `xsrf_token = ${this.esgst.xsrfToken}&do= entry_delete & code= ${giveaway.code} `,
+      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
       method: `POST`,
-      url: `/ ajax.php`
+      url: `/ajax.php`
     })).responseText;
     let responseJson = null;
     try {
@@ -605,7 +605,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       return;
     }
     if (responseJson.type === `success`) {
-      giveaway.innerWrap.classList.remove(`is - faded`);
+      giveaway.innerWrap.classList.remove(`is-faded`);
       giveaway.entered = false;
       giveaway.error = false;
       this.elgb_addButton(giveaway, main, source);
@@ -620,12 +620,12 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
       this.elgb_updateButtons();
       if (this.esgst.gb && giveaway.gbButton) {
-        giveaway.gbButton.button.classList.remove(`esgst - hidden`);
+        giveaway.gbButton.button.classList.remove(`esgst-hidden`);
       }
-      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type} `]) {
+      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.filters.filters_filter(this.esgst.gf);
       }
-      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type} `]) {
+      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.filters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {
