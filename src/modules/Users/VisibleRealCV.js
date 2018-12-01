@@ -11,7 +11,7 @@ class UsersVisibleRealCV extends Module {
             [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
             ` page.`
           ]],
-          [`li`, `This also extends to [id = swr], if you have that feature enabled.`],
+          [`li`, `This also extends to [id=swr], if you have that feature enabled.`],
           [`li`, `With this feature disabled, you can still view the real CV, as provided by SteamGifts, by hovering over the raw value.`]
         ]]
       ],

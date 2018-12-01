@@ -392,7 +392,7 @@ class UsersUserGiveawayData extends Module {
     const msg = `Retrieving giveaways (page ${details.nextPage}${details.lastPage})...`;
     if (obj.popup) {
       obj.popup.setProgress(msg);
-    } else {
+    } else if (!obj.mainPopup.isSilent) {
       obj.mainPopup.progress.lastElementChild.textContent = msg;
     }
 
@@ -1047,7 +1047,7 @@ class UsersUserGiveawayData extends Module {
     const msg = `Retrieving giveaway winners (${details.giveaway.gameName})...`;
     if (obj.popup) {
       obj.popup.setProgress(msg);
-    } else {
+    } else if (!obj.mainPopup.isSilent) {
       obj.mainPopup.progress.lastElementChild.textContent = msg;
     }
 

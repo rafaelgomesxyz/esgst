@@ -77,7 +77,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         wbc_n: {
           description: [
             [`ul`, [
-              [`li`, `If you have[id = un] enabled, a note will be saved for a user if they were whitelisted / blacklisted back.`]
+              [`li`, `If you have[id=un] enabled, a note will be saved for a user if they were whitelisted / blacklisted back.`]
             ]]
           ],
           name: `Save automatic notes when returning whitelists/blacklists.`,

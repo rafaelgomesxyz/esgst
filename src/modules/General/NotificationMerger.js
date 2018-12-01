@@ -21,7 +21,7 @@ class GeneralNotificationMerger extends Module {
             [`i`, { class: `fa fa-envelope esgst-red` }],
             `) to the header of any page that allows you to be notified about messages from SteamTrades on SteamGifts and vice-versa.`
           ]],
-          [`li`, `This feature is compatible with [id = hr_b].`]
+          [`li`, `This feature is compatible with [id=hr_b].`]
         ]]
       ],
       id: `nm`,

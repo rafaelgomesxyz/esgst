@@ -34,7 +34,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         elgb_b: {
           description: [
             [`ul`, [
-              [`li`, `Requires[id = gb] enabled.`]
+              [`li`, `Requires[id=gb] enabled.`]
             ]]
           ],
           name: `Automatically bookmark giveaways when trying to enter them without enough points .`,
@@ -58,7 +58,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         elgb_p: {
           description: [
             [`ul`, [
-              [`li`, `Only shows the button in popups([id = gb], [id = ged], [id = ge], etc...), so basically only for any giveaways that are loaded dynamically by ESGST.`]
+              [`li`, `Only shows the button in popups([id=gb], [id=ged], [id=ge], etc...), so basically only for any giveaways that are loaded dynamically by ESGST.`]
             ]]
           ],
           name: `Only enable for popups.`,

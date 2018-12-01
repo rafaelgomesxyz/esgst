@@ -17,14 +17,14 @@ class DiscussionsMainPostPopup extends Module {
             [`i`, { class: `fa fa-home` }],
             `) to its main page heading that allows you to open the main post through a popup.`
           ]],
-          [`li`, `This feature is useful if you have [id = fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`]
+          [`li`, `This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`]
         ]]
       ],
       features: {
         mpp_r: {
           description: [
             [`ul`, [
-              [`li`, `This option requires[id = ct] enabled to work.`]
+              [`li`, `This option requires[id=ct] enabled to work.`]
             ]]
           ],
           name: `Only hide the main post if it has been marked as read.`,

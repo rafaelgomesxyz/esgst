@@ -21,7 +21,7 @@ class GeneralQuickInboxView extends Module {
             [`i`, { class: `fa fa-envelope` }],
             `) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.`
           ]],
-          [`li`, `You can also mark the messages as read from the popout and reply to them if [id = rfi] is enabled.`]
+          [`li`, `You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.`]
         ]]
       ],
       features: {

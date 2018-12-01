@@ -114,7 +114,7 @@ class CommentsCommentTracker extends Module {
           description: [
             [`ul`, [
               [`li`, `The simplified version of the tracker does not have the concept of read/unread comments, but simply shows the red number of comments that were made since you last visited a thread, so the comments are not tracked by date (they are tracked by quantity) and there are no buttons to go to the first unread comment of a thread/page or mark comments as read/unread.`],
-              [`li`, `If you mark a thread as visited with [id = gdttt], all of the comments in the thread will be considered as "read", and if you mark it as unvisited, they will be considered as "unread".`]
+              [`li`, `If you mark a thread as visited with [id=gdttt], all of the comments in the thread will be considered as "read", and if you mark it as unvisited, they will be considered as "unread".`]
             ]]
           ],
           features: {
@@ -141,7 +141,7 @@ class CommentsCommentTracker extends Module {
         ct_r: {
           description: [
             [`ul`, [
-              [`li`, `Searches pages for an unread comment from the bottom to the top if [id = cr] is disabled or from the top to the bottom if it is enabled.`]
+              [`li`, `Searches pages for an unread comment from the bottom to the top if [id=cr] is disabled or from the top to the bottom if it is enabled.`]
             ]]
           ],
           name: `Search for the first unread comment in reverse order.`,
