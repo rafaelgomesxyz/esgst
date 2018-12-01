@@ -13685,6 +13685,26 @@ class Common extends Module {
   loadChangelog(version) {
     const changelog = [
       {
+        date: `December 1, 2018`,
+        version: `8.1.0`,
+        changelog: {
+          1031: `Add a new feature: Entered Giveaways Stats`,
+          1030: `Fix a bug in Giveaway Templates that does not create giveaways through the Create Giveaway button`,
+          1029: `Fix a bug in Giveaway Filters that does not toggle SteamGifts filters`,
+          1028: `Add a new feature: User Links`,
+          1027: `Fix a bug that positions Created/Entered/Won Giveaway Details columns in the wrong order`,
+          1026: `Fix a bug that does not load username history`,
+          1024: `Specify the element to retrieve usernames from more`,
+          1023: `Add option to position Quick Giveaway Search on the right to prevent it from moving the other buttons`,
+          1022: `Revamp ESGST-generated pages/popups`,
+          1015: `Add option to hide games from list to Multi-Manager`,
+          1014: `Only round chance / chance per point when displaying it, but keep it unrounded internally for better accuracy`,
+          1012: `Add a new feature: Custom Giveaway Background`,
+          990: `Fix a bug that does not allow some elements to be re-ordered`
+        }
+      },
+
+      {
         date: `November 26, 2018`,
         version: `8.0.5`,
         changelog: {
