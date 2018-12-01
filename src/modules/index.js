@@ -34,6 +34,7 @@ import GiveawaysGiveawayBookmarks from './Giveaways/GiveawayBookmarks';
 import GamesGameCategories from './Games/GameCategories';
 import GiveawaysGiveawayCopyHighlighter from './Giveaways/GiveawayCopyHighlighter';
 import GiveawaysCustomGiveawayBackground from './Giveaways/CustomGiveawayBackground';
+import GiveawaysEnteredGiveawaysStats from './Giveaways/EnteredGiveawaysStats';
 import GeneralGiveawayDiscussionTicketTradeTracker from './General/GiveawayDiscussionTicketTradeTracker';
 import GiveawaysGiveawayExtractor from './Giveaways/GiveawayExtractor';
 import GiveawaysGiveawayEncrypterDecrypter from './Giveaways/GiveawayEncrypterDecrypter';
@@ -185,6 +186,7 @@ let
   gamesGameCategories = new GamesGameCategories,
   giveawaysGiveawayCopyHighlighter = new GiveawaysGiveawayCopyHighlighter,
   giveawaysCustomGiveawayBackground = new GiveawaysCustomGiveawayBackground,
+  giveawaysEnteredGiveawaysStats = new GiveawaysEnteredGiveawaysStats,
   generalGiveawayDiscussionTicketTradeTracker = new GeneralGiveawayDiscussionTicketTradeTracker,
   giveawaysGiveawayExtractor = new GiveawaysGiveawayExtractor,
   giveawaysGiveawayEncrypterDecrypter = new GiveawaysGiveawayEncrypterDecrypter,
@@ -402,6 +404,7 @@ export default {
   giveawaysGiveawayCountryLoader,
   giveawaysGiveawayWinningChance,
   giveawaysGiveawayWinningRatio,
+  giveawaysEnteredGiveawaysStats,
   giveawaysGiveawayPointsToWin,
   giveawaysGiveawayEndTimeHighlighter,
   giveawaysSteamActivationLinks,

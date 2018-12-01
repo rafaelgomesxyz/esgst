@@ -14505,11 +14505,11 @@ class Common extends Module {
     const items = [];
     for (const item of options.items) {
       items.push(
-        [`li`, { class: `sidebar__navigation__item`, id: item.id }, [
-          [`a`, { class: `sidebar__navigation__item__link`, href: item.url }, [
+        [`li`, { class: `sidebar__navigation__item`, id: item.id || `` }, [
+          [item.url ? `a` : `div`, Object.assign({ class: `sidebar__navigation__item__link` }, item.url ? { href: item.url } : null), [
             [`div`, { class: `sidebar__navigation__item__name` }, item.name],
             [`div`, { class: `sidebar__navigation__item__underline` }],
-            item.count
+            isSet(item.count)
               ? [`div`, { class: `sidebar__navigation__item__count` }, item.count]
               : null
           ]]
