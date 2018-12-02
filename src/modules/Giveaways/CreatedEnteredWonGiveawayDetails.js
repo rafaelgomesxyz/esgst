@@ -271,6 +271,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     giveaway.group = details.group;
     giveaway.whitelist = details.whitelist;
     giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
+    if (this.esgst.cgb) {
+      this.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
+    }
     if (details.inviteOnly) {
       if (details.regionRestricted) {
         type = `Invite + Region`;
