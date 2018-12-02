@@ -440,14 +440,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           setLocalValue(`elgbCache`, JSON.stringify(this.esgst.elgbCache));
           if (this.esgst.elgb_f) {
             let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-            if (text.match(new RegExp(`^ (${this.esgst.elgb_filters}) $`))) {
+            if (text.match(new RegExp(`^(${this.esgst.elgb_filters})$`))) {
               description = null;
             }
           }
         }
       } else if (this.esgst.elgb_f) {
         let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-        if (text.match(new RegExp(`^ (${this.esgst.elgb_filters}) $`))) {
+        if (text.match(new RegExp(`^(${this.esgst.elgb_filters})$`))) {
           description = null;
         }
       }
