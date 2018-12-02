@@ -9229,21 +9229,6 @@ class Common extends Module {
         id: `wbh_b`,
         key: `blacklisted`,
         mainKey: `esgst-wbh-highlight`
-      },
-      {
-        id: `ge_p`,
-        key: `public`,
-        mainKey: `esgst-ge`
-      },
-      {
-        id: `ge_g`,
-        key: `group`,
-        mainKey: `esgst-ge`
-      },
-      {
-        id: `ge_b`,
-        key: `blacklist`,
-        mainKey: `esgst-ge`
       }
     ];
     for (i = 0, n = colors.length; i < n; ++i) {
