@@ -4406,7 +4406,7 @@ class Common extends Module {
       ]]
     ]);
     item.input = this.createElements_v2(item.container, `beforeEnd`, [
-      [`input`, { class: `esgst-switch-input esgst-switch-input-large`, disabled: item.select.value === `custom`, type: `text` }]
+      [`input`, Object.assign({ class: `esgst-switch-input esgst-switch-input-large`, type: `text` }, item.select.value === `custom` ? null : { disabled: true })]
     ]);
     item.select.addEventListener(`change`, () => {
       if (item.select.value === `custom`) {
