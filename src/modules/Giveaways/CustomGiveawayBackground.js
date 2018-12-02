@@ -48,20 +48,18 @@ class GiveawaysCustomGiveawayBackground extends Module {
 
   color(giveaways) {
     for (const giveaway of giveaways) {
-      if (this.esgst.cgb_p && giveaway.public) {
-        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_p_bgColor;
-      }
-      if (this.esgst.cgb_io && giveaway.inviteOnly) {
-        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_io_bgColor;
-      }
-      if (this.esgst.cgb_rr && giveaway.regionRestricted) {
-        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_rr_bgColor;
-      }
-      if (this.esgst.cgb_g && giveaway.group) {
-        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_g_bgColor;
-      }
       if (this.esgst.cgb_w && giveaway.whitelist) {
         giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_w_bgColor;
+      } else if (this.esgst.cgb_g && giveaway.group) {
+        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_g_bgColor;
+      } else if (this.esgst.cgb_rr && giveaway.regionRestricted) {
+        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_rr_bgColor;
+      } else if (this.esgst.cgb_io && giveaway.inviteOnly) {
+        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_io_bgColor;
+      } else if (this.esgst.cgb_p && giveaway.public) {
+        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_p_bgColor;
+      } else {
+        giveaway.outerWrap.style.backgroundColor = ``;
       }
     }
   }
