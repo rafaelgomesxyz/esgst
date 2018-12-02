@@ -8829,7 +8829,7 @@ class Common extends Module {
     hexInput.value = color.hex;
     alphaInput.value = color.alpha;
     // noinspection JSIgnoredPromiseFromCall
-    this.esgst.setting[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
+    this.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
   }
 
   async setSMManageFilteredUsers(SMManageFilteredUsers) {
