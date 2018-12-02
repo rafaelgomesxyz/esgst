@@ -494,7 +494,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         title1: `Add Description To Filters`,
         title2: `Filtering...`,
         callback1: async () => {
-          this.esgst.elgb_filters = `${this.esgst.elgb_filters}| ${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
+          this.esgst.elgb_filters = `${this.esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
           await setSetting(`elgb_filters`, this.esgst.elgb_filters);
           set.remove();
         }
