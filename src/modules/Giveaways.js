@@ -391,23 +391,6 @@ class Giveaways extends Module {
         }]);
       }
     }
-    if (source === `ge`) {
-      if (giveaway.outerWrap.getAttribute(`data-blacklist`)) {
-        if (this.esgst.ge_b) {
-          giveaway.outerWrap.classList.add(`esgst-ge-blacklist`);
-          giveaway.summary.classList.add(`esgst-ge-blacklist`);
-        }
-      } else {
-        if (giveaway.public && this.esgst.ge_p) {
-          giveaway.outerWrap.classList.add(`esgst-ge-public`);
-          giveaway.summary.classList.add(`esgst-ge-public`);
-        }
-        if ((giveaway.group || giveaway.whitelist) && this.esgst.ge_g) {
-          giveaway.outerWrap.classList.add(`esgst-ge-group`);
-          giveaway.summary.classList.add(`esgst-ge-group`);
-        }
-      }
-    }
     chance = context.getElementsByClassName(`esgst-gwc`)[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
     giveaway.projectedChance = chance ? parseFloat(chance.getAttribute(`data-projectedChance`)) : 0;

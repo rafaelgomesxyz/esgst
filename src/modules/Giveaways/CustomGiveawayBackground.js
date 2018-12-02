@@ -48,7 +48,9 @@ class GiveawaysCustomGiveawayBackground extends Module {
 
   color(giveaways) {
     for (const giveaway of giveaways) {
-      if (this.esgst.cgb_w && giveaway.whitelist) {
+      if (this.esgst.cgb_b && giveaway.outerWrap.getAttribute(`data-blacklist`)) {
+        giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_b_bgColor;
+      } else if (this.esgst.cgb_w && giveaway.whitelist) {
         giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_w_bgColor;
       } else if (this.esgst.cgb_g && giveaway.group) {
         giveaway.outerWrap.style.backgroundColor = this.esgst.cgb_g_bgColor;

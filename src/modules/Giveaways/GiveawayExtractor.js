@@ -35,21 +35,6 @@ class GiveawaysGiveawayExtractor extends Module {
         ]]
       ],
       features: {
-        ge_b: {
-          background: true,
-          name: `Highlight giveaways that cannot be entered because of blacklist reasons.`,
-          sg: true
-        },
-        ge_g: {
-          background: true,
-          name: `Highlight group giveaways.`,
-          sg: true
-        },
-        ge_p: {
-          background: true,
-          name: `Highlight public giveaways.`,
-          sg: true
-        },
         ge_o: {
           description: [
             [`ul`, [
