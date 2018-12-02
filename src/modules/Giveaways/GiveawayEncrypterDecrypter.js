@@ -54,10 +54,6 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           ],
           name: `Always show the header button if there are decrypted giveaways in the page.`,
           sg: true
-        },
-        ged_t: {
-          name: `Open the list of decrypted giveaways in a new tab.`,
-          sg: true
         }
       },
       id: `ged`,
@@ -96,40 +92,27 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           }]
         }]
       }]);
-      ged.button.addEventListener(`mousedown`, this.ged_openPopup.bind(this, ged));
+      ged.button.addEventListener(`click`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`));
       // noinspection JSIgnoredPromiseFromCall
       this.ged_getGiveaways(ged, true);
     }
     this.esgst.ged_addIcons = this.ged_addIcons.bind(this, ged);
   }
 
-  async ged_openPopup(ged, event) {
-    if (event) {
-      if (event.button === 2) return;
-      event.preventDefault();
-    }
-    if (this.esgst.accountPath && this.esgst.parameters.esgst === `ged`) {
-      const context = this.esgst.sidebar.nextElementSibling;
-      context.innerHTML = ``;
-      common.createPageHeading(context, `beforeEnd`, {
-        items: [
-          {
-            name: `ESGST`
-          },
-          {
-            name: `Decrypted Giveaways`
-          }
-        ]
-      });
-      ged.container = ged.context = createElements(context, `beforeEnd`, [{ type: `div` }]);
-    } else if (this.esgst.ged_t || (event && event.button === 1)) {
-      open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
-    } else {
-      ged.popup = new Popup({ addScrollable: true, icon: `fa-star`, isTemp: true, title: `Decrypted Giveaways` });
-      ged.container = ged.popup.description;
-      ged.context = ged.popup.scrollable;
-      ged.popup.open();
-    }
+  async ged_openPopup(ged) {
+    const context = this.esgst.sidebar.nextElementSibling;
+    context.innerHTML = ``;
+    common.createPageHeading(context, `beforeEnd`, {
+      items: [
+        {
+          name: `ESGST`
+        },
+        {
+          name: `Decrypted Giveaways`
+        }
+      ]
+    });
+    ged.container = ged.context = createElements(context, `beforeEnd`, [{ type: `div` }]);
     createElements(ged.context, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
