@@ -121,7 +121,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   elgb_setEntryButton(giveaway) {
-    let button = giveaway.outerWrap.getElementsByClassName(`table__remove -default `)[0];
+    let button = giveaway.outerWrap.getElementsByClassName(`table__remove-default`)[0];
     if (!button) return;
     let form = button.parentElement;
     let errorButton = createElements(form.parentElement, `beforeEnd`, [{
