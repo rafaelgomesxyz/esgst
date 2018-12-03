@@ -330,7 +330,7 @@ class Common extends Module {
 
     this.esgst.style.insertAdjacentText("beforeend", `
       .esgst-menu-split-fixed {
-        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (this.esgst.ff ? 39 : 0)}px);
+        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (this.esgst.ff ? 39 : 0) + 50}px);
         top: ${this.esgst.commentsTop + 25}px;
       }
     `);
@@ -2089,7 +2089,7 @@ class Common extends Module {
     } else {
       const context = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
-      this.createPageHeading(context, `beforeEnd`, {
+      this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
         items: [
           {
             name: `ESGST`
@@ -3533,7 +3533,7 @@ class Common extends Module {
     };
     const context = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    this.createPageHeading(context, `beforeEnd`, {
+    this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -3570,7 +3570,7 @@ class Common extends Module {
     const Container = this.esgst.sidebar.nextElementSibling;
     Container.innerHTML = ``;
 
-    this.createPageHeading(Container, `beforeEnd`, {
+    this.esgst.mainPageHeading = this.createPageHeading(Container, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -3581,31 +3581,17 @@ class Common extends Module {
       ]
     });
 
-    this.createElements(Container, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-clear-container`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          placeholder: `Filter features...`,
-          type: `text`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `esgst-clear-button esgst-hidden`,
-          title: `Clear`
-        },
-        text: `X`,
-        type: `span`
-      }]
-    }]);
+    const input = this.createElements_v2(this.esgst.sidebar, `afterBegin`, [
+      [`div`, { class: `sidebar__search-container` }, [
+        [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
+      ]]
+    ]).firstElementChild;
+    input.addEventListener(`input`, this.filterSm.bind(this));
+    input.addEventListener(`change`, this.filterSm.bind(this));
     this.createElements_v2(Container, `beforeEnd`, [
       [`div`, { class: `esgst-menu-split` }, [
-        [`div`, { class: `esgst-settings-menu` }],
+        [`div`, { class: `esgst-settings-menu esgst-menu-split-fixed` }],
         [`div`, { class: `esgst-settings-menu-feature esgst-menu-split-fixed` }, [
-          [`br`],
           `Click on a feature/option to manage it here.`
         ]]
       ]]
@@ -3624,10 +3610,6 @@ class Common extends Module {
     }).set);
     Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, null));
     this.esgst.featuresById = {};
-    const input = Container.firstElementChild.nextElementSibling.firstElementChild;
-    input.addEventListener(`input`, this.filterSm.bind(this));
-    input.addEventListener(`change`, this.filterSm.bind(this));
-    this.setClearButton(input);
     let heading = Container.getElementsByClassName(`page__heading`)[0];
     let SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
     let i, type;
@@ -3834,7 +3816,7 @@ class Common extends Module {
     const url = `https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${id}`;
     const items = [{
       check: true,
-      content: feature.name,
+      content: [...(Array.isArray(feature.name) ? feature.name : [feature.name])],
       name: `Name`
     }, {
       check: true,
@@ -3849,14 +3831,13 @@ class Common extends Module {
       const value = this.getFeaturePath(feature, id, `sg`).enabled;
       sgContext = this.createElements_v2([[`div`]]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, this.esgst.settings.esgst_st ? `SteamGifts` : ``, true, false, null, value);
+      feature.sgFeatureSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
-        this.esgst.settings[`${id}_sg`] = true;
-        this.esgst[id] = true;
         if (feature.conflicts) {
           for (const conflict of feature.conflicts) {
             const setting = this.esgst.settings[`${conflict.id}_sg`];
             if ((setting.include && setting.enabled) || (!setting.include && setting)) {
-              sgSwitch.disable();
+              sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
                 icon: `fa-exclamation`,
@@ -3866,6 +3847,11 @@ class Common extends Module {
               return;
             }
           }
+        }
+        this.esgst.settings[`${id}_sg`] = true;
+        this.esgst[id] = true;
+        if (feature.sgSwitch) {
+          feature.sgSwitch.enable(true);
         }
         if (feature.theme) {
           if (id === `customTheme`) {
@@ -3881,6 +3867,9 @@ class Common extends Module {
       sgSwitch.onDisabled = async () => {
         this.esgst.settings[`${id}_sg`] = false;
         this.esgst[id] = false;
+        if (feature.sgSwitch) {
+          feature.sgSwitch.disable(true);
+        }
         if (feature.theme) {
           if (id === `customTheme`) {
             this.delLocalValue(`customTheme`);
@@ -3899,14 +3888,13 @@ class Common extends Module {
       const value = this.getFeaturePath(feature, id, `st`).enabled;
       stContext = this.createElements_v2([[`div`]]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
+      feature.stFeatureSwitch = stSwitch;
       stSwitch.onEnabled = () => {
-        this.esgst.settings[`${id}_st`] = true;
-        this.esgst[id] = true;
         if (feature.conflicts) {
           for (const conflict of feature.conflicts) {
             const setting = this.esgst.settings[`${conflict.id}_st`];
             if ((setting.include && setting.enabled) || (!setting.include && setting)) {
-              stSwitch.disable();
+              stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
                 icon: `fa-exclamation`,
@@ -3916,6 +3904,11 @@ class Common extends Module {
               return;
             }
           }
+        }
+        this.esgst.settings[`${id}_st`] = true;
+        this.esgst[id] = true;
+        if (feature.stSwitch) {
+          feature.stSwitch.enable(true);
         }
         if (feature.theme) {
           if (id === `customTheme`) {
@@ -3931,6 +3924,9 @@ class Common extends Module {
       stSwitch.onDisabled = async () => {
         this.esgst.settings[`${id}_st`] = false;
         this.esgst[id] = false;
+        if (feature.stSwitch) {
+          feature.stSwitch.disable(true);
+        }
         if (feature.theme) {
           if (id === `customTheme`) {
             this.delLocalValue(`customTheme`);
@@ -4006,7 +4002,7 @@ class Common extends Module {
       });
     }
     const context = document.querySelector(`.esgst-settings-menu-feature`);
-    context.innerHTML = `<br>Click on a feature/option to manage it here.`;
+    context.innerHTML = `Click on a feature/option to manage it here.`;
     this.createFormRows(context, `beforeEnd`, { items });
   }
 
@@ -4538,11 +4534,99 @@ class Common extends Module {
         type: `span`
       }]).addEventListener(`click`, this.dismissNewOption.bind(this, id));
     }
+    let isHidden = true;
+    let sgContext, stContext;
+    if (feature.sg) {
+      const value = this.getFeaturePath(feature, id, `sg`).enabled;
+      if (value) {
+        isHidden = false;
+      }
+      sgContext = this.createElements_v2([[`div`]]).firstElementChild;
+      const sgSwitch = new ToggleSwitch(sgContext, null, true, this.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, value);
+      feature.sgSwitch = sgSwitch;
+      sgSwitch.onEnabled = () => {
+        if (feature.conflicts) {
+          for (const conflict of feature.conflicts) {
+            const setting = this.esgst.settings[`${conflict.id}_sg`];
+            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+              sgSwitch.disable(true);
+              new Popup({
+                addScrollable: true,
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              }).open();
+              return;
+            }
+          }
+        }
+        if (feature.sgFeatureSwitch) {
+          feature.sgFeatureSwitch.enable();
+        } else {
+          this.esgst.settings[`${id}_sg`] = true;
+          this.esgst[id] = true;
+        }
+      };
+      sgSwitch.onDisabled = async () => {
+        if (feature.sgFeatureSwitch) {
+          feature.sgFeatureSwitch.disable();
+        } else {
+          this.esgst.settings[`${id}_sg`] = false;
+          this.esgst[id] = false;
+        }
+      };
+    }
+    if (feature.st && (this.esgst.settings.esgst_st || id === `esgst`)) {
+      const value = this.getFeaturePath(feature, id, `st`).enabled;
+      if (value) {
+        isHidden = false;
+      }
+      stContext = this.createElements_v2([[`div`]]).firstElementChild;
+      const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
+      feature.stSwitch = stSwitch;
+      stSwitch.onEnabled = () => {
+        if (feature.conflicts) {
+          for (const conflict of feature.conflicts) {
+            const setting = this.esgst.settings[`${conflict.id}_st`];
+            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+              stSwitch.disable(true);
+              new Popup({
+                addScrollable: true,
+                icon: `fa-exclamation`,
+                isTemp: true,
+                title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              }).open();
+              return;
+            }
+          }
+        }
+        if (feature.stFeatureSwitch) {
+          feature.stFeatureSwitch.enable();
+        } else {
+          this.esgst.settings[`${id}_st`] = true;
+          this.esgst[id] = true;
+        }
+      };
+      stSwitch.onDisabled = async () => {
+        if (feature.stFeatureSwitch) {
+          feature.stFeatureSwitch.disable();
+        } else {
+          this.esgst.settings[`${id}_st`] = false;
+          this.esgst[id] = false;
+        }
+      };
+    }
     this.createElements_v2(menu, `beforeEnd`, [
-      [`a`, { class: `esgst-settings-feature table__column__secondary-link`, 'data-id': id }, feature.name],
-      [`div`, { class: `esgst-form-row-indent SMFeatures` }]
+      [`a`, { class: `esgst-settings-feature table__column__secondary-link`, 'data-id': id }, [sgContext && sgContext.firstElementChild, stContext && stContext.firstElementChild, ...(Array.isArray(feature.name) ? feature.name : [feature.name])]],
+      [`div`, { class: `esgst-form-row-indent SMFeatures ${isHidden ? `esgst-hidden` : ``}` }]
     ]);
     const subMenu = menu.lastElementChild;
+    if (feature.sgSwitch) {
+      feature.sgSwitch.dependencies.push(subMenu);
+    }
+    if (feature.stSwitch) {
+      feature.stSwitch.dependencies.push(subMenu);
+    }
     if (feature.features) {
       let i = 1;
       let isNew = false;
@@ -4576,8 +4660,6 @@ class Common extends Module {
           }]
         }]);
       }
-    } else {
-      subMenu.classList.add(`esgst-hidden`);
     }
     return {
       isNew: isMainNew,
@@ -6167,7 +6249,7 @@ class Common extends Module {
     }
     context = container = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    this.createPageHeading(context, `beforeEnd`, {
+    this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -6180,7 +6262,7 @@ class Common extends Module {
     if (!dm.autoBackup) {
       context = container = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
-      this.createPageHeading(context, `beforeEnd`, {
+      this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
         items: [
           {
             name: `ESGST`
@@ -6192,7 +6274,7 @@ class Common extends Module {
       });
       context = container = this.esgst.sidebar.nextElementSibling;
       context.innerHTML = ``;
-      this.createPageHeading(context, `beforeEnd`, {
+      this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
         items: [
           {
             name: `ESGST`
@@ -6713,7 +6795,7 @@ class Common extends Module {
   loadDataCleaner() {
     const context = this.esgst.sidebar.nextElementSibling;
     context.innerHTML = ``;
-    this.createPageHeading(context, `beforeEnd`, {
+    this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
       items: [{
         name: `ESGST`
       }, {
@@ -13081,11 +13163,13 @@ class Common extends Module {
   }
 
   filterSmFeature(feature, id, value) {
-    let found = (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
+    let found = !value || (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
     let exactFound = found;
+    if (!value || !found) {
     if (!found) {
       exactFound = found = (feature.description && JSON.stringify(feature.description).toLowerCase().match(value));
-      if (!found && feature.features) {
+      }
+      if ((!value || !found) && feature.features) {
         for (const subId in feature.features) {
           if (feature.features.hasOwnProperty(subId)) {
             found = this.filterSmFeature(feature.features[subId], subId, value) || found;
@@ -13100,7 +13184,9 @@ class Common extends Module {
       } else {
         element.classList.add(`esgst-hidden`);
       }
-      if (!exactFound) {
+      if (exactFound) {
+        element.firstElementChild.nextElementSibling.classList.remove(`esgst-faded`);
+      } else {
         element.firstElementChild.nextElementSibling.classList.add(`esgst-faded`);
       }
     }

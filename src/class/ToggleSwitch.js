@@ -104,6 +104,9 @@ export default class ToggleSwitch {
         setTimeout(() => message.remove(), 2500);
       }
     }
+    if (settings) {
+      return;
+    }
     if (this.value) {
       this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
       this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
