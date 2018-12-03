@@ -39,7 +39,7 @@ class GiveawaysEntryTracker extends Module {
       this.esgst.endlessFeatures.push(this.et_getEntries.bind(this));
     }
     if (!this.esgst.sg) return;
-    createElements(this.esgst.sg ? this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
+    createElements(this.esgst.sg ? this.esgst.accountDropdown.firstElementChild.lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
       attributes: {
         class: `esgst-header-menu-row`,
         [`data-link-id`]: `et`,
