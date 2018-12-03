@@ -236,6 +236,19 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.3 (December 3, 2018)**
+
+* [#1047](https://github.com/gsrafael01/ESGST/issues/1047) Fix a bug in the settings menu that does not allow adding new colors
+* [#1046](https://github.com/gsrafael01/ESGST/issues/1046) Fix a bug in Enter/Leave Giveaway Button that does not add a button to re-enter giveaways in the entered page
+* [#1042](https://github.com/gsrafael01/ESGST/issues/1042) Fix conflicts with holiday gifts elements
+* [#1040](https://github.com/gsrafael01/ESGST/issues/1040) Improvements to settings menu
+* [#1039](https://github.com/gsrafael01/ESGST/issues/1039) Fix a bug that does not allow editing custom paths
+* [#1038](https://github.com/gsrafael01/ESGST/issues/1038) Remove options to open features in a new tab and make it the default behavior
+* [#1037](https://github.com/gsrafael01/ESGST/issues/1037) Extend Custom Giveaway Background to Giveaway Extractor
+* [#1036](https://github.com/gsrafael01/ESGST/issues/1036) Fix a bug in Giveaway Filters that does not filter descriptions
+* [#1035](https://github.com/gsrafael01/ESGST/issues/1035) Fix a bug that does not reset colors in the settings menu
+* [#1034](https://github.com/gsrafael01/ESGST/issues/1034) Fix a bug in Custom Giveaway Background that does not color giveaways correctly in created/entered/won pages
+
 **8.2.1 (December 1, 2018)**
 
 * [#1032](https://github.com/gsrafael01/ESGST/issues/1032) Hotfix for v8.1.1
