@@ -5057,7 +5057,7 @@ class Common extends Module {
       this.addGwcColorSetting(this.esgst[id][i], id, key, panel, background);
     }
     button.addEventListener(`click`, () => {
-      colors = {
+      const colors = {
         color: `#ffffff`,
         lower: `0`,
         upper: `100`
