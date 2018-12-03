@@ -34,7 +34,7 @@ class CommentsCommentHistory extends Module {
 
   ch() {
     new Process({
-      button: createElements(this.esgst.mainButton.parentElement.getElementsByClassName(`nav__absolute-dropdown`)[0].lastElementChild, `beforeBegin`, [{
+      button: createElements(this.esgst.accountDropdown.firstElementChild.lastElementChild, `beforeBegin`, [{
         attributes: {
           class: `esgst-header-menu-row`,
           [`data-link-id`]: `ch`,

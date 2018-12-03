@@ -55,32 +55,31 @@ class GeneralCustomHeaderFooterLinks extends Module {
   chfl() {
     let chfl = null;
     if (this.esgst.sg) {
-      let elements = document.getElementsByClassName(`nav__relative-dropdown`);
       chfl = {
         sources: {
           giveaways: {
-            container: elements[0],
-            context: elements[0].firstElementChild,
+            container: this.esgst.giveawaysDropdown,
+            context: this.esgst.giveawaysDropdown.firstElementChild,
             elements: {}
           },
           discussions: {
-            container: elements[1],
-            context: elements[1].firstElementChild,
+            container: this.esgst.discussionsDropdown,
+            context: this.esgst.discussionsDropdown.firstElementChild,
             elements: {}
           },
           support: {
-            container: elements[2],
-            context: elements[2].firstElementChild,
+            container: this.esgst.supportDropdown,
+            context: this.esgst.supportDropdown.firstElementChild,
             elements: {}
           },
           help: {
-            container: elements[3],
-            context: elements[3].firstElementChild,
+            container: this.esgst.helpDropdown,
+            context: this.esgst.helpDropdown.firstElementChild,
             elements: {}
           },
           account: {
-            container: elements[4],
-            context: elements[4].firstElementChild,
+            container: this.esgst.accountDropdown,
+            context: this.esgst.accountDropdown.firstElementChild,
             elements: {}
           },
           footer: {

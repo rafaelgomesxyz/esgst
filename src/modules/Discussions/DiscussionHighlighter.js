@@ -48,7 +48,7 @@ class DiscussionsDiscussionHighlighter extends Module {
 
   dh() {
     new Process({
-      button: createElements(document.getElementsByClassName(`nav__absolute-dropdown`)[1], `beforeEnd`, generateHeaderMenuItem({
+      button: createElements(this.esgst.discussionsDropdown.firstElementChild, `beforeEnd`, generateHeaderMenuItem({
         description: `View your highlighted discussions.`,
         icon: `fa-star yellow`,
         id: `dh`,

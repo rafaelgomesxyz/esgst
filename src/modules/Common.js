@@ -406,6 +406,11 @@ class Common extends Module {
       this.esgst.paginationNavigationClass = `pagination__navigation`;
       this.esgst.hiddenClass = `is-hidden`;
       this.esgst.selectedClass = `is-selected`;
+      this.esgst.giveawaysDropdown = document.querySelector(`.nav__button--is-dropdown[href="/"]`).parentElement.querySelector(`.nav__relative-dropdown`);
+      this.esgst.discussionsDropdown = document.querySelector(`.nav__button--is-dropdown[href="/discussions"]`).parentElement.querySelector(`.nav__relative-dropdown`);
+      this.esgst.supportDropdown = document.querySelector(`.nav__button--is-dropdown[href="/support"]`).parentElement.querySelector(`.nav__relative-dropdown`);
+      this.esgst.helpDropdown = document.querySelector(`.nav__button--is-dropdown[href="/about/faq"]`).parentElement.querySelector(`.nav__relative-dropdown`);
+      this.esgst.accountDropdown = document.querySelector(`.nav__button--is-dropdown[href="/account"]`).parentElement.querySelector(`.nav__relative-dropdown`);
     } else {
       this.esgst.pageOuterWrapClass = `page_outer_wrap`;
       this.esgst.pageHeadingClass = `page_heading`;
@@ -465,7 +470,8 @@ class Common extends Module {
         });
       }
     }
-    this.esgst.activeDiscussions = /** @type {HTMLElement} */ document.querySelector(`.widget-container--margin-top:last-of-type`);
+    const discussionHeading = document.querySelector(`.homepage_heading[href="/discussions"]`);
+    this.esgst.activeDiscussions = /** @type {HTMLElement} */ discussionHeading && discussionHeading.closest(`.widget-container--margin-top`);
     this.esgst.pinnedGiveaways = /** @type {HTMLElement} */ document.getElementsByClassName(`pinned-giveaways__outer-wrap`)[0];
     let mainPageHeadingIndex;
     if (this.esgst.commentsPath) {
@@ -13166,8 +13172,8 @@ class Common extends Module {
     let found = !value || (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
     let exactFound = found;
     if (!value || !found) {
-    if (!found) {
-      exactFound = found = (feature.description && JSON.stringify(feature.description).toLowerCase().match(value));
+      if (!found) {
+        exactFound = found = (feature.description && JSON.stringify(feature.description).toLowerCase().match(value));
       }
       if ((!value || !found) && feature.features) {
         for (const subId in feature.features) {
