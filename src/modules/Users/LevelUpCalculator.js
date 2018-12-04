@@ -21,6 +21,12 @@ class UsersLevelUpCalculator extends Module {
           ]]
         ]]
       ],
+      features: {
+        luc_c: {
+          name: `Display current user level.`,
+          sg: true
+        }
+      },
       id: `luc`,
       load: this.luc,
       name: `Level Up Calculator`,
@@ -46,7 +52,7 @@ class UsersLevelUpCalculator extends Module {
           class: `esgst-luc-value`,
           title: getFeatureTooltip(`luc`)
         },
-        text: `(~$${value} real CV to level ${base + 1})`,
+        text: `(${this.esgst.luc_c ? `${profile.level} / ` : ``}~$${value} real CV to level ${base + 1})`,
         type: `span`
       }]);
     }
