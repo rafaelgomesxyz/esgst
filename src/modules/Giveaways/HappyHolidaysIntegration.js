@@ -50,10 +50,15 @@ class GiveawaysHappyHolidaysIntegration extends Module {
   }
 
   async getBoxes(context) {
+    const giveaway_box_redraw = window.giveaway_box_redraw || (window.wrappedJSObject && window.wrappedJSObject.giveaway_box_redraw);
+    if (context !== document && !this.esgst.hhi_d && giveaway_box_redraw) {
+      giveaway_box_redraw();
+    }
     const cache = JSON.parse(common.getLocalValue(`hhiCache`, `{}`));
-    const boxes = context.querySelectorAll(`.giveaway_box_container`);
+    const boxes = context.querySelectorAll(`.giveaway_box_container:not([data-esgst])`);
     const promises = [];
     for (const box of boxes) {
+      box.setAttribute(`data-esgst`, true);
       if (this.esgst.hhi_d) {
         this.disableBoxAnimations(box);
       }
