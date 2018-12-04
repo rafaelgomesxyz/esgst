@@ -165,6 +165,9 @@ class GeneralAvatarPopout extends Module {
               if (type === `user`) {
                 await this.esgst.modules.profile.profile_load(popout.popout);
               }
+              if (this.esgst.at) {
+                this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(popout.popout);
+              }
               popout.reposition();
             }
             if (this.esgst.ap_index === 0) {
