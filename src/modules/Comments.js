@@ -76,7 +76,11 @@ class Comments extends Module {
     comment = {};
     comment.comment = context;
     comment.outerWrap = comment.comment;
-    comment.author = comment.comment.querySelector(`.comment__author, .author_name`).textContent.trim();
+    const author = comment.comment.querySelector(`.comment__author, .author_name`);
+    if (!author) {
+      return;
+    }
+    comment.author = author.textContent.trim();
     if (this.esgst.uf && savedUsers) {
       let savedUser = await getUser(savedUsers, {
         username: comment.author
