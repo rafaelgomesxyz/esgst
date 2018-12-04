@@ -78,6 +78,7 @@ class Profile extends Module {
             profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
             profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
             profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
+            profile.sentAwaiting = parseInt(rows[4].columns[1].name.replace(/,/g, ``));
             profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
             profile.sentNotReceived = profile.notSent;
             profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
