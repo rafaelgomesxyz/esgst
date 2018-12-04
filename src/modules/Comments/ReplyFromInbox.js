@@ -64,6 +64,7 @@ class CommentsReplyFromInbox extends Module {
   }
 
   async rfi_saveReply(id, reply, url, edit) {
+    console.log(id, reply, url, edit);
     let i, n, source, saved;
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
@@ -102,9 +103,12 @@ class CommentsReplyFromInbox extends Module {
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          createElements(children, `beforeEnd`, [{
+          const dateElement = createElements(children, `beforeEnd`, [{
             context: parseHtml(saved[id][j].reply).body.firstElementChild
-          }]).querySelector(`[data-timestamp]`).textContent = getTimeSince(saved[id][j].timestamp);
+          }]).querySelector(`[data-timestamp]`);
+          if (dateElement) {
+            dateElement.textContent = getTimeSince(saved[id][j].timestamp);
+          }
         }
         children.setAttribute(`data-rfi`, true);
         await endless_load(children, false, null, false, endless);
