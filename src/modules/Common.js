@@ -811,6 +811,11 @@ class Common extends Module {
             name: `Check whether or not you are on the current version when visiting the main discussions page if the ESGST discussion is in the current page.`,
             sg: true
           },
+          makeSecionsCollapsible: {
+            name: `Make sections in the settings menu collapsible.`,
+            sg: true,
+            st: true
+          },
           collapseSections: {
             name: `Collapse sections in the settings menu by default.`,
             sg: true,
@@ -13701,7 +13706,7 @@ class Common extends Module {
         children: html
       }]
     }]);
-    if (this.esgst.collapseSections && !title.match(/Backup|Restore|Delete/)) {
+    if (this.esgst.makeSecionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
       let button, container, isExpanded;
       button = this.createElements(section.firstElementChild, `afterBegin`, [{
         attributes: {
@@ -13711,15 +13716,19 @@ class Common extends Module {
         type: `span`,
         children: [{
           attributes: {
-            class: `fa fa-plus-square`,
-            title: `Expand section`
+            class: `fa fa-${this.esgst.collapseSections ? `plus` : `minus`}-square`,
+            title: `${this.esgst.collapseSections ? `Expand` : `Collapse`} section`
           },
           type: `i`
         }]
       }]);
       container = section.lastElementChild;
-      container.classList.add(`esgst-hidden`);
-      isExpanded = false;
+      if (this.esgst.collapseSections) {
+        container.classList.add(`esgst-hidden`);
+        isExpanded = false;
+      } else {
+        isExpanded = true;
+      }
       button.addEventListener(`click`, () => {
         if (isExpanded) {
           container.classList.add(`esgst-hidden`);
