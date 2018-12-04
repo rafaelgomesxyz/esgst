@@ -45,6 +45,10 @@ class UsersUserGiveawayData extends Module {
         ugd_s: {
           name: `Display playtime/achievement stats in the user's profile page.`,
           sg: true
+        },
+        ugd_g: {
+          name: `Display how many gifts you have won from / sent to the user to their profile page.`,
+          sg: true
         }
       },
       id: `ugd`,
@@ -59,6 +63,9 @@ class UsersUserGiveawayData extends Module {
     this.esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
     if (this.esgst.ugd_s) {
       this.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
+    }
+    if (this.esgst.ugd_g) {
+      this.esgst.profileFeatures.push(this.ugd_addGifts.bind(this));
     }
   }
 
@@ -78,101 +85,35 @@ class UsersUserGiveawayData extends Module {
     }
 
     const ugdCache = savedUser.ugdCache;
+
     if (!ugdCache) {
       return;
     }
 
-    const context = createElements(profile.commentsRow, `afterEnd`, [{
-      attributes: {
-        class: `esgst-ugd featured__table__row`,
-        title: getFeatureTooltip(`ugd`)
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `featured__table__row__left`
-        },
-        type: `div`,
-        children: [{
-          text: `Won Games Playtime > `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-ugd-input`,
-            min: `0`,
-            step: `0.1`,
-            type: `number`,
-            value: this.esgst.ugd_playtime
-          },
-          type: `input`
-        }, {
-          text: `hours`,
-          type: `node`
-        }]
-      }, {
-        attributes: {
-          class: `featured__table__row__right`
-        },
-        type: `div`
-      }]
-    }, {
-      attributes: {
-        class: `esgst-ugd featured__table__row`,
-        title: getFeatureTooltip(`ugd`)
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `featured__table__row__left`
-        },
-        type: `div`,
-        children: [{
-          text: `Won Games Achievements > `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-ugd-input`,
-            max: `100`,
-            min: `0`,
-            step: `0.1`,
-            type: `number`,
-            value: this.esgst.ugd_achievements
-          },
-          type: `input`
-        }, {
-          text: `%`,
-          type: `node`
-        }]
-      }, {
-        attributes: {
-          class: `featured__table__row__right`
-        },
-        type: `div`
-      }]
-    }, {
-      attributes: {
-        class: `esgst-ugd featured__table__row`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `featured__table__row__left`
-        },
-        type: `div`
-      }, {
-        attributes: {
-          class: `featured__table__row__right`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-italic`
-          },
-          text: `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`,
-          type: `span`
-        }]
-      }]
-    }]);
+    const context = common.createElements_v2(profile.commentsRow, `afterEnd`, [
+      [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
+        [`div`, { class: `featured__table__row__left` }, [
+          `Won Games Playtime > `,
+          [`input`, { class: `esgst-ugd-input`, min: `0`, step: `0.1`, type: `number`, value: this.esgst.ugd_playtime }],
+          ` hours`
+        ]],
+        [`div`, { class: `featured__table__row__right` }]
+      ]],
+      [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
+        [`div`, { class: `featured__table__row__left` }, [
+          `Won Games Achievements > `,
+          [`input`, { class: `esgst-ugd-input`, max: `100`, min: `0`, step: `0.1`, type: `number`, value: this.esgst.ugd_achievements }],
+          ` %`
+        ]],
+        [`div`, { class: `featured__table__row__right` }]
+      ]],
+      [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
+        [`div`, { class: `featured__table__row__left` }],
+        [`div`, { class: `featured__table__row__right` }, [
+          [`span`, { class: `esgst-italic` }, `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`]
+        ]]
+      ]]
+    ]);
     const playtimeInput = context.firstElementChild.lastElementChild;
     const playtimeDisplay = context.lastElementChild;
     const achievementsInput = context.nextElementSibling.firstElementChild.lastElementChild;
@@ -219,6 +160,64 @@ class UsersUserGiveawayData extends Module {
     if (!firstRun) {
       setSetting(`ugd_achievements`, this.esgst.ugd_achievements);
     }
+  }
+
+  ugd_addGifts(profile) {
+    if (profile.username === this.esgst.username) {
+      return;
+    }
+
+    const savedUser = this.esgst.users.users[this.esgst.steamId];
+
+    if (!savedUser) {
+      return;
+    }
+
+    const giveaways = savedUser.giveaways;
+
+    if (!giveaways) {
+      return;
+    }
+
+    const won = [];
+    const sent = [];
+
+    for (const type of [`apps`, `subs`]) {
+      for (const id in giveaways.won[type]) {
+        for (const code of giveaways.won[type][id]) {
+          const giveaway = this.esgst.giveaways[code];
+          if (!giveaway || giveaway.creator.toLowerCase() !== profile.username.toLowerCase()) {
+            continue;
+          }
+          won.push(giveaway.gameName);
+        }
+      }
+      for (const id in giveaways.sent[type]) {
+        for (const code of giveaways.sent[type][id]) {
+          const giveaway = this.esgst.giveaways[code];
+          if (!giveaway) {
+            continue;
+          }
+          for (const winner of giveaway.winners) {
+            if (winner.username.toLowerCase() !== profile.username.toLowerCase() || winner.status !== `Received`) {
+              continue;
+            }
+            sent.push(giveaway.gameName);
+          }
+        }
+      }
+    }
+
+    common.createElements_v2(profile.levelRow, `afterEnd`, [
+      [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
+        [`div`, { class: `featured__table__row__left` }, `Gifts Won From This User`],
+        [`div`, { class: `featured__table__row__right`, title: won.join(`, `) }, won.length]
+      ]],
+      [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
+        [`div`, { class: `featured__table__row__left` }, `Gifts Sent To This User`],
+        [`div`, { class: `featured__table__row__right`, title: sent.join(`, `) }, sent.length]
+      ]]
+    ]);
   }
 
   async ugd_add(context, key, user, mainPopup) {
