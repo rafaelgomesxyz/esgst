@@ -236,6 +236,10 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.4 (December 4, 2018)**
+
+* [#1054](https://github.com/gsrafael01/ESGST/issues/1054) Add a feature: Happy Holidays Integration
+
 **8.1.3 (December 3, 2018)**
 
 * [#1047](https://github.com/gsrafael01/ESGST/issues/1047) Fix a bug in the settings menu that does not allow adding new colors
