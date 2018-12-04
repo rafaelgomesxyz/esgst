@@ -124,10 +124,10 @@ class GiveawaysSentKeySearcher extends Module {
     } else if (this.esgst.sks_limitPages) {
       searchCurrent.container.classList.add(`esgst-hidden`);
     }
-    observeChange(minDate, `sks_minDate`);
-    observeChange(maxDate, `sks_maxDate`);
-    observeNumChange(minPage, `sks_minPage`);
-    observeNumChange(maxPage, `sks_maxPage`);
+    observeChange(minDate, `sks_minDate`, true);
+    observeChange(maxDate, `sks_maxDate`, true);
+    observeNumChange(minPage, `sks_minPage`, true);
+    observeNumChange(maxPage, `sks_maxPage`, true);
     sks.results = createElements(sks.popup.scrollable, `beforeEnd`, [{
       type: `div`
     }]);

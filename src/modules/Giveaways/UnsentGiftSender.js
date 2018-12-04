@@ -97,7 +97,7 @@ class GiveawaysUnsentGiftSender extends Module {
       if (!this.esgst.ugs_checkMember) {
         checkDifferenceSwitch.container.classList.add(`esgst-hidden`);
       }
-      observeNumChange(checkDifferenceSwitch.name.firstElementChild, `ugs_setDifference`);
+      observeNumChange(checkDifferenceSwitch.name.firstElementChild, `ugs_setDifference`, true);
       checkMemberSwitch.dependencies.push(checkDifferenceSwitch.container);
       ugs.results = createElements(ugs.popup.scrollable, `beforeEnd`, [{
         attributes: {

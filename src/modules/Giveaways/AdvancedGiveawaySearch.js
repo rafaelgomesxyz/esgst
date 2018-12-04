@@ -211,7 +211,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           element,
           this.esgst[details.key]
         ).input;
-      observeChange(filter, details.key, `checked`, `click`);
+      observeChange(filter, details.key, true, `checked`, `click`);
       obj.filters.push({
         filter: filter,
         key: `checked`,
@@ -249,7 +249,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }]),
         filter = element.firstElementChild.firstElementChild;
       filter.value = this.esgst[details.key];
-      observeNumChange(filter, details.key);
+      observeNumChange(filter, details.key, true);
       obj.filters.push({
         filter: filter,
         key: `value`,
@@ -306,10 +306,10 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }]);
       let maxFilter = element.lastElementChild.lastElementChild;
       maxFilter.value = this.esgst[details.maxKey];
-      observeNumChange(maxFilter, details.maxKey);
+      observeNumChange(maxFilter, details.maxKey, true);
       let minFilter = element.firstElementChild.lastElementChild;
       minFilter.value = this.esgst[details.minKey];
-      observeNumChange(minFilter, details.minKey);
+      observeNumChange(minFilter, details.minKey, true);
       if (details.type === `input`) {
         maxFilter.addEventListener(`keypress`,
           triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
