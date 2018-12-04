@@ -106,10 +106,10 @@ export default class Popup {
       for (let input of inputs) {
         switch (input.getAttribute(`type`)) {
           case `number`:
-            container.common.observeNumChange(input, input.getAttribute(`name`));
+            container.common.observeNumChange(input, input.getAttribute(`name`), true);
             break;
           case `text`:
-            container.common.observeChange(input, input.getAttribute(`name`));
+            container.common.observeChange(input, input.getAttribute(`name`), true);
             break;
           default:
             break;

@@ -199,8 +199,8 @@ class UsersWhitelistBlacklistChecker extends Module {
       if (lastPage !== 999999999) {
         maxPage.setAttribute(`max`, lastPage);
       }
-      observeNumChange(minPage, `wbc_minPage`);
-      observeNumChange(maxPage, `wbc_maxPage`);
+      observeNumChange(minPage, `wbc_minPage`, true);
+      observeNumChange(maxPage, `wbc_maxPage`, true);
     }
     new ToggleSwitch(popup.Options, `wbc_returnWhitelists`, false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, this.esgst.wbc_returnWhitelists);
     if (WBC.B) {
@@ -221,7 +221,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     {
       text: ` pages.`,
       type: `node`
-    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`);
+    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, this.esgst.wbc_skipUsers).name.firstElementChild, `wbc_pages`, true);
     new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, this.esgst.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {

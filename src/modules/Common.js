@@ -3396,22 +3396,28 @@ class Common extends Module {
     this.setSetting(key, options.value);
   }
 
-  observeChange(context, id, key = `value`, event = `change`) {
+  observeChange(context, id, save = false, key = `value`, event = `change`) {
     context.addEventListener(event, () => {
       let value = context[key];
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.settings[id] = value;
       this.esgst[id] = value;
+      if (save) {
+        this.setSetting(id, value);
+      }
     });
   }
 
-  observeNumChange(context, id, key = `value`) {
+  observeNumChange(context, id, save = false, key = `value`) {
     this.esgst[id] = parseFloat(this.esgst[id]);
     context.addEventListener(`change`, () => {
       let value = parseFloat(context[key]);
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.settings[id] = value;
       this.esgst[id] = value;
+      if (save) {
+        this.setSetting(id, value);
+      }
     });
   }
 
@@ -5151,7 +5157,7 @@ class Common extends Module {
           ]]
         ]).firstElementChild;
         select.firstElementChild.selectedIndex = selectedIndex;
-        this.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, `selectedIndex`);
+        this.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, false, `selectedIndex`);
         items.push(select);
       }
     }
@@ -6811,7 +6817,7 @@ class Common extends Module {
           },
           text: `Reveal`,
           type: `span`
-        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`);
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`, true);
         this.observeChange(new ToggleSwitch(container, `usePreferredMicrosoft`, false, [{
           text: `Use preferred Microsoft account: `,
           type: `node`
@@ -6833,7 +6839,7 @@ class Common extends Module {
           },
           text: `Reveal`,
           type: `span`
-        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`);
+        }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, this.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`, true);
       }
       dm.message = this.createElements(container, `beforeEnd`, [{
         attributes: {
@@ -7019,7 +7025,7 @@ class Common extends Module {
     }, {
       text: ` days.`,
       type: `node`
-    }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`);
+    }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`, true);
     this.observeNumChange(new ToggleSwitch(context, `cleanEntries`, false, [{
       text: `Entries data older than `,
       type: `node`
@@ -7033,7 +7039,7 @@ class Common extends Module {
     }, {
       text: ` days.`,
       type: `node`
-    }], false, false, ``, this.esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`);
+    }], false, false, ``, this.esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`, true);
     this.observeNumChange(new ToggleSwitch(context, `cleanGiveaways`, false, [{
       text: `Giveaways data older than `,
       type: `node`
@@ -7047,7 +7053,7 @@ class Common extends Module {
     }, {
       text: ` days.`,
       type: `node`
-    }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`);
+    }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`, true);
     this.observeNumChange(new ToggleSwitch(context, `cleanSgCommentHistory`, false, [{
       text: `SteamGifts comment history data older than `,
       type: `node`
@@ -7061,7 +7067,7 @@ class Common extends Module {
     }, {
       text: ` days.`,
       type: `node`
-    }], false, false, ``, this.esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`);
+    }], false, false, ``, this.esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`, true);
     this.observeNumChange(new ToggleSwitch(context, `cleanTickets`, false, [{
       text: `Tickets data older than `,
       type: `node`
@@ -7075,7 +7081,7 @@ class Common extends Module {
     }, {
       text: ` days.`,
       type: `node`
-    }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`);
+    }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`, true);
     this.observeNumChange(new ToggleSwitch(context, `cleanTrades`, false, [{
       text: `Trades data older than `,
       type: `node`
@@ -7089,7 +7095,7 @@ class Common extends Module {
     }, {
       text: ` days.`,
       type: `node`
-    }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTrades).name.firstElementChild, `cleanTrades_days`);
+    }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, this.esgst.cleanTrades).name.firstElementChild, `cleanTrades_days` , true);
     new ToggleSwitch(context, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, this.esgst.cleanDuplicates);
     context.appendChild(new ButtonSet({
       color1: `green`,
