@@ -495,26 +495,32 @@ class Common extends Module {
 
   async loadNewGiveawayFeatures(context) {
     // check if there are no cv games in the results and if they are already in the database
-    let found = false;
-    let games = {
+    const games = {
       apps: {},
       subs: {}
     };
+    let found = false;
     let elements = context.getElementsByClassName(`table__row-outer-wrap`);
-    for (let i = 0, n = elements.length; i < n; i++) {
-      let element = elements[i];
-      let date = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
-      if (!date) continue;
-      let info = await this.esgst.modules.games.games_getInfo(element);
-      if (!info || (this.esgst.games[info.type][info.id] && this.esgst.games[info.type][info.id].noCV)) {
+    for (const element of elements) {
+      const info = await this.esgst.modules.games.games_getInfo(element);
+      if (!info || !this.esgst.games[info.type][info.id]) {
         continue;
       }
-      date = JSON.parse(date.getAttribute(`data-ui-tooltip`)).rows;
-      games[info.type][info.id] = {
-        name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
-        noCV: date[date.length - 1].columns[1].name
-      };
-      found = true;
+      const dateElement = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
+      if (dateElement && !this.esgst.games[info.type][info.id].noCV) {
+        const date = JSON.parse(dateElement.getAttribute(`data-ui-tooltip`)).rows;
+        games[info.type][info.id] = {
+          name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
+          noCV: date[date.length - 1].columns[1].name
+        };
+        found  = true;
+      } else if (!dateElement && this.esgst.games[info.type][info.id].noCV) {
+        games[info.type][info.id] = {
+          name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
+          noCV: null
+        };
+        found = true;
+      }
     }
     if (this.esgst.noCvButton) {
       this.esgst.noCvButton.remove();
@@ -528,7 +534,7 @@ class Common extends Module {
         children: [{
           attributes: {
             class: `fa fa-calendar-times-o esgst-blinking esgst-bold esgst-clickable esgst-red`,
-            title: this.getFeatureTooltip(null, `Add no CV games to the database`)
+            title: this.getFeatureTooltip(null, `Update CV games database`)
           },
           type: `i`
         }]
@@ -550,7 +556,7 @@ class Common extends Module {
     this.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`,
-        title: `Adding no CV games to the database...`
+        title: `Updating database...`
       },
       type: `i`
     }]);
