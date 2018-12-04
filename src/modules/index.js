@@ -48,6 +48,7 @@ import GroupsGroupStats from './Groups/GroupStats';
 import DiscussionsDiscussionTags from './Discussions/DiscussionTags';
 import GamesGameTags from './Games/GameTags';
 import GroupsGroupTags from './Groups/GroupTags';
+import GiveawaysHappyHolidaysIntegration from './Giveaways/HappyHolidaysIntegration';
 import GiveawaysGiveawayTemplates from './Giveaways/GiveawayTemplates';
 import GiveawaysGridView from './Giveaways/GridView';
 import GeneralHiddenBlacklistStats from './General/HiddenBlacklistStats';
@@ -200,6 +201,7 @@ let
   discussionsDiscussionTags = new DiscussionsDiscussionTags,
   gamesGameTags = new GamesGameTags,
   groupsGroupTags = new GroupsGroupTags,
+  giveawaysHappyHolidaysIntegration = new GiveawaysHappyHolidaysIntegration,
   giveawaysGiveawayTemplates = new GiveawaysGiveawayTemplates,
   giveawaysGridView = new GiveawaysGridView,
   generalHiddenBlacklistStats = new GeneralHiddenBlacklistStats,
@@ -353,6 +355,7 @@ export default {
   discussionsDiscussionTags,
   gamesGameTags,
   groupsGroupTags,
+  giveawaysHappyHolidaysIntegration,
   giveawaysGiveawayTemplates,
   giveawaysGridView,
   generalHiddenBlacklistStats,

@@ -9330,8 +9330,9 @@ class Common extends Module {
     `;
     }
     style += `
-    .esgst-element-ordering-container, .esgst-element-ordering-container >* {
-      margin: 5px;
+    .esgst-hhi >* {
+      flex: 1;
+      text-align: center;
     }
     
     .esgst-element-ordering-box {
