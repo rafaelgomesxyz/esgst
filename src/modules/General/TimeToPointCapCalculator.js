@@ -1,4 +1,5 @@
 import Module from '../../class/Module';
+import { common } from '../Common';
 
 class GeneralTimeToPointCapCalculator extends Module {
   constructor() {
@@ -20,6 +21,26 @@ class GeneralTimeToPointCapCalculator extends Module {
       sg: true,
       type: `general`
     };
+  }
+
+  init() {
+    this.update();
+    this.esgst.triggerFunctions.onLevelContainerUpdated.push(this.update.bind(this));
+  }
+
+  update() {
+    if (!this.esgst.pointsContainer || this.esgst.points >= 400) {
+      return;
+    }
+    let nextRefresh = 60 - new Date().getMinutes();
+    while (nextRefresh > 15) {
+      nextRefresh -= 15;
+    }
+    const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100);
+    this.esgst.pointsContainer.title = common.getFeatureTooltip(`ttpcc`, `${time} to 400P`);
+    if (this.esgst.ttpcc_a) {
+      this.esgst.pointsContainer.textContent = `${this.esgst.points}P / ${time} to 400`;
+    }
   }
 }
 
