@@ -326,14 +326,7 @@ class Common extends Module {
       await customPage.load();
     } else {
       await this.endless_load(document, true);
-    }
-
-    this.esgst.style.insertAdjacentText("beforeend", `
-      .esgst-menu-split-fixed {
-        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (this.esgst.ff ? 39 : 0) + 50}px);
-        top: ${this.esgst.commentsTop + 25}px;
-      }
-    `);
+    } 
 
     if (this.esgst.updateHiddenGames) {
       const hideButton = document.getElementsByClassName(`js__submit-hide-games`)[0];
@@ -3626,6 +3619,7 @@ class Common extends Module {
     let SMAPIKey;
 
     let Container = null;
+    let Context = null;
     let popup = null;
     if (isPopup) {
       popup = new Popup({
@@ -3633,14 +3627,21 @@ class Common extends Module {
         settings: true,
         isTemp: true
       });
-      Container = popup.scrollable;
+      Container = popup.description;
+      Context = popup.scrollable;
     } else {
-      Container = this.esgst.sidebar.nextElementSibling;
+      Context = Container = this.esgst.sidebar.nextElementSibling;
       Container.innerHTML = ``;
     }
 
-    const heading = this.createPageHeading(Container, `beforeEnd`, {
-      items: isPopup ? [] : [
+    const input = this.createElements_v2(isPopup ? Container : this.esgst.sidebar, `afterBegin`, [
+      [`div`, { class: `sidebar__search-container` }, [
+        [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
+      ]]
+    ]).firstElementChild;
+
+    const heading = this.createPageHeading(Container, `afterBegin`, {
+      items: [
         {
           name: `ESGST`
         },
@@ -3649,135 +3650,133 @@ class Common extends Module {
         }
       ]
     });
-    if (isPopup) {
-      const items = [
-        {
-          check: true,
-          icons: [`fa-refresh`],
-          title: `Sync data`,
-          onClick: () => this.setSync(true)
-        },
-        {
-          check: true,
-          icons: [`fa-sign-in esgst-rotate-90`],
-          title: `Restore data`,
-          onClick: () => this.loadDataManagement(`import`, true)
-        },
-        {
-          check: true,
-          icons: [`fa-sign-out esgst-rotate-270`],
-          title: `Backup data`,
-          onClick: () => this.loadDataManagement(`export`, true)
-        },
-        {
-          check: true,
-          icons: [`fa-trash`],
-          title: `Delete data`,
-          onClick: () => this.loadDataManagement(`delete`, true)
-        },
-        {
-          check: true,
-          icons: [`fa-gear`, `fa-arrow-circle-down`],
-          title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
-          onClick: () => this.exportSettings()
-        },
-        {
-          check: true,
-          icons: [`fa-paint-brush`],
-          title: `Clean old data`,
-          onClick: () => this.loadDataCleaner(true)
-        },
-        {
-          check: true,
-          icons: [`fa-user`, `fa-history`],
-          title: `View recent username changes`,
-          onClick: event => this.setSMRecentUsernameChanges(event.currentTarget)
-        },
-        {
-          check: this.esgst.uf,
-          icons: [`fa-user`, `fa-eye-slash`],
-          title: `See list of filtered users`,
-          onClick: event => this.setSMManageFilteredUsers(event.currentTarget)
-        },
-        {
-          check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
-          icons: [`fa-gift`, `fa-eye-slash`],
-          title: `Manage hidden giveaways`,
-          onClick: event => this.setSMManageFilteredGiveaways(event.currentTarget)
-        },
-        {
-          check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
-          icons: [`fa-comments`, `fa-eye-slash`],
-          title: `Manage hidden discussions`,
-          onClick: event => this.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
-        },
-        {
-          check: this.esgst.sg && this.esgst.dt,
-          icons: [`fa-comments`, `fa-tags`],
-          title: `Manage discussion tags`,
-          onClick: () => this.openManageDiscussionTagsPopup()
-        },
-        {
-          check: this.esgst.sg && this.esgst.ut,
-          icons: [`fa-user`, `fa-tags`],
-          title: `Manage user tags`,
-          onClick: () => this.openManageUserTagsPopup()
-        },
-        {
-          check: this.esgst.gt,
-          icons: [`fa-gamepad`, `fa-tags`],
-          title: `Manage game tags`,
-          onClick: () => this.openManageGameTagsPopup()
-        },
-        {
-          check: this.esgst.gpt,
-          icons: [`fa-users`, `fa-tags`],
-          title: `Manage group tags`,
-          onClick: () => this.openManageGroupTagsPopup()
-        },
-        {
-          check: this.esgst.wbc,
-          icons: [`fa-heart`, `fa-ban`, `fa-cog`],
-          title: `Manage Whitelist / Blacklist Checker caches`,
-          callback: button => this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
-        },
-        {
-          check: this.esgst.namwc,
-          icons: [`fa-trophy`, `fa-cog`],
-          title: `Manage Not Activated / Multiple Wins Checker caches`,
-          callback: button => this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
-        }
-      ];
-      for (const item of items) {
-        const button = this.createElements_v2(heading, `beforeEnd`, [
-          [`div`, { onclick: event => item.onClick(event), title: item.title }, [
-            ...item.icons.map(x => [`i`, {class: `fa ${x}`}])
-          ]]
-        ]);
-        if (item.callback) {
-          item.callback(button);
-        }
+    const items = [
+      {
+        check: true,
+        icons: [`fa-refresh`],
+        title: `Sync data`,
+        onClick: () => this.setSync(true)
+      },
+      {
+        check: true,
+        icons: [`fa-sign-in esgst-rotate-90`],
+        title: `Restore data`,
+        onClick: () => this.loadDataManagement(`import`, true)
+      },
+      {
+        check: true,
+        icons: [`fa-sign-out esgst-rotate-270`],
+        title: `Backup data`,
+        onClick: () => this.loadDataManagement(`export`, true)
+      },
+      {
+        check: true,
+        icons: [`fa-trash`],
+        title: `Delete data`,
+        onClick: () => this.loadDataManagement(`delete`, true)
+      },
+      {
+        check: true,
+        icons: [`fa-gear`, `fa-arrow-circle-down`],
+        title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
+        onClick: () => this.exportSettings()
+      },
+      {
+        check: true,
+        icons: [`fa-paint-brush`],
+        title: `Clean old data`,
+        onClick: () => this.loadDataCleaner(true)
+      },
+      {
+        check: !this.esgst.parameters.esgst,
+        icons: [`fa-user`, `fa-history`],
+        title: `View recent username changes`,
+        onClick: event => this.setSMRecentUsernameChanges(event.currentTarget)
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.uf,
+        icons: [`fa-user`, `fa-eye-slash`],
+        title: `See list of filtered users`,
+        onClick: event => this.setSMManageFilteredUsers(event.currentTarget)
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
+        icons: [`fa-gift`, `fa-eye-slash`],
+        title: `Manage hidden giveaways`,
+        onClick: event => this.setSMManageFilteredGiveaways(event.currentTarget)
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.sg && this.esgst.df && this.esgst.df_s,
+        icons: [`fa-comments`, `fa-eye-slash`],
+        title: `Manage hidden discussions`,
+        onClick: event => this.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.sg && this.esgst.dt,
+        icons: [`fa-comments`, `fa-tags`],
+        title: `Manage discussion tags`,
+        onClick: () => this.openManageDiscussionTagsPopup()
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.sg && this.esgst.ut,
+        icons: [`fa-user`, `fa-tags`],
+        title: `Manage user tags`,
+        onClick: () => this.openManageUserTagsPopup()
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.gt,
+        icons: [`fa-gamepad`, `fa-tags`],
+        title: `Manage game tags`,
+        onClick: () => this.openManageGameTagsPopup()
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.gpt,
+        icons: [`fa-users`, `fa-tags`],
+        title: `Manage group tags`,
+        onClick: () => this.openManageGroupTagsPopup()
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.wbc,
+        icons: [`fa-heart`, `fa-ban`, `fa-cog`],
+        title: `Manage Whitelist / Blacklist Checker caches`,
+        callback: button => this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
+      },
+      {
+        check: !this.esgst.parameters.esgst && this.esgst.namwc,
+        icons: [`fa-trophy`, `fa-cog`],
+        title: `Manage Not Activated / Multiple Wins Checker caches`,
+        callback: button => this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
       }
-    } else {
+    ];
+    for (let i = items.length - 1; i > -1; i--) {
+      const item = items[i];
+      if (!item.check) {
+        continue;
+      }
+      const button = this.createElements_v2(heading, `afterBegin`, [
+        [`div`, { onclick: event => item.onClick(event), title: item.title }, [
+          ...item.icons.map(x => [`i`, {class: `fa ${x}`}])
+        ]]
+      ]);
+      if (item.callback) {
+        item.callback(button);
+      }
+    }
+    if (!isPopup) {
       this.esgst.mainPageHeading = heading;
     }
 
-    const input = this.createElements_v2(isPopup ? Container : this.esgst.sidebar, `afterBegin`, [
-      [`div`, { class: `sidebar__search-container` }, [
-        [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
-      ]]
-    ]).firstElementChild;
     input.addEventListener(`input`, this.filterSm.bind(this));
     input.addEventListener(`change`, this.filterSm.bind(this));
-    this.createElements_v2(Container, `beforeEnd`, [
+    this.createElements_v2(Context, `beforeEnd`, [
       [`div`, { class: `esgst-menu-split` }, [
-        [`div`, { class: `esgst-settings-menu esgst-menu-split-fixed` }],
-        [`div`, { class: `esgst-settings-menu-feature esgst-menu-split-fixed` }, [
+        [`div`, { class: `esgst-settings-menu` }],
+        [`div`, { class: `esgst-settings-menu-feature` }, [
           `Click on a feature/option to manage it here.`
         ]]
       ]]
     ]);
-    Container.appendChild(new ButtonSet({
+    heading.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: ``,
@@ -3793,9 +3792,9 @@ class Common extends Module {
         }
       }
     }).set);
-    Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, null));
+    Context.addEventListener(`click`, event => this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event));
     this.esgst.featuresById = {};
-    let SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
+    let SMMenu = Context.getElementsByClassName(`esgst-settings-menu`)[0];
     let i, type;
     i = 1;
     for (type in this.esgst.features) {
@@ -3875,18 +3874,7 @@ class Common extends Module {
         type: `node`
       }]
     }], i, `Steam API Key`);
-    if (!isPopup) {
-      Container.appendChild(new ButtonSet({
-        color1: `green`,
-        color2: `grey`,
-        icon1: ``,
-        icon2: ``,
-        title1: `Download Copy`,
-        title2: ``,
-        callback1: () => this.exportSettings()
-      }).set);
-    }
-    SMAPIKey = /** @type {HTMLInputElement} */ Container.getElementsByClassName(`esgst-steam-api-key`)[0];
+    SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName(`esgst-steam-api-key`)[0];
     let key = this.esgst.steamApiKey;
     if (key) {
       SMAPIKey.value = key;
@@ -3986,14 +3974,17 @@ class Common extends Module {
       this.esgst.firstInstall = false;
     }
     if (this.esgst.parameters.id) {
-      this.loadFeatureDetails(this.esgst.parameters.id);
+      this.loadFeatureDetails(this.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {
       popup.open();
     }
   }
 
-  loadFeatureDetails(id, event) {
+  loadFeatureDetails(id, offset, event) {
+    if (!offset) {
+      offset = 0;
+    }
     if (!id) {
       if (event.target.matches(`.esgst-settings-feature`)) {
         id = event.target.getAttribute(`data-id`);
@@ -4193,6 +4184,9 @@ class Common extends Module {
     const context = document.querySelector(`.esgst-settings-menu-feature`);
     context.innerHTML = `Click on a feature/option to manage it here.`;
     this.createFormRows(context, `beforeEnd`, { items });
+    if (event) {
+      context.style.marginTop = `${event.target.offsetTop - (offset || this.esgst.commentsTop) - 14}px`;
+    }
   }
 
   setElementOrderingSection(context) {
@@ -9529,6 +9523,12 @@ class Common extends Module {
     `;
     }
     style += `
+    .page__heading .esgst-button-set, .esgst-page-heading .esgst-button-set {
+      border: none;
+      padding: 0;
+      text-shadow: none;
+    }
+
     .esgst-hhi >* {
       flex: 1;
       text-align: center;
@@ -11829,18 +11829,16 @@ class Common extends Module {
   `;
     if (this.esgst.sg) {
       style += `
+      .esgst-settings-menu-feature {
+        margin-top: 14px;
+      }
+
       .esgst-menu-split {
         display: flex;
       }
 
       .esgst-menu-split >* {
         flex: 1;
-      }
-
-      .esgst-menu-split-fixed {
-        align-self: flex-start;
-        position: sticky;
-        overflow: auto;
       }
 
       .esgst-header-menu {
