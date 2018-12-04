@@ -7,9 +7,15 @@ class GiveawaysEnteredGiveawaysStats extends Module {
     this.info = {
       description: [
         [`ul`, [
-          [`li`, `Allows you to see stats for your currently active entered giveaways in the sidebar of the entered page.`]
+          [`li`, `Allows you to see stats for your entered giveaways in the sidebar of the entered page.`]
         ]]
       ],
+      features: {
+        egs_e: {
+          name: `Include ended giveaways in the stats.`,
+          sg: true
+        }
+      },
       id: `egs`,
       name: `Entered Giveaways Stats`,
       sg: true,
@@ -22,7 +28,7 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       return;
     }
     common.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
-      name: `Active Giveaways Stats`,
+      name: `Entered Giveaways Stats`,
       items: [
         {
           id: `egs_chance`,
@@ -38,6 +44,16 @@ class GiveawaysEnteredGiveawaysStats extends Module {
           id: `egs_entries`,
           name: `Average Entries`,
           count: 0
+        },
+        {
+          id: `egs_points`,
+          name: `Average Points Spent`,
+          count: 0
+        },
+        {
+          id: `egs_simple_points`,
+          name: `Total Points Spent`,
+          count: 0
         }
       ]
     });
@@ -45,13 +61,20 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       counters: {
         chance: 0.0,
         level: 0.0,
-        entries: 0.0
+        entries: 0.0,
+        points: 0
+      },
+      simpleCounters: {
+        points: 0
       },
       elements: {},
       total: 0
     };
     for (const key in obj.counters) {
       obj.elements[key] = document.querySelector(`#egs_${key}`).querySelector(`.sidebar__navigation__item__count`);
+    }
+    for (const key in obj.simpleCounters) {
+      obj.elements[`simple_${key}`] = document.querySelector(`#egs_simple_${key}`).querySelector(`.sidebar__navigation__item__count`);
     }
     this.esgst.giveawayFeatures.push((giveaways, main) => this.addStats(obj, giveaways, main));
   }
@@ -61,15 +84,21 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       return;
     }
     for (const giveaway of giveaways) {
-      if (!giveaway.ended) {
+      if (!giveaway.ended || this.esgst.egs_e) {
         for (const key in obj.counters) {
           obj.counters[key] += giveaway[key];
+        }
+        for (const key in obj.simpleCounters) {
+          obj.simpleCounters[key] += giveaway[key];
         }
         obj.total += 1;
       }
     }
     for (const key in obj.counters) {
       obj.elements[key].textContent = common.round(obj.counters[key] / obj.total);
+    }
+    for (const key in obj.simpleCounters) {
+      obj.elements[`simple_${key}`].textContent = obj.simpleCounters[key];
     }
   }
 }
