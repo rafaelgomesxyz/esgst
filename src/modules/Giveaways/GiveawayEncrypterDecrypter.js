@@ -119,6 +119,9 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.context = ged.popup.scrollable;
     } else {
       ged.popup = this.esgst.sidebar.nextElementSibling;
+      if (this.esgst.removeSidebarInFeaturePages) {
+        this.esgst.sidebar.remove();
+      }
       ged.popup.innerHTML = ``;
       ged.container = ged.context = createElements(ged.popup, `beforeEnd`, [{ type: `div` }]);
     }

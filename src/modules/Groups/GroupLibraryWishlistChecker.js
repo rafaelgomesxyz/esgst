@@ -64,6 +64,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
     } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `glwc`) {
       let glwc = {}, parameters;
       glwc.container = this.esgst.sidebar.nextElementSibling;
+      if (this.esgst.removeSidebarInFeaturePages) {
+        this.esgst.sidebar.remove();
+      }
       glwc.container.innerHTML = ``;
       common.createPageHeading(glwc.container, `beforeEnd`, {
         items: [

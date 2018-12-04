@@ -217,6 +217,9 @@ class GiveawaysGiveawayBookmarks extends Module {
     }
     if (this.esgst.accountPath && this.esgst.parameters.esgst === `gb`) {
       const context = this.esgst.sidebar.nextElementSibling;
+      if (this.esgst.removeSidebarInFeaturePages) {
+        this.esgst.sidebar.remove();
+      }
       context.innerHTML = ``;
       common.createPageHeading(context, `beforeEnd`, {
         items: [
