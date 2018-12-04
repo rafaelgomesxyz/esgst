@@ -16,7 +16,6 @@ import CommentsCommentReverser from './Comments/CommentReverser';
 import CommentsCommentSearcher from './Comments/CommentSearcher';
 import CommentsCommentTracker from './Comments/CommentTracker';
 import GiveawaysCommunityWishlistSearchLink from './Giveaways/CommunityWishlistSearchLink';
-import DiscussionsDiscussionEditDetector from './Discussions/DiscussionEditDetector';
 import DiscussionsDiscussionHighlighter from './Discussions/DiscussionHighlighter';
 import DiscussionsDiscussionsSorter from './Discussions/DiscussionsSorter';
 import GamesEnteredGameHighlighter from './Games/EnteredGameHighlighter';
@@ -170,7 +169,6 @@ let
   commentsCommentSearcher = new CommentsCommentSearcher,
   commentsCommentTracker = new CommentsCommentTracker,
   giveawaysCommunityWishlistSearchLink = new GiveawaysCommunityWishlistSearchLink,
-  discussionsDiscussionEditDetector = new DiscussionsDiscussionEditDetector,
   discussionsDiscussionHighlighter = new DiscussionsDiscussionHighlighter,
   discussionsDiscussionsSorter = new DiscussionsDiscussionsSorter,
   gamesEnteredGameHighlighter = new GamesEnteredGameHighlighter,
@@ -326,7 +324,6 @@ export default {
   commentsCommentSearcher,
   commentsCommentTracker,
   giveawaysCommunityWishlistSearchLink,
-  discussionsDiscussionEditDetector,
   discussionsDiscussionHighlighter,
   discussionsDiscussionsSorter,
   gamesEnteredGameHighlighter,
