@@ -43,6 +43,7 @@ export default class Table {
   }
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
+    console.log(arguments);
     const row = createElements(this.rows, `beforeEnd`, [{
       attributes: {
         class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}`
@@ -94,10 +95,12 @@ export default class Table {
     for (let i = 0; i < this.numColumns; i++) {
       let cell = columns ? columns[i] : ``;
       let additionalClasses = [];
+      let additionalAttributes = null;
       let alignment = `center`;
       let size = `small`;
       if (cell && typeof cell === `object` && !Array.isArray(cell)) {
         additionalClasses = additionalClasses.concat(cell.additionalClasses);
+        additionalAttributes = cell.additionalAttributes;
         alignment = cell.alignment || alignment;
         size = cell.size || size;
         cell = cell.value;
@@ -117,8 +120,8 @@ export default class Table {
       const attributes = {
         class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
       };
-      if (cell.attributes) {
-        for (const attribute of cell.attribute) {
+      if (additionalAttributes) {
+        for (const attribute of additionalAttributes) {
           const parts = attribute.match(/(.+?)="(.+?)"/);
           attributes[parts[1]] = attributes[parts[2]];
         }
