@@ -17,6 +17,7 @@ class VisibleFullLevel extends Module {
   }
 
   init() {
+    this.update();
     this.esgst.triggerFunctions.onLevelContainerUpdated.push(this.update.bind(this));
   }
 
