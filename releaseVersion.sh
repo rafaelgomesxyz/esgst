@@ -19,4 +19,4 @@ zip ../extension.zip esgst.js eventPage.js icon.png manifest.json popup.html
 cd ..
 
 # Restore manifest.json
-mv Extension/manifest.json.bkp Extension/manifest.json
+cp Extension/manifest.json.bkp Extension/manifest.json

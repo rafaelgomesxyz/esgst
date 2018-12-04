@@ -236,6 +236,32 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.5 (December 4, 2018)**
+
+* [#1070](https://github.com/gsrafael01/ESGST/issues/1070) Fix a bug in Reply From Inbox that happens when a deleted reply is cached
+* [#1069](https://github.com/gsrafael01/ESGST/issues/1069) Fix a bug that prevents Time To Point Cap Calculator and Visible Full Level from working with Header Refresher disabled
+* [#1068](https://github.com/gsrafael01/ESGST/issues/1068) Increase default static popup width to 1200px
+* [#1067](https://github.com/gsrafael01/ESGST/issues/1067) Show sync results when clicking on the auto sync button
+* [#1065](https://github.com/gsrafael01/ESGST/issues/1065) Bring back option to open features in popups
+* [#1064](https://github.com/gsrafael01/ESGST/issues/1064) Add option to Level Up Calculator to display current user level
+* [#1063](https://github.com/gsrafael01/ESGST/issues/1063) Add option to remove sidebar in ESGST feature pages
+* [#1062](https://github.com/gsrafael01/ESGST/issues/1062) Fix a bug in Custom Header/Footer Links that does not reset links
+* [#1061](https://github.com/gsrafael01/ESGST/issues/1061) Add a new game category: Barter.vg
+* [#1060](https://github.com/gsrafael01/ESGST/issues/1060) Allow links to be reordered in User Links
+* [#1059](https://github.com/gsrafael01/ESGST/issues/1059) Add option to make settings menu collapsible
+* [#1058](https://github.com/gsrafael01/ESGST/issues/1058) Add a feature: Visible Gifts Breakdown
+* [#1057](https://github.com/gsrafael01/ESGST/issues/1057) Apply Accurate Timestamp to Avatar Popout
+* [#1056](https://github.com/gsrafael01/ESGST/issues/1056) More improvements to settings menu
+* [#1055](https://github.com/gsrafael01/ESGST/issues/1055) Fix a bug in Not Received Finder that prevents the feature from working
+* [#1053](https://github.com/gsrafael01/ESGST/issues/1053) Fix a bug that does not save some options
+* [#1052](https://github.com/gsrafael01/ESGST/issues/1052) Remove Discussion Edit Detector (fixed by cg)
+* [#1050](https://github.com/gsrafael01/ESGST/issues/1050) Improvements to Entered Giveaways Stats
+* [#1048](https://github.com/gsrafael01/ESGST/issues/1048) Add an option to show a simplified view of Pagination Navigation On Top
+* [#1045](https://github.com/gsrafael01/ESGST/issues/1045) Add option to display number of gifts won from / sent to user in User Giveaway Data
+* [#1044](https://github.com/gsrafael01/ESGST/issues/1044) Detect removed games in the No CV Games database
+* [#1041](https://github.com/gsrafael01/ESGST/issues/1041) Insert main page heading buttons after pagination
+* [#1011](https://github.com/gsrafael01/ESGST/issues/1011) Fix a bug that does not load categories properly in created pages
+
 **8.1.4 (December 4, 2018)**
 
 * [#1054](https://github.com/gsrafael01/ESGST/issues/1054) Add a feature: Happy Holidays Integration
