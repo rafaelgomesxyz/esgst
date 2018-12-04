@@ -4223,6 +4223,7 @@ class Common extends Module {
         gc_f: `Followed`,
         gc_pw: `Previously Won`,
         gc_a: `Achievements`,
+        gc_bvg: `Barter.vg`,
         gc_sp: `Singleplayer`,
         gc_mp: `Multiplayer`,
         gc_sc: `Steam Cloud`,
@@ -9431,6 +9432,11 @@ class Common extends Module {
       {
         id: `gc_a`,
         key: `achievements`,
+        mainKey: `esgst-gc`
+      },
+      {
+        id: `gc_bvg`,
+        key: `bartervg`,
         mainKey: `esgst-gc`
       },
       {

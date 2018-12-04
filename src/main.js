@@ -1348,6 +1348,11 @@ import esgst from './class/Esgst';
       esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
       esgst.settingsChanged = true;
     }
+    if (esgst.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
+      esgst.gc_categories_ids.push(`gc_bvg`);
+      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+      esgst.settingsChanged = true;
+    }
     [`gc_categories`, `gc_categories_gv`, `gc_categories_ids`].forEach(key => {
       let bkpLength = esgst[key].length;
       esgst[key] = Array.from(new Set(esgst[key]));

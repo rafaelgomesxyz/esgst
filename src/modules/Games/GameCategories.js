@@ -147,6 +147,35 @@ class GamesGameCategories extends Module {
           name: `Achievements`,
           sg: true
         },
+        gc_bvg: {
+          colors: true,
+          description: [
+            [`ul`, [
+              [`li`, `Links to the Barter.vg page of the game.`]
+            ]]
+          ],
+          features: {
+            gc_bvg_s: {
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
+              features: {
+                gc_bvg_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Barter.vg`,
+          sg: true
+        },
         gc_dlc: {
           colors: true,
           description: [
@@ -2074,6 +2103,25 @@ class GamesGameCategories extends Module {
                 } : null] : null
               });
             }
+            break;
+          case `gc_bvg`:
+            elements.push({
+              attributes: {
+                class: `esgst-gc esgst-gc-bartervg`,
+                [`data-draggable-id`]: `gc_bvg`,
+                href: `http://barter.vg/steam/${type.slice(0, -1)}/${id}`,
+                target: `_blank`,
+                title: getFeatureTooltip(`gc_bvg`, `Barter.vg`)
+              },
+              text: this.esgst.gc_bvg_s ? (this.esgst.gc_bvg_s_i ? `` : `BVG`) : this.esgst.gc_bvgLabel,
+              type: `a`,
+              children: this.esgst.gc_bvg_s && this.esgst.gc_bvg_s_i ? [{
+                attributes: {
+                  class: `fa fa-${this.esgst.gc_bvgIcon}`
+                },
+                type: `i`
+              }] : null
+            });
             break;
           case `gc_mp`:
             count = 0;
