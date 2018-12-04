@@ -1691,6 +1691,7 @@ class Common extends Module {
       ]]
     ]);
     return {
+      button,
       changeIcon(icon) {
         button.firstElementChild.firstElementChild.className = `fa ${icon}`;
       },
@@ -2077,10 +2078,22 @@ class Common extends Module {
   async runSilentSync(parameters) {
     const button = this.addHeaderButton(`fa-refresh fa-spin`, `active`, `ESGST is syncing your data... Please do not close this window.`);
     this.esgst.parameters = Object.assign(this.esgst.parameters, this.getParameters(`?autoSync=true&${parameters.replace(/&$/, ``)}`));
-    await this.setSync(false, true);
+    const syncer = await this.setSync(false, true);
     button.changeIcon(`fa-check`);
     button.changeState(`inactive`);
-    button.changeTitle(`ESGST has finished syncing.`);
+    button.button.addEventListener(`click`, () => {
+      const popup = new Popup({
+        addScrollable: `left`,
+        isTemp: true
+      });
+      this.createElements(popup.scrollable, `beforeEnd`, syncer.html);
+      popup.open();
+      if (this.esgst.getSyncGameNames) {
+        this.getGameNames(syncer);
+      }
+    });
+    button.changeTitle(`ESGST has finished syncing, click here to see the results.`);
+
   }
 
   /**
@@ -2100,8 +2113,9 @@ class Common extends Module {
     } else {
       let container = null;
       let context = null;
+      let popup = null;
       if (isPopup) {
-        const popup = new Popup({
+        popup = new Popup({
           addScrollable: `left`,
           settings: true,
           isTemp: true
@@ -2142,7 +2156,11 @@ class Common extends Module {
         title2: `Saving...`,
         callback1: async () => {
           await this.lockAndSaveSettings();
-          window.location.reload();
+          if (isPopup) {
+            popup.close();
+          } else {
+            window.location.reload();
+          }
         }
       }).set);
       syncer.container = context.querySelector(`.esgst-sync-options`);
@@ -2290,6 +2308,7 @@ class Common extends Module {
         syncer.set.trigger();
       }
     }
+    return syncer;
   }
 
   updateSyncDates(syncer) {
@@ -3609,7 +3628,7 @@ class Common extends Module {
     }
 
     const heading = this.createPageHeading(Container, `beforeEnd`, {
-      items: [
+      items: isPopup ? [] : [
         {
           name: `ESGST`
         },
@@ -14797,7 +14816,7 @@ class Common extends Module {
     }
     return this.createElements_v2(context, position, [
       [`div`, { class: `page__heading` }, [
-        [`div`, { class: `page__heading__breadcrumbs` }, items.slice(0, -1)]
+        items.length ? [`div`, { class: `page__heading__breadcrumbs` }, items.slice(0, -1)] : null
       ]]
     ]);
   }
