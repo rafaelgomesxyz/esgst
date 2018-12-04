@@ -13763,6 +13763,14 @@ class Common extends Module {
   loadChangelog(version) {
     const changelog = [
       {
+        date: `December 4, 2018`,
+        version: `8.1.4`,
+        changelog: {
+          1054: `Add a feature: Happy Holidays Integration`
+        }
+      },
+
+      {
         date: `December 3, 2018`,
         version: `8.1.3`,
         changelog: {
