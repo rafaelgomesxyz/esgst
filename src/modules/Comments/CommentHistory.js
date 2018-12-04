@@ -16,12 +16,12 @@ class CommentsCommentHistory extends Module {
     this.info = {
       description: [
         [`ul`, [
+          [`li`, `Replaces SteamGifts' native comment button with a new one, so that ESGST can track your comments.`],
           [`li`, [
             `Adds a button (`,
             [`i`, { class: `fa fa-comments esgst-yellow` }],
             ` My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.`
-          ]],
-          [`li`, `A comment only appears in the history if it was submitted through the comment box of any of the following features: [id=ded], [id=mr], [id=rrbp], [id=rbp] and[id=rfi].If you submit the comment through SteamGifts' native comment box it will not be added to the history.`]
+          ]]
         ]]
       ],
       id: `ch`,
@@ -33,6 +33,9 @@ class CommentsCommentHistory extends Module {
   }
 
   ch() {
+    if (this.esgst.replyBox) {
+      common.addReplyButton(this.esgst.replyBox);
+    }
     new Process({
       button: createElements(this.esgst.accountDropdown.firstElementChild.lastElementChild, `beforeBegin`, [{
         attributes: {

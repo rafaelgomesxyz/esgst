@@ -21,7 +21,6 @@ class CommentsReplyBoxPopup extends Module {
             `) to the main page heading of any page that allows you to add comments to the page through a popup.`
           ]],
           [`li`, `This feature is useful if you have [id=fmph] enabled, which allows you to add comments to the page from any scrolling position.`]
-          [`li`, `Has[id=ded] built -in.`]
         ]]
       ],
       id: `rbp`,

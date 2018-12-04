@@ -630,10 +630,7 @@ class Common extends Module {
     let responseHtml = null;
     let success = true;
     if (this.esgst.sg) {
-      if ((response.redirected && url === response.finalUrl) || url !== response.finalUrl) {
-        if (url !== response.finalUrl) {
-          response = await this.request({ data, method: `POST`, url: response.finalUrl });
-        }
+      if (response.redirected) {
         responseHtml = parseHtml(response.responseText);
         if (parentId) {
           id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName(`comment__children`)[0].lastElementChild.getElementsByClassName(`comment__summary`)[0].id;
@@ -15085,6 +15082,151 @@ class Common extends Module {
    */
   updateTheme(id) {
     document.querySelector(`#${id}`).dispatchEvent(new Event(`click`));
+  }
+
+  async submitComment(obj) {
+    obj.status.innerHTML = ``;
+
+    if (!obj.commentUrl) {
+      const result = await this.saveComment(
+        obj.tradeCode,
+        obj.parentId.value,
+        obj.description.value,
+        obj.url,
+        obj.status,
+        !obj.callback
+      );
+      if (obj.callback) {
+        obj.callback(result.id, result.response, result.status);
+      }
+      return;
+    }
+
+    const response = await this.request({
+      method: `GET`,
+      url: obj.commentUrl
+    }),
+      responseHtml = utils.parseHtml(response.responseText),
+      comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
+    obj.parentId = this.esgst.sg
+      ? comment.closest(`.comment`).getAttribute(`data-comment-id`)
+      : comment.getAttribute(`data-id`);
+    obj.tradeCode = this.esgst.sg
+      ? ``
+      : response.finalUrl.match(/\/trade\/(.+?)\//)[1];
+    obj.url = this.esgst.sg
+      ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1]
+      : `/ajax.php`;
+
+    if (obj.checked || !this.esgst.rfi_c) {
+      const result = await this.saveComment(
+        obj.tradeCode,
+        obj.parentId,
+        obj.description.value,
+        obj.url,
+        obj.status,
+        !obj.callback
+      );
+      if (obj.callback) {
+        obj.callback(result.id, result.response, response.status);
+      }
+      return;
+    }
+
+    const comments = this.esgst.sg
+      ? comment.closest(`.comment`).getElementsByClassName(`comment__children`)[0]
+      : comment.getElementsByClassName(`comment_children`)[0];
+    for (let i = comments.children.length - 1; i > -1; i--) {
+      const comment = comments.children[i],
+        id = comment.querySelector(`[href*="/go/comment/"]`)
+          .getAttribute(`href`)
+          .match(/\/go\/comment\/(.+)/)[1];
+      if (obj.context.querySelector(`[href*="/go/comment/${id}"`)) {
+        comment.remove();
+      }
+    }
+    if (comments.children.length) {
+      obj.context.appendChild(comments);
+      await this.endless_load(comments);
+      for (let i = comments.children.length - 1; i > -1; i--) {
+        obj.context.appendChild(comments.children[i]);
+      }
+      comments.remove();
+      obj.set.changeButton(1).setTitle(`Confirm`);
+      this.createElements(obj.status, `inner`, [{
+        attributes: {
+          class: `esgst-bold esgst-warning`
+        },
+        type: `span`,
+        children: [{
+          text: `Somebody beat you to it!`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          text: `There are other replies to this comment.`,
+          type: `node`
+        }, {
+          type: `br`
+        }, {
+          text: `You can review them below before confirming your reply.`,
+          type: `node`
+        }]
+      }]);
+      obj.checked = true;
+    } else {
+      const result = await this.saveComment(
+        obj.tradeCode,
+        obj.parentId,
+        obj.description.value,
+        obj.url,
+        obj.status,
+        !obj.callback
+      );
+      if (obj.callback) {
+        obj.callback(result.id, result.response, result.status);
+      }
+    }
+  }
+
+  addReplyButton(context, commentUrl, callback) {
+    const obj = {
+      callback,
+      checked: false,
+      commentUrl,
+      context: context.parentElement,
+      description: context.querySelector(`[name="description"]`),
+      parentId: context.querySelector(`[name="parent_id"]`),
+      tradeCode: (context.querySelector(`[name="trade_code"]`) || { value: `` }).value,
+      url: this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
+    };
+    const container = context.getElementsByClassName(this.esgst.sg
+      ? `align-button-container`
+      : `btn_actions`
+    )[0];
+    container.firstElementChild.remove();
+    obj.button = this.createElements(container, `afterBegin`, [{
+      attributes: {
+        class: `esgst-ded-button`
+      },
+      type: `div`
+    }]);
+    obj.status = this.createElements(container, `beforeEnd`, [{
+      attributes: {
+        class: `comment__actions action_list esgst-ded-status`
+      },
+      type: `div`
+    }]);
+    obj.set = new ButtonSet({
+      color1: `grey`,
+      color2: `grey`,
+      icon1: `fa-send`,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Submit`,
+      title2: `Saving...`,
+      callback1: this.submitComment.bind(this, obj)
+    });
+    obj.button.appendChild(obj.set.set);
   }
 }
 
