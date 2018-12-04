@@ -140,6 +140,7 @@ import UsersUserGiveawayData from './Users/UserGiveawayData';
 import UsersNotActivatedMultipleWinChecker from './Users/NotActivatedMultipleWinChecker';
 import UsersNotReceivedFinder from './Users/NotReceivedFinder';
 import UsersSentWonRatio from './Users/SentWonRatio';
+import UsersVisibleGiftsBreakdown from './Users/VisibleGiftsBreakdown';
 import UsersVisibleRealCV from './Users/VisibleRealCV';
 import UsersLevelUpCalculator from './Users/LevelUpCalculator';
 import UsersSteamGiftsProfileButton from './Users/SteamGiftsProfileButton';
@@ -293,6 +294,7 @@ let
   usersNotActivatedMultipleWinChecker = new UsersNotActivatedMultipleWinChecker,
   usersNotReceivedFinder = new UsersNotReceivedFinder,
   usersSentWonRatio = new UsersSentWonRatio,
+  usersVisibleGiftsBreakdown = new UsersVisibleGiftsBreakdown,
   usersVisibleRealCV = new UsersVisibleRealCV,
   usersLevelUpCalculator = new UsersLevelUpCalculator,
   usersSteamGiftsProfileButton = new UsersSteamGiftsProfileButton,
@@ -448,6 +450,7 @@ export default {
   usersNotActivatedMultipleWinChecker,
   usersNotReceivedFinder,
   usersSentWonRatio,
+  usersVisibleGiftsBreakdown,
   usersVisibleRealCV,
   usersLevelUpCalculator,
   usersSteamGiftsProfileButton,
