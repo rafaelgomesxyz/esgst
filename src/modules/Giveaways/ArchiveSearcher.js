@@ -1,5 +1,5 @@
 import Module from '../../class/Module';
-import Process from '../../class/Process';
+import Popup from '../../class/Popup';
 import ButtonSet from '../../class/ButtonSet';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
@@ -21,6 +21,12 @@ class GiveawaysArchiveSearcher extends Module {
           [`li`, `To search by app id, use the "id:[id]" format, for example: id:229580`]
         ]]
       ],
+      features: {
+        as_t: {
+          name: `Open results in a new tab.`,
+          sg: true
+        }
+      },
       id: `as`,
       load: this.as_load,
       name: `Archive Searcher`,
@@ -37,18 +43,22 @@ class GiveawaysArchiveSearcher extends Module {
 
     if (!this.esgst.archivePath) return;
 
-    const input = document.querySelector(`.sidebar__search-input`);
+    let input = document.querySelector(`.sidebar__search-input`);
+    const temp = input.parentElement;
+    input.outerHTML = input.outerHTML;
+    input = temp.firstElementChild;
     input.addEventListener(`keypress`, event => {
-      if (event.key === `Enter` && input.value.match(/"|id:/)) {
-        this.as_openPage(input, event);
+      if (event.key === `Enter`) {
+        if (input.value.match(/"|id:/)) {
+          this.as_openPage(input, event);
+        } else {
+          location.href = `${this.esgst.path}/search?q=${encodeURIComponent(input.value)}`;
+        }
       }
-    }, true);
+    });
   }
 
-  as_openPage(input, event) {
-    if (event) {
-      event.preventDefault();
-    }
+  as_openPage(input) {
     const match = input.value.match(/"(.+?)"|id:(.+)/);
     let query = ``;
     let isAppId = false;
@@ -58,18 +68,36 @@ class GiveawaysArchiveSearcher extends Module {
       query = match[2];
       isAppId = true;
     }
-    location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
+    if (this.esgst.as_t) {
+      location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
+    } else {
+      this.as_init({query, isAppId, isPopup: true});
+    }
   }
 
   async as_init(obj) {
-    obj.query = decodeURIComponent(this.esgst.parameters.query);
+    if (!obj.isPopup) {
+      obj.query = decodeURIComponent(this.esgst.parameters.query);
+    }
     if (!obj.query) {
       return;
     }
 
-    const context = this.esgst.sidebar.nextElementSibling;
-    context.innerHTML = ``;
-    common.createPageHeading(context, `beforeEnd`, {
+    let container = null;
+    let context = null;
+    if (obj.isPopup) {
+      const popup = new Popup({
+        addScrollable: `left`,
+        isTemp: true
+      });
+      container = popup.description;
+      context = popup.scrollable;
+      popup.open();
+    } else {
+      container = context = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+    }
+    common.createPageHeading(container, `afterBegin`, {
       items: [
         {
           name: `ESGST`
@@ -81,7 +109,7 @@ class GiveawaysArchiveSearcher extends Module {
     });
     obj.context = context;
 
-    const progress = common.createElements_v2(obj.context, `beforeEnd`, [[`div`]]);
+    const progress = common.createElements_v2(container, `beforeEnd`, [[`div`]]);
     progress.innerHTML = `Retrieving game title...`;
 
     // retrieve the game title from Steam

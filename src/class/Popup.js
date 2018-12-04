@@ -60,9 +60,15 @@ export default class Popup {
       this.title = this.icon.nextElementSibling;
       this.description = this.popup.firstElementChild.nextElementSibling;
       this.actions = this.description.nextElementSibling;
+      let settings = this.actions.firstElementChild;
       if (!details.settings) {
-        let settings = this.actions.firstElementChild;
         settings.classList.remove(`esgst-hidden`);
+        settings.addEventListener(`click`, event => {
+          if (!container.esgst.openSettingsInTab) {
+            event.preventDefault();
+            container.common.loadMenu(true);
+          }
+        });
       }
       this.description.nextElementSibling.lastElementChild.addEventListener(`click`, () => this.close());
     } else {
