@@ -43,7 +43,7 @@ class GeneralPaginationNavigationOnTop extends Module {
       }
     }
     this.esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
-    this.esgst.mainPageHeading.appendChild(this.esgst.paginationNavigation);
+    common.createElements_v2(this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`), `afterEnd`, [this.esgst.paginationNavigation]);
   }
 }
 
