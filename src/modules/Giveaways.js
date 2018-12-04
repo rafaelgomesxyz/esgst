@@ -126,7 +126,11 @@ class Giveaways extends Module {
       giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
     }
     giveaway.headingName = giveaway.innerWrap.querySelector(`.giveaway__heading__name, .featured__heading__medium, .table__column__heading`);
-    giveaway.heading = giveaway.headingName.parentElement;
+    if (this.esgst.wishlistPath) {
+      giveaway.heading = giveaway.headingName;
+    } else {
+      giveaway.heading = giveaway.headingName.parentElement;
+    }
     giveaway.name = giveaway.headingName.textContent;
     match = giveaway.name.match(/\s\((.+) Copies\)/);
     if (match) {
@@ -456,7 +460,7 @@ class Giveaways extends Module {
       }
     }
     for (const child of giveaway.heading.children) {
-      if (child.classList.contains(`giveaway__heading__name`) || child.classList.contains(`featured__heading__medium`)) {
+      if (child === giveaway.headingName || child.classList.contains(`giveaway__heading__name`) || child.classList.contains(`featured__heading__medium`)) {
         child.setAttribute(`data-draggable-id`, `name`);
         continue;
       }

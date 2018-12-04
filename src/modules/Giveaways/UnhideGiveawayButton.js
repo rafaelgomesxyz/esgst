@@ -39,7 +39,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
       let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
       if (!hideButton && (!main || this.esgst.giveawaysPath || this.esgst.giveawayPath)) {
         if (this.esgst.giveawayPath && main) {
-          hideButton = createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
+          hideButton = createElements(giveaway.headingName, `afterEnd`, [{
             type: `a`,
             children: [{
               attributes: {
@@ -50,7 +50,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
             }]
           }]);
         } else {
-          hideButton = createElements(giveaway.headingName.parentElement, `beforeEnd`, [{
+          hideButton = createElements(giveaway.headingName, `afterEnd`, [{
             attributes: {
               class: `fa fa-eye giveaway__hide giveaway__icon`,
               title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)

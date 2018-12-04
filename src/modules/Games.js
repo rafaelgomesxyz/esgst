@@ -56,7 +56,7 @@ class Games extends Module {
   }
 
   async games_get(context, main, savedGames, endless) {
-    let game, games, i, id, info, matches, n, headingQuery, matchesQuery, type;
+    let game, games, i, id, info, matches, n, headingNameQuery, matchesQuery, type;
     games = {
       apps: {},
       subs: {},
@@ -64,10 +64,10 @@ class Games extends Module {
     };
     if (this.esgst.discussionPath && main) {
       matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .markdown table td, .esgst-es-page-${endless}.markdown table td` : `.markdown table td`}`;
-      headingQuery = `.featured__heading, .giveaway__heading, .table__column__heading, a`;
+      headingNameQuery = `.giveaway__heading__name, .featured__heading__medium, .table__column__heading, a`;
     } else {
       matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`;
-      headingQuery = `.featured__heading, .giveaway__heading, .table__column__heading`;
+      headingNameQuery = `.giveaway__heading__name, .featured__heading__medium, .table__column__heading`;
     }
     matches = context.querySelectorAll(matchesQuery);
     for (i = 0, n = matches.length; i < n; ++i) {
@@ -86,9 +86,13 @@ class Games extends Module {
       }
       game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
       info = await this.games_getInfo(game.container);
-      game.heading = game.container.querySelector(headingQuery);
-      if (game.heading) {
-        game.headingName = game.heading.querySelector(`.featured__heading__medium, .giveaway__heading__name`) || game.heading;
+      game.headingName = game.container.querySelector(headingNameQuery);
+      if (game.headingName) {
+        if (this.esgst.wishlistPath) {
+          game.heading = game.headingName;
+        } else {
+          game.heading = game.headingName.parentElement;
+        }
         if (!game.name) {
           game.name = game.headingName.textContent;
         }
@@ -121,7 +125,7 @@ class Games extends Module {
           if (!games[type][id]) {
             games[type][id] = [];
           }
-          game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.heading.lastElementChild || game.heading;
+          game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName;
           game.tagPosition = `afterEnd`;
           game.saved = this.esgst.games[type][id];
           games[type][id].push(game);

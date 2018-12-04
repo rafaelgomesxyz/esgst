@@ -264,7 +264,28 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         }]
       });
     }
-    createElements(giveaway.headingName, `beforeEnd`, items);
+    createElements(giveaway.headingName, `afterEnd`, items);
+    for (const child of giveaway.heading.children) {
+      if (child === giveaway.headingName || child.classList.contains(`giveaway__heading__name`) || child.classList.contains(`featured__heading__medium`)) {
+        child.setAttribute(`data-draggable-id`, `name`);
+        continue;
+      }
+      if (child.textContent.match(/\(.+?\sCopies\)/)) {
+        child.setAttribute(`data-draggable-id`, `copies`);
+        continue;
+      }
+      if (child.textContent.match(/\(.+?P\)/)) {
+        child.setAttribute(`data-draggable-id`, `points`);
+        continue;
+      }
+      if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/store.steampowered.com/)) {
+        child.setAttribute(`data-draggable-id`, `steam`);
+        continue;
+      }
+      if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/\/giveaways\/search/)) {
+        child.setAttribute(`data-draggable-id`, `search`);
+      }
+    }
     giveaway.inviteOnly = details.inviteOnly;
     giveaway.regionRestricted = details.regionRestricted;
     giveaway.group = details.group;
