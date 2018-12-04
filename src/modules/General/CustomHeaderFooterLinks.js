@@ -331,7 +331,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           name: `Reset Links`,
           description: `Click here to reset the custom links.`
         }));
-        resetButton.addEventListener(`click`, createConfirmation.bind(common, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(createConfirmation, chfl, key), null));
+        resetButton.addEventListener(`click`, createConfirmation.bind(common, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this,  chfl, key), null));
         for (const subKey in source.elements) {
           if (source.elements.hasOwnProperty(subKey)) {
             const element = source.elements[subKey],
