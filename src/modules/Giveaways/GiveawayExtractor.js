@@ -60,6 +60,10 @@ class GiveawaysGiveawayExtractor extends Module {
           },
           name: `Automatically open any SGTools links found in new tabs.`,
           sg: true
+        },
+        ge_t: {
+          name: `Open the extractor in a new tab.`,
+          sg: true
         }
       },
       id: `ge`,
@@ -93,7 +97,13 @@ class GiveawaysGiveawayExtractor extends Module {
       button: createHeadingButton({ id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title }),
       extractOnward
     };
-    ge.button.addEventListener(`click`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`));
+    ge.button.addEventListener(`click`, () => {
+      if (this.esgst.ge_t) {
+        window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
+      } else {
+        this.ge_openPopup(ge);
+      }
+    });
   }
 
   ge_openPopup(ge) {

@@ -69,6 +69,10 @@ class GiveawaysGiveawayBookmarks extends Module {
           name: `Highlight the header button when giveaways have started and/or are about to end.`,
           sg: true
         },
+        gb_t: {
+          name: `Open the list of bookmarked giveaways in a new tab.`,
+          sg: true
+        },
         gb_se: {
           name: `Show the button for entered giveaways.`,
           sg: true
@@ -229,7 +233,27 @@ class GiveawaysGiveawayBookmarks extends Module {
       }]));
     }
     if (button) {
-      button.addEventListener(`click`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`)); 
+      button.addEventListener(`click`, () => {
+        if (this.esgst.gb_t) {
+          window.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
+        } else {
+          const popup = new Popup({
+            addScrollable: `left`,
+            isTemp: true
+          });
+          common.createPageHeading(popup.description, `afterBegin`, {
+            items: [
+              {
+                name: `ESGST`
+              },
+              {
+                name: `Bookmarked Giveaways`
+              }
+            ]
+          });
+          this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
+        }
+      });
     }
   }
 

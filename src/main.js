@@ -604,6 +604,12 @@ import esgst from './class/Esgst';
         dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
         button = dropdown.nextElementSibling;
         arrow = button.nextElementSibling;
+        button.addEventListener(`click`, event => {
+          if (!esgst.openSettingsInTab) {
+            event.preventDefault();
+            common.loadMenu(true);
+          }
+        });
         arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
         document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
         document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
@@ -1069,6 +1075,12 @@ import esgst from './class/Esgst';
         }]);
         dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
         button = dropdown.nextElementSibling;
+        button.addEventListener(`click`, event => {
+          if (!esgst.openSettingsInTab) {
+            event.preventDefault();
+            common.loadMenu(true);
+          }
+        });
         arrow = button.nextElementSibling;
         arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
         document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);

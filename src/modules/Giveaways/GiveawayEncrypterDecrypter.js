@@ -54,6 +54,10 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           ],
           name: `Always show the header button if there are decrypted giveaways in the page.`,
           sg: true
+        },
+        ged_t: {
+          name: `Open the list of decrypted giveaways in a new tab.`,
+          sg: true
         }
       },
       id: `ged`,
@@ -92,7 +96,13 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           }]
         }]
       }]);
-      ged.button.addEventListener(`click`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`));
+      ged.button.addEventListener(`click`, () => {
+        if (this.esgst.ged_t) {
+          window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
+        } else {
+          this.ged_openPopup({isPopup: true});
+        }
+      });
       // noinspection JSIgnoredPromiseFromCall
       this.ged_getGiveaways(ged, true);
     }
@@ -100,9 +110,19 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
   }
 
   async ged_openPopup(ged) {
-    const context = this.esgst.sidebar.nextElementSibling;
-    context.innerHTML = ``;
-    common.createPageHeading(context, `beforeEnd`, {
+    if (ged.isPopup) {
+      ged.popup = new Popup({
+        addScrollable: true,
+        isTemp: true
+      });
+      ged.container = ged.popup.description;
+      ged.context = ged.popup.scrollable;
+    } else {
+      ged.popup = this.esgst.sidebar.nextElementSibling;
+      ged.popup.innerHTML = ``;
+      ged.container = ged.context = createElements(ged.popup, `beforeEnd`, [{ type: `div` }]);
+    }
+    common.createPageHeading(ged.popup.description || ged.popup, `afterBegin`, {
       items: [
         {
           name: `ESGST`
@@ -112,7 +132,6 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }
       ]
     });
-    ged.container = ged.context = createElements(context, `beforeEnd`, [{ type: `div` }]);
     createElements(ged.context, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
@@ -157,6 +176,9 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       callback1: this.ged_loadGiveaways.bind(this, ged)
     });
     ged.container.appendChild(ged.set.set);
+    if (ged.isPopup) {
+      ged.popup.open();
+    }
     ged.set.trigger();
     if (this.esgst.es_ged) {
       ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(this, ged));

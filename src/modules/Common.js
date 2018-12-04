@@ -704,6 +704,11 @@ class Common extends Module {
       },
       others: {
         features: {
+          openSettingsInTab: {
+            name: `Open settings menu in a new tab.`,
+            sg: true,
+            st: true
+          },
           activateTab: {
             description: [
               [`ul`, [
@@ -2062,7 +2067,7 @@ class Common extends Module {
   async runSilentBackup() {
     const button = this.addHeaderButton(`fa-sign-out fa-spin`, `active`, `ESGST is backing up your data... Please do not close this window.`);
     this.esgst.parameters = Object.assign(this.esgst.parameters, { autoBackup: true });
-    this.loadDataManagement(`export`, () => {
+    this.loadDataManagement(`export`, false, () => {
       button.changeIcon(`fa-check`);
       button.changeState(`inactive`);
       button.changeTitle(`ESGST has finished backing up.`);
@@ -2072,7 +2077,7 @@ class Common extends Module {
   async runSilentSync(parameters) {
     const button = this.addHeaderButton(`fa-refresh fa-spin`, `active`, `ESGST is syncing your data... Please do not close this window.`);
     this.esgst.parameters = Object.assign(this.esgst.parameters, this.getParameters(`?autoSync=true&${parameters.replace(/&$/, ``)}`));
-    await this.setSync(true);
+    await this.setSync(false, true);
     button.changeIcon(`fa-check`);
     button.changeState(`inactive`);
     button.changeTitle(`ESGST has finished syncing.`);
@@ -2081,7 +2086,7 @@ class Common extends Module {
   /**
    * @returns {Promise<void>}
    */
-  async setSync(isSilent = false) {
+  async setSync(isPopup = false, isSilent = false) {
     let syncer = {};
     syncer.canceled = false;
     syncer.isSilent = isSilent;
@@ -2093,9 +2098,22 @@ class Common extends Module {
       await this.sync(syncer);
       this.esgst.isSyncing = false;
     } else {
-      const context = this.esgst.sidebar.nextElementSibling;
-      context.innerHTML = ``;
-      this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
+      let container = null;
+      let context = null;
+      if (isPopup) {
+        const popup = new Popup({
+          addScrollable: `left`,
+          settings: true,
+          isTemp: true
+        });
+        container = popup.description;
+        context = popup.scrollable;
+        popup.open();
+      } else {
+        container = context = this.esgst.sidebar.nextElementSibling;
+        container.innerHTML = ``;
+      }
+      const heading = this.createPageHeading(container, `afterBegin`, {
         items: [
           {
             name: `ESGST`
@@ -2105,6 +2123,9 @@ class Common extends Module {
           }
         ]
       });
+      if (!isPopup) {
+        this.esgst.mainPageHeading = heading;
+      }
 
       this.createElements_v2(context, `beforeEnd`, [
         [`div`, { class: `esgst-menu-split` }, [
@@ -3569,14 +3590,25 @@ class Common extends Module {
     this.createFormRows(context, `beforeEnd`, options);
   }
 
-  loadMenu() {
+  loadMenu(isPopup) {
     /** @type {HTMLInputElement} */
     let SMAPIKey;
 
-    const Container = this.esgst.sidebar.nextElementSibling;
-    Container.innerHTML = ``;
+    let Container = null;
+    let popup = null;
+    if (isPopup) {
+      popup = new Popup({
+        addScrollable: `left`,
+        settings: true,
+        isTemp: true
+      });
+      Container = popup.scrollable;
+    } else {
+      Container = this.esgst.sidebar.nextElementSibling;
+      Container.innerHTML = ``;
+    }
 
-    this.esgst.mainPageHeading = this.createPageHeading(Container, `beforeEnd`, {
+    const heading = this.createPageHeading(Container, `beforeEnd`, {
       items: [
         {
           name: `ESGST`
@@ -3586,8 +3618,120 @@ class Common extends Module {
         }
       ]
     });
+    if (isPopup) {
+      const items = [
+        {
+          check: true,
+          icons: [`fa-refresh`],
+          title: `Sync data`,
+          onClick: () => this.setSync(true)
+        },
+        {
+          check: true,
+          icons: [`fa-sign-in esgst-rotate-90`],
+          title: `Restore data`,
+          onClick: () => this.loadDataManagement(`import`, true)
+        },
+        {
+          check: true,
+          icons: [`fa-sign-out esgst-rotate-270`],
+          title: `Backup data`,
+          onClick: () => this.loadDataManagement(`export`, true)
+        },
+        {
+          check: true,
+          icons: [`fa-trash`],
+          title: `Delete data`,
+          onClick: () => this.loadDataManagement(`delete`, true)
+        },
+        {
+          check: true,
+          icons: [`fa-gear`, `fa-arrow-circle-down`],
+          title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
+          onClick: () => this.exportSettings()
+        },
+        {
+          check: true,
+          icons: [`fa-paint-brush`],
+          title: `Clean old data`,
+          onClick: () => this.loadDataCleaner(true)
+        },
+        {
+          check: true,
+          icons: [`fa-user`, `fa-history`],
+          title: `View recent username changes`,
+          onClick: event => this.setSMRecentUsernameChanges(event.currentTarget)
+        },
+        {
+          check: this.esgst.uf,
+          icons: [`fa-user`, `fa-eye-slash`],
+          title: `See list of filtered users`,
+          onClick: event => this.setSMManageFilteredUsers(event.currentTarget)
+        },
+        {
+          check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
+          icons: [`fa-gift`, `fa-eye-slash`],
+          title: `Manage hidden giveaways`,
+          onClick: event => this.setSMManageFilteredGiveaways(event.currentTarget)
+        },
+        {
+          check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
+          icons: [`fa-comments`, `fa-eye-slash`],
+          title: `Manage hidden discussions`,
+          onClick: event => this.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
+        },
+        {
+          check: this.esgst.sg && this.esgst.dt,
+          icons: [`fa-comments`, `fa-tags`],
+          title: `Manage discussion tags`,
+          onClick: () => this.openManageDiscussionTagsPopup()
+        },
+        {
+          check: this.esgst.sg && this.esgst.ut,
+          icons: [`fa-user`, `fa-tags`],
+          title: `Manage user tags`,
+          onClick: () => this.openManageUserTagsPopup()
+        },
+        {
+          check: this.esgst.gt,
+          icons: [`fa-gamepad`, `fa-tags`],
+          title: `Manage game tags`,
+          onClick: () => this.openManageGameTagsPopup()
+        },
+        {
+          check: this.esgst.gpt,
+          icons: [`fa-users`, `fa-tags`],
+          title: `Manage group tags`,
+          onClick: () => this.openManageGroupTagsPopup()
+        },
+        {
+          check: this.esgst.wbc,
+          icons: [`fa-heart`, `fa-ban`, `fa-cog`],
+          title: `Manage Whitelist / Blacklist Checker caches`,
+          callback: button => this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
+        },
+        {
+          check: this.esgst.namwc,
+          icons: [`fa-trophy`, `fa-cog`],
+          title: `Manage Not Activated / Multiple Wins Checker caches`,
+          callback: button => this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
+        }
+      ];
+      for (const item of items) {
+        const button = this.createElements_v2(heading, `beforeEnd`, [
+          [`div`, { onclick: event => item.onClick(event), title: item.title }, [
+            ...item.icons.map(x => [`i`, {class: `fa ${x}`}])
+          ]]
+        ]);
+        if (item.callback) {
+          item.callback(button);
+        }
+      }
+    } else {
+      this.esgst.mainPageHeading = heading;
+    }
 
-    const input = this.createElements_v2(this.esgst.sidebar, `afterBegin`, [
+    const input = this.createElements_v2(isPopup ? Container : this.esgst.sidebar, `afterBegin`, [
       [`div`, { class: `sidebar__search-container` }, [
         [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
       ]]
@@ -3611,12 +3755,15 @@ class Common extends Module {
       title2: `Saving...`,
       callback1: async () => {
         await this.lockAndSaveSettings();
-        window.location.reload();
+        if (isPopup) {
+          popup.close();
+        } else {
+          window.location.reload();
+        }
       }
     }).set);
     Container.addEventListener(`click`, this.loadFeatureDetails.bind(this, null));
     this.esgst.featuresById = {};
-    let heading = Container.getElementsByClassName(`page__heading`)[0];
     let SMMenu = Container.getElementsByClassName(`esgst-settings-menu`)[0];
     let i, type;
     i = 1;
@@ -3697,15 +3844,17 @@ class Common extends Module {
         type: `node`
       }]
     }], i, `Steam API Key`);
-    Container.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: ``,
-      icon2: ``,
-      title1: `Download Copy`,
-      title2: ``,
-      callback1: () => this.exportSettings()
-    }).set);
+    if (!isPopup) {
+      Container.appendChild(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: ``,
+        icon2: ``,
+        title1: `Download Copy`,
+        title2: ``,
+        callback1: () => this.exportSettings()
+      }).set);
+    }
     SMAPIKey = /** @type {HTMLInputElement} */ Container.getElementsByClassName(`esgst-steam-api-key`)[0];
     let key = this.esgst.steamApiKey;
     if (key) {
@@ -3807,6 +3956,9 @@ class Common extends Module {
     }
     if (this.esgst.parameters.id) {
       this.loadFeatureDetails(this.esgst.parameters.id);
+    }
+    if (isPopup) {
+      popup.open();
     }
   }
 
@@ -6220,7 +6372,7 @@ class Common extends Module {
     }
   }
 
-  loadDataManagement(type, callback) {
+  loadDataManagement(type, isPopup, callback) {
     let container, context, group1, group2, i, icon, n, onClick, option, prep, section, title1, title2;
     let dm = {
       autoBackup: callback && this.esgst.parameters.autoBackup,
@@ -6253,22 +6405,22 @@ class Common extends Module {
         dm.pastTense = `deleted`;
         break;
     }
-    context = container = this.esgst.sidebar.nextElementSibling;
-    context.innerHTML = ``;
-    this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
-      items: [
-        {
-          name: `ESGST`
-        },
-        {
-          name: title1
-        }
-      ]
-    });
+    let popup = null;
     if (!dm.autoBackup) {
-      context = container = this.esgst.sidebar.nextElementSibling;
-      context.innerHTML = ``;
-      this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
+      if (isPopup) {
+        popup = new Popup({
+          addScrollable: `left`,
+          settings: true,
+          isTemp: true
+        });
+        container = popup.description;
+        context = popup.scrollable;
+      } else {
+        context = container = this.esgst.sidebar.nextElementSibling;
+        context.innerHTML = ``;
+      }
+      container.classList.add(`esgst-text-left`);
+      const heading = this.createPageHeading(container, `afterBegin`, {
         items: [
           {
             name: `ESGST`
@@ -6278,18 +6430,9 @@ class Common extends Module {
           }
         ]
       });
-      context = container = this.esgst.sidebar.nextElementSibling;
-      context.innerHTML = ``;
-      this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
-        items: [
-          {
-            name: `ESGST`
-          },
-          {
-            name: title1
-          }
-        ]
-      });
+      if (!isPopup) {
+        this.esgst.mainPageHeading = heading;
+      }
       dm.computerSpace = this.createElements(container, `beforeEnd`, [{
         type: `div`,
         children: [{
@@ -6792,22 +6935,41 @@ class Common extends Module {
           }
         }).set);
       }
+      if (isPopup) {
+        popup.open();
+      }
       if (this.esgst[`calculate${this.capitalizeFirstLetter(type)}`]) {
         this.getDataSizes(dm);
       }
     }
   }
 
-  loadDataCleaner() {
-    const context = this.esgst.sidebar.nextElementSibling;
-    context.innerHTML = ``;
-    this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
+  loadDataCleaner(isPopup) {
+    let container = null;
+    let context = null;
+    if (isPopup) {
+      const popup = new Popup({
+        addScrollable: `left`,
+        settings: true,
+        isTemp: true
+      });
+      container = popup.description;
+      context = popup.scrollable;
+      popup.open();
+    } else {
+      container = this.esgst.sidebar.nextElementSibling;
+      container.innerHTML = ``;
+    }
+    const heading = this.createPageHeading(container, `afterBegin`, {
       items: [{
         name: `ESGST`
       }, {
         name: `Clean`
       }]
     });
+    if (!isPopup) {
+      this.esgst.mainPageHeading = heading;
+    }
     this.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-bold esgst-description esgst-red`

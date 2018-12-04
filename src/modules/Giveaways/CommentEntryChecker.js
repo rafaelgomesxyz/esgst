@@ -1,6 +1,7 @@
 import Module from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import Popup from '../../class/Popup';
 import Table from '../../class/Table';
 
 const
@@ -30,6 +31,12 @@ class GiveawaysCommentEntryChecker extends Module {
           [`li`, `If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`]
         ]]
       ],
+      features: {
+        cec_t: {
+          name: `Open results in a new tab.`,
+          sg: true
+        }
+      },
       id: `cec`,
       load: this.cec,
       name: `Comment/Entry Checker`,
@@ -48,7 +55,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     common.createElements_v2(this.esgst.sidebarGroups[0].navigation, `beforeEnd`, [
       [`li`, { class: `sidebar__navigation__item`, id: `cec` }, [
-        [`a`, { class: `sidebar__navigation__item__link`, href: `${this.esgst.path.replace(/\/entries/, ``)}/entries?esgst=cec` }, [
+        [`a`, { class: `sidebar__navigation__item__link`, href: `${this.esgst.path.replace(/\/entries/, ``)}/entries?esgst=cec`, onclick: event => !this.esgst.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
           [`div`, { class: `sidebar__navigation__item__name` }, `Comments vs Entries`],
           [`div`, { class: `sidebar__navigation__item__underline` }]
         ]]
@@ -56,11 +63,25 @@ class GiveawaysCommentEntryChecker extends Module {
     ]);
   }
 
-  async cec_openPopup() {
-    common.setSidebarActive(`cec`);
-    const context = this.esgst.sidebar.nextElementSibling;
-    context.innerHTML = ``;
-    common.createPageHeading(context, `beforeEnd`, {
+  async cec_openPopup(isPopup) {
+    let container = null;
+    let context = null;
+    if (isPopup) {
+      const popup = new Popup({
+        addScrollable: `left`,
+        isTemp: true
+      });
+      container = popup.description;
+      context = popup.scrollable;
+      popup.open();
+    } else {
+      container = context = this.esgst.sidebar.nextElementSibling;
+      context.innerHTML = ``;
+    }
+    if (!isPopup) {
+      common.setSidebarActive(`cec`);
+    }
+    const heading = common.createPageHeading(container, `afterBegin`, {
       items: [
         {
           name: `ESGST`
@@ -70,6 +91,9 @@ class GiveawaysCommentEntryChecker extends Module {
         }
       ]
     });
+    if (!isPopup) {
+      this.esgst.mainPageHeading = heading;
+    }
     const obj = { context };
     obj.progress = common.createElements_v2(context, `beforeEnd`, [[`div`]]);
     this.cec_start(obj);
