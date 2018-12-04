@@ -704,6 +704,10 @@ class Common extends Module {
       },
       others: {
         features: {
+          removeSidebarInFeaturePages: {
+            name: `Remove sidebar in feature pages (for example, Giveaway Extractor, Group/Library Wishlist Checker etc).`,
+            sg: true
+          },
           openSettingsInTab: {
             name: `Open settings menu in a new tab.`,
             sg: true,

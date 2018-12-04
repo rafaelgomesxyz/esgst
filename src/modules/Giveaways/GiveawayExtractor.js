@@ -122,6 +122,9 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
     if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
       const context = this.esgst.sidebar.nextElementSibling;
+      if (this.esgst.removeSidebarInFeaturePages) {
+        this.esgst.sidebar.remove();
+      }
       context.innerHTML = ``;
       common.createPageHeading(context, `beforeEnd`, {
         items: [
