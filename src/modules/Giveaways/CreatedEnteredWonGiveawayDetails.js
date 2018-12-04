@@ -130,7 +130,6 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     let code = giveaway.code;
     let j;
     if (this.esgst.createdPath && cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && Array.isArray(cewgd.savedGiveaways[code].winners)) {
-      console.log(`ESGST Log: CEWGD 0`);
       for (j = cewgd.savedGiveaways[code].winners.length - 1; j > -1; j--) {
         let winner = cewgd.savedGiveaways[code].winners[j];
         if (winner.status !== `Received` && winner.status !== `Not Received`) {
@@ -139,11 +138,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       }
     }
     if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
-      console.log(`ESGST Log: CEWGD 1`);
+      console.log(`Saved`);
+      console.log(cewgd.savedGiveaways[code].winners);
       this.cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
     } else if (this.esgst.createdPath) {
-      console.log(`ESGST Log: CEWGD 2`);
-      console.log(`ESGST Log: Updating winners for ${code}...`);
       let currentGiveaway = null;
       let nextPage = 1;
       let pagination = null;
@@ -181,10 +179,11 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
       if (currentGiveaway) {
         cewgd.giveaways.push(currentGiveaway);
+        console.log(`After getting winners`);
+        console.log(currentGiveaway.winners);
         this.cewgd_addDetails(giveaway, currentGiveaway);
       }
     } else {
-      console.log(`ESGST Log: CEWGD 3`);
       let response = await request({ method: `GET`, url: giveaway.url });
       let responseHtml = parseHtml(response.responseText);
       let currentGiveaways = await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
