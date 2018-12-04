@@ -5363,13 +5363,19 @@ class Common extends Module {
         ]]
       ]]
     ]).firstElementChild;
+    this.draggable_set({
+      addTrash: true,
+      context: panel.firstElementChild,
+      id: `ul_links`,
+      item: {}
+    });
     this.addUlMenuItems(id, panel);
     return panel;
   }
 
   addUlMenuItems(id, panel) {
-    for (const link of this.esgst[id]) {
-      this.addUlLink(id, link, panel);
+    for (const [i, link] of this.esgst[id].entries()) {
+      this.addUlLink(i, id, link, panel);
     }
   }
 
@@ -5380,30 +5386,24 @@ class Common extends Module {
     };
     this.esgst[id].push(link);
     this.esgst.settings[id] = this.esgst[id];
-    this.addUlLink(id, link, panel);
+    this.addUlLink(this.esgst[id].length - 1, id, link, panel);
   }
 
-  addUlLink(id, link, panel) {
+  addUlLink(i, id, link, panel) {
     const setting = this.createElements_v2(panel.firstElementChild, `beforeEnd`, [
-      [`div`, [
+      [`div`, { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) }, [
         `Label: `,
-        [`input`, { onchange: event => link.label = event.currentTarget.value, type: `text`, value: link.label }],
+        [`input`, { onchange: event => (link.label = event.currentTarget.value) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)), type: `text`, value: link.label }],
         `URL: `,
-        [`input`, { onchange: event => link.url = event.currentTarget.value, type: `text`, value: link.url }],
-        [`i`, { class: `esgst-clickable fa fa-times`, onclick: () => this.removeUlLink(id, link, setting), title: `Delete this setting` }]
+        [`input`, { onchange: event => (link.url = event.currentTarget.value) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)), type: `text`, value: link.url }]
       ]]
     ]);
-  }
-
-  removeUlLink(id, link, setting) {
-    if (confirm(`Are you sure you want to delete this setting?`)) {
-      const index = this.esgst[id].indexOf(link);
-      if (index > -1) {
-        this.esgst[id].splice(index, 1);
-        this.esgst.settings[id] = this.esgst[id];
-        setting.remove();
-      }
-    }
+    this.draggable_set({
+      addTrash: true,
+      context: panel.firstElementChild,
+      id: `ul_links`,
+      item: {}
+    });
   }
 
   addGcRatingPanel() {
@@ -12414,7 +12414,11 @@ class Common extends Module {
     if (this.esgst.draggable.deleted) {
       this.esgst.draggable.dragged.remove();
     }
-    for (const element of [this.esgst.draggable.source, this.esgst.draggable.destination]) {
+    const sources = [this.esgst.draggable.source];
+    if (this.esgst.draggable.source !== this.esgst.draggable.destination) {
+      sources.push(this.esgst.draggable.destination);
+    }
+    for (const element of sources) {
       if (!element) {
         continue;
       }
@@ -12423,11 +12427,18 @@ class Common extends Module {
       for (const child of element.children) {
         const id = child.getAttribute(`data-draggable-id`);
         if (id) {
-          this.esgst[key].push(id);
+          if (child.getAttribute(`data-draggable-obj`)) {
+            this.esgst[key].push(JSON.parse(child.getAttribute(`data-draggable-obj`)));
+          } else {
+            this.esgst[key].push(id);
+          }
         }
       }
       if (key === `emojis`) {
         await this.setValue(key, JSON.stringify(this.esgst[key]));
+      } else if (key === `ul_links`) {
+        this.esgst.settings.ul_links = this.esgst.ul_links;
+        await this.lockAndSaveSettings();
       } else {
         this.esgst.settings[key] = this.esgst[key];
       }
