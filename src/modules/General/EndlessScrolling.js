@@ -158,7 +158,7 @@ class GeneralEndlessScrolling extends Module {
         this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = `0`;
         if (this.esgst.paginationNavigation) {
           let lastLink = this.esgst.paginationNavigation.lastElementChild;
-          if (lastLink.classList.contains(`is-selected`) && lastLink.textContent.match(/Last/) && !this.esgst.lastPageLink) {
+          if (lastLink.classList.contains(`is-selected`) && lastLink.querySelector(`.fa-angle-double-right`) && !this.esgst.lastPageLink) {
             es.currentPage = parseInt(lastLink.getAttribute(`data-page-number`));
           } else {
             es.currentPage = 999999999;
@@ -276,7 +276,7 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton.addEventListener(`click`, this.es_resume.bind(this, es, false));
     if (this.esgst.paginationNavigation) {
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
-      if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+      if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
         createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);
@@ -353,7 +353,7 @@ class GeneralEndlessScrolling extends Module {
       }))]);
       if (this.esgst.paginationNavigation) {
         let lastLink = this.esgst.paginationNavigation.lastElementChild;
-        if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+        if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
           createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
         }
         this.es_setPagination(es);
@@ -538,7 +538,7 @@ class GeneralEndlessScrolling extends Module {
         };
       }))]);
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
-      if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+      if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
         createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);

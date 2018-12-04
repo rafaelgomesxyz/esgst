@@ -40,7 +40,7 @@ class GeneralLastPageLink extends Module {
     paginationNavigation = context.getElementsByClassName(`pagination__navigation`)[0];
     if (paginationNavigation) {
       element = paginationNavigation.lastElementChild;
-      if (element.textContent.match(/Last/)) {
+      if (element.querySelector(`.fa-angle-double-right`)) {
         lastPage = parseInt(element.getAttribute(`data-page-number`));
       } else if ((main && this.esgst.discussionPath) || discussion) {
         if (pagination) {
@@ -103,7 +103,7 @@ class GeneralLastPageLink extends Module {
       }]
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
-    if (!lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+    if (!lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
       createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
     }
   }
@@ -133,7 +133,7 @@ class GeneralLastPageLink extends Module {
       }]
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
-    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
       createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
     }
   }
@@ -165,7 +165,7 @@ class GeneralLastPageLink extends Module {
       }]
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
-    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.textContent.match(/Last/)) {
+    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
       createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
     }
   }
