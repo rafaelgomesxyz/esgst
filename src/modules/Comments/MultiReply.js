@@ -217,7 +217,7 @@ class CommentsMultiReply extends Module {
       this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(MR.Description);
     }
     MR.Description.focus();
-    this.esgst.modules.discussionsDiscussionEditDetector.ded_addButton(MR.Box, MR.URL, async (id, Response, DEDStatus) => {
+    common.addReplyButton(MR.Box, MR.URL, async (id, Response, DEDStatus) => {
       let Reply;
       if (this.esgst.sg) {
         if (id) {
