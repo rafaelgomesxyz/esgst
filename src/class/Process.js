@@ -19,6 +19,7 @@ export default class Process {
     this.contextHtml = details.contextHtml;
     this.init = details.init;
     this.requests = details.requests;
+    this.requestsBackup = this.requests;
     this.urls = details.urls;
     if (!details.mainPopup) {
       if (details.button) {
@@ -154,8 +155,8 @@ export default class Process {
     do {
       let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
       let responseHtml = parseHtml(response.responseText);
-      if (details.source && details.nextPage === backup) {
-        details.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.source);
+      if (details.nextPage === backup) {
+        details.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
         details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
       }
       stop = await details.request(this, details, response, responseHtml);

@@ -83,7 +83,7 @@ class UsersNotReceivedFinder extends Module {
         url: key === `sent` ? `/user/${profile.username}/search?page=` : `/user/${profile.username}/giveaways/won/search?page=`,
         onDone: this.nrf_onRequestDone.bind(this),
         request: this.nrf_request.bind(this),
-        source: true,
+        user: true,
         [key === `sent` ? `sourceUser` : `sourceUserWon`]: true
       }]
     });
