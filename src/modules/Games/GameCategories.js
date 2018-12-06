@@ -432,6 +432,11 @@ class GamesGameCategories extends Module {
               },
               name: `Enable the simplified version.`,
               sg: true
+            },
+            gc_i_t: {
+              background: true,
+              name: `Color the table row in tables.`,
+              sg: true
             }
           },
           input: true,
@@ -614,6 +619,11 @@ class GamesGameCategories extends Module {
             },
             gc_o_a: {
               name: `Show if you own the game in any of your alt accounts.`,
+              sg: true
+            },
+            gc_o_t: {
+              background: true,
+              name: `Color the table row in tables.`,
               sg: true
             }
           },
@@ -880,6 +890,11 @@ class GamesGameCategories extends Module {
                 }
               },
               name: `Enable the simplified version.`,
+              sg: true
+            },
+            gc_w_t: {
+              background: true,
+              name: `Color the table row in tables.`,
               sg: true
             }
           },
@@ -1812,6 +1827,14 @@ class GamesGameCategories extends Module {
                   type: `node`
                 } : null] : null
               });
+              if (this.esgst.gc_i_t) {
+                for (const game of games) {
+                  const row = game.container.closest(`tr`);
+                  if (row) {
+                    row.style.backgroundColor = this.esgst.gc_i_t_bgColor;
+                  }
+                }
+              }
             }
             break;
           case `gc_o`:
@@ -1832,6 +1855,14 @@ class GamesGameCategories extends Module {
                   type: `i`
                 }] : null
               });
+              if (this.esgst.gc_o_t) {
+                for (const game of games) {
+                  const row = game.container.closest(`tr`);
+                  if (row) {
+                    row.style.backgroundColor = this.esgst.gc_o_t_bgColor;
+                  }
+                }
+              }
             }
             if (this.esgst.gc_o_a) {
               for (const account of this.esgst.gc_o_altAccounts) {
@@ -1878,6 +1909,14 @@ class GamesGameCategories extends Module {
                   type: `i`
                 }] : null
               });
+              if (this.esgst.gc_w_t) {
+                for (const game of games) {
+                  const row = game.container.closest(`tr`);
+                  if (row) {
+                    row.style.backgroundColor = this.esgst.gc_w_t_bgColor;
+                  }
+                }
+              }
             }
             break;
           case `gc_f`:
