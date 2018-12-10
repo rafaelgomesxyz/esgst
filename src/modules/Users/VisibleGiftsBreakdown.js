@@ -20,7 +20,23 @@ class UsersVisibleGiftsBreakdown extends Module {
         ]]
       ],
       id: `vgb`,
+      inputItems: [
+        {
+          id: `vgb_wonFormat`,
+          prefix: `Won Format: `,
+          tooltip: `[FCV], [RCV], [NCV] and [NR] will be replaced with their respective values.`
+        },
+        {
+          id: `vgb_sentFormat`,
+          prefix: `Sent Format: `,
+          tooltip: `[FCV], [RCV], [NCV], [A] and [NR] will be replaced with their respective values.`
+        }
+      ],
       name: `Visible Gifts Breakdown`,
+      options: {
+        title: `Position: `,
+        values: [`Left`, `Right`]
+      },
       sg: true,
       type: `users`
     };
@@ -31,11 +47,25 @@ class UsersVisibleGiftsBreakdown extends Module {
   }
 
   vgb_add(profile) {
-    common.createElements_v2(profile.wonRowRight.firstElementChild.firstElementChild, `beforeEnd`, [
-      ` (${profile.wonFull} FCV / ${profile.wonReduced} RCV / ${profile.wonZero} NCV / ${profile.wonNotReceived} NR)`
+    const position = this.esgst.vgb_index === 0 ? `afterBegin` : `beforeEnd`;
+    common.createElements_v2(profile.wonRowRight.firstElementChild.firstElementChild, position, [
+      ` ${
+        this.esgst.vgb_wonFormat
+          .replace(/\[FCV]/, profile.wonFull)
+          .replace(/\[RCV]/, profile.wonReduced)
+          .replace(/\[NCV]/, profile.wonZero)
+          .replace(/\[NR]/, profile.wonNotReceived)
+      } `
     ]);
-    common.createElements_v2(profile.sentRowRight.firstElementChild.firstElementChild, `beforeEnd`, [
-      ` (${profile.sentFull} FCV / ${profile.sentReduced} RCV / ${profile.sentZero} NCV / ${profile.sentAwaiting} A / ${profile.sentNotReceived} NR)`
+    common.createElements_v2(profile.sentRowRight.firstElementChild.firstElementChild, position, [
+      ` ${
+        this.esgst.vgb_sentFormat
+          .replace(/\[FCV]/, profile.sentFull)
+          .replace(/\[RCV]/, profile.sentReduced)
+          .replace(/\[NCV]/, profile.sentZero)
+          .replace(/\[A]/, profile.sentAwaiting)
+          .replace(/\[NR]/, profile.sentNotReceived)
+      } `
     ]);
   }
 }
