@@ -352,6 +352,7 @@ class GeneralEndlessScrolling extends Module {
         };
       }))]);
       if (this.esgst.paginationNavigation) {
+        this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
         let lastLink = this.esgst.paginationNavigation.lastElementChild;
         if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
           createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
@@ -537,6 +538,7 @@ class GeneralEndlessScrolling extends Module {
           context: x
         };
       }))]);
+      this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
       if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
         createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
