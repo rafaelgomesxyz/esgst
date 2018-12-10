@@ -36,14 +36,24 @@ class GeneralPaginationNavigationOnTop extends Module {
     if (this.esgst.st) {
       this.esgst.paginationNavigation.classList.add(`page_heading_btn`);
     }
-    if (this.esgst.pnot_s) {
+    this.esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
+    this.pnot_simplify();
+    common.createElements_v2(this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`), `afterEnd`, [this.esgst.paginationNavigation]);
+  }
+
+  pnot_simplify() {
+    if (this.esgst.pnot && this.esgst.pnot_s) {
       const elements = this.esgst.paginationNavigation.querySelectorAll(`span`);
       for (const element of elements) {
         element.textContent = element.textContent.replace(/[A-Za-z]+/g, ``);
+        if (element.previousElementSibling) {
+          element.appendChild(element.previousElementSibling);
+        }
+        if (element.nextElementSibling) {
+          element.appendChild(element.nextElementSibling);
+        }
       }
     }
-    this.esgst.paginationNavigation.title = getFeatureTooltip(`pnot`);
-    common.createElements_v2(this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`), `afterEnd`, [this.esgst.paginationNavigation]);
   }
 }
 
