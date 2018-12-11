@@ -27,6 +27,7 @@
 // @connect googleapis.com
 // @connect graph.microsoft.com
 // @connect userstyles.org
+// @connect royalgamer06.ga
 // @grant GM_setValue
 // @grant GM_getValue
 // @grant GM_deleteValue
