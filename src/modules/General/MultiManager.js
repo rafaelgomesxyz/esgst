@@ -587,6 +587,7 @@ class GeneralMultiManager extends Module {
         }
       });
     });
+    obj[`progress${key}`] = common.createElements_v2(context, `beforeEnd`, [[`div`]]);
     createTooltip(createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
@@ -1083,11 +1084,6 @@ class GeneralMultiManager extends Module {
   }
 
   async mm_hideGames(obj, items) {
-    const newItems = {
-      apps: {},
-      subs: {}
-    },
-      notFound = [];
     const values = obj.textAreaGames.value
       .split(/\n/)
       .map(x => {
@@ -1106,38 +1102,28 @@ class GeneralMultiManager extends Module {
     if (values.length) {
       items = values;
     }
+    const appIds = [];
+    const subIds = [];
     for (const item of items) {
       if (!item.fromTextArea && (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)))) continue;
 
-      const elements = parseHtml(JSON.parse((await request({
-        data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(item.code)}`,
-        method: `POST`,
-        url: `/ajax.php`
-      })).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
-      let found = false;
-      for (let i = elements.length - 1; i > -1; i--) {
-        const element = elements[i],
-          info = await this.esgst.modules.games.games_getInfo(element);
-        if (info && info.type === item.type && info.id === item.code) {
-          await request({
-            data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${element.getAttribute(`data-autocomplete-id`)}`,
-            method: `POST`,
-            url: `/ajax.php`
-          });
-          newItems[item.type][item.code] = {
-            hidden: true
-          };
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        notFound.push(item.name);
+      const savedGame = this.esgst.games[item.type][item.code];
+      if (!savedGame || !savedGame.hidden) {
+        (item.type === `apps` ? appIds : subIds).push(item.code);
       }
     }
-    await lockAndSaveGames(newItems);
-    if (notFound.length) {
-      alert(`The following games were not found and therefore not hidden: ${notFound.join(`, `)}`);
+
+    const result = await common.hideGames({ appIds, subIds, update: message => obj.progressGames.textContent = message });
+    
+    let message = ``;
+    if (result.apps.length) {
+      message += `The following apps were not found and therefore not hidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
+    }
+    if (result.subs.length) {
+      message += `The following subs were not found and therefore not hidden: ${result.subs.join(`, `)}\n`;
+    }
+    if (message) {
+      alert(message);
     }
   }
 

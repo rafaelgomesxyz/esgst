@@ -45,6 +45,7 @@
     "*://*.googleapis.com/*",
     "*://*.graph.microsoft.com/*",
     "*://*.userstyles.org/*",
+    "*://*.royalgamer06.ga/*",
     "storage",
     "tabs",
     "unlimitedStorage",

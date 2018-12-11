@@ -52,7 +52,7 @@ import GiveawaysGiveawayTemplates from './Giveaways/GiveawayTemplates';
 import GiveawaysGridView from './Giveaways/GridView';
 import GeneralHiddenBlacklistStats from './General/HiddenBlacklistStats';
 import GiveawaysHiddenGamesEnterButtonDisabler from './Giveaways/HiddenGamesEnterButtonDisabler';
-import GiveawaysHiddenGameRemover from './Giveaways/HiddenGameRemover';
+import GiveawaysHiddenGamesManager from './Giveaways/HiddenGamesManager';
 import GeneralHeaderRefresher from './General/HeaderRefresher';
 import TradesHaveWantListChecker from './Trades/HaveWantListChecker';
 import GeneralLastPageLink from './General/LastPageLink';
@@ -205,7 +205,7 @@ let
   giveawaysGridView = new GiveawaysGridView,
   generalHiddenBlacklistStats = new GeneralHiddenBlacklistStats,
   giveawaysHiddenGamesEnterButtonDisabler = new GiveawaysHiddenGamesEnterButtonDisabler,
-  giveawaysHiddenGameRemover = new GiveawaysHiddenGameRemover,
+  giveawaysHiddenGamesManager = new GiveawaysHiddenGamesManager,
   generalHeaderRefresher = new GeneralHeaderRefresher,
   tradesHaveWantListChecker = new TradesHaveWantListChecker,
   generalLastPageLink = new GeneralLastPageLink,
@@ -359,7 +359,7 @@ export default {
   giveawaysGridView,
   generalHiddenBlacklistStats,
   giveawaysHiddenGamesEnterButtonDisabler,
-  giveawaysHiddenGameRemover,
+  giveawaysHiddenGamesManager,
   generalHeaderRefresher,
   tradesHaveWantListChecker,
   generalLastPageLink,

@@ -8,6 +8,7 @@ import { utils } from '../lib/jsUtils';
 import JSZip from 'jszip';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import { TextEncoder } from 'text-encoding/lib/encoding';
+import dateFns_isSameWeek from 'date-fns/isSameWeek';
 import dateFns_format from 'date-fns/format';
 import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import Checkbox from '../class/Checkbox';
@@ -4377,7 +4378,7 @@ class Common extends Module {
         glwc: `Group Library/Wishlist Checker`,
         gts: `Giveaway Templates`,
         gv: `Grid View`,
-        hgr: `Hidden Games Remover`,
+        hgm: `Hidden Games Manager`,
         mpp: `Main Post Popup`,
         namwc: `Not Activated/Multiple Wins Checker`,
         rbp: `Reply Box Popup`,
@@ -7801,7 +7802,7 @@ class Common extends Module {
           break;
         case `games`:
           values = {
-            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`, `followed`],
+            main: [`apps`, `packages`, `reducedCV`, `noCV`, `hidden`, `ignored`, `owned`, `wishlisted`, `followed`, `sgId`],
             gt: [`tags`],
             egh: [`entered`],
             itadi: [`itadi`]
@@ -15261,6 +15262,111 @@ class Common extends Module {
       callback1: this.submitComment.bind(this, obj)
     });
     obj.button.appendChild(obj.set.set);
+  }
+
+  async hideGames(obj) {
+    let api = JSON.parse(await this.getValue(`sgdbCache`, `{ "lastUpdate": 0 }`));
+    if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {
+      obj.update && obj.update(`Updating API cache...`);
+
+      api = { cache: JSON.parse((await this.request({ method: `GET`, url: `https://royalgamer06.ga/sgdb.json` })).responseText), lastUpdate: Date.now() };
+      await this.setValue(`sgdbCache`, JSON.stringify(api));
+    }
+    
+    obj.update && obj.update(`Retrieving ids from cache...`);
+
+    const games = { apps: {}, subs: {} };
+    const ids = [];
+    const appsNotFound = [];
+    const subsNotFound = [];
+    for (const appId of obj.appIds) {
+      const savedGame = this.esgst.games.apps[appId];
+      const id = (savedGame && savedGame.sgId) || (api.cache && api.cache.appids && api.cache.appids[appId]);
+      if (id) {
+        ids.push(id);
+        games.apps[appId] = { hidden: true, sgId: id };
+      } else {
+        appsNotFound.push(appId);
+      }
+    }
+    for (const subId of obj.subIds) {
+      const savedGame = this.esgst.games.subs[subId];
+      const id = (savedGame && savedGame.sgId) || (api.cache && api.cache.subids && api.cache.subids[subId]);
+      if (id) {
+        ids.push(id);
+        games.subs[subId] = { hidden: true, sgId: id };
+      } else {
+        subsNotFound.push(subId);
+      }
+    }
+    for (let i = appsNotFound.length - 1; i > -1 && !obj.canceled; i--) {
+      obj.update && obj.update(`Retrieving app ids from SteamGifts (${i} left)...`);
+
+      const appId = appsNotFound[i];
+      const id = await this.getGameSgId(appId, `apps`);
+      if (id) {
+        ids.push(id);
+        games.apps[appId] = { hidden: true, sgId: id };
+        appsNotFound.splice(i, 1);
+      }
+    }
+    for (let i = subsNotFound.length - 1; i > -1 && !obj.canceled; i--) {
+      obj.update && obj.update(`Retrieving sub ids from SteamGifts (${i} left)...`);
+
+      const subId = subsNotFound[i];
+      const id = await this.getGameSgId(subId, `subs`);
+      if (id) {
+        ids.push(id);
+        games.subs[subId] = { hidden: true, sgId: id };
+        appsNotFound.splice(i, 1);
+      }
+    }
+
+    if (obj.canceled) {
+      return;
+    }
+
+    obj.update && obj.update(`Hiding games...`);
+
+    const total = ids.length;
+    for (const [index, id] of ids.entries()) {
+      if (obj.canceled) {
+        return;
+      }
+
+      obj.update && obj.update(`Hiding games (${index} of ${total})...`);
+
+      await this.request({
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
+        method: `POST`,
+        url: `/ajax.php`
+      });
+    }
+
+    if (obj.canceled) {
+      return;
+    }
+
+    obj.update && obj.update(`Saving...`);
+    await this.lockAndSaveGames(games);
+
+    obj.update && obj.update(``);
+
+    return { apps: appsNotFound, subs: subsNotFound };
+  }
+
+  async getGameSgId(id, type) {
+    const elements = parseHtml(JSON.parse((await this.request({
+      data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(id)}`,
+      method: `POST`,
+      url: `/ajax.php`
+    })).responseText).html).querySelectorAll(`.table__row-outer-wrap`);
+    for (const element of elements) {
+      const info = await this.esgst.modules.games.games_getInfo(element);
+      if (info && info.type === type && info.id === id) {
+        return element.getAttribute(`data-autocomplete-id`);
+      }
+    }
   }
 }
 
