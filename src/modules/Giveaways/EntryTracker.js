@@ -7,7 +7,6 @@ import dateFns_isSameDay from 'date-fns/isSameDay';
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getTimestamp = common.getTimestamp.bind(common),
   getValue = common.getValue.bind(common),
   setValue = common.setValue.bind(common)
   ;
@@ -96,7 +95,7 @@ class GiveawaysEntryTracker extends Module {
           text: entry.name,
           type: `a`
         }, {
-          text: `on ${getTimestamp(entry.timestamp, this.esgst.at_24, this.esgst.at_s)}`,
+          text: `on ${dateFns_format(entry.timestamp, this.esgst.at_format)}`,
           type: `node`
         }]
       });
