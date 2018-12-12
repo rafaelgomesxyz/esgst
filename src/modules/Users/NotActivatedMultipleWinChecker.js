@@ -216,6 +216,11 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         exclusions: [`namwc_checkNotActivated`],
         id: `namwc_checkMultiple`,
         tooltip: `If enabled, not activated wins will not be checked (faster).`
+      }, {
+        check: true,
+        description: `Clear cache.`,
+        id: `namwc_clearCache`,
+        tooltip: `If enabled, the user will be checked with SGTools again (slower).`
       }]));
       createElements(obj.popup.scrollable, `beforeBegin`, [{
         attributes: {
@@ -344,6 +349,9 @@ class UsersNotActivatedMultipleWinChecker extends Module {
             lastCheck: 0,
             results: {}
           };
+        }
+        if (this.esgst.namwc_clearCache) {
+          user.values.namwc.lastCheck = 0;
         }
         if (Date.now() - user.values.namwc.lastCheck > 6.048 * 1e8) {
           if (this.esgst.namwc_checkNotActivated) {
