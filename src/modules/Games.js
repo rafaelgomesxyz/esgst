@@ -144,14 +144,20 @@ class Games extends Module {
     if (!context) {
       return null;
     }
-    const link = context.querySelector(`[href*="/app/"], [href*="/sub/"]`);
-    const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"]`);
+    const link = context.querySelector(`[href*="/app/"], [href*="/sub/"], [href*="/bundle/"]`);
+    const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"], [style*="/bundles/"]`);
     if (link || image) {
       const url = (link && link.getAttribute(`href`)) || (image && image.getAttribute(`style`));
       if (!url) {
         return null;
       }
-      const info = url.match(/\/(app|sub)s?\/(\d+)/);
+      const info = url.match(/\/(app|sub|bundle)s?\/(\d+)/);
+      if (info[1] === `bundle`) {
+        return {
+          id: `SteamBundle${info[2]}`,
+          type: `subs`
+        };
+      }
       return {
         id: info[2],
         type: `${info[1]}s`
