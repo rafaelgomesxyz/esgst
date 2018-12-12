@@ -809,12 +809,14 @@ class Common extends Module {
             sg: true
           },
           makeSecionsCollapsible: {
+            features: {
+              collapseSections: {
+                name: `Collapse sections in the settings menu by default.`,
+                sg: true,
+                st: true
+              }
+            },
             name: `Make sections in the settings menu collapsible.`,
-            sg: true,
-            st: true
-          },
-          collapseSections: {
-            name: `Collapse sections in the settings menu by default.`,
             sg: true,
             st: true
           },
