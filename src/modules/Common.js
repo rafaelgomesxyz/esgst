@@ -9544,6 +9544,10 @@ class Common extends Module {
     `;
     }
     style += `
+    .esgst-gesl >* {
+      margin-right: 5px;
+    }
+    
     .esgst-scb input {
       min-width: 0;
     }
