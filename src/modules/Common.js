@@ -2089,19 +2089,22 @@ class Common extends Module {
     const syncer = await this.setSync(false, true);
     button.changeIcon(`fa-check`);
     button.changeState(`inactive`);
+    button.changeTitle(`ESGST has finished syncing, click here to see the results.`);
     button.button.addEventListener(`click`, () => {
-      const popup = new Popup({
-        addScrollable: `left`,
-        isTemp: true
-      });
-      this.createElements(popup.scrollable, `beforeEnd`, syncer.html);
-      popup.open();
-      if (this.esgst.getSyncGameNames) {
-        this.getGameNames(syncer);
+      if (syncer.mainHtml.length) {
+        const popup = new Popup({
+          addScrollable: `left`,
+          isTemp: true
+        });
+        this.createElements(popup.scrollable, `beforeEnd`, syncer.mainHtml);
+        popup.open();
+        if (this.esgst.getSyncGameNames) {
+          this.getGameNames(popup.scrollable);
+        }
+      } else {
+        alert(`No results to show.`);
       }
     });
-    button.changeTitle(`ESGST has finished syncing, click here to see the results.`);
-
   }
 
   /**
@@ -2114,6 +2117,7 @@ class Common extends Module {
     if (this.esgst.parameters.autoSync) {
       syncer.parameters = this.esgst.parameters;
     }
+    syncer.mainHtml = [];
     if (this.esgst.firstInstall || syncer.isSilent) {
       this.esgst.isSyncing = true;
       await this.sync(syncer);
@@ -2173,6 +2177,7 @@ class Common extends Module {
       }).set);
       syncer.container = context.querySelector(`.esgst-sync-options`);
       syncer.area = context.querySelector(`.esgst-sync-area`);
+      syncer.notificationArea = this.createElements_v2(syncer.area, `beforeEnd`, [[`div`]]);
       syncer.manual = {
         check: true,
         content: [],
@@ -2246,7 +2251,7 @@ class Common extends Module {
             ]]
           );
           this.setAutoSync(info.key, info.name, syncer);
-          this.createFormNotification(syncer.area, `beforeEnd`, {
+          this.createFormNotification(syncer.notificationArea, `beforeEnd`, {
             name: info.name,
             success: !!this.esgst[`lastSync${info.key}`],
             date: this.esgst[`lastSync${info.key}`]
@@ -2301,7 +2306,7 @@ class Common extends Module {
       );
       this.createFormRows(syncer.container, `beforeEnd`, { items: [syncer.manual, syncer.automatic] });
       if (this.esgst.at) {
-        this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.area);
+        this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
       }
       syncer.progress = this.createElements(syncer.area, `beforeEnd`, [{
         attributes: {
@@ -2320,11 +2325,11 @@ class Common extends Module {
   }
 
   updateSyncDates(syncer) {
-    syncer.area.innerHTML = ``;
+    syncer.notificationArea.innerHTML = ``;
     for (let id in syncer.switchesKeys) {
       if (syncer.switchesKeys.hasOwnProperty(id)) {
         const info = syncer.switchesKeys[id];
-        this.createFormNotification(syncer.area, `beforeEnd`, {
+        this.createFormNotification(syncer.notificationArea, `beforeEnd`, {
           name: info.name,
           success: !!this.esgst[`lastSync${info.key}`],
           date: this.esgst[`lastSync${info.key}`]
@@ -2332,7 +2337,7 @@ class Common extends Module {
       }
     }
     if (this.esgst.at) {
-      this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.area);
+      this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
     }
   }
 
@@ -2525,7 +2530,8 @@ class Common extends Module {
           }, ...neww]
         });
       }
-      if (!syncer.isSilent) {
+      syncer.mainHtml.push(...syncer.html);
+      if (!syncer.isSilent && syncer.html.length) {
         this.createElements(syncer.results, `afterBegin`, syncer.html);
       }
     }
@@ -2663,11 +2669,12 @@ class Common extends Module {
         }
         await this.setSetting(`gc_o_altAccounts`, this.esgst.settings.gc_o_altAccounts);
       }
+      syncer.mainHtml.push(...syncer.html);
       if (!syncer.isSilent && syncer.html.length) {
         this.createElements(syncer.results, `afterBegin`, syncer.html);
         if (this.esgst.getSyncGameNames) {
           // noinspection JSIgnoredPromiseFromCall
-          this.getGameNames(syncer);
+          this.getGameNames(syncer.results);
         }
       }
     }
@@ -3201,8 +3208,8 @@ class Common extends Module {
     }
   }
 
-  async getGameNames(syncer) {
-    const elements = syncer.results.getElementsByTagName(`a`);
+  async getGameNames(context) {
+    const elements = context.getElementsByTagName(`a`);
     for (let i = elements.length - 1; i > -1; --i) {
       const element = elements[i],
         match = element.getAttribute(`href`).match(/\/(app|sub)\/(.+)/);
