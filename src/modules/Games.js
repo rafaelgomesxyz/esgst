@@ -92,7 +92,7 @@ class Games extends Module {
       info = await this.games_getInfo(game.container);
       game.headingName = game.container.querySelector(headingNameQuery);
       if (game.headingName) {
-        if (this.esgst.wishlistPath) {
+        if (game.table || this.esgst.wishlistPath) {
           game.heading = game.headingName;
         } else {
           game.heading = game.headingName.parentElement;
