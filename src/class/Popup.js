@@ -50,7 +50,7 @@ export default class Popup {
             class: `esgst-popup-close`
           },
           text: `Close`,
-          type: `span`
+          type: `a`
         }]
       }]
     }]);

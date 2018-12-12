@@ -10940,10 +10940,14 @@ class Common extends Module {
       margin-top: 15px;
     }
 
-    .esgst-popup-actions >* {
+    .esgst-popup-actions a {
       border-bottom: 1px dotted;
       box-shadow: 0 1px 0 #fff;
+      display: inline-block;
       cursor: pointer;
+    }
+
+    .esgst-popup-actions >* {
       display: inline-block;
     }
 
