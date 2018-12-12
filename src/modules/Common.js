@@ -3764,10 +3764,13 @@ class Common extends Module {
         continue;
       }
       const button = this.createElements_v2(heading, `afterBegin`, [
-        [`div`, { onclick: event => item.onClick(event), title: item.title }, [
+        [`div`, { title: item.title }, [
           ...item.icons.map(x => [`i`, {class: `fa ${x}`}])
         ]]
       ]);
+      if (item.onClick) {
+        button.addEventListener(`click`, event => item.onClick(event));
+      }
       if (item.callback) {
         item.callback(button);
       }
