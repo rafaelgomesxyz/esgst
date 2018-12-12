@@ -4811,7 +4811,13 @@ class Common extends Module {
       };
     }
     this.createElements_v2(menu, `beforeEnd`, [
-      [`a`, { class: `esgst-settings-feature table__column__secondary-link`, 'data-id': id }, [sgContext && sgContext.firstElementChild, stContext && stContext.firstElementChild, ...(Array.isArray(feature.name) ? feature.name : [feature.name])]],
+      [`span`, [
+        sgContext && sgContext.firstElementChild,
+        stContext && stContext.firstElementChild,
+        [`a`, { class: `esgst-settings-feature table__column__secondary-link esgst-clickable `, 'data-id': id }, [
+          ...(Array.isArray(feature.name) ? feature.name : [feature.name])
+        ]]
+      ]],
       [`div`, { class: `esgst-form-row-indent SMFeatures ${isHidden ? `esgst-hidden` : ``}` }]
     ]);
     const subMenu = menu.lastElementChild;
