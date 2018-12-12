@@ -3835,15 +3835,19 @@ class Common extends Module {
               }
               let feature, ft;
               feature = this.esgst.features[type].features[id];
-              if (!feature.extensionOnly || this._USER_INFO.extension) {
-                ft = this.getSMFeature(feature, id, j);
-                if (ft) {
-                  if (ft.isNew) {
-                    isNew = true;
-                  }
-                  section.lastElementChild.appendChild(ft.menu);
-                  j += 1;
+              if (feature.extensionOnly && !this._USER_INFO.extension) {
+                continue;
+              }
+              if (!feature.sg && feature.st && !this.esgst.settings.esgst_st && id !== `esgst`) {
+                continue;
+              }
+              ft = this.getSMFeature(feature, id, j);
+              if (ft) {
+                if (ft.isNew) {
+                  isNew = true;
                 }
+                section.lastElementChild.appendChild(ft.menu);
+                j += 1;
               }
             }
           }
@@ -4843,17 +4847,23 @@ class Common extends Module {
       let i = 1;
       let isNew = false;
       for (const subId in feature.features) {
-        if (feature.features.hasOwnProperty(subId)) {
-          if (!feature.features[subId].extensionOnly || this._USER_INFO.extension) {
-            const subFeature = this.getSMFeature(feature.features[subId], subId, i);
-            if (subFeature) {
-              if (subFeature.isNew) {
-                isNew = true;
-              }
-              subMenu.appendChild(subFeature.menu);
-              i += 1;
-            }
+        if (!feature.features.hasOwnProperty(subId)) {
+          continue;
+        }
+        const subFt = feature.features[subId];
+        if (subFt.extensionOnly && !this._USER_INFO.extension) {
+          continue;
+        }
+        if (!subFt.sg && subFt.st && !this.esgst.settings.esgst_st && id !== `esgst`) {
+          continue;
+        }
+        const subFeature = this.getSMFeature(subFt, subId, i);
+        if (subFeature) {
+          if (subFeature.isNew) {
+            isNew = true;
           }
+          subMenu.appendChild(subFeature.menu);
+          i += 1;
         }
       }
       isMainNew = isMainNew || isNew;
