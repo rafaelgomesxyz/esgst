@@ -4176,7 +4176,7 @@ class Common extends Module {
         name: `Sync Requirements`
       });
     }
-    if (feature.sg) {
+    if (feature.sg && (!feature.sgPaths || typeof feature.sgPaths !== `string`)) {
       items.push({
         check: true,
         content: [
@@ -4186,7 +4186,7 @@ class Common extends Module {
         name: `Where to run it on SteamGifts?`
       });
     }
-    if (feature.st && this.esgst.settings.esgst_st) {
+    if (feature.st && this.esgst.settings.esgst_st && (!feature.stPaths || typeof feature.stPaths !== `string`)) {
       items.push({
         check: true,
         content: [
@@ -4594,10 +4594,10 @@ class Common extends Module {
     };
     item.select = this.createElements_v2(item.container, `beforeEnd`, [
       [`select`, { class: `esgst-switch-input esgst-switch-input-large` }, [
-        ...(this.esgst.paths[obj.name].map(x =>
+        ...(this.esgst.paths[obj.name].filter(x => !feature[`${obj.name}Paths`] || x.name === `Everywhere` || x.name.match(feature[`${obj.name}Paths`])).map(x =>
           [`option`, Object.assign({ value: x.pattern }, x.pattern === path.pattern && (found = true) ? { selected: true } : null), x.name]
         )),
-        [`option`, Object.assign({ value: `custom` }, found ? null : { selected: true }), `Custom`]
+        feature[`${obj.name}Paths`] ? null : [`option`, Object.assign({ value: `custom` }, found ? null : { selected: true }), `Custom`]
       ]]
     ]);
     item.input = this.createElements_v2(item.container, `beforeEnd`, [
@@ -9547,7 +9547,7 @@ class Common extends Module {
     .esgst-gesl >* {
       margin-right: 5px;
     }
-    
+
     .esgst-scb input {
       min-width: 0;
     }
