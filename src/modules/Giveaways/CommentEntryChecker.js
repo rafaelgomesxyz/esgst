@@ -51,7 +51,7 @@ class GiveawaysCommentEntryChecker extends Module {
       load: async () => await this.cec_openPopup({})
     };
 
-    if (!this.esgst.giveawayPath || !this.esgst.mainPageHeading) return;
+    if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0] ||  !this.esgst.mainPageHeading) return;
 
     common.createElements_v2(this.esgst.sidebarGroups[0].navigation, `beforeEnd`, [
       [`li`, { class: `sidebar__navigation__item`, id: `cec` }, [
