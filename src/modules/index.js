@@ -145,6 +145,7 @@ import UsersLevelUpCalculator from './Users/LevelUpCalculator';
 import UsersSteamGiftsProfileButton from './Users/SteamGiftsProfileButton';
 import UsersSteamTradesProfileButton from './Users/SteamTradesProfileButton';
 import UsersProfileLinks from './Users/ProfileLinks';
+import GeneralSearchClearButton from './General/SearchClearButton';
 import Profile from './Profile';
 import GeneralQuickInboxView from './General/QuickInboxView';
 import GeneralEndlessScrolling from './General/EndlessScrolling';
@@ -298,6 +299,7 @@ let
   usersSteamGiftsProfileButton = new UsersSteamGiftsProfileButton,
   usersSteamTradesProfileButton = new UsersSteamTradesProfileButton,
   usersProfileLinks = new UsersProfileLinks,
+  generalSearchClearButton = new GeneralSearchClearButton,
   profile = new Profile,
   generalQuickInboxView = new GeneralQuickInboxView,
   generalEndlessScrolling = new GeneralEndlessScrolling,
@@ -453,6 +455,7 @@ export default {
   usersSteamGiftsProfileButton,
   usersSteamTradesProfileButton,
   usersProfileLinks,
+  generalSearchClearButton,
   profile,
   generalQuickInboxView,
   generalEndlessScrolling,
