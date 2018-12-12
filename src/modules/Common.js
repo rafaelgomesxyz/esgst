@@ -3646,6 +3646,9 @@ class Common extends Module {
         [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
       ]]
     ]).firstElementChild;
+    if (isPopup && this.esgst.scb) {
+      this.esgst.modules.generalSearchClearButton.getInputs(Container);
+    }
 
     const heading = this.createPageHeading(Container, `afterBegin`, {
       items: [
@@ -9530,6 +9533,15 @@ class Common extends Module {
     `;
     }
     style += `
+    .esgst-scb input {
+      min-width: 0;
+    }
+
+    .esgst-scb i.fa-times {
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
     .page__heading .esgst-button-set, .esgst-page-heading .esgst-button-set {
       border: none;
       padding: 0;
