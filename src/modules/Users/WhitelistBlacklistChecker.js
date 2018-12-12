@@ -594,9 +594,28 @@ class UsersWhitelistBlacklistChecker extends Module {
         }];
       } else {
         items = [{
-          attributes,
-          text: user.username,
-          type: `a`
+          type: `div`,
+          children: [{
+            attributes,
+            text: user.username,
+            type: `a`
+          }, ...(wbc.wl_ga || wbc.g_wl_ga || wbc.ga ? [{
+            text: ` `,
+            type: `node`
+          }, {
+            attributes: {
+              href: `/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`,
+              target: `_blank`
+            },
+            type: `a`,
+            children: [{
+              attributes: {
+                class: `fa fa-external-link`,
+                title: `Confirm`
+              },
+              type: `i`
+            }]
+          }] : [])]
         }];
       }
       WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
