@@ -881,13 +881,12 @@ class UsersWhitelistBlacklistChecker extends Module {
           obj.Timestamp = 0;
         }
       }
-      if (!data.ga) {
-        isStopped = true;
-        break;
-      }
-      let doStop = await this.wbc_checkGiveaway(data, obj, username);
-      if (data.result !== `notBlacklisted` || doStop || (this.esgst.wbc_checkBlacklist && obj.B)) {
-        break;
+      let doStop = false;
+      if (data.ga) {
+        doStop = await this.wbc_checkGiveaway(data, obj, username);
+        if (data.result !== `notBlacklisted` || doStop || (this.esgst.wbc_checkBlacklist && obj.B)) {
+          break;
+        }
       }
       let groupGiveaways = [];
       const elements = context.getElementsByClassName(`giveaway__column--whitelist`);
