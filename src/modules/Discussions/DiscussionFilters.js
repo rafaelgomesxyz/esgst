@@ -334,7 +334,7 @@ class DiscussionsDiscussionFilters extends Module {
         if (discussions[key].hidden) {
           const discussion = {
             code: key,
-            hidden: discussions[key].hidden
+            hidden: parseInt(discussions[key].hidden)
           };
           hidden.push(discussion);
         }

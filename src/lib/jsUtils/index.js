@@ -4,15 +4,15 @@ export default class Utils {
   }
 
   compareTypes(variable, type) {
-    return Object.prototype.toString.call(variable) === `[object ${type}]`;
+    return Object.prototype.toString.call(variable).toLowerCase() === `[object ${type}]`;
   }
 
   isNumber(number) {
-    return this.isSet(number) && this.compareTypes(number, `Number`) && !isNaN(number);
+    return this.isSet(number) && this.compareTypes(number, `number`) && !isNaN(number);
   }
 
   isObject(object) {
-    return this.isSet(object) && this.compareTypes(object, `Object`);
+    return this.isSet(object) && this.compareTypes(object, `object`);
   }
 
   isSet(variable) {
@@ -20,11 +20,11 @@ export default class Utils {
   }
 
   isString(string) {
-    return this.isSet(string) && this.compareTypes(string, `String`);
+    return this.isSet(string) && this.compareTypes(string, `string`);
   }
 
   isValidDate(date) {
-    return this.isSet(date) && this.compareTypes(date, `Date`) && !isNaN(date);
+    return this.isSet(date) && this.compareTypes(date, `date`) && !isNaN(date);
   }
 
   parseHtml(string) {
