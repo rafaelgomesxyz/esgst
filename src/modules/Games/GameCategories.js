@@ -618,6 +618,13 @@ class GamesGameCategories extends Module {
               sg: true
             },
             gc_o_a: {
+              features: {
+                gc_o_a_t: {
+                  background: true,
+                  name: `Color the table row in tables.`,
+                  sg: true
+                }
+              },
               name: `Show if you own the game in any of your alt accounts.`,
               sg: true
             },
@@ -654,6 +661,11 @@ class GamesGameCategories extends Module {
                 }
               },
               name: `Enable the simplified version.`,
+              sg: true
+            },
+            gc_p_t: {
+              background: true,
+              name: `Color the table row in tables if you own some of the games in the package.`,
               sg: true
             }
           },
@@ -1838,32 +1850,6 @@ class GamesGameCategories extends Module {
             }
             break;
           case `gc_o`:
-            if (savedGame && savedGame.owned) {
-              elements.push({
-                attributes: {
-                  class: `esgst-gc esgst-gc-owned`,
-                  [`data-draggable-id`]: `gc_o`,
-                  href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_o`, `Owned`)
-                },
-                text: this.esgst.gc_o_s ? (this.esgst.gc_o_s_i ? `` : `O`) : this.esgst.gc_oLabel,
-                type: `a`,
-                children: this.esgst.gc_o_s && this.esgst.gc_o_s_i ? [{
-                  attributes: {
-                    class: `fa fa-${this.esgst.gc_oIcon}`
-                  },
-                  type: `i`
-                }] : null
-              });
-              if (this.esgst.gc_o_t) {
-                for (const game of games) {
-                  const row = game.container.closest(`tr`);
-                  if (row) {
-                    row.style.backgroundColor = this.esgst.gc_o_t_bgColor;
-                  }
-                }
-              }
-            }
             if (this.esgst.gc_o_a) {
               for (const account of this.esgst.gc_o_altAccounts) {
                 let game = account.games[type][id];
@@ -1887,6 +1873,40 @@ class GamesGameCategories extends Module {
                       type: `i`
                     }] : null
                   });
+                  if (this.esgst.gc_o_a_t) {
+                    for (const game of games) {
+                      const row = game.container.closest(`tr`);
+                      if (row) {
+                        row.style.backgroundColor = this.esgst.gc_o_a_t_bgColor;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            if (savedGame && savedGame.owned) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-owned`,
+                  [`data-draggable-id`]: `gc_o`,
+                  href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_o`, `Owned`)
+                },
+                text: this.esgst.gc_o_s ? (this.esgst.gc_o_s_i ? `` : `O`) : this.esgst.gc_oLabel,
+                type: `a`,
+                children: this.esgst.gc_o_s && this.esgst.gc_o_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${this.esgst.gc_oIcon}`
+                  },
+                  type: `i`
+                }] : null
+              });
+              if (this.esgst.gc_o_t) {
+                for (const game of games) {
+                  const row = game.container.closest(`tr`);
+                  if (row) {
+                    row.style.backgroundColor = this.esgst.gc_o_t_bgColor;
+                  }
                 }
               }
             }
@@ -2515,6 +2535,23 @@ class GamesGameCategories extends Module {
                 type: `a`,
                 children
               });
+              if (packageCount && packageCount.num) {
+                if (this.esgst.gc_p_t && packageCount.num < packageCount.total) {
+                  for (const game of games) {
+                    const row = game.container.closest(`tr`);
+                    if (row) {
+                      row.style.backgroundColor = this.esgst.gc_p_t_bgColor;
+                    }
+                  }
+                } else if (this.esgst.gc_o_t && packageCount.num === packageCount.total) {
+                  for (const game of games) {
+                    const row = game.container.closest(`tr`);
+                    if (row) {
+                      row.style.backgroundColor = this.esgst.gc_p_t_bgColor;
+                    }
+                  }
+                }
+              }
             }
             break;
           case `gc_ea`:
