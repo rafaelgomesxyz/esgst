@@ -10,6 +10,10 @@ const
   updateHiddenGames = common.updateHiddenGames.bind(common)
 ;
 
+const WHITELIST = {
+  25657: { id: 3970, type: `apps` } // Prey (2006)
+};
+
 class Games extends Module {
   constructor() {
     super();
@@ -153,6 +157,10 @@ class Games extends Module {
         type: `${info[1]}s`
       };
     }
+    const gameId = context.getAttribute(`data-game-id`);
+    if (gameId && WHITELIST[gameId]) {
+      return WHITELIST[gameId];
+    }    
     const missing = context.querySelector(`.table_image_thumbnail_missing`);
     if (!missing) {
       return null;
