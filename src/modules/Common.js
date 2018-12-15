@@ -327,7 +327,11 @@ class Common extends Module {
       await customPage.load();
     } else {
       await this.endless_load(document, true);
-    } 
+    }
+
+    if (this.esgst.wbcButton && !this.esgst.mainUsers.length) {
+      this.esgst.wbcButton.classList.add(`esgst-hidden`);
+    }
 
     if (this.esgst.updateHiddenGames) {
       const hideButton = document.getElementsByClassName(`js__submit-hide-games`)[0];
