@@ -439,6 +439,11 @@ class UsersWhitelistBlacklistChecker extends Module {
       WBC.Users = sortArray(WBC.Users);
       if (WBC.ShowResults) {
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
+          console.log(WBC.Users[I]);
+          console.log(Object.keys(SavedUsers.users).filter(x => SavedUsers.users[x].username == WBC.Users[I])[0]);
+          if (!SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
+            continue;
+          }
           let user = {
             steamId: SavedUsers.steamIds[WBC.Users[I]],
             id: SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].id,
