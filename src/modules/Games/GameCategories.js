@@ -1285,27 +1285,19 @@ class GamesGameCategories extends Module {
   async gc_fakeBundle(id) {
     const bundleId = id.replace(/^SteamBundle/, ``);
     const response = await request({
-      //anon: true,
       headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
       method: `GET`,
       notLimited: !this.esgst.gc_lr,
       url: `https://store.steampowered.com/bundle/${bundleId}?cc=us&l=en`
     });
     const html = parseHtml(response.responseText);
-    //const priceMatch = html.querySelector(`.bundle_final_price_with_discount`).textContent.replace(/(.+?)(\d+\.\d+)/);
-    //const price = parseInt(parseFloat(priceMatch[2]) * 100);
     return {
       [id]: {
         success: true,
         data: {
           apps: Array.from(html.querySelectorAll(`[data-ds-appid]`)).map(x => ({ id: parseInt(x.getAttribute(`data-ds-appid`)) })),
-          //is_free: price > 0.0,
           name: html.querySelector(`.pageheader`).textContent,
-          platforms: {}/*,
-          price: {
-            currency: priceMatch[1] === `$` ? `USD` : ``,
-            initial: price
-          }*/
+          platforms: {}
         }
       }
     };
@@ -1450,7 +1442,7 @@ class GamesGameCategories extends Module {
           headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
           method: `GET`,
           notLimited: !this.esgst.gc_lr,
-          url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}`
+          url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=en`
         });
         let responseHtml = parseHtml(response.responseText);
         if (response.finalUrl.match(id)) {
