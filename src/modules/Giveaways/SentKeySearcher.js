@@ -254,7 +254,7 @@ class GiveawaysSentKeySearcher extends Module {
             sks.count -= 1;
           }
           if (this.esgst.sks_exportKeys) {
-            sks.allKeys.push(`${giveaway.active ? `[UNASSIGNED] ` : ``}${key} ${giveaway.name} https://www.steamgifts.com/giveaway/${giveaway.code}/`);
+            sks.allKeys.push(`${giveaway.active ? `UNASSIGNED ` : `ASSIGNED`},"${key.replace(/"/g, `""`)}","${giveaway.name.replace(/"/g, `""`)}",https://www.steamgifts.com/giveaway/${giveaway.code}/`);
           }
         }
       }
@@ -327,7 +327,7 @@ class GiveawaysSentKeySearcher extends Module {
       }]);
     }
     if (this.esgst.sks_exportKeys) {
-      downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.txt`);
+      downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.csv`);
     }
     sks.progress.innerHTML = ``;
     sks.overallProgress.innerHTML = ``;
