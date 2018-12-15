@@ -74,6 +74,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           name: `Pop up a box to reply to the giveaway when entering it.`,
           sg: true
         },
+        elgb_fp: {
+          name: `Pop up the first page of comments of the giveaway when entering it, if it has any comments.`,
+          sg: true
+        },
         elgb_d: {
           name: `Pop up the giveaway description when entering it, if it has any.`,
           sg: true
@@ -409,8 +413,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
     }
     let description = null;
+    let responseHtml = null;
     if (this.esgst.elgb_d || (this.esgst.elgb_r && this.esgst.elgb_r_d) || mainCallback) {
-      const responseHtml = parseHtml((await request({ method: `GET`, url: giveaway.url })).responseText);
+      responseHtml = parseHtml((await request({ method: `GET`, url: giveaway.url })).responseText);
       if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0]) {
         mainCallback(true);
         return;
@@ -501,7 +506,33 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }).set;
       popup.description.appendChild(set);
     }
-    if ((this.esgst.elgb_d && description) || (this.esgst.elgb_r && (!this.esgst.elgb_r_d || description)) || mainCallback) {
+    const comments = responseHtml.querySelector(`.comments`);
+    if (comments && comments.children.length) {
+      comments.classList.add(`esgst-text-left`, `esgst-hidden`);
+      createElements(popup.scrollable, `beforeEnd`, [{
+        context: comments
+      }]);
+      if (this.esgst.elgb_fp || mainCallback) {
+        comments.classList.remove(`esgst-hidden`);
+        common.endless_load(comments);
+      } else {
+        const commentButton = new ButtonSet({
+          color1: `grey`,
+          color2: ``,
+          icon1: `fa-comments`,
+          icon2: ``,
+          title1: `Show First Page Comments`,
+          title2: ``,
+          callback1: () => {
+            commentButton.remove();
+            comments.classList.remove(`esgst-hidden`);
+            common.endless_load(comments);
+          }
+        }).set;
+        popup.description.appendChild(commentButton);
+      }
+    }
+    if ((this.esgst.elgb_fp && comments && comments.children.length) || (this.esgst.elgb_d && description) || (this.esgst.elgb_r && (!this.esgst.elgb_r_d || description)) || mainCallback) {
       if (mainCallback) {
         popup.onClose = mainCallback;
       }
