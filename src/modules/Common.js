@@ -3940,7 +3940,7 @@ class Common extends Module {
         if (feature.conflicts) {
           for (const conflict of feature.conflicts) {
             const setting = this.esgst.settings[`${conflict.id}_sg`];
-            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+            if ((typeof setting === `object` && setting.enabled) || setting) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -3997,7 +3997,7 @@ class Common extends Module {
         if (feature.conflicts) {
           for (const conflict of feature.conflicts) {
             const setting = this.esgst.settings[`${conflict.id}_st`];
-            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+            if ((typeof setting === `object` && setting.enabled) || setting) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -4656,7 +4656,7 @@ class Common extends Module {
         if (feature.conflicts) {
           for (const conflict of feature.conflicts) {
             const setting = this.esgst.settings[`${conflict.id}_sg`];
-            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+            if ((typeof setting === `object` && setting.enabled) || setting) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -4696,7 +4696,7 @@ class Common extends Module {
         if (feature.conflicts) {
           for (const conflict of feature.conflicts) {
             const setting = this.esgst.settings[`${conflict.id}_st`];
-            if ((setting.include && setting.enabled) || (!setting.include && setting)) {
+            if ((typeof setting === `object` && setting.enabled) || setting) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
