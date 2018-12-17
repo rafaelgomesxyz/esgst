@@ -63,6 +63,9 @@ class GiveawaysCustomGiveawayBackground extends Module {
       } else {
         giveaway.outerWrap.style.backgroundColor = ``;
       }
+      if (giveaway.outerWrap.style.backgroundColor) {
+        giveaway.outerWrap.style.backgroundImage = `none`;
+      }
     }
   }
 }
