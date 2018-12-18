@@ -4673,6 +4673,7 @@ class Common extends Module {
     }
     let isHidden = true;
     let sgContext, stContext;
+    let collapseButton, isExpanded, subMenu;
     if (feature.sg) {
       const value = this.getFeaturePath(feature, id, `sg`).enabled;
       if (value) {
@@ -4703,6 +4704,10 @@ class Common extends Module {
           this.esgst.settings[`${id}_sg`] = true;
           this.esgst[id] = true;
         }
+        if (subMenu.classList.contains(`esgst-hidden`)) {
+          this.expandOptions(collapseButton, id, subMenu);
+          isExpanded = true;
+        }
       };
       sgSwitch.onDisabled = async () => {
         if (feature.sgFeatureSwitch) {
@@ -4710,6 +4715,10 @@ class Common extends Module {
         } else {
           this.esgst.settings[`${id}_sg`] = false;
           this.esgst[id] = false;
+        }
+        if (feature.stSwitch && !feature.stSwitch.value) {
+          this.collapseOptions(collapseButton, id, subMenu);
+          isExpanded = false;
         }
       };
     }
@@ -4743,6 +4752,10 @@ class Common extends Module {
           this.esgst.settings[`${id}_st`] = true;
           this.esgst[id] = true;
         }
+        if (subMenu.classList.contains(`esgst-hidden`)) {
+          this.expandOptions(collapseButton, id, subMenu);
+          isExpanded = true;
+        }
       };
       stSwitch.onDisabled = async () => {
         if (feature.stFeatureSwitch) {
@@ -4750,6 +4763,10 @@ class Common extends Module {
         } else {
           this.esgst.settings[`${id}_st`] = false;
           this.esgst[id] = false;
+        }
+        if (feature.sgSwitch && !feature.sgSwitch.value) {
+          this.collapseOptions(collapseButton, id, subMenu);
+          isExpanded = false;
         }
       };
     }
@@ -4763,13 +4780,7 @@ class Common extends Module {
       ]],
       [`div`, { class: `esgst-form-row-indent SMFeatures ${isHidden ? `esgst-hidden` : ``}` }]
     ]);
-    const subMenu = menu.lastElementChild;
-    if (feature.sgSwitch) {
-      feature.sgSwitch.dependencies.push(subMenu);
-    }
-    if (feature.stSwitch) {
-      feature.stSwitch.dependencies.push(subMenu);
-    }
+    subMenu = menu.lastElementChild;
     if (feature.features) {
       let i = 1;
       let isNew = false;
@@ -4810,7 +4821,7 @@ class Common extends Module {
         }]);
       }      
       if (this.esgst.makeSecionsCollapsible) {
-        const button = this.createElements(menu, `afterBegin`, [{
+        collapseButton = this.createElements(menu, `afterBegin`, [{
           attributes: {
             class: `esgst-clickable`,
             style: `margin-right: 5px;`
@@ -4824,37 +4835,19 @@ class Common extends Module {
             type: `i`
           }]
         }]);
-        let isExpanded;
         if (this.esgst.settings[`collapse_${id}`]) {
           subMenu.classList.add(`esgst-hidden`);
           isExpanded = false;
         } else {
           isExpanded = true;
         }
-        button.addEventListener(`click`, () => {
+        collapseButton.addEventListener(`click`, () => {
           if (isExpanded) {
-            subMenu.classList.add(`esgst-hidden`);
-            this.createElements(button, `inner`, [{
-              attributes: {
-                class: `fa fa-plus-square`,
-                title: `Expand options`
-              },
-              type: `i`
-            }]);
-            isExpanded = false;
-            this.esgst.settings[`collapse_${id}`] = true;
+            this.collapseOptions(collapseButton, id, subMenu);
           } else {
-            subMenu.classList.remove(`esgst-hidden`);
-            this.createElements(button, `inner`, [{
-              attributes: {
-                class: `fa fa-minus-square`,
-                title: `Collapse options`
-              },
-              type: `i`
-            }]);
-            isExpanded = true;
-            delete this.esgst.settings[`collapse_${id}`];
+            this.expandOptions(collapseButton, id, subMenu);
           }
+          isExpanded = !isExpanded;
         });
       }
     }
@@ -4862,6 +4855,30 @@ class Common extends Module {
       isNew: isMainNew,
       menu
     };
+  }
+
+  collapseOptions(collapseButton, id, subMenu) {
+    subMenu.classList.add(`esgst-hidden`);
+    this.createElements(collapseButton, `inner`, [{
+      attributes: {
+        class: `fa fa-plus-square`,
+        title: `Expand options`
+      },
+      type: `i`
+    }]);
+    this.esgst.settings[`collapse_${id}`] = true;
+  }
+
+  expandOptions(collapseButton, id, subMenu) {
+    subMenu.classList.remove(`esgst-hidden`);
+    this.createElements(collapseButton, `inner`, [{
+      attributes: {
+        class: `fa fa-minus-square`,
+        title: `Collapse options`
+      },
+      type: `i`
+    }]);
+    delete this.esgst.settings[`collapse_${id}`];
   }
 
   getSmFeatureAdditionalOptions(Feature, ID) {
