@@ -46,6 +46,7 @@
     "*://*.graph.microsoft.com/*",
     "*://*.userstyles.org/*",
     "*://*.royalgamer06.ga/*",
+    "*://*.steam-tracker.com/*",
     "storage",
     "tabs",
     "unlimitedStorage",
