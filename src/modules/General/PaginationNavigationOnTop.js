@@ -45,12 +45,14 @@ class GeneralPaginationNavigationOnTop extends Module {
     if (this.esgst.pnot && this.esgst.pnot_s) {
       const elements = this.esgst.paginationNavigation.querySelectorAll(`span`);
       for (const element of elements) {
-        element.textContent = element.textContent.replace(/[A-Za-z]+/g, ``);
-        if (element.previousElementSibling) {
-          element.appendChild(element.previousElementSibling);
-        }
-        if (element.nextElementSibling) {
-          element.appendChild(element.nextElementSibling);
+        if (element.textContent.match(/[A-Za-z]+/)) {
+          element.textContent = element.textContent.replace(/[A-Za-z]+/g, ``);
+          if (element.previousElementSibling) {
+            element.appendChild(element.previousElementSibling);
+          }
+          if (element.nextElementSibling) {
+            element.appendChild(element.nextElementSibling);
+          }
         }
       }
     }
