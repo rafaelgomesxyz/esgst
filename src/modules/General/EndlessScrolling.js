@@ -275,6 +275,8 @@ class GeneralEndlessScrolling extends Module {
     es.pauseButton.addEventListener(`click`, this.es_pause.bind(this, es, false));
     es.resumeButton.addEventListener(`click`, this.es_resume.bind(this, es, false));
     if (this.esgst.paginationNavigation) {
+      this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
+      this.es_fixFirstPageLinks();
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
       if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
         createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
@@ -353,6 +355,7 @@ class GeneralEndlessScrolling extends Module {
       }))]);
       if (this.esgst.paginationNavigation) {
         this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
+        this.es_fixFirstPageLinks();
         let lastLink = this.esgst.paginationNavigation.lastElementChild;
         if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
           createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
@@ -531,7 +534,8 @@ class GeneralEndlessScrolling extends Module {
   }
 
   es_changePagination(es, index) {
-    const pagination = es.paginations[index - 1];
+    const correctedIndex = es.reverseScrolling ? (es.pageBase - index) : (index - es.pageBase);
+    const pagination = es.paginations[correctedIndex - 1];
     if (pagination && this.esgst.paginationNavigation.innerHTML !== pagination) {
       createElements(this.esgst.paginationNavigation, `inner`, [...(Array.from(parseHtml(pagination).body.childNodes).map(x => {
         return {
@@ -539,11 +543,19 @@ class GeneralEndlessScrolling extends Module {
         };
       }))]);
       this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
+      this.es_fixFirstPageLinks();
       let lastLink = this.esgst.paginationNavigation.lastElementChild;
       if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
         createElements(this.esgst.paginationNavigation, `beforeEnd`, this.esgst.lastPageLink);
       }
       this.es_setPagination(es);
+    }
+  }
+
+  es_fixFirstPageLinks() {
+    const firstPageLinks = this.esgst.paginationNavigation.querySelectorAll(`[data-page-number="1"]`);
+    for (const firstPageLink of firstPageLinks) {
+      firstPageLink.setAttribute(`href`, `${firstPageLink.getAttribute(`href`)}/search?page=1`);
     }
   }
 
