@@ -137,9 +137,17 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         }
       }
     }
-    if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
+    if (giveaway.deleted) {     
+      createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
+        attributes: {
+          class: `table__column--width-small text-center`
+        },
+        text: `-`,
+        type: `div`
+      }));
+    } else if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
       this.cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
-    } else if (this.esgst.createdPath) {
+    } else if (this.esgst.createdPath && (!cewgd.savedGiveaways[code] || !cewgd.savedGiveaways[code].deleted)) {
       let currentGiveaway = null;
       let nextPage = 1;
       let pagination = null;
