@@ -369,6 +369,8 @@ class GeneralEndlessScrolling extends Module {
         es.pageBase = es.currentPage + 1;
         es.pageIndex = es.currentPage;
       }
+      this.esgst.pagination.firstElementChild.firstElementChild.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(/,/g, ``)) + 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+      this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent;
     } else if (refresh) {
       pagination = es.paginations[(es.reverseScrolling ? es.pageBase - (refreshAll || es.pageIndex) : (refreshAll || es.pageIndex) - es.pageBase) - 1];
       if (paginationNavigation && pagination !== paginationNavigation.innerHTML) {
@@ -389,9 +391,10 @@ class GeneralEndlessScrolling extends Module {
       child.classList.add(`esgst-es-page-${currentPage}`);
       fragment.appendChild(child);
     }
+    let oldN = 0;
     if (refresh) {
-      let elements = document.getElementsByClassName(`esgst-es-page-${currentPage}`),
-        oldN = elements.length;
+      let elements = document.getElementsByClassName(`esgst-es-page-${currentPage}`);
+      oldN = elements.length;
       for (let i = 1; i < oldN; ++i) {
         elements[0].remove();
       }
@@ -416,7 +419,6 @@ class GeneralEndlessScrolling extends Module {
           this.esgst.modules.generalTableSorter.ts_sortTables();
         }
       }
-      this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - oldN + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
       if (!refreshAll) {
         es.refreshButton.addEventListener(`click`, this.esgst.es_refresh.bind(this));
         createElements(es.refreshButton, `inner`, [{
@@ -460,7 +462,6 @@ class GeneralEndlessScrolling extends Module {
       if (this.esgst.ts && !this.esgst.us) {
         this.esgst.modules.generalTableSorter.ts_sortTables();
       }
-      this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) + n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
       es.progress.remove();
       if (es.reverseScrolling) {
         --es.nextPage;
@@ -502,6 +503,13 @@ class GeneralEndlessScrolling extends Module {
         }
       }
     }
+    let paginationCount = null;
+    if (es.reverseScrolling && !refresh) {
+      paginationCount = this.esgst.pagination.firstElementChild.firstElementChild;
+    } else {
+      paginationCount = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling;
+    }
+    paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, ``)) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
   }
 
   es_purgeRemovedElements() {
