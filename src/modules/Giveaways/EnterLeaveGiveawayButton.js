@@ -278,6 +278,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   elgb_addButton(giveaway, main, source) {
+    let style = ``;
+    if (giveaway.elgbButton) {
+      style = giveaway.elgbButton.firstElementChild.getAttribute(`style`);
+    }
     let doAppend = !giveaway.elgbButton;
     if (giveaway.entered) {
       giveaway.elgbButton = new ButtonSet({
@@ -347,6 +351,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }
       giveaway.elgbButton.setAttribute(`data-draggable-id`, `elgb`);
     }
+    giveaway.elgbButton.firstElementChild.setAttribute(`style`, style);
   }
 
   async elgb_openPopup(giveaway, main, source, mainCallback) {
