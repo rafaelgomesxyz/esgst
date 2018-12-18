@@ -92,6 +92,9 @@ class Games extends Module {
       info = await this.games_getInfo(game.container);
       game.headingName = game.container.querySelector(headingNameQuery);
       if (game.headingName) {
+        if (game.headingName.getAttribute(`href`) && game.headingName.getAttribute(`href`).match(/\/(discussion|\/support\/ticket|trade)\//)) {
+          continue;
+        }
         if (game.table || this.esgst.wishlistPath) {
           game.heading = game.headingName;
         } else {
