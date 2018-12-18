@@ -26,6 +26,20 @@ class GamesGameCategories extends Module {
         ]]
       ],
       features: {
+        gc_e: {
+          colors: {
+            color: `Text`,
+            bColor: `Border`,
+            bgColor: `Background`
+          },
+          description: [
+            [`ul`, [
+              [`li`, `The enter button of giveaways will be colored with the desired color if the game cannot be checked for ownership and has one of the following categories: Banned, DLC, Learning, Package`]
+            ]]
+          ],
+          name: `Color enter button of giveaways if game ownership cannot be checked.`,
+          sg: true
+        },
         gc_lr: {
           description: [
             [`ul`, [
@@ -2866,7 +2880,19 @@ class GamesGameCategories extends Module {
         type: `i`
       });
     }
+    let cannotCheckOwnership = false;
+    if (!savedGame.owned && ((cache && (cache.dlc || cache.learning === 1)) || (type === `apps` && this.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) || (type === `subs` && !packageCount))) {
+      cannotCheckOwnership = true;
+    }
     for (i = 0, n = games.length; i < n; ++i) {
+      const button = (games[i].elgbButton && games[i].elgbButton.firstElementChild) || this.esgst.enterGiveawayButton;
+      if (button && cannotCheckOwnership && this.esgst.gc_e) {
+        button.title = `ESGST cannot check ownership of this game`;
+        button.style.color = this.esgst.gc_e_color;
+        button.style.borderColor = this.esgst.gc_e_bColor;
+        button.style.backgroundColor = this.esgst.gc_e_bgColor;
+        button.style.backgroundImage = `none`;
+      }
       if (games[i].container.classList.contains(`esgst-hidden`)) {
         if (!this.esgst.gcToFetch[type][id]) {
           this.esgst.gcToFetch[type][id] = [];
