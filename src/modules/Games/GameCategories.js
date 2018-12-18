@@ -147,6 +147,37 @@ class GamesGameCategories extends Module {
           name: `Achievements`,
           sg: true
         },
+        gc_bd: {
+          colors: true,
+          description: [
+            [`ul`, [
+              [`li`, `Shows if the game is banned on Steam.`]
+            ]]
+          ],
+          features: {
+            gc_bd_s: {
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
+              features: {
+                gc_bd_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Banned`,
+          sg: true,
+          sync: `Delisted Games`,
+          syncKeys: [`DelistedGames`]
+        },
         gc_bvg: {
           colors: true,
           description: [
@@ -1256,6 +1287,7 @@ class GamesGameCategories extends Module {
       gc_f: `followed`,
       gc_pw: `won`,
       gc_a: `achievements`,
+      gc_bd: `banned`,
       gc_sp: `singleplayer`,
       gc_mp: `multiplayer`,
       gc_sc: `steamCloud`,
@@ -1438,59 +1470,63 @@ class GamesGameCategories extends Module {
         }
       }
       if ((typeof id !== `string` || !id.match(/^SteamBundle/)) && (this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_g_udt)) {
-        let response = await request({
-          headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
-          method: `GET`,
-          notLimited: !this.esgst.gc_lr,
-          url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=en`
-        });
-        let responseHtml = parseHtml(response.responseText);
-        if (response.finalUrl.match(id)) {
-          let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
-          let n = elements.length;
-          if (n > 0) {
-            let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/[,.]/g, ``);
-            let match = rating.match(/(\d+)%.+?(\d+)/);
-            let percentageIndex = 1;
-            let countIndex = 2;
-            if (!match) {
-              match = rating.match(/(\d+).+?(\d+)%/);
-              percentageIndex = 2;
-              countIndex = 1;
-            }
-            if (match) {
-              categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
-              rating = parseInt(match[percentageIndex]);
-              if (rating >= 0) {
-                if (rating < 40) {
-                  categories.ratingType = `Negative`;
-                } else if (rating < 70) {
-                  categories.ratingType = `Mixed`;
+        if (this.esgst.gc_rm && !this.esgst.gc_lg && !this.esgst.gc_r && !this.esgst.gc_g_udt && type === `apps` && this.esgst.delistedGames.removed.indexOf(parseInt(id)) > -1) {
+          categories.removed = 1;
+        } else {
+          let response = await request({
+            headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
+            method: `GET`,
+            notLimited: !this.esgst.gc_lr,
+            url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=en`
+          });
+          let responseHtml = parseHtml(response.responseText);
+          if (response.finalUrl.match(id)) {
+            let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
+            let n = elements.length;
+            if (n > 0) {
+              let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/[,.]/g, ``);
+              let match = rating.match(/(\d+)%.+?(\d+)/);
+              let percentageIndex = 1;
+              let countIndex = 2;
+              if (!match) {
+                match = rating.match(/(\d+).+?(\d+)%/);
+                percentageIndex = 2;
+                countIndex = 1;
+              }
+              if (match) {
+                categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
+                rating = parseInt(match[percentageIndex]);
+                if (rating >= 0) {
+                  if (rating < 40) {
+                    categories.ratingType = `Negative`;
+                  } else if (rating < 70) {
+                    categories.ratingType = `Mixed`;
+                  } else {
+                    categories.ratingType = `Positive`;
+                  }
                 } else {
-                  categories.ratingType = `Positive`;
+                  categories.ratingType = `?`;
                 }
-              } else {
-                categories.ratingType = `?`;
               }
             }
-          }
-          categories.removed = 0;
-          let tags = [];
-          elements = responseHtml.querySelectorAll(`a.app_tag`);
-          for (let i = 0, n = elements.length; i < n; ++i) {
-            tags.push(elements[i].textContent.trim());
-          }
-          tags.sort((a, b) => {
-            return a.localeCompare(b, {
-              sensitivity: `base`
+            categories.removed = 0;
+            let tags = [];
+            elements = responseHtml.querySelectorAll(`a.app_tag`);
+            for (let i = 0, n = elements.length; i < n; ++i) {
+              tags.push(elements[i].textContent.trim());
+            }
+            tags.sort((a, b) => {
+              return a.localeCompare(b, {
+                sensitivity: `base`
+              });
             });
-          });
-          categories.tags = tags.join(`, `);
-          if (responseHtml.querySelector(`.learning_about`)) {
-            categories.learning = 1;
+            categories.tags = tags.join(`, `);
+            if (responseHtml.querySelector(`.learning_about`)) {
+              categories.learning = 1;
+            }
+          } else {
+            categories.removed = 1;
           }
-        } else {
-          categories.removed = 1;
         }
       }
       if (this.esgst.gc_dlc_b && categories.dlc && categories.base) {
@@ -2185,6 +2221,26 @@ class GamesGameCategories extends Module {
                   text: count,
                   type: `node`
                 } : null] : null
+              });
+            }
+            break;
+          case `gc_bd`:
+            if (type === `apps` && this.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-banned`,
+                  [`data-draggable-id`]: `gc_bd`,
+                  href: `https://steamdb.info/app/${realId}`,
+                  title: getFeatureTooltip(`gc_bd`, `Banned`)
+                },
+                text: this.esgst.gc_bd_s ? (this.esgst.gc_bd_s_i ? `` : `BD`) : this.esgst.gc_bdLabel,
+                type: `a`,
+                children: this.esgst.gc_bd_s && this.esgst.gc_bd_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${this.esgst.gc_bdIcon}`
+                  },
+                  type: `i`
+                }] : null
               });
             }
             break;

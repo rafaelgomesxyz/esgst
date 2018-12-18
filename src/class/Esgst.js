@@ -479,6 +479,7 @@ class Esgst {
       autoSyncReducedCvGames: 0,
       autoSyncNoCvGames: 0,
       autoSyncHltbTimes: 0,
+      autoSyncDelistedGames: 0,
       autoSyncGiveaways: 0,
       calculateDelete: true,
       calculateExport: true,
@@ -531,8 +532,8 @@ class Esgst {
       gas_autoPopup: false,
       gas_optionPopup: `sortIndex_asc`,
       gb_hours: 1,
-      gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
-      gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+      gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+      gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
       gc_o_altAccounts: [],
       gc_g_colors: [],
       gc_g_filters: ``,
@@ -551,6 +552,7 @@ class Esgst {
       gc_fIcon: `plus`,
       gc_pwIcon: `gift`,
       gc_aIcon: `trophy`,
+      gc_bdIcon: `times`,
       gc_bvgIcon: `retweet`,
       gc_spIcon: `user`,
       gc_mpIcon: `users`,
@@ -574,6 +576,7 @@ class Esgst {
       gc_fLabel: `Followed`,
       gc_pwLabel: `Previously Won`,
       gc_aLabel: `Achievements`,
+      gc_bdLabel: `Banned`,
       gc_bvgLabel: `Barter.vg`,
       gc_spLabel: `Singleplayer`,
       gc_mpLabel: `Multiplayer`,
@@ -603,6 +606,7 @@ class Esgst {
       gc_ea_color: `#ffffff`,
       gc_tc_color: `#ffffff`,
       gc_a_color: `#ffffff`,
+      gc_bd_color: `#ffffff`,
       gc_bvg_color: `#ffffff`,
       gc_sp_color: `#ffffff`,
       gc_mp_color: `#ffffff`,
@@ -633,6 +637,7 @@ class Esgst {
       gc_ea_bgColor: `#3498db`,
       gc_tc_bgColor: `#2ecc71`,
       gc_a_bgColor: `#145a32`,
+      gc_bd_bgColor: `#e74c3c`,
       gc_bvg_bgColor: `#555555`,
       gc_sp_bgColor: `#5eb2a1`,
       gc_mp_bgColor: `#0e6251`,
@@ -699,6 +704,7 @@ class Esgst {
       lastSyncReducedCvGames: 0,
       lastSyncNoCvGames: 0,
       lastSyncHltbTimes: 0,
+      lastSyncDelistedGames: 0,
       lastSyncGiveaways: 0,
       leftMainPageHeadingIds: [`wbsDesc`, `wbsAsc`, `wbc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `mm`, `hgm`, `gv`, `gts`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `as`, `aic`],
       leftButtonIds: [],
@@ -750,6 +756,7 @@ class Esgst {
       syncReducedCvGames: true,
       syncNoCvGames: true,
       syncHltbTimes: false,
+      syncDelistedGames: false,
       syncGiveaways: true,
       ugd_getPlaytime: true,
       ugd_getAchievements: false,
@@ -813,7 +820,7 @@ class Esgst {
     this.st = null;
 
     this.currentVersion = `8.1.5`;
-    this.devVersion = `8.1.6 (Dev.33)`;
+    this.devVersion = `8.1.6 (Dev.34)`;
     // noinspection SpellCheckingInspection
     this.icon = `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`;
     // noinspection SpellCheckingInspection
@@ -1614,7 +1621,7 @@ class Esgst {
 
     this.gfPopup = null;
 
-    this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
+    this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
 
     this.gc_fLabel = null;
 

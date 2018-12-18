@@ -2068,7 +2068,7 @@ class Common extends Module {
     } else if (!isSyncing || currentDate - isSyncing > 1800000) {
       let parameters = ``;
       this.setLocalValue(`isSyncing`, currentDate);
-      [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`].forEach(key => {
+      [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`].forEach(key => {
         if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
           parameters += `${key}=1&`;
         }
@@ -2222,6 +2222,10 @@ class Common extends Module {
         syncHltbTimes: {
           key: `HltbTimes`,
           name: `HLTB Times`
+        },
+        syncDelistedGames: {
+          key: `DelistedGames`,
+          name: `Delisted Games`
         },
         syncGiveaways: {
           key: `Giveaways`,
@@ -2797,6 +2801,32 @@ class Common extends Module {
       return;
     }
 
+    // sync delisted games
+    if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && this.esgst.settings.syncDelistedGames)) {
+      syncer.progress.lastElementChild.textContent = `Syncing delisted games...`;
+      const response = await this.request({ method: `GET`, url: `https://steam-tracker.com/api?action=GetAppListV3` });
+      try {
+        const json = JSON.parse(response.responseText);
+        if (json.success) {
+          const banned = json.removed_apps.filter(x => x.type === `game` && x.category === `Banned`).map(x => parseInt(x.appid));
+          const removed = json.removed_apps.filter(x => x.type === `game` && x.category === `Delisted`).map(x => parseInt(x.appid));
+          await this.setValue(`delistedGames`, JSON.stringify({ banned, removed }));
+        }
+        this.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, `Delisted games synced.`]
+        ]);
+      } catch (error) {
+        this.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, `Failed to sync delisted games (check the console log for more info).`]
+        ]);
+        console.log(error);
+      }
+    }
+
+    if (syncer.canceled) {
+      return;
+    }
+
     // sync giveaways
     if (((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && this.esgst.settings.syncGiveaways)) && this.esgst.sg) {
       syncer.progress.lastElementChild.textContent = `Syncing your giveaways...`;
@@ -2816,7 +2846,7 @@ class Common extends Module {
     if (!this.esgst.firstInstall) {
       syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
       const currentTime = Date.now();
-      let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `Giveaways`];
+      let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`];
       for (let i = keys.length - 1; i > -1; i--) {
         let key = keys[i];
         let id = `sync${key}`;
@@ -4149,6 +4179,7 @@ class Common extends Module {
         gc_f: `Followed`,
         gc_pw: `Previously Won`,
         gc_a: `Achievements`,
+        gc_bd: `Banned`,
         gc_bvg: `Barter.vg`,
         gc_sp: `Singleplayer`,
         gc_mp: `Multiplayer`,
@@ -9370,6 +9401,11 @@ class Common extends Module {
       {
         id: `gc_a`,
         key: `achievements`,
+        mainKey: `esgst-gc`
+      },
+      {
+        id: `gc_bd`,
+        key: `banned`,
         mainKey: `esgst-gc`
       },
       {

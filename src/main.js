@@ -1250,6 +1250,15 @@ import esgst from './class/Esgst';
       };
       toSet.games = JSON.stringify(esgst.games);
     }
+    if (utils.isSet(esgst.storage.delistedGames)) {
+      esgst.delistedGames = JSON.parse(esgst.storage.delistedGames);
+    } else {
+      esgst.delistedGames = {
+        banned: [],
+        removed: []
+      };
+      toSet.delistedGames = JSON.stringify(esgst.delistedGames);
+    }
     if (utils.isSet(esgst.storage.settings)) {
       esgst.settings = JSON.parse(esgst.storage.settings);
     } else {
@@ -1350,6 +1359,11 @@ import esgst from './class/Esgst';
     }
     if (esgst.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
       esgst.gc_categories_ids.push(`gc_bvg`);
+      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.gc_categories_ids.indexOf(`gc_bd`) < 0) {
+      esgst.gc_categories_ids.push(`gc_bd`);
       esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
       esgst.settingsChanged = true;
     }
