@@ -30,8 +30,8 @@ There are two different ways to use ESGST: extension or userscript. You can choo
 
 ### Option 1 - Extension
 
+* [Chrome](https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna)
 * [Firefox](https://addons.mozilla.org/en-US/firefox/addon/esgst/)
-* Chrome -> Download "extension.zip" from [this page](https://github.com/revilheart/ESGST/releases/latest), extract it to a folder on your computer, go to "chrome://extensions/", tick "Developer mode" in the top right corner, click "Load unpacked extension" and select the "Extensions" folder where you extracted the zip to. Using the extension on Chrome might be a nuisance, since every time you open the browser you will get a message saying that using extensions in developer mode can be unsafe, and every time a new version is released you will have to download the zip again, extract it to the same folder, replacing the previous files, go to the extensions page and click "Reload" under ESGST.
 
 Other browsers might work with the extension, especially Opera, since I believe it uses the same extension system as Chrome, but only Firefox and Chrome have been tested and confirmed as working.
 
