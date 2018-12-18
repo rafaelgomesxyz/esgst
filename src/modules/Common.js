@@ -11443,7 +11443,7 @@ class Common extends Module {
       opacity: 0.5;
     }
 
-    .esgst-sm-faded >*:not(.SMFeatures), .esgst-sm-faded > .SMFeatures > .esgst-sm-colors {
+    .esgst-sm-faded >*:not(.SMFeatures) {
       opacity: 0.5;
     }
 
@@ -13473,9 +13473,9 @@ class Common extends Module {
         element.classList.add(`esgst-hidden`);
       }
       if (exactFound) {
-        element.firstElementChild.nextElementSibling.classList.remove(`esgst-faded`);
+        element.classList.remove(`esgst-sm-faded`);
       } else {
-        element.firstElementChild.nextElementSibling.classList.add(`esgst-faded`);
+        element.classList.add(`esgst-sm-faded`);
       }
     }
     return found;
