@@ -950,7 +950,7 @@ class Common extends Module {
             theme: true
           }
         }
-      },
+      }
     };
     for (const type in features) {
       if (features.hasOwnProperty(type)) {
@@ -3796,7 +3796,7 @@ class Common extends Module {
         }
       }
     }
-    const elementOrdering = this.createMenuSection(SMMenu, null, i, `Element Ordering`);
+    const elementOrdering = this.createMenuSection(SMMenu, null, i, `Element Ordering`, `element_ordering`);
     this.setElementOrderingSection(elementOrdering.lastElementChild);
     i += 1;
     this.createMenuSection(SMMenu, [{
@@ -3825,7 +3825,7 @@ class Common extends Module {
         text: `. You can enter any domain in there, it is irrelevant, for example, "https://www.steamgifts.com".`,
         type: `node`
       }]
-    }], i, `Steam API Key`);
+    }], i, `Steam API Key`, `steam_api_key`);
     SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName(`esgst-steam-api-key`)[0];
     let key = this.esgst.steamApiKey;
     if (key) {
@@ -13413,6 +13413,27 @@ class Common extends Module {
         }
       }
     }
+    for (type of [`element_ordering`, `steam_api_key`]) {      
+      element = document.getElementById(`esgst_${type}`);
+      if (element) {
+        if (element.textContent.toLowerCase().trim().match(value)) {
+          element.classList.remove(`esgst-hidden`);
+        } else {
+          element.classList.add(`esgst-hidden`);
+        }
+        if (value) {
+          expand = element.getElementsByClassName(`fa-plus-square`)[0];
+          if (expand) {
+            expand.click();
+          }
+        } else {
+          collapse = element.getElementsByClassName(`fa-minus-square`)[0];
+          if (collapse) {
+            collapse.click();
+          }
+        }
+      }
+    }
   }
 
   unfadeSmFeatures(feature, id) {
@@ -13761,7 +13782,6 @@ class Common extends Module {
     }]);
     if (this.esgst.makeSecionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
       let button, container, isExpanded;
-      const titleKey = title.toLowerCase().replace(/\s/g, `_`);
       button = this.createElements(section.firstElementChild, `afterBegin`, [{
         attributes: {
           class: `esgst-clickable`,
@@ -13770,14 +13790,14 @@ class Common extends Module {
         type: `span`,
         children: [{
           attributes: {
-            class: `fa fa-${this.esgst[`collapse_${titleKey}`] ? `plus` : `minus`}-square`,
-            title: `${this.esgst[`collapse_${titleKey}`] ? `Expand` : `Collapse`} section`
+            class: `fa fa-${this.esgst[`collapse_${type}`] ? `plus` : `minus`}-square`,
+            title: `${this.esgst[`collapse_${type}`] ? `Expand` : `Collapse`} section`
           },
           type: `i`
         }]
       }]);
       container = section.lastElementChild;
-      if (this.esgst[`collapse_${titleKey}`]) {
+      if (this.esgst[`collapse_${type}`]) {
         container.classList.add(`esgst-hidden`);
         isExpanded = false;
       } else {
@@ -13805,7 +13825,7 @@ class Common extends Module {
           }]);
           isExpanded = true;
         }
-        this.esgst.settings[`collapse_${titleKey}`] = !isExpanded;
+        this.esgst.settings[`collapse_${type}`] = !isExpanded;
       });
     }
     return section;
