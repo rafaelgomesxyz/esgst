@@ -10,6 +10,11 @@ class GiveawaysCustomGiveawayBackground extends Module {
         ]]
       ],
       features: {
+        cgb_b: {
+          background: true,
+          name: `Color giveaways that cannot be entered because of blacklist reasons.`,
+          sg: true
+        },
         cgb_p: {
           background: true,
           name: `Color public giveaways.`,
