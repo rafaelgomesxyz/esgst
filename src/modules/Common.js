@@ -4808,6 +4808,54 @@ class Common extends Module {
             type: `i`
           }]
         }]);
+      }      
+      if (this.esgst.makeSecionsCollapsible) {
+        const button = this.createElements(menu, `afterBegin`, [{
+          attributes: {
+            class: `esgst-clickable`,
+            style: `margin-right: 5px;`
+          },
+          type: `span`,
+          children: [{
+            attributes: {
+              class: `fa fa-${this.esgst.settings[`collapse_${id}`] ? `plus` : `minus`}-square`,
+              title: `${this.esgst.settings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
+            },
+            type: `i`
+          }]
+        }]);
+        let isExpanded;
+        if (this.esgst.settings[`collapse_${id}`]) {
+          subMenu.classList.add(`esgst-hidden`);
+          isExpanded = false;
+        } else {
+          isExpanded = true;
+        }
+        button.addEventListener(`click`, () => {
+          if (isExpanded) {
+            subMenu.classList.add(`esgst-hidden`);
+            this.createElements(button, `inner`, [{
+              attributes: {
+                class: `fa fa-plus-square`,
+                title: `Expand options`
+              },
+              type: `i`
+            }]);
+            isExpanded = false;
+            this.esgst.settings[`collapse_${id}`] = true;
+          } else {
+            subMenu.classList.remove(`esgst-hidden`);
+            this.createElements(button, `inner`, [{
+              attributes: {
+                class: `fa fa-minus-square`,
+                title: `Collapse options`
+              },
+              type: `i`
+            }]);
+            isExpanded = true;
+            delete this.esgst.settings[`collapse_${id}`];
+          }
+        });
       }
     }
     return {
