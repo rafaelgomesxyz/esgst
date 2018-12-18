@@ -817,13 +817,11 @@ class Common extends Module {
             sg: true
           },
           makeSecionsCollapsible: {
-            features: {
-              collapseSections: {
-                name: `Collapse sections in the settings menu by default.`,
-                sg: true,
-                st: true
-              }
-            },
+            description: [
+              [`ul`, [
+                [`li`, `The state of the sections is remembered if you save the settings after collapsing/expanding them.`]
+              ]]
+            ],
             name: `Make sections in the settings menu collapsible.`,
             sg: true,
             st: true
@@ -13698,6 +13696,7 @@ class Common extends Module {
     }]);
     if (this.esgst.makeSecionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
       let button, container, isExpanded;
+      const titleKey = title.toLowerCase().replace(/\s/g, `_`);
       button = this.createElements(section.firstElementChild, `afterBegin`, [{
         attributes: {
           class: `esgst-clickable`,
@@ -13706,14 +13705,14 @@ class Common extends Module {
         type: `span`,
         children: [{
           attributes: {
-            class: `fa fa-${this.esgst.collapseSections ? `plus` : `minus`}-square`,
-            title: `${this.esgst.collapseSections ? `Expand` : `Collapse`} section`
+            class: `fa fa-${this.esgst[`collapse_${titleKey}`] ? `plus` : `minus`}-square`,
+            title: `${this.esgst[`collapse_${titleKey}`] ? `Expand` : `Collapse`} section`
           },
           type: `i`
         }]
       }]);
       container = section.lastElementChild;
-      if (this.esgst.collapseSections) {
+      if (this.esgst[`collapse_${titleKey}`]) {
         container.classList.add(`esgst-hidden`);
         isExpanded = false;
       } else {
@@ -13741,6 +13740,7 @@ class Common extends Module {
           }]);
           isExpanded = true;
         }
+        this.esgst.settings[`collapse_${titleKey}`] = !isExpanded;
       });
     }
     return section;
