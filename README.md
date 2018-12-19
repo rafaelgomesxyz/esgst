@@ -236,6 +236,12 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.7 (December 19, 2018)**
+
+* [#1120](https://github.com/gsrafael01/ESGST/issues/1120) Fix a bug in Giveaway Popup / Enter/Leave Giveaway Button that shows wrong creator when opening giveaways from the won page of a user
+* [#1119](https://github.com/gsrafael01/ESGST/issues/1119) Fix a bug in Giveaway Winners Link that shows the winners link even if the giveaway ended with 0 entries
+* [#1116](https://github.com/gsrafael01/ESGST/issues/1116) Fix a bug that happens when loading game categories
+
 **8.1.6 (December 19, 2018)**
 
 * [#1115](https://github.com/gsrafael01/ESGST/issues/1115) Update first-install and notice popups
