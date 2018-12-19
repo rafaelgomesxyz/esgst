@@ -41,7 +41,7 @@ export default class Popup {
         children: [{
           attributes: {
             class: `esgst-hidden`,
-            href: `https://www.steamgifts.com/account/settings/profile?esgst=settings`
+            href: container.esgst.settingsUrl
           },
           text: `Settings`,
           type: `a`

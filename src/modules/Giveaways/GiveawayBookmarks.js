@@ -224,10 +224,12 @@ class GiveawaysGiveawayBookmarks extends Module {
       common.createPageHeading(context, `beforeEnd`, {
         items: [
           {
-            name: `ESGST`
+            name: `ESGST`,
+            url: this.esgst.settingsUrl
           },
           {
-            name: `Bookmarked Giveaways`
+            name: `Bookmarked Giveaways`,
+            url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`
           }
         ]
       });
@@ -247,10 +249,12 @@ class GiveawaysGiveawayBookmarks extends Module {
           common.createPageHeading(popup.description, `afterBegin`, {
             items: [
               {
-                name: `ESGST`
+                name: `ESGST`,
+                url: this.esgst.settingsUrl
               },
               {
-                name: `Bookmarked Giveaways`
+                name: `Bookmarked Giveaways`,
+                url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`
               }
             ]
           });

@@ -100,10 +100,12 @@ class GiveawaysArchiveSearcher extends Module {
     common.createPageHeading(container, `afterBegin`, {
       items: [
         {
-          name: `ESGST`
+          name: `ESGST`,
+          url: this.esgst.settingsUrl
         },
         {
-          name: `Archive Searcher`
+          name: `Archive Searcher`,
+          url: `?esgst=as`
         }
       ]
     });

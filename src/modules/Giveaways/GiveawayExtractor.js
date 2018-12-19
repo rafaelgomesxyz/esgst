@@ -129,10 +129,12 @@ class GiveawaysGiveawayExtractor extends Module {
       common.createPageHeading(context, `beforeEnd`, {
         items: [
           {
-            name: `ESGST`
+            name: `ESGST`,
+            url: this.esgst.settingsUrl
           },
           {
-            name: `Giveaway Extractor`
+            name: `Giveaway Extractor`,
+            url: `https://www.steamgifts.com/account/settings/profile?esgst=ge`
           }
         ]
       });

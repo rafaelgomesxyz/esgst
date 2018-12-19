@@ -128,10 +128,12 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     common.createPageHeading(ged.popup.description || ged.popup, `afterBegin`, {
       items: [
         {
-          name: `ESGST`
+          name: `ESGST`,
+          url: this.esgst.settingsUrl
         },
         {
-          name: `Decrypted Giveaways`
+          name: `Decrypted Giveaways`,
+          url: `https://www.steamgifts.com/account/settings/profile?esgst=ged`
         }
       ]
     });

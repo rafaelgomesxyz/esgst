@@ -570,7 +570,7 @@ import esgst from './class/Esgst';
           }, {
             attributes: {
               class: `esgst-header-menu-button`,
-              href: `https://www.steamgifts.com/account/settings/profile?esgst=settings`
+              href: esgst.settingsUrl
             },
             type: `a`,
             children: [{
@@ -1042,7 +1042,7 @@ import esgst from './class/Esgst';
           }, {
             attributes: {
               class: `esgst-header-menu-button`,
-              href: `https://www.steamgifts.com/account/settings/profile?esgst=settings`
+              href: esgst.settingsUrl
             },
             type: `a`,
             children: [{
