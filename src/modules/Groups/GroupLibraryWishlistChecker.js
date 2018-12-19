@@ -71,10 +71,12 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       common.createPageHeading(glwc.container, `beforeEnd`, {
         items: [
           {
-            name: `ESGST`
+            name: `ESGST`,
+            url: this.esgst.settingsUrl
           },
           {
-            name: `Group Library/Wishlist Checker`
+            name: `Group Library/Wishlist Checker`,
+            url: `https://www.steamgifts.com/account/settings/profile?esgst=glwc`
           }
         ]
       });

@@ -200,37 +200,37 @@ class Common extends Module {
           {
             id: `settings`,
             name: `Settings`,
-            url: `?esgst=settings`
+            url: this.esgst.settingsUrl
           },
           {
             id: `sync`,
             name: `Sync`,
-            url: `?esgst=sync`
+            url: this.esgst.syncUrl
           },
           {
             id: `backup`,
             name: `Backup`,
-            url: `?esgst=backup`
+            url: this.esgst.backupUrl
           },
           {
             id: `restore`,
             name: `Restore`,
-            url: `?esgst=restore`
+            url: this.esgst.restoreUrl
           },
           {
             id: `delete`,
             name: `Delete`,
-            url: `?esgst=delete`
+            url: this.esgst.deleteUrl
           },
           {
             id: `clean`,
             name: `Clean`,
-            url: `?esgst=clean`
+            url: this.esgst.cleanUrl
           },
           {
             id: `data-management`,
             name: `Data Management`,
-            url: `?esgst=data-management`
+            url: this.esgst.dataManagementUrl
           }
         ]
       });
@@ -2132,10 +2132,12 @@ class Common extends Module {
     const heading = this.createPageHeading(container, `afterBegin`, {
       items: [
         {
-          name: `ESGST`
+          name: `ESGST`,
+          url: this.esgst.settingsUrl
         },
         {
-          name: `Sync`
+          name: `Sync`,
+          url: this.esgst.syncUrl
         }
       ]
     });
@@ -3529,10 +3531,12 @@ class Common extends Module {
     this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
       items: [
         {
-          name: `ESGST`
+          name: `ESGST`,
+          url: this.esgst.settingsUrl
         },
         {
-          name: `Data Management`
+          name: `Data Management`,
+          url: this.esgst.dataManagementUrl
         }
       ]
     });
@@ -3588,10 +3592,12 @@ class Common extends Module {
     const heading = this.createPageHeading(Container, `afterBegin`, {
       items: [
         {
-          name: `ESGST`
+          name: `ESGST`,
+          url: this.esgst.settingsUrl
         },
         {
-          name: `Settings`
+          name: `Settings`,
+          url: this.esgst.settingsUrl
         }
       ]
     });
@@ -3945,7 +3951,7 @@ class Common extends Module {
       }
     }
     const feature = this.esgst.featuresById[id];
-    const url = `https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${id}`;
+    const url = `${this.esgst.settingsUrl}&id=${id}`;
     const items = [{
       check: true,
       content: [...(Array.isArray(feature.name) ? feature.name : [feature.name])],
@@ -4106,7 +4112,7 @@ class Common extends Module {
           [`br`],
           [`p`, [
             `To sync these now, click `,
-            [`a`, { class: `table__column__secondary-link`, href: `https://www.steamgifts.com/account/settings/profile?esgst=sync&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank` }, `here`],
+            [`a`, { class: `table__column__secondary-link`, href: `${this.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank` }, `here`],
             `.`
           ]]
         ],
@@ -6479,10 +6485,12 @@ class Common extends Module {
       const heading = this.createPageHeading(container, `afterBegin`, {
         items: [
           {
-            name: `ESGST`
+            name: `ESGST`,
+            url: this.esgst.settingsUrl
           },
           {
-            name: title1
+            name: title1,
+            url: this.esgst[`${title1.toLowerCase()}Url`]
           }
         ]
       });
@@ -7018,9 +7026,11 @@ class Common extends Module {
     }
     const heading = this.createPageHeading(container, `afterBegin`, {
       items: [{
-        name: `ESGST`
+        name: `ESGST`,
+        url: this.esgst.settingsUrl
       }, {
-        name: `Clean`
+        name: `Clean`,
+        url: this.esgst.cleanUrl
       }]
     });
     if (!isPopup) {

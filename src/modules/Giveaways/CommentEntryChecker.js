@@ -85,10 +85,12 @@ class GiveawaysCommentEntryChecker extends Module {
     const heading = common.createPageHeading(container, `afterBegin`, {
       items: [
         {
-          name: `ESGST`
+          name: `ESGST`,
+          url: this.esgst.settingsUrl
         },
         {
-          name: `Comment / Entry Checker`
+          name: `Comment / Entry Checker`,
+          url: `?esgst=cec`
         }
       ]
     });
