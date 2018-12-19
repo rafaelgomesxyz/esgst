@@ -236,6 +236,34 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.6 (December 19, 2018)**
+
+* [#1115](https://github.com/gsrafael01/ESGST/issues/1115) Update first-install and notice popups
+* [#1114](https://github.com/gsrafael01/ESGST/issues/1114) Fix heading links in ESGST menu pages
+* [#1113](https://github.com/gsrafael01/ESGST/issues/1113) Fix a bug in Endless Scrolling that happens when refreshing a page with no comments and the page received comments in the meantime
+* [#1112](https://github.com/gsrafael01/ESGST/issues/1112) Fix a bug in Comment Reverser that reverses elements in the main page heading when there are no comments
+* [#1110](https://github.com/gsrafael01/ESGST/issues/1110) Allow options to be collapsed without having to disable them in the settings menu
+* [#1109](https://github.com/gsrafael01/ESGST/issues/1109) Remember collapsed sections in the settings menu
+* [#1108](https://github.com/gsrafael01/ESGST/issues/1108) Add option to color blacklisted giveaways to Custom Giveaway Background
+* [#1107](https://github.com/gsrafael01/ESGST/issues/1107) Fix a bug that does not allow Shortcut Keys to be used with the native SteamGifts comment box
+* [#1106](https://github.com/gsrafael01/ESGST/issues/1106) Fix endless scrolling for Happy Holidays Integration
+* [#1105](https://github.com/gsrafael01/ESGST/issues/1105) Fix a bug that tries to load game categories for discussions that have "Humble Bundle" and "Steam Gift Card" in their title
+* [#1104](https://github.com/gsrafael01/ESGST/issues/1104) Fix the pagination count in Endless Scrolling with reverse scrolling enabled
+* [#1103](https://github.com/gsrafael01/ESGST/issues/1103) Fix a bug in Endless Scrolling that does not allow the user to go to the first page of a discussion if reverse scrolling is enabled
+* [#1102](https://github.com/gsrafael01/ESGST/issues/1102) Add a new game category: Banned
+* [#1101](https://github.com/gsrafael01/ESGST/issues/1101) Remove background image in giveaway pages when using Custom Giveaway Background
+* [#1100](https://github.com/gsrafael01/ESGST/issues/1100) Add option to color enter button yellow if ESGST is unable to check game ownership
+* [#1099](https://github.com/gsrafael01/ESGST/issues/1099) Include Element Ordering and Steam API Key sections in the settings menu search
+* [#1098](https://github.com/gsrafael01/ESGST/issues/1098) Fix a bug that does not fade options properly when searching in the settings menu
+* [#1097](https://github.com/gsrafael01/ESGST/issues/1097) Allow the auto sync popup to be opened at any point during the sync instead of only at the end
+* [#1096](https://github.com/gsrafael01/ESGST/issues/1096) Add option to open popup by default when automatically syncing
+* [#1095](https://github.com/gsrafael01/ESGST/issues/1095) Log what has already been synced when syncing
+* [#1094](https://github.com/gsrafael01/ESGST/issues/1094) Change Search Key Searcher export file format from .txt to .csv
+* [#1093](https://github.com/gsrafael01/ESGST/issues/1093) Add option to show first page of comments of the giveaway to Enter/Leave Giveaway Button and Giveaway Popup
+* [#1092](https://github.com/gsrafael01/ESGST/issues/1092) Prevent Whitelist/Blacklist Checker button from appearing in pages with no users to check
+* [#1090](https://github.com/gsrafael01/ESGST/issues/1090) Detect Steam bundles as subs
+* [#1089](https://github.com/gsrafael01/ESGST/issues/1089) Add links to the Whitelist/Blacklist Checker results that allow the user to confirm the result
+
 **8.1.5 (December 4, 2018)**
 
 * [#1070](https://github.com/gsrafael01/ESGST/issues/1070) Fix a bug in Reply From Inbox that happens when a deleted reply is cached
