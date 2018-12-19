@@ -366,7 +366,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           type: `span`
         }]
       }, {
-        text: ` by`,
+        text: ` by `,
         type: `node`
       }, {
         attributes: {

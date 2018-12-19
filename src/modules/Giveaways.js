@@ -184,7 +184,7 @@ class Giveaways extends Module {
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
-      if (!main || !this.esgst.userPath || (ugd && ugdType === `won`) || ged) {
+      if (!main || !this.esgst.userPath || this.esgst.userWonPath || (ugd && ugdType === `won`) || ged) {
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
         giveaway.creator = giveaway.creatorContainer.textContent;
       }
@@ -218,7 +218,7 @@ class Giveaways extends Module {
       if (ugdType === `sent`) {
         giveaway.creator = ugd;
       }
-    } else if (this.esgst.userPath && main && !ged) {
+    } else if (this.esgst.userPath && !this.esgst.userWonPath && main && !ged) {
       giveaway.creator = location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
     } else if (this.esgst.createdPath && main) {
       giveaway.creator = this.esgst.username;
