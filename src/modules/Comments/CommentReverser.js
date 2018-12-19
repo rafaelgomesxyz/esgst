@@ -29,7 +29,10 @@ class CommentsCommentReverser extends Module {
 
   cr() {
     if (!this.esgst.discussionPath || !this.esgst.pagination) return;
-    reverseComments(this.esgst.pagination.previousElementSibling);
+    const context = this.esgst.pagination.previousElementSibling;
+    if (context.classList.contains(`comments`)) {
+      reverseComments(context);
+    }
   }
 }
 

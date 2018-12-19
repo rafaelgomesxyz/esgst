@@ -143,6 +143,11 @@ class GeneralEndlessScrolling extends Module {
     this.esgst.es = es;
     es.divisors = this.esgst.es_pd;
     es.mainContext = this.esgst.pagination.previousElementSibling;
+    if (this.esgst.commentsPath && !es.mainContext.classList.contains(`comments`)) {
+      es.mainContext = common.createElements_v2(es.mainContext, `afterEnd`, [
+        [`div`, { class: `comments` }]
+      ]);
+    }
     let rows = es.mainContext.getElementsByClassName(`table__rows`)[0];
     if (rows) {
       es.mainContext = rows;
