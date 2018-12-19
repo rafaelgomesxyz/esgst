@@ -1056,25 +1056,6 @@ class Common extends Module {
     }]);
   }
 
-  showPatreonNotice() {
-    if (!this.esgst.storage.patreonNotice) {
-      const popup = new Popup({
-        addScrollable: true, icon: `fa-dollar`, isTemp: true, title: [{
-          text: `Hi! ESGST now has a Patreon page. If you want to support ESGST, please check it out: `,
-          type: `node`
-        }, {
-          attributes: {
-            href: `https://www.patreon.com/gsrafael01`
-          },
-          text: `https://www.patreon.com/gsrafael01`,
-          type: `a`
-        }]
-      });
-      popup.onClose = this.setValue.bind(this, `patreonNotice`, true);
-      popup.open();
-    }
-  }
-
   async checkNewVersion() {
     if (this.esgst.version !== this.esgst.currentVersion) {
       if (typeof this.esgst.version === `undefined`) {
@@ -1097,9 +1078,23 @@ class Common extends Module {
         await this.checkSync(true);
         this.createElements_v2(popup.title, `inner`, [
           [`i`, { class: `fa fa-check` }],
-          `Thanks for installing ESGST, ${this.esgst.username}. You are ready to go! Click on the`,
-          [`span`, `Settings`],
-          ` link below to choose which features you want to use.`
+          ` Thanks for installing ESGST, ${this.esgst.username}.`,
+          [`br`],
+          [`br`],
+          `ESGST has a public Steam group. If you want to join it, click `,
+          [`a`, { class: `esgst-bold`, href: `http://steamcommunity.com/groups/esgst`, target: `_blank` }, `here`],
+          `.`,
+          [`br`],
+          [`br`],
+          `ESGST also has a Patreon page. If you want to become a Patron, click `,
+          [`a`, { class: `esgst-bold`, href: `https://www.patreon.com/gsrafael01`, target: `_blank` }, `here`],
+          `. You can also support ESGST by donating to the following Paypal account: `,
+          [`strong`, `gsrafael01@gmail.com`],
+          [`br`],
+          [`br`],
+          `You are ready to go! Click on the `,
+          [`strong`, `Settings`],
+          ` link below to enable features and start getting the most out of SteamGifts!`
         ]);
       } else {
         if (this.esgst.showChangelog) {
@@ -1109,38 +1104,6 @@ class Common extends Module {
       this.esgst.version = this.esgst.currentVersion;
       // noinspection JSIgnoredPromiseFromCall
       this.setValue(`version`, this.esgst.version);
-    }
-    if (!this.esgst.settings.groupPopupDismissed) {
-      let i;
-      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].steamId !== `103582791461018688`; i--) {
-      }
-      if (i < 0 || !this.esgst.groups[i] || !this.esgst.groups[i].member) {
-        let popup = new Popup({
-          addScrollable: true, icon: `fa-steam`, isTemp: true, title: [{
-            text: `Hello! In case you were not aware ESGST now has a Steam group. If you want to join it, you must first send a request from the `,
-            type: `node`
-          }, {
-            attributes: {
-              class: `esgst-bold`,
-              href: `http://steamcommunity.com/groups/esgst`
-            },
-            text: `Steam group`,
-            type: `a`
-          }, {
-            text: ` page, then another request from the settings menu (last button in the heading). Have a good day. :)`,
-            type: `node`
-          }]
-        });
-        this.createElements(popup.description, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-description`
-          },
-          text: `This popup will never show up again after you close it`,
-          type: `div`
-        }]);
-        popup.open();
-        popup.onClose = this.setSetting.bind(this, `groupPopupDismissed`, true);
-      }
     }
   }
 
@@ -3841,8 +3804,9 @@ class Common extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.settings.steamApiKey = SMAPIKey.value;
     });
+    let pp = null;
     if (this.esgst.firstInstall) {
-      let pp = new Popup({ addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started` });
+      pp = new Popup({ addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started` });
       this.createElements(pp.scrollable, `inner`, [{
         attributes: {
           class: `esgst-bold`
@@ -3879,29 +3843,13 @@ class Common extends Module {
           }, {
             type: `li`,
             children: [{
-              text: `Hover over the `,
-              type: `node`
-            }, {
-              attributes: {
-                class: `fa fa-question-circle`
-              },
-              type: `i`
-            }, {
-              text: ` icon next to each option that has it to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.`,
+              text: `Click on an option in the menu to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.`,
               type: `node`
             }]
           }, {
             type: `li`,
             children: [{
-              text: `Some features rely on sync to work properly. These features have a `,
-              type: `node`
-            }, {
-              attributes: {
-                class: `fa fa-refresh esgst-negative`
-              },
-              type: `i`
-            }, {
-              text: ` icon next to their names, and when you hover over the icon you can see what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync section of the menu (section 1) and select the number of days in the dropdown.`,
+              text: `Some features rely on sync to work properly. These features have a "Sync Requirements" section in their detailed menu that show you what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync menu (though the sync button at the top of the menu) and select the number of days in the dropdown.`,
               type: `node`
             }]
           }, {
@@ -3928,7 +3876,6 @@ class Common extends Module {
           }]
         }]
       }]);
-      pp.open();
       this.esgst.firstInstall = false;
     }
     if (this.esgst.parameters.id) {
@@ -3936,6 +3883,9 @@ class Common extends Module {
     }
     if (isPopup) {
       popup.open();
+    }
+    if (pp) {      
+      pp.open();
     }
   }
 
