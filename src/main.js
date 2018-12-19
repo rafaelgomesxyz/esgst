@@ -1546,9 +1546,38 @@ import esgst from './class/Esgst';
       }
 
       envFunctions.addHeaderMenu();
-      common.showPatreonNotice();
       // noinspection JSIgnoredPromiseFromCall
       common.checkNewVersion();
+      if (!envVariables._USER_INFO.extension && !esgst.storage.deprecationWarning) {
+        const popup = new Popup({
+          addScrollable: true, icon: `fa-exclamation`, isTemp: true, title: [{
+            text: `Warning! The userscript version of ESGST is being deprecated. It will no longer receive updates as of v8.2.0. This is happening because ESGST is finally available in the Chrome store, and since it's also been available in the Firefox store for a while, there's no more need for the userscript version. Please upgrade to the extension, otherwise you will miss out on future updates. Below are the links to the extension:`,
+            type: `node`
+          }, {
+            type: `br`
+          }, {
+            type: `br`
+          }, {
+            attributes: {
+              href: `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`
+            },
+            text: `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`,
+            type: `a`
+          }, {
+            type: `br`
+          }, {
+            type: `br`
+          }, {
+            attributes: {
+              href: `https://addons.mozilla.org/en-US/firefox/addon/esgst/`
+            },
+            text: `https://addons.mozilla.org/en-US/firefox/addon/esgst/`,
+            type: `a`
+          }]
+        });
+        popup.onClose = common.setValue.bind(common, `deprecationWarning`, true);
+        popup.open();
+      }
       await common.loadFeatures(esgst.modules);
     }
   }
