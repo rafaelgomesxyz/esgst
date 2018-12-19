@@ -2881,7 +2881,7 @@ class GamesGameCategories extends Module {
       });
     }
     let cannotCheckOwnership = false;
-    if (!savedGame.owned && ((cache && (cache.dlc || cache.learning === 1)) || (type === `apps` && this.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) || (type === `subs` && !packageCount))) {
+    if ((!savedGame || !savedGame.owned) && ((cache && (cache.dlc || cache.learning === 1)) || (type === `apps` && this.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) || (type === `subs` && !packageCount))) {
       cannotCheckOwnership = true;
     }
     for (i = 0, n = games.length; i < n; ++i) {

@@ -1573,6 +1573,33 @@ import esgst from './class/Esgst';
             },
             text: `https://addons.mozilla.org/en-US/firefox/addon/esgst/`,
             type: `a`
+          }, {
+            type: `br`
+          }, {
+            type: `br`
+          }, {
+            text: `To transfer your data from the userscript to the extension, backup your data in the backup menu of the userscript, then disable the userscript, install the extension and restore your data in the restore menu of the extension. Below are the links to the backup/restore pages:`,
+            type: `node`
+          }, {
+            type: `br`
+          }, {
+            type: `br`
+          }, {
+            attributes: {
+              href: `https://www.steamgifts.com/account/settings/profile?esgst=backup`
+            },
+            text: `https://www.steamgifts.com/account/settings/profile?esgst=backup`,
+            type: `a`
+          }, {
+            type: `br`
+          }, {
+            type: `br`
+          }, {
+            attributes: {
+              href: `https://www.steamgifts.com/account/settings/profile?esgst=restore`
+            },
+            text: `https://www.steamgifts.com/account/settings/profile?esgst=restore`,
+            type: `a`
           }]
         });
         popup.onClose = common.setValue.bind(common, `deprecationWarning`, true);
