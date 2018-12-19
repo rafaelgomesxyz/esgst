@@ -196,6 +196,9 @@ class GeneralEndlessScrolling extends Module {
 
   es_observe(es, entries) {
     for (const entry of entries) {
+      if (!entry.boundingClientRect && !entry.rootBounds) {
+        continue;
+      }
       if (!entry.target.getAttribute(`data-esgst-intersection`)) {
         // So it doesn't get fired when starting to observe an element.
         entry.target.setAttribute(`data-esgst-intersection`, true);
@@ -347,6 +350,23 @@ class GeneralEndlessScrolling extends Module {
     let pagination = parseHtml(response.responseText).getElementsByClassName(`pagination`)[0],
       context = pagination.previousElementSibling,
       rows = context.getElementsByClassName(`table__rows`)[0];
+    if (this.esgst.commentsPath && !context.classList.contains(`comments`)) {
+      if (!refreshAll) {
+        es.refreshButton.addEventListener(`click`, this.esgst.es_refresh.bind(this));
+        createElements(es.refreshButton, `inner`, [{
+          attributes: {
+            class: `fa fa-refresh`
+          },
+          type: `i`
+        }, {
+          attributes: {
+            class: `fa fa-map-marker`
+          },
+          type: `i`
+        }]);
+      }
+      return;
+    }
     if (rows) {
       context = rows;
     }
@@ -404,9 +424,14 @@ class GeneralEndlessScrolling extends Module {
         elements[0].remove();
       }
       let element = elements[0];
-      es.mainContext.insertBefore(fragment, element);
-      es.observer.observe(element.previousElementSibling);
-      element.remove();
+      if (element) {
+        es.mainContext.insertBefore(fragment, element);
+        es.observer.observe(element.previousElementSibling);
+        element.remove();
+      } else {
+        es.mainContext.appendChild(fragment);
+        es.observer.observe(es.mainContext.lastElementChild);
+      }
       if (!refreshAll) {
         this.es_purgeRemovedElements();
         await endless_load(es.mainContext, true, null, currentPage);
@@ -423,8 +448,6 @@ class GeneralEndlessScrolling extends Module {
         if (this.esgst.ts && !this.esgst.us) {
           this.esgst.modules.generalTableSorter.ts_sortTables();
         }
-      }
-      if (!refreshAll) {
         es.refreshButton.addEventListener(`click`, this.esgst.es_refresh.bind(this));
         createElements(es.refreshButton, `inner`, [{
           attributes: {
@@ -509,12 +532,25 @@ class GeneralEndlessScrolling extends Module {
       }
     }
     let paginationCount = null;
-    if (es.reverseScrolling && !refresh) {
-      paginationCount = this.esgst.pagination.firstElementChild.firstElementChild;
+    if (this.esgst.pagination.textContent.match(/No\sresults\swere\sfound\./)) {
+      this.esgst.pagination.firstElementChild.firstChild.remove();
+      common.createElements_v2(this.esgst.pagination.firstElementChild, `afterBegin`, [
+        `Displaying `,
+        [`strong`, 1],
+        ` to `,
+        [`strong`, n],
+        ` of `,
+        [`strong`, n],
+        ` result${n > 1 ? `s` : ``}`
+      ]);
     } else {
-      paginationCount = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling;
+      if (es.reverseScrolling && !refresh) {
+        paginationCount = this.esgst.pagination.firstElementChild.firstElementChild;
+      } else {
+        paginationCount = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling;
+      }
+      paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, ``)) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
     }
-    paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, ``)) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
   }
 
   es_purgeRemovedElements() {
