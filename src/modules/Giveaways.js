@@ -502,9 +502,9 @@ class Giveaways extends Module {
           continue;
         }
         const winners = column.textContent.trim().split(/,\s/).filter(x => x);
-        giveaway.numWinners += winners.length;
         if (key === `received`) {
           giveaway.winners = winners.map(x => x.toLowerCase());
+          giveaway.numWinners += winners.length;
         }
         giveaway.winnerColumns[key] = {column, status, winners};
         column.setAttribute(`data-draggable-id`, `winners`);
