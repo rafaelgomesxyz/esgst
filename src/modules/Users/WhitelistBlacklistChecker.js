@@ -149,7 +149,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       icon: WBC.Update ? `fa-cog` : `fa-question`,
       title: WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`
     });
-    if (location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
+    if (window.location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
       WBC.User = {
         Username: document.getElementsByClassName(`featured__heading__medium`)[0].textContent,
         ID: document.querySelector(`[name="child_user_id"]`).value,
@@ -165,7 +165,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     if (WBC.B) {
       new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, this.esgst.wbc_checkBlacklist);
     }
-    if (!WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)) {
+    if (!WBC.Update && !window.location.pathname.match(/^\/(discussions|users|archive)/)) {
       checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, this.esgst.wbc_checkAll);
       checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, [{
         text: `Check only pages from `,
@@ -317,10 +317,10 @@ class UsersWhitelistBlacklistChecker extends Module {
       },
       callback2: () => {
         skip.innerHTML = ``;
-        clearInterval(WBC.Request);
-        clearInterval(WBC.Save);
+        window.clearInterval(WBC.Request);
+        window.clearInterval(WBC.Save);
         WBC.Canceled = true;
-        setTimeout(() => {
+        window.setTimeout(() => {
           WBC.Progress.innerHTML = ``;
         }, 500);
         WBCButton.classList.remove(`esgst-busy`);
@@ -362,7 +362,7 @@ class UsersWhitelistBlacklistChecker extends Module {
               text: `Disable this -->`,
               type: `span`
             }]);
-            setTimeout(() => element.remove(), 5000);
+            window.setTimeout(() => element.remove(), 5000);
           } else if (this.esgst.wbc_checkAll) {
             let element = createElements(checkAllSwitch.container, `afterBegin`, [{
               attributes: {
@@ -371,7 +371,7 @@ class UsersWhitelistBlacklistChecker extends Module {
               text: `Disable this -->`,
               type: `span`
             }]);
-            setTimeout(() => element.remove(), 5000);
+            window.setTimeout(() => element.remove(), 5000);
           } else if (this.esgst.wbc_checkPages) {
             let element = createElements(checkPagesSwitch.container, `afterBegin`, [{
               attributes: {
@@ -380,7 +380,7 @@ class UsersWhitelistBlacklistChecker extends Module {
               text: `Disable this -->`,
               type: `span`
             }]);
-            setTimeout(() => element.remove(), 5000);
+            window.setTimeout(() => element.remove(), 5000);
           }
           let element = createElements(checkSelectedSwitch.container, `afterBegin`, [{
             attributes: {
@@ -389,7 +389,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             text: `Enable this -->`,
             type: `span`
           }]);
-          setTimeout(() => element.remove(), 5000);
+          window.setTimeout(() => element.remove(), 5000);
         }
         WBCButton.removeAttribute(`data-mm`);
       }
@@ -439,8 +439,8 @@ class UsersWhitelistBlacklistChecker extends Module {
       WBC.Users = sortArray(WBC.Users);
       if (WBC.ShowResults) {
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
-          console.log(WBC.Users[I]);
-          console.log(Object.keys(SavedUsers.users).filter(x => SavedUsers.users[x].username == WBC.Users[I])[0]);
+          window.console.log(WBC.Users[I]);
+          window.console.log(Object.keys(SavedUsers.users).filter(x => SavedUsers.users[x].username == WBC.Users[I])[0]);
           if (!SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
             continue;
           }
@@ -484,7 +484,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           WBC.Users.push(username);
         }
       }
-      if ((this.esgst.wbc_checkAll || this.esgst.wbc_checkPages) && ((((WBC.User && !this.esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !location.pathname.match(/^\/(discussions|users|archive)/)))) {
+      if ((this.esgst.wbc_checkAll || this.esgst.wbc_checkPages) && ((((WBC.User && !this.esgst.wbc_checkSingle) || !WBC.User) && !WBC.Update && !window.location.pathname.match(/^\/(discussions|users|archive)/)))) {
         WBC.lastPage = this.esgst.wbc_checkPages ? `of ${this.esgst.wbc_maxPage}` : ``;
         // noinspection JSIgnoredPromiseFromCall
         this.wbc_getUsers(WBC, this.esgst.wbc_checkPages ? (this.esgst.wbc_minPage - 1) : 0, this.esgst.currentPage, this.esgst.searchUrl, () => {
@@ -551,15 +551,15 @@ class UsersWhitelistBlacklistChecker extends Module {
           if (!wbc) {
             wbc = {};
           }
-          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
+          window.setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
         } else if (!wbc || !this.esgst.wbc_checkNew) {
           if (!wbc) {
             wbc = {};
           }
           await this.wbc_checkUser(wbc, WBC, user.username);
-          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
+          window.setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
         } else {
-          setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
+          window.setTimeout(() => this.wbc_setResult(WBC, user, wbc, notes, whitelisted, blacklisted, Result !== wbc.result, I, N, Callback), 0);
         }
       } else if (Callback) {
         Callback();
@@ -643,7 +643,7 @@ class UsersWhitelistBlacklistChecker extends Module {
                 user.values[`${wbc.result}Date`] = Date.now();
               }
               await saveUser(null, null, user);
-              setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
+              window.setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           } else {
             await getUserId(user);
@@ -662,7 +662,7 @@ class UsersWhitelistBlacklistChecker extends Module {
                 user.values[`${wbc.result}Date`] = Date.now();
               }
               await saveUser(null, null, user);
-              setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
+              window.setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
             });
           }
         } else if (wbc.result === `whitelisted` || wbc.result === `blacklisted` || whitelisted || blacklisted) {
@@ -670,15 +670,15 @@ class UsersWhitelistBlacklistChecker extends Module {
             wbc: wbc
           };
           await saveUser(null, null, user);
-          setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          window.setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else if (New) {
           user.values = {
             wbc: null
           };
           await saveUser(null, null, user);
-          setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          window.setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         } else {
-          setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
+          window.setTimeout(() => this.wbc_checkUsers(WBC, ++I, N, Callback), 0);
         }
       }
     }
@@ -698,7 +698,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         text: `Returning ${Type} for ${username}...`,
         type: `span`
       }]);
-      if (location.pathname.match(new RegExp(`^/user/${username}`))) {
+      if (window.location.pathname.match(new RegExp(`^/user/${username}`))) {
         document.getElementsByClassName(`sidebar__shortcut__${Type}`)[0].click();
         if (this.esgst.wbc_n) {
           let msg = `Returned ${Type}.`;
@@ -786,7 +786,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       await this.wbc_checkGiveaway(data, obj, username, true);
     } else {
       obj.Timestamp = 0;
-      const match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+      const match = window.location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
       await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
     }
   }
@@ -839,7 +839,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         } else {
           obj.Timestamp = 0;
           obj.GroupGiveaways = [];
-          let match = location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+          let match = window.location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
           await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
         }
       } else {
@@ -1065,7 +1065,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       }
       Pagination = Context.getElementsByClassName(`pagination__navigation`)[0];
       if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback), 0);
+        window.setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback), 0);
       } else {
         Callback();
       }
@@ -1073,13 +1073,13 @@ class UsersWhitelistBlacklistChecker extends Module {
       if (!this.esgst.wbc_checkPages || NextPage <= this.esgst.wbc_maxPage) {
         NextPage += 1;
         if (CurrentPage !== NextPage) {
-          setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({
+          window.setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({
             method: `GET`,
             queue: true,
             url: URL + NextPage
           })).responseText)), 0);
         } else {
-          setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.esgst.pageOuterWrap), 0);
+          window.setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, this.esgst.pageOuterWrap), 0);
         }
       } else {
         Callback();

@@ -101,7 +101,7 @@ class CommentsCommentSearcher extends Module {
       .toLowerCase()
       .replace(/(,\s*)+/g, this.cs_format.bind(this))
       .split(`, `);
-    let match = location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
+    let match = window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
     obj.code = match[2];
     obj.type = match[1];
     obj.title = this.esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);

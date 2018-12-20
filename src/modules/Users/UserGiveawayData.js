@@ -719,8 +719,8 @@ class UsersUserGiveawayData extends Module {
         const responseText = response.responseText;
         obj.playtimes = JSON.parse(responseText).response.games;
       } catch (e) {
-        console.log(e);
-        alert(`An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
+        window.console.log(e);
+        window.alert(`An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
         await this.ugd_complete(obj, results);
         await saveUser(null, null, obj.user);
         return;

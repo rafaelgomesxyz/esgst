@@ -140,7 +140,7 @@ class CommentsCommentFormattingHelper extends Module {
           description: [
             [`ul`, [
               [`li`, [
-                `Adds a button (`
+                `Adds a button (`,
                 [`i`, { class: `fa fa-minus` }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
@@ -191,7 +191,7 @@ class CommentsCommentFormattingHelper extends Module {
           description: [
             [`ul`, [
               [`li`, [
-                `Adds a button (`
+                `Adds a button (`,
                 [`i`, { class: `fa fa-code` }],
                 [`i`, { class: `fa fa-paragraph` }],
                 `) to the panel that allows you to write text like shown below.`
@@ -239,7 +239,7 @@ class CommentsCommentFormattingHelper extends Module {
           description: [
             [`ul`, [
               [`li`, [
-                `Adds a button (`
+                `Adds a button (`,
                 [`i`, { class: `fa fa-list-ul` }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
@@ -369,7 +369,7 @@ class CommentsCommentFormattingHelper extends Module {
               [`li`, [
                 `Adds a button(`,
                 [`i`, { class: `fa fa-question-circle` }],
-                ` ) to the panel that links to SteamGifts' `
+                ` ) to the panel that links to SteamGifts' `,
                 [`a`, { href: `https://www.steamgifts.com/about/comment-formatting` }, `comment formatting page`],
                 `.`
               ]]
@@ -695,7 +695,7 @@ class CommentsCommentFormattingHelper extends Module {
                 }
               }
             }
-            if (i <= numRows || (i > numRows && confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
+            if (i <= numRows || (i > numRows && window.confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
               value = ``;
               for (i = 1; i < numRows; ++i) {
                 value += `\n`;
@@ -873,7 +873,7 @@ class CommentsCommentFormattingHelper extends Module {
               code.value = ``;
               popout.close();
             } else {
-              alert(`Wrong format. The right format is XXXXX.`);
+              window.alert(`Wrong format. The right format is XXXXX.`);
             }
           });
         },
@@ -5944,7 +5944,7 @@ class CommentsCommentFormattingHelper extends Module {
     if (value) {
       this.cfh_uploadImage(`Bearer ${value}`, popout, url);
     } else {
-      setTimeout(() => this.cfh_checkImgur(popout, url), 250);
+      window.setTimeout(() => this.cfh_checkImgur(popout, url), 250);
     }
   }
 
@@ -6061,7 +6061,7 @@ class CommentsCommentFormattingHelper extends Module {
             deleteRow.remove();
             row.remove();
           } else {
-            alert(`A table must have a least one row and two columns.`);
+            window.alert(`A table must have a least one row and two columns.`);
           }
         });
       }
@@ -6135,7 +6135,7 @@ class CommentsCommentFormattingHelper extends Module {
             rows[i].deleteCell(n);
           }
         } else {
-          alert(`A table must have at least one row and two columns.`);
+          window.alert(`A table must have at least one row and two columns.`);
         }
       });
       --columns;

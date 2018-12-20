@@ -13,7 +13,7 @@
         "*://*.steamtrades.com/*"
       ],
       "js": [
-        "esgst.js"
+        "data/esgst.js"
       ],
       "run_at": "document_start"
     }

@@ -25,8 +25,9 @@ const
     provide: webpack.ProvidePlugin
   },
   BUILD_PATHS = {
-    EXTENSION: 'Extension/esgst',
+    EXTENSION: 'Extension/data/esgst',
     EXTENSION_EVENT_PAGE: 'Extension/eventPage',
+    EXTENSION_EVENT_PAGE_SDK: 'Extension/index',
     MONKEY: 'ESGST.user'
   },
   loaders = {
@@ -113,7 +114,8 @@ module.exports = /** @param {Environment} env */ async env => {
 
   const entry = {
     [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js']
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'],
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE_SDK]: ['./extension/eventPage_sdk_index.js']
   };
   if (env.production) {
     entry[BUILD_PATHS.MONKEY] = ['./monkey/index.js'];
@@ -165,6 +167,12 @@ module.exports = /** @param {Environment} env */ async env => {
           return calfinated.process(fs.readFileSync(bannerFile, 'utf8'), {package: packageJson});
         }
       }),
+      new plugins.banner({
+        raw: true,
+        entryOnly: true,
+        test: /index\.js$/,
+        banner: fs.readFileSync(path.join(__dirname, './src/entry/extension/eventPage_sdk_banner.js'), 'utf8')
+      }),
       new plugins.provide({
         '$': 'jquery',
         'jQuery': 'jquery',
@@ -180,8 +188,7 @@ module.exports = /** @param {Environment} env */ async env => {
       ignored: /node_modules/,
       poll: 1000,
       aggregateTimeout: 1000
-    },
-    devtool: env.development ? 'source-map' : false
+    }
   };
 
   return cfg;

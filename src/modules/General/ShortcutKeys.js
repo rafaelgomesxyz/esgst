@@ -127,7 +127,7 @@ class GeneralShortcutKeys extends Module {
     if (this.esgst.sk_fp) {
       methods[this.esgst.sk_firstPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage > 1) {
-          location.href = `${this.esgst.searchUrl}1`;
+          window.location.href = `${this.esgst.searchUrl}1`;
           event.preventDefault();
         }
       };
@@ -135,7 +135,7 @@ class GeneralShortcutKeys extends Module {
     if (this.esgst.sk_pp) {
       methods[this.esgst.sk_previousPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage > 1) {
-          location.href = `${this.esgst.searchUrl}${this.esgst.currentPage - 1}`;
+          window.location.href = `${this.esgst.searchUrl}${this.esgst.currentPage - 1}`;
           event.preventDefault();
         }
       };
@@ -143,7 +143,7 @@ class GeneralShortcutKeys extends Module {
     if (this.esgst.sk_np) {
       methods[this.esgst.sk_nextPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage < this.esgst.lastPage) {
-          location.href = `${this.esgst.searchUrl}${this.esgst.currentPage + 1}`;
+          window.location.href = `${this.esgst.searchUrl}${this.esgst.currentPage + 1}`;
           event.preventDefault();
         }
       };
@@ -151,7 +151,7 @@ class GeneralShortcutKeys extends Module {
     if (this.esgst.sk_lp) {
       methods[this.esgst.sk_lastPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage < this.esgst.lastPage && this.esgst.lastPage !== 999999999) {
-          location.href = `${this.esgst.searchUrl}${this.esgst.lastPage}`;
+          window.location.href = `${this.esgst.searchUrl}${this.esgst.lastPage}`;
           event.preventDefault();
         }
       };

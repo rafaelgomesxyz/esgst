@@ -49,7 +49,7 @@ class TradesTradeBumper extends Module {
   }
 
   tb() {
-    if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    if (window.location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
       const button = createHeadingButton({
         id: `tb`,
         icons: [`fa-chevron-circle-up`],
@@ -84,9 +84,9 @@ class TradesTradeBumper extends Module {
       });
     }
     if (button) {
-      location.reload();
+      window.location.reload();
     } else {
-      setTimeout(this.tb_setAutoBump.bind(this), 3900000, button);
+      window.setTimeout(this.tb_setAutoBump.bind(this), 3900000, button);
     }
   }
 
@@ -98,12 +98,12 @@ class TradesTradeBumper extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_autoBumpTrades(button);
     } else {
-      setTimeout(this.tb_setAutoBump.bind(this), 3600000 - diff, button);
+      window.setTimeout(this.tb_setAutoBump.bind(this), 3600000 - diff, button);
     }
   }
 
   async tb_autoBumpTrades(button) {
-    if (location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    if (window.location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(button, document);
     } else {

@@ -79,7 +79,7 @@ class GiveawaysGridView extends Module {
         }]);
         slider = element.firstElementChild;
         display = slider.nextElementSibling;
-        $(slider).slider({
+        window.$(slider).slider({
           slide: (event, ui) => {
             spacing = ui.value;
             elements = document.getElementsByClassName(`esgst-gv-container`);

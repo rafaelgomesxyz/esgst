@@ -44,7 +44,7 @@ class GiveawaysGiveawaysSorter extends Module {
   gas(popup) {
     if (!popup && !this.esgst.giveawaysPath && !this.esgst.enteredPath && !this.esgst.groupPath && !this.esgst.userPath) return;
 
-    let type = location.search.match(/type=(wishlist|recommended|group|new)/);
+    let type = window.location.search.match(/type=(wishlist|recommended|group|new)/);
     if (type) {
       type = capitalizeFirstLetter(type[1]);
     } else if (this.esgst.enteredPath) {

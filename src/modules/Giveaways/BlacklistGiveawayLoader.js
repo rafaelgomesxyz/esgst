@@ -48,7 +48,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
       text: `Loading giveaway...`,
       type: `span`
     }]);
-    let responseHtml = parseHtml((await request({ anon: true, method: `GET`, url: location.pathname })).responseText);
+    let responseHtml = parseHtml((await request({ anon: true, method: `GET`, url: window.location.pathname })).responseText);
     if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
       createElements(this.esgst.pageOuterWrap, `inner`, backup);
       createElements(this.esgst.pageOuterWrap.getElementsByClassName(`table--summary`)[0].lastElementChild.firstElementChild.lastElementChild, `beforeEnd`, [{

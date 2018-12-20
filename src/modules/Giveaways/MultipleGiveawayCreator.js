@@ -75,13 +75,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     } else if (this.esgst.discussionPath) {
       if (getLocalValue(`mgcAttach_step2`)) {
         delLocalValue(`mgcAttach_step2`);
-        setLocalValue(`mgcAttach_step3`, location.pathname.match(/\/discussion\/(.+?)\//)[1]);
+        setLocalValue(`mgcAttach_step3`, window.location.pathname.match(/\/discussion\/(.+?)\//)[1]);
         await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`,
           method: `POST`,
-          url: location.href
+          url: window.location.href
         });
-        close();
+        window.close();
       } else if (getLocalValue(`mgcAttach_step4`)) {
         document.querySelector(`form[action="/discussions/edit"]`).submit();
       } else if (getLocalValue(`mgcAttach_step5`)) {
@@ -89,10 +89,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`,
           method: `POST`,
-          url: location.href
+          url: window.location.href
         });
         setLocalValue(`mgcAttach_step6`, true);
-        location.reload();
+        window.location.reload();
       } else if (getLocalValue(`mgcAttach_step6`)) {
         delLocalValue(`mgcAttach_step6`);
         new Popup({
@@ -1026,7 +1026,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }
     }).set);
     popup.open(this.mgc_focusTextArea.bind(this, textArea));
-    textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
+    textArea.style.height = `${window.innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
     textArea.style.overflow = `auto`;
     textArea.addEventListener(`paste`, this.mgc_resizeTextArea.bind(this, popup, textArea));
   }
@@ -1034,10 +1034,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_resizeTextArea(popup, textArea) {
     let interval, value;
     value = textArea.value;
-    interval = setInterval(() => {
+    interval = window.setInterval(() => {
       if (value !== textArea.value) {
-        clearInterval(interval);
-        textArea.style.height = `${innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
+        window.clearInterval(interval);
+        textArea.style.height = `${window.innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25}px`;
         textArea.style.overflow = `auto`;
       }
     }, 250);
@@ -1056,18 +1056,18 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
     textArea.value = `${giveaways.join(`\n`)}\n`;
     n = giveaways.length;
-    if ($(progress.bar).progressbar(`instance`)) {
-      max = $(progress.bar).progressbar(`option`, `max`);
-      value = $(progress.bar).progressbar(`option`, `value`);
+    if (window.$(progress.bar).progressbar(`instance`)) {
+      max = window.$(progress.bar).progressbar(`option`, `max`);
+      value = window.$(progress.bar).progressbar(`option`, `value`);
       if (value + n !== max) {
-        $(progress.bar).progressbar({
+        window.$(progress.bar).progressbar({
           max: value + n,
           value: value
         });
         progress.total.textContent = value + n;
       }
     } else {
-      $(progress.bar).progressbar({
+      window.$(progress.bar).progressbar({
         max: n
       });
       progress.total.textContent = n;
@@ -1271,13 +1271,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       values.gameId = exactMatch.getAttribute(`data-autocomplete-id`);
       values.steam = await this.esgst.modules.games.games_getInfo(exactMatch);
       this.mgc_addGiveaway(false, mgc, values);
-      value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
-      $(progress.bar).progressbar(`option`, `value`, value);
+      value = window.$(progress.bar).progressbar(`option`, `value`) + toRemove.length;
+      window.$(progress.bar).progressbar(`option`, `value`, value);
       progress.current.textContent = value;
       toRemove.forEach(line => {
         textArea.value = textArea.value.replace(`${line}\n`, ``);
       });
-      setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
+      window.setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
     } else if (matches.length > 0) {
       conflictPopup = new Popup({
         icon: `fa-exclamation`,
@@ -1304,13 +1304,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             values.gameId = element.getAttribute(`data-autocomplete-id`);
             values.steam = await this.esgst.modules.games.games_getInfo(element);
             this.mgc_addGiveaway(false, mgc, values);
-            value = $(progress.bar).progressbar(`option`, `value`) + toRemove.length;
-            $(progress.bar).progressbar(`option`, `value`, value);
+            value = window.$(progress.bar).progressbar(`option`, `value`) + toRemove.length;
+            window.$(progress.bar).progressbar(`option`, `value`, value);
             progress.current.textContent = value;
             toRemove.forEach(line => {
               textArea.value = textArea.value.replace(`${line}\n`, ``);
             });
-            setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
+            window.setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
           }
         });
         button.set.style.position = `absolute`;
@@ -1367,7 +1367,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_emptyGiveaways(mgc) {
-    if (confirm(`Are you sure you want to empty the creator?`)) {
+    if (window.confirm(`Are you sure you want to empty the creator?`)) {
       delLocalValue(`mgcCache`);
       this.esgst.busy = false;
       mgc.datas = [];
@@ -1468,7 +1468,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (values.region === `1`) {
         regionRestricted = `Yes (`;
         values.countries.split(/\s/).forEach(id => {
-          console.log(id, mgc.countryNames[id]);
+          window.console.log(id, mgc.countryNames[id]);
           regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
         });
         regionRestricted = `${regionRestricted.slice(0, -2)})`;
@@ -1630,7 +1630,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           url: `/giveaways/new`
         }));
       } else {
-        setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
+        window.setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }
     } else if (this.esgst.mgc_createTrain) {
       // noinspection JSIgnoredPromiseFromCall
@@ -1669,7 +1669,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         setCountdown(popup.title.firstElementChild, 120, async () => {
           popup.close();
           const j = parseInt(mgc.giveaways.children[i].textContent) - 1;
-          setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({
+          window.setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({
             data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
             method: `POST`,
             url: `/giveaways/new`
@@ -1684,7 +1684,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }
         errorsTitle += `\n`;
         giveaway.title = `${errorsTitle}${giveaway.title}`;
-        setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
+        window.setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       }
     } else {
       giveaway.classList.add(`success`);
@@ -1699,9 +1699,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         if (giveaway) {
           mgc.saveGiveaways[giveaway.code] = giveaway;
         }
-        setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
+        window.setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       } else {
-        setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
+        window.setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       }
     }
   }
@@ -1827,7 +1827,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         url: `/ajax.php`
       });
       mgc.created[i].giveaway.classList.add(`connected`);
-      setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
+      window.setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
     }
   }
 
@@ -1919,7 +1919,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (mgc.created.length) {
         delLocalValue(`mgcCache`);
         setLocalValue(`mgcAttach_step4`, mgc.firstWagon);
-        open(`/discussion/${mgc.discussion}/`);
+        window.open(`/discussion/${mgc.discussion}/`);
         viewButton.set.classList.remove(`esgst-hidden`);
       }
       callback();
@@ -2024,8 +2024,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_attachNewDiscussion(mgc, popup, callback) {
     let win;
     setLocalValue(`mgcAttach_step1`, true);
-    win = open(`/discussions/new`);
-    setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
+    win = window.open(`/discussions/new`);
+    window.setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
   }
 
   mgc_checkAttached(mgc, popup, win, callback) {
@@ -2038,7 +2038,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       callback();
       popup.close();
     } else {
-      setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
+      window.setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
     }
   }
 
@@ -2101,7 +2101,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_removeGiveaway(mgc) {
-    if (confirm(`Are you sure you want to remove this giveaway?`)) {
+    if (window.confirm(`Are you sure you want to remove this giveaway?`)) {
       mgc.source.remove();
       mgc.source = null;
       this.mgc_updateCache(mgc);

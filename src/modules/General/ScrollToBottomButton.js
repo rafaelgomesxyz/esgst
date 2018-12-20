@@ -51,8 +51,8 @@ class GeneralScrollToBottomButton extends Module {
             type: `i`
           }]
         }]);
-        addEventListener(`scroll`, () => {
-          if (document.documentElement.offsetHeight - innerHeight >= scrollY + 100) {
+        window.addEventListener(`scroll`, () => {
+          if (document.documentElement.offsetHeight - window.innerHeight >= window.scrollY + 100) {
             button.classList.remove(`esgst-hidden`);
           } else {
             button.classList.add(`esgst-hidden`);

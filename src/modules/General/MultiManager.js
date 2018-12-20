@@ -11,7 +11,6 @@ import vdf from 'simple-vdf';
 import dateFns_format from 'date-fns/format';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createFadeMessage.bind(common),
@@ -21,7 +20,6 @@ const
   escapeMarkdown = common.escapeMarkdown.bind(common),
   getChildByClassName = common.getChildByClassName.bind(common),
   lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
-  lockAndSaveGames = common.lockAndSaveGames.bind(common),
   lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
   request = common.request.bind(common),
   selectSwitches = common.selectSwitches.bind(common)
@@ -701,7 +699,7 @@ class GeneralMultiManager extends Module {
     let links = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-      links.push(`[${escapeMarkdown(item.name || item.title || item.code)}](https://${key === `Games` ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
+      links.push(`[${escapeMarkdown(item.name || item.title || item.code)}](https://${key === `Games` ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${window.location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
     });
     obj[`textArea${key}`].value = links.join(`\n`);
   }
@@ -780,7 +778,7 @@ class GeneralMultiManager extends Module {
         items.forEach(item => {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
           links.push(line
-            .replace(/\[URL]/ig, `https://${location.hostname}/user/${item.code}`)
+            .replace(/\[URL]/ig, `https://${window.location.hostname}/user/${item.code}`)
             .replace(/\[USERNAME]/ig, item.code)
           );
         });
@@ -1123,7 +1121,7 @@ class GeneralMultiManager extends Module {
       message += `The following subs were not found and therefore not hidden: ${result.subs.join(`, `)}\n`;
     }
     if (message) {
-      alert(message);
+      window.alert(message);
     }
   }
 
@@ -1188,12 +1186,12 @@ class GeneralMultiManager extends Module {
     return new Promise(resolve => {
       const file = obj.categorizeInput.files[0];
       if (!file) {
-        alert(`No file selected!`);
+        window.alert(`No file selected!`);
         resolve();
         return;
       }
       if (file.name !== `sharedconfig.vdf`) {
-        alert(`File invalid!`);
+        window.alert(`File invalid!`);
         resolve();
         return;
       }
@@ -1205,7 +1203,7 @@ class GeneralMultiManager extends Module {
 
   mm_readFile(obj, items, reader, resolve) {
     if (!reader) {
-      alert(`An error occurred!`);
+      window.alert(`An error occurred!`);
       resolve();
       return;
     }

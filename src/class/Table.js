@@ -43,7 +43,6 @@ export default class Table {
   }
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-    console.log(arguments);
     const row = createElements(this.rows, `beforeEnd`, [{
       attributes: {
         class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}`

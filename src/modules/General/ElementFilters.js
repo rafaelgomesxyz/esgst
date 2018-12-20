@@ -11,7 +11,7 @@ class GeneralElementFilters extends Module {
           [`li`, `Here are some quick examples:`],
           [`ul`, [
             [`li`, [
-              `To hide the "Redeem" button in your `
+              `To hide the "Redeem" button in your `,
               [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
               ` page, use: `,
               [`code`, `.table__column__key__redeem`]

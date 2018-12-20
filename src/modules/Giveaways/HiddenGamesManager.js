@@ -42,7 +42,7 @@ class GiveawaysHiddenGameManager extends Module {
   }
 
   hgm() {
-    if (!location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
+    if (!window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
     let button = createHeadingButton({
       id: `hgm`,
       icons: [`fa-eye-slash`, `fa-plus-circle`, `fa-times-circle`],
@@ -150,7 +150,7 @@ class GiveawaysHiddenGameManager extends Module {
       message += `The following subs were not found and therefore not hidden: ${result.subs.join(`, `)}\n`;
     }
     if (message) {
-      alert(message);
+      window.alert(message);
     }
     
     obj.button.classList.remove(`esgst-busy`);

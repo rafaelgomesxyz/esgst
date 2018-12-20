@@ -1,0 +1,15 @@
+{
+  "author": "gsrafael01",
+  "description": "Enhances the SteamGifts/SteamTrades experience.",
+  "engines": {
+    "firefox": ">=38.0a1"
+  },
+  "keywords": [
+    "jetpack"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "esgst",
+  "title": "ESGST",
+  "version": "8.1.6"
+}

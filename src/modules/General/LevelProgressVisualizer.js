@@ -76,11 +76,11 @@ class GeneralLevelProgressVisualizer extends Module {
       // where real_cv_difference is the real CV difference between the next level and the current one
       const prediction = round(currentPercentage + (round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
       const predictedLevel = Math.min(10, round(currentBase + (prediction / 100)));
-      console.log(`Final CV calculated: ${cv}`);
-      console.log(`Predicted level without difference: ${predictedLevel}`);
-      console.log(`Difference: ${cache.difference}`);
+      window.console.log(`Final CV calculated: ${cv}`);
+      window.console.log(`Predicted level without difference: ${predictedLevel}`);
+      window.console.log(`Difference: ${cache.difference}`);
       const newLevel = round(predictedLevel - cache.difference);
-      console.log(`Final predicted level: ${newLevel}`);
+      window.console.log(`Final predicted level: ${newLevel}`);
       const newBase = parseInt(newLevel);
       const newPercentage = parseInt(round(newLevel - newBase) * 100);
       const newProgress = parseInt(Math.min(100, newPercentage) * (fullButtonWidth / 100));
@@ -236,7 +236,7 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   lpv_getCv() {
-    console.log(`Beginning CV calculation...`);
+    window.console.log(`Beginning CV calculation...`);
     let cv = 0;
     const user = this.esgst.users.users[this.esgst.steamId];
     if (!user) {
@@ -257,7 +257,7 @@ class GeneralLevelProgressVisualizer extends Module {
           for (const code of items[id]) {
             const giveaway = this.esgst.giveaways[code];
             if (!giveaway) {
-              console.log(`Could not find giveaway ${code}...`);
+              window.console.log(`Could not find giveaway ${code}...`);
               continue;
             }
             value = giveaway.points;
@@ -301,21 +301,21 @@ class GeneralLevelProgressVisualizer extends Module {
               value *= 0.90;
               cv += value;
               if (cv > 0) {
-                console.log(`Adding ${value} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
-                console.log(`Total CV: ${cv}`);
+                window.console.log(`Adding ${value} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+                window.console.log(`Total CV: ${cv}`);
               }
             }
           } else {
             cv += (value * open);
             if (cv > 0) {
-              console.log(`Adding ${value * open} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
-              console.log(`Total CV: ${cv}`);
+              window.console.log(`Adding ${value * open} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              window.console.log(`Total CV: ${cv}`);
             }
           }
         }
       }
     }
-    console.log(`CV calculation ended...`);
+    window.console.log(`CV calculation ended...`);
     return cv;
   }
 }

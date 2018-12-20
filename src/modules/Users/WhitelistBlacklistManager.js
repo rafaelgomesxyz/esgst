@@ -203,7 +203,7 @@ class UsersWhitelistBlacklistManager extends Module {
         method: `POST`,
         url: `/ajax.php`
       });
-      setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
+      window.setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
     } else {
       createFadeMessage(wbm.message, `List imported with success!`);
       callback();
@@ -245,7 +245,7 @@ class UsersWhitelistBlacklistManager extends Module {
       }
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
       if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => this.wbm_exportList(wbm, list, ++nextPage, callback), 0);
+        window.setTimeout(() => this.wbm_exportList(wbm, list, ++nextPage, callback), 0);
       } else {
         downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
         createFadeMessage(wbm.message, `List exported with success!`);
@@ -320,7 +320,7 @@ class UsersWhitelistBlacklistManager extends Module {
       }
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
       if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => this.wbm_clearList(wbm, list, ++nextPage, callback), 0);
+        window.setTimeout(() => this.wbm_clearList(wbm, list, ++nextPage, callback), 0);
       } else {
         // noinspection JSIgnoredPromiseFromCall
         this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
@@ -345,7 +345,7 @@ class UsersWhitelistBlacklistManager extends Module {
         method: `POST`,
         url: `/ajax.php`
       });
-      setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
+      window.setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
     } else {
       createFadeMessage(wbm.message, `List cleared with success!`);
       createElements(wbm.results, `inner`, [{

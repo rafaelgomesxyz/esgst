@@ -70,7 +70,7 @@ class GiveawaysEntryTracker extends Module {
     }]).addEventListener(`click`, this.et_menu.bind(this));
     if (this.esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && this.esgst.enterGiveawayButton) {
       let code, name;
-      code = location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
+      code = window.location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
       name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
       this.esgst.enterGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(this, code, true, name));
       this.esgst.leaveGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(this, code, false, name));
@@ -325,7 +325,7 @@ class GiveawaysEntryTracker extends Module {
   }
 
   async et_deleteEntry(button, date, popup) {
-    if (!confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
+    if (!window.confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
     createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`

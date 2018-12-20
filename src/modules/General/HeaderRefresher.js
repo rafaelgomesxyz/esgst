@@ -5,7 +5,6 @@ import { common } from '../Common';
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getLocalValue = common.getLocalValue.bind(common),
   getWonGames = common.getWonGames.bind(common),
   request = common.request.bind(common),
@@ -193,8 +192,8 @@ class GeneralHeaderRefresher extends Module {
     // noinspection JSIgnoredPromiseFromCall
     this.hr_startRefresher(hr);
     if (!this.esgst.hr_b) {
-      addEventListener(`focus`, this.hr_startRefresher.bind(this, hr));
-      addEventListener(`blur`, () => clearTimeout(hr.refresher));
+      window.addEventListener(`focus`, this.hr_startRefresher.bind(this, hr));
+      window.addEventListener(`blur`, () => window.clearTimeout(hr.refresher));
     }
   }
 
@@ -204,7 +203,7 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async hr_createPlayer(string) {
-    let binary = atob(string);
+    let binary = window.atob(string);
     let buffer = new ArrayBuffer(binary.length);
     let bytes = new Uint8Array(buffer);
     for (let i = buffer.byteLength - 1; i > -1; i--) {
@@ -253,7 +252,7 @@ class GeneralHeaderRefresher extends Module {
     let cache = this.hr_getCache();
     setLocalValue(`hrCache`, JSON.stringify(cache));
     await this.hr_refreshHeader(cache, hr);
-    hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+    hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
   }
 
   async hr_continueRefresher(hr) {
@@ -268,11 +267,11 @@ class GeneralHeaderRefresher extends Module {
       cache = this.hr_getCache();
       setLocalValue(`hrCache`, JSON.stringify(cache));
       await this.hr_refreshHeader(cache, hr, true);
-      hr.refresher = setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+      hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
     } else {
       this.esgst.wishlist = cache.wishlist;
       await this.hr_refreshHeader(cache, this.hr);
-      setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+      window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
     }
   }
 
@@ -494,8 +493,8 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async hr_showNotification(details) {
-    console.log(details);
-    let result = await Notification.requestPermission();
+    window.console.log(details);
+    let result = await window.Notification.requestPermission();
     if (result !== `granted`) {
       return;
     }
@@ -526,7 +525,7 @@ class GeneralHeaderRefresher extends Module {
           this.esgst.hr.wonPlayer.play();
         }
       } catch (e) {
-        console.log(e);
+        window.console.log(e);
         details.msg += `\n\nAn error happened when trying to play the sound.`;
       }
     }
@@ -549,13 +548,13 @@ class GeneralHeaderRefresher extends Module {
         });
       } else {
         if (details.inbox) {
-          open(`/messages`);
+          window.open(`/messages`);
         }
         if (details.wishlist) {
-          open(`/giveaways/search?type=wishlist`);
+          window.open(`/giveaways/search?type=wishlist`);
         }
         if (details.won) {
-          open(`/giveaways/won`);
+          window.open(`/giveaways/won`);
         }
       }
       notification.close();

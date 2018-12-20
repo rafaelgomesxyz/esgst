@@ -78,7 +78,7 @@ class DiscussionsDiscussionFilters extends Module {
                     `) hides any discussions that apply to the filter.`
                   ]]
                 ]]
-              ]]
+              ]],
               [`li`, `A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want. Each preset contains 3 types of rules:`],
               [`ul`, [
                 [`li`, `Basic rules are the ones that you can change directly in the filter panel, using the sliders/checkboxes as explained in the previous item.`],

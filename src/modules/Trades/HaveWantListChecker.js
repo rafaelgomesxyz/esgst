@@ -58,7 +58,7 @@ class TradesHaveWantListChecker extends Module {
     });
     this.hwlc_addPanel(obj);
     obj.popup.open();
-    setTimeout(() => this.hwlc_getGames(obj), 1000);
+    window.setTimeout(() => this.hwlc_getGames(obj), 1000);
   }
 
   hwlc_addPanel(obj) {
@@ -171,7 +171,7 @@ class TradesHaveWantListChecker extends Module {
         };
         setLocalValue(`hwlcCache`, JSON.stringify(cache));
       } catch (error) {
-        alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
+        window.alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
       }
     }
     const json = JSON.parse(cache.data);

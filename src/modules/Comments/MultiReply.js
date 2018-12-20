@@ -75,7 +75,7 @@ class CommentsMultiReply extends Module {
           MR.TradeCode = ``;
         } else {
           if (main && !this.esgst.inboxPath) {
-            MR.TradeCode = location.pathname.match(/^\/trade\/(.+?)\//)[1];
+            MR.TradeCode = window.location.pathname.match(/^\/trade\/(.+?)\//)[1];
           }
           MR.Username = MR.Comment.getElementsByClassName(`author_name`)[0].textContent;
         }
@@ -231,7 +231,7 @@ class CommentsMultiReply extends Module {
           MR.Box = null;
           MR.Children.appendChild(Reply);
           if (!this.esgst.qiv.comments || !this.esgst.qiv.comments.contains(Reply)) {
-            location.hash = id;
+            window.location.hash = id;
           }
         } else {
           createElements(DEDStatus, `inner`, [{
@@ -256,7 +256,7 @@ class CommentsMultiReply extends Module {
           MR.Box = null;
           MR.Children.appendChild(Reply);
           if (!this.esgst.qiv.comments || !this.esgst.qiv.comments.contains(Reply)) {
-            location.hash = id;
+            window.location.hash = id;
           }
         } else {
           createElements(DEDStatus, `inner`, [{

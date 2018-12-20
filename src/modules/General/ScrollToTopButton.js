@@ -52,8 +52,8 @@ class GeneralScrollToTopButton extends Module {
           }]
         }]);
         button.classList.add(`esgst-hidden`);
-        addEventListener(`scroll`, () => {
-          if (scrollY > 100) {
+        window.addEventListener(`scroll`, () => {
+          if (window.scrollY > 100) {
             button.classList.remove(`esgst-hidden`);
           } else {
             button.classList.add(`esgst-hidden`);

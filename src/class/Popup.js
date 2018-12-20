@@ -173,7 +173,7 @@ export default class Popup {
     this.modal.addEventListener(`click`, () => this.close());
     this.reposition();
     if (!container.esgst.isRepositioning && !container.esgst.staticPopups) {
-      setTimeout(() => container.common.repositionPopups(), 2000);
+      window.setTimeout(() => container.common.repositionPopups(), 2000);
     }
     if (this.textInputs) {
       this.textInputs[0].focus();
@@ -208,15 +208,15 @@ export default class Popup {
   reposition() {
     if (this.isCreated && this.scrollable) {
       if (container.esgst.staticPopups) {
-        this.scrollable.style.maxHeight = `${ innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
+        this.scrollable.style.maxHeight = `${ window.innerHeight - (this.popup.offsetHeight - this.scrollable.offsetHeight) - 100}px`;
       } else {
-        this.scrollable.style.maxHeight = `${ innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
+        this.scrollable.style.maxHeight = `${ window.innerHeight * 0.9 - (this.popup.offsetHeight - this.scrollable.offsetHeight)}px`;
       }
     }
     if (!container.esgst.staticPopups) {
       let newLeft, newTop;
-      newLeft = (innerWidth - this.popup.offsetWidth) / 2;
-      newTop = (innerHeight - this.popup.offsetHeight) / 2;
+      newLeft = (window.innerWidth - this.popup.offsetWidth) / 2;
+      newTop = (window.innerHeight - this.popup.offsetHeight) / 2;
       if (Math.abs(newLeft - this.popup.offsetLeft) > 5 || Math.abs(newTop - this.popup.offsetTop) > 5) {
         this.popup.style.left = `${newLeft}px`;
         this.popup.style.top = `${newTop}px`;

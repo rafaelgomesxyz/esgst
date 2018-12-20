@@ -49,7 +49,7 @@ class UsersInboxWinnerHighlighter extends Module {
 
   iwh_setObserver(Context) {
     let Key, Username;
-    Key = location.pathname.match(/\/giveaway\/(.+?)\//)[1];
+    Key = window.location.pathname.match(/\/giveaway\/(.+?)\//)[1];
     Username = Context.closest(`.table__row-inner-wrap`).getElementsByClassName(`table__column__heading`)[0].querySelector(`a[href*="/user/"]`).textContent;
     Context.addEventListener(`click`, async () => {
       let Winners;

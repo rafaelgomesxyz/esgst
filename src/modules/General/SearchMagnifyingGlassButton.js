@@ -35,7 +35,7 @@ class GeneralSearchMagnifyingGlassButton extends Module {
           if (this.esgst.as && value.match(/"|id:/)) {
             this.esgst.modules.giveawaysArchiveSearcher.as_openPage(input);
           } else {
-            location.href = `${this.esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
+            window.location.href = `${this.esgst.searchUrl.replace(/page=/, ``)}q=${value}`;
           }
         }
       });

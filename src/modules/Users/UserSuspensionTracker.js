@@ -30,7 +30,7 @@ class UsersUserSuspensionTracker extends Module {
             [`li`, [
               `Your `,
               [`a`, { href: `https://www.steamgifts.com/support/tickets` }, `tickets`],
-              ` page, which allows you to send multiple tickets to the database at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:`
+              ` page, which allows you to send multiple tickets to the database at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:`,
               [`ul`, [
                 [`li`, `Clicking on an unchecked checkbox with the Ctrl key pressed will select all of the tickets.`],
                 [`li`, `Clicking on a checked checkbox with the Ctrl key pressed will unselect all of the tickets.`],
@@ -69,7 +69,7 @@ class UsersUserSuspensionTracker extends Module {
       this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     } else if (this.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       let code, tickets;
-      code = location.pathname.match(/\/ticket\/(.+?)\//)[1];
+      code = window.location.pathname.match(/\/ticket\/(.+?)\//)[1];
       tickets = JSON.parse(this.esgst.storage.tickets);
       if (!tickets[code] || !tickets[code].sent) {
         this.esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
@@ -162,7 +162,7 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_send() {
-    let code = location.href.match(/\/ticket\/(.+?)\//)[1];
+    let code = window.location.href.match(/\/ticket\/(.+?)\//)[1];
     this.esgst.ustButton.removeEventListener(`click`, this.ust_send);
     createElements(this.esgst.ustButton, `inner`, [{
       attributes: {
@@ -173,7 +173,7 @@ class UsersUserSuspensionTracker extends Module {
     let error = JSON.parse(
       (await request({
         data: `${code}=${encodeURIComponent(parseHtml(
-          (await request({ method: `GET`, url: location.href })).responseText
+          (await request({ method: `GET`, url: window.location.href })).responseText
         ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
         method: `POST`,
         url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
