@@ -23,7 +23,7 @@
     "64": "icon.png"
   },
   "manifest_version": 2,
-  "name": "ESGST",
+  "name": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "permissions": [
     "*://*.api.steampowered.com/*",
     "*://*.store.steampowered.com/*",
