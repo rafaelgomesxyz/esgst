@@ -181,7 +181,7 @@ class CommentsCommentTracker extends Module {
         });
         this.ct_addCommentPanel(button1, button2, button3);
       }
-      let match = location.pathname.match(/\/(giveaway|discussion|ticket|trade)\/(.+?)\//);
+      let match = window.location.pathname.match(/\/(giveaway|discussion|ticket|trade)\/(.+?)\//);
       if (match) {
         let code, count, diff, comments, element, type;
         element = this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`).firstElementChild;
@@ -423,7 +423,7 @@ class CommentsCommentTracker extends Module {
                 }
               }
             } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-              if (goToUnread && (!this.esgst.ctGoToUnread || ((((this.esgst.ct_r && !this.esgst.cr) || (!this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop < scrollY + this.esgst.commentsTop) || (((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop > scrollY + this.esgst.commentsTop)))) {
+              if (goToUnread && (!this.esgst.ctGoToUnread || ((((this.esgst.ct_r && !this.esgst.cr) || (!this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop < window.scrollY + this.esgst.commentsTop) || (((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr)) && comment.comment.offsetTop > window.scrollY + this.esgst.commentsTop)))) {
                 this.esgst.ctGoToUnread = true;
                 if ((this.esgst.discussionPath && ((!this.esgst.ct_r && !this.esgst.cr) || (this.esgst.ct_r && this.esgst.cr))) || (!this.esgst.discussionPath && !this.esgst.ct_r)) {
                   unread = comment;
@@ -433,15 +433,15 @@ class CommentsCommentTracker extends Module {
                     this.esgst.ctUnreadFound = true;
                     if (!this.esgst.ctNewTab && this.esgst.sto) {
                       if (comment.id) {
-                        location.href = `/go/comment/${comment.id}`;
+                        window.location.href = `/go/comment/${comment.id}`;
                       } else {
-                        location.href = `/discussion/${comment.code}/`;
+                        window.location.href = `/discussion/${comment.code}/`;
                       }
                     } else {
                       if (comment.id) {
-                        open(`/go/comment/${comment.id}`);
+                        window.open(`/go/comment/${comment.id}`);
                       } else {
-                        open(`/discussion/${comment.code}/`);
+                        window.open(`/discussion/${comment.code}/`);
                       }
                     }
                   } else {
@@ -485,15 +485,15 @@ class CommentsCommentTracker extends Module {
             this.esgst.ctUnreadFound = true;
             if (!this.esgst.ctNewTab && this.esgst.sto) {
               if (unread.id) {
-                location.href = `/go/comment/${unread.id}`;
+                window.location.href = `/go/comment/${unread.id}`;
               } else {
-                location.href = `/discussion/${unread.code}/`;
+                window.location.href = `/discussion/${unread.code}/`;
               }
             } else {
               if (unread.id) {
-                open(`/go/comment/${unread.id}`);
+                window.open(`/go/comment/${unread.id}`);
               } else {
-                open(`/discussion/${unread.code}/`);
+                window.open(`/discussion/${unread.code}/`);
               }
             }
           } else {
@@ -512,7 +512,7 @@ class CommentsCommentTracker extends Module {
         }
       }
     } else {
-      source = location.pathname.match(/(giveaway|discussion|trade|ticket)\/(.+?)(\/.*)?$/);
+      source = window.location.pathname.match(/(giveaway|discussion|trade|ticket)\/(.+?)(\/.*)?$/);
       if (source) {
         type = `${source[1]}s`;
         code = source[2];

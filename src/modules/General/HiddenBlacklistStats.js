@@ -22,7 +22,7 @@ class GeneralHiddenBlacklistStats extends Module {
   }
 
   hbs() {
-    if (!location.pathname.match(/^\/stats\/personal\/community/)) return;
+    if (!window.location.pathname.match(/^\/stats\/personal\/community/)) return;
 
     let chart = document.getElementsByClassName(`chart`)[4];
 

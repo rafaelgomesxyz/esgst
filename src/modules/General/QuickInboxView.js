@@ -73,10 +73,10 @@ class GeneralQuickInboxView extends Module {
     this.esgst.inboxButton.addEventListener(`mouseenter`, this.qiv_openPopout.bind(this));
     this.esgst.inboxButton.addEventListener(`mouseleave`, event => {
       if (this.esgst.qiv.timeout) {
-        clearTimeout(this.esgst.qiv.timeout);
+        window.clearTimeout(this.esgst.qiv.timeout);
         this.esgst.qiv.timeout = null;
       }
-      this.esgst.qiv.exitTimeout = setTimeout(() => {
+      this.esgst.qiv.exitTimeout = window.setTimeout(() => {
         if (this.esgst.qiv.popout && !this.esgst.qiv.popout.popout.contains(event.relatedTarget)) {
           this.esgst.qiv.popout.close();
         }
@@ -85,7 +85,7 @@ class GeneralQuickInboxView extends Module {
   }
 
   qiv_openPopout() {
-    this.esgst.qiv.timeout = setTimeout(() => {
+    this.esgst.qiv.timeout = window.setTimeout(() => {
       if (this.esgst.qiv.popout) {
         this.esgst.qiv.popout.open(this.esgst.inboxButton);
       } else {
@@ -107,7 +107,7 @@ class GeneralQuickInboxView extends Module {
       }
       this.esgst.qiv.popout.popout.onmouseenter = () => {
         if (this.esgst.qiv.exitTimeout) {
-          clearTimeout(this.esgst.qiv.exitTimeout);
+          window.clearTimeout(this.esgst.qiv.exitTimeout);
           this.esgst.qiv.exitTimeout = null;
         }
       };

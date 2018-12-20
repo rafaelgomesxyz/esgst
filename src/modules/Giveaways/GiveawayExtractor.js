@@ -11,8 +11,7 @@ const
   createHeadingButton = common.createHeadingButton.bind(common),
   endless_load = common.endless_load.bind(common),
   getParameters = common.getParameters.bind(common),
-  request = common.request.bind(common),
-  setMouseEvent = common.setMouseEvent.bind(common)
+  request = common.request.bind(common)
   ;
 
 class GiveawaysGiveawayExtractor extends Module {
@@ -99,7 +98,7 @@ class GiveawaysGiveawayExtractor extends Module {
     };
     ge.button.addEventListener(`click`, () => {
       if (this.esgst.ge_t) {
-        window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
+        window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
       } else {
         this.ge_openPopup(ge);
       }
@@ -238,7 +237,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.isCanceled) {
       if (i < n) {
         // noinspection JSIgnoredPromiseFromCall
-        this.ge_extractGiveaway(ge, giveaways[i], setTimeout.bind(null, this.ge_extractGiveaways.bind(this), 0, ge, giveaways, ++i, n, callback));
+        this.ge_extractGiveaway(ge, giveaways[i], window.setTimeout.bind(null, this.ge_extractGiveaways.bind(this), 0, ge, giveaways, ++i, n, callback));
       } else {
         callback();
       }
@@ -269,7 +268,7 @@ class GiveawaysGiveawayExtractor extends Module {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
           if (sgTools && this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
-            open(`https://www.sgtools.info/giveaways/${code}`);
+            window.open(`https://www.sgtools.info/giveaways/${code}`);
             ge.extracted.push(code);
             ge.sgToolsCount += 1;
             callback();
@@ -313,7 +312,7 @@ class GiveawaysGiveawayExtractor extends Module {
               giveaways = this.ge_getGiveaways(ge, responseHtml);
               n = giveaways.length;
               if (n > 0) {
-                setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+                window.setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
               } else {
                 callback();
               }
@@ -351,7 +350,7 @@ class GiveawaysGiveawayExtractor extends Module {
             giveaways = this.ge_getGiveaways(ge, responseHtml);
             n = giveaways.length;
             if (n > 0) {
-              setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+              window.setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
             } else {
               callback();
             }
@@ -374,7 +373,7 @@ class GiveawaysGiveawayExtractor extends Module {
         giveaways.push(match[1]);
       }
     } else if (context === this.esgst.pageOuterWrap && this.esgst.giveawayPath) {
-      let match = location.href.match(/\/giveaway\/(.+?)\//);
+      let match = window.location.href.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
       }

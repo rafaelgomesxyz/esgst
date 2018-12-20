@@ -125,7 +125,7 @@ class Profile extends Module {
       try {
         await feature(profile, savedUser);
       } catch (error) {
-        console.log(error);
+        window.console.log(error);
       }
     }
   }

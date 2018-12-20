@@ -67,10 +67,10 @@ class GeneralAvatarPopout extends Module {
         delay = 1000;
         apAvatar.addEventListener(`mouseleave`, event => {
           if (timeout) {
-            clearTimeout(timeout);
+            window.clearTimeout(timeout);
             timeout = null;
           }
-          exitTimeout = setTimeout(() => {
+          exitTimeout = window.setTimeout(() => {
             if (popout && !popout.popout.contains(event.relatedTarget)) {
               popout.close();
             }
@@ -78,7 +78,7 @@ class GeneralAvatarPopout extends Module {
         });
         apAvatar.addEventListener(`click`, () => {
           if (timeout) {
-            clearTimeout(timeout);
+            window.clearTimeout(timeout);
             timeout = null;
           }
         });
@@ -94,7 +94,7 @@ class GeneralAvatarPopout extends Module {
         type = match[1];
         apAvatar.addEventListener(eventType, event => {
           event.preventDefault();
-          timeout = setTimeout(async () => {
+          timeout = window.setTimeout(async () => {
             popout = this.esgst.apPopouts[id];
             if (popout) {
               if (this.esgst.ap_index === 1 && popout.isOpen) {
@@ -173,7 +173,7 @@ class GeneralAvatarPopout extends Module {
             if (this.esgst.ap_index === 0) {
               popout.popout.onmouseenter = () => {
                 if (exitTimeout) {
-                  clearTimeout(exitTimeout);
+                  window.clearTimeout(exitTimeout);
                   exitTimeout = null;
                 }
               };

@@ -52,10 +52,10 @@ class GiveawaysGiveawayCountryLoader extends Module {
             delay = 1000;
             giveaway.regionRestricted.addEventListener(`mouseleave`, event => {
               if (timeout) {
-                clearTimeout(timeout);
+                window.clearTimeout(timeout);
                 timeout = null;
               }
-              exitTimeout = setTimeout(() => {
+              exitTimeout = window.setTimeout(() => {
                 if (context && !container.contains(event.relatedTarget)) {
                   context.close();
                 }
@@ -63,7 +63,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
             });
             giveaway.regionRestricted.addEventListener(`click`, () => {
               if (timeout) {
-                clearTimeout(timeout);
+                window.clearTimeout(timeout);
                 timeout = null;
               }
             });
@@ -83,7 +83,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
             break;
         }
         giveaway.regionRestricted.addEventListener(eventType, () => {
-          timeout = setTimeout(async () => {
+          timeout = window.setTimeout(async () => {
             if (context) {
               switch (this.esgst.gcl_index) {
                 case 0:
@@ -208,7 +208,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
             if (this.esgst.gcl_index === 0) {
               container.onmouseenter = () => {
                 if (exitTimeout) {
-                  clearTimeout(exitTimeout);
+                  window.clearTimeout(exitTimeout);
                   exitTimeout = null;
                 }
               };

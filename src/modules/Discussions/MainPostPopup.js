@@ -56,11 +56,11 @@ class DiscussionsMainPostPopup extends Module {
     this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
     let Hidden;
     if (this.esgst.mpp_r) {
-      let discussion = JSON.parse(this.esgst.storage.discussions)[location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
+      let discussion = JSON.parse(this.esgst.storage.discussions)[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
       if (discussion) {
         if (discussion.readComments && discussion.readComments[``]) {
           Hidden = true;
-          scrollTo(0, 0);
+          window.scrollTo(0, 0);
         } else {
           Hidden = false;
         }
@@ -69,7 +69,7 @@ class DiscussionsMainPostPopup extends Module {
       }
     } else {
       Hidden = true;
-      scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
     MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`, `esgst-text-left`);
     button.addEventListener(`click`, () => {

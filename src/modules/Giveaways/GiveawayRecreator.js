@@ -18,7 +18,7 @@ class GiveawaysGiveawayRecreator extends Module {
       description: [
         [`ul`, [
           [`li`, [
-            `Adds an icon (`
+            `Adds an icon (`,
             [`i`, { class: `fa fa-rotate-left` }],
             `) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the `,
             [`a`, { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
@@ -134,7 +134,7 @@ class GiveawaysGiveawayRecreator extends Module {
     giveaways[giveaway.code].recreated = true;
     await setValue(`giveaways`, JSON.stringify(giveaways));
     button.remove();
-    open(`/giveaways/new`);
+    window.open(`/giveaways/new`);
   }
 }
 

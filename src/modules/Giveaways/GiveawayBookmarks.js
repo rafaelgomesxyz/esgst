@@ -564,9 +564,9 @@ class GiveawaysGiveawayBookmarks extends Module {
             giveaways[bookmarked[i].code].endTime = endTime;
             await setValue(`giveaways`, JSON.stringify(giveaways));
             deleteLock();
-            setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
+            window.setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
           } else {
-            setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
+            window.setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
           }
         } else {
           if (this.esgst.gb_ui) {
@@ -578,7 +578,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             await setValue(`giveaways`, JSON.stringify(giveaways));
             deleteLock();
           }
-          setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
+          window.setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
         }
       } else {
         callback(i + 1);

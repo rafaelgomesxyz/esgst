@@ -74,17 +74,17 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
       if (event.key === this.esgst.npth_previousKey) {
         if (previous) {
           if (event.ctrlKey) {
-            open(previous.getAttribute(`href`));
+            window.open(previous.getAttribute(`href`));
           } else {
-            location.href = previous.getAttribute(`href`);
+            window.location.href = previous.getAttribute(`href`);
           }
         } else {
           referrer = document.referrer;
           if (referrer.match(/\/giveaway\//) && ((next && referrer !== next.getAttribute(`href`)) || !next)) {
             if (event.ctrlKey) {
-              open(referrer);
+              window.open(referrer);
             } else {
-              location.href = referrer;
+              window.location.href = referrer;
             }
           } else {
             createAlert(`No previous link found.`);
@@ -93,9 +93,9 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
       } else if (event.key === this.esgst.npth_nextKey) {
         if (next) {
           if (event.ctrlKey) {
-            open(next.getAttribute(`href`));
+            window.open(next.getAttribute(`href`));
           } else {
-            location.href = next.getAttribute(`href`);
+            window.location.href = next.getAttribute(`href`);
           }
         } else {
           createAlert(`No next link found.`);

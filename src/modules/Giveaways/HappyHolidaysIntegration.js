@@ -44,7 +44,7 @@ class GiveawaysHappyHolidaysIntegration extends Module {
   }
 
   init() {
-    if (location.pathname.match(/^\/happy-holidays($|\/search)/)) {
+    if (window.location.pathname.match(/^\/happy-holidays($|\/search)/)) {
       this.esgst.endlessFeatures.push(this.getBoxes.bind(this));
     }
   }
@@ -138,8 +138,8 @@ class GiveawaysHappyHolidaysIntegration extends Module {
 }
 
 function giveaway_box_redraw() {
-  $('.giveaway_box').each(function(){
-  var elem = $(this);
+  window.$('.giveaway_box').each(function(){
+  var elem = window.$(this);
   var background_default = 'repeating-linear-gradient(45deg, rgba(232, 234, 237, 0.95), rgba(232, 234, 237, 0.95) 15px, rgba(239, 241, 245, 0.95) 15px, rgba(239, 241, 245, 0.95) 30px)';
   // Dimensions
   var base_width = parseInt(elem.data('base-width'));
@@ -177,10 +177,6 @@ function giveaway_box_redraw() {
 
 function giveaway_box_validate_background(val) {
   return val.match(/^(http|https):\/\/i.imgur.com\/([A-Za-z0-9]{5,8}).(jpg|png|gif)$/i);
-}
-
-function giveaway_box_validate_highlight(elem) {
-  elem.attr('class', (giveaway_box_validate_background(elem.val()) ? 'form__input--valid' : ''));
 }
 
 export default GiveawaysHappyHolidaysIntegration;

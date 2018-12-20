@@ -7,7 +7,6 @@ import Table from '../../class/Table';
 const
   parseHtml = utils.parseHtml.bind(utils),
   sortArray = utils.sortArray.bind(utils),
-  createHeadingButton = common.createHeadingButton.bind(common),
   request = common.request.bind(common)
   ;
 
@@ -107,7 +106,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     // get comments
     let comments = [];
-    let urls = [location.pathname.match(/\/giveaway\/.+?\//)[0]];
+    let urls = [window.location.pathname.match(/\/giveaway\/.+?\//)[0]];
     for (let i = 0; !obj.isCanceled && i < urls.length; i++) {
       let nextPage = 1;
       let pagination = null;

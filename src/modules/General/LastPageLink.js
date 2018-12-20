@@ -49,13 +49,13 @@ class GeneralLastPageLink extends Module {
           lastPage = 999999999;
         }
       } else if ((main && this.esgst.userPath) || user) {
-        if ((main && location.pathname.match(/\/giveaways\/won/)) || userWon) {
+        if ((main && window.location.pathname.match(/\/giveaways\/won/)) || userWon) {
           lastPage = Math.ceil(parseInt(context.querySelector(`.featured__table__row__right a[href*="/giveaways/won"]`).textContent.replace(/,/g, ``)) / 25);
         } else {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[0].textContent.replace(/,/g, ``)) / 25);
         }
       } else if ((main && this.esgst.groupPath) || group) {
-        if ((main && location.pathname.match(/\/users/)) || groupUsers) {
+        if ((main && window.location.pathname.match(/\/users/)) || groupUsers) {
           lastPage = Math.ceil(parseInt(context.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent.replace(/,/g, ``)) / 25);
         } else if ((main && this.esgst.groupWishlistPath) || groupWishlist) {
           lastPage = 999999999;
@@ -85,7 +85,7 @@ class GeneralLastPageLink extends Module {
 
   lpl_addDiscussionLink() {
     let lastLink, url;
-    url = `${location.pathname.replace(`/search`, ``)}/search?page=${this.esgst.lastPage}`;
+    url = `${window.location.pathname.replace(`/search`, ``)}/search?page=${this.esgst.lastPage}`;
     this.esgst.lastPageLink = [{
       attributes: {
         [`data-page-number`]: this.esgst.lastPage,
@@ -110,8 +110,8 @@ class GeneralLastPageLink extends Module {
 
   lpl_addUserLink() {
     let lastLink, url, username;
-    username = location.pathname.match(/^\/user\/(.+?)(\/.*?)?$/)[1];
-    if (location.pathname.match(/\/giveaways\/won/)) {
+    username = window.location.pathname.match(/^\/user\/(.+?)(\/.*?)?$/)[1];
+    if (window.location.pathname.match(/\/giveaways\/won/)) {
       url = `/user/${username}/giveaways/won/search?page=${this.esgst.lastPage}`;
     } else {
       url = `/user/${username}/search?page=${this.esgst.lastPage}`;
@@ -140,8 +140,8 @@ class GeneralLastPageLink extends Module {
 
   lpl_addGroupLink() {
     let group, lastLink, url;
-    group = location.pathname.match(/^\/group\/(.+?\/.+?)(\/.*?)?$/)[1];
-    if (location.pathname.match(/\/users/)) {
+    group = window.location.pathname.match(/^\/group\/(.+?\/.+?)(\/.*?)?$/)[1];
+    if (window.location.pathname.match(/\/users/)) {
       url = `/group/${group}/users/search?page=${this.esgst.lastPage}`;
     } else if (this.esgst.groupWishlistPath) {
       url = `/group/${group}/wishlist/search?page=${this.esgst.lastPage}`;

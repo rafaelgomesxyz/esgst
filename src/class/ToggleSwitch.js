@@ -101,7 +101,7 @@ export default class ToggleSwitch {
           },
           type: `i`
         }]);
-        setTimeout(() => message.remove(), 2500);
+        window.setTimeout(() => message.remove(), 2500);
       }
     }
     if (settings) {

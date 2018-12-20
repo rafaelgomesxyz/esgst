@@ -559,9 +559,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      console.log(e);
-      console.log(giveaway.code);
-      console.log(responseJson);
+      window.console.log(e);
+      window.console.log(giveaway.code);
+      window.console.log(responseJson);
     }
     if (!responseJson) {
       return;
@@ -633,9 +633,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      console.log(e);
-      console.log(giveaway.code);
-      console.log(responseJson);
+      window.console.log(e);
+      window.console.log(giveaway.code);
+      window.console.log(responseJson);
     }
     if (!responseJson) {
       return;

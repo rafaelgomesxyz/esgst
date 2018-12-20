@@ -123,7 +123,7 @@ class Games extends Module {
           type = info.type;
           game.id = id;
           game.type = type;
-          if (this.esgst.updateHiddenGames && location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
+          if (this.esgst.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
             const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
             if (removeButton) {
               removeButton.addEventListener(`click`, updateHiddenGames.bind(common, id, type, true));

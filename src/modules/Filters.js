@@ -23,12 +23,12 @@ class Filters extends Module {
       key: `${id}_presets`,
       popup: popup,
       rules: null,
-      type: popup || (this.esgst.groupPath ? `Groups` : (location.search.match(/type/) ? {
+      type: popup || (this.esgst.groupPath ? `Groups` : (window.location.search.match(/type/) ? {
         wishlist: `Wishlist`,
         recommended: `Recommended`,
         group: `Group`,
         new: `New`
-      }[location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? `Created` : (this.esgst.enteredPath ? `Entered` : (this.esgst.wonPath ? `Won` : (this.esgst.userPath ? `User` : ``))))))
+      }[window.location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? `Created` : (this.esgst.enteredPath ? `Entered` : (this.esgst.wonPath ? `Won` : (this.esgst.userPath ? `User` : ``))))))
     };
     switch (id) {
       case `gf`:
@@ -787,8 +787,8 @@ class Filters extends Module {
       if (obj.rules.rules && obj.rules.rules.length) {
         options.rules = obj.rules;
       }
-      $(advancedFilters).queryBuilder(options);
-      obj.builder = $(advancedFilters)[0].queryBuilder;
+      window.$(advancedFilters).queryBuilder(options);
+      obj.builder = window.$(advancedFilters)[0].queryBuilder;
       [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
 
       obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
@@ -825,7 +825,7 @@ class Filters extends Module {
           }
           this.filters_filter(obj);
         } catch (e) {
-          console.log(e);
+          window.console.log(e);
         }
         obj.basicApplied = false;
       });

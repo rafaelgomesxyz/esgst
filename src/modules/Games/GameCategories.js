@@ -1561,7 +1561,7 @@ class GamesGameCategories extends Module {
         this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, this.esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
       }
     } catch (error) {
-      console.log(error);
+      window.console.log(error);
       for (const game of games[type][id]) {
         const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
         if (panel && !panel.getAttribute(`data-gcReady`)) {

@@ -89,7 +89,7 @@ class CommentsCommentHistory extends Module {
     let comments = JSON.parse(await getValue(`${this.esgst.name}CommentHistory`, `[]`));
     for (let i = 0, n = comments.length; i < n; i++) {
       obj.ids.push(comments[i].id);
-      obj.items.push(`https://${location.hostname}/go/comment/${comments[i].id}`);
+      obj.items.push(`https://${window.location.hostname}/go/comment/${comments[i].id}`);
     }
   }
 

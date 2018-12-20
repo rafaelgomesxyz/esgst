@@ -42,7 +42,7 @@ class CommentsReplyBoxOnTop extends Module {
     box.appendChild(this.esgst.replyBox);
     let button = box.getElementsByClassName(this.esgst.cancelButtonClass)[0];
     if (!button) return;
-    button.addEventListener(`click`, setTimeout.bind(null, box.appendChild.bind(box, this.esgst.replyBox), 0));
+    button.addEventListener(`click`, window.setTimeout.bind(null, box.appendChild.bind(box, this.esgst.replyBox), 0));
   }
 }
 

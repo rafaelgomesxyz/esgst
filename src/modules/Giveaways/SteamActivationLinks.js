@@ -55,9 +55,9 @@ class GiveawaysSteamActivationLinks extends Module {
       if (interval) {
         return;
       }
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         if (!context.contains(button)) {
-          clearInterval(interval);
+          window.clearInterval(interval);
           interval = null;
           if (this.esgst.sal) {
             const element = context.querySelector(`[data-clipboard-text]`);
@@ -115,7 +115,7 @@ class GiveawaysSteamActivationLinks extends Module {
             textArea.select();
             document.execCommand(`copy`);
             textArea.remove();
-            location.href = `steam://open/activateproduct`;
+            window.location.href = `steam://open/activateproduct`;
           });
           break;
         case 1:
@@ -170,7 +170,7 @@ class GiveawaysSteamActivationLinks extends Module {
             textArea.select();
             document.execCommand(`copy`);
             textArea.remove();
-            location.href = `steam://open/activateproduct`;
+            window.location.href = `steam://open/activateproduct`;
           });
           break;
       }

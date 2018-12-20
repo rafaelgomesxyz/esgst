@@ -68,12 +68,12 @@ import esgst from './class/Esgst';
     readZip = common.readZip.bind(common)
   ;
 
-  if (!NodeList.prototype[Symbol.iterator]) {
-    NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+  if (!window.NodeList.prototype[Symbol.iterator]) {
+    window.NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
   }
 
-  if (!HTMLCollection.prototype[Symbol.iterator]) {
-    HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+  if (!window.HTMLCollection.prototype[Symbol.iterator]) {
+    window.HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
   }
 
   const theme = common.getLocalValue(`theme`);
@@ -98,6 +98,25 @@ import esgst from './class/Esgst';
   if (typeof GM === `undefined` && typeof GM_setValue === `undefined`) {
     [envVariables._USER_INFO.extension, envVariables.browser] = global.chrome && global.chrome.runtime ?
       [global.browser ? `firefox` : `chrome`, global.chrome] : [`edge`, global.browser];
+    if (!envVariables.browser) {
+      envVariables._USER_INFO.extension = `pm`;
+      envVariables.browser = {
+        runtime: {
+          onMessage: {
+            addListener: callback => {
+              self.port.on(`esgstMessage`, obj => callback(obj));
+            }
+          },
+          sendMessage: (obj, callback) => {
+            self.port.emit(obj.action, obj);
+            self.port.on(`${obj.action}_response`, function onResponse(result) {
+              self.port.removeListener(`${obj.action}_response`, `onResponse`);
+              callback(result);
+            });
+          }
+        }
+      };
+    }
   } else if (typeof GM === `undefined`) {
     // polyfill for userscript managers that do not support the gm-dot api
     envVariables.gm = {
@@ -239,7 +258,7 @@ import esgst from './class/Esgst';
               icon2: ``,
               title1: `Download .zip`,
               title2: ``,
-              callback1: open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)
+              callback1: window.open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)
             },
             {
               color1: `green`,
@@ -248,7 +267,7 @@ import esgst from './class/Esgst';
               icon2: ``,
               title1: `Reload Extension`,
               title2: ``,
-              callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, location.reload.bind(location))
+              callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, window.location.reload.bind(window.location))
             }
           ];
         }
@@ -256,10 +275,10 @@ import esgst from './class/Esgst';
       };
       envFunctions.continueRequest = details =>
         new Promise(async resolve => {
-          let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
-          details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+          let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
+          details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
           if (isLocal) {
-            let response = await fetch(details.url, {
+            let response = await window.fetch(details.url, {
               body: details.data,
               credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
               headers: new Headers(details.headers),
@@ -698,10 +717,10 @@ import esgst from './class/Esgst';
       };
       envFunctions.continueRequest = details => {
         return new Promise(async resolve => {
-          let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(location.hostname));
-          details.url = details.url.replace(/^\//, `https://${location.hostname}/`).replace(/^https?:/, location.href.match(/^http:/) ? `http:` : `https:`);
+          let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
+          details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
           if (isLocal) {
-            let response = await fetch(details.url, {
+            let response = await window.fetch(details.url, {
               body: details.data,
               credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
               headers: details.headers,
@@ -1503,22 +1522,22 @@ import esgst from './class/Esgst';
     // now that all values are set esgst can begin to load
 
     /* [URLR] URL Redirector */
-    if (esgst.urlr && location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
-      location.href = `${location.href}/`;
+    if (esgst.urlr && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+      window.location.href = `${window.location.href}/`;
     }
 
-    if (esgst.accountPath && location.href.match(/state=dropbox/)) {
-      await envFunctions.setValue(`dropboxToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-      close();
-    } else if (esgst.accountPath && location.href.match(/state=google-drive/)) {
-      await envFunctions.setValue(`googleDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-      close();
-    } else if (esgst.accountPath && location.href.match(/state=onedrive/)) {
-      await envFunctions.setValue(`oneDriveToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-      close();
-    } else if (esgst.accountPath && location.href.match(/state=imgur/)) {
-      await envFunctions.setValue(`imgurToken`, location.hash.match(/access_token=(.+?)&/)[1]);
-      close();
+    if (esgst.accountPath && window.location.href.match(/state=dropbox/)) {
+      await envFunctions.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      window.close();
+    } else if (esgst.accountPath && window.location.href.match(/state=google-drive/)) {
+      await envFunctions.setValue(`googleDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      window.close();
+    } else if (esgst.accountPath && window.location.href.match(/state=onedrive/)) {
+      await envFunctions.setValue(`oneDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      window.close();
+    } else if (esgst.accountPath && window.location.href.match(/state=imgur/)) {
+      await envFunctions.setValue(`imgurToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      window.close();
     } else {
       esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
       if (!esgst.logoutButton) {

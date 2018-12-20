@@ -75,7 +75,7 @@ class Discussions extends Module {
     }
     if (context === document && main && this.esgst.discussionPath) {
       let discussion = {
-        code: location.pathname.match(/^\/discussion\/(.+?)\//)[1],
+        code: window.location.pathname.match(/^\/discussion\/(.+?)\//)[1],
         heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
         headingContainer: document.getElementsByClassName(`page__heading`)[0]
       };

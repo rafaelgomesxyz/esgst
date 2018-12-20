@@ -45,14 +45,14 @@ class GiveawaysArchiveSearcher extends Module {
 
     let input = document.querySelector(`.sidebar__search-input`);
     const temp = input.parentElement;
-    input.outerHTML = input.outerHTML;
+    input.outerHTML = `${input.outerHTML}`;
     input = temp.firstElementChild;
     input.addEventListener(`keypress`, event => {
       if (event.key === `Enter`) {
         if (input.value.match(/"|id:/)) {
           this.as_openPage(input, event);
         } else {
-          location.href = `${this.esgst.path}/search?q=${encodeURIComponent(input.value)}`;
+          window.location.href = `${this.esgst.path}/search?q=${encodeURIComponent(input.value)}`;
         }
       }
     });
@@ -69,7 +69,7 @@ class GiveawaysArchiveSearcher extends Module {
       isAppId = true;
     }
     if (this.esgst.as_t) {
-      location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
+      window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
     } else {
       this.as_init({query, isAppId, isPopup: true});
     }

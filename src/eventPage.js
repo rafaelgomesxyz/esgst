@@ -106,7 +106,7 @@ async function doFetch(parameters, request, sender, callback) {
   }
 
   if (!request.manipulateCookies) {
-    let response = await fetch(request.url, parameters);
+    let response = await window.fetch(request.url, parameters);
     let responseText = request.blob
       ? (await readZip(await response.blob()))[0].value
       : await response.text();
@@ -128,7 +128,7 @@ async function doFetch(parameters, request, sender, callback) {
      * @property {string} tab.cookieStoreId
      */
     if (tab.cookieStoreId === `firefox-default`) {
-      let response = await fetch(request.url, parameters);
+      let response = await window.fetch(request.url, parameters);
       let responseText = request.blob
         ? (await readZip(await response.blob()))[0].value
         : await response.text();
@@ -306,7 +306,7 @@ async function getTabs(request) {
     } else if (request.any) {
       any = true;
     } else {
-      open(item.url);
+      window.open(item.url);
     }
   }
   if (any) {

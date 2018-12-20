@@ -98,9 +98,9 @@ class GiveawaysGiveawayTemplates extends Module {
             for (const error of errors) {
               message += `* ${error.textContent.trim()}`;
             }
-            alert(message);
+            window.alert(message);
           } else {
-            location.href = response.finalUrl;
+            window.location.href = response.finalUrl;
           }
         });
       }
@@ -313,20 +313,20 @@ class GiveawaysGiveawayTemplates extends Module {
             if (gts.edit) {
               savedTemplates[i] = template;
               message.classList.remove(`esgst-hidden`);
-              setTimeout(() => {
+              window.setTimeout(() => {
                 message.classList.add(`esgst-hidden`);
               }, 2000);
-            } else if (confirm(`There already exists a template with this name. Do you want to overwrite it?`)) {
+            } else if (window.confirm(`There already exists a template with this name. Do you want to overwrite it?`)) {
               savedTemplates[i] = template;
               message.classList.remove(`esgst-hidden`);
-              setTimeout(() => {
+              window.setTimeout(() => {
                 message.classList.add(`esgst-hidden`);
               }, 2000);
             }
           } else {
             savedTemplates.push(template);
             message.classList.remove(`esgst-hidden`);
-            setTimeout(() => {
+            window.setTimeout(() => {
               message.classList.add(`esgst-hidden`);
             }, 2000);
           }
@@ -346,8 +346,8 @@ class GiveawaysGiveawayTemplates extends Module {
     let first, last;
     first = true;
     last = false;
-    addEventListener(`scroll`, () => {
-      if (scrollY < 138) {
+    window.addEventListener(`scroll`, () => {
+      if (window.scrollY < 138) {
         if (!first) {
           rows.insertBefore(createGiveawayButton.set, rows.firstElementChild);
           rows.insertBefore(reviewButton, rows.firstElementChild);

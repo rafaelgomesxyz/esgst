@@ -65,7 +65,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     icon.classList.add(`esgst-clickable`);
     icon.title = getFeatureTooltip(`ags`, `Use advanced search`);
     if (!qgs) {
-      let match = location.search.match(/q=(.*?)(&.*?)?$/);
+      let match = window.location.search.match(/q=(.*?)(&.*?)?$/);
       if (match) {
         obj.input.value = decodeURIComponent(match[1]);
       }
@@ -339,7 +339,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       url = `https://www.steamgifts.com/giveaways/search?q=${encodeURIComponent(obj.input.value)}`;
     }
     if (!obj.qgs) {
-      let match = location.search.match(/(type=.*?)(&.*?)?$/);
+      let match = window.location.search.match(/(type=.*?)(&.*?)?$/);
       if (match) {
         url += `&${match[1]}`;
       }
@@ -357,7 +357,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         }
       }
     }
-    location.href = url;
+    window.location.href = url;
   }
 }
 

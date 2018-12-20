@@ -337,7 +337,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         let isNew = false;
         let isStarted = this.esgst.giveaways[code] && this.esgst.giveaways[code].started;
         if (!this.esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
-          let giveaway = await this.ged_getGiveaway(code, currentGiveaways, false, comment.id || location.href);
+          let giveaway = await this.ged_getGiveaway(code, currentGiveaways, false, comment.id || window.location.href);
           ged.newGiveaways.push(code);
           if (giveaway) {
             isEnded = giveaway.ended;

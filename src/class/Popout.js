@@ -21,13 +21,13 @@ export default class Popout {
       if (this.context) {
         let timeout = null;
         this.context.addEventListener(`mouseenter`, () => {
-          timeout = setTimeout(() => {
+          timeout = window.setTimeout(() => {
             this.open();
           }, this.hoverSpeed);
         });
         this.context.addEventListener(`mouseleave`, event => {
           if (timeout) {
-            clearTimeout(timeout);
+            window.clearTimeout(timeout);
             timeout = null;
           }
           if (!this.popout.contains(event.relatedTarget)) {
@@ -38,12 +38,12 @@ export default class Popout {
       let timeout = null;
       this.popout.addEventListener(`mouseenter`, () => {
         if (timeout) {
-          clearTimeout(timeout);
+          window.clearTimeout(timeout);
           timeout = null;
         }
       });
       this.popout.addEventListener(`mouseleave`, event => {
-        timeout = setTimeout(() => {
+        timeout = window.setTimeout(() => {
           if (event.relatedTarget && !this.context.contains(event.relatedTarget) && (className !== `esgst-qiv-popout` || !event.relatedTarget.closest(`.esgst-popout`))) {
             this.context.classList.remove(`esgst-qgs-container-expanded`);
             this.close();
@@ -117,12 +117,12 @@ export default class Popout {
     contextRect = this.context.getBoundingClientRect();
     contextLeft = contextRect.left;
     contextTop = contextRect.top;
-    if (contextTop > (innerHeight - (contextTop + contextRect.height))) {
+    if (contextTop > (window.innerHeight - (contextTop + contextRect.height))) {
       this.popout.style.maxHeight = `${contextTop}px`;
     } else {
-      this.popout.style.maxHeight = `${innerHeight - (contextTop + contextRect.height)}px`;
+      this.popout.style.maxHeight = `${window.innerHeight - (contextTop + contextRect.height)}px`;
     }
-    const oldHeight = parseFloat(getComputedStyle(this.popout).getPropertyValue(`height`));
+    const oldHeight = parseFloat(window.getComputedStyle(this.popout).getPropertyValue(`height`));
     const oldRealHeight = this.popout.offsetHeight;
     const difference = (oldRealHeight - oldHeight) + 10;
     const newHeight = Math.max(
@@ -139,14 +139,14 @@ export default class Popout {
     popoutWidth = this.popout.offsetWidth;
     popupRect = this.popup && this.popup.getBoundingClientRect();
     if (contextLeft + popoutWidth > document.documentElement.clientWidth) {
-      this.popout.style.left = `${(contextLeft - popoutWidth + contextRect.width) - (this.popup ? popupRect.left : 0) + scrollX}px`;
+      this.popout.style.left = `${(contextLeft - popoutWidth + contextRect.width) - (this.popup ? popupRect.left : 0) + window.scrollX}px`;
     } else {
-      this.popout.style.left = `${contextLeft - (this.popup ? popupRect.left : 0) + scrollX}px`;
+      this.popout.style.left = `${contextLeft - (this.popup ? popupRect.left : 0) + window.scrollX}px`;
     }
     if (contextTop + contextRect.height + popoutHeight > document.documentElement.clientHeight) {
-      this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 : scrollY)) - (this.popup ? popupRect.top : 0)}px`;
+      this.popout.style.top = `${(contextTop - popoutHeight + (this.isFixed || this.popup ? 0 : window.scrollY)) - (this.popup ? popupRect.top : 0)}px`;
     } else {
-      this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 : scrollY)) - (this.popup ? popupRect.top : 0)}px`;
+      this.popout.style.top = `${(contextTop + contextRect.height + (this.isFixed || this.popup ? 0 : window.scrollY)) - (this.popup ? popupRect.top : 0)}px`;
     }
   }
 }

@@ -75,7 +75,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
   qgs_trigger(event) {
     if (event.key !== `Enter`) return;
     event.preventDefault();
-    location.href = `/giveaways/search?q=${encodeURIComponent(event.currentTarget.value)}`;
+    window.location.href = `/giveaways/search?q=${encodeURIComponent(event.currentTarget.value)}`;
   }
 }
 

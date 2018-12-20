@@ -139,7 +139,7 @@ class Giveaways extends Module {
     } else {
       giveaway.copies = 1;
     }
-    giveaway.url = this.esgst.giveawayPath && main && !ugd ? location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
+    giveaway.url = this.esgst.giveawayPath && main && !ugd ? window.location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
     if (giveaway.url) {
       giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, ``);
       match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
@@ -219,7 +219,7 @@ class Giveaways extends Module {
         giveaway.creator = ugd;
       }
     } else if (this.esgst.userPath && !this.esgst.userWonPath && main && !ged) {
-      giveaway.creator = location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
+      giveaway.creator = window.location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
     } else if (this.esgst.createdPath && main) {
       giveaway.creator = this.esgst.username;
     }

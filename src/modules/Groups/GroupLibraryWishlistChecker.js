@@ -52,14 +52,14 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       } else if (this.esgst.blacklistPath) {
         parameters = `url=account/manage/blacklist`;
       } else {
-        parameters = `url=${location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
+        parameters = `url=${window.location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
       }
       createHeadingButton({
         id: `glwc`,
         icons: [`fa-folder`, `fa-star`],
         title: `Check libraries/wishlists`
       }).addEventListener(`click`, () => {
-        open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
+        window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
     } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `glwc`) {
       let glwc = {}, parameters;
@@ -139,7 +139,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
     }
     pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
     if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-      setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
+      window.setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
     } else {
       glwc.overallProgress.textContent = `Step 2 of 3`;
       // noinspection JSIgnoredPromiseFromCall
@@ -162,13 +162,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       let steamId = this.esgst.users.steamIds[glwc.users[i].username];
       if (steamId) {
         glwc.users[i].steamId = steamId;
-        setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
+        window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       } else {
         glwc.users[i].steamId = parseHtml((await request({
           method: `GET`,
           url: `/user/${glwc.users[i].username}`
         })).responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
-        setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
+        window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       }
     } else {
       glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
@@ -252,9 +252,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           });
         }
         glwc.memberCount += 1;
-        setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
+        window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       } else {
-        setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
+        window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       }
     } else {
       glwc.progress.innerHTML = ``;

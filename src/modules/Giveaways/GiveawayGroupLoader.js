@@ -83,10 +83,10 @@ class GiveawaysGiveawayGroupLoader extends Module {
           delay = 1000;
           giveaway.group.addEventListener(`mouseleave`, event => {
             if (timeout) {
-              clearTimeout(timeout);
+              window.clearTimeout(timeout);
               timeout = null;
             }
-            exitTimeout = setTimeout(() => {
+            exitTimeout = window.setTimeout(() => {
               if (context && !container.contains(event.relatedTarget)) {
                 context.close();
               }
@@ -94,7 +94,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
           });
           giveaway.group.addEventListener(`click`, () => {
             if (timeout) {
-              clearTimeout(timeout);
+              window.clearTimeout(timeout);
               timeout = null;
             }
           });
@@ -114,7 +114,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
           break;
       }
       giveaway.group.addEventListener(eventType, () => {
-        timeout = setTimeout(async () => {
+        timeout = window.setTimeout(async () => {
           if (context) {
             switch (this.esgst.ggl_index) {
               case 1:
@@ -298,7 +298,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
           if (this.esgst.ggl_index === 1) {
             container.onmouseenter = () => {
               if (exitTimeout) {
-                clearTimeout(exitTimeout);
+                window.clearTimeout(exitTimeout);
                 exitTimeout = null;
               }
             };
@@ -342,7 +342,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
           } else {
             this.ggl_addPanel(giveaway, savedGiveaways[giveaway.code].groups, newGroups, savedGroups);
           }
-          setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
+          window.setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
         } else {
           // noinspection JSIgnoredPromiseFromCall
           this.ggl_getGroups([], 1, newGroups, `${giveaway.url}/groups/search?page=`, groups => {
@@ -355,16 +355,16 @@ class GiveawaysGiveawayGroupLoader extends Module {
               } else {
                 this.ggl_addPanel(giveaway, groups, newGroups, savedGroups);
               }
-              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
+              window.setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
             } else if (callback) {
               callback(null);
             } else {
-              setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
+              window.setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
             }
           });
         }
       } else {
-        setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
+        window.setTimeout(() => this.ggl_loadGroups(giveaways, ++i, n, newGiveaways, newGroups, savedGiveaways, savedGroups), 0);
       }
     } else {
       await lockAndSaveGiveaways(newGiveaways);
@@ -439,7 +439,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
     responseHtml = parseHtml((await request({ method: `GET`, url: `${url}${nextPage}` })).responseText);
     error = responseHtml.getElementsByClassName(`table--summary`)[0];
     if (error) {
-      setTimeout(callback, 0, null);
+      window.setTimeout(callback, 0, null);
     } else {
       elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
       for (i = 0, n = elements.length; i < n; ++i) {
@@ -456,9 +456,9 @@ class GiveawaysGiveawayGroupLoader extends Module {
       }
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
       if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
-        setTimeout(() => this.ggl_getGroups(groups, ++nextPage, newGroups, url, callback), 0);
+        window.setTimeout(() => this.ggl_getGroups(groups, ++nextPage, newGroups, url, callback), 0);
       } else {
-        setTimeout(callback, 0, groups);
+        window.setTimeout(callback, 0, groups);
       }
     }
   }

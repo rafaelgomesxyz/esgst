@@ -305,7 +305,7 @@ class GeneralEndlessScrolling extends Module {
     }
     es.pageIndex = es.currentPage;
     const options = {
-      rootMargin: `0px 0px ${innerHeight}px 0px`
+      rootMargin: `0px 0px ${window.innerHeight}px 0px`
     };
     const observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
     observer.observe(this.esgst.pagination);
@@ -842,7 +842,7 @@ class GeneralEndlessScrolling extends Module {
         this.es_changePagination(es, page);
       });
     } else {
-      location.href = event.currentTarget.getAttribute(`href`);
+      window.location.href = event.currentTarget.getAttribute(`href`);
     }
   }
 

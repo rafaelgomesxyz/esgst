@@ -318,7 +318,7 @@ class Common extends Module {
       try {
         await module.init();
       } catch (e) {
-        console.log(e);
+        window.console.log(e);
       }
     }
 
@@ -346,7 +346,7 @@ class Common extends Module {
       // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
       let rows = document.getElementsByClassName(`form__rows`)[0];
       if (rows) {
-        setTimeout(() => this.checkNewGiveawayInput(document.getElementsByClassName(`js__autocomplete-data`)[0]), 1000);
+        window.setTimeout(() => this.checkNewGiveawayInput(document.getElementsByClassName(`js__autocomplete-data`)[0]), 1000);
       }
     }
 
@@ -372,10 +372,10 @@ class Common extends Module {
     } else {
       document.addEventListener(`readystatechange`, this.goToComment.bind(this, this.esgst.originalHash, null, false));
     }
-    addEventListener(`beforeunload`, this.checkBusy.bind(this));
-    addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
+    window.addEventListener(`beforeunload`, this.checkBusy.bind(this));
+    window.addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
     if (!this.esgst.staticPopups) {
-      setTimeout(() => this.repositionPopups(), 2000);
+      window.setTimeout(() => this.repositionPopups(), 2000);
     }
 
     for (const key in this.esgst.documentEvents) {
@@ -420,13 +420,13 @@ class Common extends Module {
       this.esgst.hiddenClass = `is_hidden`;
       this.esgst.selectedClass = `is_selected`;
     }
-    const pageMatch = location.href.match(/page=(\d+)/);
+    const pageMatch = window.location.href.match(/page=(\d+)/);
     if (pageMatch) {
       this.esgst.currentPage = parseInt(pageMatch[1]);
     } else {
       this.esgst.currentPage = 1;
     }
-    let url = location.href.replace(location.search, ``).replace(location.hash, ``).replace(`/search`, ``);
+    let url = window.location.href.replace(window.location.search, ``).replace(window.location.hash, ``).replace(`/search`, ``);
     this.esgst.originalUrl = url;
     this.esgst.favicon = document.querySelector(`[rel="shortcut icon"]`);
     this.esgst.originalTitle = document.title;
@@ -434,13 +434,13 @@ class Common extends Module {
       url += this.esgst.sg ? `giveaways` : `trades`;
     }
     url += `/search?`;
-    let parameters = location.search.replace(/^\?/, ``).split(/&/);
+    let parameters = window.location.search.replace(/^\?/, ``).split(/&/);
     for (let i = 0, n = parameters.length; i < n; ++i) {
       if (parameters[i] && !parameters[i].match(/page/)) {
         url += `${parameters[i]}&`;
       }
     }
-    if (location.search) {
+    if (window.location.search) {
       this.esgst.originalUrl = url.replace(/&$/, ``);
       if (this.esgst.currentPage > 1) {
         this.esgst.originalUrl += `&page=${this.esgst.currentPage}`;
@@ -495,7 +495,7 @@ class Common extends Module {
     } else {
       context.removeAttribute(`data-esgst`);
     }
-    setTimeout(() => this.checkNewGiveawayInput(context), 1000);
+    window.setTimeout(() => this.checkNewGiveawayInput(context), 1000);
   }
 
   async loadNewGiveawayFeatures(context) {
@@ -607,7 +607,7 @@ class Common extends Module {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
-        console.log(e);
+        window.console.log(e);
       }
     }
 
@@ -674,7 +674,7 @@ class Common extends Module {
       return { id, response, status };
     }
     await this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_saveGiveaways(this.esgst.sg ? responseHtml.getElementById(id).closest(`.comment`) : responseHtml.getElementById(id), id);
-    location.href = `/go/comment/${id}`;
+    window.location.href = `/go/comment/${id}`;
   }
 
   getFeatures() {
@@ -1003,7 +1003,7 @@ class Common extends Module {
     element.addEventListener(`mouseup`, () => {
       if (isDragging === -1) return;
       if (this.esgst[id] || isDragging === 1) {
-        open(url);
+        window.open(url);
       } else {
         callback();
       }
@@ -1127,7 +1127,7 @@ class Common extends Module {
       title: `Please wait... ESGST is adding this giveaway to the storage...`
     });
     popup.open();
-    let giveaways = await this.esgst.modules.giveaways.giveaways_get(document, true, location.href);
+    let giveaways = await this.esgst.modules.giveaways.giveaways_get(document, true, window.location.href);
     if (giveaways.length) {
       giveaway = giveaways[0];
       ggiveaways = {};
@@ -1371,7 +1371,7 @@ class Common extends Module {
     if (this.esgst.openPopups > 0) {
       this.esgst.popups.forEach(popup => popup.reposition());
       this.esgst.isRepositioning = true;
-      setTimeout(() => this.repositionPopups(), 2000);
+      window.setTimeout(() => this.repositionPopups(), 2000);
     } else {
       this.esgst.isRepositioning = false;
     }
@@ -1607,7 +1607,7 @@ class Common extends Module {
       let setting = this.getFeaturePath(feature, id, this.esgst.name);
       if (!setting.enabled) return;
       let check = false;
-      let path = `${location.pathname}${location.search}`;
+      let path = `${window.location.pathname}${window.location.search}`;
       let i = setting.include.length - 1;
       while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
       if (i > -1) {
@@ -2752,7 +2752,7 @@ class Common extends Module {
         cache.hltb = hltb;
         this.setLocalValue(`gcCache`, JSON.stringify(cache));
       } catch (e) {
-        console.log(e);
+        window.console.log(e);
       }
       this.createElements_v2(syncer.results, `beforeEnd`, [
         [`div`, `HLTB times synced.`]
@@ -2782,7 +2782,7 @@ class Common extends Module {
         this.createElements_v2(syncer.results, `beforeEnd`, [
           [`div`, `Failed to sync delisted games (check the console log for more info).`]
         ]);
-        console.log(error);
+        window.console.log(error);
       }
     }
 
@@ -2879,7 +2879,7 @@ class Common extends Module {
         `Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).`
       );
     }
-    console.log(hasApi, hasStore);
+    window.console.log(hasApi, hasStore);
     if ((!hasApi || !this.esgst.fallbackSteamApi) && !hasStore) {
       return;
     }
@@ -4550,7 +4550,7 @@ class Common extends Module {
   removePath(feature, item, key, obj) {
     let i = obj[`${key}Items`].length - 1;
     if (i === 0 && key === `include`) {
-      alert(`At least 1 place is required!`);
+      window.alert(`At least 1 place is required!`);
       return;
     }
     while (i > -1 && obj[`${key}Items`][i].input.value !== item.input.value) i--;
@@ -4566,7 +4566,7 @@ class Common extends Module {
     try {
       new RegExp(item.input.value);
     } catch (error) {
-      console.log(error);
+      window.console.log(error);
       item.invalid.classList.remove(`esgst-hidden`);
     }
   }
@@ -5149,7 +5149,7 @@ class Common extends Module {
       reader.onload = this.saveHrFile.bind(this, id, popup, reader);
       reader.readAsArrayBuffer(event.currentTarget.files[0]);
     } catch (e) {
-      console.log(e);
+      window.console.log(e);
       popup.icon.classList.remove(`fa-circle-o-notch`);
       popup.icon.classList.remove(`fa-spin`);
       popup.icon.classList.add(`fa-times`);
@@ -5164,14 +5164,14 @@ class Common extends Module {
       for (let i = 0, n = reader.result.byteLength; i < n; i++) {
         binary += String.fromCharCode(bytes[i]);
       }
-      let string = btoa(binary);
+      let string = window.btoa(binary);
       (await this.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.settings[`${id}_sound`] = string;
       this.esgst[`${id}_sound`] = string;
       popup.close();
     } catch (e) {
-      console.log(e);
+      window.console.log(e);
       popup.icon.classList.remove(`fa-circle-o-notch`);
       popup.icon.classList.remove(`fa-spin`);
       popup.icon.classList.add(`fa-times`);
@@ -5317,7 +5317,7 @@ class Common extends Module {
       });
     }
     remove.addEventListener(`click`, () => {
-      if (confirm(`Are you sure you want to delete this setting?`)) {
+      if (window.confirm(`Are you sure you want to delete this setting?`)) {
         for (i = 0, n = this.esgst[id].length; i < n && this.esgst[id][i] !== colors; ++i) {
         }
         if (i < n) {
@@ -5519,7 +5519,7 @@ class Common extends Module {
       this.esgst.settings[`gc_r_colors`] = this.esgst.gc_r_colors;
     });
     remove.addEventListener(`click`, () => {
-      if (confirm(`Are you sure you want to delete this setting?`)) {
+      if (window.confirm(`Are you sure you want to delete this setting?`)) {
         let i, n;
         for (i = 0, n = this.esgst.gc_r_colors.length; i < n && this.esgst.gc_r_colors[i] !== colors; ++i) {
         }
@@ -5621,7 +5621,7 @@ class Common extends Module {
       this.esgst.settings[`gc_g_colors`] = this.esgst.gc_g_colors;
     });
     remove.addEventListener(`click`, () => {
-      if (confirm(`Are you sure you want to delete this setting?`)) {
+      if (window.confirm(`Are you sure you want to delete this setting?`)) {
         for (i = 0, n = this.esgst.gc_g_colors.length; i < n && this.esgst.gc_g_colors[i] !== colorSetting; ++i) {
         }
         if (i < n) {
@@ -5794,7 +5794,7 @@ class Common extends Module {
       this.esgst.settings[`gc_o_altAccounts`] = this.esgst.gc_o_altAccounts;
     });
     remove.addEventListener(`click`, () => {
-      if (confirm(`Are you sure you want to delete this setting?`)) {
+      if (window.confirm(`Are you sure you want to delete this setting?`)) {
         for (i = 0, n = this.esgst.gc_o_altAccounts.length; i < n && this.esgst.gc_o_altAccounts[i] !== altSetting; ++i) {
         }
         if (i < n) {
@@ -5818,7 +5818,7 @@ class Common extends Module {
     });
   }
 
-  async setSMManageFilteredGiveaways(SMManageFilteredGiveaways) {
+  async setSMManageFilteredGiveaways() {
     let gfGiveaways, giveaway, hidden, i, key, n, popup, set;
     popup = new Popup({ addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways` });
     hidden = [];
@@ -5907,9 +5907,9 @@ class Common extends Module {
         if (giveaway) {
           this.createElements(gfGiveaways, `beforeEnd`, giveaway.html);
           await this.endless_load(gfGiveaways.lastElementChild, false, `gf`);
-          setTimeout(() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
+          window.setTimeout(() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
         } else {
-          setTimeout(() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
+          window.setTimeout(() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback), 0);
         }
       } else {
         callback(i + 1);
@@ -6280,7 +6280,7 @@ class Common extends Module {
     }
   }
 
-  async setSMRecentUsernameChanges(SMRecentUsernameChanges) {
+  async setSMRecentUsernameChanges() {
     const popup = new Popup({ addScrollable: true, icon: `fa-comments`, title: `Recent Username Changes` });
     popup.progress = this.createElements(popup.description, `beforeEnd`, [{
       type: `div`,
@@ -6385,7 +6385,7 @@ class Common extends Module {
   }
 
   loadDataManagement(type, isPopup, callback) {
-    let container, context, group1, group2, i, icon, n, onClick, option, prep, section, title1, title2;
+    let container, context, group1, group2, i, n, onClick, option, prep, section, title1, title2;
     let dm = {
       autoBackup: callback && this.esgst.parameters.autoBackup,
       type: type
@@ -6393,7 +6393,6 @@ class Common extends Module {
     dm[type] = true;
     switch (type) {
       case `import`:
-        icon = `fa-sign-in esgst-rotate-90`;
         onClick = this.loadImportFile.bind(this);
         prep = `from`;
         title1 = `Restore`;
@@ -6401,7 +6400,6 @@ class Common extends Module {
         dm.pastTense = `restored`;
         break;
       case `export`:
-        icon = `fa-sign-out esgst-rotate-270`;
         onClick = this.manageData.bind(this);
         prep = `to`;
         title1 = `Backup`;
@@ -6409,7 +6407,6 @@ class Common extends Module {
         dm.pastTense = `backed up`;
         break;
       case `delete`:
-        icon = `fa-trash`;
         onClick = this.confirmDataDeletion.bind(this);
         prep = `from`;
         title1 = `Delete`;
@@ -6791,7 +6788,7 @@ class Common extends Module {
           },
           events: {
             click: () => {
-              alert(this.esgst.settings.preferredGoogle || `No email address defined`);
+              window.alert(this.esgst.settings.preferredGoogle || `No email address defined`);
             }
           },
           text: `Reveal`,
@@ -6813,7 +6810,7 @@ class Common extends Module {
           },
           events: {
             click: () => {
-              alert(this.esgst.settings.preferredMicrosoft || `No email address defined`);
+              window.alert(this.esgst.settings.preferredMicrosoft || `No email address defined`);
             }
           },
           text: `Reveal`,
@@ -8585,7 +8582,7 @@ class Common extends Module {
           // noinspection JSIgnoredPromiseFromCall
           this.checkOneDriveComplete(data, dm, callback);
         } else {
-          const name = `${this.esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
+          const name = `${this.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
           if (name === `null`) {
             callback();
             return;
@@ -8640,14 +8637,14 @@ class Common extends Module {
   }
 
   downloadFile(data, fileName, blob) {
-    const url = URL.createObjectURL(blob || new Blob([data])),
+    const url = window.URL.createObjectURL(blob || new Blob([data])),
       file = document.createElement(`a`);
     file.download = fileName;
     file.href = url;
     document.body.appendChild(file);
     file.click();
     file.remove();
-    URL.revokeObjectURL(url);
+    window.URL.revokeObjectURL(url);
   }
 
   getDataSizes(dm) {
@@ -8718,7 +8715,7 @@ class Common extends Module {
     let value = await this.getValue(`dropboxToken`);
     if (value) {
       if (dm.type === `export` || (data && this.esgst.settings.exportBackup)) {
-        const name = this.esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+        const name = this.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
         if (name === null) {
           callback();
           return;
@@ -8748,7 +8745,7 @@ class Common extends Module {
           callback();
         } catch (e) {
           callback();
-          alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
+          window.alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
         }
       } else {
         let canceled = true;
@@ -8807,7 +8804,7 @@ class Common extends Module {
         });
       }
     } else {
-      setTimeout(() => this.checkDropboxComplete(data, dm, callback), 250);
+      window.setTimeout(() => this.checkDropboxComplete(data, dm, callback), 250);
     }
   }
 
@@ -8815,7 +8812,7 @@ class Common extends Module {
     let value = await this.getValue(`googleDriveToken`);
     if (value) {
       if (dm.type === `export` || (data && this.esgst.settings.exportBackup)) {
-        const name = this.esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+        const name = this.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
         if (name === null) {
           callback();
           return;
@@ -8853,7 +8850,7 @@ class Common extends Module {
           callback();
         } catch (e) {
           callback();
-          alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
+          window.alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
         }
       } else {
         let canceled = true;
@@ -8908,7 +8905,7 @@ class Common extends Module {
         });
       }
     } else {
-      setTimeout(() => this.checkGoogleDriveComplete(data, dm, callback), 250);
+      window.setTimeout(() => this.checkGoogleDriveComplete(data, dm, callback), 250);
     }
   }
 
@@ -8916,7 +8913,7 @@ class Common extends Module {
     let value = await this.getValue(`oneDriveToken`);
     if (value) {
       if (dm.type === `export` || (data && this.esgst.settings.exportBackup)) {
-        const name = this.esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+        const name = this.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
         if (name === null) {
           callback();
           return;
@@ -8946,7 +8943,7 @@ class Common extends Module {
           callback();
         } catch (e) {
           callback();
-          alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
+          window.alert(`An error occurred when uploading the file.\n\n${e}\n\n${responseText}`);
         }
       } else {
         let canceled = true;
@@ -9003,7 +9000,7 @@ class Common extends Module {
         popup.open();
       }
     } else {
-      setTimeout(() => this.checkOneDriveComplete(data, dm, callback), 250);
+      window.setTimeout(() => this.checkOneDriveComplete(data, dm, callback), 250);
     }
   }
 
@@ -9098,7 +9095,7 @@ class Common extends Module {
     this.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
   }
 
-  async setSMManageFilteredUsers(SMManageFilteredUsers) {
+  async setSMManageFilteredUsers() {
     let popup;
     if (popup) {
       popup.open();
@@ -9294,7 +9291,7 @@ class Common extends Module {
     delete data.settings.steamId;
     delete data.settings.syncFrequency;
     delete data.settings.username;
-    const name = `${this.esgst.askFileName ? prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+    const name = `${this.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
     if (name === `null.json`) return;
     this.downloadFile(JSON.stringify(data), name);
   }
@@ -9333,7 +9330,7 @@ class Common extends Module {
         },
         type: `i`
       }]);
-      setTimeout(() => message.remove(), 2500);
+      window.setTimeout(() => message.remove(), 2500);
     }
   }
 
@@ -12204,7 +12201,7 @@ class Common extends Module {
       }
     }
     if (currentDate >= startDate && currentDate <= endDate) {
-      setTimeout(() => this.setTheme(), endDate - currentDate);
+      window.setTimeout(() => this.setTheme(), endDate - currentDate);
       return true;
     }
   }
@@ -12331,9 +12328,9 @@ class Common extends Module {
       url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.meta.js`
     })).responseText.match(/@version (.+)/);
     if (version && version[1] !== this.esgst.version) {
-      location.href = `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.user.js`;
+      window.location.href = `https://raw.githubusercontent.com/gsrafael01/ESGST/master/ESGST.user.js`;
     } else {
-      alert(`No ESGST updates found!`);
+      window.alert(`No ESGST updates found!`);
     }
   }
 
@@ -12378,7 +12375,7 @@ class Common extends Module {
       return;
     }
     if (element.getAttribute(`data-draggable-group`) !== this.esgst.draggable.dragged.getAttribute(`data-draggable-group`)) {
-      alert(`Cannot move this element to this group.`);
+      window.alert(`Cannot move this element to this group.`);
       return;
     }
     let current = this.esgst.draggable.dragged;
@@ -12491,7 +12488,7 @@ class Common extends Module {
     this.esgst.draggable.deleted = false;
     if (
       !this.esgst.draggable.dragged
-      || !confirm(`Are you sure you want to delete this item?`)
+      || !window.confirm(`Are you sure you want to delete this item?`)
     ) {
       this.esgst.draggable.awaitingConfirmation = false;
       return;
@@ -12507,7 +12504,7 @@ class Common extends Module {
     const s = seconds % 60;
     context.textContent = `${`0${m}`.slice(-2)}:${`0${s}`.slice(-2)}`;
     if (seconds > -1) {
-      setTimeout(this.setCountdown.bind(this), 1000, context, totalSeconds, callback, initialDate);
+      window.setTimeout(this.setCountdown.bind(this), 1000, context, totalSeconds, callback, initialDate);
     } else if (callback) {
       callback();
     }
@@ -12707,15 +12704,15 @@ class Common extends Module {
   }
 
   setLocalValue(key, value) {
-    localStorage.setItem(`esgst_${key}`, value);
+    window.localStorage.setItem(`esgst_${key}`, value);
   }
 
   getLocalValue(key, value = undefined) {
-    return localStorage.getItem(`esgst_${key}`) || value;
+    return window.localStorage.getItem(`esgst_${key}`) || value;
   }
 
   delLocalValue(key) {
-    localStorage.removeItem(`esgst_${key}`);
+    window.localStorage.removeItem(`esgst_${key}`);
   }
 
   validateValue(value) {
@@ -12756,7 +12753,7 @@ class Common extends Module {
   }
 
   timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => window.setTimeout(resolve, ms));
   }
 
   createTooltip(context, message) {
@@ -12855,16 +12852,16 @@ class Common extends Module {
 
   goToComment(hash, element, noPermalink) {
     if (!hash) {
-      hash = location.hash;
+      hash = window.location.hash;
     }
     let id = hash.replace(/#/, ``);
-    if ((!id && !element) || location.pathname.match(/^\/account/)) return;
+    if ((!id && !element) || window.location.pathname.match(/^\/account/)) return;
     if (id && !element) {
       element = document.getElementById(id);
     }
     if (!element) return;
-    scrollTo(0, element.offsetTop);
-    scrollBy(0, -this.esgst.commentsTop);
+    window.scrollTo(0, element.offsetTop);
+    window.scrollBy(0, -this.esgst.commentsTop);
     if (noPermalink) return;
     let permalink = document.querySelector(`.is_permalink, .author_permalink`);
     if (permalink) {
@@ -13206,13 +13203,13 @@ class Common extends Module {
     textArea.remove();
     if (icon) {
       icon.classList.add(`esgst-green`);
-      setTimeout(() => icon.classList.remove(`esgst-green`), 2000);
+      window.setTimeout(() => icon.classList.remove(`esgst-green`), 2000);
     }
   }
 
   getParameters(source) {
     let parameters = {};
-    (source || location.search).replace(/^\?/, ``).split(/&/).forEach(item => {
+    (source || window.location.search).replace(/^\?/, ``).split(/&/).forEach(item => {
       const items = item.split(/=/);
       parameters[items[0]] = items[1];
     });
@@ -13835,17 +13832,17 @@ class Common extends Module {
     if (y > 0) {
       y -= this.esgst.commentsTop;
     }
-    time = Math.max(0.1, Math.min(Math.abs(scrollY - y) / 2000, 0.8));
+    time = Math.max(0.1, Math.min(Math.abs(window.scrollY - y) / 2000, 0.8));
 
     function tick() {
       let p;
       currentTime += 1 / 60;
       p = currentTime / time;
       if (p < 1) {
-        requestAnimationFrame(tick);
-        scrollTo(0, scrollY + ((y - scrollY) * ((p /= 0.5) < 1 ? 0.5 * Math.pow(p, 5) : 0.5 * (Math.pow((p - 2), 5) + 2))));
+        window.requestAnimationFrame(tick);
+        window.scrollTo(0, window.scrollY + ((y - window.scrollY) * ((p /= 0.5) < 1 ? 0.5 * Math.pow(p, 5) : 0.5 * (Math.pow((p - 2), 5) + 2))));
       } else {
-        scrollTo(0, y);
+        window.scrollTo(0, y);
         if (callback) {
           callback();
         }
@@ -13896,7 +13893,7 @@ class Common extends Module {
 
   createFadeMessage(context, message) {
     context.textContent = message;
-    setTimeout(() => {
+    window.setTimeout(() => {
       context.textContent = ``;
     }, 10000);
   }
@@ -13950,7 +13947,7 @@ class Common extends Module {
   }
 
   openSmallWindow(url) {
-    open(url, `esgst`, `height=600,left=${(screen.width - 600) / 2},top=${(screen.height - 600) / 2},width=600`);
+    window.open(url, `esgst`, `height=600,left=${(window.screen.width - 600) / 2},top=${(window.screen.height - 600) / 2},width=600`);
   }
 
   convertBytes(bytes) {
@@ -13975,13 +13972,13 @@ class Common extends Module {
     separators.forEach(separator => {
       let check = false;
       for (const domain of (separator.match(/domain\(.+?\)/g) || [])) {
-        if (location.hostname.match(domain.match(/\("(.+?)"\)/)[1])) {
+        if (window.location.hostname.match(domain.match(/\("(.+?)"\)/)[1])) {
           check = true;
           break;
         }
       }
       for (const url of (separator.match(/url(-prefix)?\(.+?\)/g) || [])) {
-        if (location.href.match(url.match(/\("(.+?)"\)/)[1])) {
+        if (window.location.href.match(url.match(/\("(.+?)"\)/)[1])) {
           check = true;
           break;
         }
@@ -15302,7 +15299,7 @@ class Common extends Module {
       description: context.querySelector(`[name="description"]`),
       parentId: context.querySelector(`[name="parent_id"]`),
       tradeCode: (context.querySelector(`[name="trade_code"]`) || { value: `` }).value,
-      url: this.esgst.sg ? location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
+      url: this.esgst.sg ? window.location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
     };
     const container = context.getElementsByClassName(this.esgst.sg
       ? `align-button-container`
