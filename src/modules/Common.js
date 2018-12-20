@@ -374,9 +374,6 @@ class Common extends Module {
     }
     window.addEventListener(`beforeunload`, this.checkBusy.bind(this));
     window.addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
-    if (!this.esgst.staticPopups) {
-      window.setTimeout(() => this.repositionPopups(), 2000);
-    }
 
     for (const key in this.esgst.documentEvents) {
       if (this.esgst.documentEvents.hasOwnProperty(key)) {
@@ -845,20 +842,7 @@ class Common extends Module {
             sg: true,
             st: true
           },
-          staticPopups: {
-            features: {
-              staticPopups_f: {
-                inputItems: [
-                  {
-                    id: `staticPopups_width`,
-                    prefix: `Width: `
-                  }
-                ],
-                name: `Define a fixed width for popups, so that they are centered horizontally.`,
-                sg: true,
-                st: true
-              }
-            },
+          static_popups: {
             name: `Make popups static (they are fixed at the top left corner of the page instead of being automatically centered).`,
             sg: true,
             st: true
@@ -1364,16 +1348,6 @@ class Common extends Module {
           item.context.appendChild(element);
         }
       }
-    }
-  }
-
-  repositionPopups() {
-    if (this.esgst.openPopups > 0) {
-      this.esgst.popups.forEach(popup => popup.reposition());
-      this.esgst.isRepositioning = true;
-      window.setTimeout(() => this.repositionPopups(), 2000);
-    } else {
-      this.esgst.isRepositioning = false;
     }
   }
 
@@ -10873,29 +10847,30 @@ class Common extends Module {
       width: 75%;
     }
 
+    .esgst-popup-layer {
+      align-items: ${this.esgst.static_popups ? `baseline` : `center`};
+      bottom: 0;
+      display: flex;
+      justify-content: ${this.esgst.static_popups ? `left` : `center`};
+      left: 0;
+      padding: 50px;
+      position: fixed;
+      right: 0;
+      top: 0;
+    }
+
     .esgst-popup {
       background-color: var(--esgst-body-bg-color);
       border-radius: 4px;
       color: #465670;
+      display: flex;
+      flex-direction: column;
       padding: 25px;
-      position: fixed;
+      position: relative;
       text-align: center;
       text-shadow: 1px 1px rgba(255,255,255,0.94);
       transition: 500ms ease;
-      ${this.esgst.staticPopups ? `
-        max-width: calc(100% - 150px);
-        top: 50px;
-        ${this.esgst.staticPopups_f ? `
-          left: 0;
-          margin: 0 auto;
-          right: 0;
-          width: ${this.esgst.staticPopups_width};
-        ` : `
-          left: 50px;
-        `}
-      ` : `
-        max-width: calc(90% - 50px);
-      `}
+      z-index: 1;
     }
 
     .esgst-popout li:before, .esgst-popup li:before {

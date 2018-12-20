@@ -434,7 +434,6 @@ class Esgst {
       ],
       cdr_days: 7,
       addNoCvGames_sg: false,
-      staticPopups_width: `1200px`,
       hgm_addOwned: false,
       hgm_addIgnored: false,
       hgm_removeTextArea: false,
@@ -464,8 +463,6 @@ class Esgst {
       radb_sg: true,
       showChangelog_sg: true,
       showChangelog_st: true,
-      staticPopups_sg: false,
-      staticPopups_st: false,
       vai_i_sg: false,
       avatar: ``,
       steamId: ``,
@@ -856,7 +853,7 @@ class Esgst {
     this.st = null;
 
     this.currentVersion = `8.1.7`;
-    this.devVersion = `8.1.8 (Dev.1)`;
+    this.devVersion = `8.1.8 (Dev.2)`;
     // noinspection SpellCheckingInspection
     this.icon = `data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqv8DCbP/Hgeq+CQIrf8iCK3/Igit/yIIrf8iB6//Iwit9x8Aqv8DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKr0GAa2/c0DvfzfA7f83QO3/N0Dt/zdA7f83QO+/d4Gs/3OAKP1GQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACm/xQFs/n2Bcf//wW///8FwP//BcD//wW///8Fx///BbP69gC2/xUAAAAAAAAAAAAAAAAA/1UDFptOFxSZMxkLpJktAq720QW1+ugEsfvjA7b92wO2/dsEsfvjBbX66Aau/dEoiO4tUlLWGU5k3hdVVf8DEJxKHxWqT8cVrU7uE6VN0guqny0Apv8XAJfQGwBAVywAQFcsAJfQGwCx/xcogugtS2Lk0lBl6u5Qae7ISmPeHxagSSMVr07jF7lV/xOiSu0brgATAAAAAAAAAA8AAAC/AAAAwAAAABAAAAAAYznjEkth4OxWb/3/T2jv40lf4iMXnksiEq1O3RayUv8UpEnkEo0+HQAAABkAAABBAAAA8QAAAPEAAABBAAAAGUBSvxxOYeDjU2v0/05m7d1LYuEiF55LIhKtTt0Ws1L/FahN2gU1FTAAAADAAAAA7AAAAP0AAAD9AAAA7AAAAMAVG0owUGPm2lNr9P9OZu3dS2LhIheeSyISrU7dFrNS/xWoTdoFNRswAAAAvwAAAOsAAAD9AAAA/QAAAOsAAADAFRtKMFBj6NpTa/T/Tmbt3Uti4SIXnksiEq1O3RayUv8UpEnkEo0+HQAAABgAAABAAAAA8QAAAPEAAABBAAAAGT5PuR1OYeDjU2v0/05m7d1LYuEiFqBJIxWuT+QXuVX/E6JL7QC8XhMAAAAAAAAADwAAAL8AAAC/AAAAEAAAAAAOR/8SSWLh7FZv/f9PaO/jSV/iIxCUSh8Vrk7HFqxN7ROlS9JskzMt1XULGK12EhxGLgYsRy8GK612EhzVgAsYgmxxLU1i39JNZ+vtT2fwx0pj1h8AqlUDF65GFgqZUhlsiC0txH0T0s5/EujJgBPkz4QR28+EEdvJgBPkzn8Q6Md+E9KLdHosM1LWGUZo6BZVVf8DAAAAAAAAAAAAAAAA/2YAFMl9EvbgjRb/14gV/9eIFf/XiBX/14gV/9+NFv/KgBD254YAFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL91FRjKgRHN1IgU3s+EEt3PhBLdz4QS3c+EEt3UiBTezYMRzcJ6FBkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACqqgADxIARHr18FiO8eA8ivHgPIrx4DyK8eA8ivXwPI8SAER7/VQADAAAAAAAAAAAAAAAA78cAAPA3AAD4FwAABCAAADGOAAAE+AAAkBEAAJ55AACYOQAAlgEAAER4AAAXaAAATnoAAPgXAAD0JwAA69cAAA==`;
     // noinspection SpellCheckingInspection
@@ -1055,8 +1052,6 @@ class Esgst {
 
     this.mainPageHeading = null;
 
-    this.staticPopups = null;
-
     /** @type {string} */
     this.pageOuterWrapClass = ``;
 
@@ -1146,8 +1141,6 @@ class Esgst {
     this.showChangelog = null;
 
     this.steamId = null;
-
-    this.isRepositioning = null;
 
     /** @type {string} */
     this.name = undefined;
@@ -1499,15 +1492,11 @@ class Esgst {
 
     this.wbm_clearTags = null;
 
-    this.staticPopups_f = null;
-
     this.lastBackup = null;
 
     this.mm = null;
 
     this.style = null;
-
-    this.staticPopups_width = null;
 
     /** @type {HTMLElement} */
     this.customThemeElement = null;
