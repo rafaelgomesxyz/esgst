@@ -1826,6 +1826,10 @@ function addStyle() {
     white-space: nowrap;
   }
 
+  .esgst-popup .esgst-gf-container {
+    top: 0;
+  }
+
   .esgst-gf-container {
     position: sticky;
     text-align: left;
@@ -1850,7 +1854,7 @@ function addStyle() {
 
   .esgst-gf-left-panel {
     flex: 1;
-    max-height: 500px;
+    max-height: 400px;
     overflow-y: auto;
   }
 
