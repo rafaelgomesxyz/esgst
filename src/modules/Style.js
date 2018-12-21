@@ -2524,6 +2524,7 @@ function addStyle() {
     .esgst-settings-menu-feature {
       align-self: flex-start;
       margin-top: 14px;
+      min-height: 400px;
       overflow: auto;
       position: sticky;
       top: 24px;
