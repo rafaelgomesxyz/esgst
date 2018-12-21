@@ -4,7 +4,6 @@ import Checkbox from '../../class/Checkbox';
 import Popup from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import dateFns_format from 'date-fns/format';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -593,8 +592,8 @@ class GiveawaysGiveawayTemplates extends Module {
     currentDate = new Date();
     this.clickCheckbox(savedTemplate.gameType);
     if (savedTemplate.edit) {
-      document.querySelector(`[name="start_time"]`).value = savedTemplate.startTime;
-      document.querySelector(`[name="end_time"]`).value = savedTemplate.endTime;
+      common.setDatePickerDate(`start_time`, new Date(savedTemplate.startTime));
+      common.setDatePickerDate(`end_time`, new Date(savedTemplate.endTime));
     } else {
       if (savedTemplate.startTime && savedTemplate.endTime) {
         startTime = new Date(savedTemplate.startTime);
@@ -612,10 +611,8 @@ class GiveawaysGiveawayTemplates extends Module {
         }
         newEndTime.setDate(newStartTime.getDate() + days);
         newEndTime.setHours(endTime.getHours(), endTime.getMinutes(), endTime.getSeconds(), endTime.getMilliseconds());
-        document.querySelector(`[name="start_time"]`).value =
-          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
-        document.querySelector(`[name="end_time"]`).value =
-          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
+        common.setDatePickerDate(`start_time`, newStartTime);
+        common.setDatePickerDate(`end_time`, newEndTime);
       } else if (savedTemplate.startTime) {
         startTime = new Date(savedTemplate.startTime);
         newStartTime = new Date(currentDate.getTime());
@@ -624,10 +621,8 @@ class GiveawaysGiveawayTemplates extends Module {
           newStartTime.setDate(newStartTime.getDate() + 1);
         }
         newEndTime = new Date(newStartTime.getTime() + savedTemplate.duration);
-        document.querySelector(`[name="start_time"]`).value =
-          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
-        document.querySelector(`[name="end_time"]`).value =
-          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
+        common.setDatePickerDate(`start_time`, newStartTime);
+        common.setDatePickerDate(`end_time`, newEndTime);
       } else if (savedTemplate.endTime) {
         endTime = new Date(savedTemplate.endTime);
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
@@ -636,31 +631,25 @@ class GiveawaysGiveawayTemplates extends Module {
         if (newEndTime.getTime() < newStartTime.getTime()) {
           newEndTime.setDate(newEndTime.getDate() + 1);
         }
-        document.querySelector(`[name="start_time"]`).value =
-          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
-        document.querySelector(`[name="end_time"]`).value =
-          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
+        common.setDatePickerDate(`start_time`, newStartTime);
+        common.setDatePickerDate(`end_time`, newEndTime);
       } else {
         newStartTime = new Date(currentDate.getTime() + savedTemplate.delay);
         newEndTime = new Date(currentDate.getTime() + savedTemplate.delay + savedTemplate.duration);
-        document.querySelector(`[name="start_time"]`).value =
-          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
-        document.querySelector(`[name="end_time"]`).value =
-          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
+        common.setDatePickerDate(`start_time`, newStartTime);
+        common.setDatePickerDate(`end_time`, newEndTime);
       }
       if (savedTemplate.startDate) {
         newStartTime.setFullYear(savedTemplate.startDate.year);
         newStartTime.setMonth(savedTemplate.startDate.month);
         newStartTime.setDate(savedTemplate.startDate.day);
-        document.querySelector(`[name="start_time"]`).value =
-          dateFns_format(newStartTime, this.esgst.newGiveawayDateFormat);
+        common.setDatePickerDate(`start_time`, newStartTime);
       }
       if (savedTemplate.endDate) {
         newEndTime.setFullYear(savedTemplate.endDate.year);
         newEndTime.setMonth(savedTemplate.endDate.month);
         newEndTime.setDate(savedTemplate.endDate.day);
-        document.querySelector(`[name="end_time"]`).value =
-          dateFns_format(newEndTime, this.esgst.newGiveawayDateFormat);
+        common.setDatePickerDate(`end_time`, newEndTime);
       }
     }
     if (!savedTemplate.region.match(/^[10]$/)) {

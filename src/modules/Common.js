@@ -5288,6 +5288,15 @@ class Common extends Module {
       }
     }
   }
+
+  setDatePickerDate(target, date) {    
+    const script = document.createElement(`script`);
+    script.textContent = `
+      $("input[name=${target}]").datetimepicker("setDate", new Date(${date.getTime()}));
+    `;
+    document.body.appendChild(script);
+    script.remove();
+  }
 }
 
 export default Common;
