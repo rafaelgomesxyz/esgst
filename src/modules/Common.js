@@ -5036,6 +5036,7 @@ class Common extends Module {
    * @param SMFeatures
    */
   updateTheme(id) {
+    console.log(id);
     document.querySelector(`#${id}`).dispatchEvent(new Event(`click`));
   }
 
