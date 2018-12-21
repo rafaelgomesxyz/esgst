@@ -24,6 +24,7 @@ function loadMenu(isPopup) {
       settings: true,
       isTemp: true
     });
+    popup.popup.classList.add(`esgst-text-left`);
     Container = popup.description;
     Context = popup.scrollable;
   } else {
@@ -171,8 +172,8 @@ function loadMenu(isPopup) {
     container.esgst.mainPageHeading = heading;
   }
 
-  input.addEventListener(`input`, () => filterSm());
-  input.addEventListener(`change`, () => filterSm());
+  input.addEventListener(`input`, event => filterSm(event));
+  input.addEventListener(`change`, event => filterSm(event));
   Context.classList.add(`esgst-menu-layer`);
   container.common.createElements_v2(Context, `beforeEnd`, [
     [`div`, { class: `esgst-menu-split` }, [
@@ -1116,6 +1117,7 @@ function getSMFeature(feature, id, number) {
   }]);
   let isMainNew = container.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(container.esgst.settings[`${id}_sg`]) && !utils.isSet(container.esgst.settings[`${id}_st`]);
   if (isMainNew) {
+    feature.isNew = true;
     container.common.createElements(menu.firstElementChild, `afterEnd`, [{
       attributes: {
         class: `esgst-bold esgst-red esgst-clickable`,
@@ -1499,6 +1501,7 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
         input.nextElementSibling.addEventListener(`click`, async () => (await container.esgst.modules.generalHeaderRefresher.hr_createPlayer(container.esgst.settings[item.id] || container.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
       }
       if (typeof container.esgst.settings[item.id] === `undefined` && container.esgst.dismissedOptions.indexOf(item.id) < 0) {
+        Feature.isNew = true;
         container.common.createElements(context, `afterBegin`, [{
           attributes: {
             class: `esgst-bold esgst-red esgst-clickable`,
@@ -2622,7 +2625,7 @@ function createMenuSection(context, html, number, title, type) {
 
 function filterSm(event) {
   let collapse, element, expand, found, id, type, typeFound, value;
-  value = event.currentTarget.value.toLowerCase().trim();
+  value = event.currentTarget.value.toLowerCase().trim().replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
   for (type in container.esgst.features) {
     if (container.esgst.features.hasOwnProperty(type)) {
       found = false;
@@ -2696,7 +2699,7 @@ function unfadeSmFeatures(feature, id) {
 }
 
 function filterSmFeature(feature, id, value) {
-  let found = !value || (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value);
+  let found = !value || (typeof feature.name === `string` ? feature.name : JSON.stringify(feature.name)).toLowerCase().match(value) || (value === `\\[new\\]` && feature.isNew);
   let exactFound = found;
   if (!value || !found) {
     if (!found) {
