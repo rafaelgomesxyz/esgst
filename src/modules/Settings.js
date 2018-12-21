@@ -41,6 +41,26 @@ function loadMenu(isPopup) {
     container.esgst.modules.generalSearchClearButton.getInputs(Container);
   }
 
+  let newIndicators = null;
+
+  const dismissAllButton = new ButtonSet({
+    color1: `green`,
+    color2: `grey`,
+    icon1: ``,
+    icon2: `fa-circle-o-notch fa-spin`,
+    title1: `Dismiss All New`,
+    title2: `Dismissing`,
+    callback1: async () => {      
+      await container.common.setSetting(`dismissedOptions`, container.esgst.toDismiss);
+      container.esgst.dismissedOptions = container.esgst.toDismiss;
+      for (let i = newIndicators.length - 1; i > -1; i--) {
+        newIndicators[i].remove();
+      }
+    }
+  }).set;
+  dismissAllButton.classList.add(`esgst-hidden`);
+  Container.appendChild(dismissAllButton);
+
   const heading = container.common.createPageHeading(Container, `afterBegin`, {
     items: [
       {
@@ -239,7 +259,7 @@ function loadMenu(isPopup) {
         if (isNew) {
           container.common.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
             attributes: {
-              class: `esgst-bold esgst-red`,
+              class: `esgst-bold esgst-red esgst-new-indicator`,
               title: `There is a new feature/option in this section`
             },
             type: `span`,
@@ -376,6 +396,11 @@ function loadMenu(isPopup) {
   }
   if (pp) {      
     pp.open();
+  }
+
+  newIndicators = document.querySelectorAll(`.esgst-new-indicator`);
+  if (newIndicators.length) {
+    dismissAllButton.classList.remove(`esgst-hidden`);
   }
 }
 
@@ -1120,7 +1145,7 @@ function getSMFeature(feature, id, number) {
     feature.isNew = true;
     container.common.createElements(menu.firstElementChild, `afterEnd`, [{
       attributes: {
-        class: `esgst-bold esgst-red esgst-clickable`,
+        class: `esgst-bold esgst-red esgst-clickable esgst-new-indicator`,
         title: `This is a new feature/option. Click to dismiss.`
       },
       text: `[NEW]`,
@@ -1264,7 +1289,7 @@ function getSMFeature(feature, id, number) {
     if (isNew) {
       container.common.createElements(menu.firstElementChild, `afterEnd`, [{
         attributes: {
-          class: `esgst-bold esgst-red`,
+          class: `esgst-bold esgst-red esgst-new-indicator`,
           title: `There is a new feature/option in this section`
         },
         type: `span`,
@@ -1504,7 +1529,7 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
         Feature.isNew = true;
         container.common.createElements(context, `afterBegin`, [{
           attributes: {
-            class: `esgst-bold esgst-red esgst-clickable`,
+            class: `esgst-bold esgst-red esgst-clickable esgst-new-indicator`,
             title: `This is a new feature/option. Click to dismiss.`
           },
           text: `[NEW]`,
