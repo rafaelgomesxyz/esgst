@@ -1114,7 +1114,7 @@ function getSMFeature(feature, id, number) {
     text: `${number}.`,
     type: `div`
   }]);
-  let isMainNew = container.esgst.dismissedOptions.indexOf(id) < 0 && !container.esgst.settings[`${id}_sg`] && !container.esgst.settings[`${id}_st`];
+  let isMainNew = container.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(container.esgst.settings[`${id}_sg`]) && !utils.isSet(container.esgst.settings[`${id}_st`]);
   if (isMainNew) {
     container.common.createElements(menu.firstElementChild, `afterEnd`, [{
       attributes: {
