@@ -296,17 +296,17 @@ class Giveaways extends Module {
       giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
       giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
     }
+    giveaway.extraPanel = common.createElements_v2(giveaway.summary, `beforeEnd`, [[`div`]]);
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
     if (!giveaway.panel && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw || this.esgst.gp || this.esgst.elgb || this.esgst.cewgd)) {
       if (giveaway.links) {
-        giveaway.panel = createElements(giveaway.links, `afterEnd`, [{
+        const temp = common.createElements_v2(giveaway.links, `afterEnd`, [
+          [`div`, { class: `esgst-panel-flexbox` }]
+        ]);
+        temp.appendChild(giveaway.links);
+        giveaway.panel = createElements(temp, `beforeEnd`, [{
           attributes: {
             class: `giveaway__columns esgst-giveaway-panel`
-          },
-          type: `div`
-        }, {
-          attributes: {
-            style: `clear: both;`
           },
           type: `div`
         }]);
@@ -646,6 +646,28 @@ class Giveaways extends Module {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           giveaway.links.appendChild(element);
+          if (giveaway.elementOrdering) {
+            continue;
+          }
+          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
+            element.classList.remove(`esgst-giveaway-column-button`);
+          }
+          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
+            element.classList.remove(`giveaway__icon`);
+          }
+          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          if (element.getAttribute(`data-color`)) {
+            element.style.color = element.getAttribute(`data-color`);
+            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          }
+        }
+      }
+    }
+    if (giveaway.extraPanel) {
+      for (const id of (giveaway.gvIcons ? this.esgst.giveawayExtraPanel_gv : this.esgst.giveawayExtraPanel)) {
+        const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
+        for (const element of elements) {
+          giveaway.extraPanel.appendChild(element);
           if (giveaway.elementOrdering) {
             continue;
           }

@@ -4219,6 +4219,15 @@ class Common extends Module {
         comments: `Comments`
       }
     }, {
+      includeGridView: true,
+      group: `giveaways`,
+      id: `giveawayExtraPanel`,
+      key: `extraPanel`,
+      name: `Giveaway Extra Panel`,
+      labels: {
+        ggl: `Giveaway Groups Loader`
+      }
+    }, {
       group: `mainPageHeading`,
       id: `leftButtonIds`,
       key: `leftButtons`,
@@ -9489,6 +9498,20 @@ class Common extends Module {
     `;
     }
     style += `
+    .esgst-panel-flexbox {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .esgst-panel-flexbox .esgst-giveaway-panel {
+      align-items: baseline;
+      text-align: right;
+    }
+
+    .esgst-panel-flexbox .esgst-giveaway-links >* {
+      white-space: nowrap;
+    }
+
     .esgst-gesl >* {
       margin-right: 5px;
     }
@@ -10731,9 +10754,13 @@ class Common extends Module {
     }
 
     .esgst-ggl-panel {
+      background: none;
+      border: none;
+      box-shadow: none !important;
       color: #6b7a8c;
       font-size: 12px;
       padding: 5px;
+      white-space: unset;
     }
 
     .esgst-ggl-panel >* {
@@ -11240,7 +11267,6 @@ class Common extends Module {
     }
 
     .esgst-giveaway-links {
-      float: left;
       margin: 2px;
     }
 
@@ -11255,7 +11281,6 @@ class Common extends Module {
     }
 
     .esgst-giveaway-panel.giveaway__columns {
-      float: right;
       margin: 2px;
     }
 
@@ -12346,6 +12371,7 @@ class Common extends Module {
     if (element === obj.context) {
       if (obj.context.children.length < 1) {
         obj.context.appendChild(this.esgst.draggable.dragged);
+        this.esgst.draggable.destination = obj.context;
       }
       return;
     }
