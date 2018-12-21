@@ -1192,6 +1192,7 @@ function getSMFeature(feature, id, number, popup) {
       }
     };
     sgSwitch.onDisabled = async () => {
+      loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
       if (feature.sgFeatureSwitch) {
         feature.sgFeatureSwitch.disable();
       } else {
@@ -1241,6 +1242,7 @@ function getSMFeature(feature, id, number, popup) {
       }
     };
     stSwitch.onDisabled = async () => {
+      loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
       if (feature.stFeatureSwitch) {
         feature.stFeatureSwitch.disable();
       } else {
