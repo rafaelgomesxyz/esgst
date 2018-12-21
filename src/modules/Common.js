@@ -93,10 +93,6 @@ class Common extends Module {
     return this.envFunctions.getStorage();
   }
 
-  notifyNewVersion(version) {
-    return this.envFunctions.notifyNewVersion(version);
-  }
-
   continueRequest(details) {
     return this.envFunctions.continueRequest(details);
   }
@@ -813,13 +809,11 @@ class Common extends Module {
             sg: true,
             st: true
           },
-          checkVersion: {
-            name: `Check whether or not you are on the current version when visiting the ESGST discussion.`,
-            sg: true
-          },
-          checkVersionMain: {
-            name: `Check whether or not you are on the current version when visiting the main discussions page if the ESGST discussion is in the current page.`,
-            sg: true
+          notifyNewVersion: {
+            name: `Notify when a new ESGST version is available.`,
+            featureOnly: true,
+            sg: true,
+            st: true
           },
           makeSecionsCollapsible: {
             description: [
@@ -965,15 +959,6 @@ class Common extends Module {
     if (document.getElementsByClassName(`esgst-busy`)[0] || this.esgst.busy) {
       event.returnValue = true;
       return true;
-    }
-  }
-
-  async checkVersion(discussion) {
-    if (discussion.code === `TDyzv` && ((this.esgst.checkVersion && this.esgst.discussionPath) || (this.esgst.checkVersionMain && !this.esgst.discussionPath))) {
-      let version = discussion.title.match(/v(.+?)\s/)[1];
-      if (version !== this.esgst.version && version !== await this.getValue(`dismissedVersion`)) {
-        this.notifyNewVersion(version);
-      }
     }
   }
 

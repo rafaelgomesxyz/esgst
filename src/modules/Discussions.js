@@ -3,7 +3,6 @@ import Button from '../class/Button';
 import {common} from './Common';
 
 const
-  checkVersion = common.checkVersion.bind(common),
   getUser = common.getUser.bind(common),
   sortContent = common.sortContent.bind(common)
 ;
@@ -86,7 +85,6 @@ class Discussions extends Module {
       discussion.tagPosition = `afterEnd`;
       discussion.saved = this.esgst.discussions[discussion.code];
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
-      checkVersion(discussion);
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
       discussions.push(discussion);
     }
@@ -188,7 +186,6 @@ class Discussions extends Module {
       return;
     }
     discussion.code = match[1];
-    checkVersion(discussion);
     if (main && this.esgst.df && this.esgst.df_s && this.esgst.discussions[discussion.code] && this.esgst.discussions[discussion.code].hidden) {
       discussion.outerWrap.remove();
       return;
