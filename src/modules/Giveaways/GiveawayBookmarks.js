@@ -296,7 +296,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         });
       }
     });
-    container.insertBefore(new ButtonSet({
+    container.appendChild(new ButtonSet({
       color1: `grey`,
       color2: ``,
       icon1: `fa-list`,
@@ -304,8 +304,8 @@ class GiveawaysGiveawayBookmarks extends Module {
       title1: `View Raw List`,
       title2: ``,
       callback1: this.gb_openList.bind(this, { bookmarked })
-    }).set, context);
-    container.insertBefore(set.set, context);
+    }).set);
+    container.appendChild(set.set);
     if (popup) {
       popup.open();
     }
