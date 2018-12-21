@@ -85,11 +85,11 @@ module.exports = /** @param {Environment} env */ async env => {
     const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
     currentDate = `${months[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`;
 
-    // Update Common.js
-    file = fs.readFileSync(path.join(__dirname, './src/modules/Common.js'), 'utf8');
+    // Update Changelog.js
+    file = fs.readFileSync(path.join(__dirname, './src/modules/Changelog.js'), 'utf8');
     file = file
       .replace(/changelog\s=\s\[/, `changelog = [\n      {\n        date: \`${currentDate}\`,\n        version: \`${packageJson.version}\`,\n        changelog: {\n${changeLog}\n        }\n      },\n`);
-    fs.writeFileSync(path.join(__dirname, './src/modules/Common.js'), file);
+    fs.writeFileSync(path.join(__dirname, './src/modules/Changelog.js'), file);
 
     // Update manifest.json
     file = fs.readFileSync(path.join(__dirname, './Extension/manifest.json'), 'utf8');

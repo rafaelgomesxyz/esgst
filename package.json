@@ -1,6 +1,6 @@
 {
   "name": "esgst",
-  "version": "8.1.7",
+  "version": "8.1.8",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "main": "ESGST.meta.js",
   "scripts": {

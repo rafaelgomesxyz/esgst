@@ -236,6 +236,24 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.8 (December 21, 2018)**
+
+* [#1134](https://github.com/gsrafael01/ESGST/issues/1134) Fix a bug that does not enable/disable themes properly
+* [#1133](https://github.com/gsrafael01/ESGST/issues/1133) Allow new options in the settings menu to be searchable by searching for "[new]"
+* [#1132](https://github.com/gsrafael01/ESGST/issues/1132) Fix a bug that marks disabled options as new
+* [#1131](https://github.com/gsrafael01/ESGST/issues/1131) Add a giveaway filter: Banned
+* [#1130](https://github.com/gsrafael01/ESGST/issues/1130) Always show game categories in real time and always show categories that do not need to be fetched instantly
+* [#1129](https://github.com/gsrafael01/ESGST/issues/1129) Continue loading game categories where it left off
+* [#1128](https://github.com/gsrafael01/ESGST/issues/1128) Add Giveaway Groups Loader panel to list of movable elements
+* [#1127](https://github.com/gsrafael01/ESGST/issues/1127) Revamp popups
+* [#1126](https://github.com/gsrafael01/ESGST/issues/1126) Rename extension to Enhanced SteamGifts & SteamTrades (ESGST)
+* [#1125](https://github.com/gsrafael01/ESGST/issues/1125) Add extension support for Pale Moon
+* [#1124](https://github.com/gsrafael01/ESGST/issues/1124) Add a feature: Custom Giveaway Calendar
+* [#1122](https://github.com/gsrafael01/ESGST/issues/1122) Add option to backup/restore themes
+* [#1121](https://github.com/gsrafael01/ESGST/issues/1121) Add button to the settings menu to dismiss all new options
+* [#1117](https://github.com/gsrafael01/ESGST/issues/1117) Bring back fixed feature details panel in the settings menu
+* [#1033](https://github.com/gsrafael01/ESGST/issues/1033) Fix a bug in Multi-Manager that does not select items in ESGST-generated pages
+
 **8.1.7 (December 19, 2018)**
 
 * [#1120](https://github.com/gsrafael01/ESGST/issues/1120) Fix a bug in Giveaway Popup / Enter/Leave Giveaway Button that shows wrong creator when opening giveaways from the won page of a user
