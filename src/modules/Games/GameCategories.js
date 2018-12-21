@@ -1143,6 +1143,20 @@ class GamesGameCategories extends Module {
           missingSubs.push(id);
         }
       }
+      
+      for (const id of gc.apps) {
+        if (missingApps.indexOf(id) > -1 && this.esgst.gc_rt) {
+          continue;
+        }
+        this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb);
+      }
+      for (const id of gc.subs) {
+        if (missingSubs.indexOf(id) > -1 && this.esgst.gc_rt) {
+          continue;
+        }
+        this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`);
+      }
+
       let numApps = missingApps.length;
       let numSubs = missingSubs.length;
       if (numApps || numSubs) {
@@ -1162,8 +1176,6 @@ class GamesGameCategories extends Module {
           }
         }
         await Promise.all(gc.promises);
-        await lockAndSaveGames(this.esgst.games);
-        setLocalValue(`gcCache`, JSON.stringify(gc.cache));
       }
     }
 
@@ -1560,6 +1572,8 @@ class GamesGameCategories extends Module {
       if (this.esgst.gc_rt) {
         this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, this.esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
       }
+      await lockAndSaveGames(this.esgst.games);
+      setLocalValue(`gcCache`, JSON.stringify(gc.cache));
     } catch (error) {
       window.console.log(error);
       for (const game of games[type][id]) {
