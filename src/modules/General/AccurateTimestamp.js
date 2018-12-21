@@ -26,6 +26,12 @@ class GeneralAccurateTimestamp extends Module {
           [`li`, `And of course, you can combine the two, for example: DM{MMM d, }Y{yyyy }HH:mm:ss`]
         ]]
       ],
+      features: {
+        at_t: {
+          name: `Apply format to SteamGifts' date tooltips.`,
+          sg: true
+        }
+      },
       id: `at`,
       load: this.at,
       name: `Accurate Timestamp`,
@@ -43,6 +49,31 @@ class GeneralAccurateTimestamp extends Module {
   }
 
   at() {
+    if (this.esgst.at_t) {
+      const script = document.createElement(`script`);
+      script.textContent = `
+        if (document.readyState === "complete") {
+          esgst_at_t();
+        } else {        
+          $(window).on("load", function () {
+            esgst_at_t();
+          });
+        }
+
+        function esgst_at_t() {
+          $(document).off("mouseenter", "[data-timestamp]");
+          $(document).on("mouseenter", "[data-timestamp]", function() {
+            var e = $(this).attr("title");
+            if (void 0 === e || !1 === e) {
+              $(this).attr("data-ui-tooltip", '{"rows":[{"icon" : [{"class" : "fa-clock-o", "color" : "#84cfda"}], "columns":[{"name" : "' + $(this).attr("data-esgst-timestamp") + '"}]}]}');
+            }
+          });
+        }
+      `;
+      document.body.appendChild(script);
+      script.remove();
+    }
+
     this.esgst.endlessFeatures.push(this.at_getTimestamps.bind(this));
   }
 
@@ -65,6 +96,7 @@ class GeneralAccurateTimestamp extends Module {
           .replace(/DM\{(.+?)}/, dateFns_differenceInHours(Date.now(), seconds) < 24 ? `` : `$1`)
           .replace(/Y\{(.+?)}/, dateFns_isSameYear(Date.now(), seconds) ? `` : `$1`)
         );
+        timestamp.setAttribute(`data-esgst-timestamp`, accurateTimestamp);
         if (edited) {
           text = ` (Edited ${accurateTimestamp})`;
         } else {
