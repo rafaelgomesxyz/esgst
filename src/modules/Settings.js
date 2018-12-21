@@ -246,7 +246,7 @@ function loadMenu(isPopup) {
             if (!feature.sg && feature.st && !container.esgst.settings.esgst_st && id !== `esgst`) {
               continue;
             }
-            ft = getSMFeature(feature, id, j);
+            ft = getSMFeature(feature, id, j, popup);
             if (ft) {
               if (ft.isNew) {
                 isNew = true;
@@ -1129,7 +1129,7 @@ function dismissNewOption(id, event) {
   }
 }
 
-function getSMFeature(feature, id, number) {
+function getSMFeature(feature, id, number, popup) {
   container.esgst.featuresById[id] = feature;
   const menu = document.createElement(`div`);
   menu.id = `esgst_${id}`;
@@ -1179,6 +1179,7 @@ function getSMFeature(feature, id, number) {
           }
         }
       }
+      loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
       if (feature.sgFeatureSwitch) {
         feature.sgFeatureSwitch.enable();
       } else {
@@ -1197,7 +1198,7 @@ function getSMFeature(feature, id, number) {
         container.esgst.settings[`${id}_sg`] = false;
         container.esgst[id] = false;
       }
-      if (feature.stSwitch && !feature.stSwitch.value) {
+      if (collapseButton && feature.stSwitch && !feature.stSwitch.value) {
         collapseOptions(collapseButton, id, subMenu);
         isExpanded = false;
       }
@@ -1227,6 +1228,7 @@ function getSMFeature(feature, id, number) {
           }
         }
       }
+      loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
       if (feature.stFeatureSwitch) {
         feature.stFeatureSwitch.enable();
       } else {
@@ -1245,7 +1247,7 @@ function getSMFeature(feature, id, number) {
         container.esgst.settings[`${id}_st`] = false;
         container.esgst[id] = false;
       }
-      if (feature.sgSwitch && !feature.sgSwitch.value) {
+      if (collapseButton && feature.sgSwitch && !feature.sgSwitch.value) {
         collapseOptions(collapseButton, id, subMenu);
         isExpanded = false;
       }
@@ -1276,7 +1278,7 @@ function getSMFeature(feature, id, number) {
       if (!subFt.sg && subFt.st && !container.esgst.settings.esgst_st && id !== `esgst`) {
         continue;
       }
-      const subFeature = getSMFeature(subFt, subId, i);
+      const subFeature = getSMFeature(subFt, subId, i, popup);
       if (subFeature) {
         if (subFeature.isNew) {
           isNew = true;
