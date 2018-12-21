@@ -254,28 +254,6 @@ import { runSilentSync } from './modules/Sync';
             envFunctions.setValue(`dismissedVersion`, version);
           }
         };
-        if (envVariables._USER_INFO.extension !== `firefox`) {
-          details.buttons = [
-            {
-              color1: `green`,
-              color2: ``,
-              icon1: `fa-download`,
-              icon2: ``,
-              title1: `Download .zip`,
-              title2: ``,
-              callback1: window.open.bind(null, `https://github.com/gsrafael01/ESGST/releases/download/${version}/extension.zip`)
-            },
-            {
-              color1: `green`,
-              color2: ``,
-              icon1: `fa-refresh`,
-              icon2: ``,
-              title1: `Reload Extension`,
-              title2: ``,
-              callback1: envVariables.browser.runtime.sendMessage.bind(envVariables.browser.runtime, {action: `reload`}, window.location.reload.bind(window.location))
-            }
-          ];
-        }
         new Popup(details).open();
       };
       envFunctions.continueRequest = details =>
