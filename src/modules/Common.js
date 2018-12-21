@@ -333,6 +333,13 @@ class Common extends Module {
       this.esgst.wbcButton.classList.add(`esgst-hidden`);
     }
 
+    this.esgst.style.insertAdjacentText("beforeend", `
+      .esgst-menu-split-fixed {
+        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (this.esgst.ff ? 39 : 0)}px);
+        top: ${this.esgst.commentsTop + 25}px;
+      }
+    `);
+
     if (this.esgst.updateHiddenGames) {
       const hideButton = document.getElementsByClassName(`js__submit-hide-games`)[0];
       if (hideButton) {
@@ -3659,10 +3666,11 @@ class Common extends Module {
 
     input.addEventListener(`input`, this.filterSm.bind(this));
     input.addEventListener(`change`, this.filterSm.bind(this));
+    Context.classList.add(`esgst-menu-layer`);
     this.createElements_v2(Context, `beforeEnd`, [
       [`div`, { class: `esgst-menu-split` }, [
         [`div`, { class: `esgst-settings-menu` }],
-        [`div`, { class: `esgst-settings-menu-feature` }, [
+        [`div`, { class: `esgst-settings-menu-feature ${isPopup ? `` : `esgst-menu-split-fixed`}` }, [
           `Click on a feature/option to manage it here.`
         ]]
       ]]
@@ -4064,11 +4072,11 @@ class Common extends Module {
       });
     }
     const context = document.querySelector(`.esgst-settings-menu-feature`);
+    if (!context.classList.contains(`esgst-menu-split-fixed`)) {
+      context.style.maxHeight = `${context.closest(`.esgst-menu-layer`).offsetHeight - 24}px`;
+    }
     context.innerHTML = `Click on a feature/option to manage it here.`;
     this.createFormRows(context, `beforeEnd`, { items });
-    if (event) {
-      context.style.marginTop = `${event.target.offsetTop - (offset || this.esgst.commentsTop) - 14}px`;
-    }
   }
 
   setElementOrderingSection(context) {
@@ -11839,7 +11847,11 @@ class Common extends Module {
     if (this.esgst.sg) {
       style += `
       .esgst-settings-menu-feature {
+        align-self: flex-start;
         margin-top: 14px;
+        overflow: auto;
+        position: sticky;
+        top: 24px;
       }
 
       .esgst-menu-split {
