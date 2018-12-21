@@ -551,6 +551,16 @@ class GiveawaysGiveawayFilters extends Module {
               name: `Removed`,
               sg: true
             },
+            gf_banned: {
+              description: [
+                [`ul`, [
+                  [`li`, `Allows you to filter giveaways for games that are banned on Steam.`],
+                  [`li`, `This option requires[id=gc_bd] enabled to work.`]
+                ]]
+              ],
+              name: `Banned`,
+              sg: true
+            },
             gf_tradingCards: {
               description: [
                 [`ul`, [
@@ -1129,6 +1139,12 @@ class GiveawaysGiveawayFilters extends Module {
         category: `gc_rm`,
         check: true,
         name: `Removed`,
+        type: `boolean`
+      },
+      banned: {
+        category: `gc_bd`,
+        check: true,
+        name: `Banned`,
         type: `boolean`
       },
       tradingCards: {
