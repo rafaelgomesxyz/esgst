@@ -654,6 +654,11 @@ function loadDataManagement(type, isPopup, callback) {
     },
     {
       check: true,
+      key: `themes`,
+      name: `Themes`
+    },
+    {
+      check: true,
       key: `tickets`,
       name: `Tickets`,
       options: [
@@ -1735,6 +1740,44 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
+        }
+        break;
+      case `themes`:
+        data.themes = {};
+        for (const themeId of Object.keys(container.esgst.features.themes.features)) {
+          const theme = await container.common.getValue(themeId);
+          if (theme) {
+            data.themes[themeId] = theme;
+          }
+        }
+        if (!space) {
+          if (dm.import) {
+            let newData = dm.data.themes;
+            if (newData) {
+              if (container.esgst.settings.importAndMerge) {
+                for (const themeId in newData) {
+                  data.themes[themeId] = newData[themeId];
+                }
+              } else {
+                data.themes = newData;
+              }
+              for (const themeId in data.themes) {
+                await container.common.setValue(themeId, data.themes[themeId]);
+              }
+            }
+          } else if (dm.delete) {
+            for (const themeId in data.themes) {
+              await container.common.delValue(themeId);
+            }
+            data.themes = {};
+          }
+        }
+        if (!dm.autoBackup) {
+          let size = (new TextEncoder().encode(JSON.stringify(data.themes))).length;
+          totalSize += size;
+          if (dm.switches) {
+            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+          }
         }
         break;
       case `emojis`:
