@@ -45,7 +45,6 @@ import { runSilentSync } from './modules/Sync';
    * @property {function} delValue
    * @property {function} delValues
    * @property {function} getStorage
-   * @property {function} notifyNewVersion
    * @property {function} continueRequest
    * @property {function} addHeaderMenu
    */
@@ -236,26 +235,6 @@ import { runSilentSync } from './modules/Sync';
           envVariables.browser.runtime.sendMessage({
             action: `getStorage`
           }, storage => resolve(JSON.parse(storage))));
-      envFunctions.notifyNewVersion = version => {
-        let message;
-        if (esgst.isNotifying) return;
-        esgst.isNotifying = true;
-        if (esgst.discussionPath) {
-          message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
-        } else {
-          message = `A new ESGST version is available.`;
-        }
-        let details = {
-          icon: `fa-exclamation`,
-          title: message,
-          isTemp: true,
-          onClose: () => {
-            esgst.isNotifying = false;
-            envFunctions.setValue(`dismissedVersion`, version);
-          }
-        };
-        new Popup(details).open();
-      };
       envFunctions.continueRequest = details =>
         new Promise(async resolve => {
           let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
@@ -630,6 +609,15 @@ import { runSilentSync } from './modules/Sync';
               }
             }
             break;
+          case `update`:
+            common.createConfirmation(
+              `Hi! A new version of ESGST (${message.values.version}) is available. Do you want to force an update now? If you choose to force an update, ESGST will stop working in any SteamGifts/SteamTrades tab that is open, along with any operation that you might be performing (such as syncing, checking something etc), so you will have to refresh them. If you choose not to force an update, your browser will automatically update the extension when you are not using it (for example, when you restart the browser).`,
+              () => {
+                envVariables.browser.runtime.sendMessage({ action: `reload` }, () => {})
+              },
+              () => {}
+            );
+            break;
         }
       });
     } else {
@@ -677,26 +665,6 @@ import { runSilentSync } from './modules/Sync';
         }
         await Promise.all(promises);
         return storage;
-      };
-      envFunctions.notifyNewVersion = version => {
-        let message, popup;
-        if (esgst.isNotifying) return;
-        esgst.isNotifying = true;
-        if (esgst.discussionPath) {
-          message = `You are not using the latest ESGST version. Please update before reporting bugs and make sure the bugs still exist in the latest version.`;
-        } else {
-          message = `A new ESGST version is available.`;
-        }
-        popup = new Popup({addScrollable: true, icon: `fa-exclamation`, isTemp: true, title: message});
-        common.createElements(popup.actions, `afterBegin`, [{
-          text: `Update`,
-          type: `span`
-        }]).addEventListener(`click`, common.checkUpdate.bind(common));
-        popup.onClose = () => {
-          esgst.isNotifying = false;
-          envFunctions.setValue(`dismissedVersion`, version);
-        };
-        popup.open();
       };
       envFunctions.continueRequest = details => {
         return new Promise(async resolve => {

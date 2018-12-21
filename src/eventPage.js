@@ -14,22 +14,44 @@ browser.storage.local.get(`settings`, async result => {
    * @property {boolean} activateTab_st
    */
   const settings = result.settings ? JSON.parse(result.settings) : {};
-  if (!settings.activateTab_sg && !settings.activateTab_st) {
-    return;
+  if (settings.activateTab_sg || settings.activateTab_st) {
+    // Get the currently active tab.
+    const currentTab = (await queryTabs({active: true}))[0];
+    if (settings.activateTab_sg) {
+      // Set the SG tab as active.
+      await activateTab(`steamgifts`);
+    }
+    if (settings.activateTab_st) {
+      // Set the ST tab as active.
+      await activateTab(`steamtrades`);
+    }
+    // Go back to the previously active tab.  
+    if (currentTab && currentTab.id) {
+      await updateTab(currentTab.id, {active: true});
+    }
   }
-  // Get the currently active tab.
-  const currentTab = (await queryTabs({active: true}))[0];
-  if (settings.activateTab_sg) {
-    // Set the SG tab as active.
-    await activateTab(`steamgifts`);
-  }
-  if (settings.activateTab_st) {
-    // Set the ST tab as active.
-    await activateTab(`steamtrades`);
-  }
-  // Go back to the previously active tab.  
-  if (currentTab && currentTab.id) {
-    await updateTab(currentTab.id, {active: true});
+  if (settings.notifyNewVersion_sg || settings.notifyNewVersion_st) {
+    const url = [];
+    if (settings.notifyNewVersion_sg) {
+      url.push(`*://*.steamgifts.com/*`);
+    }
+    if (settings.notifyNewVersion_st) {
+      url.push(`*://*.steamtrades.com/*`);
+    }
+    browser.runtime.onUpdateAvailable.addListener(details => {
+      browser.tabs.query({ url }, tabs => {
+        const tab = tabs[0];
+        if (tab) {
+          browser.tabs.sendMessage(tab.id, JSON.stringify({
+            action: `update`,
+            values: details
+          }), () => {
+          });
+        } else {
+          browser.runtime.reload();
+        }
+      });
+    });
   }
 });
 
