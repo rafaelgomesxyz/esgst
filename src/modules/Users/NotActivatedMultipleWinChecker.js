@@ -229,7 +229,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         text: `If a user is highlighted, that means that they have been either checked for the first time or updated`,
         type: `div`
       }]);
-      obj.popup.description.insertBefore(new ButtonSet({
+      obj.popup.description.appendChild(new ButtonSet({
         color1: `green`,
         color2: `grey`,
         icon1: `fa-question-circle`,
@@ -238,7 +238,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         title2: `Cancel`,
         callback1: this.namwc_start.bind(this, obj),
         callback2: this.namwc_stop.bind(this, obj)
-      }).set, obj.popup.scrollable);
+      }).set);
     }
     obj.popup.progress = createElements(obj.popup.scrollable, `beforeBegin`, [{
       type: `div`

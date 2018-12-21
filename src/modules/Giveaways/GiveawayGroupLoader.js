@@ -375,12 +375,14 @@ class GiveawaysGiveawayGroupLoader extends Module {
   ggl_addPanel(giveaway, groups, newGroups, savedGroups) {
     let className, code, group, groupCount, i, j, link, n, panel;
     if (!giveaway.summary.getElementsByClassName(`esgst-ggl-panel`)[0]) {
-      panel = createElements(giveaway.summary, `beforeEnd`, [{
+      panel = createElements(giveaway.extraPanel || giveaway.summary, `beforeEnd`, [{
         attributes: {
-          class: `esgst-ggl-panel`
+          class: `esgst-ggl-panel`,
+          [`data-draggable-id`]: `ggl`
         },
         type: `div`
       }]);
+      this.esgst.modules.giveaways.giveaways_reorder(giveaway);
       groupCount = 0;
       giveaway.groups = [];
       for (i = 0, n = groups.length; i < n; ++i) {
