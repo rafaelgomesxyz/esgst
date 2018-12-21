@@ -16,6 +16,11 @@ import Popup from './class/Popup';
 import {utils} from './lib/jsUtils';
 import esgst from './class/Esgst';
 
+import { addStyle } from './modules/Style';
+import { loadChangelog } from './modules/Changelog';
+import { loadMenu } from './modules/Settings';
+import { runSilentSync } from './modules/Sync';
+
 /** @var {object} GM */
 /** @var {function} GM_getValue */
 /** @var {function} GM_setValue */
@@ -626,12 +631,12 @@ import esgst from './class/Esgst';
         button.addEventListener(`click`, event => {
           if (!esgst.openSettingsInTab) {
             event.preventDefault();
-            common.loadMenu(true);
+            loadMenu(true);
           }
         });
         arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
         document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
-        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog(common));
       };
       envVariables.browser.runtime.onMessage.addListener(message => {
         let key;
@@ -1097,14 +1102,14 @@ import esgst from './class/Esgst';
         button.addEventListener(`click`, event => {
           if (!esgst.openSettingsInTab) {
             event.preventDefault();
-            common.loadMenu(true);
+            loadMenu(true);
           }
         });
         arrow = button.nextElementSibling;
         arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
         document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
         document.getElementById(`esgst-update`).addEventListener(`click`, common.checkUpdate.bind(common));
-        document.getElementById(`esgst-changelog`).addEventListener(`click`, common.loadChangelog.bind(common));
+        document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog(common));
       };
     }
 
@@ -1463,7 +1468,7 @@ import esgst from './class/Esgst';
   }
 
   async function load(toDelete, toSet) {
-    common.addStyle();
+    addStyle();
     if (esgst.sg) {
       try {
         let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
@@ -1560,7 +1565,7 @@ import esgst from './class/Esgst';
       if (esgst.profilePath && esgst.autoSync) {
         const el = document.getElementsByClassName(`form__sync-default`)[0];
         if (el) {
-          el.addEventListener(`click`, () => common.runSilentSync(`Games=1&Groups=1`));
+          el.addEventListener(`click`, () => runSilentSync(`Games=1&Groups=1`));
         }
       }
 
