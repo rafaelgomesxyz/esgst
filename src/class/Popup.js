@@ -1,5 +1,6 @@
 import ButtonSet from './ButtonSet';
 import {container} from './Container';
+import { loadMenu } from '../modules/Settings';
 
 export default class Popup {
   constructor(details) {
@@ -95,7 +96,7 @@ export default class Popup {
         settings.addEventListener(`click`, event => {
           if (!container.esgst.openSettingsInTab) {
             event.preventDefault();
-            container.common.loadMenu(true);
+            loadMenu(true);
           }
         });
       }
