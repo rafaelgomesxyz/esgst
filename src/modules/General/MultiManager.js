@@ -57,12 +57,16 @@ class GeneralMultiManager extends Module {
         ]]
       ],
       id: `mm`,
-      load: this.mm,
       name: `Multi-Manager`,
       sg: true,
       st: true,
       type: `general`
     };
+  }
+
+  init() {
+    if (this.esgst.parameters.esgst) return;
+    this.mm();
   }
 
   mm(context, items, itemsKey) {
