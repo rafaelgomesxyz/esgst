@@ -300,11 +300,11 @@ class Giveaways extends Module {
     giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
     if (!giveaway.panel && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw || this.esgst.gp || this.esgst.elgb || this.esgst.cewgd)) {
       if (giveaway.links) {
-        const temp = common.createElements_v2(giveaway.links, `afterEnd`, [
+        giveaway.panelFlexbox = common.createElements_v2(giveaway.links, `afterEnd`, [
           [`div`, { class: `esgst-panel-flexbox` }]
         ]);
-        temp.appendChild(giveaway.links);
-        giveaway.panel = createElements(temp, `beforeEnd`, [{
+        giveaway.panelFlexbox.appendChild(giveaway.links);
+        giveaway.panel = createElements(giveaway.panelFlexbox, `beforeEnd`, [{
           attributes: {
             class: `giveaway__columns esgst-giveaway-panel`
           },
