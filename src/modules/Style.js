@@ -181,6 +181,14 @@ function addStyle() {
   `;
   }
   style += `
+  .esgst-gv-popout .esgst-panel-flexbox {
+    flex-direction: column;
+  }
+
+  .esgst-gv-popout .esgst-panel-flexbox .esgst-giveaway-panel {
+    text-align: center;
+  }
+
   .esgst-panel-flexbox {
     display: flex;
     justify-content: space-between;
@@ -2263,6 +2271,8 @@ function addStyle() {
   .esgst-gv-popout {
     font-size: 11px;
     max-width: ${container.esgst.ib ? `174px` : `162px`};
+    overflow-x: hidden;
+    overflow-y: auto;
     position: absolute;
     width: ${container.esgst.ib ? `174px` : `162px`};
     z-index: 1;
@@ -2314,6 +2324,7 @@ function addStyle() {
 
   .esgst-gv-popout .esgst-giveaway-panel >* {
     margin: 0;
+    overflow: hidden;
   }
 
   .esgst-gv-popout .esgst-button-set {
@@ -2330,8 +2341,6 @@ function addStyle() {
 
   .esgst-gv-popout .giveaway_image_avatar, .esgst-gv-popout .featured_giveaway_image_avatar {
     margin: 5px;
-    position: absolute;
-    right: 5px;
   }
 
   .esgst-gv-popout .esgst-giveaway-links, .esgst-gv-popout .esgst-giveaway-panel {

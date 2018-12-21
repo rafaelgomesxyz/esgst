@@ -1,0 +1,28 @@
+ESGST does not exchange any of your information with other services, except for when you want to make a backup of your data to the cloud, in which case the data needs to be uploaded to one of the available services.
+
+ESGST collects the following personal information for internal use:
+
+* Your SteamGifts avatar.
+* Your SteamTrades avatar.
+* Your SteamGifts username.
+* Your SteamTrades username.
+* Your SteamGifts user id.
+* Your Steam id.
+
+Without the information listed above the add-on does not function correctly.
+
+Every other information collected by ESGST is information that you yourself generate and that is relevant for the correct functioning of the add-on. For example, if you bookmark a giveaway, that information needs to be stored so that the giveaway appears in your list of bookmarked giveaways.
+
+ESGST stores the information it collects in two places:
+
+* Your computer, through the browser.storage API. Most of the information is stored here. Apart from being able to backup/restore this data, you can also delete it at any point, giving you full control over it.
+* The localStorage of your browser. Only temporary information is stored here, which consists mostly of caches. For example, if you have the feature Game Categories enabled, a cache containing all of the games that you load are stored here for quicker access in a period of 7 days.
+
+Every feature offered by ESGST is disabled by default, so you have to opt-in to everything.
+
+With the add-on installed, a button with the title "ESGST" is added to the header of every SteamGifts and SteamTrades page, making it very transparent that the add-on is installed and enabled.
+
+ESGST does not set cookies for internal use, but it does manipulate them in two occasions:
+
+* If you use Firefox containers, you can opt-in to allowing the add-on to manipulate your cookies when making requests. Since external requests made by ESGST happen in the background page and the background page's context is not the same as the content script's context, they use different cookies. With this option enabled, whenever the add-on has to make an external request it temporarily backs up your default cookies, then retrieves the cookies from whatever container you are using, then sets those cookies as default, then makes the request, and then restores your default cookies.
+* If you opt-in to using the feature Game Categories, whenever a request is made to a game page in the Steam store (coming from that feature only), the add-on will set the temporary cookies "birthtime=0" and "mature_content=1" to bypass Steam's age verification so that the content can be retrieved correctly.

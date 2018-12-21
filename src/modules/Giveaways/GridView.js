@@ -52,7 +52,6 @@ class GiveawaysGridView extends Module {
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gv-creator {
           margin: ${this.esgst.ib ? 10 : 5}px 5px 5px;
-          width: ${this.esgst.ib ? 127 : 132}px;
         }
 
         .esgst-gv-popout .giveaway__links {
@@ -60,7 +59,6 @@ class GiveawaysGridView extends Module {
           height: auto;
           margin: 5px 5px ${this.esgst.ib ? 10 : 5}px;
           text-align: center;
-          width: ${this.esgst.ib ? 127 : 132}px;
         }
       `);
       if (this.esgst.giveawaysPath) {
@@ -166,28 +164,22 @@ class GiveawaysGridView extends Module {
       }
       giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
       giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
-      giveaway.summary.insertBefore(giveaway.avatar, giveaway.links);
-      createElements(giveaway.avatar, `afterEnd`, [{
-        attributes: {
-          style: `clear: both;`
-        },
-        type: `div`
-      }]);
+      const temp = common.createElements_v2(giveaway.links, `beforeBegin`, [
+        [`div`, { style: `align-items: center; display: flex; justify-content: space-between;` }, [
+          [`div`, { style: `display: flex; flex: 1; flex-direction: column;` }, [
+            [`div`, { class: `esgst-gv-creator` }, [
+              `by `
+            ]]
+          ]]
+        ]]
+      ]);
+      temp.firstElementChild.firstElementChild.appendChild(giveaway.creatorContainer);
+      temp.firstElementChild.appendChild(giveaway.links);
+      temp.appendChild(giveaway.avatar);
       giveaway.endTimeColumn.classList.add(`esgst-hidden`);
       giveaway.startTimeColumn.classList.add(`esgst-hidden`);
       giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);
       giveaway.commentsLink.lastElementChild.textContent = giveaway.commentsLink.textContent.replace(/[^\d,]+/g, ``);
-      let creator = createElements(giveaway.links, `beforeBegin`, [{
-        attributes: {
-          class: `esgst-gv-creator`
-        },
-        type: `div`,
-        children: [{
-          text: `by `,
-          type: `span`
-        }]
-      }]);
-      creator.appendChild(giveaway.creatorContainer);
       new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
     });
   }
