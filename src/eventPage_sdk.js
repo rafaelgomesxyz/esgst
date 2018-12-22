@@ -2,6 +2,21 @@ import JSZip from 'jszip';
 
 let workers = [];
 
+var button = buttons.ActionButton({
+  id: "esgst",
+  label: "ESGST",
+  icon: {
+    "16": "./icon-16.png",
+    "32": "./icon-32.png",
+    "64": "./icon-64.png"
+  },
+  onClick: handleClick
+});
+
+function handleClick(state) {
+  tabs.open("https://www.steamgifts.com/account/settings/profile?esgst=settings");
+}
+
 (() => {
   const settings = ss.storage.settings ? JSON.parse(ss.storage.settings) : {};
   if (!settings.activateTab_sg && !settings.activateTab_st) {
