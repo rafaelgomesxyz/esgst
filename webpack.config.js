@@ -69,9 +69,11 @@ module.exports = /** @param {Environment} env */ async env => {
     markdown = markdown.slice(0, -1);
     steamLog += `[/list]`;
 
-    let file;
+    fs.writeFileSync(path.join(__dirname, './changelog.txt'), changeLog);
+    fs.writeFileSync(path.join(__dirname, './changelog_markdown.txt'), markdown);
+    fs.writeFileSync(path.join(__dirname, './changelog_steam.txt'), steamLog);
 
-    fs.writeFileSync(path.join(__dirname, './changelog.txt'), `${changeLog}\n\n${markdown}\n\n${steamLog}`);
+    let file;
 
     // Update Esgst.js
     file = fs.readFileSync(path.join(__dirname, './src/class/Esgst.js'), 'utf8');
