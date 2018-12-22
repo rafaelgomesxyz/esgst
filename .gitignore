@@ -7,4 +7,6 @@ README.txt
 .gitignore
 package-lock.json
 changelog.txt
+changelog_markdown.txt
+changelog_steam.txt
 publish.ps1
