@@ -404,7 +404,7 @@ class UsersUserGiveawayData extends Module {
         await this.esgst.modules.giveaways.giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
       );
       const giveawayRaw = giveawayObj.giveaway;
-      const giveaway = giveawayObj.data;
+      let giveaway = giveawayObj.data;
       const endTime = giveaway.endTime;
 
       // giveaway has not ended yet, so cannot store it
@@ -422,9 +422,19 @@ class UsersUserGiveawayData extends Module {
         obj.timestamp = endTime;
       }
 
-      const id = giveaway.gameSteamId;
+      let id = giveaway.gameSteamId;
       if (!id) {
-        continue;
+        if (obj.user.username === this.esgst.username && obj.key === `sent`) {
+          const response = await common.request({ method: `GET`, url: `/giveaway/${giveaway.code}/` });
+          const responseHtml = utils.parseHtml(response.responseText);
+          giveaway = (await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
+          id = giveaway && giveaway.gameSteamId;
+          if (!id) {
+            continue;
+          }
+        } else {
+          continue;
+        }
       }
 
       const games = obj.userGiveaways[obj.key][giveaway.gameType];
