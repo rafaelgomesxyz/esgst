@@ -292,23 +292,26 @@ class GeneralLevelProgressVisualizer extends Module {
               value *= 0.15;
             }
           }
-          if (sent > 5 || sent + open > 5) {
+          if (sent > 5 || (sent + open) > 5) {
             // after 5 copies each next copy is worth only 90% of the previous value
             for (let i = sent - 5; i > 0; i--) {
               value *= 0.90;
             }
+            let realValue = 0;
             for (let i = open; i > 0; i--) {
               value *= 0.90;
-              cv += value;
-              if (cv > 0) {
-                window.console.log(`Adding ${value} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
-                window.console.log(`Total CV: ${cv}`);
-              }
+              realValue += value;
             }
-          } else {
-            cv += (value * open);
-            if (cv > 0) {
-              window.console.log(`Adding ${value * open} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+            if (realValue > 0) {
+              cv += value;
+              window.console.log(`Adding ${realValue} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              window.console.log(`Total CV: ${cv}`);
+            }
+          } else if (open > 0) {
+            value *= open;
+            if (value > 0) {
+              cv += value;
+              window.console.log(`Adding ${value} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
               window.console.log(`Total CV: ${cv}`);
             }
           }
