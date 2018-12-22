@@ -7,3 +7,4 @@ README.txt
 .gitignore
 package-lock.json
 changelog.txt
+publish.ps1

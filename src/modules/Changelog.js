@@ -4,6 +4,16 @@ import { container } from '../class/Container';
 function loadChangelog(version) {
   const changelog = [
       {
+        date: `December 22, 2018`,
+        version: `8.1.10`,
+        changelog: {
+          1143: `Add toolbar button to Pale Moon`,
+          1142: `Fix a bug that happens when extracting giveaways`,
+          1141: `Fix a bug that happens when syncing owned/wishlisted/ignored games`
+        }
+      },
+
+      {
         date: `December 21, 2018`,
         version: `8.1.9`,
         changelog: {

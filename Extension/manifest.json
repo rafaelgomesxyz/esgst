@@ -13,7 +13,7 @@
         "*://*.steamtrades.com/*"
       ],
       "js": [
-        "data/esgst.js"
+        "esgst.js"
       ],
       "run_at": "document_start"
     }
@@ -50,6 +50,6 @@
   "web_accessible_resources": [
     "icon.png"
   ],
-  "version": "8.1.9",
+  "version": "8.1.10",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

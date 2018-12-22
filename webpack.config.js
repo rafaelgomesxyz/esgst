@@ -25,7 +25,7 @@ const
     provide: webpack.ProvidePlugin
   },
   BUILD_PATHS = {
-    EXTENSION: 'Extension/data/esgst',
+    EXTENSION: 'Extension/esgst',
     EXTENSION_EVENT_PAGE: 'Extension/eventPage',
     EXTENSION_EVENT_PAGE_SDK: 'Extension/index',
     MONKEY: 'ESGST.user'
