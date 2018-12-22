@@ -1,3 +1,4 @@
+var buttons = require("sdk/ui/button/action");
 var data = require("sdk/self").data;
 var ss = require("sdk/simple-storage");
 var tabs = require("sdk/tabs");
