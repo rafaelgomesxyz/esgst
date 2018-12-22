@@ -237,7 +237,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.isCanceled) {
       if (i < n) {
         // noinspection JSIgnoredPromiseFromCall
-        this.ge_extractGiveaway(ge, giveaways[i], window.setTimeout.bind(null, this.ge_extractGiveaways.bind(this), 0, ge, giveaways, ++i, n, callback));
+        this.ge_extractGiveaway(ge, giveaways[i], () => window.setTimeout(this.ge_extractGiveaways.bind(this), 0, ge, giveaways, ++i, n, callback));
       } else {
         callback();
       }
