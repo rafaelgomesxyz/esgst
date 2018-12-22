@@ -15,7 +15,7 @@ class GeneralAccurateTimestamp extends Module {
             [`li`, `Jan 1, 2017 - MMM d, yyyy`],
             [`li`, `Jan 01, 2017 - MMM dd, yyyy`],
             [`li`, `01/01/2017 - dd/MM/yyyy`],
-            [`li`, `2017/01/01 - yyyy/mm/dd`],
+            [`li`, `2017/01/01 - yyyy/MM/dd`],
             [`li`, `6:00 - H:mm`],
             [`li`, `6:00 AM - h:mm a`],
             [`li`, `06:00 - HH:mm`],
