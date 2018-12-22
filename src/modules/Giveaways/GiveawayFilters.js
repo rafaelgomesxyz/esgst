@@ -324,10 +324,21 @@ class GiveawaysGiveawayFilters extends Module {
             gf_enterable: {
               description: [
                 [`ul`, [
-                  [`li`, `Allows you filter giveaways that are enterable in [id=ge].`]
+                  [`li`, `Allows you filter giveaways that are enterable in [id=ge].`],
+                  [`li`, `The difference between this filter and [id=gf_currentlyEnterable] is that this filter checks if you are allowed to enter the giveaway, not if you can enter the giveaway at the moment (for example, if the giveaway has not started yet or you do not have enough points to enter the giveaway, the giveaway is considered as enterable, just not currently enterable).`]
                 ]]
               ],
               name: `Enterable`,
+              sg: true
+            },
+            gf_currentlyEnterable: {
+              description: [
+                [`ul`, [
+                  [`li`, `Allows you filter giveaways that are currently enterable in [id=ge].`],
+                  [`li`, `The difference between this filter and [id=gf_enterable] is that this filter checks if you can enter the giveaway at the moment, not if you are allowed to enter the giveaway (for example, if the giveaway has not started yet or you do not have enough points to enter the giveaway, the giveaway is not considered as currently enterable, but just enterable).`]
+                ]]
+              ],
+              name: `Currently Enterable`,
               sg: true
             },
             gf_created: {
@@ -1014,6 +1025,11 @@ class GiveawaysGiveawayFilters extends Module {
       enterable: {
         check: popup === `Ge`,
         name: `Enterable`,
+        type: `boolean`
+      },
+      currentlyEnterable: {
+        check: popup === `Ge`,
+        name: `Currently Enterable`,
         type: `boolean`
       },
       created: {

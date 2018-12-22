@@ -408,6 +408,7 @@ class Giveaways extends Module {
     const pointsToWin = context.getElementsByClassName(`esgst-gptw`)[0];
     giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
     giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
+    giveaway.currentlyEnterable = giveaway.outerWrap.getAttribute(`data-currently-enterable`);
     if (main) {
       if (this.esgst.gr && giveaway.creator === this.esgst.username && (this.esgst.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!this.esgst.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = createElements(giveaway.headingName, `beforeBegin`, [{
