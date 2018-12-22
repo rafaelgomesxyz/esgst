@@ -4365,8 +4365,12 @@ class Common extends Module {
       if (blacklist) {
         attributes[`data-blacklist`] = true;
       }
-      if (context.getElementsByClassName(`sidebar__entry-insert`)[0]) {
+      const errorButton = context.getElementsByClassName(`sidebar__error is-disabled`)[0];
+      if (!errorButton || errorButton.textContent.trim() === `Not Enough Points`) {
         attributes[`data-enterable`] = true;
+      }
+      if (context.getElementsByClassName(`sidebar__entry-insert`)[0]) {
+        attributes[`data-currently-enterable`] = true;
       }
       heading.className = `giveaway__heading`;
       columns.className = `giveaway__columns`;
