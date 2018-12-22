@@ -240,13 +240,17 @@ import { runSilentSync } from './modules/Sync';
           let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
           details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
           if (isLocal) {
-            let response = await window.fetch(details.url, {
+            const requestOptions =  {
               body: details.data,
               credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
-              headers: new Headers(details.headers),
+              headers: details.headers,
               method: details.method,
               redirect: "follow"
-            });
+            };
+            if (utils.isSet(window.wrappedJSObject)) {
+              window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
+            }
+            let response = await (utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
             let responseText = await response.text();
             response = {
               finalUrl: response.url,
