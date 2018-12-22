@@ -236,6 +236,12 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.10 (December 22, 2018)**
+
+* [#1143](https://github.com/gsrafael01/ESGST/issues/1143) Add toolbar button to Pale Moon
+* [#1142](https://github.com/gsrafael01/ESGST/issues/1142) Fix a bug that happens when extracting giveaways
+* [#1141](https://github.com/gsrafael01/ESGST/issues/1141) Fix a bug that happens when syncing owned/wishlisted/ignored games
+
 **8.1.9 (December 21, 2018)**
 
 * [#1140](https://github.com/gsrafael01/ESGST/issues/1140) Fix a bug that happens when trying to open the bookmarked giveaways popup
