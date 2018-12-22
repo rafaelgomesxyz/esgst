@@ -1022,36 +1022,36 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
   addedOwned.apps.pop();
   addedOwned.subs.pop();
   if (removedOwned.apps.length > 0) {
-    syncer.html.push([
+    syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Removed apps:`],
         ...removedOwned.apps
       ]]
-    ]);
+    );
   }
   if (removedOwned.subs.length > 0) {
-    syncer.html.push([
+    syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Removed packages:`],
         ...removedOwned.subs
       ]]
-    ]);
+    );
   }
   if (addedOwned.apps.length > 0) {
-    syncer.html.push([
+    syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Added apps:`],
         ...addedOwned.apps
       ]]
-    ]);
+    );
   }
   if (addedOwned.subs.length > 0) {
-    syncer.html.push([
+    syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Added packages:`],
         ...addedOwned.subs
       ]]
-    ]);
+    );
   }
 }
 
