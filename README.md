@@ -236,6 +236,15 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.9 (December 21, 2018)**
+
+* [#1140](https://github.com/gsrafael01/ESGST/issues/1140) Fix a bug that happens when trying to open the bookmarked giveaways popup
+* [#1139](https://github.com/gsrafael01/ESGST/issues/1139) Remove options to check if the current version is the latest using the title of the thread
+* [#1138](https://github.com/gsrafael01/ESGST/issues/1138) Remove options to download .zip and reload extension from new version popup in Chrome extensions
+* [#1137](https://github.com/gsrafael01/ESGST/issues/1137) Fix Grid View
+* [#1136](https://github.com/gsrafael01/ESGST/issues/1136) Fix changelog for v8.1.8
+* [#1123](https://github.com/gsrafael01/ESGST/issues/1123) Add option to apply Accurate Timestamp format to SteamGifts' date tooltips
+
 **8.1.8 (December 21, 2018)**
 
 * [#1134](https://github.com/gsrafael01/ESGST/issues/1134) Fix a bug that does not enable/disable themes properly

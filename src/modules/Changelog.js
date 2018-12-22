@@ -3,6 +3,19 @@ import { container } from '../class/Container';
 
 function loadChangelog(version) {
   const changelog = [
+      {
+        date: `December 21, 2018`,
+        version: `8.1.9`,
+        changelog: {
+          1140: `Fix a bug that happens when trying to open the bookmarked giveaways popup`,
+          1139: `Remove options to check if the current version is the latest using the title of the thread`,
+          1138: `Remove options to download .zip and reload extension from new version popup in Chrome extensions`,
+          1137: `Fix Grid View`,
+          1136: `Fix changelog for v8.1.8`,
+          1123: `Add option to apply Accurate Timestamp format to SteamGifts' date tooltips`
+        }
+      },
+
     {
       date: `December 21, 2018`,
       version: `8.1.8`,
