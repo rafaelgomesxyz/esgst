@@ -16,12 +16,13 @@ New-Item -Force -ItemType Directory $env:TEMP/pm
 New-Item -Force -ItemType Directory $env:TEMP/pm/data
 Copy-Item -Force ./Extension/package.json $env:TEMP/pm
 Copy-Item -Force ./Extension/index.js $env:TEMP/pm
+Copy-Item -Force ./Extension/icon.png $env:TEMP/pm
 Copy-Item -Force ./Extension/esgst.js $env:TEMP/pm/data
 Copy-Item -Force ./Extension/icon-16.png $env:TEMP/pm/data
 Copy-Item -Force ./Extension/icon-32.png $env:TEMP/pm/data
 Copy-Item -Force ./Extension/icon-64.png $env:TEMP/pm/data
 jpm xpi --addon-dir $env:TEMP/pm --dest-dir	./
-Remove-Item $env:TEMP/pm -Recurse -Whatif
+Remove-Item $env:TEMP/pm -Recurse
 echo "esgst.xpi generated"
 #>
 
