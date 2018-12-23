@@ -52,7 +52,7 @@ class GiveawaysGiveawayPointsToWin extends Module {
       if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) {
         continue;
       }
-      if (((!giveaway.inviteOnly || ((!main || (!this.esgst.giveawayPath && !this.esgst.enteredPath)) && main && !giveaway.ended)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName(`esgst-gptw`)[0]) {
+      if (((!giveaway.inviteOnly || ((!main || (!this.esgst.giveawayPath && !this.esgst.enteredPath)) && main && !giveaway.ended && !giveaway.id)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName(`esgst-gptw`)[0]) {
         continue;
       }
       if (giveaway.started) {

@@ -117,6 +117,7 @@ import GiveawaysEnterLeaveGiveawayButton from './Giveaways/EnterLeaveGiveawayBut
 import GiveawaysIsThereAnyDealInfo from './Giveaways/IsThereAnyDealInfo';
 import GiveawaysUnhideGiveawayButton from './Giveaways/UnhideGiveawayButton';
 import GiveawaysOneClickHideGiveawayButton from './Giveaways/OneClickHideGiveawayButton';
+import GiveawaysVisibleInviteOnlyGiveaways from './Giveaways/VisibleInviteOnlyGiveaways';
 import GiveawaysGiveawayWinnersLink from './Giveaways/GiveawayWinnersLink';
 import GiveawaysTimeToEnterCalculator from './Giveaways/TimeToEnterCalculator';
 import GiveawaysGiveawayGroupLoader from './Giveaways/GiveawayGroupLoader';
@@ -272,6 +273,7 @@ let
   giveawaysIsThereAnyDealInfo = new GiveawaysIsThereAnyDealInfo,
   giveawaysUnhideGiveawayButton = new GiveawaysUnhideGiveawayButton,
   giveawaysOneClickHideGiveawayButton = new GiveawaysOneClickHideGiveawayButton,
+  giveawaysVisibleInviteOnlyGiveaways = new GiveawaysVisibleInviteOnlyGiveaways,
   giveawaysGiveawayWinnersLink = new GiveawaysGiveawayWinnersLink,
   giveawaysTimeToEnterCalculator = new GiveawaysTimeToEnterCalculator,
   giveawaysGiveawayGroupLoader = new GiveawaysGiveawayGroupLoader,
@@ -313,6 +315,7 @@ export default {
   common,
   visibleFullLevel,
   giveawaysBlacklistGiveawayLoader,
+  giveawaysVisibleInviteOnlyGiveaways,
   generalNarrowSidebar,
   generalHiddenCommunityPoll,
   discussionsOldActiveDiscussionsDesign,

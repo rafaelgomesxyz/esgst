@@ -4886,7 +4886,9 @@ class Common extends Module {
         } else if (typeof item[1] === `object`) {
           for (const key in item[1]) {
             if (item[1].hasOwnProperty(key)) {
-              if (key === `extend`) {
+              if (key === `ref`) {
+                item[1].ref(element);
+              } if (key === `extend`) {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
                 element.addEventListener(key.replace(/^on/, ``), item[1][key]);
