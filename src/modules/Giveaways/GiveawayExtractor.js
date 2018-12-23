@@ -181,6 +181,7 @@ class GiveawaysGiveawayExtractor extends Module {
       title2: `Cancel`,
       callback1: () => {
         return new Promise(resolve => {
+          ge.mainCallback = resolve;
           if (ge.callback) {
             createElements(ge.results, `beforeEnd`, [{
               type: `div`
@@ -206,13 +207,13 @@ class GiveawaysGiveawayExtractor extends Module {
             createElements(ge.results, `beforeEnd`, [{
               type: `div`
             }]);
-            ge.mainCallback = resolve;
             let giveaways = this.ge_getGiveaways(ge, this.esgst.accountPath && this.esgst.parameters.esgst === `ge` ? ge.context : this.esgst.pageOuterWrap);
-            this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge, resolve));
+            this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge));
           }
         });
       },
       callback2: () => {
+        ge.mainCallback = null;
         ge.isCanceled = true;
         // noinspection JSIgnoredPromiseFromCall
         this.ge_completeExtraction(ge);
@@ -224,7 +225,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }]);
     if (this.esgst.es_ge) {
       ge.popup.scrollable.addEventListener(`scroll`, () => {
-        if (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
+        if (!ge.isCanceled && ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
           ge.set.trigger();
         }
       });
@@ -249,6 +250,7 @@ class GiveawaysGiveawayExtractor extends Module {
       if (ge.isDivided && ge.count === 50) {
         let children, filtered, i;
         ge.mainCallback();
+        ge.mainCallback = null;
         ge.count = 0;
         await endless_load(ge.results.lastElementChild, false, `ge`);
         ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
@@ -282,6 +284,9 @@ class GiveawaysGiveawayExtractor extends Module {
           responseHtml = parseHtml(response.responseText);
           button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
           giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
+          if (ge.isCanceled) {
+            return;
+          }
           if (giveaway) {
             createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
             ge.points += giveaway.points;
@@ -413,13 +418,14 @@ class GiveawaysGiveawayExtractor extends Module {
     return giveaways;
   }
 
-  async ge_completeExtraction(ge, callback) {
+  async ge_completeExtraction(ge) {
     if (ge.button) {
       ge.button.classList.remove(`esgst-busy`);
     }
     ge.progress.firstElementChild.remove();
-    if (callback) {
-      callback();
+    if (ge.mainCallback) {
+      ge.mainCallback();
+      ge.mainCallback = null;
     }
     await endless_load(ge.results.lastElementChild, false, `ge`);
     const items = [{

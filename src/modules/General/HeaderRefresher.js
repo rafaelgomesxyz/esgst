@@ -458,6 +458,7 @@ class GeneralHeaderRefresher extends Module {
         document.title = title;
       }
     }
+    window.console.log(notify, this.esgst.wishlist, this.esgst.wishlistNew);
     if (notify) {
       notification = {
         msg: ``,
