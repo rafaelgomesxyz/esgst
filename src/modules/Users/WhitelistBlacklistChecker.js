@@ -964,7 +964,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       obj.autoSkip = this.esgst.wbc_skipUsers && nextPage > this.esgst.wbc_pages;
     } while (!obj.Canceled && !obj.manualSkip && !obj.autoSkip && (obj.Timestamp >= data.timestamp || obj.Timestamp === 0) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
-    if (isStopped) {
+    if (isStopped || (!data.ga && !data.wl_ga && !data.g_wl_ga)) {
       data.lastCheck = Date.now();
       data.result = `unknown`;
       data.timestamp = obj.Timestamp;
