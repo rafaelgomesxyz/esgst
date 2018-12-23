@@ -3,6 +3,7 @@ import ButtonSet from '../../class/ButtonSet';
 import Popup from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import dateFns_differenceInDays from 'date-fns/differenceInDays';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -110,7 +111,18 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.popup.open();
       return;
     }
+    const now = Date.now();
+    let changed = false;
     ge.cache = JSON.parse(await common.getValue(`geCache`, `{}`));
+    for (const id in ge.cache) {
+      if (dateFns_differenceInDays(now, ge.cache[id].timestamp) > 7) {
+        changed = true;
+        delete ge.cache[id];
+      }
+    }
+    if (changed) {
+      await common.setValue(`geCache`, JSON.stringify(ge.cache));
+    }
     ge.cacheId = window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
     ge.count = 0;
     ge.total = 0;
@@ -192,7 +204,8 @@ class GiveawaysGiveawayExtractor extends Module {
               giveaways: {},
               bumpLink: ``,
               ithLinks: [],
-              jigidiLinks: []
+              jigidiLinks: [],
+              timestamp: now
             };
             if (this.esgst.es_ge) {
               ge.popup.scrollable.addEventListener(`scroll`, () => {
@@ -313,7 +326,8 @@ class GiveawaysGiveawayExtractor extends Module {
         giveaways: {},
         bumpLink: ``,
         ithLinks: [],
-        jigidiLinks: []
+        jigidiLinks: [],
+        timestamp: now
       };
       ge.set.trigger();
       if (this.esgst.es_ge) {
