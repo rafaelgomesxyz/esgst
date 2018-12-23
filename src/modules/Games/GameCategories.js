@@ -2680,7 +2680,7 @@ class GamesGameCategories extends Module {
                 attributes: {
                   class: `esgst-gc esgst-gc-learning`,
                   [`data-draggable-id`]: `gc_lg`,
-                  href: `http://steamdb.info/${singularType}/${realId}`,
+                  href: `http://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip(`gc_lg`, `Learning${count}`)
                 },
                 text: this.esgst.gc_lg_s ? (this.esgst.gc_lg_s_i ? `` : `LG${count}`) : `${this.esgst.gc_lgLabel}${count}`,
