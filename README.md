@@ -236,6 +236,20 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.11 (December 23, 2018)**
+
+* [#1155](https://github.com/gsrafael01/ESGST/issues/1155) Implement priority system for Game Categories
+* [#1154](https://github.com/gsrafael01/ESGST/issues/1154) Implement cache for Giveaway Extractor
+* [#1153](https://github.com/gsrafael01/ESGST/issues/1153) Change Learning game category link to Steam store
+* [#1152](https://github.com/gsrafael01/ESGST/issues/1152) Fix some issues with Giveaway Extractor
+* [#1151](https://github.com/gsrafael01/ESGST/issues/1151) Fix a bug in Whitelist/Blacklist Checker that happens when checking users with 0 giveaways
+* [#1150](https://github.com/gsrafael01/ESGST/issues/1150) Fix a bug that does not count Happy Holidays giveaways for Level Progress Visualizer
+* [#1149](https://github.com/gsrafael01/ESGST/issues/1149) Fix typo in Accurate Timestamp
+* [#1148](https://github.com/gsrafael01/ESGST/issues/1148) Add option not to show seconds in Accurate Timestamp if they are equal to 0
+* [#1147](https://github.com/gsrafael01/ESGST/issues/1147) Add a giveaway filter: Currently Enterable
+* [#1146](https://github.com/gsrafael01/ESGST/issues/1146) Fix a bug that happens when using Firefox with third-party cookies disabled
+* [#36](https://github.com/gsrafael01/ESGST/issues/36) Add a new feature: Visible Invite-Only Giveaways
+
 **8.1.10 (December 22, 2018)**
 
 * [#1143](https://github.com/gsrafael01/ESGST/issues/1143) Add toolbar button to Pale Moon
