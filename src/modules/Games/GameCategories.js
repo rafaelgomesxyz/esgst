@@ -18,6 +18,26 @@ const
 class GamesGameCategories extends Module {
   constructor() {
     super();
+
+    this.fetchable_categories = [
+      `gc_gi`,
+      `gc_lg`,
+      `gc_r`,
+      `gc_a`,
+      `gc_sp`,
+      `gc_mp`,
+      `gc_sc`,
+      `gc_tc`,
+      `gc_l`,
+      `gc_m`,
+      `gc_dlc`,
+      `gc_ea`,
+      `gc_rm`,
+      `gc_rd`,
+      `gc_g`,
+      `gc_p`
+    ];
+
     this.info = {
       description: [
         [`ul`, [
@@ -952,6 +972,15 @@ class GamesGameCategories extends Module {
     };
   }
 
+  is_fetchable_enabled() {
+    for (const id of this.fetchable_categories) {
+      if (this.esgst[id]) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   gc() {
     this.esgst.gameFeatures.push(this.gc_games.bind(this));
     this.esgst.gcToFetch = { apps: {}, subs: {} };
@@ -982,33 +1011,23 @@ class GamesGameCategories extends Module {
             continue;
           }
           if (element.container.closest(`.poll`)) {
-            createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
-              attributes: {
-                class: `esgst-gc-panel`
-              },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                  title: `Loading game categories...`
-                },
-                type: `i`
-              }]
-            }]);
+            common.createElements_v2(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [
+              [`div`, { class: `esgst-gc-panel` }, [
+                [`span`, { class: `esgst-gc-loading`, title: `This game is queued for fetching` }, [
+                  [`i`, { class: `fa fa-hourglass fa-spin` }],
+                  [`span`]
+                ]]
+              ]]
+            ]);
           } else {
-            createElements(element.heading, `afterEnd`, [{
-              attributes: {
-                class: `esgst-gc-panel`
-              },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                  title: `Loading game categories...`
-                },
-                type: `i`
-              }]
-            }]);
+            common.createElements_v2(element.heading, `afterEnd`, [
+              [`div`, { class: `esgst-gc-panel` }, [
+                [`span`, { class: `esgst-gc-loading`, title: `This game is queued for fetching` }, [
+                  [`i`, { class: `fa fa-hourglass fa-spin` }],
+                  [`span`]
+                ]]
+              ]]
+            ]);
           }
         }
       }
@@ -1022,33 +1041,23 @@ class GamesGameCategories extends Module {
             continue;
           }
           if (element.container.closest(`.poll`)) {
-            createElements(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [{
-              attributes: {
-                class: `esgst-gc-panel`
-              },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                  title: `Loading game categories...`
-                },
-                type: `i`
-              }]
-            }]);
+            common.createElements_v2(element.container.getElementsByClassName(`table__column__heading`)[0], `afterEnd`, [
+              [`div`, { class: `esgst-gc-panel` }, [
+                [`span`, { class: `esgst-gc-loading`, title: `This game is queued for fetching` }, [
+                  [`i`, { class: `fa fa-hourglass fa-spin` }],
+                  [`span`]
+                ]]
+              ]]
+            ]);
           } else {
-            createElements(element.heading, `afterEnd`, [{
-              attributes: {
-                class: `esgst-gc-panel`
-              },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-                  title: `Loading game categories...`
-                },
-                type: `i`
-              }]
-            }]);
+            common.createElements_v2(element.heading, `afterEnd`, [
+              [`div`, { class: `esgst-gc-panel` }, [
+                [`span`, { class: `esgst-gc-loading`, title: `This game is queued for fetching` }, [
+                  [`i`, { class: `fa fa-hourglass fa-spin` }],
+                  [`span`]
+                ]]
+              ]]
+            ]);
           }
         }
       }
@@ -1068,9 +1077,9 @@ class GamesGameCategories extends Module {
       this.gc_addBorders(giveaway);
     }
     
-    const missingApps = [];
-    const missingSubs = [];
-    if (this.esgst.gc_gi || this.esgst.gc_lg || this.esgst.gc_r || this.esgst.gc_a || this.esgst.gc_sp || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_tc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_ea || this.esgst.gc_rm || this.esgst.gc_rd || this.esgst.gc_g || this.esgst.gc_p) {
+    let to_fetch = [];
+
+    if (this.is_fetchable_enabled()) {
       gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
       if (gc.cache.version !== 7) {
         gc.cache = {
@@ -1084,82 +1093,196 @@ class GamesGameCategories extends Module {
       if (!gc.cache.hltb) {
         gc.cache.hltb = {};
       }
-      const currentTime = Date.now();
-      for (let id in gc.cache.apps) {
-        if (gc.cache.apps.hasOwnProperty(id)) {
-          if (gc.cache.apps[id].lastCheck) {
-            if (currentTime - gc.cache.apps[id].lastCheck > 604800000 || ((!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && gc.cache.apps[id].removed === -1)) && currentTime - gc.cache.apps[id].lastCheck > 86400000)) {
-              delete gc.cache.apps[id];
+      const now = Date.now();
+      for (const id in gc.cache.apps) {
+        if (!gc.cache.apps.hasOwnProperty(id)) {
+          continue;
+        }
+        let priority;
+        if (gc.cache.apps[id].lastCheck) {
+          if (gc.apps.indexOf(id) > -1) {
+            // Game is in the current page.
+
+            if (now - gc.cache.apps[id].lastCheck > 604800000) {
+              // Game has not been updated in 7 days.
+              
+              priority = 2;
+            } else if (now - gc.cache.apps[id].lastCheck > 518400000) {
+              // Game has not been updated in 6 days.
+              
+              priority = 3;
+            } else if (now - gc.cache.apps[id].lastCheck > 86400000 && (!gc.cache.apps[id].name || gc.cache.apps[id].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[id].tags) || (this.esgst.gc_r && !gc.cache.apps[id].rating) || (this.esgst.gc_rd && gc.cache.apps[id].removed === -1))) {
+              // Game was not successfully fetched and it has been more than 24 hours since the last attempt.
+
+              priority = 1;
+            } else {
+              // Game is up to date.
+
+              this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb);
+              continue;
             }
-          } else {
-            gc.cache.apps[id].lastCheck = currentTime;
+          } else if (now - gc.cache.apps[id].lastCheck > 2592000000) {
+            // Game is not in the current page and has not been updated in 30 days.
+
+            delete gc.cache.apps[id];
+            continue;
           }
+        } else {
+          gc.cache.apps[id].lastCheck = now;
+          priority = 1;
+        }
+        if (games.apps[id] && games.apps[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          if (priority > 2) {
+            this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb, false, true);
+          }
+          to_fetch.push({
+            id,
+            lastCheck: gc.cache.apps[id].lastCheck,
+            priority,
+            type: `apps`
+          });
         }
       }
-      for (let id in gc.cache.subs) {
-        if (gc.cache.subs.hasOwnProperty(id)) {
-          if (gc.cache.subs[id].lastCheck) {
-            if (currentTime - gc.cache.subs[id].lastCheck > 604800000 || ((!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && gc.cache.subs[id].removed === -1)) && currentTime - gc.cache.subs[id].lastCheck > 86400000)) {
-              delete gc.cache.subs[id];
+      for (const id in gc.cache.subs) {
+        if (!gc.cache.subs.hasOwnProperty(id)) {
+          continue;
+        }
+        let priority;
+        if (gc.cache.subs[id].lastCheck) {
+          if (gc.subs.indexOf(id) > -1) {
+            // Game is in the current page.
+
+            if (now - gc.cache.subs[id].lastCheck > 604800000) {
+              // Game has not been updated in 7 days.
+              
+              priority = 2;
+            } else if (now - gc.cache.subs[id].lastCheck > 518400000) {
+              // Game has not been updated in 6 days.
+              
+              priority = 3;
+            } else if (now - gc.cache.subs[id].lastCheck > 86400000 && (!gc.cache.subs[id].name || gc.cache.subs[id].price === -1 || (this.esgst.gc_rd && gc.cache.subs[id].removed === -1))) {
+              // Game was not successfully fetched and it has been more than 24 hours since the last attempt.
+
+              priority = 1;
+            } else {
+              // Game is up to date.
+
+              this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`, gc.cache.hltb);
+              continue;
             }
-          } else {
-            gc.cache.subs[id].lastCheck = currentTime;
+          } else if (now - gc.cache.subs[id].lastCheck > 2592000000) {
+            // Game is not in the current page and has not been updated in 30 days.
+
+            delete gc.cache.subs[id];
+            continue;
           }
+        } else {
+          gc.cache.subs[id].lastCheck = now;
+          priority = 1;
+        }
+        if (games.subs[id] && games.subs[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
+          if (priority > 2) {
+            this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`, gc.cache.hltb, false, true);
+          }
+          to_fetch.push({
+            id,
+            lastCheck: gc.cache.subs[id].lastCheck,
+            priority,
+            type: `subs`
+          });
         }
       }
       setLocalValue(`gcCache`, JSON.stringify(gc.cache));
-      for (let i = 0, n = gc.apps.length; i < n; ++i) {
-        let id = gc.apps[i];
+      
+      for (const id of gc.apps) {
         if (gc.cache.apps[id]) {
           continue;
         }
-        if (games.apps[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
-          missingApps.push(id);
-        }
+        to_fetch.push({
+          id,
+          priority: 0,
+          type: `apps`
+        });
       }
-      for (let i = 0, n = gc.subs.length; i < n; ++i) {
-        let id = gc.subs[i];
+      for (const id of gc.subs) {
         if (gc.cache.subs[id]) {
           continue;
         }
-        if (games.subs[id].filter(item => !item.container.classList.contains(`esgst-hidden`))[0]) {
-          missingSubs.push(id);
-        }
+        to_fetch.push({
+          id,
+          priority: 0,
+          type: `subs`
+        });
       }
 
-      // Show categories for games that are already in the cache.
-      for (const id of gc.apps) {
-        if (missingApps.indexOf(id) > -1) {
-          continue;
+      to_fetch = to_fetch.sort((a, b) => {
+        if (a.priority < b.priority) {
+          return -1;
         }
-        this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, this.esgst.games.apps[id], `apps`, gc.cache.hltb);
-      }
-      for (const id of gc.subs) {
-        if (missingSubs.indexOf(id) > -1) {
-          continue;
+        if (a.priority > b.priority) {
+          return 1;
         }
-        this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, this.esgst.games.subs[id], `subs`);
-      }
+        if (a.lastCheck < b.lastCheck) {
+          return -1;
+        }
+        if (a.lastCheck > b.lastCheck) {
+          return 1;
+        }
+        return 0;
+      });
 
-      let numApps = missingApps.length;
-      let numSubs = missingSubs.length;
-      if (numApps || numSubs) {
-        gc.promises = [];
-        for (let i = 0, n = missingApps.length; i < n; ++i) {
-          if (this.esgst.gc_lr) {
-            await this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`);
-          } else {
-            gc.promises.push(this.gc_getCategories(gc, currentTime, games, missingApps[i], `apps`));
+      let index = 0;
+      for (const item of to_fetch) {
+        for (const game of games[item.type][item.id]) {
+          const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];          
+          if (panel && !panel.getAttribute(`data-gcReady`)) {
+            const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
+            if (loading) {
+              loading.setAttribute(`data-esgst-to-fetch`, true);
+              loading.title = `This game is queued for fetching (the number indicates its queue position)`;
+              let color;
+              switch (item.priority) {
+                case 0:
+                  color = `red`;
+                  break;
+                case 1:
+                  color = `orange`;
+                  break;
+                case 2:
+                  color = `yellow`;
+                  break;
+                case 3:
+                  color = `green`;
+                  break;
+              }
+              loading.firstElementChild.classList.add(`esgst-${color}`);
+              loading.lastElementChild.textContent = ` ${index}`;
+              index += 1;
+            }
           }
         }
-        for (let i = 0, n = missingSubs.length; i < n; ++i) {
+      }
+
+      let delete_lock = null;
+      
+      if (this.esgst.gc_lr) {
+        delete_lock = await common.createLock(`gc`, 0);
+      }
+
+      if (to_fetch.length) {
+        gc.promises = [];
+        for (const item of to_fetch) {
           if (this.esgst.gc_lr) {
-            await this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`);
+            await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch);
           } else {
-            gc.promises.push(this.gc_getCategories(gc, currentTime, games, missingSubs[i], `subs`));
+            gc.promises.push(this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch));
           }
         }
         await Promise.all(gc.promises);
+      }
+
+      if (delete_lock) {
+        delete_lock();
       }
     }
 
@@ -1167,11 +1290,9 @@ class GamesGameCategories extends Module {
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `reviews`, `learning`, `removed`, `banned`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
     for (let i = 0, n = this.esgst.mainGiveaways.length; i < n; ++i) {
       let giveaway = this.esgst.mainGiveaways[i];
-      if ((giveaway.type === `apps` && missingApps.indexOf(giveaway.id) < 0) || (giveaway.type === `subs` && missingSubs.indexOf(giveaway.id) < 0)) {
-        const loading = giveaway.outerWrap.getElementsByClassName(`esgst-gc-loading`)[0];
-        if (loading) {
-          loading.remove();
-        }
+      const loading = giveaway.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
+      if (loading) {
+        loading.remove();
       }
       if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
@@ -1209,11 +1330,9 @@ class GamesGameCategories extends Module {
     }
     for (let i = 0, n = this.esgst.popupGiveaways.length; i < n; ++i) {
       let giveaway = this.esgst.popupGiveaways[i];
-      if ((giveaway.type === `apps` && missingApps.indexOf(giveaway.id) < 0) || (giveaway.type === `subs` && missingSubs.indexOf(giveaway.id) < 0)) {
-        const loading = giveaway.outerWrap.getElementsByClassName(`esgst-gc-loading`)[0];
-        if (loading) {
-          loading.remove();
-        }
+      const loading = giveaway.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
+      if (loading) {
+        loading.remove();
       }
       if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
         continue;
@@ -1333,7 +1452,21 @@ class GamesGameCategories extends Module {
     };
   }
 
-  async gc_getCategories(gc, currentTime, games, id, type) {
+  async gc_getCategories(gc, currentTime, games, id, type, to_fetch) {
+    if (games[type][id]) {
+      for (const game of games[type][id]) {
+        const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
+        if (panel && !panel.getAttribute(`data-gcReady`)) {
+          const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
+          if (loading) {
+            loading.title = `Fetching game categories...`;
+            loading.firstElementChild.classList.remove(`fa-hourglass`);
+            loading.firstElementChild.classList.add(`fa-circle-o-notch`);
+            loading.lastElementChild.textContent = ``;
+          }
+        }
+      }
+    }
     try {
       let categories = {
         achievements: 0,
@@ -1387,21 +1520,8 @@ class GamesGameCategories extends Module {
             }
             this.esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
             for (const appId of this.esgst.games.subs[id].apps) {
-              if (gc.cache.apps[appId]) {
-                if (gc.cache.apps[appId].lastCheck) {
-                  if (currentTime - gc.cache.apps[appId].lastCheck > 604800000 || ((!gc.cache.apps[appId].name || gc.cache.apps[appId].price === -1 || (this.esgst.gc_g_udt && !gc.cache.apps[appId].tags) || (this.esgst.gc_r && !gc.cache.apps[appId].rating) || (this.esgst.gc_rd && gc.cache.apps[appId].removed === -1)) && currentTime - gc.cache.apps[appId].lastCheck > 86400000)) {
-                    delete gc.cache.apps[appId];
-                  }
-                } else {
-                  gc.cache.apps[appId].lastCheck = currentTime;
-                }
-              }
-              if (!gc.cache.apps[appId]) {
-                if (this.esgst.gc_lr) {
-                  await this.gc_getCategories(gc, currentTime, games, appId, `apps`);
-                } else {
-                  gc.promises.push(this.gc_getCategories(gc, currentTime, games, appId, `apps`));
-                }
+              if (!gc.cache.apps[appId] || !to_fetch.filter(x => x.type === `apps` && x.id == appId)[0]) {
+                await this.gc_getCategories(gc, currentTime, games, appId, `apps`);
               }
             }
           }
@@ -1573,6 +1693,39 @@ class GamesGameCategories extends Module {
         }
       }
     }
+    if (!to_fetch) {
+      return;
+    }
+    for (let i = 0, n = to_fetch.length; i < n; i++) {
+      const item = to_fetch[i];
+      for (const game of games[item.type][item.id]) {
+        const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
+        if (panel && !panel.getAttribute(`data-gcReady`)) {
+          const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
+          if (loading && loading.lastElementChild) {
+            loading.setAttribute(`data-esgst-to-fetch`, true);
+            loading.title = `This game is queued for fetching (the number indicates its queue position)`;
+            let color;
+            switch (item.priority) {
+              case 0:
+                color = `red`;
+                break;
+              case 1:
+                color = `orange`;
+                break;
+              case 2:
+                color = `yellow`;
+                break;
+              case 3:
+                color = `green`;
+                break;
+            }
+            loading.firstElementChild.classList.add(`esgst-${color}`);
+            loading.lastElementChild.textContent = ` ${parseInt(loading.lastElementChild.textContent) - 1}`;
+          }
+        }
+      }
+    }
   }
 
   gc_checkPackage(id, savedGame) {
@@ -1647,7 +1800,7 @@ class GamesGameCategories extends Module {
     return count;
   }
 
-  gc_addCategory(gc, cache, games, id, savedGame, type, hltb, isInstant) {
+  gc_addCategory(gc, cache, games, id, savedGame, type, hltb, isInstant, isOutdated) {
     if (!games) {
       return;
     }
@@ -2855,13 +3008,21 @@ class GamesGameCategories extends Module {
         }
       }
     }
-    if (isInstant) {
+    if (isInstant || isOutdated) {
       elements.push({
         attributes: {
-          class: `esgst-gc-loading fa fa-circle-o-notch fa-spin`,
-          title: `Loading game categories...`
+          class: `esgst-gc-loading`,
+          title: `This game is queued for fetching`
         },
-        type: `i`
+        type: `span`,
+        children: [{
+          attributes: {
+            class: `fa fa-hourglass fa-spin`
+          },
+          type: `i`
+        }, {
+          type: `span`
+        }]
       });
     }
     let cannotCheckOwnership = false;
@@ -2903,7 +3064,7 @@ class GamesGameCategories extends Module {
           panel.classList.add(`esgst-gc-panel-inline`);
         }
         createElements(panel, `inner`, elements);
-        if (isInstant) {
+        if (isInstant || isOutdated) {
           continue;
         }
         if (!this.esgst.gc_lp || (!this.esgst.gc_lp_gv && games[i].grid)) {

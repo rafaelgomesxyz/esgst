@@ -2099,6 +2099,10 @@ function addStyle() {
     opacity: 0.5;
   }
 
+  .esgst-blue {
+    color: #9dd9e1 !important;
+  }
+
   .esgst-green {
     color: #96c468 !important;
   }
