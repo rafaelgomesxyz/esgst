@@ -221,11 +221,6 @@ function addStyle() {
     padding: 0;
     text-shadow: none;
   }
-
-  .esgst-hhi >* {
-    flex: 1;
-    text-align: center;
-  }
   
   .esgst-element-ordering-box {
     border: 2px solid #ccc;
