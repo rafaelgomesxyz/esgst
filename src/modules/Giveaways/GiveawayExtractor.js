@@ -75,7 +75,7 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   async ge() {
-    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && (document.querySelector(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"], .markdown [href*="itstoohard.com/puzzle/"], .markdown [href*="jigidi.com/solve.php?id="]`))) {
+    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
       // noinspection JSIgnoredPromiseFromCall
       this.ge_addButton(false, `Extract all giveaways`);
       if (this.esgst.ge_o) {
@@ -487,7 +487,7 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_getGiveaways(ge, context) {
-    let elements = context.querySelectorAll(`.markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
+    let elements = context.querySelectorAll(`.markdown img[title], .markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
     let giveaways = [];
     if (context === ge.context) {
       let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
@@ -505,6 +505,15 @@ class GiveawaysGiveawayExtractor extends Module {
       count: 0
     };
     for (let element of elements) {
+      if (element.matches(`img`)) {
+        const title = element.getAttribute(`title`);
+        if (title.length === 5) {
+          if (ge.extracted.indexOf(title) < 0 && giveaways.indexOf(title) < 0) {
+            giveaways.push(title);
+          }
+        }
+        continue;
+      }
       let url = element.getAttribute(`href`);
       let match = url.match(/\/(\w{5})\b/);
       if (!match) {
@@ -535,6 +544,21 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.cache[ge.cacheId].ithLinks = ge.cache[ge.cacheId].ithLinks.concat(...ge.ithLinks);
     ge.cache[ge.cacheId].jigidiLinks = ge.cache[ge.cacheId].jigidiLinks.concat(...ge.jigidiLinks);
     return giveaways;
+  }
+
+  checkGiveaways() {
+    let isFound = false;
+    const elements = document.querySelectorAll(`.markdown img[title], .markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
+    for (const element of elements) {
+      if (element.matches(`img`)) {
+        if (element.getAttribute(`title`).length === 5) {
+          isFound = true;
+        }
+      } else {
+        return true;
+      }
+    }
+    return isFound;
   }
 
   async ge_completeExtraction(ge) {
