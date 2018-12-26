@@ -1,5 +1,11 @@
 import JSZip from 'jszip';
 
+const file = FileUtils.getFile(`ProfD`, [`esgst.sqlite`]);
+
+const TYPE_SET = 0;
+const TYPE_GET = 1;
+const TYPE_DEL = 2;
+
 let workers = [];
 
 var button = buttons.ActionButton({
@@ -17,8 +23,92 @@ function handleClick(state) {
   tabs.open("https://www.steamgifts.com/account/settings/profile?esgst=settings");
 }
 
-(() => {
-  const settings = ss.storage.settings ? JSON.parse(ss.storage.settings) : {};
+function handle_storage(operation, values) {
+  return new Promise(resolve => {
+    const dbConn = Services.storage.openDatabase(file);
+    dbConn.executeSimpleSQL(`CREATE TABLE IF NOT EXISTS esgst (key TEXT NOT NULL, value TEXT)`)
+    dbConn.executeSimpleSQL(`CREATE UNIQUE INDEX IF NOT EXISTS idx_esgst_key ON esgst (key)`);
+    const statements = [];
+    switch (operation) {
+      case TYPE_SET: {
+        const stmt = dbConn.createStatement(`INSERT OR REPLACE INTO esgst (key, value) VALUES (:key, :value)`);
+        const params = stmt.newBindingParamsArray();
+        for (const key in values) {
+          const bp = params.newBindingParams();
+          bp.bindByName(`key`, key);
+          bp.bindByName(`value`, values[key]);
+          params.addParams(bp);
+        }
+        stmt.bindParameters(params);
+        statements.push(stmt);
+        break;
+      }
+      case TYPE_GET: {
+        if (values) {
+          const stmt = dbConn.createStatement(`INSERT OR IGNORE INTO esgst (key, value) VALUES (:key, :value)`);
+          const params = stmt.newBindingParamsArray();
+          for (const key in values) {
+            const bp = params.newBindingParams();
+            bp.bindByName(`key`, key);
+            bp.bindByName(`value`, values[key]);
+            params.addParams(bp);
+          }
+          stmt.bindParameters(params);
+          statements.push(stmt);
+          const conditions = [];
+          let i = 0;
+          const n = Object.keys(values).length;
+          while (i < n) {
+            conditions.push(`key = :key${i++}`);
+          }
+          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst WHERE ${conditions.join(` OR `)}`);
+          i = 0;
+          for (const key in values) {
+            select_stmt.params[`key${i}`] = key;
+          }
+          statements.push(select_stmt);
+        } else {
+          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst`);
+          statements.push(select_stmt);
+        }
+        break;
+      }
+      case TYPE_DEL: {
+        const conditions = [];
+        let i = 0;
+        const n = values.length;
+        while (i < n) {
+          conditions.push(`key = :key${i++}`);
+        }
+        const stmt = dbConn.createStatement(`DELETE FROM esgst WHERE ${conditions.join(` OR `)}`);
+        i = 0;
+        for (const key of values) {
+          stmt.params[`key${i}`] = key;
+        }
+        statements.push(stmt);
+        break;
+      }
+    }
+    const output = {};
+    dbConn.executeAsync(statements, statements.length, {
+      handleCompletion: aReason => { },
+      handleError: aError => { }, 
+      handleResult: aResultSet => {
+        let row;
+        do {
+          row = aResultSet.getNextRow();
+          if (row) {
+            output[row.getResultByName(`key`)] = row.getResultByName(`value`);
+          }
+        } while (row);
+      }
+    });
+    dbConn.asyncClose(() => resolve(output));
+  });
+}
+
+(async () => {
+  const settings = JSON.parse((await handle_storage(TYPE_GET, { settings: `{}` })).settings);
   if (!settings.activateTab_sg && !settings.activateTab_st) {
     return;
   }
@@ -144,7 +234,7 @@ PageMod({
   contentScriptFile: data.url(`esgst.js`),
   contentScriptWhen: `start`,
   onAttach: worker => {
-    let key, keys, parameters, values;
+    let keys, parameters, values;
 
     workers.push(worker);
 
@@ -152,11 +242,9 @@ PageMod({
       detachWorker(worker, workers);
     });
 
-    worker.port.on(`delValues`, request => {
+    worker.port.on(`delValues`, async request => {
       keys = JSON.parse(request.keys);
-      keys.forEach(key => {
-        delete ss.storage[key];
-      });
+      await handle_storage(TYPE_DEL, keys);
       worker.port.emit(`delValues_response`, `null`);
       sendMessage(`delValues`, keys);
     });
@@ -167,21 +255,18 @@ PageMod({
       worker.port.emit(`fetch_response`, response);
     });
 
-    worker.port.on(`getStorage`, () => {
-      worker.port.emit(`getStorage_response`, JSON.stringify(ss.storage));
+    worker.port.on(`getStorage`, async () => {
+      const storage = await handle_storage(TYPE_GET, null);
+      worker.port.emit(`getStorage_response`, JSON.stringify(storage));
     });
 
     worker.port.on(`reload`, () => {
       worker.port.emit(`reload_response`, `null`);
     });
 
-    worker.port.on(`setValues`, request => {
+    worker.port.on(`setValues`, async request => {
       values = JSON.parse(request.values);
-      for (key in values) {
-        if (values.hasOwnProperty(key)) {
-          ss.storage[key] = values[key];
-        }
-      }
+      await handle_storage(TYPE_SET, values);
       worker.port.emit(`setValues_response`, `null`);
       sendMessage(`setValues`, values);
     });
