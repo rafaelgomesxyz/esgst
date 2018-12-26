@@ -247,10 +247,10 @@ import { runSilentSync } from './modules/Sync';
               method: details.method,
               redirect: "follow"
             };
-            if (utils.isSet(window.wrappedJSObject)) {
+            if (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject)) {
               window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
             }
-            let response = await (utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
+            let response = await (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
             let responseText = await response.text();
             response = {
               finalUrl: response.url,
