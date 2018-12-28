@@ -60,16 +60,6 @@ class GamesGameCategories extends Module {
           name: `Color enter button of giveaways if game ownership cannot be checked.`,
           sg: true
         },
-        gc_lr: {
-          description: [
-            [`ul`, [
-              [`li`, `With this option enabled, the categories will take a lot longer to load (when they are not already in the cache) because the requests will be sequential (the next game will only be requested when the current game has finished requesting) and limited to 200ms per request globally (across all open tabs).`],
-              [`li`, `With this option disabled, all of the requests happen at the same time, which is a lot faster, but can get you easily blocked from the Steam store for an hour or so if you use the feature too much in a short period of time.`]
-            ]]
-          ],
-          name: `Limit requests to the Steam store.`,
-          sg: true
-        },
         gc_lp: {
           description: [
             [`ul`, [
@@ -1263,25 +1253,13 @@ class GamesGameCategories extends Module {
         }
       }
 
-      let delete_lock = null;
-      
-      if (this.esgst.gc_lr) {
-        delete_lock = await common.createLock(`gc`, 0);
-      }
-
       if (to_fetch.length) {
-        gc.promises = [];
-        for (const item of to_fetch) {
-          if (this.esgst.gc_lr) {
-            await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch);
-          } else {
-            gc.promises.push(this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch));
-          }
-        }
-        await Promise.all(gc.promises);
-      }
+        const delete_lock = await common.createLock(`gc`, 0);
 
-      if (delete_lock) {
+        for (const item of to_fetch) {
+          await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch);
+        }
+
         delete_lock();
       }
     }
@@ -1436,7 +1414,6 @@ class GamesGameCategories extends Module {
     const response = await request({
       headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
       method: `GET`,
-      notLimited: !this.esgst.gc_lr,
       url: `https://store.steampowered.com/bundle/${bundleId}?cc=us&l=en`
     });
     const html = parseHtml(response.responseText);
@@ -1492,7 +1469,6 @@ class GamesGameCategories extends Module {
       let responseJson = typeof id === `string` && id.match(/^SteamBundle/) ? (await this.gc_fakeBundle(id)) : JSON.parse((await request({
         anon: true,
         method: `GET`,
-        notLimited: !this.esgst.gc_lr,
         url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`
       })).responseText);
       /**
@@ -1594,7 +1570,6 @@ class GamesGameCategories extends Module {
           let response = await request({
             headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
             method: `GET`,
-            notLimited: !this.esgst.gc_lr,
             url: `http://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=en`
           });
           let responseHtml = parseHtml(response.responseText);
@@ -1655,7 +1630,6 @@ class GamesGameCategories extends Module {
           categories.freeBase = JSON.parse((await request({
             anon: true,
             method: `GET`,
-            notLimited: !this.esgst.gc_lr,
             url: `http://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`
           })).responseText)[data.fullgame.appid].data.is_free;
         }
