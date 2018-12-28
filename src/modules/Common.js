@@ -3471,7 +3471,7 @@ class Common extends Module {
       let response = await this.continueRequest(details);
       deleteLock();
       return response;
-    } else if (details.url.match(/^https?:\/\/store.steampowered.com/) && !details.notLimited) {
+    } else if (details.url.match(/^https?:\/\/store.steampowered.com/)) {
       const deleteLock = await this.createLock(`steamStore`, 200);
       const response = await this.continueRequest(details);
       deleteLock();
