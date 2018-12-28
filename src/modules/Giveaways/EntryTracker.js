@@ -95,7 +95,7 @@ class GiveawaysEntryTracker extends Module {
           text: entry.name,
           type: `a`
         }, {
-          text: `on ${dateFns_format(entry.timestamp, this.esgst.at_format)}`,
+          text: `on ${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(entry.timestamp)}`,
           type: `node`
         }]
       });
@@ -130,10 +130,11 @@ class GiveawaysEntryTracker extends Module {
       }
     }
     let popup = new Popup({ addScrollable: true, icon: `fa-history`, isTemp: true, title: `Entry Tracker` });
+    popup.scrollable.style.display = `flex`;
     let rows = createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
-        class: `esgst-text-left esgst-float-right table`,
-        style: `width: auto;`
+        class: `esgst-text-left table`,
+        style: `padding-left: 5px;`
       },
       type: `div`,
       children: [{
@@ -305,21 +306,16 @@ class GiveawaysEntryTracker extends Module {
         type: `node`
       }]
     }]);
-    createElements(popup.scrollable, `beforeEnd`, [{
+    createElements(popup.scrollable, `afterBegin`, [{
       attributes: {
-        class: `esgst-text-left esgst-float-left markdown`,
-        style: `border-right: 1px solid #ccc;`
+        class: `esgst-text-left markdown`,
+        style: `border-right: 1px solid #ccc; padding-right: 5px;`
       },
       type: `div`,
       children: [{
         type: `ul`,
         children: items
       }]
-    }, {
-      attributes: {
-        class: `esgst-clear`
-      },
-      type: `div`
     }]);
     popup.open();
   }
