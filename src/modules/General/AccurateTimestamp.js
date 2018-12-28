@@ -78,6 +78,14 @@ class GeneralAccurateTimestamp extends Module {
     this.esgst.endlessFeatures.push(this.at_getTimestamps.bind(this));
   }
 
+  at_formatTimestamp(seconds) {
+    return dateFns_format(seconds, this.esgst.at_format
+      .replace(/DM\{(.+?)}/, Math.abs(dateFns_differenceInHours(Date.now(), seconds)) < 24 ? `` : `$1`)
+      .replace(/Y\{(.+?)}/, dateFns_isSameYear(Date.now(), seconds) ? `` : `$1`)
+      .replace(/S\{(.+?)}/, new Date(seconds).getSeconds() === 0 ? `` : `$1`)
+    );
+  }
+
   /**
    * @param context
    * @param [main]
@@ -93,11 +101,7 @@ class GeneralAccurateTimestamp extends Module {
         text = timestamp.textContent;
         edited = text.match(/\*/);
         seconds = parseInt(timestamp.getAttribute(`data-timestamp`)) * 1e3;
-        accurateTimestamp = dateFns_format(seconds, this.esgst.at_format
-          .replace(/DM\{(.+?)}/, Math.abs(dateFns_differenceInHours(Date.now(), seconds)) < 24 ? `` : `$1`)
-          .replace(/Y\{(.+?)}/, dateFns_isSameYear(Date.now(), seconds) ? `` : `$1`)
-          .replace(/S\{(.+?)}/, new Date(seconds).getSeconds() === 0 ? `` : `$1`)
-        );
+        accurateTimestamp = this.at_formatTimestamp(seconds);
         timestamp.setAttribute(`data-esgst-timestamp`, accurateTimestamp);
         if (edited) {
           text = ` (Edited ${accurateTimestamp})`;
