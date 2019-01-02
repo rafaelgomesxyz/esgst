@@ -229,6 +229,46 @@ function detachWorker(worker) {
   }
 }
 
+const locks = {};
+const locks_queue = {};
+
+function do_lock(id, key, callback) {
+  if (locks[key]) {
+    if (!locks_queue[key]) {
+      locks_queue[key] = [];
+    }
+    locks_queue[key].push({
+      id,
+      is_resolved: false,
+      callback
+    });
+  } else {
+    locks[key] = id;
+    callback();
+  }
+} 
+
+function do_unlock(id, key, callback) {
+  if (locks[key] === id) {
+    let found = false;
+    if (locks_queue[key]) {
+      for (const item of locks_queue[key]) {
+        if (!item.is_resolved) {
+          found = true;
+          item.is_resolved = true;
+          locks[key] = item.id;
+          item.callback();
+          break;
+        }
+      }
+    }
+    if (!found) {
+      delete locks[key];
+    }
+  }
+  callback();
+}
+
 PageMod({
   include: [`*.steamgifts.com`, `*.steamtrades.com`],
   contentScriptFile: data.url(`esgst.js`),
@@ -242,38 +282,50 @@ PageMod({
       detachWorker(worker, workers);
     });
 
+    worker.port.on(`do_lock`, request => {
+      do_lock(request.id, request.key, () => {
+        worker.port.emit(`do_lock_${request.uuid}_response`, `null`);
+      });
+    });
+
+    worker.port.on(`do_unlock`, request => {
+      do_unlock(request.id, request.key, () => {
+        worker.port.emit(`do_unlock_${request.uuid}_response`, `null`);
+      });
+    });
+
     worker.port.on(`delValues`, async request => {
       keys = JSON.parse(request.keys);
       await handle_storage(TYPE_DEL, keys);
-      worker.port.emit(`delValues_response`, `null`);
+      worker.port.emit(`delValues_${request.uuid}_response`, `null`);
       sendMessage(`delValues`, keys);
     });
 
     worker.port.on(`fetch`, async request => {
       parameters = JSON.parse(request.parameters);
       const response = await doFetch(parameters, request);      
-      worker.port.emit(`fetch_response`, response);
+      worker.port.emit(`fetch_${request.uuid}_response`, response);
     });
 
     worker.port.on(`getStorage`, async () => {
       const storage = await handle_storage(TYPE_GET, null);
-      worker.port.emit(`getStorage_response`, JSON.stringify(storage));
+      worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
 
     worker.port.on(`reload`, () => {
-      worker.port.emit(`reload_response`, `null`);
+      worker.port.emit(`reload_${request.uuid}_response`, `null`);
     });
 
     worker.port.on(`setValues`, async request => {
       values = JSON.parse(request.values);
       await handle_storage(TYPE_SET, values);
-      worker.port.emit(`setValues_response`, `null`);
+      worker.port.emit(`setValues_${request.uuid}_response`, `null`);
       sendMessage(`setValues`, values);
     });
 
     worker.port.on(`tabs`, request => {
       getTabs(request);
-      worker.port.emit(`tabs_response`, `null`);
+      worker.port.emit(`tabs_${request.uuid}_response`, `null`);
     });
   }
 });
