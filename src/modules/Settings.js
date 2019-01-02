@@ -240,9 +240,6 @@ function loadMenu(isPopup) {
             }
             let feature, ft;
             feature = container.esgst.features[type].features[id];
-            if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-              continue;
-            }
             if (!feature.sg && feature.st && !container.esgst.settings.esgst_st && id !== `esgst`) {
               continue;
             }
@@ -404,6 +401,65 @@ function loadMenu(isPopup) {
   }
 }
 
+function show_extension_only_popup() {
+  new Popup({
+    addScrollable: true,
+    icon: `fa-exclamation`,
+    isTemp: true,
+     title: [{
+      text: `This feature is only available in the extension version of ESGST. Please upgrade to the extension to use it. Below are the links for it:`,
+      type: `node`
+    }, {
+      type: `br`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        href: `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`
+      },
+      text: `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`,
+      type: `a`
+    }, {
+      type: `br`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        href: `https://addons.mozilla.org/en-US/firefox/addon/esgst/`
+      },
+      text: `https://addons.mozilla.org/en-US/firefox/addon/esgst/`,
+      type: `a`
+    }, {
+      type: `br`
+    }, {
+      type: `br`
+    }, {
+      text: `To transfer your data from the userscript to the extension, backup your data in the backup menu of the userscript, then disable the userscript, install the extension and restore your data in the restore menu of the extension. Below are the links to the backup/restore pages:`,
+      type: `node`
+    }, {
+      type: `br`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        href: `https://www.steamgifts.com/account/settings/profile?esgst=backup`
+      },
+      text: `https://www.steamgifts.com/account/settings/profile?esgst=backup`,
+      type: `a`
+    }, {
+      type: `br`
+    }, {
+      type: `br`
+    }, {
+      attributes: {
+        href: `https://www.steamgifts.com/account/settings/profile?esgst=restore`
+      },
+      text: `https://www.steamgifts.com/account/settings/profile?esgst=restore`,
+      type: `a`
+    }]
+  }).open();
+}
+
 function loadFeatureDetails(id, offset, event) {
   if (!offset) {
     offset = 0;
@@ -436,6 +492,11 @@ function loadFeatureDetails(id, offset, event) {
     const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st ? `SteamGifts` : ``, true, false, null, value);
     feature.sgFeatureSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
+      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
+        sgSwitch.disable(true);
+        show_extension_only_popup();
+        return;
+      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_sg`];
@@ -493,6 +554,11 @@ function loadFeatureDetails(id, offset, event) {
     const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
     feature.stFeatureSwitch = stSwitch;
     stSwitch.onEnabled = () => {
+      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
+        stSwitch.disable(true);
+        show_extension_only_popup();
+        return;
+      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_st`];
@@ -1164,6 +1230,11 @@ function getSMFeature(feature, id, number, popup) {
     const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, value);
     feature.sgSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
+      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
+        sgSwitch.disable(true);
+        show_extension_only_popup();
+        return;
+      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_sg`];
@@ -1214,6 +1285,11 @@ function getSMFeature(feature, id, number, popup) {
     const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
     feature.stSwitch = stSwitch;
     stSwitch.onEnabled = () => {
+      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
+        stSwitch.disable(true);
+        show_extension_only_popup();
+        return;
+      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_st`];
@@ -1274,9 +1350,6 @@ function getSMFeature(feature, id, number, popup) {
         continue;
       }
       const subFt = feature.features[subId];
-      if (subFt.extensionOnly && !container.common._USER_INFO.extension) {
-        continue;
-      }
       if (!subFt.sg && subFt.st && !container.esgst.settings.esgst_st && id !== `esgst`) {
         continue;
       }
