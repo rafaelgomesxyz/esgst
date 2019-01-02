@@ -4,6 +4,23 @@ import { container } from '../class/Container';
 function loadChangelog(version) {
   const changelog = [
       {
+        date: `January 2, 2019`,
+        version: `8.1.12`,
+        changelog: {
+          1169: `Let the background page handle locks in the extension`,
+          1168: `Show a warning popup if a user tries to enable extension-exclusive features`,
+          1167: `Fix a bug that prevents the Entry Tracker popup from opening depending on the Accurate Timestamp format set`,
+          1166: `Remove option to limit requests to the Steam store and make it the default behavior`,
+          1165: `Fix several bugs in User Giveaway Data`,
+          1164: `Fix a bug that does not persist data larger than 5MB on Pale Moon`,
+          1162: `Detect giveaway codes hidden in image titles with Giveaway Extractor`,
+          1161: `Add an info to each sync category for which feature the data is required`,
+          1157: `Fix a bug that prevents Giveaway Extractor from working in a new tab`,
+          1156: `Remove Happy Holidays Integration`
+        }
+      },
+
+      {
         date: `December 23, 2018`,
         version: `8.1.11`,
         changelog: {

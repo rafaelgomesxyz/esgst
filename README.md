@@ -236,6 +236,19 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.12 (January 2, 2019)**
+
+* [#1169](https://github.com/gsrafael01/ESGST/issues/1169) Let the background page handle locks in the extension
+* [#1168](https://github.com/gsrafael01/ESGST/issues/1168) Show a warning popup if a user tries to enable extension-exclusive features
+* [#1167](https://github.com/gsrafael01/ESGST/issues/1167) Fix a bug that prevents the Entry Tracker popup from opening depending on the Accurate Timestamp format set
+* [#1166](https://github.com/gsrafael01/ESGST/issues/1166) Remove option to limit requests to the Steam store and make it the default behavior
+* [#1165](https://github.com/gsrafael01/ESGST/issues/1165) Fix several bugs in User Giveaway Data
+* [#1164](https://github.com/gsrafael01/ESGST/issues/1164) Fix a bug that does not persist data larger than 5MB on Pale Moon
+* [#1162](https://github.com/gsrafael01/ESGST/issues/1162) Detect giveaway codes hidden in image titles with Giveaway Extractor
+* [#1161](https://github.com/gsrafael01/ESGST/issues/1161) Add an info to each sync category for which feature the data is required
+* [#1157](https://github.com/gsrafael01/ESGST/issues/1157) Fix a bug that prevents Giveaway Extractor from working in a new tab
+* [#1156](https://github.com/gsrafael01/ESGST/issues/1156) Remove Happy Holidays Integration
+
 **8.1.11 (December 23, 2018)**
 
 * [#1155](https://github.com/gsrafael01/ESGST/issues/1155) Implement priority system for Game Categories
