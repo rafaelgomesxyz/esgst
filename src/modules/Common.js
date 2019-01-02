@@ -58,6 +58,14 @@ class Common extends Module {
     this.envFunctions = functions;
   }
 
+  do_lock(lock) {
+    return this.envFunctions.do_lock(lock);
+  }
+
+  do_unlock(lock) {
+    return this.envFunctions.do_unlock(lock);
+  }
+
   /**
    * @param key
    * @param value
@@ -3086,31 +3094,13 @@ class Common extends Module {
   }
 
   async createLock(key, threshold) {
-    let lock = {
-      key: key,
-      threshold: threshold,
+    const lock = {
+      key,
+      threshold,
       uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, this.createUuid.bind(this))
     };
-    await this.checkLock(lock);
-    return this.setValue.bind(this, key, `{}`);
-  }
-
-  async checkLock(lock) {
-    let locked = JSON.parse(await this.getValue(lock.key, `{}`));
-    if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 1000)) {
-      await this.setValue(lock.key, JSON.stringify({
-        timestamp: Date.now(),
-        uuid: lock.uuid
-      }));
-      await this.timeout(lock.threshold / 2);
-      locked = JSON.parse(await this.getValue(lock.key, `{}`));
-      if (!locked || locked.uuid !== lock.uuid) {
-        return this.checkLock(lock);
-      }
-    } else {
-      await this.timeout(lock.threshold / 3);
-      return this.checkLock(lock);
-    }
+    await this.do_lock(lock);
+    return this.do_unlock.bind(this, lock);
   }
 
   async lockAndSaveGames(games) {

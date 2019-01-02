@@ -112,9 +112,10 @@ import { runSilentSync } from './modules/Sync';
             }
           },
           sendMessage: (obj, callback) => {
+            obj.uuid = `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, common.createUuid.bind(common));
             self.port.emit(obj.action, obj);
-            self.port.on(`${obj.action}_response`, function onResponse(result) {
-              self.port.removeListener(`${obj.action}_response`, `onResponse`);
+            self.port.on(`${obj.action}_${obj.uuid}_response`, function onResponse(result) {
+              self.port.removeListener(`${obj.action}_${obj.uuid}_response`, `onResponse`);
               callback(result);
             });
           }
@@ -188,6 +189,20 @@ import { runSilentSync } from './modules/Sync';
 
     if (envVariables._USER_INFO.extension) {
       // esgst is running as an extension
+      envFunctions.do_lock = lock => {
+        return new Promise(resolve => envVariables.browser.runtime.sendMessage({
+          action: `do_lock`,
+          id: lock.uuid,
+          key: lock.key
+        }, () => resolve()));
+      }
+      envFunctions.do_unlock = lock => {
+        return new Promise(resolve => envVariables.browser.runtime.sendMessage({
+          action: `do_unlock`,
+          id: lock.uuid,
+          key: lock.key
+        }, () => resolve()));
+      }
       envFunctions.setValues = values => {
         let key;
         return new Promise(resolve =>
@@ -626,6 +641,26 @@ import { runSilentSync } from './modules/Sync';
       });
     } else {
       // esgst is running as a script
+      envFunctions.do_lock = async lock => {
+        let locked = JSON.parse(await common.getValue(lock.key, `{}`));
+        if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 1000)) {
+          await common.setValue(lock.key, JSON.stringify({
+            timestamp: Date.now(),
+            uuid: lock.uuid
+          }));
+          await common.timeout(lock.threshold / 2);
+          locked = JSON.parse(await common.getValue(lock.key, `{}`));
+          if (!locked || locked.uuid !== lock.uuid) {
+            return envFunctions.do_lock(lock);
+          }
+        } else {
+          await common.timeout(lock.threshold / 3);
+          return envFunctions.do_lock(lock);
+        }
+      };
+      envFunctions.do_unlock = lock => {
+        return common.setValue.bind(common, lock.key, `{}`);
+      };
       envFunctions.setValue = envVariables.gm.setValue;
       envFunctions.setValues = async values => {
         let promises = [];

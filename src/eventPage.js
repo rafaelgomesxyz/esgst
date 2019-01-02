@@ -249,9 +249,55 @@ function deleteCookie(details) {
   });
 }
 
+const locks = {};
+const locks_queue = {};
+
+function do_lock(id, key, callback) {
+  if (locks[key]) {
+    if (!locks_queue[key]) {
+      locks_queue[key] = [];
+    }
+    locks_queue[key].push({
+      id,
+      is_resolved: false,
+      callback
+    });
+  } else {
+    locks[key] = id;
+    callback();
+  }
+} 
+
+function do_unlock(id, key, callback) {
+  if (locks[key] === id) {
+    let found = false;
+    if (locks_queue[key]) {
+      for (const item of locks_queue[key]) {
+        if (!item.is_resolved) {
+          found = true;
+          item.is_resolved = true;
+          locks[key] = item.id;
+          item.callback();
+          break;
+        }
+      }
+    }
+    if (!found) {
+      delete locks[key];
+    }
+  }
+  callback();
+}
+
 browser.runtime.onMessage.addListener((request, sender, callback) => {
   let key, keys, parameters, values;
   switch (request.action) {
+    case `do_lock`:
+      do_lock(request.id, request.key, callback);
+      break;
+    case `do_unlock`:
+      do_unlock(request.id, request.key, callback);
+      break;
     case `delValues`:
       keys = JSON.parse(request.keys);
       browser.storage.local.remove(keys, () => {
