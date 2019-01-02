@@ -139,19 +139,20 @@ class GiveawaysGiveawayBookmarks extends Module {
     if (this.esgst.gb_h && button) {
       button.classList.add(`esgst-gb-highlighted`);
     }
+    const toSave = {};
     for (let key in this.esgst.giveaways) {
       if (this.esgst.giveaways.hasOwnProperty(key)) {
         const giveaway = this.esgst.giveaways[key];
         if (giveaway.bookmarked) {
           if (typeof giveaway.started === `undefined`) {
             giveaway.started = true;
-            this.esgst.edited.giveaways = true;
+            toSave[key] = { started: true };
           }
           if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
             if (giveaway.started) {
               if (this.esgst.gb_u) {
                 delete giveaway.bookmarked;
-                this.esgst.edited.giveaways = true;
+                toSave[key] = { bookmarked: null };
               } else {
                 bookmarked.push(giveaway);
               }
@@ -174,6 +175,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       }
     }
+    common.lock_and_save_giveaways(toSave);
     let title;
     if (started || ending) {
       if (started) {

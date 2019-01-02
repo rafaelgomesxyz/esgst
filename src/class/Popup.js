@@ -184,7 +184,6 @@ export default class Popup {
   }
 
   close() {
-    this.layer.remove();
     if (this.temp) {
       this.layer.remove();
     } else {

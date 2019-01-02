@@ -503,8 +503,11 @@ class Giveaways extends Module {
           continue;
         }
         const winners = column.textContent.trim().split(/,\s/).filter(x => x);
+        if (key !== `noWinners`) {
+          giveaway.winners.push(...winners.map(x => ({ status, username: x })));
+        }
         if (key === `received`) {
-          giveaway.winners = winners.map(x => x.toLowerCase());
+          giveaway.winnerNames = winners.map(x => x.toLowerCase());
           giveaway.numWinners += winners.length;
         }
         giveaway.winnerColumns[key] = {column, status, winners};
@@ -513,7 +516,7 @@ class Giveaways extends Module {
       }
     }
     if (!giveaway.numWinners) {
-      giveaway.numWinners = giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0,  giveaway.copies);
+      giveaway.numWinners = giveaway.winnerColumns.awaitingFeedback || giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0,  giveaway.copies);
     }
     if (giveaway.endTimeColumn) {
       giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
@@ -557,7 +560,8 @@ class Giveaways extends Module {
         startTime: giveaway.startTime,
         started: giveaway.started,
         creator: giveaway.creator,
-        winners: giveaway.numWinners,
+        winners: giveaway.winners,
+        numWinners: giveaway.numWinners,
         entries: giveaway.entries,
         comments: giveaway.comments,
         level: giveaway.level,

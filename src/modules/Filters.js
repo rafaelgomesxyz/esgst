@@ -2186,6 +2186,10 @@ class Filters extends Module {
       case `string`: {
         const list = rules.value.toLowerCase().split(/,\s/);
 
+        if (key === `winners`) {
+          key = `winnerNames`;
+        }
+
         if (rules.operator === `contains`) {
           if (!item[key] || !Array.isArray(item[key])) {
             filtered = false;

@@ -386,7 +386,6 @@ class CommentsCommentTracker extends Module {
             }
           }
           saved[comment.type][comment.code].lastUsed = Date.now();
-          this.esgst.edited[comment.type] = true;
           if (!this.esgst.ct_s) {
             let buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
             if (comment.author === this.esgst.username) {
@@ -500,15 +499,15 @@ class CommentsCommentTracker extends Module {
             goToComment(unread.id, unread.comment);
           }
         }
-      } else if (!endless) {
+      } else {
         if (this.esgst.sg) {
-          await setValues({
-            giveaways: JSON.stringify(saved.giveaways),
-            discussions: JSON.stringify(saved.discussions),
-            tickets: JSON.stringify(saved.tickets)
-          });
+          await Promise.all([
+            common.lock_and_save_giveaways(saved.giveaways),
+            common.lock_and_save_discussions(saved.discussions),
+            common.lock_and_save_tickets(saved.tickets)
+          ]);
         } else {
-          await setValue(`trades`, JSON.stringify(saved.trades));
+          await common.lock_and_save_trades(saved.trades);
         }
       }
     } else {
@@ -526,18 +525,7 @@ class CommentsCommentTracker extends Module {
           saved[type][code].count = count;
         }
         saved[type][code].lastUsed = Date.now();
-        this.esgst.edited[type] = true;
-        if (!endless) {
-          if (this.esgst.sg) {
-            await setValues({
-              giveaways: JSON.stringify(saved.giveaways),
-              discussions: JSON.stringify(saved.discussions),
-              tickets: JSON.stringify(saved.tickets)
-            });
-          } else {
-            await setValue(`trades`, JSON.stringify(saved.trades));
-          }
-        }
+        await common[`lock_and_save_${type}`]({ [code]: saved[type][code] });
       }
     }
     return found;

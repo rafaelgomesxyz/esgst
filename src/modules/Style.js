@@ -885,7 +885,7 @@ function addStyle() {
 
   .esgst-ugd-lists {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
   }
 
   .markdown {

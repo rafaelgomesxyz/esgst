@@ -586,42 +586,11 @@ class Common extends Module {
   }
 
   async endless_load(context, main, source, endless, mainEndless) {
-    if (!Object.keys(this.esgst.edited).length && !mainEndless) {
-      this.esgst.edited = {};
-      let values = await this.getValues({
-        discussions: `{}`,
-        games: `{"apps":{},"subs":{}}`,
-        giveaways: `{}`,
-        tickets: `{}`,
-        trades: `{}`,
-        users: `{"steamIds":{},"users":{}}`
-      });
-      this.esgst.discussions = JSON.parse(values.discussions);
-      this.esgst.games = JSON.parse(values.games);
-      this.esgst.giveaways = JSON.parse(values.giveaways);
-      this.esgst.tickets = JSON.parse(values.tickets);
-      this.esgst.trades = JSON.parse(values.trades);
-      this.esgst.users = JSON.parse(values.users);
-    }
-
     for (let feature of this.esgst.endlessFeatures) {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
         window.console.log(e);
-      }
-    }
-
-    if (!mainEndless) {
-      const newValues = {};
-      for (const key in this.esgst.edited) {
-        if (this.esgst.edited.hasOwnProperty(key)) {
-          newValues[key] = JSON.stringify(this.esgst[key]);
-        }
-      }
-      this.esgst.edited = {};
-      if (Object.keys(newValues).length) {
-        this.setValues(newValues);
       }
     }
   }
@@ -2039,6 +2008,10 @@ class Common extends Module {
     }
   }
 
+  async lock_and_save_giveaways(giveaways, firstRun) {
+    return this.lockAndSaveGiveaways(giveaways, firstRun);
+  }
+
   async lockAndSaveGiveaways(giveaways, firstRun) {
     if (!Object.keys(giveaways).length) return;
 
@@ -2055,13 +2028,15 @@ class Common extends Module {
         if (savedGiveaways[key]) {
           for (let subKey in giveaways[key]) {
             if (giveaways[key].hasOwnProperty(subKey)) {
-              savedGiveaways[key][subKey] = giveaways[key][subKey];
-              this.esgst.edited.giveaways = true;
+              if (subKey === null) {
+                delete savedGiveaways[key][subKey];
+              } else {
+                savedGiveaways[key][subKey] = giveaways[key][subKey];
+              }
             }
           }
         } else {
           savedGiveaways[key] = giveaways[key];
-          this.esgst.edited.giveaways = true;
         }
       }
     }
@@ -2069,6 +2044,10 @@ class Common extends Module {
       await this.setValue(`giveaways`, JSON.stringify(savedGiveaways));
       deleteLock();
     }
+  }
+
+  async lock_and_save_discussions(discussions) {
+    return this.lockAndSaveDiscussions(discussions);
   }
 
   async lockAndSaveDiscussions(discussions) {
@@ -2091,6 +2070,60 @@ class Common extends Module {
       }
     }
     await this.setValue(`discussions`, JSON.stringify(savedDiscussions));
+    deleteLock();
+  }
+
+  async lock_and_save_tickets(items) {
+    const deleteLock = await this.createLock(`ticketLock`, 300);
+    const saved = JSON.parse(await this.getValue(`tickets`, `{}`));
+    for (const key in items) {
+      if (items.hasOwnProperty(key)) {
+        if (saved[key]) {
+          for (const subKey in items[key]) {
+            if (items[key].hasOwnProperty(subKey)) {
+              if (subKey === null) {
+                delete saved[key][subKey];
+              } else {
+                saved[key][subKey] = items[key][subKey];
+              }
+            }
+          }
+        } else {
+          saved[key] = items[key];
+        }
+        if (!saved[key].readComments) {
+          saved[key].readComments = {};
+        }
+      }
+    }
+    await this.setValue(`tickets`, JSON.stringify(saved));
+    deleteLock();
+  }
+
+  async lock_and_save_trades(items) {
+    const deleteLock = await this.createLock(`tradeLock`, 300);
+    const saved = JSON.parse(await this.getValue(`trades`, `{}`));
+    for (const key in items) {
+      if (items.hasOwnProperty(key)) {
+        if (saved[key]) {
+          for (const subKey in items[key]) {
+            if (items[key].hasOwnProperty(subKey)) {
+              if (subKey === null) {
+                delete saved[key][subKey];
+              } else {
+                saved[key][subKey] = items[key][subKey];
+              }
+            }
+          }
+        } else {
+          saved[key] = items[key];
+        }
+        if (!saved[key].readComments) {
+          saved[key].readComments = {};
+        }
+      }
+    }
+    await this.setValue(`trades`, JSON.stringify(saved));
     deleteLock();
   }
 
