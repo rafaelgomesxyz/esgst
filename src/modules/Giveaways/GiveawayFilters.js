@@ -438,7 +438,8 @@ class GiveawaysGiveawayFilters extends Module {
                 ]]
               ],
               name: `Followed`,
-              sg: true
+              sg: true,
+              syncKeys: [`FollowedGames`]
             },
             gf_hidden: {
               description: [

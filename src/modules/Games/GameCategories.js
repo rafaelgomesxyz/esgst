@@ -322,7 +322,8 @@ class GamesGameCategories extends Module {
           },
           input: true,
           name: `Followed`,
-          sg: true
+          sg: true,
+          syncKeys: [`FollowedGames`]
         },
         gc_fcv: {
           colors: true,
