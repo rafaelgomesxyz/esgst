@@ -21,6 +21,19 @@ async function runSilentSync(parameters) {
   button.changeTitle(`ESGST has finished syncing, click here to see the results.`);
 }
 
+function getDependencies(syncer, feature, id) {
+  if (feature.syncKeys) {
+    for (const key of feature.syncKeys) {
+      syncer.switchesKeys[`sync${key}`].dependencies.push(id);
+    }
+  }
+  if (feature.features) {
+    for (const subId in feature.features) {
+      getDependencies(syncer, feature.features[subId], subId);
+    }
+  }
+}
+
 /**
  * @returns {Promise<void>}
  */
@@ -103,55 +116,72 @@ async function setSync(isPopup = false, isSilent = false) {
     };
     syncer.switchesKeys = {
       syncGroups: {
+        dependencies: [],
         key: `Groups`,
         name: `Groups`
       },
       syncWhitelist: {
+        dependencies: [],
         key: `Whitelist`,
         name: `Whitelist`
       },
       syncBlacklist: {
+        dependencies: [],
         key: `Blacklist`,
         name: `Blacklist`
       },
       syncHiddenGames: {
+        dependencies: [],
         key: `HiddenGames`,
         name: `Hidden Games`
       },
       syncGames: {
+        dependencies: [],
         key: `Games`,
         name: `Owned/Wishlisted/Ignored Games`
       },
       syncFollowedGames: {
+        dependencies: [],
         key: `FollowedGames`,
         name: `Followed Games`
       },
       syncWonGames: {
+        dependencies: [],
         key: `WonGames`,
         name: `Won Games`
       },
       syncReducedCvGames: {
+        dependencies: [],
         key: `ReducedCvGames`,
         name: `Reduced CV Games`
       },
       syncNoCvGames: {
+        dependencies: [],
         key: `NoCvGames`,
         name: `No CV Games`
       },
       syncHltbTimes: {
+        dependencies: [],
         key: `HltbTimes`,
         name: `HLTB Times`
       },
       syncDelistedGames: {
+        dependencies: [],
         key: `DelistedGames`,
         name: `Delisted Games`
       },
       syncGiveaways: {
+        dependencies: [],
         key: `Giveaways`,
         name: `Giveaways`
       }
     };
     syncer.switches = {};
+    for (const type in container.esgst.features) {
+      for (const id in container.esgst.features[type].features) {
+        getDependencies(syncer, container.esgst.features[type].features[id], id);
+      }
+    }
     for (let id in syncer.switchesKeys) {
       if (syncer.switchesKeys.hasOwnProperty(id)) {
         const info = syncer.switchesKeys[id];
@@ -162,6 +192,8 @@ async function setSync(isPopup = false, isSilent = false) {
         syncer.switches[id] = checkbox;
         syncer.manual.content.push(
           [`div`, [
+            [`i`, { class: `fa fa-question-circle`, title: `This is required for the following features:\n\n${info.dependencies.map(x => container.common.getFeatureName(null, x)).join(`\n`)}` }],
+            ` `,
             checkbox.checkbox,
             ` `,
             [`span`, info.name]

@@ -1630,7 +1630,7 @@ class Common extends Module {
 
   getFeatureName(fullMatch, match) {
     let feature = this.getFeatureNumber(match);
-    return `${feature.number} \\"${feature.name}\\"`;
+    return `${feature.number} ${feature.name}`;
   }
 
   getFeatureNumber(queryId) {

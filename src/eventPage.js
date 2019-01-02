@@ -286,7 +286,6 @@ browser.runtime.onMessage.addListener((request, sender, callback) => {
       values = JSON.parse(request.values);
       browser.storage.local.set(values, () => {
         for (key in values) {
-          console.log(key);
           if (values.hasOwnProperty(key)) {
             storage[key] = values[key];
           }
