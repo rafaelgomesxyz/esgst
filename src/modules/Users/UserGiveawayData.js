@@ -136,7 +136,7 @@ class UsersUserGiveawayData extends Module {
       }
     }
     const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
-    playtimes = `${playtimes}/${totalPlaytimes} (${Math.round(playtimes / totalPlaytimes * 10000) / 100}%)`;
+    playtimes = `${playtimes}/${totalPlaytimes} (${totalPlaytimes > 0 ? Math.round(playtimes / totalPlaytimes * 10000) / 100 : 0}%)`;
     playtimeDisplay.textContent = playtimes;
     if (!firstRun) {
       setSetting(`ugd_playtime`, this.esgst.ugd_playtime);
@@ -155,7 +155,7 @@ class UsersUserGiveawayData extends Module {
       }
     }
     const totalAchievements = Object.keys(ugdCache.achievements).length;
-    achievements = `${achievements}/${totalAchievements} (${Math.round(achievements / totalAchievements * 10000) / 100}%)`;
+    achievements = `${achievements}/${totalAchievements} (${totalAchievements > 0 ? Math.round(achievements / totalAchievements * 10000) / 100 : 0}%)`;
     achievementsDisplay.textContent = achievements;
     if (!firstRun) {
       setSetting(`ugd_achievements`, this.esgst.ugd_achievements);
@@ -407,8 +407,8 @@ class UsersUserGiveawayData extends Module {
       let giveaway = giveawayObj.data;
       const endTime = giveaway.endTime;
 
-      // giveaway has not ended yet, so cannot store it
-      if (endTime >= currentTime && (obj.user.username !== this.esgst.username || obj.key !== `sent`)) {
+      // giveaway has not ended yet or does not have winners, so cannot store it
+      if ((endTime >= currentTime || giveaway.numWinners < 1) && (obj.user.username !== this.esgst.username || obj.key !== `sent`)) {
         continue;
       }
 
@@ -448,7 +448,6 @@ class UsersUserGiveawayData extends Module {
         }
         const savedGiveaway = this.esgst.giveaways[code];
         if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
-          obj.giveaways[code] = giveaway;
           if (obj.key === `sent`) {
             giveaway.winners = [];
             if ((giveawayRaw.winners.length || giveawayRaw.numWinners) > 3) {
@@ -475,6 +474,7 @@ class UsersUserGiveawayData extends Module {
             }
           }
         }
+        obj.giveaways[code] = giveaway;
       } else {
         games[id].push(giveaway);
       }
@@ -637,7 +637,7 @@ class UsersUserGiveawayData extends Module {
           columns.push(value);
         }
         const typeTotal = obj.typeTotal[key];
-        const total = Math.round(typeTotal / obj.total * 10000) / 100;
+        const total = obj.total > 0 ? Math.round(typeTotal / obj.total * 10000) / 100 : 0;
         columns.push(`${typeTotal} (${total}%)`);
         table.addRow(columns);
       }
@@ -645,7 +645,7 @@ class UsersUserGiveawayData extends Module {
     const columns = [`Total`];
     for (let i = 0; i < 11; i++) {
       const levelTotal = obj.levelTotal[i];
-      const total = Math.round(levelTotal / obj.total * 10000) / 100;
+      const total = obj.total > 0 ? Math.round(levelTotal / obj.total * 10000) / 100 : 0;
       columns.push(`${levelTotal} (${total}%)`);
     }
     columns.push(obj.total);
@@ -803,7 +803,7 @@ class UsersUserGiveawayData extends Module {
         attributes: {
           class: `esgst-bold`
         },
-        text: `${obj.playedCount} out of ${total} games with more than 0 hours playtime (${Math.round(obj.playedCount / total * 10000) / 100}%)`,
+        text: `${obj.playedCount} out of ${total} games with more than 0 hours playtime (${total > 0 ? Math.round(obj.playedCount / total * 10000) / 100 : 0}%)`,
         type: `div`
       });
     }
@@ -892,7 +892,7 @@ class UsersUserGiveawayData extends Module {
             }
             total += 1;
           }
-          achievementsAttributes = Math.round(count / total * 10000) / 100;
+          achievementsAttributes = total > 0 ? Math.round(count / total * 10000) / 100 : 0;
           achievements = `${count}/${total} (${achievementsAttributes}%)`;
           obj.ugdCache.achievements[appId] = achievements;
         } else {
@@ -963,7 +963,7 @@ class UsersUserGiveawayData extends Module {
       const packageParts = group.columns[3].textContent.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
       const packageCount = parseInt(packageParts[1]) + count;
       const packageTotal = parseInt(packageParts[2]) + total;
-      const packageAchievementsAttributes = Math.round(packageCount / packageTotal * 10000) / 100;
+      const packageAchievementsAttributes = packageTotal > 0 ? Math.round(packageCount / packageTotal * 10000) / 100 : 0;
       group.columns[3].textContent = `${packageCount}/${packageTotal} (${packageAchievementsAttributes}%)`;
       group.columns[3].setAttribute(`data-sort-value`, packageAchievementsAttributes);
     }

@@ -195,17 +195,12 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     ged.i = 0;
     let currentGiveaways = {};
     let currentTime = Date.now();
-    let deleteLock;
-    if (!firstRun) {
-      deleteLock = await createLock(`gedLock`, 300);
-      this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
-    }
-    delete this.esgst.edited.decryptedGiveaways;
+    const deleteLock = await createLock(`gedLock`, 300);
+    this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
     for (let code in this.esgst.decryptedGiveaways) {
       if (this.esgst.decryptedGiveaways.hasOwnProperty(code)) {
         if (this.esgst.decryptedGiveaways[code].html) {
           delete this.esgst.decryptedGiveaways[code].html;
-          this.esgst.edited.decryptedGiveaways = true;
         }
         let isEnded = this.esgst.decryptedGiveaways[code].timestamp <= currentTime;
         let filtered = true;
@@ -236,12 +231,8 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       }
     }
     await lockAndSaveGiveaways(currentGiveaways, firstRun);
-    if (this.esgst.edited.decryptedGiveaways && !firstRun) {
-      await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));
-    }
-    if (deleteLock) {
-      deleteLock();
-    }
+    await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));
+    deleteLock();
     ged.n = ged.giveaways.length;
     if (ged.n > 0) {
       if (ged.button) {
@@ -258,7 +249,6 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       currentGiveaways[code] = giveaway;
       if (giveaway.started && isEnded) {
         this.esgst.decryptedGiveaways[code].timestamp = giveaway.endTime;
-        this.esgst.edited.decryptedGiveaways = true;
       }
     }
     if (source) {
@@ -266,7 +256,6 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         source: source,
         timestamp: (giveaway && giveaway.endTime) || 0
       };
-      this.esgst.edited.decryptedGiveaways = true;
     }
     return giveaway;
   }
@@ -369,10 +358,8 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     }
     if (deleteLock) {
       await lockAndSaveGiveaways(currentGiveaways);
-      deleteLock();
-    }
-    if (this.esgst.edited.decryptedGiveaways) {
       await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));
+      deleteLock();
     }
     if (ged.button && (hasEnded || hasNew)) {
       ged.button.classList.remove(`esgst-hidden`);
