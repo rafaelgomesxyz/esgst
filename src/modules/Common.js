@@ -803,8 +803,9 @@ class Common extends Module {
             st: true
           },
           esgst: {
-            name: `Enable ESGST for SteamTrades.`,
-            st: true
+            name: `Enable ESGST for SteamTrades/SGTools.`,
+            st: true,
+            sgtools: true
           },
           enableByDefault: {
             name: `Enable new features and functionalities by default.`,
@@ -871,6 +872,7 @@ class Common extends Module {
             ],
             sg: true,
             st: true,
+            sgtools: true,
             theme: `https://userstyles.org/styles/141670.css`
           },
           sgv2Dark: {
@@ -880,6 +882,7 @@ class Common extends Module {
             ],
             sg: true,
             st: true,
+            sgtools: true,
             theme: `https://userstyles.org/styles/109810.css`
           },
           steamGiftiesBlack: {
@@ -910,6 +913,7 @@ class Common extends Module {
             name: `Custom Theme (Add your own CSS rules)`,
             sg: true,
             st: true,
+            sgtools: true,
             theme: true
           }
         }
@@ -1653,12 +1657,12 @@ class Common extends Module {
             if (result) {
               return result;
             }
-            if (feature.sg || this.esgst.settings.esgst_st) {
+            if (feature.sg || this.esgst.settings.esgst_st || this.esgst.settings.esgst_sgtools) {
               i += 1;
             }
           }
         }
-        if (type !== `trades` || this.esgst.settings.esgst_st) {
+        if (type !== `trades` || this.esgst.settings.esgst_st || this.esgst.settings.esgst_sgtools) {
           n += 1;
         }
       }
@@ -1685,7 +1689,7 @@ class Common extends Module {
           if (result) {
             return result;
           }
-          if (subFeature.sg || this.esgst.settings.esgst_st) {
+          if (subFeature.sg || this.esgst.settings.esgst_st || this.esgst.settings.esgst_sgtools) {
             j += 1;
           }
         }
@@ -3418,7 +3422,7 @@ class Common extends Module {
     for (let i = 0, n = keys.length; i < n; i++) {
       let key = keys[i];
       if (key === `customTheme`) continue;
-      if (this.esgst[key] && this.checkThemeTime(key)) {
+      if (this.esgst.settings[`${key}_${this.esgst.name}`] && this.checkThemeTime(key)) {
         const theme = await this.getValue(key, ``);
         if (!theme) continue;
         const css = this.getThemeCss(JSON.parse(theme));
@@ -3436,7 +3440,7 @@ class Common extends Module {
         break;
       }
     }
-    if (this.esgst.customTheme && this.checkThemeTime(`customTheme`)) {
+    if (this.esgst.settings.customTheme && this.checkThemeTime(`customTheme`)) {
       const css = JSON.parse(await this.getValue(`customTheme`, ``));
       this.esgst.customThemeElement = this.createElements(document.head, `beforeEnd`, [{
         attributes: {

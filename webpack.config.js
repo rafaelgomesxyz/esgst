@@ -26,6 +26,7 @@ const
   },
   BUILD_PATHS = {
     EXTENSION: 'Extension/esgst',
+    EXTENSION_SGTOOLS: 'Extension/esgst_sgtools',
     EXTENSION_EVENT_PAGE: 'Extension/eventPage',
     EXTENSION_EVENT_PAGE_SDK: 'Extension/index',
     MONKEY: 'ESGST.user'
@@ -116,6 +117,7 @@ module.exports = /** @param {Environment} env */ async env => {
 
   const entry = {
     [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
+    [BUILD_PATHS.EXTENSION_SGTOOLS]: ['./extension/index_sgtools.js'],
     [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'],
     [BUILD_PATHS.EXTENSION_EVENT_PAGE_SDK]: ['./extension/eventPage_sdk_index.js']
   };

@@ -21,6 +21,15 @@
         "esgst.js"
       ],
       "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.sgtools.info/*"
+      ],
+      "js": [
+        "esgst_sgtools.js"
+      ],
+      "run_at": "document_start"
     }
   ],
   "description": "Enhances the SteamGifts/SteamTrades experience.",
