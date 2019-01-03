@@ -226,7 +226,7 @@ function loadMenu(isPopup) {
   i = 1;
   for (type in container.esgst.features) {
     if (container.esgst.features.hasOwnProperty(type)) {
-      if (type !== `trades` || container.esgst.settings.esgst_st) {
+      if (type !== `trades` || container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools) {
         let id, j, section, title, isNew = false;
         title = type.replace(/^./, m => {
           return m.toUpperCase()
@@ -240,7 +240,7 @@ function loadMenu(isPopup) {
             }
             let feature, ft;
             feature = container.esgst.features[type].features[id];
-            if (!feature.sg && feature.st && !container.esgst.settings.esgst_st && id !== `esgst`) {
+            if (!feature.sg && (((feature.sgtools && !container.esgst.settings.esgst_sgtools) || (feature.st && !container.esgst.settings.esgst_st)) && id !== `esgst`)) {
               continue;
             }
             ft = getSMFeature(feature, id, j, popup);
@@ -485,11 +485,11 @@ function loadFeatureDetails(id, offset, event) {
     ],
     name: `Link`
   }];
-  let sgContext, stContext;
+  let sgContext, stContext, sgtoolsContext;
   if (feature.sg) {
     const value = container.common.getFeaturePath(feature, id, `sg`).enabled;
     sgContext = container.common.createElements_v2([[`div`]]).firstElementChild;
-    const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st ? `SteamGifts` : ``, true, false, null, value);
+    const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
     feature.sgFeatureSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
       if (feature.extensionOnly && !container.common._USER_INFO.extension) {
@@ -610,9 +610,71 @@ function loadFeatureDetails(id, offset, event) {
       ]);
     };
   }
+  if (feature.sgtools && (container.esgst.settings.esgst_sgtools || id === `esgst`)) {
+    const value = container.common.getFeaturePath(feature, id, `sgtools`).enabled;
+    sgtoolsContext = container.common.createElements_v2([[`div`]]).firstElementChild;
+    const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
+    feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
+    sgtoolsSwitch.onEnabled = () => {
+      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
+        sgtoolsSwitch.disable(true);
+        show_extension_only_popup();
+        return;
+      }
+      if (feature.conflicts) {
+        for (const conflict of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflict.id}_sgtools`];
+          if ((typeof setting === `object` && setting.enabled) || setting) {
+            sgtoolsSwitch.disable(true);
+            new Popup({
+              addScrollable: true,
+              icon: `fa-exclamation`,
+              isTemp: true,
+              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+            }).open();
+            return;
+          }
+        }
+      }
+      container.esgst.settings[`${id}_sgtools`] = true;
+      container.esgst[id] = true;
+      if (feature.sgtoolsSwitch) {
+        feature.sgtoolsSwitch.enable(true);
+      }
+      if (feature.theme) {
+        if (id === `customTheme`) {
+          container.common.setTheme();
+        } else {
+          container.common.updateTheme(id);
+        }
+      }
+      container.common.createElements_v2(document.querySelector(`#esgst-paths-sgtools`), `inner`, [
+        openPathsPopup(feature, id, `sgtools`)
+      ]);
+    };
+    sgtoolsSwitch.onDisabled = async () => {
+      container.esgst.settings[`${id}_sgtools`] = false;
+      container.esgst[id] = false;
+      if (feature.sgtoolsSwitch) {
+        feature.sgtoolsSwitch.disable(true);
+      }
+      if (feature.theme) {
+        if (id === `customTheme`) {
+          container.common.delLocalValue(`customTheme`);
+        } else {
+          container.common.delLocalValue(`theme`);
+          await container.common.delValue(id);
+        }
+        container.common.setTheme();
+      }
+      container.common.createElements_v2(document.querySelector(`#esgst-paths-sgtools`), `inner`, [
+        openPathsPopup(feature, id, `sgtools`)
+      ]);
+    };
+  }
   items.push({
     check: true,
-    content: [sgContext, stContext],
+    content: [sgContext, stContext, sgtoolsContext],
     name: `Enable/Disable`
   });
   if (feature.description) {
@@ -668,6 +730,16 @@ function loadFeatureDetails(id, offset, event) {
       ],
       id: `esgst-paths-st`,
       name: `Where to run it on SteamTrades?`
+    });
+  }
+  if (feature.sgtools && container.esgst.settings.esgst_sgtools && (!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== `string`)) {
+    items.push({
+      check: true,
+      content: [
+        openPathsPopup(feature, id, `sgtools`)
+      ],
+      id: `esgst-paths-sgtools`,
+      name: `Where to run it on SGTools?`
     });
   }
   const context = document.querySelector(`.esgst-settings-menu-feature`);
@@ -1206,7 +1278,7 @@ function getSMFeature(feature, id, number, popup) {
     text: `${number}.`,
     type: `div`
   }]);
-  let isMainNew = container.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(container.esgst.settings[`${id}_sg`]) && !utils.isSet(container.esgst.settings[`${id}_st`]);
+  let isMainNew = container.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(container.esgst.settings[`${id}_sg`]) && !utils.isSet(container.esgst.settings[`${id}_st`]) && !utils.isSet(container.esgst.settings[`${id}_sgtools`]);
   if (isMainNew) {
     feature.isNew = true;
     container.common.createElements(menu.firstElementChild, `afterEnd`, [{
@@ -1219,7 +1291,7 @@ function getSMFeature(feature, id, number, popup) {
     }]).addEventListener(`click`, event => dismissNewOption(id, event));
   }
   let isHidden = true;
-  let sgContext, stContext;
+  let sgContext, stContext, sgtoolsContext;
   let collapseButton, isExpanded, subMenu;
   if (feature.sg) {
     const value = container.common.getFeaturePath(feature, id, `sg`).enabled;
@@ -1227,7 +1299,7 @@ function getSMFeature(feature, id, number, popup) {
       isHidden = false;
     }
     sgContext = container.common.createElements_v2([[`div`]]).firstElementChild;
-    const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st ? `[SG]` : ``, true, false, null, value);
+    const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
     feature.sgSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
       if (feature.extensionOnly && !container.common._USER_INFO.extension) {
@@ -1331,10 +1403,66 @@ function getSMFeature(feature, id, number, popup) {
       }
     };
   }
+  if (feature.sgtools && (container.esgst.settings.esgst_sgtools || id === `esgst`)) {
+    const value = container.common.getFeaturePath(feature, id, `sgtools`).enabled;
+    if (value) {
+      isHidden = false;
+    }
+    sgtoolsContext = container.common.createElements_v2([[`div`]]).firstElementChild;
+    const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `[SGT]`, false, true, null, value);
+    feature.sgtoolsSwitch = sgtoolsSwitch;
+    sgtoolsSwitch.onEnabled = () => {
+      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
+        sgtoolsSwitch.disable(true);
+        show_extension_only_popup();
+        return;
+      }
+      if (feature.conflicts) {
+        for (const conflict of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflict.id}_sgtools`];
+          if ((typeof setting === `object` && setting.enabled) || setting) {
+            sgtoolsSwitch.disable(true);
+            new Popup({
+              addScrollable: true,
+              icon: `fa-exclamation`,
+              isTemp: true,
+              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+            }).open();
+            return;
+          }
+        }
+      }
+      loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+      if (feature.sgtoolsFeatureSwitch) {
+        feature.sgtoolsFeatureSwitch.enable();
+      } else {
+        container.esgst.settings[`${id}_sgtools`] = true;
+        container.esgst[id] = true;
+      }
+      if (subMenu.classList.contains(`esgst-hidden`)) {
+        expandOptions(collapseButton, id, subMenu);
+        isExpanded = true;
+      }
+    };
+    sgtoolsSwitch.onDisabled = async () => {
+      loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+      if (feature.sgtoolsFeatureSwitch) {
+        feature.sgtoolsFeatureSwitch.disable();
+      } else {
+        container.esgst.settings[`${id}_sgtools`] = false;
+        container.esgst[id] = false;
+      }
+      if (collapseButton && feature.sgtoolsSwitch && !feature.sgtoolsSwitch.value) {
+        collapseOptions(collapseButton, id, subMenu);
+        isExpanded = false;
+      }
+    };
+  }
   container.common.createElements_v2(menu, `beforeEnd`, [
     [`span`, [
       sgContext && sgContext.firstElementChild,
       stContext && stContext.firstElementChild,
+      sgtoolsContext && sgtoolsContext.firstElementChild,
       [`a`, { class: `esgst-settings-feature table__column__secondary-link esgst-clickable `, 'data-id': id }, [
         ...(Array.isArray(feature.name) ? feature.name : [feature.name])
       ]]
@@ -1350,7 +1478,7 @@ function getSMFeature(feature, id, number, popup) {
         continue;
       }
       const subFt = feature.features[subId];
-      if (!subFt.sg && subFt.st && !container.esgst.settings.esgst_st && id !== `esgst`) {
+      if (!subFt.sg && (((subFt.sgtools && !container.esgst.settings.esgst_sgtools) || (subFt.st && !container.esgst.settings.esgst_st)) && id !== `esgst`)) {
         continue;
       }
       const subFeature = getSMFeature(subFt, subId, i, popup);
