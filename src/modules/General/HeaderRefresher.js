@@ -336,6 +336,7 @@ class GeneralHeaderRefresher extends Module {
         this.esgst.wonButton = this.esgst.wonButton.closest(`.nav__button-container`);
         let won = this.esgst.wonButton.getElementsByClassName(`nav__notification`)[0];
         if (won && won.textContent !== getLocalValue(`wonCount`)) {
+          console.log(won.textContent, getLocalValue(`wonCount`));
           getWonGames(won.textContent);
         }
       }
