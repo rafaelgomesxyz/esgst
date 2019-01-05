@@ -524,6 +524,34 @@ import { runSilentSync } from './modules/Sync';
                 }]
               }, {
                 attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-steam grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Steam Trade`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Donate an item through a Steam trade to support ESGST. Thank you!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
                   class: `esgst-header-menu-row esgst-version-row`
                 },
                 type: `div`,
@@ -1000,6 +1028,34 @@ import { runSilentSync } from './modules/Sync';
                       class: `esgst-header-menu-description`
                     },
                     text: `Become a patron to support ESGST!`,
+                    type: `p`
+                  }]
+                }]
+              }, {
+                attributes: {
+                  class: `esgst-header-menu-row`,
+                  href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`,
+                  target: `_blank`
+                },
+                type: `a`,
+                children: [{
+                  attributes: {
+                    class: `fa fa-fw fa-steam grey`
+                  },
+                  type: `i`
+                }, {
+                  type: `div`,
+                  children: [{
+                    attributes: {
+                      class: `esgst-header-menu-name`
+                    },
+                    text: `Steam Trade`,
+                    type: `p`
+                  }, {
+                    attributes: {
+                      class: `esgst-header-menu-description`
+                    },
+                    text: `Donate an item through a Steam trade to support ESGST. Thank you!`,
                     type: `p`
                   }]
                 }]
