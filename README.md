@@ -1,6 +1,6 @@
 # Enhanced SteamGifts & SteamTrades (ESGST)
 
-A script that adds some cool features to SteamGifts and SteamTrades.
+A WebExtension that adds some cool features to SteamGifts and SteamTrades.
 
 If you find any bugs or have any feature requests, please file an issue [here](https://github.com/gsrafael01/ESGST/issues).
 
