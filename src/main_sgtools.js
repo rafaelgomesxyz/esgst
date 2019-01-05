@@ -70,6 +70,9 @@ async function setTheme(settings) {
 }
 
 function checkThemeTime(id, settings) {
+  if (!settings[`${id}_startTime`] || !settings[`${id}_endTime`]) {
+    return true;
+  }
   let startParts = settings[`${id}_startTime`].split(`:`),
     endParts = settings[`${id}_endTime`].split(`:`),
     startDate = new Date(),
