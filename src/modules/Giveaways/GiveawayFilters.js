@@ -167,6 +167,15 @@ class GiveawaysGiveawayFilters extends Module {
               name: `Minutes To End`,
               sg: true
             },
+            gf_minutesFromStart: {
+              description: [
+                [`ul`, [
+                  [`li`, `Allows you to filter giveaways by how long ago they started.`]
+                ]]
+              ],
+              name: `Minutes From Start`,
+              sg: true
+            },
             gf_chance: {
               description: [
                 [`ul`, [
@@ -919,6 +928,12 @@ class GiveawaysGiveawayFilters extends Module {
         check: !this.esgst.wonPath || popup,
         minValue: 0,
         name: `Minutes To End`,
+        type: `number`
+      },
+      minutesFromStart: {
+        check: !this.esgst.wonPath || popup,
+        minValue: 0,
+        name: `Minutes From Start`,
         type: `number`
       },
       chance: {
