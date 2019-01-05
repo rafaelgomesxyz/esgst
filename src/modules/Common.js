@@ -2205,18 +2205,19 @@ class Common extends Module {
 
   async getWonGames(count, syncer) {
     const savedGames = JSON.parse(await this.getValue(`games`));
+    const to_save = { apps: {}, subs: {} };
     if (syncer) {
       for (const id in savedGames.apps) {
         if (savedGames.apps.hasOwnProperty(id)) {
           if (savedGames.apps[id].won) {
-            savedGames.apps[id].won = null;
+            to_save.apps[id] = { won: null };
           }
         }
       }
       for (const id in savedGames.subs) {
         if (savedGames.subs.hasOwnProperty(id)) {
           if (savedGames.subs[id].won) {
-            savedGames.subs[id].won = null;
+            to_save.subs[id] = { won: null };
           }
         }
       }
@@ -2240,15 +2241,12 @@ class Common extends Module {
         if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden), .table__column--gift-feedback .trigger-popup .icon-red`)) continue;
         const info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
-        if (!savedGames[info.type][info.id]) {
-          savedGames[info.type][info.id] = {};
-        }
-        savedGames[info.type][info.id].won = 1;
+        to_save[info.type][info.id] = { won: 1 };
       }
       nextPage += 1;
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
     } while ((!syncer || !syncer.canceled) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-    await this.lockAndSaveGames(savedGames);
+    await this.lockAndSaveGames(to_save);
     this.setLocalValue(`wonCount`, count);
   }
 
