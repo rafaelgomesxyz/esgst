@@ -174,6 +174,11 @@ async function setSync(isPopup = false, isSilent = false) {
         dependencies: [],
         key: `Giveaways`,
         name: `Giveaways`
+      },
+      syncWonGiveaways: {
+        dependencies: [],
+        key: `WonGiveaways`,
+        name: `Won Giveaways`
       }
     };
     syncer.switches = {};
@@ -793,11 +798,26 @@ async function sync(syncer) {
     ]);
   }
 
+  // sync won giveaways
+  if (((syncer.parameters && syncer.parameters.WonGiveaways) || (!syncer.parameters && container.esgst.settings.syncWonGiveaways)) && container.esgst.sg) {
+    syncer.progress.lastElementChild.textContent = `Syncing your won giveaways...`;
+    const key = `won`;
+    const user = {
+      steamId: container.esgst.steamId,
+      username: container.esgst.username
+    };
+    syncer.process = await container.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
+    await syncer.process.start();
+    container.common.createElements_v2(syncer.results, `beforeEnd`, [
+      [`div`, `Won giveaways synced.`]
+    ]);
+  }
+
   // finish sync
   if (!container.esgst.firstInstall) {
     syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
     const currentTime = Date.now();
-    let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`];
+    let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`, `WonGiveaways`];
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
       let id = `sync${key}`;
