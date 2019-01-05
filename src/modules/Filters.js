@@ -1251,6 +1251,7 @@ class Filters extends Module {
       points: 0,
       comments: 0,
       minutesToEnd: 0,
+      minutesFromStart: 0,
       chance: 0,
       chancePerPoint: 0,
       ratio: 0,
@@ -1262,6 +1263,7 @@ class Filters extends Module {
       level: 10,
       points: 100,
       minutesToEnd: 43800,
+      minutesFromStart: 43800,
       chance: 100,
       chancePerPoint: 100,
       rating: 100,
@@ -2123,10 +2125,15 @@ class Filters extends Module {
       case `integer`:
       case `double`: {
         if (key === `minutesToEnd` && (item.ended || item.deleted)) break;
+        if (key === `minutesFromStart` && !item.started) break;
 
         const value = key === `minutesToEnd`
           ? ((item.endTime - Date.now()) / 60000)
-          : item[key];
+          : (
+            key === `minutesFromStart`
+            ? ((Date.now() - item.startTime) / 60000)
+            : item[key]
+          );
         /**
          * @property {string} rules.operator
          */
