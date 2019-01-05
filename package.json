@@ -8,7 +8,7 @@
     "build-publish": "npm run build && npm run publish",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
     "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
-    "publish": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./publish.ps1",
+    "publish": "./publish.sh",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch"
   },

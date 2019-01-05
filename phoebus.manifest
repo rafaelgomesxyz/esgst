@@ -1,0 +1,12 @@
+[addon]
+type="extension"
+id="addon@esgst"
+release="esgst-8.1.13.xpi"
+
+[metadata]
+slug="esgst"
+shortDescription="Enhances the SteamGifts/SteamTrades experience."
+license="mit"
+supportURL="https://github.com/gsrafael01/ESGST/issues"
+repository="https://github.com/gsrafael01/ESGST"
+tags="enhanced steamgifts steamtrades steam gifts trades esgst"

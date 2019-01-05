@@ -7,6 +7,8 @@ README.txt
 .gitignore
 package-lock.json
 changelog.txt
+changelog_html.txt
 changelog_markdown.txt
 changelog_steam.txt
-publish.ps1
+chrome_refresh_token.txt
+publish.sh

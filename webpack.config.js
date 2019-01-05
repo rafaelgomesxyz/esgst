@@ -54,6 +54,7 @@ module.exports = /** @param {Environment} env */ async env => {
     const dom = new JSDOM(responseText);
     const issues = dom.window.document.getElementsByClassName(`link-gray-dark v-align-middle no-underline h4 js-navigation-open`);
     let changeLog = ``;
+    let html = `<ul>\n`;
     let markdown = ``;
     let steamLog = `[list]\n`;
     for (const issue of issues) {
@@ -63,14 +64,17 @@ module.exports = /** @param {Environment} env */ async env => {
       const url = `https://github.com/gsrafael01/ESGST/${type}/${number}`;
       const title = issue.textContent.trim();
       changeLog += `          ${number}: \`${title}\`,\n`;
+      html += `  <li><a href="${url}">#${number}</a> ${title}</li>\n`;
       markdown += `* [#${number}](${url}) ${title}\n`;
       steamLog += `  [*] [url=${url}]#${number}[/url] ${title}\n`;
     }
     changeLog = changeLog.slice(0, -2);
+    html += `</ul>`;
     markdown = markdown.slice(0, -1);
     steamLog += `[/list]`;
 
     fs.writeFileSync(path.join(__dirname, './changelog.txt'), changeLog);
+    fs.writeFileSync(path.join(__dirname, './changelog_html.txt'), html);
     fs.writeFileSync(path.join(__dirname, './changelog_markdown.txt'), markdown);
     fs.writeFileSync(path.join(__dirname, './changelog_steam.txt'), steamLog);
 
