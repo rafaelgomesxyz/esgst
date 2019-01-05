@@ -1977,7 +1977,7 @@ class Common extends Module {
     } else if (!isSyncing || currentDate - isSyncing > 1800000) {
       let parameters = ``;
       this.setLocalValue(`isSyncing`, currentDate);
-      [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`].forEach(key => {
+      [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`, `WonGiveaways`].forEach(key => {
         if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
           parameters += `${key}=1&`;
         }
