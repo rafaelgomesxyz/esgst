@@ -4,6 +4,16 @@ import { container } from '../class/Container';
 function loadChangelog(version) {
   const changelog = [
       {
+        date: `January 5, 2019`,
+        version: `8.1.13`,
+        changelog: {
+          1173: `Add a new giveaway filter: Minutes From Start`,
+          1171: `Extend themes to SGTools (extension only)`,
+          1158: `Add option to sync won giveaways`
+        }
+      },
+
+      {
         date: `January 2, 2019`,
         version: `8.1.12`,
         changelog: {

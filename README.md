@@ -236,6 +236,12 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.1.13 (January 5, 2019)**
+
+* [#1173](https://github.com/gsrafael01/ESGST/issues/1173) Add a new giveaway filter: Minutes From Start
+* [#1171](https://github.com/gsrafael01/ESGST/issues/1171) Extend themes to SGTools (extension only)
+* [#1158](https://github.com/gsrafael01/ESGST/issues/1158) Add option to sync won giveaways
+
 **8.1.12 (January 2, 2019)**
 
 * [#1169](https://github.com/gsrafael01/ESGST/issues/1169) Let the background page handle locks in the extension
