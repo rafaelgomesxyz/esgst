@@ -250,53 +250,50 @@ function deleteCookie(details) {
 }
 
 const locks = {};
-const locks_queue = {};
 
-function do_lock(id, key, callback) {
-  if (locks[key]) {
-    if (!locks_queue[key]) {
-      locks_queue[key] = [];
-    }
-    locks_queue[key].push({
-      id,
-      is_resolved: false,
-      callback
-    });
-  } else {
-    locks[key] = id;
-    callback();
-  }
-} 
+function do_lock(lock) {
+  return new Promise(resolve => {
+    _do_lock(lock, resolve);
+  });
+}
 
-function do_unlock(id, key, callback) {
-  if (locks[key] === id) {
-    let found = false;
-    if (locks_queue[key]) {
-      for (const item of locks_queue[key]) {
-        if (!item.is_resolved) {
-          found = true;
-          item.is_resolved = true;
-          locks[key] = item.id;
-          item.callback();
-          break;
-        }
+function _do_lock(lock, resolve) {
+  const now = Date.now();
+  let locked = locks[lock.key];
+  if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + 15000)) {
+    locks[lock.key] = {
+      timestamp: now,
+      uuid: lock.uuid
+    };
+    setTimeout(() => {
+      locked = locks[lock.key];
+      if (!locked || locked.uuid !== lock.uuid) {
+        setTimeout(() => _do_lock(lock, resolve), 0);
+      } else {
+        resolve();
       }
-    }
-    if (!found) {
-      delete locks[key];
-    }
+    }, lock.threshold / 2);
+  } else {
+    setTimeout(() => _do_lock(lock, resolve), lock.threshold / 3);
   }
-  callback();
+}
+
+function do_unlock(lock) {
+  if (locks[lock.key] && locks[lock.key].uuid === lock.uuid) {
+    delete locks[lock.key];
+  } else {
+  }
 }
 
 browser.runtime.onMessage.addListener((request, sender, callback) => {
   let key, keys, parameters, values;
   switch (request.action) {
     case `do_lock`:
-      do_lock(request.id, request.key, callback);
+      do_lock(request.lock).then(callback);
       break;
     case `do_unlock`:
-      do_unlock(request.id, request.key, callback);
+      do_unlock(request.lock);
+      callback();
       break;
     case `delValues`:
       keys = JSON.parse(request.keys);

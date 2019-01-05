@@ -192,15 +192,13 @@ import { runSilentSync } from './modules/Sync';
       envFunctions.do_lock = lock => {
         return new Promise(resolve => envVariables.browser.runtime.sendMessage({
           action: `do_lock`,
-          id: lock.uuid,
-          key: lock.key
+          lock
         }, () => resolve()));
       }
       envFunctions.do_unlock = lock => {
         return new Promise(resolve => envVariables.browser.runtime.sendMessage({
           action: `do_unlock`,
-          id: lock.uuid,
-          key: lock.key
+          lock
         }, () => resolve()));
       }
       envFunctions.setValues = values => {
@@ -643,7 +641,7 @@ import { runSilentSync } from './modules/Sync';
       // esgst is running as a script
       envFunctions.do_lock = async lock => {
         let locked = JSON.parse(await common.getValue(lock.key, `{}`));
-        if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 1000)) {
+        if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 15000)) {
           await common.setValue(lock.key, JSON.stringify({
             timestamp: Date.now(),
             uuid: lock.uuid
