@@ -281,7 +281,6 @@ function _do_lock(lock, resolve) {
 function do_unlock(lock) {
   if (locks[lock.key] && locks[lock.key].uuid === lock.uuid) {
     delete locks[lock.key];
-  } else {
   }
 }
 
