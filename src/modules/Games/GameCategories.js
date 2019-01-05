@@ -1255,7 +1255,7 @@ class GamesGameCategories extends Module {
       }
 
       if (to_fetch.length) {
-        const delete_lock = await common.createLock(`gc`, 0);
+        const delete_lock = await common.createLock(`gc`, 100);
 
         for (const item of to_fetch) {
           await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch);
