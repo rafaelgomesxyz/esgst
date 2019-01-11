@@ -4,7 +4,8 @@ require '../../vendor/autoload.php'; // \Slim\App
 
 $internal_errors = [
   'default' => 'Internal error. Please contact the administrator.',
-  'steam' => 'Internal error when fetching data from Steam. Steam might be down or the data might not exist. Please try again later.'
+  'steam' => 'Internal error when fetching data from Steam. Steam might be down or the data might not exist. Please try again later.',
+  'sg' => 'Internal error when fetching data from SteamGifts. SteamGifts might be down or the data might not exist. Please try again later.'
 ];
 
 $app = new \Slim\App();
