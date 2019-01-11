@@ -9,7 +9,7 @@ function retrieve_version() {
 
 # generate extension.zip
 function generate_extension_zip() {
-  zip -j ./extension.zip ./Extension/manifest.json ./Extension/eventPage.js ./Extension/esgst.js ./Extension/esgst_sgtools.js ./Extension/icon.png
+  zip -j ./extension.zip ./app/manifest.json ./app/eventPage.js ./app/esgst.js ./app/esgst_sgtools.js ./app/icon.png
   echo "extension.zip generated"
 }
 
@@ -17,14 +17,14 @@ function generate_extension_zip() {
 function generate_esgst_xpi() {
   mkdir ./pm
   mkdir ./pm/data
-  cp ./Extension/package.json ./pm
-  cp ./Extension/index.js ./pm
-  cp ./Extension/icon.png ./pm
-  cp ./Extension/esgst.js ./pm/data
-  cp ./Extension/esgst_sgtools.js ./pm/data
-  cp ./Extension/icon-16.png ./pm/data
-  cp ./Extension/icon-32.png ./pm/data
-  cp ./Extension/icon-64.png ./pm/data
+  cp ./app/package.json ./pm
+  cp ./app/index.js ./pm
+  cp ./app/icon.png ./pm
+  cp ./app/esgst.js ./pm/data
+  cp ./app/esgst_sgtools.js ./pm/data
+  cp ./app/icon-16.png ./pm/data
+  cp ./app/icon-32.png ./pm/data
+  cp ./app/icon-64.png ./pm/data
   ./node_modules/.bin/jpm xpi --addon-dir ./pm --dest-dir ./
   rm -r ./pm
   echo "esgst.xpi generated"
