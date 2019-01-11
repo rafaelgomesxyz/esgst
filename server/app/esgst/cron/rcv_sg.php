@@ -86,6 +86,10 @@ function fetch_rcv_sg() {
 
     $pagination = $xpath->query('//div[contains(@class, "pagination__navigation")]')[0];
 
+    if (!$pagination) {
+      throw new CustomException($internal_errors['sg'], 500, $response['text']);
+    }
+
     filter_child_nodes($pagination);
 
     $ended = preg_match('/is-selected/', $pagination->lastChild->getAttribute('class'));
