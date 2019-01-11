@@ -25,10 +25,10 @@ const
     provide: webpack.ProvidePlugin
   },
   BUILD_PATHS = {
-    EXTENSION: 'Extension/esgst',
-    EXTENSION_SGTOOLS: 'Extension/esgst_sgtools',
-    EXTENSION_EVENT_PAGE: 'Extension/eventPage',
-    EXTENSION_EVENT_PAGE_SDK: 'Extension/index',
+    EXTENSION: 'app/esgst',
+    EXTENSION_SGTOOLS: 'app/esgst_sgtools',
+    EXTENSION_EVENT_PAGE: 'app/eventPage',
+    EXTENSION_EVENT_PAGE_SDK: 'app/index',
     MONKEY: 'ESGST.user'
   },
   loaders = {
@@ -99,10 +99,10 @@ module.exports = /** @param {Environment} env */ async env => {
     fs.writeFileSync(path.join(__dirname, './src/modules/Changelog.js'), file);
 
     // Update manifest.json
-    file = fs.readFileSync(path.join(__dirname, './Extension/manifest.json'), 'utf8');
+    file = fs.readFileSync(path.join(__dirname, './app/manifest.json'), 'utf8');
     file = file
       .replace(/"version":\s".+?"/, `"version": "${packageJson.version}"`);
-    fs.writeFileSync(path.join(__dirname, './Extension/manifest.json'), file);
+    fs.writeFileSync(path.join(__dirname, './app/manifest.json'), file);
 
     // Update ESGST.meta.js
     file = fs.readFileSync(path.join(__dirname, './ESGST.meta.js'), 'utf8');
