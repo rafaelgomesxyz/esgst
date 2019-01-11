@@ -2,34 +2,74 @@
 
 require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
+require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
-function get_bundle($bundle_id) {
+function get_bundle($bundle_id, $filters) {
   global $connection;
   global $global_timezone;
 
+  $columns = [
+    'name' => 'g_bn.name',
+    'removed' => 'g_b.removed',
+    'apps' => 'g_ba_j.apps'
+  ];
+  $column_keys = array_keys($columns);
+
+  $validation = [
+    'filters' => [
+      'message' => 'Must be a comma-separated list containing the following values: '.implode(', ', $column_keys),
+      'regex' => '/^((('.implode('|', $column_keys).'),?)+)?$/'
+    ]
+  ];
+
+  validate_filters($filters, $validation);
+
+  if ($filters) {
+    $filter_keys = explode(',', $filters['filters']);
+    foreach ($column_keys as $key) {
+      if (!in_array($key, $filter_keys)) {
+        unset($columns[$key]);
+      }
+    }
+  }
+
   $bundle = NULL;
 
-  $query = implode(' ', [
-    'SELECT '.implode(', ', [
-      'g_b.bundle',
-      'g_b.bundle_id',
-      'g_bn.name',
-      'g_b.removed',
-      'g_ba_j.apps',
-      'g_b.last_update'
-    ]),
-    'FROM games__bundle AS g_b',
-    'INNER JOIN games__bundle_name AS g_bn',
-    'ON g_b.bundle_id = g_bn.bundle_id',
-    'LEFT JOIN (',
-      'SELECT g_ba.bundle_id, GROUP_CONCAT(DISTINCT g_ba.app_id) AS apps',
-      'FROM games__bundle_app AS g_ba',
-      'GROUP BY g_ba.bundle_id',
-    ') AS g_ba_j',
-    'ON g_b.bundle_id = g_ba_j.bundle_id',
-    'WHERE g_b.bundle_id = ?',
-    'GROUP BY g_b.bundle'
-  ]);
+  $query = implode(' ', array_filter(
+    array_merge(
+      [
+        'SELECT '.implode(', ', array_merge(
+          [
+            'g_b.bundle',
+            'g_b.bundle_id',
+            'g_b.last_update'
+          ],
+          array_values($columns)
+        )),
+        'FROM games__bundle AS g_b'
+      ],
+      isset($columns['name']) ? [
+        'INNER JOIN games__bundle_name AS g_bn',
+        'ON g_b.bundle_id = g_bn.bundle_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['apps']) ? [
+        'LEFT JOIN (',
+          'SELECT g_ba.bundle_id, GROUP_CONCAT(DISTINCT g_ba.app_id) AS apps',
+          'FROM games__bundle_app AS g_ba',
+          'GROUP BY g_ba.bundle_id',
+        ') AS g_ba_j',
+        'ON g_b.bundle_id = g_ba_j.bundle_id'
+      ]: [
+        NULL
+      ],
+      [
+        'WHERE g_b.bundle_id = ?',
+        'GROUP BY g_b.bundle'
+      ]
+    )
+  ));
   $parameters = [
     $bundle_id
   ];
@@ -44,12 +84,18 @@ function get_bundle($bundle_id) {
 
     if ($difference_in_seconds < 60 * 60 * 24 * 7) {        
       $bundle = [
-        'bundle_id' => $row['bundle_id'],
-        'name' => $row['name'],
-        'removed' => boolval($row['removed']),
-        'apps' => $row['apps'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['apps'])) : [],
-        'last_update' => $row['last_update']
+        'bundle_id' => $row['bundle_id']
       ];
+      if (isset($columns['name'])) {
+        $bundle['name'] = $row['name'];
+      }
+      if (isset($columns['removed'])) {
+        $bundle['removed'] = boolval($row['removed']);
+      }
+      if (isset($columns['apps'])) {
+        $bundle['apps'] = $row['apps'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['apps'])) : [];
+      }
+      $bundle['last_update'] = $row['last_update'];
     }
   }
 

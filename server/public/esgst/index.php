@@ -10,7 +10,7 @@ $internal_errors = [
 
 $app = new \Slim\App();
 $container = $app->getContainer();
-$container['phpErrorHandler'] = function ($container) {
+$container['phpErrorHandler'] = function ($container) use ($internal_errors) {
   return function ($request, $response, $error) use ($container, $internal_errors) {
     error_log(__FILE__.':'.__LINE__.' => '.$error);
 

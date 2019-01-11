@@ -11,9 +11,11 @@ $app->get('/games/{type}/{id}', function ($request, $response, $arguments) {
   global $connection;
 
   try {
+    $filters = $request->getQueryParams();
+
     return $response->withJson([
       'error' => NULL,
-      'result' => get_game_result($arguments)
+      'result' => get_game_result($arguments, $filters)
     ], 200);
   } catch (CustomException $exception) {
     if (isset($connection) && $connection->inTransaction) {
@@ -27,7 +29,7 @@ $app->get('/games/{type}/{id}', function ($request, $response, $arguments) {
   }
 });
 
-function get_game_result($arguments) {
+function get_game_result($arguments, $filters) {
   try {
     $type = $arguments['type'];
     $get = 'get_'.$type;
@@ -41,15 +43,15 @@ function get_game_result($arguments) {
 
     if (!preg_match('/^\d+$/', $id)) {
       throw new CustomException('Invalid {id}. Must be an integer number e.g. 400.', 400);
-    }    
+    }
 
     set_timezones();
     start_connection();
 
-    $result = $get($id);
+    $result = $get($id, $filters);
     if (!$result) {
       $fetch($id);
-      $result = $get($id);
+      $result = $get($id, $filters);
     }
 
     return $result;
