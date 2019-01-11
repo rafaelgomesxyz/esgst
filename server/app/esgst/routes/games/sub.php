@@ -2,37 +2,77 @@
 
 require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
+require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
-function get_sub($sub_id) {
+function get_sub($sub_id, $filters) {
   global $connection;
   global $global_timezone;
 
+  $columns = [
+    'name' => 'g_sn.name',
+    'released' => 'g_s.released',
+    'removed' => 'g_s.removed',
+    'price' => 'g_s.price',
+    'release_date' => 'g_s.release_date',
+    'apps' => 'g_sa_j.apps'
+  ];
+  $column_keys = array_keys($columns);
+
+  $validation = [
+    'filters' => [
+      'message' => 'Must be a comma-separated list containing the following values: '.implode(', ', $column_keys),
+      'regex' => '/^((('.implode('|', $column_keys).'),?)+)?$/'
+    ]
+  ];
+
+  validate_filters($filters, $validation);
+
+  if ($filters) {
+    $filter_keys = explode(',', $filters['filters']);
+    foreach ($column_keys as $key) {
+      if (!in_array($key, $filter_keys)) {
+        unset($columns[$key]);
+      }
+    }
+  }
+
   $sub = NULL;
 
-  $query = implode(' ', [
-    'SELECT '.implode(', ', [
-      'g_s.sub',
-      'g_s.sub_id',
-      'g_sn.name',
-      'g_s.released',
-      'g_s.removed',
-      'g_s.price',
-      'g_s.release_date',
-      'g_sa_j.apps',
-      'g_s.last_update'
-    ]),
-    'FROM games__sub AS g_s',
-    'INNER JOIN games__sub_name AS g_sn',
-    'ON g_s.sub_id = g_sn.sub_id',
-    'LEFT JOIN (',
-      'SELECT g_sa.sub_id, GROUP_CONCAT(DISTINCT g_sa.app_id) AS apps',
-      'FROM games__sub_app AS g_sa',
-      'GROUP BY g_sa.sub_id',
-    ') AS g_sa_j',
-    'ON g_s.sub_id = g_sa_j.sub_id',
-    'WHERE g_s.sub_id = ?',
-    'GROUP BY g_s.sub'
-  ]);
+  $query = implode(' ', array_filter(
+    array_merge(
+      [
+        'SELECT '.implode(', ', array_merge(
+          [
+            'g_s.sub',
+            'g_s.sub_id',
+            'g_s.last_update'
+          ],
+          array_values($columns)
+        )),
+        'FROM games__sub AS g_s'
+      ],
+      isset($columns['name']) ? [
+        'INNER JOIN games__sub_name AS g_sn',
+        'ON g_s.sub_id = g_sn.sub_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['apps']) ? [
+        'LEFT JOIN (',
+          'SELECT g_sa.sub_id, GROUP_CONCAT(DISTINCT g_sa.app_id) AS apps',
+          'FROM games__sub_app AS g_sa',
+          'GROUP BY g_sa.sub_id',
+        ') AS g_sa_j',
+        'ON g_s.sub_id = g_sa_j.sub_id'
+      ] : [
+        NULL
+      ],
+      [
+        'WHERE g_s.sub_id = ?',
+        'GROUP BY g_s.sub'
+      ]
+    )
+  ));
   $parameters = [
     $sub_id
   ];
@@ -47,15 +87,27 @@ function get_sub($sub_id) {
 
     if ($difference_in_seconds < 60 * 60 * 24 * 7) {    
       $sub = [
-        'sub_id' => $row['sub_id'],
-        'name' => $row['name'],
-        'released' => boolval($row['released']),
-        'removed' => boolval($row['removed']),
-        'price' => $row['price'],
-        'release_date' => $row['release_date'],
-        'apps' => $row['apps'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['apps'])) : [],
-        'last_update' => $row['last_update']
+        'sub_id' => $row['sub_id']
       ];
+      if (isset($columns['name'])) {
+        $sub['name'] = $row['name'];
+      }
+      if (isset($columns['released'])) {
+        $sub['released'] = boolval($row['released']);
+      }
+      if (isset($columns['removed'])) {
+        $sub['removed'] = boolval($row['removed']);
+      }
+      if (isset($columns['price'])) {
+        $sub['price'] = $row['price'];
+      }
+      if (isset($columns['release_date'])) {
+        $sub['release_date'] = $row['release_date'];
+      }
+      if (isset($columns['apps'])) {
+        $sub['apps'] = $row['apps'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['apps'])) : [];
+      }
+      $sub['last_update'] = $row['last_update'];
     }
   }
 

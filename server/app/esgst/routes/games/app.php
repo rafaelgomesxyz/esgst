@@ -2,85 +2,143 @@
 
 require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
+require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
-function get_app($app_id) {
+function get_app($app_id, $filters) {
   global $connection;
   global $global_timezone;
 
+  $columns = [
+    'name' => 'g_an.name',
+    'released' => 'g_a.released',
+    'removed' => 'g_a.removed',
+    'steam_cloud' => 'g_a.steam_cloud',
+    'trading_cards' => 'g_a.trading_cards',
+    'learning' => 'g_a.learning',
+    'multiplayer' => 'g_a.multiplayer',
+    'singleplayer' => 'g_a.singleplayer',
+    'linux' => 'g_a.linux',
+    'mac' => 'g_a.mac',
+    'windows' => 'g_a.windows',
+    'achievements' => 'g_a.achievements',
+    'price' => 'g_a.price',
+    'metacritic' => 'g_a.metacritic_score, g_a.metacritic_id',
+    'rating' => 'g_a.rating_percentage, g_a.rating_count',
+    'release_date' => 'g_a.release_date',
+    'genres' => 'g_ag_j.genres',
+    'tags' => 'g_at_j.tags',
+    'base' => 'g_d.app_id AS base',
+    'dlcs' => 'g_d_j.dlcs',
+    'subs' => 'g_sa_j.subs',
+    'bundles' => 'g_ba_j.bundles'
+  ];
+  $column_keys = array_keys($columns);
+
+  $validation = [
+    'filters' => [
+      'message' => 'Must be a comma-separated list containing the following values: '.implode(', ', $column_keys),
+      'regex' => '/^((('.implode('|', $column_keys).'),?)+)?$/'
+    ]
+  ];
+
+  validate_filters($filters, $validation);
+
+  if ($filters) {
+    $filter_keys = explode(',', $filters['filters']);
+    foreach ($column_keys as $key) {
+      if (!in_array($key, $filter_keys)) {
+        unset($columns[$key]);
+      }
+    }
+  }
+
   $app = NULL;
 
-  $query = implode(' ', [
-    'SELECT '.implode(', ', [
-      'g_a.app',
-      'g_a.app_id',
-      'g_an.name',
-      'g_a.released',
-      'g_a.removed',
-      'g_a.steam_cloud',
-      'g_a.trading_cards',
-      'g_a.learning',
-      'g_a.multiplayer',
-      'g_a.singleplayer',
-      'g_a.linux',
-      'g_a.mac',
-      'g_a.windows',
-      'g_a.achievements',
-      'g_a.price',
-      'g_a.metacritic_score',
-      'g_a.metacritic_id',
-      'g_a.rating_percentage',
-      'g_a.rating_count',
-      'g_a.release_date',
-      'g_ag_j.genres',
-      'g_at_j.tags',
-      'g_d.app_id AS base',
-      'g_d_j.dlcs',
-      'g_sa_j.subs',
-      'g_ba_j.bundles',
-      'g_a.last_update'
-    ]),
-    'FROM games__app AS g_a',
-    'INNER JOIN games__app_name AS g_an',
-    'ON g_a.app_id = g_an.app_id',
-    'LEFT JOIN (',
-      'SELECT g_ag.app_id, GROUP_CONCAT(DISTINCT g_g.name) AS genres',
-      'FROM games__app_genre AS g_ag',
-      'INNER JOIN games__genre AS g_g',
-      'ON g_ag.genre = g_g.genre',
-      'GROUP BY g_ag.app_id',
-    ') AS g_ag_j',
-    'ON g_a.app_id = g_ag_j.app_id',
-    'LEFT JOIN (',
-      'SELECT g_at.app_id, GROUP_CONCAT(DISTINCT g_t.name) AS tags',
-      'FROM games__app_tag AS g_at',
-      'INNER JOIN games__tag AS g_t',
-      'ON g_at.tag = g_t.tag',
-      'GROUP BY g_at.app_id',
-    ') AS g_at_j',
-    'ON g_a.app_id = g_at_j.app_id',
-    'LEFT JOIN games__dlc AS g_d',
-    'ON g_a.app_id = g_d.dlc_id',
-    'LEFT JOIN (',
-      'SELECT g_d_i.app_id, GROUP_CONCAT(DISTINCT g_d_i.dlc_id) AS dlcs',
-      'FROM games__dlc AS g_d_i',
-      'GROUP BY g_d_i.app_id',
-    ') AS g_d_j',
-    'ON g_a.app_id = g_d_j.app_id',
-    'LEFT JOIN (',
-      'SELECT g_sa.app_id, GROUP_CONCAT(DISTINCT g_sa.sub_id) AS subs',
-      'FROM games__sub_app AS g_sa',
-      'GROUP BY g_sa.app_id',
-    ') AS g_sa_j',
-    'ON g_a.app_id = g_sa_j.app_id',
-    'LEFT JOIN (',
-      'SELECT g_ba.app_id, GROUP_CONCAT(DISTINCT g_ba.bundle_id) AS bundles',
-      'FROM games__bundle_app AS g_ba',
-      'GROUP BY g_ba.app_id',
-    ') AS g_ba_j',
-    'ON g_a.app_id = g_ba_j.app_id',
-    'WHERE g_a.app_id = ?',
-    'GROUP BY g_a.app'
-  ]);
+  $query = implode(' ', array_filter(
+    array_merge(
+      [
+        'SELECT '.implode(', ', array_merge(
+          [
+            'g_a.app',
+            'g_a.app_id',
+            'g_a.last_update'
+          ],
+          array_values($columns)
+        )),
+        'FROM games__app AS g_a'
+      ],
+      isset($columns['name']) ? [
+        'INNER JOIN games__app_name AS g_an',
+        'ON g_a.app_id = g_an.app_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['genres']) ? [
+        'LEFT JOIN (',
+          'SELECT g_ag.app_id, GROUP_CONCAT(DISTINCT g_g.name) AS genres',
+          'FROM games__app_genre AS g_ag',
+          'INNER JOIN games__genre AS g_g',
+          'ON g_ag.genre = g_g.genre',
+          'GROUP BY g_ag.app_id',
+        ') AS g_ag_j',
+        'ON g_a.app_id = g_ag_j.app_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['tags']) ? [
+        'LEFT JOIN (',
+          'SELECT g_at.app_id, GROUP_CONCAT(DISTINCT g_t.name) AS tags',
+          'FROM games__app_tag AS g_at',
+          'INNER JOIN games__tag AS g_t',
+          'ON g_at.tag = g_t.tag',
+          'GROUP BY g_at.app_id',
+        ') AS g_at_j',
+        'ON g_a.app_id = g_at_j.app_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['base']) ? [
+        'LEFT JOIN games__dlc AS g_d',
+        'ON g_a.app_id = g_d.dlc_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['dlcs']) ? [
+        'LEFT JOIN (',
+          'SELECT g_d_i.app_id, GROUP_CONCAT(DISTINCT g_d_i.dlc_id) AS dlcs',
+          'FROM games__dlc AS g_d_i',
+          'GROUP BY g_d_i.app_id',
+        ') AS g_d_j',
+        'ON g_a.app_id = g_d_j.app_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['subs']) ? [
+        'LEFT JOIN (',
+          'SELECT g_sa.app_id, GROUP_CONCAT(DISTINCT g_sa.sub_id) AS subs',
+          'FROM games__sub_app AS g_sa',
+          'GROUP BY g_sa.app_id',
+        ') AS g_sa_j',
+        'ON g_a.app_id = g_sa_j.app_id'
+      ] : [
+        NULL
+      ],
+      isset($columns['bundles']) ? [
+        'LEFT JOIN (',
+          'SELECT g_ba.app_id, GROUP_CONCAT(DISTINCT g_ba.bundle_id) AS bundles',
+          'FROM games__bundle_app AS g_ba',
+          'GROUP BY g_ba.app_id',
+        ') AS g_ba_j',
+        'ON g_a.app_id = g_ba_j.app_id'
+      ] : [
+        NULL
+      ],
+      [
+        'WHERE g_a.app_id = ?',
+        'GROUP BY g_a.app'
+      ]
+    )
+  ));
   $parameters = [
     $app_id
   ];
@@ -95,37 +153,81 @@ function get_app($app_id) {
 
     if ($difference_in_seconds < 60 * 60 * 24 * 7) {    
       $app = [
-        'app_id' => $row['app_id'],
-        'name' => $row['name'],
-        'released' => boolval($row['released']),
-        'removed' => boolval($row['removed']),
-        'steam_cloud' => boolval($row['steam_cloud']),
-        'trading_cards' => boolval($row['trading_cards']),
-        'learning' => isset($row['learning']) ? boolval($row['learning']) : NULL,
-        'multiplayer' => boolval($row['multiplayer']),
-        'singleplayer' => boolval($row['singleplayer']),
-        'linux' => boolval($row['linux']),
-        'mac' => boolval($row['mac']),
-        'windows' => boolval($row['windows']),
-        'achievements' => $row['achievements'],
-        'price' => $row['price'],
-        'metacritic' => isset($row['metacritic_score']) ? [
+        'app_id' => $row['app_id']
+      ];
+      if (isset($columns['name'])) {
+        $app['name'] = $row['name'];
+      }
+      if (isset($columns['released'])) {
+        $app['released'] = boolval($row['released']);
+      }
+      if (isset($columns['removed'])) {
+        $app['removed'] = boolval($row['removed']);
+      }
+      if (isset($columns['steam_cloud'])) {
+        $app['steam_cloud'] = boolval($row['steam_cloud']);
+      }
+      if (isset($columns['trading_cards'])) {
+        $app['trading_cards'] = boolval($row['trading_cards']);
+      }
+      if (isset($columns['learning'])) {
+        $app['learning'] = isset($row['learning']) ? boolval($row['learning']) : NULL;
+      }
+      if (isset($columns['multiplayer'])) {
+        $app['multiplayer'] = boolval($row['multiplayer']);
+      }
+      if (isset($columns['singleplayer'])) {
+        $app['singleplayer'] = boolval($row['singleplayer']);
+      }
+      if (isset($columns['linux'])) {
+        $app['linux'] = boolval($row['linux']);
+      }
+      if (isset($columns['mac'])) {
+        $app['mac'] = boolval($row['mac']);
+      }
+      if (isset($columns['windows'])) {
+        $app['windows'] = boolval($row['windows']);
+      }
+      if (isset($columns['achievements'])) {
+        $app['achievements'] = $row['achievements'];
+      }
+      if (isset($columns['price'])) {
+        $app['price'] = $row['price'];
+      }
+      if (isset($columns['metacritic'])) {
+        $app['metacritic'] = isset($row['metacritic_score']) ? [
           'score' => $row['metacritic_score'],
           'url' => 'https://www.metacritic.com/game/pc/'.$row['metacritic_id']
-        ] : NULL,
-        'rating' => isset($row['rating_percentage']) ? [
+        ] : NULL;
+      }
+      if (isset($columns['rating'])) {
+        $app['rating'] = isset($row['rating_percentage']) ? [
           'percentage' => $row['rating_percentage'],
           'count' => $row['rating_count']
-        ] : NULL,
-        'release_date' => $row['release_date'],
-        'genres' => $row['genres'] ? explode(',', $row['genres']) : [],
-        'tags' => $row['tags'] ? explode(',', $row['tags']) : [],
-        'base' => $row['base'],
-        'dlcs' => $row['dlcs'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['dlcs'])) : [],
-        'subs' => $row['subs'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['subs'])) : [],
-        'bundles' => $row['bundles'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['bundles'])) : [],
-        'last_update' => $row['last_update']
-      ];
+        ] : NULL;
+      }
+      if (isset($columns['release_date'])) {
+        $app['release_date'] = $row['release_date'];
+      }
+      if (isset($columns['genres'])) {
+        $app['genres'] = $row['genres'] ? explode(',', $row['genres']) : [];
+      }
+      if (isset($columns['tags'])) {
+        $app['tags'] = $row['tags'] ? explode(',', $row['tags']) : [];
+      }
+      if (isset($columns['base'])) {
+        $app['base'] = $row['base'];
+      }
+      if (isset($columns['dlcs'])) {
+        $app['dlcs'] = $row['dlcs'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['dlcs'])) : [];
+      }
+      if (isset($columns['subs'])) {
+        $app['subs'] = $row['subs'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['subs'])) : [];
+      }
+      if (isset($columns['bundles'])) {
+        $app['bundles'] = $row['bundles'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['bundles'])) : [];
+      }
+      $app['last_update'] = $row['last_update'];
     }
   }
 
