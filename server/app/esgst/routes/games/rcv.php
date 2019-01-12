@@ -133,7 +133,8 @@ function get_rcv($filters) {
       'SELECT '.implode(', ', array_filter([
         'g_tr.'.$type.'_id',
         $filters && isset($filters['show_name']) ? 'g_tn.name' : NULL,
-        'g_tr.date'
+        'g_tr.effective_date',
+        'g_tr.added_date'
       ])),
       'FROM games__'.$type.'_rcv AS g_tr',
       'INNER JOIN games__'.$type.'_name AS g_tn',
@@ -148,23 +149,23 @@ function get_rcv($filters) {
         $parameters = array_merge($parameters, $ids);
       }
       if ($filters['date_equal']) {
-        $conditions []= 'g_tr.date = ?';
+        $conditions []= 'g_tr.effective_date = ?';
         $parameters []= $filters['date_equal'];
       }
       if ($filters['date_after']) {
-        $conditions []= 'g_tr.date > ?';
+        $conditions []= 'g_tr.effective_date > ?';
         $parameters []= $filters['date_after'];
       }
       if ($filters['date_after_or_equal']) {
-        $conditions []= 'g_tr.date >= ?';
+        $conditions []= 'g_tr.effective_date >= ?';
         $parameters []= $filters['date_after_or_equal'];
       }
       if ($filters['date_before']) {
-        $conditions []= 'g_tr.date < ?';
+        $conditions []= 'g_tr.effective_date < ?';
         $parameters []= $filters['date_before'];
       }
       if ($filters['date_before_or_equal']) {
-        $conditions []= 'g_tr.date <= ?';
+        $conditions []= 'g_tr.effective_date <= ?';
         $parameters []= $filters['date_before_or_equal'];
       }
       if ($conditions) {
@@ -183,7 +184,8 @@ function get_rcv($filters) {
       if ($row['name']) {
         $values['name'] = $row['name'];
       }
-      $values['date'] = $row['date'];
+      $values['effective_date'] = $row['effective_date'];
+      $values['added_date'] = $row['added_date'];
       if (isset($filters['format_array'])) {
         $result[$type.'s'] []= $values;
       } else {

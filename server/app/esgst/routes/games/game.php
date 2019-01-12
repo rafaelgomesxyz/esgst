@@ -3,11 +3,11 @@
 require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../utils/timezones.php';       // set_timezones
 require_once __DIR__.'/../../utils/connection.php';      // start_connection
-require_once __DIR__.'/app.php';                         // get_app, fetch_app
-require_once __DIR__.'/sub.php';                         // get_sub, fetch_sub
-require_once __DIR__.'/bundle.php';                      // get_bundle, fetch_bundle
+require_once __DIR__.'/app.php';                         // get_apps, fetch_app
+require_once __DIR__.'/sub.php';                         // get_subs, fetch_sub
+require_once __DIR__.'/bundle.php';                      // get_bundles, fetch_bundle
 
-$app->get('/games/{type}/{id}', function ($request, $response, $arguments) {
+$app->get('/game/{type}/{id}', function ($request, $response, $arguments) {
   global $connection;
 
   try {
