@@ -4,7 +4,7 @@ require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
 require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
-function get_bundle($bundle_id, $filters) {
+function get_bundles($parameters, $filters) {
   global $connection;
   global $global_timezone;
 
@@ -15,8 +15,9 @@ function get_bundle($bundle_id, $filters) {
   ];
   $column_keys = array_keys($columns);
 
+  $filter_name = isset($filters['filters']) ? 'filters' : 'bundle_filters';
   $validation = [
-    'filters' => [
+    $filter_name => [
       'message' => 'Must be a comma-separated list containing the following values: '.implode(', ', $column_keys),
       'regex' => '/^((('.implode('|', $column_keys).'),?)+)?$/'
     ]
@@ -25,7 +26,7 @@ function get_bundle($bundle_id, $filters) {
   validate_filters($filters, $validation);
 
   if ($filters) {
-    $filter_keys = explode(',', $filters['filters']);
+    $filter_keys = explode(',', $filters[$filter_name]);
     foreach ($column_keys as $key) {
       if (!in_array($key, $filter_keys)) {
         unset($columns[$key]);
@@ -33,7 +34,7 @@ function get_bundle($bundle_id, $filters) {
     }
   }
 
-  $bundle = NULL;
+  $bundles = [];
 
   $query = implode(' ', array_filter(
     array_merge(
@@ -65,20 +66,16 @@ function get_bundle($bundle_id, $filters) {
         NULL
       ],
       [
-        'WHERE g_b.bundle_id = ?',
+        'WHERE '.implode(' OR ', array_fill(0, count($parameters), 'g_b.bundle_id = ?')),
         'GROUP BY g_b.bundle'
       ]
     )
   ));
-  $parameters = [
-    $bundle_id
-  ];
   $statement = $connection->prepare($query);
   $statement->execute($parameters);
-  $row = $statement->fetch();
 
-  if ($row) {
-    $now = (new DateTime('now', $global_timezone))->getTimestamp();
+  $now = (new DateTime('now', $global_timezone))->getTimestamp();
+  while ($row = $statement->fetch()) {
     $last_update = (new DateTime($row['last_update'], $global_timezone))->getTimestamp();
     $difference_in_seconds = $now - $last_update;
 
@@ -96,10 +93,11 @@ function get_bundle($bundle_id, $filters) {
         $bundle['apps'] = $row['apps'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['apps'])) : [];
       }
       $bundle['last_update'] = $row['last_update'];
+      $bundles []= $bundle;
     }
   }
 
-  return $bundle;
+  return $bundles;
 }
 
 function fetch_bundle($bundle_id) {

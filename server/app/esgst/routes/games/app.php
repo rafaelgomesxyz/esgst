@@ -4,7 +4,7 @@ require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
 require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
-function get_app($app_id, $filters) {
+function get_apps($parameters, $filters) {
   global $connection;
   global $global_timezone;
 
@@ -34,8 +34,9 @@ function get_app($app_id, $filters) {
   ];
   $column_keys = array_keys($columns);
 
+  $filter_name = isset($filters['filters']) ? 'filters' : 'app_filters';
   $validation = [
-    'filters' => [
+    $filter_name => [
       'message' => 'Must be a comma-separated list containing the following values: '.implode(', ', $column_keys),
       'regex' => '/^((('.implode('|', $column_keys).'),?)+)?$/'
     ]
@@ -44,7 +45,7 @@ function get_app($app_id, $filters) {
   validate_filters($filters, $validation);
 
   if ($filters) {
-    $filter_keys = explode(',', $filters['filters']);
+    $filter_keys = explode(',', $filters[$filter_name]);
     foreach ($column_keys as $key) {
       if (!in_array($key, $filter_keys)) {
         unset($columns[$key]);
@@ -52,7 +53,7 @@ function get_app($app_id, $filters) {
     }
   }
 
-  $app = NULL;
+  $apps = [];
 
   $query = implode(' ', array_filter(
     array_merge(
@@ -134,20 +135,16 @@ function get_app($app_id, $filters) {
         NULL
       ],
       [
-        'WHERE g_a.app_id = ?',
+        'WHERE '.implode(' OR ', array_fill(0, count($parameters), 'g_a.app_id = ?')),
         'GROUP BY g_a.app'
       ]
     )
   ));
-  $parameters = [
-    $app_id
-  ];
   $statement = $connection->prepare($query);
   $statement->execute($parameters);
-  $row = $statement->fetch();
 
-  if ($row) {
-    $now = (new DateTime('now', $global_timezone))->getTimestamp();
+  $now = (new DateTime('now', $global_timezone))->getTimestamp();
+  while ($row = $statement->fetch()) {
     $last_update = (new DateTime($row['last_update'], $global_timezone))->getTimestamp();
     $difference_in_seconds = $now - $last_update;
 
@@ -228,10 +225,11 @@ function get_app($app_id, $filters) {
         $app['bundles'] = $row['bundles'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['bundles'])) : [];
       }
       $app['last_update'] = $row['last_update'];
+      $apps []= $app;
     }
   }
 
-  return $app;
+  return $apps;
 }
 
 function fetch_app($app_id) {

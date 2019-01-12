@@ -4,7 +4,7 @@ require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
 require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
-function get_sub($sub_id, $filters) {
+function get_subs($parameters, $filters) {
   global $connection;
   global $global_timezone;
 
@@ -18,8 +18,9 @@ function get_sub($sub_id, $filters) {
   ];
   $column_keys = array_keys($columns);
 
+  $filter_name = isset($filters['filters']) ? 'filters' : 'sub_filters';
   $validation = [
-    'filters' => [
+    $filter_name => [
       'message' => 'Must be a comma-separated list containing the following values: '.implode(', ', $column_keys),
       'regex' => '/^((('.implode('|', $column_keys).'),?)+)?$/'
     ]
@@ -28,7 +29,7 @@ function get_sub($sub_id, $filters) {
   validate_filters($filters, $validation);
 
   if ($filters) {
-    $filter_keys = explode(',', $filters['filters']);
+    $filter_keys = explode(',', $filters[$filter_name]);
     foreach ($column_keys as $key) {
       if (!in_array($key, $filter_keys)) {
         unset($columns[$key]);
@@ -36,7 +37,7 @@ function get_sub($sub_id, $filters) {
     }
   }
 
-  $sub = NULL;
+  $subs = [];
 
   $query = implode(' ', array_filter(
     array_merge(
@@ -68,20 +69,16 @@ function get_sub($sub_id, $filters) {
         NULL
       ],
       [
-        'WHERE g_s.sub_id = ?',
+        'WHERE '.implode(' OR ', array_fill(0, count($parameters), 'g_s.sub_id = ?')),
         'GROUP BY g_s.sub'
       ]
     )
   ));
-  $parameters = [
-    $sub_id
-  ];
   $statement = $connection->prepare($query);
   $statement->execute($parameters);
-  $row = $statement->fetch();
 
-  if ($row) {
-    $now = (new DateTime('now', $global_timezone))->getTimestamp();
+  $now = (new DateTime('now', $global_timezone))->getTimestamp();
+  while ($row = $statement->fetch()) {
     $last_update = (new DateTime($row['last_update'], $global_timezone))->getTimestamp();
     $difference_in_seconds = $now - $last_update;
 
@@ -108,10 +105,11 @@ function get_sub($sub_id, $filters) {
         $sub['apps'] = $row['apps'] ? array_map(function ($element) { return intval($element); }, explode(',', $row['apps'])) : [];
       }
       $sub['last_update'] = $row['last_update'];
+      $subs []= $sub;
     }
   }
 
-  return $sub;
+  return $subs;
 }
 
 function fetch_sub($sub_id) {

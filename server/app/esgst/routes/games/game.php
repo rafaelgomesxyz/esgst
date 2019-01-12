@@ -32,7 +32,7 @@ $app->get('/games/{type}/{id}', function ($request, $response, $arguments) {
 function get_game_result($arguments, $filters) {
   try {
     $type = $arguments['type'];
-    $get = 'get_'.$type;
+    $get = 'get_'.$type.'s';
     $fetch = 'fetch_'.$type;
 
     if (!function_exists($get) || !function_exists($fetch)) {
@@ -48,10 +48,13 @@ function get_game_result($arguments, $filters) {
     set_timezones();
     start_connection();
 
-    $result = $get($id, $filters);
+    $ids = [
+      $id
+    ];
+    $result = $get($ids, $filters)[0];
     if (!$result) {
       $fetch($id);
-      $result = $get($id, $filters);
+      $result = $get($ids, $filters)[0];
     }
 
     return $result;
