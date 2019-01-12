@@ -58,21 +58,23 @@ function fetch_rcv_sgtools() {
     $element = $elements[$i];
 
     filter_child_nodes($element);
-    filter_child_nodes($element->firstChild);
+    filter_child_nodes($element->childNodes[0]);
     
-    $link = $element->firstChild->firstChild;
+    $link = $element->childNodes[0]->childNodes[0];
 
     preg_match('/(app|sub)\/(\d+)/', $link->getAttribute('href'), $matches);
 
     $type = $matches[1];
     $id = intval($matches[2]);
     $name = $link->nodeValue;
-    $date = (new DateTime($element->firstChild->nextSibling->nodeValue, $global_timezone))->format('Y-m-d');
+    $effective_date = (new DateTime($element->childNodes[1]->nodeValue, $global_timezone))->format('Y-m-d');
+    $added_date = (new DateTime($element->childNodes[2]->nodeValue, $global_timezone))->format('Y-m-d');
 
     $name_parameters[$type] []= $id;
     $name_parameters[$type] []= $name;
     $rcv_parameters[$type] []= $id;
-    $rcv_parameters[$type] []= $date;
+    $rcv_parameters[$type] []= $effective_date;
+    $rcv_parameters[$type] []= $added_date;
     $rcv_parameters[$type] []= TRUE;
   }
 
@@ -94,8 +96,9 @@ function fetch_rcv_sgtools() {
     $num_parameters = count($rcv_parameters[$type]);
     if ($num_parameters > 0) {
       $query = implode(' ', [
-        'INSERT IGNORE INTO games__'.$type.'_rcv ('.$type.'_id, date, found)',
-        'VALUES '.implode(', ', array_fill(0, $num_parameters / 3, '(?, ?, ?)'))
+        'INSERT INTO games__'.$type.'_rcv ('.$type.'_id, effective_date, added_date, found)',
+        'VALUES '.implode(', ', array_fill(0, $num_parameters / 4, '(?, ?, ?, ?)')),
+        'ON DUPLICATE KEY UPDATE added_date = VALUES(added_date)'
       ]);
       $statement = $connection->prepare($query);
       $statement->execute($rcv_parameters[$type]);

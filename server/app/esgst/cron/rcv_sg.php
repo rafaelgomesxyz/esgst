@@ -36,6 +36,8 @@ function fetch_rcv_sg() {
 
   set_timezones();
 
+  $added_date = (new DateTime())->format('Y-m-d');
+
   $name_parameters = [
     'app' => [],
     'sub' => []
@@ -75,12 +77,13 @@ function fetch_rcv_sg() {
       $type = $matches[1];
       $id = intval($matches[2]);
       $name = $xpath->query('.//p[contains(@class, "table__column__heading")]', $element)[0]->nodeValue;
-      $date = (new DateTime($xpath->query('.//div[contains(@class, "table__column--width-small")]', $element)[0]->nodeValue, $global_timezone))->format('Y-m-d');
+      $effective_date = (new DateTime($xpath->query('.//div[contains(@class, "table__column--width-small")]', $element)[0]->nodeValue, $global_timezone))->format('Y-m-d');
 
       $name_parameters[$type] []= $id;
       $name_parameters[$type] []= $name;
       $rcv_parameters[$type] []= $id;
-      $rcv_parameters[$type] []= $date;
+      $rcv_parameters[$type] []= $effective_date;
+      $rcv_parameters[$type] []= $added_date;
       $rcv_parameters[$type] []= TRUE;
     }
 
@@ -116,8 +119,8 @@ function fetch_rcv_sg() {
     $num_parameters = count($rcv_parameters[$type]);
     if ($num_parameters > 0) {
       $query = implode(' ', [
-        'INSERT INTO games__'.$type.'_rcv ('.$type.'_id, date, found)',
-        'VALUES '.implode(', ', array_fill(0, $num_parameters / 3, '(?, ?, ?)')),
+        'INSERT INTO games__'.$type.'_rcv ('.$type.'_id, effective_date, added_date, found)',
+        'VALUES '.implode(', ', array_fill(0, $num_parameters / 4, '(?, ?, ?, ?)')),
         'ON DUPLICATE KEY UPDATE found = VALUES(found)'
       ]);
       $statement = $connection->prepare($query);

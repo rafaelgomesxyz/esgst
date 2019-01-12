@@ -1,0 +1,17 @@
+<IfModule mod_headers.c>
+  SetEnvIf Origin "^https?://(www\.)?(steamgifts|steamtrades)\.com$" AccessControlAllowOrigin=$0
+
+  Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+  Header set Access-Control-Allow-Credentials true
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTPS} off
+  RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.php [QSA,L]
+</IfModule>
