@@ -41,7 +41,6 @@ function get_bundles($parameters, $filters) {
       [
         'SELECT '.implode(', ', array_merge(
           [
-            'g_b.bundle',
             'g_b.bundle_id',
             'g_b.last_update'
           ],
@@ -67,7 +66,7 @@ function get_bundles($parameters, $filters) {
       ],
       [
         'WHERE '.implode(' OR ', array_fill(0, count($parameters), 'g_b.bundle_id = ?')),
-        'GROUP BY g_b.bundle'
+        'GROUP BY g_b.bundle_id'
       ]
     )
   ));
@@ -146,9 +145,8 @@ function fetch_bundle($bundle_id) {
 
   if ($bundle_name) {
     $query = implode(' ', [
-      'INSERT INTO games__bundle_name (bundle_id, name)',
-      'VALUES (?, ?)',
-      'ON DUPLICATE KEY UPDATE name = VALUES(name)'
+      'INSERT IGNORE INTO games__bundle_name (bundle_id, name)',
+      'VALUES (?, ?)'
     ]);
     $parameters = [
       $bundle_id,

@@ -45,6 +45,8 @@ function get_game_result($arguments, $filters) {
       throw new CustomException('Invalid {id}. Must be an integer number e.g. 400.', 400);
     }
 
+    $id = intval($id);
+
     set_timezones();
     start_connection();
 

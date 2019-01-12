@@ -44,7 +44,6 @@ function get_subs($parameters, $filters) {
       [
         'SELECT '.implode(', ', array_merge(
           [
-            'g_s.sub',
             'g_s.sub_id',
             'g_s.last_update'
           ],
@@ -70,7 +69,7 @@ function get_subs($parameters, $filters) {
       ],
       [
         'WHERE '.implode(' OR ', array_fill(0, count($parameters), 'g_s.sub_id = ?')),
-        'GROUP BY g_s.sub'
+        'GROUP BY g_s.sub_id'
       ]
     )
   ));
@@ -166,9 +165,8 @@ function fetch_sub($sub_id) {
   $statement->execute($parameters);
 
   $query = implode(' ', [
-    'INSERT INTO games__sub_name (sub_id, name)',
-    'VALUES (?, ?)',
-    'ON DUPLICATE KEY UPDATE name = VALUES(name)'
+    'INSERT IGNORE INTO games__sub_name (sub_id, name)',
+    'VALUES (?, ?)'
   ]);
   $parameters = [
     $sub_id,

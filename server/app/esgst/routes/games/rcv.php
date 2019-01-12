@@ -144,7 +144,7 @@ function get_rcv($filters) {
       $conditions = [];
       $parameters = [];
       if ($filters[$type.'_ids']) {
-        $ids = explode(',', $filters[$type.'_ids']);
+        $ids = array_map(function ($element) { return intval($element); }, explode(',', $filters[$type.'_ids']));
         $conditions []= '('.implode(' OR ', array_fill(0, count($ids), 'g_tr.'.$type.'_id = ?')).')';
         $parameters = array_merge($parameters, $ids);
       }
