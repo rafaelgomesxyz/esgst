@@ -20,6 +20,7 @@ $container['phpErrorHandler'] = function ($container) use ($internal_errors) {
   };
 };
 
+require '../../app/esgst/routes/games/games.php';
 require '../../app/esgst/routes/games/game.php';
 require '../../app/esgst/routes/games/rcv.php';
 
