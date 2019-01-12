@@ -60,7 +60,6 @@ function get_apps($parameters, $filters) {
       [
         'SELECT '.implode(', ', array_merge(
           [
-            'g_a.app',
             'g_a.app_id',
             'g_a.last_update'
           ],
@@ -79,7 +78,7 @@ function get_apps($parameters, $filters) {
           'SELECT g_ag.app_id, GROUP_CONCAT(DISTINCT g_g.name) AS genres',
           'FROM games__app_genre AS g_ag',
           'INNER JOIN games__genre AS g_g',
-          'ON g_ag.genre = g_g.genre',
+          'ON g_ag.genre_id = g_g.genre_id',
           'GROUP BY g_ag.app_id',
         ') AS g_ag_j',
         'ON g_a.app_id = g_ag_j.app_id'
@@ -91,7 +90,7 @@ function get_apps($parameters, $filters) {
           'SELECT g_at.app_id, GROUP_CONCAT(DISTINCT g_t.name) AS tags',
           'FROM games__app_tag AS g_at',
           'INNER JOIN games__tag AS g_t',
-          'ON g_at.tag = g_t.tag',
+          'ON g_at.tag_id = g_t.tag_id',
           'GROUP BY g_at.app_id',
         ') AS g_at_j',
         'ON g_a.app_id = g_at_j.app_id'
@@ -136,7 +135,7 @@ function get_apps($parameters, $filters) {
       ],
       [
         'WHERE '.implode(' OR ', array_fill(0, count($parameters), 'g_a.app_id = ?')),
-        'GROUP BY g_a.app'
+        'GROUP BY g_a.app_id'
       ]
     )
   ));
@@ -303,17 +302,24 @@ function fetch_app($app_id) {
   $genres = [];
   if ($data['genres']) {
     foreach ($data['genres'] as $genre) {
-      $genres []= trim($genre['description']);
+      $genres []= [
+        'id' => intval($genre['id']),
+        'name' => trim($genre['description'])
+      ];
     }
-    sort($genres);
   }
   $tags = [];
   if (!$removed) {
-    $elements = $xpath->query('//a[contains(@class, "app_tag")]');
-    foreach ($elements as $element) {
-      $tags []= trim($element->nodeValue);
+    preg_match('/InitAppTagModal.*?(\[.*?]),/s', $response['text'], $matches);
+    if ($matches) {
+      $elements = json_decode($matches[1], TRUE);
+      foreach ($elements as $element) {
+        $tags []= [
+          'id' => intval($element['tagid']),
+          'name' => $element['name']
+        ];
+      }
     }
-    sort($tags);
   }
   $base = $data['type'] === 'dlc' && isset($data['fullgame']['appid']) ? intval($data['fullgame']['appid']) : NULL;
   $dlcs = $data['dlc'] ? array_map(function ($element) { return intval($element); }, $data['dlc']) : [];
@@ -339,9 +345,8 @@ function fetch_app($app_id) {
   $statement->execute($parameters);
 
   $query = implode(' ', [
-    'INSERT INTO games__app_name (app_id, name)',
-    'VALUES (?, ?)',
-    'ON DUPLICATE KEY UPDATE name = VALUES(name)'
+    'INSERT IGNORE INTO games__app_name (app_id, name)',
+    'VALUES (?, ?)'
   ]);
   $parameters = [
     $app_id,
@@ -350,52 +355,62 @@ function fetch_app($app_id) {
   $statement = $connection->prepare($query);
   $statement->execute($parameters);
 
+  $parameters_1 = [];
+  $parameters_2 = [];
   if (count($genres) > 0) {
-    $query_1 = implode(' ', [
-      'INSERT INTO games__genre (name)',
-      'VALUES (?)',
-      'ON DUPLICATE KEY UPDATE genre = LAST_INSERT_ID(genre)'
-    ]);
-    $query_2 = implode(' ', [
-      'INSERT IGNORE INTO games__app_genre (app_id, genre)',
-      'VALUES (?, LAST_INSERT_ID())'
-    ]);
-    $statement_1 = $connection->prepare($query_1);
-    $statement_2 = $connection->prepare($query_2);
-    foreach ($genres as $genre_name) {
-      $parameters_1 = [
-        $genre_name
-      ];
-      $parameters_2 = [
-        $app_id
-      ];
-      $statement_1->execute($parameters_1);
-      $statement_2->execute($parameters_2);
+    foreach ($genres as $genre) {
+      $parameters_1 []= $genre['id'];
+      $parameters_1 []= $genre['name'];
+      $parameters_2 []= $app_id;
+      $parameters_2 []= $genre['id'];
     }
   }
+  $num_parameters = count($parameters_1);
+  if ($num_parameters > 0) {
+    $query = implode(' ', [
+      'INSERT IGNORE INTO games__genre (genre_id, name)',
+      'VALUES '.implode(', ', array_fill(0, $num_parameters / 2, '(?, ?)'))
+    ]);
+    $statement = $connection->prepare($query);
+    $statement->execute($parameters_1);
+  }
+  $num_parameters = count($parameters_2);
+  if ($num_parameters > 0) {
+    $query = implode(' ', [
+      'INSERT IGNORE INTO games__app_genre (app_id, genre_id)',
+      'VALUES '.implode(', ', array_fill(0, $num_parameters / 2, '(?, ?)'))
+    ]);
+    $statement = $connection->prepare($query);
+    $statement->execute($parameters_2);
+  }
 
+  $parameters_1 = [];
+  $parameters_2 = [];
   if (count($tags) > 0) {
-    $query_1 = implode(' ', [
-      'INSERT INTO games__tag (name)',
-      'VALUES (?)',
-      'ON DUPLICATE KEY UPDATE tag = LAST_INSERT_ID(tag)'
-    ]);
-    $query_2 = implode(' ', [
-      'INSERT IGNORE INTO games__app_tag (app_id, tag)',
-      'VALUES (?, LAST_INSERT_ID())'
-    ]);
-    $statement_1 = $connection->prepare($query_1);
-    $statement_2 = $connection->prepare($query_2);
-    foreach ($tags as $tag_name) {
-      $parameters_1 = [
-        $tag_name
-      ];
-      $parameters_2 = [
-        $app_id
-      ];
-      $statement_1->execute($parameters_1);
-      $statement_2->execute($parameters_2);
+    foreach ($tags as $tag) {
+      $parameters_1 []= $tag['id'];
+      $parameters_1 []= $tag['name'];
+      $parameters_2 []= $app_id;
+      $parameters_2 []= $tag['id'];
     }
+  }
+  $num_parameters = count($parameters_1);
+  if ($num_parameters > 0) {
+    $query = implode(' ', [
+      'INSERT IGNORE INTO games__tag (tag_id, name)',
+      'VALUES '.implode(', ', array_fill(0, $num_parameters / 2, '(?, ?)'))
+    ]);
+    $statement = $connection->prepare($query);
+    $statement->execute($parameters_1);
+  }
+  $num_parameters = count($parameters_2);
+  if ($num_parameters > 0) {
+    $query = implode(' ', [
+      'INSERT IGNORE INTO games__app_tag (app_id, tag_id)',
+      'VALUES '.implode(', ', array_fill(0, $num_parameters / 2, '(?, ?)'))
+    ]);
+    $statement = $connection->prepare($query);
+    $statement->execute($parameters_2);
   }
 
   $parameters = [];

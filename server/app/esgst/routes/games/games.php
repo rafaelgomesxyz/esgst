@@ -122,7 +122,7 @@ function get_games_result($filters) {
       ] : NULL;
 
       $get = 'get_'.$type.'s';
-      $ids = explode(',', $filters[$type.'_ids']);      
+      $ids = array_map(function ($element) { return intval($element); }, explode(',', $filters[$type.'_ids']));      
       $results = $get($ids, $sub_filters);
 
       foreach ($results as $current_result) {
@@ -147,10 +147,10 @@ function get_games_result($filters) {
         if (isset($filters['join_all'])) {
           $result['not_found'] []= [
             'type' => $type,
-            $type.'_id' => intval($id)
+            $type.'_id' => $id
           ];
         } else {
-          $result['not_found'][$type.'_ids'] []= intval($id);
+          $result['not_found'][$type.'_ids'] []= $id;
         }
       }
     }
