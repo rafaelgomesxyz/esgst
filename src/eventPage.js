@@ -128,7 +128,13 @@ async function doFetch(parameters, request, sender, callback) {
   }
 
   if (!request.manipulateCookies) {
-    let response = await window.fetch(request.url, parameters);
+    let response = null;
+    try {
+      response = await window.fetch(request.url, parameters);
+    } catch (error) {
+      callback(JSON.stringify({ error }));
+      return;
+    }
     let responseText = request.blob
       ? (await readZip(await response.blob()))[0].value
       : await response.text();
@@ -150,7 +156,13 @@ async function doFetch(parameters, request, sender, callback) {
      * @property {string} tab.cookieStoreId
      */
     if (tab.cookieStoreId === `firefox-default`) {
-      let response = await window.fetch(request.url, parameters);
+      let response = null;
+      try {
+        response = await window.fetch(request.url, parameters);
+      } catch (error) {
+        callback(JSON.stringify({ error }));
+        return;
+      }
       let responseText = request.blob
         ? (await readZip(await response.blob()))[0].value
         : await response.text();
@@ -194,7 +206,13 @@ async function doFetch(parameters, request, sender, callback) {
     }
 
     // request
-    let response = await fetch(request.url, parameters);
+    let response = null;
+    try {
+      response = await fetch(request.url, parameters);
+    } catch (error) {
+      callback(JSON.stringify({ error }));
+      return;
+    }
     let responseText = request.blob
       ? (await readZip(await response.blob()))[0].value
       : await response.text();

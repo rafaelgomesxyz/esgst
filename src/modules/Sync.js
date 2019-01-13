@@ -657,16 +657,28 @@ async function sync(syncer) {
   // sync reduced cv games
   if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && container.esgst.settings.syncReducedCvGames)) {
     syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-    let result = JSON.parse((await container.common.request({
-      method: `GET`,
-      url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`
-    })).responseText);
-    if (result.error) {
+    let result = null;
+    try {
+      result = JSON.parse((await container.common.request({
+        method: `GET`,
+        url: `https://gsrafael01.me/esgst/games/rcv`
+      })).responseText);
+    } catch (error) {
+      result = JSON.parse((await container.common.request({
+        method: `GET`,
+        url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`
+      })).responseText);
+    }
+    if (!result || result.error) {
       container.common.createElements_v2(syncer.results, `beforeEnd`, [
-        `Unable to sync reduced CV games: ${result.error}`
+        `Unable to sync reduced CV games.`
       ]);
     } else {
-      result = result.success;
+      if (result.success) {
+        result = result.success;
+      } else {
+        result = result.result;
+      }
       for (const id in container.esgst.games.apps) {
         if (container.esgst.games.apps.hasOwnProperty(id)) {
           container.esgst.games.apps[id].reducedCV = null;
@@ -682,7 +694,7 @@ async function sync(syncer) {
           if (!container.esgst.games.apps[id]) {
             container.esgst.games.apps[id] = {};
           }
-          container.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV;
+          container.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV || result.apps[id].effective_date;
         }
       }
       for (const id in result.subs) {
@@ -690,7 +702,7 @@ async function sync(syncer) {
           if (!container.esgst.games.subs[id]) {
             container.esgst.games.subs[id] = {};
           }
-          container.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV;
+          container.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV || result.subs[id].effective_date;
         }
       }
       await container.common.lockAndSaveGames(container.esgst.games);
