@@ -129,15 +129,19 @@ async function doFetch(parameters, request, sender, callback) {
 
   if (!request.manipulateCookies) {
     let response = null;
+    let responseText = null;
     try {
       response = await window.fetch(request.url, parameters);
+      responseText = request.blob
+        ? (await readZip(await response.blob()))[0].value
+        : await response.text();
+      if (!response.ok) {
+        throw responseText;
+      }
     } catch (error) {
       callback(JSON.stringify({ error }));
       return;
     }
-    let responseText = request.blob
-      ? (await readZip(await response.blob()))[0].value
-      : await response.text();
     for (const cookie of setCookies) {
       await deleteCookie({
         name: cookie.name,
@@ -157,15 +161,19 @@ async function doFetch(parameters, request, sender, callback) {
      */
     if (tab.cookieStoreId === `firefox-default`) {
       let response = null;
+      let responseText = null;
       try {
         response = await window.fetch(request.url, parameters);
+        responseText = request.blob
+          ? (await readZip(await response.blob()))[0].value
+          : await response.text();
+        if (!response.ok) {
+          throw responseText;
+        }
       } catch (error) {
         callback(JSON.stringify({ error }));
         return;
       }
-      let responseText = request.blob
-        ? (await readZip(await response.blob()))[0].value
-        : await response.text();
       for (const cookie of setCookies) {
         await deleteCookie({
           name: cookie.name,
@@ -207,15 +215,19 @@ async function doFetch(parameters, request, sender, callback) {
 
     // request
     let response = null;
+    let responseText = null;
     try {
       response = await fetch(request.url, parameters);
+      responseText = request.blob
+        ? (await readZip(await response.blob()))[0].value
+        : await response.text();
+      if (!response.ok) {
+        throw responseText;
+      }
     } catch (error) {
       callback(JSON.stringify({ error }));
       return;
     }
-    let responseText = request.blob
-      ? (await readZip(await response.blob()))[0].value
-      : await response.text();
 
     // delete container cookies from no-container scope
     for (let i = containerCookies.length - 1; i > -1; i--) {

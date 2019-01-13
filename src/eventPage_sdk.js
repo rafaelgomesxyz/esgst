@@ -202,6 +202,10 @@ function doFetch(parameters, request) {
       headers: parameters.headers,
       url: request.url,
       onComplete: async response => {
+        if (response.status >= 200 && response.status <= 299) {
+          resolve(JSON.stringify({ error: response.text }));
+          return;
+        }
         const responseText = request.blob
           ? (await readZip(response.text))[0].value
           : response.text;
