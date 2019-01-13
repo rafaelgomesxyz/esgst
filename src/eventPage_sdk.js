@@ -202,7 +202,7 @@ function doFetch(parameters, request) {
       headers: parameters.headers,
       url: request.url,
       onComplete: async response => {
-        if (response.status >= 200 && response.status <= 299) {
+        if (response.status < 200 || response.status > 299) {
           resolve(JSON.stringify({ error: response.text }));
           return;
         }
