@@ -300,12 +300,12 @@ PageMod({
       worker.port.emit(`fetch_${request.uuid}_response`, response);
     });
 
-    worker.port.on(`getStorage`, async () => {
+    worker.port.on(`getStorage`, async request => {
       const storage = await handle_storage(TYPE_GET, null);
       worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
 
-    worker.port.on(`reload`, () => {
+    worker.port.on(`reload`, request => {
       worker.port.emit(`reload_${request.uuid}_response`, `null`);
     });
 
@@ -328,7 +328,7 @@ PageMod({
   contentScriptFile: data.url(`esgst_sgtools.js`),
   contentScriptWhen: `start`,
   onAttach: worker => {
-    worker.port.on(`getStorage`, async () => {
+    worker.port.on(`getStorage`, async request => {
       const storage = await handle_storage(TYPE_GET, null);
       worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
