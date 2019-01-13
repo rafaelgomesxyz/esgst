@@ -264,13 +264,17 @@ import { runSilentSync } from './modules/Sync';
               window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
             }
             let response = null;
+            let responseText = null;
             try {
               response = await (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
+              responseText = await response.text();
+              if (!response.ok) {
+                throw responseText;
+              }
             } catch (error) {
               reject({ error });
               return;
             }
-            let responseText = await response.text();
             response = {
               finalUrl: response.url,
               redirected: response.redirected,
@@ -747,6 +751,7 @@ import { runSilentSync } from './modules/Sync';
           details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
           if (isLocal) {
             let response = null;
+            let responseText = null;
             try {
               response = await window.fetch(details.url, {
                 body: details.data,
@@ -755,11 +760,14 @@ import { runSilentSync } from './modules/Sync';
                 method: details.method,
                 redirect: "follow"
               });
+              responseText = await response.text();
+              if (!response.ok) {
+                throw responseText;
+              }
             } catch (error) {
               reject({ error });
               return;
             }
-            let responseText = await response.text();
             response = {
               finalUrl: response.url,
               redirected: response.redirected,
