@@ -249,7 +249,7 @@ import { runSilentSync } from './modules/Sync';
             action: `getStorage`
           }, storage => resolve(JSON.parse(storage))));
       envFunctions.continueRequest = details =>
-        new Promise(async resolve => {
+        new Promise(async (resolve, reject) => {
           let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
           details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
           if (isLocal) {
@@ -263,7 +263,13 @@ import { runSilentSync } from './modules/Sync';
             if (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject)) {
               window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
             }
-            let response = await (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
+            let response = null;
+            try {
+              response = await (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
+            } catch (error) {
+              reject({ error });
+              return;
+            }
             let responseText = await response.text();
             response = {
               finalUrl: response.url,
@@ -290,6 +296,10 @@ import { runSilentSync } from './modules/Sync';
               url: details.url
             }, response => {
               response = JSON.parse(response);
+              if (response.error) {
+                reject(response);
+                return;
+              }
               resolve(response);
               if (response.finalUrl.match(/www.steamgifts.com/)) {
                 common.lookForPopups(response);
@@ -732,17 +742,23 @@ import { runSilentSync } from './modules/Sync';
         return storage;
       };
       envFunctions.continueRequest = details => {
-        return new Promise(async resolve => {
+        return new Promise(async (resolve, reject) => {
           let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
           details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
           if (isLocal) {
-            let response = await window.fetch(details.url, {
-              body: details.data,
-              credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
-              headers: details.headers,
-              method: details.method,
-              redirect: "follow"
-            });
+            let response = null;
+            try {
+              response = await window.fetch(details.url, {
+                body: details.data,
+                credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
+                headers: details.headers,
+                method: details.method,
+                redirect: "follow"
+              });
+            } catch (error) {
+              reject({ error });
+              return;
+            }
             let responseText = await response.text();
             response = {
               finalUrl: response.url,
@@ -774,7 +790,8 @@ import { runSilentSync } from './modules/Sync';
                 if (response.finalUrl.match(/www.steamgifts.com/)) {
                   common.lookForPopups(response);
                 }
-              }
+              },
+              onerror: response => reject({ error: response.responseText })
             });
           }
         });
