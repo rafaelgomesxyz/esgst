@@ -4,6 +4,26 @@ require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
 require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
+/**
+ * @api {SCHEMA} Bundle Bundle
+ * @apiGroup Schemas
+ * @apiName Bundle
+ * 
+ * @apiVersion 1.0.0
+ * 
+ * @apiDescription The optional properties are included based on the "filters" parameter. If the parameter isn't used, all of the optional properties are included, except where noted.
+ * 
+ * @apiParam (Schema) {Object} bundle
+ * @apiParam (Schema) {String=bundle} [bundle.type=bundle] [NOT FILTERABLE] The type of the game. This property is only available for the [GetGames](#api-Games-GetGames) method when used with the parameter "join_all".
+ * @apiParam (Schema) {Integer} [bundle.bundle_id] [NOT FILTERABLE] The Steam ID of the game. This property is not available for the [GetGames](#api-Games-GetGames) method when used without the "join_all", "format_array" and "show_id" parameters.
+ * @apiParam (Schema) {String} [bundle.name] The name of the game.
+ * @apiParam (Schema) {Boolean} [bundle.removed] Whether the game has been removed from the Steam store or not.
+ * @apiParam (Schema) {Integer[]} [bundle.apps] The Steam IDs of the apps that are included in the game.
+ * @apiParam (Schema) {String} bundle.last_update When the information was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
+ * 
+ * @apiSampleRequest off
+ */
+
 function get_bundles($parameters, $filters) {
   global $connection;
   global $global_timezone;
@@ -23,9 +43,9 @@ function get_bundles($parameters, $filters) {
     ]
   ];
 
-  validate_filters($filters, $validation);
-
   if ($filters) {
+    validate_filters($filters, $validation);
+
     $filter_keys = explode(',', $filters[$filter_name]);
     foreach ($column_keys as $key) {
       if (!in_array($key, $filter_keys)) {
