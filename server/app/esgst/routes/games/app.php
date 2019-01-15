@@ -4,6 +4,50 @@ require_once __DIR__.'/../../class/CustomException.php';
 require_once __DIR__.'/../../class/Request.php';
 require_once __DIR__.'/../../utils/filters.php';         // validate_filters
 
+/**
+ * @api {SCHEMA} App App
+ * @apiGroup Schemas
+ * @apiName App
+ * 
+ * @apiVersion 1.0.0
+ * 
+ * @apiDescription The optional properties are included based on the "filters" parameter. If the parameter isn't used, all of the optional properties are included, except where noted.
+ * 
+ * @apiParam (Schema) {Object} app
+ * @apiParam (Schema) {String=app} [app.type=app] [NOT FILTERABLE] The type of the game.
+ * This property is only available for the [GetGames](#api-Games-GetGames) method when used with the parameter "join_all".
+ * @apiParam (Schema) {Integer} [app.app_id] [NOT FILTERABLE] The Steam ID of the game. This property is not available for the [GetGames](#api-Games-GetGames) method when used without the "join_all", "format_array" and "show_id" parameters.
+ * @apiParam (Schema) {String} [app.name] The name of the game.
+ * @apiParam (Schema) {Boolean} [app.released] Whether the game has been released to the Steam store or not.
+ * @apiParam (Schema) {Boolean} [app.removed] Whether the game has been removed from the Steam store or not.
+ * @apiParam (Schema) {Boolean} [app.steam_cloud] Whether the game has Steam cloud or not.
+ * @apiParam (Schema) {Boolean} [app.trading_cards] Whether the game has trading cards or not.
+ * @apiParam (Schema) {Boolean} [app.learning] Whether Steam is learning about the game or not.
+ * @apiParam (Schema) {Boolean} [app.multiplayer] Whether the game is multiplayer or not.
+ * @apiParam (Schema) {Boolean} [app.singleplayer] Whether the game is singleplayer or not.
+ * @apiParam (Schema) {Boolean} [app.linux] Whether the game runs on Linux or not.
+ * @apiParam (Schema) {Boolean} [app.mac] Whether the game runs on Mac or not.
+ * @apiParam (Schema) {Boolean} [app.windows] Whether the game runs on Windows or not.
+ * @apiParam (Schema) {Integer} [app.achievements] The number of achievements that the game has, or 0 if it doesn't have any.
+ * @apiParam (Schema) {Integer} [app.price] The price of the game in USD ($9.99 is represented as 999), or 0 if it's free.
+ * @apiParam (Schema) {Object/NULL} [app.metacritic] Information about the Metacritic score of the game, or NULL if it doesn't have a Metacritic page.
+ * @apiParam (Schema) {Integer} app.metacritic.score The Metacritic score of the game.
+ * @apiParam (Schema) {String} app.metacritic.id The Metacritic ID of the game, useful for building its Metacritic URL (https://www.metacritic.com/game/pc/{id}).
+ * @apiParam (Schema) {Object/NULL} [app.rating] Information about the Steam rating of the game, or NULL if it doesn't have enough ratings.
+ * @apiParam (Schema) {Integer} app.rating.percentage The percentage of positive ratings that the game has.
+ * @apiParam (Schema) {Integer} app.rating.count The total number of ratings that the game has.
+ * @apiParam (Schema) {String/NULL} [app.release_date] When the game was released or is going to be released in the format YYYY-MM-DD, or NULL if there's no release date.
+ * @apiParam (Schema) {String[]} [app.genres] The genres of the game (according to the developers). Can be empty.
+ * @apiParam (Schema) {String[]} [app.tags] The user-defined tags of the game (according to the players). Can be empty.
+ * @apiParam (Schema) {Integer/NULL} [app.base] The Steam ID of the base game, or NULL if the game isn't a DLC.
+ * @apiParam (Schema) {Integer[]} [app.dlcs] The Steam IDs of the DLCs that the game has. Can be empty.
+ * @apiParam (Schema) {Integer[]} [app.subs] The Steam IDs of the subs that include the game. Can be empty.
+ * @apiParam (Schema) {Integer[]} [app.bundles] The Steam IDs of the bundles that include the game. Can be empty.
+ * @apiParam (Schema) {String} app.last_update When the information was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
+ * 
+ * @apiSampleRequest off
+ */
+
 function get_apps($parameters, $filters) {
   global $connection;
   global $global_timezone;
@@ -42,9 +86,9 @@ function get_apps($parameters, $filters) {
     ]
   ];
 
-  validate_filters($filters, $validation);
-
   if ($filters) {
+    validate_filters($filters, $validation);
+
     $filter_keys = explode(',', $filters[$filter_name]);
     foreach ($column_keys as $key) {
       if (!in_array($key, $filter_keys)) {
@@ -167,7 +211,7 @@ function get_apps($parameters, $filters) {
         $app['trading_cards'] = boolval($row['trading_cards']);
       }
       if (isset($columns['learning'])) {
-        $app['learning'] = isset($row['learning']) ? boolval($row['learning']) : NULL;
+        $app['learning'] = boolval($row['learning']);
       }
       if (isset($columns['multiplayer'])) {
         $app['multiplayer'] = boolval($row['multiplayer']);
@@ -284,7 +328,7 @@ function fetch_app($app_id) {
     'removed' => $removed,
     'steam_cloud' => in_array('steam cloud', $categories),
     'trading_cards' => in_array('steam trading cards', $categories),
-    'learning' => $removed ? NULL : count($xpath->query('//div[contains(@class, "learning_about")]')) > 0,
+    'learning' => count($xpath->query('//div[contains(@class, "learning_about")]')) > 0,
     'multiplayer' => !empty(array_intersect(['multi-player', 'online multi-player', 'co-op', 'local co-op', 'online co-op', 'shared/split screen'], $categories)),
     'singleplayer' => in_array('single-player', $categories),
     'linux' => $platforms['linux'],

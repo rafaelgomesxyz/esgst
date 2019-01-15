@@ -18,6 +18,8 @@ function validate_filters($filters, $validation) {
     if (!preg_match($element['regex'], $filters[$key])) {
       throw new CustomException('Invalid '.$key.' parameter. '.$element['message'], 400);
     }
+    
+    $filters[$key] = strtolower($filters[$key]);
 
     if (!$element['conflicts']) {
       continue;
