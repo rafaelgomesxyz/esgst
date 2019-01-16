@@ -120,7 +120,7 @@ function get_games_result($filters) {
     $boolean_message = 'Must be true or false.';
     $boolean_regex = '/^(true|false)$/';
     $ids_message = 'Must be a comma-separated list of ids e.g. 400,500,600.';
-    $ids_regex = '/^(\d+,)*\d+$/';
+    $ids_regex = '/^((\d+,)*\d+$|$)/';
     $filters_message = '';
     $filters_regex = '/.*/';
 
