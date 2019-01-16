@@ -5313,6 +5313,18 @@ class Common extends Module {
     document.body.appendChild(script);
     script.remove();
   }
+
+  testPath(name, namespace, path) {    
+    const pathObj = this.esgst.paths[namespace].filter(x => x.name === name)[0];
+    if (pathObj && this.getPath(path).match(pathObj.pattern)) {
+      return true;
+    }
+    return false;
+  }
+
+  getPath(url) {
+    return url.replace(/^https?:\/\/.+?\//, `/`);
+  }
 }
 
 export default Common;
