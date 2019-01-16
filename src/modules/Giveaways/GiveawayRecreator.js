@@ -66,7 +66,7 @@ class GiveawaysGiveawayRecreator extends Module {
     if (this.esgst.createdPath) {
       let response = await request({ method: `GET`, url: giveaway.url });
       // noinspection JSIgnoredPromiseFromCall
-      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, `giveaway`))[0] || giveaway);
+      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), true, response.finalUrl, false, `giveaway`))[0] || giveaway);
     } else {
       // noinspection JSIgnoredPromiseFromCall
       this.gr_saveTemplate(button, giveaway);

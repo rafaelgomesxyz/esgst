@@ -106,7 +106,17 @@ class Giveaways extends Module {
         }
       }
     }
-    if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && this.esgst.giveawayPath) {
+    const giveawayPath = common.testPath(`Giveaway`, `sg`, mainUrl || window.location.pathname);
+    const createdPath = common.testPath(`My Giveaways - Created`, `sg`, mainUrl || window.location.pathname);
+    const enteredPath = common.testPath(`My Giveaways - Entered`, `sg`, mainUrl || window.location.pathname);
+    const wonPath = common.testPath(`My Giveaways - Won`, `sg`, mainUrl || window.location.pathname);
+    const wishlistPath = common.testPath(`Community Wishlist`, `sg`, mainUrl || window.location.pathname);
+    const archivePath = common.testPath(`Archive`, `sg`, mainUrl || window.location.pathname);
+    const giveawaysPath = common.testPath(`Giveaways`, `sg`, mainUrl || window.location.pathname);
+    const groupPath = common.testPath(`Group`, `sg`, mainUrl || window.location.pathname);
+    const userPath = common.testPath(`Usernt`, `sg`, mainUrl || window.location.pathname);
+    const userWonPath = common.testPath(`User - Giveaways - Won`, `sg`, mainUrl || window.location.pathname);
+    if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && giveawayPath) {
       return;
     }
     giveaway.innerWrap = giveaway.outerWrap.querySelector(`.giveaway__row-inner-wrap, .featured__inner-wrap, .table__row-inner-wrap`);
@@ -115,18 +125,18 @@ class Giveaways extends Module {
     giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
     if (source === `gb`) {
       giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
-    } else if (this.esgst.giveawayPath && main) {
+    } else if (giveawayPath && main) {
       let button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
       if (button) {
         giveaway.entered = !button.classList.contains(`is-hidden`);
       }
-    } else if (this.esgst.enteredPath && main) {
+    } else if (enteredPath && main) {
       giveaway.entered = true;
     } else {
       giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
     }
     giveaway.headingName = giveaway.innerWrap.querySelector(`.giveaway__heading__name, .featured__heading__medium, .table__column__heading`);
-    if (this.esgst.wishlistPath) {
+    if (wishlistPath) {
       giveaway.heading = giveaway.headingName;
     } else {
       giveaway.heading = giveaway.headingName.parentElement;
@@ -139,7 +149,7 @@ class Giveaways extends Module {
     } else {
       giveaway.copies = 1;
     }
-    giveaway.url = this.esgst.giveawayPath && main && !ugd ? window.location.pathname : (mainUrl || giveaway.headingName.getAttribute(`href`));
+    giveaway.url = giveawayPath && main && !ugd ? ((mainUrl && common.getPath(mainUrl)) || window.location.pathname) : (mainUrl || giveaway.headingName.getAttribute(`href`));
     if (giveaway.url) {
       giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, ``);
       match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
@@ -173,7 +183,7 @@ class Giveaways extends Module {
       }
     }
     giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
-    if (giveaway.columns && (!this.esgst.archivePath || !main)) {
+    if (giveaway.columns && (!archivePath || !main)) {
       giveaway.endTimeColumn = giveaway.columns.firstElementChild;
       if (giveaway.endTimeColumn.classList.contains(`esgst-ged-source`)) {
         giveaway.sourceColumn = giveaway.endTimeColumn;
@@ -184,14 +194,14 @@ class Giveaways extends Module {
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
-      if (!main || !this.esgst.userPath || this.esgst.userWonPath || (ugd && ugdType === `won`) || ged) {
+      if (!main || !userPath || userWonPath || (ugd && ugdType === `won`) || ged) {
         giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
         giveaway.creator = giveaway.creatorContainer.textContent;
       }
     } else {
       giveaway.started = true;
     }
-    if (main && this.esgst.archivePath) {
+    if (main && archivePath) {
       giveaway.startTimeColumn = giveaway.innerWrap.querySelector(`[data-timestamp]`);
       if (giveaway.startTimeColumn) {
         giveaway.startTime = parseInt(giveaway.startTimeColumn.getAttribute(`data-timestamp`)) * 1e3;
@@ -201,7 +211,7 @@ class Giveaways extends Module {
         giveaway.startTime = 0;
       }
     }
-    if (!giveaway.endTime && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath)) {
+    if (!giveaway.endTime && main && (createdPath || enteredPath || wonPath)) {
       giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
       if (giveaway.endTime) {
         giveaway.endTimeColumn = giveaway.endTime.parentElement;
@@ -218,16 +228,16 @@ class Giveaways extends Module {
       if (ugdType === `sent`) {
         giveaway.creator = ugd;
       }
-    } else if (this.esgst.userPath && !this.esgst.userWonPath && main && !ged) {
-      giveaway.creator = window.location.pathname.match(/^\/user\/(.+?)(\/.*)?$/)[1];
-    } else if (this.esgst.createdPath && main) {
+    } else if (userPath && !userWonPath && main && !ged) {
+      giveaway.creator = ((mainUrl && common.getPath(mainUrl)) || window.location.pathname).match(/^\/user\/(.+?)(\/.*)?$/)[1];
+    } else if (createdPath && main) {
       giveaway.creator = this.esgst.username;
     }
     if (giveaway.creator) {
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
     if (main) {
-      if (this.esgst.createdPath) {
+      if (createdPath) {
         let status = giveaway.outerWrap.querySelector(`.table__column--width-small.text-center:last-of-type`);
         if (status) {
           if (status.textContent.match(/Not\sReceived/)) {
@@ -238,7 +248,7 @@ class Giveaways extends Module {
             giveaway.awaitingFeedback = true;
           }
         }
-      } else if (this.esgst.wonPath) {
+      } else if (wonPath) {
         giveaway.received = false;
         giveaway.notReceived = false;
         const elements = giveaway.outerWrap.querySelectorAll(`.table__column--gift-feedback`);
@@ -257,7 +267,7 @@ class Giveaways extends Module {
       }
     }
     giveaway.created = giveaway.creator === this.esgst.username;
-    if (this.esgst.uf && this.esgst.giveawaysPath && main) {
+    if (this.esgst.uf && giveawaysPath && main) {
       savedUser = await getUser(this.esgst.users, {
         username: giveaway.creator
       });
@@ -276,7 +286,7 @@ class Giveaways extends Module {
     }
     if (this.esgst.gf && this.esgst.gf_s && main) {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
-      if ((this.esgst.giveawaysPath || this.esgst.groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
+      if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
         giveaway.outerWrap.remove();
         return;
       }
@@ -286,7 +296,7 @@ class Giveaways extends Module {
       giveaway.links.classList.add(`esgst-giveaway-links`);
       giveaway.entriesLink = giveaway.links.firstElementChild;
       giveaway.commentsLink = giveaway.entriesLink.nextElementSibling;
-    } else if (this.esgst.giveawayPath) {
+    } else if (giveawayPath) {
       giveaway.entriesLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[1];
       giveaway.commentsLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[0];
     }
@@ -311,7 +321,7 @@ class Giveaways extends Module {
           type: `div`
         }]);
       } else if (giveaway.columns) {
-        if (this.esgst.archivePath) {
+        if (archivePath) {
           giveaway.columns.style.justifyContent = `right`;
           giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
             attributes: {
@@ -327,7 +337,7 @@ class Giveaways extends Module {
             type: `div`
           }]);
         }
-      } else if (this.esgst.enteredPath && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw)) {
+      } else if (enteredPath && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw)) {
         giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
           attributes: {
             class: `table__column--width-small text-center esgst-giveaway-panel`
@@ -356,7 +366,7 @@ class Giveaways extends Module {
     }
     giveaway.elgbPanel = giveaway.panel;
     if (!giveaway.entriesLink) {
-      let ct = giveaway.panel || (this.esgst.gm_enable && this.esgst.createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
+      let ct = giveaway.panel || (this.esgst.gm_enable && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
         giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
       }
@@ -369,7 +379,7 @@ class Giveaways extends Module {
     giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
     giveaway.public = !giveaway.sgTools && !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
     giveaway.touhouBox = giveaway.outerWrap.querySelector(`.touhou_giveaway_points`);
-    if (!main || !this.esgst.giveawayPath) {
+    if (!main || !giveawayPath) {
       if (giveaway.inviteOnly) {
         createElements(giveaway.inviteOnly, `inner`, [{
           attributes: {
@@ -428,7 +438,7 @@ class Giveaways extends Module {
         button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway), true);
       }
     }
-    let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);    
+    let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
     if (hideButton && !hideButton.classList.contains(`fa-eye`)) {
       if (!main || endless) {
         if (hideButton.classList.contains(`featured__giveaway__hide`)) {
