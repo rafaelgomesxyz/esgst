@@ -98,7 +98,6 @@ $app->get('/games', function ($request, $response) {
     $filters = $request->getQueryParams();
 
     return $response
-      ->withHeader('Access-Control-Allow-Origin', '*')
       ->withJson([
         'error' => NULL,
         'result' => get_games_result($filters)
@@ -106,7 +105,6 @@ $app->get('/games', function ($request, $response) {
     ;
   } catch (CustomException $exception) {
     return $response      
-      ->withHeader('Access-Control-Allow-Origin', '*')
       ->withJson([
         'error' => $exception->getMessage(),
         'result' => NULL

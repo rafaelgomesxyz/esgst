@@ -111,7 +111,6 @@ $app->get('/games/rcv', function ($request, $response) {
     $filters = $request->getQueryParams();
 
     return $response    
-      ->withHeader('Access-Control-Allow-Origin', '*')
       ->withJson([
         'error' => NULL,
         'result' => get_rcv_result($filters)
@@ -119,7 +118,6 @@ $app->get('/games/rcv', function ($request, $response) {
     ;
   } catch (CustomException $exception) {
     return $response
-      ->withHeader('Access-Control-Allow-Origin', '*')
       ->withJson([
         'error' => $exception->getMessage(),
         'result' => NULL

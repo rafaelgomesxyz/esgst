@@ -39,6 +39,7 @@
   "manifest_version": 2,
   "name": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "permissions": [
+    "*://*.gsrafael01.me/*",
     "*://*.api.steampowered.com/*",
     "*://*.store.steampowered.com/*",
     "*://*.script.google.com/*",

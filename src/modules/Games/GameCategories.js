@@ -1269,7 +1269,7 @@ class GamesGameCategories extends Module {
         }
 
         try {
-          const json = JSON.parse((await request({ anon: true, method: `GET`, url: `https://gsrafael01.me/esgst/games?app_ids=${params.apps.join(`,`)}&sub_ids=${params.subs.join(`,`)}&bundle_ids=${params.bundles.join(`,`)}` })).responseText);
+          const json = JSON.parse((await request({ method: `GET`, url: `https://gsrafael01.me/esgst/games?app_ids=${params.apps.join(`,`)}&sub_ids=${params.subs.join(`,`)}&bundle_ids=${params.bundles.join(`,`)}` })).responseText);
           for (const item of to_fetch) {
             let real_id, real_type;
             if (typeof item.id === `string` && item.id.match(/^SteamBundle/)) {
@@ -1606,7 +1606,6 @@ class GamesGameCategories extends Module {
         real_type = type;
       }
       const json = JSON.parse((await request({
-        anon: true,
         method: `GET`,
         url: `https://gsrafael01.me/esgst/game/${real_type.slice(0, -1)}/${real_id}`
       })).responseText);

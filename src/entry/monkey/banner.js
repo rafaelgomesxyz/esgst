@@ -11,6 +11,7 @@
 // @updateURL https://github.com/revilheart/ESGST/raw/master/ESGST.meta.js
 // @match https://www.steamgifts.com/*
 // @match https://www.steamtrades.com/*
+// @connect gsrafael01.me
 // @connect raw.githubusercontent.com
 // @connect api.steampowered.com
 // @connect store.steampowered.com
