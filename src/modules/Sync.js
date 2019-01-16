@@ -660,7 +660,6 @@ async function sync(syncer) {
     let result = null;
     try {
       result = JSON.parse((await container.common.request({
-        anon: true,
         method: `GET`,
         url: `https://gsrafael01.me/esgst/games/rcv`
       })).responseText);
