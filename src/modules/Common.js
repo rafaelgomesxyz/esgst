@@ -198,6 +198,7 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async loadFeatures(modules) {
+    console.log(this.esgst.games.apps[269650]);
     if (this.esgst.accountPath) {
       this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
         name: `ESGST`,
