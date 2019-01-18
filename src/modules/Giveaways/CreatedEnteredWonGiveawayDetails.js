@@ -97,6 +97,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaways: [],
       savedGiveaways: JSON.parse(await getValue(`giveaways`, `{}`))
     };
+    delete cewgd.savedGiveaways['6i2nQ'];
     let promises = [];
     for (let i = 0, n = giveaways.length; i < n; ++i) {
       promises.push(this.cewgd_getDetail(cewgd, giveaways, i));
@@ -137,14 +138,18 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         }
       }
     }
-    if (giveaway.deleted) {     
-      createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
-        attributes: {
-          class: `table__column--width-small text-center`
-        },
-        text: `-`,
-        type: `div`
-      }));
+    if (giveaway.deleted) {
+      if (giveaway.id) {
+        this.cewgd_addDetails(giveaway);
+      } else {
+        createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
+          attributes: {
+            class: `table__column--width-small text-center`
+          },
+          text: `-`,
+          type: `div`
+        }));
+      }
     } else if (cewgd.savedGiveaways[code] && cewgd.savedGiveaways[code].gameSteamId && (!this.esgst.createdPath || j < 0) && (!this.esgst.wonPath || cewgd.savedGiveaways[code].creator !== this.esgst.username)) {
       this.cewgd_addDetails(giveaway, cewgd.savedGiveaways[code]);
     } else if (this.esgst.createdPath && (!cewgd.savedGiveaways[code] || !cewgd.savedGiveaways[code].deleted)) {
@@ -172,13 +177,17 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           }
           pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
         } else {
-          createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
-            attributes: {
-              class: `table__column--width-small text-center`
-            },
-            text: `-`,
-            type: `div`
-          }));
+          if (giveaway.id) {
+            this.cewgd_addDetails(giveaway);
+          } else {
+            createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
+              attributes: {
+                class: `table__column--width-small text-center`
+              },
+              text: `-`,
+              type: `div`
+            }));
+          }
           pagination = null;
         }
         nextPage += 1;
@@ -196,6 +205,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         cewgd.giveaways.push(currentGiveaway);
         this.cewgd_addDetails(giveaway, currentGiveaway);
         cewgd.count += 1;
+      } else if (giveaway.id) {
+        this.cewgd_addDetails(giveaway);
       } else {
         createElements(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), `afterEnd`, new Array(this.esgst.createdPath ? 3 : 2).fill({
           attributes: {
@@ -235,7 +246,16 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         }
       }
     }
-    giveaway.points = details.points;
+    if (details) {
+      giveaway.points = details.points;
+      giveaway.level = details.level;
+    } else {
+      const gcCache = JSON.parse(common.getLocalValue(`gcCache`, `{}`));
+      const data = gcCache && gcCache[giveaway.type] && gcCache[giveaway.type][giveaway.id];
+      if (data && data.price > -1) {
+        giveaway.points = data.price;
+      }
+    }
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
       giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
@@ -244,19 +264,18 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (giveaway.gptwContext) {
       this.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
     }
-    giveaway.level = details.level;
     /**
      * @type {ElementsArrayItem[]}
      */
     const items = [{
-      text: ` (${details.points}P)`,
+      text: ` (${details || giveaway.points > 0 ? giveaway.points : `?`}P)`,
       type: `span`
     }];
-    if (details.gameType) {
+    if (giveaway.id) {
       items.push({
         attributes: {
           class: `giveaway__icon`,
-          href: `http://store.steampowered.com/${details.gameType.slice(0, -1)}/${details.gameSteamId}`,
+          href: `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`,
           target: `_blank`
         },
         type: `a`,
@@ -290,39 +309,45 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         child.setAttribute(`data-draggable-id`, `search`);
       }
     }
-    giveaway.inviteOnly = details.inviteOnly;
-    giveaway.regionRestricted = details.regionRestricted;
-    giveaway.group = details.group;
-    giveaway.whitelist = details.whitelist;
-    giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
+    if (details) {
+      giveaway.inviteOnly = details.inviteOnly;
+      giveaway.regionRestricted = details.regionRestricted;
+      giveaway.group = details.group;
+      giveaway.whitelist = details.whitelist;
+      giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
+    } else {
+      giveaway.blacklist = true;
+    }
     if (this.esgst.cgb) {
       this.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
-    if (details.inviteOnly) {
-      if (details.regionRestricted) {
+    if (giveaway.blacklist) {
+      type = `Blacklist`;
+    } else if (giveaway.inviteOnly) {
+      if (giveaway.regionRestricted) {
         type = `Invite + Region`;
       } else {
         type = `Invite`;
       }
-    } else if (details.group) {
-      if (details.whitelist) {
-        if (details.regionRestricted) {
+    } else if (giveaway.group) {
+      if (giveaway.whitelist) {
+        if (giveaway.regionRestricted) {
           type = `Group + Whitelist + Region`;
         } else {
           type = `Group + Whitelist`;
         }
-      } else if (details.regionRestricted) {
+      } else if (giveaway.regionRestricted) {
         type = `Group + Region`;
       } else {
         type = `Group`;
       }
-    } else if (details.whitelist) {
-      if (details.regionRestricted) {
+    } else if (giveaway.whitelist) {
+      if (giveaway.regionRestricted) {
         type = `Whitelist + Region`;
       } else {
         type = `Whitelist`;
       }
-    } else if (details.regionRestricted) {
+    } else if (giveaway.regionRestricted) {
       type = `Region`;
     } else {
       type = `Public`;
@@ -337,7 +362,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       attributes: {
         class: `table__column--width-small text-center`
       },
-      text: details.level,
+      text: details ? giveaway.level : `-`,
       type: `div`
     }];
     if (this.esgst.createdPath) {
@@ -352,7 +377,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (this.esgst.createdPath) {
       let n, winner, winnersColumn;
       winnersColumn = typeColumn.nextElementSibling.nextElementSibling;
-      n = details.winners.length;
+      n = (details && details.winners.length) || 0;
       if (n > 0) {
         if (n > 1) {
           winner = details.winners[0].username;
@@ -396,16 +421,21 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       createElements(giveaway.endTimeColumn, `beforeEnd`, [{
         text: ` by `,
         type: `node`
-      }, {
+      }, details ? {
         attributes: {
           class: `table__column__secondary-link`,
           href: `/user/${details.creator}`
         },
         text: details.creator,
         type: `a`
+      } : {
+        text: `?`,
+        type: `node`
       }]);
-      giveaway.creator = details.creator;
-      giveaway.creators.push(giveaway.creator.toLowerCase());
+      if (details) {
+        giveaway.creator = details.creator;
+        giveaway.creators.push(giveaway.creator.toLowerCase());
+      }
     }
     if (giveaway.group && this.esgst.ggl) {
       // noinspection JSIgnoredPromiseFromCall
