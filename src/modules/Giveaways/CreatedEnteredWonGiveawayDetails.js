@@ -97,7 +97,6 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaways: [],
       savedGiveaways: JSON.parse(await getValue(`giveaways`, `{}`))
     };
-    delete cewgd.savedGiveaways['6i2nQ'];
     let promises = [];
     for (let i = 0, n = giveaways.length; i < n; ++i) {
       promises.push(this.cewgd_getDetail(cewgd, giveaways, i));
