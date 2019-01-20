@@ -65,6 +65,7 @@
   "web_accessible_resources": [
     "icon.png"
   ],
-  "version": "8.1.13",
+  "version": "8.2.0.14",
+  "version_name": "8.2.0 (Dev.14)",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

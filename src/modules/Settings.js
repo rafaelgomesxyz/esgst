@@ -492,11 +492,6 @@ function loadFeatureDetails(id, offset, event) {
     const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
     feature.sgFeatureSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
-      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-        sgSwitch.disable(true);
-        show_extension_only_popup();
-        return;
-      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_sg`];
@@ -554,11 +549,6 @@ function loadFeatureDetails(id, offset, event) {
     const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
     feature.stFeatureSwitch = stSwitch;
     stSwitch.onEnabled = () => {
-      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-        stSwitch.disable(true);
-        show_extension_only_popup();
-        return;
-      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_st`];
@@ -616,11 +606,6 @@ function loadFeatureDetails(id, offset, event) {
     const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
     feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
     sgtoolsSwitch.onEnabled = () => {
-      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-        sgtoolsSwitch.disable(true);
-        show_extension_only_popup();
-        return;
-      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_sgtools`];
@@ -1302,11 +1287,6 @@ function getSMFeature(feature, id, number, popup) {
     const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
     feature.sgSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
-      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-        sgSwitch.disable(true);
-        show_extension_only_popup();
-        return;
-      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_sg`];
@@ -1357,11 +1337,6 @@ function getSMFeature(feature, id, number, popup) {
     const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
     feature.stSwitch = stSwitch;
     stSwitch.onEnabled = () => {
-      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-        stSwitch.disable(true);
-        show_extension_only_popup();
-        return;
-      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_st`];
@@ -1412,11 +1387,6 @@ function getSMFeature(feature, id, number, popup) {
     const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `[SGT]`, false, true, null, value);
     feature.sgtoolsSwitch = sgtoolsSwitch;
     sgtoolsSwitch.onEnabled = () => {
-      if (feature.extensionOnly && !container.common._USER_INFO.extension) {
-        sgtoolsSwitch.disable(true);
-        show_extension_only_popup();
-        return;
-      }
       if (feature.conflicts) {
         for (const conflict of feature.conflicts) {
           const setting = container.esgst.settings[`${conflict.id}_sgtools`];
