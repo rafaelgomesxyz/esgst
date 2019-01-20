@@ -1014,53 +1014,47 @@ class Common extends Module {
   }
 
   async checkNewVersion() {
-    if (this.esgst.version !== this.esgst.currentVersion) {
-      if (typeof this.esgst.version === `undefined`) {
-        this.esgst.firstInstall = true;
-        // noinspection JSIgnoredPromiseFromCall
-        this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
-        this.esgst.dismissedOptions = this.esgst.toDismiss;
-        let popup = new Popup({
-          addScrollable: true, icon: `fa-smile-o`, isTemp: true, title: [{
-            attributes: {
-              class: `fa fa-circle-o-notch fa-spin`
-            },
-            type: `i`
-          }, {
-            text: ` Hi! ESGST is getting things ready for you. This will not take long...`,
-            type: `node`
-          }]
-        });
-        popup.open();
-        await this.checkSync(true);
-        this.createElements_v2(popup.title, `inner`, [
-          [`i`, { class: `fa fa-check` }],
-          ` Thanks for installing ESGST, ${this.esgst.username}.`,
-          [`br`],
-          [`br`],
-          `ESGST has a public Steam group. If you want to join it, click `,
-          [`a`, { class: `esgst-bold`, href: `http://steamcommunity.com/groups/esgst`, target: `_blank` }, `here`],
-          `.`,
-          [`br`],
-          [`br`],
-          `ESGST also has a Patreon page. If you want to become a Patron, click `,
-          [`a`, { class: `esgst-bold`, href: `https://www.patreon.com/gsrafael01`, target: `_blank` }, `here`],
-          `. You can also support ESGST by donating to the following Paypal account: `,
-          [`strong`, `gsrafael01@gmail.com`],
-          [`br`],
-          [`br`],
-          `You are ready to go! Click on the `,
-          [`strong`, `Settings`],
-          ` link below to enable features and start getting the most out of SteamGifts!`
-        ]);
-      } else {
-        if (this.esgst.showChangelog) {
-          loadChangelog(this.esgst.version);
-        }
-      }
-      this.esgst.version = this.esgst.currentVersion;
+    if (this.esgst.storage.isFirstRun) {
+      this.esgst.firstInstall = true;
       // noinspection JSIgnoredPromiseFromCall
-      this.setValue(`version`, this.esgst.version);
+      this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
+      this.esgst.dismissedOptions = this.esgst.toDismiss;
+      let popup = new Popup({
+        addScrollable: true, icon: `fa-smile-o`, isTemp: true, title: [{
+          attributes: {
+            class: `fa fa-circle-o-notch fa-spin`
+          },
+          type: `i`
+        }, {
+          text: ` Hi! ESGST is getting things ready for you. This will not take long...`,
+          type: `node`
+        }]
+      });
+      popup.open();
+      await this.checkSync(true);
+      this.createElements_v2(popup.title, `inner`, [
+        [`i`, { class: `fa fa-check` }],
+        ` Thanks for installing ESGST, ${this.esgst.username}.`,
+        [`br`],
+        [`br`],
+        `ESGST has a public Steam group. If you want to join it, click `,
+        [`a`, { class: `esgst-bold`, href: `http://steamcommunity.com/groups/esgst`, target: `_blank` }, `here`],
+        `.`,
+        [`br`],
+        [`br`],
+        `ESGST also has a Patreon page. If you want to become a Patron, click `,
+        [`a`, { class: `esgst-bold`, href: `https://www.patreon.com/gsrafael01`, target: `_blank` }, `here`],
+        `. You can also support ESGST by donating to the following Paypal account: `,
+        [`strong`, `gsrafael01@gmail.com`],
+        [`br`],
+        [`br`],
+        `You are ready to go! Click on the `,
+        [`strong`, `Settings`],
+        ` link below to enable features and start getting the most out of SteamGifts!`
+      ]);
+    } else if (this.esgst.storage.isUpdate && this.esgst.showChangelog) {
+      const version = (await this.browser.runtime.getManifest()).version;
+      loadChangelog(version);
     }
   }
 

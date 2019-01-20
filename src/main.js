@@ -103,6 +103,15 @@ import { runSilentSync } from './modules/Sync';
             self.port.on(`esgstMessage`, obj => callback(obj));
           }
         },
+        getManifest: () => {
+          return new Promise(resolve => {
+            envVariables.browser.runtime.sendMessage({
+              action: `getPackageJson`
+            }, result => {
+              resolve(JSON.parse(result));
+            });
+          });
+        },
         sendMessage: (obj, callback) => {
           obj.uuid = `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, common.createUuid.bind(common));
           self.port.emit(obj.action, obj);
@@ -248,7 +257,7 @@ import { runSilentSync } from './modules/Sync';
           });
         }
       });
-    envFunctions.addHeaderMenu = () => {
+    envFunctions.addHeaderMenu = async () => {
       if (!esgst.header) {
         return;
       }
@@ -538,7 +547,7 @@ import { runSilentSync } from './modules/Sync';
                   attributes: {
                     class: `esgst-header-menu-description`
                   },
-                  text: `Current Version: ${esgst.devVersion}`,
+                  text: `Current Version: ${(await envVariables.browser.runtime.getManifest()).version_name}`,
                   type: `p`
                 }]
               }]
@@ -589,7 +598,7 @@ import { runSilentSync } from './modules/Sync';
       });
       arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
       document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
-      document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog(common));
+      document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog());
     };
     envVariables.browser.runtime.onMessage.addListener(message => {
       let key;
@@ -792,7 +801,6 @@ import { runSilentSync } from './modules/Sync';
     } else {
       esgst.settings = {};
     }
-    esgst.version = esgst.storage.version;
     for (let key in esgst.settings) {
       let match = key.match(new RegExp(`(.+?)_${esgst.name}$`));
       if (match) {
@@ -1073,8 +1081,7 @@ import { runSilentSync } from './modules/Sync';
         }
       }
 
-      envFunctions.addHeaderMenu();
-      // noinspection JSIgnoredPromiseFromCall
+      await envFunctions.addHeaderMenu();
       common.checkNewVersion();
       await common.loadFeatures(esgst.modules);
     }
