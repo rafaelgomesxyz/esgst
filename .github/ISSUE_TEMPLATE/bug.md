@@ -23,8 +23,8 @@ Always check the browser console for errors (by pressing Ctrl + Shift + J) when 
 If applicable, add screenshots to help explain your problem.
 
 **System (please complete the following information):**
-- ESGST: [e.g. Extension v7.27.0, Extension v7.27.0 (Dev.1), Userscript v7.27.0 (Greasemonkey), Userscript v7.27.0 (Tampermonkey)]
-- Browser: [e.g. Firefox v60, Chrome v60]
+- ESGST Version: [e.g. 8.1.0, 8.1.0 (Dev.10)]
+- Browser + Version: [e.g. Chrome v60, Firefox v60]
 
 **Additional Context**
 Add any other context about the problem here.

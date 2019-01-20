@@ -9,7 +9,6 @@ const
   getWonGames = common.getWonGames.bind(common),
   request = common.request.bind(common),
   setLocalValue = common.setLocalValue.bind(common),
-  _USER_INFO = common._USER_INFO,
   browser = common.browser
   ;
 
@@ -146,7 +145,6 @@ class GeneralHeaderRefresher extends Module {
               [`li`, `With this option disabled, clicking on a notification will always open a new tab.`]
             ]]
           ],
-          extensionOnly: true,
           features: {
             hr_a_r: {
               name: `Refresh the page after setting it as active.`,
@@ -538,7 +536,7 @@ class GeneralHeaderRefresher extends Module {
       tag: details.msg
     });
     notification.onclick = () => {
-      if (_USER_INFO.extension && this.esgst.hr_a) {
+      if (this.esgst.hr_a) {
         browser.runtime.sendMessage({
           action: `tabs`,
           any: this.esgst.hr_a_a,

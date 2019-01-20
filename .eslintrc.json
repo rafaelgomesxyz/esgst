@@ -1,7 +1,6 @@
 {
   "env": {
     "browser": true,
-    "greasemonkey": true,
     "es6": true,
     "jquery": true,
     "webextensions": true,

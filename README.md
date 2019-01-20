@@ -10,8 +10,8 @@ If you find any bugs or have any feature requests, please file an issue [here](h
 
 Tested and confirmed as working:
 
-* Firefox (since v52)
 * Chrome (since v55)
+* Firefox (since v52)
 * Pale Moon
 
 Not tested but should be working:
@@ -27,11 +27,11 @@ Not supported:
 
 ## Installation
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/esgst/">
-  <img src="https://raw.githubusercontent.com/gsrafael01/ESGST/master/firefox_badge.png" alt="Firefox">
-</a>
 <a href="https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna/">
   <img src="https://raw.githubusercontent.com/gsrafael01/ESGST/master/chrome_badge.png" alt="Chrome">
+</a>
+<a href="https://addons.mozilla.org/en-US/firefox/addon/esgst/">
+  <img src="https://raw.githubusercontent.com/gsrafael01/ESGST/master/firefox_badge.png" alt="Firefox">
 </a>
 <a href="https://addons.palemoon.org/addon/esgst/">
   <img src="https://raw.githubusercontent.com/gsrafael01/ESGST/master/pale_moon_badge.png" alt="Pale Moon">

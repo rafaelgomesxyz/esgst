@@ -28,8 +28,7 @@ const
     EXTENSION: 'app/esgst',
     EXTENSION_SGTOOLS: 'app/esgst_sgtools',
     EXTENSION_EVENT_PAGE: 'app/eventPage',
-    EXTENSION_EVENT_PAGE_SDK: 'app/index',
-    MONKEY: 'ESGST.user'
+    EXTENSION_EVENT_PAGE_SDK: 'app/index'
   },
   loaders = {
     style: {
@@ -104,12 +103,6 @@ module.exports = /** @param {Environment} env */ async env => {
       .replace(/"version":\s".+?"/, `"version": "${packageJson.version}"`);
     fs.writeFileSync(path.join(__dirname, './app/manifest.json'), file);
 
-    // Update ESGST.meta.js
-    file = fs.readFileSync(path.join(__dirname, './ESGST.meta.js'), 'utf8');
-    file = file
-      .replace(/@version.+/, `@version ${packageJson.version}`);
-    fs.writeFileSync(path.join(__dirname, './ESGST.meta.js'), file);
-
     // Update README.md
     file = fs.readFileSync(path.join(__dirname, './README.md'), 'utf8');
     file = file
@@ -120,14 +113,11 @@ module.exports = /** @param {Environment} env */ async env => {
   }
 
   const entry = {
-    [BUILD_PATHS.EXTENSION]: ['./extension/index.js'],
-    [BUILD_PATHS.EXTENSION_SGTOOLS]: ['./extension/index_sgtools.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./extension/eventPage_index.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE_SDK]: ['./extension/eventPage_sdk_index.js']
+    [BUILD_PATHS.EXTENSION]: ['./index.js'],
+    [BUILD_PATHS.EXTENSION_SGTOOLS]: ['./index_sgtools.js'],
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./eventPage_index.js'],
+    [BUILD_PATHS.EXTENSION_EVENT_PAGE_SDK]: ['./eventPage_sdk_index.js']
   };
-  if (env.production) {
-    entry[BUILD_PATHS.MONKEY] = ['./monkey/index.js'];
-  }
 
   let cfg = {
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
@@ -165,21 +155,8 @@ module.exports = /** @param {Environment} env */ async env => {
       new plugins.banner({
         raw: true,
         entryOnly: true,
-        test: /user\.js$/,
-        banner: () => {
-          let bannerFile = path.join(__dirname, './src/entry/monkey/banner.js');
-          if (!fs.existsSync(bannerFile)) {
-            return '';
-          }
-
-          return calfinated.process(fs.readFileSync(bannerFile, 'utf8'), {package: packageJson});
-        }
-      }),
-      new plugins.banner({
-        raw: true,
-        entryOnly: true,
         test: /index\.js$/,
-        banner: fs.readFileSync(path.join(__dirname, './src/entry/extension/eventPage_sdk_banner.js'), 'utf8')
+        banner: fs.readFileSync(path.join(__dirname, './src/entry/eventPage_sdk_banner.js'), 'utf8')
       }),
       new plugins.provide({
         '$': 'jquery',
