@@ -19,6 +19,17 @@ var button = buttons.ActionButton({
   onClick: handleClick
 });
 
+let isFirstRun = false;
+let isUpdate = false;
+
+exports.main = details => {
+  if (details.loadReason === `install`) {
+    isFirstRun = true;
+  } else if (details.loadReason === `upgrade`) {
+    isUpdate = true;
+  }
+};
+
 function handleClick(state) {
   tabs.open("https://www.steamgifts.com/account/settings/profile?esgst=settings");
 }
@@ -304,8 +315,16 @@ PageMod({
       worker.port.emit(`fetch_${request.uuid}_response`, response);
     });
 
+    worker.port.on(`getPackageJson`, request => {
+      worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
+    });
+
     worker.port.on(`getStorage`, async request => {
       const storage = await handle_storage(TYPE_GET, null);
+      storage.isFirstRun = isFirstRun;
+      storage.isUpdate = isUpdate;
+      isFirstRun = false;
+      isUpdate = false;
       worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
 

@@ -13,5 +13,6 @@
   "main": "index.js",
   "name": "esgst",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
-  "version": "8.1.13"
+  "version": "8.1.13",
+  "version_name": "8.2.0-dev.15"
 }

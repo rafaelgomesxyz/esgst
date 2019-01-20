@@ -314,9 +314,6 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       let links = comment.displayState.querySelectorAll(`[href^="ESGST-"]`);
       for (let j = links.length - 1; j > -1; j--) {
         let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
-        if (code.match(/currentVersion/)) {
-          continue;
-        }
         if (!deleteLock) {
           deleteLock = await createLock(`gedLock`, 300);
           this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
@@ -438,9 +435,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let elements = context.querySelectorAll(`[href^="ESGST-"]`);
     for (let i = 0, n = elements.length; i < n; i++) {
       let encryptedCode = elements[i].getAttribute(`href`).match(/ESGST-(.+)/)[1];
-      if (!encryptedCode.match(/currentVersion/)) {
-        codes.push(this.ged_decryptCode(encryptedCode));
-      }
+      codes.push(this.ged_decryptCode(encryptedCode));
     }
     if (!codes.length) {
       return;

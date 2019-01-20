@@ -23,7 +23,7 @@ Always check the browser console for errors (by pressing Ctrl + Shift + J) when 
 If applicable, add screenshots to help explain your problem.
 
 **System (please complete the following information):**
-- ESGST Version: [e.g. 8.1.0, 8.1.0 (Dev.10)]
+- ESGST Version: [e.g. 8.1.0, 8.1.0-dev.10]
 - Browser + Version: [e.g. Chrome v60, Firefox v60]
 
 **Additional Context**

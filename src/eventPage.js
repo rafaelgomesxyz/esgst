@@ -5,6 +5,16 @@ import JSZip from 'jszip';
  */
 const browser = (global.chrome && global.chrome.runtime) ? global.chrome : global.browser;
 let storage = null;
+let isFirstRun = false;
+let isUpdate = false;
+
+browser.runtime.onInstalled.addListener(details => {
+  if (details.reason === `install`) {
+    isFirstRun = true;
+  } else if (details.reason === `update`) {
+    isUpdate = true;
+  }
+});
 
 browser.storage.local.get(`settings`, async result => {
   /**
@@ -342,10 +352,18 @@ browser.runtime.onMessage.addListener((request, sender, callback) => {
       break;
     case `getStorage`:
       if (storage) {
+        storage.isFirstRun = isFirstRun;
+        storage.isUpdate = isUpdate;
+        isFirstRun = false;
+        isUpdate = false;
         callback(JSON.stringify(storage));
       } else {
         browser.storage.local.get(null, stg => {
           storage = stg;
+          storage.isFirstRun = isFirstRun;
+          storage.isUpdate = isUpdate;
+          isFirstRun = false;
+          isUpdate = false;
           callback(JSON.stringify(storage));
         });
       }

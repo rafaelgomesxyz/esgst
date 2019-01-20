@@ -1,5 +1,6 @@
 var buttons = require("sdk/ui/button/action");
 var data = require("sdk/self").data;
+var packageJson = require("./package.json");
 var setTimeout = require("sdk/timers").setTimeout;
 var tabs = require("sdk/tabs");
 var PageMod = require("sdk/page-mod").PageMod;

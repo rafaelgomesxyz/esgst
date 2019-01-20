@@ -922,7 +922,7 @@ function loadChangelog(version) {
       }
     }
   ];
-  let index = 0;
+  let index = changelog.length - 1;
   if (version) {
     let i, n;
     for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; i++) {
