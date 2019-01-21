@@ -8,8 +8,8 @@ $ProgressPreference = "SilentlyContinue"
 
 # retrieve dev version
 function retrieve_dev_version {
-  $dev_version = (Get-Content ./app/manifest.json | Select-String -Pattern "`"version_name`":\s`"(.+?)`"").Matches[0].Groups[1].Value
-  echo $dev_version
+  $script:dev_version = (Get-Content ./app/manifest.json | Select-String -Pattern "`"version_name`":\s`"(.+?)`"").Matches[0].Groups[1].Value
+  echo $script:dev_version
   echo "dev version retrieved"
 }
 
@@ -33,7 +33,7 @@ function retrieve_github_commit_message {
 # commit to github
 function commit_to_github {
   git add .
-  git commit -a -m "v${dev_version} $message"
+  git commit -a -m "v${script:dev_version} $message"
   git push
   echo "committed to gitHub"
 }
