@@ -221,7 +221,7 @@ module.exports = /** @param {Environment} env */ async env => {
     .concat(env.publish ? [
       new plugins.shell({
         onBuildEnd: [
-          env.production ? `npm run publish` : `npm run publish-dev -- ${env.issue ? `-issue ${env.issue}` : `-message '''${env.message}'''`}`
+          env.production ? `npm run publish` : `npm run publish-dev -- ${env.issue ? `-issue ${env.issue}` : `-message '${env.message}'`}`
         ]
       }),
     ] : []),
