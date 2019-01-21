@@ -144,7 +144,7 @@ module.exports = /** @param {Environment} env */ async env => {
     fs.writeFileSync(path.join(__dirname, './README.md'), file);
 
     env.withBabel = true;
-  } else {
+  } else if (!env.withWatch) {
     // Get dev version.
     let devVersion = ``;
     if (version === manifestJson.version) {

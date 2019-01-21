@@ -3,6 +3,9 @@ param (
   [Parameter(Mandatory=$false)][string]$message
 );
 
+$script:issue = $issue
+$script:message = $message
+
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $ProgressPreference = "SilentlyContinue"
 
@@ -15,25 +18,25 @@ function retrieve_dev_version {
 
 # retrieve github commit title
 function retrieve_github_commit_message {
-  if (!$message -and $issue) {
-    $response = Invoke-WebRequest -Uri "http://api.github.com/repos/gsrafael01/ESGST/issues/$issue" | ConvertFrom-Json
+  if (!$script:message -and $script:issue) {
+    $response = Invoke-WebRequest -Uri "http://api.github.com/repos/gsrafael01/ESGST/issues/$script:issue" | ConvertFrom-Json
     echo $response
     if ($response.state -eq "closed") {
-      $message = "#$issue"
+      $script:message = "#$script:issue"
     } else {
       $title = $response.title
       echo $title
-      $message = "$title (close #$issue)"
+      $script:message = "$title (close #$script:issue)"
     }
   }
-  echo $message
+  echo $script:message
   echo "github commit message retrieved"
 }
 
 # commit to github
 function commit_to_github {
   git add .
-  git commit -a -m "v${script:dev_version} $message"
+  git commit -a -m "v${script:dev_version} $script:message"
   git push
   echo "committed to gitHub"
 }

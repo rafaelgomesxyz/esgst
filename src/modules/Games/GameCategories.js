@@ -1224,6 +1224,9 @@ class GamesGameCategories extends Module {
 
       let index = 0;
       for (const item of to_fetch) {
+        if (!games[item.type][item.id]) {
+          continue;
+        }
         for (const game of games[item.type][item.id]) {
           const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];          
           if (panel && !panel.getAttribute(`data-gcReady`)) {
@@ -1262,24 +1265,20 @@ class GamesGameCategories extends Module {
         };
         for (const item of to_fetch) {
           if (typeof item.id === `string` && item.id.match(/^SteamBundle/)) {
-            params.bundles.push(item.id.replace(/^SteamBundle/, ``));
+            item.realId = item.id.replace(/^SteamBundle/, ``);
+            item.realType = `bundles`;
           } else {
-            params[item.type].push(item.id);
+            item.realId = item.id;
+            item.realType = item.type;
           }
+          params[item.realType].push(item.realId);
         }
 
         try {
           const json = JSON.parse((await request({ method: `GET`, url: `https://gsrafael01.me/esgst/games?app_ids=${params.apps.join(`,`)}&sub_ids=${params.subs.join(`,`)}&bundle_ids=${params.bundles.join(`,`)}` })).responseText);
-          for (const item of to_fetch) {
-            let real_id, real_type;
-            if (typeof item.id === `string` && item.id.match(/^SteamBundle/)) {
-              real_id = item.id.replace(/^SteamBundle/, ``);
-              real_type = `bundles`;
-            } else {
-              real_id = item.id;
-              real_type = item.type;
-            }
-            const data = json.result.found[real_type][real_id];
+          for (let i = 0; i < to_fetch.length; i++) {
+            const item = to_fetch[i];
+            const data = json.result.found[item.realType][item.realId];
 
             if (!data) {
               continue;
@@ -1289,7 +1288,9 @@ class GamesGameCategories extends Module {
 
             if (now - last_update <= 604800000) {
               item.found = true;
+              const oldLength = to_fetch.length;
               gc.cache[item.type][item.id] = await this.gc_fake_api(gc, to_fetch, data, item.id, item.type, last_update);
+              i += (to_fetch.length - oldLength);
             }
           }
 
@@ -1846,6 +1847,9 @@ class GamesGameCategories extends Module {
     }
     for (let i = 0, n = to_fetch.length; i < n; i++) {
       const item = to_fetch[i];
+      if (!games[item.type][item.id]) {
+        continue;
+      }
       for (const game of games[item.type][item.id]) {
         const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
         if (panel && !panel.getAttribute(`data-gcReady`)) {
