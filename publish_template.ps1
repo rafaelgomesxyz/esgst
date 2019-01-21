@@ -82,7 +82,7 @@ function close_github_milestone {
       echo "could not close github milestone"
       echo $_.Exception
     }
-  } else {    
+  } else {
     echo "could not close github milestone: no github token"
   }
 }
@@ -106,7 +106,7 @@ function create_github_release {
       echo "could not create github release"
       echo $_.Exception
     }
-  } else {    
+  } else {
     echo "could not create github release: no github token"
   }
 }
@@ -223,11 +223,11 @@ $script:pale_moon_port = ""
 
 # upload to pale moon store
 function upload_to_pale_moon_store {
-  $ftp = "ftp://${script:pale_moon_host}:${script:pale_moon_port}/esgst"  
+  $ftp = "ftp://${script:pale_moon_host}:${script:pale_moon_port}/esgst"
   $web_client = New-Object System.Net.WebClient 
-  $web_client.Credentials = New-Object System.Net.NetworkCredential($script:pale_moon_username, $script:pale_moon_password)  
-  $uri = New-Object System.Uri("$ftp/esgst.xpi") 
-  $web_client.UploadFile($uri, "./esgst.xpi") 
+  $web_client.Credentials = New-Object System.Net.NetworkCredential($script:pale_moon_username, $script:pale_moon_password)
+  $uri = New-Object System.Uri("$ftp/esgst-${script:version}.xpi") 
+  $web_client.UploadFile($uri, "./esgst.xpi")
   $uri = New-Object System.Uri("$ftp/phoebus.manifest") 
   $web_client.UploadFile($uri, "./phoebus.manifest")
 }

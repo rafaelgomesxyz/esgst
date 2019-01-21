@@ -131,6 +131,12 @@ module.exports = /** @param {Environment} env */ async env => {
       .replace(/"version_name":\s".+?"/, `"version_name": "${version}"`);
     fs.writeFileSync(path.join(__dirname, './app/package.json'), file);
 
+    // Update phoebus.manifest
+    file = fs.readFileSync(path.join(__dirname, './phoebus.manifest'), 'utf8');
+    file = file
+      .replace(/release=".+?"/, `release="esgst-${version}.xpi"`);
+    fs.writeFileSync(path.join(__dirname, './phoebus.manifest'), file);
+
     // Update README.md
     file = fs.readFileSync(path.join(__dirname, './README.md'), 'utf8');
     file = file

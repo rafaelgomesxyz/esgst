@@ -230,6 +230,19 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.2.0 (January 21, 2019)**
+
+* [#1185](https://github.com/gsrafael01/ESGST/issues/1185) Use ESGST server as main method for retrieving game categories
+* [#1184](https://github.com/gsrafael01/ESGST/issues/1184) Use ESGST server as main method for syncing reduced CV games
+* [#1183](https://github.com/gsrafael01/ESGST/issues/1183) Fix a bug that does not load the add-on on Pale Moon
+* [#1179](https://github.com/gsrafael01/ESGST/issues/1179) Fix a bug in Giveaway Recreator that does not populate the fields correctly
+* [#1178](https://github.com/gsrafael01/ESGST/issues/1178) Get current version from extension API instead of changing it manually
+* [#1177](https://github.com/gsrafael01/ESGST/issues/1177) Remove all references to the userscript version from the README file
+* [#1176](https://github.com/gsrafael01/ESGST/issues/1176) Add donate link for Steam trade
+* [#1172](https://github.com/gsrafael01/ESGST/issues/1172) [WIP] Implement a server for ESGST
+* [#1163](https://github.com/gsrafael01/ESGST/issues/1163) Make Created/Entered/Won Giveaway Details work for blacklist giveaways
+* [#1111](https://github.com/gsrafael01/ESGST/issues/1111) Deprecate userscript version
+
 **8.1.13 (January 5, 2019)**
 
 * [#1173](https://github.com/gsrafael01/ESGST/issues/1173) Add a new giveaway filter: Minutes From Start
