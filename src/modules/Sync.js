@@ -674,7 +674,7 @@ async function sync(syncer) {
         `Unable to sync reduced CV games.`
       ]);
     } else {
-      result = result.success || result.found;
+      result = result.success || result.result.found;
       for (const id in container.esgst.games.apps) {
         if (container.esgst.games.apps.hasOwnProperty(id)) {
           container.esgst.games.apps[id].reducedCV = null;
