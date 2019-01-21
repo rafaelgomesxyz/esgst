@@ -5,6 +5,15 @@ function loadChangelog(version) {
   const changelog = [
       {
         date: `January 21, 2019`,
+        version: `8.2.1`,
+        changelog: {
+          1189: `Fix a bug that happens when retrieving game categories`,
+          1188: `Fix a bug that happens when syncing reduced CV games`
+        }
+      },
+
+      {
+        date: `January 21, 2019`,
         version: `8.2.0`,
         changelog: {
           1185: `Use ESGST server as main method for retrieving game categories`,

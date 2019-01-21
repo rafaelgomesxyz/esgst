@@ -230,6 +230,11 @@ To learn more about each feature you have to install ESGST.
 
 ## Changelog
 
+**8.2.1 (January 21, 2019)**
+
+* [#1189](https://github.com/gsrafael01/ESGST/issues/1189) Fix a bug that happens when retrieving game categories
+* [#1188](https://github.com/gsrafael01/ESGST/issues/1188) Fix a bug that happens when syncing reduced CV games
+
 **8.2.0 (January 21, 2019)**
 
 * [#1185](https://github.com/gsrafael01/ESGST/issues/1185) Use ESGST server as main method for retrieving game categories

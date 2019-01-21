@@ -1,7 +1,7 @@
 [addon]
 type="extension"
 id="addon@esgst"
-release="esgst-8.2.0.xpi"
+release="esgst-8.2.1.xpi"
 
 [metadata]
 slug="esgst"
