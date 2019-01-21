@@ -7,10 +7,10 @@ function retrieve_version() {
   echo "version retrieved"
 }
 
-# generate extension.zip
-function generate_extension_zip() {
-  zip -j ./extension.zip ./app/manifest.json ./app/eventPage.js ./app/esgst.js ./app/esgst_sgtools.js ./app/icon.png
-  echo "extension.zip generated"
+# generate app.zip
+function generate_app_zip() {
+  zip -j ./app.zip ./app/manifest.json ./app/eventPage.js ./app/esgst.js ./app/esgst_sgtools.js ./app/icon.png
+  echo "app.zip generated"
 }
 
 # generate esgst.xpi
@@ -171,7 +171,7 @@ EOF
 }
 
 retrieve_version
-generate_extension_zip
+generate_app_zip
 generate_esgst_xpi
 commit_to_github
 retrieve_github_token

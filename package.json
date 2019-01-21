@@ -5,10 +5,14 @@
   "main": "ESGST.meta.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --env.production",
-    "build-publish": "npm run build && npm run publish",
+    "build-publish": "./node_modules/.bin/webpack --env.production --env.publish",
+    "build-publish-dev": "./node_modules/.bin/webpack --env.development --env.publish",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
     "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
-    "publish": "./publish.sh",
+    "publish": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./publish.ps1",
+    "publish-linux": "./publish.sh",
+    "publish-dev": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./publish-dev.ps1",
+    "publish-dev-linux": "./publish-dev.sh",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation"
@@ -50,6 +54,7 @@
     "url-loader": "^1.1.1",
     "webpack": "^4.16.5",
     "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
