@@ -1,7 +1,7 @@
 /build/*
 !/build/.gitignoregit 
 /node_modules
-extension.zip
+app.zip
 src.zip
 README.txt
 .gitignore

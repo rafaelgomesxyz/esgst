@@ -4,6 +4,23 @@ import { container } from '../class/Container';
 function loadChangelog(version) {
   const changelog = [
       {
+        date: `January 21, 2019`,
+        version: `8.2.0`,
+        changelog: {
+          1185: `Use ESGST server as main method for retrieving game categories`,
+          1184: `Use ESGST server as main method for syncing reduced CV games`,
+          1183: `Fix a bug that does not load the add-on on Pale Moon`,
+          1179: `Fix a bug in Giveaway Recreator that does not populate the fields correctly`,
+          1178: `Get current version from extension API instead of changing it manually`,
+          1177: `Remove all references to the userscript version from the README file`,
+          1176: `Add donate link for Steam trade`,
+          1172: `[WIP] Implement a server for ESGST`,
+          1163: `Make Created/Entered/Won Giveaway Details work for blacklist giveaways`,
+          1111: `Deprecate userscript version`
+        }
+      },
+
+      {
         date: `January 5, 2019`,
         version: `8.1.13`,
         changelog: {
