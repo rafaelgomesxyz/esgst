@@ -46,7 +46,11 @@ $script:github_client_secret = ""
 # required
 $script:github_code = ""
 # optional
-$script:github_token = ""
+if ([System.IO.File]::Exists("./github_token.txt")) {
+  $script:github_token = Get-Content ./github_token.txt
+} else {
+  $script:github_token = ""
+}
 
 # retrieve github token
 function retrieve_github_token {
@@ -55,6 +59,7 @@ function retrieve_github_token {
       $response = Invoke-WebRequest -Uri "https://github.com/login/oauth/access_token" -Method POST -Headers @{ "Accept" = "application/json" } -Body @{ "client_id" = $script:github_client_id; "client_secret" = $script:github_client_secret; "code" = $script:github_code } | ConvertFrom-Json
       echo $response
       $script:github_token = $response.access_token
+      echo $script:github_token > ./github_token.txt
     }
     Catch [Exception] {
       echo "could not retrieve github token"
@@ -176,13 +181,13 @@ $script:chrome_app_id = "ibedmjbicclcdfmghnkfldnplocgihna"
 function retrieve_chrome_access_token {
   Try {
     if (!$script:chrome_refresh_token) {
-      $response = Invoke-WebRequest -Uri "https://accounts.google.com/o/oauth2/token" -Method POST -Body "client_id=${script:chrome_client_id}&client_secret=${script:chrome_client_secret}&code=${script:chrome_code}&grant_type=authorization_code&redirect_uri=urn:ietf:wg:oauth:2.0:oob" | ConvertFrom-Json
+      $response = Invoke-WebRequest -Uri "https://accounts.google.com/o/oauth2/token" -Method POST -Body @{ "client_id" = $script:chrome_client_id; "client_secret" = $script:chrome_client_secret; "code" = $script:chrome_code; "grant_type" = "authorization_code"; "redirect_uri" = "urn:ietf:wg:oauth:2.0:oob" } | ConvertFrom-Json
       echo $response
       $script:chrome_access_token = $response.access_token
       $script:chrome_refresh_token = $response.refresh_token
       echo $script:chrome_refresh_token > ./chrome_refresh_token.txt
     } else {
-      $response = Invoke-WebRequest -Uri "https://accounts.google.com/o/oauth2/token" -Method POST -Body "client_id=${script:chrome_client_id}&client_secret=${script:chrome_client_secret}&refresh_token=${script:chrome_refresh_token}&grant_type=refresh_token" | ConvertFrom-Json
+      $response = Invoke-WebRequest -Uri "https://accounts.google.com/o/oauth2/token" -Method POST -Body @{ "client_id" = $script:chrome_client_id; "client_secret" = $script:chrome_client_secret; "refresh_token" = $script:chrome_refresh_token; "grant_type" = "refresh_token" } | ConvertFrom-Json
       echo $response
       $script:chrome_access_token = $response.access_token
     }
@@ -202,6 +207,7 @@ function upload_to_chrome_store {
       $headers = @{ "Authorization" = "Bearer ${script:chrome_access_token}" }
       Invoke-RestMethod -Uri "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${script:chrome_app_id}" -Method PUT -Headers $headers -InFile "./app.zip"
       Invoke-RestMethod -Uri "https://www.googleapis.com/chromewebstore/v1.1/items/${script:chrome_app_id}/publish" -Method POST -Headers $headers
+      echo "uploaded to chrome store"
     }
     Catch [Exception] {
       echo "could not upload to chrome store"
@@ -223,13 +229,20 @@ $script:pale_moon_port = ""
 
 # upload to pale moon store
 function upload_to_pale_moon_store {
-  $ftp = "ftp://${script:pale_moon_host}:${script:pale_moon_port}/esgst"
-  $web_client = New-Object System.Net.WebClient 
-  $web_client.Credentials = New-Object System.Net.NetworkCredential($script:pale_moon_username, $script:pale_moon_password)
-  $uri = New-Object System.Uri("$ftp/esgst-${script:version}.xpi") 
-  $web_client.UploadFile($uri, "./esgst.xpi")
-  $uri = New-Object System.Uri("$ftp/phoebus.manifest") 
-  $web_client.UploadFile($uri, "./phoebus.manifest")
+  Try {
+    $ftp = "ftp://${script:pale_moon_host}:${script:pale_moon_port}/esgst"
+    $web_client = New-Object System.Net.WebClient 
+    $web_client.Credentials = New-Object System.Net.NetworkCredential($script:pale_moon_username, $script:pale_moon_password)
+    $uri = New-Object System.Uri("$ftp/esgst-${script:version}.xpi")
+    $web_client.UploadFile($uri, "./esgst.xpi") 
+    $uri = New-Object System.Uri("$ftp/phoebus.manifest") 
+    $web_client.UploadFile($uri, "./phoebus.manifest")
+    echo "uploaded to pale moon store"
+  }
+  Catch [Exception] {
+    echo "could not upload to pale moon store"
+    echo $_.Exception
+  }
 }
 
 # open group page on steamcommunity to post announcement
