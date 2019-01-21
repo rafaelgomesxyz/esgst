@@ -17,10 +17,12 @@ const
   path = require('path'),
   calfinated = require('calfinated')(),
   packageJson = require('./package.json'),
+  manifestJson = require('./app/manifest.json'),
   webpack = require('webpack'),
   plugins = {
     sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     progressBar: require('progress-bar-webpack-plugin'),
+    shell: require('webpack-shell-plugin'),
     banner: webpack.BannerPlugin,
     provide: webpack.ProvidePlugin
   },
@@ -46,9 +48,37 @@ const
 ;
 
 module.exports = /** @param {Environment} env */ async env => {
+  let version = packageJson.version;
+
+  // Bump version.
+  if (env.bumpPosition) {
+    switch (env.bumpPosition) {
+      case 0:
+        version = packageJson.version
+          .replace(/^(\d+)\.\d+\.\d+$/, (m, p1) => `${parseInt(p1) + 1}.0.0`);
+        break;
+      case 1:
+        version = packageJson.version
+          .replace(/^(\d+)\.(\d+)\.\d+$/, (m, p1, p2) => `${p1}.${parseInt(p2) + 1}.0`);
+        break;
+      case 2:
+        version = packageJson.version
+          .replace(/^(\d+)\.(\d+)\.(\d+)$/, (m, p1, p2, p3) => `${p1}.${p2}.${parseInt(p3) + 1}`);
+        break;
+    }
+  }
+
+  let file;
+
   if (env.production) {
+    // Update package.json
+    file = fs.readFileSync(path.join(__dirname, './package.json'), 'utf8');
+    file = file
+      .replace(/"version":\s".+?"/, `"version": "${version}"`)
+    fs.writeFileSync(path.join(__dirname, './package.json'), file);
+
     // Get version issues.
-    const response = await fetch(`https://github.com/gsrafael01/ESGST/issues?q=is%3Aclosed+milestone%3A${packageJson.version}`);
+    const response = await fetch(`https://github.com/gsrafael01/ESGST/issues?q=is%3Aclosed+milestone%3A${version}`);
     const responseText = await response.text();
     const dom = new JSDOM(responseText);
     const issues = dom.window.document.getElementsByClassName(`link-gray-dark v-align-middle no-underline h4 js-navigation-open`);
@@ -71,20 +101,10 @@ module.exports = /** @param {Environment} env */ async env => {
     html += `</ul>`;
     markdown = markdown.slice(0, -1);
     steamLog += `[/list]`;
-
     fs.writeFileSync(path.join(__dirname, './changelog.txt'), changeLog);
     fs.writeFileSync(path.join(__dirname, './changelog_html.txt'), html);
     fs.writeFileSync(path.join(__dirname, './changelog_markdown.txt'), markdown);
     fs.writeFileSync(path.join(__dirname, './changelog_steam.txt'), steamLog);
-
-    let file;
-
-    // Update Esgst.js
-    file = fs.readFileSync(path.join(__dirname, './src/class/Esgst.js'), 'utf8');
-    file = file
-      .replace(/currentVersion\s=\s`(.+?)`;/, `currentVersion = \`${packageJson.version}\`;`)
-      .replace(/devVersion\s=\s`(.+?)`;/, `devVersion = \`${packageJson.version}\`;`);
-    fs.writeFileSync(path.join(__dirname, './src/class/Esgst.js'), file);
 
     // Get date.
     let currentDate = new Date();
@@ -94,22 +114,51 @@ module.exports = /** @param {Environment} env */ async env => {
     // Update Changelog.js
     file = fs.readFileSync(path.join(__dirname, './src/modules/Changelog.js'), 'utf8');
     file = file
-      .replace(/changelog\s=\s\[/, `changelog = [\n      {\n        date: \`${currentDate}\`,\n        version: \`${packageJson.version}\`,\n        changelog: {\n${changeLog}\n        }\n      },\n`);
+      .replace(/changelog\s=\s\[/, `changelog = [\n      {\n        date: \`${currentDate}\`,\n        version: \`${version}\`,\n        changelog: {\n${changeLog}\n        }\n      },\n`);
     fs.writeFileSync(path.join(__dirname, './src/modules/Changelog.js'), file);
 
-    // Update manifest.json
+    // Update /app/manifest.json
     file = fs.readFileSync(path.join(__dirname, './app/manifest.json'), 'utf8');
     file = file
-      .replace(/"version":\s".+?"/, `"version": "${packageJson.version}"`);
+      .replace(/"version":\s".+?"/, `"version": "${version}"`)
+      .replace(/"version_name":\s".+?"/, `"version_name": "${version}"`);
     fs.writeFileSync(path.join(__dirname, './app/manifest.json'), file);
+
+    // Update /app/package.json
+    file = fs.readFileSync(path.join(__dirname, './app/package.json'), 'utf8');
+    file = file
+      .replace(/"version":\s".+?"/, `"version": "${version}"`)
+      .replace(/"version_name":\s".+?"/, `"version_name": "${version}"`);
+    fs.writeFileSync(path.join(__dirname, './app/package.json'), file);
 
     // Update README.md
     file = fs.readFileSync(path.join(__dirname, './README.md'), 'utf8');
     file = file
-      .replace(/##\sChangelog/, `## Changelog\n\n**${packageJson.version} (${currentDate})**\n\n${markdown}`);
+      .replace(/##\sChangelog/, `## Changelog\n\n**${version} (${currentDate})**\n\n${markdown}`);
     fs.writeFileSync(path.join(__dirname, './README.md'), file);
 
     env.withBabel = true;
+  } else {
+    // Get dev version.
+    let devVersion = ``;
+    if (version === manifestJson.version) {
+      devVersion = manifestJson.version_name
+        .replace(/\.(\d+)$/, (m, p1) => `.${parseInt(p1) + 1}`);
+    } else {
+      devVersion = `${version}-dev.1`;
+    }
+
+    // Update /app/manifest.json
+    file = fs.readFileSync(path.join(__dirname, './app/manifest.json'), 'utf8');
+    file = file
+      .replace(/"version_name":\s".+?"/, `"version_name": "${devVersion}"`);
+    fs.writeFileSync(path.join(__dirname, './app/manifest.json'), file);
+
+    // Update /app/package.json
+    file = fs.readFileSync(path.join(__dirname, './app/package.json'), 'utf8');
+    file = file
+      .replace(/"version_name":\s".+?"/, `"version_name": "${devVersion}"`);
+    fs.writeFileSync(path.join(__dirname, './app/package.json'), file);
   }
 
   const entry = {
@@ -165,11 +214,19 @@ module.exports = /** @param {Environment} env */ async env => {
         'window.$': 'jquery'
       }),
       new plugins.progressBar
-    ].concat(env.sizeAnalyzer ? [
+    ]
+    .concat(env.sizeAnalyzer ? [
       new plugins.sizeAnalyzer
+    ] : [])
+    .concat(env.publish ? [
+      new plugins.shell({
+        onBuildEnd: [
+          env.production ? `npm run publish` : `npm run publish-dev -- ${env.issue ? `-issue ${env.issue}` : `-message '''${env.message}'''`}`
+        ]
+      }),
     ] : []),
-      watch: env.development && env.withWatch,
-      watchOptions: {
+    watch: env.development && env.withWatch,
+    watchOptions: {
       ignored: /node_modules/,
       poll: 1000,
       aggregateTimeout: 1000

@@ -11,4 +11,5 @@ changelog_html.txt
 changelog_markdown.txt
 changelog_steam.txt
 chrome_refresh_token.txt
+publish.ps1
 publish.sh
