@@ -1,4 +1,5 @@
 import { utils } from './lib/jsUtils';
+import browser from './browser';
 
 let storage = null;
 let themeElement = null;
@@ -21,8 +22,7 @@ if (customTheme) {
   document.documentElement.appendChild(style);
 }
 
-const browser = (global.chrome && global.chrome.runtime) ? global.chrome : global.browser;
-browser.runtime.sendMessage({ action: `getStorage` }, stg => {
+browser.runtime.sendMessage({ action: `getStorage` }).then(stg => {
   storage = JSON.parse(stg);
   const settings = JSON.parse(storage.settings);
   if (settings.esgst_sgtools) {

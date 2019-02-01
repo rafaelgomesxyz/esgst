@@ -66,6 +66,6 @@
     "icon.png"
   ],
   "version": "8.2.1",
-  "version_name": "8.2.1",
+  "version_name": "8.2.2-dev.1",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

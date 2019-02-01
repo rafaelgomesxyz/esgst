@@ -1,9 +1,6 @@
 import JSZip from 'jszip';
+import browser from './browser';
 
-/**
- * @property {Object} browser.cookies
- */
-const browser = (global.chrome && global.chrome.runtime) ? global.chrome : global.browser;
 let storage = null;
 let isFirstRun = false;
 let isUpdate = false;
@@ -16,7 +13,7 @@ browser.runtime.onInstalled.addListener(details => {
   }
 });
 
-browser.storage.local.get(`settings`, async result => {
+browser.storage.local.get(`settings`).then(async result => {
   /**
    *
    * @type {object}
@@ -49,14 +46,13 @@ browser.storage.local.get(`settings`, async result => {
       url.push(`*://*.steamtrades.com/*`);
     }
     browser.runtime.onUpdateAvailable.addListener(details => {
-      browser.tabs.query({ url }, tabs => {
+      browser.tabs.query({ url }).then(tabs => {
         const tab = tabs[0];
         if (tab) {
           browser.tabs.sendMessage(tab.id, JSON.stringify({
             action: `update`,
             values: details
-          }), () => {
-          });
+          })).then(() => {});
         } else {
           browser.runtime.reload();
         }
@@ -66,14 +62,13 @@ browser.storage.local.get(`settings`, async result => {
 });
 
 function sendMessage(action, sender, values) {
-  browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}, tabs => {
+  browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}).then(tabs => {
     tabs.forEach(tab => {
       if (tab.id === sender.tab.id) return;
       browser.tabs.sendMessage(tab.id, JSON.stringify({
         action: action,
         values: values
-      }), () => {
-      });
+      })).then(() => {});
     });
   });
 }
@@ -165,7 +160,7 @@ async function doFetch(parameters, request, sender, callback) {
     }));
     return;
   }
-  browser.tabs.get(sender.tab.id, async tab => {
+  browser.tabs.get(sender.tab.id).then(async tab => {
     /**
      * @property {string} tab.cookieStoreId
      */
@@ -272,21 +267,15 @@ async function doFetch(parameters, request, sender, callback) {
 }
 
 function getCookies(details) {
-  return new Promise(resolve => {
-    browser.cookies.getAll(details, resolve);
-  });
+  return browser.cookies.getAll(details);
 }
 
 function setCookie(details) {
-  return new Promise(resolve => {
-    browser.cookies.set(details, resolve);
-  });
+  return browser.cookies.set(details);
 }
 
 function deleteCookie(details) {
-  return new Promise(resolve => {
-    browser.cookies.remove(details, resolve);
-  });
+  return browser.cookies.remove(details);
 }
 
 const locks = {};
@@ -324,72 +313,73 @@ function do_unlock(lock) {
   }
 }
 
-browser.runtime.onMessage.addListener((request, sender, callback) => {
-  let key, keys, parameters, values;
-  switch (request.action) {
-    case `do_lock`:
-      do_lock(request.lock).then(callback);
-      break;
-    case `do_unlock`:
-      do_unlock(request.lock);
-      callback();
-      break;
-    case `delValues`:
-      keys = JSON.parse(request.keys);
-      browser.storage.local.remove(keys, () => {
-        keys.forEach(key => {
-          delete storage[key];
+browser.runtime.onMessage.addListener((request, sender) => {
+  return new Promise(resolve => {
+    let key, keys, parameters, values;
+    switch (request.action) {
+      case `do_lock`:
+        do_lock(request.lock).then(resolve);
+        break;
+      case `do_unlock`:
+        do_unlock(request.lock);
+        resolve();
+        break;
+      case `delValues`:
+        keys = JSON.parse(request.keys);
+        browser.storage.local.remove(keys).then(() => {
+          keys.forEach(key => {
+            delete storage[key];
+          });
+          sendMessage(`delValues`, sender, keys);
+          resolve();
         });
-        sendMessage(`delValues`, sender, keys);
-        callback();
-      });
-      break;
-    case `fetch`:
-      parameters = JSON.parse(request.parameters);
-      parameters.headers = new Headers(parameters.headers);
-      // noinspection JSIgnoredPromiseFromCall
-      doFetch(parameters, request, sender, callback);
-      break;
-    case `getStorage`:
-      if (storage) {
-        storage.isFirstRun = isFirstRun;
-        storage.isUpdate = isUpdate;
-        isFirstRun = false;
-        isUpdate = false;
-        callback(JSON.stringify(storage));
-      } else {
-        browser.storage.local.get(null, stg => {
-          storage = stg;
+        break;
+      case `fetch`:
+        parameters = JSON.parse(request.parameters);
+        parameters.headers = new Headers(parameters.headers);
+        // noinspection JSIgnoredPromiseFromCall
+        doFetch(parameters, request, sender, resolve);
+        break;
+      case `getStorage`:
+        if (storage) {
           storage.isFirstRun = isFirstRun;
           storage.isUpdate = isUpdate;
           isFirstRun = false;
           isUpdate = false;
-          callback(JSON.stringify(storage));
-        });
-      }
-      break;
-    case `reload`:
-      browser.runtime.reload();
-      callback();
-      break;
-    case `setValues`:
-      values = JSON.parse(request.values);
-      browser.storage.local.set(values, () => {
-        for (key in values) {
-          if (values.hasOwnProperty(key)) {
-            storage[key] = values[key];
-          }
+          resolve(JSON.stringify(storage));
+        } else {
+          browser.storage.local.get(null).then(stg => {
+            storage = stg;
+            storage.isFirstRun = isFirstRun;
+            storage.isUpdate = isUpdate;
+            isFirstRun = false;
+            isUpdate = false;
+            resolve(JSON.stringify(storage));
+          });
         }
-        sendMessage(`setValues`, sender, values);
-        callback();
-      });
-      break;
-    case `tabs`:
-      // noinspection JSIgnoredPromiseFromCall
-      getTabs(request);
-      break;
-  }
-  return true;
+        break;
+      case `reload`:
+        browser.runtime.reload();
+        resolve();
+        break;
+      case `setValues`:
+        values = JSON.parse(request.values);
+        browser.storage.local.set(values).then(() => {
+          for (key in values) {
+            if (values.hasOwnProperty(key)) {
+              storage[key] = values[key];
+            }
+          }
+          sendMessage(`setValues`, sender, values);
+          resolve();
+        });
+        break;
+      case `tabs`:
+        // noinspection JSIgnoredPromiseFromCall
+        getTabs(request);
+        break;
+    }
+  });
 });
 
 async function getTabs(request) {
@@ -430,15 +420,11 @@ async function getTabs(request) {
 }
 
 function queryTabs(query) {
-  return new Promise(resolve => {
-    browser.tabs.query(query, resolve);
-  });
+  return browser.tabs.query(query);
 }
 
 function updateTab(id, parameters) {
-  return new Promise(resolve => {
-    browser.tabs.update(id, parameters, resolve);
-  });
+  return browser.tabs.update(id, parameters);
 }
 
 async function activateTab(host) {
