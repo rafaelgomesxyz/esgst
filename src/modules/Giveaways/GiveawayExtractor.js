@@ -198,6 +198,7 @@ class GiveawaysGiveawayExtractor extends Module {
         return new Promise(resolve => {
           if (cacheWarning) {
             cacheWarning.remove();
+            cacheWarning = null;
             ge.results.innerHTML = ``;
             ge.cache[ge.cacheId] = {
               codes: [],

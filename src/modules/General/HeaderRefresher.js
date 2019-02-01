@@ -1,6 +1,7 @@
 import Module from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import browser from '../../browser.js';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -8,8 +9,7 @@ const
   getLocalValue = common.getLocalValue.bind(common),
   getWonGames = common.getWonGames.bind(common),
   request = common.request.bind(common),
-  setLocalValue = common.setLocalValue.bind(common),
-  browser = common.browser
+  setLocalValue = common.setLocalValue.bind(common)
   ;
 
 class GeneralHeaderRefresher extends Module {

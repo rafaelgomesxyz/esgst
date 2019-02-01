@@ -102,6 +102,13 @@ export default class Utils {
     const blue = parseInt(match[2], 16);
     return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   }
+
+  createUuid(c) {
+    let r, v;
+    r = Math.random() * 16 | 0;
+    v = c === `x` ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  }
 }
 
 export let utils = new Utils;

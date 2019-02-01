@@ -12,57 +12,17 @@ window.interact = interact;
 
 import 'jQuery-QueryBuilder/dist/js/query-builder.standalone.min';
 
-import Popup from './class/Popup';
+import browser from './browser';
+
 import {utils} from './lib/jsUtils';
 import esgst from './class/Esgst';
 
 import { addStyle } from './modules/Style';
-import { loadChangelog } from './modules/Changelog';
-import { loadMenu } from './modules/Settings';
 import { runSilentSync } from './modules/Sync';
 
-/** @var {function} delValues */
-/** @var {function} setValues */
-/** @property {boolean} global.chrome */
-/** @property {function} browser.runtime.sendMessage */
-/** @property {function} browser.runtime.onMessage.addListener */
-/** @property {function} browser.runtime.getURL */
-
 (() => {
-  /**
-   * @typedef {Object} EnvironmentFunctions
-   * @property {function} setValue
-   * @property {function} setValues
-   * @property {function} getValue
-   * @property {function} getValues
-   * @property {function} delValue
-   * @property {function} delValues
-   * @property {function} getStorage
-   * @property {function} continueRequest
-   * @property {function} addHeaderMenu
-   */
-
-  /**
-   * @type {EnvironmentFunctions}
-   */
-  let envFunctions = {};
-
-  /**
-   * @typedef {Object} EnvironmentVariables
-   * @property {Object} _USER_INFO
-   * @property {Object} browser
-   * @property {Object} gm
-   */
-
-  /**
-   * @type {EnvironmentVariables}
-   */
-  let envVariables = {};
-
   const
-    common = esgst.modules.common,
-    getZip = common.getZip.bind(common),
-    readZip = common.readZip.bind(common)
+    common = esgst.modules.common
   ;
 
   if (!window.NodeList.prototype[Symbol.iterator]) {
@@ -88,42 +48,6 @@ import { runSilentSync } from './modules/Sync';
     document.documentElement.appendChild(style);
   }
 
-  envVariables._USER_INFO = {extension: false};
-  envVariables.browser = null;
-  envVariables.gm = null;
-
-  [envVariables._USER_INFO.extension, envVariables.browser] = global.chrome && global.chrome.runtime ?
-    [global.browser ? `firefox` : `chrome`, global.chrome] : [`edge`, global.browser];
-  if (!envVariables.browser) {
-    envVariables._USER_INFO.extension = `pm`;
-    envVariables.browser = {
-      runtime: {
-        onMessage: {
-          addListener: callback => {
-            self.port.on(`esgstMessage`, obj => callback(obj));
-          }
-        },
-        getManifest: () => {
-          return new Promise(resolve => {
-            envVariables.browser.runtime.sendMessage({
-              action: `getPackageJson`
-            }, result => {
-              resolve(JSON.parse(result));
-            });
-          });
-        },
-        sendMessage: (obj, callback) => {
-          obj.uuid = `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, common.createUuid.bind(common));
-          self.port.emit(obj.action, obj);
-          self.port.on(`${obj.action}_${obj.uuid}_response`, function onResponse(result) {
-            self.port.removeListener(`${obj.action}_${obj.uuid}_response`, `onResponse`);
-            callback(result);
-          });
-        }
-      }
-    };
-  }
-
   // initialize esgst
   async function init() {
     if (document.getElementById(`esgst`)) {
@@ -135,472 +59,7 @@ import { runSilentSync } from './modules/Sync';
     esgst.markdownParser.setMarkupEscaped(true);
     esgst.name = esgst.sg ? `sg` : `st`;
 
-    envFunctions.do_lock = lock => {
-      return new Promise(resolve => envVariables.browser.runtime.sendMessage({
-        action: `do_lock`,
-        lock
-      }, () => resolve()));
-    }
-    envFunctions.do_unlock = lock => {
-      return new Promise(resolve => envVariables.browser.runtime.sendMessage({
-        action: `do_unlock`,
-        lock
-      }, () => resolve()));
-    }
-    envFunctions.setValues = values => {
-      let key;
-      return new Promise(resolve =>
-        envVariables.browser.runtime.sendMessage({
-          action: `setValues`,
-          values: JSON.stringify(values)
-        }, () => {
-          for (key in values) {
-            if (values.hasOwnProperty(key)) {
-              esgst.storage[key] = values[key];
-            }
-          }
-          resolve();
-        }));
-    };
-    envFunctions.setValue = (key, value) => {
-      return envFunctions.setValues({[key]: value});
-    };
-    envFunctions.getValue = async (key, value) => utils.isSet(esgst.storage[key]) ? esgst.storage[key] : value;
-    envFunctions.getValues = values =>
-      new Promise(resolve => {
-        let output = {};
-        for (let key in values) {
-          if (values.hasOwnProperty(key)) {
-            output[key] = utils.isSet(esgst.storage[key]) ? esgst.storage[key] : values[key];
-          }
-        }
-        resolve(output);
-      });
-    envFunctions.delValues = keys =>
-      new Promise(resolve =>
-        envVariables.browser.runtime.sendMessage({
-          action: `delValues`,
-          keys: JSON.stringify(keys)
-        }, () => {
-          keys.forEach(key => delete esgst.storage[key]);
-          resolve();
-        })
-      );
-    envFunctions.delValue = key => {
-      return envFunctions.delValues([key]);
-    };
-    envFunctions.getStorage = () =>
-      new Promise(resolve =>
-        envVariables.browser.runtime.sendMessage({
-          action: `getStorage`
-        }, storage => resolve(JSON.parse(storage))));
-    envFunctions.continueRequest = details =>
-      new Promise(async (resolve, reject) => {
-        let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
-        details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
-        if (isLocal) {
-          const requestOptions =  {
-            body: details.data,
-            credentials: /** @type {"omit"|"include"} */ details.anon ? `omit` : `include`,
-            headers: details.headers,
-            method: details.method,
-            redirect: "follow"
-          };
-          if (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject)) {
-            window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
-          }
-          let response = null;
-          let responseText = null;
-          try {
-            response = await (envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, envVariables._USER_INFO.extension === `firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
-            responseText = await response.text();
-            if (!response.ok) {
-              throw responseText;
-            }
-          } catch (error) {
-            reject({ error });
-            return;
-          }
-          response = {
-            finalUrl: response.url,
-            redirected: response.redirected,
-            responseText
-          };
-          resolve(response);
-          if (response.finalUrl.match(/www.steamgifts.com/)) {
-            common.lookForPopups(response);
-          }
-        } else {
-          envVariables.browser.runtime.sendMessage({
-            action: `fetch`,
-            blob: details.blob,
-            fileName: details.fileName,
-            manipulateCookies: envVariables._USER_INFO.extension === `firefox` && esgst.manipulateCookies,
-            parameters: JSON.stringify({
-              body: details.data,
-              credentials: details.anon ? `omit` : `include`,
-              headers: details.headers,
-              method: details.method,
-              redirect: `follow`
-            }),
-            url: details.url
-          }, response => {
-            response = JSON.parse(response);
-            if (response.error) {
-              reject(response);
-              return;
-            }
-            resolve(response);
-            if (response.finalUrl.match(/www.steamgifts.com/)) {
-              common.lookForPopups(response);
-            }
-          });
-        }
-      });
-    envFunctions.addHeaderMenu = async () => {
-      if (!esgst.header) {
-        return;
-      }
-      let arrow, button, className, context, dropdown, menu, position;
-      if (esgst.sg) {
-        className = `nav__left-container`;
-        position = `beforeEnd`;
-      } else {
-        className = `nav_logo`;
-        position = `afterEnd`;
-      }
-      context = document.getElementsByClassName(className)[0];
-      menu = common.createElements(context, position, [{
-        attributes: {
-          class: `esgst-header-menu`,
-          id: `esgst`,
-          title: common.getFeatureTooltip()
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-header-menu-relative-dropdown esgst-hidden`
-          },
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `esgst-header-menu-absolute-dropdown`
-            },
-            type: `div`,
-            children: [{
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `https://github.com/gsrafael01/ESGST`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-github grey`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `GitHub`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Visit the GitHub page.`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `https://github.com/gsrafael01/ESGST/issues`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-bug red`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Bugs/Suggestions`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Report bugs and/or make suggestions.`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `https://github.com/gsrafael01/ESGST/milestones`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-map-signs blue`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Milestones`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Check out what's coming in the next version.`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `https://www.steamgifts.com/discussion/TDyzv/`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-commenting green`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Discussion`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Visit the discussion page.`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `http://steamcommunity.com/groups/esgst`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-steam green`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Steam Group`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Visit/join the Steam group.`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                id: `esgst-changelog`
-              },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-file-text-o yellow`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Changelog`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Check out the changelog.`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `https://www.patreon.com/gsrafael01`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-dollar grey`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Patreon`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Become a patron to support ESGST!`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row`,
-                href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`,
-                target: `_blank`
-              },
-              type: `a`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-steam grey`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Steam Trade`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Donate an item through a Steam trade to support ESGST. Thank you!`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row esgst-version-row`
-              },
-              type: `div`,
-              children: [{
-                attributes: {
-                  class: `fa fa-fw fa-paypal grey`
-                },
-                type: `i`
-              }, {
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-name`
-                  },
-                  text: `Paypal (gsrafael01@gmail.com)`,
-                  type: `p`
-                }, {
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Donate to support ESGST. Thank you!`,
-                  type: `p`
-                }]
-              }]
-            }, {
-              attributes: {
-                class: `esgst-header-menu-row esgst-version-row`
-              },
-              type: `div`,
-              children: [{
-                type: `div`,
-                children: [{
-                  attributes: {
-                    class: `esgst-header-menu-description`
-                  },
-                  text: `Current Version: ${(await envVariables.browser.runtime.getManifest()).version_name}`,
-                  type: `p`
-                }]
-              }]
-            }]
-          }]
-        }, {
-          attributes: {
-            class: `esgst-header-menu-button`,
-            href: esgst.settingsUrl
-          },
-          type: `a`,
-          children: [{
-            attributes: {
-              class: `fa`
-            },
-            type: `i`,
-            children: [{
-              attributes: {
-                src: esgst.icon
-              },
-              type: `img`
-            }]
-          }, {
-            text: `ESGST`,
-            type: `node`
-          }]
-        }, {
-          attributes: {
-            class: `esgst-header-menu-button arrow`
-          },
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `fa fa-angle-down`
-            },
-            type: `i`
-          }]
-        }]
-      }]);
-      dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
-      button = dropdown.nextElementSibling;
-      arrow = button.nextElementSibling;
-      button.addEventListener(`click`, event => {
-        if (!esgst.openSettingsInTab) {
-          event.preventDefault();
-          loadMenu(true);
-        }
-      });
-      arrow.addEventListener(`click`, common.toggleHeaderMenu.bind(common, arrow, dropdown));
-      document.addEventListener(`click`, common.closeHeaderMenu.bind(common, arrow, dropdown, menu), true);
-      document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog());
-    };
-    envVariables.browser.runtime.onMessage.addListener(message => {
+    browser.runtime.onMessage.addListener(message => {
       let key;
       message = JSON.parse(message);
       switch (message.action) {
@@ -618,16 +77,13 @@ import { runSilentSync } from './modules/Sync';
           common.createConfirmation(
             `Hi! A new version of ESGST (${message.values.version}) is available. Do you want to force an update now? If you choose to force an update, ESGST will stop working in any SteamGifts/SteamTrades tab that is open, along with any operation that you might be performing (such as syncing, checking something etc), so you will have to refresh them. If you choose not to force an update, your browser will automatically update the extension when you are not using it (for example, when you restart the browser).`,
             () => {
-              envVariables.browser.runtime.sendMessage({ action: `reload` }, () => {})
+              browser.runtime.sendMessage({ action: `reload` }).then(() => {})
             },
             () => {}
           );
           break;
       }
     });
-
-    common.setEnvironmentFunctions(envFunctions);
-    common.setEnvironmentVariables(envVariables);
 
     let toDelete, toSet;
 
@@ -637,7 +93,7 @@ import { runSilentSync } from './modules/Sync';
      * @property {object} esgst.storage.filterPresets
      * @property {object} esgst.storage.dfPresets
      */
-    esgst.storage = await envFunctions.getStorage();
+    esgst.storage = await getStorage();
     toDelete = [];
     toSet = {};
     if (utils.isSet(esgst.storage.users)) {
@@ -1030,10 +486,10 @@ import { runSilentSync } from './modules/Sync';
       toSet.settings = JSON.stringify(esgst.settings);
     }
     if (Object.keys(toSet).length) {
-      await envFunctions.setValues(toSet);
+      await common.setValues(toSet);
     }
     if (Object.keys(toDelete).length) {
-      await envFunctions.delValues(toDelete);
+      await common.delValues(toDelete);
     }
 
     // now that all values are set esgst can begin to load
@@ -1044,16 +500,16 @@ import { runSilentSync } from './modules/Sync';
     }
 
     if (esgst.accountPath && window.location.href.match(/state=dropbox/)) {
-      await envFunctions.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      await common.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
       window.close();
     } else if (esgst.accountPath && window.location.href.match(/state=google-drive/)) {
-      await envFunctions.setValue(`googleDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      await common.setValue(`googleDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
       window.close();
     } else if (esgst.accountPath && window.location.href.match(/state=onedrive/)) {
-      await envFunctions.setValue(`oneDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      await common.setValue(`oneDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
       window.close();
     } else if (esgst.accountPath && window.location.href.match(/state=imgur/)) {
-      await envFunctions.setValue(`imgurToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+      await common.setValue(`imgurToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
       window.close();
     } else {
       esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
@@ -1081,10 +537,18 @@ import { runSilentSync } from './modules/Sync';
         }
       }
 
-      await envFunctions.addHeaderMenu();
+      await common.addHeaderMenu();
       common.checkNewVersion();
       await common.loadFeatures(esgst.modules);
     }
+  }
+  
+  function getStorage() {
+    return new Promise(resolve =>
+      browser.runtime.sendMessage({
+        action: `getStorage`
+      }).then(storage => resolve(JSON.parse(storage)))
+    );
   }
 
   // noinspection JSIgnoredPromiseFromCall
