@@ -136,15 +136,16 @@ function fetch_bundle($bundle_id) {
     throw new CustomException($internal_errors['steam'], 500, $response['text']);
   }
 
-  $removed = !preg_match('/store\.steampowered\.com\/bundle\/'.$bundle_id.'/', $final_url);
-  $bundle_name = $removed ? NULL : $xpath->query('//h2[contains(@class, "pageheader")]')[0]->nodeValue;
+  $ok_response = count($xpath->query('//h2[contains(@class, "pageheader")]')) > 0;
+  $removed = !preg_match('/store\.steampowered\.com.*?\/bundle\/'.$bundle_id.'/', $final_url);
+  $bundle_name = !$ok_response || $removed ? NULL : $xpath->query('//h2[contains(@class, "pageheader")]')[0]->nodeValue;
   $values = [
     'bundle_id' => $bundle_id,
     'removed' => $removed,
     'last_update' => (new DateTime('now', $global_timezone))->format('Y-m-d H:i:s')
   ];
   $apps = [];
-  if (!$removed) {
+  if ($ok_response && !$removed) {
     $elements = $xpath->query('//div[@data-ds-appid]');
     foreach ($elements as $element) {
       $apps []= intval($element->getAttribute('data-ds-appid'));
