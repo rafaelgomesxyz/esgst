@@ -1,7 +1,7 @@
 import Module from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import browser from '../../browser.js';
+import browser from '../../browser';
 
 const
   parseHtml = utils.parseHtml.bind(utils),

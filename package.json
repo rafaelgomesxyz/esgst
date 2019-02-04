@@ -43,6 +43,7 @@
     "babel-minify": "^0.5.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "calfinated": "^1.4.1",
+    "copy-webpack-plugin": "4.6.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.0",
     "file-loader": "^2.0.0",

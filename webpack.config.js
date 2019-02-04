@@ -20,6 +20,7 @@ const
   manifestJson = require('./app/manifest.json'),
   webpack = require('webpack'),
   plugins = {
+    copy: require('copy-webpack-plugin'),
     sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     progressBar: require('progress-bar-webpack-plugin'),
     shell: require('webpack-shell-plugin'),
@@ -207,6 +208,11 @@ module.exports = /** @param {Environment} env */ async env => {
       ]: [])
     },
     plugins: [
+      new plugins.copy([{
+        from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+        to: './app/lib/browser-polyfill.js',
+        flatten: true
+      }]),
       new plugins.banner({
         raw: true,
         entryOnly: true,

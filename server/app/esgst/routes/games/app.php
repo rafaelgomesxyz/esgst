@@ -22,7 +22,7 @@ require_once __DIR__.'/../../utils/filters.php';         // validate_filters
  * @apiParam (Schema) {Boolean} [app.removed] Whether the game has been removed from the Steam store or not.
  * @apiParam (Schema) {Boolean} [app.steam_cloud] Whether the game has Steam cloud or not.
  * @apiParam (Schema) {Boolean} [app.trading_cards] Whether the game has trading cards or not.
- * @apiParam (Schema) {Boolean} [app.learning] Whether Steam is learning about the game or not.
+ * @apiParam (Schema) {Boolean/NULL} [app.learning] A boolean indicating whether Steam is learning about the game or not, or NULL if the information is not accessible.
  * @apiParam (Schema) {Boolean} [app.multiplayer] Whether the game is multiplayer or not.
  * @apiParam (Schema) {Boolean} [app.singleplayer] Whether the game is singleplayer or not.
  * @apiParam (Schema) {Boolean} [app.linux] Whether the game runs on Linux or not.
@@ -211,7 +211,7 @@ function get_apps($parameters, $filters) {
         $app['trading_cards'] = boolval($row['trading_cards']);
       }
       if (isset($columns['learning'])) {
-        $app['learning'] = boolval($row['learning']);
+        $app['learning'] = isset($row['learning']) ? boolval($row['learning']) : NULL;
       }
       if (isset($columns['multiplayer'])) {
         $app['multiplayer'] = boolval($row['multiplayer']);
@@ -308,13 +308,14 @@ function fetch_app($app_id) {
 
   $app_name = $data['name'];
   $release_date = $data['release_date'];
-  $removed = !preg_match('/store\.steampowered\.com\/app\/'.$app_id.'/', $final_url);
+  $ok_response = count($xpath->query('//div[contains(@class, "apphub_AppName")]')) > 0;
+  $removed = !preg_match('/store\.steampowered\.com.*?\/app\/'.$app_id.'/', $final_url);
   $categories = array_map(function ($element) { return strtolower($element['description']); }, $data['categories']);
   $platforms = $data['platforms'];
   $price = $data['price_overview'];
   $metacritic = $data['metacritic'];
   $rating = NULL;
-  if (!$removed) {
+  if ($ok_response && !$removed) {
     $elements = $xpath->query('//div[contains(@class, "user_reviews_summary_row")]');
     $num_elements = count($elements);
     if ($num_elements > 0) {
@@ -328,7 +329,7 @@ function fetch_app($app_id) {
     'removed' => $removed,
     'steam_cloud' => in_array('steam cloud', $categories),
     'trading_cards' => in_array('steam trading cards', $categories),
-    'learning' => count($xpath->query('//div[contains(@class, "learning_about")]')) > 0,
+    'learning' => $ok_response ? count($xpath->query('//div[contains(@class, "learning_about")]')) > 0 : NULL,
     'multiplayer' => !empty(array_intersect(['multi-player', 'online multi-player', 'co-op', 'local co-op', 'online co-op', 'shared/split screen'], $categories)),
     'singleplayer' => in_array('single-player', $categories),
     'linux' => $platforms['linux'],
@@ -353,7 +354,7 @@ function fetch_app($app_id) {
     }
   }
   $tags = [];
-  if (!$removed) {
+  if ($ok_response && !$removed) {
     preg_match('/InitAppTagModal.*?(\[.*?]),/s', $response['text'], $matches);
     if ($matches) {
       $elements = json_decode($matches[1], TRUE);
@@ -369,7 +370,7 @@ function fetch_app($app_id) {
   $dlcs = $data['dlc'] ? array_map(function ($element) { return intval($element); }, $data['dlc']) : [];
   $subs = $data['packages'] ? array_map(function ($element) { return intval($element); }, $data['packages']) : [];
   $bundles = [];
-  if (!$removed) {
+  if ($ok_response && !$removed) {
     $elements = $xpath->query('//div[@data-ds-bundleid]');
     foreach ($elements as $element) {
       $bundles []= intval($element->getAttribute('data-ds-bundleid'));

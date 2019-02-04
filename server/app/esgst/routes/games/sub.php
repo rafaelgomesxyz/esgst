@@ -163,7 +163,7 @@ function fetch_sub($sub_id) {
 
   $sub_name = $data['name'];
   $release_date = $data['release_date'];
-  $removed = !preg_match('/store\.steampowered\.com\/sub\/'.$sub_id.'/', $final_url);
+  $removed = !preg_match('/store\.steampowered\.com.*?\/sub\/'.$sub_id.'/', $final_url);
   $price = $data['price'];
   $values = [
     'sub_id' => $sub_id,
