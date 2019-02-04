@@ -1,4 +1,4 @@
-import utils from './lib/jsUtils';
+import { utils } from './lib/jsUtils';
 
 let _browser = null;
 
