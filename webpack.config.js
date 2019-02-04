@@ -209,7 +209,7 @@ module.exports = /** @param {Environment} env */ async env => {
     },
     plugins: [
       new plugins.copy([{
-        from: './node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+        from: path.join(__dirname, './node_modules/webextension-polyfill/dist/browser-polyfill.min.js'),
         to: './app/lib/browser-polyfill.js',
         flatten: true
       }]),
