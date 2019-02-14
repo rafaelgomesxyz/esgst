@@ -11,6 +11,7 @@ const os = require(`os`);
 const path = require(`path`);
 
 const packageJson = require(`./package.json`);
+const packageJsonBkp = JSON.stringify(packageJson, null, 2);
 
 const args = getArguments();
 
@@ -86,16 +87,20 @@ function publishDevVersion() {
     }
 
     const commitMessage = `v${packageJson.devVersion} ${message}`;
+
+    fs.writeFileSync(`package.json`, JSON.stringify(packageJson, null, 2));
     
     git
       .add(`./*`)
       .commit(commitMessage)
       .push(error => {
         if (error) {
+          git.reset([`--soft`, `HEAD~1`]);
+
+          fs.writeFileSync(`package.json`, packageJsonBkp);
+
           reject(error);
         } else {
-          fs.writeFileSync(`package.json`, JSON.stringify(packageJson, null, 2));
-
           resolve();
         }
       });
@@ -110,28 +115,34 @@ function publishVersion() {
 }
 
 function updateDevVersion() {
-  updateVersion();
-
   const parts = packageJson.devVersion.split(`-`);
-  parts[0] = packageJson.version;
-  if (!parts[1]) {
-    parts[1] = `dev.1`;
-  } else {
+  if (parts[1]) {
     const subParts = parts[1].split(`.`);
     subParts[1] = parseInt(subParts[1]) + 1;
     parts[1] = subParts.join(`.`);
+  } else {
+    parts[0] = bumpVersion();
+    parts[1] = `dev.1`;
   }
   packageJson.devVersion = parts.join(`-`);
 }
 
 function updateVersion() {
+  // TO DO
+}
+
+function bumpVersion() {
+  let version = packageJson.version;
+
   if (!args.bumpVersion) {
-    return;
+    return version;
   }
 
   const parts = packageJson.version.split(`.`);
-  parts[args.bumpVersion] = parseInt(parts[args.bumpVersion]) + 1;  
-  packageJson.version = parts.join(`.`);
+  parts[args.bumpVersion] = parseInt(parts[args.bumpVersion]) + 1;
+  version = parts.join(`.`);
+
+  return version;
 }
 
 async function packExtensionChrome() {
