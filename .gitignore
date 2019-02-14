@@ -1,8 +1,8 @@
 /build/*
 !/build/.gitignoregit 
 /node_modules
-app.zip
-src.zip
+*.zip
+*.xpi
 README.txt
 .gitignore
 package-lock.json
@@ -12,5 +12,3 @@ changelog_markdown.txt
 changelog_steam.txt
 chrome_refresh_token.txt
 github_token.txt
-publish.ps1
-publish.sh
