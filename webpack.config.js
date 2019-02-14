@@ -15,6 +15,7 @@ const
   calfinated = require('calfinated')(),
   webpack = require('webpack'),
   plugins = {
+    clean: require('clean-webpack-plugin'),
     sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     progressBar: require('progress-bar-webpack-plugin'),
     banner: webpack.BannerPlugin,
@@ -125,7 +126,7 @@ module.exports = /** @param {Environment} env */ async env => {
     [BUILD_PATHS.EXTENSION_EVENT_PAGE_SDK]: ['./eventPage_sdk_index.js']
   };
 
-  let cfg = {
+  const cfg = {
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
     context: path.join(__dirname, './src/entry/'),
     entry,
@@ -158,6 +159,7 @@ module.exports = /** @param {Environment} env */ async env => {
       ]: [])
     },
     plugins: [
+      new plugins.clean([`build`]),
       new plugins.banner({
         raw: true,
         entryOnly: true,
