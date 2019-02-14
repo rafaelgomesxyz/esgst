@@ -1,21 +1,27 @@
+const configJson = require(`./publish.config.json`)
+const packageJson = require(`./package.json`);
+const packageJsonBkp = JSON.stringify(packageJson, null, 2);
+
 const CHROME_EXTENSION_ID = `ibedmjbicclcdfmghnkfldnplocgihna`;
 const CHROME_EXTENSION_KEY = `MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAih1koCChvaohyeTSrBrUcANi8zBmZT+4JWjI92p4kEeaVvno8mdUnOLwA5nwZEYLfQ6CdCmStWLR3SUeoj/PhIHJkuBYYsyv2fcUh3kALAnqJMHJ61epNhrD93l2xf4BV9/2bKb3o3NTA/u9UosQqljhYkPwkIed+yzRMwYCoOn+vMpbOdaAwfycncG0/eXO5NIIqC+Ov8xR2vGX7rwXvnUIgG84TvZvOcCtmn6PsijDm6/xFgNwW0xvUhHIa50rTwMxedItEhxFslGlCGhYNG2HzvVJpcLEE9qq2OHL/3SyidU5xCyMW+BV8ieZ03EBwMYnhGxV68UKSa+tmJEoKQIDAQAB`;
 const FIREFOX_EXTENSION_ID = `{71de700c-ca62-4e31-9de6-93e3c30633d6}`;
+const GITHUB_TOKEN = configJson.githubToken;
 
-const AdmZip = require(`adm-zip`);
-const GitHub = require(`github-api`);
+const GitHub = require(`@gsrafael01/github-api`);
+const JSZip = require(`jszip`);
 const fs = require(`fs`);
 const git = require(`simple-git`)();
 const jpm = require(`jpm/lib/xpi`);
 const os = require(`os`);
 const path = require(`path`);
 
-const packageJson = require(`./package.json`);
-const packageJsonBkp = JSON.stringify(packageJson, null, 2);
-
 const args = getArguments();
 
-publish();
+if (args.help) {
+  printHelp();
+} else {
+  publish();
+}
 
 function getArguments() {
   const _args = {};
@@ -39,9 +45,27 @@ function validateArguments(_args) {
   }
 }
 
+function printHelp() {
+  console.log(`
+    Arguments:
+      bumpVersion - Bumps the version at the specified position. Example usage: npm run publish bumpVersion=1 (will bump 8.1.5 to 8.2.0)
+      dev - If present, runs in development environment. If omitted, runs in production environment. Example usage: npm run publish dev
+      issueNumber - If present, the commit message is the title of the issue and the issue is closed. Must be used with 'dev'. Example usage: npm run publish dev issueNumber=1000
+      keepOpen - If present, the issue is not closed when used with 'issueNumber'. Example usage: npm run publish dev issueNumber=1000 keepOpen
+      message - A custom commit message. Must be used with 'dev'. Must not be used with 'issueNumber'. Example usage: npm run publish dev message="This is a commit"
+      package - Only packages the extension. Example usage: npm run publish package
+  `);
+}
+
 async function publish() {
   try {
-    if (args.dev) {
+    if (args.package) {
+      await Promise.all([
+        packExtensionChrome(),
+        packExtensionFirefox(),
+        packExtensionPaleMoon()
+      ]);
+    } else if (args.dev) {
       await publishDevVersion();
     } else {
       await publishVersion();
@@ -79,35 +103,38 @@ function publishDevVersion() {
             message = `${issue.title} (close #${args.issueNumber})`;
           }
         } else {
-          throw `Error! Issue not found.`;
+          reject(`Error! Issue not found.`);
+          return;
         }
       }
     } else {
-      throw `Error! Missing issue number / message.`;
+      reject(`Error! Missing issue number / message.`);
+      return;
     }
 
     const commitMessage = `v${packageJson.devVersion} ${message}`;
 
-    fs.writeFileSync(`package.json`, JSON.stringify(packageJson, null, 2));
+    fs.writeFileSync(`./package.json`, JSON.stringify(packageJson, null, 2));
     
-    git
-      .add(`./*`)
-      .commit(commitMessage)
-      .push(error => {
-        if (error) {
-          git.reset([`--soft`, `HEAD~1`]);
+    git.add(`./*`)
+    .commit(commitMessage)
+    .push(async error => {
+      if (error) {
+        git.reset([`--soft`, `HEAD~1`]);
 
-          fs.writeFileSync(`package.json`, packageJsonBkp);
+        fs.writeFileSync(`./package.json`, packageJsonBkp);
 
-          reject(error);
-        } else {
+        reject(error);
+      } else {
+        try {
+          await publishRelease();
           resolve();
+        } catch (error) {
+          reject(error);          
         }
-      });
+      }
+    });
   });
-
-  // TODO
-  // delete previous pre-release + create new pre-release
 }
 
 function publishVersion() {
@@ -134,13 +161,11 @@ function updateVersion() {
 function bumpVersion() {
   let version = packageJson.version;
 
-  if (!args.bumpVersion) {
-    return version;
+  if (args.bumpVersion) {
+    const parts = packageJson.version.split(`.`);
+    parts[args.bumpVersion] = parseInt(parts[args.bumpVersion]) + 1;
+    version = parts.join(`.`);
   }
-
-  const parts = packageJson.version.split(`.`);
-  parts[args.bumpVersion] = parseInt(parts[args.bumpVersion]) + 1;
-  version = parts.join(`.`);
 
   return version;
 }
@@ -168,7 +193,6 @@ function getManifestChrome() {
 
   manifest.background.persistent = true;
   manifest.key = CHROME_EXTENSION_KEY;
-  manifest.version_name = packageJson.devVersion;
 
   return manifest;
 }
@@ -203,9 +227,12 @@ function getManifestPaleMoon() {
     ],
     license: `MIT`,
     main: `index.js`,
-    title: packageJson.title,
-    version_name: packageJson.devVersion
+    title: packageJson.title
   };
+
+  if (args.dev) {
+    manifest.version_name = packageJson.devVersion;
+  }
 
   return manifest;
 }
@@ -276,27 +303,34 @@ function getManifest() {
       `*://*.steam-tracker.com/*`
     ],
     short_name: `ESGST`,
-    web_accessible_resources: `icon.png`
+    web_accessible_resources: [
+      `icon.png`
+    ]
   };
+
+  if (args.dev) {
+    manifest.content_security_policy = `script-src 'self' 'unsafe-eval'; object-src 'self';`;
+    manifest.version_name = packageJson.devVersion;
+  }
 
   return manifest;
 }
 
 function packExtension(browser, manifest) {
-  return new Promise(async resolve => {
-    const tmpDir = os.tmpdir();
-    const tmpPath = fs.mkdtempSync(path.join(tmpDir, `esgst-`));
-
+  return new Promise(async (resolve, reject) => {
     if (browser === `palemoon`) {
+      const tmpDir = os.tmpdir();
+      const tmpPath = fs.mkdtempSync(path.join(tmpDir, `esgst-`));
+
       fs.mkdirSync(path.join(tmpPath, `data`));
-      fs.copyFileSync(`build/esgst.js`, path.join(tmpPath, `data/esgst.js`));
-      fs.copyFileSync(`build/esgst_sgtools.js`, path.join(tmpPath, `data/esgst_sgtools.js`));
-      fs.copyFileSync(`src/assets/icons/icon-16.png`, path.join(tmpPath, `data/icon-16.png`));
-      fs.copyFileSync(`src/assets/icons/icon-32.png`, path.join(tmpPath, `data/icon-32.png`));
-      fs.copyFileSync(`src/assets/icons/icon-64.png`, path.join(tmpPath, `data/icon-64.png`));
+      fs.copyFileSync(`./build/esgst.js`, path.join(tmpPath, `data/esgst.js`));
+      fs.copyFileSync(`./build/esgst_sgtools.js`, path.join(tmpPath, `data/esgst_sgtools.js`));
+      fs.copyFileSync(`./src/assets/icons/icon-16.png`, path.join(tmpPath, `data/icon-16.png`));
+      fs.copyFileSync(`./src/assets/icons/icon-32.png`, path.join(tmpPath, `data/icon-32.png`));
+      fs.copyFileSync(`./src/assets/icons/icon-64.png`, path.join(tmpPath, `data/icon-64.png`));
       fs.writeFileSync(path.join(tmpPath, `package.json`), JSON.stringify(manifest, null, 2));
-      fs.copyFileSync(`build/index.js`, path.join(tmpPath, `index.js`));
-      fs.copyFileSync(`src/assets/icons/icon.png`, path.join(tmpPath, `icon.png`));
+      fs.copyFileSync(`./build/index.js`, path.join(tmpPath, `index.js`));
+      fs.copyFileSync(`./src/assets/icons/icon.png`, path.join(tmpPath, `icon.png`));
 
       const options = {
         addonDir: tmpPath,
@@ -306,7 +340,8 @@ function packExtension(browser, manifest) {
       try {
         await jpm(manifest, options);
       } catch (error) {
-        console.log(`Error while packing extension for ${browser}: ${error}`);
+        reject(error);
+        return;
       }
 
       fs.unlinkSync(path.join(tmpPath, `data/esgst.js`));
@@ -322,31 +357,67 @@ function packExtension(browser, manifest) {
 
       resolve();
     } else {
-      fs.mkdirSync(path.join(tmpPath, `lib`));
-      fs.copyFileSync(`node_modules/webextension-polyfill/dist/browser-polyfill.min.js`, path.join(tmpPath, `lib/browser-polyfill.js`));
-      fs.copyFileSync(`build/eventPage.js`, path.join(tmpPath, `eventPage.js`));
-      fs.copyFileSync(`build/esgst.js`, path.join(tmpPath, `esgst.js`));
-      fs.copyFileSync(`build/esgst_sgtools.js`, path.join(tmpPath, `esgst_sgtools.js`));
-      fs.copyFileSync(`src/assets/icons/icon.png`, path.join(tmpPath, `icon.png`));
+      const zip = new JSZip();
+      zip.folder(`lib`)
+      .file(`browser-polyfill.js`, fs.readFileSync(`./node_modules/webextension-polyfill/dist/browser-polyfill.min.js`));
+      zip.file(`manifest.json`, JSON.stringify(manifest, null, 2));
+      zip.file(`eventPage.js`, fs.readFileSync(`./build/eventPage.js`));
+      zip.file(`esgst.js`, fs.readFileSync(`./build/esgst.js`));
+      zip.file(`esgst_sgtools.js`, fs.readFileSync(`./build/esgst_sgtools.js`));
+      zip.file(`icon.png`, fs.readFileSync(`./src/assets/icons/icon.png`));
+      zip.generateNodeStream({
+        compression: `DEFLATE`,
+        compressionOptions: {
+          level: 9
+        },
+        streamFiles: true,
+        type: `nodebuffer`
+      })
+      .pipe(fs.createWriteStream(`extension-${browser}.zip`))
+      .on(`finish`, () => resolve())
+      .on(`error`, error => reject(error));
+    }
+  });
+}
 
-      const zip = new AdmZip();
-      zip.addLocalFolder(tmpPath);
-      zip.addFile(`manifest.json`, JSON.stringify(manifest, null, 2));
-      zip.writeZip(`extension-${browser}.zip`, error => {
+function publishRelease() {
+  return new Promise((resolve, reject) => {
+    const github = new GitHub({
+      token: GITHUB_TOKEN
+    });
+    const repo = github.getRepo(packageJson.author, packageJson.name);
+    repo.listReleases(async (error, releases) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      if (args.dev) {
+        const preRelease = releases.filter(x => x.prerelease)[0];
+        if (preRelease) {
+          await repo.deleteRelease(preRelease.id);
+        }
+      }
+
+      const releaseDescription = {
+        tag_name: packageJson.devVersion,
+        name: packageJson.devVersion,
+        prerelease: !!args.dev
+      };
+      repo.createRelease(releaseDescription, async (error, release) => {
         if (error) {
-          console.log(`Error while packing extension for ${browser}: ${error}`);
+          reject(error);
+          return;
         }
 
-        fs.unlinkSync(path.join(tmpPath, `lib/browser-polyfill.js`));
-        fs.unlinkSync(path.join(tmpPath, `eventPage.js`));
-        fs.unlinkSync(path.join(tmpPath, `esgst.js`));
-        fs.unlinkSync(path.join(tmpPath, `esgst_sgtools.js`));
-        fs.unlinkSync(path.join(tmpPath, `icon.png`));
-        fs.rmdirSync(path.join(tmpPath, `lib`));
-        fs.rmdirSync(tmpPath);
+        await Promise.all([
+          repo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`./extension-chrome.zip`), { name: `extension-chrome.zip` }),
+          repo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`./extension-firefox.zip`), { name: `extension-firefox.zip` }),
+          repo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`./extension-palemoon.xpi`), { name: `extension-palemoon.xpi` })
+        ]);
 
         resolve();
       });
-    }
+    });
   });
 }

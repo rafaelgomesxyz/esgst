@@ -5369,6 +5369,7 @@ class Common extends Module {
       position = `afterEnd`;
     }
     context = document.getElementsByClassName(className)[0];
+    const manifest = await browser.runtime.getManifest();
     menu = this.createElements(context, position, [{
       attributes: {
         class: `esgst-header-menu`,
@@ -5646,7 +5647,7 @@ class Common extends Module {
                 attributes: {
                   class: `esgst-header-menu-description`
                 },
-                text: `Current Version: ${(await browser.runtime.getManifest()).version_name}`,
+                text: `Current Version: ${manifest.version_name || manifest.version}`,
                 type: `p`
               }]
             }]
