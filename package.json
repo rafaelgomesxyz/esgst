@@ -2,61 +2,9 @@
   "name": "esgst",
   "version": "8.2.1",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
-  "main": "ESGST.meta.js",
-  "scripts": {
-    "build": "./node_modules/.bin/webpack --env.production",
-    "build-publish": "./node_modules/.bin/webpack --env.production --env.publish",
-    "build-publish-dev": "./node_modules/.bin/webpack --env.development --env.publish",
-    "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
-    "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
-    "publish": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./publish.ps1",
-    "publish-linux": "./publish.sh",
-    "publish-dev": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./publish-dev.ps1",
-    "publish-dev-linux": "./publish-dev.sh",
-    "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
-    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
-    "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gsrafael01/ESGST.git"
-  },
-  "keywords": [
-    "esgst",
-    "steamgifts"
-  ],
   "author": "gsrafael01",
-  "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/gsrafael01/ESGST/issues"
-  },
-  "homepage": "https://github.com/gsrafael01/ESGST#readme",
-  "devDependencies": {
-    "@babel/core": "^7.0.1",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-flow": "^7.0.0",
-    "@babel/runtime": "^7.0.0",
-    "apidoc": "0.17.7",
-    "babel-eslint": "^9.0.0",
-    "babel-loader": "^8.0.2",
-    "babel-minify": "^0.5.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "calfinated": "^1.4.1",
-    "copy-webpack-plugin": "4.6.0",
-    "css-loader": "^1.0.0",
-    "eslint": "^5.6.0",
-    "file-loader": "^2.0.0",
-    "jpm": "^1.3.1",
-    "jsdom": "^12.2.0",
-    "node-fetch": "^2.2.0",
-    "progress-bar-webpack-plugin": "^1.11.0",
-    "style-loader": "^0.23.0",
-    "url-loader": "^1.1.1",
-    "webpack": "^4.16.5",
-    "webpack-bundle-analyzer": "^3.0.2",
-    "webpack-shell-plugin": "0.5.0",
-    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "awesome-bootstrap-checkbox": "^0.3.7",
@@ -70,5 +18,57 @@
     "simple-vdf": "^1.1.1",
     "text-encoding": "^0.6.4",
     "webextension-polyfill": "0.3.1"
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "adm-zip": "0.4.13",
+    "apidoc": "0.17.7",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.2",
+    "babel-minify": "^0.5.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "calfinated": "^1.4.1",
+    "copy-webpack-plugin": "4.6.0",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.6.0",
+    "file-loader": "^2.0.0",
+    "github-api": "3.0.0",
+    "jpm": "^1.3.1",
+    "jsdom": "^12.2.0",
+    "node": "11.9.0",
+    "node-fetch": "^2.2.0",
+    "progress-bar-webpack-plugin": "^1.11.0",
+    "style-loader": "^0.23.0",
+    "url-loader": "^1.1.1",
+    "webpack": "^4.16.5",
+    "webpack-bundle-analyzer": "^3.0.2",
+    "webpack-shell-plugin": "0.5.0",
+    "webpack-cli": "^3.1.0"
+  },
+  "devVersion": "8.2.1",
+  "homepage": "https://github.com/gsrafael01/ESGST",
+  "keywords": [
+    "esgst",
+    "steamgifts",
+    "steamtrades"
+  ],
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsrafael01/ESGST.git"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --env.production",
+    "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
+    "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
+    "publish": "./node_modules/.bin/node ./publish.js",
+    "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
+    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
+    "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation"
+  },
+  "title": "Enhanced SteamGifts & SteamTrades (ESGST)"
 }

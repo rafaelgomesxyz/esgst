@@ -10,28 +10,21 @@
  */
 
 const
-  fetch = require('node-fetch'),
-  jsdom = require('jsdom'),
-  { JSDOM } = jsdom,
   fs = require('fs'),
   path = require('path'),
   calfinated = require('calfinated')(),
-  packageJson = require('./package.json'),
-  manifestJson = require('./app/manifest.json'),
   webpack = require('webpack'),
   plugins = {
-    copy: require('copy-webpack-plugin'),
     sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     progressBar: require('progress-bar-webpack-plugin'),
-    shell: require('webpack-shell-plugin'),
     banner: webpack.BannerPlugin,
     provide: webpack.ProvidePlugin
   },
   BUILD_PATHS = {
-    EXTENSION: 'app/esgst',
-    EXTENSION_SGTOOLS: 'app/esgst_sgtools',
-    EXTENSION_EVENT_PAGE: 'app/eventPage',
-    EXTENSION_EVENT_PAGE_SDK: 'app/index'
+    EXTENSION: 'build/esgst',
+    EXTENSION_SGTOOLS: 'build/esgst_sgtools',
+    EXTENSION_EVENT_PAGE: 'build/eventPage',
+    EXTENSION_EVENT_PAGE_SDK: 'build/index'
   },
   loaders = {
     style: {
@@ -49,29 +42,7 @@ const
 ;
 
 module.exports = /** @param {Environment} env */ async env => {
-  let version = packageJson.version;
-
-  // Bump version.
-  if (env.bumpPosition) {
-    switch (env.bumpPosition) {
-      case 0:
-        version = packageJson.version
-          .replace(/^(\d+)\.\d+\.\d+$/, (m, p1) => `${parseInt(p1) + 1}.0.0`);
-        break;
-      case 1:
-        version = packageJson.version
-          .replace(/^(\d+)\.(\d+)\.\d+$/, (m, p1, p2) => `${p1}.${parseInt(p2) + 1}.0`);
-        break;
-      case 2:
-        version = packageJson.version
-          .replace(/^(\d+)\.(\d+)\.(\d+)$/, (m, p1, p2, p3) => `${p1}.${p2}.${parseInt(p3) + 1}`);
-        break;
-    }
-  }
-
-  let file;
-
-  if (env.production) {
+  /*if (env.production) {
     // Update package.json
     file = fs.readFileSync(path.join(__dirname, './package.json'), 'utf8');
     file = file
@@ -145,28 +116,7 @@ module.exports = /** @param {Environment} env */ async env => {
     fs.writeFileSync(path.join(__dirname, './README.md'), file);
 
     env.withBabel = true;
-  } else if (!env.withWatch) {
-    // Get dev version.
-    let devVersion = ``;
-    if (version === manifestJson.version) {
-      devVersion = manifestJson.version_name
-        .replace(/\.(\d+)$/, (m, p1) => `.${parseInt(p1) + 1}`);
-    } else {
-      devVersion = `${version}-dev.1`;
-    }
-
-    // Update /app/manifest.json
-    file = fs.readFileSync(path.join(__dirname, './app/manifest.json'), 'utf8');
-    file = file
-      .replace(/"version_name":\s".+?"/, `"version_name": "${devVersion}"`);
-    fs.writeFileSync(path.join(__dirname, './app/manifest.json'), file);
-
-    // Update /app/package.json
-    file = fs.readFileSync(path.join(__dirname, './app/package.json'), 'utf8');
-    file = file
-      .replace(/"version_name":\s".+?"/, `"version_name": "${devVersion}"`);
-    fs.writeFileSync(path.join(__dirname, './app/package.json'), file);
-  }
+  }*/
 
   const entry = {
     [BUILD_PATHS.EXTENSION]: ['./index.js'],
@@ -208,11 +158,6 @@ module.exports = /** @param {Environment} env */ async env => {
       ]: [])
     },
     plugins: [
-      new plugins.copy([{
-        from: path.join(__dirname, './node_modules/webextension-polyfill/dist/browser-polyfill.min.js'),
-        to: './app/lib/browser-polyfill.js',
-        flatten: true
-      }]),
       new plugins.banner({
         raw: true,
         entryOnly: true,
@@ -229,13 +174,6 @@ module.exports = /** @param {Environment} env */ async env => {
     ]
     .concat(env.sizeAnalyzer ? [
       new plugins.sizeAnalyzer
-    ] : [])
-    .concat(env.publish ? [
-      new plugins.shell({
-        onBuildEnd: [
-          env.production ? `npm run publish` : `npm run publish-dev -- ${env.issue ? `-issue ${env.issue}` : `-message '${env.message}'`}`
-        ]
-      }),
     ] : []),
     watch: env.development && env.withWatch,
     watchOptions: {
