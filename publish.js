@@ -5,6 +5,7 @@ const FIREFOX_EXTENSION_ID = `{71de700c-ca62-4e31-9de6-93e3c30633d6}`;
 const AdmZip = require(`adm-zip`);
 const GitHub = require(`github-api`);
 const fs = require(`fs`);
+const git = require(`simple-git`)();
 const jpm = require(`jpm/lib/xpi`);
 const os = require(`os`);
 const path = require(`path`);
@@ -49,43 +50,59 @@ async function publish() {
   }
 }
 
-async function publishDevVersion() {
-  updateDevVersion();
+function publishDevVersion() {
+  return new Promise(async (resolve, reject) => {
+    updateDevVersion();
 
-  await Promise.all([
-    packExtensionChrome(),
-    packExtensionFirefox(),
-    packExtensionPaleMoon()
-  ]);
+    await Promise.all([
+      packExtensionChrome(),
+      packExtensionFirefox(),
+      packExtensionPaleMoon()
+    ]);
 
-  let message = ``;
+    let message = ``;
 
-  if (args.message) {
-    message = args.message;
-  } else if (args.issueNumber) {
-    if (args.keepOpen) {
-      message = `#${args.issueNumber}`;
-    } else {
-      const github = new GitHub();
-      const response = await github.getIssues(packageJson.author, packageJson.name).getIssue(args.issueNumber);
-      const issue = response.data;
-      if (issue) {
-        if (issue.state === `closed`) {
-          message = `#${args.issueNumber}`;
-        } else {
-          message = `${issue.title} (close #${args.issueNumber})`;
-        }
+    if (args.message) {
+      message = args.message;
+    } else if (args.issueNumber) {
+      if (args.keepOpen) {
+        message = `#${args.issueNumber}`;
       } else {
-        throw `Error! Issue not found.`;
+        const github = new GitHub();
+        const response = await github.getIssues(packageJson.author, packageJson.name).getIssue(args.issueNumber);
+        const issue = response.data;
+        if (issue) {
+          if (issue.state === `closed`) {
+            message = `#${args.issueNumber}`;
+          } else {
+            message = `${issue.title} (close #${args.issueNumber})`;
+          }
+        } else {
+          throw `Error! Issue not found.`;
+        }
       }
+    } else {
+      throw `Error! Missing issue number / message.`;
     }
-  } else {
-    throw `Error! Missing issue number / message.`;
-  }
 
-  const commitMessage = `v${packageJson.devVersion} ${message}`;
+    const commitMessage = `v${packageJson.devVersion} ${message}`;
+    
+    git
+      .add(`./*`)
+      .commit(commitMessage)
+      .push(error => {
+        if (error) {
+          reject(error);
+        } else {
+          fs.writeFileSync(`package.json`, JSON.stringify(packageJson, null, 2));
+
+          resolve();
+        }
+      });
+  });
 
   // TODO
+  // delete previous pre-release + create new pre-release
 }
 
 function publishVersion() {
@@ -105,8 +122,6 @@ function updateDevVersion() {
     parts[1] = subParts.join(`.`);
   }
   packageJson.devVersion = parts.join(`-`);
-
-  fs.writeFileSync(`package.json`, JSON.stringify(packageJson, null, 2));
 }
 
 function updateVersion() {
@@ -117,8 +132,6 @@ function updateVersion() {
   const parts = packageJson.version.split(`.`);
   parts[args.bumpVersion] = parseInt(parts[args.bumpVersion]) + 1;  
   packageJson.version = parts.join(`.`);
-
-  fs.writeFileSync(`package.json`, JSON.stringify(packageJson, null, 2));
 }
 
 async function packExtensionChrome() {
