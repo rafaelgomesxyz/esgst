@@ -245,7 +245,7 @@ function publishRelease() {
         const preRelease = releases.filter(x => x.prerelease)[0];
         if (preRelease) {
           await repo.deleteRelease(preRelease.id);
-          await repo.deleteRef(`refs/tags/${preRelease.tag_name}`);
+          await repo.deleteRef(`tags/${preRelease.tag_name}`);
         }
       }
 

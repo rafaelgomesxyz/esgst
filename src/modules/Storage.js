@@ -1006,6 +1006,7 @@ function loadDataCleaner(isPopup) {
   } else {
     containerr = container.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
+    context  = containerr;
   }
   const heading = container.common.createPageHeading(containerr, `afterBegin`, {
     items: [{
