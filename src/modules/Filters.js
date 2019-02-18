@@ -267,6 +267,9 @@ class Filters extends Module {
           type: `node`
         }, {
           type: `span`
+        }, {
+          text: `)`,
+          type: `node`
         }]
       }]
     }]);
