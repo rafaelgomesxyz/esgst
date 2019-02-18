@@ -5,7 +5,7 @@ import Popout from '../class/Popout';
 import Popup from '../class/Popup';
 import ToggleSwitch from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
-import JSZip from 'jszip';
+import JSZip from '../jszip';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import dateFns_isSameWeek from 'date-fns/isSameWeek';
 import dateFns_format from 'date-fns/format';

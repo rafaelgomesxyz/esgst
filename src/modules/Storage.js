@@ -1,7 +1,7 @@
 import ButtonSet from '../class/ButtonSet';
 import Popup from '../class/Popup';
 import ToggleSwitch from '../class/ToggleSwitch';
-import { TextEncoder } from 'text-encoding/lib/encoding';
+import TextEncoder from '../text-encoder';
 import { container } from '../class/Container';
 import { utils } from '../lib/jsUtils';
 import { createMenuSection } from './Settings';
