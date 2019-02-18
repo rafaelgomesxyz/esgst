@@ -1,7 +1,7 @@
 `use strict`;
 
 // that will append styles to page in runtime
-import './assets/css';
+import './assets/styles';
 
 import 'jquery';
 
