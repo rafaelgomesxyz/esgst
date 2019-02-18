@@ -47,7 +47,7 @@
     "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
-  "devVersion": "8.2.2-dev.10",
+  "devVersion": "8.2.2-dev.11",
   "homepage": "https://github.com/gsrafael01/ESGST",
   "keywords": [
     "esgst",
@@ -63,7 +63,7 @@
     "build": "./node_modules/.bin/webpack --env.production",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
     "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
-    "publish": "./node_modules/.bin/node ./publish.js",
+    "publish": "./node_modules/.bin/node ./scripts/publish.js",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation"
