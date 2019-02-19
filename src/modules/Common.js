@@ -978,7 +978,8 @@ class Common extends Module {
         ` link below to enable features and start getting the most out of SteamGifts!`
       ]);
     } else if (this.esgst.storage.isUpdate && this.esgst.showChangelog) {
-      const version = (await browser.runtime.getManifest()).version;
+      const manifest = await browser.runtime.getManifest();
+      const version = manifest.version_name || manifest.version;
       loadChangelog(version);
     }
   }
