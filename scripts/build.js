@@ -32,7 +32,6 @@ function build() {
     buildWebExtension(`chrome`);
     buildWebExtension(`firefox`);
     buildLegacyExtension(`palemoon`);
-    cleanBuild();
   } catch (error) {
     console.log(error);
   }
@@ -41,8 +40,12 @@ function build() {
 function buildWebExtension(browserName) {
   const extensionPath = `${BUILD_PATH}/${browserName}`;
   const libPath = `${extensionPath}/lib`;
-  fs.mkdirSync(extensionPath);
-  fs.mkdirSync(libPath);
+  if (!fs.existsSync(extensionPath)) {
+    fs.mkdirSync(extensionPath);
+  }
+  if (!fs.existsSync(libPath)) {
+    fs.mkdirSync(libPath);
+  }
   fs.writeFileSync(`${extensionPath}/manifest.json`, JSON.stringify(getWebExtensionManifest(browserName), null, 2));
   fs.copyFileSync(`${NODE_MODULES_PATH}/webextension-polyfill/dist/browser-polyfill.min.js`, `${libPath}/browser-polyfill.js`);
   fs.copyFileSync(`${BUILD_PATH}/eventPage.js`, `${extensionPath}/eventPage.js`);
@@ -54,8 +57,12 @@ function buildWebExtension(browserName) {
 function buildLegacyExtension(browserName) {
   const extensionPath = `${BUILD_PATH}/${browserName}`;
   const dataPath = `${extensionPath}/data`;
-  fs.mkdirSync(extensionPath);
-  fs.mkdirSync(dataPath);
+  if (!fs.existsSync(extensionPath)) {
+    fs.mkdirSync(extensionPath);
+  }
+  if (!fs.existsSync(dataPath)) {
+    fs.mkdirSync(dataPath);
+  }
   fs.writeFileSync(`${extensionPath}/package.json`, JSON.stringify(getLegacyExtensionManifest(browserName), null, 2));
   fs.copyFileSync(`${BUILD_PATH}/esgst.js`, `${dataPath}/esgst.js`);
   fs.copyFileSync(`${BUILD_PATH}/esgst_sgtools.js`, `${dataPath}/esgst_sgtools.js`);
@@ -194,11 +201,4 @@ function getLegacyExtensionManifest(browserName) {
   }
 
   return manifest;
-}
-
-function cleanBuild() {
-  fs.unlinkSync(`${BUILD_PATH}/eventPage.js`);
-  fs.unlinkSync(`${BUILD_PATH}/esgst.js`);
-  fs.unlinkSync(`${BUILD_PATH}/esgst_sgtools.js`);
-  fs.unlinkSync(`${BUILD_PATH}/index.js`);
 }
