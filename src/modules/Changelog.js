@@ -948,12 +948,18 @@ function loadChangelog(version) {
       }
     }
   ];
-  let index = changelog.length - 1;
+  let index;
   if (version) {
     let i, n;
     for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; i++) {
     }
-    index = i < n ? i - 1 : n - 1;
+    if (i < n) {
+      index = i;
+    } else {
+      index = -1;
+    }
+  } else {
+    changelog.length - 1;
   }
   const html = [];
   while (index > -1) {
@@ -995,6 +1001,9 @@ function loadChangelog(version) {
         children: items
       });
     index -= 1;
+  }
+  if (!html.length) {
+    return;
   }
   const popup = new Popup({ addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: `Changelog` });
   container.common.createElements(popup.scrollable, `afterBegin`, [{
