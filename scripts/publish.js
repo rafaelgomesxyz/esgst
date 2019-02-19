@@ -201,14 +201,15 @@ function publishVersion() {
 }
 
 function updateDevVersion() {
+  const bumpedVersion = bumpVersion();
   const parts = packageJson.devVersion.split(`-`);
-  if (parts[1]) {
+  if (bumpedVersion !== parts[0] || !parts[1]) {
+    parts[0] = bumpedVersion;
+    parts[1] = `dev.1`;
+  } else {
     const subParts = parts[1].split(`.`);
     subParts[1] = parseInt(subParts[1]) + 1;
     parts[1] = subParts.join(`.`);
-  } else {
-    parts[0] = bumpVersion();
-    parts[1] = `dev.1`;
   }
   packageJson.devVersion = parts.join(`-`);
 }
