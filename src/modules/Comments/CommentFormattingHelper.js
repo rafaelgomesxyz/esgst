@@ -550,8 +550,8 @@ class CommentsCommentFormattingHelper extends Module {
           }]);
           url = popout.popout.firstElementChild.firstElementChild;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
-          popout.popout.lastElementChild.addEventListener(`click`, () => {
-            this.cfh_formatLink(title.value, url.value);
+          popout.popout.lastElementChild.addEventListener(`click`, async () => {
+            await this.cfh_formatLink(title.value, url.value);
             url.value = ``;
             title.value = ``;
             popout.close();
@@ -624,8 +624,8 @@ class CommentsCommentFormattingHelper extends Module {
               this.cfh_checkImgur(popout, url);
             });
           });
-          popout.popout.lastElementChild.addEventListener(`click`, () => {
-            this.cfh_formatLink(title.value, url.value, true);
+          popout.popout.lastElementChild.addEventListener(`click`, async () => {
+            await this.cfh_formatLink(title.value, url.value, true);
             url.value = ``;
             title.value = ``;
             popout.close();
@@ -866,10 +866,10 @@ class CommentsCommentFormattingHelper extends Module {
             type: `div`
           }]);
           let code = popout.popout.firstElementChild;
-          code.nextElementSibling.addEventListener(`click`, () => {
+          code.nextElementSibling.addEventListener(`click`, async () => {
             if (code.value.match(/^[\d\w]{5}$/)) {
               let encodedCode = this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(code.value);
-              this.cfh_formatLink(``, `ESGST-${encodedCode}`);
+              await this.cfh_formatLink(``, `ESGST-${encodedCode}`);
               code.value = ``;
               popout.close();
             } else {
@@ -974,10 +974,10 @@ class CommentsCommentFormattingHelper extends Module {
             type: `div`
           }]);
           url = popout.popout.firstElementChild.firstElementChild;
-          popout.popout.lastElementChild.addEventListener(`click`, () => {
+          popout.popout.lastElementChild.addEventListener(`click`, async () => {
             const ghwsgiLink = `wiki-gh/${url.value.replace(/https?:\/\/(www\.)?github\.com\//, ``)}`;
-            this.cfh_formatItem(`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`);
-            this.cfh_formatLink(``, ghwsgiLink);
+            await this.cfh_formatItem(`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`);
+            await this.cfh_formatLink(``, ghwsgiLink);
             url.value = ``;
             popout.close();
           });
@@ -1075,11 +1075,11 @@ class CommentsCommentFormattingHelper extends Module {
           if (item.callback) {
             item.callback(button);
           }
-          button.addEventListener(`click`, () => {
+          button.addEventListener(`click`, async () => {
             if (item.onClick) {
               item.onClick();
             } else {
-              this.cfh_formatItem(item.prefix, item.suffix, item.multiline);
+              await this.cfh_formatItem(item.prefix, item.suffix, item.multiline);
             }
           });
         }
@@ -1111,8 +1111,8 @@ class CommentsCommentFormattingHelper extends Module {
             class: `fa fa-eye`
           }
         }]
-      }]).addEventListener(`click`, () => {
-        createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(this.esgst.cfh.textArea.value));
+      }]).addEventListener(`click`, async () => {
+        createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
         this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
@@ -5838,7 +5838,7 @@ class CommentsCommentFormattingHelper extends Module {
 
     textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
     textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
-    textArea.onpaste = event => {
+    textArea.onpaste = async event => {
       if (this.esgst.cfh_pasteFormatting) {
         let clipboard, value;
         clipboard = event.clipboardData.getData(`text/plain`);
@@ -5846,7 +5846,7 @@ class CommentsCommentFormattingHelper extends Module {
           event.preventDefault();
           value = textArea.value;
           this.cfh_undo(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-          this.cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
+          await this.cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
         }
       }
     };
@@ -5871,8 +5871,8 @@ class CommentsCommentFormattingHelper extends Module {
       this.esgst.cfh.preview.innerHTML = ``;
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
       if (this.esgst.cfh_p_a) {
-        textArea.oninput = () => {
-          createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(textArea.value));
+        textArea.oninput = async () => {
+          createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(textArea, textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
         };
       }
@@ -5890,7 +5890,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.redo.classList.remove(`esgst-faded`);
   }
 
-  cfh_formatItem(prefix = ``, suffix = ``, multiline) {
+  async cfh_formatItem(prefix = ``, suffix = ``, multiline) {
     let end, n, range, start, text, value;
     value = this.esgst.cfh.textArea.value;
     this.cfh_undo(this.esgst.cfh.textArea, value);
@@ -5911,12 +5911,12 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
     if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
-      createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(this.esgst.cfh.textArea.value));
+      createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
 
-  cfh_formatLink(title, url, isImage, isPaste) {
+  async cfh_formatLink(title, url, isImage, isPaste) {
     let end, start, value;
     if (isPaste) {
       this.esgst.cfh.recent = true;
@@ -5934,7 +5934,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
     this.esgst.cfh.textArea.focus();
     if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
-      createElements(this.esgst.cfh.preview, `inner`, parseMarkdown(this.esgst.cfh.textArea.value));
+      createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }

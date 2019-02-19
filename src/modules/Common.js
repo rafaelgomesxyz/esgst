@@ -531,7 +531,13 @@ class Common extends Module {
 
   // Helper
 
-  async saveComment(tradeCode, parentId, description, url, status, goToLocation) {
+  async saveComment(context, tradeCode, parentId, description, url, status, goToLocation) {
+    const obj = {
+      context,
+      comment: description
+    };
+    await this.esgst.onBeforeCommentSubmit(obj);
+    description = obj.comment;
     const data = `xsrf_token=${this.esgst.xsrfToken}&do=${this.esgst.sg ? `comment_new` : `comment_insert`}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
     let id = null;
     let response = await this.request({ data, method: `POST`, url });
@@ -984,7 +990,13 @@ class Common extends Module {
     }
   }
 
-  parseMarkdown(string) {
+  async parseMarkdown(context, string) {
+    const obj = {
+      context,
+      comment: string
+    };
+    await this.esgst.onBeforeCommentSubmit(obj);
+    string = obj.comment;
     return [{
       type: `div`,
       children: [...Array.from(parseHtml(this.esgst.markdownParser.text(string)).body.children)].map(x => {
@@ -4960,6 +4972,7 @@ class Common extends Module {
 
     if (!obj.commentUrl) {
       const result = await this.saveComment(
+        obj.context,
         obj.tradeCode,
         obj.parentId.value,
         obj.description.value,
@@ -4991,6 +5004,7 @@ class Common extends Module {
 
     if (obj.checked || !this.esgst.rfi_c) {
       const result = await this.saveComment(
+        obj.context,
         obj.tradeCode,
         obj.parentId,
         obj.description.value,
@@ -5047,6 +5061,7 @@ class Common extends Module {
       obj.checked = true;
     } else {
       const result = await this.saveComment(
+        obj.context,
         obj.tradeCode,
         obj.parentId,
         obj.description.value,

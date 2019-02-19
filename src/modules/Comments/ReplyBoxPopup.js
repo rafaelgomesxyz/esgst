@@ -52,7 +52,7 @@ class CommentsReplyBoxPopup extends Module {
       title2: `Saving...`,
       callback1: async () => {
         popup.progress.innerHTML = ``;
-        await saveComment(this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? window.location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress, true);
+        await saveComment(null, this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? window.location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress, true);
 
       }
     }).set);
