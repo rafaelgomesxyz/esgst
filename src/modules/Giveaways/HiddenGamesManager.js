@@ -91,6 +91,16 @@ class GiveawaysHiddenGameManager extends Module {
       callback1: this.startRemoving.bind(this, obj),
       callback2: this.stop.bind(this, obj)
     }).set);
+    obj.popup.description.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: `fa-arrow-circle-down`,
+      icon2: `fa-times`,
+      title1: `Export`,
+      title2: `Cancel`,
+      callback1: this.startExporting.bind(this, obj),
+      callback2: this.stop.bind(this, obj)
+    }).set);
     obj.progress = createElements(obj.popup.description, `beforeEnd`, [{
       type: `div`
     }]);
@@ -158,7 +168,11 @@ class GiveawaysHiddenGameManager extends Module {
     obj.running = false;
   }
 
-  async startRemoving(obj) {
+  startExporting(obj) {
+    return this.startRemoving(obj, true);
+  }
+
+  async startRemoving(obj, exportOnly) {
     if (obj.running) {
       return;
     }
@@ -172,27 +186,31 @@ class GiveawaysHiddenGameManager extends Module {
       },
       type: `i`
     }, {
-      text: `Removing games...`,
+      text: `${exportOnly ? `Exporting` : `Removing`} games...`,
       type: `span`
     }]);
-    createElements(obj.result, `inner`, [{
-      attributes: {
-        class: `esgst-bold`
-      },
-      text: `Removed Games:`,
-      type: `span`
-    }]);
+    if (!exportOnly) {
+      createElements(obj.result, `inner`, [{
+        attributes: {
+          class: `esgst-bold`
+        },
+        text: `Removed Games:`,
+        type: `span`
+      }]);
+    }
 
     const appIds = [];
     const subIds = [];
-    obj.textArea.value
-      .split(/\n/)
-      .map(x => {
-        const match = x.match(/(app|sub)\/(\d+)/);
-        if (match) {
-          (match[1] === `app` ? appIds : subIds).push(match[2]);
-        }
-      });
+    if (!exportOnly) {
+      obj.textArea.value
+        .split(/\n/)
+        .map(x => {
+          const match = x.match(/(app|sub)\/(\d+)/);
+          if (match) {
+            (match[1] === `app` ? appIds : subIds).push(match[2]);
+          }
+        });
+    }
 
     const newGames = { apps: {}, subs: {} };
     
@@ -219,7 +237,7 @@ class GiveawaysHiddenGameManager extends Module {
         },
         type: `i`
       }, {
-        text: `Removing games (page ${nextPage}${obj.lastPage})...`,
+        text: `${exportOnly ? `Exporting` : `Removing`} games (page ${nextPage}${obj.lastPage})...`,
         type: `span`
       }]);
       let elements = context.getElementsByClassName(`table__row-outer-wrap`);
@@ -227,6 +245,10 @@ class GiveawaysHiddenGameManager extends Module {
         let element = elements[i];
         let info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
+        if (exportOnly) {
+          (info.type === `apps` ? appIds : subIds).push(info.id);
+          continue;
+        }
         let game = this.esgst.games[info.type][info.id];
         if ((!this.esgst.hgm_removeOwned || !game || !game.owned) && (!this.esgst.hgm_removeWishlisted || !game || !game.wishlisted) && (!this.esgst.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (this.esgst.hgm_removeOwned || this.esgst.hgm_removeWishlisted || this.esgst.hgm_removeTextArea)) {
           continue;
@@ -254,16 +276,24 @@ class GiveawaysHiddenGameManager extends Module {
       pagination = context.getElementsByClassName(`pagination__navigation`)[0];
     } while (!obj.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
-    await common.lockAndSaveGames(newGames);
+    if (exportOnly) {
+      const file = [].concat(
+        ...appIds.map(id => `https://store.steampowered.com/apps/${id}`),
+        ...subIds.map(id => `https://store.steampowered.com/subs/${id}`)
+      ).join(`\n`);
+      common.downloadFile(file, `steamgifts-hidden-games.txt`);
+    } else {
+      await common.lockAndSaveGames(newGames);
 
-    if (obj.result.children.length === 1) {
-      createElements(obj.result, `inner`, [{
-        attributes: {
-          class: `esgst-bold`
-        },
-        text: `0 games removed.`,
-        type: `span`
-      }]);
+      if (obj.result.children.length === 1) {
+        createElements(obj.result, `inner`, [{
+          attributes: {
+            class: `esgst-bold`
+          },
+          text: `0 games removed.`,
+          type: `span`
+        }]);
+      }
     }
     obj.button.classList.remove(`esgst-busy`);
     obj.progress.innerHTML = ``;

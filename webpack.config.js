@@ -99,7 +99,7 @@ module.exports = /** @param {Environment} env */ async env => {
       }),
       new plugins.progressBar,
       new plugins.shell({
-        onBuildEnd: [
+        onBuildExit: [
           `node ./scripts/build.js${env.development ? ` dev` : ``}`
         ]
       })

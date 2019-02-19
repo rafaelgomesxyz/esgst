@@ -47,7 +47,7 @@
     "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
-  "devVersion": "8.2.2-dev.13",
+  "devVersion": "8.2.2-dev.14",
   "homepage": "https://github.com/gsrafael01/ESGST",
   "keywords": [
     "esgst",
