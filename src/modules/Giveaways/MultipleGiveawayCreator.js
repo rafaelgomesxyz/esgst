@@ -688,16 +688,16 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     for (let key in inputs) {
       if (inputs.hasOwnProperty(key)) {
         let input = inputs[key];
-        input.addEventListener(`input`, () => {
+        input.addEventListener(`input`, async () => {
           if (key === `counter`) {
             counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
-            createElements(counterOutputPreview, `inner`, parseMarkdown(`1${input.value}10`));
+            createElements(counterOutputPreview, `inner`, await parseMarkdown(null, `1${input.value}10`));
           } else if (key === `bump`) {
             bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-            createElements(bumpOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
+            createElements(bumpOutputPreview, `inner`, await parseMarkdown(null, `[${input.value}](#)`));
           } else if (key === `train`) {
             trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-            createElements(trainOutputPreview, `inner`, parseMarkdown(`[${input.value}](#)`));
+            createElements(trainOutputPreview, `inner`, await parseMarkdown(null, `[${input.value}](#)`));
           } else {
             let markdown = ``;
             let text = ``;
@@ -720,7 +720,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
               markdown += `[${inputs.next.value}](#)`;
             }
             outputCode.textContent = text;
-            createElements(outputPreview, `inner`, parseMarkdown(markdown));
+            createElements(outputPreview, `inner`, await parseMarkdown(null, markdown));
           }
           input.style.width = `${input.value.length + 75}px`;
         });

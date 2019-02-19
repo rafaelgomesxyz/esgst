@@ -142,7 +142,8 @@ class Esgst {
     };
     this.newGiveawayDateFormat = `MMM d, yyyy h:mm a`;
     this.triggerFunctions = {
-      onLevelContainerUpdated: []
+      onLevelContainerUpdated: [],
+      onBeforeCommentSubmit: []
     };
 
     for (const key in this.triggerFunctions) {
@@ -179,6 +180,10 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      cv_username: `%username%`,
+      cv_steamId: `%steamId%`,
+      cv_creator: `%creator%`,
+      cv_replyUser: `%replyUser%`,
       cgc_dateFormat: `M d, yy`,
       cgc_timeFormat: `H:mm`,
       cgc_index_0: 1,
@@ -2241,9 +2246,9 @@ class Esgst {
     this.groupsPath = window.location.pathname.match(/^\/account\/steam\/groups/);
   }
 
-  async triggerFunction(key) {
+  async triggerFunction(key, ...args) {
     for (const func of this.triggerFunctions[key]) {
-      await func();
+      await func(...args);
     }
   }
 }

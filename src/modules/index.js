@@ -73,6 +73,7 @@ import GeneralSearchMagnifyingGlassButton from './General/SearchMagnifyingGlassB
 import DiscussionsRefreshActiveDiscussionsButton from './Discussions/RefreshActiveDiscussionsButton';
 import CommentsReplyBoxPopup from './Comments/ReplyBoxPopup';
 import CommentsCommentFormattingHelper from './Comments/CommentFormattingHelper';
+import CommentsCommentVariables from './Comments/CommentVariables';
 import GiveawaysRealCVCalculator from './Giveaways/RealCVCalculator';
 import GiveawaysStickiedGiveawayCountries from './Giveaways/StickiedGiveawayCountries';
 import GeneralShortcutKeys from './General/ShortcutKeys';
@@ -228,6 +229,7 @@ let
   discussionsRefreshActiveDiscussionsButton = new DiscussionsRefreshActiveDiscussionsButton,
   commentsReplyBoxPopup = new CommentsReplyBoxPopup,
   commentsCommentFormattingHelper = new CommentsCommentFormattingHelper,
+  commentsCommentVariables = new CommentsCommentVariables,
   giveawaysRealCVCalculator = new GiveawaysRealCVCalculator,
   giveawaysStickiedGiveawayCountries = new GiveawaysStickiedGiveawayCountries,
   generalShortcutKeys = new GeneralShortcutKeys,
@@ -385,6 +387,7 @@ export default {
   discussionsRefreshActiveDiscussionsButton,
   commentsReplyBoxPopup,
   commentsCommentFormattingHelper,
+  commentsCommentVariables,
   giveawaysRealCVCalculator,
   giveawaysStickiedGiveawayCountries,
   generalShortcutKeys,

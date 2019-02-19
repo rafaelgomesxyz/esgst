@@ -61,7 +61,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
       title2: `Saving...`,
       callback1: async () => {
         progress.innerHTML = ``;
-        await saveComment(``, ``, textArea.value, giveaway.url, progress);
+        await saveComment(null, ``, ``, textArea.value, giveaway.url, progress);
         popup.close();
       }
     }).set);
