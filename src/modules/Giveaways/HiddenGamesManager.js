@@ -278,8 +278,8 @@ class GiveawaysHiddenGameManager extends Module {
 
     if (exportOnly) {
       const file = [].concat(
-        ...appIds.map(id => `https://store.steampowered.com/apps/${id}`),
-        ...subIds.map(id => `https://store.steampowered.com/subs/${id}`)
+        ...appIds.map(id => `https://store.steampowered.com/app/${id}`),
+        ...subIds.map(id => `https://store.steampowered.com/sub/${id}`)
       ).join(`\n`);
       common.downloadFile(file, `steamgifts-hidden-games.txt`);
     } else {
