@@ -45,6 +45,10 @@ class GiveawaysGiveawayExtractor extends Module {
           name: `Add button to only extract from the current giveaway onward.`,
           sg: true
         },
+        ge_j: {
+          name: `Convert all Jigidi links to the "jigidi.com/jigsaw-puzzle" format.`,
+          sg: true
+        },
         ge_sgt: {
           features: {
             ge_sgt_l: {
@@ -308,7 +312,13 @@ class GiveawaysGiveawayExtractor extends Module {
         text: `${points}P required to enter all giveaways.`,
         type: `node`
       });
-      for (const link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
+      for (let link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
+        if (this.esgst.ge_j) {
+          const match = link.match(/id=(.+)/);
+          if (match) {
+            link = `https://www.jigidi.com/jigsaw-puzzle/${match[1]}`;
+          }
+        }
         items[0].children.push({
           type: `br`
         }, {
@@ -547,7 +557,13 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     const jigidiLinks = context.querySelectorAll(`.markdown [href*="jigidi.com/jigsaw-puzzle/"], .markdown [href*="jigidi.com/solve.php"]`);
     for (const link of jigidiLinks) {
-      const url = link.getAttribute(`href`);
+      let url = link.getAttribute(`href`);
+      if (this.esgst.ge_j) {
+        const match = url.match(/id=(.+)/);
+        if (match) {
+          url = `https://www.jigidi.com/jigsaw-puzzle/${match[1]}`;
+        }
+      }
       ge.cache[ge.cacheId].jigidiLinks.add(url);
     }
     return giveaways;
