@@ -223,7 +223,12 @@ function bumpVersion() {
 
   if (args.bumpVersion) {
     const parts = packageJson.version.split(`.`);
-    parts[args.bumpVersion] = parseInt(parts[args.bumpVersion]) + 1;
+    let i = parseInt(args.bumpVersion);
+    parts[i] = parseInt(parts[i]) + 1;
+    while (i < 3) {
+      parts[i] = 0;
+      i += 1;
+    }
     version = parts.join(`.`);
   }
 
