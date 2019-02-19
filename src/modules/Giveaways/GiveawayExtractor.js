@@ -130,8 +130,6 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.bumpLink = ``;
     ge.points = 0;
     ge.sgToolsCount = 0;
-    ge.ithLinks = [];
-    ge.jigidiLinks = [];
     ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
     if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
       const context = this.esgst.sidebar.nextElementSibling;
@@ -204,8 +202,8 @@ class GiveawaysGiveawayExtractor extends Module {
               codes: [],
               giveaways: {},
               bumpLink: ``,
-              ithLinks: [],
-              jigidiLinks: [],
+              ithLinks: new Set(),
+              jigidiLinks: new Set(),
               timestamp: now
             };
             if (this.esgst.es_ge) {
@@ -260,6 +258,8 @@ class GiveawaysGiveawayExtractor extends Module {
     }]);
     ge.popup.open();
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
+      ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
+      ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
       cacheWarning = common.createElements_v2(ge.popup.description, `beforeEnd`, [
         [`div`, `These results were retrieved from the cache. If you want to update the cache, you will have to extract again.`]
       ]);
@@ -308,7 +308,7 @@ class GiveawaysGiveawayExtractor extends Module {
         text: `${points}P required to enter all giveaways.`,
         type: `node`
       });
-      for (const link of ge.cache[ge.cacheId].ithLinks.concat(ge.cache[ge.cacheId].jigidiLinks)) {
+      for (const link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
         items[0].children.push({
           type: `br`
         }, {
@@ -326,8 +326,8 @@ class GiveawaysGiveawayExtractor extends Module {
         codes: [],
         giveaways: {},
         bumpLink: ``,
-        ithLinks: [],
-        jigidiLinks: [],
+        ithLinks: new Set(),
+        jigidiLinks: new Set(),
         timestamp: now
       };
       ge.set.trigger();
@@ -540,10 +540,16 @@ class GiveawaysGiveawayExtractor extends Module {
     if (next.count > 0) {
       giveaways.push(next.code);
     }
-    ge.ithLinks = ge.ithLinks.concat(...Array.from(context.querySelectorAll(`.markdown [href*="itstoohard.com/puzzle/"]`)).map(element => element.getAttribute(`href`)));
-    ge.jigidiLinks = ge.jigidiLinks.concat(...Array.from(context.querySelectorAll(`.markdown [href*="jigidi.com/solve.php?id="]`)).map(element => element.getAttribute(`href`)));
-    ge.cache[ge.cacheId].ithLinks = ge.cache[ge.cacheId].ithLinks.concat(...ge.ithLinks);
-    ge.cache[ge.cacheId].jigidiLinks = ge.cache[ge.cacheId].jigidiLinks.concat(...ge.jigidiLinks);
+    const ithLinks = context.querySelectorAll(`.markdown [href*="itstoohard.com/puzzle/"]`);
+    for (const link of ithLinks) {
+      const url = link.getAttribute(`href`);
+      ge.cache[ge.cacheId].ithLinks.add(url);
+    }
+    const jigidiLinks = context.querySelectorAll(`.markdown [href*="jigidi.com/jigsaw-puzzle/"], .markdown [href*="jigidi.com/solve.php"]`);
+    for (const link of jigidiLinks) {
+      const url = link.getAttribute(`href`);
+      ge.cache[ge.cacheId].jigidiLinks.add(url);
+    }
     return giveaways;
   }
 
@@ -595,7 +601,7 @@ class GiveawaysGiveawayExtractor extends Module {
       text: `${ge.points}P required to enter all giveaways.`,
       type: `node`
     });
-    for (const link of ge.ithLinks.concat(ge.jigidiLinks)) {
+    for (const link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
       items[0].children.push({
         type: `br`
       }, {
@@ -611,6 +617,8 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.set.set.remove();
     ge.set = null;
     if (!ge.isCanceled && !ge.extractOnward) {
+      ge.cache[ge.cacheId].ithLinks = Array.from(ge.cache[ge.cacheId].ithLinks);
+      ge.cache[ge.cacheId].jigidiLinks = Array.from(ge.cache[ge.cacheId].jigidiLinks);
       await common.setValue(`geCache`, JSON.stringify(ge.cache));
     }
   }
