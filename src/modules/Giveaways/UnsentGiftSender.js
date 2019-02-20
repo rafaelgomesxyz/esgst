@@ -62,7 +62,7 @@ class GiveawaysUnsentGiftSender extends Module {
     if (category.value === `1`) {
       const id = winner.value;
       if (id) {
-        rerolls = JSON.parse(await getValue(`rerolls`));
+        rerolls = JSON.parse(getValue(`rerolls`));
         if (rerolls.indexOf(id) < 0) {
           rerolls.push(id);
           setValue(`rerolls`, JSON.stringify(rerolls));
@@ -726,7 +726,7 @@ class GiveawaysUnsentGiftSender extends Module {
       }
 
       // finalize process
-      let winners = JSON.parse(await getValue(`winners`, `{}`));
+      let winners = JSON.parse(getValue(`winners`, `{}`));
       for (let key in ugs.sentWinners) {
         if (ugs.sentWinners.hasOwnProperty(key)) {
           if (!winners[key]) {

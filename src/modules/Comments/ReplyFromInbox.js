@@ -69,7 +69,7 @@ class CommentsReplyFromInbox extends Module {
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
     }
-    saved = JSON.parse(await getValue(`${this.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(getValue(`${this.esgst.name}RfiCache`, `{}`));
     if (edit) {
       for (const key in saved) {
         if (saved.hasOwnProperty(key)) {
@@ -96,7 +96,7 @@ class CommentsReplyFromInbox extends Module {
 
   async rfi_getReplies(comments, endless) {
     let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
-    saved = JSON.parse(await getValue(`${this.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(getValue(`${this.esgst.name}RfiCache`, `{}`));
     for (i = 0, n = comments.length; i < n; ++i) {
       comment = comments[i];
       id = comment.id;

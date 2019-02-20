@@ -120,7 +120,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       });
     }
     const deleteLock = await createLock(`gameLock`, 300);
-    const games = JSON.parse(await getValue(`games`));
+    const games = JSON.parse(getValue(`games`));
     if (!games[giveaway.type][giveaway.id]) {
       games[giveaway.type][giveaway.id] = {};
     }

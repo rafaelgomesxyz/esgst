@@ -89,7 +89,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
   async sgg_setGroups(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
     if (!elements.length) return;
-    const savedGroups = JSON.parse(await getValue(`groups`, `[]`));
+    const savedGroups = JSON.parse(getValue(`groups`, `[]`));
     for (let i = 0, n = elements.length; i < n; i++) {
       let element = elements[i];
       let avatar = element.getElementsByClassName(`table_image_avatar`)[0].style.backgroundImage;

@@ -123,7 +123,7 @@ function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback
 }
 
 async function checkDropboxComplete(data, dm, callback) {
-  let value = await container.common.getValue(`dropboxToken`);
+  let value = container.common.getValue(`dropboxToken`);
   if (value) {
     if (dm.type === `export` || (data && container.esgst.settings.exportBackup)) {
       const name = container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
@@ -220,7 +220,7 @@ async function checkDropboxComplete(data, dm, callback) {
 }
 
 async function checkGoogleDriveComplete(data, dm, callback) {
-  let value = await container.common.getValue(`googleDriveToken`);
+  let value = container.common.getValue(`googleDriveToken`);
   if (value) {
     if (dm.type === `export` || (data && container.esgst.settings.exportBackup)) {
       const name = container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
@@ -321,7 +321,7 @@ async function checkGoogleDriveComplete(data, dm, callback) {
 }
 
 async function checkOneDriveComplete(data, dm, callback) {
-  let value = await container.common.getValue(`oneDriveToken`);
+  let value = container.common.getValue(`oneDriveToken`);
   if (value) {
     if (dm.type === `export` || (data && container.esgst.settings.exportBackup)) {
       const name = container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
@@ -1367,7 +1367,7 @@ function loadDataCleaner(isPopup) {
       let toSave = {};
       if (container.esgst.cleanDiscussions) {
         let days = container.esgst.cleanDiscussions_days * 86400000;
-        toSave.discussions = JSON.parse(await container.common.getValue(`discussions`, `{}`));
+        toSave.discussions = JSON.parse(container.common.getValue(`discussions`, `{}`));
         for (let code in toSave.discussions) {
           if (toSave.discussions.hasOwnProperty(code)) {
             let item = toSave.discussions[code];
@@ -1379,7 +1379,7 @@ function loadDataCleaner(isPopup) {
       }
       if (container.esgst.cleanEntries) {
         let days = container.esgst.cleanEntries_days * 86400000;
-        let items = JSON.parse(await container.common.getValue(`entries`, `[]`));
+        let items = JSON.parse(container.common.getValue(`entries`, `[]`));
         toSave.entries = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1389,7 +1389,7 @@ function loadDataCleaner(isPopup) {
       }
       if (container.esgst.cleanGiveaways) {
         let days = container.esgst.cleanGiveaways_days * 86400000;
-        toSave.giveaways = JSON.parse(await container.common.getValue(`giveaways`, `{}`));
+        toSave.giveaways = JSON.parse(container.common.getValue(`giveaways`, `{}`));
         for (let code in toSave.giveaways) {
           if (toSave.giveaways.hasOwnProperty(code)) {
             let item = toSave.giveaways[code];
@@ -1401,7 +1401,7 @@ function loadDataCleaner(isPopup) {
       }
       if (container.esgst.cleanSgCommentHistory) {
         let days = container.esgst.cleanSgCommentHistory_days * 86400000;
-        let items = JSON.parse(await container.common.getValue(`sgCommentHistory`, `[]`));
+        let items = JSON.parse(container.common.getValue(`sgCommentHistory`, `[]`));
         toSave.sgCommentHistory = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1411,7 +1411,7 @@ function loadDataCleaner(isPopup) {
       }
       if (container.esgst.cleanTickets) {
         let days = container.esgst.cleanTickets_days * 86400000;
-        toSave.tickets = JSON.parse(await container.common.getValue(`tickets`, `{}`));
+        toSave.tickets = JSON.parse(container.common.getValue(`tickets`, `{}`));
         for (let code in toSave.tickets) {
           if (toSave.tickets.hasOwnProperty(code)) {
             let item = toSave.tickets[code];
@@ -1423,7 +1423,7 @@ function loadDataCleaner(isPopup) {
       }
       if (container.esgst.cleanTrades) {
         let days = container.esgst.cleanTrades_days * 86400000;
-        toSave.trades = JSON.parse(await container.common.getValue(`trades`, `{}`));
+        toSave.trades = JSON.parse(container.common.getValue(`trades`, `{}`));
         for (let code in toSave.trades) {
           if (toSave.trades.hasOwnProperty(code)) {
             let item = toSave.trades[code];
@@ -1434,7 +1434,7 @@ function loadDataCleaner(isPopup) {
         }
       }
       if (container.esgst.cleanDuplicates) {
-        toSave.users = JSON.parse(await container.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
+        toSave.users = JSON.parse(container.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
         for (let id in toSave.users.users) {
           if (toSave.users.users.hasOwnProperty(id)) {
             let giveaways = toSave.users.users[id].giveaways;
@@ -1518,7 +1518,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     switch (optionKey) {
       case `decryptedGiveaways`:
       case `settings`:
-        data[optionKey] = JSON.parse(await container.common.getValue(optionKey, `{}`));
+        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `{}`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -1540,7 +1540,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${await container.common.getValue(optionKey, `{}`)}}`)).length;
+          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`)).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1588,7 +1588,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           };
         }
         data[optionKey] = {};
-        mergedData = JSON.parse(await container.common.getValue(optionKey, `{}`));
+        mergedData = JSON.parse(container.common.getValue(optionKey, `{}`));
         sizes = {
           ct: 0,
           df: 0,
@@ -1746,7 +1746,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case `themes`:
         data.themes = {};
         for (const themeId of Object.keys(container.esgst.features.themes.features)) {
-          const theme = await container.common.getValue(themeId);
+          const theme = container.common.getValue(themeId);
           if (theme) {
             data.themes[themeId] = theme;
           }
@@ -1782,7 +1782,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         }
         break;
       case `emojis`:
-        data.emojis = JSON.parse(await container.common.getValue(`emojis`, `[]`));
+        data.emojis = JSON.parse(container.common.getValue(`emojis`, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = JSON.stringify(dm.data.emojis);
@@ -1806,7 +1806,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${await container.common.getValue(optionKey, `"[]"`)}}`)).length;
+          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `"[]"`)}}`)).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1816,7 +1816,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case `entries`:
       case `templates`:
       case `savedReplies`:
-        data[optionKey] = JSON.parse(await container.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -1848,7 +1848,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${await container.common.getValue(optionKey, `[]`)}}`)).length;
+          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`)).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1866,7 +1866,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           apps: {},
           subs: {}
         };
-        mergedData = JSON.parse(await container.common.getValue(`games`, `{"apps":{},"subs":{}}`));
+        mergedData = JSON.parse(container.common.getValue(`games`, `{"apps":{},"subs":{}}`));
         sizes = {
           egh: 0,
           gt: 0,
@@ -2131,7 +2131,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           gpt: [`tags`],
           sgg: [`stickied`]
         };
-        mergedData = JSON.parse(await container.common.getValue(optionKey, `[]`));
+        mergedData = JSON.parse(container.common.getValue(optionKey, `[]`));
         if (!Array.isArray(mergedData)) {
           let temp = [];
           for (let key in mergedData) {
@@ -2284,7 +2284,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         break;
       case `rerolls`:
       case `stickiedCountries`:
-        data[optionKey] = JSON.parse(await container.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -2307,7 +2307,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${await container.common.getValue(optionKey, `[]`)}}`)).length;
+          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`)).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -2315,7 +2315,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         }
         break;
       case `sgCommentHistory`:
-        data[optionKey] = JSON.parse(await container.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -2371,7 +2371,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${await container.common.getValue(optionKey, `[]`)}}`)).length;
+          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`)).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -2393,7 +2393,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           steamIds: {},
           users: {}
         };
-        mergedData = JSON.parse(await container.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
+        mergedData = JSON.parse(container.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
         sizes = {
           giveaways: 0,
           namwc: 0,
@@ -2590,7 +2590,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         }
         break;
       case `winners`:
-        data.winners = JSON.parse(await container.common.getValue(`winners`, `{}`));
+        data.winners = JSON.parse(container.common.getValue(`winners`, `{}`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data.winners;
@@ -2620,7 +2620,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${await container.common.getValue(optionKey, `{}`)}}`)).length;
+          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`)).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);

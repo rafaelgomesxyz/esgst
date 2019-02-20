@@ -196,7 +196,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let currentGiveaways = {};
     let currentTime = Date.now();
     const deleteLock = await createLock(`gedLock`, 300);
-    this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
+    this.esgst.decryptedGiveaways = JSON.parse(getValue(`decryptedGiveaways`));
     for (let code in this.esgst.decryptedGiveaways) {
       if (this.esgst.decryptedGiveaways.hasOwnProperty(code)) {
         if (this.esgst.decryptedGiveaways[code].html) {
@@ -316,7 +316,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         let code = links[j].getAttribute(`href`).match(/ESGST-(.+)/)[1];
         if (!deleteLock) {
           deleteLock = await createLock(`gedLock`, 300);
-          this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
+          this.esgst.decryptedGiveaways = JSON.parse(getValue(`decryptedGiveaways`));
         }
         code = this.ged_decryptCode(code);
         let isEnded = this.esgst.decryptedGiveaways[code] && currentTime > this.esgst.decryptedGiveaways[code].timestamp;
@@ -443,7 +443,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let ged = {
       giveaways: {}
     };
-    this.esgst.decryptedGiveaways = JSON.parse(await getValue(`decryptedGiveaways`));
+    this.esgst.decryptedGiveaways = JSON.parse(getValue(`decryptedGiveaways`));
     let promises = [];
     codes.forEach(code => {
       if (this.esgst.decryptedGiveaways[code]) {

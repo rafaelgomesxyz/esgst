@@ -115,7 +115,7 @@ class UsersUserSuspensionTracker extends Module {
       method: `POST`,
       url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
     })).responseText).error;
-    let tickets = JSON.parse(await getValue(`tickets`));
+    let tickets = JSON.parse(getValue(`tickets`));
     for (let code in this.esgst.ustCheckboxes) {
       if (this.esgst.ustCheckboxes.hasOwnProperty(code)) {
         if (error.indexOf(code) < 0) {
@@ -180,7 +180,7 @@ class UsersUserSuspensionTracker extends Module {
       })
       ).responseText).error;
     if (error.length === 0) {
-      let tickets = JSON.parse(await getValue(`tickets`));
+      let tickets = JSON.parse(getValue(`tickets`));
       if (!tickets[code]) {
         tickets[code] = {
           readComments: {}

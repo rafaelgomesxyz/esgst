@@ -395,7 +395,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       });
       popup.description.appendChild(set.set);
     } else {
-      let games = JSON.parse(await getValue(`games`));
+      let games = JSON.parse(getValue(`games`));
       if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= this.esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !this.esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
         let set = new ButtonSet({
           color1: `green`,

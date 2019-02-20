@@ -561,7 +561,7 @@ class GiveawaysGiveawayBookmarks extends Module {
           await endless_load(gbGiveaways.lastElementChild, false, `gb`);
           if (endTime > 0) {
             let deleteLock = await createLock(`giveawayLock`, 300);
-            let giveaways = JSON.parse(await getValue(`giveaways`));
+            let giveaways = JSON.parse(getValue(`giveaways`));
             giveaways[bookmarked[i].code].started = true;
             giveaways[bookmarked[i].code].endTime = endTime;
             await setValue(`giveaways`, JSON.stringify(giveaways));
@@ -573,7 +573,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         } else {
           if (this.esgst.gb_ui) {
             let deleteLock = await createLock(`giveawayLock`, 300);
-            let giveaways = JSON.parse(await getValue(`giveaways`));
+            let giveaways = JSON.parse(getValue(`giveaways`));
             if (giveaways[bookmarked[i].code]) {
               delete giveaways[bookmarked[i].code].bookmarked;
             }
@@ -612,7 +612,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 
   async gb_bookmarkGiveaway(giveaway) {
     let deleteLock = await createLock(`giveawayLock`, 300);
-    let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+    let giveaways = JSON.parse(getValue(`giveaways`, `{}`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
     }
@@ -628,7 +628,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 
   async gb_unbookmarkGiveaway(giveaway) {
     let deleteLock = await createLock(`giveawayLock`, 300);
-    let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+    let giveaways = JSON.parse(getValue(`giveaways`, `{}`));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].bookmarked;
     }

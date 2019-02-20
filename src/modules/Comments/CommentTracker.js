@@ -187,7 +187,7 @@ class CommentsCommentTracker extends Module {
         element = this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`).firstElementChild;
         type = `${match[1]}s`;
         code = match[2];
-        comments = JSON.parse(await getValue(type));
+        comments = JSON.parse(getValue(type));
         count = parseInt(element.textContent.replace(/,/g, ``).match(/\d+/)[0]);
         if (comments[code]) {
           let id, read;
@@ -242,7 +242,7 @@ class CommentsCommentTracker extends Module {
     } else {
       key = `discussions`;
     }
-    comments = JSON.parse(await getValue(key, `{}`));
+    comments = JSON.parse(getValue(key, `{}`));
     for (i = 0, n = matches.length; i < n; ++i) {
       match = matches[i];
       countLink = match.querySelector(`.table__column__secondary-link[href*="/discussion/"], .table__column--width-small.text-center, .column_small.text_center`);
@@ -338,7 +338,7 @@ class CommentsCommentTracker extends Module {
         };
       }
     } else {
-      values = await getValues({
+      values = getValues({
         giveaways: `{}`,
         discussions: `{}`,
         tickets: `{}`,
@@ -535,7 +535,7 @@ class CommentsCommentTracker extends Module {
     let count;
     if (save) {
       let deleteLock = await createLock(`commentLock`, 300);
-      comments = JSON.parse(await getValue(comment.type));
+      comments = JSON.parse(getValue(comment.type));
       if (comment.id && !comments[comment.code].readComments[comment.id] && this.esgst.commentsPath) {
         count = document.getElementsByClassName(`esgst-ct-count`)[0];
         count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) - 1})`;
@@ -568,7 +568,7 @@ class CommentsCommentTracker extends Module {
     let count;
     if (save) {
       let deleteLock = await createLock(`commentLock`, 300);
-      comments = JSON.parse(await getValue(comment.type));
+      comments = JSON.parse(getValue(comment.type));
       if (comments[comment.code].readComments[comment.id]) {
         delete comments[comment.code].readComments[comment.id];
         if (comment.id && this.esgst.commentsPath) {
@@ -1061,7 +1061,7 @@ class CommentsCommentTracker extends Module {
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
     const deleteLock = await createLock(`commentLock`, 300);
-    const comments = JSON.parse(await getValue(`discussions`));
+    const comments = JSON.parse(getValue(`discussions`));
     for (const key in comments[obj.code].readComments) {
       if (comments[obj.code].readComments.hasOwnProperty(key)) {
         delete comments[obj.code].readComments[key];
@@ -1085,7 +1085,7 @@ class CommentsCommentTracker extends Module {
     let comments = [];
     let discussion = null;
     if (code) {
-      discussion = JSON.parse(await getValue(`discussions`))[code];
+      discussion = JSON.parse(getValue(`discussions`))[code];
       if (!discussion || !discussion.readComments) {
         return;
       }

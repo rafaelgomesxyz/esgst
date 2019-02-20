@@ -25,7 +25,7 @@ class Tags extends Module {
     const allTags = [];
     switch (key) {
       case `dt`: {
-        const savedDiscussions = JSON.parse(await getValue(`discussions`));
+        const savedDiscussions = JSON.parse(getValue(`discussions`));
         for (const id in savedDiscussions) {
           if (savedDiscussions.hasOwnProperty(id)) {
             const tags = savedDiscussions[id].tags;
@@ -37,7 +37,7 @@ class Tags extends Module {
         break;
       }
       case `gpt`: {
-        const savedGroups = JSON.parse(await getValue(`groups`));
+        const savedGroups = JSON.parse(getValue(`groups`));
         for (const group of savedGroups) {
           const tags = group.tags;
           if (tags && Array.isArray(tags)) {
@@ -47,7 +47,7 @@ class Tags extends Module {
         break;
       }
       case `gt`: {
-        const savedGames = JSON.parse(await getValue(`games`));
+        const savedGames = JSON.parse(getValue(`games`));
         for (const id in savedGames.apps) {
           if (savedGames.apps.hasOwnProperty(id)) {
             const tags = savedGames.apps[id].tags;
@@ -67,7 +67,7 @@ class Tags extends Module {
         break;
       }
       case `ut`: {
-        const savedUsers = JSON.parse(await getValue(`users`));
+        const savedUsers = JSON.parse(getValue(`users`));
         for (const id in savedUsers.users) {
           if (savedUsers.users.hasOwnProperty(id)) {
             const tags = savedUsers.users[id].tags;
@@ -190,10 +190,10 @@ class Tags extends Module {
     }[key];
     const obj = {items: [], key};
     obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
-    const savedDiscussions = JSON.parse(await getValue(`discussions`));
-    const savedGames = JSON.parse(await getValue(`games`));
-    const savedGroups = JSON.parse(await getValue(`groups`));
-    const savedUsers = JSON.parse(await getValue(`users`));
+    const savedDiscussions = JSON.parse(getValue(`discussions`));
+    const savedGames = JSON.parse(getValue(`games`));
+    const savedGroups = JSON.parse(getValue(`groups`));
+    const savedUsers = JSON.parse(getValue(`users`));
     for (const item of obj.items) {
       item.tags = [];
       item.uniqueTags = [];
@@ -851,17 +851,17 @@ class Tags extends Module {
     } else {
       switch (obj.key) {
         case `dt`: {
-          const savedDiscussions = JSON.parse(await getValue(`discussions`));
+          const savedDiscussions = JSON.parse(getValue(`discussions`));
           item = savedDiscussions[obj.item.id];
           break;
         }
         case `gpt`: {
-          const savedGroups = JSON.parse(await getValue(`groups`));
+          const savedGroups = JSON.parse(getValue(`groups`));
           item = savedGroups.filter(group => group.code === obj.item.id)[0];
           break;
         }
         case `gt`: {
-          const savedGames = JSON.parse(await getValue(`games`));
+          const savedGames = JSON.parse(getValue(`games`));
           item = savedGames[obj.item.type][obj.item.id];
           break;
         }

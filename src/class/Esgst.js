@@ -831,6 +831,8 @@ class Esgst {
     };
 
     this.oldValues = {
+      makeSectionsCollapsible_sg: `makeSecionsCollapsible_sg`,
+      makeSectionsCollapsible_st: `makeSecionsCollapsible_st`,
       collapse_general: `collapseSections_sg`,
       collapse_giveaways: `collapseSections_sg`,
       collapse_discussions: `collapseSections_sg`,

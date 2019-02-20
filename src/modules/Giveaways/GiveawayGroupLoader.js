@@ -160,7 +160,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
             }]);
             newGiveaways = {};
             newGroups = {};
-            let values = await getValues({
+            let values = getValues({
               giveaways: `{}`,
               groups: `[]`
             });
@@ -311,7 +311,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
   async ggl_getGiveaways(giveaways) {
     let newGiveaways = {};
     let newGroups = {};
-    let values = await getValues({
+    let values = getValues({
       giveaways: `{}`,
       groups: `[]`
     });

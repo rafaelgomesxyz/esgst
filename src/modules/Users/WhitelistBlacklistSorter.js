@@ -82,7 +82,7 @@ class UsersWhitelistBlacklistSorter extends Module {
   }
 
   async wbs_sort(obj) {
-    let savedUsers = JSON.parse(await getValue(`users`)).users;
+    let savedUsers = JSON.parse(getValue(`users`)).users;
     let users = [];
     for (let steamId in savedUsers) {
       if (savedUsers.hasOwnProperty(steamId)) {
@@ -241,7 +241,7 @@ class UsersWhitelistBlacklistSorter extends Module {
       url: `/ajax.php`
     });
     let deleteLock = await createLock(`userLock`, 300);
-    let savedUsers = JSON.parse(await getValue(`users`));
+    let savedUsers = JSON.parse(getValue(`users`));
     delete savedUsers.users[obj.user.steamId][obj.dateKey];
     delete savedUsers.users[obj.user.steamId][obj.saveKey];
     await setValue(`users`, JSON.stringify(savedUsers));

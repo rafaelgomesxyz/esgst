@@ -890,7 +890,7 @@ class CommentsCommentFormattingHelper extends Module {
         setPopout: async popout => {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
-          savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+          savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
           createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
@@ -5788,7 +5788,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_getEmojis() {
-    let emojis = JSON.parse(await getValue(`emojis`, `[]`));
+    let emojis = JSON.parse(getValue(`emojis`, `[]`));
     return emojis
       .map(emoji => {
         if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
@@ -5940,7 +5940,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_checkImgur(popout, url) {
-    let value = await getValue(`imgurToken`);
+    let value = getValue(`imgurToken`);
     if (value) {
       this.cfh_uploadImage(`Bearer ${value}`, popout, url);
     } else {
@@ -6234,7 +6234,7 @@ class CommentsCommentFormattingHelper extends Module {
     editButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, savedReply.description, savedReply.name, replies, summary));
     replaceButton.addEventListener(`click`, () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary));
     editButton.nextElementSibling.addEventListener(`click`, async () => {
-      let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+      let savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
       let i;
       for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--) {
       }
@@ -6255,7 +6255,7 @@ class CommentsCommentFormattingHelper extends Module {
     let i, savedReplies;
     event.dataTransfer.setData(`text/plain`, ``);
     this.esgst.cfh.source = reply;
-    savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+    savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
     for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i) {
     }
     if (i > -1) {
@@ -6281,7 +6281,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_saveSource() {
-    let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+    let savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
     savedReplies.splice(this.esgst.cfh.sourceNewIndex, 0, savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]);
     setValue(`savedReplies`, JSON.stringify(savedReplies));
   }
@@ -6384,7 +6384,7 @@ class CommentsCommentFormattingHelper extends Module {
   async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
     let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
     if (descVal && nameVal) {
-      let savedReplies = JSON.parse(await getValue(`savedReplies`, `[]`));
+      let savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
       let savedReply = {
         description: descVal,
         name: nameVal
@@ -6429,7 +6429,7 @@ class CommentsCommentFormattingHelper extends Module {
     deleted = this.esgst.cfh.deletedReplies.pop();
     deleted.reply.classList.remove(`esgst-hidden`);
     deleted.reply.parentElement.appendChild(deleted.reply);
-    saved = JSON.parse(await getValue(`savedReplies`, `[]`));
+    saved = JSON.parse(getValue(`savedReplies`, `[]`));
     saved.push(deleted.savedReply);
     setValue(`savedReplies`, JSON.stringify(saved));
     if (this.esgst.cfh.deletedReplies.length === 0) {

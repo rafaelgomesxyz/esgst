@@ -32,7 +32,7 @@ class GiveawaysRealCVCalculator extends Module {
     if (this.esgst.newGiveawayPath) {
       let table = document.getElementsByClassName(`table--summary`)[0], button;
       if (table) {
-        let game = await getValue(`rcvcGame`);
+        let game = getValue(`rcvcGame`);
         if (game) {
           let type = game.type;
           let id = game.id;
@@ -46,7 +46,7 @@ class GiveawaysRealCVCalculator extends Module {
             })).responseText)[id].data;
             let value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
             let games, user;
-            games = JSON.parse(await getValue(`games`));
+            games = JSON.parse(getValue(`games`));
             if (games[type][id]) {
               if (games[type][id].noCV) {
                 value = 0;
@@ -58,7 +58,7 @@ class GiveawaysRealCVCalculator extends Module {
               Username: this.esgst.username,
               SteamID64: this.esgst.steamId
             };
-            let users = JSON.parse(await getValue(`users`));
+            let users = JSON.parse(getValue(`users`));
             let savedUser = users.users[user.SteamID64];
             let sent = 0;
             let currentDate = Date.now();

@@ -348,7 +348,7 @@ async function sync(syncer) {
   if (container.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && container.esgst.settings.syncGroups))) {
     syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
     syncer.groups = {};
-    let savedGroups = JSON.parse(await container.common.getValue(`groups`));
+    let savedGroups = JSON.parse(container.common.getValue(`groups`));
     if (!Array.isArray(savedGroups)) {
       let newGroups, savedGiveaways;
       newGroups = [];
@@ -359,7 +359,7 @@ async function sync(syncer) {
       }
       savedGroups = newGroups;
       await container.common.setValue(`groups`, JSON.stringify(savedGroups));
-      savedGiveaways = JSON.parse(await container.common.getValue(`giveaways`));
+      savedGiveaways = JSON.parse(container.common.getValue(`giveaways`));
       for (let key in savedGiveaways) {
         if (savedGiveaways.hasOwnProperty(key)) {
           delete savedGiveaways[key].groups;
@@ -530,7 +530,7 @@ async function sync(syncer) {
       nextPage += 1;
     } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
     let deleteLock = await container.common.createLock(`gameLock`, 300);
-    let savedGames = JSON.parse(await container.common.getValue(`games`));
+    let savedGames = JSON.parse(container.common.getValue(`games`));
     for (let key in savedGames.apps) {
       if (savedGames.apps.hasOwnProperty(key)) {
         delete savedGames.apps[key].hidden;
@@ -616,7 +616,7 @@ async function sync(syncer) {
     });
     const responseHtml = parseHtml(response.responseText);
     const elements = responseHtml.querySelectorAll(`.gameListRow.followed`);
-    const savedGames = JSON.parse(await container.common.getValue(`games`));
+    const savedGames = JSON.parse(container.common.getValue(`games`));
     for (const id in savedGames.apps) {
       if (savedGames.apps.hasOwnProperty(id)) {
         savedGames.apps[id].followed = null;
@@ -901,7 +901,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
   }
 
   // delete old data
-  const savedGames = (altAccount && altAccount.games) || JSON.parse(await container.common.getValue(`games`)),
+  const savedGames = (altAccount && altAccount.games) || JSON.parse(container.common.getValue(`games`)),
     oldOwned = {
       apps: [],
       subs: []
@@ -1000,7 +1000,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       });
     }
 
-    if (numOwned !== (await container.common.getValue(`ownedGames`, 0))) {
+    if (numOwned !== (container.common.getValue(`ownedGames`, 0))) {
       await container.common.setValue(`ownedGames`, numOwned);
     }
 

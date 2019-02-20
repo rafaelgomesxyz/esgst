@@ -722,7 +722,7 @@ class Common extends Module {
             sg: true,
             st: true
           },
-          makeSecionsCollapsible: {
+          makeSectionsCollapsible: {
             description: [
               [`ul`, [
                 [`li`, `The state of the sections is remembered if you save the settings after collapsing/expanding them.`]
@@ -1258,7 +1258,7 @@ class Common extends Module {
 
   async lockAndSaveSettings() {
     const deleteLock = await this.createLock(`settingsLock`, 100);
-    const settings = JSON.parse(await this.getValue(`settings`, `{}`));
+    const settings = JSON.parse(this.getValue(`settings`, `{}`));
     for (const key in this.esgst.settings) {
       settings[key] = this.esgst.settings[key];
     }
@@ -1268,7 +1268,7 @@ class Common extends Module {
 
   async setSetting() {
     const deleteLock = await this.createLock(`settingsLock`, 100);
-    const settings = JSON.parse(await this.getValue(`settings`, `{}`));
+    const settings = JSON.parse(this.getValue(`settings`, `{}`));
     const values = Array.isArray(arguments[0])
       ? arguments[0]
       : [
@@ -1632,7 +1632,7 @@ class Common extends Module {
   async getUser(savedUsers, user) {
     let savedUser = null;
     if (!savedUsers) {
-      savedUsers = JSON.parse(await this.getValue(`users`));
+      savedUsers = JSON.parse(this.getValue(`users`));
     }
     if (user.steamId) {
       savedUser = savedUsers.users[user.steamId];
@@ -1656,7 +1656,7 @@ class Common extends Module {
 
   async saveUser(list, savedUsers, user) {
     if (!savedUsers) {
-      savedUsers = JSON.parse(await this.getValue(`users`));
+      savedUsers = JSON.parse(this.getValue(`users`));
     }
     let savedUser = await this.getUser(savedUsers, user);
     if (savedUser) {
@@ -1725,7 +1725,7 @@ class Common extends Module {
   async addUser(user) {
     let deleteLock, savedUser, savedUsers;
     deleteLock = await this.createLock(`userLock`, 300);
-    savedUsers = JSON.parse(await this.getValue(`users`));
+    savedUsers = JSON.parse(this.getValue(`users`));
     savedUser = await this.getUser(savedUsers, user);
     if (!savedUser) {
       savedUsers.users[user.steamId] = {};
@@ -1778,7 +1778,7 @@ class Common extends Module {
     let input, responseHtml;
     if (!save) {
       if (!savedUsers) {
-        savedUsers = JSON.parse(await this.getValue(`users`));
+        savedUsers = JSON.parse(this.getValue(`users`));
       }
       let steamId = savedUsers.steamIds[user.username];
       if (steamId) {
@@ -1824,13 +1824,13 @@ class Common extends Module {
       new: []
     };
     promises = [];
-    savedUsers = JSON.parse(await this.getValue(`users`));
+    savedUsers = JSON.parse(this.getValue(`users`));
     for (let i = 0, n = users.length; i < n; i++) {
       promises.push(this.saveUser(list, savedUsers, users[i]));
     }
     await Promise.all(promises);
     let deleteLock = await this.createLock(`userLock`, 300);
-    savedUsers = JSON.parse(await this.getValue(`users`));
+    savedUsers = JSON.parse(this.getValue(`users`));
     for (let i = 0, n = list.new.length; i < n; ++i) {
       let savedUser, user;
       user = list.new[i];
@@ -1880,7 +1880,7 @@ class Common extends Module {
   async deleteUserValues(values) {
     let deleteLock, savedUsers;
     deleteLock = await this.createLock(`userLock`, 300);
-    savedUsers = JSON.parse(await this.getValue(`users`));
+    savedUsers = JSON.parse(this.getValue(`users`));
     for (let key in savedUsers.users) {
       if (savedUsers.users.hasOwnProperty(key)) {
         for (let i = 0, n = values.length; i < n; ++i) {
@@ -1964,7 +1964,7 @@ class Common extends Module {
       savedGiveaways = this.esgst.giveaways;
     } else {
       deleteLock = await this.createLock(`giveawayLock`, 300);
-      savedGiveaways = JSON.parse(await this.getValue(`giveaways`, `{}`));
+      savedGiveaways = JSON.parse(this.getValue(`giveaways`, `{}`));
     }
     for (let key in giveaways) {
       if (giveaways.hasOwnProperty(key)) {
@@ -1995,7 +1995,7 @@ class Common extends Module {
 
   async lockAndSaveDiscussions(discussions) {
     let deleteLock = await this.createLock(`discussionLock`, 300),
-      savedDiscussions = JSON.parse(await this.getValue(`discussions`, `{}`));
+      savedDiscussions = JSON.parse(this.getValue(`discussions`, `{}`));
     for (let key in discussions) {
       if (discussions.hasOwnProperty(key)) {
         if (savedDiscussions[key]) {
@@ -2018,7 +2018,7 @@ class Common extends Module {
 
   async lock_and_save_tickets(items) {
     const deleteLock = await this.createLock(`ticketLock`, 300);
-    const saved = JSON.parse(await this.getValue(`tickets`, `{}`));
+    const saved = JSON.parse(this.getValue(`tickets`, `{}`));
     for (const key in items) {
       if (items.hasOwnProperty(key)) {
         if (saved[key]) {
@@ -2045,7 +2045,7 @@ class Common extends Module {
 
   async lock_and_save_trades(items) {
     const deleteLock = await this.createLock(`tradeLock`, 300);
-    const saved = JSON.parse(await this.getValue(`trades`, `{}`));
+    const saved = JSON.parse(this.getValue(`trades`, `{}`));
     for (const key in items) {
       if (items.hasOwnProperty(key)) {
         if (saved[key]) {
@@ -2072,7 +2072,7 @@ class Common extends Module {
 
   async lockAndSaveGroups(groups, sync) {
     const deleteLock = await this.createLock(`groupLock`, 300);
-    let savedGroups = JSON.parse(await this.getValue(`groups`, `[]`));
+    let savedGroups = JSON.parse(this.getValue(`groups`, `[]`));
     if (!Array.isArray(savedGroups)) {
       const newGroups = [];
       for (const key in savedGroups) {
@@ -2135,7 +2135,7 @@ class Common extends Module {
   }
 
   async getWonGames(count, syncer) {
-    const savedGames = JSON.parse(await this.getValue(`games`));
+    const savedGames = JSON.parse(this.getValue(`games`));
     const to_save = { apps: {}, subs: {} };
     if (syncer) {
       for (const id in savedGames.apps) {
@@ -2543,7 +2543,7 @@ class Common extends Module {
     if (this.esgst.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
-    savedDiscussions = JSON.parse(await this.getValue(`discussions`));
+    savedDiscussions = JSON.parse(this.getValue(`discussions`));
     discussions = {};
     for (const key in savedDiscussions) {
       if (savedDiscussions.hasOwnProperty(key)) {
@@ -2621,7 +2621,7 @@ class Common extends Module {
     if (this.esgst.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
-    savedUsers = JSON.parse(await this.getValue(`users`));
+    savedUsers = JSON.parse(this.getValue(`users`));
     users = {};
     for (const steamId in savedUsers.users) {
       if (savedUsers.users.hasOwnProperty(steamId)) {
@@ -2704,7 +2704,7 @@ class Common extends Module {
     if (this.esgst.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
-    savedGames = JSON.parse(await this.getValue(`games`));
+    savedGames = JSON.parse(this.getValue(`games`));
     games = {
       apps: {},
       subs: {}
@@ -2829,7 +2829,7 @@ class Common extends Module {
     if (this.esgst.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
-    savedGroups = JSON.parse(await this.getValue(`groups`));
+    savedGroups = JSON.parse(this.getValue(`groups`));
     groups = {};
     for (const savedGroup of savedGroups) {
       if (!savedGroup || !savedGroup.tags || (savedGroup.tags.length < 2 && (!savedGroup.tags[0] || !savedGroup.tags[0].trim()))) {
@@ -3038,7 +3038,7 @@ class Common extends Module {
 
   async lockAndSaveGames(games) {
     let deleteLock = await this.createLock(`gameLock`, 300);
-    let saved = JSON.parse(await this.getValue(`games`));
+    let saved = JSON.parse(this.getValue(`games`));
     for (let key in games.apps) {
       if (games.apps.hasOwnProperty(key)) {
         if (saved.apps[key]) {
@@ -3085,7 +3085,7 @@ class Common extends Module {
 
   async setThemeVersion(id, version, theme) {
     if (!theme) {
-      theme = await this.getValue(id);
+      theme = this.getValue(id);
     }
     let match = (theme || ``).match(/(v|black\s|blue\s|steamtrades\s)([.\d]+?)\*/);
     version.textContent = `v${(match && match[2]) || `Unknown`}`;
@@ -3105,7 +3105,7 @@ class Common extends Module {
       popup.open();
     } else {
       popup = new Popup({ addScrollable: true, icon: `fa-eye-slash`, title: `Filtered Users` });
-      let users = JSON.parse(await this.getValue(`users`));
+      let users = JSON.parse(this.getValue(`users`));
       let filtered = [];
       for (let key in users.users) {
         if (users.users.hasOwnProperty(key)) {
@@ -3286,7 +3286,7 @@ class Common extends Module {
 
   async exportSettings() {
     /** @type {EsgstSettings} */
-    let settings = JSON.parse(await this.getValue(`settings`, `{}`));
+    let settings = JSON.parse(this.getValue(`settings`, `{}`));
     let data = { settings };
 
     delete data.settings.avatar;
@@ -3352,7 +3352,7 @@ class Common extends Module {
       let key = keys[i];
       if (key === `customTheme`) continue;
       if (this.esgst.settings[`${key}_${this.esgst.name}`] && this.checkThemeTime(key)) {
-        const theme = await this.getValue(key, ``);
+        const theme = this.getValue(key, ``);
         if (!theme) continue;
         const css = this.getThemeCss(JSON.parse(theme));
         this.esgst.theme = this.createElements(document.head, `beforeEnd`, [{
@@ -3370,7 +3370,7 @@ class Common extends Module {
       }
     }
     if (this.esgst.settings.customTheme && this.checkThemeTime(`customTheme`)) {
-      const css = JSON.parse(await this.getValue(`customTheme`, ``));
+      const css = JSON.parse(this.getValue(`customTheme`, ``));
       this.esgst.customThemeElement = this.createElements(document.head, `beforeEnd`, [{
         attributes: {
           id: `esgst-custom-theme`
@@ -4757,50 +4757,54 @@ class Common extends Module {
   }
 
   createElements_v2(context, position, items) {
-    if (Array.isArray(context)) {
-      items = context;
-      context = null;
+    try {
+      if (Array.isArray(context)) {
+        items = context;
+        context = null;
+      }
+      if (position && position === `inner`) {
+        context.innerHTML = ``;
+      }
+      if (!items || !items.length) {
+        return;
+      }
+      const fragment = document.createDocumentFragment();
+      let element = null;
+      this.buildElements_v2(fragment, items);
+      if (!context) {
+        return fragment;
+      }
+      switch (position) {
+        case `beforeBegin`:
+          context.parentElement.insertBefore(fragment, context);
+          element = context.previousElementSibling;
+          break;
+        case `afterBegin`:
+          context.insertBefore(fragment, context.firstElementChild);
+          element = context.firstElementChild;
+          break;
+        case `beforeEnd`:
+          context.appendChild(fragment);
+          element = context.lastElementChild;
+          break;
+        case `afterEnd`:
+          context.parentElement.insertBefore(fragment, context.nextElementSibling);
+          element = context.nextElementSibling;
+          break;
+        case `inner`:
+          context.appendChild(fragment);
+          element = context.firstElementChild;
+          break;
+        case `outer`:
+          context.parentElement.insertBefore(fragment, context);
+          element = context.previousElementSibling;
+          context.remove();
+          break;
+      }
+      return element;
+    } catch (error) {
+      console.log(error);
     }
-    if (position && position === `inner`) {
-      context.innerHTML = ``;
-    }
-    if (!items || !items.length) {
-      return;
-    }
-    const fragment = document.createDocumentFragment();
-    let element = null;
-    this.buildElements_v2(fragment, items);
-    if (!context) {
-      return fragment;
-    }
-    switch (position) {
-      case `beforeBegin`:
-        context.parentElement.insertBefore(fragment, context);
-        element = context.previousElementSibling;
-        break;
-      case `afterBegin`:
-        context.insertBefore(fragment, context.firstElementChild);
-        element = context.firstElementChild;
-        break;
-      case `beforeEnd`:
-        context.appendChild(fragment);
-        element = context.lastElementChild;
-        break;
-      case `afterEnd`:
-        context.parentElement.insertBefore(fragment, context.nextElementSibling);
-        element = context.nextElementSibling;
-        break;
-      case `inner`:
-        context.appendChild(fragment);
-        element = context.firstElementChild;
-        break;
-      case `outer`:
-        context.parentElement.insertBefore(fragment, context);
-        element = context.previousElementSibling;
-        context.remove();
-        break;
-    }
-    return element;
   }
 
   buildElements_v2(context, items) {
@@ -4850,43 +4854,47 @@ class Common extends Module {
   }
 
   createElements(context, position, items) {
-    if (position === `inner`) {
-      context.innerHTML = ``;
+    try {
+      if (position === `inner`) {
+        context.innerHTML = ``;
+      }
+      if (!items || !items.length) {
+        return;
+      }
+      const fragment = document.createDocumentFragment();
+      let element = null;
+      this.buildElements(fragment, items);
+      switch (position) {
+        case `beforeBegin`:
+          context.parentElement.insertBefore(fragment, context);
+          element = context.previousElementSibling;
+          break;
+        case `afterBegin`:
+          context.insertBefore(fragment, context.firstElementChild);
+          element = context.firstElementChild;
+          break;
+        case `beforeEnd`:
+          context.appendChild(fragment);
+          element = context.lastElementChild;
+          break;
+        case `afterEnd`:
+          context.parentElement.insertBefore(fragment, context.nextElementSibling);
+          element = context.nextElementSibling;
+          break;
+        case `inner`:
+          context.appendChild(fragment);
+          element = context.firstElementChild;
+          break;
+        case `outer`:
+          context.parentElement.insertBefore(fragment, context);
+          element = context.previousElementSibling;
+          context.remove();
+          break;
+      }
+      return element;
+    } catch (error) {
+      console.log(error);
     }
-    if (!items || !items.length) {
-      return;
-    }
-    const fragment = document.createDocumentFragment();
-    let element = null;
-    this.buildElements(fragment, items);
-    switch (position) {
-      case `beforeBegin`:
-        context.parentElement.insertBefore(fragment, context);
-        element = context.previousElementSibling;
-        break;
-      case `afterBegin`:
-        context.insertBefore(fragment, context.firstElementChild);
-        element = context.firstElementChild;
-        break;
-      case `beforeEnd`:
-        context.appendChild(fragment);
-        element = context.lastElementChild;
-        break;
-      case `afterEnd`:
-        context.parentElement.insertBefore(fragment, context.nextElementSibling);
-        element = context.nextElementSibling;
-        break;
-      case `inner`:
-        context.appendChild(fragment);
-        element = context.firstElementChild;
-        break;
-      case `outer`:
-        context.parentElement.insertBefore(fragment, context);
-        element = context.previousElementSibling;
-        context.remove();
-        break;
-    }
-    return element;
   }
 
   buildElements(context, items) {
@@ -5116,7 +5124,7 @@ class Common extends Module {
   }
 
   async hideGames(obj) {
-    let api = JSON.parse(await this.getValue(`sgdbCache`, `{ "lastUpdate": 0 }`));
+    let api = JSON.parse(this.getValue(`sgdbCache`, `{ "lastUpdate": 0 }`));
     if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {
       obj.update && obj.update(`Updating API cache...`);
 
@@ -5280,15 +5288,13 @@ class Common extends Module {
   }
 
   getValues(values) {
-    return new Promise(resolve => {
-      let output = {};
-      for (let key in values) {
-        if (values.hasOwnProperty(key)) {
-          output[key] = utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : values[key];
-        }
+    const output = {};
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) {
+        output[key] = utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : values[key];
       }
-      resolve(output);
-    });
+    }
+    return output;
   }
 
   delValues(keys) {

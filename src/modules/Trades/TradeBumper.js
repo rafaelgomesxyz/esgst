@@ -92,7 +92,7 @@ class TradesTradeBumper extends Module {
 
   async tb_setAutoBump(button) {
     const currentTime = Date.now();
-    const diff = currentTime - (await getValue(`lastBump`, 0));
+    const diff = currentTime - (getValue(`lastBump`, 0));
     if (diff > 3600000) {
       await setValue(`lastBump`, currentTime);
       // noinspection JSIgnoredPromiseFromCall

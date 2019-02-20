@@ -65,10 +65,10 @@ class GamesEnteredGameHighlighter extends Module {
   async egh_saveGame(id, type) {
     let games;
     if (id && type) {
-      games = JSON.parse(await getValue(`games`));
+      games = JSON.parse(getValue(`games`));
       if (!games[type][id] || !games[type][id].entered) {
         let deleteLock = await createLock(`gameLock`, 300);
-        games = JSON.parse(await getValue(`games`));
+        games = JSON.parse(getValue(`games`));
         if (!games[type][id]) {
           games[type][id] = {};
         }
@@ -89,7 +89,7 @@ class GamesEnteredGameHighlighter extends Module {
       type: `i`
     }]);
     let deleteLock = await createLock(`gameLock`, 300);
-    let games = JSON.parse(await getValue(`games`));
+    let games = JSON.parse(getValue(`games`));
     delete games[type][id].entered;
     await setValue(`games`, JSON.stringify(games));
     icon.remove();

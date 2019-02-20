@@ -95,7 +95,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (!main) return;
     let cewgd = {
       giveaways: [],
-      savedGiveaways: JSON.parse(await getValue(`giveaways`, `{}`))
+      savedGiveaways: JSON.parse(getValue(`giveaways`, `{}`))
     };
     let promises = [];
     for (let i = 0, n = giveaways.length; i < n; ++i) {

@@ -71,7 +71,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
       }
       container.insertBefore(context, obj.separator);
     }
-    let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
+    let stickiedCountries = JSON.parse(getValue(`stickiedCountries`, `[]`));
     if (stickiedCountries.indexOf(id) < 0) {
       stickiedCountries.push(id);
       await setValue(`stickiedCountries`, JSON.stringify(stickiedCountries));
@@ -85,7 +85,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
       container.insertBefore(context, obj.separator);
       obj.separator = obj.separator.previousElementSibling;
     }
-    let stickiedCountries = JSON.parse(await getValue(`stickiedCountries`, `[]`));
+    let stickiedCountries = JSON.parse(getValue(`stickiedCountries`, `[]`));
     let index = stickiedCountries.indexOf(id);
     if (index >= 0) {
       stickiedCountries.splice(index, 1);

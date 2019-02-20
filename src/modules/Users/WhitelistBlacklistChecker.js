@@ -428,7 +428,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.Users = [];
     WBC.Canceled = false;
     if (WBC.Update) {
-      SavedUsers = JSON.parse(await getValue(`users`));
+      SavedUsers = JSON.parse(getValue(`users`));
       for (I in SavedUsers.users) {
         if (SavedUsers.users.hasOwnProperty(I)) {
           if (SavedUsers.users[I].wbc && SavedUsers.users[I].wbc.result) {
@@ -500,6 +500,9 @@ class UsersWhitelistBlacklistChecker extends Module {
             }
           }).set);
           WBC.Users = sortArray(WBC.Users);
+          if (window.location.pathname.match(/^\/users/)) {
+            WBC.Users = WBC.Users.slice(0, 25);
+          }
           // noinspection JSIgnoredPromiseFromCall
           this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
         });
@@ -516,6 +519,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           }
         }).set);
         WBC.Users = sortArray(WBC.Users);
+        if (window.location.pathname.match(/^\/users/)) {
+          WBC.Users = WBC.Users.slice(0, 25);
+        }
         // noinspection JSIgnoredPromiseFromCall
         this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
@@ -823,7 +829,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     } else if (data.g_wl_ga) {
       let found, groups, i, j, n;
       found = false;
-      groups = JSON.parse(await getValue(`groups`, `[]`));
+      groups = JSON.parse(getValue(`groups`, `[]`));
       for (i = 0, n = data.g_wl_gas[data.g_wl_ga].length; i < n && !found; ++i) {
         for (j = groups.length - 1; j > -1 && groups[j].code !== data.g_wl_gas[data.g_wl_ga][i]; --j) {
         }
@@ -938,7 +944,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             break;
           }
         }
-        const groups = JSON.parse(await getValue(`groups`, `[]`));
+        const groups = JSON.parse(getValue(`groups`, `[]`));
         let found = false;
         for (const code in data.g_wl_gas) {
           if (data.g_wl_gas.hasOwnProperty(code)) {

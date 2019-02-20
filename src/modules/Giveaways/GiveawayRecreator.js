@@ -46,7 +46,7 @@ class GiveawaysGiveawayRecreator extends Module {
 
   async gr() {
     if (!this.esgst.newGiveawayPath) return;
-    let template = await getValue(`grTemplate`);
+    let template = getValue(`grTemplate`);
     if (template) {
       await delValue(`grTemplate`);
       template = JSON.parse(template);
@@ -127,7 +127,7 @@ class GiveawaysGiveawayRecreator extends Module {
       template.copies = giveaway.copies;
     }
     await setValue(`grTemplate`, JSON.stringify(template));
-    giveaways = JSON.parse(await getValue(`giveaways`));
+    giveaways = JSON.parse(getValue(`giveaways`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
     }
