@@ -73,7 +73,7 @@ class DiscussionsDiscussionHighlighter extends Module {
   }
 
   async dh_initUrls(obj) {
-    let discussions = JSON.parse(await getValue(`discussions`));
+    let discussions = JSON.parse(getValue(`discussions`));
     obj.keys = [];
     for (let key in discussions) {
       if (discussions.hasOwnProperty(key)) {
@@ -201,7 +201,7 @@ class DiscussionsDiscussionHighlighter extends Module {
   async dh_highlightDiscussion(code, context, save) {
     if (save) {
       let deleteLock = await createLock(`commentLock`, 300);
-      const comments = JSON.parse(await getValue(`discussions`));
+      const comments = JSON.parse(getValue(`discussions`));
       if (!comments[code]) {
         comments[code] = {
           readComments: {}
@@ -221,7 +221,7 @@ class DiscussionsDiscussionHighlighter extends Module {
   async dh_unhighlightDiscussion(code, context, save) {
     if (save) {
       let deleteLock = await createLock(`commentLock`, 300);
-      const comments = JSON.parse(await getValue(`discussions`));
+      const comments = JSON.parse(getValue(`discussions`));
       delete comments[code].highlighted;
       comments[code].lastUsed = Date.now();
       await setValue(`discussions`, JSON.stringify(comments));

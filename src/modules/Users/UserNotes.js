@@ -146,7 +146,7 @@ class UsersUserNotes extends Module {
 
   async un_get(profile) {
     profile.unTextArea.focus();
-    let savedUsers = JSON.parse(await getValue(`users`));
+    let savedUsers = JSON.parse(getValue(`users`));
     let savedUser = savedUsers.users[profile.steamId];
     if (savedUser) {
       let notes = savedUser.notes;

@@ -327,7 +327,7 @@ class DiscussionsDiscussionFilters extends Module {
         }]
       }]
     }]);
-    const discussions = JSON.parse(await getValue(`discussions`));
+    const discussions = JSON.parse(getValue(`discussions`));
     let hidden = [];
     for (const key in discussions) {
       if (discussions.hasOwnProperty(key)) {
@@ -441,7 +441,7 @@ class DiscussionsDiscussionFilters extends Module {
 
   async df_hideDiscussion(discussion, main) {
     let deleteLock = await createLock(`discussionLock`, 300);
-    let discussions = JSON.parse(await getValue(`discussions`, `{}`));
+    let discussions = JSON.parse(getValue(`discussions`, `{}`));
     if (!discussions[discussion.code]) {
       discussions[discussion.code] = {};
     }
@@ -456,7 +456,7 @@ class DiscussionsDiscussionFilters extends Module {
 
   async df_unhideDiscussion(discussion, main) {
     let deleteLock = await createLock(`discussionLock`, 300);
-    let discussions = JSON.parse(await getValue(`discussions`, `{}`));
+    let discussions = JSON.parse(getValue(`discussions`, `{}`));
     if (discussions[discussion.code]) {
       delete discussions[discussion.code].hidden;
       discussions[discussion.code].lastUsed = Date.now();

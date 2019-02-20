@@ -27,7 +27,7 @@ class Games extends Module {
   }
 
   async games_load(context, main, source, endless) {
-    let games = await this.games_get(context, main, endless ? this.esgst.games : JSON.parse(await getValue(`games`)), endless);
+    let games = await this.games_get(context, main, endless ? this.esgst.games : JSON.parse(getValue(`games`)), endless);
     if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
     [`apps`, `subs`].forEach(type => {
       for (let id in games[type]) {

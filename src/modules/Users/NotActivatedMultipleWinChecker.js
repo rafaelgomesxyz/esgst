@@ -296,7 +296,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     // get users
     let users = [];
     if (obj.isMenu) {
-      let savedUsers = JSON.parse(await getValue(`users`));
+      let savedUsers = JSON.parse(getValue(`users`));
       for (let id in savedUsers.users) {
         if (savedUsers.users.hasOwnProperty(id)) {
           let savedUser = savedUsers.users[id];
@@ -420,7 +420,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     // check for suspensions
     obj.popup.progress.textContent = `Checking suspensions...`;
     users = [];
-    let savedUsers = JSON.parse(await getValue(`users`));
+    let savedUsers = JSON.parse(getValue(`users`));
     let suspensions = (await getSuspensions(steamIds)).suspensions;
     for (let steamId in suspensions) {
       let suspension = suspensions[steamId];

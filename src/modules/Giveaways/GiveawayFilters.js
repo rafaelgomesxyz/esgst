@@ -861,7 +861,7 @@ class GiveawaysGiveawayFilters extends Module {
 
   async gf_hideGiveaway(giveaway, main) {
     let deleteLock = await createLock(`giveawayLock`, 300);
-    let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+    let giveaways = JSON.parse(getValue(`giveaways`, `{}`));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
     }
@@ -878,7 +878,7 @@ class GiveawaysGiveawayFilters extends Module {
 
   async gf_unhideGiveaway(giveaway, main) {
     let deleteLock = await createLock(`giveawayLock`, 300);
-    let giveaways = JSON.parse(await getValue(`giveaways`, `{}`));
+    let giveaways = JSON.parse(getValue(`giveaways`, `{}`));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].hidden;
     }

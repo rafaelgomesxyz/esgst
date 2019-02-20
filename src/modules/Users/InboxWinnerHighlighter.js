@@ -41,7 +41,7 @@ class UsersInboxWinnerHighlighter extends Module {
     const [callback, query] = this.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : `.table__gift-not-sent`}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : `.comments__entity`}`],
       elements = context.querySelectorAll(query);
     if (!elements.length) return;
-    const winners = JSON.parse(await getValue(`winners`, `{}`));
+    const winners = JSON.parse(getValue(`winners`, `{}`));
     for (let i = 0, n = elements.length; i < n; ++i) {
       callback(elements[i], winners);
     }
@@ -53,7 +53,7 @@ class UsersInboxWinnerHighlighter extends Module {
     Username = Context.closest(`.table__row-inner-wrap`).getElementsByClassName(`table__column__heading`)[0].querySelector(`a[href*="/user/"]`).textContent;
     Context.addEventListener(`click`, async () => {
       let Winners;
-      Winners = JSON.parse(await getValue(`winners`, `{}`));
+      Winners = JSON.parse(getValue(`winners`, `{}`));
       if (!Winners[Key]) {
         Winners[Key] = [];
       }

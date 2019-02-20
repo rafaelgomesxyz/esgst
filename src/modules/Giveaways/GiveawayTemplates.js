@@ -305,7 +305,7 @@ class GiveawaysGiveawayTemplates extends Module {
             };
           }
           let deleteLock = await createLock(`templateLock`, 300);
-          savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
+          savedTemplates = JSON.parse(getValue(`templates`, `[]`));
           for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i) {
           }
           if (i < n) {
@@ -397,7 +397,7 @@ class GiveawaysGiveawayTemplates extends Module {
       },
       type: `div`
     }]);
-    let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
+    let savedTemplates = JSON.parse(getValue(`templates`, `[]`));
     for (let i = 0, n = savedTemplates.length; i < n; ++i) {
       let savedTemplate = savedTemplates[i];
       if (!savedTemplate.gameType) {
@@ -545,7 +545,7 @@ class GiveawaysGiveawayTemplates extends Module {
         type: `i`
       }]);
       let deleteLock = await createLock(`templateLock`, 300),
-        savedTemplates = JSON.parse(await getValue(`templates`, `[]`)),
+        savedTemplates = JSON.parse(getValue(`templates`, `[]`)),
         i = 0;
       for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i) {
       }
@@ -572,7 +572,7 @@ class GiveawaysGiveawayTemplates extends Module {
     let deletedTemplate = gts.deletedTemplates.pop();
     deletedTemplate.template.classList.remove(`esgst-hidden`);
     deletedTemplate.template.parentElement.appendChild(deletedTemplate.template);
-    let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
+    let savedTemplates = JSON.parse(getValue(`templates`, `[]`));
     savedTemplates.push(deletedTemplate.savedTemplate);
     await setValue(`templates`, JSON.stringify(savedTemplates));
     if (gts.deletedTemplates.length === 0) {
@@ -740,7 +740,7 @@ class GiveawaysGiveawayTemplates extends Module {
     let i, n, savedTemplates;
     event.dataTransfer.setData(`text/plain`, ``);
     gts.source = template;
-    savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
+    savedTemplates = JSON.parse(getValue(`templates`, `[]`));
     for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i) {
     }
     if (i < n) {
@@ -766,7 +766,7 @@ class GiveawaysGiveawayTemplates extends Module {
   }
 
   async gts_saveSource(gts) {
-    let savedTemplates = JSON.parse(await getValue(`templates`, `[]`));
+    let savedTemplates = JSON.parse(getValue(`templates`, `[]`));
     savedTemplates.splice(gts.sourceNewIndex, 0, savedTemplates.splice(gts.sourceIndex, 1)[0]);
     setValue(`templates`, JSON.stringify(savedTemplates));
   }

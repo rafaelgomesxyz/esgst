@@ -86,7 +86,7 @@ class CommentsCommentHistory extends Module {
 
   async ch_initUrls(obj) {
     obj.ids = [];
-    let comments = JSON.parse(await getValue(`${this.esgst.name}CommentHistory`, `[]`));
+    let comments = JSON.parse(getValue(`${this.esgst.name}CommentHistory`, `[]`));
     for (let i = 0, n = comments.length; i < n; i++) {
       obj.ids.push(comments[i].id);
       obj.items.push(`https://${window.location.hostname}/go/comment/${comments[i].id}`);
@@ -170,7 +170,7 @@ class CommentsCommentHistory extends Module {
   async ch_saveComment(id, timestamp) {
     let deleteLock = await createLock(`${this.esgst.name}CommentHistoryLock`, 300);
     let key = `${this.esgst.name}CommentHistory`;
-    let comments = JSON.parse(await getValue(key, `[]`));
+    let comments = JSON.parse(getValue(key, `[]`));
     comments.unshift({
       id: id,
       timestamp: timestamp

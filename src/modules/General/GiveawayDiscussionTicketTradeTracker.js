@@ -106,7 +106,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
   async gdttt_markVisited(code, container, count, diffContainer, type, doSave) {
     if (doSave) {
       let deleteLock = await createLock(`commentLock`, 300),
-        comments = JSON.parse(await getValue(type));
+        comments = JSON.parse(getValue(type));
       if (!comments[code]) {
         comments[code] = {
           readComments: {}
@@ -130,7 +130,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
   async gdttt_markUnvisited(code, container, count, diffContainer, type, doSave) {
     if (doSave) {
       let deleteLock = await createLock(`commentLock`, 300),
-        comments = JSON.parse(await getValue(type));
+        comments = JSON.parse(getValue(type));
       if (this.esgst.ct_s) {
         delete comments[code].count;
         diffContainer.textContent = `(+${count})`;
@@ -156,7 +156,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
   async gdttt_checkVisited(context, main, src, endless) {
     let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : `.homepage_table_column_heading`}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : `.table__column__heading`}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : `.giveaway__heading__name`}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : `.column_flex h3 a`}`);
     if (!matches.length) return;
-    let values = await getValues({
+    let values = getValues({
       giveaways: `{}`,
       discussions: `{}`,
       tickets: `{}`,
@@ -217,7 +217,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
           type: `i`
         }]);
         let deleteLock = await createLock(`commentLock`, 300);
-        comments = JSON.parse(await getValue(type));
+        comments = JSON.parse(getValue(type));
         if (!comments[code]) {
           comments[code] = {
             readComments: {}
@@ -263,7 +263,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
           type: `i`
         }]);
         let deleteLock = await createLock(`commentLock`, 300);
-        comments = JSON.parse(await getValue(type));
+        comments = JSON.parse(getValue(type));
         if (this.esgst.ct_s) {
           delete comments[code].count;
         }

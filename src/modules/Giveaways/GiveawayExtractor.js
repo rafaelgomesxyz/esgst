@@ -117,7 +117,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     const now = Date.now();
     let changed = false;
-    ge.cache = JSON.parse(await common.getValue(`geCache`, `{}`));
+    ge.cache = JSON.parse(common.getValue(`geCache`, `{}`));
     for (const id in ge.cache) {
       if (dateFns_differenceInDays(now, ge.cache[id].timestamp) > 7) {
         changed = true;

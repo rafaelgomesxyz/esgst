@@ -79,7 +79,7 @@ class GiveawaysEntryTracker extends Module {
 
   async et_menu() {
     let dates = {};
-    let entries = JSON.parse(await getValue(`entries`, `[]`));
+    let entries = JSON.parse(getValue(`entries`, `[]`));
     const items = [];
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
@@ -328,7 +328,7 @@ class GiveawaysEntryTracker extends Module {
       },
       type: `i`
     }]);
-    let entries = JSON.parse(await getValue(`entries`, `[]`));
+    let entries = JSON.parse(getValue(`entries`, `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
       if (!dateFns_isSameDay(date, entry.timestamp)) continue;
@@ -357,7 +357,7 @@ class GiveawaysEntryTracker extends Module {
   }
 
   async et_setEntry(code, entry, name) {
-    let entries = JSON.parse(await getValue(`entries`, `[]`));
+    let entries = JSON.parse(getValue(`entries`, `[]`));
     entries.push({
       code: code,
       entry: entry,

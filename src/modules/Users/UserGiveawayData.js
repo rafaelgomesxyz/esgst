@@ -614,7 +614,7 @@ class UsersUserGiveawayData extends Module {
       obj.perType[selector] = new Array(11).fill(0);
       obj.typeTotal[selector] = 0;
     }
-    obj.savedGiveaways = JSON.parse(await getValue(`giveaways`));
+    obj.savedGiveaways = JSON.parse(getValue(`giveaways`));
     await this.ugd_count(obj, obj.games.apps, obj.savedGiveaways, types);
     await this.ugd_count(obj, obj.games.subs, obj.savedGiveaways, types);
 

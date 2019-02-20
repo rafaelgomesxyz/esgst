@@ -1309,7 +1309,7 @@ function getSMFeature(feature, id, number, popup) {
         container.esgst.settings[`${id}_sg`] = true;
         container.esgst[id] = true;
       }
-      if (subMenu.classList.contains(`esgst-hidden`)) {
+      if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
         expandOptions(collapseButton, id, subMenu);
         isExpanded = true;
       }
@@ -1359,7 +1359,7 @@ function getSMFeature(feature, id, number, popup) {
         container.esgst.settings[`${id}_st`] = true;
         container.esgst[id] = true;
       }
-      if (subMenu.classList.contains(`esgst-hidden`)) {
+      if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
         expandOptions(collapseButton, id, subMenu);
         isExpanded = true;
       }
@@ -1409,7 +1409,7 @@ function getSMFeature(feature, id, number, popup) {
         container.esgst.settings[`${id}_sgtools`] = true;
         container.esgst[id] = true;
       }
-      if (subMenu.classList.contains(`esgst-hidden`)) {
+      if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
         expandOptions(collapseButton, id, subMenu);
         isExpanded = true;
       }
@@ -1476,7 +1476,7 @@ function getSMFeature(feature, id, number, popup) {
         }]
       }]);
     }      
-    if (container.esgst.makeSecionsCollapsible) {
+    if (container.esgst.makeSectionsCollapsible) {
       collapseButton = container.common.createElements(menu, `afterBegin`, [{
         attributes: {
           class: `esgst-clickable`,
@@ -1778,10 +1778,10 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
     container.common.observeChange(endTime, `${ID}_endTime`);
     if (ID === `customTheme`) {
       let textArea = containerr.lastElementChild;
-      container.common.getValue(ID).then(value => {
-        if (!value) return;
+      const value = container.common.getValue(ID);
+      if (value) {
         textArea.value = JSON.parse(value);
-      });
+      }
       textArea.addEventListener(`change`, async () => {
         await container.common.setValue(ID, JSON.stringify(textArea.value));
         // noinspection JSIgnoredPromiseFromCall
@@ -2772,7 +2772,7 @@ function createMenuSection(context, html, number, title, type) {
       children: html
     }]
   }]);
-  if (container.esgst.makeSecionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
+  if (container.esgst.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
     let button, containerr, isExpanded;
     button = container.common.createElements(section.firstElementChild, `afterBegin`, [{
       attributes: {

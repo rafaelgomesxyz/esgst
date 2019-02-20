@@ -41,7 +41,7 @@ class DiscussionsPuzzleMarker extends Module {
 
   async pm_change(code, status) {
     let deleteLock = await createLock(`commentLock`, 300);
-    let discussions = JSON.parse(await getValue(`discussions`));
+    let discussions = JSON.parse(getValue(`discussions`));
     if (!discussions[code]) {
       discussions[code] = {
         readComments: {}
