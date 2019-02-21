@@ -731,6 +731,12 @@ class CommentsCommentFormattingHelper extends Module {
             attributes: {
               class: `form__saving-button btn_action white`
             },
+            text: `Add Custom Emoji`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `form__saving-button btn_action white`
+            },
             text: `Select Emojis`,
             type: `div`
           }]);
@@ -743,6 +749,33 @@ class CommentsCommentFormattingHelper extends Module {
           });
           this.cfh_setEmojis(emojis);
           emojis.nextElementSibling.addEventListener(`click`, async () => {
+            try {
+              let emoji = window.prompt(`Enter the custom emoji:`).trim();
+              const codes = [];
+              for (let i = 0, n = emoji.length; i < n; i++) {
+                codes.push(emoji.codePointAt(i));
+              }
+              emoji = String.fromCodePoint(...codes);
+              this.cfh_setEmoji(common.createElements_v2(emojis, `beforeEnd`, [
+                [`span`, { 'data-draggable-id': emoji }, emoji]
+              ]));
+              draggable_set({
+                addTrash: true,
+                context: emojis,
+                id: `emojis`,
+                item: {}
+              });
+              const emojiArray = [];
+              for (const element of emojis.children) {
+                emojiArray.push(element.getAttribute(`data-draggable-id`));
+              }
+              await setValue(`emojis`, JSON.stringify(emojiArray));
+            } catch (error) {
+              window.alert(`Invalid emoji!`);
+              window.console.log(error);
+            }
+          });
+          emojis.nextElementSibling.nextElementSibling.addEventListener(`click`, async () => {
             if (popup) {
               popup.open(() => {
                 popout.popout.classList.add(`esgst-hidden`)
@@ -1124,18 +1157,12 @@ class CommentsCommentFormattingHelper extends Module {
     let emojis = JSON.parse(getValue(`emojis`, `[]`));
     return emojis
       .map(emoji => {
-        if (emoji === `&#xAF&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`) {
-          emoji = `&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF`;
-        }
         const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
-        if (!emojiData) {
-          return null;
-        }
-        emoji = emojiData.emoji;
+        emoji = emojiData ? emojiData.emoji : emoji;
         return {
           attributes: {
             [`data-draggable-id`]: emoji,
-            title: emojiData.name
+            title: emojiData ? emojiData.name : ``
           },
           text: emoji,
           type: `span`
@@ -1479,8 +1506,12 @@ class CommentsCommentFormattingHelper extends Module {
     let emoji, i;
     for (i = emojis.children.length - 1; i > -1; --i) {
       emoji = emojis.children[i];
-      emoji.addEventListener(`click`, this.cfh_formatItem.bind(this, emoji.textContent, ``));
+      this.cfh_setEmoji(emoji);
     }
+  }
+
+  cfh_setEmoji(emoji) {
+    emoji.addEventListener(`click`, this.cfh_formatItem.bind(this, emoji.textContent, ``));
   }
 
   cfh_setReply(replies, savedReply) {
