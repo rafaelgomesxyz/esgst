@@ -203,7 +203,7 @@ function publishVersion() {
 function updateDevVersion() {
   const bumpedVersion = bumpVersion();
   const parts = packageJson.devVersion.split(`-`);
-  if (bumpedVersion !== parts[0] || !parts[1]) {
+  if ((bumpedVersion !== packageJson.version && bumpedVersion !== parts[0]) || !parts[1]) {
     parts[0] = bumpedVersion;
     parts[1] = `dev.1`;
   } else {
