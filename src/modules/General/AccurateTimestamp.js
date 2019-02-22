@@ -79,7 +79,7 @@ class GeneralAccurateTimestamp extends Module {
   }
 
   at_formatTimestamp(seconds) {
-    return dateFns_format(seconds, this.esgst.at_format
+    return dateFns_format(seconds, (this.esgst.at_format || `MMM dd, yyyy, HH:mm:ss`)
       .replace(/DM\{(.+?)}/, Math.abs(dateFns_differenceInHours(Date.now(), seconds)) < 24 ? `` : `$1`)
       .replace(/Y\{(.+?)}/, dateFns_isSameYear(Date.now(), seconds) ? `` : `$1`)
       .replace(/S\{(.+?)}/, new Date(seconds).getSeconds() === 0 ? `` : `$1`)
