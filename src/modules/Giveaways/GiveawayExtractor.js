@@ -92,10 +92,10 @@ class GiveawaysGiveawayExtractor extends Module {
   async ge() {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
       // noinspection JSIgnoredPromiseFromCall
-      this.ge_addButton(false, `Extract all giveaways`);
+      this.ge_addButton(false, false, `Extract all giveaways`);
       if (this.esgst.ge_o) {
         // noinspection JSIgnoredPromiseFromCall
-        this.ge_addButton(true, `Extract only from the current giveaway onward`, [`fa-forward`]);
+        this.ge_addButton(false, true, `Extract only from the current giveaway onward`, [`fa-forward`]);
       }
       if (this.esgst.ge_f) {
         this.ge_addButton(true, false, `Extract all giveaways (flush cache)`, [`fa-paint-brush`]);
@@ -277,7 +277,7 @@ class GiveawaysGiveawayExtractor extends Module {
       type: `div`
     }]);
     ge.popup.open();
-    if (ge.flushCache && ge.cache[ge.cacheId] && now - ge.cache[ge.cacheId].timestamp > this.esgst.ge_f_h * 3600000) {
+    if (ge.flushCache && ge.cache[ge.cacheId] && now - ge.cache[ge.cacheId].timestamp > parseInt(this.esgst.ge_f_h) * 3600000) {
       delete ge.cache[ge.cacheId];
     }
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
