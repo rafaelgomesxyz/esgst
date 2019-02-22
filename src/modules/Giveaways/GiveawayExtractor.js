@@ -89,8 +89,9 @@ class GiveawaysGiveawayExtractor extends Module {
         context: parseHtml((await request({ method: `GET`, url: parameters.url })).responseText),
         extractOnward: !!parameters.extractOnward,
         flushCache: !!parameters.flush,
-        ignoreDiscussionComments: !!parameters.nodisccmt,
-        ignoreGiveawayComments: !!parameters.nogacmt
+        flushCacheHours: parameters.flushHrs,
+        ignoreDiscussionComments: !!parameters.noDiscCmt,
+        ignoreGiveawayComments: !!parameters.noGaCmt
       };
       this.ge_openPopup(ge);
     }
@@ -102,6 +103,11 @@ class GiveawaysGiveawayExtractor extends Module {
     };
     if (specifyParams) {
       ge.button.addEventListener(`click`, () => {
+        ge.extractOnward = this.esgst.ge_extractOnward;
+        ge.flushCache = this.esgst.ge_flushCache;
+        ge.flushCacheHours = this.esgst.ge_flushCacheHours;
+        ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
+        ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
         const popup = new Popup({
           icon: `fa-gear`,
           title: `Specify extractor parameters:`,
@@ -118,10 +124,11 @@ class GiveawaysGiveawayExtractor extends Module {
                 popup.close();
                 ge.extractOnward = this.esgst.ge_extractOnward;
                 ge.flushCache = this.esgst.ge_flushCache;
+                ge.flushCacheHours = this.esgst.ge_flushCacheHours;
                 ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
                 ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
                 if (this.esgst.ge_t) {
-                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&` : ``}${ge.ignoreDiscussionComments ? `nodisccmt=true&` : ``}${ge.ignoreGiveawayComments ? `nogacmt=true&` : ``}url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
+                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
                 } else {
                   this.ge_openPopup(ge);
                 }
@@ -129,24 +136,7 @@ class GiveawaysGiveawayExtractor extends Module {
             }
           ]
         });
-        new ToggleSwitch(popup.scrollable, `ge_extractOnward`, null, `Only extract from the current giveaway onward.`, false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, this.esgst.ge_extractOnward);
-        common.observeNumChange(new ToggleSwitch(popup.scrollable, `ge_flushCache`, null, [{
-          text: `Flush the cache if it is older than `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-switch-input`,
-            step: `0.1`,
-            type: `number`,
-            value: this.esgst.ge_flushCacheHours
-          },
-          type: `input`
-        }, {
-          text: ` hours.`,
-          type: `node`
-        }], false, false, null, this.esgst.ge_flushCache).name.firstElementChild, `ge_flushCacheHours`, true);
-        new ToggleSwitch(popup.scrollable, `ge_ignoreDiscussionComments`, null, `Ignore discussion comments when extracting giveaways.`, false, false, null, this.esgst.ge_ignoreDiscussionComments);
-        new ToggleSwitch(popup.scrollable, `ge_ignoreGiveawayComments`, null, `Ignore giveaway comments when extracting giveaways.`, false, false, null, this.esgst.ge_ignoreGiveawayComments);
+        this.ge_showOptions(ge, popup.scrollable);
         popup.open();
       });
     } else {
@@ -158,6 +148,29 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       });
     }
+  }
+
+  ge_showOptions(ge, context, reExtract) {
+    new ToggleSwitch(context, `ge_extractOnward`, null, `Only extract from the current giveaway onward.`, false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, ge.extractOnward);
+    if (!reExtract) {
+      common.observeNumChange(new ToggleSwitch(context, `ge_flushCache`, null, [{
+        text: `Flush the cache if it is older than `,
+        type: `node`
+      }, {
+        attributes: {
+          class: `esgst-switch-input`,
+          step: `0.1`,
+          type: `number`,
+          value: ge.flushCacheHours
+        },
+        type: `input`
+      }, {
+        text: ` hours.`,
+        type: `node`
+      }], false, false, null, ge.flushCache).name.firstElementChild, `ge_flushCacheHours`, true);
+    }
+    new ToggleSwitch(context, `ge_ignoreDiscussionComments`, null, `Ignore discussion comments when extracting giveaways.`, false, false, null, ge.ignoreDiscussionComments);
+    new ToggleSwitch(context, `ge_ignoreGiveawayComments`, null, `Ignore giveaway comments when extracting giveaways.`, false, false, null, ge.ignoreGiveawayComments);
   }
 
   async ge_openPopup(ge) {
@@ -249,8 +262,24 @@ class GiveawaysGiveawayExtractor extends Module {
       title2: `Cancel`,
       callback1: () => {
         return new Promise(resolve => {
-          if (cacheWarning) {
-            cacheWarning.remove();
+          if (cacheWarning || ge.reExtract) {
+            if (ge.reExtract) {
+              ge.extractOnward = this.esgst.ge_extractOnward;
+              ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
+              ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
+              ge.count = 0;
+              ge.total = 0;
+              ge.extracted = [];
+              ge.bumpLink = ``;
+              ge.points = 0;
+              ge.sgToolsCount = 0;
+            }
+            ge.flushCache = true;
+            ge.flushCacheHours = 0;
+            ge.reExtract = false;
+            if (cacheWarning) {
+              cacheWarning.remove();
+            }
             cacheWarning = null;
             ge.results.innerHTML = ``;
             ge.cache[ge.cacheId] = {
@@ -312,7 +341,7 @@ class GiveawaysGiveawayExtractor extends Module {
       type: `div`
     }]);
     ge.popup.open();
-    if (ge.flushCache && ge.cache[ge.cacheId] && now - ge.cache[ge.cacheId].timestamp > parseInt(this.esgst.ge_flushCacheHours) * 3600000) {
+    if (ge.flushCache && ge.cache[ge.cacheId] && now - ge.cache[ge.cacheId].timestamp > parseInt(ge.flushCacheHours) * 3600000) {
       delete ge.cache[ge.cacheId];
     }
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
@@ -719,8 +748,12 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     createElements(ge.results, `afterBegin`, items);
     createElements(ge.results, `beforeEnd`, items);
-    ge.set.set.remove();
-    ge.set = null;
+    ge.set.set.firstElementChild.lastElementChild.textContent = `Re-Extract`;
+    ge.reExtract = true;
+    if (!ge.optionsAdded) {
+      this.ge_showOptions(ge, ge.popup.description, true);
+      ge.optionsAdded = true;
+    }
     if (!ge.isCanceled && !ge.extractOnward) {
       ge.cache[ge.cacheId].ithLinks = Array.from(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = Array.from(ge.cache[ge.cacheId].jigidiLinks);
