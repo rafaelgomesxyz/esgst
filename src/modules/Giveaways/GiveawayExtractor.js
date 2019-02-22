@@ -204,9 +204,10 @@ class GiveawaysGiveawayExtractor extends Module {
         ]
       });
       const container = createElements(context, `beforeEnd`, [{ type: `div` }]);
+      const scrollable = createElements(context, `beforeEnd`, [{ type: `div` }]);
       ge.popup = {
         description: container,
-        scrollable: container,
+        scrollable: scrollable,
         open: () => {
         },
         reposition: () => {
