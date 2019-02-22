@@ -110,7 +110,7 @@ class GiveawaysGiveawayExtractor extends Module {
             {
               color1: `green`,
               color2: `grey`,
-              icon1: `fa-circle-arrow-right`,
+              icon1: `fa-arrow-circle-right`,
               icon2: `fa-circle-o-notch fa-spin`,
               title1: `Open Extractor`,
               title2: `Opening...`,
