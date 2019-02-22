@@ -45,6 +45,17 @@ class GiveawaysGiveawayExtractor extends Module {
           name: `Add button to only extract from the current giveaway onward.`,
           sg: true
         },
+        ge_f: {
+          name: `Add button to flush the cache before extracting the giveaways.`,
+          inputItems: [
+            {
+              id: `ge_f_h`,
+              prefix: `Only flush the cache if it is older than `,
+              suffix: ` hours`
+            }
+          ],
+          sg: true
+        },
         ge_j: {
           name: `Convert all Jigidi links to the "jigidi.com/jigsaw-puzzle" format.`,
           sg: true
@@ -86,24 +97,29 @@ class GiveawaysGiveawayExtractor extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.ge_addButton(true, `Extract only from the current giveaway onward`, [`fa-forward`]);
       }
+      if (this.esgst.ge_f) {
+        this.ge_addButton(true, false, `Extract all giveaways (flush cache)`, [`fa-paint-brush`]);
+      }
     } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
       const parameters = getParameters();
       let ge = {
         context: parseHtml((await request({ method: `GET`, url: parameters.url })).responseText),
+        flushCache: !!parameters.flush,
         extractOnward: !!parameters.extractOnward
       };
       this.ge_openPopup(ge);
     }
   }
 
-  ge_addButton(extractOnward, title, extraIcons = []) {
+  ge_addButton(flushCache, extractOnward, title, extraIcons = []) {
     let ge = {
       button: createHeadingButton({ id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title }),
+      flushCache,
       extractOnward
     };
     ge.button.addEventListener(`click`, () => {
       if (this.esgst.ge_t) {
-        window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
+        window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.flushCache ? `flush=true&` : ``}${ge.extractOnward ? `extractOnward=true&` : ``}url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
       } else {
         this.ge_openPopup(ge);
       }
@@ -261,6 +277,9 @@ class GiveawaysGiveawayExtractor extends Module {
       type: `div`
     }]);
     ge.popup.open();
+    if (ge.flushCache && ge.cache[ge.cacheId] && now - ge.cache[ge.cacheId].timestamp > this.esgst.ge_f_h * 3600000) {
+      delete ge.cache[ge.cacheId];
+    }
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
       ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
