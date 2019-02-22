@@ -265,7 +265,7 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
       cacheWarning = common.createElements_v2(ge.popup.description, `beforeEnd`, [
-        [`div`, `These results were retrieved from the cache. If you want to update the cache, you will have to extract again.`]
+        [`div`, `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
       let html = ``;
       let points = 0;
