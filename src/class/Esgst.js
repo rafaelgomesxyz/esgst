@@ -180,7 +180,11 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
-      ge_f_h: 24,
+      ge_extractOnward: false,
+      ge_flushCache: false,
+      ge_flushCacheHours: 24,
+      ge_ignoreDiscussionComments: false,
+      ge_ignoreGiveawayComments: false,
       cv_username: `%username%`,
       cv_steamId: `%steamId%`,
       cv_creator: `%creator%`,
