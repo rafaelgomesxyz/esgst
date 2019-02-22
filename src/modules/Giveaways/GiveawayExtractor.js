@@ -105,7 +105,9 @@ class GiveawaysGiveawayExtractor extends Module {
       let ge = {
         context: parseHtml((await request({ method: `GET`, url: parameters.url })).responseText),
         flushCache: !!parameters.flush,
-        extractOnward: !!parameters.extractOnward
+        extractOnward: !!parameters.extractOnward,
+        noDiscussionComments: !!parameters.nodisccmt,
+        noGiveawayComments: !!parameters.nogacmt
       };
       this.ge_openPopup(ge);
     }
@@ -517,7 +519,21 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_getGiveaways(ge, context) {
-    let elements = context.querySelectorAll(`.markdown img[title], .markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
+    const description = context.querySelector(`.page__description`);
+    const op = context.querySelector(`.markdown`);
+    const giveawaySelectors = [
+      `img[title]`,
+      `[href*="/giveaway/"]`,
+      `[href*="sgtools.info/giveaways"]`
+    ];
+    let elements;
+    if (ge.noDiscussionComments && !description && op) {
+      elements = op.querySelectorAll(giveawaySelectors.join(`, `));
+    } else if (ge.noGiveawayComments && description) {
+      elements = description.querySelectorAll(giveawaySelectors.join(`, `));
+    } else {
+      elements = context.querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(`, `));
+    }
     let giveaways = [];
     if (context === ge.context) {
       let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
@@ -569,12 +585,33 @@ class GiveawaysGiveawayExtractor extends Module {
     if (next.count > 0) {
       giveaways.push(next.code);
     }
-    const ithLinks = context.querySelectorAll(`.markdown [href*="itstoohard.com/puzzle/"]`);
+    const ithSelectors = [
+      `[href*="itstoohard.com/puzzle/"]`
+    ];
+    let ithLinks;
+    if (ge.noDiscussionComments && !description && op) {
+      ithLinks = op.querySelectorAll(ithSelectors.join(`, `));
+    } else if (ge.noGiveawayComments && description) {
+      ithLinks = description.querySelectorAll(ithSelectors.join(`, `));
+    } else {
+      ithLinks = context.querySelectorAll(ithSelectors.map(x => `.markdown ${x}`).join(`, `));
+    }
     for (const link of ithLinks) {
       const url = link.getAttribute(`href`);
       ge.cache[ge.cacheId].ithLinks.add(url);
     }
-    const jigidiLinks = context.querySelectorAll(`.markdown [href*="jigidi.com/jigsaw-puzzle/"], .markdown [href*="jigidi.com/solve.php"]`);
+    const jigidiSelectors = [
+      `[href*="jigidi.com/jigsaw-puzzle/"]`,
+      `[href*="jigidi.com/solve.php"]`
+    ];
+    let jigidiLinks;
+    if (ge.noDiscussionComments && !description && op) {
+      jigidiLinks = op.querySelectorAll(jigidiSelectors.join(`, `));
+    } else if (ge.noGiveawayComments && description) {
+      jigidiLinks = description.querySelectorAll(jigidiSelectors.join(`, `));
+    } else {
+      jigidiLinks = context.querySelectorAll(jigidiSelectors.map(x => `.markdown ${x}`).join(`, `));
+    }
     for (const link of jigidiLinks) {
       let url = link.getAttribute(`href`);
       if (this.esgst.ge_j) {
