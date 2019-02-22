@@ -180,6 +180,7 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      ge_f_h: 24,
       cv_username: `%username%`,
       cv_steamId: `%steamId%`,
       cv_creator: `%creator%`,
