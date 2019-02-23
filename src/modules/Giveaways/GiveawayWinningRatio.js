@@ -49,7 +49,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
         },
         gwr_h: {
           conflicts: [
-            { id: `gwc_h`, name: `Giveaway Winning Chance > Highlight the giveaway.` }
+            `gwc_h`
           ],
           description: [
             [`ul`, [

@@ -52,6 +52,7 @@ module.exports = /** @param {Environment} env */ async env => {
   };
 
   const cfg = {
+    devtool: env.production ? false : `source-map`,
     mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
     context: path.join(__dirname, './src/entry/'),
     entry,
