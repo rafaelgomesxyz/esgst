@@ -52,6 +52,11 @@ function buildWebExtension(browserName) {
   fs.copyFileSync(`${BUILD_PATH}/esgst.js`, `${extensionPath}/esgst.js`);
   fs.copyFileSync(`${BUILD_PATH}/esgst_sgtools.js`, `${extensionPath}/esgst_sgtools.js`);
   fs.copyFileSync(`${SRC_PATH}/assets/images/icon.png`, `${extensionPath}/icon.png`);
+  if (args.dev) {
+    fs.copyFileSync(`${BUILD_PATH}/eventPage.js.map`, `${extensionPath}/eventPage.js.map`);
+    fs.copyFileSync(`${BUILD_PATH}/esgst.js.map`, `${extensionPath}/esgst.js.map`);
+    fs.copyFileSync(`${BUILD_PATH}/esgst_sgtools.js.map`, `${extensionPath}/esgst_sgtools.js.map`);
+  }
 }
 
 function buildLegacyExtension(browserName) {
@@ -71,6 +76,11 @@ function buildLegacyExtension(browserName) {
   fs.copyFileSync(`${SRC_PATH}/assets/images/icon-64.png`, `${dataPath}/icon-64.png`);
   fs.copyFileSync(`${BUILD_PATH}/index.js`, `${extensionPath}/index.js`);
   fs.copyFileSync(`${SRC_PATH}/assets/images/icon.png`, `${extensionPath}/icon.png`);
+  if (args.dev) {
+    fs.copyFileSync(`${BUILD_PATH}/esgst.js.map`, `${dataPath}/esgst.js.map`);
+    fs.copyFileSync(`${BUILD_PATH}/esgst_sgtools.js.map`, `${dataPath}/esgst_sgtools.js.map`);
+    fs.copyFileSync(`${BUILD_PATH}/index.js.map`, `${extensionPath}/index.js.map`);
+  }
 }
 
 function getWebExtensionManifest(browserName) {

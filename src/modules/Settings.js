@@ -493,15 +493,15 @@ function loadFeatureDetails(id, offset, event) {
     feature.sgFeatureSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
       if (feature.conflicts) {
-        for (const conflict of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflict.id}_sg`];
+        for (const conflictId of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflictId}_sg`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -550,15 +550,15 @@ function loadFeatureDetails(id, offset, event) {
     feature.stFeatureSwitch = stSwitch;
     stSwitch.onEnabled = () => {
       if (feature.conflicts) {
-        for (const conflict of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflict.id}_st`];
+        for (const conflictId of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflictId}_st`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             stSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -607,15 +607,15 @@ function loadFeatureDetails(id, offset, event) {
     feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
     sgtoolsSwitch.onEnabled = () => {
       if (feature.conflicts) {
-        for (const conflict of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflict.id}_sgtools`];
+        for (const conflictId of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflictId}_sgtools`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgtoolsSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -1288,15 +1288,15 @@ function getSMFeature(feature, id, number, popup) {
     feature.sgSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
       if (feature.conflicts) {
-        for (const conflict of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflict.id}_sg`];
+        for (const conflictId of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflictId}_sg`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -1338,15 +1338,15 @@ function getSMFeature(feature, id, number, popup) {
     feature.stSwitch = stSwitch;
     stSwitch.onEnabled = () => {
       if (feature.conflicts) {
-        for (const conflict of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflict.id}_st`];
+        for (const conflictId of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflictId}_st`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             stSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -1388,15 +1388,15 @@ function getSMFeature(feature, id, number, popup) {
     feature.sgtoolsSwitch = sgtoolsSwitch;
     sgtoolsSwitch.onEnabled = () => {
       if (feature.conflicts) {
-        for (const conflict of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflict.id}_sgtools`];
+        for (const conflictId of feature.conflicts) {
+          const setting = container.esgst.settings[`${conflictId}_sgtools`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgtoolsSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${conflict.name}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }

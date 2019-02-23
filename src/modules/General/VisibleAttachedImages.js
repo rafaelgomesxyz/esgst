@@ -5,7 +5,7 @@ class GeneralVisibleAttachedImages extends Module {
     super();
     this.info = {
       conflicts: [
-        { id: `ail`, name: `Attached Image Loader` }
+        `ail`
       ],
       description: [
         [`ul`, [

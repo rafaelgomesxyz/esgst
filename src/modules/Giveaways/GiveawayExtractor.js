@@ -48,6 +48,9 @@ class GiveawaysGiveawayExtractor extends Module {
           sg: true
         },
         ge_sgt: {
+          conflicts: [
+            `ge_sgtga`
+          ],
           features: {
             ge_sgt_l: {
               inputItems: [
@@ -61,6 +64,19 @@ class GiveawaysGiveawayExtractor extends Module {
             }
           },
           name: `Automatically open any SGTools links found in new tabs.`,
+          sg: true
+        },
+        ge_sgtga: {
+          conflicts: [
+            `ge_sgt`
+          ],
+          features: {
+            ge_sgtga_u: {
+              name: `Automatically unlock SGTools giveaways that have not yet been unlocked.`,
+              sg: true
+            }
+          },
+          name: `Automatically retrieve the giveaway link from SGTools giveaways that have already been unlocked.`,
           sg: true
         },
         ge_t: {
@@ -469,13 +485,38 @@ class GiveawaysGiveawayExtractor extends Module {
       } else {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
-          if (sgTools && this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
-            window.open(`https://www.sgtools.info/giveaways/${code}`);
-            ge.cache[ge.cacheId].codes.push(code);
-            ge.extracted.push(code);
-            ge.sgToolsCount += 1;
-            callback();
-            return;
+          if (sgTools) {
+            if (this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
+              window.open(`https://www.sgtools.info/giveaways/${code}`);
+              ge.cache[ge.cacheId].codes.push(code);
+              ge.extracted.push(code);
+              ge.sgToolsCount += 1;
+              callback();
+              return;
+            }
+            if (this.esgst.ge_sgtga) {
+              try {
+                if (this.esgst.ge_sgtga_u) {
+                  await request({
+                    method: `GET`,
+                    queue: true,
+                    url: `https://www.sgtools.info/giveaways/${code}/check`
+                  });
+                }
+                const response = await request({
+                  method: `GET`,
+                  queue: true,
+                  url: `https://www.sgtools.info/giveaways/${code}/getLink`
+                });
+                const json = JSON.parse(response.responseText);
+                if (json && json.url) {
+                  code = json.url.match(/\/giveaway\/(.{5})/)[1];
+                  sgTools = false;
+                }
+              } catch (error) {
+                window.console.log(error);
+              }
+            }
           }
           let response = await request({
             method: `GET`,
