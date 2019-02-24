@@ -39,6 +39,11 @@ class GiveawaysCustomGiveawayBackground extends Module {
           background: true,
           name: `Color whitelist giveaways.`,
           sg: true
+        },
+        cgb_sgt: {
+          background: true,
+          name: `Color SGTools giveaways.`,
+          sg: true
         }
       },
       featureMap: {
@@ -55,6 +60,8 @@ class GiveawaysCustomGiveawayBackground extends Module {
     for (const giveaway of giveaways) {
       if (this.esgst.cgb_b && giveaway.outerWrap.getAttribute(`data-blacklist`)) {
         giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_b_bgColor} !important`);
+      } else if (this.esgst.cgb_sgt && giveaway.sgTools) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_sgt_bgColor} !important`);
       } else if (this.esgst.cgb_w && giveaway.whitelist) {
         giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_w_bgColor} !important`);
       } else if (this.esgst.cgb_g && giveaway.group) {
