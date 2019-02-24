@@ -239,6 +239,7 @@ class Esgst {
       cgb_rr_bgColor: `#000000`,
       cgb_g_bgColor: `#000000`,
       cgb_w_bgColor: `#000000`,
+      cgb_sgt_bgColor: `#000000`,
       qgs_index: 0,
       lpv_barColor: `#609f60`,
       lpv_projectedBarColor: `rgba(96, 159, 96, 0.5)`,
