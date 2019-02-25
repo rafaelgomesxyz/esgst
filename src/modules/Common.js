@@ -3351,7 +3351,7 @@ class Common extends Module {
     for (let i = 0, n = keys.length; i < n; i++) {
       let key = keys[i];
       if (key === `customTheme`) continue;
-      if (this.esgst.settings[`${key}_${this.esgst.name}`] && this.checkThemeTime(key)) {
+      if (this.esgst[key] && this.checkThemeTime(key)) {
         const theme = this.getValue(key, ``);
         if (!theme) continue;
         const css = this.getThemeCss(JSON.parse(theme));
@@ -3369,7 +3369,7 @@ class Common extends Module {
         break;
       }
     }
-    if (this.esgst.settings.customTheme && this.checkThemeTime(`customTheme`)) {
+    if (this.esgst.customTheme && this.checkThemeTime(`customTheme`)) {
       const css = JSON.parse(this.getValue(`customTheme`, ``));
       this.esgst.customThemeElement = this.createElements(document.head, `beforeEnd`, [{
         attributes: {
