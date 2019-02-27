@@ -314,6 +314,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaway.group = details.group;
       giveaway.whitelist = details.whitelist;
       giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
+    } else if (giveaway.deleted) {
+      giveaway.public = false;
     } else {
       giveaway.blacklist = true;
     }
@@ -348,8 +350,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       }
     } else if (giveaway.regionRestricted) {
       type = `Region`;
-    } else {
+    } else if (giveaway.public) {
       type = `Public`;
+    } else {
+      type = `-`;
     }
     const items2 = [{
       attributes: {
