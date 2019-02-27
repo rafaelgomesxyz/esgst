@@ -322,7 +322,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (this.esgst.cgb) {
       this.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
-    if (giveaway.blacklist) {
+    if (giveaway.deleted) {
+      type = `Deleted`
+    } else if (giveaway.blacklist) {
       type = `Blacklist`;
     } else if (giveaway.inviteOnly) {
       if (giveaway.regionRestricted) {
