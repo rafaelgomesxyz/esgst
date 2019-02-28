@@ -76,6 +76,7 @@ class GiveawaysCommentEntryChecker extends Module {
       popup.open();
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
+      context.setAttribute(`data-esgst-popup`, true);
       context.innerHTML = ``;
     }
     if (!isPopup) {

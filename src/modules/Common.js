@@ -257,7 +257,7 @@ class Common extends Module {
     if (customPage && customPage.check) {
       await customPage.load();
     } else {
-      await this.endless_load(document, true);
+      await this.endless_load(document, !this.esgst.parameters.esgst);
     }
 
     if (this.esgst.wbcButton && !this.esgst.mainUsers.length) {
@@ -2384,6 +2384,7 @@ class Common extends Module {
       ]
     };
     const context = this.esgst.sidebar.nextElementSibling;
+    context.setAttribute(`data-esgst-popup`, true);
     context.innerHTML = ``;
     this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
       items: [
@@ -4094,7 +4095,7 @@ class Common extends Module {
     });
     let context = null;
     if (mainKey === `popupGiveaways`) {
-      context = array[0].outerWrap.closest(`.esgst-popup`).getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
+      context = array[0].outerWrap.closest(`.esgst-popup, [data-esgst-popup]`).getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
     }
     for (i = 0, n = array.length; i < n; ++i) {
       if (!array[i].outerWrap.parentElement) continue;

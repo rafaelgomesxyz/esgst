@@ -61,6 +61,7 @@ function loadMenu(isPopup) {
   dismissAllButton.classList.add(`esgst-hidden`);
   Container.appendChild(dismissAllButton);
 
+  Container.setAttribute(`data-esgst-popup`, true);
   const heading = container.common.createPageHeading(Container, `afterBegin`, {
     items: [
       {
