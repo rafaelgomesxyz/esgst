@@ -1751,7 +1751,7 @@ class GamesGameCategories extends Module {
               let elements = responseHtml.getElementsByClassName(`user_reviews_summary_row`);
               let n = elements.length;
               if (n > 0) {
-                let rating = elements[n - 1].getAttribute(`data-tooltip-text`).replace(/[,.]/g, ``);
+                let rating = elements[n - 1].getAttribute(`data-tooltip-html`).replace(/[,.]/g, ``);
                 let match = rating.match(/(\d+)%.+?(\d+)/);
                 let percentageIndex = 1;
                 let countIndex = 2;

@@ -98,7 +98,7 @@ function get_bundles($parameters, $filters) {
     $last_update = (new DateTime($row['last_update'], $global_timezone))->getTimestamp();
     $difference_in_seconds = $now - $last_update;
 
-    if ($difference_in_seconds < 60 * 60 * 24 * 7) {        
+    if ($difference_in_seconds < 60 * 60 * 24 * 7 && (isset($row['name']) || $row['removed'] || $difference_in_seconds < 60 * 60 * 24)) {
       $bundle = [
         'bundle_id' => $row['bundle_id']
       ];
