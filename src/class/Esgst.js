@@ -730,6 +730,7 @@ class Esgst {
       gts_preciseEndDate: false,
       gv_spacing: 0,
       gch_colors: [],
+      glh_colors: [],
       gwc_colors: [],
       gwr_colors: [],
       gptw_colors: [],

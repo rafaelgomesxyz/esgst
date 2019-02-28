@@ -1544,6 +1544,8 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
     items.push(addUlMenuPanel(`ul_links`));
   } else if (ID === `gch`) {
     items.push(addGwcrMenuPanel(`gch_colors`, `copies`, true));
+  } else if (ID === `glh`) {
+    items.push(addGwcrMenuPanel(`glh_colors`, `level`, true, `10`));
   } else if (ID === `gwc`) {
     items.push(addGwcrMenuPanel(`gwc_colors`, `chance`));
   } else if (ID === `gwr`) {
@@ -1881,7 +1883,7 @@ async function saveHrFile(id, popup, reader) {
   }
 }
 
-function addGwcrMenuPanel(id, key, background) {
+function addGwcrMenuPanel(id, key, background, upper = `100`) {
   const panel = container.common.createElements_v2([
     [`div`, { class: `esgst-sm-colors` }, [
       [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
@@ -1898,7 +1900,7 @@ function addGwcrMenuPanel(id, key, background) {
     const colors = {
       color: `#ffffff`,
       lower: `0`,
-      upper: `100`
+      upper: upper
     };
     if (background) {
       colors.bgColor = ``;

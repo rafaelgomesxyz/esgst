@@ -1821,6 +1821,11 @@ function addStyle() {
     margin: 0 5px;
   }
 
+  .esgst-glh-highlight {
+    background-image: none !important;
+    text-shadow: none;
+  }
+
   a.esgst-gc-genres {
     max-width: 150px;
     overflow: hidden;
