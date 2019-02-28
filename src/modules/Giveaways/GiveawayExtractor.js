@@ -206,7 +206,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (changed) {
       await common.setValue(`geCache`, JSON.stringify(ge.cache));
     }
-    ge.cacheId = this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//)[0] || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
+    ge.cacheId = (this.esgst.parameters.url && this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//)[0]) || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
     ge.count = 0;
     ge.total = 0;
     ge.extracted = [];
