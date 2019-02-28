@@ -94,6 +94,19 @@ class GiveawaysGiveawaysSorter extends Module {
       text: `Game Name - Descending`,
       type: `option`
     }];
+    children.push({
+      attributes: {
+        value: `level_asc`
+      },
+      text: `Level - Ascending`,
+      type: `option`
+    }, {
+      attributes: {
+        value: `level_desc`
+      },
+      text: `Level - Descending`,
+      type: `option`
+    });
     if (!this.esgst.enteredPath) {
       children.push({
         attributes: {
