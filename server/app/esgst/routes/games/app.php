@@ -191,7 +191,7 @@ function get_apps($parameters, $filters) {
     $last_update = (new DateTime($row['last_update'], $global_timezone))->getTimestamp();
     $difference_in_seconds = $now - $last_update;
 
-    if ($difference_in_seconds < 60 * 60 * 24 * 7) {    
+    if ($difference_in_seconds < 60 * 60 * 24 * 7 && (isset($row['rating']) || $row['removed'] || $difference_in_seconds < 60 * 60 * 24)) {
       $app = [
         'app_id' => $row['app_id']
       ];
@@ -319,7 +319,7 @@ function fetch_app($app_id) {
     $elements = $xpath->query('//div[contains(@class, "user_reviews_summary_row")]');
     $num_elements = count($elements);
     if ($num_elements > 0) {
-      $text = preg_replace('/[,.]/', '', $elements[$num_elements - 1]->getAttribute('data-tooltip-text'));
+      $text = preg_replace('/[,.]/', '', $elements[$num_elements - 1]->getAttribute('data-tooltip-html'));
       preg_match('/(\d+)%.+?(\d+)/', $text, $rating);
     }
   }
