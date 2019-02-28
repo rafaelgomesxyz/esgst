@@ -68,6 +68,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         this.esgst.sidebar.remove();
       }
       glwc.container.innerHTML = ``;
+      glwc.container.setAttribute(`data-esgst-popup`, true);
       common.createPageHeading(glwc.container, `beforeEnd`, {
         items: [
           {

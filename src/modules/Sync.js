@@ -60,6 +60,7 @@ async function setSync(isPopup = false, isSilent = false) {
   } else {
     containerr = context = container.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
+    context.setAttribute(`data-esgst-popup`, true);
   }
   const heading = container.common.createPageHeading(containerr, `afterBegin`, {
     items: [

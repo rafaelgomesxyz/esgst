@@ -124,6 +124,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       }
       ged.popup.innerHTML = ``;
       ged.container = ged.context = createElements(ged.popup, `beforeEnd`, [{ type: `div` }]);
+      ged.context.setAttribute(`data-esgst-popup`, true);
     }
     common.createPageHeading(ged.popup.description || ged.popup, `afterBegin`, {
       items: [

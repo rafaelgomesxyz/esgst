@@ -219,6 +219,7 @@ class GiveawaysGiveawayExtractor extends Module {
       if (this.esgst.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
+      context.setAttribute(`data-esgst-popup`, true);
       context.innerHTML = ``;
       common.createPageHeading(context, `beforeEnd`, {
         items: [
@@ -385,9 +386,12 @@ class GiveawaysGiveawayExtractor extends Module {
       }, {
         text: ` giveaways extracted.`,
         type: `node`
-      }]);    
-      ge.results.insertAdjacentHTML(`beforeEnd`, html);
-      await endless_load(ge.results, false, `ge`);  
+      }]);
+      createElements(ge.results, `beforeEnd`, [{
+        type: `div`
+      }]);
+      ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
+      await endless_load(ge.results.lastElementChild, false, `ge`);
       const items = [{
         attributes: {
           class: `markdown esgst-text-center`

@@ -223,6 +223,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         this.esgst.sidebar.remove();
       }
       context.innerHTML = ``;
+      context.setAttribute(`data-esgst-popup`, true);
       common.createPageHeading(context, `beforeEnd`, {
         items: [
           {

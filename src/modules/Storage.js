@@ -457,6 +457,7 @@ function loadDataManagement(type, isPopup, callback) {
       context = popup.scrollable;
     } else {
       context = containerr = container.esgst.sidebar.nextElementSibling;
+      context.setAttribute(`data-esgst-popup`, true);
       context.innerHTML = ``;
     }
     containerr.classList.add(`esgst-text-left`);
@@ -1006,7 +1007,8 @@ function loadDataCleaner(isPopup) {
   } else {
     containerr = container.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
-    context  = containerr;
+    context = containerr;
+    context.setAttribute(`data-esgst-popup`, true);
   }
   const heading = container.common.createPageHeading(containerr, `afterBegin`, {
     items: [{
