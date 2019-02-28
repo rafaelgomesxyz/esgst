@@ -102,7 +102,7 @@ class GiveawaysGiveawayExtractor extends Module {
     } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
       const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({ method: `GET`, url: parameters.url })).responseText),
+        context: parseHtml((await request({ method: `GET`, url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ``}` })).responseText),
         extractOnward: !!parameters.extractOnward,
         flushCache: !!parameters.flush,
         flushCacheHours: parameters.flushHrs,
@@ -144,7 +144,7 @@ class GiveawaysGiveawayExtractor extends Module {
                 ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
                 ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
                 if (this.esgst.ge_t) {
-                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
+                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
                 } else {
                   this.ge_openPopup(ge);
                 }
@@ -158,7 +158,7 @@ class GiveawaysGiveawayExtractor extends Module {
     } else {
       ge.button.addEventListener(`click`, () => {
         if (this.esgst.ge_t) {
-          window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0]}`);
+          window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
         } else {
           this.ge_openPopup(ge);
         }
@@ -206,7 +206,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (changed) {
       await common.setValue(`geCache`, JSON.stringify(ge.cache));
     }
-    ge.cacheId = this.esgst.parameters.url || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
+    ge.cacheId = this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//)[0] || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
     ge.count = 0;
     ge.total = 0;
     ge.extracted = [];
