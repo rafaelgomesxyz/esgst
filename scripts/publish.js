@@ -116,8 +116,7 @@ function packageLegacyExtension(browserName) {
     if (args.dev) {
       manifest.version_name = packageJson.devVersion;
     }
-    manifest = JSON.stringify(manifest, null, 2);
-    fs.writeFileSync(`${extensionPath}/package.json`, manifest);
+    fs.writeFileSync(`${extensionPath}/package.json`, JSON.stringify(manifest, null, 2));
 
     const options = {
       addonDir: extensionPath,
