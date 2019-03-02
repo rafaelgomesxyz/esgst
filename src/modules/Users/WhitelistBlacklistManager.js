@@ -169,7 +169,6 @@ class UsersWhitelistBlacklistManager extends Module {
     let file = wbm.input.files[0];
     if (file) {
       let reader = new FileReader();
-      reader.readAsText(file);
       reader.onload = () => {
         try {
           let list = JSON.parse(/** @type {string} */  reader.result);
@@ -180,6 +179,7 @@ class UsersWhitelistBlacklistManager extends Module {
           callback();
         }
       };
+      reader.readAsText(file);
     } else {
       createFadeMessage(wbm.warning, `No file was loaded!`);
       callback();

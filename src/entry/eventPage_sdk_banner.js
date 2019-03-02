@@ -1,3 +1,4 @@
+const { Cu } = require("chrome");
 var buttons = require("sdk/ui/button/action");
 var data = require("sdk/self").data;
 var packageJson = require("./package.json");

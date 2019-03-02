@@ -88,13 +88,12 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
     file = dm.input.files[0];
     if (file) {
       dm.reader = new FileReader();
-      const blob = file.name.match(/\.zip$/) && file;
-      if (blob) {
-        // noinspection JSIgnoredPromiseFromCall
-        readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback);
+      const isZip = file.name.match(/\.zip$/);
+      dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, isZip, callback);
+      if (isZip) {
+        dm.reader.readAsBinaryString(file);
       } else {
         dm.reader.readAsText(file);
-        dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, null, callback);
       }
     } else {
       container.common.createFadeMessage(dm.warning, `No file was loaded!`);
@@ -103,11 +102,11 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
   }
 }
 
-async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, blob, callback) {
+async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, callback) {
   try {
     if (dm.reader) {
-      dm.data = JSON.parse(blob
-        ? (await container.common.readZip(blob))[0].value
+      dm.data = JSON.parse(isZip
+        ? (await container.common.readZip(dm.reader.result))[0].value
         : dm.reader.result
       );
     }

@@ -14,7 +14,7 @@
     "jQuery-QueryBuilder": "^2.5.2",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
-    "jszip": "^3.1.5",
+    "jszip": "^3.2.0",
     "simple-vdf": "^1.1.1",
     "text-encoding": "^0.6.4",
     "webextension-polyfill": "0.3.1"
@@ -48,7 +48,7 @@
     "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
-  "devVersion": "8.3.0-dev.25",
+  "devVersion": "8.3.0-dev.26",
   "homepage": "https://github.com/gsrafael01/ESGST",
   "keywords": [
     "esgst",
