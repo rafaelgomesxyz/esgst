@@ -1200,8 +1200,8 @@ class GeneralMultiManager extends Module {
         return;
       }
       const reader = new FileReader();
-      reader.readAsText(file);
       reader.onload = this.mm_readFile.bind(this, obj, items, reader, resolve);
+      reader.readAsText(file);
     });
   }
 

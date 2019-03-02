@@ -1337,8 +1337,8 @@ class CommentsCommentFormattingHelper extends Module {
             if (file.type.match(/^image/)) {
               if (file.size / 1024 / 1024 <= 10) {
                 let reader = new FileReader();
-                reader.readAsDataURL(file);
                 reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, resolve);
+                reader.readAsDataURL(file);
               } else {
                 createFadeMessage(warning, `Image is larger than 10 MB!`);
                 resolve();

@@ -1,5 +1,7 @@
 import JSZip from 'jszip';
 
+Cu.importGlobalProperties(["fetch", "FileReader"]);
+
 const file = FileUtils.getFile(`ProfD`, [`esgst.sqlite`]);
 
 const TYPE_SET = 0;
@@ -153,7 +155,7 @@ async function getZip(data, fileName) {
     compressionOptions: {
       level: 9
     },
-    type: `blob`
+    type: `uint8array`
   }));
 }
 
@@ -207,33 +209,33 @@ function doFetch(parameters, request) {
       }
     }
 
-    const requestObj = Request({
-      anonymous: parameters.credentials === `omit`,
-      content: parameters.body || ``,
-      headers: parameters.headers,
-      url: request.url,
-      onComplete: async response => {
-        if (response.status < 200 || response.status > 299) {
-          resolve(JSON.stringify({ error: response.text }));
-          return;
-        }
-        const responseText = request.blob
-          ? (await readZip(response.text))[0].value
-          : response.text;
-        resolve(JSON.stringify({
-          finalUrl: response.url,
-          redirected: response.url !== request.url,
-          responseText: responseText
-        }));
+    let response = null;
+    let responseText = null;
+    try {
+      response = await fetch(request.url, parameters);
+      if (request.blob) {
+        const blob = await response.blob();
+        const reader = new FileReader();
+        const binaryString = await new Promise(resolve => {
+          reader.onload = () => resolve(reader.result);
+          reader.readAsBinaryString(blob);
+        });
+        responseText = (await readZip(binaryString))[0].value;
+      } else {
+        responseText = await response.text();
       }
-    });
-    if (parameters.method === `GET`) {
-      requestObj.get();
-    } else if (parameters.method === `POST`) {
-      requestObj.post();
-    } else if (parameters.method === `PUT`) {
-      requestObj.put();
+      if (!response.ok) {
+        throw responseText;
+      }
+    } catch (error) {
+      resolve(JSON.stringify({ error }));
+      return;
     }
+    resolve(JSON.stringify({
+      finalUrl: response.url,
+      redirected: response.redirected,
+      responseText: responseText
+    }));
   });
 }
 
