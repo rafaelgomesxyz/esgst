@@ -181,16 +181,8 @@ function addStyle() {
   `;
   }
   style += `
-  .esgst-plt {
-    font-size: 11px;
-    font-style: italic;
-    font-weight: bold;
-    margin-left: 10px;
-  }
-
-  .sidebar .esgst-plt {
-    display: block;
-    margin: 10px;
+  footer .esgst-plt {
+    margin-left: 15px;
   }
 
   .esgst-gv-popout .esgst-panel-flexbox {
