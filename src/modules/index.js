@@ -44,6 +44,7 @@ import GiveawaysGiveawayErrorSearchLinks from './Giveaways/GiveawayErrorSearchLi
 import CommentsCommentFilters from './Comments/CommentFilters';
 import DiscussionsDiscussionFilters from './Discussions/DiscussionFilters';
 import TradesTradeFilters from './Trades/TradeFilters';
+import GroupsGroupFilters from './Groups/GroupFilters';
 import GiveawaysGiveawayFilters from './Giveaways/GiveawayFilters';
 import GroupsGroupLibraryWishlistChecker from './Groups/GroupLibraryWishlistChecker';
 import GiveawaysGiveawayRecreator from './Giveaways/GiveawayRecreator';
@@ -203,6 +204,7 @@ let
   commentsCommentFilters = new CommentsCommentFilters,
   discussionsDiscussionFilters = new DiscussionsDiscussionFilters,
   tradesTradeFilters = new TradesTradeFilters,
+  groupsGroupFilters = new GroupsGroupFilters,
   giveawaysGiveawayFilters = new GiveawaysGiveawayFilters,
   groupsGroupLibraryWishlistChecker = new GroupsGroupLibraryWishlistChecker,
   giveawaysGiveawayRecreator = new GiveawaysGiveawayRecreator,
@@ -364,6 +366,7 @@ export default {
   commentsCommentFilters,
   discussionsDiscussionFilters,
   tradesTradeFilters,
+  groupsGroupFilters,
   giveawaysGiveawayFilters,
   groupsGroupLibraryWishlistChecker,
   giveawaysGiveawayRecreator,

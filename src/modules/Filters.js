@@ -40,6 +40,9 @@ class Filters extends Module {
       case `tf`:
         obj.filters = this.esgst.modules.tradesTradeFilters.tf_getFilters();
         break;
+      case `gpf`:
+        obj.filters = this.esgst.modules.groupsGroupFilters.gpf_getFilters();
+        break;
       case `cf`:
         obj.filters = this.esgst.modules.commentsCommentFilters.cf_getFilters();
         break;
@@ -354,6 +357,7 @@ class Filters extends Module {
         gf: `Giveaway`,
         df: `Discussion`,
         tf: `Trade`,
+        gpf: `Group`,
         cf: `Comment`
       };
       obj.paginationFilteredCount = createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
@@ -2019,6 +2023,8 @@ class Filters extends Module {
       items = obj.popup ? this.esgst.popupDiscussions : this.esgst.mainDiscussions;
     } else if (obj.id === `tf`) {
       items = obj.popup ? this.esgst.popupTrades : this.esgst.mainTrades;
+    } else if (obj.id === `gpf`) {
+      items = obj.popup ? this.esgst.popupGroups : this.esgst.mainGroups;
     } else {
       items = obj.popup ? this.esgst.popupComments : this.esgst.mainComments;
     }
@@ -2257,6 +2263,8 @@ class Filters extends Module {
       key = obj.popup ? `popupDiscussions` : `mainDiscussions`;
     } else if (obj.id === `tf`) {
       key = obj.popup ? `popupTrades` : `mainTrades`;
+    } else if (obj.id === `gpf`) {
+      key = obj.popup ? `popupGroups` : `mainGroups`;
     } else {
       key = obj.popup ? `popupComments` : `mainComments`;
     }

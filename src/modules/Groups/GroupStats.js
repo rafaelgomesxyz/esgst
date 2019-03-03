@@ -99,11 +99,19 @@ class GroupsGroupStats extends Module {
     for (const element of elements) {
       items.push(element);
     }
-    items.push([`div`, { class: `table__column--width-small text-center` }, responseHtml.querySelectorAll(`.sidebar__navigation__item__count`)[1].textContent]);
+    const users = responseHtml.querySelectorAll(`.sidebar__navigation__item__count`)[1].textContent;
+    group.users = parseInt(users.replace(/,/g, ``));
+    items.push([`div`, { class: `table__column--width-small text-center` }, users]);
     const lastGiveawayElement = responseHtml.querySelectorAll(`.featured__table__row__right`)[1];
     lastGiveawayElement.classList.remove(`featured__table__row__right`);
     lastGiveawayElement.classList.add(`table__column--width-small`, `text-center`);
     items.push(lastGiveawayElement);
+    const timestampElement = lastGiveawayElement.querySelector(`[data-timestamp]`);
+    if (timestampElement) {
+      group.lastGiveaway = parseInt(timestampElement.getAttribute(`data-timestamp`)) * 1e3;
+    } else {
+      group.lastGiveaway = 0;
+    }
     const steamIdElement = responseHtml.querySelector(`a[href*="/gid/"]`);
     group.steamId = steamIdElement.getAttribute(`href`).match(/\/gid\/(\d+)/)[1];
     group.type = `-`;
@@ -115,19 +123,26 @@ class GroupsGroupStats extends Module {
       });
       if (response.finalUrl.match(/steamcommunity\.com\/games\//)) {
         group.type = `Official Game Group`;
+        group.officialGameGroup = true;
       } else {
         const joinText = utils.parseHtml(response.responseText).querySelector(`.grouppage_join_area`).textContent.trim();
         if (joinText.match(/join\sgroup/i)) {
           group.type = `Open`;
+          group.open = true;
         } else if (joinText.match(/request\sto\sjoin/i)) {
           group.type = `Restricted`;
+          group.restricted = true;
         } else if (joinText.match(/membership\sby\sinvitation\sonly/i)) {
           group.type = `Closed`;
+          group.closed = true;
         }
       }
       items.push([`div`, { class: `table__column--width-small text-center` }, group.type]);
     }
     common.createElements_v2(group.container, `afterEnd`, items);
+    if (this.esgst.gpf && this.esgst.gpf.filteredCount && this.esgst[`gpf_enable${this.esgst.gpf.type}`]) {
+      this.esgst.modules.filters.filters_filter(this.esgst.gpf);
+    }
   }
 }
 
