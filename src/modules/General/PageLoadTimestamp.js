@@ -31,20 +31,28 @@ class GeneralPageLoadTimestamp extends Module {
   }
 
   init() {
-    const items = [
-      [`span`, { class: `esgst-plt` }, `This page was loaded on ${dateFns_format(Date.now(), (this.esgst.plt_format || `MMM dd, yyyy, HH:mm:ss`))}.`]
-    ];
+    const timestamp = dateFns_format(Date.now(), (this.esgst.plt_format || `MMM dd, yyyy, HH:mm:ss`));
     switch (this.esgst.plt_index) {
       case 0:
         if (this.esgst.sidebar) {
-          common.createElements_v2(this.esgst.sidebar, `afterBegin`, items);
+          common.createElements_v2(this.esgst.sidebar, `afterBegin`, [
+            [`span`, { class: `esgst-plt` }, [
+              [`h3`, { class: `sidebar__heading` }, `Page Load Timestamp`],
+              [`div`, { class: `sidebar__navigation` }, timestamp]
+            ]]
+          ]);
           break;
         }
       case 1:
         if (!this.esgst.footer) {
           return;
         }
-        common.createElements_v2(this.esgst.footer.firstElementChild.firstElementChild, `beforeEnd`, items);
+        common.createElements_v2(this.esgst.footer.firstElementChild.firstElementChild, `beforeEnd`, [
+          [`span`, { class: `esgst-plt` }, [
+            [`span`, { class: `esgst-bold` }, `Page Load Timestamp: `],
+            [`span`, timestamp]
+          ]]
+        ]);
         break;
     }
   }
