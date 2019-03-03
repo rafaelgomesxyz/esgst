@@ -1,4 +1,5 @@
 import Module from '../../class/Module';
+import Button from '../../class/Button';
 import Process from '../../class/Process';
 import { common } from '../Common';
 
@@ -70,6 +71,7 @@ class DiscussionsDiscussionHighlighter extends Module {
         }
       }
     });
+    this.esgst.discussionFeatures.push(this.dh_addButtons.bind(this));
   }
 
   async dh_initUrls(obj) {
@@ -196,6 +198,32 @@ class DiscussionsDiscussionHighlighter extends Module {
         }]
       }]
     }]);
+  }
+
+  dh_addButtons(discussions, main) {
+    for (const discussion of discussions) {
+      if (!discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) {
+        let context = main && this.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
+        let index = 0;
+        if (discussion.saved && discussion.saved.highlighted) {
+          // noinspection JSIgnoredPromiseFromCall
+          this.dh_highlightDiscussion(discussion.code, context);
+          if (this.esgst.dh_t && main && this.esgst.discussionsPath) {
+            discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
+            discussion.isPinned = true;
+          }
+          index = 2;
+        }
+        discussion.dhButton = new Button(discussion.heading.parentElement, `afterBegin`, {
+          callbacks: [this.dh_highlightDiscussion.bind(this, discussion.code, context, true), null, this.dh_unhighlightDiscussion.bind(this, discussion.code, context, true), null],
+          className: `esgst-dh-button`,
+          icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
+          id: `dh`,
+          index: index,
+          titles: [`Click to highlight this discussion`, `Highlighting discussion...`, `Click to unhighlight this discussion`, `Unhighlighting discussion...`]
+        });
+      }
+    }
   }
 
   async dh_highlightDiscussion(code, context, save) {

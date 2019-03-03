@@ -282,10 +282,13 @@ class Esgst {
       gf_m_a_sg: false,
       df_m_b_sg: false,
       df_m_a_sg: false,
+      tf_m_b_st: false,
+      tf_m_a_st: false,
       cf_m_b_sg: false,
       cf_m_a_sg: false,
       gf_presets: [],
       df_presets: [],
+      tf_presets: [],
       cf_presets: [],
       chfl_key: `ctrlKey + e`,
       getSyncGameNames_sg: false,
@@ -551,6 +554,10 @@ class Esgst {
       df_enableCreated: false,
       df_preset: null,
       df_presetCreated: null,
+      tf_enable: true,
+      tf_enableCreated: false,
+      tf_preset: null,
+      tf_presetCreated: null,
       ds_auto: false,
       ds_option: `sortIndex_asc`,
       elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
@@ -939,11 +946,13 @@ class Esgst {
     this.currentGroups = {};
     this.mainGiveaways = [];
     this.mainDiscussions = [];
+    this.mainTrades = [];
     this.mainUsers = [];
     this.mainGames = [];
     this.mainGroups = [];
     this.popupGiveaways = [];
     this.popupDiscussions = [];
+    this.popupTrades = [];
     this.popupUsers = [];
     this.popupGames = [];
     this.popupGroups = [];
@@ -952,6 +961,7 @@ class Esgst {
     this.groupFeatures = [];
     this.giveawayFeatures = [];
     this.discussionFeatures = [];
+    this.tradeFeatures = [];
     this.profileFeatures = [];
     this.userFeatures = [];
     this.endlessFeatures = [];
@@ -1009,10 +1019,6 @@ class Esgst {
 
     /** @type {boolean} */
     this.firstInstall = undefined;
-
-    this.df_preset = null;
-
-    this.df_presets = null;
 
     this.giveaways = null;
 
@@ -1383,8 +1389,6 @@ class Esgst {
 
     this.gc_g = null;
 
-    this.df_m = null;
-
     this.gc_a = null;
 
     this.gc_aIcon = null;
@@ -1418,8 +1422,6 @@ class Esgst {
     this.ff = null;
 
     this.ib = null;
-
-    this.df_enable = null;
 
     this.gc_tcIcon = null;
 
@@ -1944,8 +1946,6 @@ class Esgst {
 
     this.ged = null;
 
-    this.df_s = null;
-
     this.dh = null;
 
     this.gdttt = null;
@@ -2227,7 +2227,7 @@ class Esgst {
     this.giveawayCommentsPath = window.location.pathname.match(/^\/giveaway\/(?!.+\/(entries|winners|groups))/);
     this.discussionsTicketsPath = window.location.pathname.match(/^\/(discussions|support\/tickets)/);
     this.ticketsPath = window.location.pathname.match(/^\/support\/tickets/);
-    this.tradesPath = window.location.href.match(/steamtrades.com($|\/$|\/trades)/);
+    this.tradesPath = window.location.href.match(/steamtrades.com($|\/$|\/trades(?!\/(new|edit)))/);
     this.discussionsTicketsTradesPath = window.location.href.match(/steamtrades.com($|\/$)/) || window.location.pathname.match(/^\/(discussions|support\/tickets|trades)/);
     this.discussionTicketTradeCommentsPath = window.location.pathname.match(/^\/(discussion|support\/ticket|trade)\//);
     this.archivePath = window.location.pathname.match(/^\/archive/);
@@ -2239,6 +2239,8 @@ class Esgst {
     this.discussionsPath = window.location.pathname.match(/^\/discussions(?!\/(new|edit))/);
     this.newDiscussionPath = window.location.pathname.match(/^\/discussions\/new/);
     this.editDiscussionPath = window.location.pathname.match(/^\/discussions\/edit/);
+    this.newTradePath = window.location.pathname.match(/^\/trades\/new/);
+    this.editTradePath = window.location.pathname.match(/^\/trades\/edit/);
     this.createdDiscussionsPath = window.location.pathname.match(/^\/discussions\/created/);
     this.newGiveawayPath = window.location.pathname.match(/^\/giveaways\/new/);
     this.newTicketPath = window.location.pathname.match(/^\/support\/tickets\/new/);

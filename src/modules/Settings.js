@@ -136,6 +136,12 @@ function loadMenu(isPopup) {
       onClick: event => container.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
     },
     {
+      check: !container.esgst.parameters.esgst && container.esgst.st && container.esgst.tf && container.esgst.tf_s,
+      icons: [`fa-retweet`, `fa-eye-slash`],
+      title: `Manage hidden trades`,
+      onClick: event => container.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
+    },
+    {
       check: !container.esgst.parameters.esgst && container.esgst.sg && container.esgst.dt,
       icons: [`fa-comments`, `fa-tags`],
       title: `Manage discussion tags`,
@@ -921,6 +927,7 @@ function setElementOrderingSection(context) {
       ctRead: `Comment Tracker (Mark As Read)`,
       ctUnread: `Comment Tracker (Mark As Unread)`,
       df: `Discussion Filters`,
+      tf: `Trade Filters`,
       ds: `Discussion Sorter`,
       gas: `Giveaway Sorter`,
       ge: `Giveaway Extractor`,

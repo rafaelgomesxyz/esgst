@@ -2350,6 +2350,12 @@ class Common extends Module {
           callback: this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {})
         },
         {
+          click: true,
+          check: this.esgst.st && this.esgst.tf && this.esgst.tf_s,
+          name: `Manage hidden trades`,
+          callback: this.esgst.modules.tradesTradeFilters.tf_menu.bind(this.esgst.modules.tradesTradeFilters, {})
+        },
+        {
           check: this.esgst.sg && this.esgst.dt,
           name: `Manage discussion tags`,
           callback: this.openManageDiscussionTagsPopup.bind(this)

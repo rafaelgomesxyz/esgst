@@ -1,5 +1,4 @@
 import Module from '../class/Module';
-import Button from '../class/Button';
 import {common} from './Common';
 
 const
@@ -25,12 +24,26 @@ class Discussions extends Module {
     if (main) {
       for (let i = discussions.length - 1; i > -1; --i) {
         discussions[i].sortIndex = this.esgst.mainDiscussions.length;
-        this.esgst.mainDiscussions.push(discussions[i]);
+        switch (discussions[i].type) {
+          case `discussion`:
+            this.esgst.mainDiscussions.push(discussions[i]);
+            break;
+          case `trade`:
+            this.esgst.mainTrades.push(discussions[i]);
+            break;
+        }
       }
     } else {
       for (let i = discussions.length - 1; i > -1; --i) {
         discussions[i].sortIndex = this.esgst.popupDiscussions.length;
-        this.esgst.popupDiscussions.push(discussions[i]);
+        switch (discussions[i].type) {
+          case `discussion`:
+            this.esgst.popupDiscussions.push(discussions[i]);
+            break;
+          case `trade`:
+            this.esgst.popupTrades.push(discussions[i]);
+            break;
+        }
       }
     }
     if (!main || this.esgst.discussionsPath) {
@@ -41,11 +54,19 @@ class Discussions extends Module {
         sortContent(this.esgst.mainDiscussions, null, this.esgst.ds_option);
       }
     }
+    if (!main || this.esgst.tradesPath) {
+      if (this.esgst.tf && this.esgst.tf.filteredCount && this.esgst[`tf_enable${this.esgst.tf.type}`]) {
+        this.esgst.modules.filters.filters_filter(this.esgst.tf, false, endless);
+      }
+    }
     if (this.esgst.mm_enableDiscussions && this.esgst.mm_enable) {
       this.esgst.mm_enable(this.esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
     }
     for (const feature of this.esgst.discussionFeatures) {
-      await feature(discussions);
+      await feature(discussions.filter(x => !x.menu && x.type === `discussion`), main);
+    }
+    for (const feature of this.esgst.tradeFeatures) {
+      await feature(discussions.filter(x => !x.menu && x.type === `trade`), main);
     }
   }
 
@@ -66,7 +87,7 @@ class Discussions extends Module {
         tagPosition: `afterEnd`
       });
     }
-    elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`);
+    elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.table__row-outer-wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.table__row-outer-wrap, .row_outer_wrap`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       let discussion = await this.discussions_getInfo(elements[i], main);
       if (!discussion) continue;
@@ -88,89 +109,34 @@ class Discussions extends Module {
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
       discussions.push(discussion);
     }
-    discussions.forEach(discussion => {
-      if (discussion.menu) {
-        return;
-      }
-      let savedDiscussion = this.esgst.discussions[discussion.code];
-      if (this.esgst.codb && discussion.author === this.esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
-        if (discussion.closed) {
-          discussion.closed.remove();
-          discussion.closed = true;
-        }
-        new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_close.bind(this.esgst.modules.discussionsCloseOpenDiscussionButton, discussion), null, this.esgst.modules.discussionsCloseOpenDiscussionButton.codb_open.bind(this.esgst.modules.discussionsCloseOpenDiscussionButton, discussion), null],
-          className: `esgst-codb-button`,
-          icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
-          id: `codb`,
-          index: discussion.closed ? 2 : 0,
-          titles: [`Close discussion`, `Closing discussion...`, `Open discussion`, `Opening discussion...`]
-        });
-      }
-      if (this.esgst.df && this.esgst.df_s && !discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
-        new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
-          callbacks: [this.esgst.modules.discussionsDiscussionFilters.df_hideDiscussion.bind(this.esgst.modules.discussionsDiscussionFilters, discussion, main), null, this.esgst.modules.discussionsDiscussionFilters.df_unhideDiscussion.bind(this.esgst.modules.discussionsDiscussionFilters, discussion, main), null],
-          className: `esgst-df-button`,
-          icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
-          id: `df_s`,
-          index: savedDiscussion && savedDiscussion.hidden ? 2 : 0,
-          titles: [`Hide discussion`, `Hiding discussion...`, `Unhide discussion`, `Unhiding discussion...`]
-        });
-      }
-      if (this.esgst.dh && !discussion.heading.parentElement.getElementsByClassName(`esgst-dh-button`)[0]) {
-        let context = main && this.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
-        let index = 0;
-        if (savedDiscussion && savedDiscussion.highlighted) {
-          // noinspection JSIgnoredPromiseFromCall
-          this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion(discussion.code, context);
-          if (this.esgst.dh_t && main && this.esgst.discussionsPath) {
-            discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
-            discussion.isPinned = true;
-          }
-          index = 2;
-        }
-        discussion.dhButton = new Button(discussion.heading.parentElement, `afterBegin`, {
-          callbacks: [this.esgst.modules.discussionsDiscussionHighlighter.dh_highlightDiscussion.bind(this.esgst.modules.discussionsDiscussionHighlighter, discussion.code, context, true), null, this.esgst.modules.discussionsDiscussionHighlighter.dh_unhighlightDiscussion.bind(this.esgst.modules.discussionsDiscussionHighlighter, discussion.code, context, true), null],
-          className: `esgst-dh-button`,
-          icons: [`fa-star-o esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-star esgst-clickable`, `fa-circle-o-notch fa-spin`],
-          id: `dh`,
-          index: index,
-          titles: [`Click to highlight this discussion`, `Highlighting discussion...`, `Click to unhighlight this discussion`, `Unhighlighting discussion...`]
-        });
-      }
-      if (this.esgst.pm && (this.esgst.pm_a || discussion.category === `Puzzles`)) {
-        let context = main && this.esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
-        if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
-          context.classList.add(`esgst-relative`);
-          new Button(context, `afterBegin`, {
-            callbacks: [this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `unsolved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `in progress`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `solved`), null, this.esgst.modules.discussionsPuzzleMarker.pm_change.bind(this.esgst.modules.discussionsPuzzleMarker, discussion.code, `off`), null],
-            className: `esgst-pm-button`,
-            icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
-            id: `pm`,
-            index: [`off`, ``, `unsolved`, ``, `in progress`, ``, `solved`].indexOf((savedDiscussion && savedDiscussion.status) || `off`),
-            titles: [`Current status is 'off', click to change to 'unsolved'`, `Changing status...`, `Current status is 'unsolved', click to change to 'in progress'`, `Changing status...`, `Current status is 'in progress', click to change to 'solved'`, `Changing status...`, `Current status is 'solved', click to change to 'off'`, `Changing status...`]
-          });
-        }
-      }
-    });
     return discussions;
   }
 
   async discussions_getInfo(context, main) {
     let match, discussion, savedUser, uf;
-    if (context.closest(`.poll`)) return;
+    if (context.closest(`.poll`)) {
+      return;
+    }
     discussion = {};
     discussion.outerWrap = context;
-    discussion.innerWrap = discussion.outerWrap.getElementsByClassName(`table__row-inner-wrap`)[0];
-    if (!discussion.innerWrap) return;
+    discussion.innerWrap = discussion.outerWrap.querySelector(`.table__row-inner-wrap, .row_inner_wrap`);
+    if (!discussion.innerWrap) {
+      return;
+    }
     discussion.avatarColumn = discussion.innerWrap.firstElementChild;
-    if (!discussion.avatarColumn) return;
+    if (!discussion.avatarColumn) {
+      return;
+    }
     discussion.avatar = discussion.avatarColumn.firstElementChild;
-    if (!discussion.avatar) return;
+    if (!discussion.avatar) {
+      return;
+    }
     discussion.headingColumn = discussion.avatarColumn.nextElementSibling;
     discussion.headingContainer = discussion.headingColumn.firstElementChild;
-    if (!discussion.headingContainer) return;
-    discussion.closed = discussion.headingContainer.getElementsByClassName(`fa-lock`)[0];
+    if (!discussion.headingContainer) {
+      return;
+    }
+    discussion.closed = discussion.headingContainer.querySelector(`.fa-lock`);
     discussion.heading = discussion.headingContainer.lastElementChild;
     discussion.info = discussion.headingContainer.nextElementSibling;
     if (!discussion.heading) {
@@ -181,29 +147,48 @@ class Discussions extends Module {
     if (!discussion.url) {
       return;
     }
-    match = discussion.url.match(/discussion\/(.+?)\//);
+    match = discussion.url.match(/(discussion|trade)\/(.+?)\//);
     if (!match) {
       return;
     }
-    discussion.code = match[1];
-    if (main && this.esgst.df && this.esgst.df_s && this.esgst.discussions[discussion.code] && this.esgst.discussions[discussion.code].hidden) {
-      discussion.outerWrap.remove();
-      return;
+    discussion.type = match[1];
+    discussion.code = match[2];
+    switch (discussion.type) {
+      case `discussion`:
+        discussion.saved = this.esgst.discussions[discussion.code];
+        if (main && this.esgst.df && this.esgst.df_s && discussion.saved && discussion.saved.hidden) {
+          discussion.outerWrap.remove();
+          return;
+        }
+        discussion.categoryContainer = discussion.info.firstElementChild;
+        if (discussion.headingColumn.nextElementSibling) {
+          discussion.category = discussion.categoryContainer.textContent;
+          discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => {
+            return p1.toLowerCase();
+          })] = true;
+        } else {
+          discussion.category = ``;
+        }
+        discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
+        break;
+      case `trade`:
+        discussion.saved = this.esgst.trades[discussion.code];
+        if (main && this.esgst.tf && this.esgst.tf_s && discussion.saved && discussion.saved.hidden) {
+          discussion.outerWrap.remove();
+          return;
+        }
+        discussion.createdContainer = discussion.info.firstElementChild;
+        discussion.reputationElement = discussion.info.querySelector(`.reputation`);
+        discussion.positiveReputationElement = discussion.reputationElement.querySelector(`.is_positive`);
+        discussion.negativeReputationElement = discussion.reputationElement.querySelector(`.is_negative`);
+        discussion.positiveReputation = parseInt(discussion.positiveReputationElement.textContent.replace(/[^\d]/g, ``));
+        discussion.negativeReputation = parseInt(discussion.negativeReputationElement.textContent.replace(/[^\d]/g, ``));
+        break;
     }
-    if (this.esgst.discussions[discussion.code]) {
-      discussion.highlighted = this.esgst.discussions[discussion.code].highlighted;
-      discussion.visited = this.esgst.discussions[discussion.code].visited;
+    if (discussion.saved) {
+      discussion.highlighted = discussion.saved.highlighted;
+      discussion.visited = discussion.saved.visited;
     }
-    discussion.categoryContainer = discussion.info.firstElementChild;
-    if (discussion.headingColumn.nextElementSibling) {
-      discussion.category = discussion.categoryContainer.textContent;
-      discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => {
-        return p1.toLowerCase();
-      })] = true;
-    } else {
-      discussion.category = ``;
-    }
-    discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
     if (discussion.createdContainer) {
       discussion.createdTime = discussion.createdContainer.textContent;
       discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
@@ -213,10 +198,12 @@ class Discussions extends Module {
         discussion.author = discussion.createdContainer.nextElementSibling.textContent;
       }
     }
-    if (!discussion.author) return;
+    if (!discussion.author) {
+      return;
+    }
     discussion.authors = [discussion.author.toLowerCase()];
     discussion.created = discussion.author === this.esgst.username;
-    discussion.poll = discussion.outerWrap.getElementsByClassName(`fa-align-left`)[0];
+    discussion.poll = discussion.outerWrap.querySelector(`.fa-align-left`);
     discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
     if (discussion.commentsColumn) {
       discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
@@ -224,11 +211,18 @@ class Discussions extends Module {
         discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, ``);
       }
     }
-    discussion.lastPost = discussion.outerWrap.getElementsByClassName(`table__column--last-comment`)[0];
+    discussion.lastPost = discussion.outerWrap.querySelector(`.table__column--last-comment, .column_last_update`);
     if (discussion.lastPost && discussion.lastPost.firstElementChild) {
       discussion.lastPostTime = discussion.lastPost.firstElementChild.firstElementChild;
       discussion.lastPostAuthor = discussion.lastPostTime.nextElementSibling;
-      discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute(`href`).match(/\/comment\/(.+)/)[1];
+      discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute(`href`).match(/\/comment\/(.+)/);
+      if (discussion.lastPostCode) {
+        discussion.lastPostCode = discussion.lastPostCode[1];
+        discussion.wasLastPostBump = false;
+      } else {
+        discussion.lastPostCode = null;
+        discussion.wasLastPostBump = true;
+      }
       discussion.lastPostAuthor = discussion.lastPostAuthor.firstElementChild.textContent;
       discussion.lastPostTime = discussion.lastPostTime.firstElementChild;
       discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
@@ -239,27 +233,30 @@ class Discussions extends Module {
     discussion.container = discussion.headingContainer;
     discussion.tagContext = discussion.headingContainer;
     discussion.tagPosition = `beforeEnd`;
-    discussion.saved = this.esgst.discussions[discussion.code];
-    if (this.esgst.uf) {
-      savedUser = await getUser(this.esgst.users, {
-        username: discussion.author
-      });
-      if (savedUser) {
-        uf = savedUser.uf;
-        if (this.esgst.uf_d && savedUser.blacklisted && !uf) {
-          if (!this.esgst.giveawaysPath) {
-            this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+    switch (discussion.type) {
+      case `discussion`:
+        if (this.esgst.uf) {
+          savedUser = await getUser(this.esgst.users, {
+            username: discussion.author
+          });
+          if (savedUser) {
+            uf = savedUser.uf;
+            if (this.esgst.uf_d && savedUser.blacklisted && !uf) {
+              if (!this.esgst.giveawaysPath) {
+                this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+              }
+              discussion.outerWrap.remove();
+              return;
+            } else if (uf && uf.discussions) {
+              if (!this.esgst.giveawaysPath) {
+                this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
+              }
+              discussion.outerWrap.remove();
+              return;
+            }
           }
-          discussion.outerWrap.remove();
-          return;
-        } else if (uf && uf.discussions) {
-          if (!this.esgst.giveawaysPath) {
-            this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
-          }
-          discussion.outerWrap.remove();
-          return;
         }
-      }
+        break;
     }
     return discussion;
   }
