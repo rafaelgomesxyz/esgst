@@ -129,7 +129,23 @@ class Esgst {
         { name: `ESGST - Group Library / Wishlist Checker`, pattern: `^/account/settings/profile\\?esgst=glwc` }
       ],
       st: [
-        { name: `Everywhere`, pattern: `.*` }
+        { name: `Everywhere`, pattern: `.*` },
+        { name: `Trades`, pattern: `^/($|trades)` },
+        { name: `Browse Trades`, pattern: `^/($|trades($|/search))` },
+        { name: `My Trades - New`, pattern: `^/trades/new` },
+        { name: `My Trades - Created`, pattern: `^/trades/search\\?user=%steamId%` },
+        { name: `Trade`, pattern: `^/trade/` },
+        { name: `Vote`, pattern: `^/vote/` },
+        { name: `Messages`, pattern: `^/messages` },
+        { name: `User`, pattern: `^/user` },
+        { name: `Reviews`, pattern: `^/reviews` },
+        { name: `Comments`, pattern: `^/comments` },
+        { name: `Settings`, pattern: `^/settings$` },
+        { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting$` },
+        { name: `About - Guidelines`, pattern: `^/about/guidelines$` },
+        { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy$` },
+        { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy$` },
+        { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service$` }
       ],
       sgtools: [
         { name: `Everywhere`, pattern: `.*` }
