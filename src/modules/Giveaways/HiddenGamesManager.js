@@ -228,7 +228,7 @@ class GiveawaysHiddenGameManager extends Module {
         context = parseHtml((await request({ method: `GET`, url: `${url}${nextPage}` })).responseText);
       }
       if (!obj.lastPage) {
-        obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document);
         obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
       }
       createElements(obj.progress, `inner`, [{

@@ -143,6 +143,7 @@ class GeneralEndlessScrolling extends Module {
 
   es() {
     if (!this.esgst.mainPageHeading || !this.esgst.pagination) return;
+    this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, ``)) + 1;
     let es = {};
     this.esgst.es = es;
     es.divisors = this.esgst.es_pd;
