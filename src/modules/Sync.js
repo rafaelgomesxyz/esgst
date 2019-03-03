@@ -1009,7 +1009,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     try {
       const responseText = (await container.common.request({
         method: `GET`,
-        url: `http://store.steampowered.com/wishlist/profiles/${container.esgst.steamId}?l=en`
+        url: `http://store.steampowered.com/wishlist/profiles/${container.esgst.steamId}?cc=us&l=english`
       })).responseText,
         match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
       if (match) {

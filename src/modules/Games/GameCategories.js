@@ -1468,7 +1468,7 @@ class GamesGameCategories extends Module {
     const response = await request({
       headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
       method: `GET`,
-      url: `https://store.steampowered.com/bundle/${bundleId}?cc=us&l=en`
+      url: `https://store.steampowered.com/bundle/${bundleId}?cc=us&l=english`
     });
     const html = parseHtml(response.responseText);
     return {
@@ -1643,7 +1643,7 @@ class GamesGameCategories extends Module {
         let responseJson = typeof id === `string` && id.match(/^SteamBundle/) ? (await this.gc_fakeBundle(id)) : JSON.parse((await request({
           anon: true,
           method: `GET`,
-          url: `https://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=en`
+          url: `https://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=english`
         })).responseText);
         /**
          * @type {gcResponseData}
@@ -1744,7 +1744,7 @@ class GamesGameCategories extends Module {
             let response = await request({
               headers: { [`Cookie`]: `birthtime=0; mature_content=1` },
               method: `GET`,
-              url: `https://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=en`
+              url: `https://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=english`
             });
             let responseHtml = parseHtml(response.responseText);
             if (response.finalUrl.match(id)) {
@@ -1804,7 +1804,7 @@ class GamesGameCategories extends Module {
             categories.freeBase = JSON.parse((await request({
               anon: true,
               method: `GET`,
-              url: `https://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=en`
+              url: `https://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=english`
             })).responseText)[data.fullgame.appid].data.is_free;
           }
         }
