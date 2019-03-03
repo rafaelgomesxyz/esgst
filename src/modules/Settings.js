@@ -928,6 +928,7 @@ function setElementOrderingSection(context) {
       ctUnread: `Comment Tracker (Mark As Unread)`,
       df: `Discussion Filters`,
       tf: `Trade Filters`,
+      gpf: `Group Filters`,
       ds: `Discussion Sorter`,
       gas: `Giveaway Sorter`,
       ge: `Giveaway Extractor`,
