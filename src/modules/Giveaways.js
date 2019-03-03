@@ -286,7 +286,7 @@ class Giveaways extends Module {
     }
     if (this.esgst.gf && this.esgst.gf_s && main) {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
-      if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code) {
+      if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code && savedGiveaway.endTime && savedGiveaway.endTime > Date.now()) {
         giveaway.outerWrap.remove();
         return;
       }

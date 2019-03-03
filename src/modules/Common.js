@@ -2422,11 +2422,12 @@ class Common extends Module {
     let gfGiveaways, giveaway, hidden, i, key, n, popup, set;
     popup = new Popup({ addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways` });
     hidden = [];
+    const now = Date.now();
     for (key in this.esgst.giveaways) {
       if (this.esgst.giveaways.hasOwnProperty(key)) {
         giveaway = this.esgst.giveaways[key];
         if (giveaway.hidden && giveaway.code && giveaway.endTime) {
-          if (Date.now() >= giveaway.endTime) {
+          if (now >= giveaway.endTime) {
             delete giveaway.hidden;
           } else {
             hidden.push(giveaway);
