@@ -499,6 +499,13 @@ import { runSilentSync } from './modules/Sync';
       window.location.href = `${window.location.href}/`;
     }
 
+    for (const key in esgst.paths) {
+      for (const item of esgst.paths[key]) {
+        item.pattern = item.pattern
+          .replace(/%steamId%/, esgst.steamId);
+      }
+    }
+
     if (esgst.accountPath && window.location.href.match(/state=dropbox/)) {
       await common.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
       window.close();
