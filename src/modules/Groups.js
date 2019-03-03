@@ -12,76 +12,70 @@ class Groups extends Module {
     };
   }
 
-  async groups_load(mainContext, main, source, endless) {
-    const elements = mainContext.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*='/group/'], .esgst-es-page-${endless}a[href*='/group/']` : `a[href*='/group/']`}, .form_list_item_summary_name`);
+  async groups_load(context, main, source, endless) {
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*="/group/"], .esgst-es-page-${endless}a[href*="/group/"]` : `a[href*="/group/"]`}, .form_list_item_summary_name`);
     if (!elements.length) {
       return;
     }
     const groups = [];
-    for (let i = elements.length - 1; i > -1; i--) {
-      let element = elements[i];
-      let match = null;
-      if (element.getAttribute(`href`)) {
-        match = element.getAttribute(`href`).match(/\/group\/(.+?)\//);
-        if (!match) {
-          continue;
-        }
-      }
+    for (const element of elements) {
       if (!element.textContent || element.children.length || element.closest(`.markdown`)) {
         continue;
       }
-      let savedGroup = null;
-      if (!match) {
+      const group = {
+        saved: null,
+        url: element.getAttribute(`href`)
+      };
+      if (group.url) {
+        const match = group.url.match(/\/group\/(.+?)\//);
+        if (match) {
+          group.id = match[1];
+          group.saved = this.esgst.groups.filter(x => x.code === group.id)[0];
+        }
+      }
+      if (!group.id) {
         const avatarImage = element.parentElement.previousElementSibling;
         const avatar = avatarImage.style.backgroundImage;
-        savedGroup = this.esgst.groups.filter(group => avatar.match(group.avatar))[0];
+        group.saved = this.esgst.groups.filter(x => avatar.match(x.avatar))[0];
+        group.id = group.saved && group.saved.code;
       }
-      const id = (match && match[1]) || (savedGroup && savedGroup.code);
-      if (!id) {
+      if (!group.id) {
         continue;
       }
-      if (!this.esgst.currentGroups[id]) {
-        this.esgst.currentGroups[id] = {
-          elements: []
+      group.code = group.id;
+      if (!this.esgst.currentGroups[group.id]) {
+        this.esgst.currentGroups[group.id] = {
+          elements: [],
+          savedGroup: group.saved
         };
-        if (!savedGroup) {
-          savedGroup = this.esgst.groups.filter(group => group.code === id)[0];
-        }
-        this.esgst.currentGroups[id].savedGroup = savedGroup
       }
-      let j;
-      for (j = this.esgst.currentGroups[id].elements.length - 1; j > -1 && this.esgst.currentGroups[id].elements[j] !== element; j--) {
-      }
-      if (j > -1) {
+      if (this.esgst.currentGroups[group.id].elements.indexOf(element) > -1) {
         continue;
       }
-      const name = element.textContent.trim();
+      group.name = element.textContent.trim();
       const container = element.parentElement;
-      const oldElement = element;
+      group.oldElement = element;
       if (this.esgst.groupPath && container.classList.contains(`page__heading__breadcrumbs`)) {
-        element = document.getElementsByClassName(`featured__heading__medium`)[0];
+        group.element = document.getElementsByClassName(`featured__heading__medium`)[0];
+        group.container = group.element.parentElement;
+      } else {
+        group.element = element;
+        group.container = container;
       }
-      this.esgst.currentGroups[id].elements.push(element);
-      const context = element;
-      this.esgst[main ? `mainGroups` : `popupGroups`].push({
-        code: id,
-        innerWrap: context,
-        name,
-        outerWrap: context
-      });
-      const isHeading = context.classList.contains(`featured__heading__medium`);
-      const tagContainer = context.parentElement;
-      groups.push({
-        container: tagContainer,
-        context,
-        element,
-        id,
-        name,
-        oldElement,
-        saved: savedGroup,
-        tagContext: isHeading ? tagContainer : context,
-        tagPosition: isHeading ? `beforeEnd` : `afterEnd`
-      });
+      group.context = group.element;
+      this.esgst.currentGroups[group.id].elements.push(group.element);
+      group.innerWrap = element.closest(`.table__row-inner-wrap`) || group.container;
+      group.outerWrap = element.closest(`.table__row-outer-wrap`) || group.container;
+      const isHeading = group.context.classList.contains(`featured__heading__medium`);
+      if (isHeading) {
+        group.tagContext = group.container;
+        group.tagPosition = `beforeEnd`;
+      } else {
+        group.tagContext = group.context;
+        group.tagPosition = `afterEnd`;
+      }
+      this.esgst[main ? `mainGroups` : `popupGroups`].push(group);
+      groups.push(group);
     }
     for (const feature of this.esgst.groupFeatures) {
       await feature(groups, main, source, endless);

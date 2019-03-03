@@ -2,12 +2,6 @@ import Module from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
-const
-  parseHtml = utils.parseHtml.bind(utils),
-  createElements = common.createElements.bind(common),
-  request = common.request.bind(common)
-  ;
-
 class GroupsGroupStats extends Module {
   constructor() {
     super();
@@ -15,12 +9,18 @@ class GroupsGroupStats extends Module {
       description: [
         [`ul`, [
           [`li`, [
-            `Adds 5 columns ("Sent", "Received", "Gift Difference", "Value Difference" and "Users") to your `,
+            `Adds some columns to your `,
             [`a`, { href: `https://www.steamgifts.com/account/steam/groups` }, `groups`],
             ` page that show some stats about each group.`
           ]]
         ]]
       ],
+      features: {
+        gs_t: {
+          name: `Request the type of the group (takes a bit longer to check if the group is open, restricted, closed or an official game group).`,
+          sg: true
+        }
+      },
       id: `gs`,
       load: this.gs,
       name: `Group Stats`,
@@ -30,8 +30,10 @@ class GroupsGroupStats extends Module {
   }
 
   gs() {
-    if (!this.esgst.groupsPath) return;
-    createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
+    if (!this.esgst.groupsPath) {
+      return;
+    }
+    common.createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
       attributes: {
         class: `table__column--width-small text-center`
       },
@@ -61,36 +63,71 @@ class GroupsGroupStats extends Module {
       },
       text: `Users`,
       type: `div`
-    }]);
-    this.esgst.endlessFeatures.push(this.gs_getGroups.bind(this));
-  }
-
-  gs_getGroups(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
-    for (let i = 0, n = elements.length; i < n; i++) {
-      // noinspection JSIgnoredPromiseFromCall
-      this.gs_addStatus(elements[i]);
-    }
-  }
-
-  async gs_addStatus(context) {
-    let responseHtml = parseHtml((await request({
-      method: `GET`,
-      url: `${context.getElementsByClassName(`table__column__heading`)[0].getAttribute(`href`)}/users/search?q=${this.esgst.username}`
-    })).responseText);
-    let element = responseHtml.getElementsByClassName(`table__row-inner-wrap`)[0];
-    if (!element || element.getElementsByClassName(`table__column__heading`)[0].textContent !== this.esgst.username) return;
-    let elements = element.getElementsByClassName(`table__column--width-small`);
-    for (let i = 0, n = elements.length; i < n; i++) {
-      context.appendChild(elements[0]);
-    }
-    createElements(context, `beforeEnd`, [{
+    }, {
       attributes: {
         class: `table__column--width-small text-center`
       },
-      text: responseHtml.getElementsByClassName(`sidebar__navigation__item__count`)[1].textContent,
+      text: `Last Giveaway`,
       type: `div`
-    }]);
+    }, this.esgst.gs_t ? {
+      attributes: {
+        class: `table__column--width-small text-center`
+      },
+      text: `Type`,
+      type: `div`
+    } : null]);
+    this.esgst.groupFeatures.push(this.gs_getGroups.bind(this));
+  }
+
+  gs_getGroups(groups) {
+    for (const group of groups) {
+      this.gs_addStatus(group);
+    }
+  }
+
+  async gs_addStatus(group) {
+    const items = [];
+    const responseHtml = utils.parseHtml((await common.request({
+      method: `GET`,
+      url: `${group.url}/users/search?q=${this.esgst.username}`
+    })).responseText);
+    const context = responseHtml.querySelector(`.table__row-inner-wrap`);
+    if (!context || context.querySelector(`.table__column__heading`).textContent !== this.esgst.username) {
+      return;
+    }
+    const elements = context.querySelectorAll(`.table__column--width-small`);
+    for (const element of elements) {
+      items.push(element);
+    }
+    items.push([`div`, { class: `table__column--width-small text-center` }, responseHtml.querySelectorAll(`.sidebar__navigation__item__count`)[1].textContent]);
+    const lastGiveawayElement = responseHtml.querySelectorAll(`.featured__table__row__right`)[1];
+    lastGiveawayElement.classList.remove(`featured__table__row__right`);
+    lastGiveawayElement.classList.add(`table__column--width-small`, `text-center`);
+    items.push(lastGiveawayElement);
+    const steamIdElement = responseHtml.querySelector(`a[href*="/gid/"]`);
+    group.steamId = steamIdElement.getAttribute(`href`).match(/\/gid\/(\d+)/)[1];
+    group.type = `-`;
+    if (this.esgst.gs_t) {
+      const response = await common.request({
+        anon: true,
+        method: `GET`,
+        url: `https://steamcommunity.com/gid/${group.steamId}?cc=us&l=english`
+      });
+      if (response.finalUrl.match(/steamcommunity\.com\/games\//)) {
+        group.type = `Official Game Group`;
+      } else {
+        const joinText = utils.parseHtml(response.responseText).querySelector(`.grouppage_join_area`).textContent.trim();
+        if (joinText.match(/join\sgroup/i)) {
+          group.type = `Open`;
+        } else if (joinText.match(/request\sto\sjoin/i)) {
+          group.type = `Restricted`;
+        } else if (joinText.match(/membership\sby\sinvitation\sonly/i)) {
+          group.type = `Closed`;
+        }
+      }
+      items.push([`div`, { class: `table__column--width-small text-center` }, group.type]);
+    }
+    common.createElements_v2(group.container, `afterEnd`, items);
   }
 }
 
