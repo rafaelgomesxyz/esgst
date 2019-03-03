@@ -40,7 +40,7 @@ class GeneralLastPageLink extends Module {
     paginationNavigation = context.getElementsByClassName(`pagination__navigation`)[0];
     if (paginationNavigation) {
       element = paginationNavigation.lastElementChild;
-      if (element.querySelector(`.fa-angle-double-right`)) {
+      if (element.classList.contains(`is-selected`) || element.classList.contains(`is_selected`) || element.querySelector(`.fa-angle-double-right`)) {
         lastPage = parseInt(element.getAttribute(`data-page-number`));
       } else if ((main && this.esgst.discussionPath) || discussion) {
         if (pagination) {
@@ -75,7 +75,7 @@ class GeneralLastPageLink extends Module {
         if (second) {
           third = second.nextElementSibling;
           if (third && !third.textContent.match(/Giveaway\sFilters/)) {
-            lastPage = Math.ceil(parseInt(third.textContent.replace(/,/g, ``)) / parseInt(second.textContent.replace(/,/g, ``)));
+            lastPage = Math.ceil(parseInt(third.textContent.replace(/,/g, ``)) / ((main && this.esgst.itemsPerPage) || (parseInt(second.textContent.replace(/,/g, ``)) - parseInt(first.textContent.replace(/,/g, ``)) + 1)));
           }
         }
       }

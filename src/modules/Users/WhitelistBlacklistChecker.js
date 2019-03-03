@@ -888,7 +888,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         }
       }
       if (nextPage === 1) {
-        obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, false, false, true);
+        obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document, false, true);
         obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
       }
       createElements(obj.Progress, `inner`, [{

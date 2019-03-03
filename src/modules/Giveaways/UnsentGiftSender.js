@@ -264,7 +264,7 @@ class GiveawaysUnsentGiftSender extends Module {
         })).responseText);
       }
       if (nextPage === 1) {
-        ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document);
         ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
       }
       createElements(ugs.progress, `inner`, [{

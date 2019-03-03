@@ -186,7 +186,7 @@ class GiveawaysSentKeySearcher extends Module {
       skipped = false;
       if (nextPage === this.esgst.currentPage) {
         context = document;
-        sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
+        sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, true);
         sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
       } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}`)[0]) {
         skipped = true;
