@@ -113,7 +113,20 @@ class Esgst {
         { name: `Stats - Community - Comments`, pattern: `^/stats/community/comments$` },
         { name: `Stats - Community - Support`, pattern: `^/stats/community/support$` },
         { name: `Stats - Community - Users`, pattern: `^/stats/community/users$` },
-        { name: `Stats - Steam - Games`, pattern: `^/stats/steam/games$` }
+        { name: `Stats - Steam - Games`, pattern: `^/stats/steam/games$` },
+        { name: `ESGST - Settings`, pattern: `^/account/settings/profile\?esgst=settings` },
+        { name: `ESGST - Sync`, pattern: `^/account/settings/profile\?esgst=sync` },
+        { name: `ESGST - Backup`, pattern: `^/account/settings/profile\?esgst=backup` },
+        { name: `ESGST - Restore`, pattern: `^/account/settings/profile\?esgst=restore` },
+        { name: `ESGST - Delete`, pattern: `^/account/settings/profile\?esgst=delete` },
+        { name: `ESGST - Clean`, pattern: `^/account/settings/profile\?esgst=clean` },
+        { name: `ESGST - Data Management`, pattern: `^/account/settings/profile\?esgst=data-management` },
+        { name: `ESGST - Archive Searcher`, pattern: `^/account/settings/profile\?esgst=as` },
+        { name: `ESGST - Comment / Entry Checker`, pattern: `^/account/settings/profile\?esgst=cec` },
+        { name: `ESGST - Giveaway Bookmarks`, pattern: `^/account/settings/profile\?esgst=gb` },
+        { name: `ESGST - Giveaway Encryptor / Decryptor`, pattern: `^/account/settings/profile\?esgst=ged` },
+        { name: `ESGST - Giveaway Extractor`, pattern: `^/account/settings/profile\?esgst=ge` },
+        { name: `ESGST - Group Library / Wishlist Checker`, pattern: `^/account/settings/profile\?esgst=glwc` }
       ],
       st: [
         { name: `Everywhere`, pattern: `.*` }
