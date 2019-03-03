@@ -1,5 +1,6 @@
 import {common} from './Common';
-import VisibleFullLevel from './General/VisibleFullLevel';
+import GeneralPageLoadTimestamp from './General/PageLoadTimestamp';
+import GeneralVisibleFullLevel from './General/VisibleFullLevel';
 import GiveawaysBlacklistGiveawayLoader from './Giveaways/BlacklistGiveawayLoader';
 import GeneralNarrowSidebar from './General/NarrowSidebar';
 import GeneralHiddenCommunityPoll from './General/HiddenCommunityPoll';
@@ -157,7 +158,8 @@ import Filters from './Filters';
 import Tags from './Tags';
 
 let
-  visibleFullLevel = new VisibleFullLevel,
+  generalPageLoadTimestamp = new GeneralPageLoadTimestamp,
+  generalVisibleFullLevel = new GeneralVisibleFullLevel,
   giveawaysBlacklistGiveawayLoader = new GiveawaysBlacklistGiveawayLoader,
   generalNarrowSidebar = new GeneralNarrowSidebar,
   generalHiddenCommunityPoll = new GeneralHiddenCommunityPoll,
@@ -317,7 +319,8 @@ let
 
 export default {
   common,
-  visibleFullLevel,
+  generalPageLoadTimestamp,
+  generalVisibleFullLevel,
   giveawaysBlacklistGiveawayLoader,
   giveawaysVisibleInviteOnlyGiveaways,
   generalNarrowSidebar,
