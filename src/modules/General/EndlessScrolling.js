@@ -64,6 +64,10 @@ class GeneralEndlessScrolling extends Module {
           name: `Enable for Discussion Filters.`,
           sg: true
         },
+        es_tf: {
+          name: `Enable for Trade Filters.`,
+          st: true
+        },
         es_dh: {
           name: `Enable for Discussion Highlighter.`,
           sg: true

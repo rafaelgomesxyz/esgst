@@ -694,6 +694,10 @@ function loadDataManagement(type, isPopup, callback) {
           name: `Comment Tracker`
         },
         {
+          key: `trades_tf`,
+          name: `Trade Filters`
+        },
+        {
           key: `trades_gdttt`,
           name: `Giveaway/Discussion/Ticket/Trade Tracker`
         }
@@ -1313,6 +1317,10 @@ function loadDataCleaner(isPopup) {
               name: `Comment Tracker`
             },
             {
+              key: `trades_tf`,
+              name: `Trade Filters`
+            },
+            {
               key: `trades_gdttt`,
               name: `Giveaway/Discussion/Ticket/Trade Tracker`
             }
@@ -1585,6 +1593,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           values = {
             main: [`lastUsed`],
             ct: [`count`, `readComments`],
+            tf: [`hidden`],
             gdttt: [`visited`]
           };
         }
@@ -1598,6 +1607,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           gb: 0,
           gdttt: 0,
           gf: 0,
+          tf: 0,
           ggl: 0,
           main: 0,
           pm: 0,

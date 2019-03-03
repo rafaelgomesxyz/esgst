@@ -37,6 +37,9 @@ class Filters extends Module {
       case `df`:
         obj.filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
         break;
+      case `tf`:
+        obj.filters = this.esgst.modules.tradesTradeFilters.tf_getFilters();
+        break;
       case `cf`:
         obj.filters = this.esgst.modules.commentsCommentFilters.cf_getFilters();
         break;
@@ -347,6 +350,12 @@ class Filters extends Module {
     obj.presetDisplay.textContent = obj.presetInput.value = name;
 
     if (!obj.popup && this.esgst.pagination) {
+      const names = {
+        gf: `Giveaway`,
+        df: `Discussion`,
+        tf: `Trade`,
+        cf: `Comment`
+      };
       obj.paginationFilteredCount = createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
         type: `span`,
         children: [{
@@ -359,7 +368,7 @@ class Filters extends Module {
           text: `0`,
           type: `span`
         }, {
-          text: ` filtered by ${obj.id === `gf` ? `Giveaway` : (obj.id === `df` ? `Discussion` : `Comment`)} Filters)`,
+          text: ` filtered by ${names[obj.id]} Filters)`,
           type: `node`
         }]
       }]).firstElementChild;
@@ -2008,6 +2017,8 @@ class Filters extends Module {
       items = obj.popup ? this.esgst.popupGiveaways : this.esgst.mainGiveaways;
     } else if (obj.id === `df`) {
       items = obj.popup ? this.esgst.popupDiscussions : this.esgst.mainDiscussions;
+    } else if (obj.id === `tf`) {
+      items = obj.popup ? this.esgst.popupTrades : this.esgst.mainTrades;
     } else {
       items = obj.popup ? this.esgst.popupComments : this.esgst.mainComments;
     }
@@ -2244,13 +2255,15 @@ class Filters extends Module {
       key = obj.popup ? `popupGiveaways` : `mainGiveaways`;
     } else if (obj.id === `df`) {
       key = obj.popup ? `popupDiscussions` : `mainDiscussions`;
+    } else if (obj.id === `tf`) {
+      key = obj.popup ? `popupTrades` : `mainTrades`;
     } else {
       key = obj.popup ? `popupComments` : `mainComments`;
     }
     for (let i = this.esgst[key].length - 1; i > -1; i--) {
       const item = this.esgst[key][i];
       if (document.body.contains(item.outerWrap) || endless) {
-        if (!item.pinned || !this.esgst.pinnedGiveaways.classList.contains(`esgst-hidden`)) {
+        if (!item.pinned || (this.esgst.pinnedGiveaways && !this.esgst.pinnedGiveaways.classList.contains(`esgst-hidden`))) {
           if (item.outerWrap.classList.contains(`esgst-hidden`)) {
             if (!item.pinned) {
               paginationFiltered += 1;

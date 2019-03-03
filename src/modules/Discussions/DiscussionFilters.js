@@ -1,4 +1,5 @@
 import Module from '../../class/Module';
+import Button from '../../class/Button';
 import Process from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
@@ -266,6 +267,9 @@ class DiscussionsDiscussionFilters extends Module {
   }
 
   async df() {
+    if (this.esgst.df_s) {
+      this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
+    }
     if (this.esgst.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
@@ -325,8 +329,13 @@ class DiscussionsDiscussionFilters extends Module {
           text: `Comments`,
           type: `div`
         }]
+      }, {
+        attributes: {
+          class: `table__rows`
+        },
+        type: `div`
       }]
-    }]);
+    }]).lastElementChild;
     const discussions = JSON.parse(getValue(`discussions`));
     let hidden = [];
     for (const key in discussions) {
@@ -399,7 +408,7 @@ class DiscussionsDiscussionFilters extends Module {
               }, {
                 context: responseHtml.querySelector(`.comment [data-timestamp]`)
               }, {
-                text: ` ago by `,
+                text: ` by `,
                 type: `node`
               }, {
                 attributes: {
@@ -427,15 +436,30 @@ class DiscussionsDiscussionFilters extends Module {
         }]
       }]
     }]);
-    await endless_load(obj.discussions.lastElementChild);
+    await endless_load(obj.discussions);
     if (!this.esgst.giveawaysPath && !this.esgst.discussionsPath) {
       if (this.esgst.gdttt) {
-        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
-        await this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.discussions.lastElementChild);
+        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions, true);
+        await this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.discussions);
       } else if (this.esgst.ct) {
-        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions.lastElementChild, true);
+        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions, true);
       }
-      await this.esgst.modules.discussions.discussions_load(obj.discussions.lastElementChild);
+      await this.esgst.modules.discussions.discussions_load(obj.discussions);
+    }
+  }
+
+  df_addButtons(discussions, main) {
+    for (const discussion of discussions) {
+      if (!discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
+        new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
+          callbacks: [this.df_hideDiscussion.bind(this, discussion, main), null, this.df_unhideDiscussion.bind(this, discussion, main), null],
+          className: `esgst-df-button`,
+          icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+          id: `df_s`,
+          index: discussion.saved && discussion.saved.hidden ? 2 : 0,
+          titles: [`Hide discussion`, `Hiding discussion...`, `Unhide discussion`, `Unhiding discussion...`]
+        });
+      }
     }
   }
 

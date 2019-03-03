@@ -1,4 +1,5 @@
 import Module from '../../class/Module';
+import Button from '../../class/Button';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -29,6 +30,29 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
       sg: true,
       type: `discussions`
     };
+  }
+
+  init() {
+    this.esgst.discussionFeatures.push(this.codb_addButtons.bind(this));
+  }
+
+  codb_addButtons(discussions) {
+    for (const discussion of discussions) {
+      if (discussion.author === this.esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
+        if (discussion.closed) {
+          discussion.closed.remove();
+          discussion.closed = true;
+        }
+        new Button(discussion.headingContainer.firstElementChild, `beforeBegin`, {
+          callbacks: [this.codb_close.bind(this, discussion), null, this.codb_open.bind(this, discussion), null],
+          className: `esgst-codb-button`,
+          icons: [`fa-lock esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-lock esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`],
+          id: `codb`,
+          index: discussion.closed ? 2 : 0,
+          titles: [`Close discussion`, `Closing discussion...`, `Open discussion`, `Opening discussion...`]
+        });
+      }
+    }
   }
 
   async codb_close(discussion) {
