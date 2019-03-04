@@ -78,12 +78,12 @@ export default class Utils {
         alpha: 1.0
       };
     }
-    const red = parseInt(match[1]);
-    const green = parseInt(match[2]);
-    const blue = parseInt(match[3]);
+    const red = `0${parseInt(match[1]).toString(16)}`.slice(-2);
+    const green = `0${parseInt(match[2]).toString(16)}`.slice(-2);
+    const blue = `0${parseInt(match[3]).toString(16)}`.slice(-2);
     const alpha = (match[5] && parseFloat(match[5])) || 1.0;
     return {
-      hex: `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`,
+      hex: `#${red}${green}${blue}`,
       alpha
     };
   }
