@@ -2032,6 +2032,9 @@ class Filters extends Module {
     for (const counter of counters) {
       counter.textContent = `0`;
     }
+    let filteredCount = 0;
+    let paginationFilteredCount = 0;
+    let pointsCount = 0;
     for (const item of items) {
       if (unfilter) {
         if (item.outerWrap.classList.contains(`esgst-hidden`)) {
@@ -2047,6 +2050,9 @@ class Filters extends Module {
         if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
           item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
         }
+        if (item.points && !item.entered) {
+          pointsCount += item.points;
+        }
       } else {
         if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
           item.outerWrap.classList.add(`esgst-hidden`);
@@ -2054,9 +2060,21 @@ class Filters extends Module {
         if (obj.id === `cf` && !item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
           item.outerWrap.parentElement.classList.add(`esgst-hidden`);
         }
+        filteredCount += 1;
+        if (!item.pinned) {
+          paginationFilteredCount += 1;
+        }
       }
     }
-    this.filters_updateCount(obj, endless);
+    if (obj.filteredCount) {
+      obj.filteredCount.textContent = filteredCount;
+    }
+    if (!obj.popup && obj.paginationFilteredCount) {
+      obj.paginationFilteredCount.textContent = paginationFilteredCount;
+    }
+    if (obj.id === `gf` && obj.pointsCount) {
+      obj.pointsCount.textContent = pointsCount;
+    }
     if (obj.id === `gf` && this.esgst.gcToFetch) {
       const games = {apps: {}, subs: {}};
       for (const id in this.esgst.gcToFetch.apps) {
@@ -2250,48 +2268,6 @@ class Filters extends Module {
       }
     }
     return filtered;
-  }
-
-  filters_updateCount(obj, endless) {
-    let filtered = 0;
-    let points = 0;
-    let paginationFiltered = 0;
-    let key;
-    if (obj.id === `gf`) {
-      key = obj.popup ? `popupGiveaways` : `mainGiveaways`;
-    } else if (obj.id === `df`) {
-      key = obj.popup ? `popupDiscussions` : `mainDiscussions`;
-    } else if (obj.id === `tf`) {
-      key = obj.popup ? `popupTrades` : `mainTrades`;
-    } else if (obj.id === `gpf`) {
-      key = obj.popup ? `popupGroups` : `mainGroups`;
-    } else {
-      key = obj.popup ? `popupComments` : `mainComments`;
-    }
-    for (let i = this.esgst[key].length - 1; i > -1; i--) {
-      const item = this.esgst[key][i];
-      if (document.body.contains(item.outerWrap) || endless) {
-        if (!item.pinned || (this.esgst.pinnedGiveaways && !this.esgst.pinnedGiveaways.classList.contains(`esgst-hidden`))) {
-          if (item.outerWrap.classList.contains(`esgst-hidden`)) {
-            if (!item.pinned) {
-              paginationFiltered += 1;
-            }
-            filtered += 1;
-          } else if (item.points && !item.entered) {
-            points += item.points;
-          }
-        }
-      } else {
-        this.esgst[key].splice(i, 1);
-      }
-    }
-    obj.filteredCount.textContent = filtered;
-    if (obj.id === `gf`) {
-      obj.pointsCount.textContent = points;
-    }
-    if (!obj.popup && obj.paginationFilteredCount) {
-      obj.paginationFilteredCount.textContent = paginationFiltered;
-    }
   }
 }
 
