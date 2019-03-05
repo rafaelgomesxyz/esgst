@@ -1286,7 +1286,7 @@ class GamesGameCategories extends Module {
 
             const last_update = (new Date(data.last_update)).getTime();
 
-            if (now - last_update <= 604800000) {
+            if (now - last_update <= 604800000 && data.learning !== null) {
               item.found = true;
               const oldLength = to_fetch.length;
               gc.cache[item.type][item.id] = await this.gc_fake_api(gc, to_fetch, data, item.id, item.type, last_update);
@@ -1611,6 +1611,9 @@ class GamesGameCategories extends Module {
         url: `https://gsrafael01.me/esgst/game/${real_type.slice(0, -1)}/${real_id}`
       })).responseText);
       if (json.result) {
+        if (json.result.learning === null) {
+          throw `Adult game: ${type}/${id}. The learning category can only be retrieved locally if the user is logged in.`;
+        }
         gc.cache[type][id] = await this.gc_fake_api(gc, to_fetch, json.result, id, type, currentTime, games, currentTime);
         this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, this.esgst.games[type][id], type, type === `apps` ? gc.cache.hltb : null);
         await lockAndSaveGames(this.esgst.games);
