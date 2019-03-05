@@ -1,5 +1,8 @@
 const GitHub = require(`@gsrafael01/github-api`);
+const chromePublisher = require(`@bext/chrome-publisher`);
+const firefoxPublisher = require(`@bext/firefox-publisher`);
 const JSZip = require(`jszip`);
+const dateFns_format = require(`date-fns/format`);
 const fs = require(`fs`);
 const git = require(`simple-git`)();
 const jpm = require(`jpm/lib/xpi`);
@@ -7,6 +10,7 @@ const path = require(`path`);
 
 const ROOT_PATH = path.join(__dirname, `..`);
 const BUILD_PATH = `${ROOT_PATH}/build`;
+const CONFIG_PATH = `${ROOT_PATH}/bext.json`;
 
 const bextJson = require(`${ROOT_PATH}/bext.json`);
 const packageJson = require(`${ROOT_PATH}/package.json`);
@@ -196,7 +200,50 @@ function publishDevVersion() {
 }
 
 function publishVersion() {
-  // TODO
+  return new Promise(async (resolve, reject) => {
+    updateVersion();
+
+    const milestone = await closeAndGetCurrentMilestone();
+    const changelog = getChangelog(milestone);
+
+    await Promise.all([
+      packageWebExtension(`chrome`),
+      packageWebExtension(`firefox`),
+      packageLegacyExtension(`palemoon`)
+    ]);
+
+    const commitMessage = `v${packageJson.version}`;
+
+    fs.writeFileSync(`${ROOT_PATH}/package.json`, JSON.stringify(packageJson, null, 2));
+    
+    git.add(`./*`)
+    .commit(commitMessage)
+    .push(async error => {
+      if (error) {
+        git.reset([`--soft`, `HEAD~1`]);
+
+        fs.writeFileSync(`${ROOT_PATH}/package.json`, packageJsonBkp);
+
+        reject(error);
+      } else {
+        try {
+          await chromePublisher.init(CONFIG_PATH);
+          await chromePublisher.update(`${ROOT_PATH}/extension-chrome.zip`);
+          await chromePublisher.publish();
+          await firefoxPublisher.init(CONFIG_PATH);
+          await firefoxPublisher.update(`${ROOT_PATH}/extension-firefox.zip`, {
+            path: {
+              version: packageJson.version
+            }
+          });
+          await publishRelease(changelog);
+          resolve();
+        } catch (error) {
+          reject(error);          
+        }
+      }
+    });
+  });
 }
 
 function updateDevVersion() {
@@ -214,7 +261,8 @@ function updateDevVersion() {
 }
 
 function updateVersion() {
-  // TO DO
+  packageJson.version = packageJson.devVersion.split(`-`)[0];
+  packageJson.devVersion = packageJson.version;
 }
 
 function bumpVersion() {
@@ -235,41 +283,87 @@ function bumpVersion() {
   return version;
 }
 
-function publishRelease() {
+function closeAndGetCurrentMilestone() {
   return new Promise((resolve, reject) => {
     const github = new GitHub({
       token: bextJson.github.accessToken
     });
-    const repo = github.getRepo(packageJson.author, packageJson.name);
-    repo.listReleases(async (error, releases) => {
+    const ghIssues = github.getIssues(packageJson.author, packageJson.name);
+    ghIssues.listMilestones({ sort: `completeness`, direction: `desc` }, async (error, milestones) => {
       if (error) {
         reject(error);
         return;
       }
 
-      if (args.dev) {
-        const preRelease = releases.filter(x => x.prerelease)[0];
-        if (preRelease) {
-          await repo.deleteRelease(preRelease.id);
-          await repo.deleteRef(`tags/${preRelease.tag_name}`);
-        }
+      const milestone = milestones[0].number;
+      await ghIssues.editMilestone(milestone, { state: `closed` });
+      resolve(milestone);
+    });
+  });
+}
+
+function getChangelog(milestone) {
+  return new Promise((resolve, reject) => {
+    const github = new GitHub();
+    const ghIssues = github.getIssues(packageJson.author, packageJson.name);
+    ghIssues.listIssues({ milestone, state: `closed` }, (error, issues) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      let changelog = {
+        date: dateFns_format(Date.now(), `MMMM d, yyyy`),
+        version: packageJson.version,
+        changelog: {}
+      };
+      let changelogMarkdown = [];
+      for (const issue of issues) {
+        changelog.changelog[issue.number] = issue.title;
+        changelogMarkdown.push(`* #${issue.number} ${issue.title.replace(/&/g, `&amp;`).replace(/"/g, `&quot;`)}`);
+      }
+      const changelogJson = require(`${ROOT_PATH}/changelog.json`);
+      changelogJson.unshift(changelog);
+      fs.writeFileSync(`${ROOT_PATH}/changelog.json`, JSON.stringify(changelogJson, null, 2));
+      resolve(changelogMarkdown.join(`\n`));
+    });
+  });
+}
+
+function publishRelease(body = ``) {
+  return new Promise((resolve, reject) => {
+    const github = new GitHub({
+      token: bextJson.github.accessToken
+    });
+    const ghRepo = github.getRepo(packageJson.author, packageJson.name);
+    ghRepo.listReleases(async (error, releases) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+
+      const preRelease = releases.filter(x => x.prerelease)[0];
+      if (preRelease) {
+        await ghRepo.deleteRelease(preRelease.id);
+        await ghRepo.deleteRef(`tags/${preRelease.tag_name}`);
       }
 
       const releaseDescription = {
         tag_name: packageJson.devVersion,
         name: packageJson.devVersion,
+        body,
         prerelease: !!args.dev
       };
-      repo.createRelease(releaseDescription, async (error, release) => {
+      ghRepo.createRelease(releaseDescription, async (error, release) => {
         if (error) {
           reject(error);
           return;
         }
 
         await Promise.all([
-          repo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`${ROOT_PATH}/extension-chrome.zip`), { name: `extension-chrome.zip` }),
-          repo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`${ROOT_PATH}/extension-firefox.zip`), { name: `extension-firefox.zip` }),
-          repo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`${ROOT_PATH}/extension-palemoon.xpi`), { name: `extension-palemoon.xpi` })
+          ghRepo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`${ROOT_PATH}/extension-chrome.zip`), { name: `extension-chrome.zip` }),
+          ghRepo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`${ROOT_PATH}/extension-firefox.zip`), { name: `extension-firefox.zip` }),
+          ghRepo.uploadReleaseAsset(release.upload_url, fs.readFileSync(`${ROOT_PATH}/extension-palemoon.xpi`), { name: `extension-palemoon.xpi` })
         ]);
 
         resolve();

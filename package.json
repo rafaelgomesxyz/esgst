@@ -26,6 +26,8 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@gsrafael01/github-api": "^3.2.0",
+    "@bext/chrome-publisher": "^0.0.5",
+    "@bext/firefox-publisher": "^0.0.5",
     "apidoc": "0.17.7",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
@@ -48,7 +50,7 @@
     "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
-  "devVersion": "8.3.0-dev.40",
+  "devVersion": "8.3.0-dev.41",
   "homepage": "https://github.com/gsrafael01/ESGST",
   "keywords": [
     "esgst",
