@@ -204,7 +204,7 @@ function publishVersion() {
     updateVersion();
 
     const milestone = await closeAndGetCurrentMilestone();
-    const changelog = getChangelog(milestone);
+    const changelog = await getChangelog(milestone);
 
     await Promise.all([
       packageWebExtension(`chrome`),

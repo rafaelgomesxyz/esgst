@@ -1,5 +1,10 @@
 [
   {
+    "date": "March 5, 2019",
+    "version": "8.3.0",
+    "changelog": {}
+  },
+  {
     "date": "January 21, 2019",
     "version": "8.2.1",
     "changelog": {
