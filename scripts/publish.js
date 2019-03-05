@@ -227,6 +227,7 @@ function publishVersion() {
         reject(error);
       } else {
         try {
+          await publishRelease(changelog);
           await chromePublisher.init(CONFIG_PATH);
           await chromePublisher.update(`${ROOT_PATH}/extension-chrome.zip`);
           await chromePublisher.publish();
@@ -236,7 +237,6 @@ function publishVersion() {
               version: packageJson.version
             }
           });
-          await publishRelease(changelog);
           resolve();
         } catch (error) {
           reject(error);          
