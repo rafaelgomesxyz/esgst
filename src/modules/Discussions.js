@@ -107,6 +107,7 @@ class Discussions extends Module {
       discussion.saved = this.esgst.discussions[discussion.code];
       discussion.title = discussion.heading.getElementsByTagName(`H1`)[0].textContent.trim();
       discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
+      discussion.type = `discussion`;
       discussions.push(discussion);
     }
     return discussions;
