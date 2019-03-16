@@ -144,7 +144,7 @@ class GiveawaysGiveawayExtractor extends Module {
                 ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
                 ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
                 if (this.esgst.ge_t) {
-                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
+                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
                 } else {
                   this.ge_openPopup(ge);
                 }
