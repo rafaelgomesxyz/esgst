@@ -306,36 +306,15 @@ class DiscussionsDiscussionFilters extends Module {
   }
 
   async df_initUrls(obj) {
-    obj.discussions = obj.popup.getScrollable([{
-      attributes: {
-        class: `table esgst-text-left`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `table__heading`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `table__column--width-fill`
-          },
-          text: `Summary`,
-          type: `div`
-        }, {
-          attributes: {
-            class: `table__column--width-small text-center`
-          },
-          text: `Comments`,
-          type: `div`
-        }]
-      }, {
-        attributes: {
-          class: `table__rows`
-        },
-        type: `div`
-      }]
-    }]).lastElementChild;
+    obj.discussions = obj.popup.getScrollable([
+      [`div`, { class: `table esgst-text-left` }, [
+        [`div`, { class: `table__heading` }, [
+          [`div`, { class: `table__column--width-fill` }, `Summary`],
+          [`div`, { class: `table__column--width-small text-center` }, `Comments`]
+        ]],
+        [`div`, { class: `table__rows` }]
+      ]]
+    ]).lastElementChild;
     const discussions = JSON.parse(getValue(`discussions`));
     let hidden = [];
     for (const key in discussions) {

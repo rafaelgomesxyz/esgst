@@ -5,7 +5,6 @@ import esgst from './Esgst';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
-  createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
@@ -122,7 +121,7 @@ export default class Process {
     }
     this.popup.setProgress(`Loading more...`);
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-    this.context = this.mainContext ? createElements(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
+    this.context = this.mainContext ? common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
     while (!this.isCanceled && (i < this.perLoad || (esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];

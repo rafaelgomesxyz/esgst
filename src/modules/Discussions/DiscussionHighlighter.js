@@ -85,37 +85,17 @@ class DiscussionsDiscussionHighlighter extends Module {
         obj.items.push(`/discussion/${key}/`);
       }
     }
-    obj.mainContext = obj.popup.getScrollable([{
-      attributes: {
-        class: `table esgst-text-left`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `table__heading`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `table__column--width-fill`
-          },
-          text: `Summary`,
-          type: `div`
-        }, {
-          attributes: {
-            class: `table__column--width-small text-center`
-          },
-          text: `Comments`,
-          type: `div`
-        }]
-      }]
-    }]).lastElementChild;
-    obj.contextHtml = [{
-      attributes: {
-        class: `table__rows`
-      },
-      type: `div`
-    }];
+    obj.mainContext = obj.popup.getScrollable([
+      [`div`, { class: `table esgst-text-left` }, [
+        [`div`, { class: `table__heading` }, [
+          [`div`, { class: `table__column--width-fill` }, `Summary`],
+          [`div`, { class: `table__column--width-small text-center` }, `Comments`]
+        ]]
+      ]]
+    ]).lastElementChild;
+    obj.contextHtml = [
+      [`div`, { class: `table__rows` }]
+    ];
   }
 
   dh_requestUrl(obj, details, response, responseHtml) {
