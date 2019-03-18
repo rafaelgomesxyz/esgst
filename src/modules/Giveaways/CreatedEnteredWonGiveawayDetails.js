@@ -454,31 +454,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       title: `Winners`,
       addScrollable: `left`
     });
-    let html = [{
-      attributes: {
-        class: `table__heading`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `table__column--width-small`
-        },
-        text: `Winner`,
-        type: `div`
-      }, {
-        attributes: {
-          class: `table__column--width-small`
-        },
-        text: `Received`,
-        type: `div`
-      }]
-    }, {
-      attributes: {
-        class: `table__rows`
-      },
-      type: `div`,
-      children: []
-    }];
+    let html = [
+      [`div`, { class: `table__heading` }, [
+        [`div`, { class: `table__column--width-small` }, `Winner`],
+        [`div`, { class: `table__column--width-small` }, `Received`]
+      ]],
+      [`div`, { class: `table__rows` }, []]
+    ];
     for (const winner of details.winners) {
       let className = ``;
       switch (winner.status) {
@@ -494,43 +476,18 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         default:
           break;
       }
-      html[1].children.push({
-        attributes: {
-          class: `table__row-outer-wrap`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `table__row-inner-wrap`
-          },
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `table__column--width-small`
-            },
-            type: `div`,
-            children: [{
-              attributes: {
-                class: `table__column__secondary-link`,
-                href: `/user/${winner.username}`
-              },
-              text: winner.username,
-              type: `a`
-            }]
-          }, {
-            attributes: {
-              class: `table__column--width-small`
-            },
-            type: `div`,
-            children: [{
-              attributes: {
-                class: className
-              },
-              type: `i`
-            }]
-          }]
-        }]
-      });
+      html[1][2].push(
+        [`div`, { class: `table__row-outer-wrap` }, [
+          [`div`, { class: `table__row-inner-wrap` }, [
+            [`div`, { class: `table__column--width-small` }, [
+              [`a`, { class: `table__column__secondary-link`, href: `/user/${winner.username}` }, winner.username]
+            ]],
+            [`div`, { class: `table__column--width-small` }, [
+              [`i`, { class: className }]
+            ]]
+          ]]
+        ]]
+      );
     }
     popup.open();
     endless_load(popup.getScrollable(html));

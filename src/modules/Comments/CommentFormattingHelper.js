@@ -783,29 +783,12 @@ class CommentsCommentFormattingHelper extends Module {
             } else {
               let emoji, emojis, filter, i;
               popup = new Popup({ icon: `fa-smile-o`, title: `Select emojis:`, addScrollable: true });
-              filter = popup.getScrollable([{
-                attributes: {
-                  placeholder: `Filter emojis...`,
-                  type: `text`
-                },
-                type: `input`
-              }, {
-                attributes: {
-                  class: `esgst-cfh-emojis`
-                },
-                type: `div`
-              }, {
-                attributes: {
-                  class: `esgst-description`
-                },
-                text: `Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`,
-                type: `div`
-              }, {
-                attributes: {
-                  class: `global__image-outer-wrap page_heading_btn esgst-cfh-emojis`
-                },
-                type: `div`
-              }]).firstElementChild;
+              filter = popup.getScrollable([
+                [`input`, { placeholder: `Filter emojis...`, type: `text` }],
+                [`div`, { class: `esgst-cfh-emojis` }],
+                [`div`, { class: `esgst-description` }, `Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`],
+                [`div`, { class: `global__image-outer-wrap page_heading_btn esgst-cfh-emojis` }]
+              ]).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
               createElements(savedEmojis, `inner`, await this.cfh_getEmojis());

@@ -529,15 +529,11 @@ class GeneralMultiManager extends Module {
         if (button.key === `searchReplace`) {
           new Process({
             button: element,
-            contextHtml: [{
-              attributes: {
-                class: `markdown`
-              },
-              type: `div`,
-              children: [{
-                type: `ul`
-              }]
-            }],
+            contextHtml: [
+              [`div`, { class: `markdown` }, [
+                [`ul`]
+              ]]
+            ],
             popup: {
               icon: `fa-search`,
               title: `Search & Replace`,

@@ -1,7 +1,6 @@
 import {common} from '../modules/Common';
 
 const
-  createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
@@ -13,12 +12,9 @@ export default class Button {
     this.id = details.id;
     this.index = details.index;
     this.titles = details.titles;
-    this.button = createElements(context, position, [{
-      attributes: {
-        class: details.className
-      },
-      type: `div`
-    }]);
+    this.button = common.createElements_v2(context, position, [
+      [`div`, { class: details.className }]
+    ]);
     // noinspection JSIgnoredPromiseFromCall
     this.change();
     return this;
@@ -30,24 +26,17 @@ export default class Button {
     }
     this.index = index + 1;
     this.button.title = getFeatureTooltip(this.id, this.titles[index]);
-    createElements(this.button, `inner`, [{
-      attributes: {
-        class: `fa ${this.icons[index]}`
-      },
-      type: `i`
-    }]);
+    common.createElements_v2(this.button, `inner`, [
+      [`i`, { class: `fa ${this.icons[index]}` }]
+    ]);
     if (mainCallback) {
       if (await mainCallback(event)) {
         // noinspection JSIgnoredPromiseFromCall
         this.change();
       } else {
-        createElements(this.button, `inner`, [{
-          attributes: {
-            class: `fa fa-times esgst-red`,
-            title: `Unable to perform action`
-          },
-          type: `i`
-        }]);
+        common.createElements_v2(this.button, `inner`, [
+          [`i`, { class: `fa fa-times esgst-red`, title: `Unable to perform action` }]
+        ]);
       }
     } else if (this.callbacks[index]) {
       this.button.firstElementChild.addEventListener(`click`, this.change.bind(this, this.callbacks[index], undefined));

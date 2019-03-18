@@ -2706,12 +2706,9 @@ function openThemePopup(id, url, resolve) {
     addScrollable: true
   });
   obj.popup.onClose = resolve.bind(container.common, url);
-  let context = obj.popup.getScrollable([{
-    attributes: {
-      class: `esgst-sm-colors`
-    },
-    type: `div`
-  }]).firstElementChild;
+  let context = obj.popup.getScrollable([
+    [`div`, { class: `esgst-sm-colors` }]
+  ]).firstElementChild;
   obj.options[key].forEach(option => {
     option.select = container.common.createElements(context, `beforeEnd`, [{
       type: `div`,

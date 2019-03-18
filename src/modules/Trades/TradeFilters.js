@@ -221,36 +221,15 @@ class TradesTradeFilters extends Module {
   }
 
   async tf_initUrls(obj) {
-    obj.trades = obj.popup.getScrollable([{
-      attributes: {
-        class: `table esgst-text-left`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `header`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `column_flex`
-          },
-          text: `Summary`,
-          type: `div`
-        }, {
-          attributes: {
-            class: `column_small text_center`
-          },
-          text: `Comments`,
-          type: `div`
-        }]
-      }, {
-        attributes: {
-          class: `table__rows`
-        },
-        type: `div`
-      }]
-    }]).lastElementChild;
+    obj.trades = obj.popup.getScrollable([
+      [`div`, { class: `table esgst-text-left` }, [
+        [`div`, { class: `header` }, [
+          [`div`, { class: `column_flex` }, `Summary`],
+          [`div`, { class: `column_small text_center` }, `Comments`]
+        ]],
+        [`div`, { class: `table__rows` }]
+      ]]
+    ]).lastElementChild;
     const trades = JSON.parse(getValue(`trades`));
     let hidden = [];
     for (const key in trades) {

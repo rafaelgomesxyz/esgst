@@ -226,10 +226,9 @@ export default class Popup {
   }
 
   getScrollable(html) {
-    return container.common.createElements(this.scrollable, `beforeEnd`, [{
-      type: `div`,
-      children: html
-    }]);
+    return container.common.createElements_v2(this.scrollable, `beforeEnd`, [
+      [`div`, html]
+    ]);
   }
 
   setError(message) {
