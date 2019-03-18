@@ -1,7 +1,6 @@
 import ButtonSet from '../class/ButtonSet';
 import Popup from '../class/Popup';
 import ToggleSwitch from '../class/ToggleSwitch';
-import TextEncoder from '../text-encoder';
 import { container } from '../class/Container';
 import { utils } from '../lib/jsUtils';
 import { createMenuSection } from './Settings';
@@ -1549,7 +1548,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`)).length;
+          let size = `{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1641,7 +1640,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                         toExport = true;
                       }
                     }
-                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                    let size = `"${valueKey}":${JSON.stringify(mergedDataValue)},`.length;
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
@@ -1661,7 +1660,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               data[optionKey][mergedDataKey] = newData;
               mainFound = true;
             }
-            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+            let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -1738,7 +1737,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           sizes.total -= 1;
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":{}}`)).length;
+          let size = `{"${optionKey}":{}}`.length;
           sizes.main += size;
           sizes.total += size;
           if (dm.switches) {
@@ -1785,7 +1784,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(JSON.stringify(data.themes))).length;
+          let size = JSON.stringify(data.themes).length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1817,7 +1816,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `"[]"`)}}`)).length;
+          let size = `{"${optionKey}":${container.common.getValue(optionKey, `"[]"`)}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1859,7 +1858,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`)).length;
+          let size = `{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -1913,7 +1912,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                         toExport = true;
                       }
                     }
-                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                    let size = `"${valueKey}":${JSON.stringify(newDataValue)},`.length;
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
@@ -1933,7 +1932,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               data.games.apps[mergedDataKey] = newData;
               mainFound = true;
             }
-            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+            let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -1973,7 +1972,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                         toExport = true;
                       }
                     }
-                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(newDataValue)},`)).length;
+                    let size = `"${valueKey}":${JSON.stringify(newDataValue)},`.length;
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
@@ -1993,7 +1992,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               data.games.subs[mergedDataKey] = newData;
               mainFound = true;
             }
-            let size = (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+            let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -2120,7 +2119,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":{"apps":{},"subs":{}}}`)).length;
+          let size = `{"${optionKey}":{"apps":{},"subs":{}}}`.length;
           sizes.main += size;
           sizes.total += size;
           if (dm.switches) {
@@ -2186,7 +2185,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                         toExport = true;
                       }
                     }
-                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue)},`)).length;
+                    let size = `"${valueKey}":${JSON.stringify(mergedDataValue)},`.length;
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
@@ -2207,7 +2206,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             data[optionKey].push(newData);
             mainFound = true;
           }
-          let size = (new TextEncoder().encode(`{},`)).length;
+          let size = `{},`.length;
           sizes.main += size;
           sizes.total += size;
           if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -2277,7 +2276,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":[]}`)).length;
+          let size = `{"${optionKey}":[]}`.length;
           sizes.main += size;
           sizes.total += size;
           if (dm.switches) {
@@ -2318,7 +2317,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`)).length;
+          let size = `{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -2382,7 +2381,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`)).length;
+          let size = `{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
@@ -2444,7 +2443,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                         toExport = true;
                       }
                     }
-                    let size = (new TextEncoder().encode(`"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`)).length;
+                    let size = `"${valueKey}":${JSON.stringify(mergedDataValue[valueKey])},`.length;
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
@@ -2464,10 +2463,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let username = mergedDataValue.username;
             let size = 0;
             if (id) {
-              size += (new TextEncoder().encode(`"id":"${id}",`)).length;
+              size += `"id":"${id}",`.length;
             }
             if (username) {
-              size += (new TextEncoder().encode(`"username":"${username}","${username}":"${mergedDataKey}",`)).length;
+              size += `"username":"${username}","${username}":"${mergedDataKey}",`.length;
             }
             if (dm.autoBackup || toExport || container.esgst.settings[`${dm.type}_${optionKey}_main`]) {
               if (id) {
@@ -2481,7 +2480,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               data.users.users[mergedDataKey] = newData;
               mainFound = true;
             }
-            size += (new TextEncoder().encode(`"${mergedDataKey}":{},`)).length;
+            size += `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
             if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
@@ -2584,7 +2583,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":{"steamIds":{},"users":{}}}`)).length;
+          let size = `{"${optionKey}":{"steamIds":{},"users":{}}}`.length;
           sizes.main += size;
           sizes.total += size;
           if (dm.switches) {
@@ -2631,7 +2630,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = (new TextEncoder().encode(`{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`)).length;
+          let size = `{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
