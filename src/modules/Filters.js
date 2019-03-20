@@ -1854,15 +1854,15 @@ class Filters extends Module {
 
     let items;
     if (obj.id === `gf`) {
-      items = obj.popup ? this.esgst.popupGiveaways : this.esgst.mainGiveaways;
+      items = this.esgst.currentScope.giveaways;
     } else if (obj.id === `df`) {
-      items = obj.popup ? this.esgst.popupDiscussions : this.esgst.mainDiscussions;
+      items = this.esgst.currentScope.discussions;
     } else if (obj.id === `tf`) {
-      items = obj.popup ? this.esgst.popupTrades : this.esgst.mainTrades;
+      items = this.esgst.currentScope.trades;
     } else if (obj.id === `gpf`) {
-      items = obj.popup ? this.esgst.popupGroups : this.esgst.mainGroups;
+      items = this.esgst.currentScope.groups;
     } else {
-      items = obj.popup ? this.esgst.popupComments : this.esgst.mainComments;
+      items = this.esgst.currentScope.comments;
     }
     const counters = document.getElementsByClassName(`esgst-gf-filter-count`);
     for (const counter of counters) {

@@ -111,7 +111,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     this.gb_addButton(button);
     if (this.esgst.gb_ue && this.esgst.enterGiveawayButton) {
       this.esgst.enterGiveawayButton.onclick = () => {
-        let giveaway = this.esgst.mainGiveaways[0];
+        let giveaway = this.esgst.scopes.main.giveaways[0];
         if (giveaway && giveaway.gbButton) {
           if (giveaway.gbButton.index === 3) {
             // noinspection JSIgnoredPromiseFromCall
@@ -125,7 +125,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     }
     if (this.esgst.leaveGiveawayButton) {
       this.esgst.leaveGiveawayButton.onclick = () => {
-        let giveaway = this.esgst.mainGiveaways[0];
+        let giveaway = this.esgst.scopes.main.giveaways[0];
         if (giveaway && giveaway.gbButton) {
           giveaway.gbButton.button.classList.remove(`esgst-hidden`);
         }

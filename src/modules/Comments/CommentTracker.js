@@ -278,10 +278,10 @@ class CommentsCommentTracker extends Module {
                 diff = count;
               }
               let discussion = null;
-              for (j = this.esgst.mainDiscussions.length - 1; j > -1 && this.esgst.mainDiscussions[j].code !== code; --j) {
+              for (j = this.esgst.scopes.main.discussions.length - 1; j > -1 && this.esgst.scopes.main.discussions[j].code !== code; --j) {
               }
               if (j > -1) {
-                discussion = this.esgst.mainDiscussions[j];
+                discussion = this.esgst.scopes.main.discussions[j];
               }
               if (key === `discussions` && diff > 0 && discussion) {
                 discussion.unread = true;
@@ -633,7 +633,7 @@ class CommentsCommentTracker extends Module {
       },
       type: `i`
     }]);
-    await this.ct_getComments(0, this.esgst.mainComments, comment.index, false, true, false);
+    await this.ct_getComments(0, this.esgst.scopes.main.comments, comment.index, false, true, false);
     this.ct_addReadUntilHereButton(button, comment);
   }
 
@@ -671,7 +671,7 @@ class CommentsCommentTracker extends Module {
       },
       type: `i`
     }]);
-    await this.ct_getComments(0, this.esgst.mainComments, comment.index, false, false, true);
+    await this.ct_getComments(0, this.esgst.scopes.main.comments, comment.index, false, false, true);
     this.ct_addUnreadUntilHereButton(button, comment);
   }
 
@@ -734,7 +734,7 @@ class CommentsCommentTracker extends Module {
     button.innerHTML = ``;
     this.ct_addUnreadCommentButton(button, comment);
     // noinspection JSIgnoredPromiseFromCall
-    this.ct_getComments(0, this.esgst.mainComments, null, true);
+    this.ct_getComments(0, this.esgst.scopes.main.comments, null, true);
   }
 
   ct_addUnreadCommentButton(button, comment) {
@@ -841,7 +841,7 @@ class CommentsCommentTracker extends Module {
       },
       type: `i`
     }]);
-    const found = await this.ct_getComments(0, this.esgst.mainComments, null, true, false, false);
+    const found = await this.ct_getComments(0, this.esgst.scopes.main.comments, null, true, false, false);
     createElements(goToUnread, `inner`, [{
       attributes: {
         class: `fa fa-comments-o`
@@ -860,7 +860,7 @@ class CommentsCommentTracker extends Module {
       },
       type: `i`
     }]);
-    await this.ct_getComments(0, this.esgst.mainComments, null, false, true, false);
+    await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, true, false);
     createElements(markRead, `inner`, [{
       attributes: {
         class: `fa fa-eye`
@@ -876,7 +876,7 @@ class CommentsCommentTracker extends Module {
       },
       type: `i`
     }]);
-    await this.ct_getComments(0, this.esgst.mainComments, null, false, false, true);
+    await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, false, true);
     createElements(markUnread, `inner`, [{
       attributes: {
         class: `fa fa-eye-slash`

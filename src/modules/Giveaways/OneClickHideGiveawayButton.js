@@ -102,22 +102,21 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
   ochgb_completeProcess(giveaway, key, main) {
     if (main && this.esgst.giveawayPath) return;
-    let source = main ? `mainGiveaways` : `popupGiveaways`;
     if (this.esgst.ochgb_f) {
-      for (let i = 0, n = this.esgst[source].length; i < n; i++) {
-        if (this.esgst[source][i].gameId === giveaway.gameId) {
-          this.esgst[source][i][key]();
-          if (this.esgst[source][i] !== giveaway && this.esgst[source][i].ochgbButton) {
-            this.esgst[source][i].ochgbButton.index = key === `fade` ? 2 : 0;
+      for (let i = 0, n = this.esgst.currentScope.giveaways.length; i < n; i++) {
+        if (this.esgst.currentScope.giveaways[i].gameId === giveaway.gameId) {
+          this.esgst.currentScope.giveaways[i][key]();
+          if (this.esgst.currentScope.giveaways[i] !== giveaway && this.esgst.currentScope.giveaways[i].ochgbButton) {
+            this.esgst.currentScope.giveaways[i].ochgbButton.index = key === `fade` ? 2 : 0;
             // noinspection JSIgnoredPromiseFromCall
-            this.esgst[source][i].ochgbButton.change();
+            this.esgst.currentScope.giveaways[i].ochgbButton.change();
           }
         }
       }
     } else {
-      for (let i = 0, n = this.esgst[source].length; i < n; i++) {
-        if (this.esgst[source][i].gameId === giveaway.gameId) {
-          this.esgst[source][i].outerWrap.remove();
+      for (let i = 0, n = this.esgst.currentScope.giveaways.length; i < n; i++) {
+        if (this.esgst.currentScope.giveaways[i].gameId === giveaway.gameId) {
+          this.esgst.currentScope.giveaways[i].outerWrap.remove();
         }
       }
     }

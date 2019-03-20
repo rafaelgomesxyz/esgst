@@ -74,7 +74,7 @@ class Groups extends Module {
         group.tagContext = group.context;
         group.tagPosition = `afterEnd`;
       }
-      this.esgst[main ? `mainGroups` : `popupGroups`].push(group);
+      this.esgst.currentScope.groups.push(group);
       groups.push(group);
     }
     if (this.esgst.gpf && this.esgst.gpf.filteredCount && this.esgst[`gpf_enable${this.esgst.gpf.type}`]) {

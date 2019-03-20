@@ -1,5 +1,13 @@
 [
   {
+    "date": "March 20, 2019",
+    "version": "8.3.1",
+    "changelog": {
+      "1240": "Discussions: fix bug that does not load discussion features inside of discussions",
+      "1242": "Giveaway Extractor: fix typo that does not add ampersand after flushHrs param"
+    }
+  },
+  {
     "date": "March 5, 2019",
     "version": "8.3.0",
     "changelog": {

@@ -33,7 +33,7 @@ class Games extends Module {
       for (let id in games[type]) {
         if (games[type].hasOwnProperty(id)) {
           games[type][id].forEach(game => {
-            this.esgst[main ? `mainGames` : `popupGames`].push({
+            this.esgst.currentScope.games.push({
               code: id,
               innerWrap: game.headingName,
               name: game.name,
@@ -75,7 +75,7 @@ class Games extends Module {
     }
     matches = context.querySelectorAll(matchesQuery);
     for (i = 0, n = matches.length; i < n; ++i) {
-      game = this.esgst.mainGiveaways.filter(x => x.outerWrap === matches[i])[0];
+      game = this.esgst.scopes.main.giveaways.filter(x => x.outerWrap === matches[i])[0];
       if (!game) {
         game = {
           outerWrap: matches[i]
@@ -206,7 +206,7 @@ class Games extends Module {
       subs: {}
     };
     games[giveaway.gameType][giveaway.gameSteamId] = {name};
-    this.esgst.mainGiveaways.map(x => {
+    this.esgst.scopes.main.giveaways.map(x => {
       if (x.name !== name || x.id) {
         return x;
       }

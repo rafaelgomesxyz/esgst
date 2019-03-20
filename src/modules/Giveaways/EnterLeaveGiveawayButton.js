@@ -674,14 +674,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   elgb_updateButtons() {
     let giveaway, i, n;
-    for (i = 0, n = this.esgst.mainGiveaways.length; i < n; ++i) {
-      giveaway = this.esgst.mainGiveaways[i];
+    for (i = 0, n = this.esgst.scopes.main.giveaways.length; i < n; ++i) {
+      giveaway = this.esgst.scopes.main.giveaways[i];
       if (giveaway.elgbButton && !giveaway.entered) {
         this.elgb_addButton(giveaway, true);
       }
     }
     if (this.esgst.ttec) {
-      this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_calculateTime(this.esgst.mainGiveaways, true);
+      this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_calculateTime(this.esgst.scopes.main.giveaways, true);
     }
   }
 }

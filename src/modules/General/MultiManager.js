@@ -96,7 +96,6 @@ class GeneralMultiManager extends Module {
       Groups: 0
     };
     obj.counterElements = {};
-    obj.scope = context ? `popup` : `main`;
     this.esgst.mm_enable = this.mm_enable.bind(this, obj);
     this.esgst.mm_disable = this.mm_disable.bind(this, obj);
     obj.button.addEventListener(`click`, this.mm_openPopout.bind(this, obj, items, itemsKey));
@@ -106,7 +105,7 @@ class GeneralMultiManager extends Module {
   }
 
   mm_getGames(games, main) {
-    this.esgst.mm_enable(this.esgst[main ? `mainGames` : `popupGames`], `Games`);
+    this.esgst.mm_enable(this.esgst.currentScope.games, `Games`);
   }
 
   mm_openPopout(obj, items, itemsKey) {
@@ -178,7 +177,7 @@ class GeneralMultiManager extends Module {
 
   mm_enable(obj, items, key) {
     if (!items) {
-      items = this.esgst[`${obj.scope}${key}`];
+      items = this.esgst.currentScope[key.toLowerCase()];
     }
     items.forEach(item => {
       let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
@@ -208,7 +207,7 @@ class GeneralMultiManager extends Module {
   mm_disable(obj, items, key) {
     obj.checkboxes[key] = {};
     if (!items) {
-      items = this.esgst[`${obj.scope}${key}`];
+      items = this.esgst.currentScope[key.toLowerCase()];
     }
     items.forEach(item => {
       let checkbox = getChildByClassName(item.innerWrap, `esgst-mm-checkbox`) || getChildByClassName(item.innerWrap.parentElement, `esgst-mm-checkbox`);
@@ -224,7 +223,7 @@ class GeneralMultiManager extends Module {
     if (event) {
       if (event.shiftKey) {
         const currentKey = `mmCheckbox${key}`;
-        const items = this.esgst[`${obj.scope}${key}`];
+        const items = this.esgst.currentScope[key.toLowerCase()];
         const elements = document.querySelectorAll(`[data-mm-key="${key}"]`);
         let foundStart = false;
         for (const element of elements) {
@@ -290,7 +289,7 @@ class GeneralMultiManager extends Module {
 
   mm_setSection(obj, context, items, key) {
     if (!items) {
-      items = this.esgst[`${obj.scope}${key}`];
+      items = this.esgst.currentScope[key.toLowerCase()];
     }
     let sections = {
       default: [

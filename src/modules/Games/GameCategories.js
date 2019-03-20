@@ -1061,11 +1061,11 @@ class GamesGameCategories extends Module {
     for (const id of gc.subs) {
       this.gc_addCategory(gc, null, games.subs[id], id, this.esgst.games.subs[id], `subs`, null, true);
     }
-    for (const giveaway of this.esgst.mainGiveaways) {
-      this.gc_addBorders(giveaway);
-    }
-    for (const giveaway of this.esgst.popupGiveaways) {
-      this.gc_addBorders(giveaway);
+    for (const scopeKey in this.esgst.scopes) {
+      const scope = this.esgst.scopes[scopeKey];
+      for (const giveaway of scope.giveaways) {        
+        this.gc_addBorders(giveaway);
+      }
     }
     
     let to_fetch = [];
@@ -1320,85 +1320,47 @@ class GamesGameCategories extends Module {
 
     // add categories
     let categories = [`achievements`, `dlc`, `dlcOwned`, `dlcFree`, `dlcNonFree`, `genres`, `hltb`, `linux`, `mac`, `singleplayer`, `multiplayer`, `package`, `rating`, `reviews`, `learning`, `removed`, `banned`, `steamCloud`, `tradingCards`, `earlyAccess`, `releaseDate`];
-    for (let i = 0, n = this.esgst.mainGiveaways.length; i < n; ++i) {
-      let giveaway = this.esgst.mainGiveaways[i];
-      const loading = giveaway.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
-      if (loading) {
-        loading.remove();
-      }
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-        continue;
-      }
-      for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
-        let id = categories[j];
-        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
-        if (category) {
-          if (id === `releaseDate`) {
-            giveaway.releaseDate = category.getAttribute(`data-timestamp`);
-            if (giveaway.releaseDate === `?`) {
-              giveaway.releaseDate = -1;
-            } else {
-              giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
-            }
-          } else if (id === `genres`) {
-            giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
-          } else if (id === `rating`) {
-            giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
-          } else if (id === `reviews`) {
-            giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
-          } else {
-            giveaway[id] = true;
-          }
-        } else if (id === `rating`) {
-          giveaway.rating = -1;
-        } else if (id === `releaseDate`) {
-          giveaway.releaseDate = -1;
-        } else if (id === `reviews`) {
-          giveaway.reviews = -1;
+    for (const scopeKey in this.esgst.scopes) {
+      const scope = this.esgst.scopes[scopeKey];
+      for (const giveaway of scope.giveaways) {
+        const loading = giveaway.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
+        if (loading) {
+          loading.remove();
         }
-      }
-      this.gc_addBorders(giveaway);
-      giveaway.gcReady = true;
-    }
-    for (let i = 0, n = this.esgst.popupGiveaways.length; i < n; ++i) {
-      let giveaway = this.esgst.popupGiveaways[i];
-      const loading = giveaway.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
-      if (loading) {
-        loading.remove();
-      }
-      if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
-        continue;
-      }
-      for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
-        let id = categories[j];
-        let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
-        if (category) {
-          if (id === `releaseDate`) {
-            giveaway.releaseDate = category.getAttribute(`data-timestamp`);
-            if (giveaway.releaseDate === `?`) {
-              giveaway.releaseDate = -1;
-            } else {
-              giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
-            }
-          } else if (id === `genres`) {
-            giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
-          } else if (id === `rating`) {
-            giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
-          } else if (id === `reviews`) {
-            giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
-          } else {
-            giveaway[id] = true;
-          }
-        } else if (id === `rating`) {
-          giveaway.rating = -1;
-        } else if (id === `releaseDate`) {
-          giveaway.releaseDate = -1;
-        } else if (id === `reviews`) {
-          giveaway.reviews = -1;
+        if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains(`esgst-hidden`)) {
+          continue;
         }
+        for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
+          let id = categories[j];
+          let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === `reviews` ? `rating` : id}`)[0];
+          if (category) {
+            if (id === `releaseDate`) {
+              giveaway.releaseDate = category.getAttribute(`data-timestamp`);
+              if (giveaway.releaseDate === `?`) {
+                giveaway.releaseDate = -1;
+              } else {
+                giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
+              }
+            } else if (id === `genres`) {
+              giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
+            } else if (id === `rating`) {
+              giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+            } else if (id === `reviews`) {
+              giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
+            } else {
+              giveaway[id] = true;
+            }
+          } else if (id === `rating`) {
+            giveaway.rating = -1;
+          } else if (id === `releaseDate`) {
+            giveaway.releaseDate = -1;
+          } else if (id === `reviews`) {
+            giveaway.reviews = -1;
+          }
+        }
+        this.gc_addBorders(giveaway);
+        giveaway.gcReady = true;
       }
-      this.gc_addBorders(giveaway);
-      giveaway.gcReady = true;
     }
     if (!filtersChanged) {
       if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {

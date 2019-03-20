@@ -52,7 +52,7 @@ class GeneralTableSorter extends Module {
     for (i = this.esgst.tsTables.length - 1; i > -1; --i) {
       tsTable = this.esgst.tsTables[i];
       if (tsTable.columnName) {
-        sortContent(this.ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), null, `${tsTable.key}_${tsTable.name}`);
+        sortContent(this.ts_getArray(tsTable.columnName, tsTable.columnIndex, tsTable.table), `${tsTable.key}_${tsTable.name}`);
       }
     }
   }
@@ -124,13 +124,13 @@ class GeneralTableSorter extends Module {
     tsTable.key = key === `def` ? `sortIndex` : `value`;
     tsTable.name = key;
     if (key === `desc`) {
-      sortContent(this.ts_getArray(columnName, i, table), null, `value_${key}`);
+      sortContent(this.ts_getArray(columnName, i, table), `value_${key}`);
       this.ts_addAscButton(button, columnName, i, table, tsTable);
     } else if (key === `asc`) {
-      sortContent(this.ts_getArray(columnName, i, table), null, `value_${key}`);
+      sortContent(this.ts_getArray(columnName, i, table), `value_${key}`);
       this.ts_addDefButton(button, columnName, i, table, tsTable);
     } else {
-      sortContent(this.ts_getArray(columnName, i, table), null, `sortIndex_asc`);
+      sortContent(this.ts_getArray(columnName, i, table), `sortIndex_asc`);
       this.ts_addDescButton(button, columnName, i, table, tsTable);
     }
   }

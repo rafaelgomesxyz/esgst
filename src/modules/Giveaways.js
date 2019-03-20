@@ -25,23 +25,16 @@ class Giveaways extends Module {
     if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
     let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless, source);
     if (!giveaways.length) return;
-    if (main) {
-      for (let i = giveaways.length - 1; i > -1; --i) {
-        giveaways[i].sortIndex = this.esgst.mainGiveaways.length;
-        this.esgst.mainGiveaways.push(giveaways[i]);
-      }
-    } else {
-      for (let i = giveaways.length - 1; i > -1; --i) {
-        giveaways[i].sortIndex = this.esgst.popupGiveaways.length;
-        this.esgst.popupGiveaways.push(giveaways[i]);
-      }
+    for (let i = giveaways.length - 1; i > -1; --i) {
+      giveaways[i].sortIndex = this.esgst.currentScope.giveaways.length;
+      this.esgst.currentScope.giveaways.push(giveaways[i]);
     }
     for (let feature of this.esgst.giveawayFeatures) {
       await feature(giveaways, main, source);
     }
     giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
     if (this.esgst.gas && this.esgst[this.esgst.gas.autoKey]) {
-      sortContent(this.esgst[this.esgst.gas.mainKey], this.esgst.gas.mainKey, this.esgst[this.esgst.gas.optionKey]);
+      sortContent(this.esgst.currentScope.giveaways, this.esgst[this.esgst.gas.optionKey]);
     }
     if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.filters.filters_filter(this.esgst.gf, false, endless);
@@ -50,7 +43,7 @@ class Giveaways extends Module {
       this.esgst.modules.filters.filters_filter(this.esgst.gfPopup);
     }
     if (this.esgst.mm_enableGiveaways && this.esgst.mm_enable) {
-      this.esgst.mm_enable(this.esgst[main ? `mainGiveaways` : `popupGiveaways`], `Giveaways`);
+      this.esgst.mm_enable(this.esgst.currentScope.giveaways, `Giveaways`);
     }
   }
 
