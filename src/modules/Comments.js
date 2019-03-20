@@ -25,7 +25,7 @@ class Comments extends Module {
     if (main) {
       for (i = 0, n = comments.length; i < n; ++i) {
         comments[i].index = i;
-        this.esgst.mainComments.push(comments[i]);
+        this.esgst.scopes.main.comments.push(comments[i]);
       }
     }
     if (!main || this.esgst.commentsPath || this.esgst.inboxPath) {
@@ -60,7 +60,11 @@ class Comments extends Module {
   async comments_get(context, mainContext, main, endless) {
     let comment, comments, i, matches, sourceLink;
     comments = [];
-    matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} :not(.comment--submit) > .comment__parent, .esgst-es-page-${endless}:not(.comment--submit) > .comment__parent` : `:not(.comment--submit) > .comment__parent`}, ${endless ? `.esgst-es-page-${endless} .comment__child, .esgst-es-page-${endless}.comment__child` : `.comment__child`}, ${endless ? `.esgst-es-page-${endless} .comment_inner, .esgst-es-page-${endless}.comment_inner` : `.comment_inner`}`);
+    matches = context.querySelectorAll(common.getSelectors(endless, [
+      `:not(.comment--submit) > .comment__parent`,
+      `.comment__child`,
+      `.comment_inner`
+    ]));
     sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
     for (i = matches.length - 1; i >= 0; --i) {
       comment = await this.comments_getInfo(matches[i], sourceLink, endless ? this.esgst.users : JSON.parse(getValue(`users`)), main);

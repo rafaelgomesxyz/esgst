@@ -483,7 +483,11 @@ class Tags extends Module {
     let items = null;
     switch (obj.key) {
       case `dt`:
-        items = this.esgst.mainDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id).concat(this.esgst.popupDiscussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+        items = [];
+        for (const scopeKey in this.esgst.scopes) {
+          const scope = this.esgst.scopes[scopeKey];
+          items = items.concat(scope.discussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+        }
         break;
       case `gpt`:
         items = this.esgst.currentGroups[item.code || item.id].elements;

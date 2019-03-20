@@ -15,6 +15,7 @@ import { loadMenu } from './Settings';
 import { runSilentSync, setSync } from './Sync';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import browser from '../browser';
+import { Scope } from '../class/Scope';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -260,7 +261,7 @@ class Common extends Module {
       await this.endless_load(document, !this.esgst.parameters.esgst);
     }
 
-    if (this.esgst.wbcButton && !this.esgst.mainUsers.length) {
+    if (this.esgst.wbcButton && !this.esgst.scopes.main.users.length) {
       this.esgst.wbcButton.classList.add(`esgst-hidden`);
     }
 
@@ -2181,8 +2182,8 @@ class Common extends Module {
     this.setLocalValue(`wonCount`, count);
   }
 
-  saveAndSortContent(key, mainKey, options) {
-    this.sortContent(this.esgst[mainKey], mainKey, options.value);
+  saveAndSortContent(array, key, options) {
+    this.sortContent(array, options.value);
     // noinspection JSIgnoredPromiseFromCall
     this.setSetting(key, options.value);
   }
@@ -4076,7 +4077,7 @@ class Common extends Module {
     }]);
   }
 
-  sortContent(array, mainKey, option) {
+  sortContent(array, option) {
     let after, before, divisor, divisors, i, key, n, name;
     name = option.split(/_/);
     key = name[0];
@@ -4101,8 +4102,11 @@ class Common extends Module {
       }
     });
     let context = null;
-    if (mainKey === `popupGiveaways`) {
-      context = array[0].outerWrap.closest(`.esgst-popup, [data-esgst-popup]`).getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
+    if (array[0].outerWrap) {
+      const popup = array[0].outerWrap.closest(`.esgst-popup, [data-esgst-popup]`);
+      if (popup) {
+        context = popup.getElementsByClassName(`esgst-gv-view`)[0] || array[0].outerWrap.parentElement.parentElement;
+      }
     }
     for (i = 0, n = array.length; i < n; ++i) {
       if (!array[i].outerWrap.parentElement) continue;
@@ -5729,6 +5733,49 @@ class Common extends Module {
     arrow.addEventListener(`click`, this.toggleHeaderMenu.bind(this, arrow, dropdown));
     document.addEventListener(`click`, this.closeHeaderMenu.bind(this, arrow, dropdown, menu), true);
     document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog());
+  }
+
+  getSelectors(endless, selectors) {
+    if (endless) {
+      const newSelectors = [];
+      for (const selector of selectors) {
+        newSelectors.push(
+          `.esgst-es-page-${endless} ${selector}`,
+          `.esgst-es-page-${endless}${selector}`
+        );
+      }
+      selectors = newSelectors.join(`, `);
+    } else {
+      selectors = selectors.join(`, `);
+    }
+    return selectors;
+  }
+
+  addScope(name, context) {
+    const scope = new Scope(name, context);
+    if (!this.esgst.scopes[scope.id]) {
+      this.esgst.scopes[scope.id] = scope;
+    }
+    return scope.id;
+  }
+
+  removeScope(id) {
+    if (this.esgst.scopes[id]) {
+      delete this.esgst.scopes[id];
+    }
+  }
+
+  setCurrentScope(id) {
+    this.esgst.currentScope = this.esgst.scopes[id];
+    this.esgst.scopeHistory.push(id);
+    console.log(`Current scope: `, this.esgst.currentScope.id);
+  }
+
+  resetCurrentScope() {
+    this.esgst.scopeHistory.pop();
+    const id = this.esgst.scopeHistory[this.esgst.scopeHistory.length - 1];
+    this.esgst.currentScope = this.esgst.scopes[id];
+    console.log(`Current scope: `, this.esgst.currentScope.id);
   }
 }
 

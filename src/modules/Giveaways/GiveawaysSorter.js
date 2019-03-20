@@ -60,7 +60,6 @@ class GiveawaysGiveawaysSorter extends Module {
     }
     this.esgst.gas = {
       autoKey: `gas_auto${type}`,
-      mainKey: popup ? `popupGiveaways` : `mainGiveaways`,
       optionKey: `gas_option${type}`
     };
 
@@ -306,7 +305,7 @@ class GiveawaysGiveawaysSorter extends Module {
       children
     }]);
     options.value = this.esgst[this.esgst.gas.optionKey];
-    let callback = saveAndSortContent.bind(common, this.esgst.gas.optionKey, this.esgst.gas.mainKey, options);
+    let callback = saveAndSortContent.bind(common, this.esgst.currentScope.giveaways, this.esgst.gas.optionKey, options);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet({
       color1: `green`,

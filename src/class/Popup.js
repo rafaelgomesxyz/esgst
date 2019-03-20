@@ -160,9 +160,11 @@ export default class Popup {
         type: `div`
       }]);
     }
+    this.id = container.common.addScope(details.name, this.popup);
   }
 
   open(callback) {
+    container.common.setCurrentScope(this.id);
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup-layer:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
     if (container.esgst.openPopups > 0) {
@@ -184,7 +186,9 @@ export default class Popup {
   }
 
   close() {
+    container.common.resetCurrentScope();
     if (this.temp) {
+      container.common.removeScope(this.id);
       this.layer.remove();
     } else {
       this.layer.classList.add(`esgst-hidden`);

@@ -1,9 +1,15 @@
-/**
- * @typedef {Object} EsgstContainer
- * @property {Common} common
- * @property {Esgst} esgst
- */
 class Container {
+  constructor() {
+    /**
+     * @type {import('../modules/Common').common}
+     */
+    this.common = null;
+    /**
+     * @type {import('./Esgst')}
+     */
+    this.esgst = null;
+  }
+
   add(objs) {
     for (let name in objs) {
       if (!objs.hasOwnProperty(name)) {

@@ -54,7 +54,7 @@ class Users extends Module {
       }
       this.esgst.currentUsers[id].elements.push(element);
       const context = container.classList.contains(`comment__username`) ? container : element;
-      this.esgst[main ? `mainUsers` : `popupUsers`].push({
+      this.esgst.currentScope.users.push({
         code: id,
         innerWrap: context,
         outerWrap: context,
@@ -91,7 +91,7 @@ class Users extends Module {
         this.esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
       }
       if (this.esgst.mm_enableUsers && this.esgst.mm_enable) {
-        this.esgst.mm_enable(this.esgst[main ? `mainUsers` : `popupUsers`], `Users`);
+        this.esgst.mm_enable(this.esgst.currentScope.users, `Users`);
       }
     }
   }

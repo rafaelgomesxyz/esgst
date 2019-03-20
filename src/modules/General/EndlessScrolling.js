@@ -164,7 +164,7 @@ class GeneralEndlessScrolling extends Module {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
           es.mainContext.children[0].remove();
         }
-        this.esgst.mainComments = [];
+        this.esgst.scopes.main.comments = [];
         this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = `0`;
         if (this.esgst.paginationNavigation) {
           let lastLink = this.esgst.paginationNavigation.lastElementChild;
@@ -552,7 +552,16 @@ class GeneralEndlessScrolling extends Module {
   es_purgeRemovedElements() {
     // there are more elements that need to be purged,
     // but for now these are the most critical ones
-    const keys = [`attachedImages`, `mainComments`, `tsTables`, `mainGiveaways`, `mainDiscussions`, `mainUsers`, `mainGames`, `popupGiveaways`, `popupDiscussions`, `popupUsers`, `popupGames`];
+    for (const scopeKey in this.esgst.scopes) {
+      const scope = this.esgst.scopes[scopeKey];
+      for (const dataKey in scope.data) {
+        for (let i = scope.data[dataKey].length - 1; i > -1; i--) {
+          if (document.contains(scope.data[dataKey][i].outerWrap)) continue;
+          scope.data[dataKey].splice(i, 1);
+        }
+      }
+    }
+    const keys = [`attachedImages`, `tsTables`];
     for (const key of keys) {
       for (let i = this.esgst[key].length - 1; i > -1; i--) {
         if (document.contains(this.esgst[key][i].outerWrap)) continue;

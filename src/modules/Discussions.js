@@ -21,29 +21,15 @@ class Discussions extends Module {
   async discussions_load(context, main, source, endless) {
     let discussions = await this.discussions_get(context, main, endless);
     if (!discussions.length) return;
-    if (main) {
-      for (let i = discussions.length - 1; i > -1; --i) {
-        discussions[i].sortIndex = this.esgst.mainDiscussions.length;
-        switch (discussions[i].type) {
-          case `discussion`:
-            this.esgst.mainDiscussions.push(discussions[i]);
-            break;
-          case `trade`:
-            this.esgst.mainTrades.push(discussions[i]);
-            break;
-        }
-      }
-    } else {
-      for (let i = discussions.length - 1; i > -1; --i) {
-        discussions[i].sortIndex = this.esgst.popupDiscussions.length;
-        switch (discussions[i].type) {
-          case `discussion`:
-            this.esgst.popupDiscussions.push(discussions[i]);
-            break;
-          case `trade`:
-            this.esgst.popupTrades.push(discussions[i]);
-            break;
-        }
+    for (let i = discussions.length - 1; i > -1; --i) {
+      discussions[i].sortIndex = this.esgst.currentScope.discussions.length;
+      switch (discussions[i].type) {
+        case `discussion`:
+          this.esgst.currentScope.discussions.push(discussions[i]);
+          break;
+        case `trade`:
+          this.esgst.currentScope.trades.push(discussions[i]);
+          break;
       }
     }
     if (!main || this.esgst.discussionsPath) {
@@ -51,7 +37,7 @@ class Discussions extends Module {
         this.esgst.modules.filters.filters_filter(this.esgst.df, false, endless);
       }
       if (this.esgst.ds && this.esgst.ds_auto) {
-        sortContent(this.esgst.mainDiscussions, null, this.esgst.ds_option);
+        sortContent(this.esgst.scopes.main.discussions, this.esgst.ds_option);
       }
     }
     if (!main || this.esgst.tradesPath) {
@@ -60,7 +46,7 @@ class Discussions extends Module {
       }
     }
     if (this.esgst.mm_enableDiscussions && this.esgst.mm_enable) {
-      this.esgst.mm_enable(this.esgst[main ? `mainDiscussions` : `popupDiscussions`], `Discussions`);
+      this.esgst.mm_enable(this.esgst.currentScope.discussions, `Discussions`);
     }
     for (const feature of this.esgst.discussionFeatures) {
       await feature(discussions.filter(x => !x.menu && x.type === `discussion`), main);
