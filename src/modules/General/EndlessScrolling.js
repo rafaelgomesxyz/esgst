@@ -438,7 +438,6 @@ class GeneralEndlessScrolling extends Module {
         es.observer.observe(es.mainContext.lastElementChild);
       }
       if (!refreshAll) {
-        this.es_purgeRemovedElements();
         await endless_load(es.mainContext, true, null, currentPage);
         this.es_setRemoveEntry(es.mainContext);
         if (this.esgst.ts && !this.esgst.us) {
@@ -546,44 +545,6 @@ class GeneralEndlessScrolling extends Module {
         paginationCount = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling;
       }
       paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, ``)) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
-    }
-  }
-
-  es_purgeRemovedElements() {
-    // there are more elements that need to be purged,
-    // but for now these are the most critical ones
-    for (const scopeKey in this.esgst.scopes) {
-      const scope = this.esgst.scopes[scopeKey];
-      for (const dataKey in scope.data) {
-        for (let i = scope.data[dataKey].length - 1; i > -1; i--) {
-          if (document.contains(scope.data[dataKey][i].outerWrap)) continue;
-          scope.data[dataKey].splice(i, 1);
-        }
-      }
-    }
-    const keys = [`attachedImages`, `tsTables`];
-    for (const key of keys) {
-      for (let i = this.esgst[key].length - 1; i > -1; i--) {
-        if (document.contains(this.esgst[key][i].outerWrap)) continue;
-        this.esgst[key].splice(i, 1);
-      }
-    }
-    for (const key in this.esgst.apPopouts) {
-      if (this.esgst.apPopouts.hasOwnProperty(key)) {
-        if (document.contains(this.esgst.apPopouts[key].popout)) continue;
-        delete this.esgst.apPopouts[key];
-      }
-    }
-    for (const key in this.esgst.currentUsers) {
-      if (this.esgst.currentUsers.hasOwnProperty(key)) {
-        const elements = this.esgst.currentUsers[key].elements;
-        for (let i = elements.length - 1; i > -1; i--) {
-          if (document.contains(elements[i])) continue;
-          elements.splice(i, 1);
-        }
-        if (elements.length) continue;
-        delete this.esgst.currentUsers[key];
-      }
     }
   }
 
@@ -790,7 +751,6 @@ class GeneralEndlessScrolling extends Module {
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
     }
     await Promise.all(promises);
-    this.es_purgeRemovedElements();
     await endless_load(es.mainContext, true);
     this.es_setRemoveEntry(es.mainContext);
     es.refreshAllButton.addEventListener(`click`, this.esgst.es_refreshAll.bind(this));
