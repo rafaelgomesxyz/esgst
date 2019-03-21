@@ -521,11 +521,50 @@ class Common extends Module {
   }
 
   async endless_load(context, main, source, endless, mainEndless) {
+    this.purgeRemovedElements();
     for (let feature of this.esgst.endlessFeatures) {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
         window.console.log(e);
+      }
+    }
+  }
+
+  purgeRemovedElements() {    
+    // there are more elements that need to be purged,
+    // but for now these are the most critical ones
+    for (const scopeKey in this.esgst.scopes) {
+      const scope = this.esgst.scopes[scopeKey];
+      for (const dataKey in scope.data) {
+        for (let i = scope.data[dataKey].length - 1; i > -1; i--) {
+          if (document.contains(scope.data[dataKey][i].outerWrap)) continue;
+          scope.data[dataKey].splice(i, 1);
+        }
+      }
+    }
+    const keys = [`attachedImages`, `tsTables`];
+    for (const key of keys) {
+      for (let i = this.esgst[key].length - 1; i > -1; i--) {
+        if (document.contains(this.esgst[key][i].outerWrap)) continue;
+        this.esgst[key].splice(i, 1);
+      }
+    }
+    for (const key in this.esgst.apPopouts) {
+      if (this.esgst.apPopouts.hasOwnProperty(key)) {
+        if (document.contains(this.esgst.apPopouts[key].popout)) continue;
+        delete this.esgst.apPopouts[key];
+      }
+    }
+    for (const key in this.esgst.currentUsers) {
+      if (this.esgst.currentUsers.hasOwnProperty(key)) {
+        const elements = this.esgst.currentUsers[key].elements;
+        for (let i = elements.length - 1; i > -1; i--) {
+          if (document.contains(elements[i])) continue;
+          elements.splice(i, 1);
+        }
+        if (elements.length) continue;
+        delete this.esgst.currentUsers[key];
       }
     }
   }
