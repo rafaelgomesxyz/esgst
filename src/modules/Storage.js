@@ -566,12 +566,73 @@ async function checkOneDriveComplete(data, dm, callback) {
         isTemp: true,
         title: `Select a file to restore:`
       });
+      popup.onClose = () => {
+        if (canceled) {
+          callback();
+        }
+      };
+      popup.open();
+      let selectedFiles = {};
       let entries = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `popup__keys__list`
         },
         type: `div`
       }]);
+      popup.popup.insertBefore(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-trash`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Delete selected files`,
+        title2: `Deleting...`,
+        callback1: () => {
+          return new Promise(resolve => {
+            if (!Object.keys(selectedFiles).length) {
+              resolve();
+              return;
+            }
+            shared.common.createConfirmation(`WARNING: Are you sure you want to delete the selected files?`, async () => {
+              const result = JSON.parse((await shared.common.request({
+                anon: true,
+                data: JSON.stringify({
+                  requests: Object.keys(selectedFiles).map(x => ({
+                    id: x,
+                    method: `DELETE`,
+                    url: `/me/drive/items/${x}`
+                  }))
+                }),
+                headers: {
+                  Authorization: `Bearer ${value}`,
+                  [`Content-Type`]: `application/json`
+                },
+                method: `POST`,
+                url: `https://graph.microsoft.com/v1.0/$batch`
+              })).responseText);
+              let failed = 0;
+              for (const response of result.responses) {
+                if (response.status === 204) {
+                  selectedFiles[response.id].item.remove();
+                } else {
+                  failed += 1;
+                }
+              }
+              selectedFiles = {};
+              let icon, title;
+              if (failed > 0) {
+                icon = `fa-times`;
+                title = `An error happened while deleting ${failed} of the files.`;
+              } else {
+                icon = `fa-check`;
+                title = `Files deleted with success.`;
+              }         
+              const tempPopup = new Popup({ icon, title, isTemp: true });
+              tempPopup.open();
+              resolve();
+            }, resolve)
+          });
+        }
+      }).set, popup.actions);
       JSON.parse((await shared.common.request({
         anon: true,
         headers: {
@@ -580,14 +641,17 @@ async function checkOneDriveComplete(data, dm, callback) {
         method: `GET`,
         url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`
       })).responseText).value.forEach(file => {
-        let item = shared.common.createElements(entries, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-clickable`
-          },
-          text: `${file.name} - ${shared.common.convertBytes(file.size)}`,
-          type: `div`
-        }]);
-        item.addEventListener(`click`, () => {
+        const item = shared.common.createElements_v2(entries, `beforeEnd`, [
+          [`div`, { class: `esgst-clickable esgst-restore-entry` }, [
+            [`span`],
+            [`span`, `${file.name} - ${shared.common.convertBytes(file.size)}`],
+            [`i`, { class: `fa fa-times-circle`, title: `Delete file` }]
+          ]]
+        ]);
+        const checkbox = new Checkbox(item.firstElementChild);
+        checkbox.onEnabled = () => selectedFiles[file.id] = { item };
+        checkbox.onDisabled = () => delete selectedFiles[file.id];
+        item.firstElementChild.nextElementSibling.addEventListener(`click`, () => {
           shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
             canceled = false;
             popup.close();
@@ -604,13 +668,29 @@ async function checkOneDriveComplete(data, dm, callback) {
             manageData(dm, false, false, false, false, callback);
           });
         });
+        item.lastElementChild.addEventListener(`click`, () => {
+          shared.common.createConfirmation(`WARNING: Are you sure you want to delete this file?`, async () => {
+            const tempPopup = new Popup({ icon: `fa-circle-o-notch fa-spin`, title: `Deleting file...`, isTemp: true });
+            tempPopup.open();
+            const result = (await shared.common.request({
+              anon: true,
+              headers: {
+                authorization: `Bearer ${value}`
+              },
+              method: `DELETE`,
+              url: `https://graph.microsoft.com/v1.0/me/drive/items/${file.id}`
+            })).responseText;
+            if (result) {
+              tempPopup.setIcon(`fa-times`);
+              tempPopup.setTitle(`An error happened while deleting the file.`);
+            } else {
+              item.remove();
+              tempPopup.setIcon(`fa-check`);
+              tempPopup.setTitle(`File deleted with success.`);
+            }
+          });
+        });
       });
-      popup.onClose = () => {
-        if (canceled) {
-          callback();
-        }
-      };
-      popup.open();
     }
   } else {
     window.setTimeout(() => checkOneDriveComplete(data, dm, callback), 250);
