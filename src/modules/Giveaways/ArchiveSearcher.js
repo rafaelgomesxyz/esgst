@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
-import ButtonSet from '../../class/ButtonSet';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -182,4 +182,6 @@ class GiveawaysArchiveSearcher extends Module {
   }
 }
 
-export default GiveawaysArchiveSearcher;
+const giveawaysArchiveSearcher = new GiveawaysArchiveSearcher();
+
+export { giveawaysArchiveSearcher };

@@ -1,8 +1,8 @@
-import Module from '../../class/Module';
-import Popout from '../../class/Popout';
-import { common } from '../Common';
-import 'jquery-ui/ui/widgets/slider';
 import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
+import 'jquery-ui/ui/widgets/slider';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -185,4 +185,6 @@ class GiveawaysGridView extends Module {
   }
 }
 
-export default GiveawaysGridView;
+const giveawaysGridView = new GiveawaysGridView();
+
+export { giveawaysGridView };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -32,4 +32,6 @@ class DiscussionsMainPostSkipper extends Module {
   }
 }
 
-export default DiscussionsMainPostSkipper;
+const discussionsMainPostSkipper = new DiscussionsMainPostSkipper();
+
+export { discussionsMainPostSkipper };

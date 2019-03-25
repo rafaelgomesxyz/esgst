@@ -1,24 +1,18 @@
 `use strict`;
 
 // that will append styles to page in runtime
-import './assets/styles';
-
-import 'jquery';
-
 // jQuery QueryBuilder want global interact object
 import interact from 'interactjs/dist/interact.min';
-
-window.interact = interact;
-
+import 'jquery';
 import 'jQuery-QueryBuilder/dist/js/query-builder.standalone.min';
-
-import browser from './browser';
-
-import {utils} from './lib/jsUtils';
-import esgst from './class/Esgst';
-
+import './assets/styles';
+import { browser } from './browser';
+import { esgst } from './class/Esgst';
+import { utils } from './lib/jsUtils';
 import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
+
+window.interact = interact;
 
 (() => {
   const

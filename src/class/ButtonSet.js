@@ -1,6 +1,6 @@
-import {container} from '../class/Container';
+import { shared } from './Shared';
 
-export default class ButtonSet {
+class ButtonSet {
   constructor(details) {
     this.busy = false;
     this.dependencies = [];
@@ -19,7 +19,7 @@ export default class ButtonSet {
     if (details.tooltip) {
       this.set.title = details.tooltip;
     }
-    container.common.createElements(this.set, `inner`, [{
+    shared.common.createElements(this.set, `inner`, [{
       attributes: {
         class: `${classes[details.color1]} btn_action ${details.color1}`
       },
@@ -105,3 +105,6 @@ export default class ButtonSet {
     button.lastElementChild.textContent = title;
   }
 }
+
+export { ButtonSet };
+

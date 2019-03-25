@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -61,4 +61,6 @@ class CommentsReplyMentionLink extends Module {
   }
 }
 
-export default CommentsReplyMentionLink;
+const commentsReplyMentionLink = new CommentsReplyMentionLink();
+
+export { commentsReplyMentionLink };

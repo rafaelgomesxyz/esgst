@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralPointsVisualizer extends Module {
   constructor() {
@@ -123,4 +123,6 @@ class GeneralPointsVisualizer extends Module {
   }
 }
 
-export default GeneralPointsVisualizer;
+const generalPointsVisualizer = new GeneralPointsVisualizer();
+
+export { generalPointsVisualizer };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -171,4 +171,6 @@ class GeneralLastPageLink extends Module {
   }
 }
 
-export default GeneralLastPageLink;
+const generalLastPageLink = new GeneralLastPageLink();
+
+export { generalLastPageLink };

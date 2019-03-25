@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Checkbox from '../../class/Checkbox';
-import Popout from '../../class/Popout';
+import { Checkbox } from '../../class/Checkbox';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
 import { common } from '../Common';
 
 const
@@ -361,4 +361,6 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
   }
 }
 
-export default GiveawaysAdvancedGiveawaySearch;
+const giveawaysAdvancedGiveawaySearch = new GiveawaysAdvancedGiveawaySearch();
+
+export { giveawaysAdvancedGiveawaySearch };

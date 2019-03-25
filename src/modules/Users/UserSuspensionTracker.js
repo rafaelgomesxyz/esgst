@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Checkbox from '../../class/Checkbox';
-import Popup from '../../class/Popup';
+import { Checkbox } from '../../class/Checkbox';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -261,4 +261,6 @@ class UsersUserSuspensionTracker extends Module {
   }
 }
 
-export default UsersUserSuspensionTracker;
+const usersUserSuspensionTracker = new UsersUserSuspensionTracker();
+
+export { usersUserSuspensionTracker };

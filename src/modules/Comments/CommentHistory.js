@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Process from '../../class/Process';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
 import { common } from '../Common';
 
 const
@@ -180,4 +180,6 @@ class CommentsCommentHistory extends Module {
   }
 }
 
-export default CommentsCommentHistory;
+const commentsCommentHistory = new CommentsCommentHistory();
+
+export { commentsCommentHistory };

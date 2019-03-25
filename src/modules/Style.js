@@ -1,11 +1,11 @@
-import { container } from '../class/Container';
+import { shared } from '../class/Shared';
 
 function addStyle() {
   let backgroundColor, color, colors, i, n, style;
   style = `
   :root {
-    --esgst-gwc-highlight-width: ${container.esgst.gwc_h_width};
-    --esgst-gwr-highlight-width: ${container.esgst.gwr_h_width};
+    --esgst-gwc-highlight-width: ${shared.esgst.gwc_h_width};
+    --esgst-gwr-highlight-width: ${shared.esgst.gwr_h_width};
   }
 `;
   colors = [
@@ -146,8 +146,8 @@ function addStyle() {
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
-    color = container.esgst[`${colors[i].id}_color`];
-    backgroundColor = container.esgst[`${colors[i].id}_bgColor`];
+    color = shared.esgst[`${colors[i].id}_color`];
+    backgroundColor = shared.esgst[`${colors[i].id}_bgColor`];
     style += `
     ${colors[i].key === `genres` ? `a` : ``}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
       background-color: ${backgroundColor};
@@ -171,8 +171,8 @@ function addStyle() {
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
-    color = container.esgst[`${colors[i].id}_color`];
-    backgroundColor = container.esgst[`${colors[i].id}_bgColor`];
+    color = shared.esgst[`${colors[i].id}_color`];
+    backgroundColor = shared.esgst[`${colors[i].id}_bgColor`];
     style += `
     .${colors[i].mainKey}-${colors[i].key} {
       background-color: ${backgroundColor} !important;
@@ -664,7 +664,7 @@ function addStyle() {
   }
 
   .esgst-qgs-container-expanded {
-    position: ${container.esgst.qgs_index === `0` ? `absolute` : `static`};
+    position: ${shared.esgst.qgs_index === `0` ? `absolute` : `static`};
   }
 
   .esgst-qgs-container-expanded .esgst-qgs-input {
@@ -708,7 +708,7 @@ function addStyle() {
   }
 
   .esgst-stbb-button-fixed, .esgst-sttb-button-fixed {
-    bottom: ${container.esgst.ff ? 49 : 5}px;
+    bottom: ${shared.esgst.ff ? 49 : 5}px;
     background-color: #fff;
     border: 1px solid #d2d6e0;
     border-radius: 4px;
@@ -1565,10 +1565,10 @@ function addStyle() {
   }
 
   .esgst-popup-layer {
-    align-items: ${container.esgst.static_popups ? `baseline` : `center`};
+    align-items: ${shared.esgst.static_popups ? `baseline` : `center`};
     bottom: 0;
     display: flex;
-    justify-content: ${container.esgst.static_popups ? `left` : `center`};
+    justify-content: ${shared.esgst.static_popups ? `left` : `center`};
     left: 0;
     padding: 50px;
     position: fixed;
@@ -1789,7 +1789,7 @@ function addStyle() {
     display: flex;
     height: 5px;
     margin-left: 5px;
-    width: ${container.esgst.ib ? `186px` : `174px`};
+    width: ${shared.esgst.ib ? `186px` : `174px`};
   }
 
   .esgst-gc-border >* {
@@ -1853,7 +1853,7 @@ function addStyle() {
     border-radius: 4px;
   }
 
-  .esgst-gf-container.esgst-popup-scrollable {
+  .esgst-gf-shared.esgst-popup-scrollable {
     min-width: 650px;
   }
 
@@ -2224,7 +2224,7 @@ function addStyle() {
     padding: 0;
     text-align: center;
     vertical-align: top;
-    width: ${container.esgst.ib ? `196px` : `184px`};
+    width: ${shared.esgst.ib ? `196px` : `184px`};
   }
 
   .esgst-gv-box {
@@ -2278,11 +2278,11 @@ function addStyle() {
 
   .esgst-gv-popout {
     font-size: 11px;
-    max-width: ${container.esgst.ib ? `174px` : `162px`};
+    max-width: ${shared.esgst.ib ? `174px` : `162px`};
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    width: ${container.esgst.ib ? `174px` : `162px`};
+    width: ${shared.esgst.ib ? `174px` : `162px`};
     z-index: 1;
   }
 
@@ -2540,7 +2540,7 @@ function addStyle() {
     display: none;
   }
 `;
-  if (container.esgst.sg) {
+  if (shared.esgst.sg) {
     style += `
     .esgst-settings-menu-feature {
       align-self: flex-start;
@@ -2825,19 +2825,17 @@ function addStyle() {
     }
   `;
   }
-  container.esgst.style = container.common.createElements(document.head, `beforeEnd`, [{
+  shared.esgst.style = shared.common.createElements(document.head, `beforeEnd`, [{
     attributes: {
       id: `esgst-style`
     },
     text: style,
     type: `style`
   }]);
-  container.esgst.theme = document.getElementById(`esgst-theme`);
-  container.esgst.customThemeElement = document.getElementById(`esgst-custom-theme`);
+  shared.esgst.theme = document.getElementById(`esgst-theme`);
+  shared.esgst.customThemeElement = document.getElementById(`esgst-custom-theme`);
   // noinspection JSIgnoredPromiseFromCall
-  container.common.setTheme();
+  shared.common.setTheme();
 }
 
-export {
-  addStyle
-};
+export { addStyle };

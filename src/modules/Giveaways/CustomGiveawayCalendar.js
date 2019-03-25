@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GiveawaysCustomGiveawayCalendar extends Module {
   constructor() {
@@ -115,4 +115,6 @@ class GiveawaysCustomGiveawayCalendar extends Module {
   }
 }
 
-export default GiveawaysCustomGiveawayCalendar;
+const giveawaysCustomGiveawayCalendar = new GiveawaysCustomGiveawayCalendar();
+
+export { giveawaysCustomGiveawayCalendar };

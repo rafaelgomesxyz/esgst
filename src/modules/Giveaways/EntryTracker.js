@@ -1,8 +1,8 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
-import { common } from '../Common';
 import dateFns_format from 'date-fns/format';
 import dateFns_isSameDay from 'date-fns/isSameDay';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { common } from '../Common';
 
 const
   createElements = common.createElements.bind(common),
@@ -368,4 +368,6 @@ class GiveawaysEntryTracker extends Module {
   }
 }
 
-export default GiveawaysEntryTracker;
+const giveawaysEntryTracker = new GiveawaysEntryTracker();
+
+export { giveawaysEntryTracker };

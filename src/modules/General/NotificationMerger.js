@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -142,4 +142,6 @@ class GeneralNotificationMerger extends Module {
   }
 }
 
-export default GeneralNotificationMerger;
+const generalNotificationMerger = new GeneralNotificationMerger();
+
+export { generalNotificationMerger };

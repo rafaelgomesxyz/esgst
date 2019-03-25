@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 class GroupsGroupFilters extends Module {
@@ -186,4 +186,6 @@ class GroupsGroupFilters extends Module {
   }
 }
 
-export default GroupsGroupFilters;
+const groupsGroupFilters = new GroupsGroupFilters();
+
+export { groupsGroupFilters };

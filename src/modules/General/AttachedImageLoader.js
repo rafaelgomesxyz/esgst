@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralAttachedImageLoader extends Module {
   constructor() {
@@ -38,4 +38,6 @@ class GeneralAttachedImageLoader extends Module {
   }
 }
 
-export default GeneralAttachedImageLoader;
+const generalAttachedImageLoader = new GeneralAttachedImageLoader();
+
+export { generalAttachedImageLoader };

@@ -1,11 +1,11 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popup from '../../class/Popup';
-import ToggleSwitch from '../../class/ToggleSwitch';
-import { common } from '../Common';
-import { utils } from '../../lib/jsUtils';
-import 'jquery-ui/ui/widgets/progressbar';
 import dateFns_format from 'date-fns/format';
+import 'jquery-ui/ui/widgets/progressbar';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -2109,4 +2109,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 }
 
-export default GiveawaysMultipleGiveawayCreator;
+const giveawaysMultipleGiveawayCreator = new GiveawaysMultipleGiveawayCreator();
+
+export { giveawaysMultipleGiveawayCreator };

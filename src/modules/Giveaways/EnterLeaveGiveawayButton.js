@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popup from '../../class/Popup';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -686,4 +686,6 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 }
 
-export default GiveawaysEnterLeaveGiveawayButton;
+const giveawaysEnterLeaveGiveawayButton = new GiveawaysEnterLeaveGiveawayButton();
+
+export { giveawaysEnterLeaveGiveawayButton };

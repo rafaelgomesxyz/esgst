@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralFixedFooter extends Module {
   constructor() {
@@ -27,4 +27,6 @@ class GeneralFixedFooter extends Module {
   }
 }
 
-export default GeneralFixedFooter;
+const generalFixedFooter = new GeneralFixedFooter();
+
+export { generalFixedFooter };

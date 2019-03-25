@@ -1,5 +1,5 @@
 import JSZip from 'jszip';
-import browser from './browser';
+import { browser } from './browser';
 
 let storage = null;
 let isFirstRun = false;

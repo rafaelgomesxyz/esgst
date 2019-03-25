@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -289,4 +289,6 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
   }
 }
 
-export default DiscussionsOldActiveDiscussionsDesign;
+const discussionsOldActiveDiscussionsDesign = new DiscussionsOldActiveDiscussionsDesign();
+
+export { discussionsOldActiveDiscussionsDesign };

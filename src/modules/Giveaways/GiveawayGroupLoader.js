@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Popout from '../../class/Popout';
-import Popup from '../../class/Popup';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -466,4 +466,6 @@ class GiveawaysGiveawayGroupLoader extends Module {
   }
 }
 
-export default GiveawaysGiveawayGroupLoader;
+const giveawaysGiveawayGroupLoader = new GiveawaysGiveawayGroupLoader();
+
+export { giveawaysGiveawayGroupLoader };

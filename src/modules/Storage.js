@@ -1,7 +1,7 @@
-import ButtonSet from '../class/ButtonSet';
-import Popup from '../class/Popup';
-import ToggleSwitch from '../class/ToggleSwitch';
-import { container } from '../class/Container';
+import { ButtonSet } from '../class/ButtonSet';
+import { Popup } from '../class/Popup';
+import { shared } from '../class/Shared';
+import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { createMenuSection } from './Settings';
 
@@ -12,15 +12,15 @@ const
 function getDataMenu(option, switches, type) {
   let i, m, menu, n, options, toggleSwitch;
   menu = document.createElement(`div`);
-  switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, container.esgst.settings[`${type}_${option.key}`]);
-  switches[option.key].size = container.common.createElements(switches[option.key].name, `beforeEnd`, [{
+  switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, shared.esgst.settings[`${type}_${option.key}`]);
+  switches[option.key].size = shared.common.createElements(switches[option.key].name, `beforeEnd`, [{
     attributes: {
       class: `esgst-bold`
     },
     type: `span`
   }]);
   if (option.name === `Main`) {
-    container.common.createElements(switches[option.key].name, `beforeEnd`, [{
+    shared.common.createElements(switches[option.key].name, `beforeEnd`, [{
       attributes: {
         class: `fa fa-question-circle`,
         title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`
@@ -29,7 +29,7 @@ function getDataMenu(option, switches, type) {
     }]);
   }
   if (option.options) {
-    options = container.common.createElements(menu, `beforeEnd`, [{
+    options = shared.common.createElements(menu, `beforeEnd`, [{
       attributes: {
         class: `esgst-form-row-indent SMFeatures esgst-hidden`
       },
@@ -40,7 +40,7 @@ function getDataMenu(option, switches, type) {
       options.appendChild(m);
       toggleSwitch.dependencies.push(m);
     }
-    if (container.esgst.settings[`${type}_${option.key}`]) {
+    if (shared.esgst.settings[`${type}_${option.key}`]) {
       options.classList.remove(`esgst-hidden`);
     }
   }
@@ -69,18 +69,18 @@ function getDataSizes(dm) {
 async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
   let file;
   if (dropbox) {
-    await container.common.delValue(`dropboxToken`);
-    container.common.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=dropbox&client_id=nix7kvchwa8wdvj`);
+    await shared.common.delValue(`dropboxToken`);
+    shared.common.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=dropbox&client_id=nix7kvchwa8wdvj`);
     // noinspection JSIgnoredPromiseFromCall
     checkDropboxComplete(null, dm, callback);
   } else if (googleDrive) {
-    await container.common.delValue(`googleDriveToken`);
-    container.common.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${container.esgst.settings.usePreferredGoogle ? `login_hint=${container.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=google-drive&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+    await shared.common.delValue(`googleDriveToken`);
+    shared.common.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${shared.esgst.settings.usePreferredGoogle ? `login_hint=${shared.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=google-drive&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
     // noinspection JSIgnoredPromiseFromCall
     checkGoogleDriveComplete(null, dm, callback);
   } else if (oneDrive) {
-    await container.common.delValue(`oneDriveToken`);
-    container.common.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${container.esgst.settings.usePreferredMicrosoft ? `login_hint=${container.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=onedrive&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+    await shared.common.delValue(`oneDriveToken`);
+    shared.common.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${shared.esgst.settings.usePreferredMicrosoft ? `login_hint=${shared.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=onedrive&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
     // noinspection JSIgnoredPromiseFromCall
     checkOneDriveComplete(null, dm, callback);
   } else {
@@ -95,7 +95,7 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
         dm.reader.readAsText(file);
       }
     } else {
-      container.common.createFadeMessage(dm.warning, `No file was loaded!`);
+      shared.common.createFadeMessage(dm.warning, `No file was loaded!`);
       callback();
     }
   }
@@ -105,38 +105,38 @@ async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, 
   try {
     if (dm.reader) {
       dm.data = JSON.parse(isZip
-        ? (await container.common.readZip(dm.reader.result))[0].value
+        ? (await shared.common.readZip(dm.reader.result))[0].value
         : dm.reader.result
       );
     }
-    container.common.createConfirmation(`Are you sure you want to restore the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+    shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
   } catch (error) {
-    container.common.createFadeMessage(dm.warning, `Cannot parse file!`);
+    shared.common.createFadeMessage(dm.warning, `Cannot parse file!`);
     callback();
   }
 }
 
 function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
-  container.common.createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+  shared.common.createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
 }
 
 async function checkDropboxComplete(data, dm, callback) {
-  let value = container.common.getValue(`dropboxToken`);
+  let value = shared.common.getValue(`dropboxToken`);
   if (value) {
-    if (dm.type === `export` || (data && container.esgst.settings.exportBackup)) {
-      const name = container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+    if (dm.type === `export` || (data && shared.esgst.settings.exportBackup)) {
+      const name = shared.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
       if (name === null) {
         callback();
         return;
       }
       let responseText = ``;
       try {
-        const response = await container.common.request({
+        const response = await shared.common.request({
           data: JSON.stringify(data),
-          fileName: container.esgst.backupZip ? `${name}.json` : null,
+          fileName: shared.esgst.backupZip ? `${name}.json` : null,
           headers: {
             authorization: `Bearer ${value}`,
-            [`Dropbox-API-Arg`]: container.esgst.backupZip ? `{"path": "/${name}.zip"}` : `{"path": "/${name}.json"}`,
+            [`Dropbox-API-Arg`]: shared.esgst.backupZip ? `{"path": "/${name}.zip"}` : `{"path": "/${name}.json"}`,
             [`Content-Type`]: `application/octet-stream`
           },
           method: `POST`,
@@ -149,7 +149,7 @@ async function checkDropboxComplete(data, dm, callback) {
           throw ``;
         }
         if (!dm.autoBackup) {
-          container.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+          shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
         }
         callback();
       } catch (e) {
@@ -170,13 +170,13 @@ async function checkDropboxComplete(data, dm, callback) {
         }
       };
       popup.open();
-      let entries = container.common.createElements(popup.scrollable, `beforeEnd`, [{
+      let entries = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `popup__keys__list`
         },
         type: `div`
       }]);
-      JSON.parse((await container.common.request({
+      JSON.parse((await shared.common.request({
         data: `{"path": ""}`,
         headers: {
           authorization: `Bearer ${value}`,
@@ -185,18 +185,18 @@ async function checkDropboxComplete(data, dm, callback) {
         method: `POST`,
         url: `https://api.dropboxapi.com/2/files/list_folder`
       })).responseText).entries.forEach(entry => {
-        let item = container.common.createElements(entries, `beforeEnd`, [{
+        let item = shared.common.createElements(entries, `beforeEnd`, [{
           attributes: {
             class: `esgst-clickable`
           },
-          text: `${entry.name} - ${container.common.convertBytes(entry.size)}`,
+          text: `${entry.name} - ${shared.common.convertBytes(entry.size)}`,
           type: `div`
         }]);
         item.addEventListener(`click`, () => {
-          container.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
+          shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
             canceled = false;
             popup.close();
-            dm.data = JSON.parse((await container.common.request({
+            dm.data = JSON.parse((await shared.common.request({
               blob: entry.name.match(/\.zip$/),
               headers: {
                 authorization: `Bearer ${value}`,
@@ -218,18 +218,18 @@ async function checkDropboxComplete(data, dm, callback) {
 }
 
 async function checkGoogleDriveComplete(data, dm, callback) {
-  let value = container.common.getValue(`googleDriveToken`);
+  let value = shared.common.getValue(`googleDriveToken`);
   if (value) {
-    if (dm.type === `export` || (data && container.esgst.settings.exportBackup)) {
-      const name = container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+    if (dm.type === `export` || (data && shared.esgst.settings.exportBackup)) {
+      const name = shared.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
       if (name === null) {
         callback();
         return;
       }
       let responseText = ``;
       try {
-        const resourceResponse = await container.common.request({
-          data: container.esgst.backupZip ? `{"name": "${name}.zip", "parents": ["appDataFolder"]}` : `{"name": "${name}.json", "parents": ["appDataFolder"]}`,
+        const resourceResponse = await shared.common.request({
+          data: shared.esgst.backupZip ? `{"name": "${name}.zip", "parents": ["appDataFolder"]}` : `{"name": "${name}.json", "parents": ["appDataFolder"]}`,
           headers: {
             authorization: `Bearer ${value}`,
             [`Content-Type`]: `application/json`
@@ -237,12 +237,12 @@ async function checkGoogleDriveComplete(data, dm, callback) {
           method: `POST`,
           url: `https://www.googleapis.com/drive/v3/files`
         });
-        const response = await container.common.request({
+        const response = await shared.common.request({
           data: JSON.stringify(data),
-          fileName: container.esgst.backupZip ? `${name}.json` : null,
+          fileName: shared.esgst.backupZip ? `${name}.json` : null,
           headers: {
             authorization: `Bearer ${value}`,
-            [`Content-Type`]: container.esgst.backupZip ? `application/zip` : `text/plain`
+            [`Content-Type`]: shared.esgst.backupZip ? `application/zip` : `text/plain`
           },
           method: `PATCH`,
           url: `https://www.googleapis.com/upload/drive/v3/files/${JSON.parse(resourceResponse.responseText).id}?uploadType=media`
@@ -254,7 +254,7 @@ async function checkGoogleDriveComplete(data, dm, callback) {
           throw ``;
         }
         if (!dm.autoBackup) {
-          container.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+          shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
         }
         callback();
       } catch (e) {
@@ -275,20 +275,20 @@ async function checkGoogleDriveComplete(data, dm, callback) {
         }
       };
       popup.open();
-      let entries = container.common.createElements(popup.scrollable, `beforeEnd`, [{
+      let entries = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `popup__keys__list`
         },
         type: `div`
       }]);
-      JSON.parse((await container.common.request({
+      JSON.parse((await shared.common.request({
         headers: {
           authorization: `Bearer ${value}`
         },
         method: `GET`,
         url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`
       })).responseText).files.forEach(file => {
-        let item = container.common.createElements(entries, `beforeEnd`, [{
+        let item = shared.common.createElements(entries, `beforeEnd`, [{
           attributes: {
             class: `esgst-clickable`
           },
@@ -296,10 +296,10 @@ async function checkGoogleDriveComplete(data, dm, callback) {
           type: `div`
         }]);
         item.addEventListener(`click`, () => {
-          container.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
+          shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
             canceled = false;
             popup.close();
-            dm.data = JSON.parse((await container.common.request({
+            dm.data = JSON.parse((await shared.common.request({
               blob: file.name.match(/\.zip$/),
               headers: {
                 authorization: `Bearer ${value}`
@@ -319,26 +319,26 @@ async function checkGoogleDriveComplete(data, dm, callback) {
 }
 
 async function checkOneDriveComplete(data, dm, callback) {
-  let value = container.common.getValue(`oneDriveToken`);
+  let value = shared.common.getValue(`oneDriveToken`);
   if (value) {
-    if (dm.type === `export` || (data && container.esgst.settings.exportBackup)) {
-      const name = container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+    if (dm.type === `export` || (data && shared.esgst.settings.exportBackup)) {
+      const name = shared.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
       if (name === null) {
         callback();
         return;
       }
       let responseText = ``;
       try {
-        const response = await container.common.request({
+        const response = await shared.common.request({
           anon: true,
           data: JSON.stringify(data),
-          fileName: container.esgst.backupZip ? `${name}.json` : null,
+          fileName: shared.esgst.backupZip ? `${name}.json` : null,
           headers: {
             Authorization: `bearer ${value}`,
-            [`Content-Type`]: container.esgst.backupZip ? `application/zip` : `text/plain`
+            [`Content-Type`]: shared.esgst.backupZip ? `application/zip` : `text/plain`
           },
           method: `PUT`,
-          url: container.esgst.backupZip ? `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.zip:/content` : `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`
+          url: shared.esgst.backupZip ? `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.zip:/content` : `https://graph.microsoft.com/v1.0/me/drive/special/approot:/${name}.json:/content`
         });
         responseText = response.responseText;
         const responseJson = JSON.parse(responseText);
@@ -347,7 +347,7 @@ async function checkOneDriveComplete(data, dm, callback) {
           throw ``;
         }
         if (!dm.autoBackup) {
-          container.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+          shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
         }
         callback();
       } catch (e) {
@@ -362,13 +362,13 @@ async function checkOneDriveComplete(data, dm, callback) {
         isTemp: true,
         title: `Select a file to restore:`
       });
-      let entries = container.common.createElements(popup.scrollable, `beforeEnd`, [{
+      let entries = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `popup__keys__list`
         },
         type: `div`
       }]);
-      JSON.parse((await container.common.request({
+      JSON.parse((await shared.common.request({
         anon: true,
         headers: {
           Authorization: `bearer ${value}`
@@ -376,18 +376,18 @@ async function checkOneDriveComplete(data, dm, callback) {
         method: `GET`,
         url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`
       })).responseText).value.forEach(file => {
-        let item = container.common.createElements(entries, `beforeEnd`, [{
+        let item = shared.common.createElements(entries, `beforeEnd`, [{
           attributes: {
             class: `esgst-clickable`
           },
-          text: `${file.name} - ${container.common.convertBytes(file.size)}`,
+          text: `${file.name} - ${shared.common.convertBytes(file.size)}`,
           type: `div`
         }]);
         item.addEventListener(`click`, () => {
-          container.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
+          shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
             canceled = false;
             popup.close();
-            dm.data = JSON.parse((await container.common.request({
+            dm.data = JSON.parse((await shared.common.request({
               anon: true,
               blob: file.name.match(/\.zip$/),
               headers: {
@@ -416,7 +416,7 @@ async function checkOneDriveComplete(data, dm, callback) {
 function loadDataManagement(type, isPopup, callback) {
   let containerr, context, group1, group2, i, n, onClick, option, prep, section, title1, title2;
   let dm = {
-    autoBackup: callback && container.esgst.parameters.autoBackup,
+    autoBackup: callback && shared.esgst.parameters.autoBackup,
     type: type
   };
   dm[type] = true;
@@ -454,27 +454,27 @@ function loadDataManagement(type, isPopup, callback) {
       containerr = popup.description;
       context = popup.scrollable;
     } else {
-      context = containerr = container.esgst.sidebar.nextElementSibling;
+      context = containerr = shared.esgst.sidebar.nextElementSibling;
       context.setAttribute(`data-esgst-popup`, true);
       context.innerHTML = ``;
     }
     containerr.classList.add(`esgst-text-left`);
-    const heading = container.common.createPageHeading(containerr, `afterBegin`, {
+    const heading = shared.common.createPageHeading(containerr, `afterBegin`, {
       items: [
         {
           name: `ESGST`,
-          url: container.esgst.settingsUrl
+          url: shared.esgst.settingsUrl
         },
         {
           name: title1,
-          url: container.esgst[`${title1.toLowerCase()}Url`]
+          url: shared.esgst[`${title1.toLowerCase()}Url`]
         }
       ]
     });
     if (!isPopup) {
-      container.esgst.mainPageHeading = heading;
+      shared.esgst.mainPageHeading = heading;
     }
-    dm.computerSpace = container.common.createElements(containerr, `beforeEnd`, [{
+    dm.computerSpace = shared.common.createElements(containerr, `beforeEnd`, [{
       type: `div`,
       children: [{
         text: `Total: `,
@@ -749,7 +749,7 @@ function loadDataManagement(type, isPopup, callback) {
   ];
   if (dm.autoBackup) {
     let dropbox, googleDrive, oneDrive;
-    switch (container.esgst.autoBackup_index) {
+    switch (shared.esgst.autoBackup_index) {
       case 0:
         break;
       case 1:
@@ -764,8 +764,8 @@ function loadDataManagement(type, isPopup, callback) {
     }
     // noinspection JSIgnoredPromiseFromCall
     manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
-      container.common.delLocalValue(`isBackingUp`);
-      await container.common.setSetting(`lastBackup`, Date.now());
+      shared.common.delLocalValue(`isBackingUp`);
+      await shared.common.setSetting(`lastBackup`, Date.now());
       callback();
     });
   } else {
@@ -777,13 +777,13 @@ function loadDataManagement(type, isPopup, callback) {
     }
     if (type === `import` || type === `delete`) {
       if (type === `import`) {
-        dm.input = container.common.createElements(containerr, `beforeEnd`, [{
+        dm.input = shared.common.createElements(containerr, `beforeEnd`, [{
           attributes: {
             type: `file`
           },
           type: `input`
         }]);
-        new ToggleSwitch(containerr, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, container.esgst.settings.importAndMerge);
+        new ToggleSwitch(containerr, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, shared.esgst.settings.importAndMerge);
       }
       let select = new ToggleSwitch(containerr, `exportBackup`, false, [{
         text: `Backup to `,
@@ -803,15 +803,15 @@ function loadDataManagement(type, isPopup, callback) {
           text: `OneDrive`,
           type: `option`
         }]
-      }], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, container.esgst.settings.exportBackup).name.firstElementChild;
-      select.selectedIndex = container.esgst.settings.exportBackupIndex;
+      }], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, shared.esgst.settings.exportBackup).name.firstElementChild;
+      select.selectedIndex = shared.esgst.settings.exportBackupIndex;
       select.addEventListener(`change`, () => {
         // noinspection JSIgnoredPromiseFromCall
-        container.common.setSetting(`exportBackupIndex`, select.selectedIndex);
+        shared.common.setSetting(`exportBackupIndex`, select.selectedIndex);
       });
     }
     if (type === `import` || type === `export`) {
-      container.common.observeChange(new ToggleSwitch(containerr, `usePreferredGoogle`, false, [{
+      shared.common.observeChange(new ToggleSwitch(containerr, `usePreferredGoogle`, false, [{
         text: `Use preferred Google account: `,
         type: `node`
       }, {
@@ -827,13 +827,13 @@ function loadDataManagement(type, isPopup, callback) {
         },
         events: {
           click: () => {
-            window.alert(container.esgst.settings.preferredGoogle || `No email address defined`);
+            window.alert(shared.esgst.settings.preferredGoogle || `No email address defined`);
           }
         },
         text: `Reveal`,
         type: `span`
-      }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, container.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`, true);
-      container.common.observeChange(new ToggleSwitch(containerr, `usePreferredMicrosoft`, false, [{
+      }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, shared.esgst.settings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`, true);
+      shared.common.observeChange(new ToggleSwitch(containerr, `usePreferredMicrosoft`, false, [{
         text: `Use preferred Microsoft account: `,
         type: `node`
       }, {
@@ -849,26 +849,26 @@ function loadDataManagement(type, isPopup, callback) {
         },
         events: {
           click: () => {
-            window.alert(container.esgst.settings.preferredMicrosoft || `No email address defined`);
+            window.alert(shared.esgst.settings.preferredMicrosoft || `No email address defined`);
           }
         },
         text: `Reveal`,
         type: `span`
-      }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, container.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`, true);
+      }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, shared.esgst.settings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`, true);
     }
-    dm.message = container.common.createElements(containerr, `beforeEnd`, [{
+    dm.message = shared.common.createElements(containerr, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
       type: `div`
     }]);
-    dm.warning = container.common.createElements(containerr, `beforeEnd`, [{
+    dm.warning = shared.common.createElements(containerr, `beforeEnd`, [{
       attributes: {
         class: `esgst-description esgst-warning`
       },
       type: `div`
     }]);
-    group1 = container.common.createElements(containerr, `beforeEnd`, [{
+    group1 = shared.common.createElements(containerr, `beforeEnd`, [{
       attributes: {
         class: `esgst-button-group`
       },
@@ -885,7 +885,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `All`,
       title2: ``,
-      callback1: container.common.selectSwitches.bind(container.common, dm.switches, `enable`, group1)
+      callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, `enable`, group1)
     }).set);
     group1.appendChild(new ButtonSet({
       color1: `grey`,
@@ -894,7 +894,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `None`,
       title2: ``,
-      callback1: container.common.selectSwitches.bind(container.common, dm.switches, `disable`, group1)
+      callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, `disable`, group1)
     }).set);
     group1.appendChild(new ButtonSet({
       color1: `grey`,
@@ -903,9 +903,9 @@ function loadDataManagement(type, isPopup, callback) {
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Inverse`,
       title2: ``,
-      callback1: container.common.selectSwitches.bind(container.common, dm.switches, `toggle`, group1)
+      callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, `toggle`, group1)
     }).set);
-    group2 = container.common.createElements(containerr, `beforeEnd`, [{
+    group2 = shared.common.createElements(containerr, `beforeEnd`, [{
       attributes: {
         class: `esgst-button-group`
       },
@@ -988,7 +988,7 @@ function loadDataManagement(type, isPopup, callback) {
     if (isPopup) {
       popup.open();
     }
-    if (container.esgst[`calculate${container.common.capitalizeFirstLetter(type)}`]) {
+    if (shared.esgst[`calculate${shared.common.capitalizeFirstLetter(type)}`]) {
       getDataSizes(dm);
     }
   }
@@ -1007,115 +1007,115 @@ function loadDataCleaner(isPopup) {
     context = popup.scrollable;
     popup.open();
   } else {
-    containerr = container.esgst.sidebar.nextElementSibling;
+    containerr = shared.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
     context = containerr;
     context.setAttribute(`data-esgst-popup`, true);
   }
-  const heading = container.common.createPageHeading(containerr, `afterBegin`, {
+  const heading = shared.common.createPageHeading(containerr, `afterBegin`, {
     items: [{
       name: `ESGST`,
-      url: container.esgst.settingsUrl
+      url: shared.esgst.settingsUrl
     }, {
       name: `Clean`,
-      url: container.esgst.cleanUrl
+      url: shared.esgst.cleanUrl
     }]
   });
   if (!isPopup) {
-    container.esgst.mainPageHeading = heading;
+    shared.esgst.mainPageHeading = heading;
   }
-  container.common.createElements(context, `beforeEnd`, [{
+  shared.common.createElements(context, `beforeEnd`, [{
     attributes: {
       class: `esgst-bold esgst-description esgst-red`
     },
     text: `Make sure to backup your data before using the cleaner.`,
     type: `div`
   }]);
-  container.common.observeNumChange(new ToggleSwitch(context, `cleanDiscussions`, false, [{
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanDiscussions`, false, [{
     text: `Discussions data older than `,
     type: `node`
   }, {
     attributes: {
       class: `esgst-switch-input`,
       type: `text`,
-      value: container.esgst.cleanDiscussions_days
+      value: shared.esgst.cleanDiscussions_days
     },
     type: `input`
   }, {
     text: ` days.`,
     type: `node`
-  }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, container.esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`, true);
-  container.common.observeNumChange(new ToggleSwitch(context, `cleanEntries`, false, [{
+  }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, shared.esgst.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanEntries`, false, [{
     text: `Entries data older than `,
     type: `node`
   }, {
     attributes: {
       class: `esgst-switch-input`,
       type: `text`,
-      value: container.esgst.cleanEntries_days
+      value: shared.esgst.cleanEntries_days
     },
     type: `input`
   }, {
     text: ` days.`,
     type: `node`
-  }], false, false, ``, container.esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`, true);
-  container.common.observeNumChange(new ToggleSwitch(context, `cleanGiveaways`, false, [{
+  }], false, false, ``, shared.esgst.cleanEntries).name.firstElementChild, `cleanEntries_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanGiveaways`, false, [{
     text: `Giveaways data older than `,
     type: `node`
   }, {
     attributes: {
       class: `esgst-switch-input`,
       type: `text`,
-      value: container.esgst.cleanGiveaways_days
+      value: shared.esgst.cleanGiveaways_days
     },
     type: `input`
   }, {
     text: ` days.`,
     type: `node`
-  }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, container.esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`, true);
-  container.common.observeNumChange(new ToggleSwitch(context, `cleanSgCommentHistory`, false, [{
+  }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, shared.esgst.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanSgCommentHistory`, false, [{
     text: `SteamGifts comment history data older than `,
     type: `node`
   }, {
     attributes: {
       class: `esgst-switch-input`,
       type: `text`,
-      value: container.esgst.cleanSgCommentHistory_days
+      value: shared.esgst.cleanSgCommentHistory_days
     },
     type: `input`
   }, {
     text: ` days.`,
     type: `node`
-  }], false, false, ``, container.esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`, true);
-  container.common.observeNumChange(new ToggleSwitch(context, `cleanTickets`, false, [{
+  }], false, false, ``, shared.esgst.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanTickets`, false, [{
     text: `Tickets data older than `,
     type: `node`
   }, {
     attributes: {
       class: `esgst-switch-input`,
       type: `text`,
-      value: container.esgst.cleanTickets_days
+      value: shared.esgst.cleanTickets_days
     },
     type: `input`
   }, {
     text: ` days.`,
     type: `node`
-  }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, container.esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`, true);
-  container.common.observeNumChange(new ToggleSwitch(context, `cleanTrades`, false, [{
+  }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, shared.esgst.cleanTickets).name.firstElementChild, `cleanTickets_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanTrades`, false, [{
     text: `Trades data older than `,
     type: `node`
   }, {
     attributes: {
       class: `esgst-switch-input`,
       type: `text`,
-      value: container.esgst.cleanTrades_days
+      value: shared.esgst.cleanTrades_days
     },
     type: `input`
   }, {
     text: ` days.`,
     type: `node`
-  }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, container.esgst.cleanTrades).name.firstElementChild, `cleanTrades_days` , true);
-  new ToggleSwitch(context, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, container.esgst.cleanDuplicates);
+  }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, shared.esgst.cleanTrades).name.firstElementChild, `cleanTrades_days` , true);
+  new ToggleSwitch(context, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, shared.esgst.cleanDuplicates);
   context.appendChild(new ButtonSet({
     color1: `green`,
     color2: `grey`,
@@ -1373,21 +1373,21 @@ function loadDataCleaner(isPopup) {
       const oldSize = await manageData(dm, false, false, false, true);
       let currentTime = Date.now();
       let toSave = {};
-      if (container.esgst.cleanDiscussions) {
-        let days = container.esgst.cleanDiscussions_days * 86400000;
-        toSave.discussions = JSON.parse(container.common.getValue(`discussions`, `{}`));
+      if (shared.esgst.cleanDiscussions) {
+        let days = shared.esgst.cleanDiscussions_days * 86400000;
+        toSave.discussions = JSON.parse(shared.common.getValue(`discussions`, `{}`));
         for (let code in toSave.discussions) {
           if (toSave.discussions.hasOwnProperty(code)) {
             let item = toSave.discussions[code];
-            if (item.author !== container.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+            if (item.author !== shared.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
               delete toSave.discussions[code];
             }
           }
         }
       }
-      if (container.esgst.cleanEntries) {
-        let days = container.esgst.cleanEntries_days * 86400000;
-        let items = JSON.parse(container.common.getValue(`entries`, `[]`));
+      if (shared.esgst.cleanEntries) {
+        let days = shared.esgst.cleanEntries_days * 86400000;
+        let items = JSON.parse(shared.common.getValue(`entries`, `[]`));
         toSave.entries = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1395,21 +1395,21 @@ function loadDataCleaner(isPopup) {
           }
         });
       }
-      if (container.esgst.cleanGiveaways) {
-        let days = container.esgst.cleanGiveaways_days * 86400000;
-        toSave.giveaways = JSON.parse(container.common.getValue(`giveaways`, `{}`));
+      if (shared.esgst.cleanGiveaways) {
+        let days = shared.esgst.cleanGiveaways_days * 86400000;
+        toSave.giveaways = JSON.parse(shared.common.getValue(`giveaways`, `{}`));
         for (let code in toSave.giveaways) {
           if (toSave.giveaways.hasOwnProperty(code)) {
             let item = toSave.giveaways[code];
-            if (item.creator !== container.esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
+            if (item.creator !== shared.esgst.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
               delete toSave.giveaways[code];
             }
           }
         }
       }
-      if (container.esgst.cleanSgCommentHistory) {
-        let days = container.esgst.cleanSgCommentHistory_days * 86400000;
-        let items = JSON.parse(container.common.getValue(`sgCommentHistory`, `[]`));
+      if (shared.esgst.cleanSgCommentHistory) {
+        let days = shared.esgst.cleanSgCommentHistory_days * 86400000;
+        let items = JSON.parse(shared.common.getValue(`sgCommentHistory`, `[]`));
         toSave.sgCommentHistory = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1417,32 +1417,32 @@ function loadDataCleaner(isPopup) {
           }
         });
       }
-      if (container.esgst.cleanTickets) {
-        let days = container.esgst.cleanTickets_days * 86400000;
-        toSave.tickets = JSON.parse(container.common.getValue(`tickets`, `{}`));
+      if (shared.esgst.cleanTickets) {
+        let days = shared.esgst.cleanTickets_days * 86400000;
+        toSave.tickets = JSON.parse(shared.common.getValue(`tickets`, `{}`));
         for (let code in toSave.tickets) {
           if (toSave.tickets.hasOwnProperty(code)) {
             let item = toSave.tickets[code];
-            if (item.author !== container.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+            if (item.author !== shared.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
               delete toSave.tickets[code];
             }
           }
         }
       }
-      if (container.esgst.cleanTrades) {
-        let days = container.esgst.cleanTrades_days * 86400000;
-        toSave.trades = JSON.parse(container.common.getValue(`trades`, `{}`));
+      if (shared.esgst.cleanTrades) {
+        let days = shared.esgst.cleanTrades_days * 86400000;
+        toSave.trades = JSON.parse(shared.common.getValue(`trades`, `{}`));
         for (let code in toSave.trades) {
           if (toSave.trades.hasOwnProperty(code)) {
             let item = toSave.trades[code];
-            if (item.author !== container.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
+            if (item.author !== shared.esgst.username && item.lastUsed && currentTime - item.lastUsed > days) {
               delete toSave.trades[code];
             }
           }
         }
       }
-      if (container.esgst.cleanDuplicates) {
-        toSave.users = JSON.parse(container.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
+      if (shared.esgst.cleanDuplicates) {
+        toSave.users = JSON.parse(shared.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
         for (let id in toSave.users.users) {
           if (toSave.users.users.hasOwnProperty(id)) {
             let giveaways = toSave.users.users[id].giveaways;
@@ -1465,7 +1465,7 @@ function loadDataCleaner(isPopup) {
           toSave[key] = JSON.stringify(toSave[key]);
         }
       }
-      await container.common.setValues(toSave);
+      await shared.common.setValues(toSave);
       const newSize = await manageData(dm, false, false, false, true);
       const successPopup = new Popup({
         icon: `fa-check`,
@@ -1483,7 +1483,7 @@ function loadDataCleaner(isPopup) {
           attributes: {
             class: `esgst-bold`
           },
-          text: container.common.convertBytes(oldSize),
+          text: shared.common.convertBytes(oldSize),
           type: `span`
         }, {
           type: `br`
@@ -1494,7 +1494,7 @@ function loadDataCleaner(isPopup) {
           attributes: {
             class: `esgst-bold`
           },
-          text: container.common.convertBytes(newSize),
+          text: shared.common.convertBytes(newSize),
           type: `span`
         }, {
           type: `br`
@@ -1517,7 +1517,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
   for (let i = 0, n = dm.options.length; i < n; i++) {
     let option = dm.options[i];
     let optionKey = option.key;
-    if (!option.check || (!dm.autoBackup && !space && !container.esgst.settings[`${dm.type}_${optionKey}`])) {
+    if (!option.check || (!dm.autoBackup && !space && !shared.esgst.settings[`${dm.type}_${optionKey}`])) {
       continue;
     }
     let values = null;
@@ -1526,32 +1526,32 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     switch (optionKey) {
       case `decryptedGiveaways`:
       case `settings`:
-        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `{}`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `{}`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
+              if (shared.esgst.settings.importAndMerge) {
                 mergedData = data[optionKey];
                 for (let newDataKey in newData) {
                   if (newData.hasOwnProperty(newDataKey)) {
                     mergedData[newDataKey] = newData[newDataKey];
                   }
                 }
-                await container.common.setValue(optionKey, JSON.stringify(mergedData));
+                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await container.common.setValue(optionKey, JSON.stringify(newData));
+                await shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await container.common.delValue(optionKey);
+            await shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `{}`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
@@ -1597,7 +1597,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           };
         }
         data[optionKey] = {};
-        mergedData = JSON.parse(container.common.getValue(optionKey, `{}`));
+        mergedData = JSON.parse(shared.common.getValue(optionKey, `{}`));
         sizes = {
           ct: 0,
           df: 0,
@@ -1624,7 +1624,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (container.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                if (shared.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -1634,7 +1634,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== `main`) {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || container.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                    if (dm.autoBackup || shared.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                       newData[valueKey] = mergedDataValue;
                       if (value !== `main`) {
                         toExport = true;
@@ -1644,7 +1644,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && container.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                    if (!space && dm.delete && shared.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
                       deletedSub += 1;
                       delete mergedData[mergedDataKey][valueKey];
                     }
@@ -1656,14 +1656,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               sizes[found] -= 1;
               sizes.total -= 1;
             }
-            if (dm.autoBackup || toExport || container.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || shared.esgst.settings[`${dm.type}_${optionKey}_main`]) {
               data[optionKey][mergedDataKey] = newData;
               mainFound = true;
             }
             let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((shared.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData[mergedDataKey];
             }
           }
@@ -1679,8 +1679,8 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   for (let value in values) {
                     if (values.hasOwnProperty(value)) {
-                      if (container.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
-                        if (container.esgst.settings.importAndMerge) {
+                      if (shared.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                        if (shared.esgst.settings.importAndMerge) {
                           for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                             let valueKey = values[value][j];
                             switch (valueKey) {
@@ -1726,10 +1726,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await container.common.setValue(optionKey, JSON.stringify(mergedData));
+              await shared.common.setValue(optionKey, JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await container.common.setValue(optionKey, JSON.stringify(mergedData));
+            await shared.common.setValue(optionKey, JSON.stringify(mergedData));
           }
         }
         if (mainFound) {
@@ -1744,19 +1744,19 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = container.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
         break;
       case `themes`:
         data.themes = {};
-        for (const themeId of Object.keys(container.esgst.features.themes.features)) {
-          const theme = container.common.getValue(themeId);
+        for (const themeId of Object.keys(shared.esgst.features.themes.features)) {
+          const theme = shared.common.getValue(themeId);
           if (theme) {
             data.themes[themeId] = theme;
           }
@@ -1765,7 +1765,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           if (dm.import) {
             let newData = dm.data.themes;
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
+              if (shared.esgst.settings.importAndMerge) {
                 for (const themeId in newData) {
                   data.themes[themeId] = newData[themeId];
                 }
@@ -1773,12 +1773,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 data.themes = newData;
               }
               for (const themeId in data.themes) {
-                await container.common.setValue(themeId, data.themes[themeId]);
+                await shared.common.setValue(themeId, data.themes[themeId]);
               }
             }
           } else if (dm.delete) {
             for (const themeId in data.themes) {
-              await container.common.delValue(themeId);
+              await shared.common.delValue(themeId);
             }
             data.themes = {};
           }
@@ -1787,51 +1787,51 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           let size = JSON.stringify(data.themes).length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
       case `emojis`:
-        data.emojis = JSON.parse(container.common.getValue(`emojis`, `[]`));
+        data.emojis = JSON.parse(shared.common.getValue(`emojis`, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = JSON.stringify(dm.data.emojis);
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
-                await container.common.setValue(`emojis`, JSON.stringify(
+              if (shared.esgst.settings.importAndMerge) {
+                await shared.common.setValue(`emojis`, JSON.stringify(
                   Array.from(
                     new Set(
                       data.emojis.concat(
-                        JSON.parse(container.common.fixEmojis(newData))
+                        JSON.parse(shared.common.fixEmojis(newData))
                       )
                     )
                   )
                 ));
               } else {
-                await container.common.setValue(`emojis`, container.common.fixEmojis(newData));
+                await shared.common.setValue(`emojis`, shared.common.fixEmojis(newData));
               }
             }
           } else if (dm.delete) {
-            await container.common.delValue(`emojis`);
+            await shared.common.delValue(`emojis`);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${container.common.getValue(optionKey, `"[]"`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `"[]"`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
       case `entries`:
       case `templates`:
       case `savedReplies`:
-        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
+              if (shared.esgst.settings.importAndMerge) {
                 let dataKey = optionKey === `entries` ? `timestamp` : `name`;
                 mergedData = data[optionKey];
                 for (let j = 0, numNew = newData.length; j < numNew; ++j) {
@@ -1848,20 +1848,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 if (optionKey === `entries`) {
                   mergedData = sortArray(mergedData, false, `timestamp`);
                 }
-                await container.common.setValue(optionKey, JSON.stringify(mergedData));
+                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await container.common.setValue(optionKey, JSON.stringify(newData));
+                await shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await container.common.delValue(optionKey);
+            await shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `[]`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
@@ -1876,7 +1876,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           apps: {},
           subs: {}
         };
-        mergedData = JSON.parse(container.common.getValue(`games`, `{"apps":{},"subs":{}}`));
+        mergedData = JSON.parse(shared.common.getValue(`games`, `{"apps":{},"subs":{}}`));
         sizes = {
           egh: 0,
           gt: 0,
@@ -1896,7 +1896,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (container.esgst.settings[`${dm.type}_games_${value}`]) {
+                if (shared.esgst.settings[`${dm.type}_games_${value}`]) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -1906,7 +1906,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== `main`) {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || container.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                    if (dm.autoBackup || shared.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                       newData[valueKey] = newDataValue;
                       if (value !== `main`) {
                         toExport = true;
@@ -1916,7 +1916,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && container.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                    if (!space && dm.delete && shared.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
                       deletedSub += 1;
                       delete mergedDataValue[valueKey];
                     }
@@ -1928,14 +1928,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               sizes[found] -= 1;
               sizes.total -= 1;
             }
-            if (dm.autoBackup || toExport || container.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || shared.esgst.settings[`${dm.type}_${optionKey}_main`]) {
               data.games.apps[mergedDataKey] = newData;
               mainFound = true;
             }
             let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((shared.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData.apps[mergedDataKey];
             }
           }
@@ -1956,7 +1956,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (container.esgst.settings[`${dm.type}_games_${value}`]) {
+                if (shared.esgst.settings[`${dm.type}_games_${value}`]) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -1966,7 +1966,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== `main`) {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || container.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
+                    if (dm.autoBackup || shared.esgst.settings[`${dm.type}_games_${value}`] || value === `main`) {
                       newData[valueKey] = newDataValue;
                       if (value !== `main`) {
                         toExport = true;
@@ -1976,7 +1976,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && container.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
+                    if (!space && dm.delete && shared.esgst.settings[`${dm.type}_games_${value}`] && value !== `main`) {
                       deletedSub += 1;
                       delete mergedDataValue[valueKey];
                     }
@@ -1988,14 +1988,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               sizes[found] -= 1;
               sizes.total -= 1;
             }
-            if (dm.autoBackup || toExport || container.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || shared.esgst.settings[`${dm.type}_${optionKey}_main`]) {
               data.games.subs[mergedDataKey] = newData;
               mainFound = true;
             }
             let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((shared.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData.subs[mergedDataKey];
             }
           }
@@ -2016,11 +2016,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   let mergedDataValue = mergedData.apps[newDataKey];
                   for (let value in values) {
-                    if (container.esgst.settings[`${dm.type}_games_${value}`]) {
+                    if (shared.esgst.settings[`${dm.type}_games_${value}`]) {
                       for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                         let valueKey = values[value][j];
                         if (typeof newDataValue[valueKey] !== `undefined`) {
-                          if (container.esgst.settings.importAndMerge) {
+                          if (shared.esgst.settings.importAndMerge) {
                             switch (valueKey) {
                               case `entered`:
                                 mergedDataValue.entered = true;
@@ -2068,11 +2068,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   let mergedDataValue = mergedData.subs[newDataKey];
                   for (let value in values) {
-                    if (container.esgst.settings[`${dm.type}_games_${value}`]) {
+                    if (shared.esgst.settings[`${dm.type}_games_${value}`]) {
                       for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                         let valueKey = values[value][j];
                         if (typeof newDataValue[valueKey] !== `undefined`) {
-                          if (container.esgst.settings.importAndMerge) {
+                          if (shared.esgst.settings.importAndMerge) {
                             switch (valueKey) {
                               case `entered`:
                                 mergedDataValue.entered = true;
@@ -2112,10 +2112,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await container.common.setValue(`games`, JSON.stringify(mergedData));
+              await shared.common.setValue(`games`, JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await container.common.setValue(`games`, JSON.stringify(mergedData));
+            await shared.common.setValue(`games`, JSON.stringify(mergedData));
           }
         }
         if (!dm.autoBackup) {
@@ -2126,11 +2126,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = container.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
@@ -2141,7 +2141,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           gpt: [`tags`],
           sgg: [`stickied`]
         };
-        mergedData = JSON.parse(container.common.getValue(optionKey, `[]`));
+        mergedData = JSON.parse(shared.common.getValue(optionKey, `[]`));
         if (!Array.isArray(mergedData)) {
           let temp = [];
           for (let key in mergedData) {
@@ -2168,7 +2168,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           let toExport = false;
           for (let value in values) {
             if (values.hasOwnProperty(value)) {
-              if (container.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+              if (shared.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                 toDelete += 1;
               }
               for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
@@ -2179,7 +2179,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== `main`) {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || container.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
+                    if (dm.autoBackup || shared.esgst.settings[`${dm.type}_${optionKey}_${value}`] || value === `main`) {
                       newData[valueKey] = mergedDataValue;
                       if (value !== `main`) {
                         toExport = true;
@@ -2189,7 +2189,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && container.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
+                    if (!space && dm.delete && shared.esgst.settings[`${dm.type}_${optionKey}_${value}`] && value !== `main`) {
                       deletedSub += 1;
                       delete mergedData[j][valueKey];
                     }
@@ -2202,14 +2202,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             sizes[found] -= 1;
             sizes.total -= 1;
           }
-          if (dm.autoBackup || toExport || container.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+          if (dm.autoBackup || toExport || shared.esgst.settings[`${dm.type}_${optionKey}_main`]) {
             data[optionKey].push(newData);
             mainFound = true;
           }
           let size = `{},`.length;
           sizes.main += size;
           sizes.total += size;
-          if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+          if (!space && dm.delete && ((shared.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
             mergedData.pop();
           }
         }
@@ -2243,7 +2243,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 }
                 for (let value in values) {
                   if (values.hasOwnProperty(value)) {
-                    if (container.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
+                    if (shared.esgst.settings[`${dm.type}_${optionKey}_${value}`]) {
                       for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
                         let valueKey = values[value][k];
                         switch (valueKey) {
@@ -2269,10 +2269,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await container.common.setValue(optionKey, JSON.stringify(mergedData));
+              await shared.common.setValue(optionKey, JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await container.common.setValue(optionKey, JSON.stringify(mergedData));
+            await shared.common.setValue(optionKey, JSON.stringify(mergedData));
           }
         }
         if (!dm.autoBackup) {
@@ -2283,23 +2283,23 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = container.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
         break;
       case `rerolls`:
       case `stickiedCountries`:
-        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
+              if (shared.esgst.settings.importAndMerge) {
                 mergedData = data[optionKey];
                 for (let j = 0, numNew = newData.length; j < numNew; ++j) {
                   let newDataValue = newData[j];
@@ -2307,30 +2307,30 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     mergedData.push(newDataValue);
                   }
                 }
-                await container.common.setValue(optionKey, JSON.stringify(mergedData));
+                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await container.common.setValue(optionKey, JSON.stringify(newData));
+                await shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await container.common.delValue(optionKey);
+            await shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `[]`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
       case `sgCommentHistory`:
-        data[optionKey] = JSON.parse(container.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
+              if (shared.esgst.settings.importAndMerge) {
                 mergedData = [];
                 let oldData = data[optionKey];
                 let j = 0;
@@ -2371,20 +2371,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   k += 1;
                 }
-                await container.common.setValue(optionKey, JSON.stringify(mergedData));
+                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await container.common.setValue(optionKey, JSON.stringify(newData));
+                await shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await container.common.delValue(optionKey);
+            await shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${container.common.getValue(optionKey, `[]`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `[]`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
@@ -2403,7 +2403,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           steamIds: {},
           users: {}
         };
-        mergedData = JSON.parse(container.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
+        mergedData = JSON.parse(shared.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
         sizes = {
           giveaways: 0,
           namwc: 0,
@@ -2428,7 +2428,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (container.esgst.settings[`${dm.type}_users_${value}`]) {
+                if (shared.esgst.settings[`${dm.type}_users_${value}`]) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -2437,7 +2437,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== `main`) {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || container.esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
+                    if (dm.autoBackup || shared.esgst.settings[`${dm.type}_users_${value}`] || value === `main`) {
                       newData[valueKey] = mergedDataValue[valueKey];
                       if (value !== `main`) {
                         toExport = true;
@@ -2447,7 +2447,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && container.esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
+                    if (!space && dm.delete && shared.esgst.settings[`${dm.type}_users_${value}`] && value !== `main`) {
                       deletedSub += 1;
                       delete mergedDataValue[valueKey];
                     }
@@ -2468,7 +2468,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             if (username) {
               size += `"username":"${username}","${username}":"${mergedDataKey}",`.length;
             }
-            if (dm.autoBackup || toExport || container.esgst.settings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || shared.esgst.settings[`${dm.type}_${optionKey}_main`]) {
               if (id) {
                 newData.id = id;
               }
@@ -2483,7 +2483,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             size += `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((container.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((shared.esgst.settings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData.steamIds[mergedDataValue.username];
               delete mergedData.users[mergedDataKey];
             }
@@ -2514,11 +2514,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   let mergedDataValue = mergedData.users[newDataKey];
                   for (let value in values) {
                     if (values.hasOwnProperty(value)) {
-                      if (container.esgst.settings[`${dm.type}_users_${value}`]) {
+                      if (shared.esgst.settings[`${dm.type}_users_${value}`]) {
                         for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                           let valueKey = values[value][j];
                           if (newDataValue[valueKey]) {
-                            if (container.esgst.settings.importAndMerge) {
+                            if (shared.esgst.settings.importAndMerge) {
                               switch (valueKey) {
                                 case `whitelisted`:
                                 case `whitelistedDate`:
@@ -2527,7 +2527,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                                   mergedDataValue[valueKey] = newDataValue[valueKey];
                                   break;
                                 case `notes`:
-                                  mergedDataValue.notes = container.common.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
+                                  mergedDataValue.notes = shared.common.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
                                   break;
                                 case `tags`:
                                   if (mergedDataValue.tags) {
@@ -2576,10 +2576,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await container.common.setValue(`users`, JSON.stringify(mergedData));
+              await shared.common.setValue(`users`, JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await container.common.setValue(`users`, JSON.stringify(mergedData));
+            await shared.common.setValue(`users`, JSON.stringify(mergedData));
           }
         }
         if (!dm.autoBackup) {
@@ -2590,22 +2590,22 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (const value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = container.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
         break;
       case `winners`:
-        data.winners = JSON.parse(container.common.getValue(`winners`, `{}`));
+        data.winners = JSON.parse(shared.common.getValue(`winners`, `{}`));
         if (!space) {
           if (dm.import) {
             let newData = dm.data.winners;
             if (newData) {
-              if (container.esgst.settings.importAndMerge) {
+              if (shared.esgst.settings.importAndMerge) {
                 mergedData = data.winners;
                 for (let newDataKey in newData) {
                   if (newData.hasOwnProperty(newDataKey)) {
@@ -2620,20 +2620,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     }
                   }
                 }
-                await container.common.setValue(`winners`, JSON.stringify(mergedData));
+                await shared.common.setValue(`winners`, JSON.stringify(mergedData));
               } else {
-                await container.common.setValue(`winners`, JSON.stringify(newData));
+                await shared.common.setValue(`winners`, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await container.common.delValue(`winners`);
+            await shared.common.delValue(`winners`);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${container.common.getValue(optionKey, `{}`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `{}`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = container.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
           }
         }
         break;
@@ -2642,7 +2642,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     }
   }
   if (!dm.autoBackup && dm.computerSpaceCount) {
-    dm.computerSpaceCount.textContent = container.common.convertBytes(totalSize);
+    dm.computerSpaceCount.textContent = shared.common.convertBytes(totalSize);
   }
   if (space) {
     if (space.close) {
@@ -2650,46 +2650,44 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     }
     return totalSize;
   } else {
-    if (dm.type === `export` || container.esgst.settings.exportBackup) {
-      if (dropbox || (dm.type !== `export` && container.esgst.settings.exportBackupIndex === 1)) {
-        await container.common.delValue(`dropboxToken`);
-        container.common.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=dropbox&client_id=nix7kvchwa8wdvj`);
+    if (dm.type === `export` || shared.esgst.settings.exportBackup) {
+      if (dropbox || (dm.type !== `export` && shared.esgst.settings.exportBackupIndex === 1)) {
+        await shared.common.delValue(`dropboxToken`);
+        shared.common.openSmallWindow(`https://www.dropbox.com/oauth2/authorize?redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=dropbox&client_id=nix7kvchwa8wdvj`);
         // noinspection JSIgnoredPromiseFromCall
         checkDropboxComplete(data, dm, callback);
-      } else if (googleDrive || (dm.type !== `export` && container.esgst.settings.exportBackupIndex === 2)) {
-        await container.common.delValue(`googleDriveToken`);
-        container.common.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${container.esgst.settings.usePreferredGoogle ? `login_hint=${container.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=google-drive&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
+      } else if (googleDrive || (dm.type !== `export` && shared.esgst.settings.exportBackupIndex === 2)) {
+        await shared.common.delValue(`googleDriveToken`);
+        shared.common.openSmallWindow(`https://accounts.google.com/o/oauth2/v2/auth?${shared.esgst.settings.usePreferredGoogle ? `login_hint=${shared.esgst.settings.preferredGoogle}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=google-drive&client_id=102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.appdata`);
         // noinspection JSIgnoredPromiseFromCall
         checkGoogleDriveComplete(data, dm, callback);
-      } else if (oneDrive || (dm.type !== `export` && container.esgst.settings.exportBackupIndex === 3)) {
-        await container.common.delValue(`oneDriveToken`);
-        container.common.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${container.esgst.settings.usePreferredMicrosoft ? `login_hint=${container.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=onedrive&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
+      } else if (oneDrive || (dm.type !== `export` && shared.esgst.settings.exportBackupIndex === 3)) {
+        await shared.common.delValue(`oneDriveToken`);
+        shared.common.openSmallWindow(`https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${shared.esgst.settings.usePreferredMicrosoft ? `login_hint=${shared.esgst.settings.preferredMicrosoft}&` : ``}redirect_uri=https://www.steamgifts.com/account/settings/profile&response_type=token&state=onedrive&client_id=1781429b-289b-4e6e-877a-e50015c0af21&scope=files.readwrite`);
         // noinspection JSIgnoredPromiseFromCall
         checkOneDriveComplete(data, dm, callback);
       } else {
-        const name = `${container.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
+        const name = `${shared.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`}`;
         if (name === `null`) {
           callback();
           return;
         }
-        if (container.esgst.backupZip) {
-          await container.common.downloadZip(data, `${name}.json`, `${name}.zip`);
+        if (shared.esgst.backupZip) {
+          await shared.common.downloadZip(data, `${name}.json`, `${name}.zip`);
         } else {
-          container.common.downloadFile(JSON.stringify(data), `${name}.json`);
+          shared.common.downloadFile(JSON.stringify(data), `${name}.json`);
         }
         if (!dm.autoBackup) {
-          container.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+          shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
         }
         callback();
       }
     } else {
-      container.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+      shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
       callback();
     }
   }
 }
 
-export {
-  loadDataCleaner,
-  loadDataManagement
-};
+export { loadDataCleaner, loadDataManagement };
+

@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 
 const
@@ -93,4 +93,6 @@ class DiscussionsMainPostPopup extends Module {
   }
 }
 
-export default DiscussionsMainPostPopup;
+const discussionsMainPostPopup = new DiscussionsMainPostPopup();
+
+export { discussionsMainPostPopup };

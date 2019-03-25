@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -138,4 +138,6 @@ class GiveawaysGiveawayRecreator extends Module {
   }
 }
 
-export default GiveawaysGiveawayRecreator;
+const giveawaysGiveawayRecreator = new GiveawaysGiveawayRecreator();
+
+export { giveawaysGiveawayRecreator };

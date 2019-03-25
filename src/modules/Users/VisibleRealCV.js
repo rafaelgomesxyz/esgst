@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class UsersVisibleRealCV extends Module {
   constructor() {
@@ -37,4 +37,6 @@ class UsersVisibleRealCV extends Module {
   }
 }
 
-export default UsersVisibleRealCV;
+const usersVisibleRealCV = new UsersVisibleRealCV();
+
+export { usersVisibleRealCV };

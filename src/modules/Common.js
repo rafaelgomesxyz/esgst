@@ -1,21 +1,21 @@
-import { container } from '../class/Container';
-import Module from '../class/Module'
-import ButtonSet from '../class/ButtonSet';
-import Popout from '../class/Popout';
-import Popup from '../class/Popup';
-import ToggleSwitch from '../class/ToggleSwitch';
-import { utils } from '../lib/jsUtils';
-import JSZip from 'jszip';
-import IntersectionObserver from 'intersection-observer-polyfill';
-import dateFns_isSameWeek from 'date-fns/isSameWeek';
 import dateFns_format from 'date-fns/format';
 import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
+import dateFns_isSameWeek from 'date-fns/isSameWeek';
+import IntersectionObserver from 'intersection-observer-polyfill';
+import JSZip from 'jszip';
+import { browser } from '../browser';
+import { ButtonSet } from '../class/ButtonSet';
+import { Module } from '../class/Module';
+import { Popout } from '../class/Popout';
+import { Popup } from '../class/Popup';
+import { Scope } from '../class/Scope';
+import { shared } from '../class/Shared';
+import { ToggleSwitch } from '../class/ToggleSwitch';
+import { utils } from '../lib/jsUtils';
 import { loadChangelog } from './Changelog';
 import { loadMenu } from './Settings';
-import { runSilentSync, setSync } from './Sync';
 import { loadDataCleaner, loadDataManagement } from './Storage';
-import browser from '../browser';
-import { Scope } from '../class/Scope';
+import { runSilentSync, setSync } from './Sync';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -229,7 +229,7 @@ class Common extends Module {
 
     for (const key in modules) {
       const module = modules[key];
-      if (!module.info.endless && !this.esgst[module.info.id]) {
+      if (!module.info || (!module.info.endless && !this.esgst[module.info.id])) {
         continue;
       }
       if (module.info.featureMap) {
@@ -5819,8 +5819,9 @@ class Common extends Module {
 }
 
 // Singleton
-let common = new Common;
+const common = new Common();
 
-container.add({ common });
+shared.add({ common });
 
 export { common };
+

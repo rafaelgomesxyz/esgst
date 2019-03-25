@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 
 const
@@ -90,4 +90,6 @@ class GeneralCakeDayReminder extends Module {
   }
 }
 
-export default GeneralCakeDayReminder;
+const generalCakeDayReminder = new GeneralCakeDayReminder();
+
+export { generalCakeDayReminder };

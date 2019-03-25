@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -137,4 +137,6 @@ class CommentsReplyFromInbox extends Module {
   }
 }
 
-export default CommentsReplyFromInbox;
+const commentsReplyFromInbox = new CommentsReplyFromInbox();
+
+export { commentsReplyFromInbox };

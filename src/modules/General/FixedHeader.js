@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralFixedHeader extends Module {
   constructor() {
@@ -30,4 +30,6 @@ class GeneralFixedHeader extends Module {
   }
 }
 
-export default GeneralFixedHeader;
+const generalFixedHeader = new GeneralFixedHeader();
+
+export { generalFixedHeader };

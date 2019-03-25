@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class UsersUserTags extends Module {
   constructor() {
@@ -51,4 +51,6 @@ class UsersUserTags extends Module {
   }
 }
 
-export default UsersUserTags;
+const usersUserTags = new UsersUserTags();
+
+export { usersUserTags };

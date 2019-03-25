@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -83,4 +83,6 @@ class DiscussionsPuzzleMarker extends Module {
   }
 }
 
-export default DiscussionsPuzzleMarker;
+const discussionsPuzzleMarker = new DiscussionsPuzzleMarker();
+
+export { discussionsPuzzleMarker };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -512,4 +512,6 @@ class CommentsMultiReply extends Module {
   }
 }
 
-export default CommentsMultiReply;
+const commentsMultiReply = new CommentsMultiReply();
+
+export { commentsMultiReply };

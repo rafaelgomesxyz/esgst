@@ -1,5 +1,5 @@
 /** module interface */
-export default class Module {
+class Module {
   constructor() {
     /** @type {Esgst} */
     this.esgst = null;
@@ -28,3 +28,6 @@ export default class Module {
     return this;
   }
 }
+
+export { Module };
+

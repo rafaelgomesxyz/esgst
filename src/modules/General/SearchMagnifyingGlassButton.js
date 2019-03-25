@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralSearchMagnifyingGlassButton extends Module {
   constructor() {
@@ -43,4 +43,6 @@ class GeneralSearchMagnifyingGlassButton extends Module {
   }
 }
 
-export default GeneralSearchMagnifyingGlassButton;
+const generalSearchMagnifyingGlassButton = new GeneralSearchMagnifyingGlassButton();
+
+export { generalSearchMagnifyingGlassButton };

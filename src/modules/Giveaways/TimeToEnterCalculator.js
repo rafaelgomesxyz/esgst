@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -90,4 +90,6 @@ class GiveawaysTimeToEnterCalculator extends Module {
   }
 }
 
-export default GiveawaysTimeToEnterCalculator;
+const giveawaysTimeToEnterCalculator = new GiveawaysTimeToEnterCalculator();
+
+export { giveawaysTimeToEnterCalculator };

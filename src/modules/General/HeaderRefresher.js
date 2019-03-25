@@ -1,7 +1,7 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import browser from '../../browser';
+import { browser } from '../../browser';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -562,4 +562,6 @@ class GeneralHeaderRefresher extends Module {
   }
 }
 
-export default GeneralHeaderRefresher;
+const generalHeaderRefresher = new GeneralHeaderRefresher();
+
+export { generalHeaderRefresher };

@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
-class VisibleFullLevel extends Module {
+class GeneralVisibleFullLevel extends Module {
   constructor() {
     super();
     this.info = {
@@ -29,4 +29,6 @@ class VisibleFullLevel extends Module {
   }
 }
 
-export default VisibleFullLevel;
+const generalVisibleFullLevel = new GeneralVisibleFullLevel();
+
+export { generalVisibleFullLevel };

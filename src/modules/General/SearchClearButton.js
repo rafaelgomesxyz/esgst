@@ -1,7 +1,7 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
-class SearchClearButton extends Module {
+class GeneralSearchClearButton extends Module {
   constructor() {
     super();
     this.info = {
@@ -29,4 +29,6 @@ class SearchClearButton extends Module {
   }
 }
 
-export default SearchClearButton;
+const generalSearchClearButton = new GeneralSearchClearButton();
+
+export { generalSearchClearButton };

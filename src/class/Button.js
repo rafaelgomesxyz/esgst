@@ -1,10 +1,10 @@
-import {common} from '../modules/Common';
+import { common } from '../modules/Common';
 
 const
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
 ;
 
-export default class Button {
+class Button {
   constructor(context, position, details) {
     this.callbacks = details.callbacks;
     this.states = this.callbacks.length;
@@ -43,3 +43,6 @@ export default class Button {
     }
   }
 }
+
+export { Button };
+

@@ -1,4 +1,4 @@
-export default [
+const EMOJIS = [
   {
     "emoji": "¯\\\\\\_(ツ)_/¯",
     "entity": "&#xAF&#x5C&#x5C&#x5C&#x5F&#x28&#x30C4&#x29&#x5F&#x2F&#xAF",
@@ -8730,3 +8730,5 @@ export default [
     "name": "Flag: Wales"
   }
 ];
+
+export { EMOJIS };

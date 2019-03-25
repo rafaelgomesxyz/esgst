@@ -1,18 +1,19 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popup from '../../class/Popup';
-import ToggleSwitch from '../../class/ToggleSwitch';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
+
+parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   request = common.request.bind(common)
   ;
 
-class GiveawaysHiddenGameManager extends Module {
+class GiveawaysHiddenGamesManager extends Module {
   constructor() {
     super();
     this.info = {
@@ -310,4 +311,6 @@ class GiveawaysHiddenGameManager extends Module {
   }
 }
 
-export default GiveawaysHiddenGameManager;
+const giveawaysHiddenGamesManager = new GiveawaysHiddenGamesManager();
+
+export { giveawaysHiddenGamesManager };

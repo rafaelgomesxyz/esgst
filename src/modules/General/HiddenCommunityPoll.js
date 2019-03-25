@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralHiddenCommunityPoll extends Module {
   constructor() {
@@ -34,4 +34,6 @@ class GeneralHiddenCommunityPoll extends Module {
   }
 }
 
-export default GeneralHiddenCommunityPoll;
+const generalHiddenCommunityPoll = new GeneralHiddenCommunityPoll();
+
+export { generalHiddenCommunityPoll };

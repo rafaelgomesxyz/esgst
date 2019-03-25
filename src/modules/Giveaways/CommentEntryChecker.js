@@ -1,8 +1,8 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { Table } from '../../class/Table';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import Popup from '../../class/Popup';
-import Table from '../../class/Table';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -262,4 +262,6 @@ class GiveawaysCommentEntryChecker extends Module {
   }
 }
 
-export default GiveawaysCommentEntryChecker;
+const giveawaysCommentEntryChecker = new GiveawaysCommentEntryChecker();
+
+export { giveawaysCommentEntryChecker };

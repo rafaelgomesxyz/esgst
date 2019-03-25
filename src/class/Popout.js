@@ -1,6 +1,6 @@
-import {container} from '../class/Container';
+import { shared } from './Shared';
 
-export default class Popout {
+class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
     if (className === `esgst-hidden-buttons`) {
       this.isDynamicHeight = true;
@@ -8,7 +8,7 @@ export default class Popout {
     this.onClose = null;
     this.onOpen = onOpen;
     this.context = context;
-    this.popout = popout || container.common.createElements(document.body, `beforeEnd`, [{
+    this.popout = popout || shared.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: className
       },
@@ -81,8 +81,8 @@ export default class Popout {
     this.isFixed = isFixed;
     this.popout.classList.remove(`esgst-hidden`);
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    if (container.esgst.openPopups > 0) {
-      const highestN = parseInt(container.esgst.popups[container.esgst.openPopups - 1].popup.style.zIndex || 0);
+    if (shared.esgst.openPopups > 0) {
+      const highestN = parseInt(shared.esgst.popups[shared.esgst.openPopups - 1].popup.style.zIndex || 0);
       if (n <= highestN) {
         n = highestN + 1;
       }
@@ -132,8 +132,8 @@ export default class Popout {
     if (!this.isDynamicHeight) {
       this.popout.style.height = `${newHeight}px`;
     }
-    if (container.esgst.qiv && container.esgst.qiv.popout === this && container.esgst.qiv.comments) {
-      container.esgst.qiv.comments.style.maxHeight = `${newHeight - container.esgst.qiv.comments.offsetTop}px`;
+    if (shared.esgst.qiv && shared.esgst.qiv.popout === this && shared.esgst.qiv.comments) {
+      shared.esgst.qiv.comments.style.maxHeight = `${newHeight - shared.esgst.qiv.comments.offsetTop}px`;
     }
     popoutHeight = this.popout.offsetHeight;
     popoutWidth = this.popout.offsetWidth;
@@ -150,3 +150,6 @@ export default class Popout {
     }
   }
 }
+
+export { Popout };
+

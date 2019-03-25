@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popout from '../../class/Popout';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -185,4 +185,6 @@ class GeneralAvatarPopout extends Module {
   }
 }
 
-export default GeneralAvatarPopout;
+const generalAvatarPopout = new GeneralAvatarPopout();
+
+export { generalAvatarPopout };

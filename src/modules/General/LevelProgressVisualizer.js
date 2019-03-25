@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -323,4 +323,6 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 }
 
-export default GeneralLevelProgressVisualizer;
+const generalLevelProgressVisualizer = new GeneralLevelProgressVisualizer();
+
+export { generalLevelProgressVisualizer };

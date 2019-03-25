@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 
 const
@@ -484,4 +484,6 @@ class TradesHaveWantListChecker extends Module {
   }
 }
 
-export default TradesHaveWantListChecker;
+const tradesHaveWantListChecker = new TradesHaveWantListChecker();
+
+export { tradesHaveWantListChecker };

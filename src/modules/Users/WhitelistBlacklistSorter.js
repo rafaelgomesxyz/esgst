@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -251,4 +251,6 @@ class UsersWhitelistBlacklistSorter extends Module {
   }
 }
 
-export default UsersWhitelistBlacklistSorter;
+const usersWhitelistBlacklistSorter = new UsersWhitelistBlacklistSorter();
+
+export { usersWhitelistBlacklistSorter };

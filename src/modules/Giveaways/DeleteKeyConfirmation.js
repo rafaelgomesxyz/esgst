@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -67,4 +67,6 @@ class GiveawaysDeleteKeyConfirmation extends Module {
   }
 }
 
-export default GiveawaysDeleteKeyConfirmation;
+const giveawaysDeleteKeyConfirmation = new GiveawaysDeleteKeyConfirmation();
+
+export { giveawaysDeleteKeyConfirmation };

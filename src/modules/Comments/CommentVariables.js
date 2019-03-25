@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class CommentsCommentVariables extends Module {
   constructor() {
@@ -63,4 +63,6 @@ class CommentsCommentVariables extends Module {
   }
 }
 
-export default CommentsCommentVariables;
+const commentsCommentVariables = new CommentsCommentVariables();
+
+export { commentsCommentVariables };

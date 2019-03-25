@@ -1,6 +1,6 @@
-import {container} from './Container';
+import { shared } from './Shared';
 
-export default class ToggleSwitch {
+class ToggleSwitch {
   /**
    * @param context
    * @param id
@@ -21,7 +21,7 @@ export default class ToggleSwitch {
     this.sg = sg;
     this.st = st;
     this.value = value;
-    this.container = container.common.createElements(context, `beforeEnd`, [{
+    this.container = shared.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-toggle-switch-container ${inline ? `inline` : ``}`
       },
@@ -70,16 +70,16 @@ export default class ToggleSwitch {
       } else if (this.st) {
         key += `_st`;
       }
-      let setting = container.esgst.settings[key];
+      let setting = shared.esgst.settings[key];
       if (typeof setting === `undefined` || !setting.include) {
         setting = this.value;
       } else {
         setting.enabled = this.value ? 1 : 0;
       }
-      container.esgst.settings[key] = setting;
-      container.esgst[this.id] = this.value;
+      shared.esgst.settings[key] = setting;
+      shared.esgst[this.id] = this.value;
       if (!settings) {
-        let message = container.common.createElements(this.container, `beforeEnd`, [{
+        let message = shared.common.createElements(this.container, `beforeEnd`, [{
           attributes: {
             class: `esgst-description esgst-bold`
           },
@@ -92,9 +92,9 @@ export default class ToggleSwitch {
             type: `i`
           }]
         }]);
-        await container.common.setSetting(key, setting);
+        await shared.common.setSetting(key, setting);
         message.classList.add(`esgst-green`);
-        container.common.createElements(message, `inner`, [{
+        shared.common.createElements(message, `inner`, [{
           attributes: {
             class: `fa fa-check`,
             title: `Saved!`
@@ -143,3 +143,6 @@ export default class ToggleSwitch {
     this.change(settings);
   }
 }
+
+export { ToggleSwitch };
+

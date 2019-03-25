@@ -16,6 +16,7 @@ const
   webpack = require('webpack'),
   plugins = {
     clean: require('clean-webpack-plugin'),
+    circularDependency: require('circular-dependency-plugin'),
     sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
     progressBar: require('progress-bar-webpack-plugin'),
     banner: webpack.BannerPlugin,
@@ -86,6 +87,11 @@ module.exports = /** @param {Environment} env */ async env => {
     },
     plugins: [
       new plugins.clean([`build`]),
+      new plugins.circularDependency({
+        exclude: /node_modules/,
+        failOnError: true,
+        cwd: process.cwd()
+      }),
       new plugins.banner({
         raw: true,
         entryOnly: true,

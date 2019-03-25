@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
-import Process from '../../class/Process';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
 import { common } from '../Common';
 
 const
@@ -242,4 +242,6 @@ class DiscussionsDiscussionHighlighter extends Module {
   }
 }
 
-export default DiscussionsDiscussionHighlighter;
+const discussionsDiscussionHighlighter = new DiscussionsDiscussionHighlighter();
+
+export { discussionsDiscussionHighlighter };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -59,4 +59,6 @@ class GeneralPaginationNavigationOnTop extends Module {
   }
 }
 
-export default GeneralPaginationNavigationOnTop;
+const generalPaginationNavigationOnTop = new GeneralPaginationNavigationOnTop();
+
+export { generalPaginationNavigationOnTop };

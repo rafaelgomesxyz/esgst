@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralHiddenBlacklistStats extends Module {
   constructor() {
@@ -41,4 +41,6 @@ class GeneralHiddenBlacklistStats extends Module {
   }
 }
 
-export default GeneralHiddenBlacklistStats;
+const generalHiddenBlacklistStats = new GeneralHiddenBlacklistStats();
+
+export { generalHiddenBlacklistStats };

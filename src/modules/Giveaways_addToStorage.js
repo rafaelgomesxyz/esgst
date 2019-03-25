@@ -1,4 +1,4 @@
-import Module from '../class/Module';
+import { Module } from '../class/Module';
 import {common} from './Common';
 
 const
@@ -22,4 +22,6 @@ class Giveaways_addToStorage extends Module {
   }
 }
 
-export default Giveaways_addToStorage;
+const giveaways_addToStorage = new Giveaways_addToStorage();
+
+export { giveaways_addToStorage };

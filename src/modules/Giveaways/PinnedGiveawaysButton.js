@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -51,4 +51,6 @@ class GiveawaysPinnedGiveawaysButton extends Module {
   }
 }
 
-export default GiveawaysPinnedGiveawaysButton;
+const giveawaysPinnedGiveawaysButton = new GiveawaysPinnedGiveawaysButton();
+
+export { giveawaysPinnedGiveawaysButton };

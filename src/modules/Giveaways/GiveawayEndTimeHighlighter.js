@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GiveawaysGiveawayEndTimeHighlighter extends Module {
   constructor() {
@@ -43,4 +43,6 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
   }
 }
 
-export default GiveawaysGiveawayEndTimeHighlighter;
+const giveawaysGiveawayEndTimeHighlighter = new GiveawaysGiveawayEndTimeHighlighter();
+
+export { giveawaysGiveawayEndTimeHighlighter };

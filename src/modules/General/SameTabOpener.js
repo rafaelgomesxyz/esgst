@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralSameTabOpener extends Module {
   constructor() {
@@ -30,4 +30,6 @@ class GeneralSameTabOpener extends Module {
   }
 }
 
-export default GeneralSameTabOpener;
+const generalSameTabOpener = new GeneralSameTabOpener();
+
+export { generalSameTabOpener };

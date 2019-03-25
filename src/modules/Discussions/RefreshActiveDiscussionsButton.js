@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -61,4 +61,6 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
   }
 }
 
-export default DiscussionsRefreshActiveDiscussionsButton;
+const discussionsRefreshActiveDiscussionsButton = new DiscussionsRefreshActiveDiscussionsButton();
+
+export { discussionsRefreshActiveDiscussionsButton };

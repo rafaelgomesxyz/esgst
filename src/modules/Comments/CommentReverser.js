@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -36,4 +36,6 @@ class CommentsCommentReverser extends Module {
   }
 }
 
-export default CommentsCommentReverser;
+const commentsCommentReverser = new CommentsCommentReverser();
+
+export { commentsCommentReverser };

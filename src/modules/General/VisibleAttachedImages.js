@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralVisibleAttachedImages extends Module {
   constructor() {
@@ -47,4 +47,6 @@ class GeneralVisibleAttachedImages extends Module {
   }
 }
 
-export default GeneralVisibleAttachedImages;
+const generalVisibleAttachedImages = new GeneralVisibleAttachedImages();
+
+export { generalVisibleAttachedImages };

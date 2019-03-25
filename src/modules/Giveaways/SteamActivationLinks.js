@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -178,4 +178,6 @@ class GiveawaysSteamActivationLinks extends Module {
   }
 }
 
-export default GiveawaysSteamActivationLinks;
+const giveawaysSteamActivationLinks = new GiveawaysSteamActivationLinks();
+
+export { giveawaysSteamActivationLinks };

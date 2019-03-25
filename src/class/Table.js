@@ -1,10 +1,10 @@
-import {common} from '../modules/Common';
+import { common } from '../modules/Common';
 
 const
   createElements = common.createElements.bind(common)
 ;
 
-export default class Table {
+class Table {
   /**
    * @param {Array[]} [values] A matrix containing the values of the table.
    */
@@ -208,3 +208,6 @@ export default class Table {
     }
   }
 }
+
+export { Table };
+
