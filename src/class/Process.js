@@ -1,16 +1,8 @@
-import Popup from './Popup';
-import {utils} from '../lib/jsUtils';
-import {common} from '../modules/Common';
-import esgst from './Esgst';
+import { utils } from '../lib/jsUtils';
+import { Popup } from './Popup';
+import { shared } from './Shared';
 
-const
-  parseHtml = utils.parseHtml.bind(utils),
-  createHeadingButton = common.createHeadingButton.bind(common),
-  endless_load = common.endless_load.bind(common),
-  request = common.request.bind(common)
-;
-
-export default class Process {
+class Process {
   constructor(details) {
     this.mainContext = null;
     this.mainPopup = details.mainPopup;
@@ -24,7 +16,7 @@ export default class Process {
       if (details.button) {
         this.button = details.button;
       } else {
-        this.button = createHeadingButton(details.headingButton);
+        this.button = shared.common.createHeadingButton(details.headingButton);
       }
       this.button.addEventListener(`click`, this.openPopup.bind(this));
     }
@@ -59,7 +51,7 @@ export default class Process {
       if (!this.urls.doNotTrigger) {
         this.popup.triggerButton(0);
       }
-      if (esgst[`es_${this.urls.id}`]) {
+      if (shared.esgst[`es_${this.urls.id}`]) {
         this.popup.scrollable.addEventListener(`scroll`, () => {
           if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
             this.popup.triggerButton(0);
@@ -121,14 +113,14 @@ export default class Process {
     }
     this.popup.setProgress(`Loading more...`);
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-    this.context = this.mainContext ? common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
+    this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
-    while (!this.isCanceled && (i < this.perLoad || (esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+    while (!this.isCanceled && (i < this.perLoad || (shared.esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;
-      let response = await request({method: `GET`, queue: details.queue, url: url});
-      let responseHtml = parseHtml(response.responseText);
+      let response = await shared.common.request({method: `GET`, queue: details.queue, url: url});
+      let responseHtml = utils.parseHtml(response.responseText);
       await details.request(this, details, response, responseHtml);
       i += 1;
       this.index += 1;
@@ -140,7 +132,7 @@ export default class Process {
     if (this.urls.restart) {
       this.index = 0;
     }
-    await endless_load(this.context);
+    await shared.common.endless_load(this.context);
   }
 
   async request(details) {
@@ -152,16 +144,19 @@ export default class Process {
     let pagination = null;
     let stop = false;
     do {
-      let response = await request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
-      let responseHtml = parseHtml(response.responseText);
+      let response = await shared.common.request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
+      let responseHtml = utils.parseHtml(response.responseText);
       if (details.nextPage === backup) {
-        details.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
+        details.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
         details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
       }
       stop = await details.request(this, details, response, responseHtml);
       details.nextPage += 1;
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-    } while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(esgst.selectedClass));
+    } while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(shared.esgst.selectedClass));
     details.nextPage = backup;
   }
 }
+
+export { Process };
+

@@ -1,5 +1,5 @@
 import { utils } from './lib/jsUtils';
-import browser from './browser';
+import { browser } from './browser';
 
 let storage = null;
 let themeElement = null;

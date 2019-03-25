@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralURLRedirector extends Module {
   constructor() {
@@ -18,4 +18,6 @@ class GeneralURLRedirector extends Module {
   }
 }
 
-export default GeneralURLRedirector;
+const generalURLRedirector = new GeneralURLRedirector();
+
+export { generalURLRedirector };

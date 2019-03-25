@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Process from '../../class/Process';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -223,4 +223,6 @@ class UsersNotReceivedFinder extends Module {
   }
 }
 
-export default UsersNotReceivedFinder;
+const usersNotReceivedFinder = new UsersNotReceivedFinder();
+
+export { usersNotReceivedFinder };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import dateFns_format from 'date-fns/format';
 import {common} from '../Common';
 
@@ -58,4 +58,6 @@ class GeneralPageLoadTimestamp extends Module {
   }
 }
 
-export default GeneralPageLoadTimestamp;
+const generalPageLoadTimestamp = new GeneralPageLoadTimestamp();
+
+export { generalPageLoadTimestamp };

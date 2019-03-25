@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -161,4 +161,6 @@ class UsersSentWonRatio extends Module {
   }
 }
 
-export default UsersSentWonRatio;
+const usersSentWonRatio = new UsersSentWonRatio();
+
+export { usersSentWonRatio };

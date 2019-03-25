@@ -1,10 +1,10 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popup from '../../class/Popup';
-import ToggleSwitch from '../../class/ToggleSwitch';
+import dateFns_differenceInDays from 'date-fns/differenceInDays';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import dateFns_differenceInDays from 'date-fns/differenceInDays';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -807,4 +807,6 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 }
 
-export default GiveawaysGiveawayExtractor;
+const giveawaysGiveawayExtractor = new GiveawaysGiveawayExtractor();
+
+export { giveawaysGiveawayExtractor };

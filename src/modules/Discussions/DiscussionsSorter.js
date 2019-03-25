@@ -1,7 +1,7 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popout from '../../class/Popout';
-import ToggleSwitch from '../../class/ToggleSwitch';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 
 const
@@ -133,4 +133,6 @@ class DiscussionsDiscussionsSorter extends Module {
   }
 }
 
-export default DiscussionsDiscussionsSorter;
+const discussionsDiscussionsSorter = new DiscussionsDiscussionsSorter();
+
+export { discussionsDiscussionsSorter };

@@ -1,10 +1,5 @@
-import Module from '../../class/Module';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common)
-  ;
+import { Module } from '../../class/Module';
+import { shared } from '../../class/Shared';
 
 class CommentsCollapseExpandReplyButton extends Module {
   constructor() {
@@ -45,7 +40,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     comments = document.getElementsByClassName(`comments`)[0];
     if (comments && comments.children.length) {
       this.esgst.cerbButtons = [];
-      button = createElements(this.esgst.mainPageHeading, `afterEnd`, [{
+      button = shared.common.createElements(this.esgst.mainPageHeading, `afterEnd`, [{
         attributes: {
           class: `esgst-cerb-button esgst-clickable`
         },
@@ -93,14 +88,14 @@ class CommentsCollapseExpandReplyButton extends Module {
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);
       if (replies && replies.children.length) {
-        this.cerb_setButton(createElements(reply.firstElementChild, `afterBegin`, [{
+        this.cerb_setButton(shared.common.createElements(reply.firstElementChild, `afterBegin`, [{
           attributes: {
             class: `esgst-cerb-reply-button esgst-clickable`
           },
           type: `div`,
           children: [{
             attributes: {
-              title: getFeatureTooltip(`cerb`, `Collapse all replies`)
+              title: shared.common.getFeatureTooltip(`cerb`, `Collapse all replies`)
             },
             type: `span`,
             children: [{
@@ -111,7 +106,7 @@ class CommentsCollapseExpandReplyButton extends Module {
           }, {
             attributes: {
               class: `esgst-hidden`,
-              title: getFeatureTooltip(`cerb`, `Expand all replies`)
+              title: shared.common.getFeatureTooltip(`cerb`, `Expand all replies`)
             },
             type: `span`,
             children: [{
@@ -184,4 +179,6 @@ class CommentsCollapseExpandReplyButton extends Module {
   }
 }
 
-export default CommentsCollapseExpandReplyButton;
+const commentsCollapseExpandReplyButton = new CommentsCollapseExpandReplyButton();
+
+export { commentsCollapseExpandReplyButton };

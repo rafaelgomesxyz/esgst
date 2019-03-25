@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -156,4 +156,6 @@ class GiveawaysStickiedGiveawayGroups extends Module {
   }
 }
 
-export default GiveawaysStickiedGiveawayGroups;
+const giveawaysStickiedGiveawayGroups = new GiveawaysStickiedGiveawayGroups();
+
+export { giveawaysStickiedGiveawayGroups };

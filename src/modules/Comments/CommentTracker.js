@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -1144,4 +1144,6 @@ class CommentsCommentTracker extends Module {
   }
 }
 
-export default CommentsCommentTracker;
+const commentsCommentTracker = new CommentsCommentTracker();
+
+export { commentsCommentTracker };

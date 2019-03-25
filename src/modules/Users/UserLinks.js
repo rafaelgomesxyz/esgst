@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 class UsersUserLinks extends Module {
@@ -63,4 +63,6 @@ class UsersUserLinks extends Module {
   }
 }
 
-export default UsersUserLinks;
+const usersUserLinks = new UsersUserLinks();
+
+export { usersUserLinks };

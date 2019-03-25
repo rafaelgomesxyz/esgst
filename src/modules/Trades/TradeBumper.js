@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -117,4 +117,6 @@ class TradesTradeBumper extends Module {
   }
 }
 
-export default TradesTradeBumper;
+const tradesTradeBumper = new TradesTradeBumper();
+
+export { tradesTradeBumper };

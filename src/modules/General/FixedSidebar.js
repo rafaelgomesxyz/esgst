@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralFixedSidebar extends Module {
   constructor() {
@@ -42,4 +42,6 @@ class GeneralFixedSidebar extends Module {
   }
 }
 
-export default GeneralFixedSidebar;
+const generalFixedSidebar = new GeneralFixedSidebar();
+
+export { generalFixedSidebar };

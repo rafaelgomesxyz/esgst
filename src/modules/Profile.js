@@ -1,4 +1,4 @@
-import Module from '../class/Module';
+import { Module } from '../class/Module';
 import {common} from './Common';
 
 const
@@ -131,4 +131,6 @@ class Profile extends Module {
   }
 }
 
-export default Profile;
+const profileModule = new Profile();
+
+export { profileModule };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -143,4 +143,6 @@ class CommentsCommentFilters extends Module {
   }
 }
 
-export default CommentsCommentFilters;
+const commentsCommentFilters = new CommentsCommentFilters();
+
+export { commentsCommentFilters };

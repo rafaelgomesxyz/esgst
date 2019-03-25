@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -97,4 +97,6 @@ class GamesEnteredGameHighlighter extends Module {
   }
 }
 
-export default GamesEnteredGameHighlighter;
+const gamesEnteredGameHighlighter = new GamesEnteredGameHighlighter();
+
+export { gamesEnteredGameHighlighter };

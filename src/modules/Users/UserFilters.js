@@ -1,7 +1,7 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popup from '../../class/Popup';
-import ToggleSwitch from '../../class/ToggleSwitch';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 
 const
@@ -228,4 +228,6 @@ class UsersUserFilters extends Module {
   }
 }
 
-export default UsersUserFilters;
+const usersUserFilters = new UsersUserFilters();
+
+export { usersUserFilters };

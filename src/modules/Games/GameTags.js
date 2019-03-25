@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GamesGameTags extends Module {
   constructor() {
@@ -49,4 +49,6 @@ class GamesGameTags extends Module {
   }
 }
 
-export default GamesGameTags;
+const gamesGameTags = new GamesGameTags();
+
+export { gamesGameTags };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GiveawaysUnfadedEnteredGiveaway extends Module {
   constructor() {
@@ -29,4 +29,6 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
   }
 }
 
-export default GiveawaysUnfadedEnteredGiveaway;
+const giveawaysUnfadedEnteredGiveaway = new GiveawaysUnfadedEnteredGiveaway();
+
+export { giveawaysUnfadedEnteredGiveaway };

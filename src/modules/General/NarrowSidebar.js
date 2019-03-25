@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralNarrowSidebar extends Module {
   constructor() {
@@ -24,4 +24,6 @@ class GeneralNarrowSidebar extends Module {
   }
 }
 
-export default GeneralNarrowSidebar;
+const generalNarrowSidebar = new GeneralNarrowSidebar();
+
+export { generalNarrowSidebar };

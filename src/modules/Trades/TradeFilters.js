@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
-import Process from '../../class/Process';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -431,4 +431,6 @@ class TradesTradeFilters extends Module {
   }
 }
 
-export default TradesTradeFilters;
+const tradesTradeFilters = new TradesTradeFilters();
+
+export { tradesTradeFilters };

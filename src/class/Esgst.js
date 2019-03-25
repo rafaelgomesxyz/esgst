@@ -1,7 +1,6 @@
-import {container} from '../class/Container';
-import Parsedown from '../lib/parsedown';
-import modules from '../modules';
-import { Scope } from './Scope';
+import { Parsedown } from '../lib/parsedown';
+import { modules } from '../modules';
+import { shared } from './Shared';
 
 class Esgst {
   constructor() {
@@ -2222,6 +2221,7 @@ class Esgst {
     this.nrf_clearCache = null;
 
     this.modules = modules;
+
     for (const key in this.modules) {
       if (this.modules.hasOwnProperty(key)) {
         this.modules[key].setEsgst.call(this.modules[key], this);
@@ -2291,8 +2291,9 @@ class Esgst {
   }
 }
 
-export {Esgst};
+const esgst = new Esgst();
 
-let esgst = new Esgst;
-export default esgst;
-container.add({esgst});
+shared.add({ esgst, modules });
+
+export { esgst };
+

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralElementFilters extends Module {
   constructor() {
@@ -70,4 +70,6 @@ class GeneralElementFilters extends Module {
   }
 }
 
-export default GeneralElementFilters;
+const generalElementFilters = new GeneralElementFilters();
+
+export { generalElementFilters };

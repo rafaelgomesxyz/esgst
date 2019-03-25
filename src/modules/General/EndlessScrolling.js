@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
@@ -841,4 +841,6 @@ class GeneralEndlessScrolling extends Module {
   }
 }
 
-export default GeneralEndlessScrolling;
+const generalEndlessScrolling = new GeneralEndlessScrolling();
+
+export { generalEndlessScrolling };

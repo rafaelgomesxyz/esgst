@@ -1,9 +1,9 @@
-import Module from '../../class/Module';
-import Process from '../../class/Process';
-import Table from '../../class/Table';
+import dateFns_format from 'date-fns/format';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
+import { Table } from '../../class/Table';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import dateFns_format from 'date-fns/format';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -1133,4 +1133,6 @@ class UsersUserGiveawayData extends Module {
   }
 }
 
-export default UsersUserGiveawayData;
+const usersUserGiveawayData = new UsersUserGiveawayData();
+
+export { usersUserGiveawayData };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 class GeneralTimeToPointCapCalculator extends Module {
@@ -44,4 +44,6 @@ class GeneralTimeToPointCapCalculator extends Module {
   }
 }
 
-export default GeneralTimeToPointCapCalculator;
+const generalTimeToPointCapCalculator = new GeneralTimeToPointCapCalculator();
+
+export { generalTimeToPointCapCalculator };

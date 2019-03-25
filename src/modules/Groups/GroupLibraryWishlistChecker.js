@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils'
 import { common } from '../Common';
 
@@ -957,4 +957,6 @@ class GroupsGroupLibraryWishlistChecker extends Module {
   }
 }
 
-export default GroupsGroupLibraryWishlistChecker;
+const groupsGroupLibraryWishlistChecker = new GroupsGroupLibraryWishlistChecker();
+
+export { groupsGroupLibraryWishlistChecker };

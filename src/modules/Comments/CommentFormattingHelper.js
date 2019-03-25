@@ -1,9 +1,9 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popout from '../../class/Popout';
-import Popup from '../../class/Popup';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
+import { Popup } from '../../class/Popup';
+import { EMOJIS } from '../../emojis';
 import { common } from '../Common';
-import EMOJIS from '../../emojis';
 
 const
   createAlert = common.createAlert.bind(common),
@@ -1835,4 +1835,6 @@ class CommentsCommentFormattingHelper extends Module {
   }
 }
 
-export default CommentsCommentFormattingHelper;
+const commentsCommentFormattingHelper = new CommentsCommentFormattingHelper();
+
+export { commentsCommentFormattingHelper };

@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popup from '../../class/Popup';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -494,4 +494,6 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 }
 
-export default GiveawaysCreatedEnteredWonGiveawayDetails;
+const giveawaysCreatedEnteredWonGiveawayDetails = new GiveawaysCreatedEnteredWonGiveawayDetails();
+
+export { giveawaysCreatedEnteredWonGiveawayDetails };

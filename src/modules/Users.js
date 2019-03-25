@@ -1,4 +1,4 @@
-import Module from '../class/Module';
+import { Module } from '../class/Module';
 
 class Users extends Module {
   constructor() {
@@ -97,4 +97,6 @@ class Users extends Module {
   }
 }
 
-export default Users;
+const usersModule = new Users();
+
+export { usersModule };

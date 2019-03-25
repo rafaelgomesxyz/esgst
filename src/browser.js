@@ -45,4 +45,6 @@ if (typeof _browser.runtime.getBrowserInfo === `undefined`) {
   });
 }
 
-export default _browser;
+const browser = _browser;
+
+export { browser };

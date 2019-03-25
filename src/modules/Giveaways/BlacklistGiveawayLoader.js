@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -99,4 +99,6 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
   }
 }
 
-export default GiveawaysBlacklistGiveawayLoader;
+const giveawaysBlacklistGiveawayLoader = new GiveawaysBlacklistGiveawayLoader();
+
+export { giveawaysBlacklistGiveawayLoader };

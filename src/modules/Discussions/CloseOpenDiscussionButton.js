@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -84,4 +84,6 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
   }
 }
 
-export default DiscussionsCloseOpenDiscussionButton;
+const discussionsCloseOpenDiscussionButton = new DiscussionsCloseOpenDiscussionButton();
+
+export { discussionsCloseOpenDiscussionButton };

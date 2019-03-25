@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -70,4 +70,6 @@ class UsersRealWonSentCVLink extends Module {
   }
 }
 
-export default UsersRealWonSentCVLink;
+const usersRealWonSentCVLink = new UsersRealWonSentCVLink();
+
+export { usersRealWonSentCVLink };

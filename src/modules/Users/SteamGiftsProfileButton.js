@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -69,4 +69,6 @@ class UsersSteamGiftsProfileButton extends Module {
   }
 }
 
-export default UsersSteamGiftsProfileButton;
+const usersSteamGiftsProfileButton = new UsersSteamGiftsProfileButton();
+
+export { usersSteamGiftsProfileButton };

@@ -1,6 +1,6 @@
-import {container} from './Container';
+import { shared } from './Shared';
 
-export default class Checkbox {
+class Checkbox {
   constructor(context, defaultValue, threeState, messages = {}) {
     this.onPreEnabled = null;
     this.onPreDisabled = null;
@@ -19,9 +19,9 @@ export default class Checkbox {
       ]]
     ];
     if (context) {
-      this.checkbox = container.common.createElements_v2(context, `afterBegin`, items);
+      this.checkbox = shared.common.createElements_v2(context, `afterBegin`, items);
     } else {
-      this.checkbox = container.common.createElements_v2(items).firstElementChild;
+      this.checkbox = shared.common.createElements_v2(items).firstElementChild;
     }
     this.input = this.checkbox.firstElementChild;
     this.disabled = this.input.nextElementSibling;
@@ -148,3 +148,6 @@ export default class Checkbox {
     }
   }
 }
+
+export { Checkbox };
+

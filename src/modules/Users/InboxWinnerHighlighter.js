@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -89,4 +89,6 @@ class UsersInboxWinnerHighlighter extends Module {
   }
 }
 
-export default UsersInboxWinnerHighlighter;
+const usersInboxWinnerHighlighter = new UsersInboxWinnerHighlighter();
+
+export { usersInboxWinnerHighlighter };

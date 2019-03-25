@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralShortcutKeys extends Module {
   constructor() {
@@ -278,4 +278,6 @@ class GeneralShortcutKeys extends Module {
   }
 }
 
-export default GeneralShortcutKeys;
+const generalShortcutKeys = new GeneralShortcutKeys();
+
+export { generalShortcutKeys };

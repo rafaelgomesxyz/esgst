@@ -1,10 +1,10 @@
-import Module from '../class/Module';
-import ButtonSet from '../class/ButtonSet';
-import Checkbox from '../class/Checkbox';
-import Popup from '../class/Popup';
-import ToggleSwitch from '../class/ToggleSwitch';
-import {utils} from '../lib/jsUtils';
-import {common} from './Common';
+import { ButtonSet } from '../class/ButtonSet';
+import { Checkbox } from '../class/Checkbox';
+import { Module } from '../class/Module';
+import { Popup } from '../class/Popup';
+import { ToggleSwitch } from '../class/ToggleSwitch';
+import { utils } from '../lib/jsUtils';
+import { common } from './Common';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -2107,4 +2107,6 @@ class Filters extends Module {
   }
 }
 
-export default Filters;
+const filtersModule = new Filters();
+
+export { filtersModule };

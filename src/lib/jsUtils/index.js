@@ -1,4 +1,4 @@
-export default class Utils {
+class Utils {
   constructor() {
     this.parser = new DOMParser();
   }
@@ -111,4 +111,6 @@ export default class Utils {
   }
 }
 
-export let utils = new Utils;
+const utils = new Utils();
+
+export { utils };

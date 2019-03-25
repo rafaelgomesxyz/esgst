@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralImageBorders extends Module {
   constructor() {
@@ -33,4 +33,6 @@ class GeneralImageBorders extends Module {
   }
 }
 
-export default GeneralImageBorders;
+const generalImageBorders = new GeneralImageBorders();
+
+export { generalImageBorders };

@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -167,4 +167,6 @@ class GiveawaysRealCVCalculator extends Module {
   }
 }
 
-export default GiveawaysRealCVCalculator;
+const giveawaysRealCVCalculator = new GiveawaysRealCVCalculator();
+
+export { giveawaysRealCVCalculator };

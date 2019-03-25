@@ -1031,4 +1031,4 @@ class Parsedown {
   }
 }
 
-export default Parsedown;
+export { Parsedown };

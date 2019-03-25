@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -190,4 +190,6 @@ class UsersUserStats extends Module {
   }
 }
 
-export default UsersUserStats;
+const usersUserStats = new UsersUserStats();
+
+export { usersUserStats };

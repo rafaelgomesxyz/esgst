@@ -1,4 +1,4 @@
-import Module from '../class/Module';
+import { Module } from '../class/Module';
 
 class Groups extends Module {
   constructor() {
@@ -86,4 +86,6 @@ class Groups extends Module {
   }
 }
 
-export default Groups;
+const groupsModule = new Groups();
+
+export { groupsModule };

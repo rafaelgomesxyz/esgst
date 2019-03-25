@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Popup from '../../class/Popup';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 
 const
@@ -61,4 +61,6 @@ class CommentsReplyBoxPopup extends Module {
   }
 }
 
-export default CommentsReplyBoxPopup;
+const commentsReplyBoxPopup = new CommentsReplyBoxPopup();
+
+export { commentsReplyBoxPopup };

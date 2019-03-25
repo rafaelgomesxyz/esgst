@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import dateFns_format from 'date-fns/format';
 import dateFns_differenceInHours from 'date-fns/differenceInHours';
 import dateFns_isSameYear from 'date-fns/isSameYear';
@@ -115,4 +115,6 @@ class GeneralAccurateTimestamp extends Module {
   }
 }
 
-export default GeneralAccurateTimestamp;
+const generalAccurateTimestamp = new GeneralAccurateTimestamp();
+
+export { generalAccurateTimestamp };

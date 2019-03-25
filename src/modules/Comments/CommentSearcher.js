@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Process from '../../class/Process';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
 import { common } from '../Common';
 
 const
@@ -204,4 +204,6 @@ class CommentsCommentSearcher extends Module {
   }
 }
 
-export default CommentsCommentSearcher;
+const commentsCommentSearcher = new CommentsCommentSearcher();
+
+export { commentsCommentSearcher };

@@ -1,5 +1,5 @@
-import Module from '../../class/Module';
-import Popout from '../../class/Popout';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -274,4 +274,6 @@ class GeneralQuickInboxView extends Module {
   }
 }
 
-export default GeneralQuickInboxView;
+const generalQuickInboxView = new GeneralQuickInboxView();
+
+export { generalQuickInboxView };

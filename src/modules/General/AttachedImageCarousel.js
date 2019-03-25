@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -209,4 +209,6 @@ class GeneralAttachedImageCarousel extends Module {
   }
 }
 
-export default GeneralAttachedImageCarousel;
+const generalAttachedImageCarousel = new GeneralAttachedImageCarousel();
+
+export { generalAttachedImageCarousel };

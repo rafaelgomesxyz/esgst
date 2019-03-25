@@ -1,4 +1,4 @@
-import Module from '../class/Module';
+import { Module } from '../class/Module';
 import {utils} from '../lib/jsUtils';
 import {common} from './Common';
 
@@ -233,4 +233,6 @@ class Games extends Module {
   }
 }
 
-export default Games;
+const gamesModule = new Games();
+
+export { gamesModule };

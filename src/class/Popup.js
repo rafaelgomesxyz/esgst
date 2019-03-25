@@ -1,11 +1,10 @@
-import ButtonSet from './ButtonSet';
-import {container} from './Container';
-import { loadMenu } from '../modules/Settings';
+import { ButtonSet } from './ButtonSet';
+import { shared } from './Shared';
 
-export default class Popup {
+class Popup {
   constructor(details) {
     this.temp = details.isTemp;
-    this.layer = container.common.createElements(document.body, `beforeEnd`, [{
+    this.layer = shared.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
         class: `esgst-hidden esgst-popup-layer`
       },
@@ -54,7 +53,7 @@ export default class Popup {
           children: [{
             attributes: {
               class: `esgst-hidden`,
-              href: container.esgst.settingsUrl
+              href: shared.esgst.settingsUrl
             },
             text: `Settings`,
             type: `a`
@@ -94,9 +93,9 @@ export default class Popup {
       if (!details.settings) {
         settings.classList.remove(`esgst-hidden`);
         settings.addEventListener(`click`, event => {
-          if (!container.esgst.openSettingsInTab) {
+          if (!shared.esgst.openSettingsInTab) {
             event.preventDefault();
-            loadMenu(true);
+            shared.esgst.modules.loadMenu(true);
           }
         });
       }
@@ -123,21 +122,21 @@ export default class Popup {
           },
           type: `input`
         });
-        let input = container.common.createElements(this.description, `beforeEnd`, items);
+        let input = shared.common.createElements(this.description, `beforeEnd`, items);
         input.addEventListener(`keydown`, this.triggerButton.bind(this, 0));
         this.textInputs.push(input);
       });
     }
     if (details.options) {
-      this.description.appendChild(container.common.createOptions(details.options));
+      this.description.appendChild(shared.common.createOptions(details.options));
       let inputs = this.description.lastElementChild.getElementsByTagName(`input`);
       for (let input of inputs) {
         switch (input.getAttribute(`type`)) {
           case `number`:
-            container.common.observeNumChange(input, input.getAttribute(`name`), true);
+            shared.common.observeNumChange(input, input.getAttribute(`name`), true);
             break;
           case `text`:
-            container.common.observeChange(input, input.getAttribute(`name`), true);
+            shared.common.observeChange(input, input.getAttribute(`name`), true);
             break;
           default:
             break;
@@ -153,28 +152,28 @@ export default class Popup {
       });
     }
     if (details.addProgress) {
-      this.progress = container.common.createElements(this.description, `beforeEnd`, [{
+      this.progress = shared.common.createElements(this.description, `beforeEnd`, [{
         type: `div`
       }]);
-      this.overallProgress = container.common.createElements(this.description, `beforeEnd`, [{
+      this.overallProgress = shared.common.createElements(this.description, `beforeEnd`, [{
         type: `div`
       }]);
     }
-    this.id = container.common.addScope(details.name, this.popup);
+    this.id = shared.common.addScope(details.name, this.popup);
   }
 
   open(callback) {
-    container.common.setCurrentScope(this.id);
+    shared.common.setCurrentScope(this.id);
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup-layer:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    if (container.esgst.openPopups > 0) {
-      const highestN = parseInt(container.esgst.popups[container.esgst.openPopups - 1].popup.style.zIndex || 0);
+    if (shared.esgst.openPopups > 0) {
+      const highestN = parseInt(shared.esgst.popups[shared.esgst.openPopups - 1].popup.style.zIndex || 0);
       if (n <= highestN) {
         n = highestN + 1;
       }
     }
-    container.esgst.openPopups += 1;
-    container.esgst.popups.push(this);
+    shared.esgst.openPopups += 1;
+    shared.esgst.popups.push(this);
     this.layer.classList.remove(`esgst-hidden`);
     this.layer.style.zIndex = n;
     if (this.textInputs) {
@@ -186,21 +185,21 @@ export default class Popup {
   }
 
   close() {
-    container.common.resetCurrentScope();
+    shared.common.resetCurrentScope();
     if (this.temp) {
-      container.common.removeScope(this.id);
+      shared.common.removeScope(this.id);
       this.layer.remove();
     } else {
       this.layer.classList.add(`esgst-hidden`);
-      if (container.esgst.minimizePanel) {
-        container.common.minimizePanel_addItem(this);
+      if (shared.esgst.minimizePanel) {
+        shared.common.minimizePanel_addItem(this);
       }
     }
     if (this.onClose) {
       this.onClose();
     }
-    container.esgst.openPopups -= 1;
-    container.esgst.popups.pop();
+    shared.esgst.openPopups -= 1;
+    shared.esgst.popups.pop();
     this.isOpen = false;
   }
 
@@ -223,20 +222,20 @@ export default class Popup {
   }
 
   setScrollable(html) {
-    container.common.createElements(this.scrollable, `beforeEnd`, [{
+    shared.common.createElements(this.scrollable, `beforeEnd`, [{
       type: `div`,
       children: html
     }]);
   }
 
   getScrollable(html) {
-    return container.common.createElements_v2(this.scrollable, `beforeEnd`, [
+    return shared.common.createElements_v2(this.scrollable, `beforeEnd`, [
       [`div`, html]
     ]);
   }
 
   setError(message) {
-    container.common.createElements(this.progress, `inner`, [{
+    shared.common.createElements(this.progress, `inner`, [{
       attributes: {
         class: `fa fa-times-circle`
       },
@@ -251,7 +250,7 @@ export default class Popup {
     if (this.progressMessage) {
       this.progressMessage.textContent = message;
     } else {
-      container.common.createElements(this.progress, `inner`, [{
+      shared.common.createElements(this.progress, `inner`, [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
@@ -290,8 +289,11 @@ export default class Popup {
    */
   setDone(temp) {
     this.temp = temp;
-    if (container.esgst.minimizePanel && !this.isOpen) {
-      container.common.minimizePanel_alert(this);
+    if (shared.esgst.minimizePanel && !this.isOpen) {
+      shared.common.minimizePanel_alert(this);
     }
   }
 }
+
+export { Popup };
+

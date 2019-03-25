@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class DiscussionsDiscussionTags extends Module {
   constructor() {
@@ -48,4 +48,6 @@ class DiscussionsDiscussionTags extends Module {
   }
 }
 
-export default DiscussionsDiscussionTags;
+const discussionsDiscussionTags = new DiscussionsDiscussionTags();
+
+export { discussionsDiscussionTags };

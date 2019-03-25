@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -95,4 +95,6 @@ class UsersWhitelistBlacklistHighlighter extends Module {
   }
 }
 
-export default UsersWhitelistBlacklistHighlighter;
+const usersWhitelistBlacklistHighlighter = new UsersWhitelistBlacklistHighlighter();
+
+export { usersWhitelistBlacklistHighlighter };

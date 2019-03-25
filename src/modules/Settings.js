@@ -1,10 +1,9 @@
-import ButtonSet from '../class/ButtonSet';
-import Popup from '../class/Popup';
-import ToggleSwitch from '../class/ToggleSwitch';
-import { container } from '../class/Container';
+import { ButtonSet } from '../class/ButtonSet';
+import { Popup } from '../class/Popup';
+import { shared } from '../class/Shared';
+import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { setSync } from './Sync';
-import { loadDataCleaner, loadDataManagement } from './Storage';
 
 const
   rgba2Hex = utils.rgba2Hex.bind(utils),
@@ -28,17 +27,17 @@ function loadMenu(isPopup) {
     Container = popup.description;
     Context = popup.scrollable;
   } else {
-    Context = Container = container.esgst.sidebar.nextElementSibling;
+    Context = Container = shared.esgst.sidebar.nextElementSibling;
     Container.innerHTML = ``;
   }
 
-  const input = container.common.createElements_v2(isPopup ? Container : container.esgst.sidebar, `afterBegin`, [
+  const input = shared.common.createElements_v2(isPopup ? Container : shared.esgst.sidebar, `afterBegin`, [
     [`div`, { class: `sidebar__search-container` }, [
       [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
     ]]
   ]).firstElementChild;
-  if (isPopup && container.esgst.scb) {
-    container.esgst.modules.generalSearchClearButton.getInputs(Container);
+  if (isPopup && shared.esgst.scb) {
+    shared.esgst.modules.generalSearchClearButton.getInputs(Container);
   }
 
   let newIndicators = null;
@@ -51,8 +50,8 @@ function loadMenu(isPopup) {
     title1: `Dismiss All New`,
     title2: `Dismissing`,
     callback1: async () => {      
-      await container.common.setSetting(`dismissedOptions`, container.esgst.toDismiss);
-      container.esgst.dismissedOptions = container.esgst.toDismiss;
+      await shared.common.setSetting(`dismissedOptions`, shared.esgst.toDismiss);
+      shared.esgst.dismissedOptions = shared.esgst.toDismiss;
       for (let i = newIndicators.length - 1; i > -1; i--) {
         newIndicators[i].remove();
       }
@@ -62,15 +61,15 @@ function loadMenu(isPopup) {
   Container.appendChild(dismissAllButton);
 
   Container.setAttribute(`data-esgst-popup`, true);
-  const heading = container.common.createPageHeading(Container, `afterBegin`, {
+  const heading = shared.common.createPageHeading(Container, `afterBegin`, {
     items: [
       {
         name: `ESGST`,
-        url: container.esgst.settingsUrl
+        url: shared.esgst.settingsUrl
       },
       {
         name: `Settings`,
-        url: container.esgst.settingsUrl
+        url: shared.esgst.settingsUrl
       }
     ]
   });
@@ -85,97 +84,97 @@ function loadMenu(isPopup) {
       check: true,
       icons: [`fa-sign-in esgst-rotate-90`],
       title: `Restore data`,
-      onClick: () => loadDataManagement(`import`, true)
+      onClick: () => shared.esgst.modules.loadDataManagement(`import`, true)
     },
     {
       check: true,
       icons: [`fa-sign-out esgst-rotate-270`],
       title: `Backup data`,
-      onClick: () => loadDataManagement(`export`, true)
+      onClick: () => shared.esgst.modules.loadDataManagement(`export`, true)
     },
     {
       check: true,
       icons: [`fa-trash`],
       title: `Delete data`,
-      onClick: () => loadDataManagement(`delete`, true)
+      onClick: () => shared.esgst.modules.loadDataManagement(`delete`, true)
     },
     {
       check: true,
       icons: [`fa-gear`, `fa-arrow-circle-down`],
       title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
-      onClick: () => container.common.exportSettings()
+      onClick: () => shared.common.exportSettings()
     },
     {
       check: true,
       icons: [`fa-paint-brush`],
       title: `Clean old data`,
-      onClick: () => loadDataCleaner(true)
+      onClick: () => shared.esgst.modules.loadDataCleaner(true)
     },
     {
-      check: !container.esgst.parameters.esgst,
+      check: !shared.esgst.parameters.esgst,
       icons: [`fa-user`, `fa-history`],
       title: `View recent username changes`,
-      onClick: event => container.common.setSMRecentUsernameChanges(event.currentTarget)
+      onClick: event => shared.common.setSMRecentUsernameChanges(event.currentTarget)
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.uf,
+      check: !shared.esgst.parameters.esgst && shared.esgst.uf,
       icons: [`fa-user`, `fa-eye-slash`],
       title: `See list of filtered users`,
-      onClick: event => container.common.setSMManageFilteredUsers(event.currentTarget)
+      onClick: event => shared.common.setSMManageFilteredUsers(event.currentTarget)
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.sg && container.esgst.gf && container.esgst.gf_s,
+      check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.gf && shared.esgst.gf_s,
       icons: [`fa-gift`, `fa-eye-slash`],
       title: `Manage hidden giveaways`,
-      onClick: event => container.common.setSMManageFilteredGiveaways(event.currentTarget)
+      onClick: event => shared.common.setSMManageFilteredGiveaways(event.currentTarget)
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.sg && container.esgst.df && container.esgst.df_s,
+      check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.df && shared.esgst.df_s,
       icons: [`fa-comments`, `fa-eye-slash`],
       title: `Manage hidden discussions`,
-      onClick: event => container.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
+      onClick: event => shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.st && container.esgst.tf && container.esgst.tf_s,
+      check: !shared.esgst.parameters.esgst && shared.esgst.st && shared.esgst.tf && shared.esgst.tf_s,
       icons: [`fa-retweet`, `fa-eye-slash`],
       title: `Manage hidden trades`,
-      onClick: event => container.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
+      onClick: event => shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.sg && container.esgst.dt,
+      check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.dt,
       icons: [`fa-comments`, `fa-tags`],
       title: `Manage discussion tags`,
-      onClick: () => container.common.openManageDiscussionTagsPopup()
+      onClick: () => shared.common.openManageDiscussionTagsPopup()
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.sg && container.esgst.ut,
+      check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.ut,
       icons: [`fa-user`, `fa-tags`],
       title: `Manage user tags`,
-      onClick: () => container.common.openManageUserTagsPopup()
+      onClick: () => shared.common.openManageUserTagsPopup()
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.gt,
+      check: !shared.esgst.parameters.esgst && shared.esgst.gt,
       icons: [`fa-gamepad`, `fa-tags`],
       title: `Manage game tags`,
-      onClick: () => container.common.openManageGameTagsPopup()
+      onClick: () => shared.common.openManageGameTagsPopup()
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.gpt,
+      check: !shared.esgst.parameters.esgst && shared.esgst.gpt,
       icons: [`fa-users`, `fa-tags`],
       title: `Manage group tags`,
-      onClick: () => container.common.openManageGroupTagsPopup()
+      onClick: () => shared.common.openManageGroupTagsPopup()
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.wbc,
+      check: !shared.esgst.parameters.esgst && shared.esgst.wbc,
       icons: [`fa-heart`, `fa-ban`, `fa-cog`],
       title: `Manage Whitelist / Blacklist Checker caches`,
-      callback: button => container.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
+      callback: button => shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
     },
     {
-      check: !container.esgst.parameters.esgst && container.esgst.namwc,
+      check: !shared.esgst.parameters.esgst && shared.esgst.namwc,
       icons: [`fa-trophy`, `fa-cog`],
       title: `Manage Not Activated / Multiple Wins Checker caches`,
-      callback: button => container.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
+      callback: button => shared.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
     }
   ];
   for (let i = items.length - 1; i > -1; i--) {
@@ -183,7 +182,7 @@ function loadMenu(isPopup) {
     if (!item.check) {
       continue;
     }
-    const button = container.common.createElements_v2(heading, `afterBegin`, [
+    const button = shared.common.createElements_v2(heading, `afterBegin`, [
       [`div`, { title: item.title }, [
         ...item.icons.map(x => [`i`, {class: `fa ${x}`}])
       ]]
@@ -196,13 +195,13 @@ function loadMenu(isPopup) {
     }
   }
   if (!isPopup) {
-    container.esgst.mainPageHeading = heading;
+    shared.esgst.mainPageHeading = heading;
   }
 
   input.addEventListener(`input`, event => filterSm(event));
   input.addEventListener(`change`, event => filterSm(event));
   Context.classList.add(`esgst-menu-layer`);
-  container.common.createElements_v2(Context, `beforeEnd`, [
+  shared.common.createElements_v2(Context, `beforeEnd`, [
     [`div`, { class: `esgst-menu-split` }, [
       [`div`, { class: `esgst-settings-menu` }],
       [`div`, { class: `esgst-settings-menu-feature ${isPopup ? `` : `esgst-menu-split-fixed`}` }, [
@@ -218,7 +217,7 @@ function loadMenu(isPopup) {
     title1: `Save Changes`,
     title2: `Saving...`,
     callback1: async () => {
-      await container.common.lockAndSaveSettings();
+      await shared.common.lockAndSaveSettings();
       if (isPopup) {
         popup.close();
       } else {
@@ -227,27 +226,27 @@ function loadMenu(isPopup) {
     }
   }).set);
   Context.addEventListener(`click`, event => loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event));
-  container.esgst.featuresById = {};
+  shared.esgst.featuresById = {};
   let SMMenu = Context.getElementsByClassName(`esgst-settings-menu`)[0];
   let i, type;
   i = 1;
-  for (type in container.esgst.features) {
-    if (container.esgst.features.hasOwnProperty(type)) {
-      if (type !== `trades` || container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools) {
+  for (type in shared.esgst.features) {
+    if (shared.esgst.features.hasOwnProperty(type)) {
+      if (type !== `trades` || shared.esgst.settings.esgst_st || shared.esgst.settings.esgst_sgtools) {
         let id, j, section, title, isNew = false;
         title = type.replace(/^./, m => {
           return m.toUpperCase()
         });
         section = createMenuSection(SMMenu, null, i, title, type);
         j = 1;
-        for (id in container.esgst.features[type].features) {
-          if (container.esgst.features[type].features.hasOwnProperty(id)) {
+        for (id in shared.esgst.features[type].features) {
+          if (shared.esgst.features[type].features.hasOwnProperty(id)) {
             if (id === `common`) {
               continue;
             }
             let feature, ft;
-            feature = container.esgst.features[type].features[id];
-            if (!feature.sg && (((feature.sgtools && !container.esgst.settings.esgst_sgtools) || (feature.st && !container.esgst.settings.esgst_st)) && id !== `esgst`)) {
+            feature = shared.esgst.features[type].features[id];
+            if (!feature.sg && (((feature.sgtools && !shared.esgst.settings.esgst_sgtools) || (feature.st && !shared.esgst.settings.esgst_st)) && id !== `esgst`)) {
               continue;
             }
             ft = getSMFeature(feature, id, j, popup);
@@ -261,7 +260,7 @@ function loadMenu(isPopup) {
           }
         }
         if (isNew) {
-          container.common.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
+          shared.common.createElements(section.firstElementChild.lastElementChild, `afterBegin`, [{
             attributes: {
               class: `esgst-bold esgst-red esgst-new-indicator`,
               title: `There is a new feature/option in this section`
@@ -310,18 +309,18 @@ function loadMenu(isPopup) {
     }]
   }], i, `Steam API Key`, `steam_api_key`);
   SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName(`esgst-steam-api-key`)[0];
-  let key = container.esgst.steamApiKey;
+  let key = shared.esgst.steamApiKey;
   if (key) {
     SMAPIKey.value = key;
   }
   SMAPIKey.addEventListener(`input`, () => {
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings.steamApiKey = SMAPIKey.value;
+    shared.esgst.settings.steamApiKey = SMAPIKey.value;
   });
   let pp = null;
-  if (container.esgst.firstInstall) {
+  if (shared.esgst.firstInstall) {
     pp = new Popup({ addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started` });
-    container.common.createElements(pp.scrollable, `inner`, [{
+    shared.common.createElements(pp.scrollable, `inner`, [{
       attributes: {
         class: `esgst-bold`
       },
@@ -385,15 +384,15 @@ function loadMenu(isPopup) {
             type: `node`
           }]
         }, {
-          text: `That's all for now, you can close container.common.`,
+          text: `That's all for now, you can close shared.common.`,
           type: `li`
         }]
       }]
     }]);
-    container.esgst.firstInstall = false;
+    shared.esgst.firstInstall = false;
   }
-  if (container.esgst.parameters.id) {
-    loadFeatureDetails(container.esgst.parameters.id, popup && popup.scrollable.offsetTop);
+  if (shared.esgst.parameters.id) {
+    loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
   }
   if (isPopup) {
     popup.open();
@@ -478,8 +477,8 @@ function loadFeatureDetails(id, offset, event) {
       return;
     }
   }
-  const feature = container.esgst.featuresById[id];
-  const url = `${container.esgst.settingsUrl}&id=${id}`;
+  const feature = shared.esgst.featuresById[id];
+  const url = `${shared.esgst.settingsUrl}&id=${id}`;
   const items = [{
     check: true,
     content: [...(Array.isArray(feature.name) ? feature.name : [feature.name])],
@@ -494,172 +493,172 @@ function loadFeatureDetails(id, offset, event) {
   }];
   let sgContext, stContext, sgtoolsContext;
   if (feature.sg) {
-    const value = container.common.getFeaturePath(feature, id, `sg`).enabled;
-    sgContext = container.common.createElements_v2([[`div`]]).firstElementChild;
-    const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
+    const value = shared.common.getFeaturePath(feature, id, `sg`).enabled;
+    sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
+    const sgSwitch = new ToggleSwitch(sgContext, null, true, shared.esgst.settings.esgst_st || shared.esgst.settings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
     feature.sgFeatureSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
       if (feature.conflicts) {
         for (const conflictId of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflictId}_sg`];
+          const setting = shared.esgst.settings[`${conflictId}_sg`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
         }
       }
-      container.esgst.settings[`${id}_sg`] = true;
-      container.esgst[id] = true;
+      shared.esgst.settings[`${id}_sg`] = true;
+      shared.esgst[id] = true;
       if (feature.sgSwitch) {
         feature.sgSwitch.enable(true);
       }
       if (feature.theme) {
         if (id === `customTheme`) {
-          container.common.setTheme();
+          shared.common.setTheme();
         } else {
-          container.common.updateTheme(id);
+          shared.common.updateTheme(id);
         }
       }
-      container.common.createElements_v2(document.querySelector(`#esgst-paths-sg`), `inner`, [
+      shared.common.createElements_v2(document.querySelector(`#esgst-paths-sg`), `inner`, [
         openPathsPopup(feature, id, `sg`)
       ]);
     };
     sgSwitch.onDisabled = async () => {
-      container.esgst.settings[`${id}_sg`] = false;
-      container.esgst[id] = false;
+      shared.esgst.settings[`${id}_sg`] = false;
+      shared.esgst[id] = false;
       if (feature.sgSwitch) {
         feature.sgSwitch.disable(true);
       }
       if (feature.theme) {
         if (id === `customTheme`) {
-          container.common.delLocalValue(`customTheme`);
+          shared.common.delLocalValue(`customTheme`);
         } else {
-          container.common.delLocalValue(`theme`);
-          await container.common.delValue(id);
+          shared.common.delLocalValue(`theme`);
+          await shared.common.delValue(id);
         }
-        container.common.setTheme();
+        shared.common.setTheme();
       }
-      container.common.createElements_v2(document.querySelector(`#esgst-paths-sg`), `inner`, [
+      shared.common.createElements_v2(document.querySelector(`#esgst-paths-sg`), `inner`, [
         openPathsPopup(feature, id, `sg`)
       ]);
     };
   }
-  if (feature.st && (container.esgst.settings.esgst_st || id === `esgst`)) {
-    const value = container.common.getFeaturePath(feature, id, `st`).enabled;
-    stContext = container.common.createElements_v2([[`div`]]).firstElementChild;
+  if (feature.st && (shared.esgst.settings.esgst_st || id === `esgst`)) {
+    const value = shared.common.getFeaturePath(feature, id, `st`).enabled;
+    stContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
     const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
     feature.stFeatureSwitch = stSwitch;
     stSwitch.onEnabled = () => {
       if (feature.conflicts) {
         for (const conflictId of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflictId}_st`];
+          const setting = shared.esgst.settings[`${conflictId}_st`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             stSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
         }
       }
-      container.esgst.settings[`${id}_st`] = true;
-      container.esgst[id] = true;
+      shared.esgst.settings[`${id}_st`] = true;
+      shared.esgst[id] = true;
       if (feature.stSwitch) {
         feature.stSwitch.enable(true);
       }
       if (feature.theme) {
         if (id === `customTheme`) {
-          container.common.setTheme();
+          shared.common.setTheme();
         } else {
-          container.common.updateTheme(id);
+          shared.common.updateTheme(id);
         }
       }
-      container.common.createElements_v2(document.querySelector(`#esgst-paths-st`), `inner`, [
+      shared.common.createElements_v2(document.querySelector(`#esgst-paths-st`), `inner`, [
         openPathsPopup(feature, id, `st`)
       ]);
     };
     stSwitch.onDisabled = async () => {
-      container.esgst.settings[`${id}_st`] = false;
-      container.esgst[id] = false;
+      shared.esgst.settings[`${id}_st`] = false;
+      shared.esgst[id] = false;
       if (feature.stSwitch) {
         feature.stSwitch.disable(true);
       }
       if (feature.theme) {
         if (id === `customTheme`) {
-          container.common.delLocalValue(`customTheme`);
+          shared.common.delLocalValue(`customTheme`);
         } else {
-          container.common.delLocalValue(`theme`);
-          await container.common.delValue(id);
+          shared.common.delLocalValue(`theme`);
+          await shared.common.delValue(id);
         }
-        container.common.setTheme();
+        shared.common.setTheme();
       }
-      container.common.createElements_v2(document.querySelector(`#esgst-paths-st`), `inner`, [
+      shared.common.createElements_v2(document.querySelector(`#esgst-paths-st`), `inner`, [
         openPathsPopup(feature, id, `st`)
       ]);
     };
   }
-  if (feature.sgtools && (container.esgst.settings.esgst_sgtools || id === `esgst`)) {
-    const value = container.common.getFeaturePath(feature, id, `sgtools`).enabled;
-    sgtoolsContext = container.common.createElements_v2([[`div`]]).firstElementChild;
+  if (feature.sgtools && (shared.esgst.settings.esgst_sgtools || id === `esgst`)) {
+    const value = shared.common.getFeaturePath(feature, id, `sgtools`).enabled;
+    sgtoolsContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
     const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
     feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
     sgtoolsSwitch.onEnabled = () => {
       if (feature.conflicts) {
         for (const conflictId of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflictId}_sgtools`];
+          const setting = shared.esgst.settings[`${conflictId}_sgtools`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgtoolsSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
         }
       }
-      container.esgst.settings[`${id}_sgtools`] = true;
-      container.esgst[id] = true;
+      shared.esgst.settings[`${id}_sgtools`] = true;
+      shared.esgst[id] = true;
       if (feature.sgtoolsSwitch) {
         feature.sgtoolsSwitch.enable(true);
       }
       if (feature.theme) {
         if (id === `customTheme`) {
-          container.common.setTheme();
+          shared.common.setTheme();
         } else {
-          container.common.updateTheme(id);
+          shared.common.updateTheme(id);
         }
       }
-      container.common.createElements_v2(document.querySelector(`#esgst-paths-sgtools`), `inner`, [
+      shared.common.createElements_v2(document.querySelector(`#esgst-paths-sgtools`), `inner`, [
         openPathsPopup(feature, id, `sgtools`)
       ]);
     };
     sgtoolsSwitch.onDisabled = async () => {
-      container.esgst.settings[`${id}_sgtools`] = false;
-      container.esgst[id] = false;
+      shared.esgst.settings[`${id}_sgtools`] = false;
+      shared.esgst[id] = false;
       if (feature.sgtoolsSwitch) {
         feature.sgtoolsSwitch.disable(true);
       }
       if (feature.theme) {
         if (id === `customTheme`) {
-          container.common.delLocalValue(`customTheme`);
+          shared.common.delLocalValue(`customTheme`);
         } else {
-          container.common.delLocalValue(`theme`);
-          await container.common.delValue(id);
+          shared.common.delLocalValue(`theme`);
+          await shared.common.delValue(id);
         }
-        container.common.setTheme();
+        shared.common.setTheme();
       }
-      container.common.createElements_v2(document.querySelector(`#esgst-paths-sgtools`), `inner`, [
+      shared.common.createElements_v2(document.querySelector(`#esgst-paths-sgtools`), `inner`, [
         openPathsPopup(feature, id, `sgtools`)
       ]);
     };
@@ -673,7 +672,7 @@ function loadFeatureDetails(id, offset, event) {
     items.push({
       check: true,
       content: [
-        [`div`, { class: `markdown` }, JSON.parse(JSON.stringify(feature.description).replace(/\[id=(.+?)]/g, container.common.getFeatureName.bind(container.common)))]
+        [`div`, { class: `markdown` }, JSON.parse(JSON.stringify(feature.description).replace(/\[id=(.+?)]/g, shared.common.getFeatureName.bind(shared.common)))]
       ],
       name: `What does it do?`
     });
@@ -697,7 +696,7 @@ function loadFeatureDetails(id, offset, event) {
         [`br`],
         [`p`, [
           `To sync these now, click `,
-          [`a`, { class: `table__column__secondary-link`, href: `${container.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank` }, `here`],
+          [`a`, { class: `table__column__secondary-link`, href: `${shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: `_blank` }, `here`],
           `.`
         ]]
       ],
@@ -714,7 +713,7 @@ function loadFeatureDetails(id, offset, event) {
       name: `Where to run it on SteamGifts?`
     });
   }
-  if (feature.st && container.esgst.settings.esgst_st && (!feature.stPaths || typeof feature.stPaths !== `string`)) {
+  if (feature.st && shared.esgst.settings.esgst_st && (!feature.stPaths || typeof feature.stPaths !== `string`)) {
     items.push({
       check: true,
       content: [
@@ -724,7 +723,7 @@ function loadFeatureDetails(id, offset, event) {
       name: `Where to run it on SteamTrades?`
     });
   }
-  if (feature.sgtools && container.esgst.settings.esgst_sgtools && (!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== `string`)) {
+  if (feature.sgtools && shared.esgst.settings.esgst_sgtools && (!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== `string`)) {
     items.push({
       check: true,
       content: [
@@ -739,13 +738,13 @@ function loadFeatureDetails(id, offset, event) {
     context.style.maxHeight = `${context.closest(`.esgst-menu-layer`).offsetHeight - 24}px`;
   }
   context.innerHTML = `Click on a feature/option to manage it here.`;
-  container.common.createFormRows(context, `beforeEnd`, { items });
+  shared.common.createFormRows(context, `beforeEnd`, { items });
 }
 
 function setElementOrderingSection(context) {
   const obj = {
     elementOrdering: true,
-    outerWrap: container.common.createElements(context, `beforeEnd`, [{
+    outerWrap: shared.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-element-ordering-container`
       },
@@ -754,7 +753,7 @@ function setElementOrderingSection(context) {
   };
   const obj_gv = {
     elementOrdering: true,
-    outerWrap: container.common.createElements(context, `beforeEnd`, [{
+    outerWrap: shared.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-element-ordering-container`
       },
@@ -981,7 +980,7 @@ function setElementOrderingSection(context) {
         type: `div`
       });
     }
-    const section = container.common.createElements((item.isGridView ? obj_gv : obj).outerWrap, `beforeEnd`, [{
+    const section = shared.common.createElements((item.isGridView ? obj_gv : obj).outerWrap, `beforeEnd`, [{
       text: `${item.name}${item.isGridView ? ` (Grid View)` : ``}`,
       type: `strong`
     }, item.tooltip ? {
@@ -1007,13 +1006,13 @@ function setElementOrderingSection(context) {
       callback1: resetElementOrdering.bind(null, item.id, obj, obj_gv)
     }).set, section);
     (item.isGridView ? obj_gv : obj)[item.key] = section;
-    section.addEventListener(`dragenter`, container.common.draggable_enter.bind(container.common, {
+    section.addEventListener(`dragenter`, shared.common.draggable_enter.bind(shared.common, {
       context: section,
       item: {
         outerWrap: section
       }
     }));
-    container.common.draggable_set({
+    shared.common.draggable_set({
       context: section,
       id: item.id,
       item: {
@@ -1035,7 +1034,7 @@ function setElementOrderingSection(context) {
           type: `div`
         });
       }
-      const section_gv = container.common.createElements(obj_gv.outerWrap, `beforeEnd`, [{
+      const section_gv = shared.common.createElements(obj_gv.outerWrap, `beforeEnd`, [{
         text: `${item.name} (Grid View)`,
         type: `strong`
       }, {
@@ -1055,13 +1054,13 @@ function setElementOrderingSection(context) {
         callback1: resetElementOrdering.bind(null, `${item.id}_gv`, obj, obj_gv)
       }).set, section_gv);
       obj_gv[item.key] = section_gv;
-      section_gv.addEventListener(`dragenter`, container.common.draggable_enter.bind(container.common, {
+      section_gv.addEventListener(`dragenter`, shared.common.draggable_enter.bind(shared.common, {
         context: section_gv,
         item: {
           outerWrap: section_gv
         }
       }));
-      container.common.draggable_set({
+      shared.common.draggable_set({
         context: section_gv,
         id: `${item.id}_gv`,
         item: {
@@ -1070,17 +1069,17 @@ function setElementOrderingSection(context) {
       });
     }
   }
-  container.esgst.modules.giveaways.giveaways_reorder(obj);
-  container.esgst.modules.giveaways.giveaways_reorder(obj_gv);
-  container.common.reorderButtons(obj);
+  shared.esgst.modules.giveaways.giveaways_reorder(obj);
+  shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
+  shared.common.reorderButtons(obj);
 }
 
 async function resetElementOrdering(id, obj, obj_gv) {
-  container.esgst[id] = container.esgst.settings[id] = container.esgst.defaultValues[id];
-  await container.common.setValue(`settings`, JSON.stringify(container.esgst.settings));
-  container.esgst.modules.giveaways.giveaways_reorder(obj);
-  container.esgst.modules.giveaways.giveaways_reorder(obj_gv);
-  container.common.reorderButtons(obj);
+  shared.esgst[id] = shared.esgst.settings[id] = shared.esgst.defaultValues[id];
+  await shared.common.setValue(`settings`, JSON.stringify(shared.esgst.settings));
+  shared.esgst.modules.giveaways.giveaways_reorder(obj);
+  shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
+  shared.common.reorderButtons(obj);
 }
 
 function openPathsPopup(feature, id, name) {
@@ -1092,7 +1091,7 @@ function openPathsPopup(feature, id, name) {
     includeItems: [],
     name: name
   };
-  const context = container.common.createElements_v2([
+  const context = shared.common.createElements_v2([
     [`div`, { class: `esgst-bold` }, [
       `Run it here: `,
       [`i`, { class: `fa fa-question-circle`, title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
@@ -1126,7 +1125,7 @@ function openPathsPopup(feature, id, name) {
       }).set
     ]]
   ]);
-  obj.setting = container.common.getFeaturePath(feature, id, obj.name);
+  obj.setting = shared.common.getFeaturePath(feature, id, obj.name);
   obj.setting.include.forEach(path => obj.include.extend(feature, `include`, obj, path));
   obj.setting.exclude.forEach(path => obj.exclude.extend(feature, `exclude`, obj, path));
   return context;
@@ -1134,7 +1133,7 @@ function openPathsPopup(feature, id, name) {
 
 function addPath(context, feature, key, obj, path, userAdded) {
   let item = {};
-  item.container = container.common.createElements(context, `beforeEnd`, [{
+  item.container = shared.common.createElements(context, `beforeEnd`, [{
     type: `div`
   }]);
   item.switch = new ToggleSwitch(item.container, null, true, ``, false, false, null, path.enabled);
@@ -1142,15 +1141,15 @@ function addPath(context, feature, key, obj, path, userAdded) {
   item.switch.onChange = () => {
     savePaths(feature.id, obj);
   };
-  item.select = container.common.createElements_v2(item.container, `beforeEnd`, [
+  item.select = shared.common.createElements_v2(item.container, `beforeEnd`, [
     [`select`, { class: `esgst-switch-input esgst-switch-input-large` }, [
-      ...(container.esgst.paths[obj.name].filter(x => !feature[`${obj.name}Paths`] || x.name === `Everywhere` || x.name.match(feature[`${obj.name}Paths`])).map(x =>
+      ...(shared.esgst.paths[obj.name].filter(x => !feature[`${obj.name}Paths`] || x.name === `Everywhere` || x.name.match(feature[`${obj.name}Paths`])).map(x =>
         [`option`, Object.assign({ value: x.pattern }, x.pattern === path.pattern && (found = true) ? { selected: true } : null), x.name]
       )),
       feature[`${obj.name}Paths`] ? null : [`option`, Object.assign({ value: `custom` }, found ? null : { selected: true }), `Custom`]
     ]]
   ]);
-  item.input = container.common.createElements_v2(item.container, `beforeEnd`, [
+  item.input = shared.common.createElements_v2(item.container, `beforeEnd`, [
     [`input`, Object.assign({ class: `esgst-switch-input esgst-switch-input-large`, type: `text` }, item.select.value === `custom` ? null : { disabled: true })]
   ]);
   item.select.addEventListener(`change`, () => {
@@ -1168,14 +1167,14 @@ function addPath(context, feature, key, obj, path, userAdded) {
     validatePathRegex(item);
     savePaths(feature.id, obj);
   });
-  container.common.createElements(item.container, `beforeEnd`, [{
+  shared.common.createElements(item.container, `beforeEnd`, [{
     attributes: {
       class: `fa fa-times-circle esgst-clickable`,
       title: `Remove`
     },
     type: `i`
   }]).addEventListener(`click`, () => removePath(feature, item, key, obj));
-  item.invalid = container.common.createElements(item.container, `beforeEnd`, [{
+  item.invalid = shared.common.createElements(item.container, `beforeEnd`, [{
     attributes: {
       class: `fa fa-exclamation esgst-hidden esgst-red`,
       title: `Invalid Regular Expression`
@@ -1185,7 +1184,7 @@ function addPath(context, feature, key, obj, path, userAdded) {
   obj[`${key}Items`].push(item);
   if (key === `include` && feature.includeOptions) {
     item.options = [];
-    const optionsContainer = container.common.createElements(item.container, `beforeEnd`, [{
+    const optionsContainer = shared.common.createElements(item.container, `beforeEnd`, [{
       attributes: {
         class: `esgst-form-row-indent`
       },
@@ -1249,33 +1248,33 @@ async function savePaths(id, obj) {
       pattern: item.input.value
     });
   }
-  container.esgst.settings[`${id}_${obj.name}`] = obj.setting;
+  shared.esgst.settings[`${id}_${obj.name}`] = obj.setting;
 }
 
 function dismissNewOption(id, event) {
   event.currentTarget.remove();
-  if (container.esgst.dismissedOptions.indexOf(id) < 0) {
-    container.esgst.dismissedOptions.push(id);
+  if (shared.esgst.dismissedOptions.indexOf(id) < 0) {
+    shared.esgst.dismissedOptions.push(id);
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings.dismissedOptions = container.esgst.dismissedOptions;
+    shared.esgst.settings.dismissedOptions = shared.esgst.dismissedOptions;
   }
 }
 
 function getSMFeature(feature, id, number, popup) {
-  container.esgst.featuresById[id] = feature;
+  shared.esgst.featuresById[id] = feature;
   const menu = document.createElement(`div`);
   menu.id = `esgst_${id}`;
-  container.common.createElements(menu, `beforeEnd`, [{
+  shared.common.createElements(menu, `beforeEnd`, [{
     attributes: {
       class: `esgst-sm-small-number esgst-form-heading-number`
     },
     text: `${number}.`,
     type: `div`
   }]);
-  let isMainNew = container.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(container.esgst.settings[`${id}_sg`]) && !utils.isSet(container.esgst.settings[`${id}_st`]) && !utils.isSet(container.esgst.settings[`${id}_sgtools`]);
+  let isMainNew = shared.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(shared.esgst.settings[`${id}_sg`]) && !utils.isSet(shared.esgst.settings[`${id}_st`]) && !utils.isSet(shared.esgst.settings[`${id}_sgtools`]);
   if (isMainNew) {
     feature.isNew = true;
-    container.common.createElements(menu.firstElementChild, `afterEnd`, [{
+    shared.common.createElements(menu.firstElementChild, `afterEnd`, [{
       attributes: {
         class: `esgst-bold esgst-red esgst-clickable esgst-new-indicator`,
         title: `This is a new feature/option. Click to dismiss.`
@@ -1288,24 +1287,24 @@ function getSMFeature(feature, id, number, popup) {
   let sgContext, stContext, sgtoolsContext;
   let collapseButton, isExpanded, subMenu;
   if (feature.sg) {
-    const value = container.common.getFeaturePath(feature, id, `sg`).enabled;
+    const value = shared.common.getFeaturePath(feature, id, `sg`).enabled;
     if (value) {
       isHidden = false;
     }
-    sgContext = container.common.createElements_v2([[`div`]]).firstElementChild;
-    const sgSwitch = new ToggleSwitch(sgContext, null, true, container.esgst.settings.esgst_st || container.esgst.settings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
+    sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
+    const sgSwitch = new ToggleSwitch(sgContext, null, true, shared.esgst.settings.esgst_st || shared.esgst.settings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
     feature.sgSwitch = sgSwitch;
     sgSwitch.onEnabled = () => {
       if (feature.conflicts) {
         for (const conflictId of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflictId}_sg`];
+          const setting = shared.esgst.settings[`${conflictId}_sg`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -1315,8 +1314,8 @@ function getSMFeature(feature, id, number, popup) {
       if (feature.sgFeatureSwitch) {
         feature.sgFeatureSwitch.enable();
       } else {
-        container.esgst.settings[`${id}_sg`] = true;
-        container.esgst[id] = true;
+        shared.esgst.settings[`${id}_sg`] = true;
+        shared.esgst[id] = true;
       }
       if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
         expandOptions(collapseButton, id, subMenu);
@@ -1328,8 +1327,8 @@ function getSMFeature(feature, id, number, popup) {
       if (feature.sgFeatureSwitch) {
         feature.sgFeatureSwitch.disable();
       } else {
-        container.esgst.settings[`${id}_sg`] = false;
-        container.esgst[id] = false;
+        shared.esgst.settings[`${id}_sg`] = false;
+        shared.esgst[id] = false;
       }
       if (collapseButton && feature.stSwitch && !feature.stSwitch.value) {
         collapseOptions(collapseButton, id, subMenu);
@@ -1337,25 +1336,25 @@ function getSMFeature(feature, id, number, popup) {
       }
     };
   }
-  if (feature.st && (container.esgst.settings.esgst_st || id === `esgst`)) {
-    const value = container.common.getFeaturePath(feature, id, `st`).enabled;
+  if (feature.st && (shared.esgst.settings.esgst_st || id === `esgst`)) {
+    const value = shared.common.getFeaturePath(feature, id, `st`).enabled;
     if (value) {
       isHidden = false;
     }
-    stContext = container.common.createElements_v2([[`div`]]).firstElementChild;
+    stContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
     const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
     feature.stSwitch = stSwitch;
     stSwitch.onEnabled = () => {
       if (feature.conflicts) {
         for (const conflictId of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflictId}_st`];
+          const setting = shared.esgst.settings[`${conflictId}_st`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             stSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -1365,8 +1364,8 @@ function getSMFeature(feature, id, number, popup) {
       if (feature.stFeatureSwitch) {
         feature.stFeatureSwitch.enable();
       } else {
-        container.esgst.settings[`${id}_st`] = true;
-        container.esgst[id] = true;
+        shared.esgst.settings[`${id}_st`] = true;
+        shared.esgst[id] = true;
       }
       if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
         expandOptions(collapseButton, id, subMenu);
@@ -1378,8 +1377,8 @@ function getSMFeature(feature, id, number, popup) {
       if (feature.stFeatureSwitch) {
         feature.stFeatureSwitch.disable();
       } else {
-        container.esgst.settings[`${id}_st`] = false;
-        container.esgst[id] = false;
+        shared.esgst.settings[`${id}_st`] = false;
+        shared.esgst[id] = false;
       }
       if (collapseButton && feature.sgSwitch && !feature.sgSwitch.value) {
         collapseOptions(collapseButton, id, subMenu);
@@ -1387,25 +1386,25 @@ function getSMFeature(feature, id, number, popup) {
       }
     };
   }
-  if (feature.sgtools && (container.esgst.settings.esgst_sgtools || id === `esgst`)) {
-    const value = container.common.getFeaturePath(feature, id, `sgtools`).enabled;
+  if (feature.sgtools && (shared.esgst.settings.esgst_sgtools || id === `esgst`)) {
+    const value = shared.common.getFeaturePath(feature, id, `sgtools`).enabled;
     if (value) {
       isHidden = false;
     }
-    sgtoolsContext = container.common.createElements_v2([[`div`]]).firstElementChild;
+    sgtoolsContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
     const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `[SGT]`, false, true, null, value);
     feature.sgtoolsSwitch = sgtoolsSwitch;
     sgtoolsSwitch.onEnabled = () => {
       if (feature.conflicts) {
         for (const conflictId of feature.conflicts) {
-          const setting = container.esgst.settings[`${conflictId}_sgtools`];
+          const setting = shared.esgst.settings[`${conflictId}_sgtools`];
           if ((typeof setting === `object` && setting.enabled) || setting) {
             sgtoolsSwitch.disable(true);
             new Popup({
               addScrollable: true,
               icon: `fa-exclamation`,
               isTemp: true,
-              title: `This feature conflicts with ${container.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+              title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
             }).open();
             return;
           }
@@ -1415,8 +1414,8 @@ function getSMFeature(feature, id, number, popup) {
       if (feature.sgtoolsFeatureSwitch) {
         feature.sgtoolsFeatureSwitch.enable();
       } else {
-        container.esgst.settings[`${id}_sgtools`] = true;
-        container.esgst[id] = true;
+        shared.esgst.settings[`${id}_sgtools`] = true;
+        shared.esgst[id] = true;
       }
       if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
         expandOptions(collapseButton, id, subMenu);
@@ -1428,8 +1427,8 @@ function getSMFeature(feature, id, number, popup) {
       if (feature.sgtoolsFeatureSwitch) {
         feature.sgtoolsFeatureSwitch.disable();
       } else {
-        container.esgst.settings[`${id}_sgtools`] = false;
-        container.esgst[id] = false;
+        shared.esgst.settings[`${id}_sgtools`] = false;
+        shared.esgst[id] = false;
       }
       if (collapseButton && feature.sgtoolsSwitch && !feature.sgtoolsSwitch.value) {
         collapseOptions(collapseButton, id, subMenu);
@@ -1437,7 +1436,7 @@ function getSMFeature(feature, id, number, popup) {
       }
     };
   }
-  container.common.createElements_v2(menu, `beforeEnd`, [
+  shared.common.createElements_v2(menu, `beforeEnd`, [
     [`span`, [
       sgContext && sgContext.firstElementChild,
       stContext && stContext.firstElementChild,
@@ -1457,7 +1456,7 @@ function getSMFeature(feature, id, number, popup) {
         continue;
       }
       const subFt = feature.features[subId];
-      if (!subFt.sg && (((subFt.sgtools && !container.esgst.settings.esgst_sgtools) || (subFt.st && !container.esgst.settings.esgst_st)) && id !== `esgst`)) {
+      if (!subFt.sg && (((subFt.sgtools && !shared.esgst.settings.esgst_sgtools) || (subFt.st && !shared.esgst.settings.esgst_st)) && id !== `esgst`)) {
         continue;
       }
       const subFeature = getSMFeature(subFt, subId, i, popup);
@@ -1471,7 +1470,7 @@ function getSMFeature(feature, id, number, popup) {
     }
     isMainNew = isMainNew || isNew;
     if (isNew) {
-      container.common.createElements(menu.firstElementChild, `afterEnd`, [{
+      shared.common.createElements(menu.firstElementChild, `afterEnd`, [{
         attributes: {
           class: `esgst-bold esgst-red esgst-new-indicator`,
           title: `There is a new feature/option in this section`
@@ -1485,8 +1484,8 @@ function getSMFeature(feature, id, number, popup) {
         }]
       }]);
     }      
-    if (container.esgst.makeSectionsCollapsible) {
-      collapseButton = container.common.createElements(menu, `afterBegin`, [{
+    if (shared.esgst.makeSectionsCollapsible) {
+      collapseButton = shared.common.createElements(menu, `afterBegin`, [{
         attributes: {
           class: `esgst-clickable`,
           style: `margin-right: 5px;`
@@ -1494,13 +1493,13 @@ function getSMFeature(feature, id, number, popup) {
         type: `span`,
         children: [{
           attributes: {
-            class: `fa fa-${container.esgst.settings[`collapse_${id}`] ? `plus` : `minus`}-square`,
-            title: `${container.esgst.settings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
+            class: `fa fa-${shared.esgst.settings[`collapse_${id}`] ? `plus` : `minus`}-square`,
+            title: `${shared.esgst.settings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
           },
           type: `i`
         }]
       }]);
-      if (container.esgst.settings[`collapse_${id}`]) {
+      if (shared.esgst.settings[`collapse_${id}`]) {
         subMenu.classList.add(`esgst-hidden`);
         isExpanded = false;
       } else {
@@ -1524,26 +1523,26 @@ function getSMFeature(feature, id, number, popup) {
 
 function collapseOptions(collapseButton, id, subMenu) {
   subMenu.classList.add(`esgst-hidden`);
-  container.common.createElements(collapseButton, `inner`, [{
+  shared.common.createElements(collapseButton, `inner`, [{
     attributes: {
       class: `fa fa-plus-square`,
       title: `Expand options`
     },
     type: `i`
   }]);
-  container.esgst.settings[`collapse_${id}`] = true;
+  shared.esgst.settings[`collapse_${id}`] = true;
 }
 
 function expandOptions(collapseButton, id, subMenu) {
   subMenu.classList.remove(`esgst-hidden`);
-  container.common.createElements(collapseButton, `inner`, [{
+  shared.common.createElements(collapseButton, `inner`, [{
     attributes: {
       class: `fa fa-minus-square`,
       title: `Collapse options`
     },
     type: `i`
   }]);
-  delete container.esgst.settings[`collapse_${id}`];
+  delete shared.esgst.settings[`collapse_${id}`];
 }
 
 function getSmFeatureAdditionalOptions(Feature, ID) {
@@ -1579,7 +1578,7 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
     }
     const children = [];
     for (const id in Feature.colors) {
-      const color = rgba2Hex(container.esgst[`${ID}_${id}`]);
+      const color = rgba2Hex(shared.esgst[`${ID}_${id}`]);
       children.push(
         [`strong`, `${Feature.colors[id]}: `],
         [`br`],
@@ -1591,7 +1590,7 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
         [`br`]
       );
     }
-    const context = container.common.createElements_v2([
+    const context = shared.common.createElements_v2([
       [`div`, { class: `esgst-sm-colors` }, children]
     ]).firstElementChild;
     const elements = context.querySelectorAll(`[data-color-id]`);
@@ -1599,39 +1598,39 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
       const colorId = hexInput.getAttribute(`data-color-id`);
       const alphaInput = hexInput.nextElementSibling;
       addColorObserver(hexInput, alphaInput, ID, colorId);
-      alphaInput.nextElementSibling.addEventListener(`click`, container.common.resetColor.bind(container.common, hexInput, alphaInput, ID, colorId));
+      alphaInput.nextElementSibling.addEventListener(`click`, shared.common.resetColor.bind(shared.common, hexInput, alphaInput, ID, colorId));
     }
     items.push(context);
     if (ID === `gc_g`) {
-      const input = container.common.createElements_v2([
+      const input = shared.common.createElements_v2([
         [`div`, { class: `esgst-sm-colors` }, [
           `Only show the following genres: `,
-          [`input`, { type: `text`, value: container.esgst.gc_g_filters }],
+          [`input`, { type: `text`, value: shared.esgst.gc_g_filters }],
           [`i`, { class: `fa fa-question-circle`, title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
         ]]
       ]).firstElementChild;
-      container.common.observeChange(input.firstElementChild, `gc_g_filters`);
+      shared.common.observeChange(input.firstElementChild, `gc_g_filters`);
       items.push(input);
       items.push(addGcMenuPanel());
     }
     if (Feature.input) {
-      const input = container.common.createElements_v2([
+      const input = shared.common.createElements_v2([
         [`div`, { class: `esgst-sm-colors` }, [
           `Icon: `,
-          [`input`, { type: `text`, value: container.esgst[`${ID}Icon`] }],
+          [`input`, { type: `text`, value: shared.esgst[`${ID}Icon`] }],
           [`i`, { class: `esgst-clickable fa fa-question-circle` }],
           [`br`],
           `Label: `,
-          [`input`, { type: `text`, value: container.esgst[`${ID}Label`] }]
+          [`input`, { type: `text`, value: shared.esgst[`${ID}Label`] }]
         ]]
       ]).firstElementChild;
-      container.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
+      shared.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
       let icon = input.firstElementChild;
       let label = input.lastElementChild;
-      container.common.observeChange(icon, `${ID}Icon`);
-      container.common.observeChange(label, `${ID}Label`);
+      shared.common.observeChange(icon, `${ID}Icon`);
+      shared.common.observeChange(label, `${ID}Label`);
       if (ID === `gc_rd`) {
-        container.common.createElements(input, `beforeEnd`, [{
+        shared.common.createElements(input, `beforeEnd`, [{
           attributes: {
             class: `fa fa-question-circle`,
             title: `Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year`
@@ -1642,7 +1641,7 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
       items.push(input);
     }
   } else if (Feature.inputItems) {
-    let containerr = container.common.createElements_v2([
+    let containerr = shared.common.createElements_v2([
       [`div`, { class: `esgst-sm-colors` }]
     ]).firstElementChild;
     if (ID.match(/^(chfl|sk_)/)) {
@@ -1680,7 +1679,7 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
       } else {
         attributes.class = `esgst-switch-input esgst-switch-input-large`;
         attributes.type = attributes.type || `text`;
-        attributes.value = container.esgst[item.id];
+        attributes.value = shared.esgst[item.id];
         children.push({
           text: item.prefix || ``,
           type: `node`
@@ -1703,17 +1702,17 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
       }
       let input,
         value = ``,
-        context = container.common.createElements(containerr, `beforeEnd`, [{
+        context = shared.common.createElements(containerr, `beforeEnd`, [{
           type: `div`,
           children
         }]);
       input = context.firstElementChild;
       if (item.play) {
-        input.nextElementSibling.addEventListener(`click`, async () => (await container.esgst.modules.generalHeaderRefresher.hr_createPlayer(container.esgst.settings[item.id] || container.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
+        input.nextElementSibling.addEventListener(`click`, async () => (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(shared.esgst.settings[item.id] || shared.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
       }
-      if (typeof container.esgst.settings[item.id] === `undefined` && container.esgst.dismissedOptions.indexOf(item.id) < 0) {
+      if (typeof shared.esgst.settings[item.id] === `undefined` && shared.esgst.dismissedOptions.indexOf(item.id) < 0) {
         Feature.isNew = true;
-        container.common.createElements(context, `afterBegin`, [{
+        shared.common.createElements(context, `afterBegin`, [{
           attributes: {
             class: `esgst-bold esgst-red esgst-clickable esgst-new-indicator`,
             title: `This is a new feature/option. Click to dismiss.`
@@ -1742,20 +1741,20 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
         } else if (item.event === `keydown`) {
           event.preventDefault();
           // noinspection JSIgnoredPromiseFromCall
-          container.esgst.settings[item.id] = event.key;
-          container.esgst[item.id] = event.key;
+          shared.esgst.settings[item.id] = event.key;
+          shared.esgst[item.id] = event.key;
           input.value = event.key;
         } else {
           // noinspection JSIgnoredPromiseFromCall
-          container.esgst.settings[item.id] = input.value;
-          container.esgst[item.id] = input.value;
+          shared.esgst.settings[item.id] = input.value;
+          shared.esgst[item.id] = input.value;
         }
       }, item.shortcutKey || false);
       if (item.shortcutKey) {
         input.addEventListener(`keyup`, () => {
           // noinspection JSIgnoredPromiseFromCall
-          container.esgst.settings[item.id] = value;
-          container.esgst[item.id] = value;
+          shared.esgst.settings[item.id] = value;
+          shared.esgst[item.id] = value;
           input.value = value;
         });
       }
@@ -1764,9 +1763,9 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
   } else if (Feature.theme) {
     const children = [
       `Enabled from `,
-      [`input`, { type: `text`, value: container.esgst[`${ID}_startTime`] }],
+      [`input`, { type: `text`, value: shared.esgst[`${ID}_startTime`] }],
       ` to `,
-      [`input`, { type: `text`, value: container.esgst[`${ID}_endTime`] }],
+      [`input`, { type: `text`, value: shared.esgst[`${ID}_endTime`] }],
       [`i`, { class: `fa fa-question-circle`, title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.` }],
       [`br`]
     ];
@@ -1780,32 +1779,32 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
         [`span`]
       );
     }
-    let containerr = container.common.createElements_v2([
+    let containerr = shared.common.createElements_v2([
       [`div`, { class: `esgst-sm-colors` }, children]
     ]).firstElementChild;
     let startTime = containerr.firstElementChild;
     let endTime = startTime.nextElementSibling;
-    container.common.observeChange(startTime, `${ID}_startTime`);
-    container.common.observeChange(endTime, `${ID}_endTime`);
+    shared.common.observeChange(startTime, `${ID}_startTime`);
+    shared.common.observeChange(endTime, `${ID}_endTime`);
     if (ID === `customTheme`) {
       let textArea = containerr.lastElementChild;
-      const value = container.common.getValue(ID);
+      const value = shared.common.getValue(ID);
       if (value) {
         textArea.value = JSON.parse(value);
       }
       textArea.addEventListener(`change`, async () => {
-        await container.common.setValue(ID, JSON.stringify(textArea.value));
+        await shared.common.setValue(ID, JSON.stringify(textArea.value));
         // noinspection JSIgnoredPromiseFromCall
-        container.common.setTheme();
+        shared.common.setTheme();
       });
     } else {
       let version = containerr.lastElementChild,
         button = version.previousElementSibling;
       // noinspection JSIgnoredPromiseFromCall
-      container.common.setThemeVersion(ID, version);
+      shared.common.setThemeVersion(ID, version);
       button.addEventListener(`click`, async () => {
         let url = await getThemeUrl(ID, Feature.theme);
-        container.common.createElements(button, `inner`, [{
+        shared.common.createElements(button, `inner`, [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
@@ -1814,16 +1813,16 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
           text: ` Updating...`,
           type: `node`
         }]);
-        let theme = JSON.stringify((await container.common.request({ method: `GET`, url })).responseText);
-        await container.common.setValue(ID, theme);
-        container.common.createElements(button, `inner`, [{
+        let theme = JSON.stringify((await shared.common.request({ method: `GET`, url })).responseText);
+        await shared.common.setValue(ID, theme);
+        shared.common.createElements(button, `inner`, [{
           text: `Update`,
           type: `node`
         }]);
         // noinspection JSIgnoredPromiseFromCall
-        container.common.setThemeVersion(ID, version, theme);
+        shared.common.setThemeVersion(ID, version, theme);
         // noinspection JSIgnoredPromiseFromCall
-        container.common.setTheme();
+        shared.common.setTheme();
       });
     }
     items.push(containerr);
@@ -1832,21 +1831,21 @@ function getSmFeatureAdditionalOptions(Feature, ID) {
     const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
     for (const [index, option] of options.entries()) {
       const currentKey = key.replace(/\*/, index);
-      const selectedIndex = container.esgst[`${ID}${currentKey}`];
+      const selectedIndex = shared.esgst[`${ID}${currentKey}`];
       const children = [];
       for (const value of option.values) {
         children.push(
           [`option`, value]
         );
       }
-      const select = container.common.createElements_v2([
+      const select = shared.common.createElements_v2([
         [`div`, { class: `esgst-sm-colors` }, [
           option.title,
           [`select`, children]
         ]]
       ]).firstElementChild;
       select.firstElementChild.selectedIndex = selectedIndex;
-      container.common.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, false, `selectedIndex`);
+      shared.common.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, false, `selectedIndex`);
       items.push(select);
     }
   }
@@ -1877,10 +1876,10 @@ async function saveHrFile(id, popup, reader) {
       binary += String.fromCharCode(bytes[i]);
     }
     let string = window.btoa(binary);
-    (await container.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
+    (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`${id}_sound`] = string;
-    container.esgst[`${id}_sound`] = string;
+    shared.esgst.settings[`${id}_sound`] = string;
+    shared.esgst[`${id}_sound`] = string;
     popup.close();
   } catch (e) {
     window.console.log(e);
@@ -1892,7 +1891,7 @@ async function saveHrFile(id, popup, reader) {
 }
 
 function addGwcrMenuPanel(id, key, background, upper = `100`) {
-  const panel = container.common.createElements_v2([
+  const panel = shared.common.createElements_v2([
     [`div`, { class: `esgst-sm-colors` }, [
       [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
         [`span`, `Add Color Setting`]
@@ -1901,8 +1900,8 @@ function addGwcrMenuPanel(id, key, background, upper = `100`) {
     ]]
   ]).firstElementChild;
   const button = panel.firstElementChild;
-  for (let i = 0, n = container.esgst[id].length; i < n; ++i) {
-    addGwcColorSetting(container.esgst[id][i], id, key, panel, background);
+  for (let i = 0, n = shared.esgst[id].length; i < n; ++i) {
+    addGwcColorSetting(shared.esgst[id][i], id, key, panel, background);
   }
   button.addEventListener(`click`, () => {
     const colors = {
@@ -1913,7 +1912,7 @@ function addGwcrMenuPanel(id, key, background, upper = `100`) {
     if (background) {
       colors.bgColor = ``;
     }
-    container.esgst[id].push(colors);
+    shared.esgst[id].push(colors);
     addGwcColorSetting(colors, id, key, panel, background);
   });
   return panel;
@@ -1921,7 +1920,7 @@ function addGwcrMenuPanel(id, key, background, upper = `100`) {
 
 function addGwcColorSetting(colors, id, key, panel, background) {
   let bgColor, color, i, lower, n, remove, setting, upper;
-  setting = container.common.createElements(panel, `beforeEnd`, [{
+  setting = shared.common.createElements(panel, `beforeEnd`, [{
     type: `div`,
     children: [{
       text: `From: `,
@@ -1981,33 +1980,33 @@ function addGwcColorSetting(colors, id, key, panel, background) {
   lower.addEventListener(`change`, () => {
     colors.lower = lower.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[id] = container.esgst[id];
+    shared.esgst.settings[id] = shared.esgst[id];
   });
   upper.addEventListener(`change`, () => {
     colors.upper = upper.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[id] = container.esgst[id];
+    shared.esgst.settings[id] = shared.esgst[id];
   });
   color.addEventListener(`change`, () => {
     colors.color = color.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[id] = container.esgst[id];
+    shared.esgst.settings[id] = shared.esgst[id];
   });
   if (bgColor) {
     bgColor.addEventListener(`change`, () => {
       colors.bgColor = bgColor.value;
       // noinspection JSIgnoredPromiseFromCall
-      container.esgst.settings[id] = container.esgst[id];
+      shared.esgst.settings[id] = shared.esgst[id];
     });
   }
   remove.addEventListener(`click`, () => {
     if (window.confirm(`Are you sure you want to delete this setting?`)) {
-      for (i = 0, n = container.esgst[id].length; i < n && container.esgst[id][i] !== colors; ++i) {
+      for (i = 0, n = shared.esgst[id].length; i < n && shared.esgst[id][i] !== colors; ++i) {
       }
       if (i < n) {
-        container.esgst[id].splice(i, 1);
+        shared.esgst[id].splice(i, 1);
         // noinspection JSIgnoredPromiseFromCall
-        container.esgst.settings[id] = container.esgst[id];
+        shared.esgst.settings[id] = shared.esgst[id];
         setting.remove();
       }
     }
@@ -2015,13 +2014,13 @@ function addGwcColorSetting(colors, id, key, panel, background) {
 }
 
 function addUlMenuPanel(id) {
-  const panel = container.common.createElements_v2([
+  const panel = shared.common.createElements_v2([
     [`div`, { class: `esgst-sm-colors` }, [
       [`div`],
       [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => addUlMenuItem(id, panel) }, [
         [`span`, `Add Link`]
       ]],
-      [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => (container.esgst.settings[id] = container.esgst[id] = container.esgst.defaultValues[id]) && !(panel.firstElementChild.innerHTML = ``) && addUlMenuItems(id, panel) }, [
+      [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => (shared.esgst.settings[id] = shared.esgst[id] = shared.esgst.defaultValues[id]) && !(panel.firstElementChild.innerHTML = ``) && addUlMenuItems(id, panel) }, [
         [`span`, `Reset`]
       ]],
       [`div`, { class: `form__input-description` }, [
@@ -2035,7 +2034,7 @@ function addUlMenuPanel(id) {
       ]]
     ]]
   ]).firstElementChild;
-  container.common.draggable_set({
+  shared.common.draggable_set({
     addTrash: true,
     context: panel.firstElementChild,
     id: `ul_links`,
@@ -2046,7 +2045,7 @@ function addUlMenuPanel(id) {
 }
 
 function addUlMenuItems(id, panel) {
-  for (const [i, link] of container.esgst[id].entries()) {
+  for (const [i, link] of shared.esgst[id].entries()) {
     addUlLink(i, id, link, panel);
   }
 }
@@ -2056,13 +2055,13 @@ function addUlMenuItem(id, panel) {
     label: ``,
     url: ``
   };
-  container.esgst[id].push(link);
-  container.esgst.settings[id] = container.esgst[id];
-  addUlLink(container.esgst[id].length - 1, id, link, panel);
+  shared.esgst[id].push(link);
+  shared.esgst.settings[id] = shared.esgst[id];
+  addUlLink(shared.esgst[id].length - 1, id, link, panel);
 }
 
 function addUlLink(i, id, link, panel) {
-  const setting = container.common.createElements_v2(panel.firstElementChild, `beforeEnd`, [
+  const setting = shared.common.createElements_v2(panel.firstElementChild, `beforeEnd`, [
     [`div`, { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) }, [
       `Label: `,
       [`input`, { onchange: event => (link.label = event.currentTarget.value) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)), type: `text`, value: link.label }],
@@ -2070,7 +2069,7 @@ function addUlLink(i, id, link, panel) {
       [`input`, { onchange: event => (link.url = event.currentTarget.value) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)), type: `text`, value: link.url }]
     ]]
   ]);
-  container.common.draggable_set({
+  shared.common.draggable_set({
     addTrash: true,
     context: panel.firstElementChild,
     id: `ul_links`,
@@ -2079,7 +2078,7 @@ function addUlLink(i, id, link, panel) {
 }
 
 function addGcRatingPanel() {
-  const panel = container.common.createElements_v2([
+  const panel = shared.common.createElements_v2([
     [`div`, { class: `esgst-sm-colors` }, [
       [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
         [`span`, `Add Rating Setting`]
@@ -2088,8 +2087,8 @@ function addGcRatingPanel() {
     ]]
   ]).firstElementChild;
   let button = panel.firstElementChild;
-  for (let i = 0, n = container.esgst.gc_r_colors.length; i < n; ++i) {
-    addGcRatingColorSetting(container.esgst.gc_r_colors[i], panel);
+  for (let i = 0, n = shared.esgst.gc_r_colors.length; i < n; ++i) {
+    addGcRatingColorSetting(shared.esgst.gc_r_colors[i], panel);
   }
   button.addEventListener(`click`, () => {
     let colors = {
@@ -2099,14 +2098,14 @@ function addGcRatingPanel() {
       lower: ``,
       upper: ``
     };
-    container.esgst.gc_r_colors.push(colors);
+    shared.esgst.gc_r_colors.push(colors);
     addGcRatingColorSetting(colors, panel);
   });
   return panel;
 }
 
 function addGcRatingColorSetting(colors, panel) {
-  let setting = container.common.createElements(panel, `beforeEnd`, [{
+  let setting = shared.common.createElements(panel, `beforeEnd`, [{
     type: `div`,
     children: [{
       text: `From: `,
@@ -2175,42 +2174,42 @@ function addGcRatingColorSetting(colors, panel) {
   let bgColor = color.nextElementSibling;
   let icon = bgColor.nextElementSibling;
   let tooltip = icon.nextElementSibling;
-  container.common.createTooltip(tooltip, `The name of the icon can be any name from <a href="https://fontawesome.com/v4.7.0/icons/">FontAwesome</a> or any text. For example, if you want to use alt symbols like ▲ (Alt + 3 + 0) and ▼ (Alt + 3 + 1), you can.`);
+  shared.common.createTooltip(tooltip, `The name of the icon can be any name from <a href="https://fontawesome.com/v4.7.0/icons/">FontAwesome</a> or any text. For example, if you want to use alt symbols like ▲ (Alt + 3 + 0) and ▼ (Alt + 3 + 1), you can.`);
   let remove = tooltip.nextElementSibling;
   lower.addEventListener(`change`, () => {
     colors.lower = lower.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_r_colors`] = container.esgst.gc_r_colors;
+    shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
   });
   upper.addEventListener(`change`, () => {
     colors.upper = upper.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_r_colors`] = container.esgst.gc_r_colors;
+    shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
   });
   color.addEventListener(`change`, () => {
     colors.color = color.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_r_colors`] = container.esgst.gc_r_colors;
+    shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
   });
   bgColor.addEventListener(`change`, () => {
     colors.bgColor = bgColor.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_r_colors`] = container.esgst.gc_r_colors;
+    shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
   });
   icon.addEventListener(`change`, () => {
     colors.icon = icon.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_r_colors`] = container.esgst.gc_r_colors;
+    shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
   });
   remove.addEventListener(`click`, () => {
     if (window.confirm(`Are you sure you want to delete this setting?`)) {
       let i, n;
-      for (i = 0, n = container.esgst.gc_r_colors.length; i < n && container.esgst.gc_r_colors[i] !== colors; ++i) {
+      for (i = 0, n = shared.esgst.gc_r_colors.length; i < n && shared.esgst.gc_r_colors[i] !== colors; ++i) {
       }
       if (i < n) {
-        container.esgst.gc_r_colors.splice(i, 1);
+        shared.esgst.gc_r_colors.splice(i, 1);
         // noinspection JSIgnoredPromiseFromCall
-        container.esgst.settings[`gc_r_colors`] = container.esgst.gc_r_colors;
+        shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
         setting.remove();
       }
     }
@@ -2219,7 +2218,7 @@ function addGcRatingColorSetting(colors, panel) {
 
 function addGcMenuPanel() {
   let button, colorSetting, i, n;
-  const panel = container.common.createElements_v2([
+  const panel = shared.common.createElements_v2([
     [`div`, { class: `esgst-sm-colors` }, [
       [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
         [`span`, `Add Custom Genre Setting`]
@@ -2228,8 +2227,8 @@ function addGcMenuPanel() {
     ]]
   ]).firstElementChild;
   button = panel.firstElementChild;
-  for (i = 0, n = container.esgst.gc_g_colors.length; i < n; ++i) {
-    addGcColorSetting(container.esgst.gc_g_colors[i], panel);
+  for (i = 0, n = shared.esgst.gc_g_colors.length; i < n; ++i) {
+    addGcColorSetting(shared.esgst.gc_g_colors[i], panel);
   }
   button.addEventListener(`click`, () => {
     colorSetting = {
@@ -2237,7 +2236,7 @@ function addGcMenuPanel() {
       color: `#ffffff`,
       genre: ``
     };
-    container.esgst.gc_g_colors.push(colorSetting);
+    shared.esgst.gc_g_colors.push(colorSetting);
     addGcColorSetting(colorSetting, panel);
   });
   return panel;
@@ -2245,7 +2244,7 @@ function addGcMenuPanel() {
 
 function addGcColorSetting(colorSetting, panel) {
   let bgColor, color, genre, i, n, remove, setting;
-  setting = container.common.createElements(panel, `beforeEnd`, [{
+  setting = shared.common.createElements(panel, `beforeEnd`, [{
     type: `div`,
     children: [{
       text: `For genre `,
@@ -2292,26 +2291,26 @@ function addGcColorSetting(colorSetting, panel) {
   genre.addEventListener(`change`, () => {
     colorSetting.genre = genre.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_g_colors`] = container.esgst.gc_g_colors;
+    shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
   });
   color.addEventListener(`change`, () => {
     colorSetting.color = color.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_g_colors`] = container.esgst.gc_g_colors;
+    shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
   });
   bgColor.addEventListener(`change`, () => {
     colorSetting.bgColor = bgColor.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_g_colors`] = container.esgst.gc_g_colors;
+    shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
   });
   remove.addEventListener(`click`, () => {
     if (window.confirm(`Are you sure you want to delete this setting?`)) {
-      for (i = 0, n = container.esgst.gc_g_colors.length; i < n && container.esgst.gc_g_colors[i] !== colorSetting; ++i) {
+      for (i = 0, n = shared.esgst.gc_g_colors.length; i < n && shared.esgst.gc_g_colors[i] !== colorSetting; ++i) {
       }
       if (i < n) {
-        container.esgst.gc_g_colors.splice(i, 1);
+        shared.esgst.gc_g_colors.splice(i, 1);
         // noinspection JSIgnoredPromiseFromCall
-        container.esgst.settings[`gc_g_colors`] = container.esgst.gc_g_colors;
+        shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
         setting.remove();
       }
     }
@@ -2320,7 +2319,7 @@ function addGcColorSetting(colorSetting, panel) {
 
 function addGcAltMenuPanel() {
   let altSetting, button, i, n;
-  const panel = container.common.createElements_v2([
+  const panel = shared.common.createElements_v2([
     [`div`, { class: `esgst-sm-colors` }, [
       [`div`, { class: `form__saving-button esgst-sm-colors-default` }, [
         [`span`, `Add Alt Account`]
@@ -2328,7 +2327,7 @@ function addGcAltMenuPanel() {
     ]]
   ]).firstElementChild;
   button = panel.firstElementChild;
-  container.common.createTooltip(container.common.createElements(panel, `beforeEnd`, [{
+  shared.common.createTooltip(shared.common.createElements(panel, `beforeEnd`, [{
     attributes: {
       class: `fa fa-question-circle`
     },
@@ -2340,8 +2339,8 @@ function addGcAltMenuPanel() {
   <br/>
   <div>You must fill the fields relative to your settings. For example, if you have simplified version enabled with icons, you must fill the "icon" field. If you don't have simplified version enabled, you must fill the "label" field. The current text in the fields are simply placeholders.</div>
 `);
-  for (i = 0, n = container.esgst.gc_o_altAccounts.length; i < n; ++i) {
-    addGcAltSetting(container.esgst.gc_o_altAccounts[i], panel);
+  for (i = 0, n = shared.esgst.gc_o_altAccounts.length; i < n; ++i) {
+    addGcAltSetting(shared.esgst.gc_o_altAccounts[i], panel);
   }
   button.addEventListener(`click`, () => {
     altSetting = {
@@ -2356,7 +2355,7 @@ function addGcAltMenuPanel() {
       name: ``,
       steamId: ``
     };
-    container.esgst.gc_o_altAccounts.push(altSetting);
+    shared.esgst.gc_o_altAccounts.push(altSetting);
     addGcAltSetting(altSetting, panel);
   });
   return panel;
@@ -2364,7 +2363,7 @@ function addGcAltMenuPanel() {
 
 function addGcAltSetting(altSetting, panel) {
   let color, bgColor, i, icon, label, n, name, remove, setting, steamId;
-  setting = container.common.createElements(panel, `beforeEnd`, [{
+  setting = shared.common.createElements(panel, `beforeEnd`, [{
     type: `div`,
     children: [{
       text: `For account with Steam ID `,
@@ -2450,41 +2449,41 @@ function addGcAltSetting(altSetting, panel) {
   steamId.addEventListener(`change`, () => {
     altSetting.steamId = steamId.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+    shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
   });
   name.addEventListener(`change`, () => {
     altSetting.name = name.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+    shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
   });
   color.addEventListener(`change`, () => {
     altSetting.color = color.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+    shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
   });
   bgColor.addEventListener(`change`, () => {
     altSetting.bgColor = bgColor.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+    shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
   });
   icon.addEventListener(`change`, () => {
     altSetting.icon = icon.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+    shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
   });
   label.addEventListener(`change`, () => {
     altSetting.label = label.value;
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+    shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
   });
   remove.addEventListener(`click`, () => {
     if (window.confirm(`Are you sure you want to delete this setting?`)) {
-      for (i = 0, n = container.esgst.gc_o_altAccounts.length; i < n && container.esgst.gc_o_altAccounts[i] !== altSetting; ++i) {
+      for (i = 0, n = shared.esgst.gc_o_altAccounts.length; i < n && shared.esgst.gc_o_altAccounts[i] !== altSetting; ++i) {
       }
       if (i < n) {
-        container.esgst.gc_o_altAccounts.splice(i, 1);
+        shared.esgst.gc_o_altAccounts.splice(i, 1);
         // noinspection JSIgnoredPromiseFromCall
-        container.esgst.settings[`gc_o_altAccounts`] = container.esgst.gc_o_altAccounts;
+        shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
         setting.remove();
       }
     }
@@ -2494,11 +2493,11 @@ function addGcAltSetting(altSetting, panel) {
 function addColorObserver(hexInput, alphaInput, id, colorId) {
   hexInput.addEventListener(`change`, () => {
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
+    shared.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
   });
   alphaInput.addEventListener(`change`, () => {
     // noinspection JSIgnoredPromiseFromCall
-    container.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
+    shared.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
   });
 }
 
@@ -2705,12 +2704,12 @@ function openThemePopup(id, url, resolve) {
     ],
     addScrollable: true
   });
-  obj.popup.onClose = resolve.bind(container.common, url);
+  obj.popup.onClose = resolve.bind(shared.common, url);
   let context = obj.popup.getScrollable([
     [`div`, { class: `esgst-sm-colors` }]
   ]).firstElementChild;
   obj.options[key].forEach(option => {
-    option.select = container.common.createElements(context, `beforeEnd`, [{
+    option.select = shared.common.createElements(context, `beforeEnd`, [{
       type: `div`,
       children: [{
         text: `${option.name} `,
@@ -2720,7 +2719,7 @@ function openThemePopup(id, url, resolve) {
       }]
     }]).lastElementChild;
     (option.options || binaryOptions).forEach(subOption => {
-      container.common.createElements(option.select, `beforeEnd`, [{
+      shared.common.createElements(option.select, `beforeEnd`, [{
         attributes: {
           value: subOption.id
         },
@@ -2745,7 +2744,7 @@ function generateThemeUrl(obj, key) {
 }
 
 function createMenuSection(context, html, number, title, type) {
-  let section = container.common.createElements(context, `beforeEnd`, [{
+  let section = shared.common.createElements(context, `beforeEnd`, [{
     attributes: {
       class: `esgst-form-row`,
       id: `esgst_${type}`
@@ -2780,9 +2779,9 @@ function createMenuSection(context, html, number, title, type) {
       children: html
     }]
   }]);
-  if (container.esgst.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
+  if (shared.esgst.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
     let button, containerr, isExpanded;
-    button = container.common.createElements(section.firstElementChild, `afterBegin`, [{
+    button = shared.common.createElements(section.firstElementChild, `afterBegin`, [{
       attributes: {
         class: `esgst-clickable`,
         style: `margin-right: 5px;`
@@ -2790,14 +2789,14 @@ function createMenuSection(context, html, number, title, type) {
       type: `span`,
       children: [{
         attributes: {
-          class: `fa fa-${container.esgst[`collapse_${type}`] ? `plus` : `minus`}-square`,
-          title: `${container.esgst[`collapse_${type}`] ? `Expand` : `Collapse`} section`
+          class: `fa fa-${shared.esgst[`collapse_${type}`] ? `plus` : `minus`}-square`,
+          title: `${shared.esgst[`collapse_${type}`] ? `Expand` : `Collapse`} section`
         },
         type: `i`
       }]
     }]);
     containerr = section.lastElementChild;
-    if (container.esgst[`collapse_${type}`]) {
+    if (shared.esgst[`collapse_${type}`]) {
       containerr.classList.add(`esgst-hidden`);
       isExpanded = false;
     } else {
@@ -2806,7 +2805,7 @@ function createMenuSection(context, html, number, title, type) {
     button.addEventListener(`click`, () => {
       if (isExpanded) {
         containerr.classList.add(`esgst-hidden`);
-        container.common.createElements(button, `inner`, [{
+        shared.common.createElements(button, `inner`, [{
           attributes: {
             class: `fa fa-plus-square`,
             title: `Expand section`
@@ -2816,7 +2815,7 @@ function createMenuSection(context, html, number, title, type) {
         isExpanded = false;
       } else {
         containerr.classList.remove(`esgst-hidden`);
-        container.common.createElements(button, `inner`, [{
+        shared.common.createElements(button, `inner`, [{
           attributes: {
             class: `fa fa-minus-square`,
             title: `Collapse section`
@@ -2825,7 +2824,7 @@ function createMenuSection(context, html, number, title, type) {
         }]);
         isExpanded = true;
       }
-      container.esgst.settings[`collapse_${type}`] = !isExpanded;
+      shared.esgst.settings[`collapse_${type}`] = !isExpanded;
     });
   }
   return section;
@@ -2834,17 +2833,17 @@ function createMenuSection(context, html, number, title, type) {
 function filterSm(event) {
   let collapse, element, expand, found, id, type, typeFound, value;
   value = event.currentTarget.value.toLowerCase().trim().replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
-  for (type in container.esgst.features) {
-    if (container.esgst.features.hasOwnProperty(type)) {
+  for (type in shared.esgst.features) {
+    if (shared.esgst.features.hasOwnProperty(type)) {
       found = false;
       typeFound = false;
-      for (id in container.esgst.features[type].features) {
-        if (container.esgst.features[type].features.hasOwnProperty(id)) {
-          unfadeSmFeatures(container.esgst.features[type].features[id], id);
-          found = filterSmFeature(container.esgst.features[type].features[id], id, value);
+      for (id in shared.esgst.features[type].features) {
+        if (shared.esgst.features[type].features.hasOwnProperty(id)) {
+          unfadeSmFeatures(shared.esgst.features[type].features[id], id);
+          found = filterSmFeature(shared.esgst.features[type].features[id], id, value);
           if (found) {
             typeFound = true;
-            unhideSmFeature(container.esgst.features[type].features[id], id);
+            unhideSmFeature(shared.esgst.features[type].features[id], id);
           }
         }
       }
@@ -2951,7 +2950,5 @@ function unhideSmFeature(feature, id) {
   }
 }
 
-export {
-  createMenuSection,
-  loadMenu
-};
+export { createMenuSection, loadMenu };
+

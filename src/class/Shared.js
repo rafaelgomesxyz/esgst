@@ -1,4 +1,4 @@
-class Container {
+class Shared {
   constructor() {
     /**
      * @type {import('../modules/Common').common}
@@ -21,5 +21,7 @@ class Container {
   }
 }
 
-const container = new Container;
-export {container};
+const shared = new Shared();
+
+export { shared };
+

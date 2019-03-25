@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -46,4 +46,6 @@ class GroupsGroupHighlighter extends Module {
   }
 }
 
-export default GroupsGroupHighlighter;
+const groupsGroupHighlighter = new GroupsGroupHighlighter();
+
+export { groupsGroupHighlighter };

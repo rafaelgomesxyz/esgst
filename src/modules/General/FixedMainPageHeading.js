@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 
 class GeneralFixedMainPageHeading extends Module {
   constructor() {
@@ -34,4 +34,6 @@ class GeneralFixedMainPageHeading extends Module {
   }
 }
 
-export default GeneralFixedMainPageHeading;
+const generalFixedMainPageHeading = new GeneralFixedMainPageHeading();
+
+export { generalFixedMainPageHeading };

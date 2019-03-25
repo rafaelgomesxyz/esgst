@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 class GiveawaysVisibleInviteOnlyGiveaways extends Module {
@@ -79,4 +79,6 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
   }
 }
 
-export default GiveawaysVisibleInviteOnlyGiveaways;
+const giveawaysVisibleInviteOnlyGiveaways = new GiveawaysVisibleInviteOnlyGiveaways();
+
+export { giveawaysVisibleInviteOnlyGiveaways };

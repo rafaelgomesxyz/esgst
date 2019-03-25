@@ -1,7 +1,7 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Checkbox from '../../class/Checkbox';
-import Popup from '../../class/Popup';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Checkbox } from '../../class/Checkbox';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -782,4 +782,6 @@ class GiveawaysGiveawayTemplates extends Module {
   }
 }
 
-export default GiveawaysGiveawayTemplates;
+const giveawaysGiveawayTemplates = new GiveawaysGiveawayTemplates();
+
+export { giveawaysGiveawayTemplates };

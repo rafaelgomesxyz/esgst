@@ -1,4 +1,4 @@
-import Module from '../class/Module';
+import { Module } from '../class/Module';
 
 class DiscussionPanels extends Module {
   constructor() {
@@ -17,4 +17,6 @@ class DiscussionPanels extends Module {
   }
 }
 
-export default DiscussionPanels;
+const discussionPanelsModule = new DiscussionPanels();
+
+export { discussionPanelsModule };

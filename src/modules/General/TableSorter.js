@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -215,4 +215,6 @@ class GeneralTableSorter extends Module {
   }
 }
 
-export default GeneralTableSorter;
+const generalTableSorter = new GeneralTableSorter();
+
+export { generalTableSorter };

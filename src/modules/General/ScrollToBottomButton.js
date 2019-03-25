@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -87,4 +87,6 @@ class GeneralScrollToBottomButton extends Module {
   }
 }
 
-export default GeneralScrollToBottomButton;
+const generalScrollToBottomButton = new GeneralScrollToBottomButton();
+
+export { generalScrollToBottomButton };

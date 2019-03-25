@@ -1,8 +1,8 @@
-import Module from '../class/Module';
-import Checkbox from '../class/Checkbox';
-import Popup from '../class/Popup';
-import {utils} from '../lib/jsUtils';
-import {common} from './Common';
+import { Checkbox } from '../class/Checkbox';
+import { Module } from '../class/Module';
+import { Popup } from '../class/Popup';
+import { utils } from '../lib/jsUtils';
+import { common } from './Common';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -890,4 +890,6 @@ class Tags extends Module {
   }
 }
 
-export default Tags;
+const tagsModule = new Tags();
+
+export { tagsModule };

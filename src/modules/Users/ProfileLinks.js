@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -199,4 +199,6 @@ class UsersProfileLinks extends Module {
   }
 }
 
-export default UsersProfileLinks;
+const usersProfileLinks = new UsersProfileLinks();
+
+export { usersProfileLinks };

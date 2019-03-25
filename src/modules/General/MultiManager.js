@@ -1,14 +1,14 @@
-import Module from '../../class/Module';
-import ButtonSet from '../../class/ButtonSet';
-import Checkbox from '../../class/Checkbox';
-import Popout from '../../class/Popout';
-import Popup from '../../class/Popup';
-import Process from '../../class/Process';
-import ToggleSwitch from '../../class/ToggleSwitch';
+import dateFns_format from 'date-fns/format';
+import vdf from 'simple-vdf';
+import { ButtonSet } from '../../class/ButtonSet';
+import { Checkbox } from '../../class/Checkbox';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
+import { Popup } from '../../class/Popup';
+import { Process } from '../../class/Process';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import vdf from 'simple-vdf';
-import dateFns_format from 'date-fns/format';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -1231,4 +1231,6 @@ class GeneralMultiManager extends Module {
   }
 }
 
-export default GeneralMultiManager;
+const generalMultiManager = new GeneralMultiManager();
+
+export { generalMultiManager };

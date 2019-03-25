@@ -1,8 +1,8 @@
-import Popup from '../class/Popup';
-import { container } from '../class/Container';
+import { Popup } from '../class/Popup';
+import { shared } from '../class/Shared';
 
 async function loadChangelog(version) {
-  const changelog = JSON.parse((await container.common.request({
+  const changelog = JSON.parse((await shared.common.request({
     method: `GET`,
     url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/changelog.json`
   })).responseText);
@@ -63,7 +63,7 @@ async function loadChangelog(version) {
     return;
   }
   const popup = new Popup({ addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: `Changelog` });
-  container.common.createElements(popup.scrollable, `afterBegin`, [{
+  shared.common.createElements(popup.scrollable, `afterBegin`, [{
     attributes: {
       class: `esgst-text-left markdown`
     },
@@ -73,6 +73,5 @@ async function loadChangelog(version) {
   popup.open();
 }
 
-export {
-  loadChangelog
-};
+export { loadChangelog };
+

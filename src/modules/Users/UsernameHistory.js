@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { common } from '../Common';
 
 const
@@ -157,4 +157,6 @@ class UsersUsernameHistory extends Module {
   }
 }
 
-export default UsersUsernameHistory;
+const usersUsernameHistory = new UsersUsernameHistory();
+
+export { usersUsernameHistory };

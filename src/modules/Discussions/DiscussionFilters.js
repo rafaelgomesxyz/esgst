@@ -1,6 +1,6 @@
-import Module from '../../class/Module';
-import Button from '../../class/Button';
-import Process from '../../class/Process';
+import { Button } from '../../class/Button';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -560,4 +560,6 @@ class DiscussionsDiscussionFilters extends Module {
   }
 }
 
-export default DiscussionsDiscussionFilters;
+const discussionsDiscussionFilters = new DiscussionsDiscussionFilters();
+
+export { discussionsDiscussionFilters };

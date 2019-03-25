@@ -1,4 +1,4 @@
-import Module from '../../class/Module';
+import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -146,4 +146,6 @@ class GroupsGroupStats extends Module {
   }
 }
 
-export default GroupsGroupStats;
+const groupsGroupStats = new GroupsGroupStats();
+
+export { groupsGroupStats };
