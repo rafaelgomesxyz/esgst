@@ -384,27 +384,101 @@ async function checkGoogleDriveComplete(data, dm, callback) {
         }
       };
       popup.open();
+      let selectedFiles = {};
       let entries = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `popup__keys__list`
         },
         type: `div`
       }]);
+      popup.popup.insertBefore(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-trash`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Delete selected files`,
+        title2: `Deleting...`,
+        callback1: () => {
+          return new Promise(resolve => {
+            if (!Object.keys(selectedFiles).length) {
+              resolve();
+              return;
+            }
+            shared.common.createConfirmation(`WARNING: Are you sure you want to delete the selected files?`, async () => {
+              const chunks = [];
+              const keys = Object.keys(selectedFiles);
+              for (let i = 0; keys[i]; ) {
+                const chunk = keys.slice(i, i + 100);
+                chunks.push(chunk);
+                i += chunk.length;
+              }
+              let failed = 0;
+              for (const chunk of chunks) {
+                const formData = [];
+                for (const key of chunk) {
+                  formData.push(
+                    `--ESGST`,
+                    `Content-Type: application/http`,
+                    ``,
+                    `DELETE https://www.googleapis.com/drive/v3/files/${key}`,
+                    ``,
+                    ``
+                  );
+                }
+                formData.push(`--ESGST--`);
+                const result = (await shared.common.request({
+                  isFormData: true,
+                  data: formData.join(`\n`),
+                  headers: {
+                    authorization: `Bearer ${value}`,
+                    'Content-Type': `multipart/mixed; boundary=ESGST`
+                  },
+                  method: `POST`,
+                  url: `https://www.googleapis.com/batch/drive/v3`
+                })).responseText;
+                const parts = result.replace(/\r?\n|\r/g, `\n`).replace(/\n\n+/g, `\n\n`).split(/--batch.*\n/).filter(x => x).map(x => x.split(/\n\n/)[2]);
+                for (const [index, part] of parts.entries()) {
+                  if (part) {
+                    failed += 1;
+                  } else {
+                    selectedFiles[chunk[index]].item.remove();
+                  }
+                }
+              }
+              selectedFiles = {};
+              let icon, title;
+              if (failed > 0) {
+                icon = `fa-times`;
+                title = `An error happened while deleting ${failed} of the files.`;
+              } else {
+                icon = `fa-check`;
+                title = `Files deleted with success.`;
+              }         
+              const tempPopup = new Popup({ icon, title, isTemp: true });
+              tempPopup.open();
+              resolve();
+            }, resolve)
+          });
+        }
+      }).set, popup.actions);
       JSON.parse((await shared.common.request({
         headers: {
           authorization: `Bearer ${value}`
         },
         method: `GET`,
-        url: `https://www.googleapis.com/drive/v3/files?spaces=appDataFolder`
-      })).responseText).files.forEach(file => {
-        let item = shared.common.createElements(entries, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-clickable`
-          },
-          text: `${file.name}`,
-          type: `div`
-        }]);
-        item.addEventListener(`click`, () => {
+        url: `https://www.googleapis.com/drive/v3/files?fields=files(kind,id,name,mimeType,size)&spaces=appDataFolder`
+      })).responseText).files.forEach(file => {        
+        const item = shared.common.createElements_v2(entries, `beforeEnd`, [
+          [`div`, { class: `esgst-clickable esgst-restore-entry` }, [
+            [`span`],
+            [`span`, `${file.name} - ${shared.common.convertBytes(file.size)}`],
+            [`i`, { class: `fa fa-times-circle`, title: `Delete file` }]
+          ]]
+        ]);
+        const checkbox = new Checkbox(item.firstElementChild);
+        checkbox.onEnabled = () => selectedFiles[file.id] = { item };
+        checkbox.onDisabled = () => delete selectedFiles[file.id];
+        item.firstElementChild.nextElementSibling.addEventListener(`click`, () => {
           shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
             canceled = false;
             popup.close();
@@ -418,6 +492,27 @@ async function checkGoogleDriveComplete(data, dm, callback) {
             })).responseText);
             // noinspection JSIgnoredPromiseFromCall
             manageData(dm, false, false, false, false, callback);
+          });
+        });
+        item.lastElementChild.addEventListener(`click`, () => {
+          shared.common.createConfirmation(`WARNING: Are you sure you want to delete this file?`, async () => {
+            const tempPopup = new Popup({ icon: `fa-circle-o-notch fa-spin`, title: `Deleting file...`, isTemp: true });
+            tempPopup.open();
+            const result = (await shared.common.request({
+              headers: {
+                authorization: `Bearer ${value}`
+              },
+              method: `DELETE`,
+              url: `https://www.googleapis.com/drive/v3/files/${file.id}`
+            })).responseText;
+            if (result) {
+              tempPopup.setIcon(`fa-times`);
+              tempPopup.setTitle(`An error happened while deleting the file.`);
+            } else {
+              item.remove();
+              tempPopup.setIcon(`fa-check`);
+              tempPopup.setTitle(`File deleted with success.`);
+            }
           });
         });
       });
