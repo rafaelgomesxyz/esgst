@@ -240,7 +240,7 @@ async function checkDropboxComplete(data, dm, callback) {
         },
         method: `POST`,
         url: `https://api.dropboxapi.com/2/files/list_folder`
-      })).responseText).entries.forEach(entry => {
+      })).responseText).entries.reverse().forEach(entry => {
         const item = shared.common.createElements_v2(entries, `beforeEnd`, [
           [`div`, { class: `esgst-clickable esgst-restore-entry` }, [
             [`span`],
@@ -640,7 +640,7 @@ async function checkOneDriveComplete(data, dm, callback) {
         },
         method: `GET`,
         url: `https://graph.microsoft.com/v1.0/me/drive/special/approot/children`
-      })).responseText).value.forEach(file => {
+      })).responseText).value.reverse().forEach(file => {
         const item = shared.common.createElements_v2(entries, `beforeEnd`, [
           [`div`, { class: `esgst-clickable esgst-restore-entry` }, [
             [`span`],
