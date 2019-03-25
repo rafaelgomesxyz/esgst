@@ -1,4 +1,6 @@
 import { common } from './Common';
+import { loadMenu } from './Settings';
+import { loadDataManagement } from './Storage';
 import { generalPageLoadTimestamp } from './General/PageLoadTimestamp';
 import { generalVisibleFullLevel } from './General/VisibleFullLevel';
 import { giveawaysBlacklistGiveawayLoader } from './Giveaways/BlacklistGiveawayLoader';
@@ -160,6 +162,8 @@ import { tagsModule as tags } from './Tags';
 
 const modules = {
   common,
+  loadMenu,
+  loadDataManagement,
   generalPageLoadTimestamp,
   generalVisibleFullLevel,
   giveawaysBlacklistGiveawayLoader,
