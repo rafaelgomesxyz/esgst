@@ -181,6 +181,15 @@ function addStyle() {
   `;
   }
   style += `
+  .esgst-restore-entry {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .esgst-restore-entry >* {
+    margin: 0 5px 0;
+  }
+  
   footer .esgst-plt {
     margin-left: 15px;
   }

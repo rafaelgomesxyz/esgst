@@ -279,6 +279,10 @@ class Popup {
     this.scrollable.innerHTML = ``;
   }
 
+  setIcon(icon) {
+    this.icon.className = `fa ${icon}`;
+  }
+
   setTitle(title) {
     this.title.textContent = title;
   }

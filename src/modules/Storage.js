@@ -4,6 +4,7 @@ import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { createMenuSection } from './Settings';
+import { Checkbox } from '../class/Checkbox';
 
 const
   sortArray = utils.sortArray.bind(utils)
@@ -170,12 +171,67 @@ async function checkDropboxComplete(data, dm, callback) {
         }
       };
       popup.open();
+      let selectedFiles = {};
       let entries = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
         attributes: {
           class: `popup__keys__list`
         },
         type: `div`
       }]);
+      popup.popup.insertBefore(new ButtonSet({
+        color1: `green`,
+        color2: `grey`,
+        icon1: `fa-trash`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Delete selected files`,
+        title2: `Deleting...`,
+        callback1: () => {
+          return new Promise(resolve => {
+            if (!Object.keys(selectedFiles).length) {
+              resolve();
+              return;
+            }
+            shared.common.createConfirmation(`WARNING: Are you sure you want to delete the selected files?`, async () => {
+              let result = JSON.parse((await shared.common.request({
+                data: JSON.stringify({
+                  entries: Object.keys(selectedFiles).map(x => ({
+                    path: `/${x}`
+                  }))
+                }),
+                headers: {
+                  authorization: `Bearer ${value}`,
+                  [`Content-Type`]: `application/json`
+                },
+                method: `POST`,
+                url: `https://api.dropboxapi.com/2/files/delete_batch`
+              })).responseText);
+              if (result[`.tag`] !== `complete`) {
+                result = await checkDropboxBatchComplete(result.async_job_id, value);
+              }
+              let failed = 0;
+              for (const entry of result.entries) {
+                if (entry[`.tag`] === `success`) {
+                  selectedFiles[entry.metadata.name].item.remove();
+                } else {
+                  failed += 1;
+                }
+              }
+              selectedFiles = {};
+              let icon, title;
+              if (failed > 0) {
+                icon = `fa-times`;
+                title = `An error happened while deleting ${failed} of the files.`;
+              } else {
+                icon = `fa-check`;
+                title = `Files deleted with success.`;
+              }         
+              const tempPopup = new Popup({ icon, title, isTemp: true });
+              tempPopup.open();
+              resolve();
+            }, resolve)
+          });
+        }
+      }).set, popup.actions);
       JSON.parse((await shared.common.request({
         data: `{"path": ""}`,
         headers: {
@@ -185,14 +241,17 @@ async function checkDropboxComplete(data, dm, callback) {
         method: `POST`,
         url: `https://api.dropboxapi.com/2/files/list_folder`
       })).responseText).entries.forEach(entry => {
-        let item = shared.common.createElements(entries, `beforeEnd`, [{
-          attributes: {
-            class: `esgst-clickable`
-          },
-          text: `${entry.name} - ${shared.common.convertBytes(entry.size)}`,
-          type: `div`
-        }]);
-        item.addEventListener(`click`, () => {
+        const item = shared.common.createElements_v2(entries, `beforeEnd`, [
+          [`div`, { class: `esgst-clickable esgst-restore-entry` }, [
+            [`span`],
+            [`span`, `${entry.name} - ${shared.common.convertBytes(entry.size)}`],
+            [`i`, { class: `fa fa-times-circle`, title: `Delete file` }]
+          ]]
+        ]);
+        const checkbox = new Checkbox(item.firstElementChild);
+        checkbox.onEnabled = () => selectedFiles[entry.name] = { item };
+        checkbox.onDisabled = () => delete selectedFiles[entry.name];
+        item.firstElementChild.nextElementSibling.addEventListener(`click`, () => {
           shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
             canceled = false;
             popup.close();
@@ -210,10 +269,60 @@ async function checkDropboxComplete(data, dm, callback) {
             manageData(dm, false, false, false, false, callback);
           });
         });
+        item.lastElementChild.addEventListener(`click`, () => {
+          shared.common.createConfirmation(`WARNING: Are you sure you want to delete this file?`, async () => {
+            const tempPopup = new Popup({ icon: `fa-circle-o-notch fa-spin`, title: `Deleting file...`, isTemp: true });
+            tempPopup.open();
+            const result = JSON.parse((await shared.common.request({
+              data: JSON.stringify({
+                path: `/${entry.name}`
+              }),
+              headers: {
+                authorization: `Bearer ${value}`,
+                [`Content-Type`]: `application/json`
+              },
+              method: `POST`,
+              url: `https://api.dropboxapi.com/2/files/delete_v2`
+            })).responseText);
+            if (result.error) {
+              tempPopup.setIcon(`fa-times`);
+              tempPopup.setTitle(`An error happened while deleting the file.`);
+            } else {
+              item.remove();
+              tempPopup.setIcon(`fa-check`);
+              tempPopup.setTitle(`File deleted with success.`);
+            }
+          });
+        });
       });
     }
   } else {
     window.setTimeout(() => checkDropboxComplete(data, dm, callback), 250);
+  }
+}
+
+function checkDropboxBatchComplete(id, value) {
+  return new Promise(resolve => {
+    checkDropboxBatchComplete_1(id, value, resolve);
+  });
+}
+
+async function checkDropboxBatchComplete_1(id, value, resolve) {  
+  const result = JSON.parse((await shared.common.request({
+    data: JSON.stringify({
+      async_job_id: id
+    }),
+    headers: {
+      authorization: `Bearer ${value}`,
+      [`Content-Type`]: `application/json`
+    },
+    method: `POST`,
+    url: `https://api.dropboxapi.com/2/files/delete_batch/check`
+  })).responseText);
+  if (result[`.tag`] === `complete`) {
+    resolve(result);
+  } else {
+    window.setTimeout(checkDropboxBatchComplete_1, 1000, id, value, resolve);
   }
 }
 

@@ -2223,7 +2223,7 @@ class Esgst {
     this.modules = modules;
 
     for (const key in this.modules) {
-      if (this.modules.hasOwnProperty(key)) {
+      if (this.modules.hasOwnProperty(key) && this.modules[key].setEsgst) {
         this.modules[key].setEsgst.call(this.modules[key], this);
       }
     }
