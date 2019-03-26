@@ -1,9 +1,5 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-
-const
-  createHeadingButton = common.createHeadingButton.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsCommentFilters extends Module {
   constructor() {
@@ -113,7 +109,7 @@ class CommentsCommentFilters extends Module {
           top: ${this.esgst.commentsTop - 5}px;
         }
       `);
-      createHeadingButton({
+      shared.common.createHeadingButton({
         element: this.esgst.modules.filters.filters_addContainer(`cf`, this.esgst.mainPageHeading),
         id: `cf`
       });

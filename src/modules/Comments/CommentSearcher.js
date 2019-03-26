@@ -1,11 +1,6 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  endless_load = common.endless_load.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsCommentSearcher extends Module {
   constructor() {
@@ -141,7 +136,7 @@ class CommentsCommentSearcher extends Module {
       if (parent) {
         parent = parent.cloneNode(true);
         parent.lastElementChild.remove();
-        createElements(parent, `beforeEnd`, [{
+        shared.common.createElements(parent, `beforeEnd`, [{
           attributes: {
             class: `comment__children comment_children`
           },
@@ -155,7 +150,7 @@ class CommentsCommentSearcher extends Module {
         });
       } else {
         if (this.esgst.st) {
-          createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+          shared.common.createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
             attributes: {
               href: `/${obj.type}/${obj.code}/`
             },
@@ -195,12 +190,12 @@ class CommentsCommentSearcher extends Module {
         });
       }
       if (obj.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
-        createElements(context, `beforeEnd`, items);
+        shared.common.createElements(context, `beforeEnd`, items);
         obj.results += 1;
       }
     }
     obj.popup.setOverallProgress(`${obj.results} results found.`);
-    await endless_load(context);
+    await shared.common.endless_load(context);
   }
 }
 

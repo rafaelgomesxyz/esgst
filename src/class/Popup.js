@@ -3,6 +3,7 @@ import { shared } from './Shared';
 
 class Popup {
   constructor(details) {
+    this.textArea = undefined;
     this.temp = details.isTemp;
     this.layer = shared.common.createElements(document.body, `beforeEnd`, [{
       attributes: {

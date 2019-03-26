@@ -23,7 +23,7 @@ class Giveaways extends Module {
 
   async giveaways_load(context, main, source, endless) {
     if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
-    let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless, source);
+    let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless);
     if (!giveaways.length) return;
     for (let i = giveaways.length - 1; i > -1; --i) {
       giveaways[i].sortIndex = this.esgst.currentScope.giveaways.length;
@@ -47,7 +47,7 @@ class Giveaways extends Module {
     }
   }
 
-  async giveaways_get(context, main, mainUrl, hr, key, ged, endless, source) {
+  async giveaways_get(context, main, mainUrl, hr, key, ged, endless) {
     let giveaway, giveaways, i, mainContext, matches, query;
     giveaways = [];
     if (!hr && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.archivePath)) {
@@ -68,7 +68,7 @@ class Giveaways extends Module {
     }
     matches = context.querySelectorAll(query);
     for (i = matches.length - 1; i > -1; --i) {
-      giveaway = await this.giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, ged, endless, source);
+      giveaway = await this.giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, ged, endless);
       if (giveaway) {
         giveaways.push(giveaway[key]);
       }
@@ -76,9 +76,9 @@ class Giveaways extends Module {
     return giveaways;
   }
 
-  async giveaways_getInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless, source) {
-    let chance, giveaway, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
-    giveaway = {
+  async giveaways_getInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless) {
+    let chance, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
+    const giveaway = {
       creators: [],
       groups: [],
       winners: []
@@ -107,7 +107,7 @@ class Giveaways extends Module {
     const archivePath = common.testPath(`Archive`, `sg`, mainUrl || window.location.pathname);
     const giveawaysPath = common.testPath(`Giveaways`, `sg`, mainUrl || window.location.pathname);
     const groupPath = common.testPath(`Group`, `sg`, mainUrl || window.location.pathname);
-    const userPath = common.testPath(`Usernt`, `sg`, mainUrl || window.location.pathname);
+    const userPath = common.testPath(`User - Giveaways - Sent`, `sg`, mainUrl || window.location.pathname);
     const userWonPath = common.testPath(`User - Giveaways - Won`, `sg`, mainUrl || window.location.pathname);
     if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && giveawayPath) {
       return;
@@ -116,8 +116,8 @@ class Giveaways extends Module {
     giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
     giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
     giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-    if (source === `gb`) {
-      giveaway.entered = giveaway.outerWrap.getAttribute(`data-entered`);
+    if (giveaway.outerWrap.getAttribute(`data-entered`)) {
+      giveaway.entered = true;
     } else if (giveawayPath && main) {
       let button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
       if (button) {
@@ -187,10 +187,7 @@ class Giveaways extends Module {
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
-      if (!main || !userPath || userWonPath || (ugd && ugdType === `won`) || ged) {
-        giveaway.creatorContainer = giveaway.startTimeColumn.lastElementChild;
-        giveaway.creator = giveaway.creatorContainer.textContent;
-      }
+      giveaway.creatorContainer = giveaway.startTimeColumn.querySelector(`a[href*="/user/"]`);
     } else {
       giveaway.started = true;
     }
@@ -198,11 +195,10 @@ class Giveaways extends Module {
       giveaway.startTimeColumn = giveaway.innerWrap.querySelector(`[data-timestamp]`);
       if (giveaway.startTimeColumn) {
         giveaway.startTime = parseInt(giveaway.startTimeColumn.getAttribute(`data-timestamp`)) * 1e3;
-        giveaway.creatorContainer = giveaway.startTimeColumn.nextElementSibling;
-        giveaway.creator = giveaway.creatorContainer.textContent;
       } else {
         giveaway.startTime = 0;
       }
+      giveaway.creatorContainer = giveaway.innerWrap.querySelector(`a[href*="/user/"]`);
     }
     if (!giveaway.endTime && main && (createdPath || enteredPath || wonPath)) {
       giveaway.endTime = giveaway.innerWrap.querySelector(`[data-timestamp]`);
@@ -217,7 +213,9 @@ class Giveaways extends Module {
         giveaway.ended = true;
       }
     }
-    if (ugd) {
+    if (giveaway.creatorContainer) {
+      giveaway.creator = giveaway.creatorContainer.textContent;
+    } else if (ugd) {
       if (ugdType === `sent`) {
         giveaway.creator = ugd;
       }

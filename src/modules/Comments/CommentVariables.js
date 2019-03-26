@@ -43,9 +43,9 @@ class CommentsCommentVariables extends Module {
     obj.comment = obj.comment
       .replace(this.getRegExp(`username`), this.esgst.username)
       .replace(this.getRegExp(`steamId`), this.esgst.steamId);    
-    let creator = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
-    if (creator) {
-      creator = creator.textContent;
+    const creatorElement = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
+    if (creatorElement) {
+      const creator = creatorElement.textContent;
       obj.comment = obj.comment.replace(this.getRegExp(`creator`), creator);
     }
     if (obj.context) {

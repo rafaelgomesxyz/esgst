@@ -1,12 +1,7 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  saveComment = common.saveComment.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsReceivedReplyBoxPopup extends Module {
   constructor() {
@@ -46,7 +41,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
   rrbp_openPopup(giveaway) {
     let popup, progress, textArea;
     popup = new Popup({ addScrollable: true, icon: `fa-comment`, title: `Add a comment:` });
-    textArea = createElements(popup.scrollable, `beforeEnd`, [{
+    textArea = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
     if (this.esgst.cfh) {
@@ -61,11 +56,11 @@ class CommentsReceivedReplyBoxPopup extends Module {
       title2: `Saving...`,
       callback1: async () => {
         progress.innerHTML = ``;
-        await saveComment(null, ``, ``, textArea.value, giveaway.url, progress);
+        await shared.common.saveComment(null, ``, ``, textArea.value, giveaway.url, progress);
         popup.close();
       }
     }).set);
-    progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    progress = shared.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     popup.open(() => {
       textArea.focus();
     });
