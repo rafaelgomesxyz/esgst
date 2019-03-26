@@ -1,9 +1,5 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsReplyMentionLink extends Module {
   constructor() {
@@ -48,7 +44,7 @@ class CommentsReplyMentionLink extends Module {
       if (RMLLink) {
         RMLLink.textContent = `@${Username}`;
       } else {
-        createElements(Context, `beforeEnd`, [{
+        shared.common.createElements(Context, `beforeEnd`, [{
           attributes: {
             class: `comment__actions__button esgst-rml-link`,
             href: `#${ID}`

@@ -1,9 +1,5 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-
-const
-  reverseComments = common.reverseComments.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsCommentReverser extends Module {
   constructor() {
@@ -31,7 +27,7 @@ class CommentsCommentReverser extends Module {
     if (!this.esgst.discussionPath || !this.esgst.pagination) return;
     const context = this.esgst.pagination.previousElementSibling;
     if (context.classList.contains(`comments`)) {
-      reverseComments(context);
+      shared.common.reverseComments(context);
     }
   }
 }

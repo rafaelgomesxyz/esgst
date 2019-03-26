@@ -1,8 +1,4 @@
-import { common } from '../modules/Common';
-
-const
-  getFeatureTooltip = common.getFeatureTooltip.bind(common)
-;
+import { shared } from './Shared';
 
 class Button {
   constructor(context, position, details) {
@@ -12,7 +8,7 @@ class Button {
     this.id = details.id;
     this.index = details.index;
     this.titles = details.titles;
-    this.button = common.createElements_v2(context, position, [
+    this.button = shared.common.createElements_v2(context, position, [
       [`div`, { class: details.className }]
     ]);
     // noinspection JSIgnoredPromiseFromCall
@@ -25,8 +21,8 @@ class Button {
       index = 0;
     }
     this.index = index + 1;
-    this.button.title = getFeatureTooltip(this.id, this.titles[index]);
-    common.createElements_v2(this.button, `inner`, [
+    this.button.title = shared.common.getFeatureTooltip(this.id, this.titles[index]);
+    shared.common.createElements_v2(this.button, `inner`, [
       [`i`, { class: `fa ${this.icons[index]}` }]
     ]);
     if (mainCallback) {
@@ -34,7 +30,7 @@ class Button {
         // noinspection JSIgnoredPromiseFromCall
         this.change();
       } else {
-        common.createElements_v2(this.button, `inner`, [
+        shared.common.createElements_v2(this.button, `inner`, [
           [`i`, { class: `fa fa-times esgst-red`, title: `Unable to perform action` }]
         ]);
       }

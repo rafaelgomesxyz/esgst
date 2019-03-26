@@ -1,9 +1,5 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsReplyBoxOnTop extends Module {
   constructor() {
@@ -33,7 +29,7 @@ class CommentsReplyBoxOnTop extends Module {
       }
       return;
     }
-    let box = createElements(element, `afterEnd`, [{
+    let box = shared.common.createElements(element, `afterEnd`, [{
       attributes: {
         class: `esgst-rbot`
       },

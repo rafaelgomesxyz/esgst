@@ -3,23 +3,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { EMOJIS } from '../../emojis';
-import { common } from '../Common';
-
-const
-  createAlert = common.createAlert.bind(common),
-  createElements = common.createElements.bind(common),
-  createFadeMessage = common.createFadeMessage.bind(common),
-  delValue = common.delValue.bind(common),
-  draggable_set = common.draggable_set.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getValue = common.getValue.bind(common),
-  multiChoice = common.multiChoice.bind(common),
-  openSmallWindow = common.openSmallWindow.bind(common),
-  parseMarkdown = common.parseMarkdown.bind(common),
-  request = common.request.bind(common),
-  setSetting = common.setSetting.bind(common),
-  setValue = common.setValue.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsCommentFormattingHelper extends Module {
   constructor() {
@@ -518,7 +502,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Link`,
         setPopout: popout => {
           let title, url;
-          createElements(popout.popout, `inner`, [{
+          shared.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `URL: `,
@@ -578,7 +562,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Image`,
         setPopout: popout => {
           let title, url;
-          createElements(popout.popout, `inner`, [{
+          shared.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `URL: `,
@@ -618,9 +602,9 @@ class CommentsCommentFormattingHelper extends Module {
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           imgur.addEventListener(`click`, () => {
-            multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(this, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
-              await delValue(`imgurToken`);
-              openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);
+            shared.common.multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(this, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
+              await shared.common.delValue(`imgurToken`);
+              shared.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);
               // noinspection JSIgnoredPromiseFromCall
               this.cfh_checkImgur(popout, url);
             });
@@ -653,7 +637,7 @@ class CommentsCommentFormattingHelper extends Module {
         setPopup: popup => {
           let context, insertColumn, insertRow, table;
           context = popup.scrollable;
-          createElements(context, `inner`, [{
+          shared.common.createElements(context, `inner`, [{
             type: `table`
           }, {
             attributes: {
@@ -721,7 +705,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Emojis`,
         setPopout: async popout => {
           let emojis, popup;
-          createElements(popout.popout, `inner`, [{
+          shared.common.createElements(popout.popout, `inner`, [{
             attributes: {
               class: `esgst-cfh-emojis`
             },
@@ -741,7 +725,7 @@ class CommentsCommentFormattingHelper extends Module {
             type: `div`
           }]);
           emojis = popout.popout.firstElementChild;
-          draggable_set({
+          shared.common.draggable_set({
             addTrash: true,
             context: emojis,
             id: `emojis`,
@@ -756,10 +740,10 @@ class CommentsCommentFormattingHelper extends Module {
                 codes.push(emoji.codePointAt(i));
               }
               emoji = String.fromCodePoint(...codes);
-              this.cfh_setEmoji(common.createElements_v2(emojis, `beforeEnd`, [
+              this.cfh_setEmoji(shared.common.createElements_v2(emojis, `beforeEnd`, [
                 [`span`, { 'data-draggable-id': emoji }, emoji]
               ]));
-              draggable_set({
+              shared.common.draggable_set({
                 addTrash: true,
                 context: emojis,
                 id: `emojis`,
@@ -769,7 +753,7 @@ class CommentsCommentFormattingHelper extends Module {
               for (const element of emojis.children) {
                 emojiArray.push(element.getAttribute(`data-draggable-id`));
               }
-              await setValue(`emojis`, JSON.stringify(emojiArray));
+              await shared.common.setValue(`emojis`, JSON.stringify(emojiArray));
             } catch (error) {
               window.alert(`Invalid emoji!`);
               window.console.log(error);
@@ -791,16 +775,16 @@ class CommentsCommentFormattingHelper extends Module {
               ]).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
-              createElements(savedEmojis, `inner`, await this.cfh_getEmojis());
+              shared.common.createElements(savedEmojis, `inner`, await this.cfh_getEmojis());
               const obj = {
                 addTrash: true,
                 context: savedEmojis,
                 id: `emojis`,
                 item: {}
               };
-              draggable_set(obj);
+              shared.common.draggable_set(obj);
               for (const emojiData of this.esgst.cfhEmojis) {
-                createElements(emojis, `beforeEnd`, [{
+                shared.common.createElements(emojis, `beforeEnd`, [{
                   attributes: {
                     [`data-draggable-id`]: emojiData.emoji,
                     title: emojiData.name
@@ -809,7 +793,7 @@ class CommentsCommentFormattingHelper extends Module {
                   type: `span`
                 }]);
                 emojis.lastElementChild.addEventListener(`click`, () => {
-                  createElements(savedEmojis, `beforeEnd`, [{
+                  shared.common.createElements(savedEmojis, `beforeEnd`, [{
                     attributes: {
                       [`data-draggable-id`]: emojiData.emoji,
                       title: emojiData.name
@@ -817,7 +801,7 @@ class CommentsCommentFormattingHelper extends Module {
                     text: emojiData.emoji,
                     type: `span`
                   }]);
-                  draggable_set(obj);
+                  shared.common.draggable_set(obj);
                 });
               }
               popup.onClose = () => {
@@ -825,7 +809,7 @@ class CommentsCommentFormattingHelper extends Module {
                 for (const element of savedEmojis.children) {
                   emojiArray.push(element.getAttribute(`data-draggable-id`));
                 }
-                setValue(`emojis`, JSON.stringify(emojiArray));
+                shared.common.setValue(`emojis`, JSON.stringify(emojiArray));
               };
               filter.addEventListener(`input`, () => {
                 if (filter.value) {
@@ -851,8 +835,8 @@ class CommentsCommentFormattingHelper extends Module {
         },
         callback: async popout => {
           let emojis = popout.firstElementChild;
-          createElements(emojis, `inner`, await this.cfh_getEmojis());
-          draggable_set({
+          shared.common.createElements(emojis, `inner`, await this.cfh_getEmojis());
+          shared.common.draggable_set({
             addTrash: true,
             context: emojis,
             id: `emojis`,
@@ -866,7 +850,7 @@ class CommentsCommentFormattingHelper extends Module {
         icons: [`fa-star`],
         name: `Giveaway Encrypter`,
         setPopout: popout => {
-          createElements(popout.popout, `inner`, [{
+          shared.common.createElements(popout.popout, `inner`, [{
             text: `Giveaway Code: `,
             type: `node`
           }, {
@@ -907,8 +891,8 @@ class CommentsCommentFormattingHelper extends Module {
         setPopout: async popout => {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
-          savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
-          createElements(popout.popout, `inner`, [{
+          savedReplies = JSON.parse(shared.common.getValue(`savedReplies`, `[]`));
+          shared.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               attributes: {
@@ -971,7 +955,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `GitHub Wiki SteamGifts Integration`,
         setPopout: popout => {
           let url;
-          createElements(popout.popout, `inner`, [{
+          shared.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               text: `Wiki URL: `,
@@ -1058,14 +1042,14 @@ class CommentsCommentFormattingHelper extends Module {
     for (let i = 0, n = items.length; i < n; i++) {
       let item = items[i];
       if (!item.id || this.esgst[item.id]) {
-        let button = createElements(this.esgst.cfh.panel, `beforeEnd`, [{
+        let button = shared.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
           attributes: {
-            title: `${getFeatureTooltip(item.id || `cfh`, item.name)}`
+            title: `${shared.common.getFeatureTooltip(item.id || `cfh`, item.name)}`
           },
           type: `div`
         }]);
         item.icons.forEach(icon => {
-          createElements(button, `beforeEnd`, [{
+          shared.common.createElements(button, `beforeEnd`, [{
             attributes: {
               class: `fa ${icon}`
             },
@@ -1103,10 +1087,10 @@ class CommentsCommentFormattingHelper extends Module {
       }
     }
     if (this.esgst.cfh_cf) {
-      createElements(this.esgst.cfh.panel, `beforeEnd`, [{
+      shared.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
           href: `/about/comment-formatting`,
-          title: getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
+          title: shared.common.getFeatureTooltip(`cfh_cf`, `Comment Formatting`)
         },
         type: `a`,
         children: [{
@@ -1118,9 +1102,9 @@ class CommentsCommentFormattingHelper extends Module {
       }]);
     }
     if (this.esgst.cfh_p && !this.esgst.cfh_p_a) {
-      createElements(this.esgst.cfh.panel, `beforeEnd`, [{
+      shared.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
-          title: getFeatureTooltip(`cfh_p`, `Preview`)
+          title: shared.common.getFeatureTooltip(`cfh_p`, `Preview`)
         },
         type: `div`,
         children: [{
@@ -1129,7 +1113,7 @@ class CommentsCommentFormattingHelper extends Module {
           }
         }]
       }]).addEventListener(`click`, async () => {
-        createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+        shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
         this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
@@ -1137,7 +1121,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_getEmojis() {
-    let emojis = JSON.parse(getValue(`emojis`, `[]`));
+    let emojis = JSON.parse(shared.common.getValue(`emojis`, `[]`));
     return emojis
       .map(emoji => {
         const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
@@ -1215,7 +1199,7 @@ class CommentsCommentFormattingHelper extends Module {
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
       if (this.esgst.cfh_p_a) {
         textArea.oninput = async () => {
-          createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(textArea, textArea.value));
+          shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(textArea, textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
         };
       }
@@ -1244,7 +1228,8 @@ class CommentsCommentFormattingHelper extends Module {
     if (multiline) {
       n = 0;
       text = text.replace(/^|\n/g, match => {
-        return `${match}${prefix.replace(/\[n]/, ++n)}`;
+        n += 1;
+        return `${match}${prefix.replace(/\[n]/, n)}`;
       });
     } else {
       text = `${prefix}${text}${suffix}`;
@@ -1254,7 +1239,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
     if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
-      createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+      shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
@@ -1277,13 +1262,13 @@ class CommentsCommentFormattingHelper extends Module {
     }
     this.esgst.cfh.textArea.focus();
     if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
-      createElements(this.esgst.cfh.preview, `inner`, await parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+      shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
 
   async cfh_checkImgur(popout, url) {
-    let value = getValue(`imgurToken`);
+    let value = shared.common.getValue(`imgurToken`);
     if (value) {
       this.cfh_uploadImage(`Bearer ${value}`, popout, url);
     } else {
@@ -1294,13 +1279,13 @@ class CommentsCommentFormattingHelper extends Module {
   cfh_uploadImage(authorization, popout, url) {
     let input, popup, warning;
     popup = new Popup({ addScrollable: true, icon: `fa-upload`, isTemp: true, title: `Upload Image` });
-    input = createElements(popup.description, `beforeEnd`, [{
+    input = shared.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         type: `file`
       },
       type: `input`
     }]);
-    warning = createElements(popup.description, `beforeEnd`, [{
+    warning = shared.common.createElements(popup.description, `beforeEnd`, [{
       attributes: {
         class: `esgst-description esgst-warning`
       },
@@ -1323,15 +1308,15 @@ class CommentsCommentFormattingHelper extends Module {
                 reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, resolve);
                 reader.readAsDataURL(file);
               } else {
-                createFadeMessage(warning, `Image is larger than 10 MB!`);
+                shared.common.createFadeMessage(warning, `Image is larger than 10 MB!`);
                 resolve();
               }
             } else {
-              createFadeMessage(warning, `File is not an image!`);
+              shared.common.createFadeMessage(warning, `File is not an image!`);
               resolve();
             }
           } else {
-            createFadeMessage(warning, `No file was loaded!`);
+            shared.common.createFadeMessage(warning, `No file was loaded!`);
             resolve();
           }
         });
@@ -1346,7 +1331,7 @@ class CommentsCommentFormattingHelper extends Module {
         title1: `Reset`,
         title2: `Resetting...`,
         callback1: async () => {
-          await setSetting(`cfh_img_remember`, false);
+          await shared.common.setSetting(`cfh_img_remember`, false);
           this.esgst.cfh_img_remember = false;
           popup.close();
         }
@@ -1356,7 +1341,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_readImgur(authorization, popout, popup, reader, url, warning, callback) {
-    let responseJson = JSON.parse((await request({
+    let responseJson = JSON.parse((await shared.common.request({
       data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`,
       headers: { authorization },
       method: `POST`,
@@ -1368,7 +1353,7 @@ class CommentsCommentFormattingHelper extends Module {
       url.value = responseJson.data.link;
       popout.open();
     } else {
-      createFadeMessage(warning, `Could not upload image!`);
+      shared.common.createFadeMessage(warning, `Could not upload image!`);
       callback();
     }
   }
@@ -1379,7 +1364,7 @@ class CommentsCommentFormattingHelper extends Module {
       n = table.rows.length;
       row = table.insertRow(n);
       for (i = 0, j = table.rows[0].cells.length - 1; i < j; ++i) {
-        createElements(row.insertCell(0), `inner`, [{
+        shared.common.createElements(row.insertCell(0), `inner`, [{
           attributes: {
             placeholder: `Value`,
             type: `text`
@@ -1389,7 +1374,7 @@ class CommentsCommentFormattingHelper extends Module {
       }
       deleteRow = row.insertCell(0);
       if (n > 2) {
-        createElements(deleteRow, `inner`, [{
+        shared.common.createElements(deleteRow, `inner`, [{
           type: `a`,
           children: [{
             attributes: {
@@ -1418,7 +1403,7 @@ class CommentsCommentFormattingHelper extends Module {
       rows = table.rows;
       n = rows[0].cells.length;
       for (i = 3, j = rows.length; i < j; ++i) {
-        createElements(rows[i].insertCell(n), `inner`, [{
+        shared.common.createElements(rows[i].insertCell(n), `inner`, [{
           attributes: {
             placeholder: `Value`,
             type: `text`
@@ -1426,7 +1411,7 @@ class CommentsCommentFormattingHelper extends Module {
           type: `input`
         }]);
       }
-      createElements(rows[2].insertCell(n), `inner`, [{
+      shared.common.createElements(rows[2].insertCell(n), `inner`, [{
         type: `select`,
         children: [{
           attributes: {
@@ -1449,7 +1434,7 @@ class CommentsCommentFormattingHelper extends Module {
         }]
       }]);
       column = rows[1].insertCell(n);
-      createElements(column, `inner`, [{
+      shared.common.createElements(column, `inner`, [{
         attributes: {
           placeholder: `Header`,
           type: `text`
@@ -1457,7 +1442,7 @@ class CommentsCommentFormattingHelper extends Module {
         type: `input`
       }]);
       deleteColumn = rows[0].insertCell(n);
-      createElements(deleteColumn, `inner`, [{
+      shared.common.createElements(deleteColumn, `inner`, [{
         type: `a`,
         children: [{
           attributes: {
@@ -1499,7 +1484,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_setReply(replies, savedReply) {
     let editButton, description, name, replaceButton, reply, summary;
-    reply = createElements(replies, `beforeEnd`, [{
+    reply = shared.common.createElements(replies, `beforeEnd`, [{
       attributes: {
         class: `esgst-cfh-sr-box`,
         draggable: true
@@ -1581,13 +1566,13 @@ class CommentsCommentFormattingHelper extends Module {
     editButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, savedReply.description, savedReply.name, replies, summary));
     replaceButton.addEventListener(`click`, () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary));
     editButton.nextElementSibling.addEventListener(`click`, async () => {
-      let savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
+      let savedReplies = JSON.parse(shared.common.getValue(`savedReplies`, `[]`));
       let i;
       for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--) {
       }
       if (i > -1) {
         savedReplies.splice(i, 1);
-        setValue(`savedReplies`, JSON.stringify(savedReplies));
+        shared.common.setValue(`savedReplies`, JSON.stringify(savedReplies));
         reply.classList.add(`esgst-hidden`);
         this.esgst.cfh.deletedReplies.push({
           reply: reply,
@@ -1602,7 +1587,7 @@ class CommentsCommentFormattingHelper extends Module {
     let i, savedReplies;
     event.dataTransfer.setData(`text/plain`, ``);
     this.esgst.cfh.source = reply;
-    savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
+    savedReplies = JSON.parse(shared.common.getValue(`savedReplies`, `[]`));
     for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i) {
     }
     if (i > -1) {
@@ -1628,9 +1613,9 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_saveSource() {
-    let savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
+    let savedReplies = JSON.parse(shared.common.getValue(`savedReplies`, `[]`));
     savedReplies.splice(this.esgst.cfh.sourceNewIndex, 0, savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]);
-    setValue(`savedReplies`, JSON.stringify(savedReplies));
+    shared.common.setValue(`savedReplies`, JSON.stringify(savedReplies));
   }
 
   cfh_openReplyPopup(description, name, replies, summary) {
@@ -1641,7 +1626,7 @@ class CommentsCommentFormattingHelper extends Module {
       isTemp: true,
       title: summary ? `Edit reply:` : `Save new reply:`
     });
-    createElements(popup.scrollable, `beforeEnd`, [{
+    shared.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         class: `esgst-description`
       },
@@ -1684,7 +1669,7 @@ class CommentsCommentFormattingHelper extends Module {
         type: `node`
       }]
     }]);
-    panel = createElements(popup.scrollable, `beforeEnd`, [{
+    panel = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
       type: `div`,
       children: [{
         type: `div`,
@@ -1731,7 +1716,7 @@ class CommentsCommentFormattingHelper extends Module {
   async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
     let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
     if (descVal && nameVal) {
-      let savedReplies = JSON.parse(getValue(`savedReplies`, `[]`));
+      let savedReplies = JSON.parse(shared.common.getValue(`savedReplies`, `[]`));
       let savedReply = {
         description: descVal,
         name: nameVal
@@ -1749,12 +1734,12 @@ class CommentsCommentFormattingHelper extends Module {
         savedReplies.push(savedReply);
         this.cfh_setReply(replies, savedReply);
       }
-      await setValue(`savedReplies`, JSON.stringify(savedReplies));
+      await shared.common.setValue(`savedReplies`, JSON.stringify(savedReplies));
       if (popup) {
         popup.close();
       }
     } else if (popup) {
-      createAlert(`Both fields are required.`);
+      shared.common.createAlert(`Both fields are required.`);
     }
   }
 
@@ -1776,9 +1761,9 @@ class CommentsCommentFormattingHelper extends Module {
     deleted = this.esgst.cfh.deletedReplies.pop();
     deleted.reply.classList.remove(`esgst-hidden`);
     deleted.reply.parentElement.appendChild(deleted.reply);
-    saved = JSON.parse(getValue(`savedReplies`, `[]`));
+    saved = JSON.parse(shared.common.getValue(`savedReplies`, `[]`));
     saved.push(deleted.savedReply);
-    setValue(`savedReplies`, JSON.stringify(saved));
+    shared.common.setValue(`savedReplies`, JSON.stringify(saved));
     if (this.esgst.cfh.deletedReplies.length === 0) {
       this.esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
     }
@@ -1789,14 +1774,14 @@ class CommentsCommentFormattingHelper extends Module {
       value = !this.esgst.cfh_pasteFormatting;
     }
     if (!firstTime) {
-      setSetting(`cfh_pasteFormatting`, value);
+      shared.common.setSetting(`cfh_pasteFormatting`, value);
     }
     this.esgst.cfh_pasteFormatting = value;
     if (value) {
-      this.esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
+      this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
       this.esgst.cfh.alipf.classList.remove(`esgst-faded`);
     } else {
-      this.esgst.cfh.alipf.title = getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
+      this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
       this.esgst.cfh.alipf.classList.add(`esgst-faded`);
     }
     if (this.esgst.cfh.textArea) {
@@ -1811,7 +1796,7 @@ class CommentsCommentFormattingHelper extends Module {
       const image = images[0];
       context.appendChild(image);
       image.classList.add(`is-hidden`, `is_hidden`);
-      createElements(image, `outer`, [{
+      shared.common.createElements(image, `outer`, [{
         type: `div`,
         children: [{
           attributes: {

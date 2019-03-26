@@ -1,13 +1,7 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  createHeadingButton = common.createHeadingButton.bind(common),
-  saveComment = common.saveComment.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsReplyBoxPopup extends Module {
   constructor() {
@@ -35,9 +29,9 @@ class CommentsReplyBoxPopup extends Module {
   rbp() {
     if (!this.esgst.replyBox) return;
 
-    let button = createHeadingButton({ id: `rbp`, icons: [`fa-comment`], title: `Add a comment` });
+    let button = shared.common.createHeadingButton({ id: `rbp`, icons: [`fa-comment`], title: `Add a comment` });
     let popup = new Popup({ addScrollable: true, icon: `fa-comment`, title: `Add a comment:` });
-    popup.textArea = createElements(popup.scrollable, `beforeEnd`, [{
+    popup.textArea = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
       attributes: {
         name: `description`
       },
@@ -52,11 +46,11 @@ class CommentsReplyBoxPopup extends Module {
       title2: `Saving...`,
       callback1: async () => {
         popup.progress.innerHTML = ``;
-        await saveComment(null, this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? window.location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress, true);
+        await shared.common.saveComment(null, this.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, this.esgst.sg ? window.location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress, true);
 
       }
     }).set);
-    popup.progress = createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
+    popup.progress = shared.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
     button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
   }
 }

@@ -1,15 +1,6 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
-import { common } from '../Common';
-
-const
-  parseHtml = utils.parseHtml.bind(utils),
-  createElements = common.createElements.bind(common),
-  endless_load = common.endless_load.bind(common),
-  getTimeSince = common.getTimeSince.bind(common),
-  getValue = common.getValue.bind(common),
-  setValue = common.setValue.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsReplyFromInbox extends Module {
   constructor() {
@@ -69,7 +60,7 @@ class CommentsReplyFromInbox extends Module {
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
     }
-    saved = JSON.parse(getValue(`${this.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(shared.common.getValue(`${this.esgst.name}RfiCache`, `{}`));
     if (edit) {
       for (const key in saved) {
         if (saved.hasOwnProperty(key)) {
@@ -91,27 +82,27 @@ class CommentsReplyFromInbox extends Module {
         timestamp: Date.now()
       });
     }
-    await setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
+    await shared.common.setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
   }
 
   async rfi_getReplies(comments, endless) {
     let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
-    saved = JSON.parse(getValue(`${this.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(shared.common.getValue(`${this.esgst.name}RfiCache`, `{}`));
     for (i = 0, n = comments.length; i < n; ++i) {
       comment = comments[i];
       id = comment.id;
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          const dateElement = createElements(children, `beforeEnd`, [{
-            context: parseHtml(saved[id][j].reply).body.firstElementChild
+          const dateElement = shared.common.createElements(children, `beforeEnd`, [{
+            context: utils.parseHtml(saved[id][j].reply).body.firstElementChild
           }]).querySelector(`[data-timestamp]`);
           if (dateElement) {
-            dateElement.textContent = getTimeSince(saved[id][j].timestamp);
+            dateElement.textContent = shared.common.getTimeSince(saved[id][j].timestamp);
           }
         }
         children.setAttribute(`data-rfi`, true);
-        await endless_load(children, false, null, false, endless);
+        await shared.common.endless_load(children, false, null, false, endless);
         children.removeAttribute(`data-rfi`);
       }
     }
@@ -132,7 +123,7 @@ class CommentsReplyFromInbox extends Module {
       }
     }
     if (edited) {
-      await setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
+      await shared.common.setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
     }
   }
 }

@@ -1,8 +1,4 @@
-import { common } from '../modules/Common';
-
-const
-  createElements = common.createElements.bind(common)
-;
+import { shared } from './Shared';
 
 class Table {
   /**
@@ -11,7 +7,7 @@ class Table {
   constructor(values) {
     this.table = document.createElement(`div`);
     this.table.className = `table esgst-ugd-table`;
-    createElements(this.table, `inner`, [{
+    shared.common.createElements(this.table, `inner`, [{
       attributes: {
         class: `table__heading`
       },
@@ -43,7 +39,7 @@ class Table {
   }
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-    const row = createElements(this.rows, `beforeEnd`, [{
+    const row = shared.common.createElements(this.rows, `beforeEnd`, [{
       attributes: {
         class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}`
       },
@@ -70,7 +66,7 @@ class Table {
           isCollapsible: true,
           row: row
         };
-        const expand = createElements(row, `afterBegin`, [{
+        const expand = shared.common.createElements(row, `afterBegin`, [{
           attributes: {
             class: `fa fa-plus-square esgst-clickable`,
             title: expandMessage
@@ -125,7 +121,7 @@ class Table {
           attributes[parts[1]] = attributes[parts[2]];
         }
       }
-      const column = createElements(row, `beforeEnd`, [{
+      const column = shared.common.createElements(row, `beforeEnd`, [{
         attributes,
         text: Array.isArray(cell) ? `` : cell,
         type: `div`,
@@ -160,7 +156,7 @@ class Table {
         attributes[parts[1]] = attributes[parts[2]];
       }
     }
-    createElements(this.heading, `beforeEnd`, [{
+    shared.common.createElements(this.heading, `beforeEnd`, [{
       attributes,
       text: cell,
       type: `div`
@@ -170,7 +166,7 @@ class Table {
     }
     for (let i = 0; i < this.numRows; i++) {
       const row = this.rows.children[i];
-      createElements(row, `beforeEnd`, [{
+      shared.common.createElements(row, `beforeEnd`, [{
         attributes,
         type: `div`
       }]);
@@ -182,7 +178,7 @@ class Table {
     for (const column of arguments) {
       this.hiddenColumns.push(column - 1);
       this.heading.children[column - 1].classList.add(`esgst-hidden`);
-      for (let i = this.numRows.length - 1; i > -1; i--) {
+      for (let i = this.numRows - 1; i > -1; i--) {
         this.rows.children[i].firstElementChild.children[column - 1].classList.add(`esgst-hidden`);
       }
     }

@@ -1,14 +1,6 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  createLock = common.createLock.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getValue = common.getValue.bind(common),
-  setValue = common.setValue.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class CommentsCommentHistory extends Module {
   constructor() {
@@ -34,15 +26,15 @@ class CommentsCommentHistory extends Module {
 
   ch() {
     if (this.esgst.replyBox) {
-      common.addReplyButton(this.esgst.replyBox);
+      shared.common.addReplyButton(this.esgst.replyBox);
     }
     new Process({
-      button: createElements(this.esgst.accountDropdown.firstElementChild.lastElementChild, `beforeBegin`, [{
+      button: shared.common.createElements(this.esgst.accountDropdown.firstElementChild.lastElementChild, `beforeBegin`, [{
         attributes: {
           class: `esgst-header-menu-row`,
           [`data-link-id`]: `ch`,
           [`data-link-key`]: `account`,
-          title: getFeatureTooltip(`ch`)
+          title: shared.common.getFeatureTooltip(`ch`)
         },
         type: `div`,
         children: [{
@@ -86,7 +78,7 @@ class CommentsCommentHistory extends Module {
 
   async ch_initUrls(obj) {
     obj.ids = [];
-    let comments = JSON.parse(getValue(`${this.esgst.name}CommentHistory`, `[]`));
+    let comments = JSON.parse(shared.common.getValue(`${this.esgst.name}CommentHistory`, `[]`));
     for (let i = 0, n = comments.length; i < n; i++) {
       obj.ids.push(comments[i].id);
       obj.items.push(`https://${window.location.hostname}/go/comment/${comments[i].id}`);
@@ -111,7 +103,7 @@ class CommentsCommentHistory extends Module {
     }];
     if (parent) {
       parent.lastElementChild.remove();
-      createElements(parent, `beforeEnd`, [{
+      shared.common.createElements(parent, `beforeEnd`, [{
         attributes: {
           class: `comment__children comment_children`
         },
@@ -125,7 +117,7 @@ class CommentsCommentHistory extends Module {
       });
     } else {
       if (this.esgst.st) {
-        createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
+        shared.common.createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
           attributes: {
             href: response.finalUrl
           },
@@ -164,18 +156,18 @@ class CommentsCommentHistory extends Module {
         }]
       });
     }
-    createElements(obj.context, `beforeEnd`, items);
+    shared.common.createElements(obj.context, `beforeEnd`, items);
   }
 
   async ch_saveComment(id, timestamp) {
-    let deleteLock = await createLock(`${this.esgst.name}CommentHistoryLock`, 300);
+    let deleteLock = await shared.common.createLock(`${this.esgst.name}CommentHistoryLock`, 300);
     let key = `${this.esgst.name}CommentHistory`;
-    let comments = JSON.parse(getValue(key, `[]`));
+    let comments = JSON.parse(shared.common.getValue(key, `[]`));
     comments.unshift({
       id: id,
       timestamp: timestamp
     });
-    await setValue(key, JSON.stringify(comments));
+    await shared.common.setValue(key, JSON.stringify(comments));
     deleteLock();
   }
 }
