@@ -878,9 +878,13 @@ class UsersUserGiveawayData extends Module {
       if (obj.isUpdating) {
         obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);
 
-        const responseJson = (await getPlayerAchievements(appId, obj.user.steamId)).playerstats;
-        if (responseJson.success) {
-          achievementsData = responseJson.achievements;
+        try {
+          const responseJson = (await getPlayerAchievements(appId, obj.user.steamId)).playerstats;
+          if (responseJson.success) {
+            achievementsData = responseJson.achievements;
+          }
+        } catch (error) {
+          window.console.log(error);
         }
       }
       achievements = `0/0`;
