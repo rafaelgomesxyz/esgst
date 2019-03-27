@@ -216,7 +216,7 @@ class PageHeading extends ElementBuilder {
       );
     }
     return this.createElements(this.pageHeading, options.position, [
-      [`a`, { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.callback, style: `display: inline-block;` }, icons.slice(0, -1)]
+      [`a`, { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.ref, style: `display: inline-block;` }, icons.slice(0, -1)]
     ]);
   }
 }
