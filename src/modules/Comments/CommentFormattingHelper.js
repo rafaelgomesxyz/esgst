@@ -994,7 +994,7 @@ class CommentsCommentFormattingHelper extends Module {
           this.esgst.cfh.alipf = context.firstElementChild;
           this.cfh_setAlipf(this.esgst.cfh_pasteFormatting, true);
         },
-        onClick: this.cfh_setAlipf
+        onClick: () => this.cfh_setAlipf()
       }, {
         icons: [`fa-rotate-left`],
         name: `Undo Formatting`,
