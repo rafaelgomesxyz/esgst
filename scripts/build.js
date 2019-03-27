@@ -129,6 +129,7 @@ function getWebExtensionManifest(browserName) {
       `storage`,
       `tabs`,
       `unlimitedStorage`,
+      `*://*.raw.githubusercontent.com/*`,
       `*://*.gsrafael01.me/*`,
       `*://*.api.steampowered.com/*`,
       `*://*.store.steampowered.com/*`,

@@ -6,6 +6,7 @@ async function loadChangelog(version) {
     method: `GET`,
     url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/changelog.json`
   })).responseText);
+  let index;
   if (version) {
     let i, n;
     for (i = 0, n = changelog.length; i < n && changelog[i].version !== version; i++) {
@@ -16,7 +17,7 @@ async function loadChangelog(version) {
       index = -1;
     }
   } else {
-    changelog.length - 1;
+    index = changelog.length - 1;
   }
   const html = [];
   while (index > -1) {
