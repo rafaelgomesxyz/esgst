@@ -13,7 +13,7 @@ import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { loadChangelog } from './Changelog';
-import { loadMenu } from './Settings';
+import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
 
@@ -168,7 +168,7 @@ class Common extends Module {
       });
       if (this.esgst.parameters.esgst === `settings`) {
         this.setSidebarActive(`settings`);
-        loadMenu();
+        settingsModule.loadMenu();
       } else if (this.esgst.parameters.esgst === `sync`) {
         this.setSidebarActive(`sync`);
         await setSync();
@@ -5766,7 +5766,7 @@ class Common extends Module {
     button.addEventListener(`click`, event => {
       if (!this.esgst.openSettingsInTab) {
         event.preventDefault();
-        loadMenu(true);
+        settingsModule.loadMenu(true);
       }
     });
     arrow.addEventListener(`click`, this.toggleHeaderMenu.bind(this, arrow, dropdown));

@@ -50,7 +50,7 @@
     "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
-  "devVersion": "8.3.2-dev.9",
+  "devVersion": "8.3.2-dev.10",
   "homepage": "https://github.com/gsrafael01/ESGST",
   "keywords": [
     "esgst",

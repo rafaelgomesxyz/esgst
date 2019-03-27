@@ -96,7 +96,7 @@ class Popup {
         settings.addEventListener(`click`, event => {
           if (!shared.esgst.openSettingsInTab) {
             event.preventDefault();
-            shared.esgst.modules.loadMenu(true);
+            shared.esgst.modules.settingsModule.loadMenu(true);
           }
         });
       }

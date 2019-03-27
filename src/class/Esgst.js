@@ -4,6 +4,14 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.df_s = undefined;
+    this.dt = undefined;
+    this.scb = undefined;
+    this.tf = undefined;
+    this.tf_s = undefined;
+    this.featuresById = undefined;
+    this.makeSectionsCollapsible = undefined;
+
     this.gc_queue = [];
     this.gc_queue_index = 0;
     this.is_gc_running_queue = false;
