@@ -181,6 +181,21 @@ function addStyle() {
   `;
   }
   style += `
+  .giveaway__links .esgst-button-set >* {
+    background: none;
+    border: none;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  .giveaway__links .esgst-button-set >*:hover, .giveaway__links .esgst-button-set >*:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+  }
+
   .esgst-restore-entry {
     display: flex;
     justify-content: space-between;
