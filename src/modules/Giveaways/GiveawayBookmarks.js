@@ -4,6 +4,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -224,8 +226,10 @@ class GiveawaysGiveawayBookmarks extends Module {
       }
       context.innerHTML = ``;
       context.setAttribute(`data-esgst-popup`, true);
-      common.createPageHeading(context, `beforeEnd`, {
-        items: [
+      new elementBuilder[shared.esgst.name].pageHeading({
+        context: context,
+        position: `beforeEnd`,
+        breadcrumbs: [
           {
             name: `ESGST`,
             url: this.esgst.settingsUrl
@@ -249,8 +253,10 @@ class GiveawaysGiveawayBookmarks extends Module {
             addScrollable: `left`,
             isTemp: true
           });
-          common.createPageHeading(popup.description, `afterBegin`, {
-            items: [
+          new elementBuilder[shared.esgst.name].pageHeading({
+            context: popup.description,
+            position: `afterBegin`,
+            breadcrumbs: [
               {
                 name: `ESGST`,
                 url: this.esgst.settingsUrl

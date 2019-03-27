@@ -16,6 +16,7 @@ import { loadChangelog } from './Changelog';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -2432,8 +2433,10 @@ class Common extends Module {
     const context = this.esgst.sidebar.nextElementSibling;
     context.setAttribute(`data-esgst-popup`, true);
     context.innerHTML = ``;
-    this.esgst.mainPageHeading = this.createPageHeading(context, `beforeEnd`, {
-      items: [
+    this.esgst.mainPageHeading = new elementBuilder[shared.esgst.name].pageHeading({
+      context,
+      position: `beforeEnd`,
+      breadcrumbs: [
         {
           name: `ESGST`,
           url: this.esgst.settingsUrl
@@ -2443,7 +2446,7 @@ class Common extends Module {
           url: this.esgst.dataManagementUrl
         }
       ]
-    });
+    }).pageHeading;
     for (const item of options.items) {
       const set = new ButtonSet({
         color1: `green`,
@@ -4768,21 +4771,6 @@ class Common extends Module {
     }
     return this.createElements_v2(context, position, [
       [`div`, { class: `form__rows` }, items]
-    ]);
-  }
-
-  createPageHeading(context, position, options) {
-    const items = [];
-    for (const item of options.items) {
-      items.push(
-        [`a`, { href: item.url }, item.name],
-        [`i`, { class: `fa fa-angle-right` }]
-      );
-    }
-    return this.createElements_v2(context, position, [
-      [`div`, { class: `page__heading` }, [
-        items.length ? [`div`, { class: `page__heading__breadcrumbs` }, items.slice(0, -1)] : null
-      ]]
     ]);
   }
 

@@ -5,6 +5,8 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -221,8 +223,10 @@ class GiveawaysGiveawayExtractor extends Module {
       }
       context.setAttribute(`data-esgst-popup`, true);
       context.innerHTML = ``;
-      common.createPageHeading(context, `beforeEnd`, {
-        items: [
+      new elementBuilder[shared.esgst.name].pageHeading({
+        context: context,
+        position: `beforeEnd`,
+        breadcrumbs: [
           {
             name: `ESGST`,
             url: this.esgst.settingsUrl

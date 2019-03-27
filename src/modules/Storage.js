@@ -5,6 +5,7 @@ import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
 import { Checkbox } from '../class/Checkbox';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 
 const
   sortArray = utils.sortArray.bind(utils)
@@ -743,8 +744,10 @@ function loadDataManagement(type, isPopup, callback) {
       context.innerHTML = ``;
     }
     containerr.classList.add(`esgst-text-left`);
-    const heading = shared.common.createPageHeading(containerr, `afterBegin`, {
-      items: [
+    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+      context: containerr,
+      position: `afterBegin`,
+      breadcrumbs: [
         {
           name: `ESGST`,
           url: shared.esgst.settingsUrl
@@ -754,7 +757,7 @@ function loadDataManagement(type, isPopup, callback) {
           url: shared.esgst[`${title1.toLowerCase()}Url`]
         }
       ]
-    });
+    }).pageHeading;
     if (!isPopup) {
       shared.esgst.mainPageHeading = heading;
     }
@@ -1296,15 +1299,17 @@ function loadDataCleaner(isPopup) {
     context = containerr;
     context.setAttribute(`data-esgst-popup`, `true`);
   }
-  const heading = shared.common.createPageHeading(containerr, `afterBegin`, {
-    items: [{
+  const heading = new elementBuilder[shared.esgst.name].pageHeading({
+    context: containerr,
+    position: `afterBegin`,
+    breadcrumbs: [{
       name: `ESGST`,
       url: shared.esgst.settingsUrl
     }, {
       name: `Clean`,
       url: shared.esgst.cleanUrl
     }]
-  });
+  }).pageHeading;
   if (!isPopup) {
     shared.esgst.mainPageHeading = heading;
   }

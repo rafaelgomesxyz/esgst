@@ -1,9 +1,22 @@
 import { utils } from '../jsUtils';
 
+const CLASS_NAMES = {
+  sg: {
+    pageHeading: `page__heading`,
+    pageHeadingBreadcrumbs: `page__heading__breadcrumbs`
+  },
+  st: {
+    pageHeading: `page_heading`,
+    pageHeadingBreadcrumbs: `page_heading_breadcrumbs`
+  }
+};
+
 class ElementBuilder {
   constructor() {
 
   }
+
+
   
   createElements(context, position, items) {
     try {
@@ -106,24 +119,28 @@ class ElementBuilder {
 class SgNotification extends ElementBuilder {
   /**
    * @param {Object} [options]
+   * @param {HTMLElement} [options.context]
+   * @param {String} [options.position]
    * @param {"success"|"warning"} options.type
    * @param {String[]} options.icons
    * @param {String} options.message
    */
   constructor(options) {
     super();
-    this.createElements(null, null, [
+    options = Object.assign({
+      context: null,
+      position: null,
+      type: `warning`,
+      icons: [],
+      message: ``
+    }, options);
+    this.createElements(options.context, options.position, [
       [`div`, { ref: ref => this.notification = ref }, [
         [`i`, { ref: ref => this.icon = ref }],
         ` `,
         [`span`, { ref: ref => this.message = ref }]
       ]]
     ]);
-    options = Object.assign({
-      type: `warning`,
-      icons: [],
-      message: ``
-    }, options);
     this.setType(options.type);
     this.setIcons(options.icons);
     this.setMessage(options.message);
@@ -142,12 +159,54 @@ class SgNotification extends ElementBuilder {
   }
 }
 
+class PageHeading extends ElementBuilder {
+  constructor(options, namespace) {
+    super();
+    options = Object.assign({
+      context: null,
+      position: null
+    }, options);
+    this.createElements(options.context, options.position, [
+      [`div`, { class: CLASS_NAMES[namespace].pageHeading, ref: ref => this.pageHeading = ref }, [
+        [`div`, { class: CLASS_NAMES[namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
+      ]]
+    ]);
+    if (options.breadcrumbs) {
+      this.setBreadcrumbs(options.breadcrumbs);
+    }
+  }
+
+  setBreadcrumbs(breadcrumbs) {
+    const items = [];
+    for (const breadcrumb of breadcrumbs) {      
+      items.push(
+        [`a`, { href: breadcrumb.url }, breadcrumb.name],
+        [`i`, { class: `fa fa-angle-right` }]
+      );
+    }
+    this.createElements(this.breadcrumbs, `inner`, items.slice(0, -1));
+  }
+}
+
+class SgPageHeading extends PageHeading {
+  constructor(options) {
+    super(options, `sg`);
+  }
+};
+
+class StPageHeading extends PageHeading {
+  constructor(options) {
+    super(options, `st`);
+  }
+};
+
 const elementBuilder = {
   sg: {
-    notification: SgNotification
+    notification: SgNotification,
+    pageHeading: SgPageHeading
   },
   st: {
-
+    pageHeading: StPageHeading
   }
 };
 
