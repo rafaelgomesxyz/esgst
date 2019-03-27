@@ -5,7 +5,7 @@ class Shared {
      */
     this.common = null;
     /**
-     * @type {import('./Esgst')}
+     * @type {import('./Esgst').esgst}
      */
     this.esgst = null;
   }

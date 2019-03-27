@@ -3,7 +3,7 @@ import { Popup } from '../class/Popup';
 import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
-import { createMenuSection } from './Settings';
+import { settingsModule } from './Settings';
 import { Checkbox } from '../class/Checkbox';
 
 const
@@ -739,7 +739,7 @@ function loadDataManagement(type, isPopup, callback) {
       context = popup.scrollable;
     } else {
       context = containerr = shared.esgst.sidebar.nextElementSibling;
-      context.setAttribute(`data-esgst-popup`, true);
+      context.setAttribute(`data-esgst-popup`, `true`);
       context.innerHTML = ``;
     }
     containerr.classList.add(`esgst-text-left`);
@@ -778,7 +778,7 @@ function loadDataManagement(type, isPopup, callback) {
     }]);
     dm.computerSpaceCount = dm.computerSpace.firstElementChild;
     dm.computerSpaceCount.nextElementSibling.addEventListener(`click`, () => getDataSizes(dm));
-    section = createMenuSection(context, null, 1, title1);
+    section = settingsModule.createMenuSection(context, null, 1, title1);
   }
   dm.switches = {};
   dm.options = [
@@ -1294,7 +1294,7 @@ function loadDataCleaner(isPopup) {
     containerr = shared.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
     context = containerr;
-    context.setAttribute(`data-esgst-popup`, true);
+    context.setAttribute(`data-esgst-popup`, `true`);
   }
   const heading = shared.common.createPageHeading(containerr, `afterBegin`, {
     items: [{
@@ -2628,7 +2628,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     mergedData.push(oldDataValue);
                     j += 1;
                   } else {
-                    let l, numOld;
+                    let l;
                     // noinspection JSUnusedAssignment
                     for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {
                     }
@@ -2645,7 +2645,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 }
                 while (k < numNew) {
                   let newDataValue = newData[k];
-                  let l, numOld;
+                  let l;
                   // noinspection JSUnusedAssignment
                   for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {
                   }

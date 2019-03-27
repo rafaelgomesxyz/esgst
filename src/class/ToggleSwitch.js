@@ -13,6 +13,7 @@ class ToggleSwitch {
    * @property {HTMLElement} input
    */
   constructor(context, id, inline, name, sg, st, tooltip, value) {
+    this.onChange = undefined;
     this.onEnabled = null;
     this.onDisabled = null;
     this.dependencies = [];

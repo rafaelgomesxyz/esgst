@@ -1,5 +1,5 @@
 import { common } from './Common';
-import { loadMenu } from './Settings';
+import { settingsModule } from './Settings';
 import { loadDataManagement } from './Storage';
 import { generalPageLoadTimestamp } from './General/PageLoadTimestamp';
 import { generalVisibleFullLevel } from './General/VisibleFullLevel';
@@ -162,7 +162,7 @@ import { tagsModule as tags } from './Tags';
 
 const modules = {
   common,
-  loadMenu,
+  settingsModule,
   loadDataManagement,
   generalPageLoadTimestamp,
   generalVisibleFullLevel,

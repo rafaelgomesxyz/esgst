@@ -1,11 +1,5 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-
-const
-  checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
-  createElements = common.createElements.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
   constructor() {
@@ -38,7 +32,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 
   async adots() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.oadd) return;
-    await checkMissingDiscussions();
+    await shared.common.checkMissingDiscussions();
   }
 
   adots_load(refresh) {
@@ -87,7 +81,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
               width: calc(100% - ${size + 15}px);
             }
           `);
-          panel = createElements(this.esgst.sidebar, `beforeEnd`, [{
+          panel = shared.common.createElements(this.esgst.sidebar, `beforeEnd`, [{
             attributes: {
               class: `sidebar__heading`
             },
@@ -116,10 +110,10 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
           tabHeading1 = panel.firstElementChild;
           tabHeading2 = tabHeading1.nextElementSibling;
           if (this.esgst.radb) {
-            createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
+            shared.common.createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
               attributes: {
                 class: `esgst-radb-button`,
-                title: `${getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}`
+                title: `${shared.common.getFeatureTooltip(`radb`, `Refresh active discussions/deals`)}`
               },
               type: `div`,
               children: [{
@@ -135,7 +129,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
                 // noinspection JSIgnoredPromiseFromCall
                 this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => icon.classList.remove(`fa-spin`));
               } else {
-                checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
+                shared.common.checkMissingDiscussions(true, () => icon.classList.remove(`fa-spin`));
               }
             });
           }
@@ -174,7 +168,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
             element = elements[i];
             comments = element.getElementsByClassName(`table__column__secondary-link`)[0];
             parent = comments.parentElement;
-            panel = createElements(parent, `afterEnd`, [{
+            panel = shared.common.createElements(parent, `afterEnd`, [{
               type: `p`
             }, {
               attributes: {
@@ -194,7 +188,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
             element = elements[i];
             comments = element.getElementsByClassName(`table__column__secondary-link`)[0];
             parent = comments.parentElement;
-            panel = createElements(parent, `afterEnd`, [{
+            panel = shared.common.createElements(parent, `afterEnd`, [{
               type: `p`
             }, {
               attributes: {
@@ -224,7 +218,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
           deals.classList.remove(`esgst-hidden`);
         }
         if (!refresh) {
-          activeDiscussions = createElements(this.esgst.sidebar, `beforeEnd`, [{
+          activeDiscussions = shared.common.createElements(this.esgst.sidebar, `beforeEnd`, [{
             type: `div`
           }]);
           activeDiscussions.appendChild(discussions);
