@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 
 class GroupsGroupStats extends Module {
   constructor() {
@@ -76,13 +77,32 @@ class GroupsGroupStats extends Module {
       text: `Type`,
       type: `div`
     } : null]);
-    this.esgst.groupFeatures.push(this.gs_getGroups.bind(this));
+    const gsObj = {
+      notification: new elementBuilder.sg.notification(),
+      numGroups: 0
+    };
+    this.esgst.mainPageHeading.parentElement.insertBefore(gsObj.notification.notification, this.esgst.pagination.previousElementSibling);
+    this.esgst.groupFeatures.push(this.gs_getGroups.bind(this, gsObj));
   }
 
-  gs_getGroups(groups) {
+  gs_getGroups(gsObj, groups) {
+    gsObj.notification.setType(`warning`);
+    gsObj.notification.setIcons([`fa-circle-o-notch`, `fa-spin`]);
+    gsObj.notification.setMessage(`Loading stats for groups...`);
+    gsObj.numGroups += groups.length;
+    const promises = [];
     for (const group of groups) {
-      this.gs_addStatus(group);
+      const promise = this.gs_addStatus(group);
+      promise.then(() => gsObj.notification.setMessage(`Loading stats for groups (${--gsObj.numGroups} left)...`));
+      promises.push(promise);
     }
+    Promise.all(promises).then(() => {
+      if (gsObj.numGroups === 0) {
+        gsObj.notification.setType(`success`);
+        gsObj.notification.setIcons([`fa-check-circle`]);
+        gsObj.notification.setMessage(`Stats for groups loaded.`);
+      }
+    });
   }
 
   async gs_addStatus(group) {
