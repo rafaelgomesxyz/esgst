@@ -988,10 +988,11 @@ class CommentsCommentFormattingHelper extends Module {
           url.focus();
         }
       }, {
+        addSpan: true,
         icons: [`fa-paste`],
         name: `Automatic Links / Images Paste Formatting: OFF`,
         callback: context => {
-          this.esgst.cfh.alipf = context.firstElementChild;
+          this.esgst.cfh.alipf = context;
           this.cfh_setAlipf(this.esgst.cfh_pasteFormatting, true);
         },
         onClick: () => this.cfh_setAlipf()
@@ -1056,6 +1057,9 @@ class CommentsCommentFormattingHelper extends Module {
             type: `i`
           }]);
         });
+        if (item.addSpan) {
+          shared.common.createElements_v2(button, `beforeEnd`, [[`span`]]);
+        }
         if (item.text) {
           button.insertAdjacentText("beforeend", item.text);
         }
@@ -1780,9 +1784,11 @@ class CommentsCommentFormattingHelper extends Module {
     if (value) {
       this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
       this.esgst.cfh.alipf.classList.remove(`esgst-faded`);
+      this.esgst.cfh.alipf.lastElementChild.textContent = `ON`;
     } else {
       this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: OFF`);
       this.esgst.cfh.alipf.classList.add(`esgst-faded`);
+      this.esgst.cfh.alipf.lastElementChild.textContent = `OFF`;
     }
     if (this.esgst.cfh.textArea) {
       this.esgst.cfh.textArea.focus();
