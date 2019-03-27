@@ -252,6 +252,14 @@ window.interact = interact;
     } else {
       esgst.settings = {};
     }
+    if (esgst.settings.avatar_sg) {
+      delete esgst.settings.avatar_sg;
+      esgst.settingsChanged = true;
+    }
+    if (esgst.settings.avatar_st) {
+      delete esgst.settings.avatar_st;
+      esgst.settingsChanged = true;
+    }
     for (let key in esgst.settings) {
       let match = key.match(new RegExp(`(.+?)_${esgst.name}$`));
       if (match) {
