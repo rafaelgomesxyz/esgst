@@ -3,6 +3,7 @@ import { Checkbox } from '../class/Checkbox';
 import { Popup } from '../class/Popup';
 import { shared } from '../class/Shared';
 import { utils } from '../lib/jsUtils';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 
 const
   parseHtml = utils.parseHtml.bind(utils)
@@ -60,10 +61,12 @@ async function setSync(isPopup = false, isSilent = false) {
   } else {
     containerr = context = shared.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
-    context.setAttribute(`data-esgst-popup`, true);
+    context.setAttribute(`data-esgst-popup`, `true`);
   }
-  const heading = shared.common.createPageHeading(containerr, `afterBegin`, {
-    items: [
+  const heading = new elementBuilder[shared.esgst.name].pageHeading({
+    context: containerr,
+    position: `afterBegin`,
+    breadcrumbs: [
       {
         name: `ESGST`,
         url: shared.esgst.settingsUrl
@@ -73,7 +76,7 @@ async function setSync(isPopup = false, isSilent = false) {
         url: shared.esgst.syncUrl
       }
     ]
-  });
+  }).pageHeading;
   if (!isPopup && !syncer.isSilent) {
     shared.esgst.mainPageHeading = heading;
   }

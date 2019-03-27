@@ -1196,7 +1196,7 @@ class Esgst {
 
     this.steamId = null;
 
-    /** @type {string} */
+    /** @type {"sg"|"st"} */
     this.name = undefined;
 
     this.showFeatureNumber = null;

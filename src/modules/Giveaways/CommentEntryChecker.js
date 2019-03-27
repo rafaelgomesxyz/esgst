@@ -3,6 +3,8 @@ import { Popup } from '../../class/Popup';
 import { Table } from '../../class/Table';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -82,8 +84,10 @@ class GiveawaysCommentEntryChecker extends Module {
     if (!isPopup) {
       common.setSidebarActive(`cec`);
     }
-    const heading = common.createPageHeading(container, `afterBegin`, {
-      items: [
+    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+      context: container,
+      position: `afterBegin`,
+      breadcrumbs: [
         {
           name: `ESGST`,
           url: this.esgst.settingsUrl
@@ -93,7 +97,7 @@ class GiveawaysCommentEntryChecker extends Module {
           url: `?esgst=cec`
         }
       ]
-    });
+    }).pageHeading;
     if (!isPopup) {
       this.esgst.mainPageHeading = heading;
     }

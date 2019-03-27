@@ -3,6 +3,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -50,7 +52,7 @@ class GiveawaysArchiveSearcher extends Module {
     input.addEventListener(`keypress`, event => {
       if (event.key === `Enter`) {
         if (input.value.match(/"|id:/)) {
-          this.as_openPage(input, event);
+          this.as_openPage(input);
         } else {
           window.location.href = `${this.esgst.path}/search?q=${encodeURIComponent(input.value)}`;
         }
@@ -98,8 +100,10 @@ class GiveawaysArchiveSearcher extends Module {
       context.setAttribute(`data-esgst-popup`, true);
       context.innerHTML = ``;
     }
-    common.createPageHeading(container, `afterBegin`, {
-      items: [
+    new elementBuilder[shared.esgst.name].pageHeading({
+      context: container,
+      position: `afterBegin`,
+      breadcrumbs: [
         {
           name: `ESGST`,
           url: this.esgst.settingsUrl

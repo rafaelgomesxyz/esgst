@@ -3,6 +3,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -126,8 +128,10 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.container = ged.context = createElements(ged.popup, `beforeEnd`, [{ type: `div` }]);
       ged.context.setAttribute(`data-esgst-popup`, true);
     }
-    common.createPageHeading(ged.popup.description || ged.popup, `afterBegin`, {
-      items: [
+    new elementBuilder[shared.esgst.name].pageHeading({
+      context: ged.popup.description || ged.popup,
+      position: `afterBegin`,
+      breadcrumbs: [
         {
           name: `ESGST`,
           url: this.esgst.settingsUrl
@@ -458,7 +462,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         };
         return;
       }
-      promises.push(this.ged_getGiveaway(code, this.ged.giveaways, false, source));
+      promises.push(this.ged_getGiveaway(code, ged.giveaways, false, source));
     });
     await Promise.all(promises);
     await setValue(`decryptedGiveaways`, JSON.stringify(this.esgst.decryptedGiveaways));

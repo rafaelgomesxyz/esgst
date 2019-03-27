@@ -1,6 +1,8 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils'
 import { common } from '../Common';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -69,8 +71,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       }
       glwc.container.innerHTML = ``;
       glwc.container.setAttribute(`data-esgst-popup`, true);
-      common.createPageHeading(glwc.container, `beforeEnd`, {
-        items: [
+      new elementBuilder[shared.esgst.name].pageHeading({
+        context: glwc.container,
+        position: `beforeEnd`,
+        breadcrumbs: [
           {
             name: `ESGST`,
             url: this.esgst.settingsUrl

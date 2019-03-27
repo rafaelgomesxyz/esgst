@@ -4,6 +4,7 @@ import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { setSync } from './Sync';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 
 class Settings {
   loadMenu(isPopup) {
@@ -57,8 +58,10 @@ class Settings {
     Container.appendChild(dismissAllButton);
 
     Container.setAttribute(`data-esgst-popup`, true);
-    const heading = shared.common.createPageHeading(Container, `afterBegin`, {
-      items: [
+    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+      context: Container,
+      position: `afterBegin`,
+      breadcrumbs: [
         {
           name: `ESGST`,
           url: shared.esgst.settingsUrl
@@ -68,7 +71,7 @@ class Settings {
           url: shared.esgst.settingsUrl
         }
       ]
-    });
+    }).pageHeading;
     const items = [
       {
         check: true,
