@@ -3,11 +3,13 @@ import { utils } from '../jsUtils';
 const CLASS_NAMES = {
   sg: {
     pageHeading: `page__heading`,
-    pageHeadingBreadcrumbs: `page__heading__breadcrumbs`
+    pageHeadingBreadcrumbs: `page__heading__breadcrumbs`,
+    pageHeadingButton: `page__heading__button`
   },
   st: {
     pageHeading: `page_heading`,
-    pageHeadingBreadcrumbs: `page_heading_breadcrumbs`
+    pageHeadingBreadcrumbs: `page_heading_breadcrumbs`,
+    pageHeadingButton: `page_heading_btn`
   }
 };
 
@@ -90,11 +92,15 @@ class ElementBuilder {
           for (const key in item[1]) {
             if (item[1].hasOwnProperty(key)) {
               if (key === `ref`) {
-                item[1].ref(element);
+                if (utils.isSet(item[1].ref)) {
+                  item[1].ref(element);
+                }
               } else if (key === `extend`) {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
-                element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+                if (utils.isSet(item[1][key])) {
+                  element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+                }
               } else {
                 element.setAttribute(key, item[1][key]);
               }
@@ -160,19 +166,27 @@ class SgNotification extends ElementBuilder {
 }
 
 class PageHeading extends ElementBuilder {
+  /**
+   * @param {Object} options 
+   * @param {"sg"|"st"} namespace 
+   */
   constructor(options, namespace) {
     super();
+    this.namespace = namespace;
     options = Object.assign({
       context: null,
       position: null
     }, options);
     this.createElements(options.context, options.position, [
-      [`div`, { class: CLASS_NAMES[namespace].pageHeading, ref: ref => this.pageHeading = ref }, [
-        [`div`, { class: CLASS_NAMES[namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
+      [`div`, { class: CLASS_NAMES[this.namespace].pageHeading, ref: ref => this.pageHeading = ref }, [
+        [`div`, { class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
       ]]
     ]);
     if (options.breadcrumbs) {
       this.setBreadcrumbs(options.breadcrumbs);
+    }
+    if (options.buttons) {
+      this.addButtons(options.buttons);
     }
   }
 
@@ -185,6 +199,25 @@ class PageHeading extends ElementBuilder {
       );
     }
     this.createElements(this.breadcrumbs, `inner`, items.slice(0, -1));
+  }
+
+  addButtons(buttons) {
+    for (const button of buttons) {
+      this.addButton(button);
+    }
+  }
+
+  addButton(options) {
+    let icons = [];
+    for (const icon of options.icons) {
+      icons.push(
+        [`i`, { class: `fa ${icon}`, style: `margin: 0` }],
+        ` `
+      );
+    }
+    return this.createElements(this.pageHeading, options.position, [
+      [`a`, { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.callback, style: `display: inline-block;` }, icons.slice(0, -1)]
+    ]);
   }
 }
 
