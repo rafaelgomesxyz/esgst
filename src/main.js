@@ -321,6 +321,7 @@ window.interact = interact;
       {id: `mm`, side: `right`},
       {id: `stbb`, side: `right`},
       {id: `sttb`, side: `right`},
+      {id: `usc`, side: `left`},
       {id: `ust`, side: `left`},
       {id: `wbm`, side: `left`}
     ].forEach(item => {

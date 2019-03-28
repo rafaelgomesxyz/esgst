@@ -49,6 +49,7 @@ class GeneralMultiManager extends Module {
             [`li`, `Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.`],
             [`li`, `Tag the selected users with the same tags, if [id=ut], is enabled.`],
             [`li`, `Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.`],
+            [`li`, `Check the selected users for suspensions, if [id=usc] is enabled.`],
             [`li`, `Tag the selected games with the same tags, if [id=gt], is enabled.`],
             [`li`, `Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.`],
             [`li`, `Tag the selected groups with the same tags, if [id=gpt], is enabled.`]
@@ -450,7 +451,16 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-question-circle`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Check WL/BL`, title2: ``,
-            callback1: this.mm_selectWbcUsers.bind(this, obj, items)
+            tooltip: `Check selected users for whitelists / blacklists`,
+            callback1: this.mm_selectWbcUsers.bind(this, obj, items, `wbc`)
+          },
+          {
+            check: this.esgst.usc,
+            color1: `green`, color2: `grey`,
+            icon1: `fa-question-circle`, icon2: `fa-circle-o-notch fa-spin`,
+            title1: `Check Susp.`, title2: ``,
+            tooltip: `Check selected users for suspensions`,
+            callback1: this.mm_selectWbcUsers.bind(this, obj, items, `usc`)
           }
         ],
         []
@@ -1069,15 +1079,15 @@ class GeneralMultiManager extends Module {
     await lockAndSaveDiscussions(newItems);
   }
 
-  mm_selectWbcUsers(obj, items) {
-    if (!this.esgst.wbcButton) return;
+  mm_selectWbcUsers(obj, items, key) {
+    if (!this.esgst[`${key}Button`]) return;
     this.esgst.mmWbcUsers = [];
     items.forEach(item => {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
       this.esgst.mmWbcUsers.push(item.code);
     });
-    this.esgst.wbcButton.setAttribute(`data-mm`, true);
-    this.esgst.wbcButton.click();
+    this.esgst[`${key}Button`].setAttribute(`data-mm`, true);
+    this.esgst[`${key}Button`].click();
   }
 
   async mm_hideGames(obj, items) {

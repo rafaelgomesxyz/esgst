@@ -265,6 +265,9 @@ class Common extends Module {
     if (this.esgst.wbcButton && !this.esgst.scopes.main.users.length) {
       this.esgst.wbcButton.classList.add(`esgst-hidden`);
     }
+    if (this.esgst.uscButton && !this.esgst.scopes.main.users.length) {
+      this.esgst.uscButton.classList.add(`esgst-hidden`);
+    }
 
     this.esgst.style.insertAdjacentText("beforeend", `
       .esgst-menu-split-fixed {

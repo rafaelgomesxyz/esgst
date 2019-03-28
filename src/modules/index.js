@@ -90,6 +90,7 @@ import { tradesTradeBumper } from './Trades/TradeBumper';
 import { generalTimeToPointCapCalculator } from './General/TimeToPointCapCalculator';
 import { giveawaysUnsentGiftSender } from './Giveaways/UnsentGiftSender';
 import { usersUserSuspensionTracker } from './Users/UserSuspensionTracker';
+import { usersUserSuspensionChecker } from './Users/UserSuspensionChecker';
 import { usersWhitelistBlacklistChecker } from './Users/WhitelistBlacklistChecker';
 import { usersWhitelistBlacklistHighlighter } from './Users/WhitelistBlacklistHighlighter';
 import { usersWhitelistBlacklistSorter } from './Users/WhitelistBlacklistSorter';
@@ -253,6 +254,7 @@ const modules = {
   generalTimeToPointCapCalculator,
   giveawaysUnsentGiftSender,
   usersUserSuspensionTracker,
+  usersUserSuspensionChecker,
   usersWhitelistBlacklistChecker,
   usersWhitelistBlacklistHighlighter,
   usersWhitelistBlacklistSorter,
