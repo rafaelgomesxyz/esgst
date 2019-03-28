@@ -311,9 +311,9 @@ class Common extends Module {
     }
     this.reorderButtons(this.esgst);
     if (document.readyState === `complete`) {
-      this.goToComment(this.esgst.originalHash);
+      this.processHash();
     } else {
-      document.addEventListener(`readystatechange`, this.goToComment.bind(this, this.esgst.originalHash, null, false));
+      document.addEventListener(`readystatechange`, () => this.processHash());
     }
     window.addEventListener(`beforeunload`, this.checkBusy.bind(this));
     window.addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
@@ -325,6 +325,21 @@ class Common extends Module {
     }
 
     this.esgst.modules = modules;
+  }
+
+  processHash() {
+    this.goToComment(this.esgst.originalHash, null, false);        
+    if (this.esgst.parameters.esgst && this.esgst.parameters.id) {
+      const element = document.querySelector(`[data-id="${this.esgst.parameters.id}"]`);
+      if (element) {
+        const hiddenSection = element.closest(`.esgst-form-row-indent.esgst-hidden:not(.SMFeatures)`);
+        if (hiddenSection) {
+          hiddenSection.previousElementSibling.firstElementChild.click();
+        }
+        this.goToComment(`#${this.esgst.parameters.id}`, element);
+      }
+    }
+
   }
 
   processEvent(functions, event) {
@@ -4100,7 +4115,7 @@ class Common extends Module {
       hash = window.location.hash;
     }
     let id = hash.replace(/#/, ``);
-    if ((!id && !element) || window.location.pathname.match(/^\/account/)) return;
+    if ((!id && !element) || (window.location.pathname.match(/^\/account/) && !this.esgst.parameters.esgst)) return;
     if (id && !element) {
       element = document.getElementById(id);
     }
