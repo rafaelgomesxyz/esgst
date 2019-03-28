@@ -883,6 +883,7 @@ class Settings {
         sks: `Sent Keys Searcher`,
         tb: `Trade Bumper`,
         ugs: `Unsent Gifts Sender`,
+        usc: `User Suspension Checker`,
         ust: `User Suspension Tracker`,
         wbc: `Whitelist/Blacklist Checker`,
         wbm: `Whitelist/Blacklist Manager`,

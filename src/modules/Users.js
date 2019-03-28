@@ -90,6 +90,10 @@ class Users extends Module {
         this.esgst.wbcButton.classList.remove(`esgst-hidden`);
         this.esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
       }
+      if (this.esgst.uscButton && mainContext === document && !this.esgst.aboutPath) {
+        this.esgst.uscButton.classList.remove(`esgst-hidden`);
+        this.esgst.uscButton.parentElement.classList.remove(`esgst-hidden`);
+      }
       if (this.esgst.mm_enableUsers && this.esgst.mm_enable) {
         this.esgst.mm_enable(this.esgst.currentScope.users, `Users`);
       }
