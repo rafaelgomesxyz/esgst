@@ -1,6 +1,6 @@
 {
   "name": "esgst",
-  "version": "8.3.2",
+  "version": "8.3.3",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "gsrafael01",
   "bugs": {
@@ -51,7 +51,7 @@
     "webpack-shell-plugin": "0.5.0",
     "webpack-cli": "^3.1.0"
   },
-  "devVersion": "8.3.2",
+  "devVersion": "8.3.3",
   "homepage": "https://github.com/gsrafael01/ESGST",
   "keywords": [
     "esgst",
