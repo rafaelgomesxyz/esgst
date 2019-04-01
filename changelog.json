@@ -2,17 +2,10 @@
   {
     "date": "April 1, 2019",
     "version": "8.3.3",
-    "changelog": {}
-  },
-  {
-    "date": "April 1, 2019",
-    "version": "8.3.3",
-    "changelog": {}
-  },
-  {
-    "date": "April 1, 2019",
-    "version": "8.3.2",
-    "changelog": {}
+    "changelog": {
+      "1243": "[WIP] Internal: implement scopes",
+      "1257": "[WIP] Add guides for all features"
+    }
   },
   {
     "date": "April 1, 2019",
