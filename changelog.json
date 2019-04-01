@@ -2,6 +2,11 @@
   {
     "date": "April 1, 2019",
     "version": "8.3.2",
+    "changelog": {}
+  },
+  {
+    "date": "April 1, 2019",
+    "version": "8.3.2",
     "changelog": {
       "1238": "Internal: fix bug that does not always purge removed elements",
       "1245": "Storage: add option to delete backups from the cloud",
