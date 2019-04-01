@@ -181,6 +181,22 @@ function addStyle() {
   `;
   }
   style += `
+  .tour-backdrop {
+    opacity: 0.5;
+    z-index: 9999991100;
+  }
+
+  .tour-prevent {
+    background: none;
+    opacity: 0;
+    z-index: 9999991102;
+  }
+  
+  .popover[class*="tour-"] {
+    color: #000;
+    z-index: 9999991110;
+  }
+
   .giveaway__links .esgst-button-set >* {
     background: none;
     border: none;
