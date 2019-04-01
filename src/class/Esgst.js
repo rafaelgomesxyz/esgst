@@ -217,6 +217,8 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      esgst_st: true,
+      esgst_sgt: true,
       ge_extractOnward: false,
       ge_flushCache: false,
       ge_flushCacheHours: 24,

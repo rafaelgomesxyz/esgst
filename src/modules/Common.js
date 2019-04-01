@@ -17,6 +17,9 @@ import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
+import 'bootstrap/dist/js/bootstrap';
+import '../lib/bootstrap-tourist/bootstrap-tourist.js';
+import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -250,6 +253,9 @@ class Common extends Module {
       }
       try {
         await module.init();
+        if (shared.esgst.parameters.esgst === `guide` && shared.esgst.parameters.id === module.info.id) {
+          shared.esgst.guideSteps = module.info.guide;
+        }
       } catch (e) {
         window.console.log(e);
       }
@@ -325,6 +331,81 @@ class Common extends Module {
     }
 
     this.esgst.modules = modules;
+
+    if (shared.esgst.parameters.esgst === `guide` && shared.esgst.parameters.id === `welcome`) {
+      shared.esgst.guideSteps = [
+        [`#esgst .esgst-header-menu-button.arrow`, `Click here to open the ESGST dropdown.`, { reflex: true, reflexOnly: true }],
+        [`#esgst .esgst-header-menu-absolute-dropdown`, `Here you can find a bunch of useful links / information related to the extension.`, { preventInteraction: true }],
+        [`#esgst .esgst-header-menu-button:not(.arrow)`, `Click here to open the ESGST settings menu.`, { reflex: true, reflexOnly: true }],
+        [`.esgst-popup .page__heading`, `The page heading allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data), as well as save any changes you have made.`, { preventInteraction: true }],
+        [`.esgst-popup .page__heading__button[title="Sync data"]`, `Some features require you to sync specific parts of your data in order to work properly. The sync menu is accessible through this button.`, { preventInteraction: true }],
+        [`.esgst-popup .page__heading__button[title="Backup data"]`, `It is very important to back up your data often to prevent data loss. The backup menu is accessible through this button.`, { preventInteraction: true }],
+        [`.esgst-popup .page__heading__button[title="Restore data"]`, `In the event of data loss, you can restore a previous backup to get your data back. The restore menu is accessible through this button.`, { preventInteraction: true }],
+        [`#esgst_plt`, `To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades.`, { preventInteraction: true }],
+        [`[data-id="plt"]`, `You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere. Click here to procceed.`, { reflex: true, reflexOnly: true }],
+        [`.esgst-settings-menu-feature`, `Here you can see the details.`, { preventInteraction: true }],
+        [`.esgst-menu-layer + .esgst-popup-actions .esgst-popup-close`, `Remember to always save your changes, otherwise they will not persist. Now let's close the settings menu. Click here.`, { reflex: true, reflexOnly: true }],
+        [`.sidebar > .sidebar__navigation:last-of-type`, `If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through these links in the sidebar, which will open a new page with the content instead of a popup in the same page.`, { preventInteraction: true }],
+        [``, `And that's the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!`]
+      ];
+    }
+
+    if (shared.esgst.guideSteps) {
+      this.displayGuide();
+    }
+  }
+
+  displayGuide() {
+    // @ts-ignore
+    const guide = new Tour({
+      backdrop: true,
+      orphan: true,
+      showProgressBar: false,
+      showProgressText: false,
+      storage: false,
+      template: `
+        <div class="popover" role="tooltip">
+          <div class="arrow"></div>
+          <h3 class="popover-title"></h3>
+          <div class="popover-content"></div>
+          <div class="popover-navigation">
+            <div class="btn-group">
+              <button class="btn btn-sm btn-primary" data-role="next">Next</button>
+            </div>
+            <button class="btn btn-sm btn-default" data-role="end">End</button>
+          </div>
+        </div>
+      `
+    });
+    for (let i = 0, n = shared.esgst.guideSteps.length; i < n; i++) {
+      const [element, content, options] = shared.esgst.guideSteps[i];
+      const step = {
+        placement: `auto`
+      };
+      if (options) {
+        if (options.reflexOnly || i + 1 === n) {
+          step.content = content;
+        } else {
+          step.content = `${content}<br><br>When you are ready to continue, click "Next".`;
+        }
+        if (options.isDynamic) {
+          step.element = () => $(document).find(element);
+          delete options.isDynamic;
+        } else {
+          step.element = element;
+        }
+        Object.assign(step, options);
+      } else {
+        if (i + 1 === n) {
+          step.content = content;
+        } else {
+          step.content = `${content}<br><br>When you are ready to continue, click "Next".`;
+        }
+        step.element = element;
+      }
+      guide.addStep(step);   
+    }
+    guide.start();
   }
 
   processHash() {
@@ -339,7 +420,6 @@ class Common extends Module {
         this.goToComment(`#${this.esgst.parameters.id}`, element);
       }
     }
-
   }
 
   processEvent(functions, event) {
@@ -1016,32 +1096,14 @@ class Common extends Module {
           },
           type: `i`
         }, {
-          text: ` Hi! ESGST is getting things ready for you. This will not take long...`,
+          text: ` Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...`,
           type: `node`
         }]
       });
       popup.open();
       await this.checkSync(true);
-      this.createElements_v2(popup.title, `inner`, [
-        [`i`, { class: `fa fa-check` }],
-        ` Thanks for installing ESGST, ${this.esgst.username}.`,
-        [`br`],
-        [`br`],
-        `ESGST has a public Steam group. If you want to join it, click `,
-        [`a`, { class: `esgst-bold`, href: `http://steamcommunity.com/groups/esgst`, target: `_blank` }, `here`],
-        `.`,
-        [`br`],
-        [`br`],
-        `ESGST also has a Patreon page. If you want to become a Patron, click `,
-        [`a`, { class: `esgst-bold`, href: `https://www.patreon.com/gsrafael01`, target: `_blank` }, `here`],
-        `. You can also support ESGST by donating to the following Paypal account: `,
-        [`strong`, `gsrafael01@gmail.com`],
-        [`br`],
-        [`br`],
-        `You are ready to go! Click on the `,
-        [`strong`, `Settings`],
-        ` link below to enable features and start getting the most out of SteamGifts!`
-      ]);
+      popup.close();
+      this.createConfirmation(`All done, ${shared.esgst.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
     } else if (this.esgst.storage.isUpdate && this.esgst.showChangelog) {
       const manifest = await browser.runtime.getManifest();
       const version = manifest.version_name || manifest.version;

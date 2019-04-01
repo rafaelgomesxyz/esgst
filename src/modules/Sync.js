@@ -55,7 +55,7 @@ async function setSync(isPopup = false, isSilent = false) {
     });
     containerr = popup.description;
     context = popup.scrollable;
-    if (!syncer.isSilent || shared.esgst.openAutoSyncPopup) {
+    if (!shared.esgst.firstInstall && (!syncer.isSilent || shared.esgst.openAutoSyncPopup)) {
       popup.open();
     }
   } else {

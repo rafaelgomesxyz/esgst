@@ -318,80 +318,7 @@ class Settings {
       shared.esgst.settings.steamApiKey = SMAPIKey.value;
     });
     let pp = null;
-    if (shared.esgst.firstInstall) {
-      pp = new Popup({ addScrollable: true, icon: `fa-check`, isTemp: true, title: `Getting Started` });
-      shared.common.createElements(pp.scrollable, `inner`, [{
-        attributes: {
-          class: `esgst-bold`
-        },
-        text: `Here are some things you should know to help you get started:`,
-        type: `div`
-      }, {
-        type: `br`
-      }, {
-        attributes: {
-          class: `markdown`
-        },
-        type: `div`,
-        children: [{
-          type: `ul`,
-          children: [{
-            type: `li`,
-            children: [{
-              text: `Bugs and suggestions should be reported on the `,
-              type: `node`
-            }, {
-              attributes: {
-                href: `https://github.com/gsrafael01/ESGST/issues`
-              },
-              text: `GitHub page`,
-              type: `a`
-            }, {
-              text: `.`,
-              type: `node`
-            }]
-          }, {
-            text: `Make sure you backup your data using the backup button at the top of the menu every once in a while to prevent any data loss that might occur. It's also probably a good idea to disable automatic updates, since ESGST is in constant development.`,
-            type: `node`
-          }, {
-            type: `li`,
-            children: [{
-              text: `Click on an option in the menu to learn more about it and how to use it. Some options are currently missing documentation, so feel free to ask about them in the official ESGST thread.`,
-              type: `node`
-            }]
-          }, {
-            type: `li`,
-            children: [{
-              text: `Some features rely on sync to work properly. These features have a "Sync Requirements" section in their detailed menu that show you what type of data you have to sync. You should sync often to keep your data up-to-date. ESGST offers an option to automatically sync your data for you every amount of days so you don't have to do it manually. To enable the automatic sync, simply go to the sync menu (though the sync button at the top of the menu) and select the number of days in the dropdown.`,
-              type: `node`
-            }]
-          }, {
-            type: `li`,
-            children: [{
-              text: `ESGST uses 2 terms to define a window opened in the same page: `,
-              type: `node`
-            }, {
-              text: `popout`,
-              type: `strong`
-            }, {
-              text: ` is when the window opens up, down, left or right from the element you clicked/hovered over (like the one you get with the description of the features) and `,
-              type: `node`
-            }, {
-              text: `popup`,
-              type: `strong`
-            }, {
-              text: ` is when the window opens in the center of the screen with a modal background behind it (like this one).`,
-              type: `node`
-            }]
-          }, {
-            text: `That's all for now, you can close shared.common.`,
-            type: `li`
-          }]
-        }]
-      }]);
-      shared.esgst.firstInstall = false;
-    }
-    if (shared.esgst.parameters.id) {
+    if (shared.esgst.parameters.esgst === `esgst` && shared.esgst.parameters.id) {
       this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {
@@ -431,6 +358,12 @@ class Settings {
         [`i`, { 'data-clipboard-text': url, class: `icon_to_clipboard fa fa-fw fa-copy` }]
       ],
       name: `Link`
+    }, {
+      check: feature.guideUrl,
+      content: [
+        [`a`,  { href: feature.guideUrl }, feature.guideUrl]
+      ],
+      name: `Guide`
     }];
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {
