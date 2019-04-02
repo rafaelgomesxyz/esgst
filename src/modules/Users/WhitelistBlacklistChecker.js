@@ -4,6 +4,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -792,7 +793,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       await this.wbc_checkGiveaway(data, obj, username, true);
     } else {
       obj.Timestamp = 0;
-      const match = window.location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+      const match = shared.esgst.locationHref.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
       await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
     }
   }
@@ -845,7 +846,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         } else {
           obj.Timestamp = 0;
           obj.GroupGiveaways = [];
-          let match = window.location.href.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
+          let match = shared.esgst.locationHref.match(new RegExp(`/user/${username}(/search?page=(\\d+))?`));
           await this.wbc_getGiveaways(match ? (match[2] ? parseInt(match[2]) : 1) : 0, data, obj, username);
         }
       } else {

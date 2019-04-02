@@ -66,60 +66,60 @@ class GroupsGroupFilters extends Module {
           sg: true
         },
         gpf_users: {
+          dependencies: [`gs`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups by the number of users that are members.`],
-              [`li`, `This option requires [id=gs] enabled to work.`]
+              [`li`, `Allows you to filter groups by the number of users that are members.`]
             ]]
           ],
           name: `Users`,
           sg: true
         },
         gpf_lastGiveaway: {
+          dependencies: [`gs`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups by the date of the last giveaway made.`],
-              [`li`, `This option requires [id=gs] enabled to work.`]
+              [`li`, `Allows you to filter groups by the date of the last giveaway made.`]
             ]]
           ],
           name: `Last Giveaway`,
           sg: true
         },
         gpf_officialGameGroup: {
+          dependencies: [`gs`, `gs_t`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups that are official game groups.`],
-              [`li`, `This option requires [id=gs_t] enabled to work.`]
+              [`li`, `Allows you to filter groups that are official game groups.`]
             ]]
           ],
           name: `Official Game Group`,
           sg: true
         },
         gpf_open: {
+          dependencies: [`gs`, `gs_t`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups that are open to join.`],
-              [`li`, `This option requires [id=gs_t] enabled to work.`]
+              [`li`, `Allows you to filter groups that are open to join.`]
             ]]
           ],
           name: `Open`,
           sg: true
         },
         gpf_restricted: {
+          dependencies: [`gs`, `gs_t`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups that are restricted to join.`],
-              [`li`, `This option requires [id=gs_t] enabled to work.`]
+              [`li`, `Allows you to filter groups that are restricted to join.`]
             ]]
           ],
           name: `Restricted`,
           sg: true
         },
         gpf_closed: {
+          dependencies: [`gs`, `gs_t`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups that are closed to join.`],
-              [`li`, `This option requires [id=gs_t] enabled to work.`]
+              [`li`, `Allows you to filter groups that are closed to join.`]
             ]]
           ],
           name: `Closed`,

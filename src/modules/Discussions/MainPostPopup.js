@@ -22,11 +22,7 @@ class DiscussionsMainPostPopup extends Module {
       ],
       features: {
         mpp_r: {
-          description: [
-            [`ul`, [
-              [`li`, `This option requires[id=ct] enabled to work.`]
-            ]]
-          ],
+          dependencies: [`ct`],
           name: `Only hide the main post if it has been marked as read.`,
           sg: true
         }

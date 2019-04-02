@@ -91,16 +91,11 @@ class UsersUserNotes extends Module {
   un_open(profile) {
     let set;
     profile.unPopup = new Popup({
-      addScrollable: true, icon: `fa-sticky-note`, isTemp: true, title: [{
-        text: `Edit user notes for `,
-        type: `node`
-      }, {
-        text: profile.name,
-        type: `span`
-      }, {
-        text: `:`,
-        type: `node`
-      }]
+      addScrollable: true, icon: `fa-sticky-note`, isTemp: true, title: [
+        `Edit user notes for `,
+        [`span`, profile.name],
+        `:`
+      ]
     });
     profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`

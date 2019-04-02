@@ -3,6 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -162,7 +163,7 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_send() {
-    let code = window.location.href.match(/\/ticket\/(.+?)\//)[1];
+    let code = shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
     this.esgst.ustButton.removeEventListener(`click`, this.ust_send);
     createElements(this.esgst.ustButton, `inner`, [{
       attributes: {
@@ -173,7 +174,7 @@ class UsersUserSuspensionTracker extends Module {
     let error = JSON.parse(
       (await request({
         data: `${code}=${encodeURIComponent(parseHtml(
-          (await request({ method: `GET`, url: window.location.href })).responseText
+          (await request({ method: `GET`, url: shared.esgst.locationHref })).responseText
         ).getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
         method: `POST`,
         url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`

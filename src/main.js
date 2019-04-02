@@ -64,6 +64,7 @@ window.interact = interact;
           for (key in message.values) {
             if (message.values.hasOwnProperty(key)) {
               esgst.storage[key] = message.values[key];
+              esgst[key] = JSON.parse(message.values[key]);
             }
           }
           break;

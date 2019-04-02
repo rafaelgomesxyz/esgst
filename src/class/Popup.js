@@ -5,75 +5,27 @@ class Popup {
   constructor(details) {
     this.textArea = undefined;
     this.temp = details.isTemp;
-    this.layer = shared.common.createElements(document.body, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-hidden esgst-popup-layer`
-      },
-      type: `div`,
-      children: [details.popup ? {
-        context: details.popup
-      } : {
-        attributes: {
-          class: `esgst-popup`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `esgst-popup-heading`
-          },
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}`
-            },
-            type: `i`
-          }, {
-            attributes: {
-              class: `esgst-popup-title${details.title ? `` : ` esgst-hidden`}`
-            },
-            text: typeof details.title === `string` ? details.title : ``,
-            type: `div`,
-            children: typeof details.title === `string` ? null : details.title
-          }]
-        }, {
-          attributes: {
-            class: `esgst-popup-description`
-          },
-          type: `div`
-        }, {
-          attributes: {
-            class: `esgst-popup-scrollable ${details.addScrollable === `left` ? `esgst-text-left` : ``}`
-          },
-          type: `div`,
-          children: details.scrollableContent || null
-        }, {
-          attributes: {
-            class: `esgst-popup-actions`
-          },
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `esgst-hidden`,
-              href: shared.esgst.settingsUrl
-            },
-            text: `Settings`,
-            type: `a`
-          }, {
-            attributes: {
-              class: `esgst-popup-close`
-            },
-            text: `Close`,
-            type: `a`
-          }]
-        }]
-      }, {
-        attributes: {
-          class: `esgst-popup-modal`,
-          title: `Click to close the modal`
-        },
-        type: `div`
-      }]
-    }]);
+    this.layer = shared.common.createElements_v2(document.body, `beforeEnd`, [
+      [`div`, { class: `esgst-hidden esgst-popup-layer` }, [
+        ...(details.popup ? [
+          details.popup
+        ]  : [
+          [`div`, { class: `esgst-popup` }, [
+            [`div`, { class: `esgst-popup-heading` }, [
+              [`i`, { class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}` }],
+              [`div`, { class: `esgst-popup-title${details.title ? `` : ` esgst-hidden`}` }, details.title]
+            ]],
+            [`div`, { class: `esgst-popup-description` }],
+            [`div`, { class: `esgst-popup-scrollable ${details.addScrollable === `left` ? `esgst-text-left` : ``}` }, details.scrollableContent],
+            [`div`, { class: `esgst-popup-actions` }, [
+              [`a`, { class: `esgst-hidden`, href: shared.esgst.settingsUrl }, `Settings`],
+              [`a`, { class: `esgst-popup-close` }, `Close`]
+            ]]
+          ]],
+          [`div`, { class: `esgst-popup-modal`, title: `Click to close the modal` }]
+        ])
+      ]]
+    ]);
     this.onClose = details.onClose;
     this.popup = this.layer.firstElementChild;
     this.modal = this.layer.lastElementChild;

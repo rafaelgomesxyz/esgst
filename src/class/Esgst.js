@@ -2254,6 +2254,12 @@ class Esgst {
 
     this.parameters = this.modules.common.getParameters();
 
+    if (this.parameters.esgst === `guide`) {
+      this.locationHref = window.location.href.replace(/\?.+/, ``);
+    } else {
+      this.locationHref = window.location.href;
+    }
+
     this.markdownParser = new Parsedown;
     this.sg = window.location.hostname.match(/www.steamgifts.com/);
     this.st = window.location.hostname.match(/www.steamtrades.com/);
@@ -2266,12 +2272,12 @@ class Esgst {
     this.groupWishlistPath = window.location.pathname.match(/^\/group\/(.*?)\/wishlist/);
     this.mainPath = window.location.pathname.match(/^\/$/);
     this.winnersPath = window.location.pathname.match(/^\/giveaway\/.+\/winners/);
-    this.giveawaysPath = window.location.href.match(/steamgifts.com($|\/$|\/giveaways(?!.*\/(new|wishlist|created|entered|won)))/);
+    this.giveawaysPath = this.locationHref.match(/steamgifts.com($|\/$|\/giveaways(?!.*\/(new|wishlist|created|entered|won)))/);
     this.giveawayCommentsPath = window.location.pathname.match(/^\/giveaway\/(?!.+\/(entries|winners|groups))/);
     this.discussionsTicketsPath = window.location.pathname.match(/^\/(discussions|support\/tickets)/);
     this.ticketsPath = window.location.pathname.match(/^\/support\/tickets/);
-    this.tradesPath = window.location.href.match(/steamtrades.com($|\/$|\/trades(?!\/(new|edit)))/);
-    this.discussionsTicketsTradesPath = window.location.href.match(/steamtrades.com($|\/$)/) || window.location.pathname.match(/^\/(discussions|support\/tickets|trades)/);
+    this.tradesPath = this.locationHref.match(/steamtrades.com($|\/$|\/trades(?!\/(new|edit)))/);
+    this.discussionsTicketsTradesPath = this.locationHref.match(/steamtrades.com($|\/$)/) || window.location.pathname.match(/^\/(discussions|support\/tickets|trades)/);
     this.discussionTicketTradeCommentsPath = window.location.pathname.match(/^\/(discussion|support\/ticket|trade)\//);
     this.archivePath = window.location.pathname.match(/^\/archive/);
     this.profilePath = window.location.pathname.match(/^\/account\/settings\/profile/);

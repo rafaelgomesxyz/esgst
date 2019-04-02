@@ -266,16 +266,11 @@ class Tags extends Module {
       }],
       icon: `fa-tag`,
       isTemp: true,
-      title: [{
-        text: `Edit tags for `,
-        type: `node`
-      }, {
-        text: (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id,
-        type: `span`
-      }, {
-        text: `:`,
-        type: `node`
-      }]
+      title: [
+        `Edit tags for `,
+        [`span`, (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id],
+        `:`
+      ]
     });
     createElements(obj.popup.description, `beforeEnd`, [{
       attributes: {
