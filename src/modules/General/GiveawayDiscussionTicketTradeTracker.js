@@ -56,7 +56,6 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         }
       },
       id: `gdttt`,
-      load: this.gdttt,
       name: `Giveaway/Discussion/Ticket/Trade Tracker`,
       sg: true,
       st: true,
@@ -64,7 +63,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     };
   }
 
-  async gdttt() {
+  async init() {
     this.esgst.endlessFeatures.push(this.gdttt_checkVisited.bind(this));
     if (!this.esgst.commentsPath) return;
     let match = window.location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);

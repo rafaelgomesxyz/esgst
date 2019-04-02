@@ -36,7 +36,6 @@ class UsersUserTags extends Module {
         }
       },
       id: `ut`,
-      load: this.ut,
       name: `User Tags`,
       sg: true,
       st: true,
@@ -44,7 +43,7 @@ class UsersUserTags extends Module {
     };
   }
 
-  ut() {
+  init() {
     this.esgst.userFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `ut`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`ut`);

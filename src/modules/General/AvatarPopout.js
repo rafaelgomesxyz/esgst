@@ -19,7 +19,6 @@ class GeneralAvatarPopout extends Module {
         ]]
       ],
       id: `ap`,
-      load: this.ap,
       name: `Avatar Popout`,
       options: {
         title: `Open on:`,
@@ -30,7 +29,7 @@ class GeneralAvatarPopout extends Module {
     };
   }
 
-  ap() {
+  init() {
     this.esgst.endlessFeatures.push(this.ap_getAvatars.bind(this));
     this.esgst.userFeatures.push(this.ap_getUsers.bind(this));
   }

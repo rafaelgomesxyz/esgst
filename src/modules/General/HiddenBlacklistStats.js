@@ -14,14 +14,13 @@ class GeneralHiddenBlacklistStats extends Module {
         ]]
       ],
       id: `hbs`,
-      load: this.hbs,
       name: `Hidden Blacklist Stats`,
       sg: true,
       type: `general`
     };
   }
 
-  hbs() {
+  init() {
     if (!window.location.pathname.match(/^\/stats\/personal\/community/)) return;
 
     let chart = document.getElementsByClassName(`chart`)[4];

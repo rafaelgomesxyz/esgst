@@ -92,7 +92,6 @@ class GeneralShortcutKeys extends Module {
         }
       },
       id: `sk`,
-      load: this.sk,
       name: `Shortcut Keys`,
       sg: true,
       st: true,
@@ -100,7 +99,7 @@ class GeneralShortcutKeys extends Module {
     };
   }
 
-  sk() {
+  init() {
     let methods = {};
     if (this.esgst.sk_cp) {
       methods[this.esgst.sk_closePopups] = event => {

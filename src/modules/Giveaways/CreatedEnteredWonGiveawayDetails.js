@@ -44,14 +44,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         ]]
       ],
       id: `cewgd`,
-      load: this.cewgd,
       name: `Created/Entered/Won Giveaway Details`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  cewgd() {
+  init() {
     if (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath) return;
     this.esgst.endlessFeatures.push(this.cewgd_addHeading.bind(this));
     this.esgst.giveawayFeatures.push(this.cewgd_getDetails_pre.bind(this));

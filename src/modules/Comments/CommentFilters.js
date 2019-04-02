@@ -94,7 +94,6 @@ class CommentsCommentFilters extends Module {
         }
       },
       id: `cf`,
-      load: this.cf,
       name: `Comment Filters`,
       sg: true,
       st: true,
@@ -102,8 +101,8 @@ class CommentsCommentFilters extends Module {
     };
   }
 
-  async cf() {
-    if (this.esgst.cf_m && (this.esgst.commentsPath || this.esgst.inboxPath)) {
+  async init() {
+    if (this.esgst.cf_m && (this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`))) {
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
           top: ${this.esgst.commentsTop - 5}px;

@@ -10,7 +10,6 @@ class GeneralSameTabOpener extends Module {
         ]]
       ],
       id: `sto`,
-      load: this.sto,
       name: `Same Tab Opener`,
       sg: true,
       st: true,
@@ -18,7 +17,7 @@ class GeneralSameTabOpener extends Module {
     };
   }
 
-  sto() {
+  init() {
     this.esgst.endlessFeatures.push(this.sto_setLinks.bind(this));
   }
 

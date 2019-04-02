@@ -106,14 +106,13 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         }
       },
       id: `namwc`,
-      load: this.namwc,
       name: `Not Activated/Multiple Win Checker`,
       sg: true,
       type: `users`
     };
   }
 
-  namwc() {
+  init() {
     this.esgst.profileFeatures.push(this.namwc_addUser.bind(this));
     if (this.esgst.namwc_h) {
       this.esgst.userFeatures.push(this.namwc_getUsers.bind(this));

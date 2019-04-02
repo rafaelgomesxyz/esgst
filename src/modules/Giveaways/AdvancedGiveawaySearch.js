@@ -25,14 +25,13 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         ]]
       ],
       id: `ags`,
-      load: this.ags,
       name: `Advanced Giveaway Search`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  ags() {
+  init() {
     let query = ``;
     if (this.esgst.giveawaysPath) {
       query += `.sidebar__search-container, `;

@@ -39,14 +39,13 @@ class GeneralCakeDayReminder extends Module {
         }
       },
       id: `cdr`,
-      load: this.cdr,
       name: `Cake Day Reminder`,
       sg: true,
       type: `general`
     };
   }
 
-  cdr() {
+  init() {
     let currentDate = new Date();
     let year = currentDate.getFullYear();
     let time = currentDate.getTime();

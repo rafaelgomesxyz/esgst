@@ -25,7 +25,6 @@ class CommentsCollapseExpandReplyButton extends Module {
         }
       },
       id: `cerb`,
-      load: this.cerb,
       name: `Collapse/Expand Reply Button`,
       sg: true,
       sgPaths: /^(Giveaway\s-\sComments|Discussion|Ticket|Trade)$/,
@@ -34,7 +33,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     };
   }
 
-  cerb() {
+  init() {
     if (!this.esgst.commentsPath) return;
     let button, collapse, comments, expand;
     comments = document.getElementsByClassName(`comments`)[0];

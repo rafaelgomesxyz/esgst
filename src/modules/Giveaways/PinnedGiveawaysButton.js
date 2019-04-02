@@ -15,14 +15,13 @@ class GiveawaysPinnedGiveawaysButton extends Module {
         ]]
       ],
       id: `pgb`,
-      load: this.pgb,
       name: `Pinned Giveaways Button`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  pgb() {
+  init() {
     let button = document.getElementsByClassName(`pinned-giveaways__button`)[0];
     if (!button) return;
     const container = button.previousElementSibling;

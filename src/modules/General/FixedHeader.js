@@ -10,7 +10,6 @@ class GeneralFixedHeader extends Module {
         ]]
       ],
       id: `fh`,
-      load: this.fh,
       name: `Fixed Header`,
       sg: true,
       st: true,
@@ -18,7 +17,7 @@ class GeneralFixedHeader extends Module {
     };
   }
 
-  fh() {
+  init() {
     if (!this.esgst.header) {
       return;
     }

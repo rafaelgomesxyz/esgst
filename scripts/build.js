@@ -158,7 +158,7 @@ function getWebExtensionManifest(browserName) {
   switch (browserName) {
     case `chrome`:
       manifest.background.persistent = true;
-      //manifest.key = bextJson.chrome.extensionKey;
+      manifest.key = bextJson.chrome.extensionKey;
       break;
     case `firefox`:
       manifest.browser_specific_settings = {

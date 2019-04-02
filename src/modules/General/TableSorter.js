@@ -25,7 +25,6 @@ class GeneralTableSorter extends Module {
         ]]
       ],
       id: `ts`,
-      load: this.ts,
       name: `Table Sorter`,
       sg: true,
       st: true,
@@ -33,7 +32,7 @@ class GeneralTableSorter extends Module {
     };
   }
 
-  ts() {
+  init() {
     this.esgst.endlessFeatures.push(this.ts_getTables.bind(this));
   }
 

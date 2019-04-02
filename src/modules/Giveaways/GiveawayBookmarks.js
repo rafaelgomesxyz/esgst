@@ -81,14 +81,13 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       },
       id: `gb`,
-      load: this.gb,
       name: `Giveaway Bookmarks`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gb() {
+  init() {
     this.esgst.giveawayFeatures.push(this.gb_getGiveaways.bind(this));
     let button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
       attributes: {
@@ -219,7 +218,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       }
     }
-    if (this.esgst.accountPath && this.esgst.parameters.esgst === `gb`) {
+    if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `gb`) {
       const context = this.esgst.sidebar.nextElementSibling;
       if (this.esgst.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();

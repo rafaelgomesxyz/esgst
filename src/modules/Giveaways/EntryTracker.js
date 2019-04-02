@@ -26,14 +26,13 @@ class GiveawaysEntryTracker extends Module {
         ]]
       ],
       id: `et`,
-      load: this.et,
       name: `Entry Tracker`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  et() {
+  init() {
     if (this.esgst.enteredPath) {
       this.esgst.endlessFeatures.push(this.et_getEntries.bind(this));
     }

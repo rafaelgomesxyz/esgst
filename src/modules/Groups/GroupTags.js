@@ -35,14 +35,13 @@ class GroupsGroupTags extends Module {
         }
       },
       id: `gpt`,
-      load: this.gpt,
       name: `Group Tags`,
       sg: true,
       type: `groups`
     };
   }
 
-  gpt() {
+  init() {
     const tagsModule = this.esgst.modules.tags;
     this.esgst.groupFeatures.push(tagsModule.tags_addButtons.bind(tagsModule, `gpt`));
     // noinspection JSIgnoredPromiseFromCall

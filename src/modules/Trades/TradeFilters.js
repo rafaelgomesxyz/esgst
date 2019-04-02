@@ -176,14 +176,13 @@ class TradesTradeFilters extends Module {
         }
       },
       id: `tf`,
-      load: this.tf,
       name: `Trade Filters`,
       st: true,
       type: `trades`
     };
   }
 
-  async tf() {
+  async init() {
     if (this.esgst.tf_s) {
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }

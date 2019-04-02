@@ -52,7 +52,6 @@ class UsersUserSuspensionTracker extends Module {
         ]]
       ],
       id: `ust`,
-      load: this.ust,
       name: `User Suspension Tracker`,
       sg: true,
       st: true,
@@ -60,7 +59,7 @@ class UsersUserSuspensionTracker extends Module {
     };
   }
 
-  ust() {
+  init() {
     if (this.esgst.ticketsPath) {
       this.esgst.ustButton = createHeadingButton({
         id: `ust`,

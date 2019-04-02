@@ -63,19 +63,18 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }
       },
       id: `ged`,
-      load: this.ged,
       name: `Giveaway Encrypter/Decrypter`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  ged() {
+  init() {
     if (!this.esgst.sg) return;
     let ged = {
       newGiveaways: []
     };
-    if (this.esgst.accountPath && this.esgst.parameters.esgst === `ged`) {
+    if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ged`) {
       // noinspection JSIgnoredPromiseFromCall
       this.ged_openPopup(ged);
     } else {

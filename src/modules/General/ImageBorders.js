@@ -10,14 +10,13 @@ class GeneralImageBorders extends Module {
         ]]
       ],
       id: `ib`,
-      load: this.ib,
       name: `Image Borders`,
       sg: true,
       type: `general`
     };
   }
 
-  ib() {
+  init() {
     this.esgst.endlessFeatures.push(this.ib_addBorders.bind(this));
   }
 

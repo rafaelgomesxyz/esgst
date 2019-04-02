@@ -44,7 +44,6 @@ class GeneralCustomHeaderFooterLinks extends Module {
       ],
       inputItems: `chfl_key`,
       id: `chfl`,
-      load: this.chfl,
       name: `Custom Header/Footer Links`,
       sg: true,
       st: true,
@@ -52,7 +51,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     };
   }
 
-  chfl() {
+  init() {
     let chfl = null;
     if (this.esgst.sg) {
       chfl = {

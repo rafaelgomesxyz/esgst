@@ -41,7 +41,6 @@ class TradesTradeBumper extends Module {
         }
       },
       id: `tb`,
-      load: this.tb,
       name: `Trade Bumper`,
       sg: true,
       st: true,
@@ -49,7 +48,7 @@ class TradesTradeBumper extends Module {
     };
   }
 
-  tb() {
+  init() {
     if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
       const button = createHeadingButton({
         id: `tb`,

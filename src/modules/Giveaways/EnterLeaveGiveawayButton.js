@@ -80,14 +80,13 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
       },
       id: `elgb`,
-      load: this.elgb,
       name: `Enter / Leave Giveaway Button`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  elgb() {
+  init() {
     this.esgst.giveawayFeatures.push(this.elgb_addButtons.bind(this));
   }
 

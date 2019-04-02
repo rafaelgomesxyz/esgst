@@ -770,7 +770,6 @@ class GiveawaysGiveawayFilters extends Module {
         }
       },
       id: `gf`,
-      load: this.gf,
       name: `Giveaway Filters`,
       sg: true,
       sync: `Owned/Wishlisted/Ignored Games, Giveaways, Hidden Games, No CV Games, Reduced CV Games, Won Games`,
@@ -779,7 +778,7 @@ class GiveawaysGiveawayFilters extends Module {
     };
   }
 
-  gf() {
+  init() {
     if (this.esgst.gf_s) {
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }

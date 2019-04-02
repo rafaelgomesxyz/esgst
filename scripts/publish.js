@@ -187,13 +187,15 @@ function publishDevVersion() {
         fs.writeFileSync(`${ROOT_PATH}/package.json`, packageJsonBkp);
 
         reject(error);
-      } else {
+      } else if (!args.doNotRelease) {
         try {
           await publishRelease();
           resolve();
         } catch (error) {
           reject(error);          
         }
+      } else {
+        resolve();
       }
     });
   });

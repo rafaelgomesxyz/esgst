@@ -28,14 +28,13 @@ class UsersRealWonSentCVLink extends Module {
         }
       },
       id: `rwscvl`,
-      load: this.rwscvl,
       name: `Real Won/Sent CV Link`,
       sg: true,
       type: `users`
     };
   }
 
-  rwscvl() {
+  init() {
     this.esgst.profileFeatures.push(this.rwscvl_add.bind(this));
   }
 

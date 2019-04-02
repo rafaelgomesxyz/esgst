@@ -53,14 +53,13 @@ class UsersProfileLinks extends Module {
         }
       },
       id: `pl`,
-      load: this.pl,
       name: `Profile Links`,
       sg: true,
       type: `users`
     };
   }
 
-  pl() {
+  init() {
     if (!this.esgst.userPath) return;
     this.esgst.profileFeatures.push(this.pl_add.bind(this));
   }

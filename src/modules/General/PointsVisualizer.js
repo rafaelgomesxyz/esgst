@@ -15,14 +15,13 @@ class GeneralPointsVisualizer extends Module {
         ]]
       ],
       id: `pv`,
-      load: this.pv,
       name: `Points Visualizer`,
       sg: true,
       type: `general`
     };
   }
 
-  pv() {
+  init() {
     this.pv_setStyle();
     this.esgst.modules.generalLevelProgressVisualizer.joinStyles();
   }

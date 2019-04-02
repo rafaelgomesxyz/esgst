@@ -87,21 +87,20 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       },
       id: `ge`,
-      load: this.ge,
       name: `Giveaway Extractor`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  async ge() {
+  async init() {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
       // noinspection JSIgnoredPromiseFromCall
       this.ge_addButton(`Extract all giveaways`);
       if (this.esgst.ge_p) {
         this.ge_addButton(`Extract all giveaways (specify parameters)`, [`fa-gear`], true);
       }
-    } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
+    } else if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
       const parameters = getParameters();
       let ge = {
         context: parseHtml((await request({ method: `GET`, url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ``}` })).responseText),
@@ -216,7 +215,7 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.points = 0;
     ge.sgToolsCount = 0;
     ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
-    if (this.esgst.accountPath && this.esgst.parameters.esgst === `ge`) {
+    if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
       const context = this.esgst.sidebar.nextElementSibling;
       if (this.esgst.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
@@ -345,7 +344,7 @@ class GiveawaysGiveawayExtractor extends Module {
             createElements(ge.results, `beforeEnd`, [{
               type: `div`
             }]);
-            let giveaways = this.ge_getGiveaways(ge, this.esgst.accountPath && this.esgst.parameters.esgst === `ge` ? ge.context : this.esgst.pageOuterWrap);
+            let giveaways = this.ge_getGiveaways(ge, shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge` ? ge.context : this.esgst.pageOuterWrap);
             this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge));
           }
         });

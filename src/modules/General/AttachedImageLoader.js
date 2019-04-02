@@ -13,7 +13,6 @@ class GeneralAttachedImageLoader extends Module {
         ]]
       ],
       id: `ail`,
-      load: this.ail,
       name: `Attached Image Loader`,
       sg: true,
       st: true,
@@ -21,7 +20,7 @@ class GeneralAttachedImageLoader extends Module {
     };
   }
 
-  ail() {
+  init() {
     if (this.esgst.vai) return;
     this.esgst.endlessFeatures.push(this.ail_getImages.bind(this));
   }

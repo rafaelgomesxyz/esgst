@@ -25,7 +25,6 @@ class GeneralNotificationMerger extends Module {
         ]]
       ],
       id: `nm`,
-      load: this.nm,
       name: `Notification Merger`,
       sg: true,
       st: true,
@@ -33,7 +32,7 @@ class GeneralNotificationMerger extends Module {
     };
   }
 
-  nm() {
+  init() {
     if (this.esgst.hr) return;
     // noinspection JSIgnoredPromiseFromCall
     this.nm_getNotifications();

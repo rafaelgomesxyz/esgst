@@ -20,14 +20,13 @@ class UsersSteamGiftsProfileButton extends Module {
         ]]
       ],
       id: `sgpb`,
-      load: this.sgpb,
       name: `SteamGifts Profile Button`,
       st: true,
       type: `users`
     };
   }
 
-  sgpb() {
+  init() {
     if (!this.esgst.userPath) return;
     this.esgst.profileFeatures.push(this.sgpb_add.bind(this));
   }

@@ -34,14 +34,13 @@ class DiscussionsDiscussionTags extends Module {
         }
       },
       id: `dt`,
-      load: this.dt,
       name: `Discussion Tags`,
       sg: true,
       type: `discussions`
     };
   }
 
-  dt() {
+  init() {
     this.esgst.discussionFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `dt`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`dt`);

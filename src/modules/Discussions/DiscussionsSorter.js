@@ -27,14 +27,13 @@ class DiscussionsDiscussionsSorter extends Module {
         ]]
       ],
       id: `ds`,
-      load: this.ds,
       name: `Discussions Sorter`,
       sg: true,
       type: `discussions`
     };
   }
 
-  ds() {
+  init() {
     if (!this.esgst.discussionsPath) return;
 
     let object = {

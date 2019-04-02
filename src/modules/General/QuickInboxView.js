@@ -37,7 +37,6 @@ class GeneralQuickInboxView extends Module {
         }
       },
       id: `qiv`,
-      load: this.qiv.bind(this, true),
       name: `Quick Inbox View`,
       sg: true,
       st: true,
@@ -45,7 +44,7 @@ class GeneralQuickInboxView extends Module {
     };
   }
 
-  qiv(first) {
+  init(first) {
     if (!this.esgst.inboxButton) return;
 
     if (typeof this.esgst.qiv !== `object`) {

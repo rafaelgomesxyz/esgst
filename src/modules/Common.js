@@ -33,8 +33,6 @@ class Common extends Module {
     super();
     this.info = {
       id: 'common',
-      load: () => {
-      },
       name: 'Common',
       type: 'general'
     };
@@ -129,7 +127,7 @@ class Common extends Module {
    */
   async loadFeatures(modules) {
     console.log(this.esgst.games.apps[269650]);
-    if (this.esgst.accountPath) {
+    if (this.isCurrentPath(`Account`)) {
       this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
         name: `ESGST`,
         items: [
@@ -5376,6 +5374,10 @@ class Common extends Module {
 
   getPath(url) {
     return url.replace(/^https?:\/\/.+?\//, `/`);
+  }
+
+  isCurrentPath(name) {
+    return shared.esgst.currentPaths.indexOf(name) > -1;
   }
 
   do_lock(lock) {

@@ -34,14 +34,13 @@ class GiveawaysGiveawayPointsToWin extends Module {
         }
       },
       id: `gptw`,
-      load: this.gptw,
       name: `Giveaway Points To Win`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gptw() {
+  init() {
     this.esgst.giveawayFeatures.push(this.gptw_addPoints.bind(this));
     if (!this.esgst.enteredPath) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysGiveawayWinningChance.gwc_addHeading.bind(this));

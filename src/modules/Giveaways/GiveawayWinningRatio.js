@@ -67,14 +67,13 @@ class GiveawaysGiveawayWinningRatio extends Module {
         }
       },
       id: `gwr`,
-      load: this.gwr,
       name: `Giveaway Winning Ratio`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gwr() {
+  init() {
     this.esgst.giveawayFeatures.push(this.gwr_addRatios.bind(this));
     if (this.esgst.gptw || this.esgst.gwc || !this.esgst.enteredPath) return;
     this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));

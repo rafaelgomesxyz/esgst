@@ -17,14 +17,13 @@ class CommentsCommentHistory extends Module {
         ]]
       ],
       id: `ch`,
-      load: this.ch,
       name: `Comment History`,
       sg: true,
       type: `comments`
     };
   }
 
-  ch() {
+  init() {
     if (this.esgst.replyBox) {
       shared.common.addReplyButton(this.esgst.replyBox);
     }

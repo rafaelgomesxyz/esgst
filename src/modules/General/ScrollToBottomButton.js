@@ -22,7 +22,6 @@ class GeneralScrollToBottomButton extends Module {
         ]]
       ],
       id: `stbb`,
-      load: this.stbb,
       name: `Scroll To Bottom Button`,
       options: {
         title: `Show in:`,
@@ -34,7 +33,7 @@ class GeneralScrollToBottomButton extends Module {
     };
   }
 
-  stbb() {
+  init() {
     let button;
     switch (this.esgst.stbb_index) {
       case 0:

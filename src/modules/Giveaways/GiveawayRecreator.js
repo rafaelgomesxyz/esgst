@@ -37,14 +37,13 @@ class GiveawaysGiveawayRecreator extends Module {
         }
       },
       id: `gr`,
-      load: this.gr,
       name: `Giveaway Recreator`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  async gr() {
+  async init() {
     if (!this.esgst.newGiveawayPath) return;
     let template = getValue(`grTemplate`);
     if (template) {

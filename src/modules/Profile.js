@@ -12,12 +12,11 @@ class Profile extends Module {
     super();
     this.info = {
       endless: true,
-      id: `profile`,
-      load: this.profile
+      id: `profile`
     };
   }
 
-  async profile() {
+  async init() {
     if (!this.esgst.userPath) return;
     await this.profile_load(document);
   }

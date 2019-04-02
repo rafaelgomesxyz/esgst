@@ -131,7 +131,6 @@ class CommentsCommentTracker extends Module {
         }
       },
       id: `ct`,
-      load: this.ct,
       name: `Comment Tracker`,
       sg: true,
       st: true,
@@ -139,8 +138,8 @@ class CommentsCommentTracker extends Module {
     };
   }
 
-  async ct() {
-    if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || this.esgst.inboxPath) && !this.esgst.ct_s) {
+  async init() {
+    if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || shared.common.isCurrentPath(`Messages`)) && !this.esgst.ct_s) {
       if (!this.esgst.ct_s) {
         let button3 = shared.common.createHeadingButton({
           featureId: `ct`,
@@ -754,7 +753,7 @@ class CommentsCommentTracker extends Module {
     goToUnread.addEventListener(`click`, this.ct_goToUnread.bind(this, goToUnread));
     markRead.addEventListener(`click`, this.ct_markCommentsRead.bind(this, markRead));
     markUnread.addEventListener(`click`, this.ct_markCommentsUnread.bind(this, markUnread));
-    if (this.esgst.ct_a && this.esgst.inboxPath) {
+    if (this.esgst.ct_a && shared.common.isCurrentPath(`Messages`)) {
       button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
       if (button) {
         if (this.esgst.sg) {

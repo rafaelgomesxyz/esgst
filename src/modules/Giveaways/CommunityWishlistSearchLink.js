@@ -19,14 +19,13 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
         ]]
       ],
       id: `cwsl`,
-      load: this.cwsl,
       name: `Community Wishlist Search Link`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  cwsl() {
+  init() {
     if (this.esgst.wishlistPath) {
       this.esgst.gameFeatures.push(this.cwsl_getGames.bind(this));
     }

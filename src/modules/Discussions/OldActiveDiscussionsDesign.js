@@ -35,14 +35,13 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         }
       },
       id: `oadd`,
-      load: this.oadd,
       name: `Old Active Discussions Design`,
       sg: true,
       type: `discussions`
     };
   }
 
-  async oadd() {
+  async init() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions) return;
     await this.oadd_load();
   }

@@ -35,14 +35,13 @@ class GamesGameTags extends Module {
         }
       },
       id: `gt`,
-      load: this.gt,
       name: `Game Tags`,
       sg: true,
       type: `games`
     };
   }
 
-  gt() {
+  init() {
     this.esgst.gameFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `gt`));
     // noinspection JSIgnoredPromiseFromCall
     this.esgst.modules.tags.tags_getTags(`gt`);

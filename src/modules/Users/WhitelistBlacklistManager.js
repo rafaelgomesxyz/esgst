@@ -39,14 +39,13 @@ class UsersWhitelistBlacklistManager extends Module {
         ]]
       ],
       id: `wbm`,
-      load: this.wbm_init,
       name: `Whitelist/Blacklist Manager`,
       sg: true,
       type: `users`
     };
   }
 
-  wbm_init() {
+  init() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
     let wbm = {};
     if (this.esgst.whitelistPath) {

@@ -366,12 +366,3 @@
  * @property {HTMLElement} tags
  * @property {HTMLElement} suggestions
  */
-
-/**
- * @typedef {Object} EsgstModuleInfo
- * @property {string} id
- * @property {string} description
- * @property {string} type
- * @property {boolean} endless
- * @property {function} load
- */

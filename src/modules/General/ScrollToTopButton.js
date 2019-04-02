@@ -22,7 +22,6 @@ class GeneralScrollToTopButton extends Module {
         ]]
       ],
       id: `sttb`,
-      load: this.sttb,
       name: `Scroll To Top Button`,
       options: {
         title: `Show in:`,
@@ -34,7 +33,7 @@ class GeneralScrollToTopButton extends Module {
     };
   }
 
-  sttb() {
+  init() {
     let button;
     switch (this.esgst.sttb_index) {
       case 0:

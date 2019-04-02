@@ -16,7 +16,6 @@ class GeneralEmbeddedVideos extends Module {
         ]]
       ],
       id: `ev`,
-      load: this.ev,
       name: `Embedded Videos`,
       sg: true,
       st: true,
@@ -24,7 +23,7 @@ class GeneralEmbeddedVideos extends Module {
     };
   }
 
-  ev() {
+  init() {
     this.esgst.endlessFeatures.push(this.ev_getVideos.bind(this));
   }
 

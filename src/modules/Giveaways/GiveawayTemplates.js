@@ -35,14 +35,13 @@ class GiveawaysGiveawayTemplates extends Module {
         ]]
       ],
       id: `gts`,
-      load: this.gts,
       name: `Giveaway Templates`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gts() {
+  init() {
     if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;

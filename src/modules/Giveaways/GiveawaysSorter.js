@@ -34,14 +34,13 @@ class GiveawaysGiveawaysSorter extends Module {
         ]]
       ],
       id: `gas`,
-      load: this.gas,
       name: `Giveaways Sorter`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gas(popup) {
+  init(popup) {
     if (!popup && !this.esgst.giveawaysPath && !this.esgst.enteredPath && !this.esgst.groupPath && !this.esgst.userPath) return;
 
     let type = window.location.search.match(/type=(wishlist|recommended|group|new)/);

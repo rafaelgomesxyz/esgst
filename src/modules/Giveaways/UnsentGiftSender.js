@@ -41,14 +41,13 @@ class GiveawaysUnsentGiftSender extends Module {
         ]]
       ],
       id: `ugs`,
-      load: this.ugs,
       name: `Unsent Gift Sender`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  ugs() {
+  init() {
     if (this.esgst.createdPath) {
       let button = createHeadingButton({ id: `ugs`, icons: [`fa-gift`, `fa-send`], title: `Send unsent gifts` });
       button.addEventListener(`click`, this.ugs_openPopup.bind(this, { button }));

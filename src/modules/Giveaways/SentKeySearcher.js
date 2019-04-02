@@ -34,14 +34,13 @@ class GiveawaysSentKeySearcher extends Module {
         ]]
       ],
       id: `sks`,
-      load: this.sks,
       name: `Sent Key Searcher`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  sks() {
+  init() {
     if (!this.esgst.createdPath) return;
     let button = createHeadingButton({ id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys` });
     button.addEventListener(`click`, this.sks_openPopup.bind(this, { button }));

@@ -10,7 +10,6 @@ class GeneralFixedFooter extends Module {
         ]]
       ],
       id: `ff`,
-      load: this.ff,
       name: `Fixed Footer`,
       sg: true,
       st: true,
@@ -18,7 +17,7 @@ class GeneralFixedFooter extends Module {
     };
   }
 
-  ff() {
+  init() {
     if (!this.esgst.footer) {
       return;
     }

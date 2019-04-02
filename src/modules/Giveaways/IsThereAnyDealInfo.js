@@ -28,14 +28,13 @@ class GiveawaysIsThereAnyDealInfo extends Module {
         ]]
       ],
       id: `itadi`,
-      load: this.itadi,
       name: `IsThereAnyDeal Info`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  itadi() {
+  init() {
     if (!this.esgst.giveawayPath) {
       return;
     }

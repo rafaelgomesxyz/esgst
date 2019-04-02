@@ -35,7 +35,6 @@ class UsersWhitelistBlacklistSorter extends Module {
         ]]
       ],
       id: `wbs`,
-      load: this.wbs,
       name: `Whitelist/Blacklist Sorter`,
       sg: true,
       sync: `Blacklist, Whitelist`,
@@ -44,7 +43,7 @@ class UsersWhitelistBlacklistSorter extends Module {
     };
   }
 
-  wbs() {
+  init() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
 
     let [dateKey, mainKey, saveKey] = this.esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];

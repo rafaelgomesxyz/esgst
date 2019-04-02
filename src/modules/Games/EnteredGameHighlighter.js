@@ -24,14 +24,13 @@ class GamesEnteredGameHighlighter extends Module {
         ]]
       ],
       id: `egh`,
-      load: this.egh,
       name: `Entered Game Highlighter`,
       sg: true,
       type: `games`
     };
   }
 
-  egh() {
+  init() {
     this.esgst.gameFeatures.push(this.egh_getGames.bind(this));
   }
 

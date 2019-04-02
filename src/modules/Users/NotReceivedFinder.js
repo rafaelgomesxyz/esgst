@@ -30,14 +30,13 @@ class UsersNotReceivedFinder extends Module {
         ]]
       ],
       id: `nrf`,
-      load: this.nrf,
       name: `Not Received Finder`,
       sg: true,
       type: `users`
     };
   }
 
-  nrf() {
+  init() {
     this.esgst.profileFeatures.push(this.nrf_add.bind(this, `won`));
     this.esgst.profileFeatures.push(this.nrf_add.bind(this, `sent`));
   }

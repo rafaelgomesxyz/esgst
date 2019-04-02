@@ -41,7 +41,6 @@ class GiveawaysGiveawayGroupLoader extends Module {
         }
       },
       id: `ggl`,
-      load: this.ggl,
       name: `Giveaway Group Loader`,
       options: {
         title: `Load as:`,
@@ -54,7 +53,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
     };
   }
 
-  ggl() {
+  init() {
     this.esgst.giveawayFeatures.push(
       (this.esgst.ggl_index === 0 ?
         this.ggl_getGiveaways :

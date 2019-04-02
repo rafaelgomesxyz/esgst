@@ -35,14 +35,13 @@ class GiveawaysHiddenGamesManager extends Module {
         ]]
       ],
       id: `hgm`,
-      load: this.hgm,
       name: `Hidden Games Manager`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  hgm() {
+  init() {
     if (!window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
     let button = createHeadingButton({
       id: `hgm`,

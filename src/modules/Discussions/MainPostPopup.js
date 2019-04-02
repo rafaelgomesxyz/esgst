@@ -28,14 +28,13 @@ class DiscussionsMainPostPopup extends Module {
         }
       },
       id: `mpp`,
-      load: this.mpp,
       name: `Main Post Popup`,
       sg: true,
       type: `discussions`
     };
   }
 
-  mpp() {
+  init() {
     if (!this.esgst.discussionPath) {
       return;
     }

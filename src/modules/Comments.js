@@ -1,5 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
+import { shared } from '../class/Shared';
 
 const
   getUser = common.getUser.bind(common),
@@ -28,13 +29,13 @@ class Comments extends Module {
         this.esgst.scopes.main.comments.push(comments[i]);
       }
     }
-    if (!main || this.esgst.commentsPath || this.esgst.inboxPath) {
+    if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
       if (this.esgst.cf && this.esgst.cf.filteredCount && this.esgst[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.filters.filters_filter(this.esgst.cf, false, endless);
       }
     }
     if (this.esgst.ct) {
-      if (!main || this.esgst.inboxPath) {
+      if (!main || shared.common.isCurrentPath(`Messages`)) {
         count = 0;
       } else {
         count = context.getElementsByClassName(`page__heading__breadcrumbs`)[1];
@@ -48,7 +49,7 @@ class Comments extends Module {
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
     if (this.esgst.rfi) {
-      if (this.esgst.rfi_s && (!main || this.esgst.inboxPath) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
+      if (this.esgst.rfi_s && (!main || shared.common.isCurrentPath(`Messages`)) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
@@ -93,7 +94,7 @@ class Comments extends Module {
         let uf = savedUser.uf, comments, extraCount;
         if (this.esgst.uf_p && savedUser.blacklisted && !uf) {
           comments = comment.comment.closest(`.comments`);
-          if (!main || this.esgst.inboxPath) {
+          if (!main || shared.common.isCurrentPath(`Messages`)) {
             this.esgst.modules.usersUserFilters.uf_updateCount(comments.parentElement.nextElementSibling);
             comment.comment.parentElement.remove();
             if (!comments.children.length) {
@@ -113,7 +114,7 @@ class Comments extends Module {
         } else if (uf && uf.posts) {
           comments = comment.comment.closest(`.comments`);
           this.esgst.modules.usersUserFilters.uf_updateCount(comment.comment.closest(`.comments`).nextElementSibling);
-          if (!main || this.esgst.inboxPath) {
+          if (!main || shared.common.isCurrentPath(`Messages`)) {
             this.esgst.modules.usersUserFilters.uf_updateCount(comments.parentElement.nextElementSibling);
             comment.comment.parentElement.remove();
             if (!comments.children.length) {
@@ -147,7 +148,7 @@ class Comments extends Module {
     }
     comment.id = comment.permalink ? comment.permalink.getAttribute(`href`).match(/\/comment\/(.+)/)[1] : ``;
     comment.timestamp = parseInt(comment.actions.firstElementChild.lastElementChild.getAttribute(`data-timestamp`));
-    if (!main || this.esgst.inboxPath) {
+    if (!main || shared.common.isCurrentPath(`Messages`)) {
       if (this.esgst.sg) {
         try {
           source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);

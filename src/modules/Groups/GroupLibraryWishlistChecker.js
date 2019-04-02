@@ -39,14 +39,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         ]]
       ],
       id: `glwc`,
-      load: this.glwc,
       name: `Group Library/Wishlist Checker`,
       sg: true,
       type: `groups`
     };
   }
 
-  async glwc() {
+  async init() {
     if (this.esgst.whitelistPath || this.esgst.blacklistPath || this.esgst.groupPath) {
       let parameters;
       if (this.esgst.whitelistPath) {
@@ -63,7 +62,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       }).addEventListener(`click`, () => {
         window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
-    } else if (this.esgst.accountPath && this.esgst.parameters.esgst === `glwc`) {
+    } else if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `glwc`) {
       let glwc = {}, parameters;
       glwc.container = this.esgst.sidebar.nextElementSibling;
       if (this.esgst.removeSidebarInFeaturePages) {

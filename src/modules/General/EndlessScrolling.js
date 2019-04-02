@@ -129,7 +129,6 @@ class GeneralEndlessScrolling extends Module {
         }
       },
       id: `es`,
-      load: this.es,
       name: `Endless Scrolling`,
       sg: true,
       st: true,
@@ -141,7 +140,7 @@ class GeneralEndlessScrolling extends Module {
     };
   }
 
-  es() {
+  init() {
     if (!this.esgst.mainPageHeading || !this.esgst.pagination) return;
     this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, ``)) + 1;
     let es = {};

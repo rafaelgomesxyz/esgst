@@ -259,14 +259,13 @@ class DiscussionsDiscussionFilters extends Module {
         }
       },
       id: `df`,
-      load: this.df,
       name: `Discussion Filters`,
       sg: true,
       type: `discussions`
     };
   }
 
-  async df() {
+  async init() {
     if (this.esgst.df_s) {
       this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
     }
