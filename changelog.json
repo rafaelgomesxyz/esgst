@@ -4,13 +4,7 @@
     "version": "8.3.3",
     "changelog": {
       "1243": "[WIP] Internal: implement scopes",
-      "1257": "[WIP] Add guides for all features"
-    }
-  },
-  {
-    "date": "April 1, 2019",
-    "version": "8.3.2",
-    "changelog": {
+      "1257": "[WIP] Add guides for all features",
       "1238": "Internal: fix bug that does not always purge removed elements",
       "1245": "Storage: add option to delete backups from the cloud",
       "1246": "Storage: list Dropbox and OneDrive files from newest to oldest",
@@ -22,13 +16,7 @@
       "1252": "User Giveaway Data: fix bug that happens when retrieving achievements stats for games that do not have achievements",
       "1253": "Enter / Leave Giveaway Button: change button style when it is in the giveaway links section",
       "1254": "User Suspension Checker: new feature",
-      "1256": "Settings: jump to the feature switch in the feature tree on the left side when using the feature's direct link"
-    }
-  },
-  {
-    "date": "March 20, 2019",
-    "version": "8.3.1",
-    "changelog": {
+      "1256": "Settings: jump to the feature switch in the feature tree on the left side when using the feature's direct link",
       "1240": "Discussions: fix bug that does not load discussion features inside of discussions",
       "1242": "Giveaway Extractor: fix typo that does not add ampersand after flushHrs param"
     }
