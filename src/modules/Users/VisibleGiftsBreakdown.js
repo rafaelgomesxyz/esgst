@@ -38,12 +38,11 @@ class UsersVisibleGiftsBreakdown extends Module {
         values: [`Left`, `Right`]
       },
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.vgb_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.vgb_add.bind(this));
   }
 
   vgb_add(profile) {

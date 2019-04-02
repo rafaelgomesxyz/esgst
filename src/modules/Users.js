@@ -7,7 +7,7 @@ class Users extends Module {
       endless: true,
       id: `users`,
       featureMap: {
-        endless: `users_load`
+        endless: this.users_load.bind(this)
       }
     };
   }

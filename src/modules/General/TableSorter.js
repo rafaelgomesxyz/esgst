@@ -28,12 +28,11 @@ class GeneralTableSorter extends Module {
       name: `Table Sorter`,
       sg: true,
       st: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.ts_getTables.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.ts_getTables.bind(this));
   }
 
   ts_getTables(context, main, source, endless) {

@@ -31,12 +31,11 @@ class GiveawaysGiveawayCountryLoader extends Module {
         values: [`Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
       },
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.gcl_setButton.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.gcl_setButton.bind(this));
   }
 
   gcl_setButton(giveaways, main) {

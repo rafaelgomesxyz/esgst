@@ -19,12 +19,11 @@ class GeneralEmbeddedVideos extends Module {
       name: `Embedded Videos`,
       sg: true,
       st: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.ev_getVideos.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.ev_getVideos.bind(this));
   }
 
   ev_getVideos(context, main, source, endless) {

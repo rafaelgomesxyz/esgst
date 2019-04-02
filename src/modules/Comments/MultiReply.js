@@ -15,12 +15,11 @@ class CommentsMultiReply extends Module {
       name: `Multi-Reply`,
       sg: true,
       st: true,
-      type: `comments`
+      type: `comments`,
+      featureMap: {
+        endless: this.mr_getButtons.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.mr_getButtons.bind(this));
   }
 
   mr_getButtons(context, main, source, endless) {

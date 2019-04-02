@@ -52,12 +52,11 @@ class UsersUserFilters extends Module {
       id: `uf`,
       name: `User Filters`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.uf_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.uf_add.bind(this));
   }
 
   uf_add(profile, savedUser) {

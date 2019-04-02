@@ -24,12 +24,11 @@ class GiveawaysTimeToEnterCalculator extends Module {
       id: `ttec`,
       name: `Time To Enter Calculator`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.ttec_calculateTime.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.ttec_calculateTime.bind(this));
   }
 
   ttec_calculateTime(giveaways, main, source) {

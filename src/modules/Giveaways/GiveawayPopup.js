@@ -23,12 +23,11 @@ class GiveawaysGiveawayPopup extends Module {
       id: `gp`,
       name: `Giveaway Popup`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.gp_addButton.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.gp_addButton.bind(this));
   }
 
   gp_addButton(giveaways, main, source) {

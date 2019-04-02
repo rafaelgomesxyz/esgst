@@ -40,12 +40,11 @@ class UsersUserNotes extends Module {
       name: `User Notes`,
       sg: true,
       st: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.un_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.un_add.bind(this));
   }
 
   un_add(profile, savedUser) {

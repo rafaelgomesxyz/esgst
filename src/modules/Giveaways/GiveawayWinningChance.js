@@ -69,12 +69,14 @@ class GiveawaysGiveawayWinningChance extends Module {
       id: `gwc`,
       name: `Giveaway Winning Chance`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.gwc_addChances.bind(this)
+      }
     };
   }
 
   init() {
-    this.esgst.giveawayFeatures.push(this.gwc_addChances.bind(this));
     if (this.esgst.gptw || !this.esgst.enteredPath) return;
     this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
   }

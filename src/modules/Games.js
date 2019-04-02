@@ -21,7 +21,7 @@ class Games extends Module {
       endless: true,
       id: `games`,
       featureMap: {
-        endless: `games_load`
+        endless: this.games_load.bind(this)
       }
     };
   }

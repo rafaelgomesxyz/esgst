@@ -15,12 +15,11 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
       id: `viog`,
       name: `Visible Invite-Only Giveaways`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.viog_display.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.viog_display.bind(this));
   }
 
   viog_display(giveaways) {

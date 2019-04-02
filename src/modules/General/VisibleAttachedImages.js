@@ -23,12 +23,11 @@ class GeneralVisibleAttachedImages extends Module {
       name: `Visible Attached Images`,
       sg: true,
       st: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.vai_getImages.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.vai_getImages.bind(this));
   }
 
   vai_getImages(context, main, source, endless) {

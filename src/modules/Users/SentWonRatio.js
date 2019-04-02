@@ -22,12 +22,11 @@ class UsersSentWonRatio extends Module {
       id: `swr`,
       name: `Sent/Won Ratio`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.swr_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.swr_add.bind(this));
   }
 
   swr_add(profile) {

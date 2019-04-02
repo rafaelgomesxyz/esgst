@@ -13,12 +13,11 @@ class GeneralSameTabOpener extends Module {
       name: `Same Tab Opener`,
       sg: true,
       st: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.sto_setLinks.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.sto_setLinks.bind(this));
   }
 
   sto_setLinks(context, main, source, endless) {

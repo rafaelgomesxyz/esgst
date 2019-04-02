@@ -69,12 +69,14 @@ class GiveawaysGiveawayWinningRatio extends Module {
       id: `gwr`,
       name: `Giveaway Winning Ratio`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.gwr_addRatios.bind(this)
+      }
     };
   }
 
   init() {
-    this.esgst.giveawayFeatures.push(this.gwr_addRatios.bind(this));
     if (this.esgst.gptw || this.esgst.gwc || !this.esgst.enteredPath) return;
     this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
   }

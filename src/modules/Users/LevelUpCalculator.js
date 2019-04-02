@@ -30,12 +30,11 @@ class UsersLevelUpCalculator extends Module {
       id: `luc`,
       name: `Level Up Calculator`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.luc_calculate.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.luc_calculate.bind(this));
   }
 
   luc_calculate(profile) {

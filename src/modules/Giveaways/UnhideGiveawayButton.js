@@ -25,12 +25,11 @@ class GiveawaysUnhideGiveawayButton extends Module {
       id: `ugb`,
       name: `Unhide Giveaway Button`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.ugb_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.ugb_add.bind(this));
   }
 
   ugb_add(giveaways, main) {

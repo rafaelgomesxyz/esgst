@@ -25,13 +25,12 @@ class GeneralAvatarPopout extends Module {
         values: [`Hover`, `Click`]
       },
       sg: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.ap_getAvatars.bind(this),
+        user: this.ap_getUsers.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.ap_getAvatars.bind(this));
-    this.esgst.userFeatures.push(this.ap_getUsers.bind(this));
   }
 
   ap_getUsers(users) {

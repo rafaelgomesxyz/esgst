@@ -15,12 +15,11 @@ class CommentsReplyMentionLink extends Module {
       name: `Reply Mention Link`,
       sg: true,
       st: true,
-      type: `comments`
+      type: `comments`,
+      featureMap: {
+        endless: this.rml_addLinks.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.rml_addLinks.bind(this));
   }
 
   rml_addLinks(context, main, source, endless) {

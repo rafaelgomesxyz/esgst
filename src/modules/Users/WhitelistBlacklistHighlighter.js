@@ -58,12 +58,11 @@ class UsersWhitelistBlacklistHighlighter extends Module {
       st: true,
       sync: `Blacklist, Whitelist`,
       syncKeys: [`Blacklist`, `Whitelist`],
-      type: `users`
+      type: `users`,
+      featureMap: {
+        user: this.wbh_getUsers.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.userFeatures.push(this.wbh_getUsers.bind(this));
   }
 
   wbh_getUsers(users) {

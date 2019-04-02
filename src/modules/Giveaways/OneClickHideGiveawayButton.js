@@ -34,12 +34,11 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
       id: `ochgb`,
       name: `One-Click Hide Giveaway Button`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.ochgb_setButton.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.ochgb_setButton.bind(this));
   }
 
   ochgb_setButton(giveaways, main) {

@@ -54,12 +54,14 @@ class UsersUserGiveawayData extends Module {
       id: `ugd`,
       name: `User Giveaway Data`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.ugd_addButtons.bind(this)
+      }
     };
   }
 
   init() {
-    this.esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
     if (this.esgst.ugd_s) {
       this.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
     }

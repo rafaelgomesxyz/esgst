@@ -7,7 +7,7 @@ class Groups extends Module {
       endless: true,
       id: `groups`,
       featureMap: {
-        endless: `groups_load`
+        endless: this.groups_load.bind(this)
       }
     };
   }

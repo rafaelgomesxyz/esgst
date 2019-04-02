@@ -14,7 +14,7 @@ class Comments extends Module {
       endless: true,
       id: `comments`,
       featureMap: {
-        endless: `comments_load`
+        endless: this.comments_load.bind(this)
       }
     };
   }

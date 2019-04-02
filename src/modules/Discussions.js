@@ -13,7 +13,7 @@ class Discussions extends Module {
       endless: true,
       id: `discussions`,
       featureMap: {
-        endless: `discussions_load`
+        endless: this.discussions_load.bind(this)
       }
     };
   }

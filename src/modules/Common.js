@@ -242,10 +242,10 @@ class Common extends Module {
           const map = module.info.featureMap[type];
           if (Array.isArray(map)) {
             for (const item of map) {
-              this.esgst[`${type}Features`].push(module[item].bind(module));
+              this.esgst[`${type}Features`].push(item);
             }
           } else {
-            this.esgst[`${type}Features`].push(module[map].bind(module));
+            this.esgst[`${type}Features`].push(module[map]);
           }
         }
       }
