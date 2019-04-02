@@ -164,7 +164,7 @@ class GeneralEndlessScrolling extends Module {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
           es.mainContext.children[0].remove();
         }
-        this.esgst.scopes.main.comments = [];
+        this.esgst.scopes.main.reset(`comments`);
         this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = `0`;
         if (this.esgst.paginationNavigation) {
           let lastLink = this.esgst.paginationNavigation.lastElementChild;

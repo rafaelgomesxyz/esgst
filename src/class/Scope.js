@@ -21,6 +21,12 @@ class Scope {
     };
   }
 
+  reset(key) {
+    if (this.data.hasOwnProperty(key)) {
+      this.data[key] = [];
+    }
+  }
+
   get comments() { return this.data.comments; }
 
   get discussions() { return this.data.discussions; }
