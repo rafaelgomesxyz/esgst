@@ -10,7 +10,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
         ]]
       ],
       featureMap: {
-        giveaway: `highlight`
+        giveaway: this.highlight.bind(this)
       },
       id: `glh`,
       name: `Giveaway Level Highlighter`,

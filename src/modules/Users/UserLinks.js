@@ -15,12 +15,11 @@ class UsersUserLinks extends Module {
       id: `ul`,
       name: `User Links`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.ul_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.ul_add.bind(this));
   }
 
   ul_add(profile) {

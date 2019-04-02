@@ -10,7 +10,7 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
         ]]
       ],
       featureMap: {
-        giveaway: `highlight`
+        giveaway: this.highlight.bind(this)
       },
       id: `gch`,
       name: `Giveaway Copy Highlighter`,

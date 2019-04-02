@@ -21,12 +21,11 @@ class GiveawaysGiveawayWinnersLink extends Module {
       id: `gwl`,
       name: `Giveaway Winners Link`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.gwl_addLinks.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.gwl_addLinks.bind(this));
   }
 
   gwl_addLinks(giveaways, main) {

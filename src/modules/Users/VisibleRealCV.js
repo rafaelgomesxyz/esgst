@@ -18,12 +18,11 @@ class UsersVisibleRealCV extends Module {
       id: `vrcv`,
       name: `Visible Real CV`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.vrcv_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.vrcv_add.bind(this));
   }
 
   vrcv_add(profile) {

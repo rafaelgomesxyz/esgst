@@ -28,12 +28,11 @@ class UsersInboxWinnerHighlighter extends Module {
       id: `iwh`,
       name: `Inbox Winner Highlighter`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        endless: this.iwh_getUsers.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.iwh_getUsers.bind(this));
   }
 
   async iwh_getUsers(context, main, source, endless) {

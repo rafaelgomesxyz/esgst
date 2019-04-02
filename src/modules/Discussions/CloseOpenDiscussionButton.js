@@ -28,12 +28,11 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
       id: `codb`,
       name: `Close/Open Discussion Button`,
       sg: true,
-      type: `discussions`
+      type: `discussions`,
+      featureMap: {
+        discussion: this.codb_addButtons.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.discussionFeatures.push(this.codb_addButtons.bind(this));
   }
 
   codb_addButtons(discussions) {

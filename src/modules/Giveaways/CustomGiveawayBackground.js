@@ -47,7 +47,7 @@ class GiveawaysCustomGiveawayBackground extends Module {
         }
       },
       featureMap: {
-        giveaway: `color`
+        giveaway: this.color.bind(this)
       },
       id: `cgb`,
       name: `Custom Giveaway Background`,

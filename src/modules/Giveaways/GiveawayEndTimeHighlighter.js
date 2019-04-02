@@ -12,12 +12,11 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
       id: `geth`,
       name: `Giveaway End Time Highlighter`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.geth_getGiveaways.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.giveawayFeatures.push(this.geth_getGiveaways.bind(this));
   }
 
   geth_getGiveaways(giveaways) {

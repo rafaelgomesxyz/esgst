@@ -16,7 +16,7 @@ class Giveaways extends Module {
       endless: true,
       id: `giveaways`,
       featureMap: {
-        endless: `giveaways_load`
+        endless: this.giveaways_load.bind(this)
       }
     };
   }

@@ -36,12 +36,11 @@ class DiscussionsPuzzleMarker extends Module {
       id: `pm`,
       name: `Puzzle Marker`,
       sg: true,
-      type: `discussions`
+      type: `discussions`,
+      featureMap: {
+        discussion: this.pm_addButtons.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.discussionFeatures.push(this.pm_addButtons.bind(this));
   }
 
   pm_addButtons(discussions, main) {

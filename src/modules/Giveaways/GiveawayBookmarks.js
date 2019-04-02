@@ -83,12 +83,14 @@ class GiveawaysGiveawayBookmarks extends Module {
       id: `gb`,
       name: `Giveaway Bookmarks`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        giveaway: this.gb_getGiveaways.bind(this)
+      }
     };
   }
 
   init() {
-    this.esgst.giveawayFeatures.push(this.gb_getGiveaways.bind(this));
     let button = createElements(document.getElementsByClassName(`nav__left-container`)[0], `beforeEnd`, [{
       attributes: {
         class: `nav__button-container esgst-hidden`,

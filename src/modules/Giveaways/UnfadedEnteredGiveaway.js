@@ -12,12 +12,11 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
       id: `ueg`,
       name: `Unfaded Entered Giveaway`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      featureMap: {
+        endless: this.ueg_remove.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.ueg_remove.bind(this));
   }
 
   ueg_remove(context, main, source, endless) {

@@ -59,12 +59,14 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       name: `Giveaway/Discussion/Ticket/Trade Tracker`,
       sg: true,
       st: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.gdttt_checkVisited.bind(this)
+      }
     };
   }
 
   async init() {
-    this.esgst.endlessFeatures.push(this.gdttt_checkVisited.bind(this));
     if (!this.esgst.commentsPath) return;
     let match = window.location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
     let type = `${match[1]}s`;

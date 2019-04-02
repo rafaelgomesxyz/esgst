@@ -44,12 +44,11 @@ class UsersUsernameHistory extends Module {
       id: `uh`,
       name: `Username History`,
       sg: true,
-      type: `users`
+      type: `users`,
+      featureMap: {
+        profile: this.uh_add.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.profileFeatures.push(this.uh_add.bind(this));
   }
 
   uh_add(profile) {

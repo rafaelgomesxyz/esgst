@@ -26,12 +26,11 @@ class GamesEnteredGameHighlighter extends Module {
       id: `egh`,
       name: `Entered Game Highlighter`,
       sg: true,
-      type: `games`
+      type: `games`,
+      featureMap: {
+        game: this.egh_getGames.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.gameFeatures.push(this.egh_getGames.bind(this));
   }
 
   egh_getGames(games) {

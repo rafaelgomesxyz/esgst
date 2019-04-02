@@ -12,12 +12,11 @@ class GeneralImageBorders extends Module {
       id: `ib`,
       name: `Image Borders`,
       sg: true,
-      type: `general`
+      type: `general`,
+      featureMap: {
+        endless: this.ib_addBorders.bind(this)
+      }
     };
-  }
-
-  init() {
-    this.esgst.endlessFeatures.push(this.ib_addBorders.bind(this));
   }
 
   ib_addBorders(context, main, source, endless) {
