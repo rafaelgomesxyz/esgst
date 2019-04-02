@@ -652,7 +652,7 @@ class GiveawaysGiveawayExtractor extends Module {
         giveaways.push(match[1]);
       }
     } else if (context === this.esgst.pageOuterWrap && this.esgst.giveawayPath) {
-      let match = window.location.href.match(/\/giveaway\/(.+?)\//);
+      let match = shared.esgst.locationHref.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
       }

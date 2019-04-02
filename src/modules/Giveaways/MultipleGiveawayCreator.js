@@ -6,6 +6,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -79,7 +80,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`,
           method: `POST`,
-          url: window.location.href
+          url: shared.esgst.locationHref
         });
         window.close();
       } else if (getLocalValue(`mgcAttach_step4`)) {
@@ -89,7 +90,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`,
           method: `POST`,
-          url: window.location.href
+          url: shared.esgst.locationHref
         });
         setLocalValue(`mgcAttach_step6`, true);
         window.location.reload();
@@ -1655,15 +1656,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (response.finalUrl.match(/\/giveaways\/new/)) {
       if (response.responseText.match(/Error\.\sYou\salready\sposted\san\sidentical\sgiveaway\swithin\sthe\spast\s2\sminutes\.\sTo\sprevent\sdouble\sposts,\sit's\sbeen\sblocked\./)) {
         const popup = new Popup({
-          addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: [{
-            text: `Waiting `,
-            type: `node`
-          }, {
-            type: `span`
-          }, {
-            text: ` minutes to create another identical giveaway... Please do not close this popup. If you do not want this waiting period, create a single multiple-copy giveaway for the game.`,
-            type: `node`
-          }]
+          addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: [
+            `Waiting `,
+            [`span`],
+            ` minutes to create another identical giveaway... Please do not close this popup. If you do not want this waiting period, create a single multiple-copy giveaway for the game.`
+          ]
         });
         popup.open();
         setCountdown(popup.title.firstElementChild, 120, async () => {

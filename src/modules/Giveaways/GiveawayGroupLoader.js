@@ -134,13 +134,9 @@ class GiveawaysGiveawayGroupLoader extends Module {
           } else {
             if (this.esgst.ggl_index === 3) {
               context = new Popup({
-                addScrollable: true, icon: `fa-user`, title: [{
-                  attributes: {
-                    href: `${giveaway.url}/groups`
-                  },
-                  text: `Giveaway Groups`,
-                  type: `a`
-                }]
+                addScrollable: true, icon: `fa-user`, title: [
+                  [`a`, { href: `${giveaway.url}/groups` }, `Giveaway Groups`]
+                ]
               });
               container = context.scrollable;
               context.open();

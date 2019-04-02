@@ -103,13 +103,9 @@ class GiveawaysGiveawayCountryLoader extends Module {
             } else {
               if (this.esgst.gcl_index === 2) {
                 context = new Popup({
-                  addScrollable: true, icon: `fa-globe`, title: [{
-                    attributes: {
-                      href: `${giveaway.url}/region-restrictions`
-                    },
-                    text: `Giveaway Countries`,
-                    type: `a`
-                  }]
+                  addScrollable: true, icon: `fa-globe`, title: [
+                    [`a`, { href: `${giveaway.url}/region-restrictions` }, `Giveaway Countries`]
+                  ]
                 });
                 container = context.scrollable;
                 context.open();

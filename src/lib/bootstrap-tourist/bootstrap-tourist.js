@@ -1234,7 +1234,7 @@
 					if (step.autoscroll)
 					{
 						if (step.element) {
-							var element = document.querySelector(step.element);
+							var element = typeof step.element ===  "string" ? $(step.element)[0] : step.element[0];
 							element.scrollIntoView();
 						}
 						_this._showPopoverAndOverlay(i);
@@ -1262,6 +1262,19 @@
 							return _this._callOnPromiseDone(promise, showStepHelper);
 						};
 					})(this), showDelay);
+			}
+			else if (step.waitForElement) {
+				function _waitForElement(_this, i) {
+					var $waitElement = $(step.element);
+					if ($waitElement.length > 0) {
+						_this._callOnPromiseDone(promise, showStepHelper);
+					} else if (i < step.waitForElement) {
+						window.setTimeout(_waitForElement, 1000, _this, i++);
+					} else {
+						this._debug("Error - waitForElement waited and the element did not appear");
+					}					
+				}
+				_waitForElement(this, 0);
 			}
 			else
 			{

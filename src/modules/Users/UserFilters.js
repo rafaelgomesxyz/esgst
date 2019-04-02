@@ -104,16 +104,11 @@ class UsersUserFilters extends Module {
   uf_open(profile) {
     let resetSet, saveSet;
     profile.ufPopup = new Popup({
-      addScrollable: true, icon: `fa-eye`, isTemp: true, title: [{
-        text: `Apply user filters for `,
-        type: `node`
-      }, {
-        text: profile.name,
-        type: `span`
-      }, {
-        text: `:`,
-        type: `node`
-      }]
+      addScrollable: true, icon: `fa-eye`, isTemp: true, title: [
+        `Apply user filters for `,
+        [`span`, profile.name],
+        `:`
+      ]
     });
     profile.ufOptions = createElements(profile.ufPopup.description, `beforeEnd`, [{
       type: `div`

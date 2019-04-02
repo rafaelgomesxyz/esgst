@@ -1758,41 +1758,19 @@ function loadDataCleaner(isPopup) {
       const newSize = await manageData(dm, false, false, false, true);
       const successPopup = new Popup({
         icon: `fa-check`,
-        title: [{
-          text: `Success! The selected data was cleaned.`,
-          type: `node`
-        }, {
-          type: `br`
-        }, {
-          type: `br`
-        }, {
-          text: `Size before cleaning: `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: shared.common.convertBytes(oldSize),
-          type: `span`
-        }, {
-          type: `br`
-        }, {
-          text: `Size after cleaning: `,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: shared.common.convertBytes(newSize),
-          type: `span`
-        }, {
-          type: `br`
-        }, {
-          type: `br`
-        }, {
-          text: `${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`,
-          type: `node`
-        }]
+        title: [
+          `Success! The selected data was cleaned.`,
+          [`br`],
+          [`br`],
+          `Size before cleaning: `,
+          [`span`, { class: `esgst-bold` }, shared.common.convertBytes(oldSize)],
+          [`br`],
+          `Size after cleaning: `,
+          [`span`, { class: `esgst-bold` }, shared.common.convertBytes(newSize)],
+          [`br`],
+          [`br`],
+          `${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`
+        ]
       });
       successPopup.open();
     }

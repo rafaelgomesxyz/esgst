@@ -124,20 +124,20 @@ class TradesTradeFilters extends Module {
               st: true
             },
             tf_visited: {
+              dependencies: [`gdttt`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter trades that you have visited.`],
-                  [`li`, `This option requires[id=gdttt] enabled to work.`]
+                  [`li`, `Allows you to filter trades that you have visited.`]
                 ]]
               ],
               name: `Visited`,
               st: true
             },
             tf_unread: {
+              dependencies: [`ct`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter trades that you have read.`],
-                  [`li`, `This option requires[id=ct] enabled to work.`]
+                  [`li`, `Allows you to filter trades that you have read.`]
                 ]]
               ],
               name: `Unread`,

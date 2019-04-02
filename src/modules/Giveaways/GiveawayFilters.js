@@ -13,30 +13,17 @@ class GiveawaysGiveawayFilters extends Module {
   constructor() {
     super();
     this.info = {
-      description: [
-        [`ul`, [
-          [`li`, `Allows you to filter giveaways.`]
-        ]]
-      ],
+      description: `Filter giveaways.`,
       features: {
         gf_s: {
-          description: [
-            [`ul`, [
-              [`li`, [
-                `Adds a button (`,
-                [`i`, { class: `fa fa-eye` }],
-                ` if the giveaway is hidden and `,
-                [`i`, { class: `fa fa-eye-slash` }],
-                ` if it is not) next to a giveaway's game name (in any page) that allows you to hide the giveaway.`
-              ]],
-              [`li`, [
-                `Adds a button (`,
-                [`i`, { class: `fa fa-gift` }],
-                ` `,
-                [`i`, { class: `fa fa-eye-slash` }],
-                `) to the page heading of this menu that allows you to view all of the giveaways that have been hidden.`
-              ]]
-            ]]
+          description: `Hide individual giveaways.`,
+          guideUrl: `https://www.steamgifts.com`,
+          guideSteps: [
+            [`.esgst-gf-hide-button:first()`, `Click here to hide this giveaway.`, { reflex: true, reflexOnly: true }],
+            [`#esgst .esgst-header-menu-button:not(.arrow)`, `Click here to open the ESGST menu.`, { reflex: true,reflexOnly: true }],
+            [`.page__heading__button[title="Manage hidden giveaways"]`, `Click here to view your hidden giveaways.`, { reflex: true, reflexOnly: true }],
+            [`.esgst-popup-layer:not(.esgst-hidden) .esgst-gf-unhide-button:first()`, `Click here to unhide the giveaway.`, { reflex: true, reflexOnly: true, waitForElement: 10 }],
+            [``, `And that's it!`]
           ],
           name: `Single Filters`,
           sg: true
@@ -177,100 +164,100 @@ class GiveawaysGiveawayFilters extends Module {
               sg: true
             },
             gf_chance: {
+              dependencies: [`gwc`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by chance (basic).`],
-                  [`li`, `This option requires [id=gwc] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by chance (basic).`]
                 ]]
               ],
               name: `Chance`,
               sg: true
             },
             gf_projectedChance: {
+              dependencies: [`gwc`, `gwc_a`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by projected chance (advanced).`],
-                  [`li`, `This option requires [id=gwc_a] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by projected chance (advanced).`]
                 ]]
               ],
-              name: `Chance`,
+              name: `Projected Chance`,
               sg: true
             },
             gf_chancePerPoint: {
+              dependencies: [`gwc`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by chance per point using the basic chance.`],
-                  [`li`, `This option requires [id=gwc] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by chance per point using the basic chance.`]
                 ]]
               ],
               name: `Chance Per Point`,
               sg: true
             },
             gf_projectedChancePerPoint: {
+              dependencies: [`gwc`, `gwc_a`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by chance per point using the advanced chance.`],
-                  [`li`, `This option requires [id=gwc_a] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by chance per point using the advanced chance.`]
                 ]]
               ],
               name: `Projected Chance Per Point`,
               sg: true
             },
             gf_ratio: {
+              dependencies: [`gwr`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by ratio (basic).`],
-                  [`li`, `This option requires[id=gwr] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by ratio (basic).`]
                 ]]
               ],
               name: `Ratio`,
               sg: true
             },
             gf_projectedRatio: {
+              dependencies: [`gwr`, `gwr_a`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by projected ratio (advanced).`],
-                  [`li`, `This option requires[id=gwr_a] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by projected ratio (advanced).`]
                 ]]
               ],
               name: `Projected Ratio`,
               sg: true
             },
             gf_pointsToWin: {
+              dependencies: [`gptw`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by points to win.`],
-                  [`li`, `This option requires[id=gptw] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by points to win.`]
                 ]]
               ],
               name: `Points To Win`,
               sg: true
             },
             gf_rating: {
+              dependencies: [`gc`, `gc_r`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by rating percentage of the game.`],
-                  [`li`, `This option requires[id=gc_r] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by rating percentage of the game.`]
                 ]]
               ],
               name: `Rating`,
               sg: true
             },
             gf_reviews: {
+              dependencies: [`gc`, `gc_r`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by the number of reviews that the game has.`],
-                  [`li`, `This option requires[id=gc_r] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by the number of reviews that the game has.`]
                 ]]
               ],
               name: `Reviews`,
               sg: true
             },
             gf_releaseDate: {
+              dependencies: [`gc`, `gc_rd`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by release date of the game.`],
-                  [`li`, `This option requires[id=gc_rd] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by release date of the game.`]
                 ]]
               ],
               name: `Release Date`,
@@ -469,10 +456,10 @@ class GiveawaysGiveawayFilters extends Module {
               sg: true
             },
             gf_previouslyEntered: {
+              dependencies: [`egh`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that you have previously entered giveaways for.`],
-                  [`li`, `This option requires[id=egh] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that you have previously entered giveaways for.`]
                 ]]
               ],
               name: `Previously Entered`,
@@ -515,20 +502,20 @@ class GiveawaysGiveawayFilters extends Module {
               sg: true
             },
             gf_sgTools: {
+              dependencies: [`ge`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter SGTools giveaways.`],
-                  [`li`, `This option requires[id=ge] enabled to work.`]
+                  [`li`, `Allows you to filter SGTools giveaways.`]
                 ]]
               ],
               name: `SGTools`,
               sg: true
             },
             gf_groups: {
+              dependencies: [`ggl`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by group.`],
-                  [`li`, `This option requires[id=ggl] enabled as "Panel (On Page Load)" to work.`]
+                  [`li`, `Allows you to filter giveaways by group.`]
                 ]]
               ],
               name: `Groups`,
@@ -553,180 +540,180 @@ class GiveawaysGiveawayFilters extends Module {
               sg: true
             },
             gf_learning: {
+              dependencies: [`gc`, `gc_lg`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that Steam is learning about.`],
-                  [`li`, `This option requires[id=gc_lg] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that Steam is learning about.`]
                 ]]
               ],
               name: `Learning`,
               sg: true
             },
             gf_removed: {
+              dependencies: [`gc`, `gc_rm`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that have been removed from the Steam store.`],
-                  [`li`, `This option requires[id=gc_rm] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that have been removed from the Steam store.`]
                 ]]
               ],
               name: `Removed`,
               sg: true
             },
             gf_banned: {
+              dependencies: [`gc`, `gc_bd`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are banned on Steam.`],
-                  [`li`, `This option requires[id=gc_bd] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are banned on Steam.`]
                 ]]
               ],
               name: `Banned`,
               sg: true
             },
             gf_tradingCards: {
+              dependencies: [`gc`, `gc_tc`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that have trading cards.`],
-                  [`li`, `This option requires[id=gc_tc] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that have trading cards.`]
                 ]]
               ],
               name: `Trading Cards`,
               sg: true
             },
             gf_achievements: {
+              dependencies: [`gc`, `gc_a`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that have achievements.`],
-                  [`li`, `This option requires[id=gc_a] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that have achievements.`]
                 ]]
               ],
               name: `Achievements`,
               sg: true
             },
             gf_singleplayer: {
+              dependencies: [`gc`, `gc_sp`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are singleplayer.`],
-                  [`li`, `This option requires[id=gc_sp] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are singleplayer.`]
                 ]]
               ],
               name: `Singleplayer`,
               sg: true
             },
             gf_multiplayer: {
+              dependencies: [`gc`, `gc_mp`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are multiplayer.`],
-                  [`li`, `This option requires[id=gc_mp] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are multiplayer.`]
                 ]]
               ],
               name: `Multiplayer`,
               sg: true
             },
             gf_steamCloud: {
+              dependencies: [`gc`, `gc_sc`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that have Steam Cloud.`],
-                  [`li`, `This option requires[id=gc_sc] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that have Steam Cloud.`]
                 ]]
               ],
               name: `Steam Cloud`,
               sg: true
             },
             gf_linux: {
+              dependencies: [`gc`, `gc_l`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that have are compatible with Linux.`],
-                  [`li`, `This option requires[id=gc_l] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that have are compatible with Linux.`]
                 ]]
               ],
               name: `Linux`,
               sg: true
             },
             gf_mac: {
+              dependencies: [`gc`, `gc_m`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are compatible with Mac.`],
-                  [`li`, `This option requires[id=gc_m] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are compatible with Mac.`]
                 ]]
               ],
               name: `Mac`,
               sg: true
             },
             gf_dlc: {
+              dependencies: [`gc`, `gc_dlc`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are DLCs.`],
-                  [`li`, `This option requires[id=gc_dlc] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are DLCs.`]
                 ]]
               ],
               name: `DLC`,
               sg: true
             },
             gf_dlcOwned: {
+              dependencies: [`gc`, `gc_dlc`, `gc_dlc_o`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are DLCs and have a base game that you own.`],
-                  [`li`, `This option requires[id=gc_dlc_o] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are DLCs and have a base game that you own.`]
                 ]]
               ],
               name: `DLC (Owned Base)`,
               sg: true
             },
             gf_dlcFree: {
+              dependencies: [`gc`, `gc_dlc`, `gc_dlc_b`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are DLCs and have a free base game.`],
-                  [`li`, `This option requires[id=gc_dlc_b] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are DLCs and have a free base game.`]
                 ]]
               ],
               name: `DLC (Free Base)`,
               sg: true
             },
             gf_dlcNonFree: {
+              dependencies: [`gc`, `gc_dlc`, `gc_dlc_b`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are DLCs and have a non-free base game.`],
-                  [`li`, `This option requires[id=gc_dlc_b] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are DLCs and have a non-free base game.`]
                 ]]
               ],
               name: `DLC (Non-Free Base)`,
               sg: true
             },
             gf_package: {
+              dependencies: [`gc`, `gc_p`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are packages.`],
-                  [`li`, `This option requires[id=gc_p] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are packages.`]
                 ]]
               ],
               name: `Package`,
               sg: true
             },
             gf_earlyAccess: {
+              dependencies: [`gc`, `gc_ea`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways for games that are in early access.`],
-                  [`li`, `This option requires[id=gc_ea] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways for games that are in early access.`]
                 ]]
               ],
               name: `Early Access`,
               sg: true
             },
             gf_genres: {
+              dependencies: [`gc`, `gc_g`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by game genre.`],
-                  [`li`, `This option requires[id=gc_g] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by game genre.`]
                 ]]
               ],
               name: `Genres`,
               sg: true
             },
             gf_tags: {
+              dependencies: [`gt`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter giveaways by game tags.`],
-                  [`li`, `This option requires[id=gt] enabled to work.`]
+                  [`li`, `Allows you to filter giveaways by game tags.`]
                 ]]
               ],
               name: `Game Tags`,

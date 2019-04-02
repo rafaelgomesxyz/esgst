@@ -32,11 +32,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       ],
       features: {
         elgb_b: {
-          description: [
-            [`ul`, [
-              [`li`, `Requires[id=gb] enabled.`]
-            ]]
-          ],
+          dependencies: [`gb`],
           name: `Automatically bookmark giveaways when trying to enter them without enough points .`,
           sg: true
         },
@@ -356,24 +352,13 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_openPopup(giveaway, main, source, mainCallback) {
     let popup = new Popup({
-      addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: [{
-        attributes: {
-          href: giveaway.url
-        },
-        type: `a`,
-        children: [{
-          text: giveaway.name,
-          type: `span`
-        }]
-      }, {
-        text: ` by `,
-        type: `node`
-      }, {
-        attributes: {
-          href: `/user/${giveaway.creator}`
-        }, text: giveaway.creator,
-        type: `a`
-      }]
+      addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: [
+        [`a`, { href: giveaway.url }, [
+          [`span`, giveaway.name]
+        ]],
+        ` by `,
+        [`a`, { href: `/user/${giveaway.creator}` }, giveaway.creator]
+      ]
     });
     if (giveaway.entered) {
       let set = new ButtonSet({

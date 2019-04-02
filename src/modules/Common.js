@@ -253,9 +253,6 @@ class Common extends Module {
       }
       try {
         await module.init();
-        if (shared.esgst.parameters.esgst === `guide` && shared.esgst.parameters.id === module.info.id) {
-          shared.esgst.guideSteps = module.info.guide;
-        }
       } catch (e) {
         window.console.log(e);
       }
@@ -265,7 +262,7 @@ class Common extends Module {
     if (customPage && customPage.check) {
       await customPage.load();
     } else {
-      await this.endless_load(document, !this.esgst.parameters.esgst);
+      await this.endless_load(document, !this.esgst.parameters.esgst || this.esgst.parameters.esgst === `guide`);
     }
 
     if (this.esgst.wbcButton && !this.esgst.scopes.main.users.length) {
@@ -332,22 +329,34 @@ class Common extends Module {
 
     this.esgst.modules = modules;
 
-    if (shared.esgst.parameters.esgst === `guide` && shared.esgst.parameters.id === `welcome`) {
-      shared.esgst.guideSteps = [
-        [`#esgst .esgst-header-menu-button.arrow`, `Click here to open the ESGST dropdown.`, { reflex: true, reflexOnly: true }],
-        [`#esgst .esgst-header-menu-absolute-dropdown`, `Here you can find a bunch of useful links / information related to the extension.`, { preventInteraction: true }],
-        [`#esgst .esgst-header-menu-button:not(.arrow)`, `Click here to open the ESGST settings menu.`, { reflex: true, reflexOnly: true }],
-        [`.esgst-popup .page__heading`, `The page heading allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data), as well as save any changes you have made.`, { preventInteraction: true }],
-        [`.esgst-popup .page__heading__button[title="Sync data"]`, `Some features require you to sync specific parts of your data in order to work properly. The sync menu is accessible through this button.`, { preventInteraction: true }],
-        [`.esgst-popup .page__heading__button[title="Backup data"]`, `It is very important to back up your data often to prevent data loss. The backup menu is accessible through this button.`, { preventInteraction: true }],
-        [`.esgst-popup .page__heading__button[title="Restore data"]`, `In the event of data loss, you can restore a previous backup to get your data back. The restore menu is accessible through this button.`, { preventInteraction: true }],
-        [`#esgst_plt`, `To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades.`, { preventInteraction: true }],
-        [`[data-id="plt"]`, `You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere. Click here to procceed.`, { reflex: true, reflexOnly: true }],
-        [`.esgst-settings-menu-feature`, `Here you can see the details.`, { preventInteraction: true }],
-        [`.esgst-menu-layer + .esgst-popup-actions .esgst-popup-close`, `Remember to always save your changes, otherwise they will not persist. Now let's close the settings menu. Click here.`, { reflex: true, reflexOnly: true }],
-        [`.sidebar > .sidebar__navigation:last-of-type`, `If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through these links in the sidebar, which will open a new page with the content instead of a popup in the same page.`, { preventInteraction: true }],
-        [``, `And that's the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!`]
-      ];
+    if (shared.esgst.parameters.esgst === `guide`) {
+      if (shared.esgst.parameters.id === `welcome`) {
+        shared.esgst.guideSteps = [
+          [`#esgst .esgst-header-menu-button.arrow`, `Click here to open the ESGST dropdown.`, { reflex: true, reflexOnly: true }],
+          [`#esgst .esgst-header-menu-absolute-dropdown`, `Here you can find a bunch of useful links / information related to the extension.`, { preventInteraction: true }],
+          [`#esgst .esgst-header-menu-button:not(.arrow)`, `Click here to open the ESGST settings menu.`, { reflex: true, reflexOnly: true }],
+          [`.esgst-popup .page__heading`, `The page heading allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data), as well as save any changes you have made.`, { preventInteraction: true }],
+          [`.esgst-popup .page__heading__button[title="Sync data"]`, `Some features require you to sync specific parts of your data in order to work properly. The sync menu is accessible through this button.`, { preventInteraction: true }],
+          [`.esgst-popup .page__heading__button[title="Backup data"]`, `It is very important to back up your data often to prevent data loss. The backup menu is accessible through this button.`, { preventInteraction: true }],
+          [`.esgst-popup .page__heading__button[title="Restore data"]`, `In the event of data loss, you can restore a previous backup to get your data back. The restore menu is accessible through this button.`, { preventInteraction: true }],
+          [`#esgst_plt`, `To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades.`, { preventInteraction: true }],
+          [`[data-id="plt"]`, `You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere. Click here to procceed.`, { reflex: true, reflexOnly: true }],
+          [`.esgst-settings-menu-feature`, `Here you can see the details.`, { preventInteraction: true }],
+          [`.esgst-menu-layer + .esgst-popup-actions .esgst-popup-close`, `Remember to always save your changes, otherwise they will not persist. Now let's close the settings menu. Click here.`, { reflex: true, reflexOnly: true }],
+          [`.sidebar > .sidebar__navigation:last-of-type`, `If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through these links in the sidebar, which will open a new page with the content instead of a popup in the same page.`, { preventInteraction: true }],
+          [``, `And that's the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!`]
+        ];
+      } else {
+        for (const type in shared.esgst.features) {
+          for (const id in shared.esgst.features[type].features) {
+            const feature = this.findFeature(shared.esgst.features[type].features[id], id);
+            if (feature) {
+              shared.esgst.guideSteps = feature.guideSteps;
+              break;
+            }
+          }
+        }
+      }
     }
 
     if (shared.esgst.guideSteps) {
@@ -406,11 +415,31 @@ class Common extends Module {
       guide.addStep(step);   
     }
     guide.start();
+    if (shared.esgst.parameters.step) {
+      guide.goTo(parseInt(shared.esgst.parameters.step));
+    }
+  }
+
+  findFeature(feature, id) {
+    if (id === shared.esgst.parameters.id) {
+      return feature;
+    }
+
+    if (feature.features) {
+      for (const subId in feature.features) {
+        const result = this.findFeature(feature.features[subId], subId);
+        if (result) {
+          return result;
+        }
+      }
+    }
+
+    return null;
   }
 
   processHash() {
     this.goToComment(this.esgst.originalHash, null, false);        
-    if (this.esgst.parameters.esgst && this.esgst.parameters.id) {
+    if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== `guide` && this.esgst.parameters.id) {
       const element = document.querySelector(`[data-id="${this.esgst.parameters.id}"]`);
       if (element) {
         const hiddenSection = element.closest(`.esgst-form-row-indent.esgst-hidden:not(.SMFeatures)`);
@@ -455,7 +484,7 @@ class Common extends Module {
       this.esgst.hiddenClass = `is_hidden`;
       this.esgst.selectedClass = `is_selected`;
     }
-    const pageMatch = window.location.href.match(/page=(\d+)/);
+    const pageMatch = shared.esgst.locationHref.match(/page=(\d+)/);
     if (pageMatch) {
       this.esgst.currentPage = parseInt(pageMatch[1]);
     } else {
@@ -1090,15 +1119,10 @@ class Common extends Module {
       this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
       this.esgst.dismissedOptions = this.esgst.toDismiss;
       let popup = new Popup({
-        addScrollable: true, icon: `fa-smile-o`, isTemp: true, title: [{
-          attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
-          },
-          type: `i`
-        }, {
-          text: ` Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...`,
-          type: `node`
-        }]
+        addScrollable: true, icon: `fa-smile-o`, isTemp: true, title: [
+          [`i`, { class: `fa fa-circle-o-notch fa-spin` }],
+          ` Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...`
+        ]
       });
       popup.open();
       await this.checkSync(true);
@@ -1137,7 +1161,7 @@ class Common extends Module {
       title: `Please wait... ESGST is adding this giveaway to the storage...`
     });
     popup.open();
-    let giveaways = await this.esgst.modules.giveaways.giveaways_get(document, true, window.location.href);
+    let giveaways = await this.esgst.modules.giveaways.giveaways_get(document, true, shared.esgst.locationHref);
     if (giveaways.length) {
       giveaway = giveaways[0];
       ggiveaways = {};
@@ -2552,6 +2576,7 @@ class Common extends Module {
     popup = new Popup({ addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways` });
     hidden = [];
     const now = Date.now();
+    console.log(this.esgst.giveaways);
     for (key in this.esgst.giveaways) {
       if (this.esgst.giveaways.hasOwnProperty(key)) {
         giveaway = this.esgst.giveaways[key];
@@ -3571,19 +3596,11 @@ class Common extends Module {
   hideGame(button, id, name, steamId, steamType) {
     let elements, i, popup;
     popup = new Popup({
-      addScrollable: true, icon: `fa-eye-slash`, title: [{
-        text: `Would you like to hide all giveaways for `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-bold`
-        },
-        text: name,
-        type: `span`
-      }, {
-        text: `?`,
-        type: `node`
-      }]
+      addScrollable: true, icon: `fa-eye-slash`, title: [
+        `Would you like to hide all giveaways for `,
+        [`span`, { class: `esgst-bold` }, name],
+        `?`
+      ]
     });
     popup.description.appendChild(new ButtonSet({
       color1: `green`,
@@ -3620,19 +3637,11 @@ class Common extends Module {
   unhideGame(button, id, name, steamId, steamType) {
     let popup;
     popup = new Popup({
-      addScrollable: true, icon: `fa-eye-slash`, isTemp: true, title: [{
-        text: `Would you like to unhide all giveaways for `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-bold`
-        },
-        text: name,
-        type: `span`
-      }, {
-        text: `?`,
-        type: `node`
-      }]
+      addScrollable: true, icon: `fa-eye-slash`, isTemp: true, title: [
+        `Would you like to unhide all giveaways for `,
+        [`span`, { class: `esgst-bold` }, name],
+        `?`
+      ]
     });
     popup.description.appendChild(new ButtonSet({
       color1: `green`,
@@ -4720,6 +4729,7 @@ class Common extends Module {
   }
 
   createConfirmation(message, onYes, onNo, event) {
+  console.log(message);
     let callback, popup;
     callback = onNo;
     popup = new Popup({ addScrollable: true, icon: `fa-question`, isTemp: true, title: message });
@@ -4782,7 +4792,7 @@ class Common extends Module {
         }
       }
       for (const url of (separator.match(/url(-prefix)?\(.+?\)/g) || [])) {
-        if (window.location.href.match(url.match(/\("(.+?)"\)/)[1])) {
+        if (shared.esgst.locationHref.match(url.match(/\("(.+?)"\)/)[1])) {
           check = true;
           break;
         }
@@ -5211,7 +5221,7 @@ class Common extends Module {
       description: context.querySelector(`[name="description"]`),
       parentId: context.querySelector(`[name="parent_id"]`),
       tradeCode: (context.querySelector(`[name="trade_code"]`) || { value: `` }).value,
-      url: this.esgst.sg ? window.location.href.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
+      url: this.esgst.sg ? shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`
     };
     const container = context.getElementsByClassName(this.esgst.sg
       ? `align-button-container`
@@ -5392,6 +5402,7 @@ class Common extends Module {
         for (key in values) {
           if (values.hasOwnProperty(key)) {
             this.esgst.storage[key] = values[key];
+            this.esgst[key] = JSON.parse(values[key]);
           }
         }
         resolve();
@@ -5435,7 +5446,7 @@ class Common extends Module {
   continueRequest(details) {
     return new Promise(async (resolve, reject) => {
       let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
-      details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, window.location.href.match(/^http:/) ? `http:` : `https:`);
+      details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? `http:` : `https:`);
       if (isLocal) {
         const requestOptions =  {
           body: details.data,

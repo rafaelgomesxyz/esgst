@@ -102,77 +102,77 @@ class Settings {
         onclick: () => shared.esgst.modules.loadDataCleaner(true)
       },
       {
-        check: !shared.esgst.parameters.esgst,
+        check: !shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`,
         icons: [`fa-user`, `fa-history`],
         position: `afterBegin`,
         title: `View recent username changes`,
         onclick: event => shared.common.setSMRecentUsernameChanges()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.uf,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.uf,
         icons: [`fa-user`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `See list of filtered users`,
         onclick: event => shared.common.setSMManageFilteredUsers()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.gf && shared.esgst.gf_s,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.gf && shared.esgst.gf_s,
         icons: [`fa-gift`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `Manage hidden giveaways`,
         onclick: event => shared.common.setSMManageFilteredGiveaways()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.df && shared.esgst.df_s,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.df && shared.esgst.df_s,
         icons: [`fa-comments`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `Manage hidden discussions`,
         onclick: event => shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.st && shared.esgst.tf && shared.esgst.tf_s,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.st && shared.esgst.tf && shared.esgst.tf_s,
         icons: [`fa-retweet`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `Manage hidden trades`,
         onclick: event => shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.dt,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.dt,
         icons: [`fa-comments`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage discussion tags`,
         onclick: () => shared.common.openManageDiscussionTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && shared.esgst.ut,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.ut,
         icons: [`fa-user`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage user tags`,
         onclick: () => shared.common.openManageUserTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.gt,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.gt,
         icons: [`fa-gamepad`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage game tags`,
         onclick: () => shared.common.openManageGameTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.gpt,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.gpt,
         icons: [`fa-users`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage group tags`,
         onclick: () => shared.common.openManageGroupTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.wbc,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.wbc,
         icons: [`fa-heart`, `fa-ban`, `fa-cog`],
         position: `afterBegin`,
         title: `Manage Whitelist / Blacklist Checker caches`,
         ref: button => shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.namwc,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.namwc,
         icons: [`fa-trophy`, `fa-cog`],
         position: `afterBegin`,
         title: `Manage Not Activated / Multiple Wins Checker caches`,
@@ -318,7 +318,7 @@ class Settings {
       shared.esgst.settings.steamApiKey = SMAPIKey.value;
     });
     let pp = null;
-    if (shared.esgst.parameters.esgst === `esgst` && shared.esgst.parameters.id) {
+    if (shared.esgst.parameters.esgst === `esgst` && shared.esgst.parameters.esgst !== `guide` && shared.esgst.parameters.id) {
       this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {
@@ -361,7 +361,7 @@ class Settings {
     }, {
       check: feature.guideUrl,
       content: [
-        [`a`,  { href: feature.guideUrl }, feature.guideUrl]
+        [`a`,  { href: `${feature.guideUrl}?esgst=guide&id=${id}` }, `${feature.guideUrl}?esgst=guide&id=${id}`]
       ],
       name: `Guide`
     }];
@@ -548,7 +548,7 @@ class Settings {
         content: [
           [`div`, { class: `markdown` }, JSON.parse(JSON.stringify(feature.description).replace(/\[id=(.+?)]/g, shared.common.getFeatureName.bind(shared.common)))]
         ],
-        name: `What does it do?`
+        name: typeof feature.description === `string` ? `Description` : `What does it do?`
       });
     }
     const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
@@ -1196,6 +1196,16 @@ class Settings {
           this.expandOptions(collapseButton, id, subMenu);
           isExpanded = true;
         }
+        if (feature.dependencies) {
+          shared.common.createConfirmation([
+            `This feature depends on the following features to work properly: `,
+            [`br`],
+            [`br`],
+            ...feature.dependencies.map(x => `"${shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join(``).split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
+            [`br`],
+            `Would you like ESGST to automatically enable these features now if they're not already enabled?`
+          ], () => this.enableDependencies(feature.dependencies, `sg`));
+        }
       };
       sgSwitch.onDisabled = async () => {
         this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
@@ -1246,6 +1256,16 @@ class Settings {
           this.expandOptions(collapseButton, id, subMenu);
           isExpanded = true;
         }
+        if (feature.dependencies) {
+          shared.common.createConfirmation([
+            `This feature depends on the following features to work properly: `,
+            [`br`],
+            [`br`],
+            ...feature.dependencies.map(x => `"${shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join(``).split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
+            [`br`],
+            `Would you like ESGST to automatically enable these features now if they're not already enabled?`
+          ], () => this.enableDependencies(feature.dependencies, `st`));
+        }
       };
       stSwitch.onDisabled = async () => {
         this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
@@ -1295,6 +1315,16 @@ class Settings {
         if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
           isExpanded = true;
+        }
+        if (feature.dependencies) {
+          shared.common.createConfirmation([
+            `This feature depends on the following features to work properly: `,
+            [`br`],
+            [`br`],
+            ...feature.dependencies.map(x => `"${shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join(``).split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
+            [`br`],
+            `Would you like ESGST to automatically enable these features now if they're not already enabled?`
+          ], () => this.enableDependencies(feature.dependencies, `sgt`));
         }
       };
       sgtoolsSwitch.onDisabled = async () => {
@@ -2822,6 +2852,15 @@ class Settings {
         if (feature.features.hasOwnProperty(id)) {
           this.unhideSmFeature(feature.features[id], id);
         }
+      }
+    }
+  }
+
+  enableDependencies(ids, namespace) {
+    for (const id of ids) {
+      const feature = shared.esgst.featuresById[id];
+      if (feature && feature[`${namespace}Switch`]) {
+        feature[`${namespace}Switch`].enable();
       }
     }
   }

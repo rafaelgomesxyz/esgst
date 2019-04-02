@@ -215,30 +215,30 @@ class DiscussionsDiscussionFilters extends Module {
               sg: true
             },
             df_highlighted: {
+              dependencies: [`dh`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter discussions that you have highlighted.`],
-                  [`li`, `This option requires[id=dh] enabled to work.`]
+                  [`li`, `Allows you to filter discussions that you have highlighted.`]
                 ]]
               ],
               name: `Highlighted`,
               sg: true
             },
             df_visited: {
+              dependencies: [`gdttt`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter discussions that you have visited.`],
-                  [`li`, `This option requires[id=gdttt] enabled to work.`]
+                  [`li`, `Allows you to filter discussions that you have visited.`]
                 ]]
               ],
               name: `Visited`,
               sg: true
             },
             df_unread: {
+              dependencies: [`ct`],
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter discussions that you have read.`],
-                  [`li`, `This option requires[id=ct] enabled to work.`]
+                  [`li`, `Allows you to filter discussions that you have read.`]
                 ]]
               ],
               name: `Unread`,

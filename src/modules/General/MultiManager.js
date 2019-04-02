@@ -66,7 +66,7 @@ class GeneralMultiManager extends Module {
   }
 
   init() {
-    if (this.esgst.parameters.esgst) return;
+    if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== `guide`) return;
     this.mm();
   }
 
@@ -1150,15 +1150,10 @@ class GeneralMultiManager extends Module {
       textInputs: [{
         placeholder: `Category1, Category2, Category3, ...`
       }],
-      title: [{
-        text: `Categorize Games`,
-        type: `node`
-      }, {
-        attributes: {
-          class: `fa fa-question-circle`
-        },
-        type: `i`
-      }]
+      title: [
+        `Categorize Games`,
+        [`i`, { class: `fa fa-question-circle` }]
+      ]
     });
     obj.categorizePopup = popup;
     obj.categorizeInput = createElements(popup.description, `afterBegin`, [{

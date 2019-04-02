@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -49,7 +50,7 @@ class TradesTradeBumper extends Module {
   }
 
   tb() {
-    if (window.location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
       const button = createHeadingButton({
         id: `tb`,
         icons: [`fa-chevron-circle-up`],
@@ -103,7 +104,7 @@ class TradesTradeBumper extends Module {
   }
 
   async tb_autoBumpTrades(button) {
-    if (window.location.href.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(button, document);
     } else {
