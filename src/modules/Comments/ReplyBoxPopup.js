@@ -18,7 +18,6 @@ class CommentsReplyBoxPopup extends Module {
         ]]
       ],
       id: `rbp`,
-      load: this.rbp,
       name: `Reply Box Popup`,
       sg: true,
       st: true,
@@ -26,7 +25,7 @@ class CommentsReplyBoxPopup extends Module {
     };
   }
 
-  rbp() {
+  init() {
     if (!this.esgst.replyBox) return;
 
     let button = shared.common.createHeadingButton({ id: `rbp`, icons: [`fa-comment`], title: `Add a comment` });

@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 class GroupsGroupFilters extends Module {
   constructor() {
@@ -127,15 +128,14 @@ class GroupsGroupFilters extends Module {
         }
       },
       id: `gpf`,
-      load: this.gpf,
       name: `Group Filters`,
       sg: true,
       type: `groups`
     };
   }
 
-  async gpf() {
-    if (!this.esgst.groupsPath) {
+  async init() {
+    if (!shared.common.isCurrentPath(`Steam - Groups`)) {
       return;
     }
     this.esgst.style.insertAdjacentText("beforeend", `

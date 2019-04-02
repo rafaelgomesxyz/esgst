@@ -19,14 +19,13 @@ class GiveawaysGiveawayWinnersLink extends Module {
         ]]
       ],
       id: `gwl`,
-      load: this.gwl,
       name: `Giveaway Winners Link`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gwl() {
+  init() {
     this.esgst.giveawayFeatures.push(this.gwl_addLinks.bind(this));
   }
 

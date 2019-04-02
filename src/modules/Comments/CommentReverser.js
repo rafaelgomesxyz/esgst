@@ -15,7 +15,6 @@ class CommentsCommentReverser extends Module {
         ]]
       ],
       id: `cr`,
-      load: this.cr,
       name: `Comment Reverser`,
       sg: true,
       st: true,
@@ -23,7 +22,7 @@ class CommentsCommentReverser extends Module {
     };
   }
 
-  cr() {
+  init() {
     if (!this.esgst.discussionPath || !this.esgst.pagination) return;
     const context = this.esgst.pagination.previousElementSibling;
     if (context.classList.contains(`comments`)) {

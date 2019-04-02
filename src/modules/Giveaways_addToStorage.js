@@ -10,12 +10,11 @@ class Giveaways_addToStorage extends Module {
     super();
     this.info = {
       endless: true,
-      id: `giveaways_addToStorage`,
-      load: this.giveaways_addToStorage
+      id: `giveaways_addToStorage`
     };
   }
 
-  giveaways_addToStorage() {
+  init() {
     if ((this.esgst.lpv || this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi)) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
       addGiveawayToStorage();
     }

@@ -28,7 +28,6 @@ class GeneralLevelProgressVisualizer extends Module {
         ]]
       ],
       id: `lpv`,
-      load: this.lpv,
       name: `Level Progress Visualizer`,
       sg: true,
       sync: `Giveaways, No CV Games, Reduced CV Games`,
@@ -37,7 +36,7 @@ class GeneralLevelProgressVisualizer extends Module {
     };
   }
 
-  lpv() {
+  init() {
     if (this.esgst.hr) {
       return;
     }

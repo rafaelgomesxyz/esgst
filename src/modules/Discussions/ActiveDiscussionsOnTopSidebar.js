@@ -18,7 +18,6 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
         ]]
       ],
       id: `adots`,
-      load: this.adots,
       name: `Active Discussions On Top/Sidebar`,
       options: {
         title: `Move to:`,
@@ -30,7 +29,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
     };
   }
 
-  async adots() {
+  async init() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.oadd) return;
     await shared.common.checkMissingDiscussions();
   }

@@ -22,7 +22,6 @@ class GeneralPaginationNavigationOnTop extends Module {
         }
       },
       id: `pnot`,
-      load: this.pnot,
       name: `Pagination Navigation On Top`,
       sg: true,
       st: true,
@@ -30,7 +29,7 @@ class GeneralPaginationNavigationOnTop extends Module {
     };
   }
 
-  pnot() {
+  init() {
     if (!this.esgst.paginationNavigation || !this.esgst.mainPageHeading) return;
 
     if (this.esgst.st) {

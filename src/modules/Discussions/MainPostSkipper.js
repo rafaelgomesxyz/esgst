@@ -15,14 +15,13 @@ class DiscussionsMainPostSkipper extends Module {
         ]]
       ],
       id: `mps`,
-      load: this.mps,
       name: `Main Post Skipper`,
       sg: true,
       type: `discussions`
     };
   }
 
-  mps() {
+  init() {
     if (!window.location.hash && this.esgst.discussionPath && this.esgst.pagination && document.referrer.match(new RegExp(`/discussion/${[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
       const context = this.esgst.pagination.previousElementSibling;
       if (context.classList.contains(`comments`)) {

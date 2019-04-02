@@ -42,14 +42,13 @@ class UsersUsernameHistory extends Module {
         ]]
       ],
       id: `uh`,
-      load: this.uh,
       name: `Username History`,
       sg: true,
       type: `users`
     };
   }
 
-  uh() {
+  init() {
     this.esgst.profileFeatures.push(this.uh_add.bind(this));
   }
 

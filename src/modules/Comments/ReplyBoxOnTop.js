@@ -11,7 +11,6 @@ class CommentsReplyBoxOnTop extends Module {
         ]]
       ],
       id: `rbot`,
-      load: this.rbot,
       name: `Reply Box On Top`,
       sg: true,
       st: true,
@@ -19,7 +18,7 @@ class CommentsReplyBoxOnTop extends Module {
     };
   }
 
-  rbot() {
+  init() {
     let element = this.esgst.mainPageHeading;
     if (!this.esgst.replyBox) {
       if (this.esgst.st && this.esgst.userPath) {

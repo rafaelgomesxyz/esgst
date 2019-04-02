@@ -52,14 +52,13 @@ class UsersUserGiveawayData extends Module {
         }
       },
       id: `ugd`,
-      load: this.ugd,
       name: `User Giveaway Data`,
       sg: true,
       type: `users`
     };
   }
 
-  ugd() {
+  init() {
     this.esgst.profileFeatures.push(this.ugd_addButtons.bind(this));
     if (this.esgst.ugd_s) {
       this.esgst.profileFeatures.push(this.ugd_addStats.bind(this));

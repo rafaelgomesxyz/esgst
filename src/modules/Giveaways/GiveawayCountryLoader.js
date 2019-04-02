@@ -25,7 +25,6 @@ class GiveawaysGiveawayCountryLoader extends Module {
         ]]
       ],
       id: `gcl`,
-      load: this.gcl,
       name: `Giveaway Country Loader`,
       options: {
         title: `Load as:`,
@@ -36,7 +35,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
     };
   }
 
-  gcl() {
+  init() {
     this.esgst.giveawayFeatures.push(this.gcl_setButton.bind(this));
   }
 

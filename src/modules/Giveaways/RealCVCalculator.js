@@ -19,7 +19,6 @@ class GiveawaysRealCVCalculator extends Module {
         ]]
       ],
       id: `rcvc`,
-      load: this.rcvc,
       name: `Real CV Calculator`,
       sg: true,
       sync: `Giveaways, No CV Games, Reduced CV Games`,
@@ -28,7 +27,7 @@ class GiveawaysRealCVCalculator extends Module {
     };
   }
 
-  async rcvc() {
+  async init() {
     if (this.esgst.newGiveawayPath) {
       let table = document.getElementsByClassName(`table--summary`)[0], button;
       if (table) {

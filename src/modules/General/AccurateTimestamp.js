@@ -34,7 +34,6 @@ class GeneralAccurateTimestamp extends Module {
         }
       },
       id: `at`,
-      load: this.at,
       name: `Accurate Timestamp`,
       inputItems: [
         {
@@ -49,7 +48,7 @@ class GeneralAccurateTimestamp extends Module {
     };
   }
 
-  at() {
+  init() {
     if (this.esgst.at_t) {
       const script = document.createElement(`script`);
       script.textContent = `

@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   getValue = common.getValue.bind(common)
@@ -15,7 +16,6 @@ class GroupsGroupHighlighter extends Module {
         ]]
       ],
       id: `gh`,
-      load: this.gh,
       name: `Group Highlighter`,
       sg: true,
       sync: `Steam Groups`,
@@ -24,8 +24,8 @@ class GroupsGroupHighlighter extends Module {
     };
   }
 
-  gh() {
-    if (this.esgst.groupsPath) return;
+  init() {
+    if (shared.common.isCurrentPath(`Steam - Groups`)) return;
     this.esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
   }
 

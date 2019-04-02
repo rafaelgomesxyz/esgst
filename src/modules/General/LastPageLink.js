@@ -15,14 +15,13 @@ class GeneralLastPageLink extends Module {
         ]]
       ],
       id: `lpl`,
-      load: this.lpl,
       name: `Last Page Link`,
       sg: true,
       type: `general`
     };
   }
 
-  lpl() {
+  init() {
     if (!this.esgst.paginationNavigation) return;
     if (this.esgst.discussionPath) {
       this.lpl_addDiscussionLink();

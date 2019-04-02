@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { shared } from '../../class/Shared';
 
 class GroupsGroupStats extends Module {
   constructor() {
@@ -23,15 +24,14 @@ class GroupsGroupStats extends Module {
         }
       },
       id: `gs`,
-      load: this.gs,
       name: `Group Stats`,
       sg: true,
       type: `groups`
     };
   }
 
-  gs() {
-    if (!this.esgst.groupsPath) {
+  init() {
+    if (!shared.common.isCurrentPath(`Steam - Groups`)) {
       return;
     }
     common.createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{

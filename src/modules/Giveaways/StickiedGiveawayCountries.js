@@ -25,14 +25,13 @@ class GiveawaysStickiedGiveawayCountries extends Module {
         ]]
       ],
       id: `sgac`,
-      load: this.sgac,
       name: `Stickied Giveaway Countries`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  sgac() {
+  init() {
     if (!this.esgst.newGiveawayPath) return;
     let rows = document.getElementsByClassName(`form__rows`)[0];
     if (!rows) return;

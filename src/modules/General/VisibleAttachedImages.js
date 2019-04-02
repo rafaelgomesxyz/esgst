@@ -20,7 +20,6 @@ class GeneralVisibleAttachedImages extends Module {
         }
       },
       id: `vai`,
-      load: this.vai,
       name: `Visible Attached Images`,
       sg: true,
       st: true,
@@ -28,7 +27,7 @@ class GeneralVisibleAttachedImages extends Module {
     };
   }
 
-  vai() {
+  init() {
     this.esgst.endlessFeatures.push(this.vai_getImages.bind(this));
   }
 

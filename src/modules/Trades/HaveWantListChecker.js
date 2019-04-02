@@ -25,14 +25,13 @@ class TradesHaveWantListChecker extends Module {
         ]]
       ],
       id: `hwlc`,
-      load: this.hwlc,
       name: `Have/Want List Checker`,
       st: true,
       type: `trades`
     };
   }
 
-  hwlc() {
+  init() {
     if (!this.esgst.tradePath) {
       return;
     }

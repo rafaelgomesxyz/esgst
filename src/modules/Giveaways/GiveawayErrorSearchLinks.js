@@ -39,14 +39,13 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
         ]]
       ],
       id: `gesl`,
-      load: this.gesl,
       name: `Giveaway Error Search Links`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gesl() {
+  init() {
     if (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;
     let name = encodeURIComponent(document.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
     common.createElements_v2(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [

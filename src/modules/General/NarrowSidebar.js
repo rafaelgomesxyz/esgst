@@ -10,14 +10,13 @@ class GeneralNarrowSidebar extends Module {
         ]]
       ],
       id: `ns`,
-      load: this.ns,
       name: `Narrow Sidebar`,
       sg: true,
       type: `general`
     };
   }
 
-  ns() {
+  init() {
     if (!this.esgst.sidebar) return;
     this.esgst.sidebar.classList.remove(`sidebar--wide`);
     this.esgst.sidebar.classList.add(`esgst-ns`);

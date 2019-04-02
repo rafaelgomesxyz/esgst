@@ -40,14 +40,13 @@ class DiscussionsDiscussionHighlighter extends Module {
         }
       },
       id: `dh`,
-      load: this.dh,
       name: `Discussion Highlighter`,
       sg: true,
       type: `discussions`
     };
   }
 
-  dh() {
+  init() {
     new Process({
       button: createElements(this.esgst.discussionsDropdown.firstElementChild, `beforeEnd`, generateHeaderMenuItem({
         description: `View your highlighted discussions.`,

@@ -15,7 +15,6 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
         ]]
       ],
       id: `hgebd`,
-      load: this.hgebd,
       name: `Hidden Game's Enter Button Disabler`,
       sg: true,
       sync: `Hidden Games`,
@@ -24,7 +23,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
     };
   }
 
-  hgebd() {
+  init() {
     if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) {
       return;
     }

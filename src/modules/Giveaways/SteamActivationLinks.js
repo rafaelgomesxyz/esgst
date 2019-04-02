@@ -25,7 +25,6 @@ class GiveawaysSteamActivationLinks extends Module {
         ]]
       ],
       id: `sal`,
-      load: this.sal,
       name: `Steam Activation Links`,
       options: {
         title: `Show links to:`,
@@ -36,7 +35,7 @@ class GiveawaysSteamActivationLinks extends Module {
     };
   }
 
-  sal() {
+  init() {
     if (!this.esgst.wonPath) return;
     this.esgst.endlessFeatures.push(this.sal_addLinks.bind(this), this.sal_addObservers.bind(this));
   }

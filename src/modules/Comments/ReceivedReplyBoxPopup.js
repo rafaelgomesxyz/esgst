@@ -17,14 +17,13 @@ class CommentsReceivedReplyBoxPopup extends Module {
         ]]
       ],
       id: `rrbp`,
-      load: this.rrbp,
       name: `Received Reply Box Popup`,
       sg: true,
       type: `comments`
     };
   }
 
-  rrbp() {
+  init() {
     if (!this.esgst.wonPath) return;
     this.esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
   }

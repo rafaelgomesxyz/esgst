@@ -35,7 +35,6 @@ class GeneralElementFilters extends Module {
         }
       ],
       id: `ef`,
-      load: this.ef,
       name: `Element Filters`,
       sg: true,
       st: true,
@@ -43,7 +42,7 @@ class GeneralElementFilters extends Module {
     };
   }
 
-  ef() {
+  init() {
     this.ef_hideElements(document);
     this.esgst.endlessFeatures.push(this.ef_hideElements.bind(this));
     if (this.esgst.sal || !this.esgst.wonPath) return;

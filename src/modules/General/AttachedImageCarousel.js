@@ -28,7 +28,6 @@ class GeneralAttachedImageCarousel extends Module {
         }
       },
       id: `aic`,
-      load: this.aic,
       name: `Attached Image Carousel`,
       sg: true,
       st: true,
@@ -36,7 +35,7 @@ class GeneralAttachedImageCarousel extends Module {
     };
   }
 
-  aic() {
+  init() {
     this.esgst.endlessFeatures.push(this.aic_getImages.bind(this));
     this.esgst.documentEvents.keydown.add(this.aic_move.bind(this));
     if (!this.esgst.mainPageHeading) return;

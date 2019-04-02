@@ -50,14 +50,13 @@ class UsersUserFilters extends Module {
         }
       },
       id: `uf`,
-      load: this.uf,
       name: `User Filters`,
       sg: true,
       type: `users`
     };
   }
 
-  uf() {
+  init() {
     this.esgst.profileFeatures.push(this.uf_add.bind(this));
   }
 

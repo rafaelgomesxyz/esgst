@@ -21,14 +21,13 @@ class UsersSteamTradesProfileButton extends Module {
         ]]
       ],
       id: `stpb`,
-      load: this.stpb,
       name: `SteamTrades Profile Button`,
       sg: true,
       type: `users`
     };
   }
 
-  stpb() {
+  init() {
     this.esgst.profileFeatures.push(this.stpb_add.bind(this));
   }
 

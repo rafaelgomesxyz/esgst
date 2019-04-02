@@ -10,14 +10,13 @@ class GeneralFixedSidebar extends Module {
         ]]
       ],
       id: `fs`,
-      load: this.fs,
       name: `Fixed Sidebar`,
       sg: true,
       type: `general`
     };
   }
 
-  fs() {
+  init() {
     if (!this.esgst.sidebar) {
       return;
     }

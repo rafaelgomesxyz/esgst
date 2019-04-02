@@ -21,14 +21,13 @@ class GiveawaysDeleteKeyConfirmation extends Module {
         ]]
       ],
       id: `dkc`,
-      load: this.dkc,
       name: `Delete Key Confirmation`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  dkc() {
+  init() {
     if (!this.esgst.giveawayPath) return;
     this.esgst.endlessFeatures.push(this.dkc_getLinks.bind(this));
   }

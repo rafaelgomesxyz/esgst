@@ -100,28 +100,29 @@ class Esgst {
         { name: `Steam - Games`, pattern: `^/account/steam/games` },
         { name: `Steam - Groups`, pattern: `^/account/steam/groups` },
         { name: `Steam - Wishlist`, pattern: `^/account/steam/wishlist` },
-        { name: `About - Brand Assets`, pattern: `^/about/brand-assets$` },
-        { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting$` },
-        { name: `About - FAQ`, pattern: `^/about/faq$` },
-        { name: `About - Guidelines`, pattern: `^/about/guidelines$` },
-        { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy$` },
-        { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy$` },
-        { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service$` },
-        { name: `Settings - Profile`, pattern: `^/account/settings/profile$` },
-        { name: `Settings - Patreon`, pattern: `^/account/settings/patreon$` },
-        { name: `Settings - Giveaways`, pattern: `^/account/settings/giveaways$` },
+        { name: `About - Brand Assets`, pattern: `^/about/brand-assets` },
+        { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting` },
+        { name: `About - FAQ`, pattern: `^/about/faq` },
+        { name: `About - Guidelines`, pattern: `^/about/guidelines` },
+        { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy` },
+        { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy` },
+        { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service` },
+        { name: `Account`, pattern: `^/account` },
+        { name: `Settings - Profile`, pattern: `^/account/settings/profile` },
+        { name: `Settings - Patreon`, pattern: `^/account/settings/patreon` },
+        { name: `Settings - Giveaways`, pattern: `^/account/settings/giveaways` },
         { name: `Settings - Giveaways - Filters`, pattern: `^/account/settings/giveaways/filters` },
-        { name: `Settings - Email Notifications`, pattern: `^/account/settings/email-notifications$` },
-        { name: `Settings - Referrals`, pattern: `^/account/settings/referrals$` },
-        { name: `Privacy - Delete Account`, pattern: `^/account/privacy/delete-account$` },
-        { name: `Stats - Personal - Community`, pattern: `^/stats/personal/community$` },
-        { name: `Stats - Personal - Steam`, pattern: `^/stats/personal/steam$` },
-        { name: `Stats - Community - Giveaways`, pattern: `^/stats/community/giveaways$` },
-        { name: `Stats - Community - Discussions`, pattern: `^/stats/community/discussions$` },
-        { name: `Stats - Community - Comments`, pattern: `^/stats/community/comments$` },
-        { name: `Stats - Community - Support`, pattern: `^/stats/community/support$` },
-        { name: `Stats - Community - Users`, pattern: `^/stats/community/users$` },
-        { name: `Stats - Steam - Games`, pattern: `^/stats/steam/games$` },
+        { name: `Settings - Email Notifications`, pattern: `^/account/settings/email-notifications` },
+        { name: `Settings - Referrals`, pattern: `^/account/settings/referrals` },
+        { name: `Privacy - Delete Account`, pattern: `^/account/privacy/delete-account` },
+        { name: `Stats - Personal - Community`, pattern: `^/stats/personal/community` },
+        { name: `Stats - Personal - Steam`, pattern: `^/stats/personal/steam` },
+        { name: `Stats - Community - Giveaways`, pattern: `^/stats/community/giveaways` },
+        { name: `Stats - Community - Discussions`, pattern: `^/stats/community/discussions` },
+        { name: `Stats - Community - Comments`, pattern: `^/stats/community/comments` },
+        { name: `Stats - Community - Support`, pattern: `^/stats/community/support` },
+        { name: `Stats - Community - Users`, pattern: `^/stats/community/users` },
+        { name: `Stats - Steam - Games`, pattern: `^/stats/steam/games` },
         { name: `ESGST - Settings`, pattern: `^/account/settings/profile\\?esgst=settings` },
         { name: `ESGST - Sync`, pattern: `^/account/settings/profile\\?esgst=sync` },
         { name: `ESGST - Backup`, pattern: `^/account/settings/profile\\?esgst=backup` },
@@ -148,12 +149,12 @@ class Esgst {
         { name: `User`, pattern: `^/user` },
         { name: `Reviews`, pattern: `^/reviews` },
         { name: `Comments`, pattern: `^/comments` },
-        { name: `Settings`, pattern: `^/settings$` },
-        { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting$` },
-        { name: `About - Guidelines`, pattern: `^/about/guidelines$` },
-        { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy$` },
-        { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy$` },
-        { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service$` }
+        { name: `Settings`, pattern: `^/settings` },
+        { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting` },
+        { name: `About - Guidelines`, pattern: `^/about/guidelines` },
+        { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy` },
+        { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy` },
+        { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service` }
       ],
       sgtools: [
         { name: `Everywhere`, pattern: `.*` }
@@ -980,12 +981,9 @@ class Esgst {
     this.wonPath = false;
     this.enteredPath = false;
     this.commentsPath = false;
-    this.accountPath = false;
     this.aboutPath = false;
     this.whitelistPath = false;
     this.blacklistPath = false;
-    this.inboxPath = false;
-    this.groupsPath = false;
     this.pageTop = 0;
     this.commentsTop = 0;
     this.apPopouts = {};
@@ -2298,12 +2296,9 @@ class Esgst {
     this.wonPath = window.location.pathname.match(/^\/giveaways\/won/);
     this.enteredPath = window.location.pathname.match(/^\/giveaways\/entered/);
     this.commentsPath = window.location.pathname.match(/^\/(giveaway\/(?!.*\/(entries|winners|groups))|discussion\/|support\/ticket\/|trade\/)/);
-    this.accountPath = window.location.pathname.match(/^\/account/);
     this.aboutPath = window.location.pathname.match(/^\/(about|legal)/);
     this.whitelistPath = window.location.pathname.match(/^\/account\/manage\/whitelist/);
     this.blacklistPath = window.location.pathname.match(/^\/account\/manage\/blacklist/);
-    this.inboxPath = window.location.pathname.match(/^\/messages/);
-    this.groupsPath = window.location.pathname.match(/^\/account\/steam\/groups/);
   }
 
   async triggerFunction(key, ...args) {

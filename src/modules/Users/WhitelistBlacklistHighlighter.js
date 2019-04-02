@@ -50,7 +50,6 @@ class UsersWhitelistBlacklistHighlighter extends Module {
         }
       },
       id: `wbh`,
-      load: this.wbh,
       name: `Whitelist/Blacklist Highlighter`,
       sg: {
         include: [{ enabled: 1, pattern: `.*` }],
@@ -63,7 +62,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
     };
   }
 
-  wbh() {
+  init() {
     this.esgst.userFeatures.push(this.wbh_getUsers.bind(this));
   }
 

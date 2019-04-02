@@ -41,7 +41,6 @@ class CommentsReplyFromInbox extends Module {
         }
       },
       id: `rfi`,
-      load: this.rfi,
       name: `Reply From Inbox`,
       sg: true,
       st: true,
@@ -49,7 +48,7 @@ class CommentsReplyFromInbox extends Module {
     };
   }
 
-  rfi() {
+  init() {
     if (this.esgst.mr) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.commentsMultiReply.mr_getButtons.bind(this.esgst.modules.commentsMultiReply));
   }

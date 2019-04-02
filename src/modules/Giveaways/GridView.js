@@ -39,14 +39,13 @@ class GiveawaysGridView extends Module {
         }
       },
       id: `gv`,
-      load: this.gv,
       name: `Grid View`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  gv() {
+  init() {
     if (this.esgst.giveawaysPath || this.esgst.gv_gb || this.esgst.gv_ged || this.esgst.gv_ge) {
       this.esgst.giveawayFeatures.push(this.gv_setContainer.bind(this));
       this.esgst.style.insertAdjacentText("beforeend", `
@@ -100,7 +99,7 @@ class GiveawaysGridView extends Module {
     if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== `gb` || !this.esgst.gv_gb) && (source !== `ged` || !this.esgst.gv_ged) && (source !== `ge` || !this.esgst.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
-      let popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || (this.esgst.accountPath && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== `guide`);
+      let popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== `guide`);
       if (popup) {
         giveaway.outerWrap.parentElement.parentElement.classList.add(`esgst-gv-view`);
         giveaway.outerWrap.parentElement.style.display = `inline-block`;

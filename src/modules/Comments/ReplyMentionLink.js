@@ -12,7 +12,6 @@ class CommentsReplyMentionLink extends Module {
         ]]
       ],
       id: `rml`,
-      load: this.rml,
       name: `Reply Mention Link`,
       sg: true,
       st: true,
@@ -20,7 +19,7 @@ class CommentsReplyMentionLink extends Module {
     };
   }
 
-  rml() {
+  init() {
     this.esgst.endlessFeatures.push(this.rml_addLinks.bind(this));
   }
 

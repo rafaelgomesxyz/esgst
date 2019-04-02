@@ -954,7 +954,6 @@ class GamesGameCategories extends Module {
         }
       },
       id: `gc`,
-      load: this.gc,
       name: `Game Categories`,
       sg: true,
       sync: `Owned/Wishlisted/Ignored Games, Giveaways, Hidden Games, No CV Games, Reduced CV Games`,
@@ -972,7 +971,7 @@ class GamesGameCategories extends Module {
     return false;
   }
 
-  gc() {
+  init() {
     this.esgst.gameFeatures.push(this.gc_games.bind(this));
     this.esgst.gcToFetch = { apps: {}, subs: {} };
   }

@@ -19,14 +19,13 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
         ]]
       ],
       id: `bgl`,
-      load: this.bgl,
       name: `Blacklist Giveaway Loader`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  async bgl() {
+  async init() {
     if (!this.esgst.giveawayPath) return;
 
     let backup = Array.from(this.esgst.pageOuterWrap.children).map(x => {

@@ -382,7 +382,6 @@ class CommentsCommentFormattingHelper extends Module {
         }
       },
       id: `cfh`,
-      load: this.cfh,
       name: `Comment Formatting Helper`,
       sg: true,
       st: true,
@@ -390,7 +389,7 @@ class CommentsCommentFormattingHelper extends Module {
     };
   }
 
-  async cfh() {
+  async init() {
     this.esgst.cfhEmojis = EMOJIS;
     this.esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
     this.esgst.cfh = {

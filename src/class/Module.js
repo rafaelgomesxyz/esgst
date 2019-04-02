@@ -1,3 +1,15 @@
+/**
+ * @typedef {Object} EsgstModuleInfo
+ * @property {String} id
+ * @property {String} name
+ * @property {String} description
+ * @property {String} type
+ * @property {Boolean} sg
+ * @property {Boolean} st
+ * @property {Boolean} sgt
+ * @property {boolean} endless
+ */
+
 /** module interface */
 class Module {
   constructor() {
@@ -7,17 +19,11 @@ class Module {
     this.info = {
       id: 'unknown',
       type: '',
-      load: () => {
-      },
       name: 'Unknown'
     };
   }
 
   init() {
-    if (!this.info.load) {
-      return;
-    }
-    return this.info.load.call(this);
   }
 
   /**

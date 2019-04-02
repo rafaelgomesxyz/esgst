@@ -18,7 +18,6 @@ class CommentsCommentSearcher extends Module {
         ]]
       ],
       id: `cs`,
-      load: this.cs,
       name: `Comment Searcher`,
       sg: true,
       st: true,
@@ -26,7 +25,7 @@ class CommentsCommentSearcher extends Module {
     };
   }
 
-  cs() {
+  init() {
     if (!this.esgst.commentsPath || (this.esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
     new Process({
       headingButton: {

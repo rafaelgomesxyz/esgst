@@ -28,14 +28,13 @@ class UsersSharedGroupChecker extends Module {
         ]]
       ],
       id: `sgc`,
-      load: this.sgc,
       name: `Shared Group Checker`,
       sg: true,
       type: `users`
     };
   }
 
-  sgc() {
+  init() {
     this.esgst.profileFeatures.push(this.sgc_add.bind(this));
   }
 

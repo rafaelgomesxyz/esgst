@@ -24,14 +24,13 @@ class UsersUserStats extends Module {
         ]]
       ],
       id: `us`,
-      load: this.us,
       name: `User Stats`,
       sg: true,
       type: `users`
     };
   }
 
-  us() {
+  init() {
     if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
     this.esgst.endlessFeatures.push(this.us_get.bind(this));
   }

@@ -52,14 +52,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         ]]
       ],
       id: `mgc`,
-      load: this.mgc,
       name: `Multiple Giveaway Creator`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  async mgc() {
+  async init() {
     if (this.esgst.newGiveawayPath) {
       this.mgc_addSection();
     }

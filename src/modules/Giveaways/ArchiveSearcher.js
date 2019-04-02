@@ -30,14 +30,13 @@ class GiveawaysArchiveSearcher extends Module {
         }
       },
       id: `as`,
-      load: this.as_load,
       name: `Archive Searcher`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  async as_load() {
+  async init() {
     this.esgst.customPages.as = {
       check: this.esgst.archivePath,
       load: async () => await this.as_init({})

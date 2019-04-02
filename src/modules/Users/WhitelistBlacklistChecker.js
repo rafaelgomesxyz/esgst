@@ -95,7 +95,6 @@ class UsersWhitelistBlacklistChecker extends Module {
         }
       },
       id: `wbc`,
-      load: this.wbc,
       name: `Whitelist/Blacklist Checker`,
       sg: true,
       sync: `Steam Groups`,
@@ -104,7 +103,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     };
   }
 
-  wbc() {
+  init() {
     if (this.esgst.wbc_h) {
       this.esgst.userFeatures.push(this.wbc_users.bind(this));
     }

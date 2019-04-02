@@ -14,14 +14,13 @@ class GeneralSearchMagnifyingGlassButton extends Module {
         ]]
       ],
       id: `smgb`,
-      load: this.smgb,
       name: `Search Magnifying Glass Button`,
       sg: true,
       type: `general`
     };
   }
 
-  smgb() {
+  init() {
     let buttons, i;
     buttons = document.querySelectorAll(`.sidebar__search-container .fa-search, .esgst-qgs-container .fa-search`);
     for (i = buttons.length - 1; i > -1; --i) {

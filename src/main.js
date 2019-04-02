@@ -511,48 +511,57 @@ window.interact = interact;
       }
     }
 
-    if (esgst.accountPath && window.location.href.match(/state=dropbox/)) {
-      await common.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
-      window.close();
-    } else if (esgst.accountPath && window.location.href.match(/state=google-drive/)) {
-      await common.setValue(`googleDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
-      window.close();
-    } else if (esgst.accountPath && window.location.href.match(/state=onedrive/)) {
-      await common.setValue(`oneDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
-      window.close();
-    } else if (esgst.accountPath && window.location.href.match(/state=imgur/)) {
-      await common.setValue(`imgurToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
-      window.close();
-    } else {
-      esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
-      if (!esgst.logoutButton) {
-        // user is not logged in
-        return;
+    esgst.currentPaths = [];
+    const effectivePath = common.getPath(window.location.href);
+    for (const pathObj of esgst.paths[esgst.name]) {
+      if (effectivePath.match(pathObj.pattern)) {
+        esgst.currentPaths.push(pathObj.name);
       }
-      if (esgst.st && !esgst.settings.esgst_st) {
-        // esgst is not enabled for steamtrades
-        return;
-      }
-      esgst.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
-      await common.getElements();
-      if (esgst.sg) {
-        // noinspection JSIgnoredPromiseFromCall
-        common.checkSync();
-      }
-      if (esgst.autoBackup) {
-        common.checkBackup();
-      }
-      if (esgst.profilePath && esgst.autoSync) {
-        const el = document.getElementsByClassName(`form__sync-default`)[0];
-        if (el) {
-          el.addEventListener(`click`, () => runSilentSync(`Games=1&Groups=1`));
-        }
-      }
-
-      await common.addHeaderMenu();
-      common.checkNewVersion();
-      await common.loadFeatures(esgst.modules);
     }
+
+    if (common.isCurrentPath(`Account`)) {
+      if (window.location.href.match(/state=dropbox/)) {
+        await common.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        window.close();
+      } else if (window.location.href.match(/state=google-drive/)) {
+        await common.setValue(`googleDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        window.close();
+      } else if (window.location.href.match(/state=onedrive/)) {
+        await common.setValue(`oneDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        window.close();
+      } else if (window.location.href.match(/state=imgur/)) {
+        await common.setValue(`imgurToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        window.close();
+      }
+    }
+    esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
+    if (!esgst.logoutButton) {
+      // user is not logged in
+      return;
+    }
+    if (esgst.st && !esgst.settings.esgst_st) {
+      // esgst is not enabled for steamtrades
+      return;
+    }
+    esgst.lastPage = esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
+    await common.getElements();
+    if (esgst.sg) {
+      // noinspection JSIgnoredPromiseFromCall
+      common.checkSync();
+    }
+    if (esgst.autoBackup) {
+      common.checkBackup();
+    }
+    if (esgst.profilePath && esgst.autoSync) {
+      const el = document.getElementsByClassName(`form__sync-default`)[0];
+      if (el) {
+        el.addEventListener(`click`, () => runSilentSync(`Games=1&Groups=1`));
+      }
+    }
+
+    await common.addHeaderMenu();
+    common.checkNewVersion();
+    await common.loadFeatures(esgst.modules);
   }
   
   function getStorage() {

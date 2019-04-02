@@ -37,7 +37,6 @@ class UsersUserNotes extends Module {
         }
       },
       id: `un`,
-      load: this.un,
       name: `User Notes`,
       sg: true,
       st: true,
@@ -45,7 +44,7 @@ class UsersUserNotes extends Module {
     };
   }
 
-  un() {
+  init() {
     this.esgst.profileFeatures.push(this.un_add.bind(this));
   }
 

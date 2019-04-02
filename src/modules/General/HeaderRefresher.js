@@ -170,7 +170,6 @@ class GeneralHeaderRefresher extends Module {
         }
       ],
       id: `hr`,
-      load: this.hr,
       name: `Header Refresher`,
       sg: true,
       st: true,
@@ -178,7 +177,7 @@ class GeneralHeaderRefresher extends Module {
     };
   }
 
-  hr() {
+  init() {
     let hr = {
       messages: 0,
       points: this.esgst.points,

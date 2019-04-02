@@ -18,7 +18,6 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
         ]]
       ],
       id: `npth`,
-      load: this.npth,
       name: `Next/Previous Train Hotkeys`,
       inputItems: [
         {
@@ -37,7 +36,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
     };
   }
 
-  npth() {
+  init() {
     let description, element, elements, i, n, next, previous, text;
     if (this.esgst.giveawayCommentsPath) {
       description = document.getElementsByClassName(`page__description`)[0];

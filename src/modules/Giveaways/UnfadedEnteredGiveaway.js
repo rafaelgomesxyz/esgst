@@ -10,14 +10,13 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
         ]]
       ],
       id: `ueg`,
-      load: this.ueg,
       name: `Unfaded Entered Giveaway`,
       sg: true,
       type: `giveaways`
     };
   }
 
-  ueg() {
+  init() {
     this.esgst.endlessFeatures.push(this.ueg_remove.bind(this));
   }
 

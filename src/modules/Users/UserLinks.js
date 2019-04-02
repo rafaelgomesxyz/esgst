@@ -13,14 +13,13 @@ class UsersUserLinks extends Module {
         ]]
       ],
       id: `ul`,
-      load: this.ul,
       name: `User Links`,
       sg: true,
       type: `users`
     };
   }
 
-  ul() {
+  init() {
     this.esgst.profileFeatures.push(this.ul_add.bind(this));
   }
 

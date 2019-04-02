@@ -39,7 +39,6 @@ class GiveawaysCommentEntryChecker extends Module {
         }
       },
       id: `cec`,
-      load: this.cec,
       name: `Comment/Entry Checker`,
       sg: true,
       sgPaths: /^Giveaway($|\s-\s.+?)$/,
@@ -47,7 +46,7 @@ class GiveawaysCommentEntryChecker extends Module {
     };
   }
 
-  cec() {
+  init() {
     this.esgst.customPages.cec = {
       check: this.esgst.giveawayPath,
       load: async () => await this.cec_openPopup({})

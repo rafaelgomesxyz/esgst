@@ -16,14 +16,13 @@ class GeneralHiddenCommunityPoll extends Module {
         }
       },
       id: `hcp`,
-      load: this.hcp,
       name: `Hidden Community Poll`,
       sg: true,
       type: `general`
     };
   }
 
-  hcp() {
+  init() {
     if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions) return;
     let poll = this.esgst.activeDiscussions.previousElementSibling;
     if (poll && poll.classList.contains(`widget-container`) && !poll.querySelector(`.homepage_heading[href="/happy-holidays"]`)) {

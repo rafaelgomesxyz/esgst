@@ -13,9 +13,12 @@ class GeneralSearchClearButton extends Module {
       id: `scb`,
       name: `Search Clear Button`,
       sg: true,
-      type: `general`,
-      load: () => this.getInputs(document)
+      type: `general`
     };
+  }
+
+  init() {
+    this.getInputs(document);
   }
 
   getInputs(context) {

@@ -10,7 +10,6 @@ class GeneralFixedMainPageHeading extends Module {
         ]]
       ],
       id: `fmph`,
-      load: this.fmph,
       name: `Fixed Main Page Heading`,
       sg: true,
       st: true,
@@ -18,7 +17,7 @@ class GeneralFixedMainPageHeading extends Module {
     };
   }
 
-  fmph() {
+  init() {
     if (!this.esgst.mainPageHeading) {
       return;
     }

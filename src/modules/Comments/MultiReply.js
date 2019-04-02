@@ -12,7 +12,6 @@ class CommentsMultiReply extends Module {
         ]]
       ],
       id: `mr`,
-      load: this.mr,
       name: `Multi-Reply`,
       sg: true,
       st: true,
@@ -20,12 +19,12 @@ class CommentsMultiReply extends Module {
     };
   }
 
-  mr() {
+  init() {
     this.esgst.endlessFeatures.push(this.mr_getButtons.bind(this));
   }
 
   mr_getButtons(context, main, source, endless) {
-    if ((!this.esgst.mr || this.esgst.inboxPath) && (!this.esgst.rfi || (!this.esgst.inboxPath && main))) return;
+    if ((!this.esgst.mr || shared.common.isCurrentPath(`Messages`)) && (!this.esgst.rfi || (!shared.common.isCurrentPath(`Messages`) && main))) return;
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__actions, .esgst-es-page-${endless}.comment__actions` : `.comment__actions`}, ${endless ? `.esgst-es-page-${endless} .action_list, .esgst-es-page-${endless}.action_list` : `.action_list`}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
       this.mr_addButton(elements[i], main);
@@ -47,11 +46,11 @@ class CommentsMultiReply extends Module {
       ReplyButton = MR.Context.getElementsByClassName(this.esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
       Permalink = MR.Context.querySelectorAll(`[href*="/go/comment/"]`);
       Permalink = Permalink[Permalink.length - 1];
-      if (ReplyButton || !main || this.esgst.inboxPath) {
+      if (ReplyButton || !main || shared.common.isCurrentPath(`Messages`)) {
         if (ReplyButton) {
           ReplyButton.remove();
           MR.ParentID = Parent.getAttribute(this.esgst.sg ? `data-comment-id` : `data-id`);
-          if (!main || this.esgst.inboxPath) {
+          if (!main || shared.common.isCurrentPath(`Messages`)) {
             MR.URL = Permalink.getAttribute(`href`);
           }
           MR.url = Permalink.getAttribute(`href`);
@@ -67,7 +66,7 @@ class CommentsMultiReply extends Module {
         if (this.esgst.sg) {
           MR.TradeCode = ``;
         } else {
-          if (main && !this.esgst.inboxPath) {
+          if (main && !shared.common.isCurrentPath(`Messages`)) {
             MR.TradeCode = window.location.pathname.match(/^\/trade\/(.+?)\//)[1];
           }
           MR.Username = MR.Comment.getElementsByClassName(`author_name`)[0].textContent;
