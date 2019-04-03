@@ -1,6 +1,6 @@
 import { common } from './Common';
 import { settingsModule } from './Settings';
-import { loadDataManagement } from './Storage';
+import { loadDataCleaner, loadDataManagement } from './Storage';
 import { generalPageLoadTimestamp } from './General/PageLoadTimestamp';
 import { generalVisibleFullLevel } from './General/VisibleFullLevel';
 import { giveawaysBlacklistGiveawayLoader } from './Giveaways/BlacklistGiveawayLoader';
@@ -162,6 +162,7 @@ import { generalEndlessScrolling } from './General/EndlessScrolling';
 const modules = {
   common,
   settingsModule,
+  loadDataCleaner,
   loadDataManagement,
   generalPageLoadTimestamp,
   generalVisibleFullLevel,
