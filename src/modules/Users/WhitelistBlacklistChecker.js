@@ -139,7 +139,6 @@ class UsersWhitelistBlacklistChecker extends Module {
   wbc_addButton(Context, WBCButton) {
     let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip;
 
-    /** @type {WhiteBlacklistChecker} */
     let WBC = {};
     WBC.Update = !Context;
     WBC.B = !this.esgst.wbc_hb;
@@ -405,9 +404,9 @@ class UsersWhitelistBlacklistChecker extends Module {
   }
 
   /**
-   * @param {WhiteBlacklistChecker} WBC
+   * @param WBC
    * @param skip
-   * @param Callback
+   * @param [Callback]
    * @returns {Promise<void>}
    */
   async wbc_setCheck(WBC, skip, Callback) {

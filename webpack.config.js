@@ -7,6 +7,7 @@
  * @property {boolean} production
  * @property {boolean} withBabel
  * @property {boolean} withWatch
+ * @property {boolean} sizeAnalyzer
  */
 
 const
@@ -70,6 +71,7 @@ module.exports = /** @param {Environment} env */ async env => {
             loaders.css
           ]
         }
+      // @ts-ignore
       ].concat(env.withBabel ? [
         {
           test: /\.js$/,
@@ -104,6 +106,7 @@ module.exports = /** @param {Environment} env */ async env => {
         'window.jQuery': 'jquery',
         'window.$': 'jquery'
       }),
+      // @ts-ignore
       new plugins.progressBar,
       new plugins.shell({
         onBuildExit: [

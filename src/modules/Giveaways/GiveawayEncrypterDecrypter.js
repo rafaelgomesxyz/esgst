@@ -160,7 +160,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         type: `div`
       }]);
       if (this.esgst.gas) {
-        this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
+        this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
         heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Ged`));

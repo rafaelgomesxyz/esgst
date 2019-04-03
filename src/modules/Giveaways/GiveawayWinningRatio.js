@@ -78,7 +78,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
 
   init() {
     if (this.esgst.gptw || this.esgst.gwc || !this.esgst.enteredPath) return;
-    this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
+    this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysGiveawayWinningChance.gwc_addHeading.bind(this.esgst.modules.giveawaysGiveawayWinningChance));
   }
 
   gwr_addRatios(giveaways, main, source) {

@@ -130,6 +130,7 @@ async function updateEmojis() {
   }
 
   const url = `https://unicode.org/emoji/charts/full-emoji-list.html`;
+  // @ts-ignore
   const response = await fetch(url);
   const text = await response.text();
   const matches = text.match(/<td\sclass='code'><a\shref='#.+?'\sname='.+?'>.+?<\/a><\/td>[\s\S]+?<td\sclass='name'>.+?<\/td>/g);

@@ -4,9 +4,9 @@
  * @property {String} [name]
  * @property {Array|String} [description]
  * @property {String} [type]
- * @property {Boolean} [sg]
- * @property {Boolean} [st]
- * @property {Boolean} [sgt]
+ * @property {Boolean|Object} [sg]
+ * @property {Boolean|Object} [st]
+ * @property {Boolean|Object} [sgt]
  * @property {boolean} [endless]
  */
 

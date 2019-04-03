@@ -90,9 +90,9 @@ class UsersUserStats extends Module {
   }
 
   us_load(context, username, response) {
-    let element, elements, html, i, n, profile, cvrow, rows;
+    let element, elements, html, i, n, cvrow, rows;
     html = [];
-    profile = {};
+    const profile = {};
     elements = parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
     for (i = 0, n = elements.length; i < n; ++i) {
       element = elements[i];

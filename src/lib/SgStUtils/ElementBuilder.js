@@ -14,11 +14,7 @@ const CLASS_NAMES = {
 };
 
 class ElementBuilder {
-  constructor() {
-
-  }
-
-
+  constructor() {}
   
   createElements(context, position, items) {
     try {

@@ -183,6 +183,7 @@ methods = {
         text
       };
       if (methods.isSet(currentBlock) && methods.isSet(currentBlock.continuable)) {
+        // @ts-ignore
         block = methods[`block${currentBlock.type}Continue`](line, currentBlock);
         if (methods.isSet(block)) {
           currentBlock = block;
@@ -474,7 +475,9 @@ methods = {
       block = {
         depth: 0,
         markup: line.text,
-        name: matches[1]
+        name: matches[1],
+        closed: false,
+        void: false
       };
       remainder = line.text.slice(strlen(matches[0]));
       if (trim(remainder) === ``) {
@@ -561,7 +564,8 @@ methods = {
         headerElement = {
           handler: `line`,
           name: `th`,
-          text: headerCell
+          text: headerCell,
+          attributes: {}
         };
         if (methods.isSet(alignments[i])) {
           alignment = alignments[i];
@@ -610,7 +614,8 @@ methods = {
         element = {
           handler: `line`,
           name: `td`,
-          text: trim(matches[i])
+          text: trim(matches[i]),
+          attributes: {}
         };
         if (methods.isSet(block.alignments[i])) {
           element.attributes = {

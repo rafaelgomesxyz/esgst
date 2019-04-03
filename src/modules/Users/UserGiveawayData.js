@@ -137,8 +137,7 @@ class UsersUserGiveawayData extends Module {
       }
     }
     const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
-    playtimes = `${playtimes}/${totalPlaytimes} (${totalPlaytimes > 0 ? Math.round(playtimes / totalPlaytimes * 10000) / 100 : 0}%)`;
-    playtimeDisplay.textContent = playtimes;
+    playtimeDisplay.textContent = `${playtimes}/${totalPlaytimes} (${totalPlaytimes > 0 ? Math.round(playtimes / totalPlaytimes * 10000) / 100 : 0}%)`;
     if (!firstRun) {
       setSetting(`ugd_playtime`, this.esgst.ugd_playtime);
     }
@@ -156,8 +155,7 @@ class UsersUserGiveawayData extends Module {
       }
     }
     const totalAchievements = Object.keys(ugdCache.achievements).length;
-    achievements = `${achievements}/${totalAchievements} (${totalAchievements > 0 ? Math.round(achievements / totalAchievements * 10000) / 100 : 0}%)`;
-    achievementsDisplay.textContent = achievements;
+    achievementsDisplay.textContent = `${achievements}/${totalAchievements} (${totalAchievements > 0 ? Math.round(achievements / totalAchievements * 10000) / 100 : 0}%)`;
     if (!firstRun) {
       setSetting(`ugd_achievements`, this.esgst.ugd_achievements);
     }
@@ -841,8 +839,8 @@ class UsersUserGiveawayData extends Module {
     const giveaway = typeof item === `string` ? obj.savedGiveaways[item] : item;
     let timestamp2Weeks = 0;
     let timestampForever = 0;
-    let time2Weeks = 0;
-    let timeForever = 0;
+    let time2Weeks = `0`;
+    let timeForever = `0`;
     let achievementsAttributes = null;
     let achievements = `?`;
     if (this.esgst.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
@@ -872,9 +870,6 @@ class UsersUserGiveawayData extends Module {
     let count = 0;
     let total = 0;
     if (this.esgst.ugd_getAchievements) {
-      /**
-       * @type {AchievementsSteamApi[]}
-       */
       let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
       if (obj.isUpdating) {
         obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);

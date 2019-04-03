@@ -274,9 +274,6 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     obj.button.addEventListener(`click`, obj.popup.open.bind(obj.popup, obj.isMenu ? this.namwc_start.bind(this, obj) : null));
   }
 
-  /**
-   * @param {PopupComplexObject} obj
-   */
   async namwc_start(obj) {
     obj.isCanceled = false;
     obj.button.classList.add(`esgst-busy`);

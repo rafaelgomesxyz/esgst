@@ -13,7 +13,7 @@ class Giveaway {
 
   }
 
-  static parse(context, mainUrl) {
+  parse(context, mainUrl) {
     const now = Date.now();
     this.elements.outerWrap = context;
     this.elements.innerWrap = this.elements.outerWrap.querySelector(`div.giveaway__row-inner-wrap`);
@@ -75,7 +75,7 @@ class Giveaway {
       if (match) {
         this.elements.startTime = child;
         this.elements.startTimeTimestamp = this.elements.startTime.querySelector(`span[data-timestamp]`);
-        this.data.startTime = parseInt(this.elements.startTimeTimestamp).getAttribute(`data-timestamp`) * 1e3;
+        this.data.startTime = parseInt(this.elements.startTimeTimestamp.getAttribute(`data-timestamp`)) * 1e3;
         this.elements.creator = this.elements.startTime.querySelector(`a.giveaway__username`);
         if (this.elements.creator) {
           this.data.creator = this.elements.creator.textContent.trim();
@@ -101,7 +101,7 @@ class Giveaway {
         this.elements.entries = child;
         this.data.entries = parseInt(match[1]);
       }
-      mach = child.textContent.replace(/,/g, ``).match(/(\d+)\scomments?/);
+      match = child.textContent.replace(/,/g, ``).match(/(\d+)\scomments?/);
       if (match) {
         this.elements.comments = child;
         this.data.comments = parseInt(match[1]);
