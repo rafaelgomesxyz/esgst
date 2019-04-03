@@ -250,7 +250,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       });
       elements = revisedElements;
     }
-    const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
+    const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
       if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[j], preset.rules)) {
         discussionsRows.appendChild(elements[j].outerWrap);

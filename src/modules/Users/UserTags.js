@@ -1,8 +1,8 @@
-import { Module } from '../../class/Module';
+import { Tags } from '../Tags';
 
-class UsersUserTags extends Module {
+class UsersUserTags extends Tags {
   constructor() {
-    super();
+    super(`ut`);
     this.info = {
       description: [
         [`ul`, [
@@ -44,9 +44,9 @@ class UsersUserTags extends Module {
   }
 
   init() {
-    this.esgst.userFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `ut`));
+    this.esgst.userFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
-    this.esgst.modules.tags.tags_getTags(`ut`);
+    this.tags_getTags();
   }
 }
 

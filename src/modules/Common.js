@@ -2378,7 +2378,7 @@ class Common extends Module {
         }
       }
       if (preset) {
-        const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
+        const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
         (await this.esgst.modules.discussions.discussions_get(rows[0], true)).forEach(discussion => {
           if (!this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, discussion, preset.rules)) {
             discussion.outerWrap.remove();
@@ -2425,7 +2425,7 @@ class Common extends Module {
           revisedElements.push(element);
         }
       });
-      const filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
+      const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
       let i = revisedElements.length - (numDiscussions + filteredDiscussions + 1);
       while (numDiscussions < 5 && i > -1) {
         if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, revisedElements[i], preset.rules)) {

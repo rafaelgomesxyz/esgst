@@ -21,9 +21,14 @@ const
 ;
 
 class Tags extends Module {
-  async tags_getTags(key) {
+  constructor(id) {
+    super();
+    this.id = id;
+  }
+
+  async tags_getTags() {
     const allTags = [];
-    switch (key) {
+    switch (this.id) {
       case `dt`: {
         const savedDiscussions = JSON.parse(getValue(`discussions`));
         for (const id in savedDiscussions) {
@@ -86,17 +91,17 @@ class Tags extends Module {
       }
       tagCount[tag] += 1;
     }
-    this.esgst[`${key}Tags`] = [];
+    this.esgst[`${this.id}Tags`] = [];
     for (const tag in tagCount) {
       if (tagCount.hasOwnProperty(tag)) {
-        this.esgst[`${key}Tags`].push({
+        this.esgst[`${this.id}Tags`].push({
           count: tagCount[tag],
           tag
         });
       }
     }
-    this.esgst[`${key}Tags`] = sortArray(this.esgst[`${key}Tags`], true, `count`).map(x => x.tag);
-    if (this.esgst[`${key}_s`]) {
+    this.esgst[`${this.id}Tags`] = sortArray(this.esgst[`${this.id}Tags`], true, `count`).map(x => x.tag);
+    if (this.esgst[`${this.id}_s`]) {
       this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
       this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));
     }
@@ -149,16 +154,16 @@ class Tags extends Module {
     }
   }
 
-  async tags_addButtons(key, items) {
+  async tags_addButtons(items) {
     items = items.all || items;
     for (const item of items) {
-      const obj = {item, key};
+      const obj = {item, key: this.id};
       if (!item.container.getElementsByClassName(`esgst-tag-button`)[0]) {
         createElements(item.tagContext, item.tagPosition, [{
           attributes: {
             class: `esgst-tag-button esgst-faded`,
-            [`data-draggable-id`]: key,
-            title: getFeatureTooltip(key, `Edit tags`)
+            [`data-draggable-id`]: this.id,
+            title: getFeatureTooltip(this.id, `Edit tags`)
           },
           type: `a`,
           children: [{
@@ -181,13 +186,13 @@ class Tags extends Module {
     }
   }
 
-  async tags_openMmPopup(mmObj, items, key) {
-    key = {
+  async tags_openMmPopup(mmObj, items) {
+    const key = {
       Discussions: `dt`,
       Games: `gt`,
       Groups: `gpt`,
       Users: `ut`
-    }[key];
+    }[this.id];
     const obj = {items: [], key};
     obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
     const savedDiscussions = JSON.parse(getValue(`discussions`));
@@ -885,6 +890,4 @@ class Tags extends Module {
   }
 }
 
-const tagsModule = new Tags();
-
-export { tagsModule };
+export { Tags };
