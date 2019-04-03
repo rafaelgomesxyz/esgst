@@ -1222,7 +1222,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
                   key = false;
                 }
               }
-              if (match && key && (match[namePos].replace(/\[ESGST]/, ``).trim().toLowerCase() === name || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
+              if (match && key && ((name && match[namePos].replace(/\[ESGST]/, ``).trim().toLowerCase() === name) || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
                 found = true;
                 values.keys += `\n${match[keyPos].replace(/\s/g, `\n`)}`;
                 toRemove.push(giveaways.splice(k + 1, 1)[0]);
@@ -1330,7 +1330,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       conflictPopup.onClose = callback;
       conflictPopup.open();
     } else {
-      createAlert(`${name} was not found! Please correct the title of the game and click on "Import" again to continue importing (it must be exactly like on Steam).`);
+      createAlert(`${(steamInfo && `${steamInfo.type}/${steamInfo.id}`) || name} was not found! Please correct the title of the game and click on "Import" again to continue importing (it must be exactly like on Steam).`);
       callback();
     }
   }
