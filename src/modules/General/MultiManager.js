@@ -72,9 +72,6 @@ class GeneralMultiManager extends Module {
 
   mm(context, items, itemsKey) {
     if (!context && !this.esgst.mainPageHeading) return;
-    /**
-     * @type {MM}
-     */
     let obj = {};
     obj.button = createHeadingButton({
       context,
@@ -444,7 +441,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tagsUserTags.tags_openMmPopup.bind(this.esgst.modules.tagsUserTags, obj, items)
+            callback1: this.esgst.modules.usersUserTags.tags_openMmPopup.bind(this.esgst.modules.usersUserTags, obj, items)
           },
           {
             check: this.esgst.wbc,

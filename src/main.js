@@ -12,6 +12,7 @@ import { utils } from './lib/jsUtils';
 import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
 
+// @ts-ignore
 window.interact = interact;
 
 (() => {
@@ -19,11 +20,15 @@ window.interact = interact;
     common = esgst.modules.common
   ;
 
+// @ts-ignore
   if (!window.NodeList.prototype[Symbol.iterator]) {
+    // @ts-ignore
     window.NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
   }
 
+// @ts-ignore
   if (!window.HTMLCollection.prototype[Symbol.iterator]) {
+    // @ts-ignore
     window.HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
   }
 
@@ -80,8 +85,6 @@ window.interact = interact;
       }
     });
 
-    let toDelete, toSet;
-
     // set default values or correct values
     /**
      * @property {object} esgst.storage.Emojis
@@ -89,8 +92,8 @@ window.interact = interact;
      * @property {object} esgst.storage.dfPresets
      */
     esgst.storage = await getStorage();
-    toDelete = [];
-    toSet = {};
+    const toDelete = [];
+    const toSet = {};
     if (utils.isSet(esgst.storage.users)) {
       esgst.users = JSON.parse(esgst.storage.users);
       let changed = false;

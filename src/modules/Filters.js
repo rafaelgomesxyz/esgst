@@ -21,7 +21,7 @@ class Filters extends Module {
     this.id = id;
   }
 
-  getFilters() {}
+  getFilters(popup) {}
 
   filters_addContainer(heading, popup) {
     const obj = {
@@ -876,14 +876,12 @@ class Filters extends Module {
       ].forEach(filter => {
         if (!this.esgst[`${obj.id}_${filter.key}`]) return;
 
-        /**
-         * @type {ElementsArrayItem[]}
-         */
         const children = [{
           text: filter.name,
           type: `node`
         }];
         if (filter.key === `os`) {
+          // @ts-ignore
           children.push({
             type: `select`,
             children: [{
@@ -1868,7 +1866,7 @@ class Filters extends Module {
         if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
           item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
         }
-      } else if (this.filters_filterItem(obj.id, obj.filters, item, obj.rules)) {
+      } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
         if (item.outerWrap.classList.contains(`esgst-hidden`)) {
           item.outerWrap.classList.remove(`esgst-hidden`);
         }
@@ -1919,7 +1917,6 @@ class Filters extends Module {
 
   /**
    * Checks if an item passes a set of filter rules.
-   * @param {string} id
    * @param {object} filters An object containing all the filters.
    * @param {object} item An object containing information about the item to be checked.
    * @param {object} rules An object containing the rules to check.
@@ -1967,7 +1964,7 @@ class Filters extends Module {
     }
 
     filtered = true;
-    const key = rules.id;
+    let key = rules.id;
     const filter = filters[key];
 
     if (

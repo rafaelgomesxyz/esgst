@@ -205,9 +205,9 @@ class GeneralShortcutKeys extends Module {
         if (event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let text = event.target.value;
           let end = event.target.selectionEnd;
-          let creator = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
-          if (creator) {
-            creator = creator.textContent;
+          const creatorElement = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
+          if (creatorElement) {
+            const creator = creatorElement.textContent;
             let range = end + creator.length;
             event.target.value = `${text.slice(0, event.target.selectionStart)}${creator}${text.slice(end)}`;
             event.target.setSelectionRange(range, range);

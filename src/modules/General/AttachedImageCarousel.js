@@ -143,6 +143,7 @@ class GeneralAttachedImageCarousel extends Module {
         },
         type: `div`,
         children: [{
+          // @ts-ignore
           attributes: {
             href: `#${attachedImage.source}`
           },

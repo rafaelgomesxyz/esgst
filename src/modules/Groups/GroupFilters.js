@@ -10,7 +10,7 @@ class GroupsGroupFilters extends Filters {
         [`ul`, [
           [`li`, [
             `Allows you to filter groups.`
-          ]]
+          ]],
           [`li`, [
             `Adds a toggle switch with a button (`,
             [`i`, { class: `fa fa-sliders` }],

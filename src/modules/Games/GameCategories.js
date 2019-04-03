@@ -1191,7 +1191,10 @@ class GamesGameCategories extends Module {
         to_fetch.push({
           id,
           priority: 0,
-          type: `apps`
+          type: `apps`,
+          found: false,
+          realId: null,
+          realType: null
         });
       }
       for (const id of gc.subs) {
@@ -1201,7 +1204,10 @@ class GamesGameCategories extends Module {
         to_fetch.push({
           id,
           priority: 0,
-          type: `subs`
+          type: `subs`,
+          found: false,
+          realId: null,
+          realType: null
         });
       }
 
@@ -1609,9 +1615,6 @@ class GamesGameCategories extends Module {
           method: `GET`,
           url: `https://store.steampowered.com/api/${type === `apps` ? `appdetails?appids=` : `packagedetails?packageids=`}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=english`
         })).responseText);
-        /**
-         * @type {gcResponseData}
-         */
         let data;
         if (responseJson && responseJson[id]) {
           data = responseJson[id].data;
@@ -1697,6 +1700,7 @@ class GamesGameCategories extends Module {
             let price = data.price || data.price_overview;
             categories.price = price ? (price.currency === `USD` ? Math.ceil(price.initial / 100) : -1) : 0;
             if (data.release_date && data.release_date.date) {
+              // @ts-ignore
               categories.releaseDate = new Date(data.release_date.date).getTime();
             }
           }
@@ -2026,11 +2030,17 @@ class GamesGameCategories extends Module {
                   hltbTimes.vs += parseFloat(gc.cache.hltb[id].vs || 0);
                 }
               }
+              // @ts-ignore
               hltbTimes.mainStory = isNaN(hltbTimes.mainStory) ? `- ` : `${hltbTimes.mainStory}h`;
+              // @ts-ignore
               hltbTimes.mainExtra = isNaN(hltbTimes.mainExtra) ? `- ` : `${hltbTimes.mainExtra}h`;
+              // @ts-ignore
               hltbTimes.completionist = isNaN(hltbTimes.completionist) ? `- ` : `${hltbTimes.completionist}h`;
+              // @ts-ignore
               hltbTimes.solo = isNaN(hltbTimes.solo) ? `- ` : `${hltbTimes.solo}h`;
+              // @ts-ignore
               hltbTimes.coOp = isNaN(hltbTimes.coOp) ? `- ` : `${hltbTimes.coOp}h`;
+              // @ts-ignore
               hltbTimes.vs = isNaN(hltbTimes.vs) ? `- ` : `${hltbTimes.vs}h`;
             } else {
               hltbTimes = hltb && hltb[id];

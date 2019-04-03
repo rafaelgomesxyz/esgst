@@ -143,11 +143,6 @@
  */
 
 /**
- * @typedef {Object} Response
- * @property {string} responseText
- */
-
-/**
  * @typedef {Object} SuspensionsApiResponse
  * @property {number[]} suspensions
  */

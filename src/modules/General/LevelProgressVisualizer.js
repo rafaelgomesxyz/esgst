@@ -61,10 +61,10 @@ class GeneralLevelProgressVisualizer extends Module {
     cache.difference = round(cache.difference);
     cache.level = currentLevel;
     setLocalValue(`lpvCache`, JSON.stringify(cache));
-    const currentPercentage = parseInt(round(currentLevel - currentBase) * 100);
+    const currentPercentage = Math.trunc(round(currentLevel - currentBase) * 100);
     const mainButtonWidth = this.esgst.mainButton.offsetWidth;
     const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
-    const currentProgress = parseInt(currentPercentage * (fullButtonWidth / 100)); // 186px is the width of the button
+    const currentProgress = Math.trunc(currentPercentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${currentProgress}px`;
     const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
     let projectedFirstBar = `0`;
@@ -81,8 +81,8 @@ class GeneralLevelProgressVisualizer extends Module {
       const newLevel = round(predictedLevel - cache.difference);
       window.console.log(`Final predicted level: ${newLevel}`);
       const newBase = parseInt(newLevel);
-      const newPercentage = parseInt(round(newLevel - newBase) * 100);
-      const newProgress = parseInt(Math.min(100, newPercentage) * (fullButtonWidth / 100));
+      const newPercentage = Math.trunc(round(newLevel - newBase) * 100);
+      const newProgress = Math.trunc(Math.min(100, newPercentage) * (fullButtonWidth / 100));
       projectedFirstBar = `${newProgress}px`;
       projectedSecondBar = `${Math.max(0, newProgress - mainButtonWidth)}px`;
       this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);

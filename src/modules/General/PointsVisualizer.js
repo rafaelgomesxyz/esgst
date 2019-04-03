@@ -31,7 +31,7 @@ class GeneralPointsVisualizer extends Module {
     const percentage = points / 400 * 100;
     const mainButtonWidth = this.esgst.mainButton.offsetWidth;
     const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
-    const progress = parseInt(percentage * (fullButtonWidth / 100)); // 186px is the width of the button
+    const progress = Math.trunc(percentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
     const barColor = this.esgst.pv_barColor;

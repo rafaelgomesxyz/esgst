@@ -143,7 +143,9 @@ class GeneralTableSorter extends Module {
       column = row.querySelectorAll(`.table__column--width-fill, .table__column--width-medium, .table__column--width-small, .column_flex, .column_medium, .column_small, td`)[i];
       value = column && column.textContent.trim();
       element = {
-        outerWrap: row
+        outerWrap: row,
+        sortIndex: 0,
+        value: undefined
       };
       if (row.hasAttribute(`data-sort-index`)) {
         element.sortIndex = parseInt(row.getAttribute(`data-sort-index`));

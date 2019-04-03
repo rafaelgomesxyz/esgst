@@ -94,7 +94,7 @@ async function readZip(data) {
   for (const key of keys) {
     output.push({
       name: key,
-      value: await zip.file(key).async(`string`)
+      value: await zip.file(key).async(`text`)
     });
   }
   return output;

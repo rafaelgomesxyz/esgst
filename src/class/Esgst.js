@@ -4,6 +4,94 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.currentPaths = undefined;
+    this.autoBackup = undefined;
+    this.autoSync = undefined;
+    this.settingsChanged = undefined;
+    this.winners = undefined;
+    this.emojis = undefined;
+    this.uscButton = undefined;
+    this.openAutoSyncPopup = undefined;
+    this.fallbackSteamApi = undefined;
+    this.isSyncing = undefined;
+    this.static_popups = undefined;
+    this.qgs_index = undefined;
+    this.giveawayExtraPanel = undefined;
+    this.giveawayExtraPanel_gv = undefined;
+    this.uf_g = undefined;
+    this.ns = undefined;
+    this.removeSidebarInFeaturePages = undefined;
+    this.gpf = undefined;
+    this.gs = undefined;
+    this.gs_t = undefined;
+    this.tf_m = undefined;
+    this.usc = undefined;
+    this.mmSelectionStart = undefined;
+    this.plt_format = undefined;
+    this.plt_index = undefined;
+    this.as = undefined;
+    this.pnot = undefined;
+    this.pnot_s = undefined;
+    this.ttpcc_a = undefined;
+    this.lpv_barColor = undefined;
+    this.lpv_projectedBarColor = undefined;
+    this.lpv_barColorHover = undefined;
+    this.lpv_projectedBarColorHover = undefined;
+    this.lpv_barColorSelected = undefined;
+    this.lpv_projectedBarColorSelected = undefined;
+    this.lpvStyleArray = undefined;
+    this.pv_barColor = undefined;
+    this.pv_projectedBarColor = undefined;
+    this.pv_barColorHover = undefined;
+    this.pv_projectedBarColorHover = undefined;
+    this.pv_barColorSelected = undefined;
+    this.pv_projectedBarColorSelected = undefined;
+    this.pvStyleArray = undefined;
+    this.onLevelContainerUpdated = undefined;
+    this.hr_g_format = undefined;
+    this.hr_w_format = undefined;
+    this.wonButton = undefined;
+    this.hcp_v = undefined;
+    this.es_rd = undefined;
+    this.currentPage = undefined;
+    this.itemsPerPage = undefined;
+    this.giveawaysDropdown = undefined;
+    this.helpDropdown = undefined;
+    this.supportDropdown = undefined;
+    this.at_t = undefined;
+    this.at_format = undefined;
+    this.gc_e = undefined;
+    this.gc_e_color = undefined;
+    this.gc_e_bColor = undefined;
+    this.gc_e_bgColor = undefined;
+    this.gc_bd_s = undefined;
+    this.gc_bd_s_i = undefined;
+    this.gc_bdLabel = undefined;
+    this.gc_bdIcon = undefined;
+    this.gc_bvg_s = undefined;
+    this.gc_bvg_s_i = undefined;
+    this.gc_bvgLabel = undefined;
+    this.gc_bvgIcon = undefined;
+    this.gc_i_t = undefined;
+    this.gc_i_t_bgColor = undefined;
+    this.gc_o_t = undefined;
+    this.gc_o_t_bgColor = undefined;
+    this.gc_o_a_t = undefined;
+    this.gc_o_a_t_bgColor = undefined;
+    this.gc_w_t = undefined;
+    this.gc_w_t_bgColor = undefined;
+    this.gc_p_t = undefined;
+    this.gc_p_t_bgColor = undefined;
+    this.delistedGames = undefined;
+    this.df_enable = undefined;
+    this.df_preset = undefined;
+    this.df_presets = undefined;
+    this.discussionsDropdown = undefined;
+    this.df_m = undefined;
+    this.avatar = undefined;
+    this.sto = undefined;
+    this.accountDropdown = undefined;
+    this.openSettingsInTab = undefined;
     this.df_s = undefined;
     this.dt = undefined;
     this.scb = undefined;
@@ -1030,12 +1118,8 @@ class Esgst {
     /** @type {string[]} */
     this.leftMainPageHeadingIds = null;
 
-    /**
-     * @type {EsgstStorage}
-     */
     this.storage = undefined;
 
-    /** @type {EsgstSettings} */
     this.settings = undefined;
 
     /** @type {string[]} */
@@ -1111,7 +1195,6 @@ class Esgst {
 
     this.rightButtons = null;
 
-    /** @type {EsgstHidingGame} */
     this.hidingGame = undefined;
 
     this.mainPageHeading = null;
@@ -1142,8 +1225,6 @@ class Esgst {
 
     /** @type {string} */
     this.selectedClass = ``;
-
-    /** @type {number} */
 
     /** @type {string} */
     this.originalUrl = ``;

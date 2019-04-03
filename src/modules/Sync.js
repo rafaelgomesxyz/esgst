@@ -36,7 +36,7 @@ function getDependencies(syncer, feature, id) {
 }
 
 /**
- * @returns {Promise<void>}
+ * @returns {Promise<Object>}
  */
 async function setSync(isPopup = false, isSilent = false) {
   let syncer = {};
@@ -319,9 +319,6 @@ function cancelSync(syncer) {
   syncer.canceled = true;
 }
 
-/**
- * @param {EsgstSyncer} syncer
- */
 //use: syncer.results, syncer.progress, syncer.parameters
 async function sync(syncer) {
   if (!shared.esgst.firstInstall) {

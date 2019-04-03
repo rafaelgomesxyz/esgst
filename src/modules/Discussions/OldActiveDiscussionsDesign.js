@@ -244,6 +244,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
     if (!this.esgst.oadd_d) {
       revisedElements = [];
       elements.forEach(element => {
+        // @ts-ignore
         if (element.category !== `Deals`) {
           revisedElements.push(element);
         }
@@ -253,6 +254,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
     const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
       if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[j], preset.rules)) {
+        // @ts-ignore
         discussionsRows.appendChild(elements[j].outerWrap);
         i += 1;
       }
@@ -260,6 +262,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
     elements = await this.esgst.modules.discussions.discussions_get(response2Html, true);
     for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
       if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[j], preset.rules)) {
+        // @ts-ignore
         dealsRows.appendChild(elements[j].outerWrap);
         i += 1;
       }
