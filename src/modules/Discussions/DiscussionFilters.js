@@ -1,5 +1,5 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
+import { Filters } from '../Filters';
 import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
@@ -15,9 +15,9 @@ const
   setValue = common.setValue.bind(common)
   ;
 
-class DiscussionsDiscussionFilters extends Module {
+class DiscussionsDiscussionFilters extends Filters {
   constructor() {
-    super();
+    super(`df`);
     this.info = {
       description: [
         [`ul`, [
@@ -276,7 +276,7 @@ class DiscussionsDiscussionFilters extends Module {
         }
       `);
       createHeadingButton({
-        element: this.esgst.modules.filters.filters_addContainer(`df`, this.esgst.mainPageHeading),
+        element: this.filters_addContainer(this.esgst.mainPageHeading),
         id: `df`
       });
     }
@@ -471,7 +471,7 @@ class DiscussionsDiscussionFilters extends Module {
     return true;
   }
 
-  df_getFilters() {
+  getFilters() {
     return {
       comments: {
         check: true,

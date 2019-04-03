@@ -1,9 +1,9 @@
-import { Module } from '../../class/Module';
+import { Filters } from '../Filters';
 import { shared } from '../../class/Shared';
 
-class CommentsCommentFilters extends Module {
+class CommentsCommentFilters extends Filters {
   constructor() {
-    super();
+    super(`cf`);
     this.info = {
       description: [
         [`ul`, [
@@ -109,13 +109,13 @@ class CommentsCommentFilters extends Module {
         }
       `);
       shared.common.createHeadingButton({
-        element: this.esgst.modules.filters.filters_addContainer(`cf`, this.esgst.mainPageHeading),
+        element: this.filters_addContainer(this.esgst.mainPageHeading),
         id: `cf`
       });
     }
   }
 
-  cf_getFilters() {
+  getFilters() {
     return {
       bump: {
         check: true,

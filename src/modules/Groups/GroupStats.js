@@ -161,7 +161,7 @@ class GroupsGroupStats extends Module {
     }
     common.createElements_v2(group.container, `afterEnd`, items);
     if (this.esgst.gpf && this.esgst.gpf.filteredCount && this.esgst[`gpf_enable${this.esgst.gpf.type}`]) {
-      this.esgst.modules.filters.filters_filter(this.esgst.gpf);
+      this.esgst.modules.groupsGroupFilters.filters_filter(this.esgst.gpf);
     }
   }
 }

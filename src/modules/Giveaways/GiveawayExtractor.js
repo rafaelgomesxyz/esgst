@@ -266,7 +266,7 @@ class GiveawaysGiveawayExtractor extends Module {
         this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
-        heading.appendChild(this.esgst.modules.filters.filters_addContainer(`gf`, heading, `Ge`));
+        heading.appendChild(this.esgst.modules.giveawayGiveawayFilters.filters_addContainer(heading, `Ge`));
       }
       if (this.esgst.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);

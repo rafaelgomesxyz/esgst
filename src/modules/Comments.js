@@ -31,7 +31,7 @@ class Comments extends Module {
     }
     if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
       if (this.esgst.cf && this.esgst.cf.filteredCount && this.esgst[`cf_enable${this.esgst.cf.type}`]) {
-        this.esgst.modules.filters.filters_filter(this.esgst.cf, false, endless);
+        this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
     }
     if (this.esgst.ct) {

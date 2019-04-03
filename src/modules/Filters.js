@@ -16,11 +16,18 @@ const
 ;
 
 class Filters extends Module {
-  filters_addContainer(id, heading, popup) {
+  constructor(id) {
+    super();
+    this.id = id;
+  }
+
+  getFilters() {}
+
+  filters_addContainer(heading, popup) {
     const obj = {
       basicFilters: {},
-      id: id,
-      key: `${id}_presets`,
+      id: this.id,
+      key: `${this.id}_presets`,
       popup: popup,
       rules: null,
       type: popup || (this.esgst.groupPath ? `Groups` : (window.location.search.match(/type/) ? {
@@ -30,29 +37,11 @@ class Filters extends Module {
         new: `New`
       }[window.location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? `Created` : (this.esgst.enteredPath ? `Entered` : (this.esgst.wonPath ? `Won` : (this.esgst.userPath ? `User` : ``))))))
     };
-    switch (id) {
-      case `gf`:
-        obj.filters = this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(popup);
-        break;
-      case `df`:
-        obj.filters = this.esgst.modules.discussionsDiscussionFilters.df_getFilters();
-        break;
-      case `tf`:
-        obj.filters = this.esgst.modules.tradesTradeFilters.tf_getFilters();
-        break;
-      case `gpf`:
-        obj.filters = this.esgst.modules.groupsGroupFilters.gpf_getFilters();
-        break;
-      case `cf`:
-        obj.filters = this.esgst.modules.commentsCommentFilters.cf_getFilters();
-        break;
-      default:
-        break;
-    }
+    obj.filters = this.getFilters(popup);
     if (popup) {
-      this.esgst[`${id}Popup`] = obj;
+      this.esgst[`${this.id}Popup`] = obj;
     } else {
-      this.esgst[id] = obj;
+      this.esgst[this.id] = obj;
     }
 
     const headingButton = document.createElement(`div`);
@@ -1936,11 +1925,11 @@ class Filters extends Module {
    * @param {object} rules An object containing the rules to check.
    * @returns {boolean} True if the item passed the filters and false otherwise.
    */
-  filters_filterItem(id, filters, item, rules) {
+  filters_filterItem(filters, item, rules) {
     if (
       !rules ||
       (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
-      (rules.id && !this.esgst[`${id}_${rules.id}`])
+      (rules.id && !this.esgst[`${this.id}_${rules.id}`])
     ) {
       return true;
     }
@@ -1952,7 +1941,7 @@ class Filters extends Module {
         // The giveaway must be filtered by all rules.
         filtered = true;
         for (const rule of rules.rules) {
-          filtered = filtered && this.filters_filterItem(id, filters, item, rule);
+          filtered = filtered && this.filters_filterItem(filters, item, rule);
           if (!filtered) break;
         }
       } else {
@@ -1960,7 +1949,7 @@ class Filters extends Module {
         filtered = false;
         if (rules.rules.length) {
           for (const rule of rules.rules) {
-            filtered = filtered || this.filters_filterItem(id, filters, item, rule);
+            filtered = filtered || this.filters_filterItem(filters, item, rule);
             if (filtered) break;
           }
         } else {
@@ -2107,6 +2096,4 @@ class Filters extends Module {
   }
 }
 
-const filtersModule = new Filters();
-
-export { filtersModule };
+export { Filters };
