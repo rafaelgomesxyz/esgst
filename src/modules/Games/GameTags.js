@@ -1,8 +1,8 @@
-import { Module } from '../../class/Module';
+import { Tags } from '../Tags';
 
-class GamesGameTags extends Module {
+class GamesGameTags extends Tags {
   constructor() {
-    super();
+    super(`gt`);
     this.info = {
       description: [
         [`ul`, [
@@ -42,9 +42,9 @@ class GamesGameTags extends Module {
   }
 
   init() {
-    this.esgst.gameFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `gt`));
+    this.esgst.gameFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
-    this.esgst.modules.tags.tags_getTags(`gt`);
+    this.tags_getTags();
   }
 }
 

@@ -217,7 +217,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
             }
             if (i > -1) {
               const preset = this.esgst.gf_presets[i];
-              filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(true), giveaway, preset.rules);
+              filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(this.esgst.modules.giveawaysGiveawayFilters.getFilters(true), giveaway, preset.rules);
             }
           }
           if (filtered && isEnded && !giveaway.started) {

@@ -444,7 +444,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this.esgst.modules.tags, obj, items, key)
+            callback1: this.esgst.modules.tagsUserTags.tags_openMmPopup.bind(this.esgst.modules.tagsUserTags, obj, items)
           },
           {
             check: this.esgst.wbc,
@@ -473,7 +473,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this.esgst.modules.tags, obj, items, key)
+            callback1: this.esgst.modules.gamesGameTags.tags_openMmPopup.bind(this.esgst.modules.gamesGameTags, obj, items)
           },
           {
             check: true,
@@ -501,7 +501,7 @@ class GeneralMultiManager extends Module {
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
-            callback1: this.esgst.modules.tags.tags_openMmPopup.bind(this.esgst.modules.tags, obj, items, key)
+            callback1: this.esgst.modules.groupsGroupTags.tags_openMmPopup.bind(this.esgst.modules.groupsGroupTags, obj, items)
           }
         ],
         []

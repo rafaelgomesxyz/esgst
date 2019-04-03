@@ -158,8 +158,6 @@ import { generalSearchClearButton } from './General/SearchClearButton';
 import { profileModule as profile } from './Profile';
 import { generalQuickInboxView } from './General/QuickInboxView';
 import { generalEndlessScrolling } from './General/EndlessScrolling';
-import { filtersModule as filters } from './Filters';
-import { tagsModule as tags } from './Tags';
 
 const modules = {
   common,
@@ -321,9 +319,7 @@ const modules = {
   generalSearchClearButton,
   profile,
   generalQuickInboxView,
-  generalEndlessScrolling,
-  filters,
-  tags
+  generalEndlessScrolling
 };
 
 export { modules };

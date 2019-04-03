@@ -1,8 +1,8 @@
-import { Module } from '../../class/Module';
+import { Tags } from '../Tags';
 
-class DiscussionsDiscussionTags extends Module {
+class DiscussionsDiscussionTags extends Tags {
   constructor() {
-    super();
+    super(`dt`);
     this.info = {
       description: [
         [`ul`, [
@@ -41,9 +41,9 @@ class DiscussionsDiscussionTags extends Module {
   }
 
   init() {
-    this.esgst.discussionFeatures.push(this.esgst.modules.tags.tags_addButtons.bind(this.esgst.modules.tags, `dt`));
+    this.esgst.discussionFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
-    this.esgst.modules.tags.tags_getTags(`dt`);
+    this.tags_getTags();
   }
 }
 

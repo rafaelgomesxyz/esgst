@@ -1,8 +1,8 @@
-import { Module } from '../../class/Module';
+import { Tags } from '../Tags';
 
-class GroupsGroupTags extends Module {
+class GroupsGroupTags extends Tags {
   constructor() {
-    super();
+    super(`gpt`);
     this.info = {
       description: [
         [`ul`, [
@@ -42,10 +42,9 @@ class GroupsGroupTags extends Module {
   }
 
   init() {
-    const tagsModule = this.esgst.modules.tags;
-    this.esgst.groupFeatures.push(tagsModule.tags_addButtons.bind(tagsModule, `gpt`));
+    this.esgst.groupFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
-    tagsModule.tags_getTags(`gpt`);
+    this.tags_getTags();
   }
 }
 
