@@ -1,8 +1,8 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { Filters } from '../Filters';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -14,9 +14,9 @@ const
   setValue = common.setValue.bind(common)
   ;
 
-class TradesTradeFilters extends Module {
+class TradesTradeFilters extends Filters {
   constructor() {
-    super();
+    super(`tf`);
     this.info = {
       description: [
         [`ul`, [
@@ -193,7 +193,7 @@ class TradesTradeFilters extends Module {
         }
       `);
       createHeadingButton({
-        element: this.esgst.modules.filters.filters_addContainer(`tf`, this.esgst.mainPageHeading),
+        element: this.filters_addContainer(this.esgst.mainPageHeading),
         id: `tf`
       });
     }
@@ -385,7 +385,7 @@ class TradesTradeFilters extends Module {
     return true;
   }
 
-  tf_getFilters() {
+  getFilters() {
     return {
       comments: {
         check: true,

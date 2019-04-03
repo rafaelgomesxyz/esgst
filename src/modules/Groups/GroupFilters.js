@@ -1,10 +1,10 @@
-import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { Filters } from '../Filters';
 
-class GroupsGroupFilters extends Module {
+class GroupsGroupFilters extends Filters {
   constructor() {
-    super();
+    super(`gpf`);
     this.info = {
       description: [
         [`ul`, [
@@ -144,12 +144,12 @@ class GroupsGroupFilters extends Module {
       }
     `);
     common.createHeadingButton({
-      element: this.esgst.modules.filters.filters_addContainer(`gpf`, this.esgst.mainPageHeading),
+      element: this.filters_addContainer(this.esgst.mainPageHeading),
       id: `gpf`
     });
   }
 
-  gpf_getFilters() {
+  getFilters() {
     return {
       users: {
         check: this.esgst.gs,

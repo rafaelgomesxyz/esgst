@@ -223,7 +223,7 @@ class Games extends Module {
       return x;
     });
     if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
-      this.esgst.modules.filters.filters_filter(this.esgst.gf);
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
     lockAndSaveGames(games);
     return {

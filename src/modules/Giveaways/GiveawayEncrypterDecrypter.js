@@ -163,7 +163,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
-        heading.appendChild(this.esgst.modules.filters.filters_addContainer(`gf`, heading, `Ged`));
+        heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Ged`));
       }
       if (this.esgst.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
@@ -217,7 +217,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
             }
             if (i > -1) {
               const preset = this.esgst.gf_presets[i];
-              filtered = this.esgst.modules.filters.filters_filterItem(`gf`, this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(true), giveaway, preset.rules);
+              filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(this.esgst.modules.giveawaysGiveawayFilters.gf_getFilters(true), giveaway, preset.rules);
             }
           }
           if (filtered && isEnded && !giveaway.started) {

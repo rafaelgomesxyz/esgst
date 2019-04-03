@@ -78,7 +78,7 @@ class Groups extends Module {
       groups.push(group);
     }
     if (this.esgst.gpf && this.esgst.gpf.filteredCount && this.esgst[`gpf_enable${this.esgst.gpf.type}`]) {
-      this.esgst.modules.filters.filters_filter(this.esgst.gpf, false, endless);
+      this.esgst.modules.groupsGroupFilters.filters_filter(this.esgst.gpf, false, endless);
     }
     for (const feature of this.esgst.groupFeatures) {
       await feature(groups, main, source, endless);

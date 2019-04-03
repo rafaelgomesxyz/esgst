@@ -1,6 +1,6 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { Filters } from '../Filters';
 
 const
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -9,9 +9,9 @@ const
   setValue = common.setValue.bind(common)
   ;
 
-class GiveawaysGiveawayFilters extends Module {
+class GiveawaysGiveawayFilters extends Filters {
   constructor() {
-    super();
+    super(`gf`);
     this.info = {
       description: `Filter giveaways.`,
       features: {
@@ -789,7 +789,7 @@ class GiveawaysGiveawayFilters extends Module {
         }
       `);
       createHeadingButton({
-        element: this.esgst.modules.filters.filters_addContainer(`gf`, this.esgst.mainPageHeading),
+        element: this.filters_addContainer(this.esgst.mainPageHeading),
         id: `gf`
       });
     }
@@ -876,7 +876,7 @@ class GiveawaysGiveawayFilters extends Module {
     return true;
   }
 
-  gf_getFilters(popup) {
+  getFilters(popup) {
     return {
       level: {
         check: (!this.esgst.parameters.level_min && !this.esgst.parameters.level_max) && (((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup),

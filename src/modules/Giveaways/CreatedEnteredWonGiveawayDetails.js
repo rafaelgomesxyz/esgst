@@ -117,10 +117,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     await setValue(`giveaways`, JSON.stringify(cewgd.savedGiveaways));
     deleteLock();
     if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
-      this.esgst.modules.filters.filters_filter(this.esgst.gf);
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
     if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
-      this.esgst.modules.filters.filters_filter(this.esgst.gfPopup);
+      this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
     }
   }
 
