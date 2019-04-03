@@ -226,7 +226,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         this.esgst.sidebar.remove();
       }
       context.innerHTML = ``;
-      context.setAttribute(`data-esgst-popup`, true);
+      context.setAttribute(`data-esgst-popup`, `true`);
       new elementBuilder[shared.esgst.name].pageHeading({
         context: context,
         position: `beforeEnd`,
@@ -343,7 +343,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         type: `div`
       }]);
       if (this.esgst.gas) {
-        this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
+        this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
         heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Gb`));

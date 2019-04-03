@@ -281,7 +281,11 @@ class GiveawaysGiveawayTemplates extends Module {
             whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
             whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value,
             createTrain: this.esgst.mgc_createTrain,
-            removeLinks: this.esgst.mgc_removeLinks
+            removeLinks: this.esgst.mgc_removeLinks,
+            startTime: undefined,
+            endTime: undefined,
+            startDate: undefined,
+            endDate: undefined
           };
           if (preciseStartCheckbox.input.checked) {
             template.startTime = startTime;

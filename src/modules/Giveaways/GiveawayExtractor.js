@@ -220,7 +220,7 @@ class GiveawaysGiveawayExtractor extends Module {
       if (this.esgst.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
-      context.setAttribute(`data-esgst-popup`, true);
+      context.setAttribute(`data-esgst-popup`, `true`);
       context.innerHTML = ``;
       new elementBuilder[shared.esgst.name].pageHeading({
         context: context,
@@ -263,7 +263,7 @@ class GiveawaysGiveawayExtractor extends Module {
         type: `div`
       }]);
       if (this.esgst.gas) {
-        this.esgst.modules.giveawaysGiveawaysSorter.gas(heading);
+        this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
         heading.appendChild(this.esgst.modules.giveawayGiveawayFilters.filters_addContainer(heading, `Ge`));

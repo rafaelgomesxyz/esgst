@@ -129,7 +129,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         values: [],
         created: [],
         countryNames: {},
-        groupNames: {}
+        groupNames: {},
+        gameName: undefined,
+        editButton: undefined,
+        discussionPanel: undefined,
+        discussionLink: undefined,
+        giveaways: undefined
       };
       let elements = document.querySelector(`[data-input="country_item_string"]`).querySelectorAll(`[data-item-id]`);
       for (let i = 0, n = elements.length; i < n; i++) {
@@ -1010,6 +1015,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     progress = {
       bar: progressPanel.firstElementChild,
+      current: undefined,
+      total: undefined
     };
     counter = progressPanel.lastElementChild;
     progress.current = counter.firstElementChild;
@@ -1167,7 +1174,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           whitelist: whitelist || mgc.whitelist.value || `0`,
           groups: (groups || mgc.groups.value || ``).trim(),
           level: (level && level[1]) || mgc.level.value || `0`,
-          description: description ? description[1].replace(/\\n/g, `\n`) : (mgc.description.value || ``)
+          description: description ? description[1].replace(/\\n/g, `\n`) : (mgc.description.value || ``),
+          gameType: undefined,
+          keys: undefined,
+          copies: undefined
         };
         if (key) {
           values.gameType = `key`;

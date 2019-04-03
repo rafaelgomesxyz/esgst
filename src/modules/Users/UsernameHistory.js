@@ -145,7 +145,6 @@ class UsersUsernameHistory extends Module {
   /**
    * @param steamId
    * @param username
-   * @returns {UsernamesApiResponse}
    */
   async getUserNames(steamId, username) {
     return JSON.parse((await request({

@@ -262,14 +262,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (giveaway.gptwContext) {
       this.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
     }
-    /**
-     * @type {ElementsArrayItem[]}
-     */
     const items = [{
       text: ` (${details || giveaway.points > 0 ? giveaway.points : `?`}P)`,
       type: `span`
     }];
     if (giveaway.id) {
+      // @ts-ignore
       items.push({
         attributes: {
           class: `giveaway__icon`,
@@ -370,6 +368,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       type: `div`
     }];
     if (this.esgst.createdPath) {
+      // @ts-ignore
       items2.push({
         attributes: {
           class: `table__column--width-small text-center`
@@ -475,6 +474,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         default:
           break;
       }
+      // @ts-ignore
       html[1][2].push(
         [`div`, { class: `table__row-outer-wrap` }, [
           [`div`, { class: `table__row-inner-wrap` }, [

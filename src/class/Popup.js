@@ -3,6 +3,8 @@ import { shared } from './Shared';
 
 class Popup {
   constructor(details) {
+    this.Options = undefined;
+    this.Results = undefined;
     this.textArea = undefined;
     this.temp = details.isTemp;
     this.layer = shared.common.createElements_v2(document.body, `beforeEnd`, [
@@ -250,6 +252,8 @@ class Popup {
       shared.common.minimizePanel_alert(this);
     }
   }
+
+  reposition() {}
 }
 
 export { Popup };

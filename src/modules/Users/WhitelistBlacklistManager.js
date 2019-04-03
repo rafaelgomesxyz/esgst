@@ -170,7 +170,8 @@ class UsersWhitelistBlacklistManager extends Module {
       let reader = new FileReader();
       reader.onload = () => {
         try {
-          let list = JSON.parse(/** @type {string} */  reader.result);
+          // @ts-ignore
+          let list = JSON.parse(reader.result);
           // noinspection JSIgnoredPromiseFromCall
           this.wbm_insertUsers(wbm, list, 0, list.length, callback);
         } catch (error) {

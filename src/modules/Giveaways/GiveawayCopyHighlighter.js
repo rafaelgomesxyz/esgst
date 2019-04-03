@@ -24,7 +24,7 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
       if (!giveaway.copiesContainer) {
         continue;
       }
-      const { color, bgColor } = this.esgst.gch_colors.filter(colors => giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper))[0] || {};
+      const { color, bgColor } = this.esgst.gch_colors.filter(colors => giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
       giveaway.copiesContainer.classList.add(`esgst-bold`);
       if (!color) {
         giveaway.copiesContainer.classList.add(`esgst-red`);

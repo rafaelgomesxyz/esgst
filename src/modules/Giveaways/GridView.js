@@ -3,6 +3,7 @@ import 'jquery-ui/ui/widgets/slider';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -128,6 +129,7 @@ class GiveawaysGridView extends Module {
             attributes: {
               title: `${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}`
             },
+            // @ts-ignore
             text: dateFns_formatDistanceStrict(giveaway.endTime, now, { locale: this.esgst.formatDistanceLocale }),
             type: `span`
           }, {
@@ -139,6 +141,7 @@ class GiveawaysGridView extends Module {
             attributes: {
               title: `Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}`
             },
+            // @ts-ignore
             text: dateFns_formatDistanceStrict(giveaway.startTime, now, { locale: this.esgst.formatDistanceLocale }),
             type: `span`
           }]

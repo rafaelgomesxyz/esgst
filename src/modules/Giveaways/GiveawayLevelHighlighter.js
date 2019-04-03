@@ -24,7 +24,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
       if (!giveaway.levelColumn) {
         continue;
       }
-      const { color, bgColor } = this.esgst.glh_colors.filter(colors => giveaway.level >= parseInt(colors.lower) && giveaway.level <= parseInt(colors.upper))[0] || {};
+      const { color, bgColor } = this.esgst.glh_colors.filter(colors => giveaway.level >= parseInt(colors.lower) && giveaway.level <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
       if (!color || !bgColor) {
         continue;
       }
