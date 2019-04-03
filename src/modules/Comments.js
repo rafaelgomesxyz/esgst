@@ -77,8 +77,8 @@ class Comments extends Module {
   }
 
   async comments_getInfo(context, sourceLink, savedUsers, main) {
-    let comment, matches, n, source;
-    comment = {};
+    let matches, n, source;
+    const comment = {};
     comment.comment = context;
     comment.outerWrap = comment.comment;
     const author = comment.comment.querySelector(`.comment__author, .author_name`);

@@ -22,8 +22,8 @@ class Profile extends Module {
   }
 
   async profile_load(context) {
-    let element, elements, i, input, key, match, profile, rows;
-    profile = {};
+    let element, elements, i, input, key, match, rows;
+    const profile = {};
     if (this.esgst.sg) {
       profile.heading = context.getElementsByClassName(`featured__heading`)[0];
       input = context.querySelector(`[name="child_user_id"]`);

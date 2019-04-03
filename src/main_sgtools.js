@@ -97,7 +97,7 @@ function checkThemeTime(id, settings) {
     }
   }
   if (currentDate >= startDate && currentDate <= endDate) {
-    window.setTimeout(() => setTheme(settings), endDate - currentDate);
+    window.setTimeout(() => setTheme(settings), endDate.getTime() - currentDate.getTime());
     return true;
   }
 }

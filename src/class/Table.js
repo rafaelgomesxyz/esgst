@@ -136,11 +136,11 @@ class Table {
 
   /**
    * @param column
-   * @param {string[]} column.additionalClasses
-   * @param {string} column.alignment
-   * @param {string[]} column.attributes
-   * @param {string} column.size
-   * @param {string} column.value
+   * @property {string[]} column.additionalClasses
+   * @property {string} column.alignment
+   * @property {string[]} column.attributes
+   * @property {string} column.size
+   * @property {string} column.value
    */
   addColumn(column) {
     const cell = typeof column === `string` ? column : column.value;

@@ -267,7 +267,7 @@ class GeneralHeaderRefresher extends Module {
       hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
     } else {
       this.esgst.wishlist = cache.wishlist;
-      await this.hr_refreshHeader(cache, this.hr);
+      await this.hr_refreshHeader(cache, hr);
       window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
     }
   }
@@ -462,7 +462,8 @@ class GeneralHeaderRefresher extends Module {
         msg: ``,
         inbox: false,
         wishlist: false,
-        won: false
+        won: false,
+        points: false,
       };
       if (pointsNotification && this.esgst.hr_fp) {
         notification.msg += `You have ${this.esgst.points}P.\n\n`;

@@ -817,7 +817,6 @@ class Tags extends Module {
   }
 
   /**
-   * @param {tagsObj} obj
    * @param event
    */
   tags_addSuggestion(obj, event) {

@@ -49,9 +49,9 @@ class GeneralCakeDayReminder extends Module {
     let currentDate = new Date();
     let year = currentDate.getFullYear();
     let time = currentDate.getTime();
-    let registrationDate = new Date(this.esgst.registrationDate * 1e3);
+    const registrationDate = new Date(this.esgst.registrationDate * 1e3);
     registrationDate.setFullYear(year);
-    registrationDate = registrationDate.getTime();
+    const registrationTime = registrationDate.getTime();
     const bYear = parseInt(getLocalValue(`cdr_bYear`, 0));
     let dYear = getLocalValue(`cdr_dYear`);
     if (dYear) {
@@ -60,22 +60,22 @@ class GeneralCakeDayReminder extends Module {
       setLocalValue(`cdr_dYear`, year);
       dYear = year;
     }
-    if (this.esgst.cdr_b && bYear !== year && time < registrationDate && time + (this.esgst.cdr_days * 86400000) >= registrationDate) {
+    if (this.esgst.cdr_b && bYear !== year && time < registrationTime && time + (this.esgst.cdr_days * 86400000) >= registrationTime) {
       setLocalValue(`cdr_bYear`, year);
       new Popup({
         addScrollable: true,
         icon: `fa-birthday-cake`,
         isTemp: true,
-        title: `ESGST reminder: your cake day is in ${Math.floor((registrationDate - time) / 86400000)} days.`
+        title: `ESGST reminder: your cake day is in ${Math.floor((registrationTime - time) / 86400000)} days.`
       }).open();
-    } else if (this.esgst.cdr_d && dYear !== year && time >= registrationDate) {
+    } else if (this.esgst.cdr_d && dYear !== year && time >= registrationTime) {
       setLocalValue(`cdr_dYear`, year);
-      if (time >= registrationDate + 86400000) {
+      if (time >= registrationTime + 86400000) {
         new Popup({
           addScrollable: true,
           icon: `fa-birthday-cake`,
           isTemp: true,
-          title: `ESGST reminder: your cake day was ${Math.floor((time - registrationDate) / 86400000)} days ago.`
+          title: `ESGST reminder: your cake day was ${Math.floor((time - registrationTime) / 86400000)} days ago.`
         }).open();
       } else {
         new Popup({

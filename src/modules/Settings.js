@@ -317,15 +317,11 @@ class Settings {
       // noinspection JSIgnoredPromiseFromCall
       shared.esgst.settings.steamApiKey = SMAPIKey.value;
     });
-    let pp = null;
     if (shared.esgst.parameters.esgst === `esgst` && shared.esgst.parameters.esgst !== `guide` && shared.esgst.parameters.id) {
       this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {
       popup.open();
-    }
-    if (pp) {      
-      pp.open();
     }
 
     newIndicators = document.querySelectorAll(`.esgst-new-indicator`);
@@ -583,6 +579,7 @@ class Settings {
         content: [
           this.openPathsPopup(feature, id, `sg`)
         ],
+        // @ts-ignore
         id: `esgst-paths-sg`,
         name: `Where to run it on SteamGifts?`
       });
@@ -593,6 +590,7 @@ class Settings {
         content: [
           this.openPathsPopup(feature, id, `st`)
         ],
+        // @ts-ignore
         id: `esgst-paths-st`,
         name: `Where to run it on SteamTrades?`
       });
@@ -603,6 +601,7 @@ class Settings {
         content: [
           this.openPathsPopup(feature, id, `sgtools`)
         ],
+        // @ts-ignore
         id: `esgst-paths-sgtools`,
         name: `Where to run it on SGTools?`
       });

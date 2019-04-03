@@ -481,7 +481,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     let icon = name.previousElementSibling;
     let color = icon.previousElementSibling;
     let url = color.previousElementSibling.lastElementChild;
-    let compactSwitch = new ToggleSwitch(popup.description, null, null, `Use compact size.`, false, false, `The bottom/top padding of the link will be reduced to 8px.`);
+    let compactSwitch = new ToggleSwitch(popup.description, null, null, `Use compact size.`, false, false, `The bottom/top padding of the link will be reduced to 8px.`, false);
     description = description.lastElementChild;
     name = name.lastElementChild;
     icon = icon.lastElementChild;

@@ -31,9 +31,6 @@ class CommentsMultiReply extends Module {
   }
 
   mr_addButton(Context, main) {
-    /**
-     * @type {MR}
-     */
     let MR = {};
     MR.Context = Context;
     MR.Comment = Context.closest(this.esgst.sg ? `.comment` : `.comment_outer`);

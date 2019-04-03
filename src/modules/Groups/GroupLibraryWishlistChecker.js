@@ -227,9 +227,6 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
         if (wishlistData) {
           let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
-          /**
-           * @type {rgAppInfoResponse}
-           */
           let games = appInfo ? JSON.parse(appInfo[1]) : null;
           JSON.parse(wishlistData[1]).forEach(item => {
             let id = item.appid;

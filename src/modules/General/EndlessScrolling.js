@@ -711,7 +711,7 @@ class GeneralEndlessScrolling extends Module {
         };
       }))]);
       await endless_load(this.esgst.pinnedGiveaways, true);
-      this.esgst.modules.giveawaysPinnedGiveawaysButton.pgb();
+      this.esgst.modules.giveawaysPinnedGiveawaysButton.init();
     }
     if (!this.esgst.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
@@ -777,7 +777,7 @@ class GeneralEndlessScrolling extends Module {
         };
       }))]);
       await endless_load(this.esgst.pinnedGiveaways, true);
-      this.esgst.modules.giveawaysPinnedGiveawaysButton.pgb();
+      this.esgst.modules.giveawaysPinnedGiveawaysButton.init();
     }
   }
 

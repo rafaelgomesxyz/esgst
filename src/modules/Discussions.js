@@ -70,7 +70,9 @@ class Discussions extends Module {
         name: element.textContent.trim(),
         saved: this.esgst.discussions[id],
         tagContext: element,
-        tagPosition: `afterEnd`
+        tagPosition: `afterEnd`,
+        sortIndex: 0,
+        type: ``
       });
     }
     elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.table__row-outer-wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.table__row-outer-wrap, .row_outer_wrap`}`);
@@ -83,7 +85,10 @@ class Discussions extends Module {
       let discussion = {
         code: window.location.pathname.match(/^\/discussion\/(.+?)\//)[1],
         heading: document.getElementsByClassName(`page__heading__breadcrumbs`)[0],
-        headingContainer: document.getElementsByClassName(`page__heading`)[0]
+        headingContainer: document.getElementsByClassName(`page__heading`)[0],
+        menu: false,
+        sortIndex: 0,
+        type: ``
       };
       discussion.id = discussion.code;
       discussion.container = discussion.headingContainer;
@@ -100,11 +105,13 @@ class Discussions extends Module {
   }
 
   async discussions_getInfo(context, main) {
-    let match, discussion, savedUser, uf;
+    let match, savedUser, uf;
     if (context.closest(`.poll`)) {
       return;
     }
-    discussion = {};
+    const discussion = {};
+    discussion.menu = false;
+    discussion.sortIndex = 0;
     discussion.outerWrap = context;
     discussion.innerWrap = discussion.outerWrap.querySelector(`.table__row-inner-wrap, .row_inner_wrap`);
     if (!discussion.innerWrap) {

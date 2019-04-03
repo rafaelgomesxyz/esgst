@@ -245,7 +245,7 @@ class Common extends Module {
               this.esgst[`${type}Features`].push(item);
             }
           } else {
-            this.esgst[`${type}Features`].push(module[map]);
+            this.esgst[`${type}Features`].push(map);
           }
         }
       }

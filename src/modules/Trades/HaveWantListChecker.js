@@ -184,7 +184,6 @@ class TradesHaveWantListChecker extends Module {
   /**
    * @param obj
    * @param key
-   * @param {appListResponse} json
    * @returns {Promise<void>}
    */
   async hwlc_addGames(obj, key, json) {

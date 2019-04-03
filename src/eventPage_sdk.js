@@ -1,7 +1,9 @@
 import JSZip from 'jszip';
 
+// @ts-ignore
 Cu.importGlobalProperties(["fetch", "FileReader"]);
 
+// @ts-ignore
 const file = FileUtils.getFile(`ProfD`, [`esgst.sqlite`]);
 
 const TYPE_SET = 0;
@@ -10,7 +12,8 @@ const TYPE_DEL = 2;
 
 let workers = [];
 
-var button = buttons.ActionButton({
+// @ts-ignore
+buttons.ActionButton({
   id: "esgst",
   label: "ESGST",
   icon: {
@@ -33,11 +36,13 @@ exports.main = details => {
 };
 
 function handleClick(state) {
+  // @ts-ignore
   tabs.open("https://www.steamgifts.com/account/settings/profile?esgst=settings");
 }
 
 function handle_storage(operation, values) {
   return new Promise(resolve => {
+    // @ts-ignore
     const dbConn = Services.storage.openDatabase(file);
     dbConn.executeSimpleSQL(`CREATE TABLE IF NOT EXISTS esgst (key TEXT NOT NULL, value TEXT)`)
     dbConn.executeSimpleSQL(`CREATE UNIQUE INDEX IF NOT EXISTS idx_esgst_key ON esgst (key)`);
@@ -126,6 +131,7 @@ function handle_storage(operation, values) {
     return;
   }
   // Get the currently active tab.
+// @ts-ignore
   const currentTab = tabs.activeTab;
   if (settings.activateTab_sg) {
     // Set the SG tab as active.
@@ -167,7 +173,7 @@ async function readZip(data) {
   for (const key of keys) {
     output.push({
       name: key,
-      value: await zip.file(key).async(`string`)
+      value: await zip.file(key).async(`text`)
     });
   }
   return output;
@@ -203,8 +209,10 @@ function doFetch(parameters, request) {
             value: parts[2]
           };
         })
+        // @ts-ignore
         .filter(x => !Services.cookies.cookieExists(x));
       for (const cookie of setCookies) {
+        // @ts-ignore
         Services.cookies.add(cookie.host, cookie.path, cookie.name, cookie.value, cookie.isSecure, cookie.isHttpOnly, cookie.isSession, cookie.expires);
       }
     }
@@ -281,8 +289,10 @@ function do_unlock(lock) {
   }
 }
 
+// @ts-ignore
 PageMod({
   include: [`*.steamgifts.com`, `*.steamtrades.com`],
+  // @ts-ignore
   contentScriptFile: data.url(`esgst.js`),
   contentScriptWhen: `start`,
   onAttach: worker => {
@@ -291,7 +301,7 @@ PageMod({
     workers.push(worker);
 
     worker.on(`detach`, () => {
-      detachWorker(worker, workers);
+      detachWorker(worker);
     });
 
     worker.port.on(`do_lock`, async request => {
@@ -318,6 +328,7 @@ PageMod({
     });
 
     worker.port.on(`getPackageJson`, request => {
+      // @ts-ignore
       worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
     });
 
@@ -348,8 +359,10 @@ PageMod({
   }
 });
 
+// @ts-ignore
 PageMod({
   include: [`*.sgtools.info`],
+  // @ts-ignore
   contentScriptFile: data.url(`esgst_sgtools.js`),
   contentScriptWhen: `start`,
   onAttach: worker => {
@@ -398,6 +411,7 @@ function getTabs(request) {
     } else if (request.any) {
       any = true;
     } else {
+      // @ts-ignore
       tabs.open(item.url);
     }
   }
