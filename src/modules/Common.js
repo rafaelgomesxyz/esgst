@@ -5897,6 +5897,15 @@ class Common extends Module {
     this.esgst.currentScope = this.esgst.scopes[id];
     console.log(`Current scope: `, this.esgst.currentScope.id);
   }
+
+  getLevelFromCv(cv) {
+    for (const [index, value] of shared.esgst.cvLevels.entries()) {
+      if (cv < value) {
+        const prevValue = shared.esgst.cvLevels[index - 1];
+        return this.round((index - 1) + ((cv - prevValue) / (value - prevValue)));
+      }
+    }
+  }
 }
 
 // Singleton

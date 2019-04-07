@@ -4,6 +4,8 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.cvLevels = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
+
     this.vgb_index = undefined;
     this.vgb_wonFormat = undefined;
     this.vgb_sentFormat = undefined;
@@ -1766,6 +1768,8 @@ class Esgst {
     this.ggl = null;
 
     this.elgb_p = null;
+
+    this.fullLevel = null;
 
     this.level = null;
 

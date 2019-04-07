@@ -1,32 +1,23 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class UsersLevelUpCalculator extends Module {
   constructor() {
     super();
     this.info = {
-      description: [
-        [`ul`, [
-          [`li`, [
-            `Adds how much real CV a user needs to level up (calculated using the information from `,
-            [`a`, { href: `https://www.steamgifts.com/discussion/XaCbA/` }, `this discussion`],
-            `) to the "Contributor Level" row of their `,
-            [`a`, { href: `https://www.steamgifts.com/user/nobody` }, `profile`],
-            ` page.`
-          ]]
-        ]]
-      ],
+      description: `Show how much real CV a user needs to level up.`,
       features: {
         luc_c: {
           name: `Display current user level.`,
           sg: true
         }
       },
+      guideSteps: [
+        [`.esgst-luc-value`, `Here is how much this user needs to send (in real CV) to reach the next level. This value is calculated using the values mentioned <a class="table__column__secondary-link" href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>.`],
+        [``, `And that's it!`]
+      ],
+      guideUrl: `https://www.steamgifts.com/user/nobody`,
       id: `luc`,
       name: `Level Up Calculator`,
       sg: true,
@@ -38,21 +29,13 @@ class UsersLevelUpCalculator extends Module {
   }
 
   luc_calculate(profile) {
-    let base, lower, upper, value, values;
-    base = parseInt(profile.level);
-    if (base < 10) {
-      values = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
-      lower = values[base];
-      upper = values[base + 1];
-      value = Math.round((upper - (lower + ((upper - lower) * (profile.level - base)))) * 100) / 100;
-      createElements(profile.levelRowRight, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-luc-value`,
-          title: getFeatureTooltip(`luc`)
-        },
-        text: `(${this.esgst.luc_c ? `${profile.level} / ` : ``}~$${value} real CV to level ${base + 1})`,
-        type: `span`
-      }]);
+    for (const [index, value] of shared.esgst.cvLevels.entries()) {
+      if (profile.realSentCV < value) {
+        shared.common.createElements_v2(profile.levelRowRight, `beforeEnd`, [
+          [`span`, { class: `esgst-luc-value`, title: shared.common.getFeatureTooltip(`luc`) }, `(${this.esgst.luc_c ? `${profile.level} / ` : ``}~$${shared.common.round(value - profile.realSentCV)} real CV to level ${index})`]
+        ]);
+        break;
+      }
     }
   }
 }
