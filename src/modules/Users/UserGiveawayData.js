@@ -530,9 +530,9 @@ class UsersUserGiveawayData extends Module {
 
   async ugd_requestGiveawaysDone_2(obj) {
     if (obj.user.username === shared.esgst.username) {
-      const lpvCache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
+      const lpvCache = JSON.parse(getLocalValue(`lpvCache_v2`, `{}`));
       lpvCache.difference = 0;
-      setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
+      setLocalValue(`lpvCache_v2`, JSON.stringify(lpvCache));
     }
 
     obj.userGiveaways[`${obj.key}Timestamp`] = obj.timestamp;
