@@ -4,6 +4,7 @@ import { Process } from '../../class/Process';
 import { Table } from '../../class/Table';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -528,9 +529,11 @@ class UsersUserGiveawayData extends Module {
   }
 
   async ugd_requestGiveawaysDone_2(obj) {
-    const lpvCache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
-    lpvCache.difference = 0;
-    setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
+    if (obj.user.username === shared.esgst.username) {
+      const lpvCache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
+      lpvCache.difference = 0;
+      setLocalValue(`lpvCache`, JSON.stringify(lpvCache));
+    }
 
     obj.userGiveaways[`${obj.key}Timestamp`] = obj.timestamp;
     await lockAndSaveGiveaways(obj.giveaways);

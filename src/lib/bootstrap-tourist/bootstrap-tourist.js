@@ -1235,7 +1235,9 @@
 					{
 						if (step.element) {
 							var element = typeof step.element ===  "string" ? $(step.element)[0] : step.element[0];
-							element.scrollIntoView();
+							if (!_this._isInView(element)) {
+								element.scrollIntoView();
+							}
 						}
 						_this._showPopoverAndOverlay(i);
 						//_this._scrollIntoView(i);
@@ -1339,6 +1341,16 @@
 			}
 
 			return promise;
+		};
+
+		Tour.prototype._isInView = function (elem) {
+			var bounding = elem.getBoundingClientRect();
+			return (
+					bounding.top >= 0 &&
+					bounding.left >= 0 &&
+					bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+					bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+			);
 		};
 
 		Tour.prototype.getCurrentStepIndex = function () {

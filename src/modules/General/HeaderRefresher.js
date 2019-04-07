@@ -307,7 +307,7 @@ class GeneralHeaderRefresher extends Module {
       this.hr_notifyChange(hr, notify);
     }
     if (this.esgst.lpv) {
-      this.esgst.modules.generalLevelProgressVisualizer.lpv_setStyle();
+      await this.esgst.modules.generalLevelProgressVisualizer.lpv_setStyle();
     }
     if (this.esgst.pv) {
       this.esgst.modules.generalPointsVisualizer.pv_setStyle();
@@ -323,7 +323,8 @@ class GeneralHeaderRefresher extends Module {
       this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, ``).match(/\d+/)[0]);
       this.esgst.levelContainer = this.esgst.mainButton.lastElementChild;
       await this.esgst.onLevelContainerUpdated();
-      this.esgst.level = parseInt(this.esgst.levelContainer.textContent.match(/\d+/)[0]);
+      this.esgst.fullLevel = parseFloat(this.esgst.levelContainer.getAttribute(`title`).match(/\d+(\.\d*)?/)[0]);
+      this.esgst.level = parseInt(this.esgst.fullLevel);
       this.esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
       if (this.esgst.createdButton) {
         this.esgst.createdButton = this.esgst.createdButton.closest(`.nav__button-container`);

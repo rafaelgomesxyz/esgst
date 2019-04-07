@@ -1,5 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
+import { utils } from '../../lib/jsUtils';
 
 const
   createElements = common.createElements.bind(common),
@@ -36,56 +38,61 @@ class GeneralLevelProgressVisualizer extends Module {
     };
   }
 
-  init() {
+  async init() {
     if (this.esgst.hr) {
       return;
     }
-    this.lpv_setStyle();
+    await this.lpv_setStyle();
     this.joinStyles();
   }
 
-  lpv_setStyle() {
-    const currentLevel = parseFloat(this.esgst.levelContainer.getAttribute(`title`));
-    const currentBase = Math.trunc(currentLevel);
-    if (currentBase === 10) {
+  async getCache() {
+    const cache = JSON.parse(shared.common.getLocalValue(`lpvCache_v2`, `{ "cv": 0, "difference": 0, "level": 0 }`));
+    const currentLevel = parseFloat(shared.esgst.levelContainer.getAttribute(`title`));
+    if (currentLevel !== cache.level) {
+      cache.level = currentLevel;
+      const response = await shared.common.request({ method: `GET`, url: `/user/${shared.esgst.username}` });
+      const dom = utils.parseHtml(response.responseText);
+      const element = dom.querySelectorAll(`.featured__table__row__right`)[6];
+      const oldCv = cache.cv;
+      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name.replace(/[$,]/g, ``)));
+      if (oldCv > 0) {
+        const difference = shared.common.round(cache.cv - oldCv);
+        if (difference > 0) {
+          cache.difference += difference;
+        }
+      }
+      shared.common.setLocalValue(`lpvCache_v2`, JSON.stringify(cache));
+    }
+    return cache;
+  }
+
+  async lpv_setStyle() {
+    if (shared.esgst.level === 10) {
       return;
     }
-    let cache = JSON.parse(getLocalValue(`lpvCache`, `{}`));
-    if (!cache.level) {
-      cache = {
-        difference: 0,
-        level: currentLevel
-      };
-    }
-    cache.difference += round(currentLevel - cache.level);
-    cache.difference = round(cache.difference);
-    cache.level = currentLevel;
-    setLocalValue(`lpvCache`, JSON.stringify(cache));
-    const currentPercentage = Math.trunc(round(currentLevel - currentBase) * 100);
     const mainButtonWidth = this.esgst.mainButton.offsetWidth;
     const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
-    const currentProgress = Math.trunc(currentPercentage * (fullButtonWidth / 100)); // 186px is the width of the button
+    const currentPercentage = Math.trunc(round(shared.esgst.fullLevel - shared.esgst.level) * 100);
+    const currentProgress = Math.trunc(currentPercentage * (fullButtonWidth / 100));
     const firstBar = `${currentProgress}px`;
-    const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
+    const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`;
     let projectedFirstBar = `0`;
     let projectedSecondBar = `0`;
+    const cache = await this.getCache();
     const cv = this.lpv_getCv();
     if (cv > 0) {
-      // the formula is: current_percentage + (real_cv_to_gain / real_cv_difference),
-      // where real_cv_difference is the real CV difference between the next level and the current one
-      const prediction = round(currentPercentage + (round(cv) / [0.01, 25, 50, 100, 150, 250, 500, 1000, 1000, 2000][currentBase] * 100));
-      const predictedLevel = Math.min(10, round(currentBase + (prediction / 100)));
+      const predictedFullLevel = shared.common.getLevelFromCv((cache.cv + cv) - cache.difference);
+      window.console.log(`Current CV: ${cache.cv}`);
       window.console.log(`Final CV calculated: ${cv}`);
-      window.console.log(`Predicted level without difference: ${predictedLevel}`);
-      window.console.log(`Difference: ${cache.difference}`);
-      const newLevel = round(predictedLevel - cache.difference);
-      window.console.log(`Final predicted level: ${newLevel}`);
-      const newBase = parseInt(newLevel);
-      const newPercentage = Math.trunc(round(newLevel - newBase) * 100);
-      const newProgress = Math.trunc(Math.min(100, newPercentage) * (fullButtonWidth / 100));
-      projectedFirstBar = `${newProgress}px`;
-      projectedSecondBar = `${Math.max(0, newProgress - mainButtonWidth)}px`;
-      this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${newLevel})`);
+      window.console.log(`CV difference: ${cache.difference}`);
+      window.console.log(`Predicted level: ${predictedFullLevel}`);
+      const predictedLevel = Math.trunc(predictedFullLevel);
+      const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
+      const predictedProgress = Math.trunc(Math.min(100, predictedPercentage) * (fullButtonWidth / 100));
+      projectedFirstBar = `${predictedProgress}px`;
+      projectedSecondBar = `${Math.max(0, predictedProgress - mainButtonWidth)}px`;
+      this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${predictedFullLevel})`);
     }
     const barColor = this.esgst.lpv_barColor;
     const projectedBarColor = this.esgst.lpv_projectedBarColor;
@@ -265,19 +272,25 @@ class GeneralLevelProgressVisualizer extends Module {
               open += giveaway.copies;
             } else {
               // giveaway is closed
-              if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                // giveaway counts for cv
-                if (Array.isArray(giveaway.winners)) {
-                  // user is using the new database, which is more accurate
+              if (Array.isArray(giveaway.winners)) {
+                // user is using the new database, which is more accurate
+                if (giveaway.winners.length > 0) {
                   for (const winner of giveaway.winners) {
-                    if (winner.status === `Received`) {
-                      sent += 1;
+                    if (winner.status === `Received`) {                      
+                      if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                        // giveaway counts for cv
+                        sent += 1;
+                      }
+                    } else if (winner.status === `Awaiting Feedback`) {
+                      open += 1;
                     }
                   }
-                } else if (giveaway.winners > 0) {
-                  // user is using the old database, not very accurate
-                  sent += Math.min(giveaway.entries, giveaway.winners);
+                } else if (giveaway.entries > 0) {
+                  open += giveaway.copies;
                 }
+              } else if (giveaway.winners > 0) {
+                // user is using the old database, not very accurate
+                window.console.log(`Old database no longer supported, contact the developer.`);
               }
             }
           }
@@ -302,7 +315,7 @@ class GeneralLevelProgressVisualizer extends Module {
               realValue += value;
             }
             if (realValue > 0) {
-              cv += value;
+              cv += realValue;
               window.console.log(`Adding ${realValue} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
               window.console.log(`Total CV: ${cv}`);
             }
