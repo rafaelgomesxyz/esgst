@@ -3,6 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   createConfirmation = common.createConfirmation.bind(common),
@@ -270,7 +271,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
       }
     }
-    setValue(`settings`, JSON.stringify(this.esgst.settings));
+    shared.common.lockAndSaveSettings();
   }
 
   chfl_addButton(chfl, removedKey, forceKey) {
@@ -580,7 +581,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(item);
     }
     this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
-    await setValue(`settings`, JSON.stringify(this.esgst.settings));
+    await shared.common.lockAndSaveSettings();
     chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
       attributes: {
         [`data-link-id`]: item.id,
@@ -611,7 +612,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     popup.close();
   }
 
-  chfl_resetLinks(chfl, key, event) {
+  async chfl_resetLinks(chfl, key, event) {
     event.preventDefault();
     event.stopPropagation();
     for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
@@ -621,10 +622,9 @@ class GeneralCustomHeaderFooterLinks extends Module {
       element.remove();
       delete chfl.sources[key].elements[item.id];
     }
-    this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`];
+    await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`]);
     this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
     this.chfl_reorder(chfl, key);
-    setValue(`settings`, JSON.stringify(this.esgst.settings));
   }
 
   chfl_removeLink(chfl, id, key, event) {

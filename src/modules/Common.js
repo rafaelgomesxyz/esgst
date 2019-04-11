@@ -3479,7 +3479,7 @@ class Common extends Module {
           type: `i`
         }]
       }]);
-      await this.setValue(`settings`, JSON.stringify(this.esgst.settings));
+      await this.lockAndSaveSettings();
       message.classList.add(`esgst-green`);
       this.createElements(message, `inner`, [{
         attributes: {
