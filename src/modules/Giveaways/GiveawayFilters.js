@@ -1,6 +1,7 @@
 import { Button } from '../../class/Button';
 import { common } from '../Common';
 import { Filters } from '../Filters';
+import { shared } from '../../class/Shared';
 
 const
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -806,10 +807,14 @@ class GiveawaysGiveawayFilters extends Filters {
         inputs[key] = document.querySelector(`[name="${key}"]`);
       }
       document.getElementsByClassName(`form__submit-button js__submit-form`)[0].addEventListener(`click`, () => {
+        const settings = [];
         for (key in inputs) {
-          this.esgst.settings[key] = parseInt(inputs[key].value);
+          settings.push({
+            id: key,
+            value: parseInt(inputs[key].value)
+          });
         }
-        setValue(`settings`, JSON.stringify(this.esgst.settings));
+        shared.common.setSetting(settings);
       });
     }
   }

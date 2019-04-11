@@ -950,7 +950,7 @@ class Settings {
 
   async resetElementOrdering(id, obj, obj_gv) {
     shared.esgst[id] = shared.esgst.settings[id] = shared.esgst.defaultValues[id];
-    await shared.common.setValue(`settings`, JSON.stringify(shared.esgst.settings));
+    await shared.common.lockAndSaveSettings();
     shared.esgst.modules.giveaways.giveaways_reorder(obj);
     shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
     shared.common.reorderButtons(obj);
