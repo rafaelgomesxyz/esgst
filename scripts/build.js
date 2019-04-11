@@ -158,14 +158,18 @@ function getWebExtensionManifest(browserName) {
   switch (browserName) {
     case `chrome`:
       manifest.background.persistent = true;
-      manifest.key = bextJson.chrome.extensionKey;
+      if (!args.temp) {
+        manifest.key = bextJson.chrome.extensionKey;
+      }
       break;
     case `firefox`:
-      manifest.browser_specific_settings = {
-        gecko: {
-          id: bextJson.firefox.extensionId
-        }
-      };
+      if (!args.temp) {
+        manifest.browser_specific_settings = {
+          gecko: {
+            id: bextJson.firefox.extensionId
+          }
+        };
+      }
       break;
     default:
       break;

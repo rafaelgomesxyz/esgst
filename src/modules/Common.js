@@ -4217,6 +4217,7 @@ class Common extends Module {
       before = 1;
       after = -1;
     }
+    console.log(array);
     array.sort((a, b) => {
       if (typeof a[key] === `string` && typeof b[key] === `string`) {
         return (a[key].toLowerCase().localeCompare(b[key].toLowerCase()) * after);
