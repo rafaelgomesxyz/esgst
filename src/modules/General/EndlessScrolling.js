@@ -200,7 +200,7 @@ class GeneralEndlessScrolling extends Module {
 
   es_observe(es, entries) {
     for (const entry of entries) {
-      if (!entry.boundingClientRect && !entry.rootBounds) {
+      if (!entry.boundingClientRect || !entry.rootBounds) {
         continue;
       }
       if (!entry.target.getAttribute(`data-esgst-intersection`)) {
