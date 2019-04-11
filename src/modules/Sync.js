@@ -644,7 +644,7 @@ async function sync(syncer) {
   // sync won games
   if ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && shared.esgst.settings.syncWonGames)) {
     syncer.progress.lastElementChild.textContent = `Syncing your won games...`;
-    await shared.common.getWonGames(`0`, syncer);
+    await shared.common.getWonGames(syncer);
     shared.common.createElements_v2(syncer.results, `beforeEnd`, [
       [`div`, `Won games synced.`]
     ]);

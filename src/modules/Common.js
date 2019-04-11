@@ -127,6 +127,8 @@ class Common extends Module {
    */
   async loadFeatures(modules) {
     console.log(this.esgst.games.apps[269650]);
+    console.log(Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].won));
+    console.log(Object.keys(this.esgst.games.subs).filter(x => this.esgst.games.subs[x].won));
     if (this.isCurrentPath(`Account`)) {
       this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
         name: `ESGST`,
@@ -2277,22 +2279,20 @@ class Common extends Module {
     }
   }
 
-  async getWonGames(count, syncer) {
+  async getWonGames(syncer) {
     const savedGames = JSON.parse(this.getValue(`games`));
     const to_save = { apps: {}, subs: {} };
-    if (syncer) {
-      for (const id in savedGames.apps) {
-        if (savedGames.apps.hasOwnProperty(id)) {
-          if (savedGames.apps[id].won) {
-            to_save.apps[id] = { won: null };
-          }
+    for (const id in savedGames.apps) {
+      if (savedGames.apps.hasOwnProperty(id)) {
+        if (savedGames.apps[id].won) {
+          to_save.apps[id] = { won: null };
         }
       }
-      for (const id in savedGames.subs) {
-        if (savedGames.subs.hasOwnProperty(id)) {
-          if (savedGames.subs[id].won) {
-            to_save.subs[id] = { won: null };
-          }
+    }
+    for (const id in savedGames.subs) {
+      if (savedGames.subs.hasOwnProperty(id)) {
+        if (savedGames.subs[id].won) {
+          to_save.subs[id] = { won: null };
         }
       }
     }
@@ -2300,9 +2300,7 @@ class Common extends Module {
       nextPage = 1,
       pagination = null;
     do {
-      if (syncer) {
-        syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
-      }
+      syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ``})...`;
       const responseHtml = parseHtml((await this.request({
         method: `GET`,
         url: `/giveaways/won/search?page=${nextPage}`
@@ -2312,16 +2310,19 @@ class Common extends Module {
         lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml);
       }
       for (const element of elements) {
-        if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden), .table__column--gift-feedback .trigger-popup .icon-red`)) continue;
+        if (element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden)`)) {
+          continue;
+        }
         const info = await this.esgst.modules.games.games_getInfo(element);
-        if (!info) continue;
+        if (!info) {
+          continue;
+        }
         to_save[info.type][info.id] = { won: 1 };
       }
       nextPage += 1;
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-    } while ((!syncer || !syncer.canceled) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
     await this.lockAndSaveGames(to_save);
-    this.setLocalValue(`wonCount`, count);
   }
 
   saveAndSortContent(array, key, options) {

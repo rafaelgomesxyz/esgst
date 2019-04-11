@@ -2,12 +2,12 @@ import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { browser } from '../../browser';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getLocalValue = common.getLocalValue.bind(common),
-  getWonGames = common.getWonGames.bind(common),
   request = common.request.bind(common),
   setLocalValue = common.setLocalValue.bind(common)
   ;
@@ -332,11 +332,6 @@ class GeneralHeaderRefresher extends Module {
       this.esgst.wonButton = navigation.getElementsByClassName(`fa-trophy`)[0];
       if (this.esgst.wonButton) {
         this.esgst.wonButton = this.esgst.wonButton.closest(`.nav__button-container`);
-        let won = this.esgst.wonButton.getElementsByClassName(`nav__notification`)[0];
-        if (won && won.textContent !== getLocalValue(`wonCount`)) {
-          console.log(won.textContent, getLocalValue(`wonCount`));
-          getWonGames(won.textContent);
-        }
       }
       if (this.esgst.hr_g && context !== document) {
         this.esgst.wishlist = 0;
