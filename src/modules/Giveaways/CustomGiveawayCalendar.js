@@ -55,8 +55,18 @@ class GiveawaysCustomGiveawayCalendar extends Module {
       }
 
       function esgst_cgc() {
-        $("input[name=start_time]").datetimepicker("destroy");
-        $("input[name=start_time]").datetimepicker({
+        const actualStartInput = document.querySelector(\`input[name=start_time]\`);
+        actualStartInput.setAttribute(\`type\`, \`hidden\`);
+        const startInput = document.createElement(\`input\`);
+        startInput.className = \`form__input-small\`;
+        startInput.setAttribute(\`type\`, \`text\`);
+        actualStartInput.parentElement.insertBefore(startInput, actualStartInput);
+        $(actualStartInput).datetimepicker("destroy");
+        $(startInput).datetimepicker({
+          altField: "input[name=start_time]",
+          altFieldTimeOnly: false,
+          altFormat: "M d, yy",
+          altTimeFormat: "h:mm tt",
           beforeShowDay: t,
           dateFormat: "${this.esgst.cgc_dateFormat}",
           firstDay: "${this.esgst.cgc_index_0}",
@@ -75,9 +85,22 @@ class GiveawaysCustomGiveawayCalendar extends Module {
             s()
           }
         });
+        if (actualStartInput.value) {
+          $(startInput).datepicker("setDate", actualStartInput.value);
+        }
 
-        $("input[name=end_time]").datetimepicker("destroy");
-        $("input[name=end_time]").datetimepicker({
+        const actualEndInput = document.querySelector(\`input[name=end_time]\`);
+        actualEndInput.setAttribute(\`type\`, \`hidden\`);
+        const endInput = document.createElement(\`input\`);
+        endInput.className = \`form__input-small\`;
+        endInput.setAttribute(\`type\`, \`text\`);
+        actualEndInput.parentElement.insertBefore(endInput, actualEndInput);
+        $(actualEndInput).datetimepicker("destroy");
+        $(endInput).datetimepicker({
+          altField: "input[name=end_time]",
+          altFieldTimeOnly: false,
+          altFormat: "M d, yy",
+          altTimeFormat: "h:mm tt",
           beforeShowDay: t,
           dateFormat: "${this.esgst.cgc_dateFormat}",
           firstDay: "${this.esgst.cgc_index_0}",
@@ -96,6 +119,9 @@ class GiveawaysCustomGiveawayCalendar extends Module {
             i()
           }
         });
+        if (actualEndInput.value) {
+          $(endInput).datepicker("setDate", actualEndInput.value);
+        }
 
         function t(e) {
           return (start_time = $("input[name=start_time]").datetimepicker("getDate")) && (end_time = $("input[name=end_time]").datetimepicker("getDate")) ? (start_time.setHours(0, 0, 0, 0), end_time.setHours(0, 0, 0, 0), [!0, e.getTime() >= start_time.getTime() && e.getTime() <= end_time.getTime() ? "datepicker-highlight-range" : ""]) : [!0, ""]
