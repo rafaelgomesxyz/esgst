@@ -266,7 +266,7 @@ class GiveawaysGiveawayExtractor extends Module {
         this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
       if (this.esgst.gf && this.esgst.gf_m) {
-        heading.appendChild(this.esgst.modules.giveawayGiveawayFilters.filters_addContainer(heading, `Ge`));
+        heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Ge`));
       }
       if (this.esgst.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
@@ -280,8 +280,13 @@ class GiveawaysGiveawayExtractor extends Module {
       icon2: `fa-times`,
       title1: `Extract`,
       title2: `Cancel`,
-      callback1: () => {
+      callback1: (hasScrolled) => {
         return new Promise(resolve => {
+          if (hasScrolled && ge.isComplete) {
+            resolve();
+            return;
+          }
+          ge.isComplete = false;
           if (cacheWarning || ge.reExtract) {
             if (ge.reExtract) {
               ge.extractOnward = this.esgst.ge_extractOnward;
@@ -310,13 +315,6 @@ class GiveawaysGiveawayExtractor extends Module {
               jigidiLinks: new Set(),
               timestamp: now
             };
-            if (this.esgst.es_ge) {
-              ge.popup.scrollable.addEventListener(`scroll`, () => {
-                if (!ge.isCanceled && ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
-                  ge.set.trigger();
-                }
-              });
-            }
           }
           ge.mainCallback = resolve;
           if (ge.callback) {
@@ -447,13 +445,15 @@ class GiveawaysGiveawayExtractor extends Module {
         timestamp: now
       };
       ge.set.trigger();
-      if (this.esgst.es_ge) {
-        ge.popup.scrollable.addEventListener(`scroll`, () => {
-          if (!ge.isCanceled && ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight && ge.set && !ge.set.busy) {
-            ge.set.trigger();
-          }
-        });
-      }
+    }
+    if (this.esgst.es_ge) {
+      ge.popup.scrollable.addEventListener(`scroll`, this.checkScroll.bind(this, ge));
+    }
+  }
+
+  checkScroll(ge, filtered) {
+    if (!ge.isCanceled && ge.set && !ge.set.busy && (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight || filtered)) {
+      ge.set.trigger(true);
     }
   }
 
@@ -486,9 +486,7 @@ class GiveawaysGiveawayExtractor extends Module {
             filtered = true;
           }
         }
-        if ((this.esgst.es_ge && ge.popup.scrollable.scrollHeight <= ge.popup.scrollable.offsetHeight) || filtered) {
-          ge.set.trigger();
-        }
+        this.checkScroll(ge, filtered);
       } else {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
@@ -798,6 +796,7 @@ class GiveawaysGiveawayExtractor extends Module {
     createElements(ge.results, `beforeEnd`, items);
     ge.set.set.firstElementChild.lastElementChild.textContent = `Re-Extract`;
     ge.reExtract = true;
+    ge.isComplete = true;
     if (!ge.optionsAdded) {
       this.ge_showOptions(ge, ge.popup.description, true);
       ge.optionsAdded = true;

@@ -53,22 +53,11 @@ class ButtonSet {
     this.callback1 = details.callback1;
     this.callback2 = details.callback2;
     if (this.callback1) {
-      this.button1.addEventListener(`click`, async () => {
-        this.isCanceled = false;
-        this.toggle();
-        await this.callback1();
-        if (!this.isCanceled) {
-          this.toggle();
-        }
-      });
+      this.button1.addEventListener(`click`, this.triggerButton1.bind(this));
     }
     if (this.callback2) {
       this.button2.classList.remove(`is-disabled`, `is_disabled`);
-      this.button2.addEventListener(`click`, async () => {
-        this.isCanceled = true;
-        this.toggle();
-        await this.callback2();
-      });
+      this.button2.addEventListener(`click`, this.triggerButton2.bind(this));
     }
     if (details.input) {
       details.input.addEventListener(`keydown`, event => {
@@ -87,7 +76,22 @@ class ButtonSet {
   }
 
   trigger() {
-    this.button1.dispatchEvent(new Event(`click`));
+    this.triggerButton1(...arguments);
+  }
+
+  async triggerButton1() {
+    this.isCanceled = false;
+    this.toggle();
+    await this.callback1(...arguments);
+    if (!this.isCanceled) {
+      this.toggle();
+    }
+  }
+
+  async triggerButton2() {
+    this.isCanceled = true;
+    this.toggle();
+    await this.callback2(...arguments);
   }
 
   changeButton(i) {

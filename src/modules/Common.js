@@ -127,8 +127,6 @@ class Common extends Module {
    */
   async loadFeatures(modules) {
     console.log(this.esgst.games.apps[269650]);
-    console.log(Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].won));
-    console.log(Object.keys(this.esgst.games.subs).filter(x => this.esgst.games.subs[x].won));
     if (this.isCurrentPath(`Account`)) {
       this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
         name: `ESGST`,
@@ -4218,7 +4216,6 @@ class Common extends Module {
       before = 1;
       after = -1;
     }
-    console.log(array);
     array.sort((a, b) => {
       if (typeof a[key] === `string` && typeof b[key] === `string`) {
         return (a[key].toLowerCase().localeCompare(b[key].toLowerCase()) * after);
@@ -5862,13 +5859,13 @@ class Common extends Module {
       const newSelectors = [];
       for (const selector of selectors) {
         newSelectors.push(
-          `.esgst-es-page-${endless} ${selector}`,
-          `.esgst-es-page-${endless}${selector}`
+          selector.replace(/X/, `.esgst-es-page-${endless} `),
+          selector.replace(/X/, `.esgst-es-page-${endless}`)
         );
       }
       selectors = newSelectors.join(`, `);
     } else {
-      selectors = selectors.join(`, `);
+      selectors = selectors.map(x => x.replace(/X/, ``)).join(`, `);
     }
     return selectors;
   }
