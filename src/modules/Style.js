@@ -2631,7 +2631,12 @@ function addStyle() {
     }
 
     .esgst-version-row {
-      cursor: default;
+      cursor: unset;
+      word-break: break-all;
+    }
+
+    .esgst-version-row .esgst-header-menu-description i {
+      font-size: 14px;
     }
 
     .esgst-header-menu-row:not(:first-child) {
