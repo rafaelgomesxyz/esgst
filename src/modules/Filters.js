@@ -975,16 +975,16 @@ class Filters extends Module {
   }
 
   filter_manual(obj) {
-    if (obj.popup) {
-      obj.popup.open();
+    if (obj.manualPopup) {
+      obj.manualPopup.open();
       return;
     }
-    obj.popup = new Popup({
+    obj.manualPopup = new Popup({
       icon: `fa-book`,
       title: `Advanced Filters Manual`,
       addScrollable: `left`
     });
-    obj.popup.getScrollable([
+    obj.manualPopup.getScrollable([
       [`div`, { class: `esgst-bold` }, `Interface`],
       [`br`],
       [`div`, { class: `markdown` }, [
@@ -1079,7 +1079,7 @@ class Filters extends Module {
       ]],
       [`img`, { src: `https://i.imgur.com/F1UXcKs.png` }]
     ]);
-    obj.popup.open();
+    obj.manualPopup.open();
   }
 
   filters_convert(presets) {
