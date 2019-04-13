@@ -905,6 +905,7 @@ class Esgst {
       gf_enableGb: true,
       gf_enableGe: true,
       gf_enableGed: true,
+      cf_enableElgb: true,
       gf_preset: null,
       gf_presetWishlist: null,
       gf_presetRecommended: null,
@@ -918,6 +919,7 @@ class Esgst {
       gf_presetGb: null,
       gf_presetGe: null,
       gf_presetGed: null,
+      cf_presetElgb: null,
       ggl_index: 0,
       dt_colors: {},
       gpt_colors: {},
@@ -1842,6 +1844,8 @@ class Esgst {
     this.giveawayLinks_gv = null;
 
     this.gfPopup = null;
+
+    this.cfPopup = null;
 
     this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
 

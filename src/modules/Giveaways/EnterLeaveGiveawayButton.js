@@ -3,6 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -349,15 +350,34 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   async elgb_openPopup(giveaway, main, source, mainCallback) {
+    let headingButton;
     let popup = new Popup({
       addScrollable: true, icon: `fa-file-text-o`, isTemp: true, title: [
-        [`a`, { href: giveaway.url }, [
+        [`a`, { href: giveaway.url, ref: ref => headingButton = ref }, [
           [`span`, giveaway.name]
         ]],
         ` by `,
         [`a`, { href: `/user/${giveaway.creator}` }, giveaway.creator]
-      ]
+      ],
+      name: `elgb`
     });
+    if (headingButton) {
+      shared.esgst.scopes[popup.id].sourceLink = headingButton;
+    }
+    if ((this.esgst.cf && this.esgst.cf_m) || this.esgst.mm) {
+      let heading = createElements(popup.description, `afterBegin`, [{
+        attributes: {
+          class: `page__heading`
+        },
+        type: `div`
+      }]);
+      if (this.esgst.cf && this.esgst.cf_m) {
+        heading.appendChild(this.esgst.modules.commentsCommentFilters.filters_addContainer(heading, `Elgb`));
+      }
+      if (this.esgst.mm) {
+        this.esgst.modules.generalMultiManager.mm(heading);
+      }
+    }
     if (giveaway.entered) {
       let set = new ButtonSet({
         color1: `yellow`,
@@ -502,7 +522,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }]);
       if (this.esgst.elgb_fp || mainCallback) {
         comments.classList.remove(`esgst-hidden`);
-        common.endless_load(comments);
+        common.endless_load(popup.scrollable);
       } else {
         const commentButton = new ButtonSet({
           color1: `grey`,
@@ -514,7 +534,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           callback1: () => {
             commentButton.remove();
             comments.classList.remove(`esgst-hidden`);
-            common.endless_load(comments);
+            common.endless_load(popup.scrollable);
           }
         }).set;
         popup.description.appendChild(commentButton);

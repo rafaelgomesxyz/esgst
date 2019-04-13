@@ -23,15 +23,16 @@ class Comments extends Module {
     let count, comments, i, n;
     comments = await this.comments_get(context, document, main, endless);
     if (!comments.length) return;
-    if (main) {
-      for (i = 0, n = comments.length; i < n; ++i) {
-        comments[i].index = i;
-        this.esgst.scopes.main.comments.push(comments[i]);
-      }
+    for (i = 0, n = comments.length; i < n; ++i) {
+      comments[i].index = i;
+      this.esgst.currentScope.comments.push(comments[i]);
     }
     if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
       if (this.esgst.cf && this.esgst.cf.filteredCount && this.esgst[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
+      }
+      if (this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && this.esgst[`cf_enable${this.esgst.cfPopup.type}`]) {
+        this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cfPopup, false, endless);
       }
     }
     if (this.esgst.ct) {
@@ -68,7 +69,7 @@ class Comments extends Module {
     ]));
     sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
     for (i = matches.length - 1; i >= 0; --i) {
-      comment = await this.comments_getInfo(matches[i], sourceLink, endless ? this.esgst.users : JSON.parse(getValue(`users`)), main);
+      comment = await this.comments_getInfo(matches[i], shared.esgst.currentScope.sourceLink || sourceLink, endless ? this.esgst.users : JSON.parse(getValue(`users`)), main);
       if (comment) {
         comments.push(comment);
       }
@@ -157,7 +158,8 @@ class Comments extends Module {
       } else {
         source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
       }
-    } else if (sourceLink) {
+    }
+    if (!source && sourceLink) {
       source = sourceLink.getAttribute(`href`);
     }
     if (source) {
