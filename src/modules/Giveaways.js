@@ -1,5 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
+import { shared } from '../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -51,9 +52,16 @@ class Giveaways extends Module {
     let giveaway, giveaways, i, mainContext, matches, query;
     giveaways = [];
     if (!hr && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.archivePath)) {
-      query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.table:not(.table--summary) .esgst-es-page-${endless} .table__row-outer-wrap, .table:not(.table--summary) .esgst-es-page-${endless}.table__row-outer-wrap` : `.table:not(.table--summary) .table__row-outer-wrap`}`;
+      query = shared.common.getSelectors(endless, [
+        `X.giveaway__row-outer-wrap`,
+        `X.featured__outer-wrap--giveaway`,
+        `.table:not(.table--summary) X.table__row-outer-wrap`
+      ]);
     } else {
-      query = `${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}`;
+      query = shared.common.getSelectors(endless, [
+        `X.giveaway__row-outer-wrap`,
+        `X.featured__outer-wrap--giveaway`
+      ]);
     }
     if (key) {
       mainContext = context;

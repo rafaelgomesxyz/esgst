@@ -82,7 +82,10 @@ class CommentsCollapseExpandReplyButton extends Module {
   cerb_getReplies(collapse, expand, context, main, source, endless) {
     let id = context === document && main ? window.location.hash.replace(/#/, ``) : null,
       permalink = id ? document.getElementById(id) : null,
-      elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} :not(.esgst-popup) .comments > .comment, .esgst-es-page-${endless}:not(.esgst-popup) .comments > .comment` : `:not(.esgst-popup) .comments > .comment`}, ${endless ? `.esgst-es-page-${endless} :not(.esgst-popup) .comments > .comment_outer, .esgst-es-page-${endless}:not(.esgst-popup) .comments > .comment_outer` : `:not(.esgst-popup) .comments > .comment_outer`}`);
+      elements = context.querySelectorAll(shared.common.getSelectors(endless, [
+        `X:not(.esgst-popup) .comments > .comment`,
+        `X:not(.esgst-popup) .comments > .comment_outer`
+      ]));
     if (!elements.length) return;
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);

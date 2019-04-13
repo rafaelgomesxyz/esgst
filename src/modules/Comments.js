@@ -62,9 +62,9 @@ class Comments extends Module {
     let comment, comments, i, matches, sourceLink;
     comments = [];
     matches = context.querySelectorAll(common.getSelectors(endless, [
-      `:not(.comment--submit) > .comment__parent`,
-      `.comment__child`,
-      `.comment_inner`
+      `X:not(.comment--submit) > .comment__parent`,
+      `X.comment__child`,
+      `X.comment_inner`
     ]));
     sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
     for (i = matches.length - 1; i >= 0; --i) {
