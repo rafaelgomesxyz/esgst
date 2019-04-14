@@ -1,13 +1,5 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-
-const
-  createElements = common.createElements.bind(common),
-  createLock = common.createLock.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getValue = common.getValue.bind(common),
-  setValue = common.setValue.bind(common)
-  ;
+import { shared } from '../../class/Shared';
 
 class GamesEnteredGameHighlighter extends Module {
   constructor() {
@@ -36,62 +28,53 @@ class GamesEnteredGameHighlighter extends Module {
   egh_getGames(games) {
     for (const game of games.all) {
       if (this.esgst.giveawayPath) {
-        let button = document.querySelector(`.sidebar__entry-insert`);
+        const button = document.querySelector(`.sidebar__entry-insert`);
         if (button) {
           button.addEventListener(`click`, this.egh_saveGame.bind(this, game.id, game.type));
         }
       }
-      if (this.esgst.games[game.type][game.id] && this.esgst.games[game.type][game.id].entered && !game.container.getElementsByClassName(`esgst-egh-button`)[0]) {
-        createElements((game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName, `beforeBegin`, [{
-          attributes: {
-            [`data-draggable-id`]: `egh`,
-            class: `esgst-egh-button`,
-            title: getFeatureTooltip(`egh`, `You have entered giveaways for this game before. Click to unhighlight it`)
-          },
-          type: `a`,
-          children: [{
-            attributes: {
-              class: `fa fa-star esgst-egh-icon`
-            },
-            type: `i`
-          }]
-        }]).addEventListener(`click`, this.egh_unhighlightGame.bind(this, game.id, game.type));
+      const savedGame = this.esgst.games[game.type][game.id];
+      if (savedGame && savedGame.entered && !game.container.querySelector(`.esgst-egh-button`)) {
+        const count = Number(savedGame.entered);
+        shared.common.createElements_v2((game.container.closest(`.poll`) && game.container.querySelector(`.table__column__heading`)) || game.headingName, `beforeBegin`, [
+          [`a`, { 'data-draggable-id': `egh`, class: `esgst-egh-button esgst-clickable`, title: shared.common.getFeatureTooltip(`egh`, `You have entered ${count} giveaways for this game before. Click to unhighlight it (will restart the counter to 0).`), onclick: this.egh_unhighlightGame.bind(this, game.id, game.type) }, [
+            [`i`, { class: `fa fa-star esgst-egh-icon` }, ],
+            ` ${count}`
+          ]]
+        ]);
       }
     }
   }
 
   async egh_saveGame(id, type) {
-    let games;
-    if (id && type) {
-      games = JSON.parse(getValue(`games`));
-      if (!games[type][id] || !games[type][id].entered) {
-        let deleteLock = await createLock(`gameLock`, 300);
-        games = JSON.parse(getValue(`games`));
-        if (!games[type][id]) {
-          games[type][id] = {};
-        }
-        games[type][id].entered = true;
-        await setValue(`games`, JSON.stringify(games));
-        deleteLock();
-      }
+    if (!id || !type) {
+      return;
     }
+    let game = shared.esgst.games[type][id];
+    if (!game) {
+      game = {};
+    }
+    if (!game.entered) {
+      game.entered = 0;
+    }
+    game.entered += 1;
+    await shared.common.lockAndSaveGames({ [type]: { [id]: game } });
   }
 
   async egh_unhighlightGame(id, type, event) {
-    let icon = event.currentTarget;
-    if (icon.classList.contains(`fa-spin`)) return;
-    createElements(icon, `inner`, [{
-      attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
-      },
-      type: `i`
-    }]);
-    let deleteLock = await createLock(`gameLock`, 300);
-    let games = JSON.parse(getValue(`games`));
-    delete games[type][id].entered;
-    await setValue(`games`, JSON.stringify(games));
+    const icon = event.currentTarget;
+    if (icon.classList.contains(`fa-spin`)) {
+      return;
+    }
+    shared.common.createElements_v2(icon, `inner`, [
+      [`i`, { class: `fa fa-circle-o-notch fa-spin` }]
+    ]);
+    let game = shared.esgst.games[type][id];
+    if (game && game.entered) {
+      game.entered = null;
+      await shared.common.lockAndSaveGames({ [type]: { [id]: game } });
+    }
     icon.remove();
-    deleteLock();
   }
 }
 
