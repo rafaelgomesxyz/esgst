@@ -98,7 +98,7 @@ class Giveaways extends Module {
       giveaway.id = info.id;
       giveaway.type = info.type;
       if (this.esgst.games && this.esgst.games[giveaway.type][giveaway.id]) {
-        keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+        keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`, `banned`, `removed`];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
           if (this.esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
