@@ -333,7 +333,7 @@ class GeneralHeaderRefresher extends Module {
       if (this.esgst.wonButton) {
         this.esgst.wonButton = this.esgst.wonButton.closest(`.nav__button-container`);
       }
-      if (this.esgst.hr_g && context !== document) {
+      if (this.esgst.hr_w && context !== document) {
         this.esgst.wishlist = 0;
         this.esgst.wishlistNew = 0;
         let cache = JSON.parse(getLocalValue(`hrWishlistCache`, `[]`));
@@ -357,28 +357,14 @@ class GeneralHeaderRefresher extends Module {
           }
         }
         setLocalValue(`hrWishlistCache`, JSON.stringify(cache));
-        this.esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
-        if (this.esgst.inboxButton) {
-          this.esgst.inboxButton = this.esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
-          this.esgst.messageCountContainer = this.esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
-        }
-        this.esgst.messageCount = this.esgst.messageCountContainer ? this.esgst.messageCountContainer.textContent : ``;
-      } else {
-        this.esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
-        if (this.esgst.inboxButton) {
-          this.esgst.inboxButton = this.esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
-          this.esgst.messageCountContainer = this.esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
-        }
-        this.esgst.messageCount = this.esgst.messageCountContainer ? this.esgst.messageCountContainer.textContent : ``;
       }
-    } else {
-      this.esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
-      if (this.esgst.inboxButton) {
-        this.esgst.inboxButton = this.esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
-        this.esgst.messageCountContainer = this.esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
-      }
-      this.esgst.messageCount = this.esgst.messageCountContainer ? this.esgst.messageCountContainer.textContent : ``;
     }
+    this.esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
+    if (this.esgst.inboxButton) {
+      this.esgst.inboxButton = this.esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
+      this.esgst.messageCountContainer = this.esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
+    }
+    this.esgst.messageCount = this.esgst.messageCountContainer ? this.esgst.messageCountContainer.textContent : ``;
   }
 
   hr_notifyChange(hr, notify) {
