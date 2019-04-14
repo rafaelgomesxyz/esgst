@@ -307,6 +307,13 @@ function _do_lock(lock, resolve) {
   }
 }
 
+function update_lock(lock) {
+  const locked = locks[lock.key];
+  if (locked.uuid === lock.uuid) {
+    locked.timestamp = Date.now();
+  }
+}
+
 function do_unlock(lock) {
   if (locks[lock.key] && locks[lock.key].uuid === lock.uuid) {
     delete locks[lock.key];
@@ -319,6 +326,10 @@ browser.runtime.onMessage.addListener((request, sender) => {
     switch (request.action) {
       case `do_lock`:
         do_lock(request.lock).then(resolve);
+        break;
+      case `update_lock`:
+        update_lock(request.lock);
+        resolve();
         break;
       case `do_unlock`:
         do_unlock(request.lock);

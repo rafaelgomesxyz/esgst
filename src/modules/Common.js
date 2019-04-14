@@ -3179,14 +3179,18 @@ class Common extends Module {
     window.URL.revokeObjectURL(url);
   }
 
-  async createLock(key, threshold) {
+  async createLock(key, threshold, v2) {
     const lock = {
       key,
       threshold,
       uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, utils.createUuid.bind(utils))
     };
     await this.do_lock(lock);
-    return this.do_unlock.bind(this, lock);
+    const deleteLock = this.do_unlock.bind(this, lock);
+    if (v2) {
+      return { deleteLock, lock };
+    }
+    return deleteLock;
   }
 
   async lockAndSaveGames(games) {
@@ -5386,6 +5390,13 @@ class Common extends Module {
   do_lock(lock) {
     return new Promise(resolve => browser.runtime.sendMessage({
       action: `do_lock`,
+      lock
+    }).then(() => resolve()));
+  }
+
+  updateLock(lock) {
+    return new Promise(resolve => browser.runtime.sendMessage({
+      action: `update_lock`,
       lock
     }).then(() => resolve()));
   }

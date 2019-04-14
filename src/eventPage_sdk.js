@@ -283,6 +283,13 @@ function _do_lock(lock, resolve) {
   }
 }
 
+function update_lock(lock) {
+  const locked = locks[lock.key];
+  if (locked.uuid === lock.uuid) {
+    locked.timestamp = Date.now();
+  }
+}
+
 function do_unlock(lock) {
   if (locks[lock.key] && locks[lock.key].uuid === lock.uuid) {
     delete locks[lock.key];
@@ -307,6 +314,11 @@ PageMod({
     worker.port.on(`do_lock`, async request => {
       await do_lock(request.lock);
       worker.port.emit(`do_lock_${request.uuid}_response`, `null`);
+    });
+
+    worker.port.on(`update_lock`, request => {
+      update_lock(request.lock);
+      worker.port.emit(`update_lock_${request.uuid}_response`, `null`);
     });
 
     worker.port.on(`do_unlock`, request => {
