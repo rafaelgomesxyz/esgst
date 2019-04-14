@@ -45,10 +45,9 @@ if (typeof browser !== `undefined`) {
   };
 }
 
+console.log(_browser.runtime.getBrowserInfo);
 if (typeof _browser.runtime.getBrowserInfo === `undefined`) {
-  _browser.runtime.getBrowserInfo = () => ({
-    name: `?`
-  });
+  _browser.runtime.getBrowserInfo = () => Promise.resolve({ name: `?` });
 }
 
 export { _browser };
