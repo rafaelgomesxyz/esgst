@@ -3196,43 +3196,47 @@ class Common extends Module {
   async lockAndSaveGames(games) {
     let deleteLock = await this.createLock(`gameLock`, 300);
     let saved = JSON.parse(this.getValue(`games`));
-    for (let key in games.apps) {
-      if (games.apps.hasOwnProperty(key)) {
-        if (saved.apps[key]) {
-          for (let subKey in games.apps[key]) {
-            if (games.apps[key].hasOwnProperty(subKey)) {
-              if (games.apps[key][subKey] === null) {
-                delete saved.apps[key][subKey];
-              } else {
-                saved.apps[key][subKey] = games.apps[key][subKey];
+    if (games.apps) {
+      for (let key in games.apps) {
+        if (games.apps.hasOwnProperty(key)) {
+          if (saved.apps[key]) {
+            for (let subKey in games.apps[key]) {
+              if (games.apps[key].hasOwnProperty(subKey)) {
+                if (games.apps[key][subKey] === null) {
+                  delete saved.apps[key][subKey];
+                } else {
+                  saved.apps[key][subKey] = games.apps[key][subKey];
+                }
               }
             }
+          } else {
+            saved.apps[key] = games.apps[key];
           }
-        } else {
-          saved.apps[key] = games.apps[key];
-        }
-        if (!saved.apps[key].tags) {
-          delete saved.apps[key].tags;
+          if (!saved.apps[key].tags) {
+            delete saved.apps[key].tags;
+          }
         }
       }
     }
-    for (let key in games.subs) {
-      if (games.subs.hasOwnProperty(key)) {
-        if (saved.subs[key]) {
-          for (let subKey in games.subs[key]) {
-            if (games.subs[key].hasOwnProperty(subKey)) {
-              if (games.subs[key][subKey] === null) {
-                delete saved.subs[key][subKey];
-              } else {
-                saved.subs[key][subKey] = games.subs[key][subKey];
+    if (games.subs) {
+      for (let key in games.subs) {
+        if (games.subs.hasOwnProperty(key)) {
+          if (saved.subs[key]) {
+            for (let subKey in games.subs[key]) {
+              if (games.subs[key].hasOwnProperty(subKey)) {
+                if (games.subs[key][subKey] === null) {
+                  delete saved.subs[key][subKey];
+                } else {
+                  saved.subs[key][subKey] = games.subs[key][subKey];
+                }
               }
             }
+          } else {
+            saved.subs[key] = games.subs[key];
           }
-        } else {
-          saved.subs[key] = games.subs[key];
-        }
-        if (!saved.subs[key].tags) {
-          delete saved.subs[key].tags;
+          if (!saved.subs[key].tags) {
+            delete saved.subs[key].tags;
+          }
         }
       }
     }
