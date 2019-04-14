@@ -34,6 +34,7 @@ class Games extends Module {
         if (games[type].hasOwnProperty(id)) {
           games[type][id].forEach(game => {
             this.esgst.currentScope.games.push({
+              game,
               code: id,
               innerWrap: game.headingName,
               name: game.name,

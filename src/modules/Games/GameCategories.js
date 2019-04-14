@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -19,7 +20,13 @@ class GamesGameCategories extends Module {
   constructor() {
     super();
 
-    this.fetchable_categories = [
+    this.queueIndexes = {
+      apps: {},
+      subs: {},
+      total: 0
+    };
+
+    this.fetchableCategories = [
       `gc_gi`,
       `gc_lg`,
       `gc_r`,
@@ -962,8 +969,8 @@ class GamesGameCategories extends Module {
     };
   }
 
-  is_fetchable_enabled() {
-    for (const id of this.fetchable_categories) {
+  isFetchableEnabled() {
+    for (const id of this.fetchableCategories) {
       if (this.esgst[id]) {
         return true;
       }
@@ -1069,7 +1076,7 @@ class GamesGameCategories extends Module {
     
     let to_fetch = [];
 
-    if (this.is_fetchable_enabled()) {
+    if (this.isFetchableEnabled()) {
       gc.cache = JSON.parse(getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
       if (gc.cache.version !== 7) {
         gc.cache = {
@@ -1227,11 +1234,12 @@ class GamesGameCategories extends Module {
         return 0;
       });
 
-      let index = 0;
       for (const item of to_fetch) {
         if (!games[item.type][item.id]) {
           continue;
         }
+        this.queueIndexes[item.type][item.id] = this.queueIndexes.total;
+        let isInQueue = false;
         for (const game of games[item.type][item.id]) {
           const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];          
           if (panel && !panel.getAttribute(`data-gcReady`)) {
@@ -1255,10 +1263,13 @@ class GamesGameCategories extends Module {
                   break;
               }
               loading.firstElementChild.classList.add(`esgst-${color}`);
-              loading.lastElementChild.textContent = ` ${index}`;
-              index += 1;
+              loading.lastElementChild.textContent = ` ${this.queueIndexes[item.type][item.id]}`;
+              isInQueue = true;
             }
           }
+        }
+        if (isInQueue) {
+          this.queueIndexes.total += 1;
         }
       }
 
@@ -1305,7 +1316,7 @@ class GamesGameCategories extends Module {
           window.console.log(error);
         }
 
-        const delete_lock = await common.createLock(`gc`, 100);
+        const lockObj = await shared.common.createLock(`gc`, 100, true);
 
         for (const item of to_fetch) {
           if (item.found) {
@@ -1315,11 +1326,13 @@ class GamesGameCategories extends Module {
             }
             this.gc_addCategory(gc, gc.cache[item.type][item.id], games[item.type][item.id], item.id, this.esgst.games[item.type][item.id], item.type, item.type === `apps` ? gc.cache.hltb : null);
           } else {
-            await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch, true);
+            await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch);
           }
+          this.updateIndexes();
+          await shared.common.updateLock(lockObj.lock);
         }
 
-        delete_lock();
+        lockObj.deleteLock();
       }
     }
 
@@ -1549,7 +1562,7 @@ class GamesGameCategories extends Module {
     return categories;
   }
 
-  async gc_getCategories(gc, currentTime, games, id, type, to_fetch, decrease_counters) {
+  async gc_getCategories(gc, currentTime, games, id, type, to_fetch) {
     if (games[type][id]) {
       for (const game of games[type][id]) {
         const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
@@ -1810,39 +1823,32 @@ class GamesGameCategories extends Module {
         }
       }
     }
-    if (!decrease_counters) {
-      return;
-    }
-    for (let i = 0, n = to_fetch.length; i < n; i++) {
-      const item = to_fetch[i];
-      if (!games[item.type][item.id]) {
-        continue;
+  }
+
+  updateIndexes() {
+    if (this.queueIndexes.total > 0) {
+      for (const queueId in this.queueIndexes.apps) {
+        if (this.queueIndexes.apps[queueId] > 0) {
+          this.queueIndexes.apps[queueId] -= 1;
+        } else {
+          delete this.queueIndexes.apps[queueId];
+        }
       }
-      for (const game of games[item.type][item.id]) {
-        const panel = game.container.getElementsByClassName(`esgst-gc-panel`)[0];
-        if (panel && !panel.getAttribute(`data-gcReady`)) {
-          const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
-          if (loading && loading.lastElementChild) {
-            loading.setAttribute(`data-esgst-to-fetch`, true);
-            loading.title = `This game is queued for fetching (the number indicates its queue position)`;
-            let color;
-            switch (item.priority) {
-              case 0:
-                color = `red`;
-                break;
-              case 1:
-                color = `orange`;
-                break;
-              case 2:
-                color = `yellow`;
-                break;
-              case 3:
-                color = `green`;
-                break;
-            }
-            loading.firstElementChild.classList.add(`esgst-${color}`);
-            loading.lastElementChild.textContent = ` ${parseInt(loading.lastElementChild.textContent) - 1}`;
-          }
+      for (const queueId in this.queueIndexes.subs) {
+        if (this.queueIndexes.subs[queueId] > 0) {
+          this.queueIndexes.subs[queueId] -= 1;
+        } else {
+          delete this.queueIndexes.subs[queueId];
+        }
+      }
+      this.queueIndexes.total -= 1;
+    }
+    for (const game of shared.esgst.currentScope.games) {
+      const panel = game.game.container.getElementsByClassName(`esgst-gc-panel`)[0];
+      if (panel && !panel.getAttribute(`data-gcReady`)) {
+        const loading = panel.getElementsByClassName(`esgst-gc-loading`)[0];
+        if (loading && loading.lastElementChild) {
+          loading.lastElementChild.textContent = ` ${this.queueIndexes[game.type][game.code] || 0}`;
         }
       }
     }
