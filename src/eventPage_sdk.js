@@ -311,6 +311,10 @@ PageMod({
       detachWorker(worker);
     });
 
+    worker.port.on(`getBrowserInfo`, async request => {
+      worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
+    });
+
     worker.port.on(`do_lock`, async request => {
       await do_lock(request.lock);
       worker.port.emit(`do_lock_${request.uuid}_response`, `null`);

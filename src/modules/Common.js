@@ -5387,6 +5387,12 @@ class Common extends Module {
     return shared.esgst.currentPaths.indexOf(name) > -1;
   }
 
+  getBrowserInfo() {
+    return new Promise(resolve => browser.runtime.sendMessage({
+      action: `getBrowserInfo`
+    }).then(result => resolve(JSON.parse(result))));
+  }
+
   do_lock(lock) {
     return new Promise(resolve => browser.runtime.sendMessage({
       action: `do_lock`,
@@ -5471,13 +5477,22 @@ class Common extends Module {
           method: details.method,
           redirect: "follow"
         };
-        if (utils.isSet(window.wrappedJSObject)) {
-          window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
-        }
         let response = null;
         let responseText = null;
         try {
-          response = await (browser.runtime.getBrowserInfo().name === `Firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.fetch) : window.fetch)(details.url, browser.runtime.getBrowserInfo().name === `Firefox` && utils.isSet(window.wrappedJSObject) ? XPCNativeWrapper(window.wrappedJSObject.requestOptions) : requestOptions);
+          let _fetch;
+          let _requestOptions;
+          console.log((await this.getBrowserInfo()).name);
+          if ((await this.getBrowserInfo()).name === `Firefox` && utils.isSet(window.wrappedJSObject)) {
+            console.log(22223);
+            _fetch = XPCNativeWrapper(window.wrappedJSObject.fetch);
+            window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
+            _requestOptions = XPCNativeWrapper(window.wrappedJSObject.requestOptions);
+          } else {
+            _fetch = window.fetch;
+            _requestOptions = requestOptions;
+          }
+          response = await _fetch(details.url, _requestOptions);
           responseText = await response.text();
           if (!response.ok) {
             throw responseText;
@@ -5500,7 +5515,7 @@ class Common extends Module {
           action: `fetch`,
           blob: details.blob,
           fileName: details.fileName,
-          manipulateCookies: browser.runtime.getBrowserInfo().name === `Firefox` && this.esgst.manipulateCookies,
+          manipulateCookies: (await browser.runtime.getBrowserInfo()).name === `Firefox` && this.esgst.manipulateCookies,
           parameters: JSON.stringify({
             body: details.data,
             credentials: details.anon ? `omit` : `include`,

@@ -324,6 +324,9 @@ browser.runtime.onMessage.addListener((request, sender) => {
   return new Promise(resolve => {
     let key, keys, parameters, values;
     switch (request.action) {
+      case `getBrowserInfo`:
+        browser.runtime.getBrowserInfo().then(result => resolve(JSON.stringify(result)));
+        break;
       case `do_lock`:
         do_lock(request.lock).then(resolve);
         break;
