@@ -321,7 +321,7 @@ class Giveaways extends Module {
         }]);
       } else if (giveaway.columns) {
         if (archivePath) {
-          giveaway.columns.style.justifyContent = `right`;
+          giveaway.columns.style.justifyContent = `flex-end`;
           giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
             attributes: {
               class: `giveaway__columns esgst-giveaway-panel`
@@ -586,6 +586,9 @@ class Giveaways extends Module {
   giveaways_reorder(giveaway) {
     if (giveaway.columns || giveaway.gvIcons) {
       for (const id of (giveaway.gvIcons ? this.esgst.giveawayColumns_gv : this.esgst.giveawayColumns)) {
+        if (id === `startTime` && shared.common.isCurrentPath(`Archive`)) {
+          continue;
+        }
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           (giveaway.gvIcons || giveaway.columns).appendChild(element);
