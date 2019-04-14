@@ -321,11 +321,12 @@ function do_unlock(lock) {
 }
 
 browser.runtime.onMessage.addListener((request, sender) => {
-  return new Promise(resolve => {
+  return new Promise(async resolve => {
     let key, keys, parameters, values;
     switch (request.action) {
       case `getBrowserInfo`:
-        browser.runtime.getBrowserInfo().then(result => resolve(JSON.stringify(result)));
+        const result = await browser.runtime.getBrowserInfo();
+        resolve(JSON.stringify(result));
         break;
       case `do_lock`:
         do_lock(request.lock).then(resolve);
