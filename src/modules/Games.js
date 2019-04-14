@@ -214,7 +214,7 @@ class Games extends Module {
       x.id = giveaway.gameSteamId;
       x.type = giveaway.gameType;
       if (this.esgst.games && this.esgst.games[x.type][x.id]) {
-        const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`];
+        const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`, `banned`, `removed`];
         for (const key of keys) {
           if (this.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
             x[key] = true;
