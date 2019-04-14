@@ -437,12 +437,10 @@ class Filters extends Module {
               `is_not_null`
             ];
             if (filter.date) {
-              rule.input = `text`;
-              rule.plugin = `datepicker`;
-              rule.plugin_config = {
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: `yy/mm/dd`
+              rule.input = (rule, name) => {
+                return `
+                  <input class="form-control" name="${name}" type="date">
+                `;
               };
               rule.type = `date`;
 
@@ -1981,11 +1979,12 @@ class Filters extends Module {
     // noinspection FallThroughInSwitchStatementJS
     switch (rules.type) {
       case `date`:
-        rules.value = new Date(rules.value).getTime();
       case `integer`:
       case `double`: {
         if (key === `minutesToEnd` && (item.ended || item.deleted)) break;
         if (key === `minutesFromStart` && !item.started) break;
+
+        const ruleValue = rules.type === `date` ? new Date(rules.value).getTime() : rules.value;
 
         const value = key === `minutesToEnd`
           ? ((item.endTime - Date.now()) / 60000)
@@ -1999,22 +1998,22 @@ class Filters extends Module {
          */
         switch (rules.operator) {
           case `equal`:
-            filtered = rules.value === value;
+            filtered = ruleValue === value;
             break;
           case `not_equal`:
-            filtered = rules.value !== value;
+            filtered = ruleValue !== value;
             break;
           case `less`:
-            filtered = value < rules.value;
+            filtered = value < ruleValue;
             break;
           case `less_or_equal`:
-            filtered = value <= rules.value;
+            filtered = value <= ruleValue;
             break;
           case `greater`:
-            filtered = value > rules.value;
+            filtered = value > ruleValue;
             break;
           case `greater_or_equal`:
-            filtered = value >= rules.value;
+            filtered = value >= ruleValue;
             break;
           case `is_null`:
             filtered = !isSet(value) || value < 0;
