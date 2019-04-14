@@ -5482,9 +5482,7 @@ class Common extends Module {
         try {
           let _fetch;
           let _requestOptions;
-          console.log((await this.getBrowserInfo()).name);
           if ((await this.getBrowserInfo()).name === `Firefox` && utils.isSet(window.wrappedJSObject)) {
-            console.log(22223);
             _fetch = XPCNativeWrapper(window.wrappedJSObject.fetch);
             window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
             _requestOptions = XPCNativeWrapper(window.wrappedJSObject.requestOptions);
@@ -5515,7 +5513,7 @@ class Common extends Module {
           action: `fetch`,
           blob: details.blob,
           fileName: details.fileName,
-          manipulateCookies: (await browser.runtime.getBrowserInfo()).name === `Firefox` && this.esgst.manipulateCookies,
+          manipulateCookies: (await this.getBrowserInfo()).name === `Firefox` && this.esgst.manipulateCookies,
           parameters: JSON.stringify({
             body: details.data,
             credentials: details.anon ? `omit` : `include`,
