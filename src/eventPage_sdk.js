@@ -311,7 +311,7 @@ PageMod({
       detachWorker(worker);
     });
 
-    worker.port.on(`getBrowserInfo`, async request => {
+    worker.port.on(`getBrowserInfo`, request => {
       worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
     });
 
