@@ -49,7 +49,9 @@ class UsersUserGiveawayData extends Module {
         },
         ugd_g: {
           name: `Display how many gifts you have won from / sent to the user to their profile page.`,
-          sg: true
+          sg: true,
+          sync: `Won Giveaways`,
+          syncKeys: [`WonGiveaways`]
         }
       },
       id: `ugd`,
