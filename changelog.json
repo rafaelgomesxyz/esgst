@@ -1,11 +1,37 @@
 [
   {
+    "date": "April 14, 2019",
+    "version": "8.3.4",
+    "changelog": {
+      "928": "Sync: fix bug that does not sync won games correctly",
+      "1146": "Internal: fix bug that happens when making requests from Firefox with third-party cookies blocked",
+      "1259": "Endless Scrolling: fix bug that does not load comments when using reverse scrolling",
+      "1260": "Multiple Giveaway Creator: fix bug that does not group keys for same game when name is not present",
+      "1261": "Settings: show notice popup when enabling features that depend on other features to work properly",
+      "1276": "Endless Scrolling: fix bug that does not sort giveaways across multiple pages",
+      "1277": "Internal: prevent some settings from being overwritten",
+      "1279": "Giveaway Extractor: fix bug that re-extracts giveaways when scrolling to the bottom in popups",
+      "1280": "Comment Filters: extend to Enter / Leave Giveaway Button and Giveaway Popup",
+      "1281": "Internal: add links for cryptocurrency donations",
+      "1282": "Custom Giveaway Calendar: fix bug that prevents giveaways from being created if certain formats are used",
+      "1283": "Game Categories: fix queue position numbers",
+      "1284": "Header Refresher: fix bug that does not notify about wishlisted giveaways if the option to notify about unviewed keys is disabled",
+      "1285": "Filters: fix date filters",
+      "1286": "Sync: show dependencies for \"Won Giveaways\" option",
+      "1287": "Element Ordering: fix ordering in archive page",
+      "1288": "Entered Game Highlighter: keep track of how many times the user entered giveaways for the game",
+      "1289": "Giveaway Filters: filter by banned and removed categories immediately",
+      "1290": "Created / Entered / Won Giveaway Details: add more options"
+    }
+  },
+  {
     "date": "April 1, 2019",
     "version": "8.3.3",
     "changelog": {
-      "1243": "[WIP] Internal: implement scopes",
-      "1257": "[WIP] Add guides for all features",
       "1238": "Internal: fix bug that does not always purge removed elements",
+      "1240": "Discussions: fix bug that does not load discussion features inside of discussions",
+      "1242": "Giveaway Extractor: fix typo that does not add ampersand after flushHrs param",
+      "1243": "[WIP] Internal: implement scopes",
       "1245": "Storage: add option to delete backups from the cloud",
       "1246": "Storage: list Dropbox and OneDrive files from newest to oldest",
       "1247": "Group Stats: add notification bar to indicate when the stats have finished loading",
@@ -17,8 +43,7 @@
       "1253": "Enter / Leave Giveaway Button: change button style when it is in the giveaway links section",
       "1254": "User Suspension Checker: new feature",
       "1256": "Settings: jump to the feature switch in the feature tree on the left side when using the feature's direct link",
-      "1240": "Discussions: fix bug that does not load discussion features inside of discussions",
-      "1242": "Giveaway Extractor: fix typo that does not add ampersand after flushHrs param"
+      "1257": "[WIP] Add guides for all features"
     }
   },
   {
