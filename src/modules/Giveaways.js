@@ -131,7 +131,7 @@ class Giveaways extends Module {
       if (button) {
         giveaway.entered = !button.classList.contains(`is-hidden`);
       }
-    } else if (enteredPath && main) {
+    } else if ((enteredPath || wonPath) && main) {
       giveaway.entered = true;
     } else {
       giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
@@ -336,7 +336,7 @@ class Giveaways extends Module {
             type: `div`
           }]);
         }
-      } else if (enteredPath && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw)) {
+      } else if ((enteredPath || (wonPath && this.esgst.cewgd && this.esgst.cewgd_w && this.esgst.cewgd_w_e)) && (this.esgst.gwc || this.esgst.gwr || this.esgst.gptw)) {
         giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
           attributes: {
             class: `table__column--width-small text-center esgst-giveaway-panel`
