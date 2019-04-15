@@ -77,14 +77,14 @@ class GiveawaysGiveawayWinningRatio extends Module {
   }
 
   init() {
-    if (this.esgst.gptw || this.esgst.gwc || !this.esgst.enteredPath) return;
+    if (this.esgst.gptw || this.esgst.gwc || (!this.esgst.enteredPath && (!this.esgst.wonPath || !this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e))) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysGiveawayWinningChance.gwc_addHeading.bind(this.esgst.modules.giveawaysGiveawayWinningChance));
   }
 
   gwr_addRatios(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
-      if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath)) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
+      if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && this.esgst.cewgd && this.esgst.cewgd_w && this.esgst.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
         let context = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
@@ -132,11 +132,11 @@ class GiveawaysGiveawayWinningRatio extends Module {
         giveaway.image.style.boxShadow = `${this.esgst.gwr_a && !this.esgst.gwr_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwr-highlight-width, 3px)  inset`;
       }
     }
-    if (this.esgst.enteredPath) {
+    if (this.esgst.enteredPath || this.esgst.wonPath) {
       context.style.display = `inline-block`;
     }
     const items = [];
-    if (!this.esgst.enteredPath) {
+    if (!this.esgst.enteredPath && !this.esgst.wonPath) {
       items.push({
         attributes: {
           class: `fa fa-pie-chart`
@@ -188,7 +188,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
       type: `span`,
       children
     });
-    if (this.esgst.enteredPath && this.esgst.gptw) {
+    if ((this.esgst.enteredPath || this.esgst.wonPath) && this.esgst.gptw) {
       items.push({
         text: ` / `,
         type: `node`

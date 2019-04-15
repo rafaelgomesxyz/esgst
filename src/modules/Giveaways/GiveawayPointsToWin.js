@@ -44,16 +44,16 @@ class GiveawaysGiveawayPointsToWin extends Module {
   }
 
   init() {
-    if (!this.esgst.enteredPath) return;
+    if (!this.esgst.enteredPath && (!this.esgst.wonPath || !this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e)) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysGiveawayWinningChance.gwc_addHeading.bind(this));
   }
 
   gptw_addPoints(giveaways, main, source) {
     for (const giveaway of giveaways) {
-      if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) {
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) {
         continue;
       }
-      if (((!giveaway.inviteOnly || ((!main || (!this.esgst.giveawayPath && !this.esgst.enteredPath)) && main && !giveaway.ended && !giveaway.id)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName(`esgst-gptw`)[0]) {
+      if (((!giveaway.inviteOnly || ((!main || (!this.esgst.giveawayPath && !this.esgst.enteredPath && (!this.esgst.wonPath || !this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e))) && main && !giveaway.ended && !giveaway.id)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName(`esgst-gptw`)[0]) {
         continue;
       }
       if (giveaway.started) {
@@ -83,11 +83,11 @@ class GiveawaysGiveawayPointsToWin extends Module {
         break;
       }
     }
-    if (this.esgst.enteredPath) {
+    if (this.esgst.enteredPath || this.esgst.wonPath) {
       giveaway.gptwContext.style.display = `inline-block`;
     }
     const items = [];
-    if (!this.esgst.enteredPath) {
+    if (!this.esgst.enteredPath && !this.esgst.wonPath) {
       items.push({
         attributes: {
           class: `fa fa-rub`

@@ -77,14 +77,14 @@ class GiveawaysGiveawayWinningChance extends Module {
   }
 
   init() {
-    if (this.esgst.gptw || !this.esgst.enteredPath) return;
+    if (this.esgst.gptw || (!this.esgst.enteredPath && (!this.esgst.wonPath || !this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e))) return;
     this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
   }
 
   gwc_addChances(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.sgTools || (main && (this.esgst.createdPath || this.esgst.wonPath || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
-      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath)) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
+      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && this.esgst.cewgd && this.esgst.cewgd_w && this.esgst.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
         if (giveaway.started) {
           giveaway.gwcContext = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
             attributes: {
@@ -146,11 +146,11 @@ class GiveawaysGiveawayWinningChance extends Module {
         giveaway.image.style.boxShadow = `${this.esgst.gwc_a && !this.esgst.gwc_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwc-highlight-width, 3px) inset`;
       }
     }
-    if (this.esgst.enteredPath) {
+    if (this.esgst.enteredPath || this.esgst.wonPath) {
       giveaway.gwcContext.style.display = `inline-block`;
     }
     const items = [];
-    if (!this.esgst.enteredPath) {
+    if (!this.esgst.enteredPath && !this.esgst.wonPath) {
       items.push({
         attributes: {
           class: `fa fa-area-chart`
@@ -202,7 +202,7 @@ class GiveawaysGiveawayWinningChance extends Module {
       type: `span`,
       children
     });
-    if (this.esgst.enteredPath && this.esgst.gwr) {
+    if ((this.esgst.enteredPath || this.esgst.wonPath) && this.esgst.gwr) {
       items.push({
         text: ` / `,
         type: `node`
@@ -212,7 +212,7 @@ class GiveawaysGiveawayWinningChance extends Module {
   }
 
   gwc_addHeading(context, main, source, endless) {
-    if (this.esgst.createdPath || this.esgst.wonPath || !main) return;
+    if (this.esgst.createdPath || (this.esgst.wonPath && (!this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e)) || !main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
     if (!table || table.getElementsByClassName(`esgst-gwcr-heading`)[0]) return;
     let title = ``;

@@ -4,6 +4,10 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.cewgd_c = undefined;
+    this.cewgd_e = undefined;
+    this.cewgd_w = undefined;
+
     this.cvLevels = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
 
     this.vgb_index = undefined;
@@ -364,6 +368,22 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      cewgd_c_sg: true,
+      cewgd_c_p_sg: true,
+      cewgd_c_sl_sg: true,
+      cewgd_c_t_sg: true,
+      cewgd_c_l_sg: true,
+      cewgd_c_w_sg: true,
+      cewgd_e_sg: true,
+      cewgd_e_p_sg: true,
+      cewgd_e_sl_sg: true,
+      cewgd_e_t_sg: true,
+      cewgd_e_l_sg: true,
+      cewgd_w_sg: true,
+      cewgd_w_p_sg: true,
+      cewgd_w_sl_sg: true,
+      cewgd_w_t_sg: true,
+      cewgd_w_l_sg: true,
       esgst_st: true,
       esgst_sgt: true,
       ge_extractOnward: false,
