@@ -2,6 +2,8 @@ import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -37,8 +39,8 @@ class UsersNotReceivedFinder extends Module {
   }
 
   init() {
-    this.esgst.profileFeatures.push(this.nrf_add.bind(this, `won`));
-    this.esgst.profileFeatures.push(this.nrf_add.bind(this, `sent`));
+    shared.esgst.profileFeatures.push(this.nrf_add.bind(this, `won`));
+    shared.esgst.profileFeatures.push(this.nrf_add.bind(this, `sent`));
   }
 
   nrf_add(key, profile) {
@@ -89,7 +91,7 @@ class UsersNotReceivedFinder extends Module {
   }
 
   async nrf_init(key, profile, obj) {
-    if (profile.username !== this.esgst.username && !obj.nrfMessage) {
+    if (profile.username !== gSettings.username && !obj.nrfMessage) {
       obj.nrfMessage = createElements(obj.popup.scrollable, `beforeBegin`, [{
         attributes: {
           class: `esgst-description`
@@ -107,7 +109,7 @@ class UsersNotReceivedFinder extends Module {
     if (savedUser) {
       obj.nrfData = savedUser[`nrf${key === `sent` ? `` : `Won`}`];
     }
-    if (this.esgst.nrf_clearCache || !obj.nrfData) {
+    if (gSettings.nrf_clearCache || !obj.nrfData) {
       obj.nrfData = {
         lastCheck: 0,
         found: 0,
@@ -154,7 +156,7 @@ class UsersNotReceivedFinder extends Module {
       obj.nrfResultsRaw += giveaway.outerHTML;
     }
     obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`);
-    if (this.esgst.nrf_searchMultiple && obj.nrfKey === `sent` && obj.nrfFound < obj.nrfTotal) {
+    if (gSettings.nrf_searchMultiple && obj.nrfKey === `sent` && obj.nrfFound < obj.nrfTotal) {
       const elements = responseHtml.getElementsByClassName(`giveaway__heading__thin`);
       for (const element of elements) {
         const match = element.textContent.match(/\((.+) Copies\)/);

@@ -27,17 +27,17 @@ class CommentsReplyMentionLink extends Module {
     for (let i = 0, n = elements.length; i < n; ++i) {
       const children = elements[i].children;
       if (children.length) {
-        this.rml_addLink(this.esgst.sg ? elements[i].parentElement.getElementsByClassName(`comment__summary`)[0] : elements[i].parentElement, children);
+        this.rml_addLink(shared.esgst.sg ? elements[i].parentElement.getElementsByClassName(`comment__summary`)[0] : elements[i].parentElement, children);
       }
     }
   }
 
   rml_addLink(Context, Matches) {
     let Username, ID, I, N, RMLLink;
-    Username = Context.getElementsByClassName(this.esgst.sg ? `comment__username` : `author_name`)[0].textContent.trim();
+    Username = Context.getElementsByClassName(shared.esgst.sg ? `comment__username` : `author_name`)[0].textContent.trim();
     ID = Context.id;
     for (I = 0, N = Matches.length; I < N; ++I) {
-      Context = Matches[I].getElementsByClassName(this.esgst.sg ? `comment__actions` : `action_list`)[0];
+      Context = Matches[I].getElementsByClassName(shared.esgst.sg ? `comment__actions` : `action_list`)[0];
       RMLLink = Context.getElementsByClassName(`esgst-rml-link`)[0];
       if (RMLLink) {
         RMLLink.textContent = `@${Username}`;

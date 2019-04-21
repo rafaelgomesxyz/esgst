@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -33,7 +34,7 @@ class GeneralNotificationMerger extends Module {
   }
 
   init() {
-    if (this.esgst.hr) return;
+    if (gSettings.hr) return;
     // noinspection JSIgnoredPromiseFromCall
     this.nm_getNotifications();
   }

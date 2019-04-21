@@ -4,6 +4,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   createConfirmation = common.createConfirmation.bind(common),
@@ -125,7 +126,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           }
           if ((!element.getAttribute(`href`) || element.getAttribute(`href`).match(/^javascript/)) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
           id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*([/?])(.+)$/)[2];
-          id = id.replace(/\[steamId]/, this.esgst.steamId);
+          id = id.replace(/\[steamId]/, gSettings.steamId);
           element.setAttribute(`data-link-id`, id);
           element.setAttribute(`data-link-key`, key);
           source.elements[id] = element;
@@ -147,7 +148,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     }
     value += event.key.toLowerCase();
 
-    if (value !== this.esgst.chfl_key) {
+    if (value !== gSettings.chfl_key) {
       return;
     }
     event.stopPropagation();
@@ -159,8 +160,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
   chfl_reorder(chfl, key, firstRun) {
     let source = chfl.sources[key];
     let ids = [];
-    for (let i = this.esgst[`chfl_${key}`].length - 1; i > -1; i--) {
-      let item = this.esgst[`chfl_${key}`][i];
+    for (let i = gSettings[`chfl_${key}`].length - 1; i > -1; i--) {
+      let item = gSettings[`chfl_${key}`][i];
       if (item.id) {
         let element = source.elements[item.id];
         if (element && !firstRun) {
@@ -252,26 +253,30 @@ class GeneralCustomHeaderFooterLinks extends Module {
   }
 
   chfl_saveOrder(chfl) {
+    const settings = [];
     for (let key in chfl.sources) {
       if (chfl.sources.hasOwnProperty(key)) {
         let elements = {};
-        for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
+        for (const item of gSettings[`chfl_${key}_${this.esgst.name}`]) {
           if (item.id) {
             elements[item.id] = item;
           }
         }
-        this.esgst.settings[`chfl_${key}_${this.esgst.name}`] = [];
+        const setting = [];
         let source = chfl.sources[key];
         for (let i = 0, n = source.context.children.length; i < n; i++) {
           let element = source.context.children[i];
           let id = element.getAttribute(`data-link-id`);
           if (!id) continue;
-          this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(elements[id] || id);
+          setting.push(elements[id] || id);
         }
-        this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
+        settings.push({
+          id: `chfl_${key}_${this.esgst.name}`,
+          value: setting
+        });
       }
     }
-    shared.common.lockAndSaveSettings();
+    shared.common.setSetting(settings);
   }
 
   chfl_addButton(chfl, removedKey, forceKey) {
@@ -496,8 +501,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
       description.parentElement.classList.add(`esgst-hidden`);
     }
     if (editId) {
-      for (let i = this.esgst[`chfl_${key}`].length - 1; i > -1; i--) {
-        let item = this.esgst[`chfl_${key}`][i];
+      for (let i = gSettings[`chfl_${key}`].length - 1; i > -1; i--) {
+        let item = gSettings[`chfl_${key}`][i];
         if (item !== editId && (!item.id || item.id !== editId)) continue;
         if (item.id) {
           description.value = item.description || ``;
@@ -562,26 +567,26 @@ class GeneralCustomHeaderFooterLinks extends Module {
       name: name.value,
       url: url.value
     };
+    const setting = gSettings[`chfl_${key}_${this.esgst.name}`];
     if (editId) {
       chfl.sources[key].elements[editId].remove();
       delete chfl.sources[key].elements[editId];
-      for (let i = this.esgst.settings[`chfl_${key}_${this.esgst.name}`].length - 1; i > -1; i--) {
-        let subItem = this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i];
+      for (let i = setting.length - 1; i > -1; i--) {
+        let subItem = setting[i];
         if (subItem.id) {
           if (subItem.id !== editId) continue;
-          this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i] = item;
+          setting[i] = item;
           break;
         } else {
           if (subItem !== editId) continue;
-          this.esgst.settings[`chfl_${key}_${this.esgst.name}`][i] = item;
+          setting[i] = item;
           break;
         }
       }
     } else {
-      this.esgst.settings[`chfl_${key}_${this.esgst.name}`].push(item);
+      setting.push(item);
     }
-    this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
-    await shared.common.lockAndSaveSettings();
+    await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, setting);
     chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
       attributes: {
         [`data-link-id`]: item.id,
@@ -615,7 +620,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
   async chfl_resetLinks(chfl, key, event) {
     event.preventDefault();
     event.stopPropagation();
-    for (const item of this.esgst.settings[`chfl_${key}_${this.esgst.name}`]) {
+    for (const item of gSettings[`chfl_${key}_${this.esgst.name}`]) {
       if (!item.id) continue;
       let element = chfl.sources[key].elements[item.id];
       if (!element) continue;
@@ -623,7 +628,6 @@ class GeneralCustomHeaderFooterLinks extends Module {
       delete chfl.sources[key].elements[item.id];
     }
     await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`]);
-    this.esgst[`chfl_${key}`] = this.esgst.settings[`chfl_${key}_${this.esgst.name}`];
     this.chfl_reorder(chfl, key);
   }
 

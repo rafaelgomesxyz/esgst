@@ -1,4 +1,5 @@
 import { Tags } from '../Tags';
+import { shared } from '../../class/Shared';
 
 class GroupsGroupTags extends Tags {
   constructor() {
@@ -42,7 +43,7 @@ class GroupsGroupTags extends Tags {
   }
 
   init() {
-    this.esgst.groupFeatures.push(this.tags_addButtons.bind(this));
+    shared.esgst.groupFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
     this.tags_getTags();
   }

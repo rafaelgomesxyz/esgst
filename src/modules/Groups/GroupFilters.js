@@ -1,6 +1,7 @@
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { Filters } from '../Filters';
+import { gSettings } from '../../class/Globals';
 
 class GroupsGroupFilters extends Filters {
   constructor() {
@@ -138,13 +139,13 @@ class GroupsGroupFilters extends Filters {
     if (!shared.common.isCurrentPath(`Steam - Groups`)) {
       return;
     }
-    this.esgst.style.insertAdjacentText("beforeend", `
+    shared.esgst.style.insertAdjacentText("beforeend", `
       .esgst-gf-container {
-        top: ${this.esgst.commentsTop - 5}px;
+        top: ${shared.esgst.commentsTop - 5}px;
       }
     `);
     common.createHeadingButton({
-      element: this.filters_addContainer(this.esgst.mainPageHeading),
+      element: this.filters_addContainer(shared.esgst.mainPageHeading),
       id: `gpf`
     });
   }
@@ -152,33 +153,33 @@ class GroupsGroupFilters extends Filters {
   getFilters() {
     return {
       users: {
-        check: this.esgst.gs,
+        check: gSettings.gs,
         name: `Users`,
         type: `number`
       },
       lastGiveaway: {
-        check: this.esgst.gs,
+        check: gSettings.gs,
         date: true,
         name: `Last Giveaway`,
         type: `number`
       },
       officialGameGroup: {
-        check: this.esgst.gs && this.esgst.gs_t,
+        check: gSettings.gs && gSettings.gs_t,
         name: `Official Game Group`,
         type: `boolean`
       },
       open: {
-        check: this.esgst.gs && this.esgst.gs_t,
+        check: gSettings.gs && gSettings.gs_t,
         name: `Open`,
         type: `boolean`
       },
       restricted: {
-        check: this.esgst.gs && this.esgst.gs_t,
+        check: gSettings.gs && gSettings.gs_t,
         name: `Restricted`,
         type: `boolean`
       },
       closed: {
-        check: this.esgst.gs && this.esgst.gs_t,
+        check: gSettings.gs && gSettings.gs_t,
         name: `Closed`,
         type: `boolean`
       }

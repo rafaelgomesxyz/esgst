@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -49,18 +50,18 @@ class TradesTradeBumper extends Module {
   }
 
   init() {
-    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${gSettings.steamId}`))) {
       const button = createHeadingButton({
         id: `tb`,
         icons: [`fa-chevron-circle-up`],
         title: `Bump trades`
       });
       button.addEventListener(`click`, this.tb_getTrades.bind(this, button, document));
-      if (this.esgst.tb_a) {
+      if (gSettings.tb_a) {
         // noinspection JSIgnoredPromiseFromCall
         this.tb_setAutoBump(button);
       }
-    } else if (this.esgst.tb_a) {
+    } else if (gSettings.tb_a) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_setAutoBump();
     }
@@ -78,7 +79,7 @@ class TradesTradeBumper extends Module {
     const elements = context.querySelectorAll(`.row_inner_wrap:not(.is_faded)`);
     for (const element of elements) {
       await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`,
+        data: `xsrf_token=${shared.esgst.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute(`href`).match(/\/trade\/(.+?)\//)[1]}`,
         method: `POST`,
         url: `https://www.steamtrades.com/ajax.php`
       });
@@ -103,7 +104,7 @@ class TradesTradeBumper extends Module {
   }
 
   async tb_autoBumpTrades(button) {
-    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${this.esgst.steamId}`))) {
+    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${gSettings.steamId}`))) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(button, document);
     } else {
@@ -111,7 +112,7 @@ class TradesTradeBumper extends Module {
       this.tb_getTrades(null, parseHtml((await request({
         method: `GET`,
         queue: true,
-        url: `https://www.steamtrades.com/trades/search?user=${this.esgst.steamId}`
+        url: `https://www.steamtrades.com/trades/search?user=${gSettings.steamId}`
       })).responseText));
     }
   }

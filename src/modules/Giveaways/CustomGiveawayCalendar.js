@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { gSettings } from '../../class/Globals';
 
 class GiveawaysCustomGiveawayCalendar extends Module {
   constructor() {
@@ -68,8 +69,8 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           altFormat: "M d, yy",
           altTimeFormat: "h:mm tt",
           beforeShowDay: t,
-          dateFormat: "${this.esgst.cgc_dateFormat}",
-          firstDay: "${this.esgst.cgc_index_0}",
+          dateFormat: "${gSettings.cgc_dateFormat}",
+          firstDay: "${gSettings.cgc_index_0}",
           maxDate: new Date((new Date).getTime() + 2592e6 - 36e5),
           maxDateTime: new Date((new Date).getTime() + 2592e6 - 36e5),
           minDate: new Date,
@@ -77,7 +78,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           numberOfMonths: 1,
           selectOtherMonths: !0,
           showOtherMonths: !0,
-          timeFormat: "${this.esgst.cgc_timeFormat}",
+          timeFormat: "${gSettings.cgc_timeFormat}",
           onSelect: function() {
             s()
           },
@@ -102,8 +103,8 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           altFormat: "M d, yy",
           altTimeFormat: "h:mm tt",
           beforeShowDay: t,
-          dateFormat: "${this.esgst.cgc_dateFormat}",
-          firstDay: "${this.esgst.cgc_index_0}",
+          dateFormat: "${gSettings.cgc_dateFormat}",
+          firstDay: "${gSettings.cgc_index_0}",
           maxDate: new Date((new Date).getTime() + 2592e6),
           maxDateTime: new Date((new Date).getTime() + 2592e6),
           minDate: new Date((new Date).getTime() + 36e5),
@@ -111,7 +112,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           numberOfMonths: 1,
           selectOtherMonths: !0,
           showOtherMonths: !0,
-          timeFormat: "${this.esgst.cgc_timeFormat}",
+          timeFormat: "${gSettings.cgc_timeFormat}",
           onSelect: function() {
             i()
           },

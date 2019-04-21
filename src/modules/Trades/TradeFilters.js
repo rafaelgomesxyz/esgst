@@ -3,6 +3,8 @@ import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Filters } from '../Filters';
+import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -183,17 +185,17 @@ class TradesTradeFilters extends Filters {
   }
 
   async init() {
-    if (this.esgst.tf_s) {
+    if (gSettings.tf_s) {
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
-    if (this.esgst.tf_m && this.esgst.tradesPath && !this.esgst.editTradePath) {
-      this.esgst.style.insertAdjacentText("beforeend", `
+    if (gSettings.tf_m && shared.esgst.tradesPath && !shared.esgst.editTradePath) {
+      shared.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
-          top: ${this.esgst.commentsTop - 5}px;
+          top: ${shared.esgst.commentsTop - 5}px;
         }
       `);
       createHeadingButton({
-        element: this.filters_addContainer(this.esgst.mainPageHeading),
+        element: this.filters_addContainer(shared.esgst.mainPageHeading),
         id: `tf`
       });
     }
@@ -329,14 +331,14 @@ class TradesTradeFilters extends Filters {
       }]
     }]);
     await endless_load(obj.trades);
-    if (!this.esgst.tradesPath) {
-      if (this.esgst.gdttt) {
-        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
-        await this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.trades);
-      } else if (this.esgst.ct) {
-        await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
+    if (!shared.esgst.tradesPath) {
+      if (gSettings.gdttt) {
+        await shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
+        await shared.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.trades);
+      } else if (gSettings.ct) {
+        await shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
       }
-      await this.esgst.modules.discussions.discussions_load(obj.trades);
+      await shared.esgst.modules.discussions.discussions_load(obj.trades);
     }
   }
 
@@ -364,7 +366,7 @@ class TradesTradeFilters extends Filters {
     trades[trade.code].hidden = trades[trade.code].lastUsed = Date.now();
     await setValue(`trades`, JSON.stringify(trades));
     deleteLock();
-    if (!main || !this.esgst.tradePath) {
+    if (!main || !shared.esgst.tradePath) {
       trade.outerWrap.remove();
     }
     return true;
@@ -379,7 +381,7 @@ class TradesTradeFilters extends Filters {
     }
     await setValue(`trades`, JSON.stringify(trades));
     deleteLock();
-    if (!main || !this.esgst.tradePath) {
+    if (!main || !shared.esgst.tradePath) {
       trade.outerWrap.remove();
     }
     return true;
@@ -399,12 +401,12 @@ class TradesTradeFilters extends Filters {
         type: `boolean`
       },
       visited: {
-        check: this.esgst.gdttt,
+        check: gSettings.gdttt,
         name: `Visited`,
         type: `boolean`
       },
       unread: {
-        check: this.esgst.ct,
+        check: gSettings.ct,
         name: `Unread`,
         type: `boolean`
       },

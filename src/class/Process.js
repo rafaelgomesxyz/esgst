@@ -1,6 +1,7 @@
 import { utils } from '../lib/jsUtils';
 import { Popup } from './Popup';
 import { shared } from './Shared';
+import { gSettings } from './Globals';
 
 class Process {
   constructor(details) {
@@ -51,7 +52,7 @@ class Process {
       if (!this.urls.doNotTrigger) {
         this.popup.triggerButton(0);
       }
-      if (shared.esgst[`es_${this.urls.id}`]) {
+      if (gSettings[`es_${this.urls.id}`]) {
         this.popup.scrollable.addEventListener(`scroll`, () => {
           if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
             this.popup.triggerButton(0);
@@ -115,7 +116,7 @@ class Process {
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
-    while (!this.isCanceled && (i < this.perLoad || (shared.esgst[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+    while (!this.isCanceled && (i < this.perLoad || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;

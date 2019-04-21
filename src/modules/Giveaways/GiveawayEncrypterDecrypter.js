@@ -5,6 +5,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -98,7 +99,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }]
       }]);
       ged.button.addEventListener(`click`, () => {
-        if (this.esgst.ged_t) {
+        if (gSettings.ged_t) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
         } else {
           this.ged_openPopup({isPopup: true});
@@ -120,7 +121,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.context = ged.popup.scrollable;
     } else {
       ged.popup = this.esgst.sidebar.nextElementSibling;
-      if (this.esgst.removeSidebarInFeaturePages) {
+      if (gSettings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
       ged.popup.innerHTML = ``;
@@ -152,20 +153,20 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     }]);
     await this.ged_getGiveaways(ged);
     ged.context.innerHTML = ``;
-    if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
+    if (gSettings.gas || (gSettings.gf && gSettings.gf_m) || gSettings.mm) {
       let heading = createElements(ged.context, `afterBegin`, [{
         attributes: {
           class: `page__heading`
         },
         type: `div`
       }]);
-      if (this.esgst.gas) {
+      if (gSettings.gas) {
         this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
-      if (this.esgst.gf && this.esgst.gf_m) {
+      if (gSettings.gf && gSettings.gf_m) {
         heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Ged`));
       }
-      if (this.esgst.mm) {
+      if (gSettings.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
@@ -189,7 +190,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.popup.open();
     }
     ged.set.trigger();
-    if (this.esgst.es_ged) {
+    if (gSettings.es_ged) {
       ged.context.addEventListener(`scroll`, this.ged_checkEndless.bind(this, ged));
     }
   }
@@ -210,13 +211,13 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         let filtered = true;
         let giveaway = this.esgst.giveaways[code];
         if (giveaway) {
-          const name = this.esgst.gf_presetGed;
+          const name = gSettings.gf_presetGed;
           if (name) {
             let i;
-            for (i = this.esgst.gf_presets.length - 1; i > -1 && this.esgst.gf_presets[i].name !== name; i--) {
+            for (i = gSettings.gf_presets.length - 1; i > -1 && gSettings.gf_presets[i].name !== name; i--) {
             }
             if (i > -1) {
-              const preset = this.esgst.gf_presets[i];
+              const preset = gSettings.gf_presets[i];
               filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(this.esgst.modules.giveawaysGiveawayFilters.getFilters(true), giveaway, preset.rules);
             }
           }
@@ -266,7 +267,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 
   async ged_loadGiveaways(ged) {
     let i = 0;
-    while ((i < 5 || (this.esgst.es_ged && ged.context.scrollHeight <= ged.context.offsetHeight) || ((ged.results.children.length - ((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && ged.i < ged.n) {
+    while ((i < 5 || (gSettings.es_ged && ged.context.scrollHeight <= ged.context.offsetHeight) || ((ged.results.children.length - ((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && ged.i < ged.n) {
       i += 1;
       let giveaway = ged.giveaways[ged.i];
       ged.i += 1;
@@ -335,7 +336,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           }
         }
         if (isEnded) {
-          if (this.esgst.ged_b) {
+          if (gSettings.ged_b) {
             hasEnded = true;
           }
         } else {

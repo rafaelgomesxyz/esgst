@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { gSettings } from '../../class/Globals';
 
 class GeneralElementFilters extends Module {
   constructor() {
@@ -45,13 +46,13 @@ class GeneralElementFilters extends Module {
   init() {
     this.ef_hideElements(document);
     this.esgst.endlessFeatures.push(this.ef_hideElements.bind(this));
-    if (this.esgst.sal || !this.esgst.wonPath) return;
+    if (gSettings.sal || !this.esgst.wonPath) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysSteamActivationLinks.sal_addObservers.bind(this.esgst.modules.giveawaysSteamActivationLinks));
   }
 
   ef_hideElements(context, main, source, endless) {
     if (context === document && main) return;
-    this.esgst.ef_filters.split(`, `).forEach(filter => {
+    gSettings.ef_filters.split(`, `).forEach(filter => {
       if (!filter) return;
       try {
         const property = filter.match(/\[esgst\.(.+)]/);

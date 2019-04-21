@@ -4,6 +4,7 @@ import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { EMOJIS } from '../../emojis';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class CommentsCommentFormattingHelper extends Module {
   constructor() {
@@ -992,7 +993,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Automatic Links / Images Paste Formatting: OFF`,
         callback: context => {
           this.esgst.cfh.alipf = context;
-          this.cfh_setAlipf(this.esgst.cfh_pasteFormatting, true);
+          this.cfh_setAlipf(gSettings.cfh_pasteFormatting, true);
         },
         onClick: () => this.cfh_setAlipf()
       }, {
@@ -1041,7 +1042,7 @@ class CommentsCommentFormattingHelper extends Module {
     ];
     for (let i = 0, n = items.length; i < n; i++) {
       let item = items[i];
-      if (!item.id || this.esgst[item.id]) {
+      if (!item.id || gSettings[item.id]) {
         let button = shared.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
           attributes: {
             title: `${shared.common.getFeatureTooltip(item.id || `cfh`, item.name)}`
@@ -1089,7 +1090,7 @@ class CommentsCommentFormattingHelper extends Module {
         }
       }
     }
-    if (this.esgst.cfh_cf) {
+    if (gSettings.cfh_cf) {
       shared.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
           href: `/about/comment-formatting`,
@@ -1104,7 +1105,7 @@ class CommentsCommentFormattingHelper extends Module {
         }]
       }]);
     }
-    if (this.esgst.cfh_p && !this.esgst.cfh_p_a) {
+    if (gSettings.cfh_p && !gSettings.cfh_p_a) {
       shared.common.createElements(this.esgst.cfh.panel, `beforeEnd`, [{
         attributes: {
           title: shared.common.getFeatureTooltip(`cfh_p`, `Preview`)
@@ -1169,7 +1170,7 @@ class CommentsCommentFormattingHelper extends Module {
     textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
     textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
     textArea.onpaste = async event => {
-      if (this.esgst.cfh_pasteFormatting) {
+      if (gSettings.cfh_pasteFormatting) {
         let clipboard, value;
         clipboard = event.clipboardData.getData(`text/plain`);
         if (clipboard.match(/^https?:/)) {
@@ -1197,10 +1198,10 @@ class CommentsCommentFormattingHelper extends Module {
         this.esgst.cfh.undo.click();
       }
     };
-    if (this.esgst.cfh_p) {
+    if (gSettings.cfh_p) {
       this.esgst.cfh.preview.innerHTML = ``;
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
-      if (this.esgst.cfh_p_a) {
+      if (gSettings.cfh_p_a) {
         textArea.oninput = async () => {
           shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(textArea, textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
@@ -1241,7 +1242,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
-    if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
+    if (gSettings.cfh_p && gSettings.cfh_p_a) {
       shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
@@ -1264,7 +1265,7 @@ class CommentsCommentFormattingHelper extends Module {
       this.esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
     }
     this.esgst.cfh.textArea.focus();
-    if (this.esgst.cfh_p && this.esgst.cfh_p_a) {
+    if (gSettings.cfh_p && gSettings.cfh_p_a) {
       shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
@@ -1325,7 +1326,7 @@ class CommentsCommentFormattingHelper extends Module {
         });
       }
     }).set);
-    if (this.esgst.cfh_img_remember) {
+    if (gSettings.cfh_img_remember) {
       popup.description.appendChild(new ButtonSet({
         color1: `grey`,
         color2: `grey`,
@@ -1335,7 +1336,6 @@ class CommentsCommentFormattingHelper extends Module {
         title2: `Resetting...`,
         callback1: async () => {
           await shared.common.setSetting(`cfh_img_remember`, false);
-          this.esgst.cfh_img_remember = false;
           popup.close();
         }
       }).set);
@@ -1701,7 +1701,7 @@ class CommentsCommentFormattingHelper extends Module {
     descriptionArea = nameArea.nextElementSibling;
     nameArea = nameArea.lastElementChild;
     descriptionArea = descriptionArea.lastElementChild;
-    if (this.esgst.cfh) {
+    if (gSettings.cfh) {
       this.cfh_addPanel(descriptionArea);
     }
     popup.description.appendChild(new ButtonSet({
@@ -1774,12 +1774,11 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_setAlipf(value, firstTime) {
     if (typeof value === `undefined`) {
-      value = !this.esgst.cfh_pasteFormatting;
+      value = !gSettings.cfh_pasteFormatting;
     }
     if (!firstTime) {
       shared.common.setSetting(`cfh_pasteFormatting`, value);
     }
-    this.esgst.cfh_pasteFormatting = value;
     if (value) {
       this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip(`cfh`, `Automatic Links / Images Paste Formatting: ON`);
       this.esgst.cfh.alipf.classList.remove(`esgst-faded`);

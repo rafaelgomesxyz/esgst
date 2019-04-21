@@ -5,11 +5,13 @@ let storage = null;
 let isFirstRun = false;
 let isUpdate = false;
 
-browser.runtime.onInstalled.addListener(details => {
+browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === `install`) {
     isFirstRun = true;
   } else if (details.reason === `update`) {
-    isUpdate = true;
+    if ((await browser.runtime.getManifest()).version !== details.previousVersion) {
+      isUpdate = true;
+    }
   }
 });
 

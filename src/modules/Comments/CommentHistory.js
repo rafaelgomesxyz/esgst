@@ -24,11 +24,11 @@ class CommentsCommentHistory extends Module {
   }
 
   init() {
-    if (this.esgst.replyBox) {
-      shared.common.addReplyButton(this.esgst.replyBox);
+    if (shared.esgst.replyBox) {
+      shared.common.addReplyButton(shared.esgst.replyBox);
     }
     new Process({
-      button: shared.common.createElements(this.esgst.accountDropdown.firstElementChild.lastElementChild, `beforeBegin`, [{
+      button: shared.common.createElements(shared.esgst.accountDropdown.firstElementChild.lastElementChild, `beforeBegin`, [{
         attributes: {
           class: `esgst-header-menu-row`,
           [`data-link-id`]: `ch`,
@@ -77,7 +77,7 @@ class CommentsCommentHistory extends Module {
 
   async ch_initUrls(obj) {
     obj.ids = [];
-    let comments = JSON.parse(shared.common.getValue(`${this.esgst.name}CommentHistory`, `[]`));
+    let comments = JSON.parse(shared.common.getValue(`${shared.esgst.name}CommentHistory`, `[]`));
     for (let i = 0, n = comments.length; i < n; i++) {
       obj.ids.push(comments[i].id);
       obj.items.push(`https://${window.location.hostname}/go/comment/${comments[i].id}`);
@@ -86,7 +86,7 @@ class CommentsCommentHistory extends Module {
 
   ch_requestUrl(obj, details, response, responseHtml) {
     let comment = responseHtml.getElementById(obj.ids[obj.index]);
-    if (this.esgst.sg) {
+    if (shared.esgst.sg) {
       comment = comment.closest(`.comment`);
       comment.firstElementChild.classList.remove(`comment__parent`);
       comment.firstElementChild.classList.add(`comment__child`);
@@ -115,7 +115,7 @@ class CommentsCommentHistory extends Module {
         context: parent
       });
     } else {
-      if (this.esgst.st) {
+      if (shared.esgst.st) {
         shared.common.createElements(comment.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
           attributes: {
             href: response.finalUrl
@@ -124,7 +124,7 @@ class CommentsCommentHistory extends Module {
           type: `a`
         }]);
       }
-      if (this.esgst.sg) {
+      if (shared.esgst.sg) {
         items[0].children.push({
           attributes: {
             class: `comments__entity`
@@ -159,8 +159,8 @@ class CommentsCommentHistory extends Module {
   }
 
   async ch_saveComment(id, timestamp) {
-    let deleteLock = await shared.common.createLock(`${this.esgst.name}CommentHistoryLock`, 300);
-    let key = `${this.esgst.name}CommentHistory`;
+    let deleteLock = await shared.common.createLock(`${shared.esgst.name}CommentHistoryLock`, 300);
+    let key = `${shared.esgst.name}CommentHistory`;
     let comments = JSON.parse(shared.common.getValue(key, `[]`));
     comments.unshift({
       id: id,

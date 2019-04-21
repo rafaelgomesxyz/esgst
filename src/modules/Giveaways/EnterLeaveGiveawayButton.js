@@ -4,6 +4,7 @@ import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -92,7 +93,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_addButtons(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.sgTools || (main && (this.esgst.elgb_p || this.esgst.createdPath || this.esgst.wonPath))) return;
+      if (giveaway.sgTools || (main && (gSettings.elgb_p || this.esgst.createdPath || this.esgst.wonPath))) return;
       if (giveaway.innerWrap.getElementsByClassName(`esgst-elgb-button`)[0]) {
         return;
       }
@@ -100,7 +101,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         this.elgb_setEntryButton(giveaway);
         return;
       }
-      if (giveaway.blacklist || (giveaway.inviteOnly && !giveaway.url) || !giveaway.started || giveaway.ended || giveaway.created || giveaway.level > this.esgst.level || (giveaway.id && (this.esgst.games[giveaway.type][giveaway.id] && (this.esgst.games[giveaway.type][giveaway.id].owned || this.esgst.games[giveaway.type][giveaway.id].won || (this.esgst.games[giveaway.type][giveaway.id].hidden && this.esgst.hgebd))))) {
+      if (giveaway.blacklist || (giveaway.inviteOnly && !giveaway.url) || !giveaway.started || giveaway.ended || giveaway.created || giveaway.level > this.esgst.level || (giveaway.id && (this.esgst.games[giveaway.type][giveaway.id] && (this.esgst.games[giveaway.type][giveaway.id].owned || this.esgst.games[giveaway.type][giveaway.id].won || (this.esgst.games[giveaway.type][giveaway.id].hidden && gSettings.hgebd))))) {
         return;
       }
       if (this.esgst.giveawayPath && main) {
@@ -226,7 +227,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       if (responseJson.type === `success`) {
         removeButton.classList.remove(`esgst-hidden`);
       } else {
-        if (this.esgst.elgb_b && this.esgst.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
+        if (gSettings.elgb_b && gSettings.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
           // noinspection JSIgnoredPromiseFromCall
           giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
         }
@@ -239,7 +240,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       errorButton.classList.remove(`esgst-hidden`);
     }
     addingButton.classList.add(`esgst-hidden`);
-    if (this.esgst.et) {
+    if (gSettings.et) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, true, giveaway.name);
     }
@@ -266,7 +267,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       errorButton.classList.remove(`esgst-hidden`);
     }
     removingButton.classList.add(`esgst-hidden`);
-    if (this.esgst.et) {
+    if (gSettings.et) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, false, giveaway.name);
     }
@@ -339,7 +340,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }
     if (doAppend) {
       giveaway.elgbButton.classList.add(`esgst-elgb-button`);
-      if (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) {
+      if (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && gSettings.gv_gb) || (source === `ged` && gSettings.gv_ged) || (source === `ge` && gSettings.gv_ge))) {
         giveaway.elgbPanel.insertBefore(giveaway.elgbButton, giveaway.elgbPanel.firstElementChild);
       } else {
         giveaway.elgbPanel.appendChild(giveaway.elgbButton);
@@ -364,17 +365,17 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     if (headingButton) {
       shared.esgst.scopes[popup.id].sourceLink = headingButton;
     }
-    if ((this.esgst.cf && this.esgst.cf_m) || this.esgst.mm) {
+    if ((gSettings.cf && gSettings.cf_m) || gSettings.mm) {
       let heading = createElements(popup.description, `afterBegin`, [{
         attributes: {
           class: `page__heading`
         },
         type: `div`
       }]);
-      if (this.esgst.cf && this.esgst.cf_m) {
+      if (gSettings.cf && gSettings.cf_m) {
         heading.appendChild(this.esgst.modules.commentsCommentFilters.filters_addContainer(heading, `Elgb`));
       }
-      if (this.esgst.mm) {
+      if (gSettings.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
@@ -399,7 +400,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       popup.description.appendChild(set.set);
     } else {
       let games = JSON.parse(getValue(`games`));
-      if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= this.esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !this.esgst.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
+      if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= this.esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !gSettings.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
         let set = new ButtonSet({
           color1: `green`,
           color2: `grey`,
@@ -422,7 +423,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }
     let description = null;
     let responseHtml = null;
-    if (this.esgst.elgb_d || (this.esgst.elgb_r && this.esgst.elgb_r_d) || mainCallback) {
+    if (gSettings.elgb_d || (gSettings.elgb_r && gSettings.elgb_r_d) || mainCallback) {
       responseHtml = parseHtml((await request({ method: `GET`, url: giveaway.url })).responseText);
       if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0]) {
         mainCallback(true);
@@ -431,7 +432,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       description = responseHtml.getElementsByClassName(`page__description`)[0];
     }
     if (description && description.textContent.trim() && !mainCallback) {
-      if (this.esgst.elgb_c) {
+      if (gSettings.elgb_c) {
         if (Date.now() - this.esgst.elgbCache.timestamp > 3600000) {
           this.esgst.elgbCache = {
             descriptions: {},
@@ -451,16 +452,16 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         } else {
           this.esgst.elgbCache.descriptions[giveaway.creator].push(html);
           setLocalValue(`elgbCache`, JSON.stringify(this.esgst.elgbCache));
-          if (this.esgst.elgb_f) {
+          if (gSettings.elgb_f) {
             let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-            if (text.match(new RegExp(`^(${this.esgst.elgb_filters})$`))) {
+            if (text.match(new RegExp(`^(${gSettings.elgb_filters})$`))) {
               description = null;
             }
           }
         }
-      } else if (this.esgst.elgb_f) {
+      } else if (gSettings.elgb_f) {
         let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-        if (text.match(new RegExp(`^(${this.esgst.elgb_filters})$`))) {
+        if (text.match(new RegExp(`^(${gSettings.elgb_filters})$`))) {
           description = null;
         }
       }
@@ -472,11 +473,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }]);
     }
     let box = null;
-    if ((this.esgst.elgb_r && (!this.esgst.elgb_r_d || description)) || mainCallback) {
+    if ((gSettings.elgb_r && (!gSettings.elgb_r_d || description)) || mainCallback) {
       box = createElements(popup.scrollable, `beforeEnd`, [{
         type: `textarea`
       }]);
-      if (this.esgst.cfh) {
+      if (gSettings.cfh) {
         this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(box);
       }
       popup.description.appendChild(new ButtonSet({
@@ -498,7 +499,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
       }).set);
     }
-    if (description && this.esgst.elgb_f) {
+    if (description && gSettings.elgb_f) {
       let set = new ButtonSet({
         color1: `grey`,
         color2: `grey`,
@@ -507,8 +508,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         title1: `Add Description To Filters`,
         title2: `Filtering...`,
         callback1: async () => {
-          this.esgst.elgb_filters = `${this.esgst.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`;
-          await setSetting(`elgb_filters`, this.esgst.elgb_filters);
+          await setSetting(`elgb_filters`, `${gSettings.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`);
           set.remove();
         }
       }).set;
@@ -520,7 +520,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       createElements(popup.scrollable, `beforeEnd`, [{
         context: comments
       }]);
-      if (this.esgst.elgb_fp || mainCallback) {
+      if (gSettings.elgb_fp || mainCallback) {
         comments.classList.remove(`esgst-hidden`);
         common.endless_load(popup.scrollable);
       } else {
@@ -540,7 +540,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         popup.description.appendChild(commentButton);
       }
     }
-    if ((this.esgst.elgb_fp && comments && comments.children.length) || (this.esgst.elgb_d && description) || (this.esgst.elgb_r && (!this.esgst.elgb_r_d || description)) || mainCallback) {
+    if ((gSettings.elgb_fp && comments && comments.children.length) || (gSettings.elgb_d && description) || (gSettings.elgb_r && (!gSettings.elgb_r_d || description)) || mainCallback) {
       if (mainCallback) {
         popup.onClose = mainCallback;
       }
@@ -576,33 +576,33 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.entered = true;
       giveaway.error = null;
       this.elgb_addButton(giveaway, main, source);
-      if (this.esgst.et) {
+      if (gSettings.et) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, true, giveaway.name);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-      if (this.esgst.hr) {
+      if (gSettings.hr) {
         setLocalValue(`hrCache`, JSON.stringify(this.esgst.modules.generalHeaderRefresher.hr_getCache()));
       }
       this.elgb_updateButtons();
-      if (this.esgst.egh) {
+      if (gSettings.egh) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.gamesEnteredGameHighlighter.egh_saveGame(giveaway.id, giveaway.type);
       }
-      if (this.esgst.gb && this.esgst.gb_ue && giveaway.gbButton) {
+      if (gSettings.gb && gSettings.gb_ue && giveaway.gbButton) {
         if (giveaway.gbButton.index === 3) {
           // noinspection JSIgnoredPromiseFromCall
           giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
         }
-        if (!this.esgst.gb_se) {
+        if (!gSettings.gb_se) {
           giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }
       }
-      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+      if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
       }
-      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
+      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {
@@ -613,7 +613,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         this.elgb_openPopup(giveaway, main, source);
       }
     } else {
-      if (this.esgst.elgb_b && this.esgst.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
+      if (gSettings.elgb_b && gSettings.gb && giveaway.gbButton && giveaway.gbButton.index === 1) {
         // noinspection JSIgnoredPromiseFromCall
         giveaway.gbButton.change(giveaway.gbButton.callbacks[0]);
       }
@@ -648,23 +648,23 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       giveaway.entered = false;
       giveaway.error = false;
       this.elgb_addButton(giveaway, main, source);
-      if (this.esgst.et) {
+      if (gSettings.et) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, false, giveaway.name);
       }
       this.esgst.pointsContainer.textContent = responseJson.points;
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-      if (this.esgst.hr) {
+      if (gSettings.hr) {
         setLocalValue(`hrCache`, JSON.stringify(this.esgst.modules.generalHeaderRefresher.hr_getCache()));
       }
       this.elgb_updateButtons();
-      if (this.esgst.gb && giveaway.gbButton) {
+      if (gSettings.gb && giveaway.gbButton) {
         giveaway.gbButton.button.classList.remove(`esgst-hidden`);
       }
-      if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+      if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
       }
-      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && this.esgst[`gf_enable${this.esgst.gfPopup.type}`]) {
+      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {
@@ -683,7 +683,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         this.elgb_addButton(giveaway, true);
       }
     }
-    if (this.esgst.ttec) {
+    if (gSettings.ttec) {
       this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_calculateTime(this.esgst.scopes.main.giveaways, true);
     }
   }

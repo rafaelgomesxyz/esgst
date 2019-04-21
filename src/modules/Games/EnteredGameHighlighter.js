@@ -27,13 +27,13 @@ class GamesEnteredGameHighlighter extends Module {
 
   egh_getGames(games) {
     for (const game of games.all) {
-      if (this.esgst.giveawayPath) {
+      if (shared.esgst.giveawayPath) {
         const button = document.querySelector(`.sidebar__entry-insert`);
         if (button) {
           button.addEventListener(`click`, this.egh_saveGame.bind(this, game.id, game.type));
         }
       }
-      const savedGame = this.esgst.games[game.type][game.id];
+      const savedGame = shared.esgst.games[game.type][game.id];
       if (savedGame && savedGame.entered && !game.container.querySelector(`.esgst-egh-button`)) {
         const count = Number(savedGame.entered);
         shared.common.createElements_v2((game.container.closest(`.poll`) && game.container.querySelector(`.table__column__heading`)) || game.headingName, `beforeBegin`, [

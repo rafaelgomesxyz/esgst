@@ -3,6 +3,7 @@ import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -55,7 +56,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
 
   init() {
     this.esgst.giveawayFeatures.push(
-      (this.esgst.ggl_index === 0 ?
+      (gSettings.ggl_index === 0 ?
         this.ggl_getGiveaways :
         this.ggl_setButtons
       ).bind(this)
@@ -75,7 +76,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
     let container, context, delay, eventType, exitTimeout, newGiveaways, newGroups, onClick, savedGiveaways,
       savedGroups, timeout;
     if (giveaway.group) {
-      switch (this.esgst.ggl_index) {
+      switch (gSettings.ggl_index) {
         case 1:
           eventType = `mouseenter`;
           onClick = false;
@@ -115,7 +116,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
       giveaway.group.addEventListener(eventType, () => {
         timeout = window.setTimeout(async () => {
           if (context) {
-            switch (this.esgst.ggl_index) {
+            switch (gSettings.ggl_index) {
               case 1:
                 context.open(giveaway.group);
                 break;
@@ -131,7 +132,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                 break;
             }
           } else {
-            if (this.esgst.ggl_index === 3) {
+            if (gSettings.ggl_index === 3) {
               context = new Popup({
                 addScrollable: true, icon: `fa-user`, title: [
                   [`a`, { href: `${giveaway.url}/groups` }, `Giveaway Groups`]
@@ -190,7 +191,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   if (group && group.member) {
                     className = `esgst-ggl-member`;
                     groupCount += 1;
-                  } else if (this.esgst.ggl_m) {
+                  } else if (gSettings.ggl_m) {
                     className = `esgst-hidden`;
                   } else {
                     className = ``;
@@ -249,7 +250,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   container.firstElementChild.classList.remove(`esgst-hidden`);
                   endless_load(container);
                 }
-                if (this.esgst.ggl_index === 2) {
+                if (gSettings.ggl_index === 2) {
                   createElements(container, `afterBegin`, [{
                     type: `div`,
                     children: [{
@@ -273,7 +274,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
                   text: `An error occurred.`,
                   type: `span`
                 }]);
-                if (this.esgst.ggl_index === 2) {
+                if (gSettings.ggl_index === 2) {
                   createElements(container, `afterBegin`, [{
                     type: `div`,
                     children: [{
@@ -290,7 +291,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
               }
             });
           }
-          if (this.esgst.ggl_index === 1) {
+          if (gSettings.ggl_index === 1) {
             container.onmouseenter = () => {
               if (exitTimeout) {
                 window.clearTimeout(exitTimeout);
@@ -393,7 +394,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
         if (group && group.member) {
           className = `esgst-ggl-member`;
           groupCount += 1;
-        } else if (this.esgst.ggl_m) {
+        } else if (gSettings.ggl_m) {
           className = `esgst-hidden`;
         } else {
           className = ``;
@@ -420,7 +421,7 @@ class GiveawaysGiveawayGroupLoader extends Module {
             }]
           }]).lastElementChild;
           link.textContent = group.name;
-          if (this.esgst.ap) {
+          if (gSettings.ap) {
             this.esgst.modules.generalAvatarPopout.ap_getAvatars(panel);
           }
         }

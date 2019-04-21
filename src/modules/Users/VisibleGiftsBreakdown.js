@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 class UsersVisibleGiftsBreakdown extends Module {
   constructor() {
@@ -46,10 +47,10 @@ class UsersVisibleGiftsBreakdown extends Module {
   }
 
   vgb_add(profile) {
-    const position = this.esgst.vgb_index === 0 ? `afterBegin` : `beforeEnd`;
+    const position = gSettings.vgb_index === 0 ? `afterBegin` : `beforeEnd`;
     common.createElements_v2(profile.wonRowRight.firstElementChild.firstElementChild, position, [
       ` ${
-        this.esgst.vgb_wonFormat
+        gSettings.vgb_wonFormat
           .replace(/\[FCV]/, profile.wonFull)
           .replace(/\[RCV]/, profile.wonReduced)
           .replace(/\[NCV]/, profile.wonZero)
@@ -58,7 +59,7 @@ class UsersVisibleGiftsBreakdown extends Module {
     ]);
     common.createElements_v2(profile.sentRowRight.firstElementChild.firstElementChild, position, [
       ` ${
-        this.esgst.vgb_sentFormat
+        gSettings.vgb_sentFormat
           .replace(/\[FCV]/, profile.sentFull)
           .replace(/\[RCV]/, profile.sentReduced)
           .replace(/\[NCV]/, profile.sentZero)

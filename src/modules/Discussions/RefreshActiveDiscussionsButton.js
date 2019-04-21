@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
@@ -33,7 +34,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
     for (i = elements.length - 1; i > -1; --i) {
       createElements(elements[i], `beforeBegin`, [{
         attributes: {
-          class: `esgst-radb-button${this.esgst.oadd ? `` : ` homepage_heading`}`,
+          class: `esgst-radb-button${gSettings.oadd ? `` : ` homepage_heading`}`,
           title: getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
         },
         type: `div`,
@@ -46,7 +47,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
       }]).addEventListener(`click`, event => {
         let icon = event.currentTarget.firstElementChild;
         icon.classList.add(`fa-spin`);
-        if (this.esgst.oadd) {
+        if (gSettings.oadd) {
           // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => {
             icon.classList.remove(`fa-spin`);

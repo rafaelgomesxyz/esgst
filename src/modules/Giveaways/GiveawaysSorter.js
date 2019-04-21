@@ -3,6 +3,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   capitalizeFirstLetter = common.capitalizeFirstLetter.bind(common),
@@ -121,7 +122,7 @@ class GiveawaysGiveawaysSorter extends Module {
           type: `option`
         });
     }
-    if (this.esgst.gc && this.esgst.gc_r && !this.esgst.enteredPath) {
+    if (gSettings.gc && gSettings.gc_r && !this.esgst.enteredPath) {
       children.push({
         attributes: {
           value: `rating_asc`
@@ -201,7 +202,7 @@ class GiveawaysGiveawaysSorter extends Module {
         text: `Entries - Descending`,
         type: `option`
       });
-    if (this.esgst.gwc) {
+    if (gSettings.gwc) {
       children.push({
         attributes: {
           value: `chance_asc`
@@ -227,7 +228,7 @@ class GiveawaysGiveawaysSorter extends Module {
           text: `Chance Per Point - Descending`,
           type: `option`
         });
-      if (this.esgst.gwc_a) {
+      if (gSettings.gwc_a) {
         children.push({
           attributes: {
             value: `projectedChance_asc`
@@ -255,7 +256,7 @@ class GiveawaysGiveawaysSorter extends Module {
           });
       }
     }
-    if (this.esgst.gwr) {
+    if (gSettings.gwr) {
       children.push({
         attributes: {
           value: `ratio_asc`
@@ -269,7 +270,7 @@ class GiveawaysGiveawaysSorter extends Module {
           text: `Ratio - Descending`,
           type: `option`
         });
-      if (this.esgst.gwr_a) {
+      if (gSettings.gwr_a) {
         children.push({
           attributes: {
             value: `projectedRatio_asc`
@@ -285,7 +286,7 @@ class GiveawaysGiveawaysSorter extends Module {
           });
       }
     }
-    if (this.esgst.gptw) {
+    if (gSettings.gptw) {
       children.push({
         attributes: {
           value: `pointsToWin_asc`

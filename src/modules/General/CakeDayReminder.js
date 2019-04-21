@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   getLocalValue = common.getLocalValue.bind(common),
@@ -49,7 +50,7 @@ class GeneralCakeDayReminder extends Module {
     let currentDate = new Date();
     let year = currentDate.getFullYear();
     let time = currentDate.getTime();
-    const registrationDate = new Date(this.esgst.registrationDate * 1e3);
+    const registrationDate = new Date(gSettings.registrationDate * 1e3);
     registrationDate.setFullYear(year);
     const registrationTime = registrationDate.getTime();
     const bYear = parseInt(getLocalValue(`cdr_bYear`, 0));
@@ -60,7 +61,7 @@ class GeneralCakeDayReminder extends Module {
       setLocalValue(`cdr_dYear`, year);
       dYear = year;
     }
-    if (this.esgst.cdr_b && bYear !== year && time < registrationTime && time + (this.esgst.cdr_days * 86400000) >= registrationTime) {
+    if (gSettings.cdr_b && bYear !== year && time < registrationTime && time + (gSettings.cdr_days * 86400000) >= registrationTime) {
       setLocalValue(`cdr_bYear`, year);
       new Popup({
         addScrollable: true,
@@ -68,7 +69,7 @@ class GeneralCakeDayReminder extends Module {
         isTemp: true,
         title: `ESGST reminder: your cake day is in ${Math.floor((registrationTime - time) / 86400000)} days.`
       }).open();
-    } else if (this.esgst.cdr_d && dYear !== year && time >= registrationTime) {
+    } else if (gSettings.cdr_d && dYear !== year && time >= registrationTime) {
       setLocalValue(`cdr_dYear`, year);
       if (time >= registrationTime + 86400000) {
         new Popup({

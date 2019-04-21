@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import dateFns_format from 'date-fns/format';
 import {common} from '../Common';
+import { gSettings } from '../../class/Globals';
 
 class GeneralPageLoadTimestamp extends Module {
   constructor() {
@@ -31,8 +32,8 @@ class GeneralPageLoadTimestamp extends Module {
   }
 
   init() {
-    const timestamp = dateFns_format(Date.now(), (this.esgst.plt_format || `MMM dd, yyyy, HH:mm:ss`));
-    switch (this.esgst.plt_index) {
+    const timestamp = dateFns_format(Date.now(), (gSettings.plt_format || `MMM dd, yyyy, HH:mm:ss`));
+    switch (gSettings.plt_index) {
       case 0:
         if (this.esgst.sidebar) {
           common.createElements_v2(this.esgst.sidebar, `afterBegin`, [

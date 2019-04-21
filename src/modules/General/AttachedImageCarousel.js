@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -61,7 +62,7 @@ class GeneralAttachedImageCarousel extends Module {
       let image = button.nextElementSibling.firstElementChild;
       let url = image.getAttribute(`src`);
       let index = this.esgst.attachedImages.length;
-      if (!this.esgst.aic_b) {
+      if (!gSettings.aic_b) {
         image.addEventListener(`click`, this.aic_openCarousel.bind(this, index));
       }
       let comment = button.closest(`.comment`);
@@ -107,7 +108,7 @@ class GeneralAttachedImageCarousel extends Module {
     let attachedImage, height, image, n, panel;
     n = this.esgst.attachedImages.length;
     attachedImage = this.esgst.attachedImages[i];
-    if (this.esgst.ail) {
+    if (gSettings.ail) {
       attachedImage.image.setAttribute(`src`, attachedImage.url);
     }
     const items = [{

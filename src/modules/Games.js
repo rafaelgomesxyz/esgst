@@ -1,6 +1,8 @@
 import { Module } from '../class/Module';
 import {utils} from '../lib/jsUtils';
 import {common} from './Common';
+import { gSettings } from '../class/Globals';
+import { shared } from '../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -124,7 +126,7 @@ class Games extends Module {
           type = info.type;
           game.id = id;
           game.type = type;
-          if (this.esgst.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
+          if (gSettings.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
             const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
             if (removeButton) {
               removeButton.addEventListener(`click`, updateHiddenGames.bind(common, id, type, true));
@@ -223,7 +225,7 @@ class Games extends Module {
       }
       return x;
     });
-    if (this.esgst.gf && this.esgst.gf.filteredCount && this.esgst[`gf_enable${this.esgst.gf.type}`]) {
+    if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
     lockAndSaveGames(games);

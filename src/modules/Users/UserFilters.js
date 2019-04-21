@@ -3,6 +3,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -60,7 +62,7 @@ class UsersUserFilters extends Module {
   }
 
   uf_add(profile, savedUser) {
-    if (profile.username !== this.esgst.username) {
+    if (profile.username !== gSettings.username) {
       profile.ufButton = createElements(profile.heading, `beforeEnd`, [{
         attributes: {
           class: `esgst-uf-button`,

@@ -1,5 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
+import { gSettings } from '../class/Globals';
 
 const
   checkUsernameChange = common.checkUsernameChange.bind(common),
@@ -99,12 +100,12 @@ class Profile extends Module {
     profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
     profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
     if (profile.whitelistButton) {
-      if (this.esgst.updateWhitelistBlacklist) {
+      if (gSettings.updateWhitelistBlacklist) {
         profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(common, `whitelisted`, profile));
       }
     }
     if (profile.blacklistButton) {
-      if (this.esgst.updateWhitelistBlacklist) {
+      if (gSettings.updateWhitelistBlacklist) {
         profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(common, `blacklisted`, profile));
       }
     }

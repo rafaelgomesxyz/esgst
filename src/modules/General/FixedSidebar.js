@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { gSettings } from '../../class/Globals';
 
 class GeneralFixedSidebar extends Module {
   constructor() {
@@ -24,12 +25,12 @@ class GeneralFixedSidebar extends Module {
     const top = this.esgst.pageTop + 25;
     this.esgst.style.insertAdjacentText("beforeend", `
       .esgst-fs {
-        max-height: calc(100vh - ${top + 30 + (this.esgst.ff ? 39 : 0)}px);
+        max-height: calc(100vh - ${top + 30 + (gSettings.ff ? 39 : 0)}px);
         top: ${top}px;
       }
 
       .esgst-fs.stuck {
-        height: calc(100vh - ${top + 30 + (this.esgst.ff ? 39 : 0)}px);
+        height: calc(100vh - ${top + 30 + (gSettings.ff ? 39 : 0)}px);
       }
 
       .sticky_sentinel--top {

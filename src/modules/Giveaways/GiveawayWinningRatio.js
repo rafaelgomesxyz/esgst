@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -77,15 +78,15 @@ class GiveawaysGiveawayWinningRatio extends Module {
   }
 
   init() {
-    if (this.esgst.gptw || this.esgst.gwc || (!this.esgst.enteredPath && (!this.esgst.wonPath || !this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e))) return;
+    if (gSettings.gptw || gSettings.gwc || (!this.esgst.enteredPath && (!this.esgst.wonPath || !gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e))) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysGiveawayWinningChance.gwc_addHeading.bind(this.esgst.modules.giveawaysGiveawayWinningChance));
   }
 
   gwr_addRatios(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!this.esgst.cewgd || !this.esgst.cewgd_w || !this.esgst.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
-      if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && this.esgst.cewgd && this.esgst.cewgd_w && this.esgst.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
-        let context = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
+      if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
+        let context = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && gSettings.gv_gb) || (source === `ged` && gSettings.gv_ged) || (source === `ge` && gSettings.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
           attributes: {
             class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
             [`data-draggable-id`]: `gwr`,
@@ -100,36 +101,36 @@ class GiveawaysGiveawayWinningRatio extends Module {
 
   gwr_addRatio(context, giveaway) {
     let advancedColor, advancedRatio = 0, basicColor, basicRatio, colors, entries, i;
-    entries = giveaway.entered || giveaway.ended || giveaway.created || !this.esgst.gwr_e ? giveaway.entries : giveaway.entries + 1;
+    entries = giveaway.entered || giveaway.ended || giveaway.created || !gSettings.gwr_e ? giveaway.entries : giveaway.entries + 1;
     basicRatio = Math.ceil(entries / giveaway.copies);
-    if (this.esgst.gwr_a && !giveaway.ended && giveaway.startTime) {
+    if (gSettings.gwr_a && !giveaway.ended && giveaway.startTime) {
       advancedRatio = Math.ceil((entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) / giveaway.copies);
     }
     giveaway.ratio = basicRatio;
     giveaway.projectedRatio = advancedRatio;
     context.setAttribute(`data-ratio`, giveaway.ratio);
     context.setAttribute(`data-projectedRatio`, giveaway.projectedRatio);
-    for (i = this.esgst.gwr_colors.length - 1; i > -1; --i) {
-      colors = this.esgst.gwr_colors[i];
+    for (i = gSettings.gwr_colors.length - 1; i > -1; --i) {
+      colors = gSettings.gwr_colors[i];
       if (basicRatio >= parseInt(colors.lower) && basicRatio <= parseInt(colors.upper)) {
         basicColor = colors.color;
         break;
       }
     }
-    for (i = this.esgst.gwr_colors.length - 1; i > -1; --i) {
-      colors = this.esgst.gwr_colors[i];
+    for (i = gSettings.gwr_colors.length - 1; i > -1; --i) {
+      colors = gSettings.gwr_colors[i];
       if (advancedRatio >= parseInt(colors.lower) && advancedRatio <= parseInt(colors.upper)) {
         advancedColor = colors.color;
         break;
       }
     }
-    if (this.esgst.gwr_h) {
+    if (gSettings.gwr_h) {
       giveaway.headingName.classList.add(`esgst-gwr-highlight`);
-      giveaway.headingName.style.color = this.esgst.gwr_a && !this.esgst.gwr_a_b ? advancedColor : basicColor;
+      giveaway.headingName.style.color = gSettings.gwr_a && !gSettings.gwr_a_b ? advancedColor : basicColor;
       if (giveaway.image) {
         giveaway.image.classList.add(`esgst-gwr-highlight`);
-        giveaway.image.style.color = `${this.esgst.gwr_a && !this.esgst.gwr_a_b ? advancedColor : basicColor}`;
-        giveaway.image.style.boxShadow = `${this.esgst.gwr_a && !this.esgst.gwr_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwr-highlight-width, 3px)  inset`;
+        giveaway.image.style.color = `${gSettings.gwr_a && !gSettings.gwr_a_b ? advancedColor : basicColor}`;
+        giveaway.image.style.boxShadow = `${gSettings.gwr_a && !gSettings.gwr_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwr-highlight-width, 3px)  inset`;
       }
     }
     if (this.esgst.enteredPath || this.esgst.wonPath) {
@@ -153,8 +154,8 @@ class GiveawaysGiveawayWinningRatio extends Module {
     if (advancedColor) {
       advancedAttributes.style = `color: ${advancedColor}; font-weight: bold;`
     }
-    if (this.esgst.gwr_a && advancedRatio) {
-      if (this.esgst.gwr_a_b) {
+    if (gSettings.gwr_a && advancedRatio) {
+      if (gSettings.gwr_a_b) {
         children.push({
           attributes: basicAttributes,
           text: `${basicRatio}:1`,
@@ -188,7 +189,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
       type: `span`,
       children
     });
-    if ((this.esgst.enteredPath || this.esgst.wonPath) && this.esgst.gptw) {
+    if ((this.esgst.enteredPath || this.esgst.wonPath) && gSettings.gptw) {
       items.push({
         text: ` / `,
         type: `node`

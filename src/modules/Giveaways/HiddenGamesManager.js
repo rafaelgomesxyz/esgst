@@ -4,6 +4,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
 
@@ -66,11 +67,11 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.textArea = common.createElements_v2(obj.popup.description, `afterBegin`, [
       [`textarea`, { placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`}]
     ]);
-    new ToggleSwitch(obj.popup.description, `hgm_addOwned`, false, `Add all owned games.`, false, false, null, this.esgst.hgm_addOwned);
-    new ToggleSwitch(obj.popup.description, `hgm_addIgnored`, false, `Add all ignored games.`, false, false, null, this.esgst.hgm_addIgnored);
-    new ToggleSwitch(obj.popup.description, `hgm_removeTextArea`, false, `Only remove games from text area.`, false, false, null, this.esgst.hgm_removeTextArea);
-    new ToggleSwitch(obj.popup.description, `hgm_removeOwned`, false, `Only remove owned games.`, false, false, null, this.esgst.hgm_removeOwned);
-    new ToggleSwitch(obj.popup.description, `hgm_removeWishlisted`, false, `Only remove wishlisted games.`, false, false, null, this.esgst.hgm_removeWishlisted);
+    new ToggleSwitch(obj.popup.description, `hgm_addOwned`, false, `Add all owned games.`, false, false, null, gSettings.hgm_addOwned);
+    new ToggleSwitch(obj.popup.description, `hgm_addIgnored`, false, `Add all ignored games.`, false, false, null, gSettings.hgm_addIgnored);
+    new ToggleSwitch(obj.popup.description, `hgm_removeTextArea`, false, `Only remove games from text area.`, false, false, null, gSettings.hgm_removeTextArea);
+    new ToggleSwitch(obj.popup.description, `hgm_removeOwned`, false, `Only remove owned games.`, false, false, null, gSettings.hgm_removeOwned);
+    new ToggleSwitch(obj.popup.description, `hgm_removeWishlisted`, false, `Only remove wishlisted games.`, false, false, null, gSettings.hgm_removeWishlisted);
     obj.popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
@@ -141,10 +142,10 @@ class GiveawaysHiddenGamesManager extends Module {
           }
         }
       });
-    if (this.esgst.hgm_addOwned) {
+    if (gSettings.hgm_addOwned) {
       appIds.push(...Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].owned && !this.esgst.games.apps[x].hidden));
     }
-    if (this.esgst.hgm_addIgnored) {
+    if (gSettings.hgm_addIgnored) {
       appIds.push(...Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].ignored && !this.esgst.games.apps[x].hidden));
     }
 
@@ -250,7 +251,7 @@ class GiveawaysHiddenGamesManager extends Module {
           continue;
         }
         let game = this.esgst.games[info.type][info.id];
-        if ((!this.esgst.hgm_removeOwned || !game || !game.owned) && (!this.esgst.hgm_removeWishlisted || !game || !game.wishlisted) && (!this.esgst.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (this.esgst.hgm_removeOwned || this.esgst.hgm_removeWishlisted || this.esgst.hgm_removeTextArea)) {
+        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeTextArea)) {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };

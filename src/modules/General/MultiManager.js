@@ -9,6 +9,7 @@ import { Process } from '../../class/Process';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -97,7 +98,7 @@ class GeneralMultiManager extends Module {
     this.esgst.mm_enable = this.mm_enable.bind(this, obj);
     this.esgst.mm_disable = this.mm_disable.bind(this, obj);
     obj.button.addEventListener(`click`, this.mm_openPopout.bind(this, obj, items, itemsKey));
-    if (this.esgst.mm_enableGames) {
+    if (gSettings.mm_enableGames) {
       this.esgst.gameFeatures.push(this.mm_getGames.bind(this));
     }
   }
@@ -145,7 +146,7 @@ class GeneralMultiManager extends Module {
         }]
       }]);
       obj.counterElements[key] = heading.lastElementChild;
-      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, this.esgst[`mm_enable${key}`]);
+      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, gSettings[`mm_enable${key}`]);
       toggleSwitch.onEnabled = this.mm_enable.bind(this, obj, itemsKey === key ? items : null, key);
       toggleSwitch.onDisabled = this.mm_disable.bind(this, obj, itemsKey === key ? items : null, key);
       this.mm_setSection(obj, createElements(obj.sections, `beforeEnd`, [{
@@ -154,7 +155,7 @@ class GeneralMultiManager extends Module {
       if (this.esgst.sg) {
         heading.addEventListener(`click`, this.mm_changeActiveSection.bind(this, obj, i));
       }
-      if (this.esgst[`mm_enable${key}`]) {
+      if (gSettings[`mm_enable${key}`]) {
         activeIndex = i;
       }
     });
@@ -224,6 +225,7 @@ class GeneralMultiManager extends Module {
         const items = this.esgst.currentScope[key.toLowerCase()];
         const elements = document.querySelectorAll(`[data-mm-key="${key}"]`);
         let foundStart = false;
+        // @ts-ignore
         for (const element of elements) {
           if (element.closest(`.is-hidden, .is_hidden, .esgst-hidden`)) {
             continue;
@@ -352,7 +354,7 @@ class GeneralMultiManager extends Module {
             title1: `Replace`, title2: ``
           },
           {
-            check: this.esgst.gf && this.esgst.gf_s,
+            check: gSettings.gf && gSettings.gf_s,
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
@@ -360,21 +362,21 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_hideGiveaways.bind(this, obj, items)
           },
           {
-            check: this.esgst.gb,
+            check: gSettings.gb,
             color1: `green`, color2: `grey`,
             icon1: `fa-bookmark`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Bookmark`, title2: ``,
             callback1: this.mm_bookmarkGiveaways.bind(this, obj, items)
           },
           {
-            check: this.esgst.gb,
+            check: gSettings.gb,
             color1: `green`, color2: `grey`,
             icon1: `fa-bookmark-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unbookmark`, title2: ``,
             callback1: this.mm_unbookmarkGiveaways.bind(this, obj, items)
           },
           {
-            check: this.esgst.ttec,
+            check: gSettings.ttec,
             color1: `green`, color2: `grey`,
             icon1: `fa-clock-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Calculate`, title2: ``,
@@ -383,7 +385,7 @@ class GeneralMultiManager extends Module {
         ],
         [
           {
-            check: this.esgst.ged,
+            check: gSettings.ged,
             color1: `green`, color2: `grey`,
             icon1: `fa-puzzle-piece`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Encrypted`, title2: ``,
@@ -395,7 +397,7 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: this.esgst.df && this.esgst.df_s,
+            check: gSettings.df && gSettings.df_s,
             color1: `green`, color2: `grey`,
             icon1: `fa-eye-slash`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Hide`, title2: ``,
@@ -403,28 +405,28 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_hideDiscussions.bind(this, obj, items)
           },
           {
-            check: this.esgst.dh,
+            check: gSettings.dh,
             color1: `green`, color2: `grey`,
             icon1: `fa-star`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Highlight`, title2: ``,
             callback1: this.mm_highlightDiscussions.bind(this, obj, items)
           },
           {
-            check: this.esgst.dh,
+            check: gSettings.dh,
             color1: `green`, color2: `grey`,
             icon1: `fa-star-o`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unhighlight`, title2: ``,
             callback1: this.mm_unhighlightDiscussions.bind(this, obj, items)
           },
           {
-            check: this.esgst.gdttt,
+            check: gSettings.gdttt,
             color1: `green`, color2: `grey`,
             icon1: `fa-check`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Visit`, title2: ``,
             callback1: this.mm_visitDiscussions.bind(this, obj, items)
           },
           {
-            check: this.esgst.gdttt,
+            check: gSettings.gdttt,
             color1: `green`, color2: `grey`,
             icon1: `fa-times`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Unvisit`, title2: ``,
@@ -437,14 +439,14 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: this.esgst.ut,
+            check: gSettings.ut,
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
             callback1: this.esgst.modules.usersUserTags.tags_openMmPopup.bind(this.esgst.modules.usersUserTags, obj, items)
           },
           {
-            check: this.esgst.wbc,
+            check: gSettings.wbc,
             color1: `green`, color2: `grey`,
             icon1: `fa-question-circle`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Check WL/BL`, title2: ``,
@@ -452,7 +454,7 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_selectWbcUsers.bind(this, obj, items, `wbc`)
           },
           {
-            check: this.esgst.usc,
+            check: gSettings.usc,
             color1: `green`, color2: `grey`,
             icon1: `fa-question-circle`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Check Susp.`, title2: ``,
@@ -466,7 +468,7 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: this.esgst.gt,
+            check: gSettings.gt,
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
@@ -494,7 +496,7 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: this.esgst.gpt,
+            check: gSettings.gpt,
             color1: `green`, color2: `grey`,
             icon1: `fa-tags`, icon2: `fa-circle-o-notch fa-spin`,
             title1: `Tag`, title2: ``,
@@ -684,7 +686,7 @@ class GeneralMultiManager extends Module {
         type: `textarea`
       }]
     }]).firstElementChild;
-    if (this.esgst.cfh) {
+    if (gSettings.cfh) {
       this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(obj[`textArea${key}`]);
     }
     obj[`message${key}`] = createElements(context, `beforeEnd`, [{
@@ -836,7 +838,7 @@ class GeneralMultiManager extends Module {
 
   async mm_getSearchReplaceUrlRequest(obj, details, response, responseHtml) {
     let replaceValue, searchValue;
-    if (this.esgst.mm_useRegExp) {
+    if (gSettings.mm_useRegExp) {
       try {
         let parts = obj.popup.getTextInputValue(0).match(/^\/(.+)\/(.*)$/);
         searchValue = new RegExp(parts[1], parts[2]);
@@ -853,7 +855,7 @@ class GeneralMultiManager extends Module {
       name = obj.items[obj.index].name,
       url = obj.items[obj.index].url;
     if (description) {
-      let match = this.esgst.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
+      let match = gSettings.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
       if (match) {
         const idContext = description.previousElementSibling;
         let responseJson = JSON.parse((await request({
@@ -1050,7 +1052,7 @@ class GeneralMultiManager extends Module {
         visited: true,
         lastUsed: Date.now()
       };
-      if (this.esgst.ct_s) {
+      if (gSettings.ct_s) {
         newItems[item.code].count = item.count;
       }
       item.gdtttButton.callbacks[0]();

@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class CommentsCommentSearcher extends Module {
   constructor() {
@@ -26,7 +27,7 @@ class CommentsCommentSearcher extends Module {
   }
 
   init() {
-    if (!this.esgst.commentsPath || (this.esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
+    if (!shared.esgst.commentsPath || (shared.esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
     new Process({
       headingButton: {
         id: `cs`,
@@ -53,7 +54,7 @@ class CommentsCommentSearcher extends Module {
                 min: `i`,
                 name: `cs_minPage`,
                 type: `number`,
-                value: this.esgst.cs_minPage
+                value: gSettings.cs_minPage
               },
               type: `input`
             }, {
@@ -65,7 +66,7 @@ class CommentsCommentSearcher extends Module {
                 min: `i`,
                 name: `cs_maxPage`,
                 type: `number`,
-                value: this.esgst.cs_maxPage
+                value: gSettings.cs_maxPage
               },
               type: `input`
             }, {
@@ -82,8 +83,8 @@ class CommentsCommentSearcher extends Module {
       init: this.cs_init.bind(this),
       requests: [
         {
-          source: this.esgst.discussionPath,
-          url: this.esgst.searchUrl,
+          source: shared.esgst.discussionPath,
+          url: shared.esgst.searchUrl,
           request: this.cs_request.bind(this)
         }
       ]
@@ -98,11 +99,11 @@ class CommentsCommentSearcher extends Module {
     let match = window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
     obj.code = match[2];
     obj.type = match[1];
-    obj.title = this.esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
+    obj.title = shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
     obj.results = 0;
-    if (this.esgst.cs_limitPages) {
-      obj.requests[0].nextPage = this.esgst.cs_minPage;
-      obj.requests[0].maxPage = this.esgst.cs_maxPage;
+    if (gSettings.cs_limitPages) {
+      obj.requests[0].nextPage = gSettings.cs_minPage;
+      obj.requests[0].maxPage = gSettings.cs_maxPage;
     }
   }
 
@@ -118,7 +119,7 @@ class CommentsCommentSearcher extends Module {
     let context = obj.popup.getScrollable();
     for (let i = 0, n = elements.length; i < n; i++) {
       let element = elements[i];
-      if (this.esgst.sg) {
+      if (shared.esgst.sg) {
         element.firstElementChild.classList.remove(`comment__parent`);
         element.firstElementChild.classList.add(`comment__child`);
       }
@@ -148,7 +149,7 @@ class CommentsCommentSearcher extends Module {
           context: parent
         });
       } else {
-        if (this.esgst.st) {
+        if (shared.esgst.st) {
           shared.common.createElements(element.getElementsByClassName(`action_list`)[0].firstElementChild, `afterEnd`, [{
             attributes: {
               href: `/${obj.type}/${obj.code}/`
@@ -157,7 +158,7 @@ class CommentsCommentSearcher extends Module {
             type: `a`
           }]);
         }
-        if (this.esgst.sg) {
+        if (shared.esgst.sg) {
           items[0].children.push({
             attributes: {
               class: `comments__entity`

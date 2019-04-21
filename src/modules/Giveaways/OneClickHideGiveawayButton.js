@@ -1,6 +1,7 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   request = common.request.bind(common),
@@ -100,7 +101,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
   ochgb_completeProcess(giveaway, key, main) {
     if (main && this.esgst.giveawayPath) return;
-    if (this.esgst.ochgb_f) {
+    if (gSettings.ochgb_f) {
       for (let i = 0, n = this.esgst.currentScope.giveaways.length; i < n; i++) {
         if (this.esgst.currentScope.giveaways[i].gameId === giveaway.gameId) {
           this.esgst.currentScope.giveaways[i][key]();

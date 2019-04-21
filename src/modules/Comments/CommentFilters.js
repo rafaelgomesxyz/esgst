@@ -1,5 +1,6 @@
 import { Filters } from '../Filters';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class CommentsCommentFilters extends Filters {
   constructor() {
@@ -102,14 +103,14 @@ class CommentsCommentFilters extends Filters {
   }
 
   async init() {
-    if (this.esgst.cf_m && (this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`))) {
-      this.esgst.style.insertAdjacentText("beforeend", `
+    if (gSettings.cf_m && (shared.esgst.commentsPath || shared.common.isCurrentPath(`Messages`))) {
+      shared.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
-          top: ${this.esgst.commentsTop - 5}px;
+          top: ${shared.esgst.commentsTop - 5}px;
         }
       `);
       shared.common.createHeadingButton({
-        element: this.filters_addContainer(this.esgst.mainPageHeading),
+        element: this.filters_addContainer(shared.esgst.mainPageHeading),
         id: `cf`
       });
     }

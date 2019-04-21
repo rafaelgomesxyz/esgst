@@ -2,6 +2,7 @@ import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -187,7 +188,7 @@ class DiscussionsDiscussionHighlighter extends Module {
         if (discussion.saved && discussion.saved.highlighted) {
           // noinspection JSIgnoredPromiseFromCall
           this.dh_highlightDiscussion(discussion.code, context);
-          if (this.esgst.dh_t && main && this.esgst.discussionsPath) {
+          if (gSettings.dh_t && main && this.esgst.discussionsPath) {
             discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
             discussion.isPinned = true;
           }

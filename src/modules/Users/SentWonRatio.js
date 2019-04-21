@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -148,7 +149,7 @@ class UsersSentWonRatio extends Module {
           attributes: {
             [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
           },
-          text: this.esgst.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString(`en`)}` : cvRatio,
+          text: gSettings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString(`en`)}` : cvRatio,
           type: `span`
         }, {
           text: `)`,

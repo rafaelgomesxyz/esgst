@@ -1,5 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
+import { gSettings } from '../class/Globals';
 
 const
   addGiveawayToStorage = common.addGiveawayToStorage.bind(common)
@@ -15,7 +16,7 @@ class Giveaways_addToStorage extends Module {
   }
 
   init() {
-    if ((this.esgst.lpv || this.esgst.cewgd || (this.esgst.gc && this.esgst.gc_gi)) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+    if ((gSettings.lpv || gSettings.cewgd || (gSettings.gc && gSettings.gc_gi)) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
       addGiveawayToStorage();
     }
   }

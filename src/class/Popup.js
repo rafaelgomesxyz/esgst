@@ -1,8 +1,10 @@
 import { ButtonSet } from './ButtonSet';
 import { shared } from './Shared';
+import { gSettings } from './Globals';
 
 class Popup {
   constructor(details) {
+    this.results = undefined;
     this.Options = undefined;
     this.Results = undefined;
     this.textArea = undefined;
@@ -48,7 +50,7 @@ class Popup {
       if (!details.settings) {
         settings.classList.remove(`esgst-hidden`);
         settings.addEventListener(`click`, event => {
-          if (!shared.esgst.openSettingsInTab) {
+          if (!gSettings.openSettingsInTab) {
             event.preventDefault();
             shared.esgst.modules.settingsModule.loadMenu(true);
           }
@@ -146,7 +148,7 @@ class Popup {
       this.layer.remove();
     } else {
       this.layer.classList.add(`esgst-hidden`);
-      if (shared.esgst.minimizePanel) {
+      if (gSettings.minimizePanel) {
         shared.common.minimizePanel_addItem(this);
       }
     }
@@ -248,7 +250,7 @@ class Popup {
    */
   setDone(temp) {
     this.temp = temp;
-    if (shared.esgst.minimizePanel && !this.isOpen) {
+    if (gSettings.minimizePanel && !this.isOpen) {
       shared.common.minimizePanel_alert(this);
     }
   }

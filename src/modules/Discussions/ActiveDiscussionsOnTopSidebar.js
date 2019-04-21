@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
   constructor() {
@@ -30,7 +31,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
   }
 
   async init() {
-    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.oadd) return;
+    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || gSettings.oadd) return;
     await shared.common.checkMissingDiscussions();
   }
 
@@ -42,19 +43,19 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
         this.esgst.activeDiscussions.classList.remove(`widget-container--margin-top`);
         this.esgst.activeDiscussions.classList.add(`esgst-adots`);
       }
-      if (this.esgst.adots_index === 0) {
+      if (gSettings.adots_index === 0) {
         if (!refresh) {
           parent = this.esgst.activeDiscussions.parentElement;
           parent.insertBefore(this.esgst.activeDiscussions, parent.firstElementChild);
-          if (this.esgst.radb) {
+          if (gSettings.radb) {
             this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
           }
-        } else if (this.esgst.oadd && this.esgst.radb) {
+        } else if (gSettings.oadd && gSettings.radb) {
           this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
         }
       } else {
         if (!refresh) {
-          if (this.esgst.ib) {
+          if (gSettings.ib) {
             size = 45;
           } else {
             size = 35;
@@ -108,7 +109,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
           }]);
           tabHeading1 = panel.firstElementChild;
           tabHeading2 = tabHeading1.nextElementSibling;
-          if (this.esgst.radb) {
+          if (gSettings.radb) {
             shared.common.createElements(tabHeading2.nextElementSibling, `beforeBegin`, [{
               attributes: {
                 class: `esgst-radb-button`,
@@ -124,7 +125,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
             }]).addEventListener(`click`, event => {
               let icon = event.currentTarget.firstElementChild;
               icon.classList.add(`fa-spin`);
-              if (this.esgst.oadd) {
+              if (gSettings.oadd) {
                 // noinspection JSIgnoredPromiseFromCall
                 this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => icon.classList.remove(`fa-spin`));
               } else {
@@ -133,7 +134,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
             });
           }
         }
-        if (this.esgst.oadd) {
+        if (gSettings.oadd) {
           discussions = this.esgst.activeDiscussions.firstElementChild;
           deals = this.esgst.activeDiscussions.lastElementChild;
           discussions.firstElementChild.remove();

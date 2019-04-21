@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
@@ -41,8 +42,9 @@ class GeneralPaginationNavigationOnTop extends Module {
   }
 
   pnot_simplify() {
-    if (this.esgst.pnot && this.esgst.pnot_s) {
+    if (gSettings.pnot && gSettings.pnot_s) {
       const elements = this.esgst.paginationNavigation.querySelectorAll(`span`);
+      // @ts-ignore
       for (const element of elements) {
         if (element.textContent.match(/[A-Za-z]+/)) {
           element.textContent = element.textContent.replace(/[A-Za-z]+/g, ``);

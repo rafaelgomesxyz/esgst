@@ -1,4 +1,5 @@
 import { Module } from '../class/Module';
+import { gSettings } from '../class/Globals';
 
 class Users extends Module {
   constructor() {
@@ -94,7 +95,7 @@ class Users extends Module {
         this.esgst.uscButton.classList.remove(`esgst-hidden`);
         this.esgst.uscButton.parentElement.classList.remove(`esgst-hidden`);
       }
-      if (this.esgst.mm_enableUsers && this.esgst.mm_enable) {
+      if (gSettings.mm_enableUsers && this.esgst.mm_enable) {
         this.esgst.mm_enable(this.esgst.currentScope.users, `Users`);
       }
     }

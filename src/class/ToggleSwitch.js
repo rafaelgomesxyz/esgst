@@ -1,4 +1,5 @@
 import { shared } from './Shared';
+import { gSettings } from './Globals';
 
 class ToggleSwitch {
   /**
@@ -71,14 +72,12 @@ class ToggleSwitch {
       } else if (this.st) {
         key += `_st`;
       }
-      let setting = shared.esgst.settings[key];
+      let setting = gSettings[key];
       if (typeof setting === `undefined` || !setting.include) {
         setting = this.value;
       } else {
         setting.enabled = this.value ? 1 : 0;
       }
-      shared.esgst.settings[key] = setting;
-      shared.esgst[this.id] = this.value;
       if (!settings) {
         let message = shared.common.createElements(this.container, `beforeEnd`, [{
           attributes: {

@@ -2,6 +2,7 @@ import { Checkbox } from '../../class/Checkbox';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -36,7 +37,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     if (this.esgst.giveawaysPath) {
       query += `.sidebar__search-container, `;
     }
-    if (this.esgst.qgs) {
+    if (gSettings.qgs) {
       query += `.esgst-qgs-container, `;
     }
     if (!query) return;
@@ -69,7 +70,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         obj.input.value = decodeURIComponent(match[1]);
       }
     }
-    if (!qgs && ((this.esgst.adots && this.esgst.adots_index === 0) || !this.esgst.adots)) {
+    if (!qgs && ((gSettings.adots && gSettings.adots_index === 0) || !gSettings.adots)) {
       obj.panel = createElements(context, `afterEnd`, [{
         attributes: {
           class: `esgst-ags-panel`
@@ -208,7 +209,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }]),
         filter = new Checkbox(
           element,
-          this.esgst[details.key]
+          gSettings[details.key]
         ).input;
       observeChange(filter, details.key, true, `checked`, `click`);
       obj.filters.push({
@@ -247,7 +248,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         }]
       }]),
         filter = element.firstElementChild.firstElementChild;
-      filter.value = this.esgst[details.key];
+      filter.value = gSettings[details.key];
       observeNumChange(filter, details.key, true);
       obj.filters.push({
         filter: filter,
@@ -304,10 +305,10 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         }]
       }]);
       let maxFilter = element.lastElementChild.lastElementChild;
-      maxFilter.value = this.esgst[details.maxKey];
+      maxFilter.value = gSettings[details.maxKey];
       observeNumChange(maxFilter, details.maxKey, true);
       let minFilter = element.firstElementChild.lastElementChild;
-      minFilter.value = this.esgst[details.minKey];
+      minFilter.value = gSettings[details.minKey];
       observeNumChange(minFilter, details.minKey, true);
       if (details.type === `input`) {
         maxFilter.addEventListener(`keypress`,
@@ -332,7 +333,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 
   ags_searchQuery(obj) {
     let url;
-    if (this.esgst.ags_app || this.esgst.ags_sub) {
+    if (gSettings.ags_app || gSettings.ags_sub) {
       url = `https://www.steamgifts.com/giveaways/search?q=`;
     } else {
       url = `https://www.steamgifts.com/giveaways/search?q=${encodeURIComponent(obj.input.value)}`;
