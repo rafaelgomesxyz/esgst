@@ -1,5 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
+import { gSettings } from '../class/Globals';
+import { shared } from '../class/Shared';
 
 const
   getUser = common.getUser.bind(common),
@@ -33,19 +35,19 @@ class Discussions extends Module {
       }
     }
     if (!main || this.esgst.discussionsPath) {
-      if (this.esgst.df && this.esgst.df.filteredCount && this.esgst[`df_enable${this.esgst.df.type}`]) {
+      if (shared.esgst.df && this.esgst.df.filteredCount && gSettings[`df_enable${this.esgst.df.type}`]) {
         this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
       }
-      if (this.esgst.ds && this.esgst.ds_auto) {
-        sortContent(this.esgst.scopes.main.discussions, this.esgst.ds_option);
+      if (gSettings.ds && gSettings.ds_auto) {
+        sortContent(this.esgst.scopes.main.discussions, gSettings.ds_option);
       }
     }
     if (!main || this.esgst.tradesPath) {
-      if (this.esgst.tf && this.esgst.tf.filteredCount && this.esgst[`tf_enable${this.esgst.tf.type}`]) {
+      if (shared.esgst.tf && this.esgst.tf.filteredCount && gSettings[`tf_enable${this.esgst.tf.type}`]) {
         this.esgst.modules.tradesTradeFilters.filters_filter(this.esgst.tf, false, endless);
       }
     }
-    if (this.esgst.mm_enableDiscussions && this.esgst.mm_enable) {
+    if (gSettings.mm_enableDiscussions && this.esgst.mm_enable) {
       this.esgst.mm_enable(this.esgst.currentScope.discussions, `Discussions`);
     }
     for (const feature of this.esgst.discussionFeatures) {
@@ -150,7 +152,7 @@ class Discussions extends Module {
     switch (discussion.type) {
       case `discussion`:
         discussion.saved = this.esgst.discussions[discussion.code];
-        if (main && this.esgst.df && this.esgst.df_s && discussion.saved && discussion.saved.hidden) {
+        if (main && gSettings.df && gSettings.df_s && discussion.saved && discussion.saved.hidden) {
           discussion.outerWrap.remove();
           return;
         }
@@ -167,7 +169,7 @@ class Discussions extends Module {
         break;
       case `trade`:
         discussion.saved = this.esgst.trades[discussion.code];
-        if (main && this.esgst.tf && this.esgst.tf_s && discussion.saved && discussion.saved.hidden) {
+        if (main && gSettings.tf && gSettings.tf_s && discussion.saved && discussion.saved.hidden) {
           discussion.outerWrap.remove();
           return;
         }
@@ -196,12 +198,12 @@ class Discussions extends Module {
       return;
     }
     discussion.authors = [discussion.author.toLowerCase()];
-    discussion.created = discussion.author === this.esgst.username;
+    discussion.created = discussion.author === gSettings.username;
     discussion.poll = discussion.outerWrap.querySelector(`.fa-align-left`);
     discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
     if (discussion.commentsColumn) {
       discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
-      if (this.esgst.giveawaysPath && this.esgst.adots && this.esgst.adots_index === 1 && this.esgst.ns) {
+      if (this.esgst.giveawaysPath && gSettings.adots && gSettings.adots_index === 1 && gSettings.ns) {
         discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, ``);
       }
     }
@@ -229,13 +231,13 @@ class Discussions extends Module {
     discussion.tagPosition = `beforeEnd`;
     switch (discussion.type) {
       case `discussion`:
-        if (this.esgst.uf) {
+        if (gSettings.uf) {
           savedUser = await getUser(this.esgst.users, {
             username: discussion.author
           });
           if (savedUser) {
             uf = savedUser.uf;
-            if (this.esgst.uf_d && savedUser.blacklisted && !uf) {
+            if (gSettings.uf_d && savedUser.blacklisted && !uf) {
               if (!this.esgst.giveawaysPath) {
                 this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
               }

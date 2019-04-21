@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -48,7 +49,7 @@ class UsersSteamTradesProfileButton extends Module {
         type: `i`,
         children: [{
           attributes: {
-            src: this.esgst.stIcon
+            src: shared.esgst.stIcon
           },
           type: `img`
         }]

@@ -5,6 +5,7 @@ import { Popup } from '../class/Popup';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { common } from './Common';
+import { gSettings } from '../class/Globals';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -68,7 +69,7 @@ class Filters extends Module {
       false,
       false,
       null,
-      this.esgst[`${obj.id}_enable${obj.type}`]
+      gSettings[`${obj.id}_enable${obj.type}`]
     );
     const presetButton = headingButton.lastElementChild;
 
@@ -310,13 +311,14 @@ class Filters extends Module {
       callback1: this.filters_savePreset.bind(this, obj)
     }).set);
 
-    let name = this.esgst[`${obj.id}_preset${obj.type}`];
+    let name = gSettings[`${obj.id}_preset${obj.type}`];
     if (name) {
       let i;
-      for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {
+      const presets = gSettings[obj.key];
+      for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--) {
       }
       if (i > -1) {
-        obj.rules = this.esgst[obj.key][i].rules;
+        obj.rules = presets[i].rules;
       }
     }
     if (!obj.rules) {
@@ -325,7 +327,8 @@ class Filters extends Module {
         name,
         rules: {}
       };
-      this.esgst[obj.key].push(preset);
+      const presets = gSettings[obj.key];
+      presets.push(preset);
       setSetting([
         {
           id: `${obj.id}_preset${obj.type}`,
@@ -333,7 +336,7 @@ class Filters extends Module {
         },
         {
           id: obj.key,
-          value: this.esgst[obj.key]
+          value: presets
         }
       ]);
       obj.rules = {};
@@ -390,9 +393,9 @@ class Filters extends Module {
             rule.type = `boolean`;
             rule.values = [`true`, `false`];
 
-            if (!this.esgst[`${obj.id}_m_b`]) {
+            if (!gSettings[`${obj.id}_m_b`]) {
               const attributes = {};
-              if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
+              if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
               context = createElements(booleanFilters, `beforeEnd`, [{
@@ -444,9 +447,9 @@ class Filters extends Module {
               };
               rule.type = `date`;
 
-              if (!this.esgst[`${obj.id}_m_b`]) {
+              if (!gSettings[`${obj.id}_m_b`]) {
                 const attributes = {};
-                if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
+                if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
                   attributes.class = `esgst-hidden`;
                 }
                 context = createElements(numberFilters, `beforeEnd`, [{
@@ -493,9 +496,9 @@ class Filters extends Module {
                 step: filter.step
               };
 
-              if (!this.esgst[`${obj.id}_m_b`]) {
+              if (!gSettings[`${obj.id}_m_b`]) {
                 const attributes = {};
-                if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
+                if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
                   attributes.class = `esgst-hidden`;
                 }
                 context = createElements(numberFilters, `beforeEnd`, [{
@@ -531,7 +534,7 @@ class Filters extends Module {
               }
             }
 
-            if (!this.esgst[`${obj.id}_m_b`]) {
+            if (!gSettings[`${obj.id}_m_b`]) {
               minInput = context.lastElementChild.firstElementChild;
               maxInput = minInput.nextElementSibling;
               obj.basicFilters[rule.id] = {
@@ -555,9 +558,9 @@ class Filters extends Module {
             rule.placeholder = `Item1, Item2, ...`;
             rule.type = `string`;
 
-            if (!this.esgst[`${obj.id}_m_b`]) {
+            if (!gSettings[`${obj.id}_m_b`]) {
               const attributes = {};
-              if (!this.esgst[`${obj.id}_${key}`] || !filter.check) {
+              if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
                 attributes.class = `esgst-hidden`;
               }
               context = createElements(stringFilters, `beforeEnd`, [{
@@ -606,12 +609,12 @@ class Filters extends Module {
         if (!rule.data) {
           rule.data = {};
         }
-        rule.data.check = this.esgst[`${obj.id}_${rule.id}`] && filter.check;
+        rule.data.check = gSettings[`${obj.id}_${rule.id}`] && filter.check;
         filters.push(rule);
       }
     }
 
-    if (!this.esgst[`${obj.id}_m_b`]) {
+    if (!gSettings[`${obj.id}_m_b`]) {
       createElements(stringFilters, `beforeEnd`, [{
         attributes: {
           class: `esgst-gf-legend-panel`
@@ -662,7 +665,7 @@ class Filters extends Module {
         this.filters_applyBasic(obj, obj.rules);
       }
     }
-    if (!this.esgst[`${obj.id}_m_a`]) {
+    if (!gSettings[`${obj.id}_m_a`]) {
       const templates = {
         group: `
           <div id="{{= it.group_id }}" class="rules-group-container">
@@ -822,7 +825,7 @@ class Filters extends Module {
       obj.builder.on(`rulesChanged.queryBuilder`, () => {
         try {
           [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
-          if (!obj.basicApplied && !this.esgst[`${obj.id}_m_b`]) {
+          if (!obj.basicApplied && !gSettings[`${obj.id}_m_b`]) {
             this.filters_resetBasic(obj);
             this.filters_applyBasic(obj, obj.rules);
           }
@@ -835,11 +838,11 @@ class Filters extends Module {
       obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(this, obj));
     }
 
-    if (this.esgst[`${obj.id}_m_b`]) {
+    if (gSettings[`${obj.id}_m_b`]) {
       basicFilters.classList.add(`esgst-hidden`);
       basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
     }
-    if (this.esgst[`${obj.id}_m_a`]) {
+    if (gSettings[`${obj.id}_m_a`]) {
       advancedFilters.classList.add(`esgst-hidden`);
       basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
     }
@@ -872,7 +875,7 @@ class Filters extends Module {
           name: `Manually Filtered`
         }
       ].forEach(filter => {
-        if (!this.esgst[`${obj.id}_${filter.key}`]) return;
+        if (!gSettings[`${obj.id}_${filter.key}`]) return;
 
         const children = [{
           text: filter.name,
@@ -933,14 +936,13 @@ class Filters extends Module {
         const spinning = check.previousElementSibling;
         if (filter.key === `os`) {
           const select = sgFilter.firstElementChild.firstElementChild;
-          select.value = this.esgst[filter.id];
+          select.value = gSettings[filter.id];
           select.addEventListener(`change`, async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
             await setSetting(filter.id, select.value);
-            this.esgst[filter.id] = select.value;
             await request({
-              data: `filter_os=${this.esgst.filter_os}&filter_giveaways_exist_in_account=${this.esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${this.esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${this.esgst.filter_giveaways_level}&filter_giveaways_additional_games=${this.esgst.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
+              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: `POST`,
               url: `/account/settings/giveaways`
             });
@@ -948,14 +950,13 @@ class Filters extends Module {
             check.classList.remove(`esgst-hidden`);
           });
         } else {
-          const checkbox = new Checkbox(sgFilter, !!this.esgst[filter.id]);
+          const checkbox = new Checkbox(sgFilter, !!gSettings[filter.id]);
           checkbox.onChange = async () => {
             check.classList.add(`esgst-hidden`);
             spinning.classList.remove(`esgst-hidden`);
             await setSetting(filter.id, checkbox.value ? 1 : 0);
-            this.esgst[filter.id] = checkbox.value ? 1 : 0;
             await request({
-              data: `filter_os=${this.esgst.filter_os}&filter_giveaways_exist_in_account=${this.esgst.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${this.esgst.filter_giveaways_missing_base_game}&filter_giveaways_level=${this.esgst.filter_giveaways_level}&filter_giveaways_additional_games=${this.esgst.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
+              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: `POST`,
               url: `/account/settings/giveaways`
             });
@@ -1487,7 +1488,7 @@ class Filters extends Module {
     }
     obj.rules = adv;
     if (obj.rules.rules) {
-      if (this.esgst[`${obj.id}_m_a`]) {
+      if (gSettings[`${obj.id}_m_a`]) {
         obj.rules_save = obj.rules;
         this.filters_filter(obj);
       } else {
@@ -1569,12 +1570,13 @@ class Filters extends Module {
       rules: obj.rules_save
     };
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== name; i--) {
+    const presets = gSettings[obj.key];
+    for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--) {
     }
     if (i > -1) {
-      this.esgst[obj.key][i] = preset;
+      presets[i] = preset;
     } else {
-      this.esgst[obj.key].push(preset);
+      presets.push(preset);
     }
     await setSetting([
       {
@@ -1583,7 +1585,7 @@ class Filters extends Module {
       },
       {
         id: obj.key,
-        value: this.esgst[obj.key]
+        value: presets
       }
     ]);
     createFadeMessage(obj.presetMessage, `Saved!`);
@@ -1621,7 +1623,7 @@ class Filters extends Module {
       },
       type: `div`
     }]);
-    for (const preset of this.esgst[obj.key]) {
+    for (const preset of gSettings[obj.key]) {
       const attributes = {
         draggable: true
       };
@@ -1699,7 +1701,8 @@ class Filters extends Module {
     event.dataTransfer.setData(`text/plain`, ``);
     obj.source = row;
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {
+    const presets = gSettings[obj.key];
+    for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {
     }
     obj.sourceIndex = i;
   }
@@ -1721,8 +1724,9 @@ class Filters extends Module {
   }
 
   async filters_saveSource(obj) {
-    this.esgst[obj.key].splice(obj.sourceNewIndex, 0, this.esgst[obj.key].splice(obj.sourceIndex, 1)[0]);
-    await setSetting(obj.key, this.esgst[obj.key]);
+    const presets = gSettings[obj.key];
+    presets.splice(obj.sourceNewIndex, 0, presets.splice(obj.sourceIndex, 1)[0]);
+    await setSetting(obj.key, presets);
   }
 
   async filters_applyPreset(obj, popup, preset) {
@@ -1736,11 +1740,11 @@ class Filters extends Module {
       };
     }
 
-    if (!this.esgst[`${obj.id}_m_b`]) {
+    if (!gSettings[`${obj.id}_m_b`]) {
       this.filters_resetBasic(obj);
       this.filters_applyBasic(obj, preset.rules);
     }
-    if (!this.esgst[`${obj.id}_m_a`]) {
+    if (!gSettings[`${obj.id}_m_a`]) {
       obj.builder.setRules(preset.rules);
       [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
     }
@@ -1765,12 +1769,13 @@ class Filters extends Module {
     const oldName = preset.name;
     const newName = event.currentTarget.value;
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== oldName; i--) {
+    const presets = gSettings[obj.key];
+    for (i = presets.length - 1; i > -1 && presets[i].name !== oldName; i--) {
     }
-    preset.name = this.esgst[obj.key][i].name = newName;
+    preset.name = presets[i].name = newName;
     const values = [{
       id: obj.key,
-      value: this.esgst[obj.key]
+      value: presets
     }];
     heading.textContent = newName;
     if (obj.presetInput.value === oldName) {
@@ -1778,7 +1783,7 @@ class Filters extends Module {
     }
     const types = [``, `Wishlist`, `Recommended`, `Group`, `New`, `Created`, `Entered`, `Won`, `Groups`, `User`, `Gb`, `Ge`, `Ged`];
     for (const type of types) {
-      if (this.esgst[`${obj.id}_preset${type}`] === oldName) {
+      if (gSettings[`${obj.id}_preset${type}`] === oldName) {
         values.push({
           id: `${obj.id}_preset${type}`,
           value: newName
@@ -1799,10 +1804,11 @@ class Filters extends Module {
       type: `i`
     }]);
     let i;
-    for (i = this.esgst[obj.key].length - 1; i > -1 && this.esgst[obj.key][i].name !== preset.name; i--) {
+    const presets = gSettings[obj.key];
+    for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {
     }
-    this.esgst[obj.key].splice(i, 1);
-    await setSetting(obj.key, this.esgst[obj.key]);
+    presets.splice(i, 1);
+    await setSetting(obj.key, presets);
     createElements(deleteButton, `inner`, [{
       attributes: {
         class: `fa fa-trash`
@@ -1821,8 +1827,9 @@ class Filters extends Module {
     const preset = deleted.pop();
     preset.row.classList.remove(`esgst-hidden`);
     preset.row.parentElement.appendChild(preset.row);
-    this.esgst[obj.key].push(preset.details);
-    await setSetting(obj.key, this.esgst[obj.key]);
+    const presets = gSettings[obj.key];
+    presets.push(preset.details);
+    await setSetting(obj.key, presets);
     if (deleted.length === 0) {
       undoButton.classList.add(`esgst-hidden`);
     }
@@ -1835,7 +1842,7 @@ class Filters extends Module {
   }
 
   filters_filter(obj, unfilter, endless) {
-    if (!unfilter && !this.esgst[`${obj.id}_enable${obj.type}`]) return;
+    if (!unfilter && !gSettings[`${obj.id}_enable${obj.type}`]) return;
 
     let items;
     if (obj.id === `gf`) {
@@ -1924,7 +1931,7 @@ class Filters extends Module {
     if (
       !rules ||
       (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
-      (rules.id && !this.esgst[`${this.id}_${rules.id}`])
+      (rules.id && !gSettings[`${this.id}_${rules.id}`])
     ) {
       return true;
     }
@@ -1967,7 +1974,7 @@ class Filters extends Module {
 
     if (
       !filter.check ||
-      (filter.category && (!this.esgst.gc || !this.esgst[filter.category] || !item.gcReady)) ||
+      (filter.category && (!gSettings.gc || !gSettings[filter.category] || !item.gcReady)) ||
       (item.sgTools && key.match(/^(chance|chancePerPoint|comments|entries|ratio)$/))
     ) {
       return filtered;

@@ -3,6 +3,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -116,11 +118,11 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   init() {
-    if (this.esgst.namwc_h) {
-      this.esgst.userFeatures.push(this.namwc_getUsers.bind(this));
+    if (gSettings.namwc_h) {
+      shared.esgst.userFeatures.push(this.namwc_getUsers.bind(this));
     }
 
-    if (!this.esgst.winnersPath) return;
+    if (!shared.esgst.winnersPath) return;
 
     this.namwc_setPopup({
       button: createHeadingButton({
@@ -137,7 +139,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         let results = user.saved.namwc.results;
         let highlight = null;
         let icon = null;
-        if (results.activated && (results.notMultiple || this.esgst.namwc_h_m)) {
+        if (results.activated && (results.notMultiple || gSettings.namwc_h_m)) {
           highlight = `positive`;
           icon = `fa-thumbs-up`;
         } else if (results.unknown) {
@@ -147,9 +149,9 @@ class UsersNotActivatedMultipleWinChecker extends Module {
           highlight = `negative`;
           icon = `fa-thumbs-down`;
         }
-        if (((highlight === `positive` || highlight === `unknown`) && !this.esgst.namwc_h_f) || highlight === `negative`) {
+        if (((highlight === `positive` || highlight === `unknown`) && !gSettings.namwc_h_f) || highlight === `negative`) {
           let title = `${user.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
-          if (this.esgst.namwc_h_i || (this.esgst.wbh && (this.esgst.wbh_w || this.esgst.wbh_b))) {
+          if (gSettings.namwc_h_i || (gSettings.wbh && (gSettings.wbh_w || gSettings.wbh_b))) {
             createElements(user.context, `beforeBegin`, [{
               attributes: {
                 class: `esgst-namwc-icon esgst-user-icon`,
@@ -305,12 +307,12 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     } else if (obj.user) {
       users.push(obj.user.username);
     } else {
-      let elements = this.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
+      let elements = shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
       for (let element of elements) {
         let match = element.getAttribute(`href`).match(/\/user\/(.+)/);
         if (!match) continue;
         let username = match[1];
-        if (users.indexOf(username) > -1 || username === this.esgst.username || username !== element.textContent || element.closest(`.markdown`)) continue;
+        if (users.indexOf(username) > -1 || username === gSettings.username || username !== element.textContent || element.closest(`.markdown`)) continue;
         users.push(username);
         if (users.length > 25) break;
       }
@@ -348,13 +350,13 @@ class UsersNotActivatedMultipleWinChecker extends Module {
             results: {}
           };
         }
-        if (this.esgst.namwc_clearCache) {
+        if (gSettings.namwc_clearCache) {
           user.values.namwc.lastCheck = 0;
         }
         if (Date.now() - user.values.namwc.lastCheck > 6.048 * 1e8) {
-          if (this.esgst.namwc_checkNotActivated) {
+          if (gSettings.namwc_checkNotActivated) {
             await this.namwc_checkNotActivated(obj, user);
-          } else if (this.esgst.namwc_checkMultiple) {
+          } else if (gSettings.namwc_checkMultiple) {
             await this.namwc_checkMultiple(obj, user);
           } else {
             await this.namwc_checkNotActivated(obj, user);
@@ -408,7 +410,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       return;
     }
 
-    if (!this.esgst.ust || obj.isMenu) {
+    if (!gSettings.ust || obj.isMenu) {
       obj.button.classList.remove(`esgst-busy`);
       obj.popup.progress.innerHTML = ``;
       obj.popup.setDone();

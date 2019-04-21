@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 class GeneralTimeToPointCapCalculator extends Module {
   constructor() {
@@ -38,7 +39,7 @@ class GeneralTimeToPointCapCalculator extends Module {
     }
     const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100);
     this.esgst.pointsContainer.title = common.getFeatureTooltip(`ttpcc`, `${time} to 400P`);
-    if (this.esgst.ttpcc_a) {
+    if (gSettings.ttpcc_a) {
       this.esgst.pointsContainer.textContent = `${this.esgst.points}P / ${time} to 400`;
     }
   }

@@ -19,9 +19,9 @@ class CommentsReplyBoxOnTop extends Module {
   }
 
   init() {
-    let element = this.esgst.mainPageHeading;
-    if (!this.esgst.replyBox) {
-      if (this.esgst.st && this.esgst.userPath) {
+    let element = shared.esgst.mainPageHeading;
+    if (!shared.esgst.replyBox) {
+      if (shared.esgst.st && shared.esgst.userPath) {
         let review = document.getElementsByClassName(`notification yellow`)[0];
         if (!review) return;
         element.parentElement.insertBefore(review, element.nextElementSibling);
@@ -34,10 +34,10 @@ class CommentsReplyBoxOnTop extends Module {
       },
       type: `div`
     }]);
-    box.appendChild(this.esgst.replyBox);
-    let button = box.getElementsByClassName(this.esgst.cancelButtonClass)[0];
+    box.appendChild(shared.esgst.replyBox);
+    let button = box.getElementsByClassName(shared.esgst.cancelButtonClass)[0];
     if (!button) return;
-    button.addEventListener(`click`, () => window.setTimeout(box.appendChild.bind(box, this.esgst.replyBox), 0));
+    button.addEventListener(`click`, () => window.setTimeout(box.appendChild.bind(box, shared.esgst.replyBox), 0));
   }
 }
 

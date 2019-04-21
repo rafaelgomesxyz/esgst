@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class UsersLevelUpCalculator extends Module {
   constructor() {
@@ -32,7 +33,7 @@ class UsersLevelUpCalculator extends Module {
     for (const [index, value] of shared.esgst.cvLevels.entries()) {
       if (profile.realSentCV < value) {
         shared.common.createElements_v2(profile.levelRowRight, `beforeEnd`, [
-          [`span`, { class: `esgst-luc-value`, title: shared.common.getFeatureTooltip(`luc`) }, `(${this.esgst.luc_c ? `${profile.level} / ` : ``}~$${shared.common.round(value - profile.realSentCV)} real CV to level ${index})`]
+          [`span`, { class: `esgst-luc-value`, title: shared.common.getFeatureTooltip(`luc`) }, `(${gSettings.luc_c ? `${profile.level} / ` : ``}~$${shared.common.round(value - profile.realSentCV)} real CV to level ${index})`]
         ]);
         break;
       }

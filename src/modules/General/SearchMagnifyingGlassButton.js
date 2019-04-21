@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { gSettings } from '../../class/Globals';
 
 class GeneralSearchMagnifyingGlassButton extends Module {
   constructor() {
@@ -31,7 +32,7 @@ class GeneralSearchMagnifyingGlassButton extends Module {
       button.addEventListener(`click`, () => {
         let value = input.value.trim();
         if (value) {
-          if (this.esgst.as && value.match(/"|id:/)) {
+          if (gSettings.as && value.match(/"|id:/)) {
             this.esgst.modules.giveawaysArchiveSearcher.as_openPage(input);
           } else {
             window.location.href = `${this.esgst.searchUrl.replace(/page=/, ``)}q=${value}`;

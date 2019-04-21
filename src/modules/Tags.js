@@ -3,6 +3,7 @@ import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
 import { utils } from '../lib/jsUtils';
 import { common } from './Common';
+import { gSettings } from '../class/Globals';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -101,7 +102,7 @@ class Tags extends Module {
       }
     }
     this.esgst[`${this.id}Tags`] = sortArray(this.esgst[`${this.id}Tags`], true, `count`).map(x => x.tag);
-    if (this.esgst[`${this.id}_s`]) {
+    if (gSettings[`${this.id}_s`]) {
       this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
       this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));
     }
@@ -157,7 +158,7 @@ class Tags extends Module {
   async tags_addButtons(items) {
     items = items.all || items;
     for (const item of items) {
-      const obj = {item, key: this.id};
+      const obj = {item, key: this.id, colorSetting: gSettings[`${this.id}_colors`]};
       if (!item.container.getElementsByClassName(`esgst-tag-button`)[0]) {
         createElements(item.tagContext, item.tagPosition, [{
           attributes: {
@@ -322,7 +323,7 @@ class Tags extends Module {
       type: `i`
     }]).addEventListener(`click`, this.tags_showTagList.bind(this, obj));
     const children = [];
-    if (this.esgst[`${obj.key}_s`]) {
+    if (gSettings[`${obj.key}_s`]) {
       obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
         attributes: {
           class: `esgst-tag-suggestions esgst-hidden`
@@ -468,7 +469,7 @@ class Tags extends Module {
         break;
       }
     }
-    await setSetting(`${obj.key}_colors`, this.esgst[`${obj.key}_colors`]);
+    await setSetting(`${obj.key}_colors`, obj.colorSetting);
     if (obj.items) {
       for (const item of obj.items) {
         await this.tags_addTags(item, obj, item.multiTags);
@@ -539,7 +540,7 @@ class Tags extends Module {
       const tagsContainer = button.lastElementChild;
       createElements(tagsContainer, `inner`, elements);
       for (const tagsBox of tagsContainer.children) {
-        const colors = this.esgst[`${obj.key}_colors`][tagsBox.textContent];
+        const colors = obj.colorSetting[tagsBox.textContent];
         if (!colors) {
           continue;
         }
@@ -563,7 +564,7 @@ class Tags extends Module {
     obj.tags.innerHTML = ``;
     const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
     if (tags.length) {
-      if (this.esgst[`${obj.key}_s`]) {
+      if (gSettings[`${obj.key}_s`]) {
         if (obj.input.value.slice(-1).match(/\s|,/)) {
           this.tags_hideSuggestions(obj.suggestions);
         } else {
@@ -594,7 +595,7 @@ class Tags extends Module {
       for (const tag of tags) {
         this.tags_createTag(obj, tag);
       }
-    } else if (this.esgst[`${obj.key}_s`]) {
+    } else if (gSettings[`${obj.key}_s`]) {
       this.tags_hideSuggestions(obj.suggestions);
     }
   }
@@ -664,7 +665,7 @@ class Tags extends Module {
     const editButton = bgColorInput.nextElementSibling;
     const deleteButton = editButton.nextElementSibling;
     const resetButton = deleteButton.nextElementSibling;
-    const colors = this.esgst[`${obj.key}_colors`][tag];
+    const colors = obj.colorSetting[tag];
     if (colors) {
       colorInput.value = tagBox.style.color = colors.color;
       bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
@@ -714,7 +715,7 @@ class Tags extends Module {
     input.classList.add(`esgst-hidden`);
     const tag = input.value;
     tagBox.textContent = tag;
-    const colors = this.esgst[`${obj.key}_colors`][tag];
+    const colors = obj.colorSetting[tag];
     if (colors) {
       colorInput.value = tagBox.style.color = colors.color;
       bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
@@ -724,13 +725,13 @@ class Tags extends Module {
 
   tags_saveColor(input, key, obj, saveKey, tagBox) {
     const tag = tagBox.textContent;
-    if (!this.esgst[`${obj.key}_colors`][tag]) {
-      this.esgst[`${obj.key}_colors`][tag] = {
+    if (!obj.colorSetting[tag]) {
+      obj.colorSetting[tag] = {
         bgColor: ``,
         color: ``
       };
     }
-    this.esgst[`${obj.key}_colors`][tag][saveKey] = tagBox.style[key] = input.value;
+    obj.colorSetting[tag][saveKey] = tagBox.style[key] = input.value;
   }
 
   tags_showEdit(input, tagBox, tagContainer) {
@@ -750,7 +751,7 @@ class Tags extends Module {
     colorInput.value = ``;
     tagBox.style.backgroundColor = ``;
     tagBox.style.color = ``;
-    delete this.esgst[`${obj.key}_colors`][tagBox.textContent];
+    delete obj.colorSetting[tagBox.textContent];
   }
 
   async tags_showTagList(obj) {
@@ -786,9 +787,9 @@ class Tags extends Module {
           type: `node`
         }]
       }]);
-      if (this.esgst[`${obj.key}_colors`][tag]) {
-        item.style.color = this.esgst[`${obj.key}_colors`][tag].color;
-        item.style.backgroundColor = this.esgst[`${obj.key}_colors`][tag].bgColor;
+      if (obj.colorSetting[tag]) {
+        item.style.color = obj.colorSetting[tag].color;
+        item.style.backgroundColor = obj.colorSetting[tag].bgColor;
       }
       const checkbox = new Checkbox(item);
       checkbox.onEnabled = this.tags_selectTag.bind(this, obj, tag);

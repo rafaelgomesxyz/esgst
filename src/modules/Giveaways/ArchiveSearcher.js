@@ -5,6 +5,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -69,7 +70,7 @@ class GiveawaysArchiveSearcher extends Module {
       query = match[2];
       isAppId = true;
     }
-    if (this.esgst.as_t) {
+    if (gSettings.as_t) {
       window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
     } else {
       this.as_init({query, isAppId, isPopup: true});

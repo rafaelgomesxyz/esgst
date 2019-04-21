@@ -3,6 +3,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { browser } from '../../browser';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -188,7 +189,7 @@ class GeneralHeaderRefresher extends Module {
     setLocalValue(`hrCache`, JSON.stringify(this.hr_getCache()));
     // noinspection JSIgnoredPromiseFromCall
     this.hr_startRefresher(hr);
-    if (!this.esgst.hr_b) {
+    if (!gSettings.hr_b) {
       window.addEventListener(`focus`, this.hr_startRefresher.bind(this, hr));
       window.addEventListener(`blur`, () => window.clearTimeout(hr.refresher));
     }
@@ -231,7 +232,7 @@ class GeneralHeaderRefresher extends Module {
       mainButton: this.esgst.mainButton.outerHTML,
       inboxButton: this.esgst.inboxButton.outerHTML,
       timestamp: Date.now(),
-      username: this.esgst.username
+      username: gSettings.username
     };
     if (this.esgst.sg) {
       cache.createdButton = this.esgst.createdButton.outerHTML;
@@ -249,12 +250,12 @@ class GeneralHeaderRefresher extends Module {
     let cache = this.hr_getCache();
     setLocalValue(`hrCache`, JSON.stringify(cache));
     await this.hr_refreshHeader(cache, hr);
-    hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+    hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), gSettings.hr_minutes * 60000);
   }
 
   async hr_continueRefresher(hr) {
     let cache = JSON.parse(getLocalValue(`hrCache`));
-    if (cache.username !== this.esgst.username || Date.now() - cache.timestamp > this.esgst.hr_minutes * 60000) {
+    if (cache.username !== gSettings.username || Date.now() - cache.timestamp > gSettings.hr_minutes * 60000) {
       cache.timestamp = Date.now();
       setLocalValue(`hrCache`, JSON.stringify(cache));
       await this.hr_refreshHeaderElements(parseHtml((await request({
@@ -264,11 +265,11 @@ class GeneralHeaderRefresher extends Module {
       cache = this.hr_getCache();
       setLocalValue(`hrCache`, JSON.stringify(cache));
       await this.hr_refreshHeader(cache, hr, true);
-      hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+      hr.refresher = window.setTimeout(() => this.hr_continueRefresher(hr), gSettings.hr_minutes * 60000);
     } else {
       this.esgst.wishlist = cache.wishlist;
       await this.hr_refreshHeader(cache, hr);
-      window.setTimeout(() => this.hr_continueRefresher(hr), this.esgst.hr_minutes * 60000);
+      window.setTimeout(() => this.hr_continueRefresher(hr), gSettings.hr_minutes * 60000);
     }
   }
 
@@ -288,28 +289,28 @@ class GeneralHeaderRefresher extends Module {
     createElements(this.esgst.inboxButton, `outer`, [{
       context: parseHtml(cache.inboxButton).body.firstElementChild
     }]);
-    if (this.esgst.nm) {
+    if (gSettings.nm) {
       // refresh notification merger
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalNotificationMerger.nm_getNotifications();
     }
     await this.hr_refreshHeaderElements(document);
-    if (this.esgst.qiv) {
+    if (gSettings.qiv) {
       this.esgst.modules.generalQuickInboxView.qiv();
-      if (this.esgst.qiv.popout && this.esgst.messageCount > 0 && this.esgst.qiv_p) {
+      if (this.esgst.qiv.popout && this.esgst.messageCount > 0 && gSettings.qiv_p) {
         this.esgst.qiv.nextPage = 1;
         this.esgst.modules.generalQuickInboxView.qiv_addMarkReadButton();
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.generalQuickInboxView.qiv_scroll(false, true);
       }
     }
-    if (this.esgst.hr) {
+    if (gSettings.hr) {
       this.hr_notifyChange(hr, notify);
     }
-    if (this.esgst.lpv) {
+    if (gSettings.lpv) {
       await this.esgst.modules.generalLevelProgressVisualizer.lpv_setStyle();
     }
-    if (this.esgst.pv) {
+    if (gSettings.pv) {
       this.esgst.modules.generalPointsVisualizer.pv_setStyle();
     }
     this.esgst.modules.generalLevelProgressVisualizer.joinStyles();
@@ -333,7 +334,7 @@ class GeneralHeaderRefresher extends Module {
       if (this.esgst.wonButton) {
         this.esgst.wonButton = this.esgst.wonButton.closest(`.nav__button-container`);
       }
-      if (this.esgst.hr_w && context !== document) {
+      if (gSettings.hr_w && context !== document) {
         this.esgst.wishlist = 0;
         this.esgst.wishlistNew = 0;
         let cache = JSON.parse(getLocalValue(`hrWishlistCache`, `[]`));
@@ -343,7 +344,7 @@ class GeneralHeaderRefresher extends Module {
         for (let i = giveaways.length - 1; i > -1; i--) {
           let giveaway = giveaways[i];
           codes.push(giveaway.code);
-          if (giveaway && giveaway.level <= this.esgst.level && !giveaway.pinned && !giveaway.entered && (!this.esgst.giveaways[giveaway.code] || (!this.esgst.giveaways[giveaway.code].visited && !this.esgst.giveaways[giveaway.code].hidden)) && (!this.esgst.hr_w_h || giveaway.endTime - currentTime < this.esgst.hr_w_hours * 3600000)) {
+          if (giveaway && giveaway.level <= this.esgst.level && !giveaway.pinned && !giveaway.entered && (!this.esgst.giveaways[giveaway.code] || (!this.esgst.giveaways[giveaway.code].visited && !this.esgst.giveaways[giveaway.code].hidden)) && (!gSettings.hr_w_h || giveaway.endTime - currentTime < gSettings.hr_w_hours * 3600000)) {
             this.esgst.wishlist += 1;
             if (cache.indexOf(giveaway.code) < 0) {
               cache.push(giveaway.code);
@@ -380,7 +381,7 @@ class GeneralHeaderRefresher extends Module {
     } else {
       messageNotification = 0;
     }
-    if (messageCount > 0 && this.esgst.hr_m) {
+    if (messageCount > 0 && gSettings.hr_m) {
       canvas = document.createElement(`canvas`);
       image = new Image();
       canvas.width = 16;
@@ -424,14 +425,14 @@ class GeneralHeaderRefresher extends Module {
       } else {
         hr.delivered = deliveredNotification = false;
       }
-      if (this.esgst.hr_g && delivered) {
-        title += `${this.esgst.hr_g_format} `;
+      if (gSettings.hr_g && delivered) {
+        title += `${gSettings.hr_g_format} `;
       }
-      if (this.esgst.hr_w && this.esgst.wishlist) {
-        title += `${this.esgst.hr_w_format.replace(/#/, this.esgst.wishlist)} `;
+      if (gSettings.hr_w && this.esgst.wishlist) {
+        title += `${gSettings.hr_w_format.replace(/#/, this.esgst.wishlist)} `;
       }
-      if (this.esgst.hr_p) {
-        title += `${this.esgst.hr_p_format.replace(/#/, this.esgst.points)} `;
+      if (gSettings.hr_p) {
+        title += `${gSettings.hr_p_format.replace(/#/, this.esgst.points)} `;
       }
       title += this.esgst.originalTitle;
       if (document.title !== title) {
@@ -447,21 +448,21 @@ class GeneralHeaderRefresher extends Module {
         won: false,
         points: false,
       };
-      if (pointsNotification && this.esgst.hr_fp) {
+      if (pointsNotification && gSettings.hr_fp) {
         notification.msg += `You have ${this.esgst.points}P.\n\n`;
         notification.points = true;
       }
-      if (messageNotification && this.esgst.hr_m && this.esgst.hr_m_n) {
+      if (messageNotification && gSettings.hr_m && gSettings.hr_m_n) {
         notification.msg += `You have ${messageNotification} new messages.\n\n`;
         notification.inbox = true;
       }
-      if (deliveredNotification && this.esgst.hr_g && this.esgst.hr_g_n) {
+      if (deliveredNotification && gSettings.hr_g && gSettings.hr_g_n) {
         notification.msg += `You have new gifts delivered.\n\n`;
         notification.won = true;
       }
-      if (this.esgst.wishlistNew && this.esgst.hr_w && this.esgst.hr_w_n) {
-        if (this.esgst.hr_w_h) {
-          notification.msg += `You have ${this.esgst.wishlistNew} new wishlist giveaways ending in ${this.esgst.hr_w_hours} hours.`;
+      if (this.esgst.wishlistNew && gSettings.hr_w && gSettings.hr_w_n) {
+        if (gSettings.hr_w_h) {
+          notification.msg += `You have ${this.esgst.wishlistNew} new wishlist giveaways ending in ${gSettings.hr_w_hours} hours.`;
         } else {
           notification.msg += `You have ${this.esgst.wishlistNew} new wishlist giveaways.`;
         }
@@ -480,17 +481,17 @@ class GeneralHeaderRefresher extends Module {
     if (result !== `granted`) {
       return;
     }
-    if ((details.points && this.esgst.hr_fp_s) || (details.inbox && this.esgst.hr_m_n_s) || (details.wishlist && this.esgst.hr_w_n_s) || (details.won && this.esgst.hr_g_n_s)) {
+    if ((details.points && gSettings.hr_fp_s) || (details.inbox && gSettings.hr_m_n_s) || (details.wishlist && gSettings.hr_w_n_s) || (details.won && gSettings.hr_g_n_s)) {
       try {
         if (!this.esgst.audioContext) {
           this.esgst.audioContext = new AudioContext();
           let promises = [];
           [`hr_fp_s`, `hr_g_n_s`, `hr_m_n_s`, `hr_w_n_s`].forEach(id => {
-            if (!this.esgst[id]) {
+            if (!gSettings.id) {
               promises.push(null);
               return;
             }
-            promises.push(this.hr_createPlayer(this.esgst.settings[`${id}_sound`] || this.hr_getDefaultSound()));
+            promises.push(this.hr_createPlayer(gSettings[`${id}_sound`] || this.hr_getDefaultSound()));
           });
           [this.esgst.hr.pointsPlayer, this.esgst.hr.wonPlayer, this.esgst.hr.inboxPlayer, this.esgst.hr.wishlistPlayer] = await Promise.all(promises);
         }
@@ -514,17 +515,17 @@ class GeneralHeaderRefresher extends Module {
     let notification = new Notification(`ESGST Notification`, {
       body: details.msg,
       icon: `https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1`,
-      requireInteraction: this.esgst.hr_c,
+      requireInteraction: gSettings.hr_c,
       tag: details.msg
     });
     notification.onclick = () => {
-      if (this.esgst.hr_a) {
+      if (gSettings.hr_a) {
         browser.runtime.sendMessage({
           action: `tabs`,
-          any: this.esgst.hr_a_a,
+          any: gSettings.hr_a_a,
           inbox_sg: this.esgst.sg && details.inbox,
           inbox_st: this.esgst.st && details.inbox,
-          refresh: this.esgst.hr_a_r,
+          refresh: gSettings.hr_a_r,
           wishlist: details.wishlist,
           won: details.won
         });

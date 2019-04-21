@@ -3,6 +3,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class GroupsGroupStats extends Module {
   constructor() {
@@ -70,7 +71,7 @@ class GroupsGroupStats extends Module {
       },
       text: `Last Giveaway`,
       type: `div`
-    }, this.esgst.gs_t ? {
+    }, gSettings.gs_t ? {
       attributes: {
         class: `table__column--width-small text-center`
       },
@@ -81,8 +82,8 @@ class GroupsGroupStats extends Module {
       notification: new elementBuilder.sg.notification(),
       numGroups: 0
     };
-    this.esgst.mainPageHeading.parentElement.insertBefore(gsObj.notification.notification, this.esgst.pagination.previousElementSibling);
-    this.esgst.groupFeatures.push(this.gs_getGroups.bind(this, gsObj));
+    shared.esgst.mainPageHeading.parentElement.insertBefore(gsObj.notification.notification, shared.esgst.pagination.previousElementSibling);
+    shared.esgst.groupFeatures.push(this.gs_getGroups.bind(this, gsObj));
   }
 
   gs_getGroups(gsObj, groups) {
@@ -109,10 +110,10 @@ class GroupsGroupStats extends Module {
     const items = [];
     const responseHtml = utils.parseHtml((await common.request({
       method: `GET`,
-      url: `${group.url}/users/search?q=${this.esgst.username}`
+      url: `${group.url}/users/search?q=${gSettings.username}`
     })).responseText);
     const context = responseHtml.querySelector(`.table__row-inner-wrap`);
-    if (!context || context.querySelector(`.table__column__heading`).textContent !== this.esgst.username) {
+    if (!context || context.querySelector(`.table__column__heading`).textContent !== gSettings.username) {
       return;
     }
     const elements = context.querySelectorAll(`.table__column--width-small`);
@@ -135,7 +136,7 @@ class GroupsGroupStats extends Module {
     const steamIdElement = responseHtml.querySelector(`a[href*="/gid/"]`);
     group.steamId = steamIdElement.getAttribute(`href`).match(/\/gid\/(\d+)/)[1];
     group.type = `-`;
-    if (this.esgst.gs_t) {
+    if (gSettings.gs_t) {
       const response = await common.request({
         anon: true,
         method: `GET`,
@@ -160,8 +161,8 @@ class GroupsGroupStats extends Module {
       items.push([`div`, { class: `table__column--width-small text-center` }, group.type]);
     }
     common.createElements_v2(group.container, `afterEnd`, items);
-    if (this.esgst.gpf && this.esgst.gpf.filteredCount && this.esgst[`gpf_enable${this.esgst.gpf.type}`]) {
-      this.esgst.modules.groupsGroupFilters.filters_filter(this.esgst.gpf);
+    if (shared.esgst.gpf && shared.esgst.gpf.filteredCount && gSettings[`gpf_enable${shared.esgst.gpf.type}`]) {
+      shared.esgst.modules.groupsGroupFilters.filters_filter(shared.esgst.gpf);
     }
   }
 }

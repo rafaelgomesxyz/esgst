@@ -1,4 +1,5 @@
 import { Tags } from '../Tags';
+import { shared } from '../../class/Shared';
 
 class UsersUserTags extends Tags {
   constructor() {
@@ -44,7 +45,7 @@ class UsersUserTags extends Tags {
   }
 
   init() {
-    this.esgst.userFeatures.push(this.tags_addButtons.bind(this));
+    shared.esgst.userFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
     this.tags_getTags();
   }

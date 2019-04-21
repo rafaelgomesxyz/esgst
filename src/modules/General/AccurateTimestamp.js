@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import dateFns_format from 'date-fns/format';
 import dateFns_differenceInHours from 'date-fns/differenceInHours';
 import dateFns_isSameYear from 'date-fns/isSameYear';
+import { gSettings } from '../../class/Globals';
 
 class GeneralAccurateTimestamp extends Module {
   constructor() {
@@ -49,7 +50,7 @@ class GeneralAccurateTimestamp extends Module {
   }
 
   init() {
-    if (this.esgst.at_t) {
+    if (gSettings.at_t) {
       const script = document.createElement(`script`);
       script.textContent = `
         if (document.readyState === "complete") {
@@ -78,7 +79,7 @@ class GeneralAccurateTimestamp extends Module {
   }
 
   at_formatTimestamp(seconds) {
-    return dateFns_format(seconds, (this.esgst.at_format || `MMM dd, yyyy, HH:mm:ss`)
+    return dateFns_format(seconds, (gSettings.at_format || `MMM dd, yyyy, HH:mm:ss`)
       .replace(/DM\{(.+?)}/, Math.abs(dateFns_differenceInHours(Date.now(), seconds)) < 24 ? `` : `$1`)
       .replace(/Y\{(.+?)}/, dateFns_isSameYear(Date.now(), seconds) ? `` : `$1`)
       .replace(/S\{(.+?)}/, new Date(seconds).getSeconds() === 0 ? `` : `$1`)
@@ -96,7 +97,7 @@ class GeneralAccurateTimestamp extends Module {
     timestamps = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [data-timestamp], .esgst-es-page-${endless}[data-timestamp]` : `[data-timestamp]`}`);
     for (i = 0, n = timestamps.length; i < n; ++i) {
       timestamp = timestamps[i];
-      if (((this.esgst.activeDiscussions && ((this.esgst.activeDiscussions.contains(timestamp) && this.esgst.adots_index === 0) || !this.esgst.activeDiscussions.contains(timestamp))) || !this.esgst.activeDiscussions) && !timestamp.classList.contains(`esgst-at`)) {
+      if (((this.esgst.activeDiscussions && ((this.esgst.activeDiscussions.contains(timestamp) && gSettings.adots_index === 0) || !this.esgst.activeDiscussions.contains(timestamp))) || !this.esgst.activeDiscussions) && !timestamp.classList.contains(`esgst-at`)) {
         text = timestamp.textContent;
         edited = text.match(/\*/);
         seconds = parseInt(timestamp.getAttribute(`data-timestamp`)) * 1e3;

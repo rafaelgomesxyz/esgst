@@ -1,4 +1,5 @@
 import { shared } from './Shared';
+import { gSettings } from './Globals';
 
 class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
@@ -132,7 +133,7 @@ class Popout {
     if (!this.isDynamicHeight) {
       this.popout.style.height = `${newHeight}px`;
     }
-    if (shared.esgst.qiv && shared.esgst.qiv.popout === this && shared.esgst.qiv.comments) {
+    if (gSettings.qiv && shared.esgst.qiv.popout === this && shared.esgst.qiv.comments) {
       shared.esgst.qiv.comments.style.maxHeight = `${newHeight - shared.esgst.qiv.comments.offsetTop}px`;
     }
     popoutHeight = this.popout.offsetHeight;

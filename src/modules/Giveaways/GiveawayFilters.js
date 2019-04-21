@@ -2,6 +2,7 @@ import { Button } from '../../class/Button';
 import { common } from '../Common';
 import { Filters } from '../Filters';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -780,10 +781,10 @@ class GiveawaysGiveawayFilters extends Filters {
   }
 
   init() {
-    if (this.esgst.gf_s) {
+    if (gSettings.gf_s) {
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }
-    if (this.esgst.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
+    if (gSettings.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
           top: ${this.esgst.commentsTop - 5}px;
@@ -794,7 +795,7 @@ class GiveawaysGiveawayFilters extends Filters {
         id: `gf`
       });
     }
-    if (window.location.pathname.match(/^\/account\/settings\/giveaways$/) && (this.esgst.gf_os || this.esgst.gf_alreadyOwned || this.esgst.gf_dlcMissingBase || this.esgst.gf_aboveLevel || this.esgst.gf_manuallyFiltered)) {
+    if (window.location.pathname.match(/^\/account\/settings\/giveaways$/) && (gSettings.gf_os || gSettings.gf_alreadyOwned || gSettings.gf_dlcMissingBase || gSettings.gf_aboveLevel || gSettings.gf_manuallyFiltered)) {
       let key,
         inputs = {
           filter_os: null,
@@ -821,7 +822,7 @@ class GiveawaysGiveawayFilters extends Filters {
 
   gf_getGiveaways(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.creator !== this.esgst.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
+      if (giveaway.creator !== gSettings.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
         if (source === `gf` || this.esgst.giveawayPath) {
           if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].hidden) {
             new Button(giveaway.headingName, `beforeBegin`, {
@@ -884,7 +885,7 @@ class GiveawaysGiveawayFilters extends Filters {
   getFilters(popup) {
     return {
       level: {
-        check: (!this.esgst.parameters.level_min && !this.esgst.parameters.level_max) && (((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup),
+        check: (!this.esgst.parameters.level_min && !this.esgst.parameters.level_max) && (((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup),
         maxValue: 10,
         minValue: 0,
         name: `Level`,
@@ -903,7 +904,7 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `number`
       },
       points: {
-        check: (!this.esgst.parameters.point_min && !this.esgst.parameters.point_max) && (((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup),
+        check: (!this.esgst.parameters.point_min && !this.esgst.parameters.point_max) && (((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Points`,
@@ -928,7 +929,7 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `number`
       },
       chance: {
-        check: this.esgst.gwc && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gwc && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance`,
@@ -936,7 +937,7 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `number`
       },
       projectedChance: {
-        check: this.esgst.gwc && this.esgst.gwc_a && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gwc && gSettings.gwc_a && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Projected Chance`,
@@ -944,7 +945,7 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `number`
       },
       chancePerPoint: {
-        check: this.esgst.gwc && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gwc && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Chance Per Point`,
@@ -952,7 +953,7 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `number`
       },
       projectedChancePerPoint: {
-        check: this.esgst.gwc && this.esgst.gwc_a && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gwc && gSettings.gwc_a && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
         name: `Projected Chance Per Point`,
@@ -960,19 +961,19 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `number`
       },
       ratio: {
-        check: this.esgst.gwr && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gwr && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
         name: `Ratio`,
         type: `number`
       },
       projectedRatio: {
-        check: this.esgst.gwr && this.esgst.gwr_a && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gwr && gSettings.gwr_a && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
         name: `Projected Ratio`,
         type: `number`
       },
       pointsToWin: {
-        check: this.esgst.gptw && (((!this.esgst.enteredPath || this.esgst.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
+        check: gSettings.gptw && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
         name: `Points To Win`,
         type: `number`
@@ -1010,22 +1011,22 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `boolean`
       },
       inviteOnly: {
-        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup,
         name: `Invite Only`,
         type: `boolean`
       },
       group: {
-        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup,
         name: `Group`,
         type: `boolean`
       },
       whitelist: {
-        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup,
         name: `Whitelist`,
         type: `boolean`
       },
       regionRestricted: {
-        check: ((!this.esgst.createdPath || this.esgst.cewgd) && (!this.esgst.enteredPath || this.esgst.cewgd) && (!this.esgst.wonPath || this.esgst.cewgd)) || popup,
+        check: ((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup,
         name: `Region Restricted`,
         type: `boolean`
       },
@@ -1130,12 +1131,12 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `boolean`
       },
       sgTools: {
-        check: this.esgst.ge,
+        check: gSettings.ge,
         name: `SGTools`,
         type: `boolean`
       },
       groups: {
-        check: this.esgst.ggl && this.esgst.ggl_index === 0,
+        check: gSettings.ggl && gSettings.ggl_index === 0,
         list: true,
         name: `Groups`,
         type: `string`

@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { gSettings } from '../../class/Globals';
 
 class GiveawaysCustomGiveawayBackground extends Module {
   constructor() {
@@ -58,20 +59,20 @@ class GiveawaysCustomGiveawayBackground extends Module {
 
   color(giveaways) {
     for (const giveaway of giveaways) {
-      if (this.esgst.cgb_b && giveaway.outerWrap.getAttribute(`data-blacklist`)) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_b_bgColor} !important`);
-      } else if (this.esgst.cgb_sgt && giveaway.sgTools) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_sgt_bgColor} !important`);
-      } else if (this.esgst.cgb_w && giveaway.whitelist) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_w_bgColor} !important`);
-      } else if (this.esgst.cgb_g && giveaway.group) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_g_bgColor} !important`);
-      } else if (this.esgst.cgb_rr && giveaway.regionRestricted) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_rr_bgColor} !important`);
-      } else if (this.esgst.cgb_io && giveaway.inviteOnly) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_io_bgColor} !important`);
-      } else if (this.esgst.cgb_p && giveaway.public) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${this.esgst.cgb_p_bgColor} !important`);
+      if (gSettings.cgb_b && giveaway.outerWrap.getAttribute(`data-blacklist`)) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_b_bgColor} !important`);
+      } else if (gSettings.cgb_sgt && giveaway.sgTools) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_sgt_bgColor} !important`);
+      } else if (gSettings.cgb_w && giveaway.whitelist) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_w_bgColor} !important`);
+      } else if (gSettings.cgb_g && giveaway.group) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_g_bgColor} !important`);
+      } else if (gSettings.cgb_rr && giveaway.regionRestricted) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_rr_bgColor} !important`);
+      } else if (gSettings.cgb_io && giveaway.inviteOnly) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_io_bgColor} !important`);
+      } else if (gSettings.cgb_p && giveaway.public) {
+        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_p_bgColor} !important`);
       } else {
         giveaway.outerWrap.style.backgroundColor = ``;
       }

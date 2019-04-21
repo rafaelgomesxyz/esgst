@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 class UsersUserLinks extends Module {
   constructor() {
@@ -27,7 +28,7 @@ class UsersUserLinks extends Module {
     const iconRegex = /^fa-(.+?)($|\s)/;
     const imageRegex = /^(https?:\/\/.+?)($|\s)/;
     const textRegex = /^(.+?)($|\s(fa-|https?:\/\/))/;
-    for (const link of this.esgst.ul_links) {
+    for (const link of gSettings.ul_links) {
       const children = [];
       let label = link.label;
       while (label) {

@@ -4,6 +4,8 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -46,9 +48,9 @@ class UsersWhitelistBlacklistManager extends Module {
   }
 
   init() {
-    if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
+    if (!shared.esgst.whitelistPath && !shared.esgst.blacklistPath) return;
     let wbm = {};
-    if (this.esgst.whitelistPath) {
+    if (shared.esgst.whitelistPath) {
       wbm.key = `whitelist`;
       wbm.name = `Whitelist`;
     } else {
@@ -66,7 +68,7 @@ class UsersWhitelistBlacklistManager extends Module {
   wbm_openPopup(wbm) {
     if (!wbm.popup) {
       wbm.popup = new Popup({ addScrollable: true, icon: `fa-gear`, title: `Manage ${wbm.name}:` });
-      new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, this.esgst.wbm_useCache);
+      new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, gSettings.wbm_useCache);
       new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [{
         text: `Only clear users who are tagged with these specific tags (separate with comma): `,
         type: `node`
@@ -74,14 +76,13 @@ class UsersWhitelistBlacklistManager extends Module {
         attributes: {
           class: `esgst-switch-input esgst-switch-input-large`,
           type: `text`,
-          value: this.esgst.wbm_tags.join(`, `)
+          value: gSettings.wbm_tags.join(`, `)
         },
         type: `input`
-      }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, this.esgst.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
+      }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, gSettings.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
         const element = event.currentTarget;
         let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
         setSetting(`wbm_tags`, tags);
-        this.esgst.wbm_tags = tags;
       });
       wbm.input = createElements(wbm.popup.description, `beforeEnd`, [{
         attributes: {
@@ -199,7 +200,7 @@ class UsersWhitelistBlacklistManager extends Module {
     }]);
     if (i < n) {
       await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
+        data: `xsrf_token=${shared.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
         method: `POST`,
         url: `/ajax.php`
       });
@@ -212,12 +213,12 @@ class UsersWhitelistBlacklistManager extends Module {
 
   async wbm_exportList(wbm, list, nextPage, callback) {
     if (wbm.isCanceled) return;
-    if (this.esgst.wbm_useCache) {
+    if (gSettings.wbm_useCache) {
       let steamId;
-      for (steamId in this.esgst.users.users) {
-        if (this.esgst.users.users.hasOwnProperty(steamId)) {
-          if (this.esgst.users.users[steamId][`${wbm.key}ed`]) {
-            list.push(this.esgst.users.users[steamId].id);
+      for (steamId in shared.esgst.users.users) {
+        if (shared.esgst.users.users.hasOwnProperty(steamId)) {
+          if (shared.esgst.users.users[steamId][`${wbm.key}ed`]) {
+            list.push(shared.esgst.users.users[steamId].id);
           }
         }
       }
@@ -256,16 +257,16 @@ class UsersWhitelistBlacklistManager extends Module {
 
   async wbm_clearList(wbm, list, nextPage, callback) {
     if (wbm.isCanceled) return;
-    if (this.esgst.wbm_useCache) {
+    if (gSettings.wbm_useCache) {
       let steamId;
-      for (steamId in this.esgst.users.users) {
-        if (this.esgst.users.users.hasOwnProperty(steamId)) {
-          let user = this.esgst.users.users[steamId];
+      for (steamId in shared.esgst.users.users) {
+        if (shared.esgst.users.users.hasOwnProperty(steamId)) {
+          let user = shared.esgst.users.users[steamId];
           if (user[`${wbm.key}ed`]) {
-            if (this.esgst.wbm_clearTags) {
+            if (gSettings.wbm_clearTags) {
               if (user.tags) {
                 let i;
-                for (i = user.tags.length - 1; i > -1 && this.esgst.wbm_tags.indexOf(user.tags[i]) < 0; --i) {
+                for (i = user.tags.length - 1; i > -1 && gSettings.wbm_tags.indexOf(user.tags[i]) < 0; --i) {
                 }
                 if (i > -1) {
                   list.push(user.id);
@@ -298,15 +299,15 @@ class UsersWhitelistBlacklistManager extends Module {
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
       for (i = 0, n = elements.length; i < n; ++i) {
         element = elements[i];
-        if (this.esgst.wbm_clearTags) {
+        if (gSettings.wbm_clearTags) {
           let steamId, username;
           username = element.closest(`.table__row-inner-wrap`).getElementsByClassName(`table__column__heading`)[0].textContent;
-          steamId = this.esgst.users.steamIds[username];
+          steamId = shared.esgst.users.steamIds[username];
           if (steamId) {
-            let user = this.esgst.users.users[steamId];
+            let user = shared.esgst.users.users[steamId];
             if (user.tags) {
               let j;
-              for (j = user.tags.length - 1; j > -1 && this.esgst.wbm_tags.indexOf(user.tags[j]) < 0; --j) {
+              for (j = user.tags.length - 1; j > -1 && gSettings.wbm_tags.indexOf(user.tags[j]) < 0; --j) {
               }
               if (j > -1) {
                 list.push(element.value);
@@ -341,7 +342,7 @@ class UsersWhitelistBlacklistManager extends Module {
     }]);
     if (i < n) {
       await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
+        data: `xsrf_token=${shared.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
         method: `POST`,
         url: `/ajax.php`
       });

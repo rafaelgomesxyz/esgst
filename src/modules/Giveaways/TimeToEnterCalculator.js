@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -41,7 +42,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
       giveaways.forEach(giveaway => {
         if (!giveaway.ended && !giveaway.entered && giveaway.points > this.esgst.points) {
           if (!giveaway.ttec) {
-            giveaway.ttec = createElements(giveaway.panel, (this.esgst.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && this.esgst.gv_gb) || (source === `ged` && this.esgst.gv_ged) || (source === `ge` && this.esgst.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
+            giveaway.ttec = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && gSettings.gv_gb) || (source === `ged` && gSettings.gv_ged) || (source === `ge` && gSettings.gv_ge))) ? `beforeEnd` : `afterBegin`, [{
               attributes: {
                 class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-ttec`,
                 [`data-draggable-id`]: `ttec`,

@@ -2,6 +2,7 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class CommentsReceivedReplyBoxPopup extends Module {
   constructor() {
@@ -24,8 +25,8 @@ class CommentsReceivedReplyBoxPopup extends Module {
   }
 
   init() {
-    if (!this.esgst.wonPath) return;
-    this.esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
+    if (!shared.esgst.wonPath) return;
+    shared.esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
   }
 
   rrbp_addEvent(giveaways) {
@@ -43,8 +44,8 @@ class CommentsReceivedReplyBoxPopup extends Module {
     textArea = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
-    if (this.esgst.cfh) {
-      this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
+    if (gSettings.cfh) {
+      shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
     }
     popup.description.appendChild(new ButtonSet({
       color1: `green`,

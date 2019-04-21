@@ -2,6 +2,7 @@ import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -37,7 +38,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 
   codb_addButtons(discussions) {
     for (const discussion of discussions) {
-      if (discussion.author === this.esgst.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
+      if (discussion.author === gSettings.username && !discussion.heading.parentElement.getElementsByClassName(`esgst-codb-button`)[0]) {
         if (discussion.closed) {
           discussion.closed.remove();
           discussion.closed = true;

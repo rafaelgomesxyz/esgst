@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -54,8 +55,8 @@ class GiveawaysRealCVCalculator extends Module {
               }
             }
             user = {
-              Username: this.esgst.username,
-              SteamID64: this.esgst.steamId
+              Username: gSettings.username,
+              SteamID64: gSettings.steamId
             };
             let users = JSON.parse(getValue(`users`));
             let savedUser = users.users[user.SteamID64];

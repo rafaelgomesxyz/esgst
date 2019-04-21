@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -32,7 +33,7 @@ class TradesHaveWantListChecker extends Module {
   }
 
   init() {
-    if (!this.esgst.tradePath) {
+    if (!shared.esgst.tradePath) {
       return;
     }
     let obj = {
@@ -291,8 +292,8 @@ class TradesHaveWantListChecker extends Module {
         };
         return game;
       }
-      if (this.esgst.games.apps[game.id]) {
-        if (this.esgst.games.apps[game.id].owned) {
+      if (shared.esgst.games.apps[game.id]) {
+        if (shared.esgst.games.apps[game.id].owned) {
           game.owned = true;
           game.html = {
             type: `li`,
@@ -311,7 +312,7 @@ class TradesHaveWantListChecker extends Module {
             }]
           };
           return game;
-        } else if (this.esgst.games.apps[game.id].wishlisted) {
+        } else if (shared.esgst.games.apps[game.id].wishlisted) {
           game.wishlisted = true;
           game.html = {
             type: `li`,

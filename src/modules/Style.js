@@ -1,11 +1,12 @@
 import { shared } from '../class/Shared';
+import { gSettings } from '../class/Globals';
 
 function addStyle() {
   let backgroundColor, color, colors, i, n, style;
   style = `
   :root {
-    --esgst-gwc-highlight-width: ${shared.esgst.gwc_h_width};
-    --esgst-gwr-highlight-width: ${shared.esgst.gwr_h_width};
+    --esgst-gwc-highlight-width: ${gSettings.gwc_h_width};
+    --esgst-gwr-highlight-width: ${gSettings.gwr_h_width};
   }
 `;
   colors = [
@@ -146,8 +147,8 @@ function addStyle() {
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
-    color = shared.esgst[`${colors[i].id}_color`];
-    backgroundColor = shared.esgst[`${colors[i].id}_bgColor`];
+    color = gSettings[`${colors[i].id}_color`];
+    backgroundColor = gSettings[`${colors[i].id}_bgColor`];
     style += `
     ${colors[i].key === `genres` ? `a` : ``}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
       background-color: ${backgroundColor};
@@ -171,8 +172,8 @@ function addStyle() {
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
-    color = shared.esgst[`${colors[i].id}_color`];
-    backgroundColor = shared.esgst[`${colors[i].id}_bgColor`];
+    color = gSettings[`${colors[i].id}_color`];
+    backgroundColor = gSettings[`${colors[i].id}_bgColor`];
     style += `
     .${colors[i].mainKey}-${colors[i].key} {
       background-color: ${backgroundColor} !important;
@@ -704,7 +705,7 @@ function addStyle() {
   }
 
   .esgst-qgs-container-expanded {
-    position: ${shared.esgst.qgs_index === `0` ? `absolute` : `static`};
+    position: ${gSettings.qgs_index === `0` ? `absolute` : `static`};
   }
 
   .esgst-qgs-container-expanded .esgst-qgs-input {
@@ -748,7 +749,7 @@ function addStyle() {
   }
 
   .esgst-stbb-button-fixed, .esgst-sttb-button-fixed {
-    bottom: ${shared.esgst.ff ? 49 : 5}px;
+    bottom: ${gSettings.ff ? 49 : 5}px;
     background-color: #fff;
     border: 1px solid #d2d6e0;
     border-radius: 4px;
@@ -774,14 +775,14 @@ function addStyle() {
     margin: 5px 0;
   }
 
-  .comment__parent .esgst-cerb-reply-button {
+  .comment__parent .esgst-cerb-reply-button, .comment__child .esgst-cerb-reply-button {
     margin-top: 54px;
     position: absolute;
     text-align: center;
     width: 44px;
   }
 
-  .comment_inner .esgst-cerb-reply-button {
+  .comment_outer .esgst-cerb-reply-button, .comment_inner .esgst-cerb-reply-button {
     margin-left: 21px;
     margin-top: 34px;
     position: absolute;
@@ -1605,10 +1606,10 @@ function addStyle() {
   }
 
   .esgst-popup-layer {
-    align-items: ${shared.esgst.static_popups ? `baseline` : `center`};
+    align-items: ${gSettings.static_popups ? `baseline` : `center`};
     bottom: 0;
     display: flex;
-    justify-content: ${shared.esgst.static_popups ? `left` : `center`};
+    justify-content: ${gSettings.static_popups ? `left` : `center`};
     left: 0;
     padding: 50px;
     position: fixed;
@@ -1829,7 +1830,7 @@ function addStyle() {
     display: flex;
     height: 5px;
     margin-left: 5px;
-    width: ${shared.esgst.ib ? `186px` : `174px`};
+    width: ${gSettings.ib ? `186px` : `174px`};
   }
 
   .esgst-gc-border >* {
@@ -2264,7 +2265,7 @@ function addStyle() {
     padding: 0;
     text-align: center;
     vertical-align: top;
-    width: ${shared.esgst.ib ? `196px` : `184px`};
+    width: ${gSettings.ib ? `196px` : `184px`};
   }
 
   .esgst-gv-box {
@@ -2318,11 +2319,11 @@ function addStyle() {
 
   .esgst-gv-popout {
     font-size: 11px;
-    max-width: ${shared.esgst.ib ? `174px` : `162px`};
+    max-width: ${gSettings.ib ? `174px` : `162px`};
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    width: ${shared.esgst.ib ? `174px` : `162px`};
+    width: ${gSettings.ib ? `174px` : `162px`};
     z-index: 1;
   }
 

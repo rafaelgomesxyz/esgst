@@ -4,6 +4,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -47,17 +48,17 @@ class GiveawaysGridView extends Module {
   }
 
   init() {
-    if (this.esgst.giveawaysPath || this.esgst.gv_gb || this.esgst.gv_ged || this.esgst.gv_ge) {
+    if (this.esgst.giveawaysPath || gSettings.gv_gb || gSettings.gv_ged || gSettings.gv_ge) {
       this.esgst.giveawayFeatures.push(this.gv_setContainer.bind(this));
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gv-creator {
-          margin: ${this.esgst.ib ? 10 : 5}px 5px 5px;
+          margin: ${gSettings.ib ? 10 : 5}px 5px 5px;
         }
 
         .esgst-gv-popout .giveaway__links {
           display: block;
           height: auto;
-          margin: 5px 5px ${this.esgst.ib ? 10 : 5}px;
+          margin: 5px 5px ${gSettings.ib ? 10 : 5}px;
           text-align: center;
         }
       `);
@@ -65,7 +66,7 @@ class GiveawaysGridView extends Module {
         let button, display, element, elements, i, n, popout, spacing, slider;
         button = createHeadingButton({ id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing` });
         popout = new Popout(`esgst-gv-spacing`, button, 0, true);
-        spacing = this.esgst.gv_spacing;
+        spacing = gSettings.gv_spacing;
         element = createElements(popout.popout, `beforeEnd`, [{
           type: `div`,
           children: [{
@@ -87,7 +88,6 @@ class GiveawaysGridView extends Module {
             popout.reposition();
             display.textContent = `${spacing}px`;
             setSetting(`gv_spacing`, spacing);
-            this.esgst.gv_spacing = spacing;
           },
           max: 10,
           value: spacing
@@ -97,7 +97,7 @@ class GiveawaysGridView extends Module {
   }
 
   gv_setContainer(giveaways, main, source) {
-    if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== `gb` || !this.esgst.gv_gb) && (source !== `ged` || !this.esgst.gv_ged) && (source !== `ge` || !this.esgst.gv_ge)))) return;
+    if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== `gb` || !gSettings.gv_gb) && (source !== `ged` || !gSettings.gv_ged) && (source !== `ge` || !gSettings.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
       let popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== `guide`);
@@ -105,11 +105,11 @@ class GiveawaysGridView extends Module {
         giveaway.outerWrap.parentElement.parentElement.classList.add(`esgst-gv-view`);
         giveaway.outerWrap.parentElement.style.display = `inline-block`;
         giveaway.outerWrap.classList.add(`esgst-gv-container`);
-        giveaway.outerWrap.style.margin = `${this.esgst.gv_spacing}px`;
+        giveaway.outerWrap.style.margin = `${gSettings.gv_spacing}px`;
       } else {
         giveaway.outerWrap.parentElement.classList.add(`esgst-gv-view`);
         giveaway.outerWrap.classList.add(`esgst-gv-container`);
-        giveaway.outerWrap.style.margin = `${this.esgst.gv_spacing}px`;
+        giveaway.outerWrap.style.margin = `${gSettings.gv_spacing}px`;
       }
       giveaway.innerWrap.classList.add(`esgst-gv-box`);
       const now = Date.now();

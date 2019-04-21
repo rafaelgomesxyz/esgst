@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -57,7 +58,7 @@ class GeneralQuickInboxView extends Module {
       };
     }
 
-    if (first && this.esgst.qiv_p) {
+    if (first && gSettings.qiv_p) {
       this.esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
       this.esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
       if (this.esgst.messageCount > 0) {
@@ -270,7 +271,7 @@ class GeneralQuickInboxView extends Module {
       this.esgst.inboxButton.classList.remove(`nav__button-container--active`);
       this.esgst.messageCountContainer.remove();
       this.esgst.messageCount = 0;
-      if (this.esgst.hr) {
+      if (gSettings.hr) {
         this.esgst.modules.generalHeaderRefresher.hr_notifyChange(this.esgst.hr);
       }
     });

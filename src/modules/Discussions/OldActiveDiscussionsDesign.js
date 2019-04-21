@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -229,19 +230,19 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
     dealsSwitch = deals.firstElementChild.firstElementChild;
     dealsRows = deals.lastElementChild.lastElementChild;
     let preset = null;
-    if (this.esgst.df && this.esgst.df_m && this.esgst.df_enable) {
-      let name = this.esgst.df_preset;
+    if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
+      let name = gSettings.df_preset;
       if (name) {
         let i;
-        for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {
+        for (i = gSettings.df_presets.length - 1; i > -1 && gSettings.df_presets[i].name !== name; i--) {
         }
         if (i > -1) {
-          preset = this.esgst.df_presets[i];
+          preset = gSettings.df_presets[i];
         }
       }
     }
     let elements = await this.esgst.modules.discussions.discussions_get(response1Html, true);
-    if (!this.esgst.oadd_d) {
+    if (!gSettings.oadd_d) {
       revisedElements = [];
       elements.forEach(element => {
         // @ts-ignore
@@ -275,9 +276,9 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       discussions.classList.remove(`esgst-hidden`);
       deals.classList.add(`esgst-hidden`);
     });
-    if (this.esgst.adots) {
+    if (gSettings.adots) {
       this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load(refresh);
-    } else if (this.esgst.radb) {
+    } else if (gSettings.radb) {
       this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
     }
     if (refresh) {

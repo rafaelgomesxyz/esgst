@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -70,7 +71,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
       if (user.saved && (user.saved.whitelisted || user.saved.blacklisted) && !user.context.parentElement.querySelector(`.esgst-wbh-highlight, .esgst-wbh-icon`)) {
         let [icon, status] = user.saved.whitelisted ? [`fa-heart sidebar__shortcut__whitelist`, `whitelisted`] : [`fa-ban sidebar__shortcut__blacklist`, `blacklisted`];
         let title = `You ${status} ${user.username} on ${getTimestamp(user.saved[`${status}Date`])}`;
-        if ((this.esgst.wbh_w && user.saved.whitelisted) || (this.esgst.wbh_b && user.saved.blacklisted)) {
+        if ((gSettings.wbh_w && user.saved.whitelisted) || (gSettings.wbh_b && user.saved.blacklisted)) {
           user.element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
           user.element.title = getFeatureTooltip(`wbh`, title);
         } else {

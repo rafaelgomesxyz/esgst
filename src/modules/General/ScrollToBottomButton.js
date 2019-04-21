@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   animateScroll = common.animateScroll.bind(common),
@@ -35,7 +36,7 @@ class GeneralScrollToBottomButton extends Module {
 
   init() {
     let button;
-    switch (this.esgst.stbb_index) {
+    switch (gSettings.stbb_index) {
       case 0:
         button = createElements(document.body, `beforeEnd`, [{
           attributes: {
@@ -79,7 +80,7 @@ class GeneralScrollToBottomButton extends Module {
         break;
     }
     button.addEventListener(`click`, () => animateScroll(document.documentElement.offsetHeight, () => {
-      if (this.esgst.es && this.esgst.es.paginations) {
+      if (gSettings.es && this.esgst.es.paginations) {
         this.esgst.modules.generalEndlessScrolling.es_changePagination(this.esgst.es, this.esgst.es.reverseScrolling ? 1 : this.esgst.es.paginations.length);
       }
     }));

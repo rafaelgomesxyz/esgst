@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -59,7 +60,7 @@ class GeneralAvatarPopout extends Module {
     apAvatar.classList.add(`esgst-ap-avatar`);
     url = apAvatar.getAttribute(`href`);
     if (url) {
-      if (this.esgst.ap_index === 0) {
+      if (gSettings.ap_index === 0) {
         eventType = `mouseenter`;
         onClick = false;
         delay = 1000;
@@ -95,7 +96,7 @@ class GeneralAvatarPopout extends Module {
           timeout = window.setTimeout(async () => {
             popout = this.esgst.apPopouts[id];
             if (popout) {
-              if (this.esgst.ap_index === 1 && popout.isOpen) {
+              if (gSettings.ap_index === 1 && popout.isOpen) {
                 popout.close();
               } else {
                 popout.open(apAvatar);
@@ -163,12 +164,12 @@ class GeneralAvatarPopout extends Module {
               if (type === `user`) {
                 await this.esgst.modules.profile.profile_load(popout.popout);
               }
-              if (this.esgst.at) {
+              if (gSettings.at) {
                 this.esgst.modules.generalAccurateTimestamp.at_getTimestamps(popout.popout);
               }
               popout.reposition();
             }
-            if (this.esgst.ap_index === 0) {
+            if (gSettings.ap_index === 0) {
               popout.popout.onmouseenter = () => {
                 if (exitTimeout) {
                   window.clearTimeout(exitTimeout);

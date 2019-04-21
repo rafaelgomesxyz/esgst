@@ -5,8 +5,18 @@ import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
+import { gSettings } from '../class/Globals';
 
 class Settings {
+  constructor() {
+    this.toSave = {};
+  }
+
+  preSave(id, value) {
+    this.toSave[id] = value;
+    gSettings[id] = value;
+  }
+
   loadMenu(isPopup) {
     /** @type {HTMLInputElement} */
     let SMAPIKey;
@@ -33,7 +43,7 @@ class Settings {
         [`input`, { class: `sidebar__search-input`, type: `text`, placeholder: `Search...` }]
       ]]
     ]).firstElementChild;
-    if (isPopup && shared.esgst.scb) {
+    if (isPopup && gSettings.scb) {
       shared.esgst.modules.generalSearchClearButton.getInputs(Container);
     }
 
@@ -48,7 +58,6 @@ class Settings {
       title2: `Dismissing`,
       callback1: async () => {      
         await shared.common.setSetting(`dismissedOptions`, shared.esgst.toDismiss);
-        shared.esgst.dismissedOptions = shared.esgst.toDismiss;
         for (let i = newIndicators.length - 1; i > -1; i--) {
           newIndicators[i].remove();
         }
@@ -109,70 +118,70 @@ class Settings {
         onclick: event => shared.common.setSMRecentUsernameChanges()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.uf,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && gSettings.uf,
         icons: [`fa-user`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `See list of filtered users`,
         onclick: event => shared.common.setSMManageFilteredUsers()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.gf && shared.esgst.gf_s,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && gSettings.gf && gSettings.gf_s,
         icons: [`fa-gift`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `Manage hidden giveaways`,
         onclick: event => shared.common.setSMManageFilteredGiveaways()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.df && shared.esgst.df_s,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && gSettings.df && gSettings.df_s,
         icons: [`fa-comments`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `Manage hidden discussions`,
         onclick: event => shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.st && shared.esgst.tf && shared.esgst.tf_s,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.st && gSettings.tf && gSettings.tf_s,
         icons: [`fa-retweet`, `fa-eye-slash`],
         position: `afterBegin`,
         title: `Manage hidden trades`,
         onclick: event => shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.dt,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && gSettings.dt,
         icons: [`fa-comments`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage discussion tags`,
         onclick: () => shared.common.openManageDiscussionTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && shared.esgst.ut,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.sg && gSettings.ut,
         icons: [`fa-user`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage user tags`,
         onclick: () => shared.common.openManageUserTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.gt,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && gSettings.gt,
         icons: [`fa-gamepad`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage game tags`,
         onclick: () => shared.common.openManageGameTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.gpt,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && gSettings.gpt,
         icons: [`fa-users`, `fa-tags`],
         position: `afterBegin`,
         title: `Manage group tags`,
         onclick: () => shared.common.openManageGroupTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.wbc,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && gSettings.wbc,
         icons: [`fa-heart`, `fa-ban`, `fa-cog`],
         position: `afterBegin`,
         title: `Manage Whitelist / Blacklist Checker caches`,
         ref: button => shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && shared.esgst.namwc,
+        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === `guide`) && gSettings.namwc,
         icons: [`fa-trophy`, `fa-cog`],
         position: `afterBegin`,
         title: `Manage Not Activated / Multiple Wins Checker caches`,
@@ -217,7 +226,8 @@ class Settings {
       title1: `Save Changes`,
       title2: `Saving...`,
       callback1: async () => {
-        await shared.common.lockAndSaveSettings();
+        await shared.common.lockAndSaveSettings(this.toSave);
+        this.toSave = {};
         if (isPopup) {
           popup.close();
         } else {
@@ -226,13 +236,12 @@ class Settings {
       }
     }).set);
     Context.addEventListener(`click`, event => this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event));
-    shared.esgst.featuresById = {};
     let SMMenu = Context.getElementsByClassName(`esgst-settings-menu`)[0];
     let i, type;
     i = 1;
     for (type in shared.esgst.features) {
       if (shared.esgst.features.hasOwnProperty(type)) {
-        if (type !== `trades` || shared.esgst.settings.esgst_st || shared.esgst.settings.esgst_sgtools) {
+        if (type !== `trades` || gSettings.esgst_st || gSettings.esgst_sgtools) {
           let id, j, section, title, isNew = false;
           title = type.replace(/^./, m => {
             return m.toUpperCase()
@@ -246,7 +255,7 @@ class Settings {
               }
               let feature, ft;
               feature = shared.esgst.features[type].features[id];
-              if (!feature.sg && (((feature.sgtools && !shared.esgst.settings.esgst_sgtools) || (feature.st && !shared.esgst.settings.esgst_st)) && id !== `esgst`)) {
+              if (!feature.sg && (((feature.sgtools && !gSettings.esgst_sgtools) || (feature.st && !gSettings.esgst_st)) && id !== `esgst`)) {
                 continue;
               }
               ft = this.getSMFeature(feature, id, j, popup);
@@ -309,13 +318,13 @@ class Settings {
       }]
     }], i, `Steam API Key`, `steam_api_key`);
     SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName(`esgst-steam-api-key`)[0];
-    let key = shared.esgst.steamApiKey;
+    let key = gSettings.steamApiKey;
     if (key) {
       SMAPIKey.value = key;
     }
     SMAPIKey.addEventListener(`input`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings.steamApiKey = SMAPIKey.value;
+      this.preSave(`steamApiKey`, SMAPIKey.value);
     });
     if (shared.esgst.parameters.esgst === `esgst` && shared.esgst.parameters.esgst !== `guide` && shared.esgst.parameters.id) {
       this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
@@ -365,12 +374,12 @@ class Settings {
     if (feature.sg) {
       const value = shared.common.getFeaturePath(feature, id, `sg`).enabled;
       sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
-      const sgSwitch = new ToggleSwitch(sgContext, null, true, shared.esgst.settings.esgst_st || shared.esgst.settings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
+      const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = shared.esgst.settings[`${conflictId}_sg`];
+            const setting = gSettings[`${conflictId}_sg`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgSwitch.disable(true);
               new Popup({
@@ -383,8 +392,7 @@ class Settings {
             }
           }
         }
-        shared.esgst.settings[`${id}_sg`] = true;
-        shared.esgst[id] = true;
+        this.preSave(`${id}_sg`, true);
         if (feature.sgSwitch) {
           feature.sgSwitch.enable(true);
         }
@@ -400,8 +408,7 @@ class Settings {
         ]);
       };
       sgSwitch.onDisabled = async () => {
-        shared.esgst.settings[`${id}_sg`] = false;
-        shared.esgst[id] = false;
+        this.preSave(`${id}_sg`, false);
         if (feature.sgSwitch) {
           feature.sgSwitch.disable(true);
         }
@@ -419,7 +426,7 @@ class Settings {
         ]);
       };
     }
-    if (feature.st && (shared.esgst.settings.esgst_st || id === `esgst`)) {
+    if (feature.st && (gSettings.esgst_st || id === `esgst`)) {
       const value = shared.common.getFeaturePath(feature, id, `st`).enabled;
       stContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
@@ -427,7 +434,7 @@ class Settings {
       stSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = shared.esgst.settings[`${conflictId}_st`];
+            const setting = gSettings[`${conflictId}_st`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               stSwitch.disable(true);
               new Popup({
@@ -440,8 +447,7 @@ class Settings {
             }
           }
         }
-        shared.esgst.settings[`${id}_st`] = true;
-        shared.esgst[id] = true;
+        this.preSave(`${id}_st`, true);
         if (feature.stSwitch) {
           feature.stSwitch.enable(true);
         }
@@ -457,8 +463,7 @@ class Settings {
         ]);
       };
       stSwitch.onDisabled = async () => {
-        shared.esgst.settings[`${id}_st`] = false;
-        shared.esgst[id] = false;
+        this.preSave(`${id}_st`, false);
         if (feature.stSwitch) {
           feature.stSwitch.disable(true);
         }
@@ -476,7 +481,7 @@ class Settings {
         ]);
       };
     }
-    if (feature.sgtools && (shared.esgst.settings.esgst_sgtools || id === `esgst`)) {
+    if (feature.sgtools && (gSettings.esgst_sgtools || id === `esgst`)) {
       const value = shared.common.getFeaturePath(feature, id, `sgtools`).enabled;
       sgtoolsContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
@@ -484,7 +489,7 @@ class Settings {
       sgtoolsSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = shared.esgst.settings[`${conflictId}_sgtools`];
+            const setting = gSettings[`${conflictId}_sgtools`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgtoolsSwitch.disable(true);
               new Popup({
@@ -497,8 +502,7 @@ class Settings {
             }
           }
         }
-        shared.esgst.settings[`${id}_sgtools`] = true;
-        shared.esgst[id] = true;
+        this.preSave(`${id}_sgtools`, true);
         if (feature.sgtoolsSwitch) {
           feature.sgtoolsSwitch.enable(true);
         }
@@ -514,8 +518,7 @@ class Settings {
         ]);
       };
       sgtoolsSwitch.onDisabled = async () => {
-        shared.esgst.settings[`${id}_sgtools`] = false;
-        shared.esgst[id] = false;
+        this.preSave(`${id}_sgtools`, false);
         if (feature.sgtoolsSwitch) {
           feature.sgtoolsSwitch.disable(true);
         }
@@ -584,7 +587,7 @@ class Settings {
         name: `Where to run it on SteamGifts?`
       });
     }
-    if (feature.st && shared.esgst.settings.esgst_st && (!feature.stPaths || typeof feature.stPaths !== `string`)) {
+    if (feature.st && gSettings.esgst_st && (!feature.stPaths || typeof feature.stPaths !== `string`)) {
       items.push({
         check: true,
         content: [
@@ -595,7 +598,7 @@ class Settings {
         name: `Where to run it on SteamTrades?`
       });
     }
-    if (feature.sgtools && shared.esgst.settings.esgst_sgtools && (!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== `string`)) {
+    if (feature.sgtools && gSettings.esgst_sgtools && (!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== `string`)) {
       items.push({
         check: true,
         content: [
@@ -891,6 +894,11 @@ class Settings {
         id: item.id,
         item: {
           outerWrap: section
+        },
+        onDragEnd: obj => {
+          for (const key in obj) {
+            this.preSave(key, obj[key]);
+          }
         }
       });
       if (item.includeGridView) {
@@ -939,6 +947,11 @@ class Settings {
           id: `${item.id}_gv`,
           item: {
             outerWrap: section_gv
+          },
+          onDragEnd: obj => {
+            for (const key in obj) {
+              this.preSave(key, obj[key]);
+            }
           }
         });
       }
@@ -949,8 +962,7 @@ class Settings {
   }
 
   async resetElementOrdering(id, obj, obj_gv) {
-    shared.esgst[id] = shared.esgst.settings[id] = shared.esgst.defaultValues[id];
-    await shared.common.lockAndSaveSettings();
+    this.preSave(id, shared.esgst.defaultValues[id]);
     shared.esgst.modules.giveaways.giveaways_reorder(obj);
     shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
     shared.common.reorderButtons(obj);
@@ -1065,10 +1077,12 @@ class Settings {
         type: `div`
       }]);
       for (const option of feature.includeOptions) {
-        item.options.push({
+        const optionObj = {
           id: option.id,
           switch: new ToggleSwitch(optionsContainer, null, true, option.name, false, false, null, !!(path.options && path.options[option.id]))
-        });
+        };
+        optionObj.switch.onChange = () => this.savePaths(feature.id, obj);
+        item.options.push(optionObj);
       }
     }
     if (userAdded) {
@@ -1122,20 +1136,20 @@ class Settings {
         pattern: item.input.value
       });
     }
-    shared.esgst.settings[`${id}_${obj.name}`] = obj.setting;
+    this.preSave(`${id}_${obj.name}`, obj.setting);
   }
 
   dismissNewOption(id, event) {
     event.currentTarget.remove();
-    if (shared.esgst.dismissedOptions.indexOf(id) < 0) {
-      shared.esgst.dismissedOptions.push(id);
+    const dismissedOptions = gSettings.dismissedOptions;
+    if (dismissedOptions.indexOf(id) < 0) {
+      dismissedOptions.push(id);
       // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings.dismissedOptions = shared.esgst.dismissedOptions;
+      this.preSave(`dismissedOptions`, dismissedOptions);
     }
   }
 
   getSMFeature(feature, id, number, popup) {
-    shared.esgst.featuresById[id] = feature;
     const menu = document.createElement(`div`);
     menu.id = `esgst_${id}`;
     shared.common.createElements(menu, `beforeEnd`, [{
@@ -1145,7 +1159,7 @@ class Settings {
       text: `${number}.`,
       type: `div`
     }]);
-    let isMainNew = shared.esgst.dismissedOptions.indexOf(id) < 0 && !utils.isSet(shared.esgst.settings[`${id}_sg`]) && !utils.isSet(shared.esgst.settings[`${id}_st`]) && !utils.isSet(shared.esgst.settings[`${id}_sgtools`]);
+    let isMainNew = gSettings.dismissedOptions.indexOf(id) < 0 && !utils.isSet(gSettings[`${id}_sg`]) && !utils.isSet(gSettings[`${id}_st`]) && !utils.isSet(gSettings[`${id}_sgtools`]);
     if (isMainNew) {
       feature.isNew = true;
       shared.common.createElements(menu.firstElementChild, `afterEnd`, [{
@@ -1166,12 +1180,12 @@ class Settings {
         isHidden = false;
       }
       sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
-      const sgSwitch = new ToggleSwitch(sgContext, null, true, shared.esgst.settings.esgst_st || shared.esgst.settings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
+      const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
       feature.sgSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = shared.esgst.settings[`${conflictId}_sg`];
+            const setting = gSettings[`${conflictId}_sg`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgSwitch.disable(true);
               new Popup({
@@ -1188,8 +1202,7 @@ class Settings {
         if (feature.sgFeatureSwitch) {
           feature.sgFeatureSwitch.enable();
         } else {
-          shared.esgst.settings[`${id}_sg`] = true;
-          shared.esgst[id] = true;
+          this.preSave(`${id}_sg`, true);
         }
         if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
@@ -1211,8 +1224,7 @@ class Settings {
         if (feature.sgFeatureSwitch) {
           feature.sgFeatureSwitch.disable();
         } else {
-          shared.esgst.settings[`${id}_sg`] = false;
-          shared.esgst[id] = false;
+          this.preSave(`${id}_sg`, false);
         }
         if (collapseButton && feature.stSwitch && !feature.stSwitch.value) {
           this.collapseOptions(collapseButton, id, subMenu);
@@ -1220,7 +1232,7 @@ class Settings {
         }
       };
     }
-    if (feature.st && (shared.esgst.settings.esgst_st || id === `esgst`)) {
+    if (feature.st && (gSettings.esgst_st || id === `esgst`)) {
       const value = shared.common.getFeaturePath(feature, id, `st`).enabled;
       if (value) {
         isHidden = false;
@@ -1231,7 +1243,7 @@ class Settings {
       stSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = shared.esgst.settings[`${conflictId}_st`];
+            const setting = gSettings[`${conflictId}_st`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               stSwitch.disable(true);
               new Popup({
@@ -1248,8 +1260,7 @@ class Settings {
         if (feature.stFeatureSwitch) {
           feature.stFeatureSwitch.enable();
         } else {
-          shared.esgst.settings[`${id}_st`] = true;
-          shared.esgst[id] = true;
+          this.preSave(`${id}_st`, true);
         }
         if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
@@ -1271,8 +1282,7 @@ class Settings {
         if (feature.stFeatureSwitch) {
           feature.stFeatureSwitch.disable();
         } else {
-          shared.esgst.settings[`${id}_st`] = false;
-          shared.esgst[id] = false;
+          this.preSave(`${id}_st`, false);
         }
         if (collapseButton && feature.sgSwitch && !feature.sgSwitch.value) {
           this.collapseOptions(collapseButton, id, subMenu);
@@ -1280,7 +1290,7 @@ class Settings {
         }
       };
     }
-    if (feature.sgtools && (shared.esgst.settings.esgst_sgtools || id === `esgst`)) {
+    if (feature.sgtools && (gSettings.esgst_sgtools || id === `esgst`)) {
       const value = shared.common.getFeaturePath(feature, id, `sgtools`).enabled;
       if (value) {
         isHidden = false;
@@ -1291,7 +1301,7 @@ class Settings {
       sgtoolsSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = shared.esgst.settings[`${conflictId}_sgtools`];
+            const setting = gSettings[`${conflictId}_sgtools`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgtoolsSwitch.disable(true);
               new Popup({
@@ -1308,8 +1318,7 @@ class Settings {
         if (feature.sgtoolsFeatureSwitch) {
           feature.sgtoolsFeatureSwitch.enable();
         } else {
-          shared.esgst.settings[`${id}_sgtools`] = true;
-          shared.esgst[id] = true;
+          this.preSave(`${id}_sgtools`, true);
         }
         if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
@@ -1331,8 +1340,7 @@ class Settings {
         if (feature.sgtoolsFeatureSwitch) {
           feature.sgtoolsFeatureSwitch.disable();
         } else {
-          shared.esgst.settings[`${id}_sgtools`] = false;
-          shared.esgst[id] = false;
+          this.preSave(`${id}_sgtools`, false);
         }
         if (collapseButton && feature.sgtoolsSwitch && !feature.sgtoolsSwitch.value) {
           this.collapseOptions(collapseButton, id, subMenu);
@@ -1360,7 +1368,7 @@ class Settings {
           continue;
         }
         const subFt = feature.features[subId];
-        if (!subFt.sg && (((subFt.sgtools && !shared.esgst.settings.esgst_sgtools) || (subFt.st && !shared.esgst.settings.esgst_st)) && id !== `esgst`)) {
+        if (!subFt.sg && (((subFt.sgtools && !gSettings.esgst_sgtools) || (subFt.st && !gSettings.esgst_st)) && id !== `esgst`)) {
           continue;
         }
         const subFeature = this.getSMFeature(subFt, subId, i, popup);
@@ -1388,7 +1396,7 @@ class Settings {
           }]
         }]);
       }      
-      if (shared.esgst.makeSectionsCollapsible) {
+      if (gSettings.makeSectionsCollapsible) {
         collapseButton = shared.common.createElements(menu, `afterBegin`, [{
           attributes: {
             class: `esgst-clickable`,
@@ -1397,13 +1405,13 @@ class Settings {
           type: `span`,
           children: [{
             attributes: {
-              class: `fa fa-${shared.esgst.settings[`collapse_${id}`] ? `plus` : `minus`}-square`,
-              title: `${shared.esgst.settings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
+              class: `fa fa-${gSettings[`collapse_${id}`] ? `plus` : `minus`}-square`,
+              title: `${gSettings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
             },
             type: `i`
           }]
         }]);
-        if (shared.esgst.settings[`collapse_${id}`]) {
+        if (gSettings[`collapse_${id}`]) {
           subMenu.classList.add(`esgst-hidden`);
           isExpanded = false;
         } else {
@@ -1434,7 +1442,7 @@ class Settings {
       },
       type: `i`
     }]);
-    shared.esgst.settings[`collapse_${id}`] = true;
+    this.preSave(`collapse_${id}`, true);
   }
 
   expandOptions(collapseButton, id, subMenu) {
@@ -1446,7 +1454,14 @@ class Settings {
       },
       type: `i`
     }]);
-    delete shared.esgst.settings[`collapse_${id}`];
+    this.preSave(`collapse_${id}`, null);
+  }
+
+  resetColor(hexInput, alphaInput, id, colorId) {
+    const color = utils.rgba2Hex(shared.esgst.defaultValues[`${id}_${colorId}`]);
+    hexInput.value = color.hex;
+    alphaInput.value = color.alpha;
+    this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
   }
 
   getSmFeatureAdditionalOptions(Feature, ID) {
@@ -1482,7 +1497,7 @@ class Settings {
       }
       const children = [];
       for (const id in Feature.colors) {
-        const color = utils.rgba2Hex(shared.esgst[`${ID}_${id}`]);
+        const color = utils.rgba2Hex(gSettings[`${ID}_${id}`]);
         children.push(
           [`strong`, `${Feature.colors[id]}: `],
           [`br`],
@@ -1502,14 +1517,14 @@ class Settings {
         const colorId = hexInput.getAttribute(`data-color-id`);
         const alphaInput = hexInput.nextElementSibling;
         this.addColorObserver(hexInput, alphaInput, ID, colorId);
-        alphaInput.nextElementSibling.addEventListener(`click`, shared.common.resetColor.bind(shared.common, hexInput, alphaInput, ID, colorId));
+        alphaInput.nextElementSibling.addEventListener(`click`, this.resetColor.bind(this, hexInput, alphaInput, ID, colorId));
       }
       items.push(context);
       if (ID === `gc_g`) {
         const input = shared.common.createElements_v2([
           [`div`, { class: `esgst-sm-colors` }, [
             `Only show the following genres: `,
-            [`input`, { type: `text`, value: shared.esgst.gc_g_filters }],
+            [`input`, { type: `text`, value: gSettings.gc_g_filters }],
             [`i`, { class: `fa fa-question-circle`, title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
           ]]
         ]).firstElementChild;
@@ -1521,11 +1536,11 @@ class Settings {
         const input = shared.common.createElements_v2([
           [`div`, { class: `esgst-sm-colors` }, [
             `Icon: `,
-            [`input`, { type: `text`, value: shared.esgst[`${ID}Icon`] }],
+            [`input`, { type: `text`, value: gSettings[`${ID}Icon`] }],
             [`i`, { class: `esgst-clickable fa fa-question-circle` }],
             [`br`],
             `Label: `,
-            [`input`, { type: `text`, value: shared.esgst[`${ID}Label`] }]
+            [`input`, { type: `text`, value: gSettings[`${ID}Label`] }]
           ]]
         ]).firstElementChild;
         shared.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
@@ -1583,7 +1598,7 @@ class Settings {
         } else {
           attributes.class = `esgst-switch-input esgst-switch-input-large`;
           attributes.type = attributes.type || `text`;
-          attributes.value = shared.esgst[item.id];
+          attributes.value = gSettings[item.id];
           children.push({
             text: item.prefix || ``,
             type: `node`
@@ -1612,9 +1627,9 @@ class Settings {
           }]);
         input = context.firstElementChild;
         if (item.play) {
-          input.nextElementSibling.addEventListener(`click`, async () => (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(shared.esgst.settings[item.id] || shared.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
+          input.nextElementSibling.addEventListener(`click`, async () => (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(gSettings[item.id] || shared.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
         }
-        if (typeof shared.esgst.settings[item.id] === `undefined` && shared.esgst.dismissedOptions.indexOf(item.id) < 0) {
+        if (typeof gSettings[item.id] === `undefined` && gSettings.dismissedOptions.indexOf(item.id) < 0) {
           Feature.isNew = true;
           shared.common.createElements(context, `afterBegin`, [{
             attributes: {
@@ -1645,20 +1660,17 @@ class Settings {
           } else if (item.event === `keydown`) {
             event.preventDefault();
             // noinspection JSIgnoredPromiseFromCall
-            shared.esgst.settings[item.id] = event.key;
-            shared.esgst[item.id] = event.key;
+            this.preSave(item.id, event.key);
             input.value = event.key;
           } else {
             // noinspection JSIgnoredPromiseFromCall
-            shared.esgst.settings[item.id] = input.value;
-            shared.esgst[item.id] = input.value;
+            this.preSave(item.id, input.value);
           }
         }, item.shortcutKey || false);
         if (item.shortcutKey) {
           input.addEventListener(`keyup`, () => {
             // noinspection JSIgnoredPromiseFromCall
-            shared.esgst.settings[item.id] = value;
-            shared.esgst[item.id] = value;
+            this.preSave(item.id, value);
             input.value = value;
           });
         }
@@ -1667,9 +1679,9 @@ class Settings {
     } else if (Feature.theme) {
       const children = [
         `Enabled from `,
-        [`input`, { type: `text`, value: shared.esgst[`${ID}_startTime`] }],
+        [`input`, { type: `text`, value: gSettings[`${ID}_startTime`] }],
         ` to `,
-        [`input`, { type: `text`, value: shared.esgst[`${ID}_endTime`] }],
+        [`input`, { type: `text`, value: gSettings[`${ID}_endTime`] }],
         [`i`, { class: `fa fa-question-circle`, title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.` }],
         [`br`]
       ];
@@ -1736,7 +1748,7 @@ class Settings {
       const [key, options] = Array.isArray(Feature.options) ? [`_index_*`, Feature.options] : [`_index`, [Feature.options]];
       for (const [index, option] of options.entries()) {
         const currentKey = key.replace(/\*/, index);
-        const selectedIndex = shared.esgst[`${ID}${currentKey}`];
+        const selectedIndex = gSettings[`${ID}${currentKey}`];
         const children = [];
         for (const value of option.values) {
           children.push(
@@ -1783,8 +1795,7 @@ class Settings {
       let string = window.btoa(binary);
       (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
       // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`${id}_sound`] = string;
-      shared.esgst[`${id}_sound`] = string;
+      this.preSave(`${id}_sound`, string);
       popup.close();
     } catch (e) {
       window.console.log(e);
@@ -1805,8 +1816,8 @@ class Settings {
       ]]
     ]).firstElementChild;
     const button = panel.firstElementChild;
-    for (let i = 0, n = shared.esgst[id].length; i < n; ++i) {
-      this.addGwcColorSetting(shared.esgst[id][i], id, key, panel, background);
+    for (let i = 0, n = gSettings[id].length; i < n; ++i) {
+      this.addGwcColorSetting(gSettings[id][i], id, key, panel, background);
     }
     button.addEventListener(`click`, () => {
       const colors = {
@@ -1817,7 +1828,9 @@ class Settings {
       if (background) {
         colors.bgColor = ``;
       }
-      shared.esgst[id].push(colors);
+      const setting = gSettings[id];
+      setting.push(colors);
+      this.preSave(id, setting);
       this.addGwcColorSetting(colors, id, key, panel, background);
     });
     return panel;
@@ -1884,34 +1897,26 @@ class Settings {
     }
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[id] = shared.esgst[id];
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[id] = shared.esgst[id];
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[id] = shared.esgst[id];
     });
     if (bgColor) {
       bgColor.addEventListener(`change`, () => {
         colors.bgColor = bgColor.value;
-        // noinspection JSIgnoredPromiseFromCall
-        shared.esgst.settings[id] = shared.esgst[id];
       });
     }
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
-        for (i = 0, n = shared.esgst[id].length; i < n && shared.esgst[id][i] !== colors; ++i) {
+        const gwcsetting = gSettings[id];
+        for (i = 0, n = gwcsetting.length; i < n && gwcsetting[i] !== colors; ++i) {
         }
         if (i < n) {
-          shared.esgst[id].splice(i, 1);
-          // noinspection JSIgnoredPromiseFromCall
-          shared.esgst.settings[id] = shared.esgst[id];
+          gwcsetting.splice(i, 1);
+          this.preSave(id, gwcsetting);
           setting.remove();
         }
       }
@@ -1925,7 +1930,7 @@ class Settings {
         [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => this.addUlMenuItem(id, panel) }, [
           [`span`, `Add Link`]
         ]],
-        [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => (shared.esgst.settings[id] = shared.esgst[id] = shared.esgst.defaultValues[id]) && !(panel.firstElementChild.innerHTML = ``) && this.addUlMenuItems(id, panel) }, [
+        [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => { this.preSave(id, shared.esgst.defaultValues[id]); panel.firstElementChild.innerHTML = ``; this.addUlMenuItems(id, panel); } }, [
           [`span`, `Reset`]
         ]],
         [`div`, { class: `form__input-description` }, [
@@ -1943,14 +1948,19 @@ class Settings {
       addTrash: true,
       context: panel.firstElementChild,
       id: `ul_links`,
-      item: {}
+      item: {},
+      onDragEnd: obj => {
+        for (const key in obj) {
+          this.preSave(key, obj[key]);
+        }
+      }
     });
     this.addUlMenuItems(id, panel);
     return panel;
   }
 
   addUlMenuItems(id, panel) {
-    for (const [i, link] of shared.esgst[id].entries()) {
+    for (const [i, link] of gSettings[id].entries()) {
       this.addUlLink(i, id, link, panel);
     }
   }
@@ -1960,9 +1970,10 @@ class Settings {
       label: ``,
       url: ``
     };
-    shared.esgst[id].push(link);
-    shared.esgst.settings[id] = shared.esgst[id];
-    this.addUlLink(shared.esgst[id].length - 1, id, link, panel);
+    const setting = gSettings[id];
+    setting.push(link);
+    this.preSave(id, setting);
+    this.addUlLink(setting.length - 1, id, link, panel);
   }
 
   addUlLink(i, id, link, panel) {
@@ -1978,7 +1989,12 @@ class Settings {
       addTrash: true,
       context: panel.firstElementChild,
       id: `ul_links`,
-      item: {}
+      item: {},
+      onDragEnd: obj => {
+        for (const key in obj) {
+          this.preSave(key, obj[key]);
+        }
+      }
     });
   }
 
@@ -1992,8 +2008,8 @@ class Settings {
       ]]
     ]).firstElementChild;
     let button = panel.firstElementChild;
-    for (let i = 0, n = shared.esgst.gc_r_colors.length; i < n; ++i) {
-      this.addGcRatingColorSetting(shared.esgst.gc_r_colors[i], panel);
+    for (let i = 0, n = gSettings.gc_r_colors.length; i < n; ++i) {
+      this.addGcRatingColorSetting(gSettings.gc_r_colors[i], panel);
     }
     button.addEventListener(`click`, () => {
       let colors = {
@@ -2003,7 +2019,9 @@ class Settings {
         lower: ``,
         upper: ``
       };
-      shared.esgst.gc_r_colors.push(colors);
+      const setting = gSettings.gc_r_colors;
+      setting.push(colors);
+      this.preSave(`gc_r_colors`, setting);
       this.addGcRatingColorSetting(colors, panel);
     });
     return panel;
@@ -2083,38 +2101,28 @@ class Settings {
     let remove = tooltip.nextElementSibling;
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
     });
     bgColor.addEventListener(`change`, () => {
       colors.bgColor = bgColor.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
     });
     icon.addEventListener(`change`, () => {
       colors.icon = icon.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
     });
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
         let i, n;
-        for (i = 0, n = shared.esgst.gc_r_colors.length; i < n && shared.esgst.gc_r_colors[i] !== colors; ++i) {
+        const colorSetting = gSettings.gc_r_colors;
+        for (i = 0, n = colorSetting.length; i < n && colorSetting[i] !== colors; ++i) {
         }
         if (i < n) {
-          shared.esgst.gc_r_colors.splice(i, 1);
-          // noinspection JSIgnoredPromiseFromCall
-          shared.esgst.settings[`gc_r_colors`] = shared.esgst.gc_r_colors;
+          colorSetting.splice(i, 1);
+          this.preSave(`gc_r_colors`, colorSetting);
           setting.remove();
         }
       }
@@ -2132,8 +2140,8 @@ class Settings {
       ]]
     ]).firstElementChild;
     button = panel.firstElementChild;
-    for (i = 0, n = shared.esgst.gc_g_colors.length; i < n; ++i) {
-      this.addGcColorSetting(shared.esgst.gc_g_colors[i], panel);
+    for (i = 0, n = gSettings.gc_g_colors.length; i < n; ++i) {
+      this.addGcColorSetting(gSettings.gc_g_colors[i], panel);
     }
     button.addEventListener(`click`, () => {
       colorSetting = {
@@ -2141,7 +2149,9 @@ class Settings {
         color: `#ffffff`,
         genre: ``
       };
-      shared.esgst.gc_g_colors.push(colorSetting);
+      const gcgcolors = gSettings.gc_g_colors;
+      gcgcolors.push(colorSetting);
+      this.preSave(`gc_g_colors`, gcgcolors);
       this.addGcColorSetting(colorSetting, panel);
     });
     return panel;
@@ -2195,27 +2205,21 @@ class Settings {
     remove = bgColor.nextElementSibling;
     genre.addEventListener(`change`, () => {
       colorSetting.genre = genre.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
     });
     color.addEventListener(`change`, () => {
       colorSetting.color = color.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
     });
     bgColor.addEventListener(`change`, () => {
       colorSetting.bgColor = bgColor.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
     });
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
-        for (i = 0, n = shared.esgst.gc_g_colors.length; i < n && shared.esgst.gc_g_colors[i] !== colorSetting; ++i) {
+        const gcgcolors = gSettings.gc_g_colors;
+        for (i = 0, n = gcgcolors.length; i < n && gcgcolors[i] !== colorSetting; ++i) {
         }
         if (i < n) {
-          shared.esgst.gc_g_colors.splice(i, 1);
-          // noinspection JSIgnoredPromiseFromCall
-          shared.esgst.settings[`gc_g_colors`] = shared.esgst.gc_g_colors;
+          gcgcolors.splice(i, 1);
+          gSettings.gc_g_colors = gcgcolors;
           setting.remove();
         }
       }
@@ -2244,8 +2248,8 @@ class Settings {
     <br/>
     <div>You must fill the fields relative to your settings. For example, if you have simplified version enabled with icons, you must fill the "icon" field. If you don't have simplified version enabled, you must fill the "label" field. The current text in the fields are simply placeholders.</div>
   `);
-    for (i = 0, n = shared.esgst.gc_o_altAccounts.length; i < n; ++i) {
-      this.addGcAltSetting(shared.esgst.gc_o_altAccounts[i], panel);
+    for (i = 0, n = gSettings.gc_o_altAccounts.length; i < n; ++i) {
+      this.addGcAltSetting(gSettings.gc_o_altAccounts[i], panel);
     }
     button.addEventListener(`click`, () => {
       altSetting = {
@@ -2260,7 +2264,9 @@ class Settings {
         name: ``,
         steamId: ``
       };
-      shared.esgst.gc_o_altAccounts.push(altSetting);
+      const gcoalt = gSettings.gc_o_altAccounts;
+      gcoalt.push(altSetting);
+      this.preSave(`gc_o_altAccounts`, gcoalt);
       this.addGcAltSetting(altSetting, panel);
     });
     return panel;
@@ -2353,42 +2359,30 @@ class Settings {
     remove = label.nextElementSibling;
     steamId.addEventListener(`change`, () => {
       altSetting.steamId = steamId.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
     });
     name.addEventListener(`change`, () => {
       altSetting.name = name.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
     });
     color.addEventListener(`change`, () => {
       altSetting.color = color.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
     });
     bgColor.addEventListener(`change`, () => {
       altSetting.bgColor = bgColor.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
     });
     icon.addEventListener(`change`, () => {
       altSetting.icon = icon.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
     });
     label.addEventListener(`change`, () => {
       altSetting.label = label.value;
-      // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
     });
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
-        for (i = 0, n = shared.esgst.gc_o_altAccounts.length; i < n && shared.esgst.gc_o_altAccounts[i] !== altSetting; ++i) {
+        const gcoalt = gSettings.gc_o_altAccounts;
+        for (i = 0, n = gcoalt.length; i < n && gcoalt[i] !== altSetting; ++i) {
         }
         if (i < n) {
-          shared.esgst.gc_o_altAccounts.splice(i, 1);
-          // noinspection JSIgnoredPromiseFromCall
-          shared.esgst.settings[`gc_o_altAccounts`] = shared.esgst.gc_o_altAccounts;
+          gcoalt.splice(i, 1);
+          this.preSave(`gc_o_altAccounts`, gcoalt);
           setting.remove();
         }
       }
@@ -2398,11 +2392,11 @@ class Settings {
   addColorObserver(hexInput, alphaInput, id, colorId) {
     hexInput.addEventListener(`change`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`${id}_${colorId}`] = utils.hex2Rgba(hexInput.value, alphaInput.value);
+      this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
     });
     alphaInput.addEventListener(`change`, () => {
       // noinspection JSIgnoredPromiseFromCall
-      shared.esgst.settings[`${id}_${colorId}`] = utils.hex2Rgba(hexInput.value, alphaInput.value);
+      this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
     });
   }
 
@@ -2684,7 +2678,7 @@ class Settings {
         children: html
       }]
     }]);
-    if (shared.esgst.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
+    if (gSettings.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
       let button, containerr, isExpanded;
       button = shared.common.createElements(section.firstElementChild, `afterBegin`, [{
         attributes: {
@@ -2694,14 +2688,14 @@ class Settings {
         type: `span`,
         children: [{
           attributes: {
-            class: `fa fa-${shared.esgst[`collapse_${type}`] ? `plus` : `minus`}-square`,
-            title: `${shared.esgst[`collapse_${type}`] ? `Expand` : `Collapse`} section`
+            class: `fa fa-${gSettings[`collapse_${type}`] ? `plus` : `minus`}-square`,
+            title: `${gSettings[`collapse_${type}`] ? `Expand` : `Collapse`} section`
           },
           type: `i`
         }]
       }]);
       containerr = section.lastElementChild;
-      if (shared.esgst[`collapse_${type}`]) {
+      if (gSettings[`collapse_${type}`]) {
         containerr.classList.add(`esgst-hidden`);
         isExpanded = false;
       } else {
@@ -2729,7 +2723,7 @@ class Settings {
           }]);
           isExpanded = true;
         }
-        shared.esgst.settings[`collapse_${type}`] = !isExpanded;
+        this.preSave(`collapse_${type}`, !isExpanded);
       });
     }
     return section;

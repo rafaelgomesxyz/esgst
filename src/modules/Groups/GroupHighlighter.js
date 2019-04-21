@@ -26,7 +26,7 @@ class GroupsGroupHighlighter extends Module {
 
   init() {
     if (shared.common.isCurrentPath(`Steam - Groups`)) return;
-    this.esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
+    shared.esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
   }
 
   async gh_highlightGroups(context, main, source, endless) {

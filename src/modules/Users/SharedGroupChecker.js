@@ -2,6 +2,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -38,7 +40,7 @@ class UsersSharedGroupChecker extends Module {
   }
 
   sgc_add(profile) {
-    if (profile.username === this.esgst.username) {
+    if (profile.username === gSettings.username) {
       // no point in checking which groups a user shares with themselves
       return;
     }
@@ -175,12 +177,12 @@ class UsersSharedGroupChecker extends Module {
       const name = element.getElementsByClassName(`linkTitle`)[0].textContent;
       const avatar = element.getElementsByClassName(`avatarMedium`)[0].firstElementChild.firstElementChild.getAttribute(`src`);
       let i;
-      for (i = this.esgst.groups.length - 1; i > -1 && this.esgst.groups[i].name !== name; i--) {
+      for (i = shared.esgst.groups.length - 1; i > -1 && shared.esgst.groups[i].name !== name; i--) {
       }
-      if (!isLoggedIn && (i < 0 || !this.esgst.groups[i].member)) {
+      if (!isLoggedIn && (i < 0 || !shared.esgst.groups[i].member)) {
         continue;
       }
-      const code = i > -1 ? this.esgst.groups[i].code : ``;
+      const code = i > -1 ? shared.esgst.groups[i].code : ``;
       (element.getElementsByClassName(`pubGroup`)[0] ? publicGroups : privateGroups).push({
         name: name,
         html: [{

@@ -2,6 +2,8 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -49,9 +51,9 @@ class UsersUserNotes extends Module {
 
   un_add(profile, savedUser) {
     let blacklistButton, position, whitelistButton;
-    if (this.esgst.sg) {
+    if (shared.esgst.sg) {
       position = `beforeEnd`;
-      if (this.esgst.un_p) {
+      if (gSettings.un_p) {
         whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
         if (whitelistButton) {
           whitelistButton.addEventListener(`click`, this.un_open.bind(this, profile));

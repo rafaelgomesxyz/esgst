@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class CommentsCollapseExpandReplyButton extends Module {
   constructor() {
@@ -34,12 +35,12 @@ class CommentsCollapseExpandReplyButton extends Module {
   }
 
   init() {
-    if (!this.esgst.commentsPath) return;
+    if (!shared.esgst.commentsPath) return;
     let button, collapse, comments, expand;
     comments = document.getElementsByClassName(`comments`)[0];
     if (comments && comments.children.length) {
-      this.esgst.cerbButtons = [];
-      button = shared.common.createElements(this.esgst.mainPageHeading, `afterEnd`, [{
+      this.buttons = [];
+      button = shared.common.createElements(shared.esgst.mainPageHeading, `afterEnd`, [{
         attributes: {
           class: `esgst-cerb-button esgst-clickable`
         },
@@ -75,7 +76,7 @@ class CommentsCollapseExpandReplyButton extends Module {
       expand = collapse.nextElementSibling;
       collapse.addEventListener(`click`, this.cerb_collapseAllReplies.bind(this, collapse, expand));
       expand.addEventListener(`click`, this.cerb_expandAllReplies.bind(this, collapse, expand));
-      this.esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
+      shared.esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
     }
   }
 
@@ -83,8 +84,8 @@ class CommentsCollapseExpandReplyButton extends Module {
     let id = context === document && main ? window.location.hash.replace(/#/, ``) : null,
       permalink = id ? document.getElementById(id) : null,
       elements = context.querySelectorAll(shared.common.getSelectors(endless, [
-        `X:not(.esgst-popup) .comments > .comment`,
-        `X:not(.esgst-popup) .comments > .comment_outer`
+        `:not(.esgst-popup) .comments > X.comment`,
+        `:not(.esgst-popup) .comments > X.comment_outer`
       ]));
     if (!elements.length) return;
     for (let reply of elements) {
@@ -104,6 +105,7 @@ class CommentsCollapseExpandReplyButton extends Module {
               attributes: {
                 class: `fa fa-minus-square`
               },
+              type: `i`
             }]
           }, {
             attributes: {
@@ -115,12 +117,13 @@ class CommentsCollapseExpandReplyButton extends Module {
               attributes: {
                 class: `fa fa-plus-square`
               },
+              type: `i`
             }]
           }]
         }]), permalink && reply.contains(permalink), reply, replies.children);
       }
     }
-    if (this.esgst.cerb_a) {
+    if (gSettings.cerb_a) {
       this.cerb_collapseAllReplies(collapse, expand);
     }
   }
@@ -129,14 +132,14 @@ class CommentsCollapseExpandReplyButton extends Module {
     let collapse, expand;
     collapse = button.firstElementChild;
     expand = collapse.nextElementSibling;
-    this.esgst.cerbButtons.push({
+    this.buttons.push({
       collapse: this.cerb_collapseReplies.bind(this, collapse, expand, replies),
       expand: this.cerb_expandReplies.bind(this, collapse, expand, replies),
       permalink: permalink
     });
     collapse.addEventListener(`click`, this.cerb_collapseReplies.bind(this, collapse, expand, replies));
     expand.addEventListener(`click`, this.cerb_expandReplies.bind(this, collapse, expand, replies));
-    if (this.esgst.cerb_a && !permalink) {
+    if (gSettings.cerb_a && !permalink) {
       collapse.classList.toggle(`esgst-hidden`);
       expand.classList.toggle(`esgst-hidden`);
     }
@@ -161,10 +164,9 @@ class CommentsCollapseExpandReplyButton extends Module {
   }
 
   cerb_collapseAllReplies(collapse, expand) {
-    let i, n;
-    for (i = 0, n = this.esgst.cerbButtons.length; i < n; ++i) {
-      if (!this.esgst.cerbButtons[i].permalink) {
-        this.esgst.cerbButtons[i].collapse();
+    for (const button of this.buttons) {
+      if (!button.permalink) {
+        button.collapse();
       }
     }
     collapse.classList.add(`esgst-hidden`);
@@ -172,9 +174,8 @@ class CommentsCollapseExpandReplyButton extends Module {
   }
 
   cerb_expandAllReplies(collapse, expand) {
-    let i, n;
-    for (i = 0, n = this.esgst.cerbButtons.length; i < n; ++i) {
-      this.esgst.cerbButtons[i].expand();
+    for (const button of this.buttons) {
+      button.expand();
     }
     collapse.classList.remove(`esgst-hidden`);
     expand.classList.add(`esgst-hidden`);

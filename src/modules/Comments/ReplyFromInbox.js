@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class CommentsReplyFromInbox extends Module {
   constructor() {
@@ -49,8 +50,8 @@ class CommentsReplyFromInbox extends Module {
   }
 
   init() {
-    if (this.esgst.mr) return;
-    this.esgst.endlessFeatures.push(this.esgst.modules.commentsMultiReply.mr_getButtons.bind(this.esgst.modules.commentsMultiReply));
+    if (gSettings.mr) return;
+    shared.esgst.endlessFeatures.push(shared.esgst.modules.commentsMultiReply.mr_getButtons.bind(shared.esgst.modules.commentsMultiReply));
   }
 
   async rfi_saveReply(id, reply, url, edit) {
@@ -59,7 +60,7 @@ class CommentsReplyFromInbox extends Module {
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
     }
-    saved = JSON.parse(shared.common.getValue(`${this.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, `{}`));
     if (edit) {
       for (const key in saved) {
         if (saved.hasOwnProperty(key)) {
@@ -81,12 +82,12 @@ class CommentsReplyFromInbox extends Module {
         timestamp: Date.now()
       });
     }
-    await shared.common.setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
+    await shared.common.setValue(`${shared.esgst.name}RfiCache`, JSON.stringify(saved));
   }
 
   async rfi_getReplies(comments, endless) {
     let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
-    saved = JSON.parse(shared.common.getValue(`${this.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, `{}`));
     for (i = 0, n = comments.length; i < n; ++i) {
       comment = comments[i];
       id = comment.id;
@@ -122,7 +123,7 @@ class CommentsReplyFromInbox extends Module {
       }
     }
     if (edited) {
-      await shared.common.setValue(`${this.esgst.name}RfiCache`, JSON.stringify(saved));
+      await shared.common.setValue(`${shared.esgst.name}RfiCache`, JSON.stringify(saved));
     }
   }
 }

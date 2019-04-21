@@ -18,6 +18,9 @@ const
 class UsersUserSuspensionTracker extends Module {
   constructor() {
     super();
+    this.checkboxes = {};
+    this.tickets = [];
+    this.numTickets = 0;
     this.info = {
       description: [
         [`ul`, [
@@ -60,19 +63,19 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   init() {
-    if (this.esgst.ticketsPath) {
-      this.esgst.ustButton = createHeadingButton({
+    if (shared.esgst.ticketsPath) {
+      shared.esgst.ustButton = createHeadingButton({
         id: `ust`,
         icons: [`fa-paper-plane`],
         title: `Send selected tickets to the User Suspension Tracker database`
       });
-      this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
-    } else if (this.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
+      shared.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
+    } else if (shared.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       let code, tickets;
       code = window.location.pathname.match(/\/ticket\/(.+?)\//)[1];
-      tickets = JSON.parse(this.esgst.storage.tickets);
+      tickets = JSON.parse(shared.esgst.storage.tickets);
       if (!tickets[code] || !tickets[code].sent) {
-        this.esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
+        shared.esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
           attributes: {
             class: `esgst-heading-button`,
             title: `${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}`
@@ -85,27 +88,27 @@ class UsersUserSuspensionTracker extends Module {
             type: `i`
           }]
         }]);
-        this.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
+        shared.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
       }
     }
   }
 
   async ust_sendAll() {
-    this.esgst.ustButton.removeEventListener(`click`, this.ust_sendAll);
-    createElements(this.esgst.ustButton, `inner`, [{
+    shared.esgst.ustButton.removeEventListener(`click`, this.ust_sendAll);
+    createElements(shared.esgst.ustButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
       type: `i`
     }]);
-    let n = Object.keys(this.esgst.ustCheckboxes).length;
+    let n = Object.keys(this.checkboxes).length;
     let numError = 0;
     let promises = [];
     let obj = {
       data: ``
     };
-    for (let code in this.esgst.ustCheckboxes) {
-      if (this.esgst.ustCheckboxes.hasOwnProperty(code)) {
+    for (let code in this.checkboxes) {
+      if (this.checkboxes.hasOwnProperty(code)) {
         promises.push(this.ust_check(code, obj));
       }
     }
@@ -116,8 +119,8 @@ class UsersUserSuspensionTracker extends Module {
       url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
     })).responseText).error;
     let tickets = JSON.parse(getValue(`tickets`));
-    for (let code in this.esgst.ustCheckboxes) {
-      if (this.esgst.ustCheckboxes.hasOwnProperty(code)) {
+    for (let code in this.checkboxes) {
+      if (this.checkboxes.hasOwnProperty(code)) {
         if (error.indexOf(code) < 0) {
           if (!tickets[code]) {
             tickets[code] = {
@@ -125,27 +128,26 @@ class UsersUserSuspensionTracker extends Module {
             };
           }
           tickets[code].sent = 1;
-          this.esgst.numUstTickets -= 1;
-          this.esgst.ustCheckboxes[code].remove();
-          delete this.esgst.ustCheckboxes[code];
+          this.numTickets -= 1;
+          this.checkboxes[code].remove();
+          delete this.checkboxes[code];
         } else {
           numError += 1;
         }
       }
     }
     await setValue(`tickets`, JSON.stringify(tickets));
-    if (n === this.esgst.numUstTickets) {
-      this.esgst.ustButton.remove();
+    if (n === this.numTickets) {
+      shared.esgst.ustButton.remove();
     } else {
-      createElements(this.esgst.ustButton, `inner`, [{
+      createElements(shared.esgst.ustButton, `inner`, [{
         attributes: {
           class: `fa fa-paper-plane`
         },
         type: `i`
       }]);
-      this.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
+      shared.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     }
-    this.esgst.ustCheckboxes = [];
     new Popup({
       addScrollable: true,
       icon: ``,
@@ -163,8 +165,8 @@ class UsersUserSuspensionTracker extends Module {
 
   async ust_send() {
     let code = shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
-    this.esgst.ustButton.removeEventListener(`click`, this.ust_send);
-    createElements(this.esgst.ustButton, `inner`, [{
+    shared.esgst.ustButton.removeEventListener(`click`, this.ust_send);
+    createElements(shared.esgst.ustButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
@@ -188,7 +190,7 @@ class UsersUserSuspensionTracker extends Module {
       }
       tickets[code].sent = 1;
       await setValue(`tickets`, JSON.stringify(tickets));
-      this.esgst.ustButton.remove();
+      shared.esgst.ustButton.remove();
       new Popup({
         addScrollable: true,
         icon: ``,
@@ -196,13 +198,13 @@ class UsersUserSuspensionTracker extends Module {
         title: `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`
       }).open();
     } else {
-      createElements(this.esgst.ustButton, `inner`, [{
+      createElements(shared.esgst.ustButton, `inner`, [{
         attributes: {
           class: `fa fa-paper-plane`
         },
         type: `i`
       }]);
-      this.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
+      shared.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
       new Popup({
         addScrollable: true,
         icon: ``,
@@ -217,46 +219,46 @@ class UsersUserSuspensionTracker extends Module {
       context.classList.add(`esgst-relative`);
       let checkbox = new Checkbox(context);
       checkbox.checkbox.classList.add(`esgst-ust-checkbox`);
-      this.esgst.ustTickets[code] = checkbox;
+      this.tickets[code] = checkbox;
       checkbox.onEnabled = event => {
         if (event) {
           if (event.ctrlKey) {
-            for (let code in this.esgst.ustTickets) {
-              if (this.esgst.ustTickets.hasOwnProperty(code)) {
-                this.esgst.ustTickets[code].check();
+            for (let code in this.tickets) {
+              if (this.tickets.hasOwnProperty(code)) {
+                this.tickets[code].check();
               }
             }
           } else if (event.altKey) {
             checkbox.toggle();
-            for (let code in this.esgst.ustTickets) {
-              if (this.esgst.ustTickets.hasOwnProperty(code)) {
-                this.esgst.ustTickets[code].toggle();
+            for (let code in this.tickets) {
+              if (this.tickets.hasOwnProperty(code)) {
+                this.tickets[code].toggle();
               }
             }
           }
         }
-        this.esgst.ustCheckboxes[code] = checkbox.checkbox;
+        this.checkboxes[code] = checkbox.checkbox;
       };
       checkbox.onDisabled = event => {
         if (event) {
           if (event.ctrlKey) {
-            for (let code in this.esgst.ustTickets) {
-              if (this.esgst.ustTickets.hasOwnProperty(code)) {
-                this.esgst.ustTickets[code].uncheck();
+            for (let code in this.tickets) {
+              if (this.tickets.hasOwnProperty(code)) {
+                this.tickets[code].uncheck();
               }
             }
           } else if (event.altKey) {
             checkbox.toggle();
-            for (let code in this.esgst.ustTickets) {
-              if (this.esgst.ustTickets.hasOwnProperty(code)) {
-                this.esgst.ustTickets[code].toggle();
+            for (let code in this.tickets) {
+              if (this.tickets.hasOwnProperty(code)) {
+                this.tickets[code].toggle();
               }
             }
           }
         }
-        delete this.esgst.ustCheckboxes[code];
+        delete this.checkboxes[code];
       };
-      this.esgst.numUstTickets += 1;
+      this.numTickets += 1;
     }
   }
 }

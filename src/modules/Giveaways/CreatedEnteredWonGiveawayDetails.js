@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   constructor() {
@@ -123,13 +124,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   init() {
-    if (shared.common.isCurrentPath(`My Giveaways - Created`) && shared.esgst.cewgd_c) {
+    if (shared.common.isCurrentPath(`My Giveaways - Created`) && gSettings.cewgd_c) {
       this.currentId = `cewgd_c`;
       this.created = true;
-    } else if (shared.common.isCurrentPath(`My Giveaways - Entered`) && shared.esgst.cewgd_e) {
+    } else if (shared.common.isCurrentPath(`My Giveaways - Entered`) && gSettings.cewgd_e) {
       this.currentId = `cewgd_e`;
       this.entered = true;
-    } else if (shared.common.isCurrentPath(`My Giveaways - Won`) && shared.esgst.cewgd_w) {
+    } else if (shared.common.isCurrentPath(`My Giveaways - Won`) && gSettings.cewgd_w) {
       this.currentId = `cewgd_w`;
       this.won = true;
     }
@@ -146,29 +147,29 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     const tableHeading = context.querySelector(
       shared.common.getSelectors(endless, [
-        `.table__heading`
+        `X.table__heading`
       ])
     );
     if (!tableHeading || tableHeading.querySelector(`.esgst-cewgd-heading`)) {
       return;
     }
     const items = [];
-    if (shared.esgst[`${this.currentId}_t`]) {
+    if (gSettings[`${this.currentId}_t`]) {
       items.push(
         [`div`, { class: `table__column--width-small text-center esgst-cewgd-heading` }, `Type`]
       );
     }
-    if (shared.esgst[`${this.currentId}_l`]) {
+    if (gSettings[`${this.currentId}_l`]) {
       items.push(
         [`div`, { class: `table__column--width-small text-center esgst-cewgd-heading` }, `Level`]
       );
     }
-    if (this.created && shared.esgst[`${this.currentId}_w`]) {
+    if (this.created && gSettings[`${this.currentId}_w`]) {
       items.push(
         [`div`, { class: `table__column--width-small text-center esgst-cewgd-heading` }, `Winner(s)`]
       );
     }
-    if (this.won && shared.esgst[`${this.currentId}_e`]) {
+    if (this.won && gSettings[`${this.currentId}_e`]) {
       items.push(
         [`div`, { class: `table__column--width-small text-center esgst-cewgd-heading` }, `Entries`]
       );
@@ -187,10 +188,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     await Promise.all(promises);
     await shared.common.lockAndSaveGiveaways(this.giveaways);
-    if (shared.esgst.gf && shared.esgst.gf.filteredCount && shared.esgst[`gf_enable${shared.esgst.gf.type}`]) {
+    if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
     }
-    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && shared.esgst[`gf_enable${shared.esgst.gfPopup.type}`]) {
+    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
     }
   }
@@ -203,7 +204,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     if (this.created && shouldUpdateWinners) {
       await this.fetchWinners(giveaway);
-    } else if (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== shared.esgst.username))) {
+    } else if (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== gSettings.username))) {
       this.addDetails(giveaway, details);
     } else {
       await this.fetchDetails(giveaway);
@@ -304,12 +305,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
 
     const headingItems = [];
-    if (shared.esgst[`${this.currentId}_p`]) {
+    if (gSettings[`${this.currentId}_p`]) {
       headingItems.push(
         [`span`, ` (${details ? giveaway.points || 0 : `?`}P)`]
       );
     }
-    if (giveaway.id && shared.esgst[`${this.currentId}_sl`]) {
+    if (giveaway.id && gSettings[`${this.currentId}_sl`]) {
       headingItems.push(
         [`a`, { class: `giveaway__icon`, href: `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`, target: `_blank` }, [
           [`i`, { class: `fa fa-steam`}]
@@ -371,7 +372,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
 
     const columnItems = [];
-    if (shared.esgst[`${this.currentId}_t`]) {
+    if (gSettings[`${this.currentId}_t`]) {
       let type;
       if (giveaway.deleted) {
         type = `Deleted`
@@ -412,12 +413,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         [`div`, { class: `table__column--width-small text-center` }, type]
       );
     }
-    if (shared.esgst[`${this.currentId}_l`]) {
+    if (gSettings[`${this.currentId}_l`]) {
       columnItems.push(
         [`div`, { class: `table__column--width-small text-center` }, details && utils.isSet(giveaway.level) ? giveaway.level : `-`]
       );
     }
-    if (this.created && shared.esgst[`${this.currentId}_w`]) {
+    if (this.created && gSettings[`${this.currentId}_w`]) {
       let winners;
       const numWinners = (details && details.winners && details.winners.length) || 0;
       if (numWinners > 0) {
@@ -445,7 +446,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         [`div`, { class: `table__column--width-small text-center` }, winners]
       );
     }
-    if (this.won && shared.esgst[`${this.currentId}_e`]) {
+    if (this.won && gSettings[`${this.currentId}_e`]) {
       columnItems.push(
         [`div`, { class: `table__column--width-small text-center` }, details && utils.isSet(giveaway.entries) ? giveaway.entries : `-`]
       );
@@ -460,10 +461,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (giveaway.gptwContext) {
       shared.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
     }
-    if (shared.esgst.cgb) {
+    if (gSettings.cgb) {
       shared.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
-    if (giveaway.group && shared.esgst.ggl) {
+    if (giveaway.group && gSettings.ggl) {
       shared.esgst.modules.giveawaysGiveawayGroupLoader.ggl_getGiveaways([giveaway]);
     }
   }

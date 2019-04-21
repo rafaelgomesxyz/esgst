@@ -5,6 +5,7 @@ import { Table } from '../../class/Table';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -65,11 +66,11 @@ class UsersUserGiveawayData extends Module {
   }
 
   init() {
-    if (this.esgst.ugd_s) {
-      this.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
+    if (gSettings.ugd_s) {
+      shared.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
     }
-    if (this.esgst.ugd_g) {
-      this.esgst.profileFeatures.push(this.ugd_addGifts.bind(this));
+    if (gSettings.ugd_g) {
+      shared.esgst.profileFeatures.push(this.ugd_addGifts.bind(this));
     }
   }
 
@@ -98,7 +99,7 @@ class UsersUserGiveawayData extends Module {
       [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
         [`div`, { class: `featured__table__row__left` }, [
           `Won Games Playtime > `,
-          [`input`, { class: `esgst-ugd-input`, min: `0`, step: `0.1`, type: `number`, value: this.esgst.ugd_playtime }],
+          [`input`, { class: `esgst-ugd-input`, min: `0`, step: `0.1`, type: `number`, value: gSettings.ugd_playtime }],
           ` hours`
         ]],
         [`div`, { class: `featured__table__row__right` }]
@@ -106,7 +107,7 @@ class UsersUserGiveawayData extends Module {
       [`div`, { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip(`ugd`) }, [
         [`div`, { class: `featured__table__row__left` }, [
           `Won Games Achievements > `,
-          [`input`, { class: `esgst-ugd-input`, max: `100`, min: `0`, step: `0.1`, type: `number`, value: this.esgst.ugd_achievements }],
+          [`input`, { class: `esgst-ugd-input`, max: `100`, min: `0`, step: `0.1`, type: `number`, value: gSettings.ugd_achievements }],
           ` %`
         ]],
         [`div`, { class: `featured__table__row__right` }]
@@ -129,12 +130,12 @@ class UsersUserGiveawayData extends Module {
   }
 
   ugd_calculatePlaytime(playtimeDisplay, playtimeInput, ugdCache, firstRun) {
-    this.esgst.ugd_playtime = parseFloat(playtimeInput.value);
+    gSettings[`ugd_playtime`] = parseFloat(playtimeInput.value);
     let playtimes = 0;
     for (const key in ugdCache.playtimes) {
       if (ugdCache.playtimes.hasOwnProperty(key)) {
         const playtime = ugdCache.playtimes[key];
-        if ((playtime[1] / 60) > this.esgst.ugd_playtime) {
+        if ((playtime[1] / 60) > gSettings.ugd_playtime) {
           playtimes += 1;
         }
       }
@@ -142,17 +143,17 @@ class UsersUserGiveawayData extends Module {
     const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
     playtimeDisplay.textContent = `${playtimes}/${totalPlaytimes} (${totalPlaytimes > 0 ? Math.round(playtimes / totalPlaytimes * 10000) / 100 : 0}%)`;
     if (!firstRun) {
-      setSetting(`ugd_playtime`, this.esgst.ugd_playtime);
+      setSetting(`ugd_playtime`, gSettings.ugd_playtime);
     }
   }
 
   ugd_calculateAchievements(achievementsDisplay, achievementsInput, ugdCache, firstRun) {
-    this.esgst.ugd_achievements = parseFloat(achievementsInput.value);
+    gSettings[`ugd_achievements`] = parseFloat(achievementsInput.value);
     let achievements = 0;
     for (const key in ugdCache.achievements) {
       if (ugdCache.achievements.hasOwnProperty(key)) {
         const achievement = ugdCache.achievements[key];
-        if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > this.esgst.ugd_achievements) {
+        if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > gSettings.ugd_achievements) {
           achievements += 1;
         }
       }
@@ -160,16 +161,16 @@ class UsersUserGiveawayData extends Module {
     const totalAchievements = Object.keys(ugdCache.achievements).length;
     achievementsDisplay.textContent = `${achievements}/${totalAchievements} (${totalAchievements > 0 ? Math.round(achievements / totalAchievements * 10000) / 100 : 0}%)`;
     if (!firstRun) {
-      setSetting(`ugd_achievements`, this.esgst.ugd_achievements);
+      setSetting(`ugd_achievements`, gSettings.ugd_achievements);
     }
   }
 
   ugd_addGifts(profile) {
-    if (profile.username === this.esgst.username) {
+    if (profile.username === gSettings.username) {
       return;
     }
 
-    const savedUser = this.esgst.users.users[this.esgst.steamId];
+    const savedUser = shared.esgst.users.users[gSettings.steamId];
 
     if (!savedUser) {
       return;
@@ -187,7 +188,7 @@ class UsersUserGiveawayData extends Module {
     for (const type of [`apps`, `subs`]) {
       for (const id in giveaways.won[type]) {
         for (const code of giveaways.won[type][id]) {
-          const giveaway = this.esgst.giveaways[code];
+          const giveaway = shared.esgst.giveaways[code];
           if (!giveaway || giveaway.creator.toLowerCase() !== profile.username.toLowerCase()) {
             continue;
           }
@@ -196,7 +197,7 @@ class UsersUserGiveawayData extends Module {
       }
       for (const id in giveaways.sent[type]) {
         for (const code of giveaways.sent[type][id]) {
-          const giveaway = this.esgst.giveaways[code];
+          const giveaway = shared.esgst.giveaways[code];
           if (!giveaway) {
             continue;
           }
@@ -303,7 +304,7 @@ class UsersUserGiveawayData extends Module {
     const savedUser = await getUser(null, obj.user);
     obj.ugdCache = savedUser && savedUser.ugdCache;
     obj.userGiveaways = await this.ugd_getUserGiveaways(savedUser);
-    if (obj.popup && this.esgst.ugd_clearCache) {
+    if (obj.popup && gSettings.ugd_clearCache) {
       obj.userGiveaways[obj.key] = null;
       if (obj.key === `won`) {
         obj.ugdCache = null;
@@ -403,14 +404,14 @@ class UsersUserGiveawayData extends Module {
     const n = elements.length;
     for (let i = 0; i < n; i++) {
       const giveawayObj = (
-        await this.esgst.modules.giveaways.giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
+        await shared.esgst.modules.giveaways.giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
       );
       const giveawayRaw = giveawayObj.giveaway;
       let giveaway = giveawayObj.data;
       const endTime = giveaway.endTime;
 
       // giveaway has not ended yet or does not have winners, so cannot store it
-      if ((endTime >= currentTime || giveaway.numWinners < 1) && (obj.user.username !== this.esgst.username || obj.key !== `sent`)) {
+      if ((endTime >= currentTime || giveaway.numWinners < 1) && (obj.user.username !== gSettings.username || obj.key !== `sent`)) {
         continue;
       }
 
@@ -426,10 +427,10 @@ class UsersUserGiveawayData extends Module {
 
       let id = giveaway.gameSteamId;
       if (!id) {
-        if (obj.user.username === this.esgst.username && obj.key === `sent`) {
+        if (obj.user.username === gSettings.username && obj.key === `sent`) {
           const response = await common.request({ method: `GET`, url: `/giveaway/${giveaway.code}/` });
           const responseHtml = utils.parseHtml(response.responseText);
-          giveaway = (await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
+          giveaway = (await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
           id = giveaway && giveaway.gameSteamId;
           if (!id) {
             continue;
@@ -448,7 +449,7 @@ class UsersUserGiveawayData extends Module {
         if (games[id].indexOf(code) < 0) {
           games[id].push(code);
         }
-        const savedGiveaway = this.esgst.giveaways[code];
+        const savedGiveaway = shared.esgst.giveaways[code];
         if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
           if (obj.key === `sent`) {
             giveaway.winners = [];
@@ -500,7 +501,7 @@ class UsersUserGiveawayData extends Module {
         if (games.hasOwnProperty(id)) {
           const game = games[id];
           for (const item of game) {
-            const giveaway = typeof item === `string` ? obj.giveaways[item] || this.esgst.giveaways[item] : item;
+            const giveaway = typeof item === `string` ? obj.giveaways[item] || shared.esgst.giveaways[item] : item;
             if (!giveaway || !Array.isArray(giveaway.winners)) {
               break;
             }
@@ -531,7 +532,7 @@ class UsersUserGiveawayData extends Module {
   }
 
   async ugd_requestGiveawaysDone_2(obj) {
-    if (obj.user.username === shared.esgst.username) {
+    if (obj.user.username === gSettings.username) {
       const lpvCache = JSON.parse(getLocalValue(`lpvCache_v2`, `{}`));
       lpvCache.difference = 0;
       setLocalValue(`lpvCache_v2`, JSON.stringify(lpvCache));
@@ -567,7 +568,7 @@ class UsersUserGiveawayData extends Module {
         name: [{
           text: `Most sent to: `,
           type: `node`
-        }, obj.user.username === this.esgst.username ? null : {
+        }, obj.user.username === gSettings.username ? null : {
           attributes: {
             class: `fa fa-question-circle`,
             title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.`
@@ -674,8 +675,8 @@ class UsersUserGiveawayData extends Module {
 
     if (
       obj.key !== `won` ||
-      (!this.esgst.ugd_getPlaytime && !this.esgst.ugd_getAchievements) ||
-      !this.esgst.steamApiKey
+      (!gSettings.ugd_getPlaytime && !gSettings.ugd_getAchievements) ||
+      !gSettings.steamApiKey
     ) {
       await this.ugd_complete(obj, results);
       await saveUser(null, null, obj.user);
@@ -695,10 +696,10 @@ class UsersUserGiveawayData extends Module {
         `Gifter`
       ]
     ]);
-    if (!this.esgst.ugd_getPlaytime) {
+    if (!gSettings.ugd_getPlaytime) {
       obj.playtimeTable.hideColumns(2, 3);
     }
-    if (!this.esgst.ugd_getAchievements) {
+    if (!gSettings.ugd_getAchievements) {
       obj.playtimeTable.hideColumns(4);
     }
 
@@ -707,9 +708,9 @@ class UsersUserGiveawayData extends Module {
     if (
       !obj.ugdCache ||
       (currentTime - obj.ugdCache.lastCheck) > 604800000 ||
-      (this.esgst.ugd_getPlaytime && !Object.keys(obj.ugdCache.playtimes).length) ||
-      (this.esgst.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length) ||
-      this.esgst.ugd_forceUpdate
+      (gSettings.ugd_getPlaytime && !Object.keys(obj.ugdCache.playtimes).length) ||
+      (gSettings.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length) ||
+      gSettings.ugd_forceUpdate
     ) {
       obj.isUpdating = true;
       if (!obj.ugdCache) {
@@ -722,13 +723,13 @@ class UsersUserGiveawayData extends Module {
     }
 
     obj.playtimes = null;
-    if (this.esgst.ugd_getPlaytime && obj.isUpdating) {
+    if (gSettings.ugd_getPlaytime && obj.isUpdating) {
       obj.popup.setProgress(`Retrieving playtime stats...`);
       obj.ugdCache.playtimes = {};
       try {
         const response = await request({
           method: `GET`,
-          url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${this.esgst.steamApiKey}&steamid=${obj.user.steamId}&format=json`
+          url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${obj.user.steamId}&format=json`
         });
         const responseText = response.responseText;
         obj.playtimes = JSON.parse(responseText).response.games;
@@ -740,7 +741,7 @@ class UsersUserGiveawayData extends Module {
         return;
       }
     }
-    if (this.esgst.ugd_getAchievements && obj.isUpdating) {
+    if (gSettings.ugd_getAchievements && obj.isUpdating) {
       obj.ugdCache.achievements = {};
     }
 
@@ -802,7 +803,7 @@ class UsersUserGiveawayData extends Module {
 
     results.appendChild(obj.playtimeTable.table);
     const items = [];
-    if (this.esgst.ugd_getPlaytime) {
+    if (gSettings.ugd_getPlaytime) {
       items.push({
         attributes: {
           class: `esgst-bold`
@@ -811,7 +812,7 @@ class UsersUserGiveawayData extends Module {
         type: `div`
       });
     }
-    if (this.esgst.ugd_getAchievements) {
+    if (gSettings.ugd_getAchievements) {
       items.push({
         attributes: {
           class: `esgst-bold`
@@ -848,7 +849,7 @@ class UsersUserGiveawayData extends Module {
     let timeForever = `0`;
     let achievementsAttributes = null;
     let achievements = `?`;
-    if (this.esgst.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
+    if (gSettings.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
       if (obj.isUpdating) {
         const game = obj.playtimes[i];
         timestamp2Weeks = game.playtime_2weeks || 0;
@@ -874,7 +875,7 @@ class UsersUserGiveawayData extends Module {
     }
     let count = 0;
     let total = 0;
-    if (this.esgst.ugd_getAchievements) {
+    if (gSettings.ugd_getAchievements) {
       let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
       if (obj.isUpdating) {
         obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);

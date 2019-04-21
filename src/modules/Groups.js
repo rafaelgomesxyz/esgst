@@ -1,4 +1,5 @@
 import { Module } from '../class/Module';
+import { gSettings } from '../class/Globals';
 
 class Groups extends Module {
   constructor() {
@@ -77,7 +78,7 @@ class Groups extends Module {
       this.esgst.currentScope.groups.push(group);
       groups.push(group);
     }
-    if (this.esgst.gpf && this.esgst.gpf.filteredCount && this.esgst[`gpf_enable${this.esgst.gpf.type}`]) {
+    if (this.esgst.gpf && this.esgst.gpf.filteredCount && gSettings[`gpf_enable${this.esgst.gpf.type}`]) {
       this.esgst.modules.groupsGroupFilters.filters_filter(this.esgst.gpf, false, endless);
     }
     for (const feature of this.esgst.groupFeatures) {

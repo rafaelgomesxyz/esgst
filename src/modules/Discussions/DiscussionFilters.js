@@ -3,6 +3,7 @@ import { Filters } from '../Filters';
 import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -266,10 +267,10 @@ class DiscussionsDiscussionFilters extends Filters {
   }
 
   async init() {
-    if (this.esgst.df_s) {
+    if (gSettings.df_s) {
       this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
     }
-    if (this.esgst.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
+    if (gSettings.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
       this.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
           top: ${this.esgst.commentsTop - 5}px;
@@ -280,7 +281,7 @@ class DiscussionsDiscussionFilters extends Filters {
         id: `df`
       });
     }
-    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || this.esgst.adots || this.esgst.oadd) return;
+    if (!this.esgst.giveawaysPath || !this.esgst.activeDiscussions || gSettings.adots || gSettings.oadd) return;
     await checkMissingDiscussions();
   }
 
@@ -416,10 +417,10 @@ class DiscussionsDiscussionFilters extends Filters {
     }]);
     await endless_load(obj.discussions);
     if (!this.esgst.giveawaysPath && !this.esgst.discussionsPath) {
-      if (this.esgst.gdttt) {
+      if (gSettings.gdttt) {
         await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions, true);
         await this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.discussions);
-      } else if (this.esgst.ct) {
+      } else if (gSettings.ct) {
         await this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.discussions, true);
       }
       await this.esgst.modules.discussions.discussions_load(obj.discussions);
@@ -535,17 +536,17 @@ class DiscussionsDiscussionFilters extends Filters {
         type: `boolean`
       },
       highlighted: {
-        check: this.esgst.dh,
+        check: gSettings.dh,
         name: `Highlighted`,
         type: `boolean`
       },
       visited: {
-        check: this.esgst.gdttt,
+        check: gSettings.gdttt,
         name: `Visited`,
         type: `boolean`
       },
       unread: {
-        check: this.esgst.ct,
+        check: gSettings.ct,
         name: `Unread`,
         type: `boolean`
       },

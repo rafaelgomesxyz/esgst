@@ -7,6 +7,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -97,7 +98,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
       // noinspection JSIgnoredPromiseFromCall
       this.ge_addButton(`Extract all giveaways`);
-      if (this.esgst.ge_p) {
+      if (gSettings.ge_p) {
         this.ge_addButton(`Extract all giveaways (specify parameters)`, [`fa-gear`], true);
       }
     } else if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
@@ -120,11 +121,11 @@ class GiveawaysGiveawayExtractor extends Module {
     };
     if (specifyParams) {
       ge.button.addEventListener(`click`, () => {
-        ge.extractOnward = this.esgst.ge_extractOnward;
-        ge.flushCache = this.esgst.ge_flushCache;
-        ge.flushCacheHours = this.esgst.ge_flushCacheHours;
-        ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
-        ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
+        ge.extractOnward = gSettings.ge_extractOnward;
+        ge.flushCache = gSettings.ge_flushCache;
+        ge.flushCacheHours = gSettings.ge_flushCacheHours;
+        ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
+        ge.ignoreGiveawayComments = gSettings.ge_ignoreGiveawayComments;
         const popup = new Popup({
           icon: `fa-gear`,
           title: `Specify extractor parameters:`,
@@ -139,12 +140,12 @@ class GiveawaysGiveawayExtractor extends Module {
               title2: `Opening...`,
               callback1: () => {
                 popup.close();
-                ge.extractOnward = this.esgst.ge_extractOnward;
-                ge.flushCache = this.esgst.ge_flushCache;
-                ge.flushCacheHours = this.esgst.ge_flushCacheHours;
-                ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
-                ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
-                if (this.esgst.ge_t) {
+                ge.extractOnward = gSettings.ge_extractOnward;
+                ge.flushCache = gSettings.ge_flushCache;
+                ge.flushCacheHours = gSettings.ge_flushCacheHours;
+                ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
+                ge.ignoreGiveawayComments = gSettings.ge_ignoreGiveawayComments;
+                if (gSettings.ge_t) {
                   window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
                 } else {
                   this.ge_openPopup(ge);
@@ -158,7 +159,7 @@ class GiveawaysGiveawayExtractor extends Module {
       });
     } else {
       ge.button.addEventListener(`click`, () => {
-        if (this.esgst.ge_t) {
+        if (gSettings.ge_t) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
         } else {
           this.ge_openPopup(ge);
@@ -214,10 +215,10 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.bumpLink = ``;
     ge.points = 0;
     ge.sgToolsCount = 0;
-    ge.isDivided = this.esgst.gc_gi || this.esgst.gc_r || this.esgst.gc_rm || this.esgst.gc_ea || this.esgst.gc_tc || this.esgst.gc_a || this.esgst.gc_mp || this.esgst.gc_sc || this.esgst.gc_l || this.esgst.gc_m || this.esgst.gc_dlc || this.esgst.gc_rd || this.esgst.gc_g;
+    ge.isDivided = gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
     if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
       const context = this.esgst.sidebar.nextElementSibling;
-      if (this.esgst.removeSidebarInFeaturePages) {
+      if (gSettings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
       context.setAttribute(`data-esgst-popup`, `true`);
@@ -255,20 +256,20 @@ class GiveawaysGiveawayExtractor extends Module {
       },
       type: `div`
     }]);
-    if (this.esgst.gas || (this.esgst.gf && this.esgst.gf_m) || this.esgst.mm) {
+    if (gSettings.gas || (gSettings.gf && gSettings.gf_m) || gSettings.mm) {
       let heading = createElements(ge.popup.scrollable, `afterBegin`, [{
         attributes: {
           class: `page__heading`
         },
         type: `div`
       }]);
-      if (this.esgst.gas) {
+      if (gSettings.gas) {
         this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
-      if (this.esgst.gf && this.esgst.gf_m) {
+      if (gSettings.gf && gSettings.gf_m) {
         heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Ge`));
       }
-      if (this.esgst.mm) {
+      if (gSettings.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
@@ -289,9 +290,9 @@ class GiveawaysGiveawayExtractor extends Module {
           ge.isComplete = false;
           if (cacheWarning || ge.reExtract) {
             if (ge.reExtract) {
-              ge.extractOnward = this.esgst.ge_extractOnward;
-              ge.ignoreDiscussionComments = this.esgst.ge_ignoreDiscussionComments;
-              ge.ignoreGiveawayComments = this.esgst.ge_ignoreGiveawayComments;
+              ge.extractOnward = gSettings.ge_extractOnward;
+              ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
+              ge.ignoreGiveawayComments = gSettings.ge_ignoreGiveawayComments;
               ge.count = 0;
               ge.total = 0;
               ge.extracted = [];
@@ -417,7 +418,7 @@ class GiveawaysGiveawayExtractor extends Module {
         type: `node`
       });
       for (let link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
-        if (this.esgst.ge_j) {
+        if (gSettings.ge_j) {
           const match = link.match(/id=(.+)/);
           if (match) {
             link = `https://www.jigidi.com/jigsaw-puzzle/${match[1]}`;
@@ -446,7 +447,7 @@ class GiveawaysGiveawayExtractor extends Module {
       };
       ge.set.trigger();
     }
-    if (this.esgst.es_ge) {
+    if (gSettings.es_ge) {
       ge.popup.scrollable.addEventListener(`scroll`, this.checkScroll.bind(this, ge));
     }
   }
@@ -491,7 +492,7 @@ class GiveawaysGiveawayExtractor extends Module {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
           if (sgTools) {
-            if (this.esgst.ge_sgt && (!this.esgst.ge_sgt_l || ge.sgToolsCount < this.esgst.ge_sgt_limit)) {
+            if (gSettings.ge_sgt && (!gSettings.ge_sgt_l || ge.sgToolsCount < gSettings.ge_sgt_limit)) {
               window.open(`https://www.sgtools.info/giveaways/${code}`);
               ge.cache[ge.cacheId].codes.push(code);
               ge.extracted.push(code);
@@ -499,9 +500,9 @@ class GiveawaysGiveawayExtractor extends Module {
               callback();
               return;
             }
-            if (this.esgst.ge_sgtga) {
+            if (gSettings.ge_sgtga) {
               try {
-                if (this.esgst.ge_sgtga_u) {
+                if (gSettings.ge_sgtga_u) {
                   await request({
                     method: `GET`,
                     queue: true,
@@ -722,7 +723,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     for (const link of jigidiLinks) {
       let url = link.getAttribute(`href`);
-      if (this.esgst.ge_j) {
+      if (gSettings.ge_j) {
         const match = url.match(/id=(.+)/);
         if (match) {
           url = `https://www.jigidi.com/jigsaw-puzzle/${match[1]}`;

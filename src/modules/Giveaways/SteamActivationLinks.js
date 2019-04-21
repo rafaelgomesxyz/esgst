@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   createElements = common.createElements.bind(common),
@@ -58,14 +59,14 @@ class GiveawaysSteamActivationLinks extends Module {
         if (!context.contains(button)) {
           window.clearInterval(interval);
           interval = null;
-          if (this.esgst.sal) {
+          if (gSettings.sal) {
             const element = context.querySelector(`[data-clipboard-text]`);
             const match = element.getAttribute(`data-clipboard-text`).match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
             if (match) {
               this.sal_addLink(element, match[0]);
             }
           }
-          if (this.esgst.ef) {
+          if (gSettings.ef) {
             this.esgst.modules.generalElementFilters.ef_hideElements(context);
           }
         }
@@ -92,7 +93,7 @@ class GiveawaysSteamActivationLinks extends Module {
       link = createElements(element, `afterEnd`, [{
         type: `span`
       }]);
-      switch (this.esgst.sal_index) {
+      switch (gSettings.sal_index) {
         case 0:
           createElements(link, `beforeEnd`, [{
             attributes: {

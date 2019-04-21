@@ -1,6 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
 import { shared } from '../class/Shared';
+import { gSettings } from '../class/Globals';
 
 const
   getUser = common.getUser.bind(common),
@@ -28,14 +29,14 @@ class Comments extends Module {
       this.esgst.currentScope.comments.push(comments[i]);
     }
     if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
-      if (this.esgst.cf && this.esgst.cf.filteredCount && this.esgst[`cf_enable${this.esgst.cf.type}`]) {
+      if (shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
-      if (this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && this.esgst[`cf_enable${this.esgst.cfPopup.type}`]) {
+      if (this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && gSettings[`cf_enable${this.esgst.cfPopup.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cfPopup, false, endless);
       }
     }
-    if (this.esgst.ct) {
+    if (gSettings.ct) {
       if (!main || shared.common.isCurrentPath(`Messages`)) {
         count = 0;
       } else {
@@ -49,12 +50,12 @@ class Comments extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
-    if (this.esgst.rfi) {
-      if (this.esgst.rfi_s && (!main || shared.common.isCurrentPath(`Messages`)) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
+    if (gSettings.rfi) {
+      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath(`Messages`)) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
-    if (this.esgst.ged) {
+    if (gSettings.ged) {
       this.esgst.ged_addIcons(comments);
     }
   }
@@ -87,13 +88,13 @@ class Comments extends Module {
       return;
     }
     comment.author = author.textContent.trim();
-    if (this.esgst.uf && savedUsers) {
+    if (gSettings.uf && savedUsers) {
       let savedUser = await getUser(savedUsers, {
         username: comment.author
       });
       if (savedUser) {
         let uf = savedUser.uf, comments, extraCount;
-        if (this.esgst.uf_p && savedUser.blacklisted && !uf) {
+        if (gSettings.uf_p && savedUser.blacklisted && !uf) {
           comments = comment.comment.closest(`.comments`);
           if (!main || shared.common.isCurrentPath(`Messages`)) {
             this.esgst.modules.usersUserFilters.uf_updateCount(comments.parentElement.nextElementSibling);

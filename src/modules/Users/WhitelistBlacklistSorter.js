@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -44,9 +45,9 @@ class UsersWhitelistBlacklistSorter extends Module {
   }
 
   init() {
-    if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
+    if (!shared.esgst.whitelistPath && !shared.esgst.blacklistPath) return;
 
-    let [dateKey, mainKey, saveKey] = this.esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];
+    let [dateKey, mainKey, saveKey] = shared.esgst.whitelistPath ? [`whitelistedDate`, `whitelist`, `whitelisted`] : [`blacklistedDate`, `blacklist`, `blacklisted`];
 
     // add ascending button
     let object = {
@@ -235,7 +236,7 @@ class UsersWhitelistBlacklistSorter extends Module {
     obj.removeButton.classList.add(`esgst-hidden`);
     obj.removingButton.classList.remove(`esgst-hidden`);
     await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
+      data: `xsrf_token=${shared.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
       method: `POST`,
       url: `/ajax.php`
     });

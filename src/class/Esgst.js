@@ -4,163 +4,55 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
-    this.cewgd_c = undefined;
-    this.cewgd_e = undefined;
-    this.cewgd_w = undefined;
+    this.es_loadNext = undefined;
+    this.es_refresh = undefined;
+    this.es_refreshAll = undefined;
+    this.gpf = undefined;
+    this.es = undefined;
+    this.mgc_createTrainSwitch = undefined;
+    this.mgc_removeLinksSwitch = undefined;
+    this.gas = undefined;
+    this.hr = undefined;
+    this.ged_addIcons = undefined;
+    this.cf = undefined;
+    this.cfh = undefined;
+    this.qiv = undefined;
+    this.mm_enable = undefined;
+    this.mm_disable = undefined;
+    this.tf = undefined;
+    this.df = undefined;
+    this.gf = undefined;
+    this.wbcButton = undefined;
+    this.minimizePanel = undefined;
+    this.onBeforeCommentSubmit = undefined;
+    this.guideSteps = undefined;
+    this.leftMainPageHeadingButtons = undefined;
+    this.rightMainPageHeadingButtons = undefined;
 
     this.cvLevels = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
 
-    this.vgb_index = undefined;
-    this.vgb_wonFormat = undefined;
-    this.vgb_sentFormat = undefined;
-    this.usc_checkSingle = undefined;
-    this.usc_checkSelected = undefined;
-    this.usc_minPage = undefined;
-    this.usc_maxPage = undefined;
-    this.usc_checkPages = undefined;
-    this.usc_checkAll = undefined;
-    this.ugd_g = undefined;
-    this.ul_links = undefined;
-    this.un_p = undefined;
-    this.namwc_clearCache = undefined;
-    this.luc_c = undefined;
-    this.hgm_addOwned = undefined;
-    this.hgm_addIgnored = undefined;
-    this.hgm_removeTextArea = undefined;
-    this.hgm_removeOwned = undefined;
-    this.hgm_removeWishlisted = undefined;
-    this.ge_sgtga = undefined;
-    this.ge_sgtga_u = undefined;
-    this.ge_j = undefined;
-    this.ge_t = undefined;
-    this.ge_p = undefined;
-    this.ge_extractOnward = undefined;
-    this.ge_flushCache = undefined;
-    this.ge_flushCacheHours = undefined;
-    this.ge_ignoreDiscussionComments = undefined;
-    this.ge_ignoreGiveawayComments = undefined;
-    this.glh_colors = undefined;
-    this.ged_t = undefined;
-    this.gb_ui = undefined;
-    this.gb_t = undefined;
-    this.cgb = undefined;
-    this.elgb_b = undefined;
-    this.elgb_fp = undefined;
-    this.egs_e = undefined;
-    this.cgb_b = undefined;
-    this.cgb_sgt = undefined;
-    this.cgb_w = undefined;
-    this.cgb_g = undefined;
-    this.cgb_rr = undefined;
-    this.cgb_io = undefined;
-    this.cgb_p = undefined;
-    this.cgb_b_bgColor = undefined;
-    this.cgb_sgt_bgColor = undefined;
-    this.cgb_w_bgColor = undefined;
-    this.cgb_g_bgColor = undefined;
-    this.cgb_rr_bgColor = undefined;
-    this.cgb_io_bgColor = undefined;
-    this.cgb_p_bgColor = undefined;
-    this.cgc_dateFormat = undefined;
-    this.cgc_timeFormat = undefined;
-    this.cgc_index_0 = undefined;
-    this.cec_t = undefined;
-    this.as_t = undefined;
     this.currentPaths = undefined;
-    this.autoBackup = undefined;
-    this.autoSync = undefined;
     this.settingsChanged = undefined;
     this.winners = undefined;
     this.emojis = undefined;
     this.uscButton = undefined;
-    this.openAutoSyncPopup = undefined;
-    this.fallbackSteamApi = undefined;
     this.isSyncing = undefined;
-    this.static_popups = undefined;
-    this.qgs_index = undefined;
     this.giveawayExtraPanel = undefined;
     this.giveawayExtraPanel_gv = undefined;
-    this.uf_g = undefined;
-    this.ns = undefined;
-    this.removeSidebarInFeaturePages = undefined;
-    this.gpf = undefined;
-    this.gs = undefined;
-    this.gs_t = undefined;
-    this.tf_m = undefined;
-    this.usc = undefined;
     this.mmSelectionStart = undefined;
-    this.plt_format = undefined;
-    this.plt_index = undefined;
-    this.as = undefined;
-    this.pnot = undefined;
-    this.pnot_s = undefined;
-    this.ttpcc_a = undefined;
-    this.lpv_barColor = undefined;
-    this.lpv_projectedBarColor = undefined;
-    this.lpv_barColorHover = undefined;
-    this.lpv_projectedBarColorHover = undefined;
-    this.lpv_barColorSelected = undefined;
-    this.lpv_projectedBarColorSelected = undefined;
     this.lpvStyleArray = undefined;
-    this.pv_barColor = undefined;
-    this.pv_projectedBarColor = undefined;
-    this.pv_barColorHover = undefined;
-    this.pv_projectedBarColorHover = undefined;
-    this.pv_barColorSelected = undefined;
-    this.pv_projectedBarColorSelected = undefined;
     this.pvStyleArray = undefined;
     this.onLevelContainerUpdated = undefined;
-    this.hr_g_format = undefined;
-    this.hr_w_format = undefined;
     this.wonButton = undefined;
-    this.hcp_v = undefined;
-    this.es_rd = undefined;
     this.currentPage = undefined;
     this.itemsPerPage = undefined;
     this.giveawaysDropdown = undefined;
     this.helpDropdown = undefined;
     this.supportDropdown = undefined;
-    this.at_t = undefined;
-    this.at_format = undefined;
-    this.gc_e = undefined;
-    this.gc_e_color = undefined;
-    this.gc_e_bColor = undefined;
-    this.gc_e_bgColor = undefined;
-    this.gc_bd_s = undefined;
-    this.gc_bd_s_i = undefined;
-    this.gc_bdLabel = undefined;
-    this.gc_bdIcon = undefined;
-    this.gc_bvg_s = undefined;
-    this.gc_bvg_s_i = undefined;
-    this.gc_bvgLabel = undefined;
-    this.gc_bvgIcon = undefined;
-    this.gc_i_t = undefined;
-    this.gc_i_t_bgColor = undefined;
-    this.gc_o_t = undefined;
-    this.gc_o_t_bgColor = undefined;
-    this.gc_o_a_t = undefined;
-    this.gc_o_a_t_bgColor = undefined;
-    this.gc_w_t = undefined;
-    this.gc_w_t_bgColor = undefined;
-    this.gc_p_t = undefined;
-    this.gc_p_t_bgColor = undefined;
     this.delistedGames = undefined;
-    this.df_enable = undefined;
-    this.df_preset = undefined;
-    this.df_presets = undefined;
     this.discussionsDropdown = undefined;
-    this.df_m = undefined;
-    this.avatar = undefined;
-    this.sto = undefined;
     this.accountDropdown = undefined;
-    this.openSettingsInTab = undefined;
-    this.df_s = undefined;
-    this.dt = undefined;
-    this.scb = undefined;
-    this.tf = undefined;
-    this.tf_s = undefined;
     this.featuresById = undefined;
-    this.makeSectionsCollapsible = undefined;
 
     this.gc_queue = [];
     this.gc_queue_index = 0;
@@ -340,10 +232,6 @@ class Esgst {
       }
       this[key] = this.triggerFunction.bind(this, key);
     }
-
-    this.currentSettings = {};
-
-    this.urlr = null;
 
     this.documentEvents = {
       click: null,
@@ -528,7 +416,6 @@ class Esgst {
       filter_giveaways_level: 0,
       filter_giveaways_additional_games: 0,
       dismissedOptions: [],
-      toDismiss: [],
       hr_g_format: `🏆`,
       hr_w_format: `(#❤)`,
       hr_p_format: `(#P)`,
@@ -1114,9 +1001,6 @@ class Esgst {
     this.attachedImages = [];
     this.popups = [];
     this.openPopups = 0;
-    this.ustCheckboxes = {};
-    this.ustTickets = {};
-    this.numUstTickets = 0;
     this.elgbCache = {};
     this.originalHash = window.location.hash;
     this.userPath = false;
@@ -1169,47 +1053,23 @@ class Esgst {
     this.endlessFeatures = [];
     this.games = {};
 
-    /** @type {HTMLElement} */
     this.minimizeList = null;
 
-    /** @type {HTMLElement} */
-    this.minimizePanel = null;
-
-    this.updateHiddenGames = null;
-
-    /** @type {HTMLElement} */
     this.noCvButton = null;
 
-    /** @type {HTMLElement} */
     this.sidebar = null;
 
     /** @type {string} */
     this.xsrfToken = undefined;
-
-    /** @type {HTMLElement} */
+    
     this.logoutButton = null;
 
     /** @type {string} */
     this.version = undefined;
 
-    /** @type {string[]} */
-    this.leftButtonIds = null;
-
-    /** @type {string[]} */
-    this.leftMainPageHeadingIds = null;
-
     this.storage = undefined;
 
     this.settings = undefined;
-
-    /** @type {string[]} */
-    this.rightButtonIds = null;
-
-    /** @type {string[]} */
-    this.rightMainPageHeadingIds = null;
-
-    /** @type {string} */
-    this.steamApiKey = undefined;
 
     this.groups = null;
 
@@ -1219,55 +1079,8 @@ class Esgst {
     this.firstInstall = undefined;
 
     this.giveaways = null;
-
-    this.radb = null;
-
-    this.ugd_clearCache = null;
-
-    this.ugd_forceUpdate = null;
-
-    this.username = null;
-
-    /** @type {HTMLElement} */
+    
     this.mainContext = null;
-
-    this.gc_g_colors = null;
-
-    this.gc_o_altAccounts = null;
-
-    this.dismissedOptions = null;
-
-    this.gc_r_colors = null;
-
-    /** @type {number} */
-    this.ugd_playtime = undefined;
-
-    /** @type {number} */
-    this.cleanDiscussions_days = undefined;
-
-    /** @type {number} */
-    this.cleanEntries_days = undefined;
-
-    /** @type {number} */
-    this.cleanGiveaways_days = undefined;
-
-    /** @type {number} */
-    this.cleanSgCommentHistory_days = undefined;
-
-    /** @type {number} */
-    this.cleanTickets_days = undefined;
-
-    /** @type {number} */
-    this.cleanTrades_days = undefined;
-
-    /** @type {number} */
-    this.autoBackup_days = undefined;
-
-    /** @type {number} */
-    this.autoBackup_index = undefined;
-
-    /** @type {boolean} */
-    this.askFileName = undefined;
 
     this.pageOuterWrap = null;
 
@@ -1287,11 +1100,9 @@ class Esgst {
 
     /** @type {string} */
     this.pageHeadingBreadcrumbsClass = ``;
-
-    /** @type {HTMLElement} */
+    
     this.footer = null;
-
-    /** @type {HTMLElement} */
+    
     this.replyBox = null;
 
     /** @type {string} */
@@ -1308,8 +1119,7 @@ class Esgst {
 
     /** @type {string} */
     this.originalUrl = ``;
-
-    /** @type {HTMLElement} */
+    
     this.favicon = null;
 
     /** @type {string} */
@@ -1317,32 +1127,23 @@ class Esgst {
 
     /** @type {string} */
     this.searchUrl = ``;
-
-    /** @type {HTMLElement} */
+    
     this.header = null;
-
-    /** @type {HTMLElement} */
+    
     this.headerNavigationLeft = null;
-
-    /** @type {HTMLElement} */
+    
     this.pagination = null;
-
-    /** @type {HTMLElement} */
+    
     this.featuredContainer = null;
-
-    /** @type {HTMLElement} */
+    
     this.paginationNavigation = null;
-
-    /** @type {HTMLElement} */
+    
     this.enterGiveawayButton = null;
-
-    /** @type {HTMLElement} */
+    
     this.leaveGiveawayButton = null;
-
-    /** @type {HTMLElement} */
+    
     this.activeDiscussions = null;
-
-    /** @type {HTMLElement} */
+    
     this.pinnedGiveaways = null;
 
     /** @type {boolean} */
@@ -1361,38 +1162,8 @@ class Esgst {
 
     this.showChangelog = null;
 
-    this.steamId = null;
-
     /** @type {"sg"|"st"} */
     this.name = undefined;
-
-    this.showFeatureNumber = null;
-
-    this.syncGroups = null;
-
-    this.syncWhitelist = null;
-
-    this.syncBlacklist = null;
-
-    this.syncHiddenGames = null;
-
-    this.syncWonGames = null;
-
-    this.syncReducedCvGames = null;
-
-    this.syncGiveaways = null;
-
-    this.syncGames = null;
-
-    this.syncNoCvGames = null;
-
-    this.syncHltbTimes = null;
-
-    this.getSyncGameNames = null;
-
-    this.lastSyncGroups = null;
-
-    this.lastSyncGames = null;
 
     /** @type {string[]} */
     this.giveawayColumns = null;
@@ -1406,454 +1177,25 @@ class Esgst {
     /** @type {string[]} */
     this.giveawayPanel_gv = null;
 
-    this.gc_g_filters = null;
-
-    this.gc_fcv_s = null;
-
-    this.gc_fcv = null;
-
-    this.gc_fcv_s_i = null;
-
-    this.gc_fcvLabel = null;
-
-    this.gc_fcvIcon = null;
-
-    this.gc_rcv = null;
-
-    this.gc_rcv_s = null;
-
-    this.gc_rcvLabel = null;
-
-    this.gc_rcv_s_i = null;
-
-    this.gc_rcvIcon = null;
-
-    this.gc_ncv = null;
-
-    this.gc_ncv_s = null;
-
-    this.gc_ncvLabel = null;
-
-    this.gc_ncv_s_i = null;
-
-    this.gc_ncvIcon = null;
-
-    this.gc_hltb = null;
-
-    this.gc_h = null;
-
-    this.gc_hLabel = null;
-
-    this.gc_h_s = null;
-
-    this.gc_h_s_i = null;
-
-    this.gc_hIcon = null;
-
-    this.gc_i = null;
-
-    this.gc_i_s = null;
-
-    this.gc_iLabel = null;
-
-    this.gc_i_s_i = null;
-
-    this.gc_iIcon = null;
-
-    this.gc_o = null;
-
-    this.gc_o_s = null;
-
-    this.gc_o_s_i = null;
-
-    this.gc_oLabel = null;
-
-    this.gc_oIcon = null;
-
-    this.gc_o_a = null;
-
-    this.gc_w_s = null;
-
-    this.gc_w = null;
-
-    this.gc_wLabel = null;
-
-    this.gc_w_s_i = null;
-
-    this.gc_pw = null;
-
-    this.gc_pw_s = null;
-
-    this.gc_pwLabel = null;
-
-    this.gc_pw_s_i = null;
-
-    this.gc_pwIcon = null;
-
-    this.gc_gi = null;
-
-    this.gc_r = null;
-
-    this.gc_a_s = null;
-
-    this.gc_aLabel = null;
-
-    this.gc_a_s_i = null;
-
-    this.gc_sp = null;
-
-    this.gc_sp_s = null;
-
-    this.gc_spLabel = null;
-
-    this.gc_sp_s_i = null;
-
-    this.gc_spIcon = null;
-
-    this.gc_mp = null;
-
-    this.gc_mp_s = null;
-
-    this.gc_mpLabel = null;
-
-    this.gc_mp_s_i = null;
-
-    this.gc_sc = null;
-
-    this.gc_sc_s = null;
-
-    this.gc_sc_s_i = null;
-
-    this.gc_scLabel = null;
-
-    this.gc_tc = null;
-
-    this.gc_tc_s = null;
-
-    this.gc_tcLabel = null;
-
-    this.gc_l = null;
-
-    this.gc_l_s = null;
-
-    this.gc_lLabel = null;
-
-    this.gc_m = null;
-
-    this.gc_m_s = null;
-
-    this.gc_mLabel = null;
-
-    this.gc_dlc = null;
-
-    this.gc_dlc_s = null;
-
-    this.gc_dlcLabel = null;
-
-    this.gc_p = null;
-
-    this.gc_p_s = null;
-
-    this.gc_p_s_i = null;
-
-    this.gc_pLabel = null;
-
-    this.gc_pIcon = null;
-
-    this.gc_ea = null;
-
-    this.gc_ea_s = null;
-
-    this.gc_eaLabel = null;
-
-    this.gc_lg = null;
-
-    this.gc_lg_s = null;
-
-    this.gc_lgLabel = null;
-
-    this.gc_rm = null;
-
-    this.gc_rm_s = null;
-
-    this.gc_rmLabel = null;
-
-    this.gc_rd = null;
-
-    this.gc_rdIcon = null;
-
-    this.gc_g = null;
-
-    this.gc_a = null;
-
-    this.gc_aIcon = null;
-
-    this.gc_wIcon = null;
-
-    this.gc_mpIcon = null;
-
-    this.gc_scIcon = null;
-
-    this.gc_tc_s_i = null;
-
-    this.gc_l_s_i = null;
-
-    this.gc_m_s_i = null;
-
-    this.gc_dlc_s_i = null;
-
-    this.gc_ea_s_i = null;
-
-    this.gc_lg_s_i = null;
-
-    this.gc_rm_s_i = null;
-
-    this.es_gf = null;
-
-    this.cfh_img_choice = null;
-
-    this.gwc_h_width = null;
-
-    this.ff = null;
-
-    this.ib = null;
-
-    this.gc_tcIcon = null;
-
-    this.gc_lIcon = null;
-
-    this.gc_dlcIcon = null;
-
-    this.gc_eaIcon = null;
-
-    this.gc_mIcon = null;
-
-    this.gc_lgIcon = null;
-
-    this.gc_rmIcon = null;
-
-    this.gwr_h_width = null;
-
-    this.namwc_h = null;
-
-    this.namwc_h_m = null;
-
-    this.namwc_h_f = null;
-
-    this.namwc_h_i = null;
-
-    this.wbh = null;
-
-    this.namwc_checkNotActivated = null;
-
-    this.namwc_checkMultiple = null;
-
-    this.ust = null;
-
-    this.wbh_w = null;
-
-    this.wbh_b = null;
-
-    this.nrf_searchMultiple = null;
-
-    this.rwscvl_r = null;
-
-    this.vrcv = null;
-
-    this.ugd_achievements = null;
-
-    this.ugd_getPlaytime = null;
-
-    this.ugd_getAchievements = null;
-
-    this.ugd_s = null;
-
-    this.wbc_h = null;
-
-    this.wbc_hb = null;
-
-    this.wbcButton = null;
-
-    this.wbc_checkSingle = null;
-
-    this.wbc_checkSelected = null;
-
-    this.wbc_checkBlacklist = null;
-
-    this.wbc_checkAll = null;
-
-    this.wbc_minPage = null;
-
-    this.wbc_maxPage = null;
-
-    this.wbc_checkPages = null;
-
-    this.wbc_returnWhitelists = null;
-
-    this.wbc_returnBlacklists = null;
-
-    this.wbc_checkNew = null;
-
-    this.wbc_pages = null;
-
-    this.wbc_skipUsers = null;
-
-    this.wbc_clearCache = null;
-
-    this.wbc_n = null;
-
-    this.wbm_useCache = null;
-
-    /** @type {string[]} */
-    this.wbm_tags = null;
-
-    this.wbm_clearTags = null;
-
-    this.lastBackup = null;
-
-    this.mm = null;
-
     this.style = null;
-
-    /** @type {HTMLElement} */
+    
     this.customThemeElement = null;
-
-    /** @type {HTMLElement} */
+    
     this.theme = null;
-
-    /** @type {HTMLElement} */
-    this.customTheme = null;
-
-    this.collapseSections = null;
-
-    this.cleanDiscussions = null;
-
-    this.cleanEntries = null;
-
-    this.cleanGiveaways = null;
-
-    this.cleanSgCommentHistory = null;
-
-    this.cleanTickets = null;
-
-    this.cleanDuplicates = null;
-
-    this.cleanTrades = null;
-
-    this.backupZip = null;
-
-    /** @type {HTMLElement} */
+    
     this.ustButton = null;
 
     this.modules = null;
-
-    this.ch = null;
-
-    this.df = null;
-
-    this.adots = null;
-
-    this.uf = null;
-
-    this.gt = null;
-
-    this.gpt = null;
-
-    this.wbc = null;
-
-    this.namwc = null;
-
-    this.gv = null;
-
-    this.codb = null;
-
-    this.ttpcc = null;
-
-    this.gch = null;
-
-    this.gm_enable = null;
-
-    this.tb_a = null;
-
-    this.qgs = null;
-
-    this.adots_index = null;
-
-    this.ags_app = null;
-
-    this.ags_sub = null;
-
-    this.as_searchAppId = null;
-
-    this.gf = null;
-
-    this.ggl = null;
-
-    this.elgb_p = null;
 
     this.fullLevel = null;
 
     this.level = null;
 
-    this.hgebd = null;
-
     this.pointsContainer = null;
-
-    this.et = null;
 
     this.points = null;
 
-    this.gv_gb = null;
-
-    this.gv_ged = null;
-
-    this.gv_ge = null;
-
-    this.elgb_d = null;
-
-    this.elgb_r = null;
-
-    this.elgb_c = null;
-
-    this.elgb_f = null;
-
-    this.cfh = null;
-
-    this.elgb_filters = null;
-
-    this.hr = null;
-
-    this.egh = null;
-
-    this.gb = null;
-
-    this.ttec = null;
-
-    this.gb_ue = null;
-
-    this.gb_se = null;
-
-    this.gb_h = null;
-
-    this.gb_u = null;
-
-    this.gb_hours = null;
-
-    this.es_gb = null;
-
-    this.gas = null;
-
-    this.gcl_index = null;
-
-    this.es_ged = null;
-
     this.decryptedGiveaways = null;
-
-    this.gf_presetGed = null;
-
-    this.gf_presets = null;
-
-    this.ged_b = null;
 
     this.giveawayHeading = null;
 
@@ -1869,10 +1211,6 @@ class Esgst {
 
     this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
 
-    this.gc_fLabel = null;
-
-    this.gc_fIcon = null;
-
     this.pointsPlayer = null;
 
     this.inboxPlayer = null;
@@ -1883,163 +1221,11 @@ class Esgst {
 
     this.giveawayErrorButton = null;
 
-    this.elgb_r_d = null;
-
-    this.gf_m = null;
-
-    this.geth_colors = null;
-
-    this.es_ge = null;
-
-    this.ge_sgt = null;
-
-    this.ge_o = null;
-
-    this.gf_s = null;
-
-    this.gf_os = null;
-
-    this.gf_alreadyOwned = null;
-
-    this.gf_dlcMissingBase = null;
-
-    this.gf_aboveLevel = null;
-
-    this.gf_manuallyFiltered = null;
-
-    this.gwc = null;
-
-    this.gwr = null;
-
-    this.gptw = null;
-
-    this.ge = null;
-
-    this.ggl_index = null;
-
-    this.filter_os = null;
-
-    this.filter_giveaways_exist_in_account = null;
-
-    this.filter_giveaways_missing_base_game = null;
-
-    this.filter_giveaways_level = null;
-
-    this.filter_giveaways_additional_games = null;
-
     this.gcToFetch = null;
-
-    this.gc = null;
-
-    this.ggl_m = null;
-
-    this.gptw_e = null;
-
-    this.gptw_colors = null;
-
-    this.gts_preciseStart = null;
-
-    this.gts_preciseEnd = null;
-
-    this.gts_preciseStartDate = null;
-
-    this.gts_preciseEndDate = null;
-
-    this.mgc_createTrain = null;
-
-    this.mgc_removeLinks = null;
-
-    this.mgc_createTrainSwitch = null;
-
-    this.mgc_removeLinksSwitch = null;
-
-    this.gwc_e = null;
-
-    this.gwc_a = null;
-
-    this.gwc_colors = null;
-
-    this.gwc_h = null;
-
-    this.gwr_e = null;
-
-    this.gwr_a = null;
-
-    this.gwr_colors = null;
-
-    this.gwr_h = null;
-
-    this.gv_spacing = null;
-
-    this.npth_previousKey = null;
-
-    this.npth_nextKey = null;
-
-    this.ochgb_f = null;
-
-    this.qgs_h = null;
-
-    this.sks_exportKeys = null;
-
-    this.sks_searchCurrent = null;
-
-    this.sks_minDate = null;
-
-    this.sks_maxDate = null;
-
-    this.sks_limitDate = null;
-
-    this.sks_minPage = null;
-
-    this.sks_maxPage = null;
-
-    this.sks_limitPages = null;
-
-    this.ge_sgt_l = null;
-
-    this.ap = null;
-
-    this.gwc_a_b = null;
-
-    this.gwr_a_b = null;
-
-    this.mgc_bumpLast = null;
-
-    this.mgc_groupKeys = null;
-
-    this.mgc_groupAllKeys = null;
-
-    this.mgc_reversePosition = null;
-
-    this.cewgd = null;
-
-    this.lpv = null;
-
-    this.rcvc = null;
-
-    this.sal = null;
-
-    this.ef = null;
-
-    this.sal_index = null;
-
-    this.ugs_checkRules = null;
-
-    this.ugs_checkMember = null;
-
-    this.ugs_difference = null;
-
-    this.ugs_checkDifference = null;
-
-    this.ugs_checkWhitelist = null;
-
-    this.ugs_checkBlacklist = null;
 
     this.createdButton = null;
 
     this.rerolls = null;
-
-    this.ge_sgt_limit = null;
 
     this.aicButton = null;
 
@@ -2047,93 +1233,21 @@ class Esgst {
 
     this.aicNext = null;
 
-    this.aic_b = null;
-
-    this.ail = null;
-
-    this.qiv = null;
-
-    this.vai = null;
-
-    this.ap_index = null;
-
-    this.registrationDate = null;
-
-    this.cdr_b = null;
-
-    this.cdr_d = null;
-
-    this.cdr_days = null;
-
-    this.chfl_key = null;
-
-    this.ef_filters = null;
-
-    this.es_pd = null;
-
-    this.es_r = null;
-
     this.lastPageLink = null;
 
-    this.es_refresh = null;
-
-    this.es_refreshAll = null;
-
-    this.es_cl = null;
-
     this.stopEs = null;
-
-    this.cr = null;
-
-    this.cf = null;
-
-    this.ts = null;
-
-    this.ct_s = null;
-
-    this.gdttt_g = null;
-
-    this.hr_b = null;
 
     this.audioContext = null;
 
     this.mainButton = null;
 
     this.inboxButton = null;
-
-    this.hr_minutes = null;
-
-    this.nm = null;
-
-    this.pv = null;
-
-    this.hr_g = null;
-
+  
     this.messageCountContainer = null;
 
     this.messageCount = null;
 
-    this.hr_m = null;
-
-    this.hr_p = null;
-
-    this.hr_fp = null;
-
     this.wishlistNew = null;
-
-    this.hr_fp_s = null;
-
-    this.hr_m_n_s = null;
-
-    this.hr_w_n_s = null;
-
-    this.hr_g_n_s = null;
-
-    this.hr_c = null;
-
-    this.hr_a = null;
-
-    this.hr_a_r = null;
 
     this.lastPage = null;
 
@@ -2143,261 +1257,27 @@ class Esgst {
 
     this.mm_enableGames = null;
 
-    this.ged = null;
-
-    this.dh = null;
-
-    this.gdttt = null;
-
-    this.ut = null;
-
-    this.mm_useRegExp = null;
-
     this.altInboxButton = null;
 
     this.pvStyle = null;
 
-    this.stbb_index = null;
-
-    this.es = null;
-
-    this.sttb_index = null;
-
-    this.sk_cp = null;
-
-    this.sk_sb = null;
-
-    this.sk_fp = null;
-
-    this.sk_pp = null;
-
-    this.sk_np = null;
-
-    this.sk_lp = null;
-
-    this.sk_tf = null;
-
-    this.sk_hg = null;
-
-    this.sk_hga = null;
-
-    this.sk_ge = null;
-
-    this.sk_c = null;
-
-    this.sk_rb = null;
-
-    this.sk_ru = null;
-
-    this.sk_sr = null;
-
-    this.us = null;
-
-    this.vai_gifv = null;
-
-    this.es_pages = null;
-
-    this.qiv_p = null;
-
-    this.hr_p_format = null;
-
-    this.hr_m_n = null;
-
-    this.hr_g_n = null;
-
-    this.hr_w = null;
-
-    this.hr_a_a = null;
-
     this.altMessageCount = null;
-
-    this.sk_closePopups = null;
-
-    this.sk_searchBox = null;
-
-    this.sk_firstPage = null;
-
-    this.sk_previousPage = null;
-
-    this.sk_nextPage = null;
-
-    this.sk_lastPage = null;
-
-    this.sk_toggleFilters = null;
-
-    this.sk_hideGame = null;
-
-    this.sk_hideGiveaway = null;
-
-    this.sk_giveawayEntry = null;
-
-    this.sk_creator = null;
-
-    this.sk_replyBox = null;
-
-    this.sk_replyUser = null;
-
-    this.sk_submitReply = null;
-
-    this.hr_w_n = null;
-
-    this.mm_enable = null;
-
-    this.es_loadNext = null;
-
-    this.hr_w_h = null;
-
-    this.mm_disable = null;
 
     this.wishlist = null;
 
-    this.hr_w_hours = null;
-
-    this.gc_g_udt = null;
-
-    this.gc_b = null;
-
-    this.gc_ncv_o = null;
-
-    this.gc_hltb_index_0 = null;
-
-    this.gc_hltb_index_1 = null;
-
-    this.gc_hltb_index_2 = null;
-
-    this.gc_f_s = null;
-
-    this.gc_pw_o = null;
-
-    this.gc_r_s = null;
-
-    this.gc_dlc_o = null;
-
-    this.gc_dlc_b = null;
-
-    this.gc_rdLabel = null;
-
-    this.gc_categories_gv = null;
-
-    this.gc_il = null;
-
-    this.gc_f_s_i = null;
-
-    this.gc_g_s = null;
-
-    this.gc_lp = null;
-
-    this.gc_lp_gv = null;
-
-    this.oadd = null;
-
-    this.oadd_d = null;
-
-    this.mpp_r = null;
-
-    this.ds_auto = null;
-
-    this.ds_option = null;
-
-    this.ct = null;
-
-    this.rfi_c = null;
-
-    this.cerb_a = null;
-
     this.cerbButtons = null;
 
-    this.cf_m = null;
-
     this.cfhEmojis = null;
-
-    this.cfh_pasteFormatting = null;
-
-    this.cfh_cf = null;
-
-    this.cfh_p = null;
-
-    this.cfh_img_remember = null;
-
-    this.cs_minPage = null;
-
-    this.cs_maxPage = null;
-
-    this.cs_limitPages = null;
-
-    this.ct_s_h = null;
-
-    this.ct_c = null;
-
-    this.ct_o = null;
-
+  
     this.ctGoToUnread = null;
-
-    this.ct_f = null;
-
-    this.ct_r = null;
-
-    this.mr = null;
-
-    this.rfi = null;
-
-    this.at = null;
-
-    this.rfi_s = null;
-
-    this.ct_a = null;
 
     this.ctUnreadFound = null;
 
-    this.ged_addIcons = null;
-
-    this.cfh_p_a = null;
-
     this.ctNewTab = null;
 
-    this.mm_enableUsers = null;
-
-    this.updateWhitelistBlacklist = null;
-
-    this.mm_enableGiveaways = null;
-
-    this.gch_colors = null;
-
-    this.gp = null;
-
-    this.elgb = null;
-
-    this.gr = null;
-
-    this.gr_r = null;
-
-    this.gc_categories = null;
-
-    this.ds = null;
-
-    this.mm_enableDiscussions = null;
-
-    this.dh_t = null;
-
-    this.pm = null;
-
-    this.uf_d = null;
-
-    this.uf_p = null;
-
-    this.pm_a = null;
-
-    this.gr_a = null;
-
-    this.toDismiss = null;
-
-    this.syncFollowedGames = null;
-
-    this.gc_f = null;
+    this.toDismiss = [];
 
     this.draggable = {};
-
-    this.nrf_clearCache = null;
 
     this.modules = modules;
 

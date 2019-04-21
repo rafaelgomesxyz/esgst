@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -31,8 +32,8 @@ class UsersUserStats extends Module {
   }
 
   init() {
-    if (!this.esgst.whitelistPath && !this.esgst.blacklistPath) return;
-    this.esgst.endlessFeatures.push(this.us_get.bind(this));
+    if (!shared.esgst.whitelistPath && !shared.esgst.blacklistPath) return;
+    shared.esgst.endlessFeatures.push(this.us_get.bind(this));
   }
 
   async us_get(context, main, source, endless) {
@@ -85,7 +86,7 @@ class UsersUserStats extends Module {
         promise.then(this.us_load.bind(this, users[username], username));
         promises.push(promise);
       }
-      Promise.all(promises).then(this.esgst.modules.generalTableSorter.ts_sortTables);
+      Promise.all(promises).then(shared.esgst.modules.generalTableSorter.ts_sortTables);
     }
   }
 
@@ -164,7 +165,7 @@ class UsersUserStats extends Module {
           });
           break;
         case `Contributor Level`:
-          this.esgst.modules.usersSentWonRatio.swr_add(profile);
+        shared.esgst.modules.usersSentWonRatio.swr_add(profile);
           html.push({
             attributes: {
               class: `table__column--width-small text-center`

@@ -11,6 +11,7 @@ import { esgst } from './class/Esgst';
 import { utils } from './lib/jsUtils';
 import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
+import { gSettings } from './class/Globals';
 
 // @ts-ignore
 window.interact = interact;
@@ -264,58 +265,27 @@ window.interact = interact;
       delete esgst.settings.avatar_st;
       esgst.settingsChanged = true;
     }
-    for (let key in esgst.settings) {
-      let match = key.match(new RegExp(`(.+?)_${esgst.name}$`));
-      if (match) {
-        esgst[match[1]] = esgst.settings[key];
-      }
-    }
-    for (let key in esgst.oldValues) {
-      if (esgst.oldValues.hasOwnProperty(key)) {
-        let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
-        if (typeof esgst[localKey] === `undefined`) {
-          esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
-        }
-      }
-    }
-    for (let key in esgst.defaultValues) {
-      if (esgst.defaultValues.hasOwnProperty(key)) {
-        let localKey = key.replace(new RegExp(`(.+?)_${esgst.name}$`), `$1`);
-        if (!utils.isSet(esgst[localKey])) {
-          esgst[localKey] = common.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
-        }
-      }
-    }
     if (utils.isSet(esgst.storage.filterPresets)) {
-      esgst.gf_presets = esgst.gf_presets.concat(
+      const presets = esgst.settings.gf_presets.concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.filterPresets))
       );
-      esgst.settings.gf_presets = esgst.gf_presets;
+      esgst.settings.gf_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_gf_presets = esgst.storage.filterPresets;
       toDelete.push(`filterPresets`);
     }
     if (utils.isSet(esgst.storage.dfPresets)) {
-      esgst.df_presets = esgst.df_presets.concat(
+      const presets = esgst.settings.df_presets.concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.dfPresets))
       );
-      esgst.settings.df_presets = esgst.df_presets;
+      esgst.settings.df_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_df_presets = esgst.storage.dfPresets;
       toDelete.push(`dfPresets`);
     }
 
     esgst.features = common.getFeatures();
-    for (let type in esgst.features) {
-      if (esgst.features.hasOwnProperty(type)) {
-        for (let id in esgst.features[type].features) {
-          if (esgst.features[type].features.hasOwnProperty(id)) {
-            common.dismissFeature(esgst.features[type].features[id], id);
-            common.getFeatureSetting(esgst.features[type].features[id], id);
-          }
-        }
-      }
-    }
+    esgst.featuresById = common.getFeaturesById();
 
     [
       {id: `cec`, side: `left`},
@@ -329,10 +299,8 @@ window.interact = interact;
       {id: `ust`, side: `left`},
       {id: `wbm`, side: `left`}
     ].forEach(item => {
-      if (esgst.leftButtonIds.indexOf(item.id) < 0 && esgst.rightButtonIds.indexOf(item.id) < 0 && esgst.leftMainPageHeadingIds.indexOf(item.id) < 0 && esgst.rightMainPageHeadingIds.indexOf(item.id) < 0) {
-        esgst[`${item.side}MainPageHeadingIds`].push(item.id);
-        esgst.settings.leftMainPageHeadingIds = esgst.leftMainPageHeadingIds;
-        esgst.settings.rightMainPageHeadingIds = esgst.rightMainPageHeadingIds;
+      if ((esgst.settings.leftButtonIds || []).indexOf(item.id) < 0 && (esgst.settings.rightButtonIds || []).indexOf(item.id) < 0 && (esgst.settings.leftMainPageHeadingIds || []).indexOf(item.id) < 0 && (esgst.settings.rightMainPageHeadingIds || []).indexOf(item.id) < 0) {
+        esgst.settings[`${item.side}MainPageHeadingIds`].push(item.id);
         esgst.settingsChanged = true;
       }
     });
@@ -352,85 +320,101 @@ window.interact = interact;
       delete esgst.settings.groups;
       esgst.settingsChanged = true;
     }
-    if (esgst.gc_categories_ids.indexOf(`gc_f`) < 0) {
-      esgst.gc_categories_ids.push(`gc_f`);
-      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+    if (esgst.settings.gc_categories_ids && esgst.settings.gc_categories_ids.indexOf(`gc_f`) < 0) {
+      esgst.settings.gc_categories_ids.push(`gc_f`);
       esgst.settingsChanged = true;
     }
-    if (esgst.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
-      esgst.gc_categories_ids.push(`gc_bvg`);
-      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+    if (esgst.settings.gc_categories_ids && esgst.settings.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
+      esgst.settings.gc_categories_ids.push(`gc_bvg`);
       esgst.settingsChanged = true;
     }
-    if (esgst.gc_categories_ids.indexOf(`gc_bd`) < 0) {
-      esgst.gc_categories_ids.push(`gc_bd`);
-      esgst.settings.gc_categories_ids = esgst.gc_categories_ids;
+    if (esgst.settings.gc_categories_ids && esgst.settings.gc_categories_ids.indexOf(`gc_bd`) < 0) {
+      esgst.settings.gc_categories_ids.push(`gc_bd`);
       esgst.settingsChanged = true;
     }
     [`gc_categories`, `gc_categories_gv`, `gc_categories_ids`].forEach(key => {
-      let bkpLength = esgst[key].length;
-      esgst[key] = Array.from(new Set(esgst[key]));
-      if (bkpLength !== esgst[key].length) {
-        esgst.settings[key] = esgst[key];
+      if (!esgst.settings[key]) {
+        return;
+      }
+      let bkpLength = esgst.settings[key].length;
+      const newArray = Array.from(new Set(esgst.settings[key]));
+      if (bkpLength !== newArray.length) {
+        esgst.settings[key] = newArray;
         esgst.settingsChanged = true;
       }
     });
     if (esgst.settings.elementOrdering !== `1`) {
-      const oldLeftButtonIds = JSON.stringify(esgst.leftButtonIds);
-      const oldRightButtonIds = JSON.stringify(esgst.rightButtonIds);
-      const oldLeftMainPageHeadingIds = JSON.stringify(esgst.leftMainPageHeadingIds);
-      const oldRightMainPageHeadingIds = JSON.stringify(esgst.rightMainPageHeadingIds);
-      for (let i = esgst.leftButtonIds.length - 1; i > -1; i--) {
-        const id = esgst.leftButtonIds[i];
-        if (!esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.leftMainPageHeadingIds.push(id);
-          esgst.leftButtonIds.splice(i, 1);
-        } else if (esgst.rightButtonIds.indexOf(id) > -1) {
-          esgst.leftButtonIds.splice(i, 1);
+      const oldLeftButtonIds = JSON.stringify(esgst.settings.leftButtonIds || []);
+      const oldRightButtonIds = JSON.stringify(esgst.settings.rightButtonIds || []);
+      const oldLeftMainPageHeadingIds = JSON.stringify(esgst.settings.leftMainPageHeadingIds || []);
+      const oldRightMainPageHeadingIds = JSON.stringify(esgst.settings.rightMainPageHeadingIds || []);
+      if (esgst.settings.leftButtonIds) {
+        for (let i = esgst.settings.leftButtonIds.length - 1; i > -1; i--) {
+          const id = esgst.settings.leftButtonIds[i];
+          if (!esgst.settings[`hideButtons_${id}_sg`]) {
+            if (esgst.settings.leftMainPageHeadingIds) {
+              esgst.settings.leftMainPageHeadingIds.push(id);
+            }
+            esgst.settings.leftButtonIds.splice(i, 1);
+          } else if (esgst.settings.rightButtonsIds && esgst.settings.rightButtonIds.indexOf(id) > -1) {
+            esgst.settings.leftButtonIds.splice(i, 1);
+          }
         }
       }
-      for (let i = esgst.rightButtonIds.length - 1; i > -1; i--) {
-        const id = esgst.rightButtonIds[i];
-        if (!esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.rightMainPageHeadingIds.push(id);
-          esgst.rightButtonIds.splice(i, 1);
-        } else if (esgst.leftButtonIds.indexOf(id) > -1) {
-          esgst.rightButtonIds.splice(i, 1);
+      if (esgst.settings.rightButtonIds) {
+        for (let i = esgst.settings.rightButtonIds.length - 1; i > -1; i--) {
+          const id = esgst.settings.rightButtonIds[i];
+          if (!esgst.settings[`hideButtons_${id}_sg`]) {
+            if (esgst.settings.rightMainPageHeadingIds) {
+              esgst.settings.rightMainPageHeadingIds.push(id);
+            }
+            esgst.settings.rightButtonIds.splice(i, 1);
+          } else if (esgst.settings.rightButtonIds && esgst.settings.rightButtonIds.indexOf(id) > -1) {
+            esgst.settings.rightButtonIds.splice(i, 1);
+          }
         }
       }
-      for (let i = esgst.leftMainPageHeadingIds.length - 1; i > -1; i--) {
-        const id = esgst.leftMainPageHeadingIds[i];
-        if (esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.leftButtonIds.push(id);
-          esgst.leftMainPageHeadingIds.splice(i, 1);
-        } else if (esgst.rightMainPageHeadingIds.indexOf(id) > -1) {
-          esgst.leftMainPageHeadingIds.splice(i, 1);
+      if (esgst.settings.leftMainPageHeadingIds) {
+        for (let i = esgst.settings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
+          const id = esgst.settings.leftMainPageHeadingIds[i];
+          if (!esgst.settings[`hideButtons_${id}_sg`]) {
+            if (esgst.settings.leftButtonIds) {
+              esgst.settings.leftButtonIds.push(id);
+            }
+            esgst.settings.leftMainPageHeadingIds.splice(i, 1);
+          } else if (esgst.settings.rightMainPageHeadingIds && esgst.settings.rightMainPageHeadingIds.indexOf(id) > -1) {
+            esgst.settings.leftMainPageHeadingIds.splice(i, 1);
+          }
         }
       }
-      for (let i = esgst.rightMainPageHeadingIds.length - 1; i > -1; i--) {
-        const id = esgst.rightMainPageHeadingIds[i];
-        if (esgst.settings[`hideButtons_${id}_sg`]) {
-          esgst.rightButtonIds.push(id);
-          esgst.rightMainPageHeadingIds.splice(i, 1);
-        } else if (esgst.leftMainPageHeadingIds.indexOf(id) > -1) {
-          esgst.rightMainPageHeadingIds.splice(i, 1);
+      if (esgst.settings.rightMainPageHeadingIds) {
+        for (let i = esgst.settings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
+          const id = esgst.settings.rightMainPageHeadingIds[i];
+          if (!esgst.settings[`hideButtons_${id}_sg`]) {
+            if (esgst.settings.rightButtonIds) {
+              esgst.settings.rightButtonIds.push(id);
+            }
+            esgst.settings.rightMainPageHeadingIds.splice(i, 1);
+          } else if (esgst.settings.leftMainPageHeadingIds && esgst.settings.leftMainPageHeadingIds.indexOf(id) > -1) {
+            esgst.settings.rightMainPageHeadingIds.splice(i, 1);
+          }
         }
       }
-      esgst.leftButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.leftButtonIds));
-      esgst.rightButtonIds = Array.from(/** @type {ArrayLike} **/ new Set(esgst.rightButtonIds));
-      esgst.leftMainPageHeadingIds = Array.from(new Set(esgst.leftMainPageHeadingIds));
-      esgst.rightMainPageHeadingIds = Array.from(new Set(esgst.rightMainPageHeadingIds));
-      if (oldLeftButtonIds !== JSON.stringify(esgst.leftButtonIds)) {
-        esgst.settings.leftButtonIds = esgst.leftButtonIds;
+      const newLeftButtonIds = new Set(esgst.settings.leftButtonIds || []);
+      const newRightButtonIds = new Set(esgst.settings.rightButtonIds || []);
+      const newLeftMainHeadingIds = new Set(esgst.settings.leftMainPageHeadingIds || []);
+      const newRightMainHeadingIds = new Set(esgst.settings.rightMainPageHeadingIds || []);
+      if (oldLeftButtonIds !== JSON.stringify(newLeftButtonIds)) {
+        esgst.settings.leftButtonIds = newLeftButtonIds;
       }
-      if (oldRightButtonIds !== JSON.stringify(esgst.rightButtonIds)) {
-        esgst.settings.rightButtonIds = esgst.rightButtonIds;
+      if (oldRightButtonIds !== JSON.stringify(newRightButtonIds)) {
+        esgst.settings.rightButtonIds = newRightButtonIds;
       }
-      if (oldLeftMainPageHeadingIds !== JSON.stringify(esgst.leftMainPageHeadingIds)) {
-        esgst.settings.leftMainPageHeadingIds = esgst.leftMainPageHeadingIds;
+      if (oldLeftMainPageHeadingIds !== JSON.stringify(newLeftMainHeadingIds)) {
+        esgst.settings.leftMainPageHeadingIds = newLeftMainHeadingIds;
       }
-      if (oldRightMainPageHeadingIds !== JSON.stringify(esgst.rightMainPageHeadingIds)) {
-        esgst.settings.rightMainPageHeadingIds = esgst.rightMainPageHeadingIds;
+      if (oldRightMainPageHeadingIds !== JSON.stringify(newRightMainHeadingIds)) {
+        esgst.settings.rightMainPageHeadingIds = newRightMainHeadingIds;
       }
       esgst.settings.elementOrdering = `1`;
       esgst.settingsChanged = true;
@@ -449,12 +433,12 @@ window.interact = interact;
       try {
         let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
         if (esgst.settings.avatar !== avatar) {
-          esgst.avatar = esgst.settings.avatar = avatar;
+          esgst.settings.avatar = avatar;
           esgst.settingsChanged = true;
         }
         let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
         if (esgst.settings.username_sg !== username) {
-          esgst.username = esgst.settings.username_sg = username;
+          esgst.settings.username_sg = username;
           esgst.settingsChanged = true;
         }
         if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
@@ -466,11 +450,11 @@ window.interact = interact;
           for (let i = 0, n = elements.length; i < n; i++) {
             let element = elements[i];
             if (element.textContent === `Registered`) {
-              esgst.registrationDate = esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+              esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
               break;
             }
           }
-          esgst.steamId = esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+          esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
           esgst.settingsChanged = true;
         }
       } catch (e) { /**/
@@ -479,12 +463,12 @@ window.interact = interact;
       try {
         let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
         if (esgst.settings.avatar !== avatar) {
-          esgst.avatar = esgst.settings.avatar = avatar;
+          esgst.settings.avatar = avatar;
           esgst.settingsChanged = true;
         }
         let username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
         if (esgst.settings.username_st !== username) {
-          esgst.username = esgst.settings.username_st = username;
+          esgst.settings.username_st = username;
           esgst.settingsChanged = true;
         }
       } catch (e) { /**/
@@ -500,17 +484,19 @@ window.interact = interact;
       await common.delValues(toDelete);
     }
 
+    common.initGlobalSettings();
+
     // now that all values are set esgst can begin to load
 
     /* [URLR] URL Redirector */
-    if (esgst.urlr && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+    if (gSettings.urlr && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
       window.location.href = `${window.location.href}/`;
     }
 
     for (const key in esgst.paths) {
       for (const item of esgst.paths[key]) {
         item.pattern = item.pattern
-          .replace(/%steamId%/, esgst.steamId);
+          .replace(/%steamId%/, gSettings.steamId);
       }
     }
 
@@ -542,7 +528,7 @@ window.interact = interact;
       // user is not logged in
       return;
     }
-    if (esgst.st && !esgst.settings.esgst_st) {
+    if (esgst.st && !gSettings.esgst_st) {
       // esgst is not enabled for steamtrades
       return;
     }
@@ -552,10 +538,10 @@ window.interact = interact;
       // noinspection JSIgnoredPromiseFromCall
       common.checkSync();
     }
-    if (esgst.autoBackup) {
+    if (gSettings.autoBackup) {
       common.checkBackup();
     }
-    if (esgst.profilePath && esgst.autoSync) {
+    if (esgst.profilePath && gSettings.autoSync) {
       const el = document.getElementsByClassName(`form__sync-default`)[0];
       if (el) {
         el.addEventListener(`click`, () => runSilentSync(`Games=1&Groups=1`));

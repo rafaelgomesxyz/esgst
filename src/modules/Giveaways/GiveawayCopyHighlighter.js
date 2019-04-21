@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { gSettings } from '../../class/Globals';
 
 class GiveawaysGiveawayCopyHighlighter extends Module {
   constructor() {
@@ -24,7 +25,7 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
       if (!giveaway.copiesContainer) {
         continue;
       }
-      const { color, bgColor } = this.esgst.gch_colors.filter(colors => giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
+      const { color, bgColor } = gSettings.gch_colors.filter(colors => giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
       giveaway.copiesContainer.classList.add(`esgst-bold`);
       if (!color) {
         giveaway.copiesContainer.classList.add(`esgst-red`);

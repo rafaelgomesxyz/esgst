@@ -3,6 +3,7 @@ import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { gSettings } from '../../class/Globals';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -43,7 +44,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
     giveaways.forEach(giveaway => {
       let container, context, delay, eventType, exitTimeout, onClick, timeout;
       if (giveaway.regionRestricted) {
-        switch (this.esgst.gcl_index) {
+        switch (gSettings.gcl_index) {
           case 0:
             eventType = `mouseenter`;
             onClick = false;
@@ -83,7 +84,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
         giveaway.regionRestricted.addEventListener(eventType, () => {
           timeout = window.setTimeout(async () => {
             if (context) {
-              switch (this.esgst.gcl_index) {
+              switch (gSettings.gcl_index) {
                 case 0:
                   context.open(giveaway.regionRestricted);
                   break;
@@ -99,7 +100,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                   break;
               }
             } else {
-              if (this.esgst.gcl_index === 2) {
+              if (gSettings.gcl_index === 2) {
                 context = new Popup({
                   addScrollable: true, icon: `fa-globe`, title: [
                     [`a`, { href: `${giveaway.url}/region-restrictions` }, `Giveaway Countries`]
@@ -165,7 +166,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                   container.lastElementChild.firstElementChild.appendChild(country);
                 }
                 await endless_load(container);
-                if (this.esgst.gcl_index === 1) {
+                if (gSettings.gcl_index === 1) {
                   createElements(container, `afterBegin`, [{
                     attributes: {
                       class: `esgst-ggl-heading`,
@@ -186,7 +187,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                   text: `An error occurred.`,
                   type: `span`
                 }]);
-                if (this.esgst.gcl_index === 1) {
+                if (gSettings.gcl_index === 1) {
                   createElements(container, `afterBegin`, [{
                     attributes: {
                       class: `esgst-ggl-heading`,
@@ -199,7 +200,7 @@ class GiveawaysGiveawayCountryLoader extends Module {
                 context.reposition();
               }
             }
-            if (this.esgst.gcl_index === 0) {
+            if (gSettings.gcl_index === 0) {
               container.onmouseenter = () => {
                 if (exitTimeout) {
                   window.clearTimeout(exitTimeout);

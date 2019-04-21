@@ -20,6 +20,7 @@ import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import 'bootstrap/dist/js/bootstrap';
 import '../lib/bootstrap-tourist/bootstrap-tourist.js';
 import '../lib/bootstrap-tourist/bootstrap-tourist.css';
+import { gSettings } from '../class/Globals';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -66,7 +67,7 @@ class Common extends Module {
         }]
       }]
     }]);
-    this.esgst.minimizeList = /** @type {HTMLElement} */ this.esgst.minimizePanel.firstElementChild.lastElementChild;
+    this.esgst.minimizeList = this.esgst.minimizePanel.firstElementChild.lastElementChild;
   }
 
   minimizePanel_addItem(popup) {
@@ -104,7 +105,7 @@ class Common extends Module {
     if (popup.minimizeItem) {
       popup.minimizeItem.classList.add(`alert`);
     }
-    if (this.esgst.minimizePanel) {
+    if (gSettings.minimizePanel) {
       this.esgst.minimizePanel.classList.add(`alert`);
     }
   }
@@ -192,7 +193,7 @@ class Common extends Module {
       }
     }
 
-    if (this.esgst.minimizePanel) {
+    if (gSettings.minimizePanel) {
       this.minimizePanel_add();
     }
 
@@ -230,16 +231,16 @@ class Common extends Module {
     }]);
 
     for (const key in modules) {
-      const module = modules[key];
-      if (!module.info || (!module.info.endless && !this.esgst[module.info.id])) {
+      const mod = modules[key];
+      if (!mod.info || (!mod.info.endless && !gSettings[mod.info.id])) {
         continue;
       }
-      if (module.info.featureMap) {
-        for (const type in module.info.featureMap) {
-          if (!module.info.featureMap.hasOwnProperty(type)) {
+      if (mod.info.featureMap) {
+        for (const type in mod.info.featureMap) {
+          if (!mod.info.featureMap.hasOwnProperty(type)) {
             continue;
           }
-          const map = module.info.featureMap[type];
+          const map = mod.info.featureMap[type];
           if (Array.isArray(map)) {
             for (const item of map) {
               this.esgst[`${type}Features`].push(item);
@@ -250,7 +251,7 @@ class Common extends Module {
         }
       }
       try {
-        await module.init();
+        await mod.init();
       } catch (e) {
         window.console.log(e);
       }
@@ -272,12 +273,12 @@ class Common extends Module {
 
     this.esgst.style.insertAdjacentText("beforeend", `
       .esgst-menu-split-fixed {
-        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (this.esgst.ff ? 39 : 0)}px);
+        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (gSettings.ff ? 39 : 0)}px);
         top: ${this.esgst.commentsTop + 25}px;
       }
     `);
 
-    if (this.esgst.updateHiddenGames) {
+    if (gSettings.updateHiddenGames) {
       const hideButton = document.getElementsByClassName(`js__submit-hide-games`)[0];
       if (hideButton) {
         hideButton.addEventListener(`click`, () => this.updateHiddenGames(this.esgst.hidingGame.id, this.esgst.hidingGame.type, false));
@@ -523,6 +524,7 @@ class Common extends Module {
       this.esgst.leaveGiveawayButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__entry-delete`)[0];
       this.esgst.giveawayErrorButton = /** @type {HTMLElement} */ this.esgst.sidebar.getElementsByClassName(`sidebar__error`)[0];
       const headings = document.querySelectorAll(`.sidebar__heading`);
+      // @ts-ignore
       for (const heading of headings) {
         this.esgst.sidebarGroups.push({
           heading: heading,
@@ -606,7 +608,7 @@ class Common extends Module {
           type: `i`
         }]
       }]);
-      if (this.esgst.addNoCvGames) {
+      if (gSettings.addNoCvGames) {
         // noinspection JSIgnoredPromiseFromCall
         this.addNoCvGames(games);
       } else {
@@ -742,7 +744,7 @@ class Common extends Module {
       }]);
       return { id: null, response: null, status };
     }
-    if (this.esgst.ch) {
+    if (gSettings.ch) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
     }
@@ -1032,6 +1034,27 @@ class Common extends Module {
     return features;
   }
 
+  getFeaturesById() {
+    const features = {};
+    for (const type in shared.esgst.features) {
+      for (const id in shared.esgst.features[type].features) {
+        const feature = shared.esgst.features[type].features[id];
+        this.getFeatureById(feature, id, features);
+      }
+    }
+    return features;
+  }
+
+  getFeatureById(feature, id, features) {
+    features[id] = feature;
+    if (feature.features) {
+      for (const subId in feature.features) {
+        const subFeature = feature.features[subId];
+        this.getFeatureById(subFeature, subId, features);
+      }
+    }
+  }
+
   checkBusy(event) {
     if (document.getElementsByClassName(`esgst-busy`)[0] || this.esgst.busy) {
       event.returnValue = true;
@@ -1056,7 +1079,7 @@ class Common extends Module {
     });
     element.addEventListener(`mouseup`, () => {
       if (isDragging === -1) return;
-      if (this.esgst[id] || isDragging === 1) {
+      if (gSettings[id] || isDragging === 1) {
         window.open(url);
       } else {
         callback();
@@ -1070,11 +1093,11 @@ class Common extends Module {
     let context = details.context;
     const id = details.orderId || details.id;
     if (!context) {
-      if (this.esgst.leftButtonIds.indexOf(id) > -1) {
+      if (gSettings.leftButtonIds.indexOf(id) > -1) {
         context = this.esgst.leftButtons;
-      } else if (this.esgst.rightButtonIds.indexOf(id) > -1) {
+      } else if (gSettings.rightButtonIds.indexOf(id) > -1) {
         context = this.esgst.rightButtons;
-      } else if (this.esgst.leftMainPageHeadingIds.indexOf(id) > -1) {
+      } else if (gSettings.leftMainPageHeadingIds.indexOf(id) > -1) {
         context = this.esgst.leftMainPageHeadingButtons;
       } else {
         context = this.esgst.rightMainPageHeadingButtons;
@@ -1115,7 +1138,6 @@ class Common extends Module {
       this.esgst.firstInstall = true;
       // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
-      this.esgst.dismissedOptions = this.esgst.toDismiss;
       let popup = new Popup({
         addScrollable: true, icon: `fa-smile-o`, isTemp: true, title: [
           [`i`, { class: `fa fa-circle-o-notch fa-spin` }],
@@ -1125,8 +1147,8 @@ class Common extends Module {
       popup.open();
       await this.checkSync(true);
       popup.close();
-      this.createConfirmation(`All done, ${shared.esgst.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
-    } else if (this.esgst.storage.isUpdate && this.esgst.showChangelog) {
+      this.createConfirmation(`All done, ${gSettings.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
+    } else if (this.esgst.storage.isUpdate && gSettings.showChangelog) {
       const manifest = await browser.runtime.getManifest();
       const version = manifest.version_name || manifest.version;
       loadChangelog(version);
@@ -1159,17 +1181,18 @@ class Common extends Module {
       title: `Please wait... ESGST is adding this giveaway to the storage...`
     });
     popup.open();
-    let giveaways = await this.esgst.modules.giveaways.giveaways_get(document, true, shared.esgst.locationHref);
-    if (giveaways.length) {
-      giveaway = giveaways[0];
+    const giveawaysres = await this.esgst.modules.giveaways.giveaways_get(document, true, shared.esgst.locationHref);
+    if (giveawaysres.length) {
+      giveaway = giveawaysres[0];
       ggiveaways = {};
       ggiveaways[giveaway.code] = giveaway;
       user = {
-        steamId: this.esgst.steamId,
-        username: this.esgst.username
+        steamId: gSettings.steamId,
+        username: gSettings.username,
+        values: {}
       };
       const savedUser = await this.getUser(null, user);
-      giveaways = null;
+      let giveaways = null;
       if (savedUser) {
         giveaways = savedUser.giveaways;
       }
@@ -1390,7 +1413,7 @@ class Common extends Module {
       if (!item.context) {
         continue;
       }
-      for (const id of this.esgst[item.id]) {
+      for (const id of gSettings[item.id]) {
         const elements = (obj.mainPageHeading || obj.outerWrap).querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           item.context.appendChild(element);
@@ -1399,11 +1422,17 @@ class Common extends Module {
     }
   }
 
-  async lockAndSaveSettings() {
+  async lockAndSaveSettings(settingsObj) {
     const deleteLock = await this.createLock(`settingsLock`, 100);
     const settings = JSON.parse(this.getValue(`settings`, `{}`));
-    for (const key in this.esgst.settings) {
-      settings[key] = this.esgst.settings[key];
+    for (const key in settingsObj) {
+      if (settingsObj[key] === null) {
+        if (utils.isSet(settings[key])) {
+          delete settings[key];
+        }
+      } else {
+        settings[key] = settingsObj[key];
+      }
     }
     await this.setValue(`settings`, JSON.stringify(settings));
     deleteLock();
@@ -1427,24 +1456,27 @@ class Common extends Module {
         value.id = `${value.id}_sg`;
       } else if (value.st) {
         value.id = `${value.id}_st`;
-      }
+      }      
+      gSettings[value.id] = value.value;
       settings[value.id] = value.value;
-      this.esgst.settings[value.id] = value.value;
     }
     await this.setValue(`settings`, JSON.stringify(settings));
     deleteLock();
   }
 
-  getSetting(key, inverse) {
-    let value = this.esgst.settings[key];
+  getSetting(id, namespace, inverse) {
+    let value = shared.esgst.settings[id];
     if (typeof value === `undefined`) {
-      let defaultValue = this.esgst.defaultValues[key];
+      let defaultValue = shared.esgst.defaultValues[id];
       if (typeof defaultValue === `undefined`) {
-        defaultValue = this.esgst[`enableByDefault_${this.esgst.name}`] || false;
+        defaultValue = shared.esgst[`enableByDefault_${namespace}`] || false;
       }
-      let oldKey = this.esgst.oldValues[key];
-      if (typeof oldKey !== `undefined`) {
-        value = inverse ? !this.esgst.settings[oldKey] : this.esgst.settings[oldKey];
+      let oldId = shared.esgst.oldValues[id];
+      if (typeof oldId !== `undefined`) {
+        value = shared.esgst.settings[oldId];
+        if (inverse) {
+          value = !value;
+        }
       }
       if (typeof value === `undefined`) {
         value = defaultValue;
@@ -1453,11 +1485,15 @@ class Common extends Module {
     return value;
   }
 
-  getOldValues(id, name, setting) {
+  validateValue(value) {
+    return typeof value === `undefined` || value;
+  }
+
+  getOldValues(id, namespace, setting) {
     // noinspection FallThroughInSwitchStatementJS
     switch (id) {
       case `at`:
-        if (name !== `sg`) return;
+        if (namespace !== `sg`) return;
         setting.exclude = [
           {
             enabled: this.validateValue(this.esgst.settings.at_g_sg) ? 0 : 1,
@@ -1466,16 +1502,16 @@ class Common extends Module {
         ];
         return;
       case `egh`:
-        if (name !== `sg`) return;
+        if (namespace !== `sg`) return;
         setting.exclude = [
           { enabled: this.validateValue(this.esgst.settings.egh_t_sg) ? 0 : 1, pattern: `^/discussion/` }
         ];
         return;
       case `es_pd`:
-        setting.enabled = name === `sg` ? this.esgst.settings.es_l_d_sg || this.esgst.settings.es_c_d_sg || this.esgst.settings.es_d_d_sg || this.esgst.settings.es_g_d_sg : this.esgst.settings.es_l_d_st || this.esgst.settings.es_c_d_st || this.esgst.settings.es_t_d_st;
+        setting.enabled = namespace === `sg` ? this.esgst.settings.es_l_d_sg || this.esgst.settings.es_c_d_sg || this.esgst.settings.es_d_d_sg || this.esgst.settings.es_g_d_sg : this.esgst.settings.es_l_d_st || this.esgst.settings.es_c_d_st || this.esgst.settings.es_t_d_st;
         setting.enabled = setting.enabled ? 1 : 0;
       case `es`:
-        if (name === `sg`) {
+        if (namespace === `sg`) {
           if (this.validateValue(this.esgst.settings[id === `es` ? `es_l_sg` : `es_l_d_sg`])) {
             setting.exclude = [
               {
@@ -1534,13 +1570,13 @@ class Common extends Module {
         }
         return;
       case `gc`:
-        if (name !== `sg`) return;
+        if (namespace !== `sg`) return;
         setting.exclude = [
           { enabled: this.validateValue(this.esgst.settings.gc_t_sg) ? 0 : 1, pattern: `^/discussion/` }
         ];
         return;
       case `gc_gi`:
-        if (name !== `sg`) return;
+        if (namespace !== `sg`) return;
         if (this.validateValue(this.esgst.settings.gc_gi_t_sg)) {
           setting.include = [
             { enabled: 1, pattern: `^/discussion` }
@@ -1552,7 +1588,7 @@ class Common extends Module {
         }
         return;
       case `gc_o_a`:
-        if (name !== `sg`) return;
+        if (namespace !== `sg`) return;
         setting.enabled = this.esgst.settings.gc_o_altAccounts && this.esgst.settings.gc_o_altAccounts.length > 0 ? 1 : 0;
         if (this.validateValue(this.esgst.settings.gc_o_t_sg)) {
           setting.include = [
@@ -1561,14 +1597,14 @@ class Common extends Module {
         }
         return;
       case `gt`:
-        if (name !== `sg`) return;
+        if (namespace !== `sg`) return;
         setting.exclude = [
           { enabled: this.validateValue(this.esgst.settings.gt_t_sg) ? 0 : 1, pattern: `^/discussion/` }
         ];
         return;
       case `vai`:
         setting.exclude = [
-          { enabled: this.validateValue(this.esgst.settings[`vai_i_${name}`]) ? 1 : 0, pattern: `^/messages` }
+          { enabled: this.validateValue(this.esgst.settings[`vai_i_${namespace}`]) ? 1 : 0, pattern: `^/messages` }
         ];
         return;
       default:
@@ -1576,26 +1612,29 @@ class Common extends Module {
     }
   }
 
-  getFeaturePath(feature, id, name) {
-    let key = `${id}_${name}`;
-    let setting = this.esgst.settings[key];
+  getFeaturePath(feature, id, namespace) {
+    if (!feature) {
+      feature = shared.esgst.featuresById[id];
+    }
+    const key = `${id}_${namespace}`;
+    let setting = shared.esgst.settings[key];
     if (typeof setting === `undefined` || !setting.include || !Array.isArray(setting.include)) {
       setting = {
-        enabled: this.getSetting(key, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/)) ? 1 : 0,
+        enabled: this.getSetting(key, namespace, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/)) ? 1 : 0,
         include: [],
         exclude: [],
         new: typeof setting === `undefined`
       };
-      if (feature[name].include) {
-        setting.include = feature[name].include;
-        if (feature[name].exclude) {
-          setting.exclude = feature[name].exclude;
+      if (feature[namespace].include) {
+        setting.include = feature[namespace].include;
+        if (feature[namespace].exclude) {
+          setting.exclude = feature[namespace].exclude;
         }
       } else {
         setting.include = [{ enabled: setting.enabled, pattern: `.*` }];
       }
       if (setting.new) {
-        this.getOldValues(id, name, setting);
+        this.getOldValues(id, namespace, setting);
       }
     }
     return setting;
@@ -1623,55 +1662,118 @@ class Common extends Module {
     }
   }
 
-  getFeatureSetting(feature, id) {
-    this.esgst[id] = false;
-    if (feature[this.esgst.name]) {
-      let setting = this.getFeaturePath(feature, id, this.esgst.name);
-      if (!setting.enabled) return;
-      let check = false;
-      let path = `${window.location.pathname}${window.location.search}`;
-      let i = setting.include.length - 1;
-      while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
-      if (i > -1) {
-        this.esgst.currentSettings[id] = {
-          current: setting.include[i],
-          setting,
-        };
-        check = true;
-      }
-      i = setting.exclude.length - 1;
-      while (i > -1 && (!setting.exclude[i].enabled || !path.match(new RegExp(setting.exclude[i].pattern)))) i--;
-      if (i > -1) {
-        check = false;
-      }
-      this.esgst[id] = check;
-    }
-    if (!this.esgst[id]) return;
-    if (feature.features) {
-      for (id in feature.features) {
-        if (feature.features.hasOwnProperty(id)) {
-          this.getFeatureSetting(feature.features[id], id);
+  getFeatureSetting(feature, id, namespace, path) {
+    let value = false;
+    if (feature[namespace]) {
+      const setting = this.getFeaturePath(feature, id, namespace);
+      if (setting.enabled) {
+        if (!path) {
+          path = `${window.location.pathname}${window.location.search}`;
+        }
+        let i = setting.include.length - 1;
+        while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
+        if (i > -1) {
+          value = setting.include[i] || true;
+        }
+        i = setting.exclude.length - 1;
+        while (i > -1 && (!setting.exclude[i].enabled || !path.match(new RegExp(setting.exclude[i].pattern)))) i--;
+        if (i > -1) {
+          value = false;
         }
       }
     }
+    return value;
+  }
+  
+  initGlobalSettings() {
+    for (const key in shared.esgst.settings) {
+      const match = key.match(new RegExp(`(.+?)_${shared.esgst.name}$`));
+      if (match) {
+        gSettings[key] = gSettings[match[1]] = shared.esgst.settings[key];
+      }
+    }
+    for (const key in shared.esgst.oldValues) {
+      if (shared.esgst.oldValues.hasOwnProperty(key)) {
+        const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
+        if (!utils.isSet(gSettings[localKey])) {
+          gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        }
+      }
+    }
+    for (const key in shared.esgst.defaultValues) {
+      if (shared.esgst.defaultValues.hasOwnProperty(key)) {
+        const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
+        if (!utils.isSet(gSettings[localKey])) {
+          gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        }
+      }
+    }
+    for (const id in shared.esgst.featuresById) {
+      if (shared.esgst.featuresById.hasOwnProperty(id)) {
+        const feature = shared.esgst.featuresById[id];
+        this.dismissFeature(feature, id);
+        gSettings[`${id}_${shared.esgst.name}`] = gSettings[id] = this.getFeatureSetting(feature, id, shared.esgst.name);
+      }
+    }
+  }
+  
+  getGlobalSetting(id, namespace = shared.esgst.name, path = ``) {
+    let value;
+    const key = this.getGlobalSettingKey(id, namespace, path);
+    if (utils.isSet(gSettings[key])) {
+      value = gSettings[key];
+    } else {
+      const feature = shared.esgst.featuresById[id];
+      if (feature) {
+        value = this.getFeatureSetting(feature, id, namespace, path);
+      } else {
+        const namespaced = shared.esgst.settings[`${id}_${namespace}`];
+        if (namespaced) {
+          value = this.getSetting(`${id}_${namespace}`, namespace);
+        } else {
+          value = this.getSetting(id, namespace);
+        }
+      }
+      gSettings[key] = value;
+      if (namespace === shared.esgst.name) {
+        gSettings[id] = value;
+      }
+    }
+    return value;
+  }
+  
+  setGlobalSetting(id, value, namespace = shared.esgst.name, path = ``) {
+    const key = this.getGlobalSettingKey(id, namespace, path);
+    gSettings[key] = value;
+    if (namespace === shared.esgst.name) {
+      gSettings[id] = value;
+    }
+  }
+  
+  getGlobalSettingKey(id, namespace, path) {
+    return `${id}_${namespace}_${path}`.replace(/\s/g, ``);
   }
 
   toggleHeaderMenu(arrow, dropdown) {
     if (this.esgst.sg) {
       let buttons = document.querySelectorAll(`nav .nav__button`);
+      // @ts-ignore
       for (let button of buttons) {
         button.classList.remove(`is-selected`);
       }
       let dropdowns = document.querySelectorAll(`nav .nav__relative-dropdown`);
+      // @ts-ignore
       for (let dropdown of dropdowns) {
         dropdown.classList.add(`is-hidden`);
       }
     } else {
       let buttons = document.querySelectorAll(`.nav_btn_dropdown, .page_heading_btn_dropdown`);
+      // @ts-ignore
       for (let button of buttons) {
         button.classList.remove(`is_selected`);
       }
       let dropdowns = document.querySelectorAll(`.dropdown`);
+      // @ts-ignore
       for (let dropdown of dropdowns) {
         dropdown.classList.add(`is_hidden`);
       }
@@ -1705,7 +1807,7 @@ class Common extends Module {
   }
 
   getFeatureTooltip(id, title = ``) {
-    if (this.esgst.showFeatureNumber) {
+    if (gSettings.showFeatureNumber) {
       if (title) {
         return `${title}\n\nThis element was added by ESGST${id ? ` (${this.getFeatureNumber(id).number})` : ``}`;
       }
@@ -1731,12 +1833,12 @@ class Common extends Module {
             if (result) {
               return result;
             }
-            if (feature.sg || this.esgst.settings.esgst_st || this.esgst.settings.esgst_sgtools) {
+            if (feature.sg || gSettings.esgst_st || gSettings.esgst_sgtools) {
               i += 1;
             }
           }
         }
-        if (type !== `trades` || this.esgst.settings.esgst_st || this.esgst.settings.esgst_sgtools) {
+        if (type !== `trades` || gSettings.esgst_st || gSettings.esgst_sgtools) {
           n += 1;
         }
       }
@@ -1763,7 +1865,7 @@ class Common extends Module {
           if (result) {
             return result;
           }
-          if (subFeature.sg || this.esgst.settings.esgst_st || this.esgst.settings.esgst_sgtools) {
+          if (subFeature.sg || gSettings.esgst_st || gSettings.esgst_sgtools) {
             j += 1;
           }
         }
@@ -2052,7 +2154,7 @@ class Common extends Module {
       let parameters = ``;
       this.setLocalValue(`isSyncing`, currentDate);
       [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`, `WonGiveaways`].forEach(key => {
-        if (this.esgst[`autoSync${key}`] && currentDate - this.esgst[`lastSync${key}`] > this.esgst[`autoSync${key}`] * 86400000) {
+        if (gSettings[`autoSync${key}`] && currentDate - gSettings[`lastSync${key}`] > gSettings[`autoSync${key}`] * 86400000) {
           parameters += `${key}=1&`;
         }
       });
@@ -2332,9 +2434,7 @@ class Common extends Module {
   observeChange(context, id, save = false, key = `value`, event = `change`) {
     context.addEventListener(event, () => {
       let value = context[key];
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.settings[id] = value;
-      this.esgst[id] = value;
+      gSettings[id] = value;
       if (save) {
         this.setSetting(id, value);
       }
@@ -2342,12 +2442,11 @@ class Common extends Module {
   }
 
   observeNumChange(context, id, save = false, key = `value`) {
-    this.esgst[id] = parseFloat(this.esgst[id]);
+    gSettings[id] = parseFloat(gSettings[id]);
     context.addEventListener(`change`, () => {
       let value = parseFloat(context[key]);
       // noinspection JSIgnoredPromiseFromCall
-      this.esgst.settings[id] = value;
-      this.esgst[id] = value;
+      gSettings[id] = value;
       if (save) {
         this.setSetting(id, value);
       }
@@ -2365,14 +2464,14 @@ class Common extends Module {
       rows[1].innerHTML = ``;
     } else {
       let preset = null;
-      if (this.esgst.df && this.esgst.df_m && this.esgst.df_enable) {
-        let name = this.esgst.df_preset;
+      if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
+        let name = gSettings.df_preset;
         if (name) {
           let i;
-          for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {
+          for (i = gSettings.df_presets.length - 1; i > -1 && gSettings.df_presets[i].name !== name; i--) {
           }
           if (i > -1) {
-            preset = this.esgst.df_presets[i];
+            preset = gSettings.df_presets[i];
           }
         }
       }
@@ -2380,6 +2479,7 @@ class Common extends Module {
         const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
         (await this.esgst.modules.discussions.discussions_get(rows[0], true)).forEach(discussion => {
           if (!this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, discussion, preset.rules)) {
+            // @ts-ignore
             discussion.outerWrap.remove();
             filteredDiscussions += 1;
           } else {
@@ -2388,6 +2488,7 @@ class Common extends Module {
         });
         (await this.esgst.modules.discussions.discussions_get(rows[1], true)).forEach(deal => {
           if (!this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, deal, preset.rules)) {
+            // @ts-ignore
             deal.outerWrap.remove();
             filteredDeals += 1;
           } else {
@@ -2408,18 +2509,19 @@ class Common extends Module {
       let response2Html = parseHtml(response2.responseText);
       let revisedElements = [];
       let preset = null;
-      if (this.esgst.df && this.esgst.df_m && this.esgst.df_enable) {
-        let name = this.esgst.df_preset;
+      if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
+        let name = gSettings.df_preset;
         if (name) {
           let i;
-          for (i = this.esgst.df_presets.length - 1; i > -1 && this.esgst.df_presets[i].name !== name; i--) {
+          for (i = gSettings.df_presets.length - 1; i > -1 && gSettings.df_presets[i].name !== name; i--) {
           }
           if (i > -1) {
-            preset = this.esgst.df_presets[i];
+            preset = gSettings.df_presets[i];
           }
         }
       }
       (await this.esgst.modules.discussions.discussions_get(response1Html, true)).forEach(element => {
+        // @ts-ignore
         if (element.category !== `Deals`) {
           revisedElements.push(element);
         }
@@ -2439,14 +2541,15 @@ class Common extends Module {
       while (numDeals < 5 && i > -1) {
         if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[i], preset.rules)) {
           this.setMissingDiscussion(elements[i]);
+          // @ts-ignore
           rows[1].appendChild(elements[i].outerWrap);
           numDeals += 1;
         }
         i -= 1;
       }
-      if (this.esgst.adots) {
+      if (gSettings.adots) {
         this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load(refresh);
-      } else if (this.esgst.radb && !refresh) {
+      } else if (gSettings.radb && !refresh) {
         this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
       }
       if (refresh) {
@@ -2456,9 +2559,9 @@ class Common extends Module {
         callback();
       }
     } else {
-      if (this.esgst.adots) {
+      if (gSettings.adots) {
         this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load();
-      } else if (this.esgst.radb && !refresh) {
+      } else if (gSettings.radb && !refresh) {
         this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
       }
       if (callback) {
@@ -2476,56 +2579,56 @@ class Common extends Module {
           callback: this.setSMRecentUsernameChanges.bind(this)
         },
         {
-          check: this.esgst.uf,
+          check: gSettings.uf,
           name: `See list of filtered users`,
           callback: this.setSMManageFilteredUsers.bind(this)
         },
         {
-          check: this.esgst.sg && this.esgst.gf && this.esgst.gf_s,
+          check: this.esgst.sg && gSettings.gf && gSettings.gf_s,
           name: `Manage hidden giveaways`,
           callback: this.setSMManageFilteredGiveaways.bind(this)
         },
         {
           click: true,
-          check: this.esgst.sg && this.esgst.df && this.esgst.df_s,
+          check: this.esgst.sg && gSettings.df && gSettings.df_s,
           name: `Manage hidden discussions`,
           callback: this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {})
         },
         {
           click: true,
-          check: this.esgst.st && this.esgst.tf && this.esgst.tf_s,
+          check: this.esgst.st && gSettings.tf && gSettings.tf_s,
           name: `Manage hidden trades`,
           callback: this.esgst.modules.tradesTradeFilters.tf_menu.bind(this.esgst.modules.tradesTradeFilters, {})
         },
         {
-          check: this.esgst.sg && this.esgst.dt,
+          check: this.esgst.sg && gSettings.dt,
           name: `Manage discussion tags`,
           callback: this.openManageDiscussionTagsPopup.bind(this)
         },
         {
-          check: this.esgst.sg && this.esgst.ut,
+          check: this.esgst.sg && gSettings.ut,
           name: `Manage user tags`,
           callback: this.openManageUserTagsPopup.bind(this)
         },
         {
-          check: this.esgst.gt,
+          check: gSettings.gt,
           name: `Manage game tags`,
           callback: this.openManageGameTagsPopup.bind(this)
         },
         {
-          check: this.esgst.gpt,
+          check: gSettings.gpt,
           name: `Manage group tags`,
           callback: this.openManageGroupTagsPopup.bind(this)
         },
         {
           click: true,
-          check: this.esgst.wbc,
+          check: gSettings.wbc,
           name: `Manage Whitelist / Blacklist Checker caches`,
           callback: this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton.bind(this.esgst.modules.usersWhitelistBlacklistChecker, false)
         },
         {
           click: true,
-          check: this.esgst.namwc,
+          check: gSettings.namwc,
           name: `Manage Not Activated / Multiple Wins Checker caches`,
           callback: this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup.bind(this.esgst.modules.usersNotActivatedMultipleWinChecker)
         }
@@ -2622,7 +2725,7 @@ class Common extends Module {
               i = value;
               if (i > n) {
                 set.set.remove();
-              } else if (this.esgst.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+              } else if (gSettings.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
                 set.trigger();
               }
               resolve();
@@ -2633,7 +2736,7 @@ class Common extends Module {
       popup.description.appendChild(set.set);
       popup.open();
       set.trigger();
-      if (this.esgst.es_gf) {
+      if (gSettings.es_gf) {
         popup.scrollable.addEventListener(`scroll`, () => {
           if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
             set.trigger();
@@ -2693,7 +2796,7 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    if (this.esgst.mm) {
+    if (gSettings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedDiscussions = JSON.parse(this.getValue(`discussions`));
@@ -2771,7 +2874,7 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    if (this.esgst.mm) {
+    if (gSettings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedUsers = JSON.parse(this.getValue(`users`));
@@ -2854,7 +2957,7 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    if (this.esgst.mm) {
+    if (gSettings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedGames = JSON.parse(this.getValue(`games`));
@@ -2979,7 +3082,7 @@ class Common extends Module {
       },
       type: `div`
     }]);
-    if (this.esgst.mm) {
+    if (gSettings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedGroups = JSON.parse(this.getValue(`groups`));
@@ -3114,7 +3217,7 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async updateHiddenGames(id, type, unhide) {
-    if (!this.esgst.updateHiddenGames) {
+    if (!gSettings.updateHiddenGames) {
       return;
     }
     const games = {
@@ -3130,7 +3233,7 @@ class Common extends Module {
   checkBackup() {
     let currentDate = Date.now();
     let isBackingUp = this.getLocalValue(`isBackingUp`);
-    if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - this.esgst.lastBackup > this.esgst.autoBackup_days * 86400000) {
+    if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - gSettings.lastBackup > gSettings.autoBackup_days * 86400000) {
       this.setLocalValue(`isBackingUp`, currentDate);
       this.runSilentBackup();
     }
@@ -3148,6 +3251,7 @@ class Common extends Module {
       compressionOptions: {
         level: 9
       },
+      // @ts-ignore
       type: type
     }));
   }
@@ -3155,14 +3259,14 @@ class Common extends Module {
   async readZip(data) {
     const zip = new JSZip();
 
-    /** @type {ZipFile} */
+    //** @type {ZipFile} */
     const contents = await zip.loadAsync(data);
     const keys = Object.keys(contents.files),
       output = [];
     for (const key of keys) {
       output.push({
         name: key,
-        value: await zip.file(key).async(`string`)
+        value: await zip.file(key).async(`text`)
       });
     }
     return output;
@@ -3252,15 +3356,8 @@ class Common extends Module {
     version.textContent = `v${(match && match[2]) || `Unknown`}`;
   }
 
-  resetColor(hexInput, alphaInput, id, colorId) {
-    const color = rgba2Hex(this.esgst.defaultValues[`${id}_${colorId}`]);
-    hexInput.value = color.hex;
-    alphaInput.value = color.alpha;
-    // noinspection JSIgnoredPromiseFromCall
-    this.esgst.settings[`${id}_${colorId}`] = hex2Rgba(hexInput.value, alphaInput.value);
-  }
-
   async setSMManageFilteredUsers() {
+    /** @type {Popup} */
     let popup;
     if (popup) {
       popup.open();
@@ -3392,15 +3489,15 @@ class Common extends Module {
   }
 
   multiChoice(choice1Color, choice1Icon, choice1Title, choice2Color, choice2Icon, choice2Title, title, onChoice1, onChoice2) {
-    if (this.esgst.settings.cfh_img_remember) {
-      if (this.esgst.cfh_img_choice === 1) {
+    if (gSettings.cfh_img_remember) {
+      if (gSettings.cfh_img_choice === 1) {
         onChoice1();
       } else {
         onChoice2();
       }
     } else {
       let popup = new Popup({ addScrollable: true, icon: `fa-list`, isTemp: true, title: title });
-      new ToggleSwitch(popup.description, `cfh_img_remember`, false, `Never ask again.`, false, false, `Remembers which option you choose forever.`, this.esgst.settings.cfh_img_remember);
+      new ToggleSwitch(popup.description, `cfh_img_remember`, false, `Never ask again.`, false, false, `Remembers which option you choose forever.`, gSettings.cfh_img_remember);
       popup.description.appendChild(new ButtonSet({
         color1: choice1Color,
         color2: ``,
@@ -3410,10 +3507,9 @@ class Common extends Module {
         title2: ``,
         callback1: () => {
           return new Promise(resolve => {
-            if (this.esgst.settings.cfh_img_remember) {
+            if (gSettings.cfh_img_remember) {
               // noinspection JSIgnoredPromiseFromCall
-              this.setValue(`cfh_img_choice`, 1);
-              this.esgst.cfh_img_choice = 1;
+              this.setSetting(`cfh_img_choice`, 1);
             }
             resolve();
             popup.close();
@@ -3430,10 +3526,9 @@ class Common extends Module {
         title2: ``,
         callback1: () => {
           return new Promise(resolve => {
-            if (this.esgst.settings.cfh_img_remember) {
+            if (gSettings.cfh_img_remember) {
               // noinspection JSIgnoredPromiseFromCall
-              this.setValue(`cfh_img_choice`, 2);
-              this.esgst.cfh_img_choice = 2;
+              this.setSetting(`cfh_img_choice`, 2);
             }
             resolve();
             popup.close();
@@ -3446,7 +3541,7 @@ class Common extends Module {
   }
 
   async exportSettings() {
-    /** @type {EsgstSettings} */
+    //** @type {EsgstSettings} */
     let settings = JSON.parse(this.getValue(`settings`, `{}`));
     let data = { settings };
 
@@ -3456,7 +3551,7 @@ class Common extends Module {
     delete data.settings.steamId;
     delete data.settings.syncFrequency;
     delete data.settings.username;
-    const name = `${this.esgst.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
+    const name = `${gSettings.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
     if (name === `null.json`) return;
     this.downloadFile(JSON.stringify(data), name);
   }
@@ -3512,7 +3607,7 @@ class Common extends Module {
     for (let i = 0, n = keys.length; i < n; i++) {
       let key = keys[i];
       if (key === `customTheme`) continue;
-      if (this.esgst[key] && this.checkThemeTime(key)) {
+      if (gSettings[key] && this.checkThemeTime(key)) {
         const theme = this.getValue(key, ``);
         if (!theme) continue;
         const css = this.getThemeCss(JSON.parse(theme));
@@ -3530,7 +3625,7 @@ class Common extends Module {
         break;
       }
     }
-    if (this.esgst.customTheme && this.checkThemeTime(`customTheme`)) {
+    if (gSettings.customTheme && this.checkThemeTime(`customTheme`)) {
       const css = JSON.parse(this.getValue(`customTheme`, ``));
       this.esgst.customThemeElement = this.createElements(document.head, `beforeEnd`, [{
         attributes: {
@@ -3547,8 +3642,8 @@ class Common extends Module {
   }
 
   checkThemeTime(id) {
-    let startParts = this.esgst[`${id}_startTime`].split(`:`),
-      endParts = this.esgst[`${id}_endTime`].split(`:`),
+    let startParts = gSettings[`${id}_startTime`].split(`:`),
+      endParts = gSettings[`${id}_endTime`].split(`:`),
       startDate = new Date(),
       startHours = parseInt(startParts[0]),
       startMinutes = parseInt(startParts[1]),
@@ -3571,7 +3666,7 @@ class Common extends Module {
       }
     }
     if (currentDate >= startDate && currentDate <= endDate) {
-      window.setTimeout(() => this.setTheme(), endDate - currentDate);
+      window.setTimeout(() => this.setTheme(), endDate.getTime() - currentDate.getTime());
       return true;
     }
   }
@@ -3677,6 +3772,9 @@ class Common extends Module {
   }
 
   draggable_set(obj) {
+    if (!obj.values) {
+      obj.values = {};
+    }
     obj.context.setAttribute(`data-draggable-key`, obj.id);
     for (const element of obj.context.children) {
       if (element.getAttribute(`draggable`) || !element.getAttribute(`data-draggable-id`)) {
@@ -3781,25 +3879,23 @@ class Common extends Module {
         continue;
       }
       const key = `${element.getAttribute(`data-draggable-key`)}${obj.item.gvIcons ? `_gv` : ``}`;
-      this.esgst[key] = [];
+      obj.values[key] = [];
       for (const child of element.children) {
         const id = child.getAttribute(`data-draggable-id`);
         if (id) {
           if (child.getAttribute(`data-draggable-obj`)) {
-            this.esgst[key].push(JSON.parse(child.getAttribute(`data-draggable-obj`)));
+            obj.values[key].push(JSON.parse(child.getAttribute(`data-draggable-obj`)));
           } else {
-            this.esgst[key].push(id);
+            obj.values[key].push(id);
           }
         }
       }
       if (key === `emojis`) {
-        await this.setValue(key, JSON.stringify(this.esgst[key]));
-      } else if (key === `ul_links`) {
-        this.esgst.settings.ul_links = this.esgst.ul_links;
-        await this.lockAndSaveSettings();
-      } else {
-        this.esgst.settings[key] = this.esgst[key];
+        await this.setValue(key, JSON.stringify(obj.values[key]));
       }
+    }
+    if (obj.onDragEnd) {
+      obj.onDragEnd(obj.values);
     }
     this.esgst.draggable.dragged = null;
     this.esgst.draggable.source = null;
@@ -4058,10 +4154,6 @@ class Common extends Module {
     window.localStorage.removeItem(`esgst_${key}`);
   }
 
-  validateValue(value) {
-    return typeof value === `undefined` || value;
-  }
-
   closeHeaderMenu(arrow, dropdown, menu, event) {
     if (!menu.contains(event.target) && arrow.classList.contains(`selected`)) {
       arrow.classList.remove(`selected`);
@@ -4115,11 +4207,11 @@ class Common extends Module {
         elements[id] = this.createElements(context, `beforeEnd`, [{
           type: `div`
         }]);
-        switches[id] = new ToggleSwitch(elements[id], id, false, option.description, false, false, option.tooltip, this.esgst[id]);
+        switches[id] = new ToggleSwitch(elements[id], id, false, option.description, false, false, option.tooltip, gSettings[id]);
       }
     });
     options.forEach(option => {
-      let enabled = this.esgst[option.id];
+      let enabled = gSettings[option.id];
       if (switches[option.id]) {
         if (option.dependencies) {
           option.dependencies.forEach(dependency => {
@@ -5085,20 +5177,20 @@ class Common extends Module {
   /**
    * @param appId
    * @param steamId
-   * @returns {PlayerAchievementsSteamApiResponse}
-   */
+   */// @returns {PlayerAchievementsSteamApiResponse}
+   //*/
   async getPlayerAchievements(appId, steamId) {
     const text = (await this.request({
       method: `GET`,
-      url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.esgst.steamApiKey}&steamid=${steamId}`
+      url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${gSettings.steamApiKey}&steamid=${steamId}`
     })).responseText;
     return JSON.parse(text);
   }
 
   /**
    * @param steamIds
-   * @returns {SuspensionsApiResponse}
-   */
+   */// @returns {SuspensionsApiResponse}
+   //*/
   async getSuspensions(steamIds) {
     return JSON.parse((await this.request({
       method: `GET`,
@@ -5107,8 +5199,8 @@ class Common extends Module {
   }
 
   /**
-   * @param SMFeatures
-   */
+   */// @param SMFeatures
+   //*/
   updateTheme(id) {
     document.querySelector(`#${id}`).dispatchEvent(new Event(`click`));
   }
@@ -5148,7 +5240,7 @@ class Common extends Module {
       ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1]
       : `/ajax.php`;
 
-    if (obj.checked || !this.esgst.rfi_c) {
+    if (obj.checked || !gSettings.rfi_c) {
       const result = await this.saveComment(
         obj.context,
         obj.tradeCode,
@@ -5487,8 +5579,11 @@ class Common extends Module {
           let _fetch;
           let _requestOptions;
           if ((await this.getBrowserInfo()).name === `Firefox` && utils.isSet(window.wrappedJSObject)) {
+            // @ts-ignore
             _fetch = XPCNativeWrapper(window.wrappedJSObject.fetch);
+            // @ts-ignore
             window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
+            // @ts-ignore
             _requestOptions = XPCNativeWrapper(window.wrappedJSObject.requestOptions);
           } else {
             _fetch = window.fetch;
@@ -5517,7 +5612,7 @@ class Common extends Module {
           action: `fetch`,
           blob: details.blob,
           fileName: details.fileName,
-          manipulateCookies: (await this.getBrowserInfo()).name === `Firefox` && this.esgst.manipulateCookies,
+          manipulateCookies: (await this.getBrowserInfo()).name === `Firefox` && gSettings.manipulateCookies,
           parameters: JSON.stringify({
             body: details.data,
             credentials: details.anon ? `omit` : `include`,
@@ -5662,7 +5757,7 @@ class Common extends Module {
     button = dropdown.nextElementSibling;
     arrow = button.nextElementSibling;
     button.addEventListener(`click`, event => {
-      if (!this.esgst.openSettingsInTab) {
+      if (!gSettings.openSettingsInTab) {
         event.preventDefault();
         settingsModule.loadMenu(true);
       }
