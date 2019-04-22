@@ -3681,6 +3681,7 @@ class Common extends Module {
       details.headers = {};
     }
     details.headers[`From`] = `esgst.extension@gmail.com`;
+    details.headers[`Esgst-Version`] = (await browser.runtime.getManifest()).version;
     if (!details.headers[`Content-Type`]) {
       details.headers[`Content-Type`] = `application/x-www-form-urlencoded`;
     }
