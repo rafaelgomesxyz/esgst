@@ -29,7 +29,7 @@ class Esgst {
     this.leftMainPageHeadingButtons = undefined;
     this.rightMainPageHeadingButtons = undefined;
 
-    this.cvLevels = [0, 0.01, 25.01, 50.01, 100.01, 250.01, 500.01, 1000.01, 2000.01, 3000.01, 5000.01];
+    this.cvLevels = [0, 0.01, 25, 50, 100, 250, 500, 1000, 2000, 3000, 5000];
 
     this.currentPaths = undefined;
     this.settingsChanged = undefined;
