@@ -46,19 +46,19 @@ class GeneralNotificationMerger extends Module {
         url: `https://www.steamtrades.com`
       })).responseText).getElementsByClassName(`message_count`)[0];
       if (!notification) {
-        if (this.esgst.altInboxButton) {
+        if (this.altInboxButton) {
           // hide the button, since there are no notifications
-          this.esgst.altInboxButton.classList.add(`esgst-hidden`);
+          this.altInboxButton.classList.add(`esgst-hidden`);
         }
         return;
       }
-      if (this.esgst.altInboxButton) {
+      if (this.altInboxButton) {
         // the button already exists, so simply unhide it and change the message count
-        this.esgst.altInboxButton.classList.remove(`esgst-hidden`);
-        this.esgst.altMessageCount.textContent = notification.textContent;
+        this.altInboxButton.classList.remove(`esgst-hidden`);
+        this.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
-        this.esgst.altInboxButton = createElements(this.esgst.inboxButton, `afterEnd`, [{
+        this.altInboxButton = createElements(this.esgst.inboxButton, `afterEnd`, [{
           attributes: {
             class: `nav__button-container nav__button-container--notification nav__button-container--active`
           },
@@ -84,7 +84,7 @@ class GeneralNotificationMerger extends Module {
             }]
           }]
         }]);
-        this.esgst.altMessageCount = this.esgst.altInboxButton.firstElementChild.lastElementChild;
+        this.altMessageCount = this.altInboxButton.firstElementChild.lastElementChild;
       }
     } else {
       let notification = parseHtml((await request({
@@ -92,19 +92,19 @@ class GeneralNotificationMerger extends Module {
         url: `https://www.steamgifts.com`
       })).responseText).getElementsByClassName(`nav__notification`)[0];
       if (!notification) {
-        if (this.esgst.altInboxButton) {
+        if (this.altInboxButton) {
           // hide the button, since there are no notifications
-          this.esgst.altInboxButton.classList.add(`esgst-hidden`);
+          this.altInboxButton.classList.add(`esgst-hidden`);
         }
         return;
       }
-      if (this.esgst.altInboxButton) {
+      if (this.altInboxButton) {
         // the button already exists, so simply unhide it and change the message count
-        this.esgst.altInboxButton.classList.remove(`esgst-hidden`);
-        this.esgst.altMessageCount.textContent = notification.textContent;
+        this.altInboxButton.classList.remove(`esgst-hidden`);
+        this.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
-        this.esgst.altInboxButton = createElements(this.esgst.inboxButton, `afterEnd`, [{
+        this.altInboxButton = createElements(this.esgst.inboxButton, `afterEnd`, [{
           attributes: {
             class: `nav_btn_container`,
             title: getFeatureTooltip(`nm`)
@@ -136,7 +136,7 @@ class GeneralNotificationMerger extends Module {
             }]
           }]
         }]);
-        this.esgst.altMessageCount = this.esgst.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
+        this.altMessageCount = this.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
       }
     }
   }

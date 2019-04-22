@@ -40,17 +40,17 @@ class GeneralAttachedImageCarousel extends Module {
     this.esgst.endlessFeatures.push(this.aic_getImages.bind(this));
     this.esgst.documentEvents.keydown.add(this.aic_move.bind(this));
     if (!this.esgst.mainPageHeading) return;
-    this.esgst.aicButton = createHeadingButton({ id: `aic`, icons: [`fa-image`], title: `View attached images` });
-    this.esgst.aicButton.classList.add(`esgst-hidden`);
-    this.esgst.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(this, 0, null));
+    this.aicButton = createHeadingButton({ id: `aic`, icons: [`fa-image`], title: `View attached images` });
+    this.aicButton.classList.add(`esgst-hidden`);
+    this.aicButton.addEventListener(`click`, this.aic_openCarousel.bind(this, 0, null));
   }
 
   aic_move(event) {
-    if (event.key === `ArrowLeft` && this.esgst.aicPrevious) {
-      this.esgst.aicPrevious.click();
+    if (event.key === `ArrowLeft` && this.aicPrevious) {
+      this.aicPrevious.click();
     }
-    if (event.key === `ArrowRight` && this.esgst.aicNext) {
-      this.esgst.aicNext.click();
+    if (event.key === `ArrowRight` && this.aicNext) {
+      this.aicNext.click();
     }
   }
 
@@ -76,10 +76,10 @@ class GeneralAttachedImageCarousel extends Module {
       });
       found = true;
     }
-    if (!found || !this.esgst.aicButton) {
+    if (!found || !this.aicButton) {
       return;
     }
-    this.esgst.aicButton.classList.remove(`esgst-hidden`);
+    this.aicButton.classList.remove(`esgst-hidden`);
   }
 
   aic_openCarousel(i, event) {
@@ -182,17 +182,17 @@ class GeneralAttachedImageCarousel extends Module {
     image.style.maxHeight = `calc(90% - ${height}px)`;
     image.style.marginTop = `${height}px`;
     image.firstElementChild.onload = this.aic_resizeImage.bind(this, image);
-    this.esgst.aicPrevious = panel.firstElementChild;
-    this.esgst.aicNext = this.esgst.aicPrevious.nextElementSibling;
+    this.aicPrevious = panel.firstElementChild;
+    this.aicNext = this.aicPrevious.nextElementSibling;
     if (i > 0) {
-      this.esgst.aicPrevious.addEventListener(`click`, this.aic_showImage.bind(this, carousel, i - 1));
+      this.aicPrevious.addEventListener(`click`, this.aic_showImage.bind(this, carousel, i - 1));
     } else {
-      this.esgst.aicPrevious.classList.add(`esgst-disabled`);
+      this.aicPrevious.classList.add(`esgst-disabled`);
     }
     if (i < n - 1) {
-      this.esgst.aicNext.addEventListener(`click`, this.aic_showImage.bind(this, carousel, i + 1));
+      this.aicNext.addEventListener(`click`, this.aic_showImage.bind(this, carousel, i + 1));
     } else {
-      this.esgst.aicNext.classList.add(`esgst-disabled`);
+      this.aicNext.classList.add(`esgst-disabled`);
     }
     if (attachedImage.source) {
       panel.lastElementChild.addEventListener(`click`, () => {

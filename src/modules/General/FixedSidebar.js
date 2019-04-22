@@ -28,17 +28,9 @@ class GeneralFixedSidebar extends Module {
         max-height: calc(100vh - ${top + 30 + (gSettings.ff ? 39 : 0)}px);
         top: ${top}px;
       }
-
-      .esgst-fs.stuck {
-        height: calc(100vh - ${top + 30 + (gSettings.ff ? 39 : 0)}px);
-      }
-
-      .sticky_sentinel--top {
-        top: ${this.esgst.sidebar.offsetTop - top - 1}px;
-      }
     `);
 
-    this.esgst.sidebar.classList.add(`esgst-fs`, `sticky`);
+    this.esgst.sidebar.classList.add(`esgst-fs`);
   }
 }
 

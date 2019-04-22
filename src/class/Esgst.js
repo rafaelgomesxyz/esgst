@@ -1036,6 +1036,9 @@ class Esgst {
     this.aboutPath = false;
     this.whitelistPath = false;
     this.blacklistPath = false;
+    this.headerSize = 0;
+    this.mainPageHeadingSize = 0;
+    this.footerSize = 0;
     this.pageTop = 0;
     this.commentsTop = 0;
     this.apPopouts = {};
@@ -1054,8 +1057,6 @@ class Esgst {
     this.games = {};
 
     this.minimizeList = null;
-
-    this.noCvButton = null;
 
     this.sidebar = null;
 
@@ -1165,18 +1166,6 @@ class Esgst {
     /** @type {"sg"|"st"} */
     this.name = undefined;
 
-    /** @type {string[]} */
-    this.giveawayColumns = null;
-
-    /** @type {string[]} */
-    this.giveawayPanel = null;
-
-    /** @type {string[]} */
-    this.giveawayColumns_gv = null;
-
-    /** @type {string[]} */
-    this.giveawayPanel_gv = null;
-
     this.style = null;
     
     this.customThemeElement = null;
@@ -1196,14 +1185,6 @@ class Esgst {
     this.points = null;
 
     this.decryptedGiveaways = null;
-
-    this.giveawayHeading = null;
-
-    this.giveawayHeading_gv = null;
-
-    this.giveawayLinks = null;
-
-    this.giveawayLinks_gv = null;
 
     this.gfPopup = null;
 
@@ -1227,12 +1208,6 @@ class Esgst {
 
     this.rerolls = null;
 
-    this.aicButton = null;
-
-    this.aicPrevious = null;
-
-    this.aicNext = null;
-
     this.lastPageLink = null;
 
     this.stopEs = null;
@@ -1255,25 +1230,9 @@ class Esgst {
 
     this.lpvStyle = null;
 
-    this.mm_enableGames = null;
-
-    this.altInboxButton = null;
-
     this.pvStyle = null;
 
-    this.altMessageCount = null;
-
     this.wishlist = null;
-
-    this.cerbButtons = null;
-
-    this.cfhEmojis = null;
-  
-    this.ctGoToUnread = null;
-
-    this.ctUnreadFound = null;
-
-    this.ctNewTab = null;
 
     this.toDismiss = [];
 

@@ -271,7 +271,7 @@ class Filters extends Module {
     }]);
 
     if (!obj.popup) {
-      this.esgst.commentsTop += obj.container.offsetHeight;
+      this.esgst.commentsTop += 23;
     }
 
     const box = obj.container.firstElementChild;

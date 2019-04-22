@@ -285,8 +285,6 @@ class Common extends Module {
       }
     }
 
-    this.observeStickyChanges();
-
     if (this.esgst.newGiveawayPath) {
       // when the user searches for a game in the new giveaway page, wait until the results appear and load the game features for them
       let rows = document.getElementsByClassName(`form__rows`)[0];
@@ -591,11 +589,11 @@ class Common extends Module {
         found = true;
       }
     }
-    if (this.esgst.noCvButton) {
-      this.esgst.noCvButton.remove();
+    if (this.noCvButton) {
+      this.noCvButton.remove();
     }
     if (found) {
-      this.esgst.noCvButton = this.createElements(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, [{
+      this.noCvButton = this.createElements(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, [{
         attributes: {
           class: `esgst-no-cv-button`
         },
@@ -612,7 +610,7 @@ class Common extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.addNoCvGames(games);
       } else {
-        this.esgst.noCvButton.firstElementChild.addEventListener(`click`, this.addNoCvGames.bind(this, games));
+        this.noCvButton.firstElementChild.addEventListener(`click`, this.addNoCvGames.bind(this, games));
       }
     }
 
@@ -620,8 +618,8 @@ class Common extends Module {
   }
 
   async addNoCvGames(games) {
-    let button = this.esgst.noCvButton;
-    this.esgst.noCvButton = null;
+    let button = this.noCvButton;
+    this.noCvButton = null;
     this.createElements(button, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`,
@@ -3970,49 +3968,6 @@ class Common extends Module {
       }
     }
     return textNodes;
-  }
-
-  observeStickyChanges() {
-    this.observeHeaders();
-  }
-
-  /**
-   * Sets up an intersection observer to notify when elements with the class
-   * `.sticky_sentinel--top` become visible/invisible at the top of the container.
-   */
-  observeHeaders() {
-    const observer = new IntersectionObserver(records => {
-      for (const record of records) {
-        const targetInfo = record.boundingClientRect;
-        const stickyTarget = record.target.parentElement.querySelector(`.sticky`);
-        const rootBoundsInfo = record.rootBounds;
-
-        // Started sticking.
-        if (targetInfo.bottom < rootBoundsInfo.top) {
-          stickyTarget.classList.add(`stuck`);
-        }
-
-        // Stopped sticking.
-        if (
-          targetInfo.bottom >= rootBoundsInfo.top &&
-          targetInfo.bottom < rootBoundsInfo.bottom
-        ) {
-          stickyTarget.classList.remove(`stuck`);
-        }
-      }
-    }, { threshold: 0 });
-
-    // Add the top sentinels to each section and attach an observer.
-    const sentinels = this.addSentinels(`sticky_sentinel--top`);
-    sentinels.forEach(el => observer.observe(el));
-  }
-
-  addSentinels(className) {
-    return Array.from(document.querySelectorAll(`.sticky`)).map(el => {
-      const sentinel = document.createElement(`div`);
-      sentinel.classList.add(`sticky_sentinel`, className);
-      return el.parentElement.appendChild(sentinel);
-    });
   }
 
   setClearButton(input) {

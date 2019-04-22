@@ -391,7 +391,6 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async init() {
-    this.esgst.cfhEmojis = EMOJIS;
     this.esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
     this.esgst.cfh = {
       backup: [],
@@ -783,7 +782,7 @@ class CommentsCommentFormattingHelper extends Module {
                 item: {}
               };
               shared.common.draggable_set(obj);
-              for (const emojiData of this.esgst.cfhEmojis) {
+              for (const emojiData of EMOJIS) {
                 shared.common.createElements(emojis, `beforeEnd`, [{
                   attributes: {
                     [`data-draggable-id`]: emojiData.emoji,
@@ -1128,7 +1127,7 @@ class CommentsCommentFormattingHelper extends Module {
     let emojis = JSON.parse(shared.common.getValue(`emojis`, `[]`));
     return emojis
       .map(emoji => {
-        const emojiData = this.esgst.cfhEmojis.filter(x => x.emoji === emoji || x.entity === emoji)[0];
+        const emojiData = EMOJIS.filter(x => x.emoji === emoji || x.entity === emoji)[0];
         emoji = emojiData ? emojiData.emoji : emoji;
         return {
           attributes: {

@@ -428,7 +428,24 @@ window.interact = interact;
   }
 
   async function load(toDelete, toSet) {
+    esgst.mainPageHeadingSize = 34;
+    if (esgst.sg) {
+      esgst.headerSize = 39;
+      esgst.footerSize = 44;
+    } else {
+      if (gSettings.fh) {
+        esgst.headerSize = 231;
+      }
+      esgst.headerSize = gSettings.fh ? 231 : 454;
+      esgst.footerSize = gSettings.ff ? 44 : 64;
+    }
+    esgst.pageTop = (gSettings.fh ? esgst.headerSize : 0) + 5;
+    esgst.commentsTop = esgst.pageTop + (gSettings.fmph ? esgst.mainPageHeadingSize : 0) + 5;
+
+    common.initGlobalSettings();
+
     addStyle();
+
     if (esgst.sg) {
       try {
         let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
@@ -483,8 +500,6 @@ window.interact = interact;
     if (Object.keys(toDelete).length) {
       await common.delValues(toDelete);
     }
-
-    common.initGlobalSettings();
 
     // now that all values are set esgst can begin to load
 

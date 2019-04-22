@@ -29,7 +29,6 @@ class GeneralFixedMainPageHeading extends Module {
     `);
 
     this.esgst.mainPageHeading.classList.add(`esgst-fmph`);
-    this.esgst.commentsTop += this.esgst.mainPageHeading.offsetHeight;
   }
 }
 
