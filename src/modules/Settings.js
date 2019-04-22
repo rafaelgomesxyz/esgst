@@ -326,7 +326,7 @@ class Settings {
       // noinspection JSIgnoredPromiseFromCall
       this.preSave(`steamApiKey`, SMAPIKey.value);
     });
-    if (shared.esgst.parameters.esgst === `esgst` && shared.esgst.parameters.esgst !== `guide` && shared.esgst.parameters.id) {
+    if (shared.esgst.parameters.esgst === `settings` && shared.esgst.parameters.id) {
       this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {

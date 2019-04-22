@@ -304,7 +304,7 @@ class CommentsCommentTracker extends Module {
 
   async ct_checkComments(count, comments, index, goToUnread, markRead, markUnread, endless) {
     let code, comment, found, i, n, saved, source, type, unread;
-    this.esgst.ctGoToUnread = false;
+    this.ctGoToUnread = false;
     let values;
     if (endless) {
       if (this.esgst.sg) {
@@ -403,15 +403,15 @@ class CommentsCommentTracker extends Module {
                 }
               }
             } else if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
-              if (goToUnread && (!this.esgst.ctGoToUnread || ((((gSettings.ct_r && !gSettings.cr) || (!gSettings.ct_r && gSettings.cr)) && comment.comment.offsetTop < window.scrollY + this.esgst.commentsTop) || (((!gSettings.ct_r && !gSettings.cr) || (gSettings.ct_r && gSettings.cr)) && comment.comment.offsetTop > window.scrollY + this.esgst.commentsTop)))) {
-                this.esgst.ctGoToUnread = true;
+              if (goToUnread && (!this.ctGoToUnread || ((((gSettings.ct_r && !gSettings.cr) || (!gSettings.ct_r && gSettings.cr)) && comment.comment.offsetTop < window.scrollY + this.esgst.commentsTop) || (((!gSettings.ct_r && !gSettings.cr) || (gSettings.ct_r && gSettings.cr)) && comment.comment.offsetTop > window.scrollY + this.esgst.commentsTop)))) {
+                this.ctGoToUnread = true;
                 if ((this.esgst.discussionPath && ((!gSettings.ct_r && !gSettings.cr) || (gSettings.ct_r && gSettings.cr))) || (!this.esgst.discussionPath && !gSettings.ct_r)) {
                   unread = comment;
                   found = true;
                 } else {
                   if (this.esgst.discussionsPath) {
-                    this.esgst.ctUnreadFound = true;
-                    if (!this.esgst.ctNewTab && gSettings.sto) {
+                    this.ctUnreadFound = true;
+                    if (!this.ctNewTab && gSettings.sto) {
                       if (comment.id) {
                         window.location.href = `/go/comment/${comment.id}`;
                       } else {
@@ -462,8 +462,8 @@ class CommentsCommentTracker extends Module {
       if (!gSettings.ct_s && goToUnread) {
         if (unread) {
           if (this.esgst.discussionsPath) {
-            this.esgst.ctUnreadFound = true;
-            if (!this.esgst.ctNewTab && gSettings.sto) {
+            this.ctUnreadFound = true;
+            if (!this.ctNewTab && gSettings.sto) {
               if (unread.id) {
                 window.location.href = `/go/comment/${unread.id}`;
               } else {
@@ -999,10 +999,10 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_goToUnreadPanel(obj, event) {
-    this.esgst.ctNewTab = false;
+    this.ctNewTab = false;
     if (event.button === 1) {
       event.preventDefault();
-      this.esgst.ctNewTab = true;
+      this.ctNewTab = true;
     } else if (event.button === 2) {
       return;
     }
@@ -1011,7 +1011,7 @@ class CommentsCommentTracker extends Module {
     obj.markRead.classList.add(`esgst-hidden`);
     obj.markUnread.classList.add(`esgst-hidden`);
     obj.loadingIcon.classList.remove(`esgst-hidden`);
-    this.esgst.ctUnreadFound = false;
+    this.ctUnreadFound = false;
     await this.ct_markCommentsReadUnread(true, false, false, null, `${obj.url}/search?page=`);
     obj.loadingIcon.classList.add(`esgst-hidden`);
     obj.goToUnread.classList.remove(`esgst-hidden`);
@@ -1087,7 +1087,7 @@ class CommentsCommentTracker extends Module {
         await this.ct_getComments(0, await this.esgst.modules.comments.comments_get(context, context, true), null, goToUnread, markRead, markUnread);
       }
 
-      if (goToUnread && this.esgst.ctUnreadFound) break;
+      if (goToUnread && this.ctUnreadFound) break;
 
       nextPage += 1;
       const pagination = context.getElementsByClassName(`pagination__navigation`)[0];

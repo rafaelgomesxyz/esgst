@@ -23,9 +23,6 @@ class GeneralFixedHeader extends Module {
     }
 
     this.esgst.header.classList.add(`esgst-fh`);
-    const height = this.esgst.header.offsetHeight;
-    this.esgst.pageTop += height;
-    this.esgst.commentsTop += height;
   }
 }
 

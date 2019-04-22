@@ -1270,15 +1270,11 @@ function addStyle() {
   }
 
   .esgst-fs {
-    overflow-y: hidden;
+    overflow-y: auto;
     position: sticky;
   }
 
-  .esgst-fs.stuck {
-    overflow-y: auto;
-  }
-
-  .esgst-fs.stuck .sidebar__mpu {
+  .esgst-fs .sidebar__mpu {
     display: none !important;
   }
 
