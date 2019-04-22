@@ -169,7 +169,14 @@ class Common extends Module {
           }
         ]
       });
-      if (this.esgst.parameters.esgst === `settings`) {
+      if (this.esgst.parameters.esgst === `debug`) {
+        let textArea;
+        this.createElements_v2(document.body, `inner`, [
+          [`textarea`, { ref: ref => textArea = ref }],
+          [`button`, { onclick: () => Function('"use strict";' + textArea.value + '').call(shared) }, `Debug`]
+        ]);
+        return;
+      } else if (this.esgst.parameters.esgst === `settings`) {
         this.setSidebarActive(`settings`);
         settingsModule.loadMenu();
       } else if (this.esgst.parameters.esgst === `sync`) {
