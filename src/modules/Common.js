@@ -3680,6 +3680,7 @@ class Common extends Module {
     if (!details.headers) {
       details.headers = {};
     }
+    details.headers[`From`] = `esgst.extension@gmail.com`;
     if (!details.headers[`Content-Type`]) {
       details.headers[`Content-Type`] = `application/x-www-form-urlencoded`;
     }
