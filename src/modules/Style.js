@@ -1295,7 +1295,7 @@ function addStyle() {
     bottom: 0;
     padding: 0;
     position: sticky;
-    z-index: 999;
+    z-index: 997;
   }
 
   .esgst-ff >* {
