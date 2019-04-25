@@ -5317,7 +5317,7 @@ class Common extends Module {
     obj.button.appendChild(obj.set.set);
   }
 
-  async hideGames(obj) {
+  async hideGames(obj, unhide) {
     let api = JSON.parse(this.getValue(`sgdbCache`, `{ "lastUpdate": 0 }`));
     if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {
       obj.update && obj.update(`Updating API cache...`);
@@ -5334,20 +5334,26 @@ class Common extends Module {
     const subsNotFound = [];
     for (const appId of obj.appIds) {
       const savedGame = this.esgst.games.apps[appId];
+      if (savedGame && ((unhide && !savedGame.hidden) || (!unhide && savedGame.hidden))) {
+        continue;
+      }
       const id = (savedGame && savedGame.sgId) || (api.cache && api.cache.appids && api.cache.appids[appId]);
       if (id) {
         ids.push(id);
-        games.apps[appId] = { hidden: true, sgId: id };
+        games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
       } else {
         appsNotFound.push(appId);
       }
     }
     for (const subId of obj.subIds) {
       const savedGame = this.esgst.games.subs[subId];
+      if (savedGame && ((unhide && !savedGame.hidden) || (!unhide && savedGame.hidden))) {
+        continue;
+      }
       const id = (savedGame && savedGame.sgId) || (api.cache && api.cache.subids && api.cache.subids[subId]);
       if (id) {
         ids.push(id);
-        games.subs[subId] = { hidden: true, sgId: id };
+        games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
       } else {
         subsNotFound.push(subId);
       }
@@ -5359,7 +5365,7 @@ class Common extends Module {
       const id = await this.getGameSgId(appId, `apps`);
       if (id) {
         ids.push(id);
-        games.apps[appId] = { hidden: true, sgId: id };
+        games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
         appsNotFound.splice(i, 1);
       }
     }
@@ -5370,7 +5376,7 @@ class Common extends Module {
       const id = await this.getGameSgId(subId, `subs`);
       if (id) {
         ids.push(id);
-        games.subs[subId] = { hidden: true, sgId: id };
+        games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
         appsNotFound.splice(i, 1);
       }
     }
@@ -5379,7 +5385,9 @@ class Common extends Module {
       return;
     }
 
-    obj.update && obj.update(`Hiding games...`);
+    const title = unhide ? `Unhiding` : `Hiding`;
+
+    obj.update && obj.update(`${title} games...`);
 
     const total = ids.length;
     for (const [index, id] of ids.entries()) {
@@ -5387,10 +5395,10 @@ class Common extends Module {
         return;
       }
 
-      obj.update && obj.update(`Hiding games (${index} of ${total})...`);
+      obj.update && obj.update(`${title} games (${index} of ${total})...`);
 
       await this.request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
+        data: `xsrf_token=${this.esgst.xsrfToken}&do=${unhide ? `remove_filter` : `hide_giveaways_by_game_id`}&game_id=${id}`,
         method: `POST`,
         url: `/ajax.php`
       });

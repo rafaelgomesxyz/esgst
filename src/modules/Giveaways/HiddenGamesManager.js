@@ -38,7 +38,13 @@ class GiveawaysHiddenGamesManager extends Module {
       id: `hgm`,
       name: `Hidden Games Manager`,
       sg: true,
-      type: `giveaways`
+      type: `giveaways`,
+      features: {
+        hgm_s: {
+          name: `Automatically add / remove games from the list when syncing.`,
+          sg: true
+        }
+      }
     };
   }
 
