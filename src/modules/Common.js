@@ -237,6 +237,9 @@ class Common extends Module {
       type: `div`
     }]);
 
+    const batchSize = 10;
+    let currentBatchIndex = 0;
+
     for (const key in modules) {
       const mod = modules[key];
       if (!mod.info || (!mod.info.endless && !gSettings[mod.info.id])) {
@@ -259,6 +262,11 @@ class Common extends Module {
       }
       try {
         await mod.init();
+        currentBatchIndex += 1;
+        if (currentBatchIndex > batchSize) {
+          currentBatchIndex = 0;
+          await this.timeout(0);
+        }
       } catch (e) {
         window.console.log(e);
       }

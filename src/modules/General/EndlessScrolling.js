@@ -300,7 +300,7 @@ class GeneralEndlessScrolling extends Module {
     es.isLimited = false;
     es.limitCount = 0;
     es.busy = false;
-    es.paused = gSettings.es && gSettings.es.pause;
+    es.paused = gSettings.es && gSettings.es.options.pause;
     this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall

@@ -428,7 +428,9 @@ window.interact = interact;
   }
 
   async function load(toDelete, toSet) {
-    esgst.mainPageHeadingSize = 34;
+    common.initGlobalSettings();
+
+    esgst.mainPageHeadingSize = 35;
     if (esgst.sg) {
       esgst.headerSize = 39;
       esgst.footerSize = 44;
@@ -439,10 +441,8 @@ window.interact = interact;
       esgst.headerSize = gSettings.fh ? 231 : 454;
       esgst.footerSize = gSettings.ff ? 44 : 64;
     }
-    esgst.pageTop = (gSettings.fh ? esgst.headerSize : 0) + 5;
-    esgst.commentsTop = esgst.pageTop + (gSettings.fmph ? esgst.mainPageHeadingSize : 0) + 5;
-
-    common.initGlobalSettings();
+    esgst.pageTop = gSettings.fh ? esgst.headerSize : 5;
+    esgst.commentsTop = esgst.pageTop + (gSettings.fmph ? esgst.mainPageHeadingSize : 0) + 10;
 
     addStyle();
 
