@@ -1159,7 +1159,7 @@ class Settings {
       text: `${number}.`,
       type: `div`
     }]);
-    let isMainNew = gSettings.dismissedOptions.indexOf(id) < 0 && !utils.isSet(gSettings[`${id}_sg`]) && !utils.isSet(gSettings[`${id}_st`]) && !utils.isSet(gSettings[`${id}_sgtools`]);
+    let isMainNew = gSettings.dismissedOptions.indexOf(id) < 0 && !utils.isSet(shared.esgst.settings[`${id}_sg`]) && !utils.isSet(shared.esgst.settings[`${id}_st`]) && !utils.isSet(shared.esgst.settings[`${id}_sgtools`]);
     if (isMainNew) {
       feature.isNew = true;
       shared.common.createElements(menu.firstElementChild, `afterEnd`, [{

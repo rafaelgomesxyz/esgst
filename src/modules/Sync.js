@@ -586,6 +586,12 @@ async function sync(syncer) {
       method: `GET`,
       url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`
     });
+    if (gSettings.hgm_s) {
+      syncer.hgm = {
+        toAdd: { apps: new Set(), subs: new Set() },
+        toRemove: { apps: new Set(), subs: new Set() }
+      };
+    }
     await syncGames(null, syncer, apiResponse, storeResponse);
     if (gSettings.gc_o_altAccounts) {
       for (let i = 0, n = gSettings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
@@ -602,6 +608,22 @@ async function sync(syncer) {
       [`div`, `Owned/wishlisted/ignored games synced.`],
       ...syncer.html
     ]);
+    if (gSettings.hgm_s) {
+      const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
+      const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
+      result.apps = result.apps.concat(tmpResult.apps);
+      result.subs = result.subs.concat(tmpResult.subs);
+      let message = ``;
+      if (result.apps.length) {
+        message += `The following apps were not found and therefore not hidden / unhidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
+      }
+      if (result.subs.length) {
+        message += `The following subs were not found and therefore not hidden / unhidden: ${result.subs.join(`, `)}\n`;
+      }
+      if (message) {
+        window.alert(message);
+      }
+    }
     if (gSettings.getSyncGameNames) {
       // noinspection JSIgnoredPromiseFromCall
       shared.common.getGameNames(syncer.results);
@@ -909,11 +931,19 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
   }
 
   // delete old data
-  const savedGames = (altAccount && altAccount.games) || JSON.parse(shared.common.getValue(`games`)),
-    oldOwned = {
-      apps: [],
-      subs: []
-    };
+  const savedGames = (altAccount && altAccount.games) || JSON.parse(shared.common.getValue(`games`));
+  const oldWishlisted = {
+    apps: [],
+    subs: []
+  };
+  const oldIgnored = {
+    apps: [],
+    subs: []
+  };
+  const oldOwned = {
+    apps: [],
+    subs: []
+  };
   for (const id in savedGames.apps) {
     if (savedGames.apps.hasOwnProperty(id)) {
       if (savedGames.apps[id].owned) {
@@ -921,8 +951,14 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
         savedGames.apps[id].owned = null;
       }
       if (hasStore) {
-        savedGames.apps[id].wishlisted = null;
-        savedGames.apps[id].ignored = null;
+        if (savedGames.apps[id].wishlisted) {
+          oldWishlisted.apps.push(id);
+          savedGames.apps[id].wishlisted = null;
+        }
+        if (savedGames.apps[id].ignored) {
+          oldIgnored.apps.push(id);
+          savedGames.apps[id].ignored = null;
+        }
       }
     }
   }
@@ -933,18 +969,32 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
           oldOwned.subs.push(id);
           savedGames.subs[id].owned = null;
         }
-        savedGames.subs[id].wishlisted = null;
-        savedGames.subs[id].ignored = null;
+        if (savedGames.subs[id].wishlisted) {
+          oldWishlisted.subs.push(id);
+          savedGames.subs[id].wishlisted = null;
+        }
+        if (savedGames.subs[id].ignored) {
+          oldIgnored.subs.push(id);
+          savedGames.subs[id].ignored = null;
+        }
       }
     }
   }
 
   // add new data
-  let newOwned = {
+  const newWishlisted = {
     apps: [],
     subs: []
-  },
-    numOwned = 0;
+  };
+  const newIgnored = {
+    apps: [],
+    subs: []
+  };
+  const newOwned = {
+    apps: [],
+    subs: []
+  };
+  let numOwned = 0;
   if (hasApi) {
     apiJson.response.games.forEach(game => {
       const id = game.appid;
@@ -1003,6 +1053,10 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
           if (key === `owned` && !value) {
             newOwned[type].push(id.toString());
             numOwned += 1;
+          } else if (key === `wishlisted`) {
+            newWishlisted[type].push(id.toString());
+          } else if (key === `ignored`) {
+            newIgnored[type].push(id.toString());
           }
         }
       });
@@ -1038,46 +1092,47 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     await shared.common.lockAndSaveGames(savedGames);
   }
 
-  const removedOwned = {
-    apps: [],
-    subs: []
-  };
-  const addedOwned = {
-    apps: [],
-    subs: []
-  };
-  oldOwned.apps.forEach(id => {
-    if (newOwned.apps.indexOf(id) < 0) {
-      removedOwned.apps.push(
-        [`a`, { href: `http://store.steampowered.com/app/${id}` }, id],
-        `, `
-      );
+  const removedOwned = {};
+  const addedOwned = {};
+  const removedWishlisted = {};
+  const addedWishlisted = {};
+  const removedIgnored = {};
+  const addedIgnored = {};
+  for (const type of [`apps`, `subs`]) {
+    removedOwned[type] = oldOwned[type].filter(x => newOwned[type].indexOf(x) < 0);
+    addedOwned[type] = newOwned[type].filter(x => oldOwned[type].indexOf(x) < 0);
+    removedWishlisted[type] = oldWishlisted[type].filter(x => newWishlisted[type].indexOf(x) < 0);
+    addedWishlisted[type] = newWishlisted[type].filter(x => oldWishlisted[type].indexOf(x) < 0);
+    removedIgnored[type] = oldIgnored[type].filter(x => newIgnored[type].indexOf(x) < 0);
+    addedIgnored[type] = newIgnored[type].filter(x => oldIgnored[type].indexOf(x) < 0);
+    if (gSettings.hgm_s) {
+      if (gSettings.hgm_addOwned) {
+        for (const id of addedOwned[type]) {
+          syncer.hgm.toAdd[type].add(id);
+        }
+        for (const id of removedOwned[type]) {
+          syncer.hgm.toRemove[type].add(id);
+        }
+      } else if (gSettings.hgm_removeOwned) {
+        for (const id of addedOwned[type]) {
+          syncer.hgm.toRemove[type].add(id);
+        }
+      }
+      if (gSettings.hgm_removeWishlisted) {
+        for (const id of addedWishlisted[type]) {
+          syncer.hgm.toRemove[type].add(id);
+        }
+      }
+      if (gSettings.hgm_addIgnored) {
+        for (const id of addedIgnored[type]) {
+          syncer.hgm.toAdd[type].add(id);
+        }
+        for (const id of removedIgnored[type]) {
+          syncer.hgm.toRemove[type].add(id);
+        }
+      }
     }
-  });
-  oldOwned.subs.forEach(id => {
-    if (newOwned.subs.indexOf(id) < 0) {
-      removedOwned.subs.push(
-        [`a`, { href: `http://store.steampowered.com/sub/${id}` }, id],
-        `, `
-      );
-    }
-  });
-  newOwned.apps.forEach(id => {
-    if (oldOwned.apps.indexOf(id) < 0) {
-      addedOwned.apps.push(
-        [`a`, { href: `http://store.steampowered.com/app/${id}` }, id],
-        `, `
-      );
-    }
-  });
-  newOwned.subs.forEach(id => {
-    if (oldOwned.subs.indexOf(id) < 0) {
-      addedOwned.subs.push(
-        [`a`, { href: `http://store.steampowered.com/sub/${id}` }, id],
-        `, `
-      );
-    }
-  });
+  }
   if (altAccount && (removedOwned.apps.length > 0 || removedOwned.subs.length > 0 || addedOwned.apps.length > 0 || addedOwned.subs.length > 0)) {
     syncer.html.push(
       [`br`],
@@ -1085,15 +1140,11 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       [`br`]
     );
   }
-  removedOwned.apps.pop();
-  removedOwned.subs.pop();
-  addedOwned.apps.pop();
-  addedOwned.subs.pop();
   if (removedOwned.apps.length > 0) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Removed apps:`],
-        ...removedOwned.apps
+        [...removedOwned.apps].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/app/${x}` }, x]; return i < removedOwned.apps.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
@@ -1101,7 +1152,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Removed packages:`],
-        ...removedOwned.subs
+        [...removedOwned.subs].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/sub/${x}` }, x]; return i < removedOwned.subs.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
@@ -1109,7 +1160,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Added apps:`],
-        ...addedOwned.apps
+        [...addedOwned.apps].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/app/${x}` }, x]; return i < addedOwned.apps.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
@@ -1117,7 +1168,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Added packages:`],
-        ...addedOwned.subs
+        [...addedOwned.subs].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/sub/${x}` }, x]; return i < addedOwned.subs.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
