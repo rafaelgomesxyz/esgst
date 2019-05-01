@@ -14,3 +14,6 @@ chrome_refresh_token.txt
 github_token.txt
 publish.config.json
 bext.json
+SgStComment.js
+SgStCommon.js
+SgStUser.js

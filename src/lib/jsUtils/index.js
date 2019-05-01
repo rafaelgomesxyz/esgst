@@ -3,6 +3,26 @@ class Utils {
     this.parser = new DOMParser();
   }
 
+  setProperty(path, value, object) {
+    if (!Array.isArray(path)) {
+      path = this.getPath(path);
+    }
+    const key = path.pop();
+    const obj = this.getProperty(path, object);
+    obj[key] = value;
+  }
+  
+  getProperty(path, object) {
+    if (!Array.isArray(path)) {
+      path = this.getPath(path);
+    }
+    return path.reduce((object, key) => (object && object[key]) ? object[key] : null, object);
+  }
+
+  getPath(pathString) {
+    return pathString.split(/\.|\[|]/).filter(x => x);
+  }
+
   compareTypes(variable, type) {
     return Object.prototype.toString.call(variable).toLowerCase() === `[object ${type}]`;
   }
