@@ -351,7 +351,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       giveaway.whitelist = details.whitelist;
       giveaway.public = !giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist;
       giveaway.level = details.level;
-      giveaway.entries = details.entries;
+      if (!giveaway.entries) {
+        giveaway.entries = details.entries;
+      }
     } else if (giveaway.deleted) {
       giveaway.public = false;
     } else {
