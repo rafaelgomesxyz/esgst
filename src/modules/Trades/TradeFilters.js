@@ -94,8 +94,7 @@ class TradesTradeFilters extends Filters {
                 ` if set to overridable and `,
                 [`i`, { class: `fa fa-exclamation` }],
                 ` if set to non-overridable) next to each filter. They are enforcements of the basic rules. Continuing the previous example, if you set the override rule of the "Created" filter to "non-overridable", then all of your created trades will be hidden, because even if they apply to the exception, the basic rule is being enforced by the override rule, so the exception cannot override it.`
-              ]],
-              [`li`, `Adds a text in parenthesis to the pagination of the page showing how many trades in the page are being filtered by the filters.`]
+              ]]
             ]]
           ],
           features: {

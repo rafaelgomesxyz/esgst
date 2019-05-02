@@ -344,32 +344,6 @@ class Filters extends Module {
     obj.rules_save = obj.rules;
     obj.presetDisplay.textContent = obj.presetInput.value = name;
 
-    if (!obj.popup && this.esgst.pagination) {
-      const names = {
-        gf: `Giveaway`,
-        df: `Discussion`,
-        tf: `Trade`,
-        gpf: `Group`,
-        cf: `Comment`
-      };
-      obj.paginationFilteredCount = createElements(this.esgst.pagination.firstElementChild, `beforeEnd`, [{
-        type: `span`,
-        children: [{
-          text: `(`,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: `0`,
-          type: `span`
-        }, {
-          text: ` filtered by ${names[obj.id]} Filters)`,
-          type: `node`
-        }]
-      }]).firstElementChild;
-    }
-
     presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(this, obj));
     button.addEventListener(`click`, this.filters_toggleFilters.bind(this, obj));
 
@@ -1861,44 +1835,37 @@ class Filters extends Module {
       counter.textContent = `0`;
     }
     let filteredCount = 0;
-    let paginationFilteredCount = 0;
     let pointsCount = 0;
     for (const item of items) {
       if (unfilter) {
-        if (item.outerWrap.classList.contains(`esgst-hidden`)) {
+        if (item.outerWrap.classList.contains(`esgst-hidden`) && !item.outerWrap.getAttribute(`data-esgst-not-filterable`)) {
           item.outerWrap.classList.remove(`esgst-hidden`);
         }
-        if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
+        if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`) && !item.outerWrap.parentElement.getAttribute(`data-esgst-not-filterable`)) {
           item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
         }
       } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
-        if (item.outerWrap.classList.contains(`esgst-hidden`)) {
+        if (item.outerWrap.classList.contains(`esgst-hidden`) && !item.outerWrap.getAttribute(`data-esgst-not-filterable`)) {
           item.outerWrap.classList.remove(`esgst-hidden`);
         }
-        if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
+        if (obj.id === `cf` && item.outerWrap.parentElement.classList.contains(`esgst-hidden`) && !item.outerWrap.parentElement.getAttribute(`data-esgst-not-filterable`)) {
           item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
         }
         if (item.points && !item.entered) {
           pointsCount += item.points;
         }
       } else {
-        if (!item.outerWrap.classList.contains(`esgst-hidden`)) {
+        if (!item.outerWrap.classList.contains(`esgst-hidden`) && !item.outerWrap.getAttribute(`data-esgst-not-filterable`)) {
           item.outerWrap.classList.add(`esgst-hidden`);
         }
-        if (obj.id === `cf` && !item.outerWrap.parentElement.classList.contains(`esgst-hidden`)) {
+        if (obj.id === `cf` && !item.outerWrap.parentElement.classList.contains(`esgst-hidden`) && !item.outerWrap.parentElement.getAttribute(`data-esgst-not-filterable`)) {
           item.outerWrap.parentElement.classList.add(`esgst-hidden`);
         }
         filteredCount += 1;
-        if (!item.pinned) {
-          paginationFilteredCount += 1;
-        }
       }
     }
     if (obj.filteredCount) {
       obj.filteredCount.textContent = filteredCount;
-    }
-    if (!obj.popup && obj.paginationFilteredCount) {
-      obj.paginationFilteredCount.textContent = paginationFilteredCount;
     }
     if (obj.id === `gf` && obj.pointsCount) {
       obj.pointsCount.textContent = pointsCount;

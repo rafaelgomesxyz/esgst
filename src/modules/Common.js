@@ -237,6 +237,18 @@ class Common extends Module {
       type: `div`
     }]);
 
+    if ((shared.esgst.pagination) && (gSettings.gf && gSettings.gf_s)) {
+      this.createElements_v2(shared.esgst.pagination.firstElementChild, `beforeEnd`, [
+        [`span`, [
+          `(`,
+          [`span`, { class: `esgst-bold`, ref: ref => this.filteredCount = ref }, `0`],
+          ` hidden by filters`,
+          [`span`, { class: `esgst-clickable esgst-bold esgst-hidden`, ref: ref => this.filteredButton = ref, onclick: this.toggleFilteredItems.bind(this) }, ` - unhide`],
+          `)`
+        ]]
+      ]);
+    }
+
     const batchSize = 10;
     let currentBatchIndex = 0;
 
@@ -373,6 +385,25 @@ class Common extends Module {
 
     if (shared.esgst.guideSteps) {
       this.displayGuide();
+    }
+  }
+
+  toggleFilteredItems() {
+    const elements = document.querySelectorAll(`[data-esgst-not-filterable]`);
+    if (this.filteredButton.textContent === ` - hide`) {
+      for (const element of elements) {
+        if (element.getAttribute(`data-esgst-not-filterable`)) {
+          element.classList.add(`esgst-hidden`);
+        }
+      }
+      this.filteredButton.textContent = ` - unhide`;
+    } else {
+      for (const element of elements) {
+        if (element.getAttribute(`data-esgst-not-filterable`)) {
+          element.classList.remove(`esgst-hidden`);
+        }
+      }
+      this.filteredButton.textContent = ` - hide`;
     }
   }
 

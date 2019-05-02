@@ -273,22 +273,21 @@ class Giveaways extends Module {
       });
       if (savedUser) {
         uf = savedUser.uf;
-        if (gSettings.uf_g && savedUser.blacklisted && !uf) {
-          this.esgst.modules.usersUserFilters.uf_updateCount(giveaway.outerWrap.parentElement.nextElementSibling);
-          giveaway.outerWrap.remove();
-          return;
-        } else if (uf && uf.giveaways) {
-          this.esgst.modules.usersUserFilters.uf_updateCount(giveaway.outerWrap.parentElement.nextElementSibling);
-          giveaway.outerWrap.remove();
-          return;
+        if ((gSettings.uf_g && savedUser.blacklisted && !uf) || (uf && uf.giveaways)) {
+          giveaway.outerWrap.classList.add(`esgst-hidden`);
+          giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
+          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
+          shared.common.filteredButton.classList.remove(`esgst-hidden`);
         }
       }
     }
     if (gSettings.gf && gSettings.gf_s && main) {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
       if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code && savedGiveaway.endTime && savedGiveaway.endTime > Date.now()) {
-        giveaway.outerWrap.remove();
-        return;
+        giveaway.outerWrap.classList.add(`esgst-hidden`);
+        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
+        shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
+        shared.common.filteredButton.classList.remove(`esgst-hidden`);
       }
     }
     giveaway.links = giveaway.innerWrap.getElementsByClassName(`giveaway__links`)[0];

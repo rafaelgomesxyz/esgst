@@ -93,46 +93,27 @@ class Comments extends Module {
         username: comment.author
       });
       if (savedUser) {
-        let uf = savedUser.uf, comments, extraCount;
-        if (gSettings.uf_p && savedUser.blacklisted && !uf) {
-          comments = comment.comment.closest(`.comments`);
-          if (!main || shared.common.isCurrentPath(`Messages`)) {
-            this.esgst.modules.usersUserFilters.uf_updateCount(comments.parentElement.nextElementSibling);
-            comment.comment.parentElement.remove();
-            if (!comments.children.length) {
-              comments.previousElementSibling.remove();
-              comments.remove();
-            }
+        let uf = savedUser.uf, comments;
+        if ((gSettings.uf_p && savedUser.blacklisted && !uf) || (uf && uf.posts)) {
+          let numDescendants;
+          if (comment.comment.nextElementSibling) {
+            numDescendants = comment.comment.nextElementSibling.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`).length;
           } else {
-            if (comment.comment.nextElementSibling) {
-              extraCount = comment.comment.nextElementSibling.children.length;
-            } else {
-              extraCount = 0;
-            }
-            this.esgst.modules.usersUserFilters.uf_updateCount(comments.nextElementSibling, extraCount);
-            comment.comment.parentElement.remove();
+            numDescendants = 0;
           }
-          return;
-        } else if (uf && uf.posts) {
-          comments = comment.comment.closest(`.comments`);
-          this.esgst.modules.usersUserFilters.uf_updateCount(comment.comment.closest(`.comments`).nextElementSibling);
+          comment.comment.parentElement.classList.add(`esgst-hidden`);
+          comment.comment.parentElement.setAttribute(`data-esgst-not-filterable`, `true`);
+          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1 + numDescendants;
+          shared.common.filteredButton.classList.remove(`esgst-hidden`);
           if (!main || shared.common.isCurrentPath(`Messages`)) {
-            this.esgst.modules.usersUserFilters.uf_updateCount(comments.parentElement.nextElementSibling);
-            comment.comment.parentElement.remove();
-            if (!comments.children.length) {
-              comments.previousElementSibling.remove();
-              comments.remove();
+            comments = comment.comment.closest(`.comments`);
+            if (!comments.querySelectorAll(`.comment:not([data-esgst-not-filterable])`).length) {
+              comments.previousElementSibling.classList.add(`esgst-hidden`);
+              comments.previousElementSibling.setAttribute(`data-esgst-not-filterable`, `true`);
+              comments.classList.add(`esgst-hidden`);
+              comments.setAttribute(`data-esgst-not-filterable`, `true`);
             }
-          } else {
-            if (comment.comment.nextElementSibling) {
-              extraCount = comment.comment.nextElementSibling.children.length;
-            } else {
-              extraCount = 0;
-            }
-            this.esgst.modules.usersUserFilters.uf_updateCount(comments.nextElementSibling, extraCount);
-            comment.comment.parentElement.remove();
           }
-          return;
         }
       }
     }
