@@ -153,7 +153,10 @@ class Discussions extends Module {
       case `discussion`:
         discussion.saved = this.esgst.discussions[discussion.code];
         if (main && gSettings.df && gSettings.df_s && discussion.saved && discussion.saved.hidden) {
-          discussion.outerWrap.remove();
+          discussion.outerWrap.classList.add(`esgst-hidden`);
+          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
+          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
+          shared.common.filteredButton.classList.remove(`esgst-hidden`);
           return;
         }
         discussion.categoryContainer = discussion.info.firstElementChild;
@@ -170,7 +173,10 @@ class Discussions extends Module {
       case `trade`:
         discussion.saved = this.esgst.trades[discussion.code];
         if (main && gSettings.tf && gSettings.tf_s && discussion.saved && discussion.saved.hidden) {
-          discussion.outerWrap.remove();
+          discussion.outerWrap.classList.add(`esgst-hidden`);
+          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
+          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
+          shared.common.filteredButton.classList.remove(`esgst-hidden`);
           return;
         }
         discussion.createdContainer = discussion.info.firstElementChild;
@@ -237,18 +243,11 @@ class Discussions extends Module {
           });
           if (savedUser) {
             uf = savedUser.uf;
-            if (gSettings.uf_d && savedUser.blacklisted && !uf) {
-              if (!this.esgst.giveawaysPath) {
-                this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
-              }
-              discussion.outerWrap.remove();
-              return;
-            } else if (uf && uf.discussions) {
-              if (!this.esgst.giveawaysPath) {
-                this.esgst.modules.usersUserFilters.uf_updateCount(discussion.outerWrap.parentElement.parentElement.nextElementSibling);
-              }
-              discussion.outerWrap.remove();
-              return;
+            if ((gSettings.uf_d && savedUser.blacklisted && !uf) || (uf && uf.discussions)) {
+              discussion.outerWrap.classList.add(`esgst-hidden`);
+              discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
+              shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
+              shared.common.filteredButton.classList.remove(`esgst-hidden`);
             }
           }
         }
