@@ -744,10 +744,33 @@ async function sync(syncer) {
   // sync no cv games
   if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames)) {
     syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
-    await shared.common.lockAndSaveGames(JSON.parse((await shared.common.request({
+    const games = JSON.parse((await shared.common.request({
       method: `GET`,
       url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
-    })).responseText).success);
+    })).responseText).success;
+    for (const id in games.apps) {
+      games.apps[id].noCV = games.apps[id].effective_date;
+      delete games.apps[id].effective_date;
+    }
+    for (const id in games.subs) {
+      games.subs[id].noCV = games.subs[id].effective_date;
+      delete games.subs[id].effective_date;
+    }
+    for (const id in shared.esgst.games.apps) {
+      if (!games.apps[id]) {
+        games.apps[id] = {
+          noCV: null
+        };
+      }
+    }
+    for (const id in shared.esgst.games.subs) {
+      if (!games.subs[id]) {
+        games.subs[id] = {
+          noCV: null
+        };
+      }
+    }
+    await shared.common.lockAndSaveGames(games);
     shared.common.createElements_v2(syncer.results, `beforeEnd`, [
       [`div`, `No CV games synced.`]
     ]);
