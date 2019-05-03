@@ -620,17 +620,20 @@ class Common extends Module {
         continue;
       }
       const dateElement = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
-      if (dateElement && !this.esgst.games[info.type][info.id].noCV) {
-        const date = JSON.parse(dateElement.getAttribute(`data-ui-tooltip`)).rows;
+      if (dateElement) {
+        const rows = JSON.parse(dateElement.getAttribute(`data-ui-tooltip`)).rows;
+        const date = rows[rows.length - 1].columns[1].name;
+        if (!utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
+          games[info.type][info.id] = {
+            name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
+            effective_date: date
+          };
+          found  = true;
+        }
+      } else if (utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
         games[info.type][info.id] = {
           name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
-          noCV: date[date.length - 1].columns[1].name
-        };
-        found  = true;
-      } else if (!dateElement && this.esgst.games[info.type][info.id].noCV) {
-        games[info.type][info.id] = {
-          name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
-          noCV: null
+          effective_date: null
         };
         found = true;
       }
@@ -676,16 +679,20 @@ class Common extends Module {
     await this.request({
       data: JSON.stringify(games),
       method: `POST`,
-      url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`
+      url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
     });
     for (let id in games.apps) {
       if (games.apps.hasOwnProperty(id)) {
         delete games.apps[id].name;
+        games.apps[id].noCV = games.apps[id].effective_date;
+        delete games.apps[id].effective_date;
       }
     }
     for (let id in games.subs) {
       if (games.subs.hasOwnProperty(id)) {
         delete games.subs[id].name;
+        games.subs[id].noCV = games.subs[id].effective_date;
+        delete games.subs[id].effective_date;
       }
     }
     await this.lockAndSaveGames(games);

@@ -746,7 +746,7 @@ async function sync(syncer) {
     syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
     await shared.common.lockAndSaveGames(JSON.parse((await shared.common.request({
       method: `GET`,
-      url: `https://script.google.com/macros/s/AKfycbym0nzeyr3_b93ViuiZRivkBMl9PBI2dTHQxNC0rtgeQSlCTI-P/exec`
+      url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
     })).responseText).success);
     shared.common.createElements_v2(syncer.results, `beforeEnd`, [
       [`div`, `No CV games synced.`]
