@@ -1,5 +1,19 @@
 [
   {
+    "date": "May 4, 2019",
+    "version": "8.3.5",
+    "changelog": {
+      "1273": "Filters: add button to hide / unhide items hidden with individual filters",
+      "1293": "Created / Entered / Won Giveaway Details: fix bug that uses number of entries from cache",
+      "1297": "Level Up Calculator: fix bug that does not round real CV",
+      "1299": "Hidden Game Manager: add option to automatically add / remove games on sync",
+      "1300": "Internal: use From header to identify ESGST requests",
+      "1301": "Fixed Footer: fix z-index",
+      "1302": "Entered Game Highlighter: add option to enable counter",
+      "1305": "Sync: fix Reduced / No CV sync"
+    }
+  },
+  {
     "date": "April 14, 2019",
     "version": "8.3.4",
     "changelog": {
