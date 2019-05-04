@@ -350,6 +350,8 @@ async function sync(syncer) {
     return;
   }
 
+  syncer.failed = {};
+
   // sync groups
   if (shared.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && gSettings.syncGroups))) {
     syncer.progress.lastElementChild.textContent = `Syncing your Steam groups...`;
@@ -685,53 +687,21 @@ async function sync(syncer) {
   // sync reduced cv games
   if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames)) {
     syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-    let result = null;
     try {
-      result = JSON.parse((await shared.common.request({
-        method: `GET`,
-        url: `https://gsrafael01.me/esgst/games/rcv`
-      })).responseText);
-    } catch (error) {
-      result = JSON.parse((await shared.common.request({
-        method: `GET`,
-        url: `https://script.google.com/macros/s/AKfycbwJK-7RBh5ghaKprEsmx4DQ6CyXc_3_9eYiOCu3yhI6W4B3W4YN/exec`
-      })).responseText);
-    }
-    if (!result || result.error) {
+      await syncReducedCvGames();
       shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-        `Unable to sync reduced CV games.`
+        [`div`, [
+          [`i`, { class: `fa fa-check` }],
+          `Reduced CV games synced.`
+        ]]
       ]);
-    } else {
-      result = result.success || result.result.found;
-      for (const id in shared.esgst.games.apps) {
-        if (shared.esgst.games.apps.hasOwnProperty(id)) {
-          shared.esgst.games.apps[id].reducedCV = null;
-        }
-      }
-      for (const id in shared.esgst.games.subs) {
-        if (shared.esgst.games.subs.hasOwnProperty(id)) {
-          shared.esgst.games.subs[id].reducedCV = null;
-        }
-      }
-      for (const id in result.apps) {
-        if (result.apps.hasOwnProperty(id)) {
-          if (!shared.esgst.games.apps[id]) {
-            shared.esgst.games.apps[id] = {};
-          }
-          shared.esgst.games.apps[id].reducedCV = result.apps[id].reducedCV || result.apps[id].effective_date;
-        }
-      }
-      for (const id in result.subs) {
-        if (result.subs.hasOwnProperty(id)) {
-          if (!shared.esgst.games.subs[id]) {
-            shared.esgst.games.subs[id] = {};
-          }
-          shared.esgst.games.subs[id].reducedCV = result.subs[id].reducedCV || result.subs[id].effective_date;
-        }
-      }
-      await shared.common.lockAndSaveGames(shared.esgst.games);
+    } catch (e) {
+      syncer.failed.ReducedCvGames = true;
       shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-        [`div`, `Reduced CV games synced.`]
+        [`div`, [
+          [`i`, { class: `fa fa-times` }],
+          `Failed to sync reduced CV games.`
+        ]]
       ]);
     }
   }
@@ -744,36 +714,23 @@ async function sync(syncer) {
   // sync no cv games
   if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames)) {
     syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
-    const games = JSON.parse((await shared.common.request({
-      method: `GET`,
-      url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
-    })).responseText).success;
-    for (const id in games.apps) {
-      games.apps[id].noCV = games.apps[id].effective_date;
-      delete games.apps[id].effective_date;
+    try {
+      await syncNoCvGames();
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, [
+          [`i`, { class: `fa fa-check` }],
+          `No CV games synced.`
+        ]]
+      ]);
+    } catch (e) {
+      syncer.failed.NoCvGames = true;
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, [
+          [`i`, { class: `fa fa-times` }],
+          `Failed to sync no CV games.`
+        ]]
+      ]);
     }
-    for (const id in games.subs) {
-      games.subs[id].noCV = games.subs[id].effective_date;
-      delete games.subs[id].effective_date;
-    }
-    for (const id in shared.esgst.games.apps) {
-      if (!games.apps[id]) {
-        games.apps[id] = {
-          noCV: null
-        };
-      }
-    }
-    for (const id in shared.esgst.games.subs) {
-      if (!games.subs[id]) {
-        games.subs[id] = {
-          noCV: null
-        };
-      }
-    }
-    await shared.common.lockAndSaveGames(games);
-    shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-      [`div`, `No CV games synced.`]
-    ]);
   }
 
   // sync hltb times
@@ -880,7 +837,7 @@ async function sync(syncer) {
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
       let id = `sync${key}`;
-      if ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && gSettings[id])) {
+      if (!syncer.failed[key] && ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && gSettings[id]))) {
         gSettings[`lastSync${key}`] = currentTime;
         toSave[`lastSync${key}`] = currentTime;
       }
@@ -893,6 +850,90 @@ async function sync(syncer) {
   if (!syncer.isSilent) {
     updateSyncDates(syncer);
   }
+}
+
+async function syncReducedCvGames() {  
+  let result = null;
+  try {
+    result = JSON.parse((await shared.common.request({
+      method: `GET`,
+      url: `https://gsrafael01.me/esgst/games/rcv`
+    })).responseText);
+  } catch (e) {
+    result = {
+      error: e.message
+    };
+    result = JSON.parse((await shared.common.request({
+      method: `GET`,
+      url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=rcv`
+    })).responseText);
+  }
+  if (!result || result.error) {
+    throw new Error((result && result.error) || 'Error');
+  } else {
+    const games = result.success || result.result.found;
+    for (const id in games.apps) {
+      if (games.apps.hasOwnProperty(id)) {
+        games.apps[id].reducedCV = games.apps[id].effective_date;
+        delete games.apps[id].effective_date;
+      }
+    }
+    for (const id in games.subs) {
+      if (games.subs.hasOwnProperty(id)) {
+        games.subs[id].reducedCV = games.subs[id].effective_date;
+        delete games.subs[id].effective_date;
+      }
+    }
+    for (const id in shared.esgst.games.apps) {
+      if (shared.esgst.games.apps.hasOwnProperty(id) && !games.apps[id]) {
+        games.apps[id] = {
+          reducedCV: null
+        };
+      }
+    }
+    for (const id in shared.esgst.games.subs) {
+      if (shared.esgst.games.subs.hasOwnProperty(id) && !games.subs[id]) {
+        games.subs[id] = {
+          reducedCV: null
+        };
+      }
+    }
+    await shared.common.lockAndSaveGames(games);
+  }
+}
+
+async function syncNoCvGames() {  
+  const games = JSON.parse((await shared.common.request({
+    method: `GET`,
+    url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
+  })).responseText).success;
+  for (const id in games.apps) {
+    if (games.apps.hasOwnProperty(id)) {
+      games.apps[id].noCV = games.apps[id].effective_date;
+      delete games.apps[id].effective_date;
+    }
+  }
+  for (const id in games.subs) {
+    if (games.subs.hasOwnProperty(id)) {
+      games.subs[id].noCV = games.subs[id].effective_date;
+      delete games.subs[id].effective_date;
+    }
+  }
+  for (const id in shared.esgst.games.apps) {
+    if (shared.esgst.games.apps.hasOwnProperty(id) && !games.apps[id]) {
+      games.apps[id] = {
+        noCV: null
+      };
+    }
+  }
+  for (const id in shared.esgst.games.subs) {
+    if (shared.esgst.games.subs.hasOwnProperty(id) && !games.subs[id]) {
+      games.subs[id] = {
+        noCV: null
+      };
+    }
+  }
+  await shared.common.lockAndSaveGames(games);
 }
 
 async function syncWhitelistBlacklist(key, syncer, url) {
