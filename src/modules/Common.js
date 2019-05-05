@@ -5548,7 +5548,11 @@ class Common extends Module {
         for (key in values) {
           if (values.hasOwnProperty(key)) {
             this.esgst.storage[key] = values[key];
-            this.esgst[key] = JSON.parse(values[key]);
+            try {
+              this.esgst[key] = JSON.parse(values[key]);
+            } catch (e) {
+              this.esgst[key] = values[key];
+            }
           }
         }
         resolve();

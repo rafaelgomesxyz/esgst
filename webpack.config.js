@@ -148,6 +148,7 @@ function getWebExtensionManifest(browserName, env) {
       `*://*.api.imgur.com/*`,
       `*://*.googleapis.com/*`,
       `*://*.graph.microsoft.com/*`,
+      `*://*.files.1drv.com/*`,
       `*://*.userstyles.org/*`,
       `*://*.royalgamer06.ga/*`,
       `*://*.steam-tracker.com/*`
