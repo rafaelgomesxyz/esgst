@@ -5658,7 +5658,7 @@ class Common extends Module {
           url: details.url
         }).then(response => {
           response = JSON.parse(response);
-          if (response.error) {
+          if (utils.isSet(response.error)) {
             reject(response);
             return;
           }
