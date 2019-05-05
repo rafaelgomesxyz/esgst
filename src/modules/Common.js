@@ -3622,39 +3622,38 @@ class Common extends Module {
   }
 
   async selectSwitches(switches, type, settings) {
-    for (let key in switches) {
+    const toSave = [];
+    for (const key in switches) {
       if (switches.hasOwnProperty(key)) {
-        let toggleSwitch = switches[key];
+        const toggleSwitch = switches[key];
         if (Array.isArray(toggleSwitch)) {
-          toggleSwitch[0][type](settings);
+          toSave.push({
+            id: toggleSwitch[0].id,
+            value: await toggleSwitch[0][type](settings),
+            sg: toggleSwitch[0].sg,
+            st: toggleSwitch[0].st
+          });
         } else if (!toggleSwitch.checkbox || toggleSwitch.checkbox.offsetParent) {
-          toggleSwitch[type](settings);
+          toSave.push({
+            id: toggleSwitch.id,
+            value: await toggleSwitch[type](settings),
+            sg: toggleSwitch.sg,
+            st: toggleSwitch.st
+          });
         }
       }
     }
     if (settings) {
-      let message = this.createElements(settings, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-description esgst-bold`
-        },
-        type: `div`,
-        children: [{
-          attributes: {
-            class: `fa fa-circle-o-notch fa-spin`,
-            title: `Saving...`
-          },
-          type: `i`
-        }]
-      }]);
-      await this.lockAndSaveSettings();
+      const message = this.createElements_v2(settings, `beforeEnd`, [
+        [`div`, { class: `esgst-description esgst-bold` }, [
+          [`i`, { class: `fa fa-circle-o-notch fa-spin`, title: `Saving...` }]
+        ]]
+      ]);
+      await this.setSetting(toSave);
       message.classList.add(`esgst-green`);
-      this.createElements(message, `inner`, [{
-        attributes: {
-          class: `fa fa-check`,
-          title: `Saved!`
-        },
-        type: `i`
-      }]);
+      this.createElements_v2(message, `inner`, [
+        [`i`, { class: `fa fa-check`, title: `Saved!` }]
+      ]);
       window.setTimeout(() => message.remove(), 2500);
     }
   }
