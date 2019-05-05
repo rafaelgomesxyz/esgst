@@ -74,7 +74,7 @@ class GiveawaysGiveawaysSorter extends Module {
     if (obj.popout) return;
 
     obj.popout = new Popout(`esgst-gas-popout`, obj.button, 0, true);
-    new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, `Auto Sort`, false, false, `Automatically sorts the giveaways by the selected option when loading the page.`, this.esgst[this.esgst.gas.autoKey]);
+    new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, `Auto Sort`, false, false, `Automatically sorts the giveaways by the selected option when loading the page.`, gSettings[this.esgst.gas.autoKey]);
     const children = [{
       attributes: {
         value: `sortIndex_asc`
@@ -305,7 +305,7 @@ class GiveawaysGiveawaysSorter extends Module {
       type: `select`,
       children
     }]);
-    options.value = this.esgst[this.esgst.gas.optionKey];
+    options.value = gSettings[this.esgst.gas.optionKey];
     let callback = () => saveAndSortContent(this.esgst.currentScope.giveaways, this.esgst.gas.optionKey, options);
     options.addEventListener(`change`, callback);
     obj.popout.popout.appendChild(new ButtonSet({
