@@ -962,6 +962,7 @@ class Settings {
   }
 
   async resetElementOrdering(id, obj, obj_gv) {
+    console.log(id, shared.esgst.defaultValues[id]);
     this.preSave(id, shared.esgst.defaultValues[id]);
     shared.esgst.modules.giveaways.giveaways_reorder(obj);
     shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
