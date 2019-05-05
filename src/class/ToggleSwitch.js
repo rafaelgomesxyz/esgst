@@ -64,6 +64,7 @@ class ToggleSwitch {
   }
 
   async change(settings) {
+    let setting;
     this.value = this.input.checked;
     if (this.id) {
       let key = this.id;
@@ -72,8 +73,7 @@ class ToggleSwitch {
       } else if (this.st) {
         key += `_st`;
       }
-      console.log(key);
-      let setting = gSettings[key];
+      setting = gSettings[key];
       if (typeof setting === `undefined` || !setting.include) {
         setting = this.value;
       } else {
@@ -105,9 +105,6 @@ class ToggleSwitch {
         window.setTimeout(() => message.remove(), 2500);
       }
     }
-    if (settings) {
-      return;
-    }
     if (this.value) {
       this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
       this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
@@ -121,6 +118,9 @@ class ToggleSwitch {
         this.onDisabled();
       }
     }
+    if (settings) {
+      return setting;
+    }
     if (this.onChange) {
       this.onChange(this.value);
     }
@@ -129,19 +129,19 @@ class ToggleSwitch {
   enable(settings) {
     this.input.checked = true;
     // noinspection JSIgnoredPromiseFromCall
-    this.change(settings);
+    return this.change(settings);
   }
 
   disable(settings) {
     this.input.checked = false;
     // noinspection JSIgnoredPromiseFromCall
-    this.change(settings);
+    return this.change(settings);
   }
 
   toggle(settings) {
     this.input.checked = !this.input.checked;
     // noinspection JSIgnoredPromiseFromCall
-    this.change(settings);
+    return this.change(settings);
   }
 }
 

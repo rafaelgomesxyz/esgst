@@ -241,7 +241,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `All`,
           title2: ``,
-          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, `check`, false)
+          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, `check`, null)
         }).set,
         new ButtonSet({
           color1: `grey`,
@@ -250,7 +250,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `None`,
           title2: ``,
-          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, `uncheck`, false)
+          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, `uncheck`, null)
         }).set,
         new ButtonSet({
           color1: `grey`,
@@ -259,7 +259,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon2: `fa-circle-o-notch fa-spin`,
           title1: `Inverse`,
           title2: ``,
-          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, `toggle`, false)
+          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, `toggle`, null)
         }).set
       ]],
       syncer.set.set
