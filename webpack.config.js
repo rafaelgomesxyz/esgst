@@ -10,118 +10,284 @@
  * @property {boolean} sizeAnalyzer
  */
 
-const
-  fs = require('fs'),
-  path = require('path'),
-  calfinated = require('calfinated')(),
-  webpack = require('webpack'),
-  plugins = {
-    clean: require('clean-webpack-plugin'),
-    circularDependency: require('circular-dependency-plugin'),
-    sizeAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-    progressBar: require('progress-bar-webpack-plugin'),
-    banner: webpack.BannerPlugin,
-    provide: webpack.ProvidePlugin,
-    shell: require('webpack-shell-plugin')
+const calfinated = require(`calfinated`)();
+const fs = require(`fs`);
+const path = require(`path`);
+const webpack = require(`webpack`);
+
+// @ts-ignore
+const bextJson = require(`./bext.json`);
+// @ts-ignore
+const packageJson = require(`./package.json`);
+
+const loaders = {
+  css: {
+    loader: `css-loader`,
+    options: {
+      minimize: true
+    }
   },
-  BUILD_PATHS = {
-    EXTENSION: 'build/esgst',
-    EXTENSION_SGTOOLS: 'build/esgst_sgtools',
-    EXTENSION_EVENT_PAGE: 'build/eventPage',
-    EXTENSION_EVENT_PAGE_SDK: 'build/index'
-  },
-  loaders = {
-    style: {
-      loader: 'style-loader',
-      options: {
-        singleton: true,
-        insertInto: 'html'
-      }
-    },
-    css: {
-      loader: 'css-loader',
-      options: { minimize: true }
+  style: {
+    loader: `style-loader`,
+    options: {
+      insertInto: `html`,
+      singleton: true
     }
   }
-;
+};
+const plugins = {
+  banner: webpack.BannerPlugin,
+  circularDependency: require(`circular-dependency-plugin`),
+  clean: require(`clean-webpack-plugin`),
+  copy: require(`copy-webpack-plugin`),
+  createFile: require(`create-file-webpack`),
+  progressBar: require(`progress-bar-webpack-plugin`),
+  provide: webpack.ProvidePlugin,
+  sizeAnalyzer: require(`webpack-bundle-analyzer`).BundleAnalyzerPlugin
+};
 
-module.exports = /** @param {Environment} env */ async env => {
-  const entry = {
-    [BUILD_PATHS.EXTENSION]: ['./index.js'],
-    [BUILD_PATHS.EXTENSION_SGTOOLS]: ['./index_sgtools.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE]: ['./eventPage_index.js'],
-    [BUILD_PATHS.EXTENSION_EVENT_PAGE_SDK]: ['./eventPage_sdk_index.js']
+function getBuildEntries(env) {
+  return {
+    './build/chrome/eventPage': [`./src/entry/eventPage_index.js`],
+    './build/chrome/esgst': [`./src/entry/index.js`],
+    './build/chrome/esgst_sgtools': [`./src/entry/index_sgtools.js`],
+    //'./build/chrome/options': [`./src/entry/options_index.js`],
+    './build/firefox/eventPage': [`./src/entry/eventPage_index.js`],
+    './build/firefox/esgst': [`./src/entry/index.js`],
+    './build/firefox/esgst_sgtools': [`./src/entry/index_sgtools.js`],
+    //'./build/firefox/options': [`./src/entry/options_index.js`],
+    './build/palemoon/index': [`./src/entry/eventPage_sdk_index.js`],
+    './build/palemoon/data/esgst': [`./src/entry/index.js`],
+    './build/palemoon/data/esgst_sgtools': [`./src/entry/index_sgtools.js`]
+  };
+}
+
+function getCreateFileOptions(env) {
+  return [
+    { content: JSON.stringify(getWebExtensionManifest(`chrome`, env), null, 2), fileName: `manifest.json`, path: `./build/chrome` },
+    { content: JSON.stringify(getWebExtensionManifest(`firefox`, env), null, 2), fileName: `manifest.json`, path: `./build/firefox` },
+    { content: JSON.stringify(getLegacyExtensionManifest(`palemoon`, env), null, 2), fileName: `package.json`, path: `./build/palemoon` }
+  ];
+}
+
+function getCopyPatterns(env) {
+  return [
+    { from: `./src/assets/images/icon.png`, to: `./build/chrome/icon.png` },
+    { from: `./node_modules/webextension-polyfill/dist/browser-polyfill.min.js`, to: `./build/chrome/lib/browser-polyfill.js` },
+    //{ from: `./src/html/options.html`, to: `./build/chrome/options.html` },
+    { from: `./src/assets/images/icon.png`, to: `./build/firefox/icon.png` },
+    { from: `./node_modules/webextension-polyfill/dist/browser-polyfill.min.js`, to: `./build/firefox/lib/browser-polyfill.js` },
+    //{ from: `./src/html/options.html`, to: `./build/firefox/options.html` },
+    { from: `./src/assets/images/icon.png`, to: `./build/palemoon/icon.png` },
+    { from: `./src/assets/images/icon-16.png`, to: `./build/palemoon/data/icon-16.png` },
+    { from: `./src/assets/images/icon-32.png`, to: `./build/palemoon/data/icon-32.png` },
+    { from: `./src/assets/images/icon-64.png`, to: `./build/palemoon/data/icon-64.png` }
+  ];
+}
+
+function getWebExtensionManifest(browserName, env) {
+  const manifest = {
+    manifest_version: 2,
+    name: packageJson.title,
+    version: packageJson.version,
+
+    description: packageJson.description,
+    icons: {
+      64: `icon.png`
+    },
+
+    author: packageJson.author,
+    background: {
+      scripts: [
+        `lib/browser-polyfill.js`,
+        `eventPage.js`
+      ]
+    },
+    content_scripts: [
+      {
+        matches: [
+          `*://*.steamgifts.com/*`,
+          `*://*.steamtrades.com/*`
+        ],
+        js: [
+          `lib/browser-polyfill.js`,
+          `esgst.js`
+        ],
+        run_at: `document_start`
+      },
+      {
+        matches: [
+          `*://*.sgtools.info/*`
+        ],
+        js: [
+          `lib/browser-polyfill.js`,
+          `esgst_sgtools.js`
+        ],
+        run_at: `document_start`
+      }
+    ],
+    //options_page: "options.html",
+    permissions: [
+      `cookies`,
+      `storage`,
+      `tabs`,
+      `unlimitedStorage`,
+      `*://*.raw.githubusercontent.com/*`,
+      `*://*.gsrafael01.me/*`,
+      `*://*.api.steampowered.com/*`,
+      `*://*.store.steampowered.com/*`,
+      `*://*.script.google.com/*`,
+      `*://*.script.googleusercontent.com/*`,
+      `*://*.sgtools.info/*`,
+      `*://*.steamcommunity.com/*`,
+      `*://*.steamgifts.com/*`,
+      `*://*.steamtrades.com/*`,
+      `*://*.isthereanydeal.com/*`,
+      `*://*.api.dropboxapi.com/*`,
+      `*://*.content.dropboxapi.com/*`,
+      `*://*.api.imgur.com/*`,
+      `*://*.googleapis.com/*`,
+      `*://*.graph.microsoft.com/*`,
+      `*://*.userstyles.org/*`,
+      `*://*.royalgamer06.ga/*`,
+      `*://*.steam-tracker.com/*`
+    ],
+    short_name: `ESGST`,
+    web_accessible_resources: [
+      `icon.png`
+    ]
   };
 
+  switch (browserName) {
+    case `chrome`:
+      manifest.background.persistent = true;
+      if (!env.temporary) {
+        manifest.key = bextJson.chrome.extensionKey;
+      }
+      break;
+    case `firefox`:
+      if (!env.temporary) {
+        manifest.browser_specific_settings = {
+          gecko: {
+            id: bextJson.firefox.extensionId
+          }
+        };
+      }
+      break;
+    default:
+      break;
+  }
+
+  if (env.development) {
+    manifest.content_security_policy = `script-src 'self' 'unsafe-eval'; object-src 'self';`;
+    manifest.version_name = packageJson.devVersion;
+  }
+
+  return manifest;
+}
+
+function getLegacyExtensionManifest(browserName, env) {
+  const manifest = {
+    name: `extension-${browserName}`,
+    version: packageJson.version,
+
+    description: packageJson.description,
+
+    author: packageJson.author,
+    id: `addon@esgst`,
+    keywords: [
+      `jetpack`
+    ],
+    license: `MIT`,
+    main: `index.js`,
+    title: packageJson.title
+  };
+
+  switch (browserName) {
+    case `palemoon`:
+      manifest.engines = {
+        firefox: `>=52.0 <=52.*`,
+        '{8de7fcbb-c55c-4fbe-bfc5-fc555c87dbc4}': `>=27.1.0b1 <=28.*`
+      };
+      break;
+    default:
+      break;
+  }
+
+  if (env.development) {
+    manifest.version_name = packageJson.devVersion;
+  }
+
+  return manifest;
+}
+
+module.exports = /** @param {Environment} env */ async env => {
   const cfg = {
     devtool: env.production ? false : `source-map`,
-    mode: env.production ? 'production' : (env.development ? 'development' : 'none'),
-    context: path.join(__dirname, './src/entry/'),
-    entry,
-    output: {
-      path: __dirname,
-      filename: "[name].js"
-    },
+    entry: getBuildEntries(env),
+    mode: env.production ? `production` : (env.development ? `development` : `none`),
     module: {
       rules: [
         {
-          test: /\.css$/,
           loaders: [
             loaders.style,
             loaders.css
-          ]
+          ],
+          test: /\.css$/
         }
-      // @ts-ignore
+        // @ts-ignore
       ].concat(env.withBabel ? [
         {
+          exclude: /node_modules|bower_components/,
           test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
           use: {
-            loader: 'babel-loader',
+            loader: `babel-loader`,
             options: {
               presets: [
-                '@babel/preset-env'
+                `@babel/preset-env`
               ]
             }
           }
         }
       ]: [])
     },
+    output: {
+      path: __dirname,
+      filename: `[name].js`
+    },
     plugins: [
-      new plugins.clean([`build`]),
-      new plugins.circularDependency({
-        exclude: /node_modules/,
-        failOnError: true,
-        cwd: process.cwd()
-      }),
-      new plugins.banner({
-        raw: true,
-        entryOnly: true,
-        test: /index\.js$/,
-        banner: fs.readFileSync(path.join(__dirname, './src/entry/eventPage_sdk_banner.js'), 'utf8')
-      }),
-      new plugins.provide({
-        '$': 'jquery',
-        'jQuery': 'jquery',
-        'window.jQuery': 'jquery',
-        'window.$': 'jquery'
-      }),
       // @ts-ignore
       new plugins.progressBar,
-      new plugins.shell({
-        onBuildExit: [
-          `node ./scripts/build.js${env.development ? ` dev` : ``}`
-        ]
-      })
-    ]
-    .concat(env.sizeAnalyzer ? [
+      new plugins.clean([
+        `./build`
+      ]),
+      new plugins.banner({
+        banner: fs.readFileSync(path.join(__dirname, `./src/entry/eventPage_sdk_banner.js`), `utf8`),
+        entryOnly: true,
+        raw: true,
+        test: /index\.js$/
+      }),
+      new plugins.provide({
+        '$': `jquery`,
+        'jQuery': `jquery`,
+        'window.jQuery': `jquery`,
+        'window.$': `jquery`
+      }),
+      new plugins.circularDependency({
+        cwd: process.cwd(),
+        exclude: /node_modules/,
+        failOnError: true
+      }),
+      ...getCreateFileOptions(env).map(x => new plugins.createFile(x)),
+      new plugins.copy(getCopyPatterns(env)),
+    ].concat(env.sizeAnalyzer ? [
       new plugins.sizeAnalyzer
     ] : []),
     watch: env.development && env.withWatch,
     watchOptions: {
+      aggregateTimeout: 1000,
       ignored: /node_modules/,
-      poll: 1000,
-      aggregateTimeout: 1000
+      poll: 1000
     }
   };
 

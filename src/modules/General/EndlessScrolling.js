@@ -641,7 +641,7 @@ class GeneralEndlessScrolling extends Module {
     es.pauseButton.classList.add(`esgst-hidden`);
     es.resumeButton.classList.remove(`esgst-hidden`);
     if (!firstRun) {
-      const setting = shared.common.getFeaturePath(null, `es`, `sg`);
+      const setting = gSettings.full.es;
       setting.include = setting.include.map(item => {
         if (item !== gSettings.es) {
           return item;
@@ -669,7 +669,7 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton.classList.add(`esgst-hidden`);
     es.pauseButton.classList.remove(`esgst-hidden`);
     if (!firstRun) {
-      const setting = shared.common.getFeaturePath(null, `es`, `sg`);
+      const setting = gSettings.full.es;
       setting.include = setting.include.map(item => {
         if (item !== gSettings.es) {
           return item;
