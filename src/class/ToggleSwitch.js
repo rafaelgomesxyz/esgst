@@ -72,6 +72,7 @@ class ToggleSwitch {
       } else if (this.st) {
         key += `_st`;
       }
+      console.log(key);
       let setting = gSettings[key];
       if (typeof setting === `undefined` || !setting.include) {
         setting = this.value;

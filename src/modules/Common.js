@@ -1742,9 +1742,13 @@ class Common extends Module {
   
   initGlobalSettings() {
     for (const key in shared.esgst.settings) {
-      const match = key.match(new RegExp(`(.+?)_${shared.esgst.name}$`));
+      const match = key.match(/(.+?)_(sg|st|sgt)$`/);
       if (match) {
-        gSettings[key] = gSettings[match[1]] = shared.esgst.settings[key];
+        if (match[2] === shared.esgst.name) {
+          gSettings[key] = gSettings[match[1]] = shared.esgst.settings[key];
+        }
+      } else {
+        gSettings[key] = shared.esgst.settings[key];
       }
     }
     for (const key in shared.esgst.oldValues) {
