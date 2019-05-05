@@ -1,5 +1,17 @@
 [
   {
+    "date": "May 5, 2019",
+    "version": "8.3.7",
+    "changelog": {
+      "1307": "Giveaway Sorter: fix bug that does not auto sort",
+      "1308": "Giveaway Error Search Links: fix bug that uses \"Patreon\" as game name",
+      "1310": "Endless Scrolling: fix bug that prevents feature from working for some users",
+      "1311": "Storage: fix bug that does not restore from OneDrive",
+      "1312": "Internal: fix bug that does not persist some settings",
+      "1313": "Internal: fix \"All\", \"None\" and \"Inverse\" buttons"
+    }
+  },
+  {
     "date": "May 4, 2019",
     "version": "8.3.6",
     "changelog": {}
