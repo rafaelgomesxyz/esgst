@@ -47,7 +47,7 @@ window.interact = interact;
     style.textContent = customTheme;
     document.documentElement.appendChild(style);
   }
-var aaa;
+
   // initialize esgst
   async function init() {
     if (document.getElementById(`esgst`)) {
@@ -257,8 +257,6 @@ var aaa;
     } else {
       esgst.settings = {};
     }
-    aaa = esgst.settings.es;
-    console.log(aaa === esgst.settings.es);
     if (esgst.settings.avatar_sg) {
       delete esgst.settings.avatar_sg;
       esgst.settingsChanged = true;

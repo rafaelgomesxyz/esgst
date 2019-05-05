@@ -46,9 +46,10 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
   }
 
   init() {
-    if (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0]) return;
-    let name = encodeURIComponent(document.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
-    common.createElements_v2(document.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [
+    const table = document.getElementsByClassName(`table--summary`)[0];
+    if (!this.esgst.giveawayPath || !table) return;
+    let name = encodeURIComponent(table.getElementsByClassName(`table__column__secondary-link`)[0].textContent);
+    common.createElements_v2(table.getElementsByClassName(`table__row-outer-wrap`)[0], `afterEnd`, [
       [`div`, { class: `table__row-outer-wrap`, title: getFeatureTooltip(`gesl`) }, [
         [`div`, { class: `table__row-inner-wrap` }, [
           [`div`, { class: `table__column--width-small` }, [
