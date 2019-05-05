@@ -36,7 +36,7 @@ class Giveaways extends Module {
     }
     giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
     if (gSettings.gas && gSettings[this.esgst.gas.autoKey]) {
-      sortContent(this.esgst.currentScope.giveaways, this.esgst[this.esgst.gas.optionKey]);
+      sortContent(this.esgst.currentScope.giveaways, gSettings[this.esgst.gas.optionKey]);
     }
     if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
