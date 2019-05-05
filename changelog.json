@@ -1,6 +1,11 @@
 [
   {
     "date": "May 4, 2019",
+    "version": "8.3.6",
+    "changelog": {}
+  },
+  {
+    "date": "May 4, 2019",
     "version": "8.3.5",
     "changelog": {
       "1273": "Filters: add button to hide / unhide items hidden with individual filters",

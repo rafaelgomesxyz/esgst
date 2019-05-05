@@ -344,10 +344,12 @@ function publishRelease(body = ``) {
         return;
       }
 
-      const preRelease = releases.filter(x => x.prerelease)[0];
-      if (preRelease) {
-        await ghRepo.deleteRelease(preRelease.id);
-        await ghRepo.deleteRef(`tags/${preRelease.tag_name}`);
+      if (args.dev) {
+        const preRelease = releases.filter(x => x.prerelease)[0];
+        if (preRelease) {
+          await ghRepo.deleteRelease(preRelease.id);
+          await ghRepo.deleteRef(`tags/${preRelease.tag_name}`);
+        }
       }
 
       const releaseDescription = {
