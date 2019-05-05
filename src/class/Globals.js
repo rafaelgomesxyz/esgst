@@ -1,7 +1,9 @@
 const gElements = {};
 const gVariables = {};
 const gModules = {};
-const gSettings = {};
+const gSettings = {
+  full: {}
+};
 
 export {
   gElements,

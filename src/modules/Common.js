@@ -1714,9 +1714,10 @@ class Common extends Module {
   }
 
   getFeatureSetting(feature, id, namespace, path) {
+    let setting = null;
     let value = false;
     if (feature[namespace]) {
-      const setting = this.getFeaturePath(feature, id, namespace);
+      setting = this.getFeaturePath(feature, id, namespace);
       if (setting.enabled) {
         if (!path) {
           path = `${window.location.pathname}${window.location.search}`;
@@ -1733,7 +1734,10 @@ class Common extends Module {
         }
       }
     }
-    return value;
+    return {
+      full: setting,
+      current: value
+    };
   }
   
   initGlobalSettings() {
@@ -1763,7 +1767,9 @@ class Common extends Module {
       if (shared.esgst.featuresById.hasOwnProperty(id)) {
         const feature = shared.esgst.featuresById[id];
         this.dismissFeature(feature, id);
-        gSettings[`${id}_${shared.esgst.name}`] = gSettings[id] = this.getFeatureSetting(feature, id, shared.esgst.name);
+        const result = this.getFeatureSetting(feature, id, shared.esgst.name);
+        gSettings[`${id}_${shared.esgst.name}`] = gSettings[id] = result.current;
+        gSettings.full[id] = result.full;
       }
     }
   }
@@ -1776,7 +1782,11 @@ class Common extends Module {
     } else {
       const feature = shared.esgst.featuresById[id];
       if (feature) {
-        value = this.getFeatureSetting(feature, id, namespace, path);
+        const result = this.getFeatureSetting(feature, id, namespace, path);
+        value = result.current;
+        if (namespace === shared.esgst.name) {
+          gSettings.full[id] = result.full;
+        }
       } else {
         const namespaced = shared.esgst.settings[`${id}_${namespace}`];
         if (namespaced) {

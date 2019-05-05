@@ -47,7 +47,7 @@ window.interact = interact;
     style.textContent = customTheme;
     document.documentElement.appendChild(style);
   }
-
+var aaa;
   // initialize esgst
   async function init() {
     if (document.getElementById(`esgst`)) {
@@ -257,6 +257,8 @@ window.interact = interact;
     } else {
       esgst.settings = {};
     }
+    aaa = esgst.settings.es;
+    console.log(aaa === esgst.settings.es);
     if (esgst.settings.avatar_sg) {
       delete esgst.settings.avatar_sg;
       esgst.settingsChanged = true;
@@ -265,27 +267,30 @@ window.interact = interact;
       delete esgst.settings.avatar_st;
       esgst.settingsChanged = true;
     }
+
+    esgst.features = common.getFeatures();
+    esgst.featuresById = common.getFeaturesById();
+
+    common.initGlobalSettings();
+
     if (utils.isSet(esgst.storage.filterPresets)) {
-      const presets = esgst.settings.gf_presets.concat(
+      const presets = gSettings.gf_presets.concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.filterPresets))
       );
-      esgst.settings.gf_presets = presets;
+      gSettings.gf_presets = esgst.settings.gf_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_gf_presets = esgst.storage.filterPresets;
       toDelete.push(`filterPresets`);
     }
     if (utils.isSet(esgst.storage.dfPresets)) {
-      const presets = esgst.settings.df_presets.concat(
+      const presets = gSettings.df_presets.concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.dfPresets))
       );
-      esgst.settings.df_presets = presets;
+      gSettings.df_presets = esgst.settings.df_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_df_presets = esgst.storage.dfPresets;
       toDelete.push(`dfPresets`);
     }
-
-    esgst.features = common.getFeatures();
-    esgst.featuresById = common.getFeaturesById();
 
     [
       {id: `cec`, side: `left`},
@@ -299,8 +304,9 @@ window.interact = interact;
       {id: `ust`, side: `left`},
       {id: `wbm`, side: `left`}
     ].forEach(item => {
-      if ((esgst.settings.leftButtonIds || []).indexOf(item.id) < 0 && (esgst.settings.rightButtonIds || []).indexOf(item.id) < 0 && (esgst.settings.leftMainPageHeadingIds || []).indexOf(item.id) < 0 && (esgst.settings.rightMainPageHeadingIds || []).indexOf(item.id) < 0) {
-        esgst.settings[`${item.side}MainPageHeadingIds`].push(item.id);
+      if (gSettings.leftButtonIds.indexOf(item.id) < 0 && gSettings.rightButtonIds.indexOf(item.id) < 0 && gSettings.leftMainPageHeadingIds.indexOf(item.id) < 0 && gSettings.rightMainPageHeadingIds.indexOf(item.id) < 0) {
+        gSettings[`${item.side}MainPageHeadingIds`].push(item.id);
+        esgst.settings[`${item.side}MainPageHeadingIds`] = gSettings[`${item.side}MainPageHeadingIds`];
         esgst.settingsChanged = true;
       }
     });
@@ -320,103 +326,106 @@ window.interact = interact;
       delete esgst.settings.groups;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.gc_categories_ids && esgst.settings.gc_categories_ids.indexOf(`gc_f`) < 0) {
-      esgst.settings.gc_categories_ids.push(`gc_f`);
+    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf(`gc_f`) < 0) {
+      gSettings.gc_categories_ids.push(`gc_f`);
+      esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.gc_categories_ids && esgst.settings.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
-      esgst.settings.gc_categories_ids.push(`gc_bvg`);
+    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
+      gSettings.gc_categories_ids.push(`gc_bvg`);
+      esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.gc_categories_ids && esgst.settings.gc_categories_ids.indexOf(`gc_bd`) < 0) {
-      esgst.settings.gc_categories_ids.push(`gc_bd`);
+    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf(`gc_bd`) < 0) {
+      gSettings.gc_categories_ids.push(`gc_bd`);
+      esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
     [`gc_categories`, `gc_categories_gv`, `gc_categories_ids`].forEach(key => {
-      if (!esgst.settings[key]) {
+      if (!gSettings[key]) {
         return;
       }
-      let bkpLength = esgst.settings[key].length;
-      const newArray = Array.from(new Set(esgst.settings[key]));
-      if (bkpLength !== newArray.length) {
-        esgst.settings[key] = newArray;
+      let bkpLength = gSettings[key].length;
+      gSettings[key] = Array.from(new Set(gSettings[key]));
+      if (bkpLength !== gSettings[key].length) {
+        esgst.settings[key] = gSettings[key];
         esgst.settingsChanged = true;
       }
     });
-    if (esgst.settings.elementOrdering !== `1`) {
-      const oldLeftButtonIds = JSON.stringify(esgst.settings.leftButtonIds || []);
-      const oldRightButtonIds = JSON.stringify(esgst.settings.rightButtonIds || []);
-      const oldLeftMainPageHeadingIds = JSON.stringify(esgst.settings.leftMainPageHeadingIds || []);
-      const oldRightMainPageHeadingIds = JSON.stringify(esgst.settings.rightMainPageHeadingIds || []);
-      if (esgst.settings.leftButtonIds) {
-        for (let i = esgst.settings.leftButtonIds.length - 1; i > -1; i--) {
-          const id = esgst.settings.leftButtonIds[i];
-          if (!esgst.settings[`hideButtons_${id}_sg`]) {
-            if (esgst.settings.leftMainPageHeadingIds) {
-              esgst.settings.leftMainPageHeadingIds.push(id);
+    if (gSettings.elementOrdering !== `1`) {
+      const oldLeftButtonIds = JSON.stringify(gSettings.leftButtonIds);
+      const oldRightButtonIds = JSON.stringify(gSettings.rightButtonIds);
+      const oldLeftMainPageHeadingIds = JSON.stringify(gSettings.leftMainPageHeadingIds);
+      const oldRightMainPageHeadingIds = JSON.stringify(gSettings.rightMainPageHeadingIds);
+      if (gSettings.leftButtonIds) {
+        for (let i = gSettings.leftButtonIds.length - 1; i > -1; i--) {
+          const id = gSettings.leftButtonIds[i];
+          if (!gSettings[`hideButtons_${id}_sg`]) {
+            if (gSettings.leftMainPageHeadingIds) {
+              gSettings.leftMainPageHeadingIds.push(id);
             }
-            esgst.settings.leftButtonIds.splice(i, 1);
-          } else if (esgst.settings.rightButtonsIds && esgst.settings.rightButtonIds.indexOf(id) > -1) {
-            esgst.settings.leftButtonIds.splice(i, 1);
+            gSettings.leftButtonIds.splice(i, 1);
+          } else if (gSettings.rightButtonsIds && gSettings.rightButtonIds.indexOf(id) > -1) {
+            gSettings.leftButtonIds.splice(i, 1);
           }
         }
       }
-      if (esgst.settings.rightButtonIds) {
-        for (let i = esgst.settings.rightButtonIds.length - 1; i > -1; i--) {
-          const id = esgst.settings.rightButtonIds[i];
-          if (!esgst.settings[`hideButtons_${id}_sg`]) {
-            if (esgst.settings.rightMainPageHeadingIds) {
-              esgst.settings.rightMainPageHeadingIds.push(id);
+      if (gSettings.rightButtonIds) {
+        for (let i = gSettings.rightButtonIds.length - 1; i > -1; i--) {
+          const id = gSettings.rightButtonIds[i];
+          if (!gSettings[`hideButtons_${id}_sg`]) {
+            if (gSettings.rightMainPageHeadingIds) {
+              gSettings.rightMainPageHeadingIds.push(id);
             }
-            esgst.settings.rightButtonIds.splice(i, 1);
-          } else if (esgst.settings.rightButtonIds && esgst.settings.rightButtonIds.indexOf(id) > -1) {
-            esgst.settings.rightButtonIds.splice(i, 1);
+            gSettings.rightButtonIds.splice(i, 1);
+          } else if (gSettings.rightButtonIds && gSettings.rightButtonIds.indexOf(id) > -1) {
+            gSettings.rightButtonIds.splice(i, 1);
           }
         }
       }
-      if (esgst.settings.leftMainPageHeadingIds) {
-        for (let i = esgst.settings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
-          const id = esgst.settings.leftMainPageHeadingIds[i];
-          if (!esgst.settings[`hideButtons_${id}_sg`]) {
-            if (esgst.settings.leftButtonIds) {
-              esgst.settings.leftButtonIds.push(id);
+      if (gSettings.leftMainPageHeadingIds) {
+        for (let i = gSettings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
+          const id = gSettings.leftMainPageHeadingIds[i];
+          if (!gSettings[`hideButtons_${id}_sg`]) {
+            if (gSettings.leftButtonIds) {
+              gSettings.leftButtonIds.push(id);
             }
-            esgst.settings.leftMainPageHeadingIds.splice(i, 1);
-          } else if (esgst.settings.rightMainPageHeadingIds && esgst.settings.rightMainPageHeadingIds.indexOf(id) > -1) {
-            esgst.settings.leftMainPageHeadingIds.splice(i, 1);
+            gSettings.leftMainPageHeadingIds.splice(i, 1);
+          } else if (gSettings.rightMainPageHeadingIds && gSettings.rightMainPageHeadingIds.indexOf(id) > -1) {
+            gSettings.leftMainPageHeadingIds.splice(i, 1);
           }
         }
       }
-      if (esgst.settings.rightMainPageHeadingIds) {
-        for (let i = esgst.settings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
-          const id = esgst.settings.rightMainPageHeadingIds[i];
-          if (!esgst.settings[`hideButtons_${id}_sg`]) {
-            if (esgst.settings.rightButtonIds) {
-              esgst.settings.rightButtonIds.push(id);
+      if (gSettings.rightMainPageHeadingIds) {
+        for (let i = gSettings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
+          const id = gSettings.rightMainPageHeadingIds[i];
+          if (!gSettings[`hideButtons_${id}_sg`]) {
+            if (gSettings.rightButtonIds) {
+              gSettings.rightButtonIds.push(id);
             }
-            esgst.settings.rightMainPageHeadingIds.splice(i, 1);
-          } else if (esgst.settings.leftMainPageHeadingIds && esgst.settings.leftMainPageHeadingIds.indexOf(id) > -1) {
-            esgst.settings.rightMainPageHeadingIds.splice(i, 1);
+            gSettings.rightMainPageHeadingIds.splice(i, 1);
+          } else if (gSettings.leftMainPageHeadingIds && gSettings.leftMainPageHeadingIds.indexOf(id) > -1) {
+            gSettings.rightMainPageHeadingIds.splice(i, 1);
           }
         }
       }
-      const newLeftButtonIds = new Set(esgst.settings.leftButtonIds || []);
-      const newRightButtonIds = new Set(esgst.settings.rightButtonIds || []);
-      const newLeftMainHeadingIds = new Set(esgst.settings.leftMainPageHeadingIds || []);
-      const newRightMainHeadingIds = new Set(esgst.settings.rightMainPageHeadingIds || []);
-      if (oldLeftButtonIds !== JSON.stringify(newLeftButtonIds)) {
-        esgst.settings.leftButtonIds = newLeftButtonIds;
+      gSettings.leftButtonIds = Array.from(new Set(gSettings.leftButtonIds));
+      gSettings.rightButtonIds = Array.from(new Set(gSettings.rightButtonIds));
+      gSettings.leftMainHeadingIds = Array.from(new Set(gSettings.leftMainPageHeadingIds));
+      gSettings.rightMainHeadingIds = Array.from(new Set(gSettings.rightMainPageHeadingIds));
+      if (oldLeftButtonIds !== JSON.stringify(gSettings.leftButtonIds)) {
+        esgst.settings.leftButtonIds = gSettings.leftButtonIds;
       }
-      if (oldRightButtonIds !== JSON.stringify(newRightButtonIds)) {
-        esgst.settings.rightButtonIds = newRightButtonIds;
+      if (oldRightButtonIds !== JSON.stringify(gSettings.rightButtonIds)) {
+        esgst.settings.rightButtonIds = gSettings.rightButtonIds;
       }
-      if (oldLeftMainPageHeadingIds !== JSON.stringify(newLeftMainHeadingIds)) {
-        esgst.settings.leftMainPageHeadingIds = newLeftMainHeadingIds;
+      if (oldLeftMainPageHeadingIds !== JSON.stringify(gSettings.leftMainHeadingIds)) {
+        esgst.settings.leftMainPageHeadingIds = gSettings.leftMainHeadingIds;
       }
-      if (oldRightMainPageHeadingIds !== JSON.stringify(newRightMainHeadingIds)) {
-        esgst.settings.rightMainPageHeadingIds = newRightMainHeadingIds;
+      if (oldRightMainPageHeadingIds !== JSON.stringify(gSettings.rightMainHeadingIds)) {
+        esgst.settings.rightMainPageHeadingIds = gSettings.rightMainHeadingIds;
       }
-      esgst.settings.elementOrdering = `1`;
+      gSettings.elementOrdering = esgst.settings.elementOrdering = `1`;
       esgst.settingsChanged = true;
     }
     if (document.readyState === 'loading') {
@@ -428,8 +437,6 @@ window.interact = interact;
   }
 
   async function load(toDelete, toSet) {
-    common.initGlobalSettings();
-
     esgst.mainPageHeadingSize = 35;
     if (esgst.sg) {
       esgst.headerSize = 39;
