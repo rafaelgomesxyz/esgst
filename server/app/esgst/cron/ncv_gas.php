@@ -3,13 +3,12 @@
 require_once __DIR__.'/../class/CustomException.php';
 require_once __DIR__.'/../class/Request.php';
 require_once __DIR__.'/../utils/timezones.php';       // set_timezones
-require_once __DIR__.'/credentials.php';              // get_credentials
 require_once __DIR__.'/../utils/connection.php';      // start_connection
 require_once __DIR__.'/../utils/dom.php';             // filter_child_nodes
 
-do_rcv_sgtools_cron_job();
+do_ncv_gas_cron_job();
 
-function do_rcv_sgtools_cron_job() {
+function do_ncv_gas_cron_job() {
   global $connection;
 
   try {
@@ -21,9 +20,9 @@ function do_rcv_sgtools_cron_job() {
   }
 }
 
-function update_rcv_sgtools() {
+function update_ncv_gas() {
   try {
-    fetch_rcv_sgtools();
+    fetch_ncv_gas();
   } catch (CustomException $exception) {
     throw $exception;
   } catch (Exception $exception) {
@@ -31,7 +30,7 @@ function update_rcv_sgtools() {
   }
 }
 
-function fetch_rcv_sgtools() {
+function fetch_ncv_gas() {
   global $connection;
   global $global_timezone;
 
@@ -46,7 +45,7 @@ function fetch_rcv_sgtools() {
     'sub' => []
   ];
 
-  $url = 'https://www.sgtools.info/lastbundled';
+  $url = 'https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv';
   $response = Request::fetch($url);
   $doc = $response['doc'];
 

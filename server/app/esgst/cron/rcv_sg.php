@@ -121,7 +121,7 @@ function fetch_rcv_sg() {
       $query = implode(' ', [
         'INSERT INTO games__'.$type.'_rcv ('.$type.'_id, effective_date, added_date, found)',
         'VALUES '.implode(', ', array_fill(0, $num_parameters / 4, '(?, ?, ?, ?)')),
-        'ON DUPLICATE KEY UPDATE found = VALUES(found)'
+        'ON DUPLICATE KEY UPDATE effective_date = VALUES(effective_date), found = VALUES(found)'
       ]);
       $statement = $connection->prepare($query);
       $statement->execute($rcv_parameters[$type]);

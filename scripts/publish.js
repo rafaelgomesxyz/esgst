@@ -218,8 +218,10 @@ function publishVersion() {
 
     fs.writeFileSync(`${ROOT_PATH}/package.json`, JSON.stringify(packageJson, null, 2));
     
-    git.add(`./*`)
-    .commit(commitMessage)
+    if (!args.doNotAdd) {
+      git.add(`./*`);
+    }
+    git.commit(commitMessage)
     .push(async error => {
       if (error) {
         git.reset([`--soft`, `HEAD~1`]);
