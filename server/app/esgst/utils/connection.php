@@ -9,7 +9,7 @@ function start_connection() {
   $credentials = get_credentials();
 
   try {
-    $data_source_name = 'mysql:host=localhost;dbname=gsrafael_esgst';
+    $data_source_name = 'mysql:host=localhost;dbname=gsrafa29_esgst';
     $username = $credentials['username'];
     $password = $credentials['password'];
     $options = [

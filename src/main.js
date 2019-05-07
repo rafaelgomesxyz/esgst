@@ -265,6 +265,10 @@ window.interact = interact;
       delete esgst.settings.avatar_st;
       esgst.settingsChanged = true;
     }
+    if (esgst.settings.username) {
+      delete esgst.settings.username;
+      esgst.settingsChanged = true;
+    }
 
     esgst.features = common.getFeatures();
     esgst.featuresById = common.getFeaturesById();

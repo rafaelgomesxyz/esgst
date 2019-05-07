@@ -17,9 +17,12 @@ class Request {
     if ($options['cookie']) {
       curl_setopt($curl_request, CURLOPT_COOKIE, $options['cookie']);
     }
-    if ($options['headers']) {
-      curl_setopt($curl_request, CURLOPT_HTTPHEADER, $options['headers']);
+    if (!$options['headers']) {
+      $options['headers'] = [];
     }
+    $options['headers']['Esgst-Version'] = 'ServerV1';
+    $options['headers']['From'] = 'esgst.extension@gmail.com';
+    curl_setopt($curl_request, CURLOPT_HTTPHEADER, $options['headers']);
     curl_setopt($curl_request, CURLOPT_HEADERFUNCTION, function($curl, $header) use (&$headers) {
       $length = strlen($header);
       $header = explode(':', $header, 2);
