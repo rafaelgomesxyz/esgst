@@ -38,8 +38,49 @@ function getDataMenu(option, switches, type) {
       },
       type: `div`
     }]);
+    const optionSwitches = {};
+    if (option.options.length > 1) {
+      const group = shared.common.createElements(options, `beforeEnd`, [{
+        attributes: {
+          class: `esgst-button-group`
+        },
+        type: `div`,
+        children: [{
+          text: `Select:`,
+          type: `span`
+        }]
+      }]);
+      group.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-square`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `All`,
+        title2: ``,
+        callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, `enable`, group)
+      }).set);
+      group.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-square-o`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `None`,
+        title2: ``,
+        callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, `disable`, group)
+      }).set);
+      group.appendChild(new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-plus-square-o`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Inverse`,
+        title2: ``,
+        callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, `toggle`, group)
+      }).set);
+    }
     for (i = 0, n = option.options.length; i < n; ++i) {
       m = getDataMenu(option.options[i], switches, type);
+      optionSwitches[option.options[i].key] = switches[option.options[i].key];
       options.appendChild(m);
       toggleSwitch.dependencies.push(m);
     }
