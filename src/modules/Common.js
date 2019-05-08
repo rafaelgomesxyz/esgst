@@ -616,21 +616,21 @@ class Common extends Module {
     let elements = context.getElementsByClassName(`table__row-outer-wrap`);
     for (const element of elements) {
       const info = await this.esgst.modules.games.games_getInfo(element);
-      if (!info || !this.esgst.games[info.type][info.id]) {
+      if (!info) {
         continue;
       }
       const dateElement = element.querySelector(`[data-ui-tooltip*="Zero contributor value since..."]`);
       if (dateElement) {
         const rows = JSON.parse(dateElement.getAttribute(`data-ui-tooltip`)).rows;
         const date = rows[rows.length - 1].columns[1].name;
-        if (!utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
+        if (!this.esgst.games[info.type][info.id] || !utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
           games[info.type][info.id] = {
             name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
             effective_date: date
           };
           found  = true;
         }
-      } else if (utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
+      } else if (!this.esgst.games[info.type][info.id] || utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
         games[info.type][info.id] = {
           name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
           effective_date: null
@@ -640,6 +640,7 @@ class Common extends Module {
     }
     if (this.noCvButton) {
       this.noCvButton.remove();
+      this.noCvButton = null;
     }
     if (found) {
       this.noCvButton = this.createElements(context.closest(`.form__row__indent`).previousElementSibling, `beforeEnd`, [{
@@ -667,9 +668,7 @@ class Common extends Module {
   }
 
   async addNoCvGames(games) {
-    let button = this.noCvButton;
-    this.noCvButton = null;
-    this.createElements(button, `inner`, [{
+    this.createElements(this.noCvButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`,
         title: `Updating database...`
@@ -696,7 +695,13 @@ class Common extends Module {
       }
     }
     await this.lockAndSaveGames(games);
-    button.remove();
+    this.createElements(this.noCvButton, `inner`, [{
+      attributes: {
+        class: `fa fa-check-circle esgst-green`,
+        title: `Database updated!`
+      },
+      type: `i`
+    }]);
   }
 
   async endless_load(context, main, source, endless, mainEndless) {

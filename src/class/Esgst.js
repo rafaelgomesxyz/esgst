@@ -953,6 +953,8 @@ class Esgst {
     };
 
     this.oldValues = {
+      uf_gp_sg: `uf_p_sg`,
+      uf_dp_sg: `uf_p_sg`,
       makeSectionsCollapsible_sg: `makeSecionsCollapsible_sg`,
       makeSectionsCollapsible_st: `makeSecionsCollapsible_st`,
       collapse_general: `collapseSections_sg`,
