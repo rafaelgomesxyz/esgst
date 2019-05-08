@@ -107,7 +107,7 @@ class Discussions extends Module {
   }
 
   async discussions_getInfo(context, main) {
-    let match, savedUser, uf;
+    let match;
     if (context.closest(`.poll`)) {
       return;
     }
@@ -235,24 +235,6 @@ class Discussions extends Module {
     discussion.container = discussion.headingContainer;
     discussion.tagContext = discussion.headingContainer;
     discussion.tagPosition = `beforeEnd`;
-    switch (discussion.type) {
-      case `discussion`:
-        if (gSettings.uf) {
-          savedUser = await getUser(this.esgst.users, {
-            username: discussion.author
-          });
-          if (savedUser) {
-            uf = savedUser.uf;
-            if ((gSettings.uf_d && savedUser.blacklisted && !uf) || (uf && uf.discussions)) {
-              discussion.outerWrap.classList.add(`esgst-hidden`);
-              discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-              shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-              shared.common.filteredButton.classList.remove(`esgst-hidden`);
-            }
-          }
-        }
-        break;
-    }
     return discussion;
   }
 }

@@ -3440,7 +3440,8 @@ class Common extends Module {
       let filtered = [];
       for (let key in users.users) {
         if (users.users.hasOwnProperty(key)) {
-          if (users.users[key].uf && (users.users[key].uf.posts || users.users[key].uf.giveaways || users.users[key].uf.discussions)) {
+          const data = shared.esgst.modules.usersUserFilters.fixData(users.users[key].uf);
+          if (data && (data.giveawayPosts || data.giveaways || data.discussionPosts || data.discussions)) {
             filtered.push(users.users[key]);
           }
         }
@@ -3472,19 +3473,25 @@ class Common extends Module {
             attributes: {
               class: `table__column--width-small`
             },
-            text: `Posts Hidden`,
-            type: `div`
-          }, {
-            attributes: {
-              class: `table__column--width-small`
-            },
             text: `Discussions Hidden`,
             type: `div`
           }, {
             attributes: {
               class: `table__column--width-small`
             },
+            text: `Discussion Posts Hidden`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
             text: `Giveaways Hidden`,
+            type: `div`
+          }, {
+            attributes: {
+              class: `table__column--width-small`
+            },
+            text: `Giveaway Posts Hidden`,
             type: `div`
           }]
         }, {
@@ -3495,9 +3502,10 @@ class Common extends Module {
         }]
       }]);
       for (let i = 0, n = filtered.length; i < n; ++i) {
-        const postsIcon = filtered[i].uf.posts ? `fa fa-check` : ``;
         const discussionsIcon = filtered[i].uf.discussions ? `fa fa-check` : ``;
+        const discussionPostsIcon = filtered[i].uf.discussionPosts ? `fa fa-check` : ``;
         const giveawaysIcon = filtered[i].uf.giveaways ? `fa fa-check` : ``;
+        const giveawayPostsIcon = filtered[i].uf.giveawayPosts ? `fa fa-check` : ``;
         this.createElements(table.lastElementChild, `beforeEnd`, [{
           attributes: {
             class: `table__row-outer-wrap`
@@ -3525,17 +3533,6 @@ class Common extends Module {
                 class: `table__column--width-small`
               },
               type: `div`,
-              children: postsIcon ? [{
-                attributes: {
-                  class: postsIcon
-                },
-                type: `i`
-              }] : null
-            }, {
-              attributes: {
-                class: `table__column--width-small`
-              },
-              type: `div`,
               children: discussionsIcon ? [{
                 attributes: {
                   class: discussionsIcon
@@ -3547,9 +3544,31 @@ class Common extends Module {
                 class: `table__column--width-small`
               },
               type: `div`,
+              children: discussionPostsIcon ? [{
+                attributes: {
+                  class: discussionPostsIcon
+                },
+                type: `i`
+              }] : null
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              type: `div`,
               children: giveawaysIcon ? [{
                 attributes: {
                   class: giveawaysIcon
+                },
+                type: `i`
+              }] : null
+            }, {
+              attributes: {
+                class: `table__column--width-small`
+              },
+              type: `div`,
+              children: giveawayPostsIcon ? [{
+                attributes: {
+                  class: giveawayPostsIcon
                 },
                 type: `i`
               }] : null
