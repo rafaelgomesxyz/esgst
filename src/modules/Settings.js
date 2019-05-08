@@ -962,7 +962,6 @@ class Settings {
   }
 
   async resetElementOrdering(id, obj, obj_gv) {
-    console.log(id, shared.esgst.defaultValues[id]);
     this.preSave(id, shared.esgst.defaultValues[id]);
     shared.esgst.modules.giveaways.giveaways_reorder(obj);
     shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
@@ -1529,7 +1528,7 @@ class Settings {
             [`i`, { class: `fa fa-question-circle`, title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
           ]]
         ]).firstElementChild;
-        shared.common.observeChange(input.firstElementChild, `gc_g_filters`);
+        shared.common.observeChange(input.firstElementChild, `gc_g_filters`, this.toSave);
         items.push(input);
         items.push(this.addGcMenuPanel());
       }
@@ -1547,8 +1546,8 @@ class Settings {
         shared.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
         let icon = input.firstElementChild;
         let label = input.lastElementChild;
-        shared.common.observeChange(icon, `${ID}Icon`);
-        shared.common.observeChange(label, `${ID}Label`);
+        shared.common.observeChange(icon, `${ID}Icon`, this.toSave);
+        shared.common.observeChange(label, `${ID}Label`, this.toSave);
         if (ID === `gc_rd`) {
           shared.common.createElements(input, `beforeEnd`, [{
             attributes: {
@@ -1702,8 +1701,8 @@ class Settings {
       ]).firstElementChild;
       let startTime = containerr.firstElementChild;
       let endTime = startTime.nextElementSibling;
-      shared.common.observeChange(startTime, `${ID}_startTime`);
-      shared.common.observeChange(endTime, `${ID}_endTime`);
+      shared.common.observeChange(startTime, `${ID}_startTime`, this.toSave);
+      shared.common.observeChange(endTime, `${ID}_endTime`, this.toSave);
       if (ID === `customTheme`) {
         let textArea = containerr.lastElementChild;
         const value = shared.common.getValue(ID);
@@ -1763,7 +1762,7 @@ class Settings {
           ]]
         ]).firstElementChild;
         select.firstElementChild.selectedIndex = selectedIndex;
-        shared.common.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, false, `selectedIndex`);
+        shared.common.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, this.toSave, `selectedIndex`);
         items.push(select);
       }
     }
