@@ -2496,24 +2496,32 @@ class Common extends Module {
     this.setSetting(key, options.value);
   }
 
-  observeChange(context, id, save = false, key = `value`, event = `change`) {
+  observeChange(context, id, save = null, key = `value`, event = `change`) {
     context.addEventListener(event, () => {
       let value = context[key];
       gSettings[id] = value;
       if (save) {
-        this.setSetting(id, value);
+        if (typeof save === `object`) {
+          save[id] = value;
+        } else {
+          this.setSetting(id, value);
+        }
       }
     });
   }
 
-  observeNumChange(context, id, save = false, key = `value`) {
+  observeNumChange(context, id, save = null, key = `value`) {
     gSettings[id] = parseFloat(gSettings[id]);
     context.addEventListener(`change`, () => {
       let value = parseFloat(context[key]);
       // noinspection JSIgnoredPromiseFromCall
       gSettings[id] = value;
       if (save) {
-        this.setSetting(id, value);
+        if (typeof save === `object`) {
+          save[id] = value;
+        } else {
+          this.setSetting(id, value);
+        }
       }
     });
   }
