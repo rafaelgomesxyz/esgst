@@ -28,6 +28,9 @@ class Comments extends Module {
       comments[i].index = i;
       this.esgst.currentScope.comments.push(comments[i]);
     }
+    for (const feature of shared.esgst.commentFeatures) {
+      await feature(comments, main);
+    }
     if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
       if (shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
@@ -88,35 +91,6 @@ class Comments extends Module {
       return;
     }
     comment.author = author.textContent.trim();
-    if (gSettings.uf && savedUsers) {
-      let savedUser = await getUser(savedUsers, {
-        username: comment.author
-      });
-      if (savedUser) {
-        let uf = savedUser.uf, comments;
-        if ((gSettings.uf_p && savedUser.blacklisted && !uf) || (uf && uf.posts)) {
-          let numDescendants;
-          if (comment.comment.nextElementSibling) {
-            numDescendants = comment.comment.nextElementSibling.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`).length;
-          } else {
-            numDescendants = 0;
-          }
-          comment.comment.parentElement.classList.add(`esgst-hidden`);
-          comment.comment.parentElement.setAttribute(`data-esgst-not-filterable`, `true`);
-          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1 + numDescendants;
-          shared.common.filteredButton.classList.remove(`esgst-hidden`);
-          if (!main || shared.common.isCurrentPath(`Messages`)) {
-            comments = comment.comment.closest(`.comments`);
-            if (!comments.querySelectorAll(`.comment:not([data-esgst-not-filterable])`).length) {
-              comments.previousElementSibling.classList.add(`esgst-hidden`);
-              comments.previousElementSibling.setAttribute(`data-esgst-not-filterable`, `true`);
-              comments.classList.add(`esgst-hidden`);
-              comments.setAttribute(`data-esgst-not-filterable`, `true`);
-            }
-          }
-        }
-      }
-    }
     comment.summary = comment.comment.querySelector(`.comment__summary`, `.comment_inner`);
     comment.displayState = comment.comment.querySelector(`.comment__display-state, .comment_body_default`);
     comment.text = comment.displayState ? comment.displayState.textContent.trim().replace(/View\sattached\simage\./, ``) : ``;

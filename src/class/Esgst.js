@@ -1051,6 +1051,7 @@ class Esgst {
     this.gameFeatures = [];
     this.groupFeatures = [];
     this.giveawayFeatures = [];
+    this.commentFeatures = [];
     this.discussionFeatures = [];
     this.tradeFeatures = [];
     this.profileFeatures = [];

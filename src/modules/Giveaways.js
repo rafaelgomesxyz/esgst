@@ -35,7 +35,7 @@ class Giveaways extends Module {
       await feature(giveaways, main, source);
     }
     giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
-    if (gSettings.gas && gSettings[this.esgst.gas.autoKey]) {
+    if (this.esgst.gas && gSettings[this.esgst.gas.autoKey]) {
       sortContent(this.esgst.currentScope.giveaways, gSettings[this.esgst.gas.optionKey]);
     }
     if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
@@ -86,7 +86,7 @@ class Giveaways extends Module {
   }
 
   async giveaways_getInfo(context, mainContext, ugd, ugdType, main, mainUrl, ged, endless) {
-    let chance, i, info, key, keys, match, n, savedUser, uf, thinHeadings;
+    let chance, i, info, key, keys, match, n, savedUser, thinHeadings;
     const giveaway = {
       creators: [],
       groups: [],
@@ -267,20 +267,6 @@ class Giveaways extends Module {
       }
     }
     giveaway.created = giveaway.creator === gSettings.username;
-    if (gSettings.uf && giveawaysPath && main) {
-      savedUser = await getUser(this.esgst.users, {
-        username: giveaway.creator
-      });
-      if (savedUser) {
-        uf = savedUser.uf;
-        if ((gSettings.uf_g && savedUser.blacklisted && !uf) || (uf && uf.giveaways)) {
-          giveaway.outerWrap.classList.add(`esgst-hidden`);
-          giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-          shared.common.filteredButton.classList.remove(`esgst-hidden`);
-        }
-      }
-    }
     if (gSettings.gf && gSettings.gf_s && main) {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
       if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code && savedGiveaway.endTime && savedGiveaway.endTime > Date.now()) {
