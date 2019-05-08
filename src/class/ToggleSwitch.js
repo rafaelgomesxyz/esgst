@@ -108,13 +108,13 @@ class ToggleSwitch {
     if (this.value) {
       this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
       this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
-      if (this.onEnabled) {
+      if (!settings && this.onEnabled) {
         this.onEnabled();
       }
     } else {
       this.dependencies.forEach(dependency => dependency.classList.add(`esgst-hidden`));
       this.exclusions.forEach(exclusion => exclusion.classList.remove(`esgst-hidden`));
-      if (this.onDisabled) {
+      if (!settings && this.onDisabled) {
         this.onDisabled();
       }
     }
