@@ -2315,7 +2315,7 @@ class GamesGameCategories extends Module {
                 attributes: {
                   class: `esgst-gc esgst-gc-won`,
                   [`data-draggable-id`]: `gc_pw`,
-                  href: `https://www.steamgifts.com/user/${gSettings.username}/won/search?q=${encodedName}`,
+                  href: `https://www.steamgifts.com/user/${gSettings.username}/giveaways/won/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_pw`, `Previously Won`),
                 },
                 text: gSettings.gc_pw_s ? (gSettings.gc_pw_s_i ? `` : `PW`) : gSettings.gc_pwLabel,
