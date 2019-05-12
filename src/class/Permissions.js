@@ -8,7 +8,7 @@ class Permissions {
     this.permissions = {
       cookies: {
         messages: {
-          manipulateCookies: ``
+          manipulateCookies: `Required if the option to manipulate cookies is enabled.`
         },
         values: [`cookies`]
       },
@@ -22,24 +22,24 @@ class Permissions {
       gitHub: {
         isOrigin: true,
         messages: {
-          changelog: `Required to retrieve changelog.`
+          changelog: `Required to retrieve the changelog.`
         },
         values: [`*://*.raw.githubusercontent.com/*`]
       },
       googleDrive: {
         isOrigin: true,
         messages: {
-          storage: `Re`
+          storage: `Required to back up / restore data to / from Google Drive.`
         },
         values: [`*://*.googleapis.com/*`]
       },
       googleWebApp: {
         isOrigin: true,
         messages: {
-          namwc: `Required by Not Activated / Multiple Wins Checker to see if the user received suspensions for their infractions.`,
-          ncv: `Required to update the No CV Games database.`,
+          namwc: `Required by Not Activated / Multiple Wins Checker to retrieve the user's suspensions from the database.`,
+          ncv: `Required to update the no CV games database when creating a new giveaway.`,
           sync: `Required to sync reduced / no CV games and HLTB times.`,
-          uh: `Required by Username History to retrieve the username history of the user from the database and to retrieve the list of recent username changes.`,
+          uh: `Required by Username History to retrieve the user's username history and the list of recent changes from the database.`,
           ust: `Required by User Suspension Tracker to send tickets to the database.`
         },
         values: [`*://*.script.google.com/*`, `*://*.script.googleusercontent.com/*`]
@@ -47,21 +47,21 @@ class Permissions {
       imgur: {
         isOrigin: true,
         messages: {
-          cfh: `upload images`
+          cfh: `Required by Comment Formatting Helper to upload images.`
         },
         values: [`*://*.api.imgur.com/*`]
       },
       isThereAnyDeal: {
         isOrigin: true,
         messages: {
-          itadi: `Required by ITADI`
+          itadi: `Required by IsThereAnyDeal Info to retrieve the deals.`
         },
         values: [`*://*.isthereanydeal.com/*`]
       },
       oneDrive: {
         isOrigin: true,
         messages: {
-          storage: `r`
+          storage: `Required to back up / restore data to / from OneDrive.`
         },
         values: [`*://*.files.1drv.com/*`, `*://*.graph.microsoft.com/*`]
       },
@@ -69,57 +69,57 @@ class Permissions {
         isOrigin: true,
         messages: {
           gc: `Required by Game Categories to retrieve categories that need to be retrieved from Steam.`,
-          sync: `This permission is required to sync reduced CV games.`
+          sync: `Required to sync reduced CV games.`
         },
         values: [`*://*.gsrafael01.me/*`]
       },
       revadike: {
         isOrigin: true,
         messages: {
-          hgm: `yesyes`,
-          mm: `yeye`,
-          sync: `Sync owned hgm_s`
+          hgm: `Required by Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.`,
+          mm: `Required by Multi Manager to hide games.`,
+          sync: `Required to hide games when syncing.`
         },
         values: [`*://*.revadike.ga/*`]
       },
       steamApi: {
         isOrigin: true,
         messages: {
-          glwc: ``,
-          hwlc: ``,
-          sync: `This permission is required to sync owned/wishlisted/ignored games.`,
-          ugd: `This permission is required to retrieve the user's playtimes / achievement stats.`
+          glwc: `Required by Group Libraries / Wishlists Checker to retrieve the users' owned games.`,
+          hwlc: `Required by Have / Want List Checker to retrieve the user's owned games.`,
+          sync: `Required to sync owned / wishlisted / ignored games.`,
+          ugd: `Required by User Giveaway Data to retrieve the user's playtimes / achievement stats.`
         },
         values: [`*://*.api.steampowered.com/*`]
       },
       steamCommunity: {
         isOrigin: true,
         messages: {
-          as: `Required by [id=as]`,
-          glwc: `Required by [id=glwc]`,
-          gs: `Required by Groups Stats`,
-          sgc: `Required by Shared Group Checker to check which groups you have in common.`,
-          sync: `This permission is required to sync followed games.`,
-          ugs: `Required by [id=ugs] if "Check members" is enabled.`
+          as: `Required by Archive Searcher to retrieve the title of a game when searching by app id.`,
+          glwc: `Required by Group Libraries / Wishlists Checker to retrieve the group's members.`,
+          gs: `Required by Groups Stats to retrieve the group's type.`,
+          sgc: `Required by Shared Groups Checker to retrieve the user's groups.`,
+          sync: `Required to sync followed games.`,
+          ugs: `Required by Unsent Gifts Sender if the option to check group members is enabled.`
         },
         values: [`*://*.steamcommunity.com/*`]
       },
       steamStore: {
         isOrigin: true,
         messages: {
-          gc: `asas`,
-          glwc: `wishlist`,
-          hwlc: `get wishlist`,
-          rcvc: `asdad`,
-          sync: `This permission is required to sync owned/wishlisted/ignored games.`,
-          ugd: `Packages`
+          gc: `Required by Game Categories to retrieve categories that need to be retrieved from Steam.`,
+          glwc: `Required by Group Libraries / Wishlists Checker to retrieve the users' wishlists.`,
+          hwlc: `Required by Have / Want List Checker to retrieve the user's wishlist.`,
+          rcvc: `Required by Real CV Calculator to retrieve the game's price.`,
+          sync: `Required to sync owned / wishlisted / ignored games.`,
+          ugd: `Required by User Giveaway Data to get list of games in packages.`
         },
         values: [`*://*.store.steampowered.com/*`]
       },
       steamTracker: {
         isOrigin: true,
         messages: {
-          sync: `This permission is required to sync delisted games.`
+          sync: `Required to sync delisted games.`
         },
         values: [`*://*.steam-tracker.com/*`]
       },
