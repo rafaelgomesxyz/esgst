@@ -43,14 +43,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           sg: true
         },
         elgb_f: {
-          inputItems: [
-            {
-              id: `elgb_filters`,
-              prefix: `Filters: `,
-              title: `Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter.`
-            }
-          ],
-          name: `Filter out useless descriptions.`,
+          name: `Filter descriptions.`,
           sg: true
         },
         elgb_p: {
@@ -74,10 +67,6 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         },
         elgb_fp: {
           name: `Pop up the first page of comments of the giveaway when entering it, if it has any comments.`,
-          sg: true
-        },
-        elgb_d: {
-          name: `Pop up the giveaway description when entering it, if it has any.`,
           sg: true
         }
       },
@@ -423,14 +412,12 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }
     let description = null;
     let responseHtml = null;
-    if (gSettings.elgb_d || (gSettings.elgb_r && gSettings.elgb_r_d) || mainCallback) {
-      responseHtml = parseHtml((await request({ method: `GET`, url: giveaway.url })).responseText);
-      if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0]) {
-        mainCallback(true);
-        return;
-      }
-      description = responseHtml.getElementsByClassName(`page__description`)[0];
+    responseHtml = parseHtml((await request({ method: `GET`, url: giveaway.url })).responseText);
+    if (mainCallback && !responseHtml.getElementsByClassName(`featured__outer-wrap--giveaway`)[0]) {
+      mainCallback(true);
+      return;
     }
+    description = responseHtml.getElementsByClassName(`page__description`)[0];
     if (description && description.textContent.trim() && !mainCallback) {
       if (gSettings.elgb_c) {
         if (Date.now() - this.esgst.elgbCache.timestamp > 3600000) {
@@ -454,15 +441,21 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           setLocalValue(`elgbCache`, JSON.stringify(this.esgst.elgbCache));
           if (gSettings.elgb_f) {
             let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-            if (text.match(new RegExp(`^(${gSettings.elgb_filters})$`))) {
-              description = null;
+            for (const filter of gSettings.elgb_filterPatterns) {
+              if (text.match(new RegExp(`^(${filter.pattern})$`))) {
+                description = null;
+                break;
+              }
             }
           }
         }
       } else if (gSettings.elgb_f) {
         let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-        if (text.match(new RegExp(`^(${gSettings.elgb_filters})$`))) {
-          description = null;
+        for (const filter of gSettings.elgb_filterPatterns) {
+          if (text.match(new RegExp(`^(${filter.pattern})$`))) {
+            description = null;
+            break;
+          }
         }
       }
     }
@@ -499,21 +492,6 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
       }).set);
     }
-    if (description && gSettings.elgb_f) {
-      let set = new ButtonSet({
-        color1: `grey`,
-        color2: `grey`,
-        icon1: `fa-eye`,
-        icon2: `fa-circle-o-notch fa-spin`,
-        title1: `Add Description To Filters`,
-        title2: `Filtering...`,
-        callback1: async () => {
-          await setSetting(`elgb_filters`, `${gSettings.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`);
-          set.remove();
-        }
-      }).set;
-      popup.description.appendChild(set);
-    }
     const comments = responseHtml.querySelector(`.comments`);
     if (comments && comments.children.length) {
       comments.classList.add(`esgst-text-left`, `esgst-hidden`);
@@ -540,7 +518,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         popup.description.appendChild(commentButton);
       }
     }
-    if ((gSettings.elgb_fp && comments && comments.children.length) || (gSettings.elgb_d && description) || (gSettings.elgb_r && (!gSettings.elgb_r_d || description)) || mainCallback) {
+    if ((gSettings.elgb_fp && comments && comments.children.length) || description || (gSettings.elgb_r && (!gSettings.elgb_r_d || description)) || mainCallback) {
       if (mainCallback) {
         popup.onClose = mainCallback;
       }
