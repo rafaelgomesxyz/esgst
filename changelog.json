@@ -1,6 +1,13 @@
 [
   {
     "date": "May 12, 2019",
+    "version": "8.3.9",
+    "changelog": {
+      "1327": "Internal: fix bug that does not trigger the permissions dialog on Firefox"
+    }
+  },
+  {
+    "date": "May 12, 2019",
     "version": "8.3.8",
     "changelog": {
       "1314": "Storage: add \"All\", \"None\" and \"Inverse\" buttons for each main option",
