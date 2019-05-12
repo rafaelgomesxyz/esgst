@@ -5,6 +5,7 @@ import { Popup } from '../../class/Popup';
 import { EMOJIS } from '../../emojis';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 class CommentsCommentFormattingHelper extends Module {
   constructor() {
@@ -600,7 +601,11 @@ class CommentsCommentFormattingHelper extends Module {
           url = popout.popout.firstElementChild.firstElementChild;
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
-          imgur.addEventListener(`click`, () => {
+          imgur.addEventListener(`click`, async () => {
+            if (!(await permissions.requestUi([`imgur`], `cfh`))) {
+              return;
+            }
+
             shared.common.multiChoice(`grey`, `fa-user-secret`, `Anonymously`, `grey`, `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(this, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
               await shared.common.delValue(`imgurToken`);
               shared.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);

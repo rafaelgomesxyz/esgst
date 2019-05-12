@@ -30,6 +30,7 @@ class Popup {
         ])
       ]]
     ]);
+    this.onCloseByUser = details.onCloseByUser;
     this.onClose = details.onClose;
     this.popup = this.layer.firstElementChild;
     this.modal = this.layer.lastElementChild;
@@ -59,9 +60,9 @@ class Popup {
     }
     let closeButton = this.popup.querySelector(`.esgst-popup-close, .b-close`);
     if (closeButton) {
-      closeButton.addEventListener(`click`, () => this.close());
+      closeButton.addEventListener(`click`, () => this.close(true));
     }
-    this.modal.addEventListener(`click`, () => this.close());
+    this.modal.addEventListener(`click`, () => this.close(true));
     if (details.textInputs) {
       this.textInputs = [];
       details.textInputs.forEach(textInput => {
@@ -141,7 +142,7 @@ class Popup {
     }
   }
 
-  close() {
+  close(byUser) {
     shared.common.resetCurrentScope();
     if (this.temp) {
       shared.common.removeScope(this.id);
@@ -151,6 +152,9 @@ class Popup {
       if (gSettings.minimizePanel) {
         shared.common.minimizePanel_addItem(this);
       }
+    }
+    if (byUser && this.onCloseByUser) {
+      this.onCloseByUser();
     }
     if (this.onClose) {
       this.onClose();

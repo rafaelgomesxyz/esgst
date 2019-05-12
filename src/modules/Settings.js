@@ -6,15 +6,43 @@ import { utils } from '../lib/jsUtils';
 import { setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
+import { permissions } from '../class/Permissions';
+import { Table } from '../class/Table';
 
 class Settings {
   constructor() {
     this.toSave = {};
+    this.grantedPermissions = new Set();
+    this.deniedPermissions = new Set();
   }
 
-  preSave(id, value) {
-    this.toSave[id] = value;
-    gSettings[id] = value;
+  preSave(key, value) {
+    const match = key.match(/_(sg|st|sgtools)$/);
+    if (match) {
+      const id = key.replace(match[0], ``);
+      const namespace = match[1];
+      const feature = shared.esgst.featuresById[id];
+      if (feature) {
+        if (typeof value === `object`) {
+          this.toSave[key] = value;
+          gSettings.full[key] = gSettings[key] = value;
+        } else {
+          const setting = gSettings.full[key] || shared.common.getFeaturePath(null, id, namespace);
+          setting.enabled = value;
+          this.toSave[key] = setting;
+          gSettings[key] = setting;
+        }
+        return;
+      }
+    }
+    this.toSave[key] = value;
+    gSettings[key] = value;
+  }
+
+  preSavePermissions(permissionKeys) {
+    for (const key of permissionKeys) {
+      this.grantedPermissions.add(key);
+    }
   }
 
   loadMenu(isPopup) {
@@ -226,6 +254,8 @@ class Settings {
       title1: `Save Changes`,
       title2: `Saving...`,
       callback1: async () => {
+        await permissions.request(Array.from(this.grantedPermissions));
+        await permissions.remove(Array.from(this.deniedPermissions));
         await shared.common.lockAndSaveSettings(this.toSave);
         this.toSave = {};
         if (isPopup) {
@@ -289,6 +319,9 @@ class Settings {
     }
     const elementOrdering = this.createMenuSection(SMMenu, null, i, `Element Ordering`, `element_ordering`);
     this.setElementOrderingSection(elementOrdering.lastElementChild);
+    i += 1;
+    const permissionsSection = this.createMenuSection(SMMenu, null, i, `Permissions`, `permissions`);
+    this.setPermissionsSection(permissionsSection.lastElementChild);
     i += 1;
     this.createMenuSection(SMMenu, [{
       attributes: {
@@ -372,7 +405,7 @@ class Settings {
     }];
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {
-      const value = shared.common.getFeaturePath(feature, id, `sg`).enabled;
+      const value = gSettings[`${id}_sg`] || (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, `sg`)).enabled;
       sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
@@ -427,7 +460,7 @@ class Settings {
       };
     }
     if (feature.st && (gSettings.esgst_st || id === `esgst`)) {
-      const value = shared.common.getFeaturePath(feature, id, `st`).enabled;
+      const value = gSettings[`${id}_st`] || (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, `st`)).enabled;
       stContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
       feature.stFeatureSwitch = stSwitch;
@@ -482,7 +515,7 @@ class Settings {
       };
     }
     if (feature.sgtools && (gSettings.esgst_sgtools || id === `esgst`)) {
-      const value = shared.common.getFeaturePath(feature, id, `sgtools`).enabled;
+      const value = gSettings[`${id}_sgtools`] || (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, `sgtools`)).enabled;
       sgtoolsContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
       feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
@@ -968,6 +1001,45 @@ class Settings {
     shared.common.reorderButtons(obj);
   }
 
+  async setPermissionsSection(context) {
+    const table = new Table([
+      [`Granted`, { size: `fill`, value: `Permission` }, { size: `fill`, value: `Usage` }]
+    ]);
+    context.appendChild(table.table);
+    for (const key in permissions.permissions) {
+      const permission = permissions.permissions[key];
+      const toggleSwitch = new ToggleSwitch(null, null, true, ``, false, false, ``, await permissions.contains([key]));
+      toggleSwitch.onEnabled = () => {
+        this.grantedPermissions.add(key);
+        this.deniedPermissions.delete(key);
+      };
+      toggleSwitch.onDisabled = () => {
+        this.grantedPermissions.delete(key);
+        this.deniedPermissions.add(key);
+      };
+      const permissionArray = [];
+      for (const value of permission.values) {
+        permissionArray.push(
+          value,
+          [`br`]
+        );
+      }
+      const usageArray = [];
+      for (const key in permission.messages) {
+        usageArray.push(
+          permission.messages[key],
+          [`br`],
+          [`br`]
+        );
+      }
+      table.addRow([
+        [ toggleSwitch.switch ],
+        { alignment: `left`, size: `fill`, value: permissionArray },
+        { alignment: `left`, size: `fill`, value: usageArray }
+      ]);
+    }
+  }
+
   openPathsPopup(feature, id, name) {
     feature.id = id;
     let obj = {
@@ -1011,7 +1083,7 @@ class Settings {
         }).set
       ]]
     ]);
-    obj.setting = shared.common.getFeaturePath(feature, id, obj.name);
+    obj.setting = gSettings.full[`${id}_${obj.name}`] || shared.common.getFeaturePath(feature, id, obj.name);
     obj.setting.include.forEach(path => obj.include.extend(feature, `include`, obj, path));
     obj.setting.exclude.forEach(path => obj.exclude.extend(feature, `exclude`, obj, path));
     return context;
@@ -1175,7 +1247,7 @@ class Settings {
     let sgContext, stContext, sgtoolsContext;
     let collapseButton, isExpanded, subMenu;
     if (feature.sg) {
-      const value = shared.common.getFeaturePath(feature, id, `sg`).enabled;
+      const value = gSettings[`${id}_sg`] || (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, `sg`)).enabled;
       if (value) {
         isHidden = false;
       }
@@ -1198,13 +1270,16 @@ class Settings {
             }
           }
         }
+        if (feature.permissions) {
+          this.preSavePermissions(feature.permissions);
+        }
         this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.sgFeatureSwitch) {
           feature.sgFeatureSwitch.enable();
         } else {
           this.preSave(`${id}_sg`, true);
         }
-        if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
+        if (subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
           isExpanded = true;
         }
@@ -1226,14 +1301,14 @@ class Settings {
         } else {
           this.preSave(`${id}_sg`, false);
         }
-        if (collapseButton && feature.stSwitch && !feature.stSwitch.value) {
+        if (feature.stSwitch && !feature.stSwitch.value) {
           this.collapseOptions(collapseButton, id, subMenu);
           isExpanded = false;
         }
       };
     }
     if (feature.st && (gSettings.esgst_st || id === `esgst`)) {
-      const value = shared.common.getFeaturePath(feature, id, `st`).enabled;
+      const value = gSettings[`${id}_st`] || (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, `st`)).enabled;
       if (value) {
         isHidden = false;
       }
@@ -1256,13 +1331,16 @@ class Settings {
             }
           }
         }
+        if (feature.permissions) {
+          this.preSavePermissions(feature.permissions);
+        }
         this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.stFeatureSwitch) {
           feature.stFeatureSwitch.enable();
         } else {
           this.preSave(`${id}_st`, true);
         }
-        if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
+        if (subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
           isExpanded = true;
         }
@@ -1284,14 +1362,14 @@ class Settings {
         } else {
           this.preSave(`${id}_st`, false);
         }
-        if (collapseButton && feature.sgSwitch && !feature.sgSwitch.value) {
+        if (feature.sgSwitch && !feature.sgSwitch.value) {
           this.collapseOptions(collapseButton, id, subMenu);
           isExpanded = false;
         }
       };
     }
     if (feature.sgtools && (gSettings.esgst_sgtools || id === `esgst`)) {
-      const value = shared.common.getFeaturePath(feature, id, `sgtools`).enabled;
+      const value = gSettings[`${id}_sgtools`] || (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, `sgtools`)).enabled;
       if (value) {
         isHidden = false;
       }
@@ -1314,13 +1392,16 @@ class Settings {
             }
           }
         }
+        if (feature.permissions) {
+          this.preSavePermissions(feature.permissions);
+        }
         this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.sgtoolsFeatureSwitch) {
           feature.sgtoolsFeatureSwitch.enable();
         } else {
           this.preSave(`${id}_sgtools`, true);
         }
-        if (collapseButton && subMenu.classList.contains(`esgst-hidden`)) {
+        if (subMenu.classList.contains(`esgst-hidden`)) {
           this.expandOptions(collapseButton, id, subMenu);
           isExpanded = true;
         }
@@ -1342,7 +1423,7 @@ class Settings {
         } else {
           this.preSave(`${id}_sgtools`, false);
         }
-        if (collapseButton && feature.sgtoolsSwitch && !feature.sgtoolsSwitch.value) {
+        if (feature.sgtoolsSwitch && !feature.sgtoolsSwitch.value) {
           this.collapseOptions(collapseButton, id, subMenu);
           isExpanded = false;
         }
@@ -1435,26 +1516,30 @@ class Settings {
 
   collapseOptions(collapseButton, id, subMenu) {
     subMenu.classList.add(`esgst-hidden`);
-    shared.common.createElements(collapseButton, `inner`, [{
-      attributes: {
-        class: `fa fa-plus-square`,
-        title: `Expand options`
-      },
-      type: `i`
-    }]);
-    this.preSave(`collapse_${id}`, true);
+    if (collapseButton) {
+      shared.common.createElements(collapseButton, `inner`, [{
+        attributes: {
+          class: `fa fa-plus-square`,
+          title: `Expand options`
+        },
+        type: `i`
+      }]);
+      this.preSave(`collapse_${id}`, true);
+    }
   }
 
   expandOptions(collapseButton, id, subMenu) {
     subMenu.classList.remove(`esgst-hidden`);
-    shared.common.createElements(collapseButton, `inner`, [{
-      attributes: {
-        class: `fa fa-minus-square`,
-        title: `Collapse options`
-      },
-      type: `i`
-    }]);
-    this.preSave(`collapse_${id}`, null);
+    if (collapseButton) {
+      shared.common.createElements(collapseButton, `inner`, [{
+        attributes: {
+          class: `fa fa-minus-square`,
+          title: `Collapse options`
+        },
+        type: `i`
+      }]);
+      this.preSave(`collapse_${id}`, null);
+    }
   }
 
   resetColor(hexInput, alphaInput, id, colorId) {
@@ -1720,6 +1805,10 @@ class Settings {
         // noinspection JSIgnoredPromiseFromCall
         shared.common.setThemeVersion(ID, version);
         button.addEventListener(`click`, async () => {
+          if (!(await permissions.requestUi([`userStyles`], `settings`))) {
+            return;
+          }
+
           let url = await this.getThemeUrl(ID, Feature.theme);
           shared.common.createElements(button, `inner`, [{
             attributes: {

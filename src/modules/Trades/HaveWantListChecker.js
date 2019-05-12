@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { permissions } from '../../class/Permissions';
 
 const
   createElements = common.createElements.bind(common),
@@ -46,7 +47,11 @@ class TradesHaveWantListChecker extends Module {
     obj.button.addEventListener(`click`, this.hwlc_openPopup.bind(this, obj));
   }
 
-  hwlc_openPopup(obj) {
+  async hwlc_openPopup(obj) {
+    if (!(await permissions.requestUi([`steamApi`, `steamStore`], `hwlc`))) {
+      return;
+    }
+
     if (obj.popup) {
       obj.popup.open();
       return;

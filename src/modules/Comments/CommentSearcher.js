@@ -45,34 +45,13 @@ class CommentsCommentSearcher extends Module {
         options: [
           {
             check: true,
-            description: [{
-              text: `Limit search by pages, from `,
-              type: `node`
-            }, {
-              attributes: {
-                class: `esgst-switch-input`,
-                min: `i`,
-                name: `cs_minPage`,
-                type: `number`,
-                value: gSettings.cs_minPage
-              },
-              type: `input`
-            }, {
-              text: ` to `,
-              type: `node`
-            }, {
-              attributes: {
-                class: `esgst-switch-input`,
-                min: `i`,
-                name: `cs_maxPage`,
-                type: `number`,
-                value: gSettings.cs_maxPage
-              },
-              type: `input`
-            }, {
-              text: `.`,
-              type: `node`
-            }],
+            description: [
+              `Limit search by pages, from `,
+              [`input`, { class: `esgst-switch-input`, min: `i`, name: `cs_minPage`, type: `number`, value: gSettings.cs_minPage }],
+              ` to `,
+              [`input`, { class: `esgst-switch-input`, min: `i`, name: `cs_maxPage`, type: `number`, value: gSettings.cs_maxPage }],
+              `.`
+            ],
             id: `cs_limitPages`,
             tooltip: `If unchecked, all pages will be searched.`
           }

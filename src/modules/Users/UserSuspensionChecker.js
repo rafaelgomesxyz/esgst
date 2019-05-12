@@ -63,32 +63,13 @@ class UsersUserSuspensionChecker extends Module {
     let checkPagesSwitch;
     if (!window.location.pathname.match(/^\/(discussions|users|archive)/)) {
       checkAllSwitch = new ToggleSwitch(uscObj.options, `usc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, gSettings.usc_checkAll);
-      checkPagesSwitch = new ToggleSwitch(uscObj.options, `usc_checkPages`, false, [{
-        text: `Check only pages from `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input`,
-          min: `1`,
-          type: `number`,
-          value: gSettings.usc_minPage
-        },
-        type: `input`
-      }, {
-        text: ` to `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input`,
-          min: `1`,
-          type: `number`,
-          value: gSettings.usc_maxPage
-        },
-        type: `input`
-      }, {
-        text: `.`,
-        type: `node`
-      }], false, false, null, gSettings.usc_checkPages);
+      checkPagesSwitch = new ToggleSwitch(uscObj.options, `usc_checkPages`, false, [
+        `Check only pages from `,
+        [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.usc_minPage }],
+        ` to `,
+        [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.usc_maxPage }],
+        `.`
+      ], false, false, null, gSettings.usc_checkPages);
       const minPage = checkPagesSwitch.name.firstElementChild;
       const maxPage = minPage.nextElementSibling;
       const lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);

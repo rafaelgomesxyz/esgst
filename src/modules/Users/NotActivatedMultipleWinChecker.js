@@ -5,6 +5,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -277,6 +278,10 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   async namwc_start(obj) {
+    if (gSettings.ust && !(await permissions.requestUi([`googleWebApp`], `namwc`))) {
+      return;
+    }
+
     obj.isCanceled = false;
     obj.button.classList.add(`esgst-busy`);
     obj.popup.progress.innerHTML = ``;

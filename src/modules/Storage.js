@@ -7,6 +7,7 @@ import { settingsModule } from './Settings';
 import { Checkbox } from '../class/Checkbox';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
+import { permissions } from '../class/Permissions';
 
 const
   sortArray = utils.sortArray.bind(utils)
@@ -1114,25 +1115,15 @@ function loadDataManagement(type, isPopup, callback) {
         }]);
         new ToggleSwitch(containerr, `importAndMerge`, false, `Merge`, false, false, `Merges the current data with the backup instead of replacing it.`, gSettings.importAndMerge);
       }
-      let select = new ToggleSwitch(containerr, `exportBackup`, false, [{
-        text: `Backup to `,
-        type: `node`
-      }, {
-        type: `select`,
-        children: [{
-          text: `Computer`,
-          type: `option`
-        }, {
-          text: `Dropbox`,
-          type: `option`
-        }, {
-          text: `Google Drive`,
-          type: `option`
-        }, {
-          text: `OneDrive`,
-          type: `option`
-        }]
-      }], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, gSettings.exportBackup).name.firstElementChild;
+      let select = new ToggleSwitch(containerr, `exportBackup`, false, [
+        `Backup to `,
+        [`select`, [
+          [`option`, `Computer`],
+          [`option`, `Dropbox`],
+          [`option`, `Google Drive`],
+          [`option`, `OneDrive`]
+        ]]
+      ], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, gSettings.exportBackup).name.firstElementChild;
       select.selectedIndex = gSettings.exportBackupIndex;
       select.addEventListener(`change`, () => {
         // noinspection JSIgnoredPromiseFromCall
@@ -1140,50 +1131,16 @@ function loadDataManagement(type, isPopup, callback) {
       });
     }
     if (type === `import` || type === `export`) {
-      shared.common.observeChange(new ToggleSwitch(containerr, `usePreferredGoogle`, false, [{
-        text: `Use preferred Google account: `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input esgst-switch-input-large`,
-          placeholder: `example@gmail.com`,
-          type: `text`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `esgst-bold esgst-clickable`
-        },
-        events: {
-          click: () => {
-            window.alert(gSettings.preferredGoogle || `No email address defined`);
-          }
-        },
-        text: `Reveal`,
-        type: `span`
-      }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`, true);
-      shared.common.observeChange(new ToggleSwitch(containerr, `usePreferredMicrosoft`, false, [{
-        text: `Use preferred Microsoft account: `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input esgst-switch-input-large`,
-          placeholder: `example@outlook.com`,
-          type: `text`
-        },
-        type: `input`
-      }, {
-        attributes: {
-          class: `esgst-bold esgst-clickable`
-        },
-        events: {
-          click: () => {
-            window.alert(gSettings.preferredMicrosoft || `No email address defined`);
-          }
-        },
-        text: `Reveal`,
-        type: `span`
-      }], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`, true);
+      shared.common.observeChange(new ToggleSwitch(containerr, `usePreferredGoogle`, false, [
+        `Use preferred Google account: `,
+        [`input`, { class: `esgst-switch-input esgst-switch-input-large`, placeholder: `example@gmail.com`, type: `text` }],
+        [`span`, { class: `esgst-bold esgst-clickable`, onclick: () => window.alert(gSettings.preferredGoogle || `No email address defined`) }, `Reveal`]
+      ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredGoogle).name.firstElementChild, `preferredGoogle`, true);
+      shared.common.observeChange(new ToggleSwitch(containerr, `usePreferredMicrosoft`, false, [
+        `Use preferred Microsoft account: `,
+        [`input`, { class: `esgst-switch-input esgst-switch-input-large`, placeholder: `example@outlook.com`, type: `text` }],
+        [`span`, { class: `esgst-bold esgst-clickable`, onclick: () => window.alert(gSettings.preferredMicrosoft || `No email address defined`) }, `Reveal`]
+      ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredMicrosoft).name.firstElementChild, `preferredMicrosoft`, true);
     }
     dm.message = shared.common.createElements(containerr, `beforeEnd`, [{
       attributes: {
@@ -1252,7 +1209,28 @@ function loadDataManagement(type, isPopup, callback) {
       title1: `Computer`,
       title2: title2,
       callback1: () => {
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
+          if (dm.type !== `export`) {
+            let result;
+            switch (gSettings.exportBackupIndex) {
+              case 0:
+                result = true;
+              case 1:
+                result = await permissions.requestUi([`dropbox`], `storage`);
+                break;
+              case 2:
+                result = await permissions.requestUi([`googleDrive`], `storage`);
+                break;
+              case 3:
+                result = await permissions.requestUi([`oneDrive`], `storage`);
+                break;
+            }
+            if (!result) {
+              resolve();
+              return;
+            }
+          }
+
           onClick(dm, false, false, false, false, () => {
             // noinspection JSIgnoredPromiseFromCall
             manageData(dm, false, false, false, true);
@@ -1270,7 +1248,12 @@ function loadDataManagement(type, isPopup, callback) {
         title1: `Dropbox`,
         title2: title2,
         callback1: () => {
-          return new Promise(resolve => {
+          return new Promise(async resolve => {
+            if (!(await permissions.requestUi([`dropbox`], `storage`))) {
+              resolve();
+              return;
+            }
+
             onClick(dm, true, false, false, false, () => {
               // noinspection JSIgnoredPromiseFromCall
               manageData(dm, false, false, false, true);
@@ -1287,7 +1270,12 @@ function loadDataManagement(type, isPopup, callback) {
         title1: `Google Drive`,
         title2: title2,
         callback1: () => {
-          return new Promise(resolve => {
+          return new Promise(async resolve => {
+            if (!(await permissions.requestUi([`googleDrive`], `storage`))) {
+              resolve();
+              return;
+            }
+
             onClick(dm, false, true, false, false, () => {
               // noinspection JSIgnoredPromiseFromCall
               manageData(dm, false, false, false, true);
@@ -1304,7 +1292,12 @@ function loadDataManagement(type, isPopup, callback) {
         title1: `OneDrive`,
         title2: title2,
         callback1: () => {
-          return new Promise(resolve => {
+          return new Promise(async resolve => {
+            if (!(await permissions.requestUi([`oneDrive`], `storage`))) {
+              resolve();
+              return;
+            }
+
             onClick(dm, false, false, true, false, () => {
               // noinspection JSIgnoredPromiseFromCall
               manageData(dm, false, false, false, true);
@@ -1362,90 +1355,36 @@ function loadDataCleaner(isPopup) {
     text: `Make sure to backup your data before using the cleaner.`,
     type: `div`
   }]);
-  shared.common.observeNumChange(new ToggleSwitch(context, `cleanDiscussions`, false, [{
-    text: `Discussions data older than `,
-    type: `node`
-  }, {
-    attributes: {
-      class: `esgst-switch-input`,
-      type: `text`,
-      value: gSettings.cleanDiscussions_days
-    },
-    type: `input`
-  }, {
-    text: ` days.`,
-    type: `node`
-  }], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`, true);
-  shared.common.observeNumChange(new ToggleSwitch(context, `cleanEntries`, false, [{
-    text: `Entries data older than `,
-    type: `node`
-  }, {
-    attributes: {
-      class: `esgst-switch-input`,
-      type: `text`,
-      value: gSettings.cleanEntries_days
-    },
-    type: `input`
-  }, {
-    text: ` days.`,
-    type: `node`
-  }], false, false, ``, gSettings.cleanEntries).name.firstElementChild, `cleanEntries_days`, true);
-  shared.common.observeNumChange(new ToggleSwitch(context, `cleanGiveaways`, false, [{
-    text: `Giveaways data older than `,
-    type: `node`
-  }, {
-    attributes: {
-      class: `esgst-switch-input`,
-      type: `text`,
-      value: gSettings.cleanGiveaways_days
-    },
-    type: `input`
-  }, {
-    text: ` days.`,
-    type: `node`
-  }], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`, true);
-  shared.common.observeNumChange(new ToggleSwitch(context, `cleanSgCommentHistory`, false, [{
-    text: `SteamGifts comment history data older than `,
-    type: `node`
-  }, {
-    attributes: {
-      class: `esgst-switch-input`,
-      type: `text`,
-      value: gSettings.cleanSgCommentHistory_days
-    },
-    type: `input`
-  }, {
-    text: ` days.`,
-    type: `node`
-  }], false, false, ``, gSettings.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`, true);
-  shared.common.observeNumChange(new ToggleSwitch(context, `cleanTickets`, false, [{
-    text: `Tickets data older than `,
-    type: `node`
-  }, {
-    attributes: {
-      class: `esgst-switch-input`,
-      type: `text`,
-      value: gSettings.cleanTickets_days
-    },
-    type: `input`
-  }, {
-    text: ` days.`,
-    type: `node`
-  }], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTickets).name.firstElementChild, `cleanTickets_days`, true);
-  shared.common.observeNumChange(new ToggleSwitch(context, `cleanTrades`, false, [{
-    text: `Trades data older than `,
-    type: `node`
-  }, {
-    attributes: {
-      class: `esgst-switch-input`,
-      type: `text`,
-      value: gSettings.cleanTrades_days
-    },
-    type: `input`
-  }, {
-    text: ` days.`,
-    type: `node`
-  }], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTrades).name.firstElementChild, `cleanTrades_days` , true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanDiscussions`, false, [
+    `Discussions data older than `,
+    [`input`, { class: `esgst-switch-input`, type: `text`, value: gSettings.cleanDiscussions_days }],
+    ` days.`
+  ], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanDiscussions).name.firstElementChild, `cleanDiscussions_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanEntries`, false, [
+    `Entries data older than `,
+    [`input`, { class: `esgst-switch-input`, type: `text`, value: gSettings.cleanEntries_days }],
+    ` days.`
+  ], false, false, ``, gSettings.cleanEntries).name.firstElementChild, `cleanEntries_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanGiveaways`, false, [
+    `Giveaways data older than `,
+    [`input`, { class: `esgst-switch-input`, type: `text`, value: gSettings.cleanGiveaways_days }],
+    ` days.`
+  ], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanGiveaways).name.firstElementChild, `cleanGiveaways_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanSgCommentHistory`, false, [
+    `SteamGifts comment history data older than `,
+    [`input`, { class: `esgst-switch-input`, type: `text`, value: gSettings.cleanSgCommentHistory_days }],
+    ` days.`
+  ], false, false, ``, gSettings.cleanSgCommentHistory).name.firstElementChild, `cleanSgCommentHistory_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanTickets`, false, [
+    `Tickets data older than `,
+    [`input`, { class: `esgst-switch-input`, type: `text`, value: gSettings.cleanTickets_days }],
+    ` days.`
+  ], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTickets).name.firstElementChild, `cleanTickets_days`, true);
+  shared.common.observeNumChange(new ToggleSwitch(context, `cleanTrades`, false, [
+    `Trades data older than `,
+    [`input`, { class: `esgst-switch-input`, type: `text`, value: gSettings.cleanTrades_days }],
+    ` days.`
+  ], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTrades).name.firstElementChild, `cleanTrades_days` , true);
   new ToggleSwitch(context, `cleanDuplicates`, false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, gSettings.cleanDuplicates);
   context.appendChild(new ButtonSet({
     color1: `green`,

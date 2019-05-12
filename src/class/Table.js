@@ -7,17 +7,10 @@ class Table {
   constructor(values) {
     this.table = document.createElement(`div`);
     this.table.className = `table esgst-ugd-table`;
-    shared.common.createElements(this.table, `inner`, [{
-      attributes: {
-        class: `table__heading`
-      },
-      type: `div`
-    }, {
-      attributes: {
-        class: `table__rows`
-      },
-      type: `div`
-    }]);
+    shared.common.createElements_v2(this.table, `inner`, [
+      [`div`, { class: `table__heading` }],
+      [`div`, { class: `table__rows` }]
+    ]);
     this.heading = this.table.firstElementChild;
     this.rows = this.heading.nextElementSibling;
     this.rowGroups = {};
@@ -39,24 +32,17 @@ class Table {
   }
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-    const row = shared.common.createElements(this.rows, `beforeEnd`, [{
-      attributes: {
-        class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `table__row-inner-wrap`
-        },
-        type: `div`,
-        children: name && isCollapsible ? [{
-          attributes: {
-            class: `fa fa-chevron-right`
-          },
-          type: `i`
-        }] : null
-      }]
-    }]).firstElementChild;
+    const row = shared.common.createElements_v2(this.rows, `beforeEnd`, [
+      [`div`, { class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}` }, [
+        [`div`, { class: `table__row-inner-wrap` },
+          name && isCollapsible
+          ? [
+              [`i`, { class: `fa fa-chevron-right` }]
+            ]
+          : null
+        ]
+      ]]
+    ]).firstElementChild;
     let group = null;
     if (name) {
       if (isCollapsibleGroup) {
@@ -66,19 +52,10 @@ class Table {
           isCollapsible: true,
           row: row
         };
-        const expand = shared.common.createElements(row, `afterBegin`, [{
-          attributes: {
-            class: `fa fa-plus-square esgst-clickable`,
-            title: expandMessage
-          },
-          type: `i`
-        }, {
-          attributes: {
-            class: `fa fa-minus-square esgst-clickable esgst-hidden`,
-            title: collapseMessage
-          },
-          type: `i`
-        }]);
+        const expand = shared.common.createElements_v2(row, `afterBegin`, [
+          [`i`, { class: `fa fa-plus-square esgst-clickable`, title: expandMessage }],
+          [`i`, { class: `fa fa-minus-square esgst-clickable esgst-hidden`, title: collapseMessage }]
+        ]);
         const collapse = expand.nextElementSibling;
         collapse.addEventListener(`click`, this.collapseRows.bind(this, collapse, expand, name));
         expand.addEventListener(`click`, this.expandRows.bind(this, collapse, expand, name));
@@ -121,12 +98,9 @@ class Table {
           attributes[parts[1]] = attributes[parts[2]];
         }
       }
-      const column = shared.common.createElements(row, `beforeEnd`, [{
-        attributes,
-        text: Array.isArray(cell) ? `` : cell,
-        type: `div`,
-        children: Array.isArray(cell) ? cell : null
-      }]);
+      const column = shared.common.createElements_v2(row, `beforeEnd`, [
+        [`div`, attributes, cell]
+      ]);
       if (group) {
         group.columns.push(column);
       }
@@ -156,20 +130,17 @@ class Table {
         attributes[parts[1]] = attributes[parts[2]];
       }
     }
-    shared.common.createElements(this.heading, `beforeEnd`, [{
-      attributes,
-      text: cell,
-      type: `div`
-    }]);
+    shared.common.createElements_v2(this.heading, `beforeEnd`, [
+      [`div`, attributes, cell]
+    ]);
     if (cell === `Total`) {
       attributes.class += ` esgst-bold`;
     }
     for (let i = 0; i < this.numRows; i++) {
       const row = this.rows.children[i];
-      shared.common.createElements(row, `beforeEnd`, [{
-        attributes,
-        type: `div`
-      }]);
+      shared.common.createElements_v2(row, `beforeEnd`, [
+        [`div`, attributes]
+      ]);
     }
     this.numColumns += 1;
   }

@@ -3,6 +3,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -979,7 +980,11 @@ class GamesGameCategories extends Module {
     return false;
   }
 
-  init() {
+  async init() {    
+    if (this.isFetchableEnabled() && !(await permissions.requestUi([`server`, `steamStore`], `gc`, true))) {
+      return;
+    }
+
     shared.esgst.gameFeatures.push(this.gc_games.bind(this));
     shared.esgst.gcToFetch = { apps: {}, subs: {} };
   }

@@ -2,6 +2,7 @@ import { utils } from '../lib/jsUtils';
 import { Popup } from './Popup';
 import { shared } from './Shared';
 import { gSettings } from './Globals';
+import { permissions } from './Permissions';
 
 class Process {
   constructor(details) {
@@ -13,13 +14,29 @@ class Process {
     this.requests = details.requests;
     this.requestsBackup = this.requests;
     this.urls = details.urls;
+    this.id = details.id;
+    this.permissions = details.permissions;
     if (!details.mainPopup) {
       if (details.button) {
         this.button = details.button;
       } else {
         this.button = shared.common.createHeadingButton(details.headingButton);
       }
-      this.button.addEventListener(`click`, this.openPopup.bind(this));
+      this.button.addEventListener(`click`, async () => {
+        if (this.permissions) {
+          const permissionKeys = [];
+          for (const key in this.permissions) {
+            if (this.permissions[key]()) {
+              permissionKeys.push(key);
+            }
+          }
+          if (permissionKeys.length && !(await permissions.requestUi(permissionKeys, this.id))) {
+            return;
+          }
+        }
+
+        this.openPopup();
+      });
     }
   }
 

@@ -6,6 +6,7 @@ import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -82,6 +83,10 @@ class GiveawaysArchiveSearcher extends Module {
       obj.query = decodeURIComponent(this.esgst.parameters.query);
     }
     if (!obj.query) {
+      return;
+    }
+
+    if (!(await permissions.requestUi([`steamCommunity`], `as`, !obj.isPopup))) {
       return;
     }
 

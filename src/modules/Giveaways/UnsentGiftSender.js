@@ -5,6 +5,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -77,21 +78,11 @@ class GiveawaysUnsentGiftSender extends Module {
       ugs.popup = new Popup({ addScrollable: true, icon: `fa-gift`, title: `Send unsent gifts:` });
       new ToggleSwitch(ugs.popup.description, `ugs_checkRules`, false, `Do not send if the winner has any not activated/multiple wins.`, false, false, `The winners will be checked in real time.`, gSettings.ugs_checkRules);
       checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, gSettings.ugs_checkMember);
-      checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [{
-        text: `Do not send if the winner has a gift difference lower than `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-ugs-difference`,
-          step: `0.1`,
-          type: `number`,
-          value: gSettings.ugs_difference
-        },
-        type: `input`
-      }, {
-        text: `.`,
-        type: `node`
-      }], false, false, `The winners will be checked in real time.`, gSettings.ugs_checkDifference);
+      checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [
+        `Do not send if the winner has a gift difference lower than `,
+        [`input`, { class: `esgst-ugs-difference`, step: `0.1`, type: `number`, value: gSettings.ugs_difference }],
+        `.`
+      ], false, false, `The winners will be checked in real time.`, gSettings.ugs_checkDifference);
       new ToggleSwitch(ugs.popup.description, `ugs_checkWhitelist`, false, `Do not send if the winner is not on your whitelist.`, false, false, `You must sync your whitelist through the settings menu. Whitelisted winners get a pass for broken rules, so if this option is enabled and the winner is whitelisted, the gift will be sent regardless of whether or not the first option is enabled.`, gSettings.ugs_checkWhitelist);
       new ToggleSwitch(ugs.popup.description, `ugs_checkBlacklist`, false, `Do not send if the winner on your blacklist.`, false, false, `You must sync your blacklist through the settings menu. If the winner is blacklisted, but is a member of one of the groups, the gift will be sent anyway.`, gSettings.ugs_checkBlacklist);
       if (!gSettings.ugs_checkMember) {
@@ -215,6 +206,10 @@ class GiveawaysUnsentGiftSender extends Module {
   }
 
   async ugs_start(ugs) {
+    if (gSettings.ugs_checkMember && !(await permissions.requestUi([`steamCommunity`], `ugs`))) {
+      return;
+    }
+
     // initialize/reset stuff
     ugs.isCanceled = false;
     ugs.giveaways = [];

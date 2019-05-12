@@ -1,5 +1,6 @@
 import JSZip from 'jszip';
 import { browser } from './browser';
+import { permissions } from './class/Permissions';
 
 let storage = null;
 let isFirstRun = false;
@@ -110,27 +111,30 @@ async function doFetch(parameters, request, sender, callback) {
   let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
   let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
 
-  // get no-container cookies
-  let cookies = await getCookies({
-    domain: domain
-  });
-
-  const cookieHeader = parameters.headers.get(`Cookie`);
+  let cookies = [];
   let setCookies = [];
-  if (cookieHeader) {
-    setCookies = cookieHeader
-      .split(/;\s/)
-      .map(x => {
-        const parts = x.match(/(.+?)=(.+?)/);
-        return {
-          name: parts[1],
-          url: url,
-          value: parts[2]
-        };
-      })
-      .filter(x => x && !cookies.filter(y => x.name === y.name).length);
-    for (const cookie of setCookies) {
-      await setCookie(cookie);
+  if (await permissions.contains([`cookies`])) {
+    // get no-container cookies
+    cookies = await getCookies({
+      domain: domain
+    });
+
+    const cookieHeader = parameters.headers.get(`Cookie`);
+    if (cookieHeader) {
+      setCookies = cookieHeader
+        .split(/;\s/)
+        .map(x => {
+          const parts = x.match(/(.+?)=(.+?)/);
+          return {
+            name: parts[1],
+            url: url,
+            value: parts[2]
+          };
+        })
+        .filter(x => x && !cookies.filter(y => x.name === y.name).length);
+      for (const cookie of setCookies) {
+        await setCookie(cookie);
+      }
     }
   }
 
@@ -162,6 +166,11 @@ async function doFetch(parameters, request, sender, callback) {
     }));
     return;
   }
+
+  if (!(await permissions.contains([`cookies`]))) {
+    return;
+  }
+
   browser.tabs.get(sender.tab.id).then(async tab => {
     /**
      * @property {string} tab.cookieStoreId
@@ -326,19 +335,28 @@ browser.runtime.onMessage.addListener((request, sender) => {
   return new Promise(async resolve => {
     let key, keys, parameters, values;
     switch (request.action) {
+      case `permissions_contains`:
+        resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
+        break;
+      case `permissions_request`:
+        resolve(await browser.permissions.request(JSON.parse(request.permissions)));
+        break;
+      case `permissions_remove`:
+        resolve(await browser.permissions.remove(JSON.parse(request.permissions)));
+        break;
       case `getBrowserInfo`:
         const result = await browser.runtime.getBrowserInfo();
         resolve(JSON.stringify(result));
         break;
       case `do_lock`:
-        do_lock(request.lock).then(resolve);
+        do_lock(JSON.parse(request.lock)).then(resolve);
         break;
       case `update_lock`:
-        update_lock(request.lock);
+        update_lock(JSON.parse(request.lock));
         resolve();
         break;
       case `do_unlock`:
-        do_unlock(request.lock);
+        do_unlock(JSON.parse(request.lock));
         resolve();
         break;
       case `delValues`:

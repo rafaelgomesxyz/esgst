@@ -167,32 +167,13 @@ class UsersWhitelistBlacklistChecker extends Module {
     }
     if (!WBC.Update && !window.location.pathname.match(/^\/(discussions|users|archive)/)) {
       checkAllSwitch = new ToggleSwitch(popup.Options, `wbc_checkAll`, false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, gSettings.wbc_checkAll);
-      checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, [{
-        text: `Check only pages from `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input`,
-          min: `1`,
-          type: `number`,
-          value: gSettings.wbc_minPage
-        },
-        type: `input`
-      }, {
-        text: ` to `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input`,
-          min: `1`,
-          type: `number`,
-          value: gSettings.wbc_maxPage
-        },
-        type: `input`
-      }, {
-        text: `.`,
-        type: `node`
-      }], false, false, null, gSettings.wbc_checkPages);
+      checkPagesSwitch = new ToggleSwitch(popup.Options, `wbc_checkPages`, false, [
+        `Check only pages from `,
+        [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.wbc_minPage }],
+        ` to `,
+        [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.wbc_maxPage }],
+        `.`
+      ], false, false, null, gSettings.wbc_checkPages);
       let minPage = checkPagesSwitch.name.firstElementChild;
       let maxPage = minPage.nextElementSibling;
       let lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
@@ -207,21 +188,11 @@ class UsersWhitelistBlacklistChecker extends Module {
       new ToggleSwitch(popup.Options, `wbc_returnBlacklists`, false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, gSettings.wbc_returnBlacklists);
     }
     new ToggleSwitch(popup.Options, `wbc_checkNew`, false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, gSettings.wbc_checkNew);
-    observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [{
-      text: `Skip users after `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-ugs-difference`,
-        type: `number`,
-        value: gSettings.wbc_pages
-      },
-      type: `input`
-    },
-    {
-      text: ` pages.`,
-      type: `node`
-    }], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, gSettings.wbc_skipUsers).name.firstElementChild, `wbc_pages`, true);
+    observeNumChange(new ToggleSwitch(popup.Options, `wbc_skipUsers`, false, [
+      `Skip users after `,
+      [`input`, { class: `esgst-ugs-difference`, type: `number`, value: gSettings.wbc_pages }],
+      ` pages.`
+    ], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, gSettings.wbc_skipUsers).name.firstElementChild, `wbc_pages`, true);
     new ToggleSwitch(popup.Options, `wbc_clearCache`, false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, gSettings.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {

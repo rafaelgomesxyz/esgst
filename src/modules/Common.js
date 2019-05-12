@@ -21,6 +21,7 @@ import 'bootstrap/dist/js/bootstrap';
 import '../lib/bootstrap-tourist/bootstrap-tourist.js';
 import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 import { gSettings } from '../class/Globals';
+import { permissions } from '../class/Permissions';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -667,7 +668,11 @@ class Common extends Module {
     await this.esgst.modules.games.games_load(document, true);
   }
 
-  async addNoCvGames(games) {
+  async addNoCvGames(games, event) {
+    if (!(await permissions.requestUi([`googleWebApp`], `ncv`, !event))) {
+      return;
+    }
+
     this.createElements(this.noCvButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`,
@@ -868,7 +873,8 @@ class Common extends Module {
             ],
             name: `Allow ESGST to manipulate your cookies when using Firefox containers.`,
             sg: true,
-            st: true
+            st: true,
+            permissions: [`cookies`]
           },
           addNoCvGames: {
             name: `Automatically add no CV games to the database when searching for games in the new giveaway page.`,
@@ -3214,6 +3220,10 @@ class Common extends Module {
   }
 
   async setSMRecentUsernameChanges() {
+    if (!(await permissions.requestUi([`googleWebApp`], `uh`))) {
+      return;
+    }
+
     const popup = new Popup({ addScrollable: true, icon: `fa-comments`, title: `Recent Username Changes` });
     popup.progress = this.createElements(popup.description, `beforeEnd`, [{
       type: `div`,
@@ -5413,7 +5423,7 @@ class Common extends Module {
     if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {
       obj.update && obj.update(`Updating API cache...`);
 
-      api = { cache: JSON.parse((await this.request({ method: `GET`, url: `https://royalgamer06.ga/sgdb.json` })).responseText), lastUpdate: Date.now() };
+      api = { cache: JSON.parse((await this.request({ method: `GET`, url: `https://revadike.ga/sgdb.json` })).responseText), lastUpdate: Date.now() };
       await this.setValue(`sgdbCache`, JSON.stringify(api));
     }
     
@@ -5555,21 +5565,21 @@ class Common extends Module {
   do_lock(lock) {
     return new Promise(resolve => browser.runtime.sendMessage({
       action: `do_lock`,
-      lock
+      lock: JSON.stringify(lock)
     }).then(() => resolve()));
   }
 
   updateLock(lock) {
     return new Promise(resolve => browser.runtime.sendMessage({
       action: `update_lock`,
-      lock
+      lock: JSON.stringify(lock)
     }).then(() => resolve()));
   }
 
   do_unlock(lock) {
     return new Promise(resolve => browser.runtime.sendMessage({
       action: `do_unlock`,
-      lock
+      lock: JSON.stringify(lock)
     }).then(() => resolve()));
   }
 

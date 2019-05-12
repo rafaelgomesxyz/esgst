@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   createElements = common.createElements.bind(common),
@@ -30,6 +31,10 @@ class GiveawaysRealCVCalculator extends Module {
 
   async init() {
     if (this.esgst.newGiveawayPath) {
+      if (!(await permissions.requestUi([`steamStore`], `rcvc`, true))) {
+        return;
+      }
+
       let table = document.getElementsByClassName(`table--summary`)[0], button;
       if (table) {
         let game = getValue(`rcvcGame`);

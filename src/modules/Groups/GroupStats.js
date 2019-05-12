@@ -4,6 +4,7 @@ import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 class GroupsGroupStats extends Module {
   constructor() {
@@ -31,10 +32,15 @@ class GroupsGroupStats extends Module {
     };
   }
 
-  init() {
+  async init() {
     if (!shared.common.isCurrentPath(`Steam - Groups`)) {
       return;
     }
+
+    if (gSettings.gs_t && !(await permissions.requestUi([`steamCommunity`], `gs`, true))) {
+      return;
+    }
+
     common.createElements(document.getElementsByClassName(`table__heading`)[0], `beforeEnd`, [{
       attributes: {
         class: `table__column--width-small text-center`

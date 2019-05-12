@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -34,10 +35,15 @@ class GiveawaysIsThereAnyDealInfo extends Module {
     };
   }
 
-  init() {
+  async init() {
     if (!this.esgst.giveawayPath) {
       return;
     }
+
+    if (!(await permissions.requestUi([`isThereAnyDeal`], `itadi`, true))) {
+      return;
+    }
+
     this.esgst.giveawayFeatures.push(this.itadi_getGiveaways.bind(this));
   }
 

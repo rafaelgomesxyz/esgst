@@ -4,6 +4,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -64,6 +65,10 @@ class UsersSharedGroupChecker extends Module {
     if (profile.sgcPopup) {
       profile.sgcPopup.open();
     } else {
+      if (!(await permissions.requestUi([`steamCommunity`], `sgc`))) {
+        return;
+      }
+
       profile.sgcPopup = new Popup({ addScrollable: true, icon: `fa-users`, title: `Shared Groups` });
       profile.sgcProgress = createElements(profile.sgcPopup.description, `beforeEnd`, [{
         type: `div`,
