@@ -384,6 +384,9 @@ class Settings {
       }
     }
     const feature = shared.esgst.featuresById[id];
+    if (!feature) {
+      return;
+    }
     const url = `${shared.esgst.settingsUrl}&id=${id}`;
     const items = [{
       check: true,
@@ -2735,7 +2738,8 @@ class Settings {
     let section = shared.common.createElements(context, `beforeEnd`, [{
       attributes: {
         class: `esgst-form-row`,
-        id: `esgst_${type}`
+        id: `esgst_${type}`,
+        'data-id': type
       },
       type: `div`,
       children: [{
@@ -2749,6 +2753,12 @@ class Settings {
           },
           text: `${number}.`,
           type: `div`
+        }, {
+          attributes: {
+            class: `icon_to_clipboard fa fa-fw fa-copy`,
+            'data-clipboard-text': `https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${type}`
+          },
+          type: `i`
         }, {
           attributes: {
             class: `esgst-form-heading-text`

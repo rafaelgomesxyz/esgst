@@ -1,6 +1,5 @@
 import JSZip from 'jszip';
 import { browser } from './browser';
-import { permissions } from './class/Permissions';
 
 let storage = null;
 let isFirstRun = false;
@@ -113,7 +112,7 @@ async function doFetch(parameters, request, sender, callback) {
 
   let cookies = [];
   let setCookies = [];
-  if (await permissions.contains([`cookies`])) {
+  if (await browser.permissions.contains({ permissions: [`cookies`] })) {
     // get no-container cookies
     cookies = await getCookies({
       domain: domain
@@ -167,7 +166,7 @@ async function doFetch(parameters, request, sender, callback) {
     return;
   }
 
-  if (!(await permissions.contains([`cookies`]))) {
+  if (!(await browser.permissions.contains({ permissions: [`cookies`] }))) {
     return;
   }
 
