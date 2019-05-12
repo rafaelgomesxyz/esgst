@@ -22,7 +22,8 @@ class Permissions {
       gitHub: {
         isOrigin: true,
         messages: {
-          changelog: `Required to retrieve the changelog.`
+          changelog: `Required to retrieve the changelog.`,
+          settings: `Required to retrieve Enter / Leave Giveaway Button filters.`
         },
         values: [`*://*.raw.githubusercontent.com/*`]
       },

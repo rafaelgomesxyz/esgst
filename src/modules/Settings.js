@@ -45,7 +45,7 @@ class Settings {
     }
   }
 
-  loadMenu(isPopup) {
+  async loadMenu(isPopup) {
     /** @type {HTMLInputElement} */
     let SMAPIKey;
 
@@ -360,7 +360,7 @@ class Settings {
       this.preSave(`steamApiKey`, SMAPIKey.value);
     });
     if (shared.esgst.parameters.esgst === `settings` && shared.esgst.parameters.id) {
-      this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
+      await this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {
       popup.open();
@@ -372,7 +372,7 @@ class Settings {
     }
   }
 
-  loadFeatureDetails(id, offset, event) {
+  async loadFeatureDetails(id, offset, event) {
     if (!offset) {
       offset = 0;
     }
@@ -586,7 +586,7 @@ class Settings {
         name: typeof feature.description === `string` ? `Description` : `What does it do?`
       });
     }
-    const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
+    const additionalOptions = await this.getSmFeatureAdditionalOptions(feature, id);
     if (additionalOptions.length) {
       items.push({
         check: true,
@@ -1257,7 +1257,7 @@ class Settings {
       sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
       feature.sgSwitch = sgSwitch;
-      sgSwitch.onEnabled = () => {
+      sgSwitch.onEnabled = async () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings[`${conflictId}_sg`];
@@ -1276,7 +1276,7 @@ class Settings {
         if (feature.permissions) {
           this.preSavePermissions(feature.permissions);
         }
-        this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+        await this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.sgFeatureSwitch) {
           feature.sgFeatureSwitch.enable();
         } else {
@@ -1298,7 +1298,7 @@ class Settings {
         }
       };
       sgSwitch.onDisabled = async () => {
-        this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+        await this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.sgFeatureSwitch) {
           feature.sgFeatureSwitch.disable();
         } else {
@@ -1318,7 +1318,7 @@ class Settings {
       stContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
       feature.stSwitch = stSwitch;
-      stSwitch.onEnabled = () => {
+      stSwitch.onEnabled = async () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings[`${conflictId}_st`];
@@ -1337,7 +1337,7 @@ class Settings {
         if (feature.permissions) {
           this.preSavePermissions(feature.permissions);
         }
-        this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+        await this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.stFeatureSwitch) {
           feature.stFeatureSwitch.enable();
         } else {
@@ -1359,7 +1359,7 @@ class Settings {
         }
       };
       stSwitch.onDisabled = async () => {
-        this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+        await this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.stFeatureSwitch) {
           feature.stFeatureSwitch.disable();
         } else {
@@ -1379,7 +1379,7 @@ class Settings {
       sgtoolsContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `[SGT]`, false, true, null, value);
       feature.sgtoolsSwitch = sgtoolsSwitch;
-      sgtoolsSwitch.onEnabled = () => {
+      sgtoolsSwitch.onEnabled = async () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings[`${conflictId}_sgtools`];
@@ -1398,7 +1398,7 @@ class Settings {
         if (feature.permissions) {
           this.preSavePermissions(feature.permissions);
         }
-        this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+        await this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.sgtoolsFeatureSwitch) {
           feature.sgtoolsFeatureSwitch.enable();
         } else {
@@ -1420,7 +1420,7 @@ class Settings {
         }
       };
       sgtoolsSwitch.onDisabled = async () => {
-        this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+        await this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
         if (feature.sgtoolsFeatureSwitch) {
           feature.sgtoolsFeatureSwitch.disable();
         } else {
@@ -1552,9 +1552,11 @@ class Settings {
     this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
   }
 
-  getSmFeatureAdditionalOptions(Feature, ID) {
+  async getSmFeatureAdditionalOptions(Feature, ID) {
     let items = [];
-    if (ID === `ul`) {
+    if (ID === `elgb_f`) {
+      items.push(await this.addElgbMenuPanel(`elgb_filterPatterns`));
+    } else if (ID === `ul`) {
       items.push(this.addUlMenuPanel(`ul_links`));
     } else if (ID === `gch`) {
       items.push(this.addGwcrMenuPanel(`gch_colors`, `copies`, true));
@@ -2010,6 +2012,79 @@ class Settings {
           gwcsetting.splice(i, 1);
           this.preSave(id, gwcsetting);
           setting.remove();
+        }
+      }
+    });
+  }
+
+  async addElgbMenuPanel(id) {
+    if (!(await permissions.requestUi([`gitHub`], `settings`, true))) {
+      return;
+    }
+    try {
+      shared.esgst.elgbFilters = JSON.parse((await shared.common.request({
+        method: `GET`,
+        url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/elgb_filters.json`
+      })).responseText);
+    } catch (error) {}
+    const panel = shared.common.createElements_v2([
+      [`div`, { class: `esgst-sm-colors` }, [
+        [`div`],
+        [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => this.addElgbMenuItem(id, panel) }, [
+          [`span`, `Add Filter`]
+        ]],
+        [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => { this.preSave(id, shared.esgst.defaultValues[id]); panel.firstElementChild.innerHTML = ``; this.addElgbMenuItems(id, panel); } }, [
+          [`span`, `Reset`]
+        ]]
+      ]]
+    ]).firstElementChild;
+    shared.common.draggable_set({
+      addTrash: true,
+      context: panel.firstElementChild,
+      id,
+      item: {},
+      onDragEnd: obj => {
+        for (const key in obj) {
+          this.preSave(key, obj[key]);
+        }
+      }
+    });
+    this.addElgbMenuItems(id, panel);
+    return panel;
+  }
+
+  addElgbMenuItems(id, panel) {
+    for (const [i, filter] of gSettings[id].entries()) {
+      this.addElgbFilter(id, panel, filter, i);
+    }
+  }
+
+  addElgbMenuItem(id, panel) {
+    const filter = {
+      name: ``,
+      pattern: ``
+    };
+    const setting = gSettings[id];
+    setting.push(filter);
+    this.preSave(id, setting);
+    this.addElgbFilter(id, panel, filter, setting.length - 1);
+  }
+
+  addElgbFilter(id, panel, filter, i) {
+    const options = Object.keys(shared.esgst.elgbFilters).map(x => [`option`, x === filter.name ? { selected: true } : {}, x]);
+    const setting = shared.common.createElements_v2(panel.firstElementChild, `beforeEnd`, [
+      [`div`, { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(filter) }, [
+        [`select`, { onchange: event => (filter.name = event.currentTarget.value) && (filter.value = shared.esgst.elgbFilters[filter.name]) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(filter)) }, options.length ? options : null]
+      ]]
+    ]);
+    shared.common.draggable_set({
+      addTrash: true,
+      context: panel.firstElementChild,
+      id,
+      item: {},
+      onDragEnd: obj => {
+        for (const key in obj) {
+          this.preSave(key, obj[key]);
         }
       }
     });

@@ -4,6 +4,7 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.elgbFilters = {};
     this.es_loadNext = undefined;
     this.es_refresh = undefined;
     this.es_refreshAll = undefined;
@@ -660,7 +661,7 @@ class Esgst {
       gpf_preset: null,
       ds_auto: false,
       ds_option: `sortIndex_asc`,
-      elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
+      elgb_filterPatterns: [],
       exportBackup: true,
       exportBackupIndex: 0,
       gas_auto: false,
