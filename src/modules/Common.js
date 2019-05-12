@@ -275,11 +275,11 @@ class Common extends Module {
       }
       try {
         await mod.init();
-        currentBatchIndex += 1;
+        /*currentBatchIndex += 1;
         if (currentBatchIndex > batchSize) {
           currentBatchIndex = 0;
           await this.timeout(0);
-        }
+        }*/
       } catch (e) {
         window.console.log(e);
       }
