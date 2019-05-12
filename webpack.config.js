@@ -56,6 +56,7 @@ function getBuildEntries(env) {
     './build/firefox/esgst': [`./src/entry/index.js`],
     './build/firefox/esgst_sgtools': [`./src/entry/index_sgtools.js`],
     //'./build/firefox/options': [`./src/entry/options_index.js`],
+    './build/firefox/permissions': [`./src/entry/permissions_index.js`],
     './build/palemoon/index': [`./src/entry/eventPage_sdk_index.js`],
     './build/palemoon/data/esgst': [`./src/entry/index.js`],
     './build/palemoon/data/esgst_sgtools': [`./src/entry/index_sgtools.js`]
@@ -78,6 +79,7 @@ function getCopyPatterns(env) {
     { from: `./src/assets/images/icon.png`, to: `./build/firefox/icon.png` },
     { from: `./node_modules/webextension-polyfill/dist/browser-polyfill.min.js`, to: `./build/firefox/lib/browser-polyfill.js` },
     //{ from: `./src/html/options.html`, to: `./build/firefox/options.html` },
+    { from: `./src/html/permissions.html`, to: `./build/firefox/permissions.html` },
     { from: `./src/assets/images/icon.png`, to: `./build/palemoon/icon.png` },
     { from: `./src/assets/images/icon-16.png`, to: `./build/palemoon/data/icon-16.png` },
     { from: `./src/assets/images/icon-32.png`, to: `./build/palemoon/data/icon-32.png` },
