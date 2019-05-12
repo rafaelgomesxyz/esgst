@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
 import { browser } from './browser';
 
+let browserInfo = null;
 let storage = null;
 let isFirstRun = false;
 let isUpdate = false;
@@ -14,6 +15,8 @@ browser.runtime.onInstalled.addListener(async details => {
     }
   }
 });
+
+browser.runtime.getBrowserInfo().then(result => browserInfo = result);
 
 browser.storage.local.get(`settings`).then(async result => {
   /**
@@ -330,6 +333,8 @@ function do_unlock(lock) {
   }
 }
 
+let permissionRequests = {};
+
 browser.runtime.onMessage.addListener((request, sender) => {
   return new Promise(async resolve => {
     let key, keys, parameters, values;
@@ -338,14 +343,30 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
         break;
       case `permissions_request`:
-        resolve(await browser.permissions.request(JSON.parse(request.permissions)));
+        if (browserInfo.name === `Firefox`) {
+          const tab = await browser.tabs.create({
+            url: browser.runtime.getURL(`permissions.html`)
+          });
+          permissionRequests[tab.id] = { originId: sender.tab.id, permissions: request.permissions, resolve };
+        } else {
+          resolve(await browser.permissions.request(JSON.parse(request.permissions)));
+        }
+        break;
+      case `permissions_request_firefox`:
+        resolve(permissionRequests[sender.tab.id].permissions);
+        break;
+      case `permissions_request_firefox_resolve`:
+        await browser.tabs.remove(sender.tab.id);
+        await browser.tabs.update(permissionRequests[sender.tab.id].originId, { active: true });
+        permissionRequests[sender.tab.id].resolve(request.granted);
+        delete permissionRequests[sender.tab.id];
+        resolve();
         break;
       case `permissions_remove`:
         resolve(await browser.permissions.remove(JSON.parse(request.permissions)));
         break;
       case `getBrowserInfo`:
-        const result = await browser.runtime.getBrowserInfo();
-        resolve(JSON.stringify(result));
+        resolve(JSON.stringify(browserInfo));
         break;
       case `do_lock`:
         do_lock(JSON.parse(request.lock)).then(resolve);
