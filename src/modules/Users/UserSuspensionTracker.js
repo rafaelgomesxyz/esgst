@@ -4,6 +4,7 @@ import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -94,6 +95,10 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_sendAll() {
+    if (!(await permissions.requestUi([`googleWebApp`], `ust`))) {
+      return;
+    }
+
     shared.esgst.ustButton.removeEventListener(`click`, this.ust_sendAll);
     createElements(shared.esgst.ustButton, `inner`, [{
       attributes: {
@@ -164,6 +169,10 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_send() {
+    if (!(await permissions.requestUi([`googleWebApp`], `ust`))) {
+      return;
+    }
+
     let code = shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
     shared.esgst.ustButton.removeEventListener(`click`, this.ust_send);
     createElements(shared.esgst.ustButton, `inner`, [{

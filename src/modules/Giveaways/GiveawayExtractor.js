@@ -171,21 +171,11 @@ class GiveawaysGiveawayExtractor extends Module {
   ge_showOptions(ge, context, reExtract) {
     new ToggleSwitch(context, `ge_extractOnward`, null, `Only extract from the current giveaway onward.`, false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, ge.extractOnward);
     if (!reExtract) {
-      common.observeNumChange(new ToggleSwitch(context, `ge_flushCache`, null, [{
-        text: `Flush the cache if it is older than `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input`,
-          step: `0.1`,
-          type: `number`,
-          value: ge.flushCacheHours
-        },
-        type: `input`
-      }, {
-        text: ` hours.`,
-        type: `node`
-      }], false, false, null, ge.flushCache).name.firstElementChild, `ge_flushCacheHours`, true);
+      common.observeNumChange(new ToggleSwitch(context, `ge_flushCache`, null, [
+        `Flush the cache if it is older than `,
+        [`input`, { class: `esgst-switch-input`, step: `0.1`, type: `number`, value: ge.flushCacheHours }],
+        ` hours.`
+      ], false, false, null, ge.flushCache).name.firstElementChild, `ge_flushCacheHours`, true);
     }
     new ToggleSwitch(context, `ge_ignoreDiscussionComments`, null, `Ignore discussion comments when extracting giveaways.`, false, false, null, ge.ignoreDiscussionComments);
     new ToggleSwitch(context, `ge_ignoreGiveawayComments`, null, `Ignore giveaway comments when extracting giveaways.`, false, false, null, ge.ignoreGiveawayComments);

@@ -1,7 +1,13 @@
 import { Popup } from '../class/Popup';
 import { shared } from '../class/Shared';
+import { permissions } from '../class/Permissions';
+import { utils } from '../lib/jsUtils';
 
 async function loadChangelog(version) {
+  if (!(await permissions.requestUi([`gitHub`], `changelog`, utils.isSet(version)))) {
+    return;
+  }
+
   const changelog = JSON.parse((await shared.common.request({
     method: `GET`,
     url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/changelog.json`

@@ -311,22 +311,34 @@ PageMod({
       detachWorker(worker);
     });
 
+    worker.port.on(`permissions_contains`, request => {
+      worker.port.emit(`permissions_contains_${request.uuid}_response`, `true`);
+    });
+
+    worker.port.on(`permissions_request`, request => {
+      worker.port.emit(`permissions_request_${request.uuid}_response`, `true`);
+    });
+
+    worker.port.on(`permissions_remove`, request => {
+      worker.port.emit(`permissions_remove_${request.uuid}_response`, `true`);
+    });
+
     worker.port.on(`getBrowserInfo`, request => {
       worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
     });
 
     worker.port.on(`do_lock`, async request => {
-      await do_lock(request.lock);
+      await do_lock(JSON.parse(request.lock));
       worker.port.emit(`do_lock_${request.uuid}_response`, `null`);
     });
 
     worker.port.on(`update_lock`, request => {
-      update_lock(request.lock);
+      update_lock(JSON.parse(request.lock));
       worker.port.emit(`update_lock_${request.uuid}_response`, `null`);
     });
 
     worker.port.on(`do_unlock`, request => {
-      do_unlock(request.lock);
+      do_unlock(JSON.parse(request.lock));
       worker.port.emit(`do_unlock_${request.uuid}_response`, `null`);
     });
 

@@ -69,17 +69,10 @@ class UsersWhitelistBlacklistManager extends Module {
     if (!wbm.popup) {
       wbm.popup = new Popup({ addScrollable: true, icon: `fa-gear`, title: `Manage ${wbm.name}:` });
       new ToggleSwitch(wbm.popup.description, `wbm_useCache`, false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, gSettings.wbm_useCache);
-      new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [{
-        text: `Only clear users who are tagged with these specific tags (separate with comma): `,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-switch-input esgst-switch-input-large`,
-          type: `text`,
-          value: gSettings.wbm_tags.join(`, `)
-        },
-        type: `input`
-      }], false, false, `Uses the User Tags database to remove only users with the specified tags.`, gSettings.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
+      new ToggleSwitch(wbm.popup.description, `wbm_clearTags`, false, [
+        `Only clear users who are tagged with these specific tags (separate with comma): `,
+        [`input`, { class: `esgst-switch-input esgst-switch-input-large`, type: `text`, value: gSettings.wbm_tags.join(`, `) }]
+      ], false, false, `Uses the User Tags database to remove only users with the specified tags.`, gSettings.wbm_clearTags).name.firstElementChild.addEventListener(`change`, event => {
         const element = event.currentTarget;
         let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
         setSetting(`wbm_tags`, tags);

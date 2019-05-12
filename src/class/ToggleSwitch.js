@@ -23,40 +23,19 @@ class ToggleSwitch {
     this.sg = sg;
     this.st = st;
     this.value = value;
-    this.container = shared.common.createElements(context, `beforeEnd`, [{
-      attributes: {
-        class: `esgst-toggle-switch-container ${inline ? `inline` : ``}`
-      },
-      type: `div`,
-      children: [{
-        attributes: {
-          class: `esgst-toggle-switch`
-        },
-        type: `label`,
-        children: [{
-          attributes: {
-            type: `checkbox`
-          },
-          type: `input`
-        }, {
-          attributes: {
-            class: `esgst-toggle-switch-slider`
-          },
-          type: `div`
-        }]
-      }, {
-        text: typeof name === `string` ? name : ``,
-        type: `span`,
-        children: typeof name === `string` ? null : name
-      }, tooltip ? {
-        attributes: {
-          class: `fa fa-question-circle`,
-          title: tooltip
-        },
-        type: `i`
-      } : null]
-    }]);
-    this.switch = this.container.firstElementChild;
+    this.container = shared.common.createElements_v2(context, `beforeEnd`, [
+      [`div`, { class: `esgst-toggle-switch-container ${inline ? `inline` : ``}` }, [
+        [`label`, { class: `esgst-toggle-switch` }, [
+          [`input`, { type: `checkbox` }],
+          [`div`, { class: `esgst-toggle-switch-slider` }]
+        ]],
+        [`span`, name],
+        tooltip 
+          ? [`i`, { class: `fa fa-question-circle`, title: tooltip }]
+          : null
+      ]]
+    ]);
+    this.switch = context ? this.container.firstElementChild : this.container.firstElementChild.firstElementChild;
     this.input = /** @type {HTMLElement} */ this.switch.firstElementChild;
     this.name = this.switch.nextElementSibling;
     this.input.checked = this.value;

@@ -290,7 +290,12 @@ class UsersUserGiveawayData extends Module {
           request: this.ugd_requestGiveaways.bind(this)
         },
         this.ugd_requestGiveawaysDone.bind(this)
-      ]
+      ],
+      id: `ugd`,
+      permissions: {
+        steamApi: () => key === `won` && (gSettings.ugd_getPlaytime || gSettings.ugd_getAchievements),
+        steamStore: () => true
+      }
     };
     return new Process(details);
   }
@@ -941,14 +946,9 @@ class UsersUserGiveawayData extends Module {
             attributes: [`data-sort-value="0"`],
             value: `0/0 (0%)`
           },
-          [{
-            attributes: {
-              class: `table__column__secondary-link`,
-              href: `/user/${giveaway.creator}`
-            },
-            text: giveaway.creator,
-            type: `a`
-          }]
+          [
+            [`a`, { class: `table__column__secondary-link`, href: `/user/${giveaway.creator}` }, giveaway.creator]
+          ]
         ], packageId, true, false, `Hide contents of the package`, `Show contents of the package`);
       }
       group = obj.playtimeTable.getRowGroup(packageId);
@@ -991,14 +991,9 @@ class UsersUserGiveawayData extends Module {
         attributes: [`data-sort-value="${achievementsAttributes}"`],
         value: achievements
       },
-      [{
-        attributes: {
-          class: `table__column__secondary-link`,
-          href: `/user/${giveaway.creator}`
-        },
-        text: giveaway.creator,
-        type: `a`
-      }]
+      [
+        [`a`, { class: `table__column__secondary-link`, href: `/user/${giveaway.creator}` }, giveaway.creator]
+      ]
     ], packageId, false, true);
   }
 

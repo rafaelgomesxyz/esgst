@@ -5,6 +5,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
 
@@ -118,6 +119,11 @@ class GiveawaysHiddenGamesManager extends Module {
     if (obj.running) {
       return;
     }
+
+    if (!(await permissions.requestUi([`revadike`], `hgm`))) {
+      return;
+    }
+
     obj.running = true;
     obj.canceled = false;
     obj.button.classList.add(`esgst-busy`);

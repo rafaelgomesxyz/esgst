@@ -10,6 +10,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -548,20 +549,11 @@ class GeneralMultiManager extends Module {
               options: [
                 {
                   check: true,
-                  description: [{
-                    text: `Use `,
-                    type: `text`
-                  }, {
-                    attributes: {
-                      class: `esgst-bold`,
-                      href: `https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions`
-                    },
-                    text: `regular expression`,
-                    type: `a`
-                  }, {
-                    text: `.`,
-                    type: `node`
-                  }],
+                  description: [
+                    `Use `,
+                    [`a`, { class: `esgst-bold`, href: `https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions` }, `regular expression`],
+                    `.`
+                  ],
                   id: `mm_useRegExp`,
                   tooltip: null
                 }
@@ -1090,6 +1082,10 @@ class GeneralMultiManager extends Module {
   }
 
   async mm_hideGames(obj, items) {
+    if (!(await permissions.requestUi([`revadike`], `mm`))) {
+      return;
+    }
+
     const values = obj.textAreaGames.value
       .split(/\n/)
       .map(x => {

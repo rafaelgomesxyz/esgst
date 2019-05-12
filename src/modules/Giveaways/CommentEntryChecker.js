@@ -180,14 +180,7 @@ class GiveawaysCommentEntryChecker extends Module {
           [
             {
               alignment: `left`, size: `fill`, value: [
-                {
-                  attributes: {
-                    class: `table__column__heading`,
-                    href: `/user/${user}`
-                  },
-                  text: user,
-                  type: `a`
-                }
+                [`a`, { class: `table__column__heading`, href: `/user/${user}` }, user]
               ]
             },
             `Yes`,
@@ -202,14 +195,7 @@ class GiveawaysCommentEntryChecker extends Module {
           [
             {
               alignment: `left`, size: `fill`, value: [
-                {
-                  attributes: {
-                    class: `table__column__heading`,
-                    href: `/user/${user}`
-                  },
-                  text: user,
-                  type: `a`
-                }
+                [`a`, { class: `table__column__heading`, href: `/user/${user}` }, user]
               ]
             },
             `-`,
@@ -228,14 +214,7 @@ class GiveawaysCommentEntryChecker extends Module {
           [
             {
               alignment: `left`, size: `fill`, value: [
-                {
-                  attributes: {
-                    class: `table__column__heading`,
-                    href: `/user/${user}`
-                  },
-                  text: user,
-                  type: `a`
-                }
+                [`a`, { class: `table__column__heading`, href: `/user/${user}` }, user]
               ]
             },
             `-`,

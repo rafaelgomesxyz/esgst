@@ -5,6 +5,7 @@ import { shared } from '../class/Shared';
 import { utils } from '../lib/jsUtils';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
+import { permissions } from '../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils)
@@ -326,6 +327,29 @@ function cancelSync(syncer) {
 
 //use: syncer.results, syncer.progress, syncer.parameters
 async function sync(syncer) {
+  if (!syncer.isSilent) {
+    const permissionKeys = [];
+    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
+      permissionKeys.push(`steamApi`);
+      permissionKeys.push(`steamStore`);
+    }
+    if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && gSettings.syncFollowedGames)) {
+      permissionKeys.push(`steamCommunity`);
+    }
+    if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames)) {
+      permissionKeys.push(`server`);
+    }
+    if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames) || (syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames) || (syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes) || (syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes)) {
+      permissionKeys.push(`googleWebApp`);
+    }
+    if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && gSettings.syncDelistedGames)) {
+      permissionKeys.push(`steamTracker`);
+    }
+    if (!(await permissions.contains(permissionKeys))) {
+      await permissions.requestUi(permissionKeys, `sync`);
+    }
+  }
+
   if (!shared.esgst.firstInstall) {
     await shared.common.setSetting(`lastSync`, Date.now());
     syncer.results.innerHTML = ``;
@@ -575,60 +599,68 @@ async function sync(syncer) {
 
   // sync wishlisted/owned/ignored games
   if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
-    syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
-    syncer.html = [];
-    let apiResponse = null;
-    if (gSettings.steamApiKey) {
-      apiResponse = await shared.common.request({
-        method: `GET`,
-        url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${gSettings.steamId}&format=json`
-      });
-    }
-    let storeResponse = await shared.common.request({
-      method: `GET`,
-      url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`
-    });
-    if (gSettings.hgm_s) {
-      syncer.hgm = {
-        toAdd: { apps: new Set(), subs: new Set() },
-        toRemove: { apps: new Set(), subs: new Set() }
-      };
-    }
-    await syncGames(null, syncer, apiResponse, storeResponse);
-    if (gSettings.gc_o_altAccounts) {
-      for (let i = 0, n = gSettings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
-        let altAccount = gSettings.gc_o_altAccounts[i];
+    const isPermitted = await permissions.contains([`steamApi`, `steamStore`].concat(gSettings.hgm_s ? [`revadike`] : []));
+    if (isPermitted) {
+      syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
+      syncer.html = [];
+      let apiResponse = null;
+      if (gSettings.steamApiKey) {
         apiResponse = await shared.common.request({
           method: `GET`,
-          url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${altAccount.steamId}&format=json`
+          url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${gSettings.steamId}&format=json`
         });
-        await syncGames(altAccount, syncer, apiResponse);
       }
-      await shared.common.setSetting(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
-    }
-    shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-      [`div`, `Owned/wishlisted/ignored games synced.`],
-      ...syncer.html
-    ]);
-    if (gSettings.hgm_s) {
-      const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
-      const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
-      result.apps = result.apps.concat(tmpResult.apps);
-      result.subs = result.subs.concat(tmpResult.subs);
-      let message = ``;
-      if (result.apps.length) {
-        message += `The following apps were not found and therefore not hidden / unhidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
+      let storeResponse = await shared.common.request({
+        method: `GET`,
+        url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`
+      });
+      if (gSettings.hgm_s) {
+        syncer.hgm = {
+          toAdd: { apps: new Set(), subs: new Set() },
+          toRemove: { apps: new Set(), subs: new Set() }
+        };
       }
-      if (result.subs.length) {
-        message += `The following subs were not found and therefore not hidden / unhidden: ${result.subs.join(`, `)}\n`;
+      await syncGames(null, syncer, apiResponse, storeResponse);
+      if (gSettings.gc_o_altAccounts) {
+        for (let i = 0, n = gSettings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
+          let altAccount = gSettings.gc_o_altAccounts[i];
+          apiResponse = await shared.common.request({
+            method: `GET`,
+            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${altAccount.steamId}&format=json`
+          });
+          await syncGames(altAccount, syncer, apiResponse);
+        }
+        await shared.common.setSetting(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
       }
-      if (message) {
-        window.alert(message);
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, `Owned/wishlisted/ignored games synced.`],
+        ...syncer.html
+      ]);
+      if (gSettings.hgm_s) {
+        const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
+        const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
+        result.apps = result.apps.concat(tmpResult.apps);
+        result.subs = result.subs.concat(tmpResult.subs);
+        let message = ``;
+        if (result.apps.length) {
+          message += `The following apps were not found and therefore not hidden / unhidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
+        }
+        if (result.subs.length) {
+          message += `The following subs were not found and therefore not hidden / unhidden: ${result.subs.join(`, `)}\n`;
+        }
+        if (message) {
+          window.alert(message);
+        }
       }
-    }
-    if (gSettings.getSyncGameNames) {
-      // noinspection JSIgnoredPromiseFromCall
-      shared.common.getGameNames(syncer.results);
+      if (gSettings.getSyncGameNames) {
+        // noinspection JSIgnoredPromiseFromCall
+        shared.common.getGameNames(syncer.results);
+      }
+    } else {
+      syncer.failed.Games = true;
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, permissions.getMessage([`steamApi`, `steamStore`])]
+      ]);
     }
   }
 
@@ -639,30 +671,38 @@ async function sync(syncer) {
 
   // sync followed games
   if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && gSettings.syncFollowedGames)) {
-    syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
-    const response = await shared.common.request({
-      method: `GET`,
-      url: `https://steamcommunity.com/my/followedgames/`
-    });
-    const responseHtml = parseHtml(response.responseText);
-    const elements = responseHtml.querySelectorAll(`.gameListRow.followed`);
-    const savedGames = JSON.parse(shared.common.getValue(`games`));
-    for (const id in savedGames.apps) {
-      if (savedGames.apps.hasOwnProperty(id)) {
-        savedGames.apps[id].followed = null;
+    const isPermitted = await permissions.contains([`steamCommunity`]);
+    if (isPermitted) {
+      syncer.progress.lastElementChild.textContent = `Syncing your followed games...`;
+      const response = await shared.common.request({
+        method: `GET`,
+        url: `https://steamcommunity.com/my/followedgames/`
+      });
+      const responseHtml = parseHtml(response.responseText);
+      const elements = responseHtml.querySelectorAll(`.gameListRow.followed`);
+      const savedGames = JSON.parse(shared.common.getValue(`games`));
+      for (const id in savedGames.apps) {
+        if (savedGames.apps.hasOwnProperty(id)) {
+          savedGames.apps[id].followed = null;
+        }
       }
-    }
-    for (const element of elements) {
-      const id = parseInt(element.getAttribute(`data-appid`));
-      if (!savedGames.apps[id]) {
-        savedGames.apps[id] = {};
+      for (const element of elements) {
+        const id = parseInt(element.getAttribute(`data-appid`));
+        if (!savedGames.apps[id]) {
+          savedGames.apps[id] = {};
+        }
+        savedGames.apps[id].followed = true;
       }
-      savedGames.apps[id].followed = true;
+      await shared.common.lockAndSaveGames(savedGames);
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, `Followed games synced.`]
+      ]);
+    } else {
+      syncer.failed.FollowedGames = true;
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, permissions.getMessage([`steamCommunity`])]
+      ]);
     }
-    await shared.common.lockAndSaveGames(savedGames);
-    shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-      [`div`, `Followed games synced.`]
-    ]);
   }
 
   // if sync has been canceled stop
@@ -686,21 +726,32 @@ async function sync(syncer) {
 
   // sync reduced cv games
   if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames)) {
-    syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
-    try {
-      await syncReducedCvGames();
-      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-        [`div`, [
-          [`i`, { class: `fa fa-check` }],
-          `Reduced CV games synced.`
-        ]]
-      ]);
-    } catch (e) {
+    const isPermitted = await permissions.contains([`server`, `googleWebApp`]);
+    if (isPermitted) {
+      syncer.progress.lastElementChild.textContent = `Syncing reduced CV games...`;
+      try {
+        await syncReducedCvGames();
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, [
+            [`i`, { class: `fa fa-check` }],
+            `Reduced CV games synced.`
+          ]]
+        ]);
+      } catch (e) {
+        syncer.failed.ReducedCvGames = true;
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, [
+            [`i`, { class: `fa fa-times` }],
+            `Failed to sync reduced CV games.`
+          ]]
+        ]);
+      }
+    } else {
       syncer.failed.ReducedCvGames = true;
       shared.common.createElements_v2(syncer.results, `beforeEnd`, [
         [`div`, [
           [`i`, { class: `fa fa-times` }],
-          `Failed to sync reduced CV games.`
+          permissions.getMessage([`server`, `googleWebApp`])
         ]]
       ]);
     }
@@ -713,21 +764,32 @@ async function sync(syncer) {
 
   // sync no cv games
   if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames)) {
-    syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
-    try {
-      await syncNoCvGames();
-      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-        [`div`, [
-          [`i`, { class: `fa fa-check` }],
-          `No CV games synced.`
-        ]]
-      ]);
-    } catch (e) {
+    const isPermitted = await permissions.contains([`googleWebApp`]);
+    if (isPermitted) {
+      syncer.progress.lastElementChild.textContent = `Syncing no CV games...`;
+      try {
+        await syncNoCvGames();
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, [
+            [`i`, { class: `fa fa-check` }],
+            `No CV games synced.`
+          ]]
+        ]);
+      } catch (e) {
+        syncer.failed.NoCvGames = true;
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, [
+            [`i`, { class: `fa fa-times` }],
+            `Failed to sync no CV games.`
+          ]]
+        ]);
+      }
+    } else {
       syncer.failed.NoCvGames = true;
       shared.common.createElements_v2(syncer.results, `beforeEnd`, [
         [`div`, [
           [`i`, { class: `fa fa-times` }],
-          `Failed to sync no CV games.`
+          permissions.getMessage([`googleWebApp`])
         ]]
       ]);
     }
@@ -735,37 +797,45 @@ async function sync(syncer) {
 
   // sync hltb times
   if ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes)) {
-    syncer.progress.lastElementChild.textContent = `Syncing HLTB times...`;
-    try {
-      const responseText = (await shared.common.request({
-        method: `GET`,
-        url: `https://script.google.com/macros/s/AKfycbysBF72c0VNylStaslLlOL7X4M0KQIgY0VVv6Q0x2vh72iGAtE/exec`
-      })).responseText;
-      const games = JSON.parse(responseText);
-      const hltb = {};
-      for (const game of games) {
-        if (game.steamId) {
-          hltb[game.steamId] = game;
+    const isPermitted = await permissions.contains([`googleWebApp`]);
+    if (isPermitted) {
+      syncer.progress.lastElementChild.textContent = `Syncing HLTB times...`;
+      try {
+        const responseText = (await shared.common.request({
+          method: `GET`,
+          url: `https://script.google.com/macros/s/AKfycbysBF72c0VNylStaslLlOL7X4M0KQIgY0VVv6Q0x2vh72iGAtE/exec`
+        })).responseText;
+        const games = JSON.parse(responseText);
+        const hltb = {};
+        for (const game of games) {
+          if (game.steamId) {
+            hltb[game.steamId] = game;
+          }
         }
+        let cache = JSON.parse(shared.common.getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+        if (cache.version !== 7) {
+          cache = {
+            apps: {},
+            subs: {},
+            hltb: cache.hltb,
+            timestamp: 0,
+            version: 7
+          };
+        }
+        cache.hltb = hltb;
+        shared.common.setLocalValue(`gcCache`, JSON.stringify(cache));
+      } catch (e) {
+        window.console.log(e);
       }
-      let cache = JSON.parse(shared.common.getLocalValue(`gcCache`, `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
-      if (cache.version !== 7) {
-        cache = {
-          apps: {},
-          subs: {},
-          hltb: cache.hltb,
-          timestamp: 0,
-          version: 7
-        };
-      }
-      cache.hltb = hltb;
-      shared.common.setLocalValue(`gcCache`, JSON.stringify(cache));
-    } catch (e) {
-      window.console.log(e);
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, `HLTB times synced.`]
+      ]);
+    } else {
+      syncer.failed.HltbTimes = true;
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, permissions.getMessage([`googleWebApp`])]
+      ]);
     }
-    shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-      [`div`, `HLTB times synced.`]
-    ]);
   }
 
   // if sync has been canceled stop
@@ -775,23 +845,31 @@ async function sync(syncer) {
 
   // sync delisted games
   if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && gSettings.syncDelistedGames)) {
-    syncer.progress.lastElementChild.textContent = `Syncing delisted games...`;
-    const response = await shared.common.request({ method: `GET`, url: `https://steam-tracker.com/api?action=GetAppListV3` });
-    try {
-      const json = JSON.parse(response.responseText);
-      if (json.success) {
-        const banned = json.removed_apps.filter(x => x.type === `game` && x.category === `Banned`).map(x => parseInt(x.appid));
-        const removed = json.removed_apps.filter(x => x.type === `game` && x.category === `Delisted`).map(x => parseInt(x.appid));
-        await shared.common.setValue(`delistedGames`, JSON.stringify({ banned, removed }));
+    const isPermitted = await permissions.contains([`steamTracker`]);
+    if (isPermitted) {
+      syncer.progress.lastElementChild.textContent = `Syncing delisted games...`;
+      const response = await shared.common.request({ method: `GET`, url: `https://steam-tracker.com/api?action=GetAppListV3` });
+      try {
+        const json = JSON.parse(response.responseText);
+        if (json.success) {
+          const banned = json.removed_apps.filter(x => x.type === `game` && x.category === `Banned`).map(x => parseInt(x.appid));
+          const removed = json.removed_apps.filter(x => x.type === `game` && x.category === `Delisted`).map(x => parseInt(x.appid));
+          await shared.common.setValue(`delistedGames`, JSON.stringify({ banned, removed }));
+        }
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, `Delisted games synced.`]
+        ]);
+      } catch (error) {
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, `Failed to sync delisted games (check the console log for more info).`]
+        ]);
+        window.console.log(error);
       }
+    } else {     
+      syncer.failed.DelistedGames = true; 
       shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-        [`div`, `Delisted games synced.`]
+        [`div`, permissions.getMessage([`steamTracker`])]
       ]);
-    } catch (error) {
-      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
-        [`div`, `Failed to sync delisted games (check the console log for more info).`]
-      ]);
-      window.console.log(error);
     }
   }
 
@@ -1208,7 +1286,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Removed apps:`],
-        [...removedOwned.apps].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/app/${x}` }, x]; return i < removedOwned.apps.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
+        ...removedOwned.apps.map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/app/${x}` }, x]; return i < removedOwned.apps.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
@@ -1216,7 +1294,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Removed packages:`],
-        [...removedOwned.subs].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/sub/${x}` }, x]; return i < removedOwned.subs.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
+        ...removedOwned.subs.map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/sub/${x}` }, x]; return i < removedOwned.subs.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
@@ -1224,7 +1302,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Added apps:`],
-        [...addedOwned.apps].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/app/${x}` }, x]; return i < addedOwned.apps.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
+        ...addedOwned.apps.map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/app/${x}` }, x]; return i < addedOwned.apps.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }
@@ -1232,7 +1310,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     syncer.html.push(
       [`div`, [
         [`span`, { class: `esgst-bold` }, `Added packages:`],
-        [...addedOwned.subs].map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/sub/${x}` }, x]; return i < addedOwned.subs.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
+        ...addedOwned.subs.map((x, i) => { x = [`a`, { href: `http://store.steampowered.com/sub/${x}` }, x]; return i < addedOwned.subs.length - 1 ? [x, `,`] : [x] }).reduce((a, b) => a.concat(b))
       ]]
     );
   }

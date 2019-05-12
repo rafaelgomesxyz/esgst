@@ -4,6 +4,7 @@ import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { permissions } from '../../class/Permissions';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -64,6 +65,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
     } else if (shared.common.isCurrentPath(`Account`) && shared.esgst.parameters.esgst === `glwc`) {
+      if (!(await permissions.requestUi([`steamApi`, `steamCommunity`, `steamStore`], `glwc`, true))) {
+        return;
+      }
+
       let glwc = {}, parameters;
       glwc.container = shared.esgst.sidebar.nextElementSibling;
       if (gSettings.removeSidebarInFeaturePages) {

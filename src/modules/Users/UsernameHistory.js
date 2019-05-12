@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { permissions } from '../../class/Permissions';
 
 const
   createElements = common.createElements.bind(common),
@@ -114,6 +115,10 @@ class UsersUsernameHistory extends Module {
   }
 
   async uh_toggle(box, profile, list) {
+    if (!(await permissions.requestUi([`googleWebApp`], `uh`))) {
+      return;
+    }
+
     box.classList.toggle(`esgst-hidden`);
     if (!list.innerHTML) {
       createElements(list, `inner`, [{

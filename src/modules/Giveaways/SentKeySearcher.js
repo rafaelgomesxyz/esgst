@@ -64,57 +64,23 @@ class GiveawaysSentKeySearcher extends Module {
     }]);
     new ToggleSwitch(sks.popup.description, `sks_exportKeys`, false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, gSettings.sks_exportKeys);
     let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, gSettings.sks_searchCurrent);
-    let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, [{
-      text: `Limit search by date, from `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-switch-input esgst-switch-input-large`,
-        type: `date`,
-        value: gSettings.sks_minDate
-      },
-      type: `input`
-    }, {
-      text: ` to `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-switch-input esgst-switch-input-large`,
-        type: `date`,
-        value: gSettings.sks_maxDate
-      },
-      type: `input`
-    }, {
-      text: `.`,
-      type: `node`
-    }], false, false, null, gSettings.sks_limitDate).name.firstElementChild;
+    let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, [
+      `Limit search by date, from `,
+      [`input`, { class: `esgst-switch-input esgst-switch-input-large`, type: `date`, value: gSettings.sks_minDate }],
+      ` to `,
+      [`input`, { class: `esgst-switch-input esgst-switch-input-large`, type: `date`, value: gSettings.sks_maxDate
+      }],
+      `.`
+    ], false, false, null, gSettings.sks_limitDate).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
-    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, [{
-      text: `Limit search by pages, from `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-switch-input`,
-        min: `1`,
-        type: `number`,
-        value: gSettings.sks_minPage
-      },
-      type: `input`
-    }, {
-      text: ` to `,
-      type: `node`
-    }, {
-      attributes: {
-        class: `esgst-switch-input`,
-        min: `1`,
-        type: `number`,
-        value: gSettings.sks_maxPage
-      },
-      type: `input`
-    }, {
-      text: `.`,
-      type: `node`
-    }], false, false, null, gSettings.sks_limitPages);
+    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, [
+      `Limit search by pages, from `,
+      [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.sks_minPage }],
+      ` to `,
+      [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.sks_maxPage
+      }],
+      `.`
+    ], false, false, null, gSettings.sks_limitPages);
     let minPage = limitPages.name.firstElementChild;
     let maxPage = minPage.nextElementSibling;
     searchCurrent.exclusions.push(limitPages.container);
