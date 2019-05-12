@@ -1,5 +1,21 @@
 [
   {
+    "date": "May 12, 2019",
+    "version": "8.3.8",
+    "changelog": {
+      "1314": "Storage: add \"All\", \"None\" and \"Inverse\" buttons for each main option",
+      "1315": "Internal: fix bug that does not update no CV database for some games",
+      "1317": "User Filters: split posts filter between giveaway posts and discussion posts",
+      "1318": "Internal: fix bug that does not update user's username when there's a change",
+      "1320": "Settings: fix bug that hangs browser when changing settings",
+      "1321": "Settings: fix bug that does not persist some settings",
+      "1322": "Internal: implement optional permissions",
+      "1324": "Game Categories: fix previously won URL",
+      "1325": "Settings: add direct link for each section",
+      "1326": "Enter / Leave Giveaway Button: remove option to show description and make it mandatory"
+    }
+  },
+  {
     "date": "May 5, 2019",
     "version": "8.3.7",
     "changelog": {
