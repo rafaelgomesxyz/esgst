@@ -97,6 +97,10 @@ function packageWebExtension(browserName) {
     zip.file(`esgst.js`, fs.readFileSync(`${extensionPath}/esgst.js`));
     zip.file(`esgst_sgtools.js`, fs.readFileSync(`${extensionPath}/esgst_sgtools.js`));
     zip.file(`icon.png`, fs.readFileSync(`${extensionPath}/icon.png`));
+    if (browserName === `firefox`) {
+      zip.file(`permissions.html`, fs.readFileSync(`${extensionPath}/permissions.html`));
+      zip.file(`permissions.js`, fs.readFileSync(`${extensionPath}/permissions.js`));
+    }
     zip.generateNodeStream({
       compression: `DEFLATE`,
       compressionOptions: {
