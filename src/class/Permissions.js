@@ -2,6 +2,7 @@ import { browser } from '../browser';
 import { Popup } from './Popup';
 import { shared } from './Shared';
 import { ButtonSet } from './ButtonSet';
+import { gSettings } from './Globals';
 
 class Permissions {
   constructor() {
@@ -76,9 +77,9 @@ class Permissions {
       revadike: {
         isOrigin: true,
         messages: {
-          hgm: `Required by Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.`,
-          mm: `Required by Multi Manager to hide games.`,
-          sync: `Required to hide games when syncing.`
+          hgm: `Optional for Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.`,
+          mm: `Optional for Multi Manager to hide games.`,
+          sync: `Optional to hide games when syncing.`
         },
         values: [`*://*.revadike.ga/*`]
       },
@@ -143,15 +144,28 @@ class Permissions {
   }
 
   async request(keys) {
-    const result = await this.contains(keys);
+    let result = await this.contains(keys);
     if (result) {
       return result;
     }
     const { permissions, origins } = this.getValues(keys);
-    return browser.runtime.sendMessage({
+    result = await browser.runtime.sendMessage({
       action: `permissions_request`,
       permissions: JSON.stringify({ permissions, origins })
     });
+    if (!result) {
+      let hasChanged = false;
+      for (const key of keys) {
+        if (gSettings.permissionsDenied.indexOf(key) < 0) {
+          gSettings.permissionsDenied.push(key);
+          hasChanged = true;
+        }
+      }
+      if (hasChanged) {
+        await shared.common.setSetting(`permissionsDenied`, gSettings.permissionsDenied);
+      }
+    }
+    return result;
   }
 
   remove(keys) {
@@ -176,7 +190,7 @@ class Permissions {
     return { permissions, origins };
   }
 
-  requestUi(keys, messageKey, isProgrammatic) {
+  requestUi(keys, messageKey, isProgrammatic, isOptional) {
     return new Promise(async resolve => {
       const result = await this.contains(keys);
       if (result) {
@@ -187,7 +201,7 @@ class Permissions {
         new Popup({
           icon: `fa-lock`,
           isTemp: true,
-          title: this.getMessage(keys, messageKey)
+          title: this.getMessage(keys, messageKey, isOptional)
         }).open();
         resolve(false);
         return;
@@ -195,7 +209,7 @@ class Permissions {
       const popup = new Popup({
         icon: `fa-lock`,
         isTemp: true,
-        title: `In order to perform this action, ESGST requires the permissions below. Click "Proceed" to decide if you want to grant them or not.`
+        title: isOptional ? `In order to perform this action faster, ESGST requires the optional permissions below. Click "Proceed" to decide if you want to grant them or not. If you decide to deny them, the action will still be performed, but may take longer.` : `In order to perform this action, ESGST requires the permissions below. Click "Proceed" to decide if you want to grant them or not.`
       });
       for (const key of keys) {
         const permission = this.permissions[key];
@@ -223,9 +237,9 @@ class Permissions {
     });
   }
 
-  getMessage(keys, messageKey) {
+  getMessage(keys, messageKey, isOptional) {
     const { permissions, origins } = this.getValues(keys);
-    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ``} No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant the required permissions: ${permissions.concat(origins).join(`, `)}`;
+    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ``} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant the optional permissions: ${permissions.concat(origins).join(`, `)}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant the required permissions: ${permissions.concat(origins).join(`, `)}`}`;
   }
 }
 

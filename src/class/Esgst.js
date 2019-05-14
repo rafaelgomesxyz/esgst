@@ -256,6 +256,7 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      permissionsDenied: [],
       egh_c_sg: true,
       cewgd_c_sg: true,
       cewgd_c_p_sg: true,
