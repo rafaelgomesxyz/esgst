@@ -343,13 +343,13 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
         break;
       case `permissions_request`:
-        if (browserInfo.name === `Firefox`) {
+        try {        
+          resolve(await browser.permissions.request(JSON.parse(request.permissions)));
+        } catch (e) {
           const tab = await browser.tabs.create({
             url: browser.runtime.getURL(`permissions.html`)
           });
           permissionRequests[tab.id] = { originId: sender.tab.id, permissions: request.permissions, resolve };
-        } else {
-          resolve(await browser.permissions.request(JSON.parse(request.permissions)));
         }
         break;
       case `permissions_request_firefox`:
