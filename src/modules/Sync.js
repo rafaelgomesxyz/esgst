@@ -599,8 +599,11 @@ async function sync(syncer) {
 
   // sync wishlisted/owned/ignored games
   if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
-    const isPermitted = await permissions.contains([`steamApi`, `steamStore`].concat(gSettings.hgm_s ? [`revadike`] : []));
+    const isPermitted = await permissions.contains([`steamApi`, `steamStore`]);
     if (isPermitted) {
+      if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf(`revadike`) < 0) {
+        await permissions.requestUi([`revadike`], `sync`, true, true);
+      }
       syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
       syncer.html = [];
       let apiResponse = null;

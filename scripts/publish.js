@@ -225,15 +225,15 @@ function publishVersion() {
     if (!args.doNotAdd) {
       git.add(`./*`);
     }
-    git.commit(commitMessage);
-    /*.push(async error => {
+    git.commit(commitMessage)
+    .push(async error => {
       if (error) {
         git.reset([`--soft`, `HEAD~1`]);
 
         fs.writeFileSync(`${ROOT_PATH}/package.json`, packageJsonBkp);
 
         reject(error);
-      } else {*/
+      } else {
         try {
           await publishRelease(changelog);
           await chromePublisher.init(CONFIG_PATH);
@@ -247,12 +247,10 @@ function publishVersion() {
           });
           resolve();
         } catch (error) {
-          fs.writeFileSync(`${ROOT_PATH}/package.json`, packageJsonBkp);
-
           reject(error);          
         }
-      /*}
-    });*/
+      }
+    });
   });
 }
 

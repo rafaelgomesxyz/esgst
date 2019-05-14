@@ -5419,19 +5419,27 @@ class Common extends Module {
   }
 
   async hideGames(obj, unhide) {
+    const isUsingRevadike = await permissions.contains([`revadike`]);
+    let hasCacheChanged = false;
     let api = JSON.parse(this.getValue(`sgdbCache`, `{ "lastUpdate": 0 }`));
     if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {
-      obj.update && obj.update(`Updating API cache...`);
+      if (isUsingRevadike) {
+        obj.update && obj.update(`Updating API cache...`);
 
-      api = { cache: JSON.parse((await this.request({ method: `GET`, url: `https://revadike.ga/sgdb.json` })).responseText), lastUpdate: Date.now() };
-      await this.setValue(`sgdbCache`, JSON.stringify(api));
+        api = { cache: JSON.parse((await this.request({ method: `GET`, url: `https://revadike.ga/sgdb.json` })).responseText), lastUpdate: Date.now() };
+      } else {
+        api = { cache: { appids: {}, subids: {} }, lastUpdate: Date.now() };
+      }
+      hasCacheChanged = true;
     }
     
     obj.update && obj.update(`Retrieving ids from cache...`);
 
     const games = { apps: {}, subs: {} };
     const ids = [];
+    const appsToFetch = [];
     const appsNotFound = [];
+    const subsToFetch = [];
     const subsNotFound = [];
     for (const appId of obj.appIds) {
       const savedGame = this.esgst.games.apps[appId];
@@ -5442,8 +5450,10 @@ class Common extends Module {
       if (id) {
         ids.push(id);
         games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
-      } else {
+      } else if (id === 0) {
         appsNotFound.push(appId);
+      } else {
+        appsToFetch.push(appId);
       }
     }
     for (const subId of obj.subIds) {
@@ -5455,35 +5465,47 @@ class Common extends Module {
       if (id) {
         ids.push(id);
         games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
-      } else {
+      } else if (id === 0) {
         subsNotFound.push(subId);
+      } else {
+        subsToFetch.push(subId);
       }
     }
-    for (let i = appsNotFound.length - 1; i > -1 && !obj.canceled; i--) {
-      obj.update && obj.update(`Retrieving app ids from SteamGifts (${i} left)...`);
+    if (!isUsingRevadike) {
+      for (let i = appsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
+        obj.update && obj.update(`Retrieving app ids from SteamGifts (${i} left)...`);
 
-      const appId = appsNotFound[i];
-      const id = await this.getGameSgId(appId, `apps`);
-      if (id) {
-        ids.push(id);
-        games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
-        appsNotFound.splice(i, 1);
+        const appId = appsToFetch[i];
+        const id = await this.getGameSgId(appId, `apps`);
+        if (id) {
+          ids.push(id);
+          games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
+        } else {
+          api.cache.appids[appId] = 0;
+          appsNotFound.push(id);
+        }
       }
-    }
-    for (let i = subsNotFound.length - 1; i > -1 && !obj.canceled; i--) {
-      obj.update && obj.update(`Retrieving sub ids from SteamGifts (${i} left)...`);
+      for (let i = subsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
+        obj.update && obj.update(`Retrieving sub ids from SteamGifts (${i} left)...`);
 
-      const subId = subsNotFound[i];
-      const id = await this.getGameSgId(subId, `subs`);
-      if (id) {
-        ids.push(id);
-        games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
-        appsNotFound.splice(i, 1);
+        const subId = subsToFetch[i];
+        const id = await this.getGameSgId(subId, `subs`);
+        if (id) {
+          ids.push(id);
+          games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
+        } else {
+          api.cache.subids[subId] = 0;
+          subsNotFound.push(id);
+        }
       }
     }
 
     if (obj.canceled) {
       return;
+    }
+
+    if (hasCacheChanged) {
+      await this.setValue(`sgdbCache`, JSON.stringify(api));
     }
 
     const title = unhide ? `Unhiding` : `Hiding`;
