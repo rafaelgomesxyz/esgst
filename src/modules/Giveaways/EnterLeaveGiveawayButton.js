@@ -43,6 +43,13 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           sg: true
         },
         elgb_f: {
+          inputItems: [
+            {
+              id: `elgb_filters`,
+              prefix: `Filters: `,
+              title: `Enter only lowercase letters with no spaces and separate filters with '|'.\n\nFor example, if you want to filter out 'Good luck! No need to thank, unless you're the winner.', use the filter 'goodlucknoneedtothankunlessyourethewinner'.\n\nIf you're familiar with regular expressions, you can also use them. For example, to include a variation of the description above that uses 'you are' instead of 'you're' you could use the filter 'goodlucknoneedtothankunlessyoua?rethewinner'. 'a?' will match or not an 'a' between 'you' and 're'.\n\nThe '.' filter, for example, filters out any descriptions that only have one letter. Generic filters such as '.*' and '.+' will be ignored when applying the filters.`
+            }
+          ],
           name: `Filter descriptions.`,
           sg: true
         },
@@ -441,21 +448,15 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           setLocalValue(`elgbCache`, JSON.stringify(this.esgst.elgbCache));
           if (gSettings.elgb_f) {
             let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-            for (const filter of gSettings.elgb_filterPatterns) {
-              if (text.match(new RegExp(`^(${filter.pattern})$`))) {
-                description = null;
-                break;
-              }
+            if (text.match(new RegExp(`^(${this.processFilters(gSettings.elgb_filters)})$`))) {
+              description = null;
             }
           }
         }
       } else if (gSettings.elgb_f) {
         let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
-        for (const filter of gSettings.elgb_filterPatterns) {
-          if (text.match(new RegExp(`^(${filter.pattern})$`))) {
-            description = null;
-            break;
-          }
+        if (text.match(new RegExp(`^(${this.processFilters(gSettings.elgb_filters)})$`))) {
+          description = null;
         }
       }
     }
@@ -491,6 +492,21 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           popup.close();
         }
       }).set);
+    }
+    if (description && gSettings.elgb_f) {
+      let set = new ButtonSet({
+        color1: `grey`,
+        color2: `grey`,
+        icon1: `fa-eye`,
+        icon2: `fa-circle-o-notch fa-spin`,
+        title1: `Add Description To Filters`,
+        title2: `Filtering...`,
+        callback1: async () => {
+          await setSetting(`elgb_filters`, `${gSettings.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`);
+          set.remove();
+        }
+      }).set;
+      popup.description.appendChild(set);
     }
     const comments = responseHtml.querySelector(`.comments`);
     if (comments && comments.children.length) {
@@ -528,6 +544,12 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
       });
     }
+  }
+
+  processFilters(filters) {
+    return filters
+      .replace(/(^|\|)\.*(\*|\+)\.*($|\|)/g, ``)
+      .replace(/\|$/, ``);
   }
 
   async elgb_enterGiveaway(giveaway, main, popup, source, callback) {

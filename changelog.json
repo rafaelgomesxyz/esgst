@@ -1,6 +1,13 @@
 [
   {
     "date": "May 14, 2019",
+    "version": "8.3.12",
+    "changelog": {
+      "1339": "Enter / Leave Giveaway Button: bring back option to use custom filters, but make it more limited"
+    }
+  },
+  {
+    "date": "May 14, 2019",
     "version": "8.3.11",
     "changelog": {
       "1338": "Internal: implement universal fix for permissions bug, instead of targeting only Firefox"
