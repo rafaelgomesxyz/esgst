@@ -1,5 +1,19 @@
 [
   {
+    "date": "May 14, 2019",
+    "version": "8.3.11",
+    "changelog": {
+      "1338": "Internal: implement universal fix for permissions bug, instead of targeting only Firefox"
+    }
+  },
+  {
+    "date": "May 14, 2019",
+    "version": "8.3.11",
+    "changelog": {
+      "1338": "Internal: implement universal fix for permissions bug, instead of targeting only Firefox"
+    }
+  },
+  {
     "date": "May 12, 2019",
     "version": "8.3.10",
     "changelog": {

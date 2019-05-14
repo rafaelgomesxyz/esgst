@@ -97,10 +97,8 @@ function packageWebExtension(browserName) {
     zip.file(`esgst.js`, fs.readFileSync(`${extensionPath}/esgst.js`));
     zip.file(`esgst_sgtools.js`, fs.readFileSync(`${extensionPath}/esgst_sgtools.js`));
     zip.file(`icon.png`, fs.readFileSync(`${extensionPath}/icon.png`));
-    if (browserName === `firefox`) {
-      zip.file(`permissions.html`, fs.readFileSync(`${extensionPath}/permissions.html`));
-      zip.file(`permissions.js`, fs.readFileSync(`${extensionPath}/permissions.js`));
-    }
+    zip.file(`permissions.html`, fs.readFileSync(`${extensionPath}/permissions.html`));
+    zip.file(`permissions.js`, fs.readFileSync(`${extensionPath}/permissions.js`));
     zip.generateNodeStream({
       compression: `DEFLATE`,
       compressionOptions: {
@@ -227,15 +225,15 @@ function publishVersion() {
     if (!args.doNotAdd) {
       git.add(`./*`);
     }
-    git.commit(commitMessage)
-    .push(async error => {
+    git.commit(commitMessage);
+    /*.push(async error => {
       if (error) {
         git.reset([`--soft`, `HEAD~1`]);
 
         fs.writeFileSync(`${ROOT_PATH}/package.json`, packageJsonBkp);
 
         reject(error);
-      } else {
+      } else {*/
         try {
           await publishRelease(changelog);
           await chromePublisher.init(CONFIG_PATH);
@@ -249,10 +247,12 @@ function publishVersion() {
           });
           resolve();
         } catch (error) {
+          fs.writeFileSync(`${ROOT_PATH}/package.json`, packageJsonBkp);
+
           reject(error);          
         }
-      }
-    });
+      /*}
+    });*/
   });
 }
 
@@ -271,7 +271,7 @@ function updateDevVersion() {
 }
 
 function updateVersion() {
-  packageJson.version = packageJson.devVersion.split(`-`)[0];
+  packageJson.version = args.bumpVersion ? bumpVersion() : packageJson.devVersion.split(`-`)[0];
   packageJson.devVersion = packageJson.version;
 }
 
