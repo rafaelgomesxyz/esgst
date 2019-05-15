@@ -2071,9 +2071,9 @@ class Settings {
     const setting = shared.common.createElements_v2(panel.firstElementChild, `beforeEnd`, [
       [`div`, { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) }, [
         `Label: `,
-        [`input`, { onchange: event => (link.label = event.currentTarget.value) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)), type: `text`, value: link.label }],
+        [`input`, { onchange: event => { link.label = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)); }, type: `text`, value: link.label }],
         `URL: `,
-        [`input`, { onchange: event => (link.url = event.currentTarget.value) && setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)), type: `text`, value: link.url }]
+        [`input`, { onchange: event => { link.url = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)); }, type: `text`, value: link.url }]
       ]]
     ]);
     shared.common.draggable_set({
