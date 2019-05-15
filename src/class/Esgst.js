@@ -326,6 +326,10 @@ class Esgst {
           url: `https://astats.astats.nl/astats/User_Info.php?steamID64=%steamid%`
         },
         {
+          label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/41/41d0a0ca20c6b460c10e03c6ff8ef23bc6bb7f9d_full.jpg`,
+          url: `https://barter.vg/steam/%steamid%`
+        },
+        {
           label: `SteamRep`,
           url: `https://steamrep.com/profiles/%steamid%`
         }
