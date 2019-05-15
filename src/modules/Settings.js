@@ -24,13 +24,12 @@ class Settings {
       const feature = shared.esgst.featuresById[id];
       if (feature) {
         if (typeof value === `object`) {
+          gSettings.full[key] = value;
           this.toSave[key] = value;
-          gSettings.full[key] = gSettings[key] = value;
         } else {
           const setting = gSettings.full[key] || shared.common.getFeaturePath(null, id, namespace);
-          setting.enabled = value;
+          setting.enabled = value ? 1 : 0;
           this.toSave[key] = setting;
-          gSettings[key] = setting;
         }
         return;
       }
@@ -408,14 +407,14 @@ class Settings {
     }];
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {
-      const value = gSettings[`${id}_sg`] || (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, `sg`)).enabled;
+      const value = (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, `sg`)).enabled;
       sgContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = gSettings[`${conflictId}_sg`];
+            const setting = gSettings.full[`${conflictId}_sg`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgSwitch.disable(true);
               new Popup({
@@ -463,14 +462,14 @@ class Settings {
       };
     }
     if (feature.st && (gSettings.esgst_st || id === `esgst`)) {
-      const value = gSettings[`${id}_st`] || (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, `st`)).enabled;
+      const value = (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, `st`)).enabled;
       stContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
       feature.stFeatureSwitch = stSwitch;
       stSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = gSettings[`${conflictId}_st`];
+            const setting = gSettings.full[`${conflictId}_st`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               stSwitch.disable(true);
               new Popup({
@@ -518,14 +517,14 @@ class Settings {
       };
     }
     if (feature.sgtools && (gSettings.esgst_sgtools || id === `esgst`)) {
-      const value = gSettings[`${id}_sgtools`] || (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, `sgtools`)).enabled;
+      const value = (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, `sgtools`)).enabled;
       sgtoolsContext = shared.common.createElements_v2([[`div`]]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
       feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
       sgtoolsSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = gSettings[`${conflictId}_sgtools`];
+            const setting = gSettings.full[`${conflictId}_sgtools`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgtoolsSwitch.disable(true);
               new Popup({
@@ -1250,7 +1249,7 @@ class Settings {
     let sgContext, stContext, sgtoolsContext;
     let collapseButton, isExpanded, subMenu;
     if (feature.sg) {
-      const value = gSettings[`${id}_sg`] || (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, `sg`)).enabled;
+      const value = (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, `sg`)).enabled;
       if (value) {
         isHidden = false;
       }
@@ -1260,7 +1259,7 @@ class Settings {
       sgSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = gSettings[`${conflictId}_sg`];
+            const setting = gSettings.full[`${conflictId}_sg`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgSwitch.disable(true);
               new Popup({
@@ -1311,7 +1310,7 @@ class Settings {
       };
     }
     if (feature.st && (gSettings.esgst_st || id === `esgst`)) {
-      const value = gSettings[`${id}_st`] || (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, `st`)).enabled;
+      const value = (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, `st`)).enabled;
       if (value) {
         isHidden = false;
       }
@@ -1321,7 +1320,7 @@ class Settings {
       stSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = gSettings[`${conflictId}_st`];
+            const setting = gSettings.full[`${conflictId}_st`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               stSwitch.disable(true);
               new Popup({
@@ -1372,7 +1371,7 @@ class Settings {
       };
     }
     if (feature.sgtools && (gSettings.esgst_sgtools || id === `esgst`)) {
-      const value = gSettings[`${id}_sgtools`] || (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, `sgtools`)).enabled;
+      const value = (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, `sgtools`)).enabled;
       if (value) {
         isHidden = false;
       }
@@ -1382,7 +1381,7 @@ class Settings {
       sgtoolsSwitch.onEnabled = () => {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = gSettings[`${conflictId}_sgtools`];
+            const setting = gSettings.full[`${conflictId}_sgtools`];
             if ((typeof setting === `object` && setting.enabled) || setting) {
               sgtoolsSwitch.disable(true);
               new Popup({

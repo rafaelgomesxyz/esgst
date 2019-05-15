@@ -1782,9 +1782,23 @@ class Common extends Module {
       if (shared.esgst.featuresById.hasOwnProperty(id)) {
         const feature = shared.esgst.featuresById[id];
         this.dismissFeature(feature, id);
-        const result = this.getFeatureSetting(feature, id, shared.esgst.name);
-        gSettings[`${id}_${shared.esgst.name}`] = gSettings[id] = result.current;
-        gSettings.full[id] = result.full;
+        if (feature.sg) {
+          const result = this.getFeatureSetting(feature, id, `sg`);
+          gSettings[`${id}_sg`] = result.current;
+          gSettings.full[`${id}_sg`] = result.full;
+        }
+        if (feature.st) {
+          const result = this.getFeatureSetting(feature, id, `st`);
+          gSettings[`${id}_st`] = result.current;
+          gSettings.full[`${id}_st`] = result.full;
+        }
+        if (feature.sgtools) {
+          const result = this.getFeatureSetting(feature, id, `sgtools`);
+          gSettings[`${id}_sgtools`] = result.current;
+          gSettings.full[`${id}_sgtools`] = result.full;
+        }
+        gSettings[id] = gSettings[`${id}_${shared.esgst.name}`];
+        gSettings.full[id] = gSettings.full[`${id}_${shared.esgst.name}`];
       }
     }
   }
