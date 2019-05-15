@@ -1,3 +1,4 @@
+import { shared } from './class/Shared';
 import { utils } from './lib/jsUtils';
 
 let _browser = null;
@@ -6,8 +7,213 @@ let _browser = null;
 if (typeof browser !== `undefined`) {
   // @ts-ignore
   _browser = browser;
+// @ts-ignore
+} else if (typeof GM !== `undefined` || typeof GM_info !== `undefined`) {
+  _browser = {
+    gm: null,
+    runtime: {
+      onMessage: {
+        addListener: callback => _browser.gm.listener = callback
+      },
+      getBrowserInfo: () => Promise.resolve({ name: `userscript` }),
+      getManifest: () => Promise.resolve(_browser.gm.info.script),
+      sendMessage: obj => {
+        return new Promise(async resolve => {
+          switch (obj.action) {            
+            case `permissions_contains`:
+              resolve(true);
+              break;
+            case `permissions_request`:
+              resolve(true);
+              break;
+            case `permissions_remove`:
+              resolve();
+              break;
+            case `getBrowserInfo`: {
+              const browserInfo = await _browser.runtime.getBrowserInfo();
+              resolve(JSON.stringify(browserInfo));
+              break;
+            }
+            case `do_lock`: {
+              const lock = JSON.parse(obj.lock);
+              await _browser.gm.doLock(lock);
+              resolve();
+              break;
+            }
+            case `update_lock`: {
+              const lock = JSON.parse(obj.lock);
+              const locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
+              if (locked.uuid === lock.uuid) {
+                locked.timestamp = Date.now();
+                await _browser.gm.setValue(lock.key, JSON.stringify(locked));
+              }
+              resolve();
+              break;
+            }
+            case `do_unlock`: {
+              const lock = JSON.parse(obj.lock);
+              await _browser.gm.setValue(lock.key, `{}`);
+              resolve();
+              break;
+            }
+            case `delValues`: {
+              const keys = JSON.parse(obj.keys);
+              const promises = [];
+              for (const key of keys) {
+                promises.push(_browser.gm.deleteValue(key));
+              }
+              await Promise.all(promises);
+              await _browser.gm.setValue(`delValuesTemp`, obj.values);
+              resolve();
+              break;
+            }
+            case `fetch`: {
+              const parameters = JSON.parse(obj.parameters);
+              if (parameters.credentials === `omit`) {
+                parameters.headers.Cookie = ``;
+              }
+              _browser.gm.xmlHttpRequest({
+                binary: !!obj.fileName,
+                data: obj.fileName
+                  ? await shared.common.getZip(parameters.body, obj.fileName, `binarystring`)
+                  : parameters.body,
+                headers: parameters.headers,
+                method: parameters.method,
+                overrideMimeType: obj.blob ? `text/plain; charset=x-user-defined` : ``,
+                url: obj.url,
+                onload: async response => {
+                  if (obj.blob) {
+                    response.responseText = (await shared.common.readZip(response.responseText))[0].value;
+                  }
+                  resolve(response);
+                },
+                onerror: response => resolve({ error: response.responseText })
+              });
+              break;
+            }
+            case `getStorage`: {
+              const keys = await _browser.gm.listValues();
+              const promises = [];
+              const storage = {};
+              for (const key of keys) {
+                const promise = _browser.gm.getValue(key);
+                promise.then(value => storage[key] = value);
+                promises.push(promise);
+              }
+              await Promise.all(promises);
+              resolve(JSON.stringify(storage));
+              break;
+            }
+            case `setValues`: {
+              const values = JSON.parse(obj.values);
+              const promises = [];
+              for (const key in values) {
+                if (values.hasOwnProperty(key)) {
+                  promises.push(_browser.gm.setValue(key, values[key]));
+                }
+              }
+              await Promise.all(promises);
+              await _browser.gm.setValue(`setValuesTemp`, obj.values);
+              resolve();
+              break;
+            }
+          }
+        });
+      }
+    }
+  };
+  // @ts-ignore
+  if (typeof GM === `undefined`) {
+    // polyfill for userscript managers that do not support the gm-dot api
+    _browser.gm = {
+      // @ts-ignore
+      addValueChangeListener: GM_addValueChangeListener,
+      // @ts-ignore
+      deleteValue: GM_deleteValue,
+      // @ts-ignore
+      getValue: GM_getValue,
+      // @ts-ignore
+      info: GM_info,
+      // @ts-ignore
+      listValues: GM_listValues,
+      // @ts-ignore
+      setValue: GM_setValue,
+      // @ts-ignore
+      xmlHttpRequest: GM_xmlhttpRequest
+    };
+    for (const key in _browser.gm) {
+      const old = _browser.gm[key];
+      _browser.gm[key] = (...args) =>
+        new Promise((resolve, reject) => {
+          try {
+            resolve(old.apply(this, args));
+          } catch (e) {
+            reject(e);
+          }
+        });
+    }
+  } else {
+    // @ts-ignore
+    _browser.gm = GM;
+  }  
+  if (!_browser.gm.addValueChangeListener) {
+    _browser.gm.hasValueChanged = async (key, oldValue, callback) => {
+      const newValue = await _browser.gm.getValue(key);
+      if (newValue !== oldValue) {
+        callback(key, oldValue, newValue, true);
+        oldValue = newValue;
+      }
+      window.setTimeout(_browser.gm.hasValueChanged, 5000, key, oldValue, callback);
+    };
+    _browser.gm.addValueChangeListener = async (key, callback) => {
+      const oldValue = await _browser.gm.getValue(key);
+      _browser.gm.hasValueChanged(key, oldValue, callback);
+    };
+  }
+  _browser.gm.addValueChangeListener(`delValuesTemp`, async (name, oldValue, newValue, remote) => {
+    if (remote) {
+      if (newValue && newValue !== `undefined`) {
+        _browser.gm.listener(JSON.stringify({
+          action: `delValues`,
+          values: JSON.parse(newValue)
+        }));
+      }
+    } else {
+      await _browser.gm.deleteValue(`setValuesTemp`);
+    }
+  });
+  _browser.gm.addValueChangeListener(`setValuesTemp`, async (name, oldValue, newValue, remote) => {
+    if (remote) {
+      if (newValue && newValue !== `undefined`) {
+        _browser.gm.listener(JSON.stringify({
+          action: `setValues`,
+          values: JSON.parse(newValue)
+        }));
+      }
+    } else {
+      await _browser.gm.deleteValue(`setValuesTemp`);
+    }
+  });
+  _browser.gm.doLock = async (lock) => {
+    let locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
+    if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 15000)) {
+      await _browser.gm.setValue(lock.key, JSON.stringify({
+        timestamp: Date.now(),
+        uuid: lock.uuid
+      }));
+      await shared.common.timeout(lock.threshold / 2);
+      locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
+      if (!locked || locked.uuid !== lock.uuid) {
+        return _browser.gm.doLock(lock);
+      }
+    } else {
+      await shared.common.timeout(lock.threshold / 3);
+      return _browser.gm.doLock(lock);
+    }
+  };
 } else if (typeof self !== `undefined`) {
   _browser = {
+    gm: null,
     runtime: {
       onMessage: {
         addListener: callback => {

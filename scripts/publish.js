@@ -220,6 +220,11 @@ function publishVersion() {
 
     const commitMessage = `v${packageJson.version}`;
 
+    let userscriptMeta = fs.readFileSync(`${ROOT_PATH}/ESGST.meta.js`, `utf8`);
+    userscriptMeta = userscriptMeta
+      .replace(/@version.+/, `@version ${packageJson.version}`);
+    fs.writeFileSync(`${ROOT_PATH}/ESGST.meta.js`, userscriptMeta);
+
     fs.writeFileSync(`${ROOT_PATH}/package.json`, JSON.stringify(packageJson, null, 2));
     
     if (!args.doNotAdd) {

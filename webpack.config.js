@@ -60,7 +60,8 @@ function getBuildEntries(env) {
     './build/firefox/permissions': [`./src/entry/permissions_index.js`],
     './build/palemoon/index': [`./src/entry/eventPage_sdk_index.js`],
     './build/palemoon/data/esgst': [`./src/entry/index.js`],
-    './build/palemoon/data/esgst_sgtools': [`./src/entry/index_sgtools.js`]
+    './build/palemoon/data/esgst_sgtools': [`./src/entry/index_sgtools.js`],
+    './build/userscript/ESGST.user': ['./src/entry/index.js']
   };
 }
 
@@ -268,6 +269,20 @@ module.exports = /** @param {Environment} env */ async env => {
       new plugins.clean([
         `./build`
       ]),
+      // @ts-ignore
+      new plugins.banner({
+        raw: true,
+        entryOnly: true,
+        test: /user\.js$/,
+        banner: () => {
+          let bannerFile = path.join(__dirname, './src/entry/monkey_banner.js');
+          if (!fs.existsSync(bannerFile)) {
+            return '';
+          }
+
+          return calfinated.process(fs.readFileSync(bannerFile, 'utf8'), {package: packageJson});
+        }
+      }),
       new plugins.banner({
         banner: fs.readFileSync(path.join(__dirname, `./src/entry/eventPage_sdk_banner.js`), `utf8`),
         entryOnly: true,

@@ -158,6 +158,7 @@ class GeneralHeaderRefresher extends Module {
               st: true
             }
           },
+          extensionOnly: true,
           name: `When clicking on a browser notification, check if the related page is open and set it as active.`,
           sg: true,
           st: true
