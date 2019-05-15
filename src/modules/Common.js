@@ -859,6 +859,7 @@ class Common extends Module {
                 [`li`, `When a browser session is restored, you have to activate a tab so that it can be loaded. With this option enabled, ESGST automatically activates the first SG/ST tab open so that the extension can be injected immediately.`]
               ]]
             ],
+            extensionOnly: true,
             name: `Activate the first SG/ST tab if a browser session was restored.`,
             sg: true,
             st: true
@@ -871,6 +872,7 @@ class Common extends Module {
                 [`li`, `If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the manipulation occurs. Basically what happens is: the default cookies are backed up and replaced by the container cookies while the request is being made, and after the request is done the default cookies are restored. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`]
               ]]
             ],
+            extensionOnly: true,
             name: `Allow ESGST to manipulate your cookies when using Firefox containers.`,
             sg: true,
             st: true,
@@ -5735,7 +5737,9 @@ class Common extends Module {
           }),
           url: details.url
         }).then(response => {
-          response = JSON.parse(response);
+          if (typeof response === `string`) {
+            response = JSON.parse(response);
+          }
           if (utils.isSet(response.error)) {
             reject(response);
             return;

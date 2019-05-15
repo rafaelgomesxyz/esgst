@@ -8,6 +8,7 @@ import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { Table } from '../class/Table';
+import { browser } from '../browser';
 
 class Settings {
   constructor() {
@@ -371,6 +372,35 @@ class Settings {
     }
   }
 
+  showExtensionOnlyPopup() {
+    new Popup({
+      addScrollable: true,
+      icon: `fa-exclamation`,
+      isTemp: true,
+      title: [
+        `This feature is only available in the extension version of ESGST. Please upgrade to the extension to use it. Below are the links for it:`,
+        [`br`],
+        [`br`],
+        [`a`, { href: `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna` }, `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`],
+        [`br`],
+        [`br`],
+        [`a`, { href: `https://addons.mozilla.org/en-US/firefox/addon/esgst/` }, `https://addons.mozilla.org/en-US/firefox/addon/esgst/`],
+        [`br`],
+        [`br`],
+        [`a`, { href: `http://addons.palemoon.org/addon/esgst/` }, `http://addons.palemoon.org/addon/esgst/`],
+        [`br`],
+        [`br`],
+        `To transfer your data from the userscript to the extension, backup your data in the backup menu of the userscript, then disable the userscript, install the extension and restore your data in the restore menu of the extension. Below are the links to the backup/restore pages:`,
+        [`br`],
+        [`br`],
+        [`a`, { href: `https://www.steamgifts.com/account/settings/profile?esgst=backup` }, `https://www.steamgifts.com/account/settings/profile?esgst=backup`],
+        [`br`],
+        [`br`],
+        [`a`, { href: `https://www.steamgifts.com/account/settings/profile?esgst=restore` }, `https://www.steamgifts.com/account/settings/profile?esgst=restore`]
+      ]
+    }).open();
+  }
+
   loadFeatureDetails(id, offset, event) {
     if (!offset) {
       offset = 0;
@@ -412,6 +442,11 @@ class Settings {
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `SteamGifts` : ``, true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
+        if (feature.extensionOnly && browser.gm) {
+          sgSwitch.disable(true);
+          this.showExtensionOnlyPopup();
+          return;
+        }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sg`];
@@ -467,6 +502,11 @@ class Settings {
       const stSwitch = new ToggleSwitch(stContext, null, true, `SteamTrades`, false, true, null, value);
       feature.stFeatureSwitch = stSwitch;
       stSwitch.onEnabled = () => {
+        if (feature.extensionOnly && browser.gm) {
+          stSwitch.disable(true);
+          this.showExtensionOnlyPopup();
+          return;
+        }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_st`];
@@ -522,6 +562,11 @@ class Settings {
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `SGTools`, true, false, null, value);
       feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
       sgtoolsSwitch.onEnabled = () => {
+        if (feature.extensionOnly && browser.gm) {
+          sgtoolsSwitch.disable(true);
+          this.showExtensionOnlyPopup();
+          return;
+        }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sgtools`];
@@ -1258,6 +1303,11 @@ class Settings {
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `[SG]` : ``, true, false, null, value);
       feature.sgSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
+        if (feature.extensionOnly && browser.gm) {
+          sgSwitch.disable(true);
+          this.showExtensionOnlyPopup();
+          return;
+        }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sg`];
@@ -1319,6 +1369,11 @@ class Settings {
       const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
       feature.stSwitch = stSwitch;
       stSwitch.onEnabled = () => {
+        if (feature.extensionOnly && browser.gm) {
+          stSwitch.disable(true);
+          this.showExtensionOnlyPopup();
+          return;
+        }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_st`];
@@ -1380,6 +1435,11 @@ class Settings {
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `[SGT]`, false, true, null, value);
       feature.sgtoolsSwitch = sgtoolsSwitch;
       sgtoolsSwitch.onEnabled = () => {
+        if (feature.extensionOnly && browser.gm) {
+          sgtoolsSwitch.disable(true);
+          this.showExtensionOnlyPopup();
+          return;
+        }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sgtools`];
