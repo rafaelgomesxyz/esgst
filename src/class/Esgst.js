@@ -687,8 +687,8 @@ class Esgst {
       gas_autoPopup: false,
       gas_optionPopup: `sortIndex_asc`,
       gb_hours: 1,
-      gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
-      gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+      gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_ocv`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+      gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_ocv`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
       gc_o_altAccounts: [],
       gc_g_colors: [],
       gc_g_filters: ``,
@@ -697,6 +697,7 @@ class Esgst {
         {bgColor: `#b9a074`, color: `#ffffff`, icon: `minus-circle`, lower: 40, upper: 69},
         {bgColor: `#66c0f4`, color: `#ffffff`, icon: `thumbs-up`, lower: 70, upper: 100}
       ],
+      gc_ocvIcon: `history`,
       gc_fcvIcon: `calendar`,
       gc_rcvIcon: `calendar-minus-o`,
       gc_ncvIcon: `calendar-times-o`,
@@ -721,6 +722,7 @@ class Esgst {
       gc_dlcIcon: `download`,
       gc_pIcon: `suitcase`,
       gc_rdIcon: `clock-o`,
+      gc_ocvLabel: `Was `,
       gc_fcvLabel: `Full CV`,
       gc_rcvLabel: `Reduced CV`,
       gc_ncvLabel: `No CV`,
@@ -748,6 +750,7 @@ class Esgst {
       gc_h_color: `#ffffff`,
       gc_hltb_color: `#ffffff`,
       gc_gi_color: `#ffffff`,
+      gc_ocv_color: `#ffffff`,
       gc_fcv_color: `#ffffff`,
       gc_rcv_color: `#ffffff`,
       gc_ncv_color: `#ffffff`,
@@ -775,6 +778,7 @@ class Esgst {
       gc_h_bgColor: `#e74c3c`,
       gc_hltb_bgColor: `#328ed6`,
       gc_gi_bgColor: `#555555`,
+      gc_ocv_bgColor: `#641e16`,
       gc_fcv_bgColor: `#641e16`,
       gc_rcv_bgColor: `#641e16`,
       gc_ncv_bgColor: `#641e16`,
@@ -1200,7 +1204,7 @@ class Esgst {
 
     this.cfPopup = null;
 
-    this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
+    this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_ocv`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
 
     this.pointsPlayer = null;
 
