@@ -685,6 +685,36 @@ class GamesGameCategories extends Module {
           name: `Owned`,
           sg: true
         },
+        gc_ocv: {
+          colors: true,
+          description: [
+            [`ul`, [
+              [`li`, `Shows the original CV state of a game when it was given away for giveaways.`],
+              [`li`, `This feature borrows labels / icons from Full CV, Reduced CV and No CV categories, with the addition of its own label / icon (a clock by default).`]
+            ]]
+          ],
+          features: {
+            gc_ocv_s: {
+              description: [
+                [`ul`, [
+                  [`li`, `Shows the category initials instead of its full name.`],
+                  [`li`, `Not compatible with custom labels.`]
+                ]]
+              ],
+              features: {
+                gc_ocv_s_i: {
+                  name: `Use icons instead of initials.`,
+                  sg: true
+                }
+              },
+              name: `Enable the simplified version.`,
+              sg: true
+            }
+          },
+          input: true,
+          name: `Original CV`,
+          sg: true
+        },
         gc_p: {
           colors: true,
           description: [
@@ -1412,6 +1442,7 @@ class GamesGameCategories extends Module {
       }]);
     }
     const categoryNames = {
+      gc_ocv: `originalCV`,
       gc_fcv: `fullCV`,
       gc_rcv: `reducedCV`,
       gc_ncv: `noCV`,
@@ -3200,6 +3231,49 @@ class GamesGameCategories extends Module {
         if (gSettings.gc_il && !shared.esgst.giveawayPath) {
           panel.previousElementSibling.style.display = `inline-block`;
           panel.classList.add(`esgst-gc-panel-inline`);
+        }
+        if (gSettings.gc_ocv && games[i].startTime) {
+          const reducedCV = (savedGame && savedGame.reducedCV && new Date(savedGame.reducedCV).getTime()) || 0;
+          const noCV = (savedGame && savedGame.noCV && new Date(savedGame.noCV).getTime()) || 0;
+          if (reducedCV || noCV) {
+            let original = null;
+            if (games[i].startTime < reducedCV) {
+              original = {
+                id: `fcv`,
+                initials: `FCV`,
+                name: `Full CV`
+              };
+            } else if (games[i].startTime >= reducedCV && games[i].startTime < noCV) {
+              original = {
+                id: `rcv`,
+                initials: `RCV`,
+                name: `Reduced CV`
+              };
+            }
+            if (original) {
+              elements.push({
+                attributes: {
+                  class: `esgst-gc esgst-gc-originalCV`,
+                  [`data-draggable-id`]: `gc_ocv`,
+                  href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
+                  title: getFeatureTooltip(`gc_ocv`, `Was ${original.name} when it was given away`)
+                },
+                text: gSettings.gc_ocv_s ? (gSettings.gc_ocv_s_i ? `` : `W${original.initials}`) : `${gSettings.gc_ocvLabel}${original.name}`,
+                type: `a`,
+                children: gSettings.gc_ocv_s && gSettings.gc_ocv_s_i ? [{
+                  attributes: {
+                    class: `fa fa-${gSettings.gc_ocvIcon}`
+                  },
+                  type: `i`
+                }, {
+                  attributes: {
+                    class: `fa fa-${gSettings[`gc_${original.id}Icon`]}`
+                  },
+                  type: `i`
+                }] : null
+              });
+            }
+          }
         }
         createElements(panel, `inner`, elements);
         if (isInstant || isOutdated) {

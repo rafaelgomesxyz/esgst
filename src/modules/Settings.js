@@ -678,6 +678,7 @@ class Settings {
       key: `gcPanel`,
       name: `Game Categories`,
       labels: {
+        gc_ocv: `Original CV`,
         gc_fcv: `Full CV`,
         gc_rcv: `Reduced CV`,
         gc_ncv: `No CV`,
