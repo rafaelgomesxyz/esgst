@@ -689,8 +689,8 @@ class GamesGameCategories extends Module {
           colors: true,
           description: [
             [`ul`, [
-              [`li`, `Shows the original CV state of a game when it was given away for giveaways.`],
-              [`li`, `This feature borrows labels / icons from Full CV, Reduced CV and No CV categories, with the addition of its own label / icon (a clock by default).`]
+              [`li`, `Shows the original CV state of a game when it was given away.`],
+              [`li`, `This category borrows labels / icons from the Full CV, Reduced CV and No CV categories, and adds its own label / icon before the borrowed ones to differentiate them.`]
             ]]
           ],
           features: {
@@ -3236,19 +3236,11 @@ class GamesGameCategories extends Module {
           const reducedCV = (savedGame && savedGame.reducedCV && new Date(savedGame.reducedCV).getTime()) || 0;
           const noCV = (savedGame && savedGame.noCV && new Date(savedGame.noCV).getTime()) || 0;
           if (reducedCV || noCV) {
-            let original = null;
+            let original = ``;
             if (games[i].startTime < reducedCV) {
-              original = {
-                id: `fcv`,
-                initials: `FCV`,
-                name: `Full CV`
-              };
+              original = `fcv`;
             } else if (games[i].startTime >= reducedCV && games[i].startTime < noCV) {
-              original = {
-                id: `rcv`,
-                initials: `RCV`,
-                name: `Reduced CV`
-              };
+              original = `rcv`;
             }
             if (original) {
               elements.push({
@@ -3256,9 +3248,9 @@ class GamesGameCategories extends Module {
                   class: `esgst-gc esgst-gc-originalCV`,
                   [`data-draggable-id`]: `gc_ocv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
-                  title: getFeatureTooltip(`gc_ocv`, `Was ${original.name} when it was given away`)
+                  title: getFeatureTooltip(`gc_ocv`, `Was ${gSettings[`gc_${original}Label`]} when it was given away`)
                 },
-                text: gSettings.gc_ocv_s ? (gSettings.gc_ocv_s_i ? `` : `W${original.initials}`) : `${gSettings.gc_ocvLabel}${original.name}`,
+                text: gSettings.gc_ocv_s ? (gSettings.gc_ocv_s_i ? `` : `W${original.toUpperCase()}`) : `${gSettings.gc_ocvLabel}${gSettings[`gc_${original}Label`]}`,
                 type: `a`,
                 children: gSettings.gc_ocv_s && gSettings.gc_ocv_s_i ? [{
                   attributes: {
@@ -3267,7 +3259,7 @@ class GamesGameCategories extends Module {
                   type: `i`
                 }, {
                   attributes: {
-                    class: `fa fa-${gSettings[`gc_${original.id}Icon`]}`
+                    class: `fa fa-${gSettings[`gc_${original}Icon`]}`
                   },
                   type: `i`
                 }] : null
