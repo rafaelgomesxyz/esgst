@@ -67,6 +67,7 @@ function getBuildEntries(env) {
   } else {
     buildEntries[`./build/userscript/ESGST.user`] = [`./src/entry/index.js`];
   }
+  return buildEntries;
 }
 
 function getCreateFileOptions(env) {
