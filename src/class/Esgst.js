@@ -256,6 +256,8 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      npth_previousRegex: `back|last|less|prev|<|←`,
+      npth_nextRegex: `forw|more|next|onwards|►|>|→`,
       permissionsDenied: [],
       egh_c_sg: true,
       cewgd_c_sg: true,

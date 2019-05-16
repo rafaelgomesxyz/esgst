@@ -30,6 +30,14 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
           event: `keydown`,
           id: `npth_nextKey`,
           prefix: `Enter the key you want to use for next links: `
+        },
+        {
+          id: `npth_previousRegex`,
+          prefix: `Enter the regex you want to use to detect previous links: `
+        },
+        {
+          id: `npth_nextRegex`,
+          prefix: `Enter the regex you want to use to detect next links: `
         }
       ],
       sg: true,
@@ -38,6 +46,8 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
   }
 
   init() {
+    const previousRegex = new RegExp(gSettings.npth_previousRegex);
+    const nextRegex = new RegExp(gSettings.npth_nextRegex);
     let description, element, elements, i, n, next, previous, text;
     if (this.esgst.giveawayCommentsPath) {
       description = document.getElementsByClassName(`page__description`)[0];
@@ -47,9 +57,9 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
         for (i = 0; i < n && (!previous || !next); ++i) {
           element = elements[i];
           text = element.textContent.toLowerCase();
-          if (!previous && text.match(/back|last|less|prev|<|←/)) {
+          if (!previous && text.match(previousRegex)) {
             previous = element;
-          } else if (!next && text.match(/forw|more|next|>|→/)) {
+          } else if (!next && text.match(nextRegex)) {
             next = element;
           }
         }
