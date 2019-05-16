@@ -102,7 +102,11 @@ class Giveaways extends Module {
         keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`, `banned`, `removed`];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
-          if (this.esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+          if (key === `banned` && shared.esgst.delistedGames.banned.indexOf(parseInt(giveaway.id)) > -1) {
+            giveaway[key] = true;
+          } else if (key === `removed` && (shared.esgst.delistedGames.removed.indexOf(parseInt(giveaway.id)) > -1 || shared.esgst.games[giveaway.type][giveaway.id].removed)) {
+            giveaway[key] = true;
+          } else if (shared.esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
             giveaway[key] = true;
           }
         }

@@ -218,7 +218,11 @@ class Games extends Module {
       if (this.esgst.games && this.esgst.games[x.type][x.id]) {
         const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`, `banned`, `removed`];
         for (const key of keys) {
-          if (this.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+          if (key === `banned` && shared.esgst.delistedGames.banned.indexOf(parseInt(x.id)) > -1) {
+            x[key] = true;
+          } else if (key === `removed` && (shared.esgst.delistedGames.removed.indexOf(parseInt(x.id)) > -1 || shared.esgst.games[x.type][x.id].removed)) {
+            x[key] = true;
+          } else if (shared.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
             x[key] = true;
           }
         }

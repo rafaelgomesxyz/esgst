@@ -1159,13 +1159,11 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `boolean`
       },
       removed: {
-        category: `gc_rm`,
         check: true,
         name: `Removed`,
         type: `boolean`
       },
       banned: {
-        category: `gc_bd`,
         check: true,
         name: `Banned`,
         type: `boolean`
