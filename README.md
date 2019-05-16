@@ -1,6 +1,6 @@
 # Enhanced SteamGifts & SteamTrades (ESGST)
 
-A WebExtension that adds some cool features to SteamGifts and SteamTrades.
+An extension / userscript that adds some cool features to SteamGifts and SteamTrades.
 
 If you find any bugs or have any feature requests, please file an issue [here](https://github.com/gsrafael01/ESGST/issues).
 
@@ -27,6 +27,10 @@ Not supported:
 
 ## Installation
 
+There are two different ways to use ESGST: extension or userscript. You can choose which one you want to use, but the extension is a lot faster and has a better peformance than the userscript, so I recommend it, although there is no major difference between them, except for a few options that are only available in the extension because of limitations in the userscript.
+
+### Option 1 - Extension
+
 <a href="https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna/">
   <img src="https://raw.githubusercontent.com/gsrafael01/ESGST/master/chrome_badge.png" alt="Chrome">
 </a>
@@ -37,7 +41,15 @@ Not supported:
   <img src="https://raw.githubusercontent.com/gsrafael01/ESGST/master/pale_moon_badge.png" alt="Pale Moon">
 </a>
 
-It should be possible to install the extension in any Chromium-based browser from the Chrome store (such as Opera, Vivaldi, etc...).
+It should be possible to install the extension in any Chromium-based browser from the Chrome store (such as Opera, Vivaldi, etc...), any Firefox-based browser from the Firefox store (such as Waterfox, etc...), and any browser that uses the Phoebus system from the Pale Moon store (such as Basilik, etc...).
+
+You can also use the extension on Android through Firefox for Android, but some features might not work or not be optimized enough for mobile.
+
+### Option 2 - Userscript
+
+To install the userscript, you must install [Tampermonkey](https://tampermonkey.net/), [Greasemonkey](http://www.greasespot.net/) or some other userscript manager first. Then [click here](https://github.com/gsrafael01/ESGST/raw/master/ESGST.user.js) and you should be prompted to install it. I recommend Tampermonkey, because the userscript uses the GM_addValueChangeListener API to communicate changes in the storage between tabs, and that API is not available on Greasemonkey, so a polyfill is used for Greasemonkey, which is not very effective and can affect the performance.
+
+You can also use the userscript on Android through Firefox with Violentmonkey or USI, but some features might not work or not be optimized enough for mobile.
 
 * [Changelog](https://raw.githubusercontent.com/gsrafael01/ESGST/master/changelog.json)
 
