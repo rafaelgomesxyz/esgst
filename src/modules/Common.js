@@ -631,7 +631,7 @@ class Common extends Module {
           };
           found  = true;
         }
-      } else if (!this.esgst.games[info.type][info.id] || utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
+      } else if (this.esgst.games[info.type][info.id] && utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
         games[info.type][info.id] = {
           name: element.getElementsByClassName(`table__column__heading`)[0].firstChild.textContent.trim(),
           effective_date: null
@@ -676,7 +676,7 @@ class Common extends Module {
     this.createElements(this.noCvButton, `inner`, [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`,
-        title: `Updating database...`
+        title: `Updating database (${Object.keys(games.apps).map(x => `${games.apps[x].effective_date ? `add` : `remove`} app ${x}`).join(`, `)}${Object.keys(games.subs).map(x => `${games.subs[x].effective_date ? `add` : `remove`} subs ${x}`).join(`, `)})...`
       },
       type: `i`
     }]);
@@ -703,7 +703,7 @@ class Common extends Module {
     this.createElements(this.noCvButton, `inner`, [{
       attributes: {
         class: `fa fa-check-circle esgst-green`,
-        title: `Database updated!`
+        title: `Database updated! (${Object.keys(games.apps).map(x => `${games.apps[x].noCV ? `added` : `removed`} app ${x}`).join(`, `)}${Object.keys(games.subs).map(x => `${games.subs[x].noCV ? `added` : `removed`} subs ${x}`).join(`, `)})`
       },
       type: `i`
     }]);
