@@ -310,6 +310,10 @@ class Esgst {
       vgb_sentFormat: `([FCV] FCV / [RCV] RCV / [NCV] NCV / [A] A / [NR] NR)`,
       ul_links: [
         {
+          label: `https://cdn.steamtrades.com/img/favicon.ico`,
+          url: `https://www.steamtrades.com/user/%steamid%`
+        },
+        {
           label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/79/7967e1ee4973a92886fe737d90f0a0b20b6f94a1_full.jpg`,
           url: `https://www.backlog-assassins.net/users/+%steamid%`
         },
