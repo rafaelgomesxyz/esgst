@@ -2509,7 +2509,7 @@ class Common extends Module {
         if (!info) {
           continue;
         }
-        to_save[info.type][info.id] = { won: 1 };
+        to_save[info.type][info.id] = { won: parseInt(element.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3 };
       }
       nextPage += 1;
       pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
