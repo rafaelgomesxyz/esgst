@@ -20,6 +20,7 @@ class Filters extends Module {
   constructor(id) {
     super();
     this.id = id;
+    this.isProgrammaticChange = false;
   }
 
   getFilters(popup) {}
@@ -774,40 +775,28 @@ class Filters extends Module {
       obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
         const group = event.currentTarget.closest(`.rules-group-container`);
         group.setAttribute(`data-esgst-paused`, true);
-        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
-        this.filters_filter(obj);
+        this.onRulesChanged(obj, {});
       });
       obj.builder.$el.on(`click.queryBuilder`, `[data-resume=group]`, event => {
         const group = event.currentTarget.closest(`.rules-group-container`);
         group.removeAttribute(`data-esgst-paused`);
-        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
-        this.filters_filter(obj);
+        this.onRulesChanged(obj, {});
       });
       obj.builder.$el.on(`click.queryBuilder`, `[data-pause=rule]`, event => {
         const rule = event.currentTarget.closest(`.rule-container`);
         rule.setAttribute(`data-esgst-paused`, true);
-        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
-        this.filters_filter(obj);
+        this.onRulesChanged(obj, {});
       });
       obj.builder.$el.on(`click.queryBuilder`, `[data-resume=rule]`, event => {
         const rule = event.currentTarget.closest(`.rule-container`);
         rule.removeAttribute(`data-esgst-paused`);
-        [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
-        this.filters_filter(obj);
+        this.onRulesChanged(obj, {});
       });
 
       obj.builder.on(`rulesChanged.queryBuilder`, () => {
-        try {
-          [obj.rules, obj.rules_save] = this.filters_changeRules(obj, {});
-          if (!obj.basicApplied && !gSettings[`${obj.id}_m_b`]) {
-            this.filters_resetBasic(obj);
-            this.filters_applyBasic(obj, obj.rules);
-          }
-          this.filters_filter(obj);
-        } catch (e) {
-          window.console.log(e);
+        if (!this.isProgrammaticChange) {
+          this.onRulesChanged(obj, {});
         }
-        obj.basicApplied = false;
       });
       obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(this, obj));
     }
@@ -945,6 +934,20 @@ class Filters extends Module {
     }
 
     return headingButton;
+  }
+
+  onRulesChanged(obj, event) {
+    try {
+      [obj.rules, obj.rules_save] = this.filters_changeRules(obj, event);
+      if (!obj.basicApplied && !gSettings[`${obj.id}_m_b`]) {
+        this.filters_resetBasic(obj);
+        this.filters_applyBasic(obj, obj.rules);
+      }
+      this.filters_filter(obj);
+    } catch (e) {
+      window.console.log(e);
+    }
+    obj.basicApplied = false;
   }
 
   filter_manual(obj) {
@@ -1322,6 +1325,24 @@ class Filters extends Module {
         if (!rule.operator || rule.operator.nb_inputs !== 0) {
           value = rule.value;
         }
+        const ruleData = {
+          data: rule.data,
+          id: rule.filter ? rule.filter.id : null,
+          field: rule.filter ? rule.filter.field : null,
+          type: rule.filter ? rule.filter.type : null,
+          input: rule.filter ? rule.filter.input : null,
+          operator: rule.operator ? rule.operator.type : null,
+          value: value
+        };
+        if (groupData.condition === `AND`) {
+          if (!ruleData.data) {
+            ruleData.data = {};
+          }
+          ruleData.data.count = rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0];
+          ruleData.data.count.classList.remove(`esgst-hidden`);
+        } else {
+          rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0].classList.add(`esgst-hidden`);
+        }
         const ruleData_save = {
           id: rule.filter ? rule.filter.id : null,
           field: rule.filter ? rule.filter.field : null,
@@ -1331,30 +1352,17 @@ class Filters extends Module {
           value: value
         };
         if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
+          if (!ruleData.data) {
+            ruleData.data = {};
+          }
+          ruleData.data.paused = true;
           ruleData_save.data = {
             paused: true
           };
-        } else {
-          const ruleData = {
-            data: rule.data,
-            id: rule.filter ? rule.filter.id : null,
-            field: rule.filter ? rule.filter.field : null,
-            type: rule.filter ? rule.filter.type : null,
-            input: rule.filter ? rule.filter.input : null,
-            operator: rule.operator ? rule.operator.type : null,
-            value: value
-          };
-          if (groupData.condition === `AND`) {
-            if (!ruleData.data) {
-              ruleData.data = {};
-            }
-            ruleData.data.count = rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0];
-            ruleData.data.count.classList.remove(`esgst-hidden`);
-          } else {
-            rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0].classList.add(`esgst-hidden`);
-          }
-          groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
+        } else if (ruleData.data && ruleData.data.paused) {
+          delete ruleData.data.paused;
         }
+        groupData.rules.push(obj.builder.change(`ruleToJson`, ruleData, rule));
         groupData_save.rules.push(obj.builder.change(`ruleToJson`, ruleData_save, rule));
       }, function (model) {
         if (!event) {
@@ -1443,16 +1451,22 @@ class Filters extends Module {
             }
             break;
           case `string`:
-            if (filter.checkbox.value === `enabled`) break;
-
             if (!filter.textInput.value) break;
 
+            if (filter.checkbox.value === `enabled`) {
+              if (!filter.data) {
+                filter.data = {};
+              }
+              filter.data.paused = true;
+            } else if (filter.data && filter.data.paused) {
+              delete filter.data.paused;
+            }
             adv.rules.push({
               data: filter.data,
               field: id,
               id: id,
               input: filter.input,
-              operator: filter.checkbox.value === `none` ? `contains` : `not_contains`,
+              operator: filter.checkbox.value === `disabled` ? `not_contains` : `contains`,
               type: filter.type,
               value: filter.textInput.value
             });
@@ -1476,7 +1490,10 @@ class Filters extends Module {
           };
         }
         obj.basicApplied = true;
+        this.isProgrammaticChange = true;
         obj.builder.setRules(obj.rules);
+        this.onRulesChanged(obj);
+        this.isProgrammaticChange = false;
       }
     }
   }
@@ -1502,7 +1519,7 @@ class Filters extends Module {
           }
           break;
         case `string`:
-          filter.checkbox.change(false, rule.operator === `contains` ? `none` : `disabled`);
+          filter.checkbox.change(false, rule.operator === `contains` ? (rule.data && rule.data.paused ? `enabled` : `none`) : `disabled`);
           filter.textInput.value = rule.value;
           break;
       }
@@ -1719,7 +1736,10 @@ class Filters extends Module {
       this.filters_applyBasic(obj, preset.rules);
     }
     if (!gSettings[`${obj.id}_m_a`]) {
+      this.isProgrammaticChange = true;
       obj.builder.setRules(preset.rules);
+      this.onRulesChanged(obj);
+      this.isProgrammaticChange = false;
       [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
     }
     popup.close();
@@ -1910,6 +1930,7 @@ class Filters extends Module {
         // The giveaway must be filtered by all rules.
         filtered = true;
         for (const rule of rules.rules) {
+          if (rule.data && rule.data.paused) continue;
           filtered = filtered && this.filters_filterItem(filters, item, rule);
           if (!filtered) break;
         }
@@ -1918,6 +1939,7 @@ class Filters extends Module {
         filtered = false;
         if (rules.rules.length) {
           for (const rule of rules.rules) {
+            if (rule.data && rule.data.paused) continue;
             filtered = filtered || this.filters_filterItem(filters, item, rule);
             if (filtered) break;
           }
