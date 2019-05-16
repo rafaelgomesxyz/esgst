@@ -597,6 +597,13 @@ async function sync(syncer) {
     return;
   }
 
+  if (gSettings.hgm_s) {
+    syncer.hgm = {
+      toAdd: { apps: new Set(), subs: new Set() },
+      toRemove: { apps: new Set(), subs: new Set() }
+    };
+  }
+
   // sync wishlisted/owned/ignored games
   if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
     const isPermitted = await permissions.contains([`steamApi`, `steamStore`]);
@@ -617,12 +624,6 @@ async function sync(syncer) {
         method: `GET`,
         url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split(`.`)[1]}`
       });
-      if (gSettings.hgm_s) {
-        syncer.hgm = {
-          toAdd: { apps: new Set(), subs: new Set() },
-          toRemove: { apps: new Set(), subs: new Set() }
-        };
-      }
       await syncGames(null, syncer, apiResponse, storeResponse);
       if (gSettings.gc_o_altAccounts) {
         for (let i = 0, n = gSettings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
@@ -639,22 +640,6 @@ async function sync(syncer) {
         [`div`, `Owned/wishlisted/ignored games synced.`],
         ...syncer.html
       ]);
-      if (gSettings.hgm_s) {
-        const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
-        const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
-        result.apps = result.apps.concat(tmpResult.apps);
-        result.subs = result.subs.concat(tmpResult.subs);
-        let message = ``;
-        if (result.apps.length) {
-          message += `The following apps were not found and therefore not hidden / unhidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
-        }
-        if (result.subs.length) {
-          message += `The following subs were not found and therefore not hidden / unhidden: ${result.subs.join(`, `)}\n`;
-        }
-        if (message) {
-          window.alert(message);
-        }
-      }
       if (gSettings.getSyncGameNames) {
         // noinspection JSIgnoredPromiseFromCall
         shared.common.getGameNames(syncer.results);
@@ -850,6 +835,9 @@ async function sync(syncer) {
   if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && gSettings.syncDelistedGames)) {
     const isPermitted = await permissions.contains([`steamTracker`]);
     if (isPermitted) {
+      if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf(`revadike`) < 0) {
+        await permissions.requestUi([`revadike`], `sync`, true, true);
+      }
       syncer.progress.lastElementChild.textContent = `Syncing delisted games...`;
       const response = await shared.common.request({ method: `GET`, url: `https://steam-tracker.com/api?action=GetAppListV3` });
       try {
@@ -857,7 +845,18 @@ async function sync(syncer) {
         if (json.success) {
           const banned = json.removed_apps.filter(x => x.type === `game` && x.category === `Banned`).map(x => parseInt(x.appid));
           const removed = json.removed_apps.filter(x => x.type === `game` && x.category === `Delisted`).map(x => parseInt(x.appid));
-          await shared.common.setValue(`delistedGames`, JSON.stringify({ banned, removed }));
+          await shared.common.setValue(`delistedGames`, JSON.stringify({ banned, removed }));          
+          if (gSettings.hgm_s) {
+            if (gSettings.hgm_addBanned) {
+              for (const id of banned) {
+                syncer.hgm.toAdd.apps.add(id);
+              }
+            } else if (gSettings.hgm_removeBanned) {
+              for (const id of banned) {
+                syncer.hgm.toRemove.apps.add(id);
+              }
+            }
+          }
         }
         shared.common.createElements_v2(syncer.results, `beforeEnd`, [
           [`div`, `Delisted games synced.`]
@@ -873,6 +872,27 @@ async function sync(syncer) {
       shared.common.createElements_v2(syncer.results, `beforeEnd`, [
         [`div`, permissions.getMessage([`steamTracker`])]
       ]);
+    }
+  }
+
+  if (syncer.canceled) {
+    return;
+  }
+  
+  if (gSettings.hgm_s) {
+    const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
+    const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
+    result.apps = result.apps.concat(tmpResult.apps);
+    result.subs = result.subs.concat(tmpResult.subs);
+    let message = ``;
+    if (result.apps.length) {
+      message += `The following apps were not found and therefore not hidden / unhidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
+    }
+    if (result.subs.length) {
+      message += `The following subs were not found and therefore not hidden / unhidden: ${result.subs.join(`, `)}\n`;
+    }
+    if (message) {
+      window.alert(message);
     }
   }
 

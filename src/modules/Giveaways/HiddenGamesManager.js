@@ -6,6 +6,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { shared } from '../../class/Shared';
 
 const
 
@@ -42,7 +43,7 @@ class GiveawaysHiddenGamesManager extends Module {
       type: `giveaways`,
       features: {
         hgm_s: {
-          name: `Automatically add / remove games from the list when syncing.`,
+          name: `Automatically add / remove games from the list when syncing, based on the settings you have defined.`,
           sg: true
         }
       }
@@ -76,9 +77,11 @@ class GiveawaysHiddenGamesManager extends Module {
     ]);
     new ToggleSwitch(obj.popup.description, `hgm_addOwned`, false, `Add all owned games.`, false, false, null, gSettings.hgm_addOwned);
     new ToggleSwitch(obj.popup.description, `hgm_addIgnored`, false, `Add all ignored games.`, false, false, null, gSettings.hgm_addIgnored);
+    new ToggleSwitch(obj.popup.description, `hgm_addBanned`, false, `Add all banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_addBanned);
     new ToggleSwitch(obj.popup.description, `hgm_removeTextArea`, false, `Only remove games from text area.`, false, false, null, gSettings.hgm_removeTextArea);
     new ToggleSwitch(obj.popup.description, `hgm_removeOwned`, false, `Only remove owned games.`, false, false, null, gSettings.hgm_removeOwned);
     new ToggleSwitch(obj.popup.description, `hgm_removeWishlisted`, false, `Only remove wishlisted games.`, false, false, null, gSettings.hgm_removeWishlisted);
+    new ToggleSwitch(obj.popup.description, `hgm_removeBanned`, false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_removeBanned);
     obj.popup.description.appendChild(new ButtonSet({
       color1: `green`,
       color2: `grey`,
@@ -159,6 +162,9 @@ class GiveawaysHiddenGamesManager extends Module {
     }
     if (gSettings.hgm_addIgnored) {
       appIds.push(...Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].ignored && !this.esgst.games.apps[x].hidden));
+    }
+    if (gSettings.hgm_addBanned) {
+      appIds.push(...shared.esgst.delistedGames.banned);
     }
 
     obj.hideObj = { appIds, subIds, update: message => obj.progress.textContent = message };
@@ -263,7 +269,7 @@ class GiveawaysHiddenGamesManager extends Module {
           continue;
         }
         let game = this.esgst.games[info.type][info.id];
-        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeTextArea)) {
+        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeBanned || shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!gSettings.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeBanned || gSettings.hgm_removeTextArea)) {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };
