@@ -47,7 +47,7 @@ const plugins = {
 };
 
 function getBuildEntries(env) {
-  return {
+  const buildEntries = {
     './build/chrome/eventPage': [`./src/entry/eventPage_index.js`],
     './build/chrome/esgst': [`./src/entry/index.js`],
     './build/chrome/esgst_sgtools': [`./src/entry/index_sgtools.js`],
@@ -60,9 +60,13 @@ function getBuildEntries(env) {
     './build/firefox/permissions': [`./src/entry/permissions_index.js`],
     './build/palemoon/index': [`./src/entry/eventPage_sdk_index.js`],
     './build/palemoon/data/esgst': [`./src/entry/index.js`],
-    './build/palemoon/data/esgst_sgtools': [`./src/entry/index_sgtools.js`],
-    './build/userscript/ESGST.user': ['./src/entry/index.js']
+    './build/palemoon/data/esgst_sgtools': [`./src/entry/index_sgtools.js`]
   };
+  if (env.production) {
+    buildEntries[`./ESGST.user`] = [`./src/entry/index.js`];
+  } else {
+    buildEntries[`./build/userscript/ESGST.user`] = [`./src/entry/index.js`];
+  }
 }
 
 function getCreateFileOptions(env) {
