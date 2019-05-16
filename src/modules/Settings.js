@@ -24,14 +24,19 @@ class Settings {
       const namespace = match[1];
       const feature = shared.esgst.featuresById[id];
       if (feature) {
+        let setting;
         if (typeof value === `object`) {
-          gSettings.full[key] = value;
-          this.toSave[key] = value;
+          setting = value;
+          gSettings.full[key] = setting;
         } else {
-          const setting = gSettings.full[key] || shared.common.getFeaturePath(null, id, namespace);
+          setting = gSettings.full[key] || shared.common.getFeaturePath(null, id, namespace);
           setting.enabled = value ? 1 : 0;
-          this.toSave[key] = setting;
         }
+        const globalInclude = setting.include.filter(x => x.pattern === `.*`)[0];
+        if (globalInclude) {
+          globalInclude.enabled = setting.enabled;
+        }
+        this.toSave[key] = setting;
         return;
       }
     }
