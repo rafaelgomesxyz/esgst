@@ -405,10 +405,12 @@ class Giveaways extends Module {
     giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
     giveaway.currentlyEnterable = giveaway.outerWrap.getAttribute(`data-currently-enterable`);
     if (main) {
-      console.log(`Logs for issue #1337:`);
-      console.log(giveaway.creator, gSettings.username);
-      console.log(giveaway.ended, giveaway.entries, giveaway.copies);
-      console.log(this.esgst.giveaways[giveaway.code]);
+      if (gSettings.gr) {
+        console.log(`Logs for issue #1337:`);
+        console.log(giveaway.creator, gSettings.username);
+        console.log(giveaway.ended, giveaway.entries, giveaway.copies);
+        console.log(this.esgst.giveaways[giveaway.code]);
+      }
       if (gSettings.gr && giveaway.creator === gSettings.username && (gSettings.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!gSettings.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName(`esgst-gr-button`)[0]) {
         let button = createElements(giveaway.headingName, `beforeBegin`, [{
           attributes: {
