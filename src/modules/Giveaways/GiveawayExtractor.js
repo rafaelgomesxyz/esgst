@@ -87,6 +87,12 @@ class GiveawaysGiveawayExtractor extends Module {
           sg: true
         }
       },
+      inputItems: [
+        {
+          id: `npth_nextRegex`,
+          prefix: `Enter the regex you want to use to detect next links when extracting onwards: `
+        }
+      ],
       id: `ge`,
       name: `Giveaway Extractor`,
       sg: true,
@@ -96,6 +102,8 @@ class GiveawaysGiveawayExtractor extends Module {
 
   async init() {
     if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
+      this.nextRegex = new RegExp(gSettings.npth_nextRegex);
+
       // noinspection JSIgnoredPromiseFromCall
       this.ge_addButton(`Extract all giveaways`);
       if (gSettings.ge_p) {
@@ -666,7 +674,7 @@ class GiveawaysGiveawayExtractor extends Module {
         if (!match) continue;
       }
       let code = match[1];
-      if (!ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(/forw|more|next|>|→/)) {
+      if (!ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(this.nextRegex)) {
         if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
           giveaways.push(code);
         }
