@@ -508,14 +508,36 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }).set;
       popup.description.appendChild(set);
     }
-    const comments = responseHtml.querySelector(`.comments`);
-    if (comments && comments.children.length) {
-      comments.classList.add(`esgst-text-left`, `esgst-hidden`);
+    let commentsContainer = responseHtml.querySelector(`.comments`);
+    if (commentsContainer && commentsContainer.children.length) {
+      let preset = null;
+      if (gSettings.cf && gSettings.cf_m && gSettings.cf_enableElgb) {
+        const name = gSettings.cf_presetElgb;
+        if (name) {
+          preset = gSettings.cf_presets.filter(x => x.name === name)[0];
+        }
+      }
+      if (preset) {
+        let filteredComments = 0;
+        const filters = shared.esgst.modules.commentsCommentFilters.getFilters();
+        const comments = await shared.esgst.modules.comments.comments_get(commentsContainer.parentElement, responseHtml);
+        for (const comment of comments) {
+          if (!shared.esgst.modules.commentsCommentFilters.filters_filterItem(filters, comment, preset.rules)) {
+            filteredComments += 1;
+          }
+        }
+        if (filteredComments === comments.length) {
+          commentsContainer = null;
+        }
+      }
+    }
+    if (commentsContainer && commentsContainer.children.length) {
+      commentsContainer.classList.add(`esgst-text-left`, `esgst-hidden`);
       createElements(popup.scrollable, `beforeEnd`, [{
-        context: comments
+        context: commentsContainer
       }]);
       if (gSettings.elgb_fp || mainCallback) {
-        comments.classList.remove(`esgst-hidden`);
+        commentsContainer.classList.remove(`esgst-hidden`);
         common.endless_load(popup.scrollable);
       } else {
         const commentButton = new ButtonSet({
@@ -527,14 +549,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           title2: ``,
           callback1: () => {
             commentButton.remove();
-            comments.classList.remove(`esgst-hidden`);
+            commentsContainer.classList.remove(`esgst-hidden`);
             common.endless_load(popup.scrollable);
           }
         }).set;
         popup.description.appendChild(commentButton);
       }
     }
-    if ((gSettings.elgb_fp && comments && comments.children.length) || description || (gSettings.elgb_r && (!gSettings.elgb_r_d || description)) || mainCallback) {
+    if ((gSettings.elgb_fp && commentsContainer && commentsContainer.children.length) || description || (gSettings.elgb_r && (!gSettings.elgb_r_d || description)) || mainCallback) {
       if (mainCallback) {
         popup.onClose = mainCallback;
       }
