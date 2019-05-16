@@ -152,7 +152,6 @@ import { usersVisibleGiftsBreakdown } from './Users/VisibleGiftsBreakdown';
 import { usersVisibleRealCV } from './Users/VisibleRealCV';
 import { usersLevelUpCalculator } from './Users/LevelUpCalculator';
 import { usersSteamGiftsProfileButton } from './Users/SteamGiftsProfileButton';
-import { usersSteamTradesProfileButton } from './Users/SteamTradesProfileButton';
 import { usersProfileLinks } from './Users/ProfileLinks';
 import { generalSearchClearButton } from './General/SearchClearButton';
 import { profileModule as profile } from './Profile';
@@ -315,7 +314,6 @@ const modules = {
   usersVisibleRealCV,
   usersLevelUpCalculator,
   usersSteamGiftsProfileButton,
-  usersSteamTradesProfileButton,
   usersProfileLinks,
   generalSearchClearButton,
   profile,
