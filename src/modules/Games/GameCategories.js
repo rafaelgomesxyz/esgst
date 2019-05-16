@@ -10,7 +10,6 @@ const
   parseHtml = utils.parseHtml.bind(utils),
   sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
-  draggable_enter = common.draggable_enter.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getLocalValue = common.getLocalValue.bind(common),
   lockAndSaveGames = common.lockAndSaveGames.bind(common),
@@ -3268,22 +3267,17 @@ class GamesGameCategories extends Module {
           }
         }
         createElements(panel, `inner`, elements);
-        if (isInstant || isOutdated) {
-          continue;
-        }
         if (!gSettings.gc_lp || (!gSettings.gc_lp_gv && games[i].grid)) {
           for (j = panel.children.length - 1; j > -1; --j) {
             panel.children[j].removeAttribute(`href`);
           }
         }
-        panel.addEventListener(`dragenter`, draggable_enter.bind(common, {
-          context: panel,
-          item: games[i]
-        }));
-        panel.setAttribute(`data-gcReady`, 1);
+        if (!isInstant && !isOutdated) {
+          panel.setAttribute(`data-gcReady`, 1);
+        }
+        games[i].gcPanel = panel;
+        shared.esgst.modules.giveaways.giveaways_reorder(games[i]);
       }
-      games[i].gcPanel = panel;
-      shared.esgst.modules.giveaways.giveaways_reorder(games[i]);
     }
   }
 
