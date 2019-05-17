@@ -880,7 +880,7 @@ class Esgst {
       lastSyncDelistedGames: 0,
       lastSyncGiveaways: 0,
       lastSyncWonGiveaways: 0,
-      leftMainPageHeadingIds: [`wbsDesc`, `wbsAsc`, `wbm`, `wbc`, `ust`, `usc`, `ugs`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `hgm`, `gv`, `gts`, `glwc`, `gf`, `ge`, `gas`, `ds`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `cec`, `as`, `aic`],
+      leftMainPageHeadingIds: [`wbsDesc`, `wbsAsc`, `wbm`, `wbc`, `ust`, `usc`, `ugs`, `uf_s_s`, `tf_s_s`, `tf`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `hgm`, `gv`, `gts`, `glwc`, `gf_s_s`, `gf`, `ge`, `gas`, `ds`, `df_s_s`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `cec`, `as`, `aic`],
       leftButtonIds: [],
       mgc_createTrain: true,
       mgc_bumpLast: true,

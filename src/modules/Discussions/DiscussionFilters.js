@@ -46,7 +46,13 @@ class DiscussionsDiscussionFilters extends Filters {
             ]]
           ],
           name: `Single Filters`,
-          sg: true
+          sg: true,
+          features: {
+            df_s_s: {
+              name: `Show switch to temporarily hide / unhide discussions filtered by the filters in the main page heading, along with a counter.`,
+              sg: true
+            }
+          }
         },
         df_m: {
           description: [
@@ -267,6 +273,9 @@ class DiscussionsDiscussionFilters extends Filters {
 
   async init() {
     if (gSettings.df_s) {
+      if (gSettings.df_s_s) {
+        this.addSingleButton(`fa-comments`);
+      }
       this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
     }
     if (gSettings.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {

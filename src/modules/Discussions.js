@@ -154,9 +154,10 @@ class Discussions extends Module {
         discussion.saved = this.esgst.discussions[discussion.code];
         if (main && gSettings.df && gSettings.df_s && discussion.saved && discussion.saved.hidden) {
           discussion.outerWrap.classList.add(`esgst-hidden`);
-          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-          shared.common.filteredButton.classList.remove(`esgst-hidden`);
+          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `df`);
+          if (gSettings.df_s_s) {
+            shared.esgst.modules.discussionsDiscussionFilters.updateSingleCounter();
+          }
           return;
         }
         discussion.categoryContainer = discussion.info.firstElementChild;
@@ -174,9 +175,10 @@ class Discussions extends Module {
         discussion.saved = this.esgst.trades[discussion.code];
         if (main && gSettings.tf && gSettings.tf_s && discussion.saved && discussion.saved.hidden) {
           discussion.outerWrap.classList.add(`esgst-hidden`);
-          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-          shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-          shared.common.filteredButton.classList.remove(`esgst-hidden`);
+          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `df`);
+          if (gSettings.tf_s_s) {
+            shared.esgst.modules.tradesTradeFilters.updateSingleCounter();
+          }
           return;
         }
         discussion.createdContainer = discussion.info.firstElementChild;

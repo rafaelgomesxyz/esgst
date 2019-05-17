@@ -6,6 +6,7 @@ import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { gSettings } from '../class/Globals';
+import { shared } from '../class/Shared';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -24,6 +25,36 @@ class Filters extends Module {
   }
 
   getFilters(popup) {}
+
+  addSingleButton(icon) {
+    this.singleButton = shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: `Hide / unhide items filtered by single filters temporarily` });
+    this.singleButton.classList.add(`esgst-hidden`);
+    shared.common.createElements_v2(this.singleButton, `afterBegin`, [[`span`]]);
+    this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, ``, false, false, null, true);
+    this.singleSwitch.onChange = () => this.toggleFilteredItems();
+    this.singleCounter = shared.common.createElements_v2(this.singleButton, `beforeEnd`, [[`span`, `0`]]);
+  }    
+
+  toggleFilteredItems() {
+    const elements = document.querySelectorAll(`[data-esgst-not-filterable="${this.id}"]`);
+    if (this.singleSwitch.value) {
+      for (const element of elements) {
+        element.classList.add(`esgst-hidden`);
+      }
+    } else {
+      for (const element of elements) {
+        element.classList.remove(`esgst-hidden`);
+      }
+    }
+  }
+
+  updateSingleCounter(count = 1) {
+    const newCount = parseInt(this.singleCounter.textContent) + count;
+    this.singleCounter.textContent = newCount;
+    if (newCount > 0) {      
+      this.singleButton.classList.remove(`esgst-hidden`);
+    }
+  }
 
   filters_addContainer(heading, popup) {
     const obj = {

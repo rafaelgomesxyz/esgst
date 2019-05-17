@@ -46,7 +46,13 @@ class TradesTradeFilters extends Filters {
             ]]
           ],
           name: `Single Filters`,
-          st: true
+          st: true,
+          features: {
+            tf_s_s: {
+              name: `Show switch to temporarily hide / unhide trades filtered by the filters in the main page heading, along with a counter.`,
+              st: true
+            }
+          }
         },
         tf_m: {
           description: [
@@ -185,6 +191,9 @@ class TradesTradeFilters extends Filters {
 
   async init() {
     if (gSettings.tf_s) {
+      if (gSettings.tf_s_s) {
+        this.addSingleButton(`fa-comments`);
+      }
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
     if (gSettings.tf_m && shared.esgst.tradesPath && !shared.esgst.editTradePath) {
