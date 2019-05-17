@@ -97,6 +97,7 @@ import { usersWhitelistBlacklistSorter } from './Users/WhitelistBlacklistSorter'
 import { usersWhitelistBlacklistManager } from './Users/WhitelistBlacklistManager';
 import { generalURLRedirector } from './General/URLRedirector';
 import { usersUserTags } from './Users/UserTags';
+import { usersSteamFriendsIndicator } from './Users/SteamFriendsIndicator';
 import { generalAccurateTimestamp } from './General/AccurateTimestamp';
 import { generalEmbeddedVideos } from './General/EmbeddedVideos';
 import { generalImageBorders } from './General/ImageBorders';
@@ -259,6 +260,7 @@ const modules = {
   usersWhitelistBlacklistManager,
   generalURLRedirector,
   usersUserTags,
+  usersSteamFriendsIndicator,
   generalAccurateTimestamp,
   generalEmbeddedVideos,
   generalImageBorders,
