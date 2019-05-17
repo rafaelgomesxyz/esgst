@@ -139,6 +139,11 @@ async function setSync(isPopup = false, isSilent = false) {
         key: `Blacklist`,
         name: `Blacklist`
       },
+      syncSteamFriends: {
+        dependencies: [],
+        key: `SteamFriends`,
+        name: `Steam Friends (requires Steam API key)`
+      },
       syncHiddenGames: {
         dependencies: [],
         key: `HiddenGames`,
@@ -329,8 +334,10 @@ function cancelSync(syncer) {
 async function sync(syncer) {
   if (!syncer.isSilent) {
     const permissionKeys = [];
-    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
+    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames) || (syncer.parameters && syncer.parameters.SteamFriends) || (!syncer.parameters && gSettings.syncSteamFriends)) {
       permissionKeys.push(`steamApi`);
+    }
+    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
       permissionKeys.push(`steamStore`);
     }
     if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && gSettings.syncFollowedGames)) {
@@ -529,6 +536,51 @@ async function sync(syncer) {
     shared.common.createElements_v2(syncer.results, `beforeEnd`, [
       [`div`, `Whitelist/blacklist synced.`]
     ]);
+  }
+
+  // if sync has been canceled stop
+  if (syncer.canceled) {
+    return;
+  }
+
+  // sync steam friends
+  if ((syncer.parameters && syncer.parameters.SteamFriends) || (!syncer.parameters && gSettings.syncSteamFriends)) {
+    const isPermitted = await permissions.contains([`steamApi`]);
+    if (isPermitted) {
+      try {
+        const users = [];
+        syncer.progress.lastElementChild.textContent = `Syncing your Steam friends...`;
+        await shared.common.deleteUserValues([`steamFriend`]);
+        const response = await shared.common.request({
+          method: `GET`,
+          url: `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${gSettings.steamApiKey}&steamid=${gSettings.steamId}&relationship=friend`
+        });
+        const json = JSON.parse(response.responseText);
+        for (const friend of json.friendslist.friends) {
+          users.push({
+            steamId: friend.steamid,
+            values: {
+              steamFriend: friend.friend_since
+            }
+          });
+        }
+        syncer.progress.lastElementChild.textContent = `Saving your Steam friends (this may take a while)...`;
+        await shared.common.saveUsers(users);
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, `Steam friends synced.`]
+        ]);
+      } catch (e) {
+        syncer.failed.SteamFriends = true;
+        shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+          [`div`, `Failed to sync your Steam friends. Check if you have a valid Steam API key set or if your profile is public.`]
+        ]);
+      }
+    } else {
+      syncer.failed.SteamFriends = true;
+      shared.common.createElements_v2(syncer.results, `beforeEnd`, [
+        [`div`, permissions.getMessage([`steamApi`])]
+      ]);
+    }
   }
 
   // if sync has been canceled stop
@@ -934,7 +986,7 @@ async function sync(syncer) {
   if (!shared.esgst.firstInstall) {
     syncer.progress.lastElementChild.textContent = `Updating last sync date...`;
     const currentTime = Date.now();
-    let keys = [`Groups`, `Whitelist`, `Blacklist`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`, `WonGiveaways`];
+    let keys = [`Groups`, `Whitelist`, `Blacklist`, `SteamFriends`, `HiddenGames`, `Games`, `FollowedGames`, `WonGames`, `ReducedCvGames`, `NoCvGames`, `HltbTimes`, `DelistedGames`, `Giveaways`, `WonGiveaways`];
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
       let id = `sync${key}`;

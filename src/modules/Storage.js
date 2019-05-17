@@ -2638,7 +2638,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         break;
       case `users`:
         values = {
-          main: [`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`],
+          main: [`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`, `steamFriend`],
           giveaways: [`giveaways`],
           namwc: [`namwc`],
           notes: [`notes`],
@@ -2772,6 +2772,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                                 case `whitelistedDate`:
                                 case `blacklisted`:
                                 case `blacklistedDate`:
+                                case `steamFriend`:
                                   mergedDataValue[valueKey] = newDataValue[valueKey];
                                   break;
                                 case `notes`:
