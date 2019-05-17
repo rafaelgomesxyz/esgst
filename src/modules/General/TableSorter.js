@@ -154,7 +154,7 @@ class GeneralTableSorter extends Module {
         element.sortIndex = j;
         row.setAttribute(`data-sort-index`, j);
       }
-      if (value.length > 0 || columnName === `Trending`) {
+      if ((value && value.length > 0) || columnName === `Trending`) {
         if (column.hasAttribute(`data-sort-value`)) {
           element.value = parseFloat(column.getAttribute(`data-sort-value`));
         } else {
