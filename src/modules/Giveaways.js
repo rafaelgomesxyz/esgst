@@ -275,9 +275,10 @@ class Giveaways extends Module {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
       if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code && savedGiveaway.endTime && savedGiveaway.endTime > Date.now()) {
         giveaway.outerWrap.classList.add(`esgst-hidden`);
-        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-        shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-        shared.common.filteredButton.classList.remove(`esgst-hidden`);
+        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `gf`);
+        if (gSettings.gf_s_s) {
+          shared.esgst.modules.giveawaysGiveawayFilters.updateSingleCounter();
+        }
       }
     }
     giveaway.links = giveaway.innerWrap.getElementsByClassName(`giveaway__links`)[0];

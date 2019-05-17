@@ -28,7 +28,13 @@ class GiveawaysGiveawayFilters extends Filters {
             [``, `And that's it!`]
           ],
           name: `Single Filters`,
-          sg: true
+          sg: true,
+          features: {
+            gf_s_s: {
+              name: `Show switch to temporarily hide / unhide giveaways filtered by the filters in the main page heading, along with a counter.`,
+              sg: true
+            }
+          }
         },
         gf_m: {
           description: [
@@ -781,6 +787,9 @@ class GiveawaysGiveawayFilters extends Filters {
 
   init() {
     if (gSettings.gf_s) {
+      if (gSettings.gf_s_s) {
+        this.addSingleButton(`fa-gift`);
+      }
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }
     if (gSettings.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {

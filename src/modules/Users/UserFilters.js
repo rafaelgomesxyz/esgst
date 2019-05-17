@@ -1,11 +1,11 @@
 import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { utils } from '../../lib/jsUtils';
+import { Filters } from '../Filters';
 
 const
   createElements = common.createElements.bind(common),
@@ -13,9 +13,9 @@ const
   saveUser = common.saveUser.bind(common)
   ;
 
-class UsersUserFilters extends Module {
+class UsersUserFilters extends Filters {
   constructor() {
-    super();
+    super(`uf`);
     this.info = {
       description: [
         [`ul`, [
@@ -28,7 +28,6 @@ class UsersUserFilters extends Module {
             [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
             ` page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).`
           ]],
-          [`li`, `Adds a text in parenthesis to the pagination of the page showing how many users in the page are being filtered by the filters.`],
           [`li`, [
             `Adds a button (`,
             [`i`, { class: `fa fa-user` }],
@@ -54,6 +53,10 @@ class UsersUserFilters extends Module {
         uf_gp: {
           name: `Automatically hide giveaway posts from blacklisted users.`,
           sg: true
+        },
+        uf_s_s: {
+          name: `Show switch to temporarily hide / unhide users filtered by the filters in the main page heading, along with a counter.`,
+          sg: true
         }
       },
       id: `uf`,
@@ -67,6 +70,12 @@ class UsersUserFilters extends Module {
         giveaway: this.filterGiveaways.bind(this)
       }
     };
+  }
+
+  init() {
+    if (gSettings.uf_s_s) {
+      this.addSingleButton(`fa-user`);
+    }
   }
 
   uf_add(profile, savedUser) {
@@ -192,50 +201,6 @@ class UsersUserFilters extends Module {
     profile.ufPopup.close();
   }
 
-  uf_updateCount(context, extraCount) {
-    let count;
-    count = context.getElementsByClassName(`esgst-uf-count`)[0];
-    context = context.firstElementChild;
-    if (!extraCount) {
-      extraCount = 0;
-    }
-    if (count) {
-      createElements(count, `inner`, [{
-        text: `(`,
-        type: `node`
-      }, {
-        attributes: {
-          class: `esgst-bold`
-        },
-        text: parseInt(count.firstElementChild.textContent) + 1 + extraCount,
-        type: `span`
-      }, {
-        text: ` filtered by User Filters)`,
-        type: `node`
-      }]);
-    } else {
-      createElements(context, `beforeEnd`, [{
-        attributes: {
-          class: `esgst-uf-count`
-        },
-        type: `span`,
-        children: [{
-          text: `(`,
-          type: `node`
-        }, {
-          attributes: {
-            class: `esgst-bold`
-          },
-          text: `${1 + extraCount}`,
-          type: `span`
-        }, {
-          text: ` filtered by User Filters`,
-          type: `node`
-        }]
-      }]);
-    }
-  }
-
   fixData(data) {
     if (!data) {
       return;
@@ -259,9 +224,10 @@ class UsersUserFilters extends Module {
       const uf = this.fixData(savedUser.uf);
       if ((gSettings.uf_d && savedUser.blacklisted && !uf) || (uf && uf.discussions)) {
         discussion.outerWrap.classList.add(`esgst-hidden`);
-        discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-        shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-        shared.common.filteredButton.classList.remove(`esgst-hidden`);
+        discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `uf`);
+        if (gSettings.uf_s_s) {
+          this.updateSingleCounter();
+        }
       }
     }
   }
@@ -280,9 +246,10 @@ class UsersUserFilters extends Module {
       const uf = this.fixData(savedUser.uf);
       if ((gSettings.uf_g && savedUser.blacklisted && !uf) || (uf && uf.giveaways)) {
         giveaway.outerWrap.classList.add(`esgst-hidden`);
-        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `true`);
-        shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1;
-        shared.common.filteredButton.classList.remove(`esgst-hidden`);
+        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `uf`);
+        if (gSettings.uf_s_s) {
+          this.updateSingleCounter();
+        }
       }
     }
   }
@@ -304,16 +271,17 @@ class UsersUserFilters extends Module {
           numDescendants = 0;
         }
         comment.comment.parentElement.classList.add(`esgst-hidden`);
-        comment.comment.parentElement.setAttribute(`data-esgst-not-filterable`, `true`);
-        shared.common.filteredCount.textContent = parseInt(shared.common.filteredCount.textContent) + 1 + numDescendants;
-        shared.common.filteredButton.classList.remove(`esgst-hidden`);
+        comment.comment.parentElement.setAttribute(`data-esgst-not-filterable`, `uf`);
+        if (gSettings.uf_s_s) {
+          this.updateSingleCounter(numDescendants + 1);
+        }
         if (!main || shared.common.isCurrentPath(`Messages`)) {
           const commentsContainer = comment.comment.closest(`.comments`);
           if (!commentsContainer.querySelectorAll(`.comment:not([data-esgst-not-filterable])`).length) {
             commentsContainer.previousElementSibling.classList.add(`esgst-hidden`);
-            commentsContainer.previousElementSibling.setAttribute(`data-esgst-not-filterable`, `true`);
+            commentsContainer.previousElementSibling.setAttribute(`data-esgst-not-filterable`, `uf`);
             commentsContainer.classList.add(`esgst-hidden`);
-            commentsContainer.setAttribute(`data-esgst-not-filterable`, `true`);
+            commentsContainer.setAttribute(`data-esgst-not-filterable`, `uf`);
           }
         }
       }

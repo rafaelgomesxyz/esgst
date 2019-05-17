@@ -304,7 +304,11 @@ window.interact = interact;
       {id: `sttb`, side: `right`},
       {id: `usc`, side: `left`},
       {id: `ust`, side: `left`},
-      {id: `wbm`, side: `left`}
+      {id: `wbm`, side: `left`},
+      {id: `df_s_s`, side: `left`},
+      {id: `gf_s_s`, side: `left`},
+      {id: `tf_s_s`, side: `left`},
+      {id: `uf_s_s`, side: `left`}
     ].forEach(item => {
       if (gSettings.leftButtonIds.indexOf(item.id) < 0 && gSettings.rightButtonIds.indexOf(item.id) < 0 && gSettings.leftMainPageHeadingIds.indexOf(item.id) < 0 && gSettings.rightMainPageHeadingIds.indexOf(item.id) < 0) {
         gSettings[`${item.side}MainPageHeadingIds`].push(item.id);
