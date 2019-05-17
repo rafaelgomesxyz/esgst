@@ -76,8 +76,8 @@ class Giveaways extends Module {
       }
     }
     matches = context.querySelectorAll(query);
-    for (i = matches.length - 1; i > -1; --i) {
-      giveaway = await this.giveaways_getInfo(matches[i], mainContext, null, null, main, mainUrl, ged, endless);
+    for (const match of matches) {
+      giveaway = await this.giveaways_getInfo(match, mainContext, null, null, main, mainUrl, ged, endless);
       if (giveaway) {
         giveaways.push(giveaway[key]);
       }
