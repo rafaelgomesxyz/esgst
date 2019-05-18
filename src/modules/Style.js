@@ -187,6 +187,10 @@ function addStyle() {
   `;
   }
   style += `
+  #esgst_permissions .esgst-ugd-table {
+    min-width: unset;
+  }
+
   .tour-backdrop {
     opacity: 0.5;
     z-index: 9999991100;
