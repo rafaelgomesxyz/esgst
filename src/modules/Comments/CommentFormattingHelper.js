@@ -1127,7 +1127,7 @@ class CommentsCommentFormattingHelper extends Module {
           }
         }]
       }]).addEventListener(`click`, async () => {
-        shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+        shared.common.createElements_v2(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
         this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
@@ -1213,7 +1213,7 @@ class CommentsCommentFormattingHelper extends Module {
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
       if (gSettings.cfh_p_a) {
         textArea.oninput = async () => {
-          shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(textArea, textArea.value));
+          shared.common.createElements_v2(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(textArea, textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
         };
       }
@@ -1253,7 +1253,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
     if (gSettings.cfh_p && gSettings.cfh_p_a) {
-      shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+      shared.common.createElements_v2(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
@@ -1276,7 +1276,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
     this.esgst.cfh.textArea.focus();
     if (gSettings.cfh_p && gSettings.cfh_p_a) {
-      shared.common.createElements(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+      shared.common.createElements_v2(this.esgst.cfh.preview, `inner`, await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }

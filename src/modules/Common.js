@@ -1193,14 +1193,7 @@ class Common extends Module {
     };
     await this.esgst.onBeforeCommentSubmit(obj);
     string = obj.comment;
-    return [{
-      type: `div`,
-      children: [...Array.from(parseHtml(this.esgst.markdownParser.text(string)).body.children)].map(x => {
-        return {
-          context: x
-        };
-      })
-    }];
+    return Array.from(parseHtml(this.esgst.markdownParser.text(string)).body.children);
   }
 
   async addGiveawayToStorage() {
