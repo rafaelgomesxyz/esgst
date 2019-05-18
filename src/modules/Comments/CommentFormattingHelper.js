@@ -1191,6 +1191,7 @@ class CommentsCommentFormattingHelper extends Module {
         }
       }
     };
+    textArea.onclick = () => shared.esgst.cfh.recent = false;
     textArea.onkeydown = event => {
       if (event.key === `Backspace` && this.esgst.cfh.recent) {
         event.preventDefault();
