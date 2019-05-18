@@ -963,6 +963,11 @@ function loadDataManagement(type, isPopup, callback) {
     },
     {
       check: true,
+      key: `savedReplies_st`,
+      name: `Saved Replies (SteamTrades)`
+    },
+    {
+      check: true,
       key: `settings`,
       name: `Settings`
     },
@@ -1531,6 +1536,11 @@ function loadDataCleaner(isPopup) {
         },
         {
           check: true,
+          key: `savedReplies_st`,
+          name: `Saved Replies (SteamTrades)`
+        },
+        {
+          check: true,
           key: `settings`,
           name: `Settings`
         },
@@ -2074,6 +2084,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case `entries`:
       case `templates`:
       case `savedReplies`:
+      case `savedReplies_st`:
         data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
