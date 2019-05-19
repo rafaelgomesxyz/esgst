@@ -1220,6 +1220,7 @@ function loadDataManagement(type, isPopup, callback) {
             switch (gSettings.exportBackupIndex) {
               case 0:
                 result = true;
+                break;
               case 1:
                 result = await permissions.requestUi([`dropbox`], `storage`);
                 break;
