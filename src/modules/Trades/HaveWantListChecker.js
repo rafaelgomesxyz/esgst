@@ -13,6 +13,11 @@ const
   setLocalValue = common.setLocalValue.bind(common)
   ;
 
+const WHITELIST = {
+  borderlandsgameoftheyear: `borderlandsgoty`,
+  mafia2: `mafiaii`
+};
+
 class TradesHaveWantListChecker extends Module {
   constructor() {
     super();
@@ -227,7 +232,7 @@ class TradesHaveWantListChecker extends Module {
         const matches = json.applist.apps.filter(x => this.hwlc_formatName(x.name) === this.hwlc_formatName(name));
         if (matches.length) {
           obj.games[key].apps.push({
-            id: matches[0].appid,
+            id: parseInt(matches[0].appid),
             name,
             parent
           });
@@ -251,13 +256,18 @@ class TradesHaveWantListChecker extends Module {
         const wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
         if (wishlistData) {
           const appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
-          const apps = appInfo ? JSON.parse(appInfo[1]) : null;
           JSON.parse(wishlistData[1]).forEach(item => {
             const id = parseInt(item.appid);
-            if (apps && apps[id]) {
+            const found = obj.games[key].apps.filter(x => x.id === id)[0];
+            if (found) {
+              found.wishlisted = true;
+              return;
+            }
+            const app = appInfo ? JSON.parse(appInfo[1])[id] : (json ? json.applist.apps.filter(x => parseInt(x.appid) === id)[0] : null);
+            if (app) {
               obj.games[key].apps.push({
                 id,
-                name: apps[id].name,
+                name: app.name,
                 wishlisted: true
               });
             } else {
@@ -278,7 +288,7 @@ class TradesHaveWantListChecker extends Module {
       }
     }
     obj.games[key].apps = obj.games[key].apps.map(game => {
-      if (game.wishlisted) {
+      if (key === `want` && game.wishlisted) {
         game.html = {
           type: `li`,
           children: [{
@@ -297,7 +307,7 @@ class TradesHaveWantListChecker extends Module {
         };
         return game;
       }
-      if (shared.esgst.games.apps[game.id]) {
+      if (key === `have` && shared.esgst.games.apps[game.id]) {
         if (shared.esgst.games.apps[game.id].owned) {
           game.owned = true;
           game.html = {
@@ -420,6 +430,8 @@ class TradesHaveWantListChecker extends Module {
         found.push({
           id: game.id,
           name: game.name,
+          owned: game.owned,
+          wishlisted: game.wishlisted,
           type: `app`
         });
       });
@@ -430,6 +442,8 @@ class TradesHaveWantListChecker extends Module {
         found.push({
           id: game.id,
           name: game.name,
+          owned: game.owned,
+          wishlisted: game.wishlisted,
           type: `sub`
         });
       });
@@ -439,7 +453,19 @@ class TradesHaveWantListChecker extends Module {
     for (const game of found) {
       items.push({
         type: `li`,
-        children: [{
+        children: [key === `have` && game.owned ? {
+          attributes: {
+            class: `fa fa-folder`,
+            title: `On your library`
+          },
+          type: `i`
+        } : null, game.wishlisted ? {
+          attributes: {
+            class: `fa fa-star`,
+            title: `On ${key === `want` ? `their` : `your`} wishlist`
+          },
+          type: `i`
+        } : null, {
           attributes: {
             href: `https://store.steampowered.com/${game.type}/${game.id}`
           },
@@ -447,7 +473,7 @@ class TradesHaveWantListChecker extends Module {
           type: `a`
         }]
       });
-    }
+    };
     createElements(obj.sections[key].matches, `beforeEnd`, items);
     if (!obj.sections[key].matches.innerHTML) {
       createElements(obj.sections[key].matches, `inner`, [{
@@ -464,9 +490,10 @@ class TradesHaveWantListChecker extends Module {
   }
 
   hwlc_formatName(name) {
-    return name
+    name = name
       .replace(/[^\w]/g, ``).toLowerCase()
       .replace(/windowsedition/, ``);
+    return WHITELIST[name] || name;
   }
 
   hwlc_sortGames(a, b) {
