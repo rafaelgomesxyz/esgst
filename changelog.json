@@ -1,5 +1,34 @@
 [
   {
+    "date": "May 19, 2019",
+    "version": "8.3.13",
+    "changelog": {
+      "1269": "Steam Friends Indicator: new feature",
+      "1291": "Tables Sorter: fix bug that does not sort columns if there are empty groups in the page",
+      "1298": "Hidden Games Manager: cache games that are not available on SteamGifts",
+      "1316": "Game Categories: fix ordering issues",
+      "1329": "Enter / Leave Giveaway Button: do not show popup when description is empty and all comments have been filtered",
+      "1330": "Game Categories: add won date to tooltip of previously won (won giveaways sync required)",
+      "1331": "User Links: add Barter link to default list",
+      "1332": "SteamTrades Profile Button: remove feature and consolidate it into User Links",
+      "1333": "Filters: fix bug that does not persist text filters in the basic filters",
+      "1334": "Game Categories: add \"Original CV\" category",
+      "1335": "No CV Database Updater: add tooltip to indicate what is being updated",
+      "1341": "Settings: fix bug that does not persist some settings",
+      "1343": "Settings: fix bug that does not enable \"Run it here\" automatically when enabling a feature",
+      "1344": "Bring back userscript version",
+      "1346": "Giveaways Extractor, Next / Previous Train Hotkeys: allow users to specify custom variations of next / previous text",
+      "1347": "Hidden Games Manager: add option to add all banned games",
+      "1349": "Giveaways: run features from top to bottom",
+      "1351": "Comment Formatting Helper: add option to use separate storage for saved replies on SteamTrades",
+      "1352": "Comment Formatting Helper: fix bug that undoes automatic link formatting when pressing backspace after clicking on the text area",
+      "1354": "Comment Formatting Helper: fix visual bug that ignores new lines when previewing posts",
+      "1355": "Themes: fix visual bug with dark themes in the settings menu",
+      "1357": "Have / Want List Checker: fix bug that does not show game names for some games",
+      "1358": "Storage: fix bug that asks for Dropbox permissions when restoring data from the computer"
+    }
+  },
+  {
     "date": "May 14, 2019",
     "version": "8.3.12",
     "changelog": {
