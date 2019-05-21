@@ -3236,10 +3236,14 @@ class GamesGameCategories extends Module {
           const noCV = (savedGame && savedGame.noCV && new Date(savedGame.noCV).getTime()) || 0;
           if (reducedCV || noCV) {
             let original = ``;
-            if (games[i].startTime < reducedCV) {
+            if (reducedCV && noCV) {
+              if (games[i].startTime < reducedCV) {
+                original = `fcv`;
+              } else if (games[i].startTime >= reducedCV && games[i].startTime < noCV) {
+                original = `rcv`;
+              }
+            } else if (games[i].startTime < reducedCV || games[i].startTime < noCV) {
               original = `fcv`;
-            } else if (games[i].startTime >= reducedCV && games[i].startTime < noCV) {
-              original = `rcv`;
             }
             if (original) {
               elements.push({
