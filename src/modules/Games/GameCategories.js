@@ -3198,6 +3198,7 @@ class GamesGameCategories extends Module {
       cannotCheckOwnership = true;
     }
     for (i = 0, n = games.length; i < n; ++i) {
+      let currentElements = [...elements];
       const button = (games[i].elgbButton && games[i].elgbButton.firstElementChild) || shared.esgst.enterGiveawayButton;
       if (button && cannotCheckOwnership && gSettings.gc_e) {
         button.title = `ESGST cannot check ownership of this game`;
@@ -3246,7 +3247,7 @@ class GamesGameCategories extends Module {
               original = `fcv`;
             }
             if (original) {
-              elements.push({
+              currentElements.push({
                 attributes: {
                   class: `esgst-gc esgst-gc-originalCV`,
                   [`data-draggable-id`]: `gc_ocv`,
@@ -3270,7 +3271,7 @@ class GamesGameCategories extends Module {
             }
           }
         }
-        createElements(panel, `inner`, elements);
+        createElements(panel, `inner`, currentElements);
         if (!gSettings.gc_lp || (!gSettings.gc_lp_gv && games[i].grid)) {
           for (j = panel.children.length - 1; j > -1; --j) {
             panel.children[j].removeAttribute(`href`);
