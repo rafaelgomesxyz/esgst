@@ -720,6 +720,10 @@ class Giveaways extends Module {
           }
         }
       }
+      const loading = giveaway.gcPanel.querySelector(`.esgst-gc-loading`);
+      if (loading) {
+        giveaway.gcPanel.appendChild(loading);
+      }
     }
   }
 }

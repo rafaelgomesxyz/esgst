@@ -364,8 +364,8 @@ function publishRelease(body = ``) {
       }
 
       const releaseDescription = {
-        tag_name: packageJson.devVersion,
-        name: packageJson.devVersion,
+        tag_name: `v${packageJson.devVersion}`,
+        name: `v${packageJson.devVersion}`,
         body,
         prerelease: !!args.dev
       };
