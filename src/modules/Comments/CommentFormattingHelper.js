@@ -1575,6 +1575,7 @@ class CommentsCommentFormattingHelper extends Module {
         value = matches[i].match(/\[ESGST-R]([\s\S]+?)\[\/ESGST-R]/)[1];
       }
       this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, this.esgst.cfh.textArea.selectionStart)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
+      this.esgst.cfh.textArea.dispatchEvent(new Event(`input`));
       this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
       this.esgst.cfh.textArea.focus();
     });
