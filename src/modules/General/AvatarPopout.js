@@ -3,6 +3,7 @@ import { Popout } from '../../class/Popout';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -140,25 +141,24 @@ class GeneralAvatarPopout extends Module {
               }
               const suspension = responseHtml.getElementsByClassName(`sidebar__suspension`)[0];
               if (suspension) {
-                createElements(columns[0], `beforeEnd`, [{
-                  attributes: {
-                    class: `esgst-ap-suspended featured__table__row`
-                  },
-                  type: `div`,
-                  children: [{
-                    attributes: {
-                      class: `featured__table__row__left`
-                    },
-                    text: suspension.textContent,
-                    type: `div`
-                  }, {
-                    attributes: {
-                      class: `featured__table__row__right`
-                    },
-                    text: suspension.nextElementSibling.textContent,
-                    type: `div`
-                  }]
-                }]);
+                shared.common.createElements_v2(columns[0], `beforeEnd`, [
+                  [`div`, { class: `esgst-ap-suspended featured__table__row` }, [
+                    [`div`, { class: `featured__table__row__left` }, suspension.textContent],
+                    [`div`, { class: `featured__table__row__right` }, suspension.nextElementSibling.textContent]
+                  ]]
+                ]);
+              }
+              const elements = responseHtml.querySelectorAll(`.sidebar__navigation__item__name`);
+              for (const element of elements) {
+                const elementMatch = element.textContent.match(/^Giveaways|Users$/);
+                if (elementMatch) {
+                  shared.common.createElements_v2(columns[0], `beforeEnd`, [
+                    [`div`, { class: `featured__table__row` }, [
+                      [`div`, { class: `featured__table__row__left` }, elementMatch[0]],
+                      [`div`, { class: `featured__table__row__right` }, element.nextElementSibling.nextElementSibling.textContent]
+                    ]]
+                  ]);
+                }
               }
               columns[1].remove();
               if (type === `user`) {
