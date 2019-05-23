@@ -4019,6 +4019,7 @@ class Common extends Module {
     this.esgst.draggable.awaitingConfirmation = false;
     this.esgst.draggable.deleted = true;
     await this.draggable_end(obj);
+    this.esgst.draggable.deleted = false;
   }
 
   setCountdown(context, totalSeconds, callback, initialDate = Date.now()) {
