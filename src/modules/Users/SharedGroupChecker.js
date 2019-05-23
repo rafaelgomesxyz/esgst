@@ -181,13 +181,13 @@ class UsersSharedGroupChecker extends Module {
     for (const element of elements) {
       const name = element.getElementsByClassName(`linkTitle`)[0].textContent;
       const avatar = element.getElementsByClassName(`avatarMedium`)[0].firstElementChild.firstElementChild.getAttribute(`src`);
+      const steamId = element.querySelector(`.steamLink`).getAttribute(`href`).match(/\d+/)[0];
       let i;
-      for (i = shared.esgst.groups.length - 1; i > -1 && shared.esgst.groups[i].name !== name; i--) {
+      for (i = shared.esgst.groups.length - 1; i > -1 && shared.esgst.groups[i].steamId !== steamId; i--) {
       }
       if (!isLoggedIn && (i < 0 || !shared.esgst.groups[i].member)) {
         continue;
       }
-      const code = i > -1 ? shared.esgst.groups[i].code : ``;
       (element.getElementsByClassName(`pubGroup`)[0] ? publicGroups : privateGroups).push({
         name: name,
         html: [{
@@ -205,7 +205,7 @@ class UsersSharedGroupChecker extends Module {
               children: [{
                 attributes: {
                   class: `table_image_avatar`,
-                  href: `/group/${code}/`,
+                  href: `/go/group/${steamId}`,
                   style: `background-image:url(${avatar})`
                 },
                 type: `a`
@@ -218,7 +218,7 @@ class UsersSharedGroupChecker extends Module {
               children: [{
                 attributes: {
                   class: `table__column__heading`,
-                  href: `/group/${code}/`
+                  href: `/go/group/${steamId}`
                 },
                 type: `a`
               }]
