@@ -411,7 +411,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         }
       }
       WBC.Users = sortArray(WBC.Users);
-      if (WBC.ShowResults) {WBC.Users[3] = undefined;
+      if (WBC.ShowResults) {
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
           if (utils.isSet(WBC.Users[I]) && !SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
             continue;
