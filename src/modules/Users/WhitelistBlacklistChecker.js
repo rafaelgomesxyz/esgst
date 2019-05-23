@@ -404,15 +404,16 @@ class UsersWhitelistBlacklistChecker extends Module {
         if (SavedUsers.users.hasOwnProperty(I)) {
           if (SavedUsers.users[I].wbc && SavedUsers.users[I].wbc.result) {
             WBC.Users.push(SavedUsers.users[I].username);
+            if (!SavedUsers.users[I].username) {
+              window.console.log(`Log for #1084: ${I}, ${JSON.stringify(SavedUsers.users[I])}`);
+            }
           }
         }
       }
       WBC.Users = sortArray(WBC.Users);
-      if (WBC.ShowResults) {
+      if (WBC.ShowResults) {WBC.Users[3] = undefined;
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
-          window.console.log(WBC.Users[I]);
-          window.console.log(Object.keys(SavedUsers.users).filter(x => SavedUsers.users[x].username == WBC.Users[I])[0]);
-          if (!SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
+          if (utils.isSet(WBC.Users[I]) && !SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
             continue;
           }
           let user = {
