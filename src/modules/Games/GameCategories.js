@@ -1524,11 +1524,18 @@ class GamesGameCategories extends Module {
       tags: ``,
       tradingCards: data.trading_cards ? 1 : 0
     };
+    if (data.alias) {
+      if (!shared.esgst.games[type][id]) {
+        shared.esgst.games[type][id] = {};
+      }
+      shared.esgst.games[type][id].alias = data.alias;
+    }
     if (type === `apps` && data.subs) {
       if (!shared.esgst.games.apps[id]) {
         shared.esgst.games.apps[id] = {};
       }
-      shared.esgst.games.apps[id].subs = data.subs;
+      shared.esgst.games[id].subs = null;
+      shared.esgst.games.apps[id].packages = data.subs;
     }
     if (type === `subs` && data.apps) {
       if (!shared.esgst.games.subs[id]) {
@@ -1678,6 +1685,7 @@ class GamesGameCategories extends Module {
               if (!shared.esgst.games.apps[id]) {
                 shared.esgst.games.apps[id] = {};
               }
+              shared.esgst.games[id].subs = null;
               shared.esgst.games.apps[id].packages = data.packages.map(x => parseInt(x));
             }
             if (type === `subs` && data.apps) {
@@ -1890,75 +1898,26 @@ class GamesGameCategories extends Module {
     }
   }
 
-  gc_checkPackage(id, savedGame) {
-    const sub = shared.esgst.games.subs[id];
-    if (!sub || !sub.apps) {
-      return;
-    }
-    const added = [];
-    const games = sub.apps
-      .map(x => {
-        x = parseInt(x);
-        let y = shared.esgst.games.apps[x];
-        if (!y) {
-          return;
-        }
-        y = Object.assign({}, y);
-        if (added.indexOf(x) > -1) {
-          return;
-        }
-        added.push(x);
-        y.id = x;
-        return y;
-      })
-      .concat(
-        Object.keys(shared.esgst.games.apps)
-          .filter(x => shared.esgst.games.apps[x].packages && shared.esgst.games.apps[x].packages.indexOf(id) > -1)
-          .map(x => {
-            const z = parseInt(x);
-            let y = shared.esgst.games.apps[z];
-            if (!y) {
-              return;
-            }
-            y = Object.assign({}, y);
-            if (added.indexOf(z) > -1) {
-              return;
-            }
-            added.push(z);
-            y.id = z;
-            return y;
-          })
-      )
-      .filter(x => x);
-    let found = false;
-    let isOwned = false;
+  gc_checkPackage(savedGame) {
     const count = {
       num: 0,
-      total: sub.apps.length
+      total: savedGame.apps.length
     };
-    for (const game of games) {
+    for (const id of savedGame.apps) {
+      const game = shared.esgst.games.apps[id];
       if (!game) {
         continue;
       }
-      const gameWishlisted = game.wishlisted || (game.alias && !games.filter(x => x.id == game.alias)[0] && shared.esgst.games.apps[game.alias] && shared.esgst.games.apps[game.alias].wishlisted);
-      if (gameWishlisted) {
-        savedGame.wishlisted = gameWishlisted;
+      if (game.owned || (game.alias && utils.getProperty([game.alias, `owned`], shared.esgst.games.apps))) {
+        count.num += 1;
       }
-      const gameOwned = game.owned || (game.alias && !games.filter(x => x.id == game.alias)[0] && shared.esgst.games.apps[game.alias] && shared.esgst.games.apps[game.alias].owned);
-      if (gameOwned || sub.apps.indexOf(game.id) < 0) {
-        if (!found) {
-          isOwned = true;
-        }
-        if (gameOwned) {
-          count.num += 1;
-        }
-      } else {
-        found = true;
-        isOwned = false;
+      if (!savedGame.wishlisted) {
+        savedGame.wishlisted = game.wishlisted || (game.alias && utils.getProperty([game.alias, `wishlisted`], shared.esgst.games.apps));
       }
     }
-    savedGame.owned = isOwned;
-    count.num = Math.min(count.num, count.total);
+    if (count.num === count.total) {
+      savedGame.owned = true;
+    }
     return count;
   }
 
@@ -1968,16 +1927,19 @@ class GamesGameCategories extends Module {
     }
     let active, category, count, cv, elements, encodedName, genre, genreList, genres, giveaway, giveaways, hltbTimes, i,
       j, k, n, panel, name, sent, singularType, user, value;
-    if (type === `apps` && savedGame && savedGame.packages) {
-      savedGame = Object.assign({}, savedGame);
-      for (const subId of savedGame.packages) {
-        this.gc_checkPackage(subId, savedGame);
-      }
-    }
     let packageCount = null;
-    if (type === `subs` && savedGame && savedGame.apps) {
+    if (savedGame) {
       savedGame = Object.assign({}, savedGame);
-      packageCount = this.gc_checkPackage(id, savedGame);
+      if (type === `apps`) {
+        if (!savedGame.owned && savedGame.alias && utils.getProperty([savedGame.alias, `owned`], shared.esgst.games.apps)) {
+          savedGame.owned = true;
+        }
+        if (!savedGame.wishlisted && savedGame.alias && utils.getProperty([savedGame.alias, `wishlisted`], shared.esgst.games.apps)) {
+          savedGame.wishlisted = true;
+        }
+      } else if (type === `subs` && savedGame.apps) {
+        packageCount = this.gc_checkPackage(savedGame);
+      }
     }
     singularType = type.slice(0, -1);
     const realId = typeof id === `string` ? id.replace(/^SteamBundle/, ``) : id;
