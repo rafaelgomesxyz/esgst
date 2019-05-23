@@ -1305,6 +1305,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       }
     } catch (e) { /**/
     }
+    console.log(savedGames.apps[34285].wishlisted);
 
     await shared.common.lockAndSaveGames(savedGames);
   }
