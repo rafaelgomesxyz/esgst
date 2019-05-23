@@ -398,6 +398,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async init() {
+    this.savedRepliesId = `savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`;
     this.esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
     this.esgst.cfh = {
       backup: [],
@@ -898,11 +899,14 @@ class CommentsCommentFormattingHelper extends Module {
         id: `cfh_sr`,
         icons: [`fa-floppy-o`],
         name: `Saved Replies`,
-        setPopout: async popout => {
+        setPopout: async (popout, item) => {
+          item.callback(popout.popout);
+        },
+        callback: async popout => { 
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
-          savedReplies = JSON.parse(shared.common.getValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, `[]`));
-          shared.common.createElements(popout.popout, `inner`, [{
+          savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+          shared.common.createElements(popout, `inner`, [{
             type: `div`,
             children: [{
               attributes: {
@@ -943,8 +947,8 @@ class CommentsCommentFormattingHelper extends Module {
               type: `span`
             }]
           }]);
-          filter = popout.popout.firstElementChild.firstElementChild;
-          this.esgst.cfh.undoDelete = popout.popout.lastElementChild;
+          filter = popout.firstElementChild.firstElementChild;
+          this.esgst.cfh.undoDelete = popout.lastElementChild;
           saveButton = this.esgst.cfh.undoDelete.previousElementSibling;
           addButton = saveButton.previousElementSibling;
           replies = addButton.previousElementSibling;
@@ -955,10 +959,8 @@ class CommentsCommentFormattingHelper extends Module {
           this.esgst.cfh.undoDelete.addEventListener(`click`, this.cfh_undoDelete.bind(this));
           addButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, null, null, replies, null));
           saveButton.addEventListener(`click`, () => this.cfh_saveReply(this.esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null));
-        },
-        callback: popout => {
           popout.firstElementChild.firstElementChild.focus();
-        }
+        },
       }, {
         id: `cfh_ghwsgi`,
         icons: [`fa-github`],
@@ -1074,7 +1076,7 @@ class CommentsCommentFormattingHelper extends Module {
           button.insertAdjacentText("beforeend", item.text);
         }
         if (item.setPopout) {
-          await item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback));
+          await item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback), item);
         } else if (item.setPopup) {
           let popup;
           button.addEventListener(`click`, () => {
@@ -1155,7 +1157,7 @@ class CommentsCommentFormattingHelper extends Module {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
     let hasAdded = false;
     for (const element of elements) {
-      element.onfocus = this.cfh_addPanel.bind(this, element);
+      element.onfocus = this.cfh_addPanel.bind(this, element, null);
       if (!hasAdded && !element.closest(`.is-hidden, .is_hidden, .esgst-hidden`)) {
         this.cfh_addPanel(element);
         hasAdded = true;
@@ -1163,12 +1165,14 @@ class CommentsCommentFormattingHelper extends Module {
     }
     const descriptionEdit = context.querySelector(`.page__description__edit`);
     if (descriptionEdit) {
-      descriptionEdit.addEventListener(`click`, this.cfh_addPanel.bind(this, descriptionEdit.closest(`.page__description`).querySelector(`textarea`)));
+      descriptionEdit.addEventListener(`click`, this.cfh_addPanel.bind(this, descriptionEdit.closest(`.page__description`).querySelector(`textarea`), null));
     }
   }
 
-  cfh_addPanel(textArea) {
+  cfh_addPanel(textArea, savedRepliesId) {
     if (textArea === this.esgst.cfh.textArea) return;
+
+    this.savedRepliesId = `savedReplies${savedRepliesId || (gSettings.cfh_sr_s ? `_st` : ``)}`;
 
     const isNotMain = textArea.closest(`.esgst-popup, .esgst-popout`);
     if (isNotMain) {
@@ -1178,7 +1182,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
 
     textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
-    textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
+    textArea.onfocus = this.cfh_addPanel.bind(this, textArea, savedRepliesId);
     textArea.onpaste = async event => {
       if (gSettings.cfh_pasteFormatting) {
         let clipboard, value;
@@ -1580,13 +1584,13 @@ class CommentsCommentFormattingHelper extends Module {
     editButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, savedReply.description, savedReply.name, replies, summary));
     replaceButton.addEventListener(`click`, () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary));
     editButton.nextElementSibling.addEventListener(`click`, async () => {
-      let savedReplies = JSON.parse(shared.common.getValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, `[]`));
+      let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
       let i;
       for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--) {
       }
       if (i > -1) {
         savedReplies.splice(i, 1);
-        shared.common.setValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, JSON.stringify(savedReplies));
+        shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
         reply.classList.add(`esgst-hidden`);
         this.esgst.cfh.deletedReplies.push({
           reply: reply,
@@ -1601,7 +1605,7 @@ class CommentsCommentFormattingHelper extends Module {
     let i, savedReplies;
     event.dataTransfer.setData(`text/plain`, ``);
     this.esgst.cfh.source = reply;
-    savedReplies = JSON.parse(shared.common.getValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, `[]`));
+    savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
     for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i) {
     }
     if (i > -1) {
@@ -1627,9 +1631,9 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_saveSource() {
-    let savedReplies = JSON.parse(shared.common.getValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, `[]`));
+    let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
     savedReplies.splice(this.esgst.cfh.sourceNewIndex, 0, savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]);
-    shared.common.setValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, JSON.stringify(savedReplies));
+    shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
   }
 
   cfh_openReplyPopup(description, name, replies, summary) {
@@ -1730,7 +1734,7 @@ class CommentsCommentFormattingHelper extends Module {
   async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
     let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
     if (descVal && nameVal) {
-      let savedReplies = JSON.parse(shared.common.getValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, `[]`));
+      let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
       let savedReply = {
         description: descVal,
         name: nameVal
@@ -1748,7 +1752,7 @@ class CommentsCommentFormattingHelper extends Module {
         savedReplies.push(savedReply);
         this.cfh_setReply(replies, savedReply);
       }
-      await shared.common.setValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, JSON.stringify(savedReplies));
+      await shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
       if (popup) {
         popup.close();
       }
@@ -1775,9 +1779,9 @@ class CommentsCommentFormattingHelper extends Module {
     deleted = this.esgst.cfh.deletedReplies.pop();
     deleted.reply.classList.remove(`esgst-hidden`);
     deleted.reply.parentElement.appendChild(deleted.reply);
-    saved = JSON.parse(shared.common.getValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, `[]`));
+    saved = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
     saved.push(deleted.savedReply);
-    shared.common.setValue(`savedReplies${gSettings.cfh_sr_s ? `_st` : ``}`, JSON.stringify(saved));
+    shared.common.setValue(this.savedRepliesId, JSON.stringify(saved));
     if (this.esgst.cfh.deletedReplies.length === 0) {
       this.esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
     }
