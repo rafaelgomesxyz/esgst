@@ -101,7 +101,7 @@ class UsersUserNotes extends Module {
       type: `textarea`
     }]);
     if (gSettings.cfh) {
-      shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea, `_un`);
+      shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
     }
     set = new ButtonSet({
       color1: `green`,

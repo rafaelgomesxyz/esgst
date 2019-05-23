@@ -899,14 +899,11 @@ class CommentsCommentFormattingHelper extends Module {
         id: `cfh_sr`,
         icons: [`fa-floppy-o`],
         name: `Saved Replies`,
-        setPopout: async (popout, item) => {
-          item.callback(popout.popout);
-        },
-        callback: async popout => { 
+        setPopout: async popout => {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
           savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
-          shared.common.createElements(popout, `inner`, [{
+          shared.common.createElements(popout.popout, `inner`, [{
             type: `div`,
             children: [{
               attributes: {
@@ -947,8 +944,8 @@ class CommentsCommentFormattingHelper extends Module {
               type: `span`
             }]
           }]);
-          filter = popout.firstElementChild.firstElementChild;
-          this.esgst.cfh.undoDelete = popout.lastElementChild;
+          filter = popout.popout.firstElementChild.firstElementChild;
+          this.esgst.cfh.undoDelete = popout.popout.lastElementChild;
           saveButton = this.esgst.cfh.undoDelete.previousElementSibling;
           addButton = saveButton.previousElementSibling;
           replies = addButton.previousElementSibling;
@@ -959,6 +956,8 @@ class CommentsCommentFormattingHelper extends Module {
           this.esgst.cfh.undoDelete.addEventListener(`click`, this.cfh_undoDelete.bind(this));
           addButton.addEventListener(`click`, this.cfh_openReplyPopup.bind(this, null, null, replies, null));
           saveButton.addEventListener(`click`, () => this.cfh_saveReply(this.esgst.cfh.textArea.value, null, `Untitled`, null, null, replies, null));
+        },
+        callback: popout => {
           popout.firstElementChild.firstElementChild.focus();
         },
       }, {
@@ -1076,7 +1075,7 @@ class CommentsCommentFormattingHelper extends Module {
           button.insertAdjacentText("beforeend", item.text);
         }
         if (item.setPopout) {
-          await item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback), item);
+          await item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback));
         } else if (item.setPopup) {
           let popup;
           button.addEventListener(`click`, () => {
@@ -1157,7 +1156,7 @@ class CommentsCommentFormattingHelper extends Module {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
     let hasAdded = false;
     for (const element of elements) {
-      element.onfocus = this.cfh_addPanel.bind(this, element, null);
+      element.onfocus = this.cfh_addPanel.bind(this, element);
       if (!hasAdded && !element.closest(`.is-hidden, .is_hidden, .esgst-hidden`)) {
         this.cfh_addPanel(element);
         hasAdded = true;
@@ -1165,14 +1164,12 @@ class CommentsCommentFormattingHelper extends Module {
     }
     const descriptionEdit = context.querySelector(`.page__description__edit`);
     if (descriptionEdit) {
-      descriptionEdit.addEventListener(`click`, this.cfh_addPanel.bind(this, descriptionEdit.closest(`.page__description`).querySelector(`textarea`), null));
+      descriptionEdit.addEventListener(`click`, this.cfh_addPanel.bind(this, descriptionEdit.closest(`.page__description`).querySelector(`textarea`)));
     }
   }
 
-  cfh_addPanel(textArea, savedRepliesId) {
+  cfh_addPanel(textArea) {
     if (textArea === this.esgst.cfh.textArea) return;
-
-    this.savedRepliesId = `savedReplies${savedRepliesId || (gSettings.cfh_sr_s ? `_st` : ``)}`;
 
     const isNotMain = textArea.closest(`.esgst-popup, .esgst-popout`);
     if (isNotMain) {
@@ -1182,7 +1179,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
 
     textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
-    textArea.onfocus = this.cfh_addPanel.bind(this, textArea, savedRepliesId);
+    textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
     textArea.onpaste = async event => {
       if (gSettings.cfh_pasteFormatting) {
         let clipboard, value;
