@@ -100,6 +100,9 @@ class UsersUserNotes extends Module {
     profile.unTextArea = createElements(profile.unPopup.scrollable, `beforeEnd`, [{
       type: `textarea`
     }]);
+    if (gSettings.cfh) {
+      shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea, `_un`);
+    }
     set = new ButtonSet({
       color1: `green`,
       color2: `grey`,
