@@ -968,11 +968,6 @@ function loadDataManagement(type, isPopup, callback) {
     },
     {
       check: true,
-      key: `savedReplies_un`,
-      name: `Saved Replies (User Notes)`
-    },
-    {
-      check: true,
       key: `settings`,
       name: `Settings`
     },
@@ -1547,11 +1542,6 @@ function loadDataCleaner(isPopup) {
         },
         {
           check: true,
-          key: `savedReplies_un`,
-          name: `Saved Replies (User Notes)`
-        },
-        {
-          check: true,
           key: `settings`,
           name: `Settings`
         },
@@ -2096,7 +2086,6 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case `templates`:
       case `savedReplies`:
       case `savedReplies_st`:
-      case `savedReplies_un`:
         data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
         if (!space) {
           if (dm.import) {
