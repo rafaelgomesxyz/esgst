@@ -2094,6 +2094,9 @@ class Settings {
         [`div`, { class: `form__saving-button esgst-sm-colors-default`, onclick: () => { this.preSave(id, shared.esgst.defaultValues[id]); panel.firstElementChild.innerHTML = ``; this.addUlMenuItems(id, panel); } }, [
           [`span`, `Reset`]
         ]],
+        [`div`, { class: `form__saving-button esgst-sm-colors-default`, title: `This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back.`, onclick: () => this.mergeValues(id, panel, this.addUlMenuItems.bind(this)) }, [
+          [`span`, `Merge`]
+        ]],
         [`div`, { class: `form__input-description` }, [
           `The default links should give you an idea of how the format works.`,
           [`br`],
@@ -2118,6 +2121,21 @@ class Settings {
     });
     this.addUlMenuItems(id, panel);
     return panel;
+  }
+
+  mergeValues(id, panel, callback) {
+    const setting = gSettings[id];
+    for (const item of shared.esgst.defaultValues[id]) {
+      const itemString = JSON.stringify(item);
+      if (!setting.filter(x => JSON.stringify(x) === itemString)[0]) {
+        setting.push(item);
+      }
+    }
+    this.preSave(id, setting);
+    panel.firstElementChild.innerHTML = ``;
+    if (callback) {
+      callback(id, panel);
+    }
   }
 
   addUlMenuItems(id, panel) {
