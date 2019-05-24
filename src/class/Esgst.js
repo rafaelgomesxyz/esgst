@@ -256,6 +256,8 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      deleteOldBackups: false,
+      deleteOldBackups_days: 90,
       sfi_icon: `user`,
       npth_previousRegex: `back|last|less|prev|<|←`,
       npth_nextRegex: `forw|more|next|onwards|►|>|→`,

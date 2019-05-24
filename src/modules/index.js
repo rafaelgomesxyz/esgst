@@ -1,6 +1,6 @@
 import { common } from './Common';
 import { settingsModule } from './Settings';
-import { loadDataCleaner, loadDataManagement } from './Storage';
+import { loadDataCleaner, loadDataManagement, manageData } from './Storage';
 import { generalPageLoadTimestamp } from './General/PageLoadTimestamp';
 import { generalVisibleFullLevel } from './General/VisibleFullLevel';
 import { giveawaysBlacklistGiveawayLoader } from './Giveaways/BlacklistGiveawayLoader';
@@ -164,6 +164,7 @@ const modules = {
   settingsModule,
   loadDataCleaner,
   loadDataManagement,
+  manageData,
   generalPageLoadTimestamp,
   generalVisibleFullLevel,
   giveawaysBlacklistGiveawayLoader,
