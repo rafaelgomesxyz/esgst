@@ -67,18 +67,18 @@ class GroupsGroupFilters extends Filters {
           name: `Hide advanced filters.`,
           sg: true
         },
-        gpf_users: {
-          dependencies: [`gs`],
+        gpf_firstGiveaway: {
+          dependencies: [`gs`, `gs_firstGiveaway`],
           description: [
             [`ul`, [
-              [`li`, `Allows you to filter groups by the number of users that are members.`]
+              [`li`, `Allows you to filter groups by the date of the first giveaway made.`]
             ]]
           ],
-          name: `Users`,
+          name: `First Giveaway`,
           sg: true
         },
         gpf_lastGiveaway: {
-          dependencies: [`gs`],
+          dependencies: [`gs`, `gs_lastGiveaway`],
           description: [
             [`ul`, [
               [`li`, `Allows you to filter groups by the date of the last giveaway made.`]
@@ -87,8 +87,68 @@ class GroupsGroupFilters extends Filters {
           name: `Last Giveaway`,
           sg: true
         },
+        gpf_averageEntries: {
+          dependencies: [`gs`, `gs_averageEntries`],
+          description: [
+            [`ul`, [
+              [`li`, `Allows you to filter groups by the number of average entries per giveaway.`]
+            ]]
+          ],
+          name: `Average Entries`,
+          sg: true
+        },
+        gpf_contributors: {
+          dependencies: [`gs`, `gs_contributors`],
+          description: [
+            [`ul`, [
+              [`li`, `Allows you to filter groups by the number of members that have contributed.`]
+            ]]
+          ],
+          name: `Contributors`,
+          sg: true
+        },
+        gpf_winners: {
+          dependencies: [`gs`, `gs_winners`],
+          description: [
+            [`ul`, [
+              [`li`, `Allows you to filter groups by the number of members that have won.`]
+            ]]
+          ],
+          name: `Winners`,
+          sg: true
+        },
+        gpf_giveaways: {
+          dependencies: [`gs`, `gs_giveaways`],
+          description: [
+            [`ul`, [
+              [`li`, `Allows you to filter groups by the number of giveaways that have been made.`]
+            ]]
+          ],
+          name: `Giveaways`,
+          sg: true
+        },
+        gpf_users: {
+          dependencies: [`gs`, `gs_users`],
+          description: [
+            [`ul`, [
+              [`li`, `Allows you to filter groups by the number of users that are members.`]
+            ]]
+          ],
+          name: `Users`,
+          sg: true
+        },
+        gpf_creationDate: {
+          dependencies: [`gs`, `gs_creationDate`],
+          description: [
+            [`ul`, [
+              [`li`, `Allows you to filter groups by their creation date.`]
+            ]]
+          ],
+          name: `Creation Date`,
+          sg: true
+        },
         gpf_officialGameGroup: {
-          dependencies: [`gs`, `gs_t`],
+          dependencies: [`gs`, `gs_type`],
           description: [
             [`ul`, [
               [`li`, `Allows you to filter groups that are official game groups.`]
@@ -98,7 +158,7 @@ class GroupsGroupFilters extends Filters {
           sg: true
         },
         gpf_open: {
-          dependencies: [`gs`, `gs_t`],
+          dependencies: [`gs`, `gs_type`],
           description: [
             [`ul`, [
               [`li`, `Allows you to filter groups that are open to join.`]
@@ -108,7 +168,7 @@ class GroupsGroupFilters extends Filters {
           sg: true
         },
         gpf_restricted: {
-          dependencies: [`gs`, `gs_t`],
+          dependencies: [`gs`, `gs_type`],
           description: [
             [`ul`, [
               [`li`, `Allows you to filter groups that are restricted to join.`]
@@ -118,7 +178,7 @@ class GroupsGroupFilters extends Filters {
           sg: true
         },
         gpf_closed: {
-          dependencies: [`gs`, `gs_t`],
+          dependencies: [`gs`, `gs_type`],
           description: [
             [`ul`, [
               [`li`, `Allows you to filter groups that are closed to join.`]
@@ -152,34 +212,66 @@ class GroupsGroupFilters extends Filters {
 
   getFilters() {
     return {
+      giveaways: {
+        check: gSettings.gs && gSettings.gs_giveaways,
+        name: `Giveaways`,
+        type: `number`
+      },
       users: {
-        check: gSettings.gs,
+        check: gSettings.gs && gSettings.gs_users,
         name: `Users`,
         type: `number`
       },
+      firstGiveaway: {
+        check: gSettings.gs && gSettings.gs_firstGiveaway,
+        date: true,
+        name: `First Giveaway`,
+        type: `number`
+      },
       lastGiveaway: {
-        check: gSettings.gs,
+        check: gSettings.gs && gSettings.gs_lastGiveaway,
         date: true,
         name: `Last Giveaway`,
         type: `number`
       },
+      averageEntries: {
+        check: gSettings.gs && gSettings.gs_averageEntries,
+        name: `Average Entries`,
+        type: `number`
+      },
+      contributors: {
+        check: gSettings.gs && gSettings.gs_contributors,
+        name: `Contributors`,
+        type: `number`
+      },
+      winners: {
+        check: gSettings.gs && gSettings.gs_winners,
+        name: `Winners`,
+        type: `number`
+      },
+      creationDate: {
+        check: gSettings.gs && gSettings.gs_creationDate,
+        date: true,
+        name: `Creation Date`,
+        type: `number`
+      },
       officialGameGroup: {
-        check: gSettings.gs && gSettings.gs_t,
+        check: gSettings.gs && gSettings.gs_type,
         name: `Official Game Group`,
         type: `boolean`
       },
       open: {
-        check: gSettings.gs && gSettings.gs_t,
+        check: gSettings.gs && gSettings.gs_type,
         name: `Open`,
         type: `boolean`
       },
       restricted: {
-        check: gSettings.gs && gSettings.gs_t,
+        check: gSettings.gs && gSettings.gs_type,
         name: `Restricted`,
         type: `boolean`
       },
       closed: {
-        check: gSettings.gs && gSettings.gs_t,
+        check: gSettings.gs && gSettings.gs_type,
         name: `Closed`,
         type: `boolean`
       }

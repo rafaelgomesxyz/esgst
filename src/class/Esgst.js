@@ -256,6 +256,12 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      gs_sent_sg: true,
+      gs_received_sg: true,
+      gs_giftDifference_sg: true,
+      gs_valueDifference_sg: true,
+      gs_lastGiveaway_sg: true,
+      gs_users_sg: true,
       deleteOldBackups: false,
       deleteOldBackups_days: 90,
       sfi_icon: `user`,
@@ -976,6 +982,7 @@ class Esgst {
     };
 
     this.oldValues = {
+      gs_type_sg: `gs_t_sg`,
       uf_gp_sg: `uf_p_sg`,
       uf_dp_sg: `uf_p_sg`,
       makeSectionsCollapsible_sg: `makeSecionsCollapsible_sg`,

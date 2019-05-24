@@ -163,11 +163,18 @@ class GeneralTableSorter extends Module {
               element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
               break;
             case `Added`:
+            case `Creation Date`:
             case `Date Entered`:
+            case `First Giveaway`:
+            case `Last Giveaway`:
             case `Last Online`:
             case `Last Post`:
             case `Last Update`:
-              element.value = value.match(/Online\sNow/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+              try {
+                element.value = value.match(/Online|Open/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+              } catch (e) {
+                element.value = 0;
+              }
               break;
             case `Game`:
             case `Giveaway`:
