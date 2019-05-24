@@ -1534,7 +1534,7 @@ class GamesGameCategories extends Module {
       if (!shared.esgst.games.apps[id]) {
         shared.esgst.games.apps[id] = {};
       }
-      shared.esgst.games[id].subs = null;
+      shared.esgst.games.apps[id].subs = null;
       shared.esgst.games.apps[id].packages = data.subs;
     }
     if (type === `subs` && data.apps) {
@@ -1685,7 +1685,7 @@ class GamesGameCategories extends Module {
               if (!shared.esgst.games.apps[id]) {
                 shared.esgst.games.apps[id] = {};
               }
-              shared.esgst.games[id].subs = null;
+              shared.esgst.games.apps[id].subs = null;
               shared.esgst.games.apps[id].packages = data.packages.map(x => parseInt(x));
             }
             if (type === `subs` && data.apps) {
