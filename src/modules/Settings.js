@@ -2058,16 +2058,20 @@ class Settings {
     }
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
+      this.preSave(id, gSettings[id]);
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
+      this.preSave(id, gSettings[id]);
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
+      this.preSave(id, gSettings[id]);
     });
     if (bgColor) {
       bgColor.addEventListener(`change`, () => {
         colors.bgColor = bgColor.value;
+        this.preSave(id, gSettings[id]);
       });
     }
     remove.addEventListener(`click`, () => {
@@ -2280,18 +2284,23 @@ class Settings {
     let remove = tooltip.nextElementSibling;
     lower.addEventListener(`change`, () => {
       colors.lower = lower.value;
+      this.preSave(`gc_r_colors`, gSettings.gc_r_colors);
     });
     upper.addEventListener(`change`, () => {
       colors.upper = upper.value;
+      this.preSave(`gc_r_colors`, gSettings.gc_r_colors);
     });
     color.addEventListener(`change`, () => {
       colors.color = color.value;
+      this.preSave(`gc_r_colors`, gSettings.gc_r_colors);
     });
     bgColor.addEventListener(`change`, () => {
       colors.bgColor = bgColor.value;
+      this.preSave(`gc_r_colors`, gSettings.gc_r_colors);
     });
     icon.addEventListener(`change`, () => {
       colors.icon = icon.value;
+      this.preSave(`gc_r_colors`, gSettings.gc_r_colors);
     });
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
@@ -2384,12 +2393,15 @@ class Settings {
     remove = bgColor.nextElementSibling;
     genre.addEventListener(`change`, () => {
       colorSetting.genre = genre.value;
+      this.preSave(`gc_g_colors`, gSettings.gc_g_colors);
     });
     color.addEventListener(`change`, () => {
       colorSetting.color = color.value;
+      this.preSave(`gc_g_colors`, gSettings.gc_g_colors);
     });
     bgColor.addEventListener(`change`, () => {
       colorSetting.bgColor = bgColor.value;
+      this.preSave(`gc_g_colors`, gSettings.gc_g_colors);
     });
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
@@ -2399,6 +2411,7 @@ class Settings {
         if (i < n) {
           gcgcolors.splice(i, 1);
           gSettings.gc_g_colors = gcgcolors;
+          this.preSave(`gc_g_colors`, gSettings.gc_g_colors);
           setting.remove();
         }
       }
@@ -2538,21 +2551,27 @@ class Settings {
     remove = label.nextElementSibling;
     steamId.addEventListener(`change`, () => {
       altSetting.steamId = steamId.value;
+      this.preSave(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
     });
     name.addEventListener(`change`, () => {
       altSetting.name = name.value;
+      this.preSave(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
     });
     color.addEventListener(`change`, () => {
       altSetting.color = color.value;
+      this.preSave(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
     });
     bgColor.addEventListener(`change`, () => {
       altSetting.bgColor = bgColor.value;
+      this.preSave(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
     });
     icon.addEventListener(`change`, () => {
       altSetting.icon = icon.value;
+      this.preSave(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
     });
     label.addEventListener(`change`, () => {
       altSetting.label = label.value;
+      this.preSave(`gc_o_altAccounts`, gSettings.gc_o_altAccounts);
     });
     remove.addEventListener(`click`, () => {
       if (window.confirm(`Are you sure you want to delete this setting?`)) {
