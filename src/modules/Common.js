@@ -2412,7 +2412,7 @@ class Common extends Module {
   }
 
   lookForPopups(response) {
-    const popup = parseHtml(response.responseText).querySelector(`.popup--gift-sent, .popup--gift-received`);
+    const popup = (response.html || parseHtml(response.responseText)).querySelector(`.popup--gift-sent, .popup--gift-received`);
     if (!popup) {
       return;
     }
