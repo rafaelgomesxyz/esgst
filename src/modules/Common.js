@@ -125,7 +125,7 @@ class Common extends Module {
    * @param {Object} modules
    * @returns {Promise<void>}
    */
-  async loadFeatures(modules) {
+  async loadFeatures(modules) {  
     console.log(this.esgst.games.apps[269650]);
     if (this.isCurrentPath(`Account`)) {
       this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
@@ -331,6 +331,10 @@ class Common extends Module {
     }
     window.addEventListener(`beforeunload`, this.checkBusy.bind(this));
     window.addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
+
+    if (shared.esgst.replyBox) {
+      shared.esgst.replyBox.querySelector(`textarea`).focus();
+    }
 
     for (const key in this.esgst.documentEvents) {
       if (this.esgst.documentEvents.hasOwnProperty(key)) {
