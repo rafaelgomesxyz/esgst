@@ -25,12 +25,6 @@ if (customTheme) {
 browser.runtime.sendMessage({ action: `getStorage` }).then(stg => {
   storage = JSON.parse(stg);
   const settings = JSON.parse(storage.settings);
-  if (settings.esgst_sgtools) {
-    setTheme(settings);
-  }
-});
-
-async function setTheme(settings) {
   if (themeElement) {
     themeElement.remove();
     themeElement = null;
@@ -39,9 +33,18 @@ async function setTheme(settings) {
     customThemeElement.remove();
     customThemeElement = null;
   }
+  if (getSetting(settings.esgst_sgtools)) {
+    setTheme(settings);
+  } else {
+    delLocalValue(`theme`);
+    delLocalValue(`customTheme`);
+  }
+});
+
+async function setTheme(settings) {
   const keys = [`sgDarkGrey`, `sgv2Dark`];
   for (const key of keys) {
-    if (settings[`${key}_sgtools`] && checkThemeTime(key, settings)) {
+    if (getSetting(settings[`${key}_sgtools`]) && checkThemeTime(key, settings)) {
       const theme = storage[key];
       if (!theme) continue;
       const css = getThemeCss(JSON.parse(theme));
@@ -55,7 +58,7 @@ async function setTheme(settings) {
       break;
     }
   }
-  if (settings.customTheme_sgtools && checkThemeTime(`customTheme`, settings)) {
+  if (getSetting(settings.customTheme_sgtools) && checkThemeTime(`customTheme`, settings)) {
     const customTheme = storage.customTheme;
     if (!customTheme) return;
     const css = JSON.parse(customTheme);
@@ -241,4 +244,12 @@ function setLocalValue(key, value) {
 
 function getLocalValue(key, value = undefined) {
   return window.localStorage.getItem(`esgst_${key}`) || value;
+}
+
+function delLocalValue(key) {
+  window.localStorage.removeItem(`esgst_${key}`);
+}
+
+function getSetting(variable) {
+  return typeof variable === `object` ? variable.enabled : variable;
 }
