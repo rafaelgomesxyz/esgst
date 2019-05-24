@@ -1,5 +1,6 @@
 import { Module } from '../class/Module';
 import { gSettings } from '../class/Globals';
+import { shared } from '../class/Shared';
 
 class Users extends Module {
   constructor() {
@@ -55,12 +56,33 @@ class Users extends Module {
       }
       this.esgst.currentUsers[id].elements.push(element);
       const context = container.classList.contains(`comment__username`) ? container : element;
-      this.esgst.currentScope.users.push({
+
+      const userObj = {
         code: id,
         innerWrap: context,
         outerWrap: context,
         sg
-      });
+      };
+
+      if (shared.esgst.groupPath) {
+        const userRow = userObj.outerWrap.closest(`.table__column--width-fill`);
+        if (userRow) {
+          const sentRow = userRow.nextElementSibling;
+          const receivedRow = sentRow.nextElementSibling;
+          const giftDifferenceRow = receivedRow.nextElementSibling;
+          const valueDifferenceRow = giftDifferenceRow.nextElementSibling;
+          const sentMatch = sentRow.textContent.trim().match(/(.+?)\s\((.+?)\)/);
+          const receivedMatch = receivedRow.textContent.trim().match(/(.+?)\s\((.+?)\)/);
+          userObj.sentCount = sentMatch[1];
+          userObj.sentValue = sentMatch[2];
+          userObj.receivedCount = receivedMatch[1];
+          userObj.receivedValue = receivedMatch[2];
+          userObj.giftDifference = giftDifferenceRow.textContent.trim();
+          userObj.valueDifference = valueDifferenceRow.textContent.trim();
+        }
+      }
+
+      this.esgst.currentScope.users.push(userObj);
       if (!found) {
         found = true;
       }
