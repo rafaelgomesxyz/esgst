@@ -645,6 +645,12 @@ class GeneralMultiManager extends Module {
       <ul>
         <li>[url] - The URL of the user (https://www.steamgifts.com/user/username).</li>
         <li>[username] - The username of the user.</li>
+        <li>[sentCount] - The number of giveaways that a user has given in a group (only available in group user pages).</li>
+        <li>[sentValue] - The amount in dollars that a user has given in a group (only available in group user pages).</li>
+        <li>[receivedCount] - The number of giveaways that a user has won in a group (only available in group user pages).</li>
+        <li>[receivedValue] - The amount in dollars that a user has won in a group (only available in group user pages).</li>
+        <li>[giftDifference] - The difference between the number of giveaways that a user has given and the number of giveaways that they have won in a group (only available in group user pages).</li>
+        <li>[valueDifference] - The difference between the amount in dollars that a user has given and the amount in dollars that they have won in a group (only available in group user pages).</li>
       </ul>
       <div class="esgst-bold">Games:</div>
       <ul>
@@ -780,6 +786,12 @@ class GeneralMultiManager extends Module {
           links.push(line
             .replace(/\[URL]/ig, `https://${window.location.hostname}/user/${item.code}`)
             .replace(/\[USERNAME]/ig, item.code)
+            .replace(/\[SENTCOUNT]/ig, item.sentCount)
+            .replace(/\[SENTVALUE]/ig, item.sentValue)
+            .replace(/\[RECEIVEDCOUNT]/ig, item.receivedCount)
+            .replace(/\[RECEIVEDVALUE]/ig, item.receivedValue)
+            .replace(/\[GIFTDIFFERENCE]/ig, item.giftDifference)
+            .replace(/\[VALUEDIFFERENCE]/ig, item.valueDifference)
           );
         });
         break;
