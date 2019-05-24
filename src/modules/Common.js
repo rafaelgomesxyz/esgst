@@ -5801,13 +5801,8 @@ class Common extends Module {
                   ]],
                   [`div`, [
                     [`strong`, `Bitcoin: `],
-                    `1K2aV78P4xtksZZ9DLqhGSzAmrcvnrdLCi `,
-                    this.getCopyIcon(`1K2aV78P4xtksZZ9DLqhGSzAmrcvnrdLCi`)
-                  ]],
-                  [`div`, [
-                    [`strong`, `Ethereum: `],
-                    `0xd4B398c6aDADb5316317841Adebeda797fc3b180 `,
-                    this.getCopyIcon(`0xd4B398c6aDADb5316317841Adebeda797fc3b180`)
+                    `32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9 `,
+                    this.getCopyIcon(`32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9`)
                   ]],
                   [`div`, [
                     [`strong`, `Monero: `],
