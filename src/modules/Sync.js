@@ -13,6 +13,79 @@ const
 
 let toSave = {};
 
+const SYNC_KEYS = {
+  syncGroups: {
+    dependencies: [],
+    key: `Groups`,
+    name: `Groups`
+  },
+  syncWhitelist: {
+    dependencies: [],
+    key: `Whitelist`,
+    name: `Whitelist`
+  },
+  syncBlacklist: {
+    dependencies: [],
+    key: `Blacklist`,
+    name: `Blacklist`
+  },
+  syncSteamFriends: {
+    dependencies: [],
+    key: `SteamFriends`,
+    name: `Steam Friends (requires Steam API key)`
+  },
+  syncHiddenGames: {
+    dependencies: [],
+    key: `HiddenGames`,
+    name: `Hidden Games`
+  },
+  syncGames: {
+    dependencies: [],
+    key: `Games`,
+    name: `Owned/Wishlisted/Ignored Games`
+  },
+  syncFollowedGames: {
+    dependencies: [],
+    key: `FollowedGames`,
+    name: `Followed Games`
+  },
+  syncWonGames: {
+    dependencies: [],
+    key: `WonGames`,
+    name: `Won Games`
+  },
+  syncReducedCvGames: {
+    dependencies: [],
+    key: `ReducedCvGames`,
+    name: `Reduced CV Games`
+  },
+  syncNoCvGames: {
+    dependencies: [],
+    key: `NoCvGames`,
+    name: `No CV Games`
+  },
+  syncHltbTimes: {
+    dependencies: [],
+    key: `HltbTimes`,
+    name: `HLTB Times`
+  },
+  syncDelistedGames: {
+    dependencies: [],
+    key: `DelistedGames`,
+    name: `Delisted Games`
+  },
+  syncGiveaways: {
+    dependencies: [],
+    key: `Giveaways`,
+    name: `Giveaways`
+  },
+  syncWonGiveaways: {
+    dependencies: [],
+    key: `WonGiveaways`,
+    name: `Won Giveaways`
+  }
+};
+
 async function runSilentSync(parameters) {
   const button = shared.common.addHeaderButton(`fa-refresh fa-spin`, `active`, `ESGST is syncing your data... Please do not close this window.`);
   shared.esgst.parameters = Object.assign(shared.esgst.parameters, shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, ``)}`));
@@ -123,78 +196,7 @@ async function setSync(isPopup = false, isSilent = false) {
       content: [],
       name: `Automatic`
     };
-    syncer.switchesKeys = {
-      syncGroups: {
-        dependencies: [],
-        key: `Groups`,
-        name: `Groups`
-      },
-      syncWhitelist: {
-        dependencies: [],
-        key: `Whitelist`,
-        name: `Whitelist`
-      },
-      syncBlacklist: {
-        dependencies: [],
-        key: `Blacklist`,
-        name: `Blacklist`
-      },
-      syncSteamFriends: {
-        dependencies: [],
-        key: `SteamFriends`,
-        name: `Steam Friends (requires Steam API key)`
-      },
-      syncHiddenGames: {
-        dependencies: [],
-        key: `HiddenGames`,
-        name: `Hidden Games`
-      },
-      syncGames: {
-        dependencies: [],
-        key: `Games`,
-        name: `Owned/Wishlisted/Ignored Games`
-      },
-      syncFollowedGames: {
-        dependencies: [],
-        key: `FollowedGames`,
-        name: `Followed Games`
-      },
-      syncWonGames: {
-        dependencies: [],
-        key: `WonGames`,
-        name: `Won Games`
-      },
-      syncReducedCvGames: {
-        dependencies: [],
-        key: `ReducedCvGames`,
-        name: `Reduced CV Games`
-      },
-      syncNoCvGames: {
-        dependencies: [],
-        key: `NoCvGames`,
-        name: `No CV Games`
-      },
-      syncHltbTimes: {
-        dependencies: [],
-        key: `HltbTimes`,
-        name: `HLTB Times`
-      },
-      syncDelistedGames: {
-        dependencies: [],
-        key: `DelistedGames`,
-        name: `Delisted Games`
-      },
-      syncGiveaways: {
-        dependencies: [],
-        key: `Giveaways`,
-        name: `Giveaways`
-      },
-      syncWonGiveaways: {
-        dependencies: [],
-        key: `WonGiveaways`,
-        name: `Won Giveaways`
-      }
-    };
+    syncer.switchesKeys = SYNC_KEYS;
     syncer.switches = {};
     for (const type in shared.esgst.features) {
       for (const id in shared.esgst.features[type].features) {
@@ -1391,5 +1393,5 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
   }
 }
 
-export { runSilentSync, setSync };
+export { runSilentSync, setSync, SYNC_KEYS };
 

@@ -7,6 +7,7 @@ import { utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { gSettings } from '../class/Globals';
 import { shared } from '../class/Shared';
+import { SYNC_KEYS } from './Sync';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -129,6 +130,11 @@ class Filters extends Module {
             },
             type: `div`,
             children: [{
+              attributes: {
+                class: `esgst-gf-box warning esgst-hidden`
+              },
+              type: `div`
+            }, {
               attributes: {
                 class: `esgst-gf-basic-filters`
               },
@@ -309,7 +315,8 @@ class Filters extends Module {
     const box = obj.container.firstElementChild;
     obj.filtersPanel = box.firstElementChild;
     const leftPanel = obj.filtersPanel.firstElementChild;
-    const basicFilters = leftPanel.firstElementChild;
+    obj.warningsPanel = leftPanel.firstElementChild;
+    const basicFilters = obj.warningsPanel.nextElementSibling;
     const numberFilters = basicFilters.firstElementChild;
     const booleanFilters = numberFilters.nextElementSibling;
     const stringFilters = booleanFilters.nextElementSibling;
@@ -320,8 +327,8 @@ class Filters extends Module {
     obj.presetInput = presetPanel.firstElementChild.nextElementSibling;
     obj.presetMessage = obj.presetInput.nextElementSibling;
     obj.presetWarning = obj.presetMessage.nextElementSibling;
-    const button = box.nextElementSibling;
-    obj.expandButton = button.firstElementChild;
+    obj.button = box.nextElementSibling;
+    obj.expandButton = obj.button.firstElementChild;
     obj.collapseButton = obj.expandButton.nextElementSibling;
     obj.filteredCount = obj.collapseButton.nextElementSibling;
     if (obj.id === `gf`) {
@@ -377,7 +384,7 @@ class Filters extends Module {
     obj.presetDisplay.textContent = obj.presetInput.value = name;
 
     presetButton.addEventListener(`click`, this.filters_openPresetPopup.bind(this, obj));
-    button.addEventListener(`click`, this.filters_toggleFilters.bind(this, obj));
+    obj.button.addEventListener(`click`, this.filters_toggleFilters.bind(this, obj));
 
     const filters = [];
     for (const key in obj.filters) {
@@ -964,7 +971,44 @@ class Filters extends Module {
       sgFilters.classList.add(`esgst-hidden`);
     }
 
+    let warnings = [];
+    const now = Date.now();
+    const usedFilters = this.getUsedFilters(obj.rules);
+    for (const key of usedFilters) {
+      const filter = obj.filters[key];        
+      if (filter.category && (!gSettings.gc || !gSettings[filter.category])) {
+        warnings.push(`"${filter.name}" requires "${shared.common.getFeatureName(null, filter.category)}" to be enabled in the settings menu.`);
+      } else if (filter.sync) {
+        for (const syncKey of filter.sync) {
+          if (now - gSettings[`lastSync${syncKey}`] > 2592000000) {
+            warnings.push(`"${filter.name}" requires "${SYNC_KEYS[`sync${syncKey}`].name}" to be synced in the sync menu, but that item has either never been synced or it was last synced more than 30 days ago.`);
+          }
+        }
+      }
+    }
+
+    if (warnings.length > 0) {
+      shared.common.createElements_v2(obj.warningsPanel, `beforeEnd`, [
+        `You are using some filters that may require your attention:`,
+        [`div`, { class: `markdown` }, [
+          [`ul`, warnings.map(x => [`li`, x])]
+        ]]
+      ]);
+      obj.button.classList.add(`warning`);
+    }
+
     return headingButton;
+  }
+
+  getUsedFilters(rule, usedFilters = new Set()) {
+    if (rule.condition) {
+      for (const subRule of rule.rules) {
+        this.getUsedFilters(subRule, usedFilters);
+      }
+      return usedFilters;
+    } else {
+      usedFilters.add(rule.id);
+    }
   }
 
   onRulesChanged(obj, event) {
@@ -1863,7 +1907,11 @@ class Filters extends Module {
   filters_toggleFilters(obj) {
     obj.collapseButton.classList.toggle(`esgst-hidden`);
     obj.expandButton.classList.toggle(`esgst-hidden`);
+    if (obj.warningsPanel.firstElementChild) {
+      obj.warningsPanel.classList.toggle(`esgst-hidden`);
+    }
     obj.filtersPanel.classList.toggle(`esgst-hidden`);
+
   }
 
   filters_filter(obj, unfilter, endless) {

@@ -1994,6 +1994,17 @@ function addStyle() {
     padding: 0 15px;
   }
 
+  .esgst-gf-box.warning, .esgst-gf-button.warning {
+    background-color: #FF0000;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: none;
+  }
+
+  .esgst-gf-box.warning .markdown li:before {
+    color: #FFFFFF;
+  }
+
   .esgst-gr-button {
     cursor: pointer;
     display: inline-block;
