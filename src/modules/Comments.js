@@ -104,7 +104,7 @@ class Comments extends Module {
       comment.permalink = matches[n - 1];
     }
     comment.id = comment.permalink ? comment.permalink.getAttribute(`href`).match(/\/comment\/(.+)/)[1] : ``;
-    comment.timestamp = parseInt(comment.actions.firstElementChild.lastElementChild.getAttribute(`data-timestamp`));
+    comment.timestamp = parseInt(comment.actions.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
     if (!main || shared.common.isCurrentPath(`Messages`)) {
       if (this.esgst.sg) {
         try {
