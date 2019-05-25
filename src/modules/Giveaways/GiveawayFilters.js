@@ -1091,26 +1091,31 @@ class GiveawaysGiveawayFilters extends Filters {
       owned: {
         check: true,
         name: `Owned`,
+        sync: [`Games`],
         type: `boolean`
       },
       wishlisted: {
         check: true,
         name: `Wishlisted`,
+        sync: [`Games`],
         type: `boolean`
       },
       followed: {
         check: true,
         name: `Followed`,
+        sync: [`FollowedGames`],
         type: `boolean`
       },
       hidden: {
         check: true,
         name: `Hidden`,
+        sync: [`HiddenGames`],
         type: `boolean`
       },
       ignored: {
         check: true,
         name: `Ignored`,
+        sync: [`Games`],
         type: `boolean`
       },
       previouslyEntered: {
@@ -1121,21 +1126,25 @@ class GiveawaysGiveawayFilters extends Filters {
       previouslyWon: {
         check: true,
         name: `Previously Won`,
+        sync: [`WonGames`],
         type: `boolean`
       },
       fullCV: {
         check: true,
         name: `Full CV`,
+        sync: [`ReducedCvGames`, `NoCvGames`],
         type: `boolean`
       },
       reducedCV: {
         check: true,
         name: `Reduced CV`,
+        sync: [`ReducedCvGames`],
         type: `boolean`
       },
       noCV: {
         check: true,
         name: `No CV`,
+        sync: [`NoCvGames`],
         type: `boolean`
       },
       sgTools: {
@@ -1170,11 +1179,13 @@ class GiveawaysGiveawayFilters extends Filters {
       removed: {
         check: true,
         name: `Removed`,
+        sync: [`DelistedGames`],
         type: `boolean`
       },
       banned: {
         check: true,
         name: `Banned`,
+        sync: [`DelistedGames`],
         type: `boolean`
       },
       tradingCards: {
