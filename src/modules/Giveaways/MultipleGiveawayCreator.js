@@ -736,6 +736,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   async mgc_getValues(edit, mgc) {
+    if (gSettings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(mgc.description.value))) {
+      return;
+    }
     let values = {
       gameId: mgc.gameId.value,
       gameType: mgc.gameType.value,

@@ -5,6 +5,7 @@ import { Popup } from '../../class/Popup';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -69,6 +70,10 @@ class GiveawaysGiveawayTemplates extends Module {
       title1: `Create Giveaway`,
       title2: `Creating...`,
       callback1: async () => {
+        const textArea = document.querySelector(`[name="description"]`);
+        if (gSettings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))) {
+          return;
+        }
         return new Promise(async resolve => {
           let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
           data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
@@ -84,7 +89,7 @@ class GiveawaysGiveawayTemplates extends Module {
           data += `who_can_enter=${document.querySelector(`[name="who_can_enter"]`).value}&`;
           data += `whitelist=${document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value}&`;
           data += `contributor_level=${document.querySelector(`[name="contributor_level"]`).value}&`;
-          data += `description=${encodeURIComponent(document.querySelector(`[name="description"]`).value)}`;
+          data += `description=${encodeURIComponent(textArea.value)}`;
           const response = await request({
             data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime.bind(this.esgst.modules.giveawaysMultipleGiveawayCreator)),
             method: `POST`,

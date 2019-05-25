@@ -156,7 +156,7 @@ class GiveawaysRealCVCalculator extends Module {
           });
         }
       } else {
-        button = document.getElementsByClassName(`js__submit-form`)[0];
+        button = document.querySelector(`.js__submit-form, [data-esgst=reviewButton]`);
         let input = document.querySelector(`[name="game_id"]`);
         button.addEventListener(`click`, async () => {
           let selectedId = input.value;
