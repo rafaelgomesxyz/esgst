@@ -48,7 +48,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
           },
           type: `i`
         }, {
-          text: `${giveaway.winners.length || giveaway.numWinners} winners`,
+          text: `${giveaway.numWinners} winners`,
           type: `span`
         }]
       }]);
