@@ -203,6 +203,10 @@ class GeneralContentLoader extends Module {
     if (id === `cl_gi` || id === `cl_ui`) {
       targetObj.url = target.getAttribute(`href`);
 
+      if (!targetObj.url) {
+        return;
+      }
+
       const match = targetObj.url.match(/\/(user|group)\/(.+?)(\/.*)?$/);
       if (!match) {
         return;

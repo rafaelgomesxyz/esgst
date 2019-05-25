@@ -54,6 +54,7 @@ import { groupsGroupStats } from './Groups/GroupStats';
 import { discussionsDiscussionTags } from './Discussions/DiscussionTags';
 import { gamesGameTags } from './Games/GameTags';
 import { groupsGroupTags } from './Groups/GroupTags';
+import { giveawaysNewGiveawayDescriptionChecker } from './Giveaways/NewGiveawayDescriptionChecker';
 import { giveawaysGiveawayTemplates } from './Giveaways/GiveawayTemplates';
 import { giveawaysGridView } from './Giveaways/GridView';
 import { generalHiddenBlacklistStats } from './General/HiddenBlacklistStats';
@@ -216,6 +217,7 @@ const modules = {
   discussionsDiscussionTags,
   gamesGameTags,
   groupsGroupTags,
+  giveawaysNewGiveawayDescriptionChecker,
   giveawaysGiveawayTemplates,
   giveawaysGridView,
   generalHiddenBlacklistStats,
