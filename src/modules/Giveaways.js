@@ -491,7 +491,7 @@ class Giveaways extends Module {
      * @property {object} winnerColumns.noWinners
      */
     giveaway.winnerColumns = {};
-    giveaway.numWinners = 0;
+    giveaway.numWinners = Math.min(giveaway.entries || 0, giveaway.copies);
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
       while (column && column !== giveaway.startTimeColumn) {
@@ -508,21 +508,21 @@ class Giveaways extends Module {
         } else {
           continue;
         }
-        const winners = column.textContent.trim().split(/,\s/).filter(x => x);
-        if (key !== `noWinners`) {
+        const winners = [];
+        if (key === `received` || key === `notReceived`) {
+          winners.push(...column.textContent.trim().split(/,\s/).filter(x => x));
           giveaway.winners.push(...winners.map(x => ({ status, username: x })));
+          if (key === `received`) {
+            giveaway.winnerNames = winners.map(x => x.toLowerCase());
+          }
         }
-        if (key === `received`) {
-          giveaway.winnerNames = winners.map(x => x.toLowerCase());
-          giveaway.numWinners += winners.length;
-        }
-        giveaway.winnerColumns[key] = {column, status, winners};
+        giveaway.winnerColumns[key] = { column, status, winners };
         column.setAttribute(`data-draggable-id`, `winners`);
         column = column.nextElementSibling;
       }
     }
-    if (!giveaway.numWinners) {
-      giveaway.numWinners = giveaway.winnerColumns.awaitingFeedback || giveaway.winnerColumns.noWinners ? 0 : Math.min(giveaway.entries || 0,  giveaway.copies);
+    if (!giveaway.winners.length || giveaway.numWinners < 4) {
+      giveaway.numWinners = giveaway.winners.length;
     }
     if (giveaway.endTimeColumn) {
       giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
@@ -566,7 +566,7 @@ class Giveaways extends Module {
         startTime: giveaway.startTime,
         started: giveaway.started,
         creator: giveaway.creator,
-        winners: giveaway.winners,
+        winners: giveaway.numWinners > 3 ? [] : giveaway.winners,
         numWinners: giveaway.numWinners,
         entries: giveaway.entries,
         comments: giveaway.comments,
@@ -575,7 +575,8 @@ class Giveaways extends Module {
         inviteOnly: !!(giveaway.inviteOnly || giveaway.sgTools),
         regionRestricted: !!giveaway.regionRestricted,
         group: !!giveaway.group,
-        whitelist: !!giveaway.whitelist
+        whitelist: !!giveaway.whitelist,
+        v: shared.esgst.CURRENT_GIVEAWAY_VERSION
       }
     };
   }

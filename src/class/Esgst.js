@@ -4,6 +4,8 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.CURRENT_GIVEAWAY_VERSION = 2;
+
     this.es_loadNext = undefined;
     this.es_refresh = undefined;
     this.es_refreshAll = undefined;
