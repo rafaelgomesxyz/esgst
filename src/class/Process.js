@@ -138,7 +138,7 @@ class Process {
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
-    while (!this.isCanceled && (i < gSettings[`${this.urls.id}_perLoad`] || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+    while (!this.isCanceled && (i < (this.urls.lockPerLoad ? this.urls.perLoad : gSettings[`${this.urls.id}_perLoad`]) || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;
