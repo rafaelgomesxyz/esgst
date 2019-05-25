@@ -466,8 +466,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (gSettings.cgb) {
       shared.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
-    if (giveaway.group && gSettings.ggl) {
-      shared.esgst.modules.giveawaysGiveawayGroupLoader.ggl_getGiveaways([giveaway]);
+    if (giveaway.group && gSettings.cl && gSettings.ggl) {
+      shared.esgst.modules.generalContentLoader.loadGiveawayGroups(`ggl`, [giveaway]);
     }
   }
 

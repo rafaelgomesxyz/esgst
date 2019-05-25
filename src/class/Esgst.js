@@ -990,6 +990,12 @@ class Esgst {
     };
 
     this.oldValues = {
+      cl_gc_index: () => (this.settings.gcl_index || 0) + 1,
+      cl_gi_index: () => (this.settings.ap_index || 0) + 1,
+      cl_ui_index: () => (this.settings.ap_index || 0) + 1,
+      cl_gc_sg: `gcl_sg`,
+      cl_gi_sg: `ap_sg`,
+      cl_ui_sg: `ap_sg`,
       gs_type_sg: `gs_t_sg`,
       uf_gp_sg: `uf_p_sg`,
       uf_dp_sg: `uf_p_sg`,

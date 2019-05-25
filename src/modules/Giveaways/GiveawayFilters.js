@@ -519,7 +519,7 @@ class GiveawaysGiveawayFilters extends Filters {
               sg: true
             },
             gf_groups: {
-              dependencies: [`ggl`],
+              dependencies: [`cl`, `ggl`],
               description: [
                 [`ul`, [
                   [`li`, `Allows you to filter giveaways by group.`]
@@ -1153,7 +1153,7 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `boolean`
       },
       groups: {
-        check: gSettings.ggl && gSettings.ggl_index === 0,
+        check: gSettings.cl && gSettings.ggl && gSettings.ggl_index === 0,
         list: true,
         name: `Groups`,
         type: `string`

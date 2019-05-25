@@ -1913,7 +1913,7 @@ class Settings {
         const children = [];
         for (const value of option.values) {
           children.push(
-            [`option`, value]
+            value.match(/~/) ? [`option`, { disabled: `true` }, value.replace(/~/, ``)] : [`option`, value]
           );
         }
         const select = shared.common.createElements_v2([
