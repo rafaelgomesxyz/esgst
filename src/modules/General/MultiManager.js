@@ -576,6 +576,7 @@ class GeneralMultiManager extends Module {
               doNotTrigger: true,
               id: `mm`,
               init: this.mm_initUrls.bind(this),
+              lockPerLoad: true,
               request: {
                 request: this.mm_getSearchReplaceUrlRequest.bind(this)
               },
