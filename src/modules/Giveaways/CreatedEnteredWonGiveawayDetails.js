@@ -199,8 +199,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   async getGiveaway(giveaway) {
     const details = shared.esgst.giveaways[giveaway.code];
     let shouldUpdateWinners = false;    
-    if (!giveaway.deleted && details && details.gameSteamId && Array.isArray(details.winners) && details.winners.length) {
-      shouldUpdateWinners = details.winners.filter(x => x.status !== `Received` && x.status !== `Not Received`).length > 0;
+    if (!giveaway.deleted && details && details.gameSteamId && Array.isArray(details.winners)) {
+      shouldUpdateWinners = details.v !== shared.esgst.CURRENT_GIVEAWAY_VERSION || !details.winners.length || details.winners.filter(x => x.status !== `Received` && x.status !== `Not Received`).length > 0;
     }
     if (this.created && shouldUpdateWinners) {
       await this.fetchWinners(giveaway);
