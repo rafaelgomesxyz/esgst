@@ -21,8 +21,13 @@ function addStyle() {
       mainKey: `esgst-gc`
     },
     {
-      id: `gc_ocv`,
-      key: `originalCV`,
+      id: `gc_ocv_fcv`,
+      key: `originalCV-fcv`,
+      mainKey: `esgst-gc`
+    },
+    {
+      id: `gc_ocv_rcv`,
+      key: `originalCV-rcv`,
       mainKey: `esgst-gc`
     },
     {
