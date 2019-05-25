@@ -65,7 +65,6 @@ class DiscussionsDiscussionHighlighter extends Module {
       urls: {
         id: `dh`,
         init: this.dh_initUrls.bind(this),
-        perLoad: 5,
         request: {
           request: this.dh_requestUrl.bind(this)
         }

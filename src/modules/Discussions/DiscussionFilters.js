@@ -305,7 +305,6 @@ class DiscussionsDiscussionFilters extends Filters {
       urls: {
         id: `df`,
         init: this.df_initUrls.bind(this),
-        perLoad: 5,
         request: {
           request: this.df_requestUrl.bind(this)
         }

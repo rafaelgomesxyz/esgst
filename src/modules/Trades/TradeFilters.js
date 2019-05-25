@@ -221,7 +221,6 @@ class TradesTradeFilters extends Filters {
       urls: {
         id: `tf`,
         init: this.tf_initUrls.bind(this),
-        perLoad: 5,
         request: {
           request: this.tf_requestUrl.bind(this)
         }

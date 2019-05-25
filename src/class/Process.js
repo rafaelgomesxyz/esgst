@@ -58,10 +58,15 @@ class Process {
       }
     ];
     this.popup = new Popup(this.popupDetails);
+    if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
+      shared.common.createElements_v2(this.popup.description, `afterBegin`, [
+        `Items per load: `,
+        [`input`, { class: `esgst-switch-input`, type: `number`, value: gSettings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
+      ]);
+    }
     this.popup.open();
     if (this.urls) {
       this.index = 0;
-      this.perLoad = this.urls.perLoad;
       this.items = [];
       // noinspection JSAnnotator
       await this.urls.init(this, ...this.urls.arguments || []);
@@ -133,7 +138,7 @@ class Process {
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
-    while (!this.isCanceled && (i < this.perLoad || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+    while (!this.isCanceled && (i < gSettings[`${this.urls.id}_perLoad`] || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;

@@ -256,6 +256,10 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      ch_perLoad: 5,
+      df_perLoad: 5,
+      dh_perLoad: 5,
+      tf_perLoad: 5,
       gs_sent_sg: true,
       gs_received_sg: true,
       gs_giftDifference_sg: true,
