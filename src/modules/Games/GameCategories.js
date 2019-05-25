@@ -1102,10 +1102,10 @@ class GamesGameCategories extends Module {
     
     // Show categories that do not need to be fetched.
     for (const id of gc.apps) {
-      this.gc_addCategory(gc, null, games.apps[id], id, shared.esgst.games.apps[id], `apps`, gc.cache.hltb, true);
+      this.gc_addCategory(gc, null, games.apps[id], id, shared.esgst.games.apps[id], `apps`, gc.cache.hltb, this.isFetchableEnabled());
     }
     for (const id of gc.subs) {
-      this.gc_addCategory(gc, null, games.subs[id], id, shared.esgst.games.subs[id], `subs`, null, true);
+      this.gc_addCategory(gc, null, games.subs[id], id, shared.esgst.games.subs[id], `subs`, null, this.isFetchableEnabled());
     }
     for (const scopeKey in shared.esgst.scopes) {
       const scope = shared.esgst.scopes[scopeKey];
