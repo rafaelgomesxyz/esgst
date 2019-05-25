@@ -1251,7 +1251,7 @@ class Esgst {
 
     this.lastPageLink = null;
 
-    this.stopEs = null;
+    this.stopEs = false;
 
     this.audioContext = null;
 

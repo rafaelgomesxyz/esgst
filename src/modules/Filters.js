@@ -2119,7 +2119,7 @@ class Filters extends Module {
 
         filtered = false;
 
-        if (!item.deleted && key === `ended` && !rules.value && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.userPath)) {
+        if (!item.deleted && key === `ended` && !rules.value && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.userPath || this.esgst.groupPath)) {
           this.esgst.stopEs = true;
         }
 
