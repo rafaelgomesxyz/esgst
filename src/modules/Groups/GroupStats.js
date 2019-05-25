@@ -3,7 +3,7 @@ import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
-import { Request } from '../../class/Request';
+import { FetchRequest } from '../../class/FetchRequest';
 
 class GroupsGroupStats extends Module {
   constructor() {
@@ -135,7 +135,7 @@ class GroupsGroupStats extends Module {
   }
 
   async gs_addStatus(group) {
-    const response = await Request.get(`${group.url}/users/search?q=${gSettings.username}`);
+    const response = await FetchRequest.get(`${group.url}/users/search?q=${gSettings.username}`);
 
     const userContext = response.html.querySelector(`.table__row-inner-wrap`);
     if (!userContext || userContext.querySelector(`.table__column__heading`).textContent !== gSettings.username) {
@@ -232,7 +232,7 @@ class GroupsGroupStats extends Module {
     group.type = `-`;
 
     if (gSettings.gs_creationDate || gSettings.gs_type) {
-      const response = await Request.get(`https://steamcommunity.com/gid/${group.steamId}?cc=us&l=english`, { anon: true });
+      const response = await FetchRequest.get(`https://steamcommunity.com/gid/${group.steamId}?cc=us&l=english`, { anon: true });
 
       if (gSettings.gs_creationDate) {
         const groupStatLabels = response.html.querySelectorAll(`.groupstat > .label`);

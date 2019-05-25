@@ -1,7 +1,7 @@
 import { gSettings } from './Globals';
 import { shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
-import { Request } from './Request';
+import { FetchRequest } from './FetchRequest';
 
 /**
  * @see https://docs.microsoft.com/en-us/onedrive/developer/rest-api/?view=odsp-graph-online
@@ -34,7 +34,7 @@ class OneDriveStorage extends ICloudStorage {
     if (gSettings.usePreferredMicrosoft) {
       params[`login_hint`] = gSettings.preferredMicrosoft;
     }
-    const url = Request.addQueryParams(OneDriveStorage.AUTH_URL, params);
+    const url = FetchRequest.addQueryParams(OneDriveStorage.AUTH_URL, params);
     await shared.common.delValue(key);
     shared.common.openSmallWindow(url);
     return (await OneDriveStorage.getToken(key));
@@ -55,7 +55,7 @@ class OneDriveStorage extends ICloudStorage {
         fileName: `${fileName}.${gSettings.backupZip ? `zip` : `json`}`
       }
     };
-    const response = await Request.put(OneDriveStorage.UPLOAD_URL, requestOptions);
+    const response = await FetchRequest.put(OneDriveStorage.UPLOAD_URL, requestOptions);
     if (!response.json || !response.json.id) {
       throw new Error(response.text);
     }
@@ -73,7 +73,7 @@ class OneDriveStorage extends ICloudStorage {
         fileId: fileInfo.id
       }
     };
-    const response = await Request.get(OneDriveStorage.DOWNLOAD_URL, requestOptions);
+    const response = await FetchRequest.get(OneDriveStorage.DOWNLOAD_URL, requestOptions);
     return response.text;
   }
 
@@ -88,7 +88,7 @@ class OneDriveStorage extends ICloudStorage {
         fileId: fileInfo.id
       }
     };
-    const response = await Request.delete(OneDriveStorage.DELETE_URL, requestOptions);
+    const response = await FetchRequest.delete(OneDriveStorage.DELETE_URL, requestOptions);
     if (response.text) {
       throw new Error(response.text);
     }
@@ -114,7 +114,7 @@ class OneDriveStorage extends ICloudStorage {
         'Content-Type': `application/json`
       })
     };
-    const response = await Request.post(OneDriveStorage.DELETE_BATCH_URL, requestOptions);
+    const response = await FetchRequest.post(OneDriveStorage.DELETE_BATCH_URL, requestOptions);
     if (!response.json || !response.json.responses) {
       throw new Error(response.text);
     }
@@ -136,7 +136,7 @@ class OneDriveStorage extends ICloudStorage {
       anon: true,
       headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {})
     };
-    const response = await Request.get(OneDriveStorage.LIST_URL, requestOptions);
+    const response = await FetchRequest.get(OneDriveStorage.LIST_URL, requestOptions);
     if (!response.json || !response.json.value) {
       throw new Error(response.text);
     }

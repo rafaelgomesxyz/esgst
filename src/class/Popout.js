@@ -3,6 +3,7 @@ import { gSettings } from './Globals';
 
 class Popout {
   constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
+    this.custom = {};
     if (className === `esgst-hidden-buttons`) {
       this.isDynamicHeight = true;
     }

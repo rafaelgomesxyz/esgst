@@ -4,6 +4,7 @@ import { gSettings } from './Globals';
 
 class Popup {
   constructor(details) {
+    this.custom = {};
     this.results = undefined;
     this.Options = undefined;
     this.Results = undefined;

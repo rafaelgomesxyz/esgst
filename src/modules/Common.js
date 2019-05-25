@@ -1500,7 +1500,9 @@ class Common extends Module {
         defaultValue = shared.esgst[`enableByDefault_${namespace}`] || false;
       }
       let oldId = shared.esgst.oldValues[id];
-      if (typeof oldId !== `undefined`) {
+      if (typeof oldId === `function`) {
+        value = oldId();
+      } else if (typeof oldId !== `undefined`) {
         value = shared.esgst.settings[oldId];
         if (inverse) {
           value = !value;
@@ -1520,6 +1522,14 @@ class Common extends Module {
   getOldValues(id, namespace, setting) {
     // noinspection FallThroughInSwitchStatementJS
     switch (id) {
+      case `cl`:
+        if (namespace !== `sg`) return;
+        setting.enabled = 
+          this.esgst.settings.ap_sg ||
+          this.esgst.settings.gcl_sg ||
+          this.esgst.settings.ggl_sg;
+        setting.enabled = (typeof setting.enabled === `object` ? setting.enabled.enabled : setting.enabled) ? 1 : 0;
+        return;
       case `at`:
         if (namespace !== `sg`) return;
         setting.exclude = [
@@ -1663,6 +1673,9 @@ class Common extends Module {
       }
       if (setting.new) {
         this.getOldValues(id, namespace, setting);
+        if (setting.enabled) {
+          setting.include[0].enabled = 1;
+        }
       }
     }
     return setting;

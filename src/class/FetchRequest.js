@@ -14,30 +14,30 @@ const REQUIRED_HEADERS = {
   REQUIRED_HEADERS[`Esgst-Version`] = (await browser.runtime.getManifest()).version;
 })();
 
-class Request {
+class FetchRequest {
   static delete(url, options = {}) {
     options = Object.assign(options, { method: `DELETE` });
-    return Request.send(url, options);
+    return FetchRequest.send(url, options);
   }
 
   static get(url, options = {}) {
     options = Object.assign(options, { method: `GET` });
-    return Request.send(url, options);
+    return FetchRequest.send(url, options);
   }
 
   static patch(url, options = {}) {
     options = Object.assign(options, { method: `PATCH` });
-    return Request.send(url, options);
+    return FetchRequest.send(url, options);
   }
 
   static post(url, options = {}) {
     options = Object.assign(options, { method: `POST` });
-    return Request.send(url, options);
+    return FetchRequest.send(url, options);
   }
 
   static put(url, options = {}) {
     options = Object.assign(options, { method: `PUT` });
-    return Request.send(url, options);
+    return FetchRequest.send(url, options);
   }
 
   static async send(url, options) {
@@ -48,10 +48,10 @@ class Request {
       .replace(/^\//, `https://${window.location.hostname}/`)
       .replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? `http:` : `https:`);
     if (options.pathParams) {
-      url = Request.addPathParams(options.pathParams);
+      url = FetchRequest.addPathParams(options.pathParams);
     }
     if (options.queryParams) {
-      url = Request.addQueryParams(options.queryParams);
+      url = FetchRequest.addQueryParams(options.queryParams);
     }
     options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
     try {
@@ -63,9 +63,9 @@ class Request {
 
       const isInternal = url.match(new RegExp(window.location.hostname));
       if (isInternal) {
-        response = await Request.sendInternal(url, options);
+        response = await FetchRequest.sendInternal(url, options);
       } else {
-        response = await Request.sendExternal(url, options);
+        response = await FetchRequest.sendExternal(url, options);
       }
 
       if (deleteLock) {
@@ -99,7 +99,7 @@ class Request {
 
   static async sendInternal(url, options) {
     try {
-      const { fetchObj, fetchOptions } = await Request.getFetchObj(options);
+      const { fetchObj, fetchOptions } = await FetchRequest.getFetchObj(options);
       const response = await fetchObj(url, fetchOptions);
       const text = await response.text();
 
@@ -124,7 +124,7 @@ class Request {
         blob: options.blob,
         fileName: options.fileName,
         manipulateCookies: (await shared.common.getBrowserInfo()).name === `Firefox` && gSettings.manipulateCookies,
-        parameters: JSON.stringify(Request.getFetchOptions(options)),
+        parameters: JSON.stringify(FetchRequest.getFetchOptions(options)),
         url
       };
       let response = await browser.runtime.sendMessage(messageOptions);
@@ -148,7 +148,7 @@ class Request {
 
   static async getFetchObj(options) {
     let fetchObj = null;
-    let fetchOptions = Request.getFetchOptions(options);
+    let fetchOptions = FetchRequest.getFetchOptions(options);
 
     // @ts-ignore
     if ((await shared.common.getBrowserInfo()).name === `Firefox` && utils.isSet(window.wrappedJSObject)) {
@@ -201,4 +201,4 @@ class Request {
   }
 }
 
-export { Request };
+export { FetchRequest };

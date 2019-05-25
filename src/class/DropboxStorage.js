@@ -1,7 +1,7 @@
 import { gSettings } from './Globals';
 import { shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
-import { Request } from './Request';
+import { FetchRequest } from './FetchRequest';
 
 /**
  * @see https://www.dropbox.com/developers/documentation/http/documentation
@@ -32,7 +32,7 @@ class DropboxStorage extends ICloudStorage {
       response_type: `token`,
       state: `dropbox`
     };
-    const url = Request.addQueryParams(DropboxStorage.AUTH_URL, params);
+    const url = FetchRequest.addQueryParams(DropboxStorage.AUTH_URL, params);
     await shared.common.delValue(key);
     shared.common.openSmallWindow(url);
     return (await DropboxStorage.getToken(key));
@@ -50,7 +50,7 @@ class DropboxStorage extends ICloudStorage {
         'Content-Type': `application/octet-stream`
       })
     };
-    const response = await Request.post(DropboxStorage.UPLOAD_URL, requestOptions);
+    const response = await FetchRequest.post(DropboxStorage.UPLOAD_URL, requestOptions);
     if (!response.json || !response.json.id) {
       throw new Error(response.text);
     }
@@ -67,7 +67,7 @@ class DropboxStorage extends ICloudStorage {
         'Content-Type': `text/plain`
       })
     };
-    const response = await Request.get(DropboxStorage.DOWNLOAD_URL, requestOptions);
+    const response = await FetchRequest.get(DropboxStorage.DOWNLOAD_URL, requestOptions);
     return response.text;
   }
 
@@ -81,7 +81,7 @@ class DropboxStorage extends ICloudStorage {
         'Content-Type': `application/json`
       })
     };
-    const response = await Request.post(DropboxStorage.DELETE_URL, requestOptions);
+    const response = await FetchRequest.post(DropboxStorage.DELETE_URL, requestOptions);
     if (!response.json || response.json.error) {
       throw new Error(response.text);
     }
@@ -102,7 +102,7 @@ class DropboxStorage extends ICloudStorage {
         'Content-Type': `application/json`
       })
     };
-    const response = await Request.post(DropboxStorage.DELETE_BATCH_URL, requestOptions);
+    const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_URL, requestOptions);
     if (!response.json) {
       throw new Error(response.text);
     }
@@ -132,7 +132,7 @@ class DropboxStorage extends ICloudStorage {
         'Content-Type': `application/json`
       })
     };
-    const response = await Request.post(DropboxStorage.DELETE_BATCH_CHECK_URL, requestOptions);
+    const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_CHECK_URL, requestOptions);
     if (response.json && response.json[`.tag`] === `complete`) {
       resolve(response.json);
     } else {
@@ -150,7 +150,7 @@ class DropboxStorage extends ICloudStorage {
         'Content-Type': `application/json`
       }),
     };
-    const response = await Request.post(DropboxStorage.LIST_URL, requestOptions);
+    const response = await FetchRequest.post(DropboxStorage.LIST_URL, requestOptions);
     if (!response.json || !response.json.entries) {
       throw new Error(response.text);
     }

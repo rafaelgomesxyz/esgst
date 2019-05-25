@@ -105,7 +105,6 @@ import { generalVisibleAttachedImages } from './General/VisibleAttachedImages';
 import { generalAttachedImageLoader } from './General/AttachedImageLoader';
 import { giveawaysCreatedEnteredWonGiveawayDetails } from './Giveaways/CreatedEnteredWonGiveawayDetails';
 import { giveawaysDeleteKeyConfirmation } from './Giveaways/DeleteKeyConfirmation';
-import { giveawaysGiveawayCountryLoader } from './Giveaways/GiveawayCountryLoader';
 import { giveawaysGiveawayWinningChance } from './Giveaways/GiveawayWinningChance';
 import { giveawaysGiveawayWinningRatio } from './Giveaways/GiveawayWinningRatio';
 import { giveawaysGiveawayPointsToWin } from './Giveaways/GiveawayPointsToWin';
@@ -119,7 +118,6 @@ import { commentsReplyMentionLink } from './Comments/ReplyMentionLink';
 import { usersInboxWinnerHighlighter } from './Users/InboxWinnerHighlighter';
 import { usersUserStats } from './Users/UserStats';
 import { groupsGroupHighlighter } from './Groups/GroupHighlighter';
-import { generalAvatarPopout } from './General/AvatarPopout';
 import { giveawaysGiveawayPopup } from './Giveaways/GiveawayPopup';
 import { giveawaysEnterLeaveGiveawayButton } from './Giveaways/EnterLeaveGiveawayButton';
 import { giveawaysIsThereAnyDealInfo } from './Giveaways/IsThereAnyDealInfo';
@@ -128,7 +126,7 @@ import { giveawaysOneClickHideGiveawayButton } from './Giveaways/OneClickHideGiv
 import { giveawaysVisibleInviteOnlyGiveaways } from './Giveaways/VisibleInviteOnlyGiveaways';
 import { giveawaysGiveawayWinnersLink } from './Giveaways/GiveawayWinnersLink';
 import { giveawaysTimeToEnterCalculator } from './Giveaways/TimeToEnterCalculator';
-import { giveawaysGiveawayGroupLoader } from './Giveaways/GiveawayGroupLoader';
+import { generalContentLoader } from './General/ContentLoader';
 import { commentsReceivedReplyBoxPopup } from './Comments/ReceivedReplyBoxPopup';
 import { giveawaysModule as giveaways } from './Giveaways';
 import { discussionsModule as discussions } from './Discussions';
@@ -269,7 +267,6 @@ const modules = {
   generalAttachedImageLoader,
   giveawaysCreatedEnteredWonGiveawayDetails,
   giveawaysDeleteKeyConfirmation,
-  giveawaysGiveawayCountryLoader,
   giveawaysGiveawayWinningChance,
   giveawaysGiveawayWinningRatio,
   giveawaysEnteredGiveawaysStats,
@@ -283,8 +280,8 @@ const modules = {
   commentsReplyMentionLink,
   usersInboxWinnerHighlighter,
   usersUserStats,
+  generalContentLoader,
   groupsGroupHighlighter,
-  generalAvatarPopout,
   giveawaysGiveawayPopup,
   giveawaysEnterLeaveGiveawayButton,
   giveawaysIsThereAnyDealInfo,
@@ -292,7 +289,6 @@ const modules = {
   giveawaysOneClickHideGiveawayButton,
   giveawaysGiveawayWinnersLink,
   giveawaysTimeToEnterCalculator,
-  giveawaysGiveawayGroupLoader,
   commentsReceivedReplyBoxPopup,
   giveaways,
   discussions,
