@@ -685,7 +685,12 @@ class GamesGameCategories extends Module {
           sg: true
         },
         gc_ocv: {
-          colors: true,
+          colors: {
+            fcv_color: `Text (if the game was full CV)`,
+            rcv_color: `Text (if the game was reduced CV)`,
+            fcv_bgColor: `Background (if the game was full CV)`,
+            rcv_bgColor: `Background (if the game was reduced RCV)`
+          },
           description: [
             [`ul`, [
               [`li`, `Shows the original CV state of a game when it was given away.`],
@@ -3211,7 +3216,7 @@ class GamesGameCategories extends Module {
             if (original) {
               currentElements.push({
                 attributes: {
-                  class: `esgst-gc esgst-gc-originalCV`,
+                  class: `esgst-gc esgst-gc-originalCV esgst-gc-originalCV-${original}`,
                   [`data-draggable-id`]: `gc_ocv`,
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip(`gc_ocv`, `Was ${gSettings[`gc_${original}Label`]} when it was given away`)
