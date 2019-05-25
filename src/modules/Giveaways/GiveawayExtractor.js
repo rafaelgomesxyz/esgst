@@ -110,6 +110,8 @@ class GiveawaysGiveawayExtractor extends Module {
         this.ge_addButton(`Extract all giveaways (specify parameters)`, [`fa-gear`], true);
       }
     } else if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
+      this.nextRegex = new RegExp(gSettings.npth_nextRegex);
+
       const parameters = getParameters();
       let ge = {
         context: parseHtml((await request({ method: `GET`, url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ``}` })).responseText),
@@ -522,14 +524,16 @@ class GiveawaysGiveawayExtractor extends Module {
               }
             }
           }
-          let response = await request({
-            method: `GET`,
-            url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
-          });
           let bumpLink, button, giveaway, giveaways, n, responseHtml;
-          responseHtml = parseHtml(response.responseText);
-          button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
-          giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
+          try {
+            let response = await request({
+              method: `GET`,
+              url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
+            });
+            responseHtml = parseHtml(response.responseText);
+            button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
+            giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
+          } catch (error) {}
           if (ge.isCanceled) {
             return;
           }
@@ -573,10 +577,12 @@ class GiveawaysGiveawayExtractor extends Module {
               }
             }
           } else if (!sgTools) {
-            let response = await request({ anon: true, method: `GET`, url: `/giveaway/${code}/` });
             let bumpLink, giveaway, giveaways, n, responseHtml;
-            responseHtml = parseHtml(response.responseText);
-            giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
+            try {
+              let response = await request({ anon: true, method: `GET`, url: `/giveaway/${code}/` });
+              responseHtml = parseHtml(response.responseText);
+              giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
+            } catch (error) {}
             if (giveaway) {
               createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
               giveaway.html = ge.results.lastElementChild.lastElementChild.outerHTML;
