@@ -599,9 +599,9 @@ class GeneralContentLoader extends Module {
       const found = shared.esgst.giveaways[giveaway.code]
         && Array.isArray(shared.esgst.giveaways[giveaway.code].groups)
         && shared.esgst.giveaways[giveaway.code].groups.length
-        && shared.esgst.giveaways[giveaway.code].groups.filter(x => {
-          shared.esgst.groups.filter(y => x === y.code)[0]
-        })[0];
+        && !shared.esgst.giveaways[giveaway.code].groups.filter(x =>
+          !shared.esgst.groups.filter(y => x === y.code)[0]
+        )[0];
       if (found) {
         groups = shared.esgst.giveaways[giveaway.code].groups;
       } else {
@@ -746,6 +746,13 @@ class GeneralContentLoader extends Module {
           panel.remove();
         }
       }
+    }
+
+    if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
+      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
+    }
+    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
+      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
     }
 
     await Promise.all([
