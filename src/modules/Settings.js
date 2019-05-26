@@ -1363,7 +1363,7 @@ class Settings {
         } else {
           this.preSave(`${id}_sg`, false);
         }
-        if (feature.stSwitch && !feature.stSwitch.value) {
+        if ((!feature.stSwitch || !feature.stSwitch.value) && (!feature.sgToolsSwitch || !feature.sgToolsSwitch.value)) {
           this.collapseOptions(collapseButton, id, subMenu);
           isExpanded = false;
         }
@@ -1429,7 +1429,7 @@ class Settings {
         } else {
           this.preSave(`${id}_st`, false);
         }
-        if (feature.sgSwitch && !feature.sgSwitch.value) {
+        if ((!feature.sgSwitch || !feature.sgSwitch.value) && (!feature.sgToolsSwitch || !feature.sgToolsSwitch.value)) {
           this.collapseOptions(collapseButton, id, subMenu);
           isExpanded = false;
         }
@@ -1495,7 +1495,7 @@ class Settings {
         } else {
           this.preSave(`${id}_sgtools`, false);
         }
-        if (feature.sgtoolsSwitch && !feature.sgtoolsSwitch.value) {
+        if ((!feature.sgSwitch || !feature.sgSwitch.value) && (!feature.stSwitch || !feature.stSwitch.value)) {
           this.collapseOptions(collapseButton, id, subMenu);
           isExpanded = false;
         }
