@@ -1,5 +1,41 @@
 [
   {
+    "date": "May 26, 2019",
+    "version": "8.3.14",
+    "changelog": {
+      "1237": "Themes: fix bug that applies themes to SGTools even if ESGST is not enabled there",
+      "1244": "Storage: add option to automatically delete old backups when exporting to the cloud",
+      "1258": "Groups Stats: add more options and filters",
+      "1262": "Automatically focus on the main comment box of the page",
+      "1266": "Endless Scrolling: fix bug that continues loading group pages when the ended filter is set to false and an ended giveaway was found",
+      "1268": "Content Loader: new feature",
+      "1270": "Giveaways: fix bug that does not show correct number of winners / received",
+      "1274": "Endless Scrolling: fix bug that prevents next pages from loading in created / entered / won / user / group pages",
+      "1275": "\"Load More\" Popups: allow user to specify how many items should be fetched per load",
+      "1292": "Filters: show warning if user is using filters that require additional actions in order to work properly",
+      "1319": "Internal: fix bug that does not delete old username key, preventing some features from working correctly",
+      "1350": "User Notes: add Comment Formatting Helper panel to text area",
+      "1359": "Settings: fix bug that removes a draggable element when moving it after having deleted another element",
+      "1360": "Settings: add \"Merge\" button for options that offer custom lists, so that the user's list can be merged with the default list",
+      "1361": "Game Categories: move queue icon back to the end of the panel",
+      "1362": "Game Categories: fix bug that shows queue icon in discussion pages despite no fetchable categories being enabled",
+      "1364": "Game Categories: fix bug that duplicates original CV category when there are multiple giveaways for the same game",
+      "1365": "Game Categories: add option to color original CV category based on whether the game was full CV or reduced CV",
+      "1367": "Game Categories: fix bug that shows wrong original CV for games that went from full CV directly to no CV",
+      "1368": "Avatar Popout: add \"Giveaways\" and \"Users\" to group popout",
+      "1369": "Shared Group Checker: search group on SteamGifts by Steam ID",
+      "1370": "Multi-Manager: add option to export stats from group user pages",
+      "1371": "New Giveaway Description Checker: new feature",
+      "1373": "Comment Formatting Helper: expand text area when adding a saved reply that exceeds the height",
+      "1374": "Settings: fix bug that does not persist some settings",
+      "1375": "Donations: remove Ethereum link and update Bitcoin link",
+      "1376": "Giveaway Extractor: fix bug that happens when trying to extract a giveaway that doesn't exist",
+      "1377": "Extension: get / set values in the content script instead of the background page",
+      "1378": "Settings: fix bug that does not collapse a setting's sub-options when disabling it",
+      "1379": "Giveaway Sorter: fix bug that does not order giveaways correctly when using \"Default\""
+    }
+  },
+  {
     "date": "May 19, 2019",
     "version": "8.3.13",
     "changelog": {
