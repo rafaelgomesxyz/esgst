@@ -3,6 +3,7 @@ import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { utils } from '../../lib/jsUtils';
 import { gSettings } from '../../class/Globals';
+import { FetchRequest } from '../../class/FetchRequest';
 
 const
   createElements = common.createElements.bind(common),
@@ -48,22 +49,17 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   async getCache() {
-    const cache = JSON.parse(shared.common.getLocalValue(`lpvCache_v2`, `{ "cv": 0, "difference": 0, "level": 0 }`));
+    if (shared.common.getLocalValue(`lpvCache_v2`)) {
+      shared.common.delLocalValue(`lpvCache_v2`);
+    }
+    const cache = JSON.parse(shared.common.getLocalValue(`lpvCache`, `{ "cv": 0, "level": 0, "v": 3 }`));
     const currentLevel = parseFloat(shared.esgst.levelContainer.getAttribute(`title`));
-    if (currentLevel !== cache.level) {
+    if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
-      const response = await shared.common.request({ method: `GET`, url: `/user/${gSettings.username}` });
-      const dom = utils.parseHtml(response.responseText);
-      const element = dom.querySelectorAll(`.featured__table__row__right`)[6];
-      const oldCv = cache.cv;
+      const response = await FetchRequest.get(`/user/${gSettings.username}`);
+      const element = response.html.querySelectorAll(`.featured__table__row__right`)[6];
       cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name.replace(/[$,]/g, ``)));
-      if (oldCv > 0) {
-        const difference = shared.common.round(cache.cv - oldCv);
-        if (difference > 0) {
-          cache.difference += difference;
-        }
-      }
-      shared.common.setLocalValue(`lpvCache_v2`, JSON.stringify(cache));
+      shared.common.setLocalValue(`lpvCache`, JSON.stringify(cache));
     }
     return cache;
   }
@@ -83,10 +79,9 @@ class GeneralLevelProgressVisualizer extends Module {
     const cache = await this.getCache();
     const cv = this.lpv_getCv();
     if (cv > 0) {
-      const predictedFullLevel = shared.common.getLevelFromCv((cache.cv + cv) - cache.difference);
+      const predictedFullLevel = shared.common.getLevelFromCv(cache.cv + cv);
       window.console.log(`Current CV: ${cache.cv}`);
-      window.console.log(`Final CV calculated: ${cv}`);
-      window.console.log(`CV difference: ${cache.difference}`);
+      window.console.log(`CV to gain: ${cv}`);
       window.console.log(`Predicted level: ${predictedFullLevel}`);
       const predictedLevel = Math.trunc(predictedFullLevel);
       const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
@@ -273,25 +268,18 @@ class GeneralLevelProgressVisualizer extends Module {
               open += giveaway.copies;
             } else {
               // giveaway is closed
-              if (Array.isArray(giveaway.winners)) {
-                // user is using the new database, which is more accurate
-                if (giveaway.winners.length > 0) {
+              if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
+                // giveaway counts for cv
+                if (Array.isArray(giveaway.winners)) {
+                  // user is using the new database, which is more accurate
                   for (const winner of giveaway.winners) {
-                    if (winner.status === `Received`) {                      
-                      if (giveaway.entries >= 5 || (!giveaway.inviteOnly && !giveaway.group && !giveaway.whitelist)) {
-                        // giveaway counts for cv
-                        sent += 1;
-                      }
-                    } else if (winner.status === `Awaiting Feedback`) {
-                      open += 1;
+                    if (winner.status === `Received`) {
+                      sent += 1;
                     }
                   }
-                } else if (giveaway.entries > 0) {
-                  open += giveaway.copies;
+                } else if (giveaway.winners > 0) {
+                  sent += Math.min(giveaway.entries, giveaway.winners);
                 }
-              } else if (giveaway.winners > 0) {
-                // user is using the old database, not very accurate
-                window.console.log(`Old database no longer supported, contact the developer.`);
               }
             }
           }
@@ -317,14 +305,14 @@ class GeneralLevelProgressVisualizer extends Module {
             }
             if (realValue > 0) {
               cv += realValue;
-              window.console.log(`Adding ${realValue} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              window.console.log(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
               window.console.log(`Total CV: ${cv}`);
             }
           } else if (open > 0) {
             value *= open;
             if (value > 0) {
               cv += value;
-              window.console.log(`Adding ${value} CV from :http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              window.console.log(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
               window.console.log(`Total CV: ${cv}`);
             }
           }

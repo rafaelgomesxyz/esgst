@@ -537,12 +537,6 @@ class UsersUserGiveawayData extends Module {
   }
 
   async ugd_requestGiveawaysDone_2(obj) {
-    if (obj.user.username === gSettings.username) {
-      const lpvCache = JSON.parse(getLocalValue(`lpvCache_v2`, `{}`));
-      lpvCache.difference = 0;
-      setLocalValue(`lpvCache_v2`, JSON.stringify(lpvCache));
-    }
-
     obj.userGiveaways[`${obj.key}Timestamp`] = obj.timestamp;
     await lockAndSaveGiveaways(obj.giveaways);
 
