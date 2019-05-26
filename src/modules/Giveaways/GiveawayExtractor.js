@@ -369,10 +369,19 @@ class GiveawaysGiveawayExtractor extends Module {
       cacheWarning = common.createElements_v2(ge.popup.description, `beforeEnd`, [
         [`div`, `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
+
+      createElements(ge.results, `beforeEnd`, [{
+        type: `div`
+      }]);
+
       let html = ``;
       let points = 0;
       let total = 0;
       for (const code of ge.cache[ge.cacheId].codes) {
+        if (total % 50 === 0) {
+          html = ``;
+        }
+
         const giveaway = ge.cache[ge.cacheId].giveaways[code];
         if (giveaway) {
           html += giveaway.html;
@@ -380,6 +389,11 @@ class GiveawaysGiveawayExtractor extends Module {
           total += 1;
         } else {
           window.open(`https://www.sgtools.info/giveaways/${code}`);
+        }
+
+        if (total % 50 === 0) {
+          ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
+          await shared.common.timeout(100);
         }
       }
       this.esgst.modules.common.createElements(ge.progress, `inner`, [{
@@ -389,10 +403,6 @@ class GiveawaysGiveawayExtractor extends Module {
         text: ` giveaways extracted.`,
         type: `node`
       }]);
-      createElements(ge.results, `beforeEnd`, [{
-        type: `div`
-      }]);
-      ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
       await endless_load(ge.results.lastElementChild, false, `ge`);
       const items = [{
         attributes: {
