@@ -27,9 +27,9 @@ class Giveaways extends Module {
     if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
     let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless);
     if (!giveaways.length) return;
-    for (let i = giveaways.length - 1; i > -1; --i) {
-      giveaways[i].sortIndex = this.esgst.currentScope.giveaways.length;
-      this.esgst.currentScope.giveaways.push(giveaways[i]);
+    for (const [i, giveaway] of giveaways.entries()) {
+      giveaway.sortIndex = this.esgst.currentScope.giveaways.length;
+      this.esgst.currentScope.giveaways.push(giveaway);
     }
     for (let feature of this.esgst.giveawayFeatures) {
       await feature(giveaways, main, source);
