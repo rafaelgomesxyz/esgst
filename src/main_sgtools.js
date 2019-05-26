@@ -22,8 +22,7 @@ if (customTheme) {
   document.documentElement.appendChild(style);
 }
 
-browser.runtime.sendMessage({ action: `getStorage` }).then(stg => {
-  storage = JSON.parse(stg);
+browser.storage.local.get(null).then(storage => {
   const settings = JSON.parse(storage.settings);
   if (themeElement) {
     themeElement.remove();

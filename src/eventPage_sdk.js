@@ -24,14 +24,11 @@ buttons.ActionButton({
   onClick: handleClick
 });
 
-let isFirstRun = false;
-let isUpdate = false;
-
 exports.main = details => {
   if (details.loadReason === `install`) {
-    isFirstRun = true;
+    sendMessage(`isFirstRun`);
   } else if (details.loadReason === `upgrade`) {
-    isUpdate = true;
+    sendMessage(`isUpdate`);
   }
 };
 
@@ -147,9 +144,15 @@ function handle_storage(operation, values) {
   }
 })();
 
-function sendMessage(action, values) {
+function sendMessage(action, sender, values) {
   for (const worker of workers) {
+    if (sender && worker === sender) {
+      continue;
+    }
     worker.port.emit(`esgstMessage`, JSON.stringify({ action, values }));
+    if (!sender) {
+      return;
+    }
   }
 }
 
@@ -346,7 +349,13 @@ PageMod({
       keys = JSON.parse(request.keys);
       await handle_storage(TYPE_DEL, keys);
       worker.port.emit(`delValues_${request.uuid}_response`, `null`);
-      sendMessage(`delValues`, keys);
+      const changes = {};
+      for (const key of keys) {
+        changes[key] = {
+          newValue: `null`
+        };
+      }
+      sendMessage(`storageChanged`, worker, { changes, areaName: `local` });
     });
 
     worker.port.on(`fetch`, async request => {
@@ -362,10 +371,6 @@ PageMod({
 
     worker.port.on(`getStorage`, async request => {
       const storage = await handle_storage(TYPE_GET, null);
-      storage.isFirstRun = isFirstRun;
-      storage.isUpdate = isUpdate;
-      isFirstRun = false;
-      isUpdate = false;
       worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
 
@@ -377,7 +382,13 @@ PageMod({
       values = JSON.parse(request.values);
       await handle_storage(TYPE_SET, values);
       worker.port.emit(`setValues_${request.uuid}_response`, `null`);
-      sendMessage(`setValues`, values);
+      const changes = {};
+      for (const key in values) {
+        changes[key] = {
+          newValue: values[key]
+        };
+      }
+      sendMessage(`storageChanged`, worker, { changes, areaName: `local` });
     });
 
     worker.port.on(`tabs`, request => {

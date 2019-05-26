@@ -56,17 +56,6 @@ if (typeof browser !== `undefined`) {
               resolve();
               break;
             }
-            case `delValues`: {
-              const keys = JSON.parse(obj.keys);
-              const promises = [];
-              for (const key of keys) {
-                promises.push(_browser.gm.deleteValue(key));
-              }
-              await Promise.all(promises);
-              await _browser.gm.setValue(`delValuesTemp`, obj.values);
-              resolve();
-              break;
-            }
             case `fetch`: {
               const parameters = JSON.parse(obj.parameters);
               if (parameters.credentials === `omit`) {
@@ -91,34 +80,52 @@ if (typeof browser !== `undefined`) {
               });
               break;
             }
-            case `getStorage`: {
-              const keys = await _browser.gm.listValues();
-              const promises = [];
-              const storage = {};
-              for (const key of keys) {
-                const promise = _browser.gm.getValue(key);
-                promise.then(value => storage[key] = value);
-                promises.push(promise);
-              }
-              await Promise.all(promises);
-              resolve(JSON.stringify(storage));
-              break;
-            }
-            case `setValues`: {
-              const values = JSON.parse(obj.values);
-              const promises = [];
-              for (const key in values) {
-                if (values.hasOwnProperty(key)) {
-                  promises.push(_browser.gm.setValue(key, values[key]));
-                }
-              }
-              await Promise.all(promises);
-              await _browser.gm.setValue(`setValuesTemp`, obj.values);
-              resolve();
-              break;
-            }
           }
         });
+      }
+    },
+    storage: {
+      local: {
+        get: async () => {
+          const keys = await _browser.gm.listValues();
+          const promises = [];
+          const storage = {};
+          for (const key of keys) {
+            const promise = _browser.gm.getValue(key);
+            promise.then(value => storage[key] = value);
+            promises.push(promise);
+          }
+          await Promise.all(promises);
+
+          if (!storage.settings) {
+            _browser.gm.listener(JSON.stringify({
+              action: `isFirstRun`
+            }));
+          }
+
+          return storage;
+        },
+        remove: async keys => {
+          const promises = [];
+          for (const key of keys) {
+            promises.push(_browser.gm.deleteValue(key));
+          }
+          await Promise.all(promises);
+          await _browser.gm.setValue(`storageChanged`, JSON.stringify(Date.now()));
+        },
+        set: async values => {
+          const promises = [];
+          for (const key in values) {
+            if (values.hasOwnProperty(key)) {
+              promises.push(_browser.gm.setValue(key, values[key]));
+            }
+          }
+          await Promise.all(promises);
+          await _browser.gm.setValue(`storageChanged`, JSON.stringify(Date.now()));
+        }
+      },
+      onChanged: {
+        addListener: () => {}
       }
     }
   };
@@ -127,6 +134,7 @@ if (typeof browser !== `undefined`) {
     // polyfill for userscript managers that do not support the gm-dot api
     _browser.gm = {
       // @ts-ignore
+      // eslint-disable-next-line no-undef
       addValueChangeListener: GM_addValueChangeListener,
       // @ts-ignore
       deleteValue: GM_deleteValue,
@@ -155,7 +163,8 @@ if (typeof browser !== `undefined`) {
   } else {
     // @ts-ignore
     _browser.gm = GM;
-  }  
+  }
+  _browser.gm.lastUpdate = 0;
   if (!_browser.gm.addValueChangeListener) {
     _browser.gm.hasValueChanged = async (key, oldValue, callback) => {
       const newValue = await _browser.gm.getValue(key);
@@ -170,28 +179,25 @@ if (typeof browser !== `undefined`) {
       _browser.gm.hasValueChanged(key, oldValue, callback);
     };
   }
-  _browser.gm.addValueChangeListener(`delValuesTemp`, async (name, oldValue, newValue, remote) => {
-    if (remote) {
-      if (newValue && newValue !== `undefined`) {
-        _browser.gm.listener(JSON.stringify({
-          action: `delValues`,
-          values: JSON.parse(newValue)
-        }));
-      }
-    } else {
-      await _browser.gm.deleteValue(`setValuesTemp`);
+  _browser.gm.addValueChangeListener(`storageChanged`, async (name, oldValue, newValue, remote) => {
+    if (!remote || !newValue || newValue === `undefined`) {
+      return;
     }
-  });
-  _browser.gm.addValueChangeListener(`setValuesTemp`, async (name, oldValue, newValue, remote) => {
-    if (remote) {
-      if (newValue && newValue !== `undefined`) {
-        _browser.gm.listener(JSON.stringify({
-          action: `setValues`,
-          values: JSON.parse(newValue)
-        }));
+    const lastUpdate = JSON.parse(newValue);
+    if (lastUpdate > _browser.gm.lastUpdate) {
+      _browser.gm.lastUpdate = lastUpdate;
+
+      const storage = await _browser.storage.local.get(null);
+      const changes = {};
+      for (const key in storage) {
+        changes[key] = {
+          newValue: storage[key]
+        };
       }
-    } else {
-      await _browser.gm.deleteValue(`setValuesTemp`);
+      _browser.gm.listener(JSON.stringify({
+        action: `storageChanged`,
+        values: { changes, areaName: `local` }
+      }));
     }
   });
   _browser.gm.doLock = async (lock) => {
@@ -242,6 +248,30 @@ if (typeof browser !== `undefined`) {
             resolve(result);
           });
         });
+      }
+    },
+    storage: {
+      local: {
+        get: async () => {
+          return JSON.parse(await _browser.runtime.sendMessage({
+            action: `getStorage`
+          }));
+        },
+        remove: async keys => {
+          await _browser.runtime.sendMessage({
+            action: `delValues`,
+            values: JSON.stringify(keys)
+          });
+        },
+        set: async values => {
+          await _browser.runtime.sendMessage({
+            action: `setValues`,
+            values: JSON.stringify(values)
+          });
+        }
+      },
+      onChanged: {
+        addListener: () => {}
       }
     }
   };
