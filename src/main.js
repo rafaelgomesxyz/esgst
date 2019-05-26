@@ -12,6 +12,7 @@ import { utils } from './lib/jsUtils';
 import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
 import { gSettings } from './class/Globals';
+import { shared } from './class/Shared';
 
 // @ts-ignore
 window.interact = interact;
@@ -60,19 +61,24 @@ window.interact = interact;
     esgst.name = esgst.sg ? `sg` : `st`;
 
     browser.runtime.onMessage.addListener(message => {
-      let key;
       message = JSON.parse(message);
       switch (message.action) {
-        case `delValues`:
-          message.values.forEach(value => delete esgst.storage[value]);
-          break;
-        case `setValues`:
-          for (key in message.values) {
-            if (message.values.hasOwnProperty(key)) {
-              esgst.storage[key] = message.values[key];
-              esgst[key] = JSON.parse(message.values[key]);
-            }
+        case `isFirstRun`:
+          if (esgst.bodyLoaded) {
+            shared.common.checkNewVersion(true);
+          } else {
+            esgst.isFirstRun = true;
           }
+          break;
+        case `isUpdate`:
+          if (esgst.bodyLoaded) {
+            shared.common.checkNewVersion(false, true);
+          } else {
+            esgst.isUpdate = true;
+          }
+          break;
+        case `storageChanged`:
+          shared.common.getChanges(message.values.changes, message.values.areaName);
           break;
         case `update`:
           common.createConfirmation(
@@ -85,6 +91,8 @@ window.interact = interact;
           break;
       }
     });
+    
+    browser.storage.onChanged.addListener(shared.common.getChanges.bind(shared.common));
 
     // set default values or correct values
     /**
@@ -92,7 +100,7 @@ window.interact = interact;
      * @property {object} esgst.storage.filterPresets
      * @property {object} esgst.storage.dfPresets
      */
-    esgst.storage = await getStorage();
+    esgst.storage = await browser.storage.local.get(null);
     const toDelete = [];
     const toSet = {};
     if (utils.isSet(esgst.storage.users)) {
@@ -443,6 +451,8 @@ window.interact = interact;
   }
 
   async function load(toDelete, toSet) {
+    esgst.bodyLoaded = true;
+
     esgst.mainPageHeadingSize = 35;
     if (esgst.sg) {
       esgst.headerSize = 39;
@@ -577,16 +587,12 @@ window.interact = interact;
     }
 
     await common.addHeaderMenu();
-    common.checkNewVersion();
+
+    common.checkNewVersion(esgst.isFirstRun, esgst.isUpdate);
+    esgst.isFirstRun = false;
+    esgst.isUpdate = false;
+
     await common.loadFeatures(esgst.modules);
-  }
-  
-  function getStorage() {
-    return new Promise(resolve =>
-      browser.runtime.sendMessage({
-        action: `getStorage`
-      }).then(storage => resolve(JSON.parse(storage)))
-    );
   }
 
   // noinspection JSIgnoredPromiseFromCall

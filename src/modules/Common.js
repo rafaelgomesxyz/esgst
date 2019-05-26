@@ -1168,8 +1168,8 @@ class Common extends Module {
     }]);
   }
 
-  async checkNewVersion() {
-    if (this.esgst.storage.isFirstRun) {
+  async checkNewVersion(isFirstRun, isUpdate) {
+    if (isFirstRun) {
       this.esgst.firstInstall = true;
       // noinspection JSIgnoredPromiseFromCall
       this.setSetting(`dismissedOptions`, this.esgst.toDismiss);
@@ -1183,7 +1183,7 @@ class Common extends Module {
       await this.checkSync(true);
       popup.close();
       this.createConfirmation(`All done, ${gSettings.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
-    } else if (this.esgst.storage.isUpdate && gSettings.showChangelog) {
+    } else if (isUpdate && gSettings.showChangelog) {
       const manifest = await browser.runtime.getManifest();
       const version = manifest.version_name || manifest.version;
       loadChangelog(version);
@@ -5602,10 +5602,7 @@ class Common extends Module {
   setValues(values) {
     let key;
     return new Promise(resolve =>
-      browser.runtime.sendMessage({
-        action: `setValues`,
-        values: JSON.stringify(values)
-      }).then(() => {
+      browser.storage.local.set(values).then(() => {
         for (key in values) {
           if (values.hasOwnProperty(key)) {
             this.esgst.storage[key] = values[key];
@@ -5640,10 +5637,7 @@ class Common extends Module {
 
   delValues(keys) {
     return new Promise(resolve =>
-      browser.runtime.sendMessage({
-        action: `delValues`,
-        keys: JSON.stringify(keys)
-      }).then(() => {
+      browser.storage.local.remove(keys).then(() => {
         keys.forEach(key => delete this.esgst.storage[key]);
         resolve();
       })
@@ -5905,6 +5899,19 @@ class Common extends Module {
       if (cv < value) {
         const prevValue = shared.esgst.cvLevels[index - 1];
         return this.round((index - 1) + ((cv - prevValue) / (value - prevValue)));
+      }
+    }
+  }
+
+  getChanges(changes, areaName) {
+    if (areaName !== `local`) {
+      return;
+    }
+    
+    for (const key in changes) {
+      if (changes.hasOwnProperty(key)) {
+        shared.esgst.storage[key] = changes[key].newValue;
+        shared.esgst[key] = JSON.parse(shared.esgst.storage[key]);
       }
     }
   }

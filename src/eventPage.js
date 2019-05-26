@@ -2,16 +2,13 @@ import JSZip from 'jszip';
 import { browser } from './browser';
 
 let browserInfo = null;
-let storage = null;
-let isFirstRun = false;
-let isUpdate = false;
 
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === `install`) {
-    isFirstRun = true;
+    sendMessage(`isFirstRun`);
   } else if (details.reason === `update`) {
     if ((await browser.runtime.getManifest()).version !== details.previousVersion) {
-      isUpdate = true;
+      sendMessage(`isUpdate`);
     }
   }
 });
@@ -66,16 +63,20 @@ browser.storage.local.get(`settings`).then(async result => {
   }
 });
 
-function sendMessage(action, sender, values) {
-  browser.tabs.query({url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`]}).then(tabs => {
-    tabs.forEach(tab => {
-      if (tab.id === sender.tab.id) return;
-      browser.tabs.sendMessage(tab.id, JSON.stringify({
-        action: action,
-        values: values
-      })).then(() => {});
-    });
-  });
+async function sendMessage(action, sender, values) {
+  const tabs = await browser.tabs.query({ url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`] });
+  for (const tab of tabs) {
+    if (sender && tab.id === sender.tab.id) {
+      continue;
+    }
+    await browser.tabs.sendMessage(tab.id, JSON.stringify({
+      action: action,
+      values: values
+    }));
+    if (!sender) {
+      return;
+    }
+  }
 }
 
 async function getZip(data, fileName) {
@@ -337,7 +338,7 @@ let permissionRequests = {};
 
 browser.runtime.onMessage.addListener((request, sender) => {
   return new Promise(async resolve => {
-    let key, keys, parameters, values;
+    let parameters;
     switch (request.action) {
       case `permissions_contains`:
         resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
@@ -379,55 +380,15 @@ browser.runtime.onMessage.addListener((request, sender) => {
         do_unlock(JSON.parse(request.lock));
         resolve();
         break;
-      case `delValues`:
-        keys = JSON.parse(request.keys);
-        browser.storage.local.remove(keys).then(() => {
-          keys.forEach(key => {
-            delete storage[key];
-          });
-          sendMessage(`delValues`, sender, keys);
-          resolve();
-        });
-        break;
       case `fetch`:
         parameters = JSON.parse(request.parameters);
         parameters.headers = new Headers(parameters.headers);
         // noinspection JSIgnoredPromiseFromCall
         doFetch(parameters, request, sender, resolve);
         break;
-      case `getStorage`:
-        if (storage) {
-          storage.isFirstRun = isFirstRun;
-          storage.isUpdate = isUpdate;
-          isFirstRun = false;
-          isUpdate = false;
-          resolve(JSON.stringify(storage));
-        } else {
-          browser.storage.local.get(null).then(stg => {
-            storage = stg;
-            storage.isFirstRun = isFirstRun;
-            storage.isUpdate = isUpdate;
-            isFirstRun = false;
-            isUpdate = false;
-            resolve(JSON.stringify(storage));
-          });
-        }
-        break;
       case `reload`:
         browser.runtime.reload();
         resolve();
-        break;
-      case `setValues`:
-        values = JSON.parse(request.values);
-        browser.storage.local.set(values).then(() => {
-          for (key in values) {
-            if (values.hasOwnProperty(key)) {
-              storage[key] = values[key];
-            }
-          }
-          sendMessage(`setValues`, sender, values);
-          resolve();
-        });
         break;
       case `tabs`:
         // noinspection JSIgnoredPromiseFromCall
