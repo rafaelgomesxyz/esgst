@@ -265,15 +265,15 @@ window.interact = interact;
     } else {
       esgst.settings = {};
     }
-    if (esgst.settings.avatar_sg) {
+    if (esgst.settings.hasOwnProperty(`avatar_sg`)) {
       delete esgst.settings.avatar_sg;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.avatar_st) {
+    if (esgst.settings.hasOwnProperty(`avatar_st`)) {
       delete esgst.settings.avatar_st;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.username) {
+    if (esgst.settings.hasOwnProperty(`username`)) {
       delete esgst.settings.username;
       esgst.settingsChanged = true;
     }
