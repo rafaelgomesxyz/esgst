@@ -3667,7 +3667,6 @@ class Common extends Module {
     delete data.settings.steamApiKey;
     delete data.settings.steamId;
     delete data.settings.syncFrequency;
-    delete data.settings.username;
     delete data.settings.username_sg;
     delete data.settings.username_st;
     const name = `${gSettings.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, `_`)}`}.json`;
