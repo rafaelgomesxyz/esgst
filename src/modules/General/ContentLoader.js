@@ -185,7 +185,9 @@ class GeneralContentLoader extends Module {
           ]);
           targetObjs = items.querySelectorAll(selectors);
           for (const targetObj of targetObjs) {
-            this.setTrigger(id, {}, targetObj);
+            if (!targetObj.classList.contains(`esgst-ap-avatar`)) {
+              this.setTrigger(id, {}, targetObj);
+            }
           }
         }
     }
@@ -261,6 +263,9 @@ class GeneralContentLoader extends Module {
       enterTimeout = window.setTimeout(async () => {
         if (id === `cl_gi` || id === `cl_ui`) {
           triggerObj = shared.esgst.apPopouts[targetObj.id];
+          if (triggerObj) {
+            context = triggerObj.popout;
+          }
         }
         if (triggerObj) {
           switch (gSettings[`${id}_index`]) {

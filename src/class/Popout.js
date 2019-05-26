@@ -46,7 +46,7 @@ class Popout {
       });
       this.popout.addEventListener(`mouseleave`, event => {
         timeout = window.setTimeout(() => {
-          if (event.relatedTarget && !this.context.contains(event.relatedTarget) && (className !== `esgst-qiv-popout` || !event.relatedTarget.closest(`.esgst-popout`))) {
+          if (event.relatedTarget && !this.context.contains(event.relatedTarget) && ((this.ancestor && this.ancestor.contains(event.relatedTarget)) || !event.relatedTarget.closest(`.esgst-popout`))) {
             this.context.classList.remove(`esgst-qgs-container-expanded`);
             this.close();
           }
@@ -54,7 +54,7 @@ class Popout {
       });
       document.addEventListener(`click`, event => {
         const element = /** @type {Node} */ event.target;
-        if (this.context && !this.context.contains(element) && !this.popout.contains(element) && (className !== `esgst-qiv-popout` || !element.closest(`.esgst-popout`))) {
+        if (this.context && !this.context.contains(element) && !this.popout.contains(element) && ((this.ancestor && this.ancestor.contains(element)) || !element.closest(`.esgst-popout`))) {
           this.close();
         }
       }, true);
@@ -80,6 +80,7 @@ class Popout {
 
   open(context = null, isFixed = false) {
     this.context = context || this.context;
+    this.ancestor = this.context.closest(`.esgst-popout`);;
     this.isFixed = isFixed;
     this.popout.classList.remove(`esgst-hidden`);
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
