@@ -1993,7 +1993,7 @@ class Filters extends Module {
    * @param {object} rules An object containing the rules to check.
    * @returns {boolean} True if the item passed the filters and false otherwise.
    */
-  filters_filterItem(filters, item, rules) {
+  filters_filterItem(filters, item, rules, notMain) {
     if (
       !rules ||
       (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
@@ -2010,7 +2010,7 @@ class Filters extends Module {
         filtered = true;
         for (const rule of rules.rules) {
           if (rule.data && rule.data.paused) continue;
-          filtered = filtered && this.filters_filterItem(filters, item, rule);
+          filtered = filtered && this.filters_filterItem(filters, item, rule, notMain);
           if (!filtered) break;
         }
       } else {
@@ -2019,7 +2019,7 @@ class Filters extends Module {
         if (rules.rules.length) {
           for (const rule of rules.rules) {
             if (rule.data && rule.data.paused) continue;
-            filtered = filtered || this.filters_filterItem(filters, item, rule);
+            filtered = filtered || this.filters_filterItem(filters, item, rule, notMain);
             if (filtered) break;
           }
         } else {
@@ -2119,7 +2119,7 @@ class Filters extends Module {
 
         filtered = false;
 
-        if (!item.deleted && key === `ended` && !rules.value && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.userPath || this.esgst.groupPath)) {
+        if (!notMain && !item.deleted && key === `ended` && !rules.value && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.userPath || this.esgst.groupPath)) {
           this.esgst.stopEs = true;
         }
 
