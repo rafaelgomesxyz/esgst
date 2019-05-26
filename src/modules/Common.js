@@ -873,12 +873,21 @@ class Common extends Module {
             sg: true,
             st: true
           },
+          openAutoBackupNewTab: {
+            name: `Open automatic backup in a new tab.`,
+            sg: true,
+            st: true
+          },
           autoSync: {
             name: `Automatically sync games/groups when syncing through SteamGifts.`,
             sg: true
           },
           openAutoSyncPopup: {
             name: `Open sync popup when automatically syncing by default.`,
+            sg: true
+          },
+          openAutoSyncNewTab: {
+            name: `Open automatic sync in a new tab.`,
             sg: true
           },
           updateHiddenGames: {
@@ -2228,7 +2237,11 @@ class Common extends Module {
         }
       });
       if (parameters) {
-        runSilentSync(parameters);
+        if (gSettings.openAutoSyncNewTab) {
+          window.open(`${shared.esgst.syncUrl}&autoSync=true&${parameters}`);
+        } else {
+          runSilentSync(parameters);
+        }
       } else {
         this.delLocalValue(`isSyncing`);
       }
@@ -3316,7 +3329,11 @@ class Common extends Module {
     let isBackingUp = this.getLocalValue(`isBackingUp`);
     if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - gSettings.lastBackup > gSettings.autoBackup_days * 86400000) {
       this.setLocalValue(`isBackingUp`, currentDate);
-      this.runSilentBackup();
+      if (gSettings.openAutoBackupNewTab) {
+        window.open(`${shared.esgst.backupUrl}&autoBackupIndex=${gSettings.autoBackup_index}`);
+      } else {
+        this.runSilentBackup();
+      }
     }
   }
 

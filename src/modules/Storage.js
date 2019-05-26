@@ -629,7 +629,7 @@ function loadDataManagement(type, isPopup, callback) {
         type: `span`
       }]
     }]);
-    group2.appendChild(new ButtonSet({
+    const computerButton = new ButtonSet({
       color1: `green`,
       color2: `grey`,
       icon1: `fa-desktop`,
@@ -667,9 +667,13 @@ function loadDataManagement(type, isPopup, callback) {
           });
         });
       }
-    }).set);
+    });
+    group2.appendChild(computerButton.set);
+    let dropboxButton;
+    let googleDriveButton;
+    let oneDriveButton;
     if (type !== `delete`) {
-      group2.appendChild(new ButtonSet({
+      dropboxButton = new ButtonSet({
         color1: `green`,
         color2: `grey`,
         icon1: `fa-dropbox`,
@@ -690,8 +694,8 @@ function loadDataManagement(type, isPopup, callback) {
             });
           });
         }
-      }).set);
-      group2.appendChild(new ButtonSet({
+      });
+      googleDriveButton = new ButtonSet({
         color1: `green`,
         color2: `grey`,
         icon1: `fa-google`,
@@ -712,8 +716,8 @@ function loadDataManagement(type, isPopup, callback) {
             });
           });
         }
-      }).set);
-      group2.appendChild(new ButtonSet({
+      });
+      oneDriveButton = new ButtonSet({
         color1: `green`,
         color2: `grey`,
         icon1: `fa-windows`,
@@ -734,13 +738,32 @@ function loadDataManagement(type, isPopup, callback) {
             });
           });
         }
-      }).set);
+      });
+      group2.appendChild(dropboxButton.set);
+      group2.appendChild(googleDriveButton.set);
+      group2.appendChild(oneDriveButton.set);
     }
     if (isPopup) {
       popup.open();
     }
     if (gSettings[`calculate${shared.common.capitalizeFirstLetter(type)}`]) {
       getDataSizes(dm);
+    }
+    if (shared.esgst.parameters.esgst === `backup` && shared.esgst.parameters.autoBackupIndex) {
+      switch (parseInt(shared.esgst.parameters.autoBackupIndex)) {
+        case 0:
+          computerButton.trigger();
+          break;
+        case 1:
+          dropboxButton.trigger();
+          break;
+        case 2:
+          googleDriveButton.trigger();
+          break;
+        case 3:
+          oneDriveButton.trigger();
+          break;
+      }
     }
   }
 }

@@ -35,7 +35,10 @@ class ToggleSwitch {
           : null
       ]]
     ]);
-    this.switch = context ? this.container.firstElementChild : this.container.firstElementChild.firstElementChild;
+    if (!context) {
+      this.container = this.container.firstElementChild;
+    }
+    this.switch = this.container.firstElementChild;
     this.input = /** @type {HTMLElement} */ this.switch.firstElementChild;
     this.name = this.switch.nextElementSibling;
     this.input.checked = this.value;
