@@ -225,6 +225,11 @@ function publishVersion() {
       .replace(/@version.+/, `@version ${packageJson.version}`);
     fs.writeFileSync(`${ROOT_PATH}/ESGST.meta.js`, userscriptMeta);
 
+    let userscriptUser = fs.readFileSync(`${ROOT_PATH}/ESGST.user.js`, `utf8`);
+    userscriptUser = userscriptUser
+      .replace(/@version.+/, `@version ${packageJson.version}`);
+    fs.writeFileSync(`${ROOT_PATH}/ESGST.user.js`, userscriptUser);
+
     fs.writeFileSync(`${ROOT_PATH}/package.json`, JSON.stringify(packageJson, null, 2));
     
     if (!args.doNotAdd) {
