@@ -1252,7 +1252,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case `giveaways`:
         if (!values) {
           values = {
-            main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `lastUsed`, `level`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`],
+            main: [`code`, `comments`, `copies`, `creator`, `endTime`, `entries`, `gameId`, `gameName`, `gameSteamId`, `gameType`, `group`, `inviteOnly`, `lastUsed`, `level`, `numWinners`, `points`, `regionRestricted`, `started`, `startTime`, `whitelist`, `winners`, `v`],
             ct: [`count`, `readComments`],
             gb: [`bookmarked`],
             gdttt: [`visited`],
