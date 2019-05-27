@@ -4,7 +4,7 @@
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://github.com/gsrafael01/ESGST/raw/master/src/assets/images/icon.png
-// @version 8.3.14
+// @version 8.3.15
 // @author gsrafael01
 // @contributor Royalgamer06
 // @updateURL https://github.com/gsrafael01/ESGST/raw/master/ESGST.meta.js

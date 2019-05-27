@@ -1,5 +1,12 @@
 [
   {
+    "date": "May 27, 2019",
+    "version": "8.3.15",
+    "changelog": {
+      "1380": "Make #1262 optional"
+    }
+  },
+  {
     "date": "May 26, 2019",
     "version": "8.3.14",
     "changelog": {
