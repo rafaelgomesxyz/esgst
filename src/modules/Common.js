@@ -332,7 +332,7 @@ class Common extends Module {
     window.addEventListener(`beforeunload`, this.checkBusy.bind(this));
     window.addEventListener(`hashchange`, this.goToComment.bind(this, null, null, false));
 
-    if (shared.esgst.replyBox) {
+    if (shared.esgst.replyBox && gSettings.jumpToReplyBox) {
       shared.esgst.replyBox.querySelector(`textarea`).focus();
     }
 
@@ -815,6 +815,11 @@ class Common extends Module {
       },
       others: {
         features: {
+          jumpToReplyBox: {
+            name: `Jump to the reply box when loading a page that has one.`,
+            sg: true,
+            st: true
+          },
           removeSidebarInFeaturePages: {
             name: `Remove sidebar in feature pages (for example, Giveaway Extractor, Group/Library Wishlist Checker etc).`,
             sg: true
