@@ -412,9 +412,245 @@ class GeneralContentLoader extends Module {
 
   async loadGiveawayCountries(id, giveaways, triggerObj, context) {
     for (const giveaway of giveaways) {
-      let countries = [];
+      try {
+        await this.fetchGiveawayCountries(giveaway, triggerObj, context);
+      } catch (e) {
+        window.console.log(e);
+      }
+    }
+  }
 
-      const url = `${giveaway.url}/region-restrictions/search?page=`;
+  async fetchGiveawayCountries(giveaway, triggerObj, context) {
+    let countries = [];
+
+    const url = `${giveaway.url}/region-restrictions/search?page=`;
+    let nextPage = 1;
+    let pagination;
+
+    do {
+      const response = await FetchRequest.get(`${url}${nextPage}`);
+
+      const error = response.html.querySelector(`.table--summary`);
+      if (error) {
+        countries = null;
+        break;
+      }
+
+      const elements = response.html.querySelectorAll(`.table__row-inner-wrap`);
+      for (const element of elements) {
+        const hasFlag = !!element.querySelector(`.table_image_flag`);
+        const heading = element.querySelector(`.table__column__heading`);
+        const name = heading.textContent;
+        const code = name.match(/\s\((.+?)\)$/)[1].toLowerCase();
+
+        countries.push({ code, hasFlag, name });
+      }
+
+      nextPage += 1;
+      pagination = response.html.querySelector(`.pagination__navigation`);
+    } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+
+    if (countries) {
+      let table;
+
+      shared.common.createElements_v2(context.lastElementChild, `inner`, [
+        [`div`, { class: `esgst-text-left table esgst-hidden`, ref: ref => table = ref }, [
+          [`div`, { class: `table__rows`, ref: ref => triggerObj.custom.rows = ref }]
+        ]]
+      ]);
+
+      let numCountries = countries.length;
+
+      for (const country of countries) {
+        shared.common.createElements_v2(triggerObj.custom.rows, `beforeEnd`, [
+          [`div`, { class: `table__row-outer-wrap` }, [
+            [`div`, { class: `table__row-inner-wrap` }, [
+              [`div`, [
+                country.hasFlag
+                  ? [`div`, { class: `table_image_flag`, style: `background-image:url(https://cdn.steamgifts.com/img/flags/${country.code}.png)` }]
+                  : [`div`, { class: `table_image_flag_missing` }]
+              ]],
+              [`div`, { class: `table__column--width-fill` }, [
+                [`p`, { class: `table__column__heading` }, country.name]
+              ]]
+            ]]
+          ]]
+        ]);
+      }
+
+      if (numCountries === 0) {
+        shared.common.createElements_v2(context.lastElementChild, `inner`, [
+          [`i`, { class: `fa fa-exclamation-mark` }],
+          [`span`, `You cannot see the countries of this giveaway.`]
+        ]);
+      } else if (table) {
+        table.classList.remove(`esgst-hidden`);
+        if (triggerObj.custom.searchBox) {
+          triggerObj.custom.searchBox.classList.remove(`esgst-hidden`);
+        }
+      }
+    } else {
+      shared.common.createElements_v2(context.lastElementChild, `inner`, [
+        [`i`, { class: `fa fa-times-circle` }],
+        [`span`, `An error occurred.`]
+      ]);
+    }
+    triggerObj.reposition();
+  }
+
+  async loadGiveawayEntries(id, giveaways, triggerObj, context) {
+    for (const giveaway of giveaways) {
+      try {
+        await this.fetchGiveawayEntries(giveaway, triggerObj, context);
+      } catch (e) {
+        window.console.log(e);
+      }
+    }
+  }
+
+  async fetchGiveawayEntries(giveaway, triggerObj, context) {
+    let isLoading = false;
+    let isCanceled = false;
+
+    const url = `${giveaway.url}/entries/search?page=`;
+    let nextPage = 1;
+    let pagination;
+
+    const loadNextPage = async () => {
+      isLoading = true;
+
+      const loadingElement = shared.common.createElements_v2(context, `beforeEnd`, [
+        [`div`, [
+          [`i`, { class: `fa fa-circle-o-notch fa-spin` }],
+          [`span`, `Loading next page...`]
+        ]]
+      ]);
+
+      const response = await FetchRequest.get(`${url}${nextPage}`);
+
+      const error = response.html.querySelector(`.table--summary`);
+      if (error) {
+        isCanceled = true;
+
+        loadingElement.remove();
+
+        shared.common.createElements_v2(context.lastElementChild, `inner`, [
+          [`i`, { class: `fa fa-exclamation-mark` }],
+          [`span`, `You cannot see the entries of this giveaway.`]
+        ]);
+
+        return;
+      } else if (triggerObj.custom.searchBox) {
+        triggerObj.custom.searchBox.classList.remove(`esgst-hidden`);
+      }
+
+      const entries = [];
+
+      const elements = response.html.querySelectorAll(`.table__row-inner-wrap`);
+      for (const element of elements) {
+        const imageElement = element.querySelector(`.table_image_avatar`);
+        const avatar = imageElement ? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1] : null;
+        const heading = element.querySelector(`.table__column__heading`);
+        const name = heading.textContent;
+
+        entries.push({ avatar, name });
+      }
+
+      const currentRows = document.createDocumentFragment();
+      for (const entry of entries) {
+        shared.common.createElements_v2(currentRows, `beforeEnd`, [
+          [`div`, { class: `table__row-outer-wrap` }, [
+            [`div`, { class: `table__row-inner-wrap` }, [
+              [`div`, [
+                entry.avatar
+                  ? [`a`, { class: `table_image_avatar`, href: `/user/${entry.name}`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
+                  : [`div`, { class: `table_image_avatar_missing` }]
+              ]],
+              [`div`, { class: `table__column--width-fill` }, [
+                [`a`, { class: `table__column__heading`, href: `/user/${entry.name}` }, entry.name]
+              ]]
+            ]]
+          ]]
+        ]);
+      }
+
+      loadingElement.remove();
+
+      await shared.common.endless_load(currentRows);
+
+      triggerObj.custom.rows.appendChild(currentRows);
+
+      triggerObj.reposition();
+
+      nextPage += 1;
+      pagination = response.html.querySelector(`.pagination__navigation`);
+      if (!pagination || pagination.lastElementChild.classList.contains(`is-selected`)) {
+        isCanceled = true;
+      }
+
+      isLoading = false;
+    };
+
+    context.addEventListener(`scroll`, () => {
+      if (isLoading || isCanceled || triggerObj.custom.isSearching) {
+        return;
+      }
+      if (context.scrollTop + context.offsetHeight >= context.scrollHeight) {
+        loadNextPage();
+      }
+    });
+
+    shared.common.createElements_v2(context.lastElementChild, `inner`, [
+      [`div`, { class: `esgst-text-left table` }, [
+        [`div`, { class: `table__rows`, ref: ref => triggerObj.custom.rows = ref }]
+      ]]
+    ]);
+
+    triggerObj.reposition();
+
+    loadNextPage();
+  }
+
+  async loadGiveawayGroups(id, giveaways, triggerObj, context) {
+    const giveawaysToSave = {};
+    const groupsToSave = {};
+
+    for (const giveaway of giveaways) {
+      try {
+        await this.fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave);
+      } catch (e) {
+        window.console.log(e);
+      }
+    }
+
+    if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
+      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
+    }
+    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
+      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
+    }
+
+    await Promise.all([
+      shared.common.lockAndSaveGiveaways(giveawaysToSave),
+      shared.common.lockAndSaveGroups(groupsToSave)
+    ]);
+  }
+
+  async fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave) {
+    let groups;
+
+    const found = shared.esgst.giveaways[giveaway.code]
+      && Array.isArray(shared.esgst.giveaways[giveaway.code].groups)
+      && shared.esgst.giveaways[giveaway.code].groups.length
+      && !shared.esgst.giveaways[giveaway.code].groups.filter(x =>
+        !shared.esgst.groups.filter(y => x === y.code)[0]
+      )[0];
+    if (found) {
+      groups = shared.esgst.giveaways[giveaway.code].groups;
+    } else {
+      groups = [];
+
+      const url = `${giveaway.url}/groups/search?page=`;
       let nextPage = 1;
       let pagination;
 
@@ -423,24 +659,33 @@ class GeneralContentLoader extends Module {
 
         const error = response.html.querySelector(`.table--summary`);
         if (error) {
-          countries = null;
+          groups = null;
           break;
         }
 
         const elements = response.html.querySelectorAll(`.table__row-inner-wrap`);
         for (const element of elements) {
-          const code = element.querySelector(`.table_image_flag`).style.backgroundImage.match(/\/flags\/(.+?)\.png/)[1];
+          const imageElement = element.querySelector(`.table_image_avatar`);
+          const avatar = imageElement ? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1] : null;
           const heading = element.querySelector(`.table__column__heading`);
+          const code = heading.getAttribute(`href`).match(/group\/(.+?)\//)[1];
           const name = heading.textContent;
 
-          countries.push({ code, name });
+          groups.push(code);
+          groupsToSave[code] = { avatar, code, name };
         }
 
         nextPage += 1;
         pagination = response.html.querySelector(`.pagination__navigation`);
       } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
 
-      if (countries) {
+      if (groups) {
+        giveawaysToSave[giveaway.code] = { groups };
+      }
+    }
+
+    if (triggerObj) {
+      if (groups) {
         let table;
 
         shared.common.createElements_v2(context.lastElementChild, `inner`, [
@@ -448,267 +693,6 @@ class GeneralContentLoader extends Module {
             [`div`, { class: `table__rows`, ref: ref => triggerObj.custom.rows = ref }]
           ]]
         ]);
-
-        let numCountries = countries.length;
-
-        for (const country of countries) {
-          shared.common.createElements_v2(triggerObj.custom.rows, `beforeEnd`, [
-            [`div`, { class: `table__row-outer-wrap` }, [
-              [`div`, { class: `table__row-inner-wrap` }, [
-                [`div`, [
-                  [`div`, { class: `table_image_flag`, style: `background-image:url(https://cdn.steamgifts.com/img/flags/${country.code}.png)` }]
-                ]],
-                [`div`, { class: `table__column--width-fill` }, [
-                  [`p`, { class: `table__column__heading` }, country.name]
-                ]]
-              ]]
-            ]]
-          ]);
-        }
-
-        if (numCountries === 0) {
-          shared.common.createElements_v2(context.lastElementChild, `inner`, [
-            [`i`, { class: `fa fa-exclamation-mark` }],
-            [`span`, `You cannot see the countries of this giveaway.`]
-          ]);
-        } else if (table) {
-          table.classList.remove(`esgst-hidden`);
-          if (triggerObj.custom.searchBox) {
-            triggerObj.custom.searchBox.classList.remove(`esgst-hidden`);
-          }
-        }
-      } else {
-        shared.common.createElements_v2(context.lastElementChild, `inner`, [
-          [`i`, { class: `fa fa-times-circle` }],
-          [`span`, `An error occurred.`]
-        ]);
-      }
-      triggerObj.reposition();
-    }
-  }
-
-  async loadGiveawayEntries(id, giveaways, triggerObj, context) {
-    for (const giveaway of giveaways) {
-      let isLoading = false;
-      let isCanceled = false;
-
-      const url = `${giveaway.url}/entries/search?page=`;
-      let nextPage = 1;
-      let pagination;
-
-      const loadNextPage = async () => {
-        isLoading = true;
-
-        const loadingElement = shared.common.createElements_v2(context, `beforeEnd`, [
-          [`div`, [
-            [`i`, { class: `fa fa-circle-o-notch fa-spin` }],
-            [`span`, `Loading next page...`]
-          ]]
-        ]);
-
-        const response = await FetchRequest.get(`${url}${nextPage}`);
-
-        const error = response.html.querySelector(`.table--summary`);
-        if (error) {
-          isCanceled = true;
-
-          loadingElement.remove();
-
-          shared.common.createElements_v2(context.lastElementChild, `inner`, [
-            [`i`, { class: `fa fa-exclamation-mark` }],
-            [`span`, `You cannot see the entries of this giveaway.`]
-          ]);
-
-          return;
-        } else if (triggerObj.custom.searchBox) {
-          triggerObj.custom.searchBox.classList.remove(`esgst-hidden`);
-        }
-
-        const entries = [];
-
-        const elements = response.html.querySelectorAll(`.table__row-inner-wrap`);
-        for (const element of elements) {
-          const avatar = element.querySelector(`.table_image_avatar`).style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-          const heading = element.querySelector(`.table__column__heading`);
-          const name = heading.textContent;
-
-          entries.push({ avatar, name });
-        }
-
-        const currentRows = document.createDocumentFragment();
-        for (const entry of entries) {
-          shared.common.createElements_v2(currentRows, `beforeEnd`, [
-            [`div`, { class: `table__row-outer-wrap` }, [
-              [`div`, { class: `table__row-inner-wrap` }, [
-                [`div`, [
-                  [`a`, { class: `table_image_avatar`, href: `/user/${entry.name}`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
-                ]],
-                [`div`, { class: `table__column--width-fill` }, [
-                  [`a`, { class: `table__column__heading`, href: `/user/${entry.name}` }, entry.name]
-                ]]
-              ]]
-            ]]
-          ]);
-        }
-
-        loadingElement.remove();
-
-        await shared.common.endless_load(currentRows);
-
-        triggerObj.custom.rows.appendChild(currentRows);
-
-        triggerObj.reposition();
-
-        nextPage += 1;
-        pagination = response.html.querySelector(`.pagination__navigation`);
-        if (!pagination || pagination.lastElementChild.classList.contains(`is-selected`)) {
-          isCanceled = true;
-        }
-
-        isLoading = false;
-      };
-
-      context.addEventListener(`scroll`, () => {
-        if (isLoading || isCanceled || triggerObj.custom.isSearching) {
-          return;
-        }
-        if (context.scrollTop + context.offsetHeight >= context.scrollHeight) {
-          loadNextPage();
-        }
-      });
-
-      shared.common.createElements_v2(context.lastElementChild, `inner`, [
-        [`div`, { class: `esgst-text-left table` }, [
-          [`div`, { class: `table__rows`, ref: ref => triggerObj.custom.rows = ref }]
-        ]]
-      ]);
-
-      triggerObj.reposition();
-
-      loadNextPage();
-    }
-  }
-
-  async loadGiveawayGroups(id, giveaways, triggerObj, context) {
-    const giveawaysToSave = {};
-    const groupsToSave = {};
-
-    for (const giveaway of giveaways) {
-      let groups;
-
-      const found = shared.esgst.giveaways[giveaway.code]
-        && Array.isArray(shared.esgst.giveaways[giveaway.code].groups)
-        && shared.esgst.giveaways[giveaway.code].groups.length
-        && !shared.esgst.giveaways[giveaway.code].groups.filter(x =>
-          !shared.esgst.groups.filter(y => x === y.code)[0]
-        )[0];
-      if (found) {
-        groups = shared.esgst.giveaways[giveaway.code].groups;
-      } else {
-        groups = [];
-
-        const url = `${giveaway.url}/groups/search?page=`;
-        let nextPage = 1;
-        let pagination;
-
-        do {
-          const response = await FetchRequest.get(`${url}${nextPage}`);
-
-          const error = response.html.querySelector(`.table--summary`);
-          if (error) {
-            groups = null;
-            break;
-          }
-
-          const elements = response.html.querySelectorAll(`.table__row-inner-wrap`);
-          for (const element of elements) {
-            const avatar = element.querySelector(`.table_image_avatar`).style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-            const heading = element.querySelector(`.table__column__heading`);
-            const code = heading.getAttribute(`href`).match(/group\/(.+?)\//)[1];
-            const name = heading.textContent;
-
-            groups.push(code);
-            groupsToSave[code] = { avatar, code, name };
-          }
-
-          nextPage += 1;
-          pagination = response.html.querySelector(`.pagination__navigation`);
-        } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
-
-        if (groups) {
-          giveawaysToSave[giveaway.code] = { groups };
-        }
-      }
-
-      if (triggerObj) {
-        if (groups) {
-          let table;
-
-          shared.common.createElements_v2(context.lastElementChild, `inner`, [
-            [`div`, { class: `esgst-text-left table esgst-hidden`, ref: ref => table = ref }, [
-              [`div`, { class: `table__rows`, ref: ref => triggerObj.custom.rows = ref }]
-            ]]
-          ]);
-
-          let numGroups = 0;
-
-          for (const code of groups) {
-            let className;
-
-            const group = shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
-            if (group.member) {
-              className = `esgst-ggl-member`;
-              numGroups += 1;
-            } else if (gSettings.ggl_m) {
-              className = `esgst-hidden`;
-            } else {
-              className = ``;
-              numGroups += 1;
-            }
-
-            if (className !== `esgst-hidden`) {
-              shared.common.createElements_v2(triggerObj.custom.rows, `beforeEnd`, [
-                [`div`, { class: `table__row-outer-wrap ${className}` }, [
-                  [`div`, { class: `table__row-inner-wrap` }, [
-                    [`div`, [
-                      [`a`, { class: `table_image_avatar`, href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
-                    ]],
-                    [`div`, { class: `table__column--width-fill` }, [
-                      [`a`, { class: `table__column__heading`, href: `/group/${group.code}/` }, group.name]
-                    ]]
-                  ]]
-                ]]
-              ]);
-            }
-          }
-
-          if (numGroups === 0) {
-            shared.common.createElements_v2(context.lastElementChild, `inner`, [
-              [`i`, { class: `fa fa-exclamation-mark` }],
-              [`span`, `You are not a member of any group in this giveaway.`]
-            ]);
-          } else if (table) {
-            table.classList.remove(`esgst-hidden`);
-            if (triggerObj.custom.searchBox) {
-              triggerObj.custom.searchBox.classList.remove(`esgst-hidden`);
-            }
-            shared.common.endless_load(table);
-          }
-        } else {
-          shared.common.createElements_v2(context.lastElementChild, `inner`, [
-            [`i`, { class: `fa fa-times-circle` }],
-            [`span`, `An error occurred.`]
-          ]);
-        }
-        triggerObj.reposition();
-      } else if (!giveaway.summary.querySelector(`.esgst-ggl-panel`)) {
-        const panel = shared.common.createElements_v2(giveaway.extraPanel || giveaway.summary, `beforeEnd`, [
-          [`div`, { class: `esgst-ggl-panel`, 'data-draggable-id': `ggl` }]
-        ]);
-
-        shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
-
-        giveaway.groups = [];
 
         let numGroups = 0;
 
@@ -726,110 +710,169 @@ class GeneralContentLoader extends Module {
             numGroups += 1;
           }
 
-          giveaway.groups.push(group.name.toLowerCase());
-
           if (className !== `esgst-hidden`) {
-            shared.common.createElements_v2(panel, `beforeEnd`, [
-              [`div`, { class: className }, [
-                [`a`, { class: `table_image_avatar`, href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }],
-                [`a`, { href: `/group/${group.code}/` }, group.name]
+            shared.common.createElements_v2(triggerObj.custom.rows, `beforeEnd`, [
+              [`div`, { class: `table__row-outer-wrap ${className}` }, [
+                [`div`, { class: `table__row-inner-wrap` }, [
+                  [`div`, [
+                    group.avatar
+                      ? [`a`, { class: `table_image_avatar`, href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
+                      : [`div`, { class: `table_image_avatar_missing` }]
+                  ]],
+                  [`div`, { class: `table__column--width-fill` }, [
+                    [`a`, { class: `table__column__heading`, href: `/group/${group.code}/` }, group.name]
+                  ]]
+                ]]
               ]]
             ]);
-
-            if (gSettings.cl_gi) {
-              this.setTriggers(`cl_gi`, panel);
-            }
           }
         }
 
         if (numGroups === 0) {
-          panel.remove();
+          shared.common.createElements_v2(context.lastElementChild, `inner`, [
+            [`i`, { class: `fa fa-exclamation-mark` }],
+            [`span`, `You are not a member of any group in this giveaway.`]
+          ]);
+        } else if (table) {
+          table.classList.remove(`esgst-hidden`);
+          if (triggerObj.custom.searchBox) {
+            triggerObj.custom.searchBox.classList.remove(`esgst-hidden`);
+          }
+          shared.common.endless_load(table);
+        }
+      } else {
+        shared.common.createElements_v2(context.lastElementChild, `inner`, [
+          [`i`, { class: `fa fa-times-circle` }],
+          [`span`, `An error occurred.`]
+        ]);
+      }
+      triggerObj.reposition();
+    } else if (groups && !giveaway.summary.querySelector(`.esgst-ggl-panel`)) {
+      const panel = shared.common.createElements_v2(giveaway.extraPanel || giveaway.summary, `beforeEnd`, [
+        [`div`, { class: `esgst-ggl-panel`, 'data-draggable-id': `ggl` }]
+      ]);
+
+      shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
+
+      giveaway.groups = [];
+
+      let numGroups = 0;
+
+      for (const code of groups) {
+        let className;
+
+        const group = shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
+        if (group.member) {
+          className = `esgst-ggl-member`;
+          numGroups += 1;
+        } else if (gSettings.ggl_m) {
+          className = `esgst-hidden`;
+        } else {
+          className = ``;
+          numGroups += 1;
+        }
+
+        giveaway.groups.push(group.name.toLowerCase());
+
+        if (className !== `esgst-hidden`) {
+          shared.common.createElements_v2(panel, `beforeEnd`, [
+            [`div`, { class: className }, [
+              group.avatar
+                ? [`a`, { class: `table_image_avatar`, href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
+                : [`div`, { class: `table_image_avatar_missing` }],
+              [`a`, { href: `/group/${group.code}/` }, group.name]
+            ]]
+          ]);
+
+          if (gSettings.cl_gi) {
+            this.setTriggers(`cl_gi`, panel);
+          }
         }
       }
-    }
 
-    if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
-      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
+      if (numGroups === 0) {
+        panel.remove();
+      }
     }
-    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
-      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
-    }
-
-    await Promise.all([
-      shared.common.lockAndSaveGiveaways(giveawaysToSave),
-      shared.common.lockAndSaveGroups(groupsToSave)
-    ]);
   }
 
   async loadInfo(id, targetObjs, triggerObj, context) {
     for (const targetObj of targetObjs) {
-      const response = await FetchRequest.get(targetObj.url);
-
-      context.innerHTML = ``;
-
-      context.appendChild(response.html.querySelector(`.featured__outer-wrap`));
-
-      const avatar = context.querySelector(`.global__image-outer-wrap--avatar-large`)
-      const link = shared.common.createElements_v2(avatar, `afterEnd`, [
-        [`a`, { class: `esgst-ap-link` }]
-      ]);
-      link.appendChild(avatar);
-      link.setAttribute(`href`, targetObj.url);
-
-      const table = context.querySelector(`.featured__table`);
-
-      // add sidebar buttons to table
-      const sidebarButtons = response.html.querySelector(`.sidebar__shortcut-outer-wrap`);
-      sidebarButtons.lastElementChild.remove();
-      table.parentElement.insertBefore(sidebarButtons, table);
-
-      // merge left / right table columns
-      const columns = table.children;
-      for (let i = 0, n = columns[1].children.length; i < n; i++) {
-        columns[0].appendChild(columns[1].firstElementChild);
+      try {
+        await this.fetchInfo(targetObj, triggerObj, context);
+      } catch (e) {
+        window.console.log(e);
       }
-      columns[1].remove();
-
-      const suspensionElement = response.html.querySelector(`.sidebar__suspension`)
-      if (suspensionElement) {
-        shared.common.createElements_v2(columns[0], `beforeEnd`, [
-          [`div`, { class: `esgst-ap-suspended featured__table__row` }, [
-            [`div`, { class: `featured__table__row__left` }, suspensionElement.textContent],
-            [`div`, { class: `featured__table__row__right` }, suspensionElement.nextElementSibling.textContent]
-          ]]
-        ]);
-      }
-
-      const sidebarElements = response.html.querySelectorAll(`.sidebar__navigation__item__name`);
-      for (const element of sidebarElements) {
-        const match = element.textContent.match(/^Giveaways|Users$/);
-        if (!match) {
-          continue;
-        }
-
-        shared.common.createElements_v2(columns[0], `beforeEnd`, [
-          [`div`, { class: `featured__table__row` }, [
-            [`div`, { class: `featured__table__row__left` }, match[0]],
-            [`div`, { class: `featured__table__row__right` }, element.nextElementSibling.nextElementSibling.textContent]
-          ]]
-        ]);
-      }
-
-      const reportButton = context.querySelector(`.js__submit-form-inner`);
-      if (reportButton) {
-        const form = reportButton.querySelector(`form`);
-        reportButton.addEventListener(`click`, form.submit.bind(form));
-      }
-
-      if (targetObj.type === `user`) {
-        await shared.esgst.modules.profile.profile_load(context);
-      }
-      if (gSettings.at) {
-        shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(context);
-      }
-
-      triggerObj.reposition();
     }
+  }
+
+  async fetchInfo(targetObj, triggerObj, context) {
+    const response = await FetchRequest.get(targetObj.url);
+
+    context.innerHTML = ``;
+
+    context.appendChild(response.html.querySelector(`.featured__outer-wrap`));
+
+    const avatar = context.querySelector(`.global__image-outer-wrap--avatar-large`)
+    const link = shared.common.createElements_v2(avatar, `afterEnd`, [
+      [`a`, { class: `esgst-ap-link` }]
+    ]);
+    link.appendChild(avatar);
+    link.setAttribute(`href`, targetObj.url);
+
+    const table = context.querySelector(`.featured__table`);
+
+    // add sidebar buttons to table
+    const sidebarButtons = response.html.querySelector(`.sidebar__shortcut-outer-wrap`);
+    sidebarButtons.lastElementChild.remove();
+    table.parentElement.insertBefore(sidebarButtons, table);
+
+    // merge left / right table columns
+    const columns = table.children;
+    for (let i = 0, n = columns[1].children.length; i < n; i++) {
+      columns[0].appendChild(columns[1].firstElementChild);
+    }
+    columns[1].remove();
+
+    const suspensionElement = response.html.querySelector(`.sidebar__suspension`)
+    if (suspensionElement) {
+      shared.common.createElements_v2(columns[0], `beforeEnd`, [
+        [`div`, { class: `esgst-ap-suspended featured__table__row` }, [
+          [`div`, { class: `featured__table__row__left` }, suspensionElement.textContent],
+          [`div`, { class: `featured__table__row__right` }, suspensionElement.nextElementSibling.textContent]
+        ]]
+      ]);
+    }
+
+    const sidebarElements = response.html.querySelectorAll(`.sidebar__navigation__item__name`);
+    for (const element of sidebarElements) {
+      const match = element.textContent.match(/^Giveaways|Users$/);
+      if (!match) {
+        continue;
+      }
+
+      shared.common.createElements_v2(columns[0], `beforeEnd`, [
+        [`div`, { class: `featured__table__row` }, [
+          [`div`, { class: `featured__table__row__left` }, match[0]],
+          [`div`, { class: `featured__table__row__right` }, element.nextElementSibling.nextElementSibling.textContent]
+        ]]
+      ]);
+    }
+
+    const reportButton = context.querySelector(`.js__submit-form-inner`);
+    if (reportButton) {
+      const form = reportButton.querySelector(`form`);
+      reportButton.addEventListener(`click`, form.submit.bind(form));
+    }
+
+    if (targetObj.type === `user`) {
+      await shared.esgst.modules.profile.profile_load(context);
+    }
+    if (gSettings.at) {
+      shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(context);
+    }
+
+    triggerObj.reposition();
   }
 }
 
