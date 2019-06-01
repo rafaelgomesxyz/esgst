@@ -142,12 +142,16 @@ class Process {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;
-      let response = await shared.common.request({method: `GET`, queue: details.queue, url: url});
-      let responseHtml = utils.parseHtml(response.responseText);
-      await details.request(this, details, response, responseHtml);
-      i += 1;
-      this.index += 1;
-      this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
+      try {
+        const response = await shared.common.request({method: `GET`, queue: details.queue, url: url});
+        const responseHtml = utils.parseHtml(response.responseText);
+        await details.request(this, details, response, responseHtml);
+        i += 1;
+        this.index += 1;
+        this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
+      } catch (e) {
+        window.console.log(e);
+      }
     }
     if (!this.urls.doNotTrigger && this.index >= this.total) {
       this.popup.removeButton(0);

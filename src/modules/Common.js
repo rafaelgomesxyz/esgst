@@ -3331,7 +3331,7 @@ class Common extends Module {
 
   checkBackup() {
     let currentDate = Date.now();
-    let isBackingUp = this.getLocalValue(`isBackingUp`);
+    let isBackingUp = parseInt(this.getLocalValue(`isBackingUp`));
     if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - gSettings.lastBackup > gSettings.autoBackup_days * 86400000) {
       this.setLocalValue(`isBackingUp`, currentDate);
       if (gSettings.openAutoBackupNewTab) {
