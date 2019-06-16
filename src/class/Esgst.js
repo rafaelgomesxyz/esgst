@@ -4,6 +4,7 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
+    this.CURRENT_STORAGE_VERSION = 2;
     this.CURRENT_GIVEAWAY_VERSION = 2;
 
     this.es_loadNext = undefined;
@@ -480,14 +481,6 @@ class Esgst {
         `new`,
         `created`,
         `dh`,
-        {
-          color: `grey`,
-          description: `Help the community.`,
-          icon: `fa-question-circle `,
-          id: `categorize-discussions`,
-          name: `Categorize Discussions`,
-          url: `/tools/categorize-discussions`
-        },
         {id: `announcements`, name: `Browse Announcements`, url: `/discussions/announcements`},
         {id: `bugs-suggestions`, name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
         {id: `deals`, name: `Browse Deals`, url: `/discussions/deals`},
@@ -565,7 +558,9 @@ class Esgst {
         `steamgifts`,
         `103582791432125620`,
         `privacy-policy`,
-        `terms-of-service`
+        `cookie-policy`,
+        `terms-of-service`,
+        `advertising`
       ],
       chfl_trades_st: [
         `new`,

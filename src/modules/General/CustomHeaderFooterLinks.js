@@ -10,8 +10,7 @@ const
   createConfirmation = common.createConfirmation.bind(common),
   createElements = common.createElements.bind(common),
   generateHeaderMenuItem = common.generateHeaderMenuItem.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  setValue = common.setValue.bind(common)
+  getFeatureTooltip = common.getFeatureTooltip.bind(common)
   ;
 
 class GeneralCustomHeaderFooterLinks extends Module {
@@ -125,7 +124,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
             continue;
           }
           if ((!element.getAttribute(`href`) || element.getAttribute(`href`).match(/^javascript/)) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
-          id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*([/?])(.+)$/)[2];
+          id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*([/?:])(.+?)(@|$)/)[2];
           id = id.replace(/\[steamId]/, gSettings.steamId);
           element.setAttribute(`data-link-id`, id);
           element.setAttribute(`data-link-key`, key);
