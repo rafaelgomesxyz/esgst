@@ -6,6 +6,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -733,7 +734,7 @@ class UsersUserGiveawayData extends Module {
         const responseText = response.responseText;
         obj.playtimes = JSON.parse(responseText).response.games;
       } catch (e) {
-        window.console.log(e);
+        logger.warning(e.stack);
         window.alert(`An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
         await this.ugd_complete(obj, results);
         await saveUser(null, null, obj.user);
@@ -885,7 +886,7 @@ class UsersUserGiveawayData extends Module {
             achievementsData = responseJson.achievements;
           }
         } catch (error) {
-          window.console.log(error);
+          logger.warning(error.stack);
         }
       }
       achievements = `0/0`;

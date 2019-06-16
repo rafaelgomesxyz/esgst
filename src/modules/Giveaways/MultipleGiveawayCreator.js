@@ -8,6 +8,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -1482,7 +1483,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (values.region === `1`) {
         regionRestricted = `Yes (`;
         values.countries.split(/\s/).forEach(id => {
-          window.console.log(id, mgc.countryNames[id]);
+          logger.info(id, mgc.countryNames[id]);
           regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
         });
         regionRestricted = `${regionRestricted.slice(0, -2)})`;

@@ -6,6 +6,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -405,7 +406,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           if (SavedUsers.users[I].wbc && SavedUsers.users[I].wbc.result) {
             WBC.Users.push(SavedUsers.users[I].username);
             if (!SavedUsers.users[I].username) {
-              window.console.log(`Log for #1084: ${I}, ${JSON.stringify(SavedUsers.users[I])}`);
+              logger.info(`Log for #1084: ${I}, ${JSON.stringify(SavedUsers.users[I])}`);
             }
           }
         }

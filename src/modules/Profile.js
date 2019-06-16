@@ -1,6 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
 import { gSettings } from '../class/Globals';
+import { logger } from '../class/Logger';
 
 const
   checkUsernameChange = common.checkUsernameChange.bind(common),
@@ -125,7 +126,7 @@ class Profile extends Module {
       try {
         await feature(profile, savedUser);
       } catch (error) {
-        window.console.log(error);
+        logger.error(error.stack);
       }
     }
   }

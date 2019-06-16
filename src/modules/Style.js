@@ -192,6 +192,26 @@ function addStyle() {
   `;
   }
   style += `
+  .esgst-logs-error i {
+    color: #d9534f;
+  }
+
+  .esgst-log-error {
+    background-color: #d9534f;
+    color: #ffffff;
+    text-shadow: none;    
+  }
+
+  .esgst-logs-warning i {
+    color: #f0ad4e;
+  }
+
+  .esgst-log-warning {
+    background-color: #f0ad4e;
+    color: #ffffff;
+    text-shadow: none;
+  }
+
   #esgst_permissions .esgst-ugd-table {
     min-width: unset;
   }

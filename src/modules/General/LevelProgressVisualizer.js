@@ -4,6 +4,7 @@ import { shared } from '../../class/Shared';
 import { utils } from '../../lib/jsUtils';
 import { gSettings } from '../../class/Globals';
 import { FetchRequest } from '../../class/FetchRequest';
+import { logger } from '../../class/Logger';
 
 const
   createElements = common.createElements.bind(common),
@@ -80,9 +81,9 @@ class GeneralLevelProgressVisualizer extends Module {
     const cv = this.lpv_getCv();
     if (cv > 0) {
       const predictedFullLevel = shared.common.getLevelFromCv(cache.cv + cv);
-      window.console.log(`Current CV: ${cache.cv}`);
-      window.console.log(`CV to gain: ${cv}`);
-      window.console.log(`Predicted level: ${predictedFullLevel}`);
+      logger.info(`Current CV: ${cache.cv}`);
+      logger.info(`CV to gain: ${cv}`);
+      logger.info(`Predicted level: ${predictedFullLevel}`);
       const predictedLevel = Math.trunc(predictedFullLevel);
       const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
       const predictedProgress = Math.trunc(Math.min(100, predictedPercentage) * (fullButtonWidth / 100));
@@ -238,7 +239,7 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   lpv_getCv() {
-    window.console.log(`Beginning CV calculation...`);
+    logger.info(`Beginning CV calculation...`);
     let cv = 0;
     const user = this.esgst.users.users[gSettings.steamId];
     if (!user) {
@@ -259,7 +260,7 @@ class GeneralLevelProgressVisualizer extends Module {
           for (const code of items[id]) {
             const giveaway = this.esgst.giveaways[code];
             if (!giveaway) {
-              window.console.log(`Could not find giveaway ${code}...`);
+              logger.info(`Could not find giveaway ${code}...`);
               continue;
             }
             value = giveaway.points;
@@ -305,21 +306,21 @@ class GeneralLevelProgressVisualizer extends Module {
             }
             if (realValue > 0) {
               cv += realValue;
-              window.console.log(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
-              window.console.log(`Total CV: ${cv}`);
+              logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              logger.info(`Total CV: ${cv}`);
             }
           } else if (open > 0) {
             value *= open;
             if (value > 0) {
               cv += value;
-              window.console.log(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
-              window.console.log(`Total CV: ${cv}`);
+              logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              logger.info(`Total CV: ${cv}`);
             }
           }
         }
       }
     }
-    window.console.log(`CV calculation ended...`);
+    logger.info(`CV calculation ended...`);
     return cv;
   }
 }
