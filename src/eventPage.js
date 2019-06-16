@@ -367,6 +367,7 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve(await browser.permissions.remove(JSON.parse(request.permissions)));
         break;
       case `getBrowserInfo`:
+        console.log(browserInfo);
         resolve(JSON.stringify(browserInfo));
         break;
       case `do_lock`:
