@@ -4,6 +4,7 @@ import { common } from '../Common';
 import { browser } from '../../browser';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -440,7 +441,7 @@ class GeneralHeaderRefresher extends Module {
         document.title = title;
       }
     }
-    window.console.log(notify, this.esgst.wishlist, this.esgst.wishlistNew);
+    logger.info(notify, this.esgst.wishlist, this.esgst.wishlistNew);
     if (notify) {
       notification = {
         msg: ``,
@@ -477,7 +478,7 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async hr_showNotification(details) {
-    window.console.log(details);
+    logger.info(details);
     let result = await window.Notification.requestPermission();
     if (result !== `granted`) {
       return;
@@ -509,7 +510,7 @@ class GeneralHeaderRefresher extends Module {
           this.esgst.hr.wonPlayer.play();
         }
       } catch (e) {
-        window.console.log(e);
+        logger.warning(e.stack);
         details.msg += `\n\nAn error happened when trying to play the sound.`;
       }
     }

@@ -8,6 +8,7 @@ import { common } from './Common';
 import { gSettings } from '../class/Globals';
 import { shared } from '../class/Shared';
 import { SYNC_KEYS } from './Sync';
+import { logger } from '../class/Logger';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -1020,7 +1021,7 @@ class Filters extends Module {
       }
       this.filters_filter(obj);
     } catch (e) {
-      window.console.log(e);
+      logger.error(e.stack);
     }
     obj.basicApplied = false;
   }

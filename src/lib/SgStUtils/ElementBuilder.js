@@ -1,4 +1,5 @@
 import { utils } from '../jsUtils';
+import { logger } from '../../class/Logger';
 
 const CLASS_NAMES = {
   sg: {
@@ -63,7 +64,7 @@ class ElementBuilder {
       }
       return element;
     } catch (error) {
-      console.log(error);
+      logger.error(error.stack);
     }
   }
 

@@ -22,6 +22,7 @@ import '../lib/bootstrap-tourist/bootstrap-tourist.js';
 import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
+import { logger } from '../class/Logger';
 
 const
   isSet = utils.isSet.bind(utils),
@@ -126,7 +127,7 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async loadFeatures(modules) {  
-    console.log(this.esgst.games.apps[269650]);
+    logger.info(this.esgst.games.apps[269650]);
     if (this.isCurrentPath(`Account`)) {
       this.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
         name: `ESGST`,
@@ -267,7 +268,7 @@ class Common extends Module {
           await this.timeout(0);
         }*/
       } catch (e) {
-        window.console.log(e);
+        logger.error(e.stack);
       }
     }
 
@@ -686,7 +687,7 @@ class Common extends Module {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
-        window.console.log(e);
+        logger.error(e.stack);
       }
     }
   }
@@ -815,6 +816,11 @@ class Common extends Module {
       },
       others: {
         features: {
+          notifyLogs: {
+            name: `Notify about console logs.`,
+            sg: true,
+            st: true
+          },
           jumpToReplyBox: {
             name: `Jump to the reply box when loading a page that has one.`,
             sg: true,
@@ -1868,8 +1874,8 @@ class Common extends Module {
   addHeaderButton(icon, state, title) {
     const [query, position] = this.esgst.sg ? [`.nav__left-container`, `afterEnd`] : [`.nav_logo`, `afterEnd`];
     const button = this.createElements_v2(document.querySelector(query), position, [
-      [`div`, { class: `nav__button-container nav__button-container--notification nav__button-container--${state}` }, [
-        [`span`, { class: `nav__button`, title }, [
+      [`div`, { class: shared.esgst.sg ? `nav__button-container nav__button-container--notification nav__button-container--${state}` : `nav_btn_container` }, [
+        [`span`, { class: shared.esgst.sg ? `nav__button` : `nav_btn`, title }, [
           [`i`, { class: `fa ${icon}` }]
         ]]
       ]]
@@ -2771,7 +2777,7 @@ class Common extends Module {
     popup = new Popup({ addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways` });
     hidden = [];
     const now = Date.now();
-    console.log(this.esgst.giveaways);
+    logger.info(this.esgst.giveaways);
     for (key in this.esgst.giveaways) {
       if (this.esgst.giveaways.hasOwnProperty(key)) {
         giveaway = this.esgst.giveaways[key];
@@ -4912,7 +4918,7 @@ class Common extends Module {
   }
 
   createConfirmation(message, onYes, onNo, event) {
-  console.log(message);
+    logger.info(message);
     let callback, popup;
     callback = onNo;
     popup = new Popup({ addScrollable: true, icon: `fa-question`, isTemp: true, title: message });
@@ -5115,7 +5121,7 @@ class Common extends Module {
       }
       return element;
     } catch (error) {
-      console.log(error);
+      logger.error(error.stack);
     }
   }
 
@@ -5205,7 +5211,7 @@ class Common extends Module {
       }
       return element;
     } catch (error) {
-      console.log(error);
+      logger.error(error.stack);
     }
   }
 
@@ -5907,14 +5913,14 @@ class Common extends Module {
   setCurrentScope(id) {
     this.esgst.currentScope = this.esgst.scopes[id];
     this.esgst.scopeHistory.push(id);
-    console.log(`Current scope: `, this.esgst.currentScope.id);
+    logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   resetCurrentScope() {
     this.esgst.scopeHistory.pop();
     const id = this.esgst.scopeHistory[this.esgst.scopeHistory.length - 1];
     this.esgst.currentScope = this.esgst.scopes[id];
-    console.log(`Current scope: `, this.esgst.currentScope.id);
+    logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   getLevelFromCv(cv) {

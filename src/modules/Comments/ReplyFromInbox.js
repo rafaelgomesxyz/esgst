@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 class CommentsReplyFromInbox extends Module {
   constructor() {
@@ -55,7 +56,7 @@ class CommentsReplyFromInbox extends Module {
   }
 
   async rfi_saveReply(id, reply, url, edit) {
-    window.console.log(id, reply, url, edit);
+    logger.info(id, reply, url, edit);
     let i, n, source, saved;
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];

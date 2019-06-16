@@ -5,6 +5,7 @@ import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -584,9 +585,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      window.console.log(e);
-      window.console.log(giveaway.code);
-      window.console.log(responseJson);
+      logger.warning(e.stack);
+      logger.info(giveaway.code);
+      logger.info(responseText);
     }
     if (!responseJson) {
       return;
@@ -658,9 +659,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      window.console.log(e);
-      window.console.log(giveaway.code);
-      window.console.log(responseJson);
+      logger.warning(e.stack);
+      logger.info(giveaway.code);
+      logger.info(responseText);
     }
     if (!responseJson) {
       return;

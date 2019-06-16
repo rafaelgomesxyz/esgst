@@ -13,6 +13,7 @@ import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
 import { gSettings } from './class/Globals';
 import { shared } from './class/Shared';
+import { logger } from './class/Logger';
 
 // @ts-ignore
 window.interact = interact;
@@ -192,7 +193,7 @@ window.interact = interact;
         esgst.groups = JSON.parse(toSet.groups);
         common.delLocalValue(`groups`);
       }
-      console.log(`GROUP: `, esgst.groups.filter(group => group.steamId === `103582791454597143`)[0]);
+      logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === `103582791454597143`)[0]);
       if (!utils.isSet(esgst.storage.entries)) {
         toSet.entries = common.getLocalValue(`entries`, `[]`);
         common.delLocalValue(`entries`);

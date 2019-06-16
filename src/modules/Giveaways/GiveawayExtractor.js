@@ -8,6 +8,7 @@ import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { logger } from '../../class/Logger';
 
 const
   parseHtml = utils.parseHtml.bind(utils),
@@ -530,7 +531,7 @@ class GiveawaysGiveawayExtractor extends Module {
                   sgTools = false;
                 }
               } catch (error) {
-                window.console.log(error);
+                logger.warning(error.stack);
               }
             }
           }
