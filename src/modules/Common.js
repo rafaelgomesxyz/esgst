@@ -3671,7 +3671,7 @@ class Common extends Module {
   async exportSettings() {
     //** @type {EsgstSettings} */
     let settings = JSON.parse(this.getValue(`settings`, `{}`));
-    let data = { settings };
+    let data = { settings, v: shared.esgst.storage.v };
 
     delete data.settings.avatar;
     delete data.settings.lastSync;

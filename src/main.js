@@ -14,6 +14,7 @@ import { runSilentSync } from './modules/Sync';
 import { gSettings } from './class/Globals';
 import { shared } from './class/Shared';
 import { logger } from './class/Logger';
+import { persistentStorage } from './class/PersistentStorage';
 
 // @ts-ignore
 window.interact = interact;
@@ -281,6 +282,8 @@ window.interact = interact;
 
     esgst.features = common.getFeatures();
     esgst.featuresById = common.getFeaturesById();
+
+    persistentStorage.upgrade(esgst.settings, esgst.storage.v);
 
     common.initGlobalSettings();
 

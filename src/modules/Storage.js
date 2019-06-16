@@ -8,6 +8,7 @@ import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { CloudStorage } from './CloudStorage';
+import { persistentStorage } from '../class/PersistentStorage';
 
 const
   sortArray = utils.sortArray.bind(utils)
@@ -1219,6 +1220,15 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
   let data = {};
   let totalSize = 0;
   let mainUsernameFound;
+
+  if (!space) {
+    if (dm.type === `import`) {
+      persistentStorage.upgrade(dm.data.settings, dm.data.v, true);
+    } else if (dm.type === `export`) {
+      data.v = shared.esgst.storage.v;
+    }
+  }
+  
   for (let i = 0, n = dm.options.length; i < n; i++) {
     let option = dm.options[i];
     let optionKey = option.key;
