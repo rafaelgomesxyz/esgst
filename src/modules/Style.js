@@ -962,11 +962,6 @@ function addStyle() {
     width: 12%;
   }
 
-  .esgst-ugd-lists {
-    display: flex;
-    justify-content: space-around;
-  }
-
   .markdown {
     word-break: break-word;
   }

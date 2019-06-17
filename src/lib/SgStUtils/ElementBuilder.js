@@ -191,7 +191,9 @@ class PageHeading extends ElementBuilder {
     const items = [];
     for (const breadcrumb of breadcrumbs) {      
       items.push(
-        [`a`, { href: breadcrumb.url }, breadcrumb.name],
+        typeof breadcrumb === `string` || Array.isArray(breadcrumb)
+          ? [`span`, breadcrumb]
+          : [`a`, { href: breadcrumb.url }, breadcrumb.name],
         [`i`, { class: `fa fa-angle-right` }]
       );
     }
