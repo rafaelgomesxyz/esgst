@@ -7,6 +7,7 @@ import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -561,25 +562,21 @@ class UsersUserGiveawayData extends Module {
     obj.lists = {};
     if (obj.key === `sent`) {
       obj.lists.gameName = {
-        name: `Most given away:`,
+        name: `Games`,
         values: []
       };
       obj.lists.username = {
-        name: [{
-          text: `Most sent to: `,
-          type: `node`
-        }, obj.user.username === gSettings.username ? null : {
-          attributes: {
-            class: `fa fa-question-circle`,
-            title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.`
-          },
-          type: `i`
-        }],
+        name: [
+          `Winners`,
+          obj.user.username === gSettings.username
+            ? null
+            : [`i`, { class: `fa fa-question-circle`, title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.` }]
+        ],
         values: []
       };
     } else {
       obj.lists.creator = {
-        name: `Most won from:`,
+        name: `Creators`,
         values: []
       };
     }
@@ -998,6 +995,10 @@ class UsersUserGiveawayData extends Module {
         const giveaways = games[id];
         for (const item of giveaways) {
           const giveaway = typeof item === `string` ? savedGiveaways[item] : item;
+          if (!giveaway || !giveaway.code) {
+            logger.info(`[UGD] Giveaway not found:`, item);
+            continue;
+          }
           let selector = ``;
           for (const key in types) {
             if (types.hasOwnProperty(key)) {
@@ -1032,6 +1033,7 @@ class UsersUserGiveawayData extends Module {
                 const value = selector[key];
                 if (!values[value]) {
                   values[value] = {
+                    code: key === `gameName` ? null : giveaway.code,
                     gameSteamId: giveaway.gameSteamId,
                     gameType: giveaway.gameType,
                     value: 0,
@@ -1039,7 +1041,29 @@ class UsersUserGiveawayData extends Module {
                   };
                 }
                 values[value].value += (key === `username` ? 1 : (copies || 1));
-                values[value].values.push(giveaway.gameName);
+                if (key === `gameName`) {
+                  if (isArrayWinners) {
+                    for (const winner of winners) {
+                      values[value].values.push(
+                        {
+                          code: giveaway.code,
+                          name: winner.username
+                        },
+                        null
+                      );
+                    }
+                  }
+                } else {
+                  values[value].values.push(
+                    {
+                      code: giveaway.code,
+                      gameSteamId: giveaway.gameSteamId,
+                      gameType: giveaway.gameType,
+                      name: giveaway.gameName
+                    },
+                    null
+                  );
+                }
               }
             }
           }
@@ -1075,56 +1099,79 @@ class UsersUserGiveawayData extends Module {
   }
 
   async ugd_complete(obj, results) {
-    const items = [{
-      attributes: {
-        class: `esgst-ugd-lists esgst-text-center markdown`
-      },
-      type: `div`,
-      children: []
-    }];
+    const items = [
+      [`div`, { class: `esgst-ugd-lists` }, []]
+    ];
     for (const key in obj.lists) {
       if (obj.lists.hasOwnProperty(key)) {
         const list = obj.lists[key];
         const values = list.values;
         const listItems = [];
         for (const item of values) {
-          listItems.push({
-            type: `li`,
-            children: [{
-              text: `${item.name} - `,
-              type: `node`
-            }, {
-              attributes: {
-                class: `esgst-bold`
-              },
-              text: item.value,
-              type: `span`
-            }, key === `username` || key === `creator` ? {
-              attributes: {
-                class: `fa fa-question-circle`,
-                title: item.values.join(`, `)
-              },
-              type: `i`
-            } : null]
-          });
-        }
-        items[0].children.push({
-          type: `div`,
-          children: [{
-            attributes: {
-              class: `esgst-bold`
+          listItems.push([
+            {
+              alignment: `left`,
+              size: `fill`,
+              value: [
+                [`a`, { class: `table__column__secondary-link`, href: key === `gameName` ? `https://store.steampowered.com/${item.gameType.slice(0, -1)}/${item.gameSteamId}` : `/user/${item.name}` }, item.name]
+              ]
             },
-            text: Array.isArray(list.name) ? `` : list.name,
-            type: `div`,
-            children: Array.isArray(list.name) ? list.name : null
-          }, {
-            type: `ol`,
-            children: listItems
-          }]
+            {
+              alignment: `center`,
+              size: `small`,
+              value: item.value
+            },
+            {
+              alignment: `left`,
+              size: `fill`,
+              value: item.values.map(x => x
+                ? [`span`, [
+                    x.code
+                      ? [`a`, { class: `table__column__secondary-link`, href: `/giveaway/${x.code}/`, title: `Go to the giveaway` }, [
+                          [`i`, { class: `fa fa-gift` }]
+                        ]]
+                      : null,
+                    ` `,
+                    [`a`, { class: `table__column__secondary-link`, href: key === `gameName` ? `/user/${x.name}` : `https://store.steampowered.com/${x.gameType.slice(0, -1)}/${x.gameSteamId}` }, x.name]
+                  ]]
+                : [`br`]
+              )
+            }
+          ]);
+        }
+        const listTable = new Table([
+          [
+            {
+              alignment: `left`,
+              size: `fill`,
+              value: key === `gameName` ? `Game` : (obj.key === `sent` ? `Winner` : `Creator`)
+            },
+            {
+              alignment: `center`,
+              size: `small`,
+              value: `Count`
+            },
+            {
+              alignment: `left`,
+              size: `fill`,
+              value: key === `gameName` ? `Winners` : `Games`
+            }
+          ],
+          ...listItems
+        ])
+        const listHeading = new elementBuilder.sg.pageHeading({
+          breadcrumbs: [
+            list.name
+          ]
         });
+        items[0][2].push(
+          listHeading.pageHeading,
+          listTable.table,
+          [`br`]
+        );
       }
     }
-    createElements(results, `beforeEnd`, items);
+    shared.common.createElements_v2(results, `beforeEnd`, items);
     await endless_load(results);
   }
 }

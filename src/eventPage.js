@@ -13,6 +13,7 @@ browser.runtime.onInstalled.addListener(async details => {
   }
 });
 
+// getBrowserInfo must be removed from webextension-polyfill/browser-polyfill.min.js for this to work on Chrome
 browser.runtime.getBrowserInfo().then(result => browserInfo = result);
 
 browser.storage.local.get(`settings`).then(async result => {
@@ -367,7 +368,6 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve(await browser.permissions.remove(JSON.parse(request.permissions)));
         break;
       case `getBrowserInfo`:
-        console.log(browserInfo);
         resolve(JSON.stringify(browserInfo));
         break;
       case `do_lock`:

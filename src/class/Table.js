@@ -23,7 +23,9 @@ class Table {
     }
 
     for (const column of values[0]) {
-      this.addColumn(column);
+      if (column) {
+        this.addColumn(column);
+      }
     }
     const n = values.length;
     for (let i = 1; i < n; i++) {
