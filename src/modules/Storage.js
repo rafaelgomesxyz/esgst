@@ -463,6 +463,10 @@ function loadDataManagement(type, isPopup, callback) {
           name: `Main`
         },
         {
+          key: `users_cdr`,
+          name: `Cake Day Reminder`
+        },
+        {
           key: `users_namwc`,
           name: `Not Activated/Multiple Win  Checker`
         },
@@ -1061,6 +1065,10 @@ function loadDataCleaner(isPopup) {
             {
               key: `users_main`,
               name: `Main`
+            },
+            {
+              key: `users_cdr`,
+              name: `Cake Day Reminder`
             },
             {
               key: `users_namwc`,
@@ -2107,6 +2115,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case `users`:
         values = {
           main: [`whitelisted`, `whitelistedDate`, `blacklisted`, `blacklistedDate`, `steamFriend`],
+          cdr: [`cdr`, `registrationDate`],
           giveaways: [`giveaways`],
           namwc: [`namwc`],
           notes: [`notes`],
@@ -2121,6 +2130,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         };
         mergedData = JSON.parse(shared.common.getValue(`users`, `{"steamIds":{},"users":{}}`));
         sizes = {
+          cdr: 0,
           giveaways: 0,
           namwc: 0,
           notes: 0,
@@ -2274,7 +2284,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                                   }
                                   break;
                                 default:
-                                  if (mergedDataValue[valueKey]) {
+                                  if (mergedDataValue[valueKey] && mergedDataValue[valueKey].lastCheck) {
                                     if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
                                       mergedDataValue[valueKey] = newDataValue[valueKey];
                                     }

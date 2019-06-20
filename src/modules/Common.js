@@ -1752,7 +1752,7 @@ class Common extends Module {
   
   initGlobalSettings() {
     for (const key in shared.esgst.settings) {
-      const match = key.match(/(.+?)_(sg|st|sgt)$`/);
+      const match = key.match(/(.+?)_(sg|st|sgt)$/);
       if (match) {
         if (match[2] === shared.esgst.name) {
           gSettings[key] = gSettings[match[1]] = shared.esgst.settings[key];
