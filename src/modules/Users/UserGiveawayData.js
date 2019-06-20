@@ -191,7 +191,7 @@ class UsersUserGiveawayData extends Module {
       for (const id in giveaways.won[type]) {
         for (const code of giveaways.won[type][id]) {
           const giveaway = shared.esgst.giveaways[code];
-          if (!giveaway || giveaway.creator.toLowerCase() !== profile.username.toLowerCase()) {
+          if (!giveaway || !giveaway.creator || giveaway.creator.toLowerCase() !== profile.username.toLowerCase()) {
             continue;
           }
           won.push(giveaway.gameName);
