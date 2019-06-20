@@ -1550,29 +1550,27 @@ class Settings {
           }]
         }]);
       }
-    }
-    if (gSettings.makeSectionsCollapsible) {
-      collapseButton = shared.common.createElements(menu, `afterBegin`, [{
-        attributes: {
-          class: feature.features ? `esgst-clickable` : `esgst-faded`,
-          style: `margin-right: 5px;`
-        },
-        type: `span`,
-        children: [{
+      if (gSettings.makeSectionsCollapsible) {
+        collapseButton = shared.common.createElements(menu, `afterBegin`, [{
           attributes: {
-            class: `fa fa-${gSettings[`collapse_${id}`] ? `plus` : `minus`}-square`,
-            title: `${gSettings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
+            class: `esgst-clickable`,
+            style: `margin-right: 5px;`
           },
-          type: `i`
-        }]
-      }]);
-      if (gSettings[`collapse_${id}`]) {
-        subMenu.classList.add(`esgst-hidden`);
-        isExpanded = false;
-      } else {
-        isExpanded = true;
-      }
-      if (feature.features) {
+          type: `span`,
+          children: [{
+            attributes: {
+              class: `fa fa-${gSettings[`collapse_${id}`] ? `plus` : `minus`}-square`,
+              title: `${gSettings[`collapse_${id}`] ? `Expand` : `Collapse`} options`
+            },
+            type: `i`
+          }]
+        }]);
+        if (gSettings[`collapse_${id}`]) {
+          subMenu.classList.add(`esgst-hidden`);
+          isExpanded = false;
+        } else {
+          isExpanded = true;
+        }
         collapseButton.addEventListener(`click`, () => {
           if (isExpanded) {
             this.collapseOptions(collapseButton, id, subMenu);
@@ -1582,6 +1580,8 @@ class Settings {
           isExpanded = !isExpanded;
         });
       }
+    } else if (gSettings.makeSectionsCollapsible) {
+      menu.style.marginLeft = `20px`;
     }
     return {
       isNew: isMainNew,
