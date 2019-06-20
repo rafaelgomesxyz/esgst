@@ -421,9 +421,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         users = [];
         game.libraries.forEach(k => {
           user = glwc.users[k];
-          users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
+          users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
         });
-        createTooltip(createElements(libraryResults, `beforeEnd`, [{
+        const popout = createTooltip(createElements(libraryResults, `beforeEnd`, [{
           attributes: {
             class: `table__row-outer-wrap`
           },
@@ -492,7 +492,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               }]
             }]
           }]
-        }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+        }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
+        popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
       }
     } else {
       createElements(libraryResults, `inner`, [{
@@ -517,9 +518,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       users = [];
       game.wishlists.forEach(k => {
         user = glwc.users[k];
-        users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
+        users.push(`<a class="table__column__secondary-link" href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
       });
-      createTooltip(createElements(wishlistResults, `beforeEnd`, [{
+      const popout = createTooltip(createElements(wishlistResults, `beforeEnd`, [{
         attributes: {
           class: `table__row-outer-wrap`
         },
@@ -588,7 +589,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             }]
           }]
         }]
-      }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+      }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
+      popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
     }
     libraryInput.addEventListener(`input`, () => {
       const value = libraryInput.value.toLowerCase();
@@ -599,7 +601,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             users = [];
             game.libraries.forEach(k => {
               user = glwc.users[k];
-              users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
+              users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
             });
             createElements(librarySearch, `inner`, [{
               attributes: {
@@ -671,7 +673,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 }]
               }]
             }]);
-            createTooltip(librarySearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+            const popout = createTooltip(librarySearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
+            popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
           } else {
             createElements(librarySearch, `inner`, [{
               text: `Nothing found...`,
@@ -686,9 +689,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               users = [];
               game.libraries.forEach(k => {
                 user = glwc.users[k];
-                users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
+                users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
               });
-              createTooltip(createElements(librarySearch, `beforeEnd`, [{
+              const popout = createTooltip(createElements(librarySearch, `beforeEnd`, [{
                 attributes: {
                   class: `table__row-outer-wrap`
                 },
@@ -757,7 +760,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                     }]
                   }]
                 }]
-              }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+              }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
+              popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
               j += 1;
             }
           }
@@ -784,7 +788,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             users = [];
             game.wishlists.forEach(k => {
               user = glwc.users[k];
-              users.push(`<a href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
+              users.push(`<a class="table__column__secondary-link" href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
             });
             createElements(wishlistSearch, `inner`, [{
               attributes: {
@@ -856,7 +860,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 }]
               }]
             }]);
-            createTooltip(wishlistSearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+            const popout = createTooltip(wishlistSearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
+            popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
           } else {
             createElements(wishlistSearch, `inner`, [{
               text: `Nothing found...`,
@@ -871,9 +876,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               users = [];
               game.wishlists.forEach(k => {
                 user = glwc.users[k];
-                users.push(`<a href="http://steamcommunity.com/profiles/${user.steamId}/wishlists">${user.username}</a>`);
+                users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/wishlists">${user.username}</a>`);
               });
-              createTooltip(createElements(wishlistSearch, `beforeEnd`, [{
+              const popout = createTooltip(createElements(wishlistSearch, `beforeEnd`, [{
                 attributes: {
                   class: `table__row-outer-wrap`
                 },
@@ -942,7 +947,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                     }]
                   }]
                 }]
-              }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `));
+              }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
+              popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
               j += 1;
             }
           }

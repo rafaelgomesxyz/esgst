@@ -4272,9 +4272,9 @@ class Common extends Module {
     return new Promise(resolve => window.setTimeout(resolve, ms));
   }
 
-  createTooltip(context, message) {
+  createTooltip(context, message, noMarkdown) {
     let popout;
-    popout = new Popout(`esgst-feature-description markdown`, context, 100);
+    popout = new Popout(`esgst-feature-description ${noMarkdown ? `` : `markdown`}`, context, 100);
     popout.popout.style.maxHeight = `300px`;
     popout.popout.style.overflow = `auto`;
     this.createElements(popout.popout, `inner`, [...(Array.from(parseHtml(message).body.childNodes).map(x => {
@@ -4282,6 +4282,7 @@ class Common extends Module {
         context: x
       };
     }))]);
+    return popout;
   }
 
   createOptions(options) {

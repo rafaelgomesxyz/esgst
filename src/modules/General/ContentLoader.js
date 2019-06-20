@@ -204,11 +204,12 @@ class GeneralContentLoader extends Module {
     let triggerObj;
 
     if (id === `cl_gi` || id === `cl_ui`) {
-      targetObj.url = target.getAttribute(`href`);
-
-      if (!targetObj.url) {
+      const url = target.getAttribute(`href`);
+      if (!url) {
         return;
       }
+
+      targetObj.url = url.match(/\/profiles\//) ? `/user/${target.textContent}` : url;
 
       const match = targetObj.url.match(/\/(user|group)\/(.+?)(\/.*)?$/);
       if (!match) {

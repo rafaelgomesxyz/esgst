@@ -15,7 +15,10 @@ class Users extends Module {
   }
 
   async users_load(mainContext, main, source, endless) {
-    const elements = mainContext.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*='/user/'], .esgst-es-page-${endless}a[href*='/user/']` : `a[href*='/user/']`}`);
+    const elements = mainContext.querySelectorAll(shared.common.getSelectors(endless, [
+      `Xa[href*='/user/']`,
+      `Xa[href*='/profiles/']`
+    ]));
     if (!elements.length) {
       return;
     }
@@ -24,11 +27,16 @@ class Users extends Module {
     for (let i = elements.length - 1; i > -1; i--) {
       let element = elements[i];
       const sg = (this.esgst.sg && !element.getAttribute(`data-st`)) || element.getAttribute(`data-sg`);
-      const match = element.getAttribute(`href`).match(/\/user\/(.+)/);
+      let isSteamLink = false;
+      let match = element.getAttribute(`href`).match(/\/user\/(.+)/);
+      if (!match) {
+        match = element.getAttribute(`href`).match(/\/profiles\/(.+)/);
+        isSteamLink = true;
+      }
       if (!match) {
         continue;
       }
-      const id = match[1];
+      const id = isSteamLink ? element.textContent : match[1];
       if (((!sg || element.textContent !== id) && (sg || !element.textContent || element.children.length)) || element.closest(`.markdown`)) {
         continue;
       }

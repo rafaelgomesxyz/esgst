@@ -9,6 +9,8 @@ class Popout {
     }
     this.onClose = null;
     this.onOpen = onOpen;
+    this.onFirstOpen = null;
+    this.hasOpened = false;
     this.context = context;
     this.popout = popout || shared.common.createElements(document.body, `beforeEnd`, [{
       attributes: {
@@ -98,6 +100,12 @@ class Popout {
     this.isOpen = true;
     if (this.onOpen) {
       this.onOpen(this.popout);
+    }
+    if (!this.hasOpened) {
+      this.hasOpened = true;
+      if (this.onFirstOpen) {
+        this.onFirstOpen(this.popout);
+      }
     }
   }
 
