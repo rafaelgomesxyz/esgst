@@ -48,10 +48,10 @@ class FetchRequest {
       .replace(/^\//, `https://${window.location.hostname}/`)
       .replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? `http:` : `https:`);
     if (options.pathParams) {
-      url = FetchRequest.addPathParams(options.pathParams);
+      url = FetchRequest.addPathParams(url, options.pathParams);
     }
     if (options.queryParams) {
-      url = FetchRequest.addQueryParams(options.queryParams);
+      url = FetchRequest.addQueryParams(url, options.queryParams);
     }
     options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
     try {
@@ -177,7 +177,7 @@ class FetchRequest {
     };
   }
 
-  static addPathParams(url, params) {
+  static addPathParams(url, params = {}) {
     if (!Object.keys(params).length) {
       return url;
     }
@@ -188,7 +188,7 @@ class FetchRequest {
     return url;
   }
 
-  static addQueryParams(url, params) {
+  static addQueryParams(url, params = {}) {
     if (!Object.keys(params).length) {
       return url;
     }
