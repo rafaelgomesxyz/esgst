@@ -3305,7 +3305,7 @@ class Common extends Module {
       username: profile.username,
       values: {}
     };
-    if (event.currentTarget.classList.contains(`is-selected`)) {
+    if (!event || event.currentTarget.classList.contains(`is-selected`)) {
       user.values[key] = false;
     } else {
       user.values[key] = true;

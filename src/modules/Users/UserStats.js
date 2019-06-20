@@ -86,7 +86,7 @@ class UsersUserStats extends Module {
         promise.then(this.us_load.bind(this, users[username], username));
         promises.push(promise);
       }
-      Promise.all(promises).then(shared.esgst.modules.generalTableSorter.ts_sortTables);
+      Promise.all(promises).then(shared.esgst.modules.generalTableSorter.ts_sortTables.bind(shared.esgst.modules.generalTableSorter));
     }
   }
 

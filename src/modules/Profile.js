@@ -2,6 +2,7 @@ import { Module } from '../class/Module';
 import {common} from './Common';
 import { gSettings } from '../class/Globals';
 import { logger } from '../class/Logger';
+import { shared } from '../class/Shared';
 
 const
   checkUsernameChange = common.checkUsernameChange.bind(common),
@@ -19,8 +20,25 @@ class Profile extends Module {
   }
 
   async init() {
-    if (!this.esgst.userPath) return;
-    await this.profile_load(document);
+    if (gSettings.updateWhitelistBlacklist && (shared.esgst.whitelistPath || shared.esgst.blacklistPath)) {
+      const key = shared.esgst.whitelistPath ? `whitelisted` : `blacklisted`;
+      shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
+    }
+    if (this.esgst.userPath) {
+      await this.profile_load(document);
+    }
+  }
+
+  getUsers(key, context, main, source, endless) {
+    const elements = context.querySelectorAll(shared.common.getSelectors(endless, [
+      `X.table__remove-default:not(.is-hidden)`
+    ]));
+    for (const element of elements) {
+      const container = element.closest(`.table__row-inner-wrap`);
+      const heading = container.querySelector(`.table__column__heading`);
+      const username = heading.textContent.trim();
+      element.addEventListener(`click`, () => shared.common.updateWhitelistBlacklist(key, { username }, null));
+    }
   }
 
   async profile_load(context) {
