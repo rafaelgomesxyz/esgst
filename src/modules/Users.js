@@ -37,6 +37,9 @@ class Users extends Module {
         continue;
       }
       const id = isSteamLink ? element.textContent : match[1];
+      if (!id) {
+        continue;
+      }
       if (((!sg || element.textContent !== id) && (sg || !element.textContent || element.children.length)) || element.closest(`.markdown`)) {
         continue;
       }
