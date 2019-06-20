@@ -274,7 +274,7 @@ class GiveawaysGiveawayExtractor extends Module {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
-    let cacheWarning = null;
+    ge.cacheWarning = null;
     ge.set = new ButtonSet({
       color1: `green`,
       color2: `grey`,
@@ -289,7 +289,7 @@ class GiveawaysGiveawayExtractor extends Module {
             return;
           }
           ge.isComplete = false;
-          if (cacheWarning || ge.reExtract) {
+          if (ge.cacheWarning || ge.reExtract) {
             if (ge.reExtract) {
               ge.extractOnward = gSettings.ge_extractOnward;
               ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
@@ -304,10 +304,10 @@ class GiveawaysGiveawayExtractor extends Module {
             ge.flushCache = true;
             ge.flushCacheHours = 0;
             ge.reExtract = false;
-            if (cacheWarning) {
-              cacheWarning.remove();
+            if (ge.cacheWarning) {
+              ge.cacheWarning.remove();
             }
-            cacheWarning = null;
+            ge.cacheWarning = null;
             ge.results.innerHTML = ``;
             ge.cache[ge.cacheId] = {
               codes: [],
@@ -367,7 +367,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
       ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
-      cacheWarning = common.createElements_v2(ge.popup.description, `beforeEnd`, [
+      ge.cacheWarning = common.createElements_v2(ge.popup.description, `beforeEnd`, [
         [`div`, `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
 
@@ -396,6 +396,9 @@ class GiveawaysGiveawayExtractor extends Module {
           ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
           await shared.common.timeout(100);
         }
+      }
+      if (total % 50 !== 0) {
+        ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
       }
       this.esgst.modules.common.createElements(ge.progress, `inner`, [{
         text: total,
@@ -464,7 +467,7 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   checkScroll(ge, filtered) {
-    if (!ge.isCanceled && ge.set && !ge.set.busy && (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight || filtered)) {
+    if (!ge.cacheWarning && !ge.isCanceled && ge.set && !ge.set.busy && (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight || filtered)) {
       ge.set.trigger(true);
     }
   }
