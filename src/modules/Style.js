@@ -192,6 +192,11 @@ function addStyle() {
   `;
   }
   style += `
+  .esgst-cdr-highlight {
+    color: #ff0000;
+    font-weight: bold;
+  }
+
   .esgst-logs-error i {
     color: #d9534f;
   }

@@ -69,7 +69,7 @@ class Profile extends Module {
     elements = context.getElementsByClassName(`featured__table__row__left`);
     for (i = elements.length - 1; i >= 0; --i) {
       element = elements[i];
-      match = element.textContent.match(/(Comments|Gifts (Won|Sent)|Contributor Level)/);
+      match = element.textContent.match(/(Comments|Gifts\s(Won|Sent)|Contributor\sLevel|Registered)/);
       if (match) {
         key = match[2];
         if (key) {
@@ -88,7 +88,7 @@ class Profile extends Module {
             rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
             profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/[$,]/g, ``));
             profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
-          } else {
+          } else if (key === `Sent`) {
             profile.sentRow = element.parentElement;
             profile.sentRowLeft = element;
             profile.sentRowRight = element.nextElementSibling;
@@ -107,12 +107,14 @@ class Profile extends Module {
           }
         } else if (match[1] === `Comments`) {
           profile.commentsRow = element.parentElement;
-        } else {
+        } else if (match[1] === `Contributor Level`) {
           profile.levelRow = element.parentElement;
           profile.levelRowLeft = element;
           profile.levelRowRight = element.nextElementSibling;
           rows = JSON.parse(profile.levelRowRight.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
           profile.level = parseFloat(rows[0].columns[1].name);
+        } else if (match[1] === `Registered`) {
+          profile.registrationDate = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
         }
       }
     }

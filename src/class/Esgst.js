@@ -576,6 +576,7 @@ class Esgst {
         `terms-of-service`
       ],
       cdr_days: 7,
+      cdr_aDays: 7,
       addNoCvGames_sg: false,
       hgm_addOwned: false,
       hgm_addIgnored: false,
@@ -612,6 +613,7 @@ class Esgst {
       steamApiKey: ``,
       username_sg: ``,
       username_st: ``,
+      registrationDate_sg: 0,
       adots_index: 0,
       ags_type: ``,
       ags_maxDate: ``,
