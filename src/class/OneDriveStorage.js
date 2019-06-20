@@ -140,7 +140,7 @@ class OneDriveStorage extends ICloudStorage {
     if (!response.json || !response.json.value) {
       throw new Error(response.text);
     }
-    return response.value.reverse().map(x => (x.date = x.lastModifiedDateTime) && x);
+    return response.json.value.reverse().map(x => (x.date = x.lastModifiedDateTime) && x);
   }
 }
 

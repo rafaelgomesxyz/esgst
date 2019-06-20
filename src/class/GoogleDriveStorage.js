@@ -9,7 +9,7 @@ import { FetchRequest } from './FetchRequest';
 class GoogleDriveStorage extends ICloudStorage {
   static get CLIENT_ID() { return `102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com`; }
   static get AUTH_URL() { return `https://accounts.google.com/o/oauth2/v2/auth`; }
-  static get BASE_URL() { return `https://www.googleapis.com/`; }
+  static get BASE_URL() { return `https://www.googleapis.com`; }
   static get API_BASE_URL() { return `${GoogleDriveStorage.BASE_URL}/drive/v3`; }
   static get UPLOAD_METADATA_URL() { return `${GoogleDriveStorage.API_BASE_URL}/files`; }
   static get UPLOAD_URL() { return `${GoogleDriveStorage.BASE_URL}/upload/drive/v3/files/%fileId%`; }
@@ -168,7 +168,7 @@ class GoogleDriveStorage extends ICloudStorage {
     const requestOptions = {
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {}),
       queryParams: {
-        fields: `files(kind,id,name,mimeType,size)`,
+        fields: `files(kind,id,name,mimeType,size,modifiedTime)`,
         spaces: `appDataFolder`
       }
     };

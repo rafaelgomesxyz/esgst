@@ -5936,11 +5936,19 @@ class Common extends Module {
     if (areaName !== `local`) {
       return;
     }
-    
     for (const key in changes) {
-      if (changes.hasOwnProperty(key)) {
-        shared.esgst.storage[key] = changes[key].newValue;
+      if (!changes.hasOwnProperty(key)) {
+        continue;
+      }
+      const change = changes[key];
+      if (!utils.isSet(change.newValue)) {
+        continue;
+      }
+      shared.esgst.storage[key] = change.newValue;
+      try {
         shared.esgst[key] = JSON.parse(shared.esgst.storage[key]);
+      } catch (e) {
+        shared.esgst[key] = shared.esgst.storage[key];
       }
     }
   }
