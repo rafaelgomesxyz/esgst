@@ -951,7 +951,6 @@ class Esgst {
       ugd_getAchievements: false,
       ugd_clearCache: false,
       ugs_checkRules: false,
-      ugs_checkPrivate: false,
       ugs_checkWhitelist: false,
       ugs_checkBlacklist: false,
       ugs_checkMember: false,
