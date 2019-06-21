@@ -24,6 +24,9 @@ class CommentsCommentHistory extends Module {
   }
 
   init() {
+    if (!shared.esgst.sg) {
+      return;
+    }
     if (shared.esgst.replyBox) {
       shared.common.addReplyButton(shared.esgst.replyBox);
     }
