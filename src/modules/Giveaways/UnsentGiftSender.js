@@ -73,12 +73,11 @@ class GiveawaysUnsentGiftSender extends Module {
   }
 
   ugs_openPopup(ugs) {
-    let checkMemberSwitch, checkDifferenceSwitch;
     if (!ugs.popup) {
       ugs.popup = new Popup({ addScrollable: true, icon: `fa-gift`, title: `Send unsent gifts:` });
       new ToggleSwitch(ugs.popup.description, `ugs_checkRules`, false, `Do not send if the winner has any not activated/multiple wins.`, false, false, `The winners will be checked in real time.`, gSettings.ugs_checkRules);
-      checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, gSettings.ugs_checkMember);
-      checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [
+      const checkMemberSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkMember`, false, `Do not send if the winner is no longer a member of at least one of the groups for group giveaways.`, false, false, `The winners will be checked in real time.`, gSettings.ugs_checkMember);
+      const checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, `ugs_checkDifference`, false, [
         `Do not send if the winner has a gift difference lower than `,
         [`input`, { class: `esgst-ugs-difference`, step: `0.1`, type: `number`, value: gSettings.ugs_difference }],
         `.`
@@ -466,19 +465,26 @@ class GiveawaysUnsentGiftSender extends Module {
                 lastCheck: Date.now(),
                 results: {}
               };
-              await this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_checkNotActivated(ugs, winner);
-              await this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_checkMultiple(ugs, winner);
-              let notActivated = Array.isArray(winner.values.namwc.results.notActivated) ? winner.values.namwc.results.notActivated.length : winner.values.namwc.results.notActivated;
-              let multiple = Array.isArray(winner.values.namwc.results.multiple) ? winner.values.namwc.results.multiple.length : winner.values.namwc.results.multiple;
-              if (notActivated && multiple) {
-                winner.error = `${winner.username} has ${notActivated} not activated wins and ${multiple} multiple wins.`;
-              } else if (notActivated) {
-                winner.error = `${winner.username} has ${notActivated} not activated wins.`;
-              } else if (multiple) {
-                winner.error = `${winner.username} has ${multiple} multiple wins.`;
+              try {
+                await this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_checkNotActivated(ugs, winner);
+                await this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_checkMultiple(ugs, winner);
+                let notActivated = Array.isArray(winner.values.namwc.results.notActivated) ? winner.values.namwc.results.notActivated.length : winner.values.namwc.results.notActivated;
+                let multiple = Array.isArray(winner.values.namwc.results.multiple) ? winner.values.namwc.results.multiple.length : winner.values.namwc.results.multiple;
+                let unknown = Array.isArray(winner.values.namwc.results.unknown) ? winner.values.namwc.results.unknown.length : winner.values.namwc.results.unknown;
+                if (unknown) {
+                  winner.error = `Could not check ${winner.username}'s not activated / multiple wins (probably a private profile).`;
+                } else if (notActivated && multiple) {
+                  winner.error = `${winner.username} has ${notActivated} not activated wins and ${multiple} multiple wins.`;
+                } else if (notActivated) {
+                  winner.error = `${winner.username} has ${notActivated} not activated wins.`;
+                } else if (multiple) {
+                  winner.error = `${winner.username} has ${multiple} multiple wins.`;
+                }
+                winner.sgToolsErrorNAW = notActivated;
+                winner.sgToolsErrorMW = multiple;
+              } catch (e) {
+                winner.error = `Could not check ${winner.username}'s not activated / multiple wins (probably a connection error).`;
               }
-              winner.sgToolsErrorNAW = notActivated;
-              winner.sgToolsErrorMW = multiple;
             }
 
             if (gSettings.ugs_checkMember && giveaway.group && !winner.error) {
