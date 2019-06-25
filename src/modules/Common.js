@@ -268,6 +268,7 @@ class Common extends Module {
           await this.timeout(0);
         }*/
       } catch (e) {
+        logger.warning(`${mod.info.name} failed to load:`);
         logger.error(e.stack);
       }
     }
