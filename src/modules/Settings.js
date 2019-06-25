@@ -16,6 +16,7 @@ class Settings {
     this.toSave = {};
     this.grantedPermissions = new Set();
     this.deniedPermissions = new Set();
+    this.collapseButtons = [];
   }
 
   preSave(key, value) {
@@ -83,6 +84,38 @@ class Settings {
 
     let newIndicators = null;
 
+    const buttonGroup = shared.common.createElements_v2(Container, `beforeEnd`, [
+      [`div`, { class: `esgst-button-group` }]
+    ]);
+    
+    buttonGroup.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: ``,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Collapse All`,
+      title2: `Collapsing`,
+      callback1: async () => {
+        for (const item of this.collapseButtons) {
+          this.collapseSection(item.collapseButton, item.id, item.subMenu);
+        }
+      }
+    }).set);    
+
+    buttonGroup.appendChild(new ButtonSet({
+      color1: `green`,
+      color2: `grey`,
+      icon1: ``,
+      icon2: `fa-circle-o-notch fa-spin`,
+      title1: `Expand All`,
+      title2: `Expanding`,
+      callback1: async () => {
+        for (const item of this.collapseButtons) {
+          this.expandSection(item.collapseButton, item.id, item.subMenu);
+        }
+      }
+    }).set);
+
     const dismissAllButton = new ButtonSet({
       color1: `green`,
       color2: `grey`,
@@ -98,7 +131,7 @@ class Settings {
       }
     }).set;
     dismissAllButton.classList.add(`esgst-hidden`);
-    Container.appendChild(dismissAllButton);
+    buttonGroup.appendChild(dismissAllButton);
 
     Container.setAttribute(`data-esgst-popup`, true);
     const items = [
@@ -1343,7 +1376,7 @@ class Settings {
           this.preSave(`${id}_sg`, true);
         }
         if (subMenu.classList.contains(`esgst-hidden`)) {
-          this.expandOptions(collapseButton, id, subMenu);
+          this.expandSection(collapseButton, id, subMenu);
           isExpanded = true;
         }
         if (feature.dependencies) {
@@ -1365,7 +1398,7 @@ class Settings {
           this.preSave(`${id}_sg`, false);
         }
         if ((!feature.stSwitch || !feature.stSwitch.value) && (!feature.sgToolsSwitch || !feature.sgToolsSwitch.value)) {
-          this.collapseOptions(collapseButton, id, subMenu);
+          this.collapseSection(collapseButton, id, subMenu);
           isExpanded = false;
         }
       };
@@ -1409,7 +1442,7 @@ class Settings {
           this.preSave(`${id}_st`, true);
         }
         if (subMenu.classList.contains(`esgst-hidden`)) {
-          this.expandOptions(collapseButton, id, subMenu);
+          this.expandSection(collapseButton, id, subMenu);
           isExpanded = true;
         }
         if (feature.dependencies) {
@@ -1431,7 +1464,7 @@ class Settings {
           this.preSave(`${id}_st`, false);
         }
         if ((!feature.sgSwitch || !feature.sgSwitch.value) && (!feature.sgToolsSwitch || !feature.sgToolsSwitch.value)) {
-          this.collapseOptions(collapseButton, id, subMenu);
+          this.collapseSection(collapseButton, id, subMenu);
           isExpanded = false;
         }
       };
@@ -1475,7 +1508,7 @@ class Settings {
           this.preSave(`${id}_sgtools`, true);
         }
         if (subMenu.classList.contains(`esgst-hidden`)) {
-          this.expandOptions(collapseButton, id, subMenu);
+          this.expandSection(collapseButton, id, subMenu);
           isExpanded = true;
         }
         if (feature.dependencies) {
@@ -1497,7 +1530,7 @@ class Settings {
           this.preSave(`${id}_sgtools`, false);
         }
         if ((!feature.sgSwitch || !feature.sgSwitch.value) && (!feature.stSwitch || !feature.stSwitch.value)) {
-          this.collapseOptions(collapseButton, id, subMenu);
+          this.collapseSection(collapseButton, id, subMenu);
           isExpanded = false;
         }
       };
@@ -1571,14 +1604,8 @@ class Settings {
         } else {
           isExpanded = true;
         }
-        collapseButton.addEventListener(`click`, () => {
-          if (isExpanded) {
-            this.collapseOptions(collapseButton, id, subMenu);
-          } else {
-            this.expandOptions(collapseButton, id, subMenu);
-          }
-          isExpanded = !isExpanded;
-        });
+        this.collapseButtons.push({ collapseButton, id, subMenu });
+        collapseButton.addEventListener(`click`, () => isExpanded = this.collapseOrExpandSection(collapseButton, id, subMenu, isExpanded));
       }
     } else if (gSettings.makeSectionsCollapsible) {
       menu.style.marginLeft = `20px`;
@@ -1587,34 +1614,6 @@ class Settings {
       isNew: isMainNew,
       menu
     };
-  }
-
-  collapseOptions(collapseButton, id, subMenu) {
-    subMenu.classList.add(`esgst-hidden`);
-    if (collapseButton) {
-      shared.common.createElements(collapseButton, `inner`, [{
-        attributes: {
-          class: `fa fa-plus-square`,
-          title: `Expand options`
-        },
-        type: `i`
-      }]);
-      this.preSave(`collapse_${id}`, true);
-    }
-  }
-
-  expandOptions(collapseButton, id, subMenu) {
-    subMenu.classList.remove(`esgst-hidden`);
-    if (collapseButton) {
-      shared.common.createElements(collapseButton, `inner`, [{
-        attributes: {
-          class: `fa fa-minus-square`,
-          title: `Collapse options`
-        },
-        type: `i`
-      }]);
-      this.preSave(`collapse_${id}`, null);
-    }
   }
 
   resetColor(hexInput, alphaInput, id, colorId) {
@@ -2909,32 +2908,49 @@ class Settings {
       } else {
         isExpanded = true;
       }
-      button.addEventListener(`click`, () => {
-        if (isExpanded) {
-          containerr.classList.add(`esgst-hidden`);
-          shared.common.createElements(button, `inner`, [{
-            attributes: {
-              class: `fa fa-plus-square`,
-              title: `Expand section`
-            },
-            type: `i`
-          }]);
-          isExpanded = false;
-        } else {
-          containerr.classList.remove(`esgst-hidden`);
-          shared.common.createElements(button, `inner`, [{
-            attributes: {
-              class: `fa fa-minus-square`,
-              title: `Collapse section`
-            },
-            type: `i`
-          }]);
-          isExpanded = true;
-        }
-        this.preSave(`collapse_${type}`, !isExpanded);
-      });
+      this.collapseButtons.push({ collapseButton: button, id: type, subMenu: containerr });
+      button.addEventListener(`click`, () => isExpanded = this.collapseOrExpandSection(button, type, containerr, isExpanded));
     }
     return section;
+  }
+
+  collapseOrExpandSection(collapseButton, id, subMenu, isExpanded) {
+    if (isExpanded) {
+      this.collapseSection(collapseButton, id, subMenu);
+    } else {
+      this.expandSection(collapseButton, id, subMenu);
+    }
+    return !isExpanded;
+  }
+
+  collapseSection(collapseButton, id, subMenu) {
+    subMenu.classList.add(`esgst-hidden`);
+    if (!collapseButton) {
+      return;
+    }
+    shared.common.createElements(collapseButton, `inner`, [{
+      attributes: {
+        class: `fa fa-plus-square`,
+        title: `Expand section`
+      },
+      type: `i`
+    }]);
+    this.preSave(`collapse_${id}`, true);
+  }
+
+  expandSection(collapseButton, id, subMenu) {
+    subMenu.classList.remove(`esgst-hidden`);
+    if (!collapseButton) {
+      return;
+    }
+    shared.common.createElements(collapseButton, `inner`, [{
+      attributes: {
+        class: `fa fa-minus-square`,
+        title: `Collapse section`
+      },
+      type: `i`
+    }]);
+    this.preSave(`collapse_${id}`, null);
   }
 
   filterSm(event) {
