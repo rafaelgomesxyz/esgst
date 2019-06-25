@@ -42,7 +42,7 @@ class Logger {
   }
 
   getMessage(args) {
-    return Array.from(args).map(x => typeof x === `string` ? x : JSON.stringify(x)).join(` `);
+    return `[ESGST] ${Array.from(args).map(x => typeof x === `string` ? x : JSON.stringify(x)).join(` `)}`;
   }
 
   addButton(level) {
