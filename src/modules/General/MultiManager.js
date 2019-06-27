@@ -619,6 +619,7 @@ class GeneralMultiManager extends Module {
         <li>[creator] - The creator of the giveaway.</li>
         <li>[end-time="$"] - When the giveaway ended/will end. Replace $ with the date templates specified at the end of this tooltip.</li>
         <li>[entries] - The current number of entries that the giveaway has.</li>
+        <li>[groups] - The groups of the giveaway (only works when Content Loader > Giveaway Groups is enabled as "Panel (On Page Load)").</li>
         <li>[level] - The level of the giveaway.</li>
         <li>[name] - The name of the game being given away.</li>
         <li>[points] - The number of points that the giveaway is worth.</li>
@@ -629,6 +630,8 @@ class GeneralMultiManager extends Module {
         <li>[steam-url] - The Steam store URL of the game being given away.</li>
         <li>[type] - The type of the giveaway ("Public", "Invite Only", "Group", "Whitelist", "Region Restricted", "Invite Only + Region Restricted", "Group + Whitelist", "Group + Region Restricted" or "Whitelist + Region Restricted").</li>
         <li>[url] - The full URL of the giveaway (https://www.steamgifts.com/giveaway/XXXXX/game-name).</li>
+        <li>[winners] - The name of the winners of the giveaway (only the maximum 3 winners shown in the page).</li>
+        <li>[winners-status] - The name of the winners of the giveaway (only the maximum 3 winners shown in the page), along with their status ("Awaiting Feedback", "Received" or "Not Received").</li>
       </ul>
       <div class="esgst-bold">Discussions:</div>
       <ul>
@@ -745,6 +748,10 @@ class GeneralMultiManager extends Module {
           } else if (item.regionRestricted) {
             type += `Region Restricted`;
           }
+          const winners = item.winners;
+          if (item.winnerColumns.awaitingFeedback) {
+            winners.push({ status: `Awaiting Feedback`, username: `Anonymous` });
+          }
           links.push(line
             .replace(/\[CODE]/ig, item.code)
             .replace(/\[COMMENTS]/ig, item.comments)
@@ -752,6 +759,7 @@ class GeneralMultiManager extends Module {
             .replace(/\[CREATOR]/ig, item.creator)
             .replace(/\[END-TIME="(.+?)"]/ig, this.mm_formatDate.bind(this, item.endTime))
             .replace(/\[ENTRIES]/ig, item.entries)
+            .replace(/\[GROUPS]/ig, (item.groupNames || []).join(`, `))
             .replace(/\[LEVEL]/ig, item.level)
             .replace(/\[NAME]/ig, escapeMarkdown(item.name))
             .replace(/\[POINTS]/ig, item.points)
@@ -762,6 +770,8 @@ class GeneralMultiManager extends Module {
             .replace(/\[STEAM-URL]/ig, `http://store.steampowered.com/${item.type.slice(0, -1)}/${item.id}`)
             .replace(/\[TYPE]/ig, type)
             .replace(/\[URL]/ig, `https://www.steamgifts.com${item.url.match(/\/giveaway\/.+/)[0]}`)
+            .replace(/\[WINNERS]/ig, winners.map(x => x.username).join(`, `))
+            .replace(/\[WINNERS-STATUS]/ig, winners.map(x => `${x.username} (${x.status})`).join(`, `))
           );
         });
         break;

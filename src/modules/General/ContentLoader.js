@@ -757,6 +757,7 @@ class GeneralContentLoader extends Module {
       shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
 
       giveaway.groups = [];
+      giveaway.groupNames = [];
 
       let numGroups = 0;
 
@@ -775,6 +776,7 @@ class GeneralContentLoader extends Module {
         }
 
         giveaway.groups.push(group.name.toLowerCase());
+        giveaway.groupNames.push(group.name);
 
         if (className !== `esgst-hidden`) {
           shared.common.createElements_v2(panel, `beforeEnd`, [
