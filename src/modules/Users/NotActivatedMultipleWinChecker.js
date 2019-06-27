@@ -437,12 +437,12 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       users.push(user);
       if (Array.isArray(user.values.namwc.results.notActivated)) {
         let i, n;
-        for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension; i++) {
+        for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension.notActivated; i++) {
         }
         if (i > 0) {
           createElements(userElements[steamId].notActivated, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension, true, true)})`)
+              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension.notActivated, true, true)})`)
             },
             text: `[-${i}]`,
             type: `span`
@@ -450,7 +450,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         } else if (userElements[steamId].activated) {
           createElements(userElements[steamId].activated, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension, true, true)}`)
+              title: getFeatureTooltip(`ust`, `This user already served suspension for not activated wins until ${getTimestamp(suspension.notActivated, true, true)}`)
             },
             text: `[x]`,
             type: `span`
@@ -459,12 +459,12 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       }
       if (Array.isArray(user.values.namwc.results.multiple)) {
         let i, n;
-        for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension; i++) {
+        for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension.multiple; i++) {
         }
         if (i > 0) {
           createElements(userElements[steamId].multiple, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension, true, true)})`)
+              title: getFeatureTooltip(`ust`, `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension.multiple, true, true)})`)
             },
             text: `[-${i}]`,
             type: `span`
@@ -472,7 +472,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         } else if (userElements[steamId].notMultiple) {
           createElements(userElements[steamId].notMultiple, `beforeEnd`, [{
             attributes: {
-              title: getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension, true, true)}`)
+              title: getFeatureTooltip(`ust`, `This user already served suspension for multiple wins until ${getTimestamp(suspension.multiple, true, true)}`)
             },
             text: `[x]`,
             type: `span`
