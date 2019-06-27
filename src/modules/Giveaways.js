@@ -38,10 +38,10 @@ class Giveaways extends Module {
     if (this.esgst.gas && gSettings[this.esgst.gas.autoKey]) {
       sortContent(this.esgst.currentScope.giveaways, gSettings[this.esgst.gas.optionKey]);
     }
-    if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
+    if (main && shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
     }
-    if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
+    if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
     }
     if (gSettings.mm_enableGiveaways && this.esgst.mm_enable) {

@@ -35,7 +35,7 @@ class Discussions extends Module {
       }
     }
     if (!main || this.esgst.discussionsPath) {
-      if (shared.esgst.df && this.esgst.df.filteredCount && gSettings[`df_enable${this.esgst.df.type}`]) {
+      if (main && shared.esgst.df && this.esgst.df.filteredCount && gSettings[`df_enable${this.esgst.df.type}`]) {
         this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
       }
       if (gSettings.ds && gSettings.ds_auto) {
@@ -43,7 +43,7 @@ class Discussions extends Module {
       }
     }
     if (!main || this.esgst.tradesPath) {
-      if (shared.esgst.tf && this.esgst.tf.filteredCount && gSettings[`tf_enable${this.esgst.tf.type}`]) {
+      if (main && shared.esgst.tf && this.esgst.tf.filteredCount && gSettings[`tf_enable${this.esgst.tf.type}`]) {
         this.esgst.modules.tradesTradeFilters.filters_filter(this.esgst.tf, false, endless);
       }
     }

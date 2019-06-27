@@ -92,7 +92,7 @@ class Games extends Module {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
       }
       game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
-      info = await this.games_getInfo(game.container);
+      info = await this.games_getInfo(game.container, main);
       game.headingName = game.container.querySelector(headingNameQuery);
       if (game.headingName) {
         if (game.headingName.getAttribute(`href`) && game.headingName.getAttribute(`href`).match(/\/(discussion|\/support\/ticket|trade)\//)) {
@@ -146,7 +146,7 @@ class Games extends Module {
     return games;
   }
 
-  async games_getInfo(context) {
+  async games_getInfo(context, main) {
     if (!context) {
       return null;
     }
@@ -229,7 +229,7 @@ class Games extends Module {
       }
       return x;
     });
-    if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
+    if (main && shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
     lockAndSaveGames(games);

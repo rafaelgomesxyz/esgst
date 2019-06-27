@@ -114,14 +114,14 @@ class GroupsGroupStats extends Module {
     shared.esgst.groupFeatures.push(this.gs_getGroups.bind(this));
   }
 
-  gs_getGroups(groups) {
+  gs_getGroups(groups, main) {
     this.notification.setType(`warning`);
     this.notification.setIcons([`fa-circle-o-notch`, `fa-spin`]);
     this.notification.setMessage(`Loading stats for groups...`);
     this.numGroups += groups.length;
     const promises = [];
     for (const group of groups) {
-      const promise = this.gs_addStatus(group);
+      const promise = this.gs_addStatus(group, main);
       promise.then(() => this.notification.setMessage(`Loading stats for groups (${--this.numGroups} left)...`));
       promises.push(promise);
     }
@@ -134,7 +134,7 @@ class GroupsGroupStats extends Module {
     });
   }
 
-  async gs_addStatus(group) {
+  async gs_addStatus(group, main) {
     const response = await FetchRequest.get(`${group.url}/users/search?q=${gSettings.username}`);
 
     const userContext = response.html.querySelector(`.table__row-inner-wrap`);
@@ -272,7 +272,7 @@ class GroupsGroupStats extends Module {
 
     shared.common.createElements_v2(group.container, `afterEnd`, items);
 
-    if (shared.esgst.gpf && shared.esgst.gpf.filteredCount && gSettings[`gpf_enable${shared.esgst.gpf.type}`]) {
+    if (main && shared.esgst.gpf && shared.esgst.gpf.filteredCount && gSettings[`gpf_enable${shared.esgst.gpf.type}`]) {
       shared.esgst.modules.groupsGroupFilters.filters_filter(shared.esgst.gpf);
     }
   }
