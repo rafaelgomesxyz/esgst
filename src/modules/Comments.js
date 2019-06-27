@@ -32,10 +32,10 @@ class Comments extends Module {
       await feature(comments, main);
     }
     if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
-      if (shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
+      if (main && shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
-      if (this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && gSettings[`cf_enable${this.esgst.cfPopup.type}`]) {
+      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && gSettings[`cf_enable${this.esgst.cfPopup.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cfPopup, false, endless);
       }
     }

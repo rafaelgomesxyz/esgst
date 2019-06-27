@@ -188,10 +188,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     await Promise.all(promises);
     await shared.common.lockAndSaveGiveaways(this.giveaways);
-    if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
+    if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
     }
-    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
+    if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
     }
   }
@@ -467,7 +467,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       shared.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
     if (giveaway.group && gSettings.cl && gSettings.ggl) {
-      shared.esgst.modules.generalContentLoader.loadGiveawayGroups(`ggl`, [giveaway]);
+      shared.esgst.modules.generalContentLoader.loadGiveawayGroups(true, `ggl`, [giveaway]);
     }
   }
 

@@ -1422,10 +1422,10 @@ class GamesGameCategories extends Module {
       }
     }
     if (!filtersChanged) {
-      if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
+      if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
         shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf, false, endless);
       }
-      if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
+      if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
         shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
       }
     }

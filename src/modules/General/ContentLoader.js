@@ -162,7 +162,7 @@ class GeneralContentLoader extends Module {
       case `ggl`:
         targetObjs = items.filter(x => x.group);
         if (gSettings[`${id}_index`] === ON_LOAD) {
-          this.load(id, targetObjs);
+          this.load(main, id, targetObjs);
         } else if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
             this.setTrigger(id, targetObj, targetObj.group);
@@ -379,7 +379,7 @@ class GeneralContentLoader extends Module {
 
           triggerObj.reposition();
 
-          this.load(id, [targetObj], triggerObj, context);
+          this.load(main, id, [targetObj], triggerObj, context);
         }
 
         if (gSettings[`${id}_index`] === ON_HOVER_POPOUT) {
@@ -394,25 +394,25 @@ class GeneralContentLoader extends Module {
     });
   }
 
-  load(id, targetObjs, triggerObj, context) {
+  load(main, id, targetObjs, triggerObj, context) {
     switch (id) {
       case `cl_gc`:
-        this.loadGiveawayCountries(id, targetObjs, triggerObj, context);
+        this.loadGiveawayCountries(main, id, targetObjs, triggerObj, context);
         break;
       case `cl_ge`:
-        this.loadGiveawayEntries(id, targetObjs, triggerObj, context);
+        this.loadGiveawayEntries(main, id, targetObjs, triggerObj, context);
         break;
       case `ggl`:
-        this.loadGiveawayGroups(id, targetObjs, triggerObj, context);
+        this.loadGiveawayGroups(main, id, targetObjs, triggerObj, context);
         break;
       case `cl_gi`:
       case `cl_ui`:
-        this.loadInfo(id, targetObjs, triggerObj, context);
+        this.loadInfo(main, id, targetObjs, triggerObj, context);
         break;
     }
   }
 
-  async loadGiveawayCountries(id, giveaways, triggerObj, context) {
+  async loadGiveawayCountries(main, id, giveaways, triggerObj, context) {
     for (const giveaway of giveaways) {
       try {
         await this.fetchGiveawayCountries(giveaway, triggerObj, context);
@@ -500,7 +500,7 @@ class GeneralContentLoader extends Module {
     triggerObj.reposition();
   }
 
-  async loadGiveawayEntries(id, giveaways, triggerObj, context) {
+  async loadGiveawayEntries(main, id, giveaways, triggerObj, context) {
     for (const giveaway of giveaways) {
       try {
         await this.fetchGiveawayEntries(giveaway, triggerObj, context);
@@ -613,7 +613,7 @@ class GeneralContentLoader extends Module {
     loadNextPage();
   }
 
-  async loadGiveawayGroups(id, giveaways, triggerObj, context) {
+  async loadGiveawayGroups(main, id, giveaways, triggerObj, context) {
     const giveawaysToSave = {};
     const groupsToSave = {};
 
@@ -625,10 +625,10 @@ class GeneralContentLoader extends Module {
       }
     }
 
-    if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
+    if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
     }
-    if (shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
+    if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
     }
 
@@ -798,7 +798,7 @@ class GeneralContentLoader extends Module {
     }
   }
 
-  async loadInfo(id, targetObjs, triggerObj, context) {
+  async loadInfo(main, id, targetObjs, triggerObj, context) {
     for (const targetObj of targetObjs) {
       try {
         await this.fetchInfo(targetObj, triggerObj, context);

@@ -273,7 +273,7 @@ class CommentsCommentTracker extends Module {
         }
       }
     }
-    if (shared.esgst.df && this.esgst.df.filteredCount && gSettings[`df_enable${this.esgst.df.type}`]) {
+    if (main && shared.esgst.df && this.esgst.df.filteredCount && gSettings[`df_enable${this.esgst.df.type}`]) {
       this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
     }
     if (this.esgst.ustButton) {

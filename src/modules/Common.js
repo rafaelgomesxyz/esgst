@@ -2778,7 +2778,6 @@ class Common extends Module {
     popup = new Popup({ addScrollable: true, icon: `fa-gift`, isTemp: true, title: `Hidden Giveaways` });
     hidden = [];
     const now = Date.now();
-    logger.info(this.esgst.giveaways);
     for (key in this.esgst.giveaways) {
       if (this.esgst.giveaways.hasOwnProperty(key)) {
         giveaway = this.esgst.giveaways[key];

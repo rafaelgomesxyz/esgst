@@ -622,10 +622,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           giveaway.gbButton.button.classList.add(`esgst-hidden`);
         }
       }
-      if (shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
+      if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
       }
-      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
+      if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {
@@ -684,10 +684,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       if (gSettings.gb && giveaway.gbButton) {
         giveaway.gbButton.button.classList.remove(`esgst-hidden`);
       }
-      if (shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
+      if (main && shared.esgst.gf && this.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
       }
-      if (this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
+      if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {
