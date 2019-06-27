@@ -183,8 +183,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     this.giveaways = {};
     const promises = [];
+    const now = Date.now();
     for (const giveaway of giveaways) {
-      promises.push(this.getGiveaway(giveaway));
+      promises.push(this.getGiveaway(giveaway, now));
     }
     await Promise.all(promises);
     await shared.common.lockAndSaveGiveaways(this.giveaways);
@@ -196,22 +197,22 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
   }
 
-  async getGiveaway(giveaway) {
+  async getGiveaway(giveaway, now) {
     const details = shared.esgst.giveaways[giveaway.code];
-    let shouldUpdateWinners = false;    
+    let shouldUpdateWinners = false;
     if (!giveaway.deleted && details && details.gameSteamId && Array.isArray(details.winners)) {
       shouldUpdateWinners = details.v !== shared.esgst.CURRENT_GIVEAWAY_VERSION || !details.winners.length || details.winners.filter(x => x.status !== `Received` && x.status !== `Not Received`).length > 0;
     }
-    if (this.created && shouldUpdateWinners) {
-      await this.fetchWinners(giveaway);
-    } else if (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== gSettings.username))) {
+    if ((this.created || this.won) && shouldUpdateWinners) {
+      await this.fetchWinners(giveaway, now);
+    } else if (now - (details.lastUpdate || 0) <= 604800000 && (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== gSettings.username)))) {
       this.addDetails(giveaway, details);
     } else {
-      await this.fetchDetails(giveaway);
+      await this.fetchDetails(giveaway, now);
     }
   }
 
-  async fetchDetails(giveaway) {    
+  async fetchDetails(giveaway, now) {    
     const response = await shared.common.request({
       method: `GET`,
       url: giveaway.url
@@ -220,6 +221,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     const giveaways = await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
     if (giveaways.length > 0) {
       const details = giveaways[0];
+      details.lastUpdate = now;
       this.giveaways[giveaway.code] = details;
       this.addDetails(giveaway, details);
     } else {
@@ -227,7 +229,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
   }
 
-  async fetchWinners(giveaway) {
+  async fetchWinners(giveaway, now) {
     let nextPage = 1; 
     let details = null;
     let pagination = null;
@@ -258,6 +260,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       nextPage += 1;
       pagination = responseHtml.querySelector(`.pagination__navigation`);
     } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    details.lastUpdate = now;
     this.giveaways[giveaway.code] = details;
     this.addDetails(giveaway, details);
   }
