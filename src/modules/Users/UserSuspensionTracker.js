@@ -72,24 +72,28 @@ class UsersUserSuspensionTracker extends Module {
       });
       shared.esgst.ustButton.addEventListener(`click`, this.ust_sendAll.bind(this));
     } else if (shared.esgst.ticketPath && document.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
-      let code, tickets;
-      code = window.location.pathname.match(/\/ticket\/(.+?)\//)[1];
-      tickets = JSON.parse(shared.esgst.storage.tickets);
-      if (!tickets[code] || !tickets[code].sent) {
-        shared.esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
-          attributes: {
-            class: `esgst-heading-button`,
-            title: `${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}`
-          },
-          type: `div`,
-          children: [{
+      const authorElement = document.querySelector(`.comment__username`);
+      const closeElement = document.querySelector(`.notification [href*="/user/"]`);
+      if (authorElement && closeElement && authorElement.textContent.trim() !== closeElement.textContent.trim()) {
+        let code, tickets;
+        code = window.location.pathname.match(/\/ticket\/(.+?)\//)[1];
+        tickets = JSON.parse(shared.esgst.storage.tickets);
+        if (!tickets[code] || !tickets[code].sent) {
+          shared.esgst.ustButton = createElements(document.getElementsByClassName(`page__heading`)[0].lastElementChild, `beforeBegin`, [{
             attributes: {
-              class: `fa fa-paper-plane`
+              class: `esgst-heading-button`,
+              title: `${getFeatureTooltip(`ust`, `Send ticket to the User Suspension Tracker database`)}`
             },
-            type: `i`
-          }]
-        }]);
-        shared.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
+            type: `div`,
+            children: [{
+              attributes: {
+                class: `fa fa-paper-plane`
+              },
+              type: `i`
+            }]
+          }]);
+          shared.esgst.ustButton.addEventListener(`click`, this.ust_send.bind(this));
+        }
       }
     }
   }
@@ -164,7 +168,11 @@ class UsersUserSuspensionTracker extends Module {
   async ust_check(code, obj) {
     let responseHtml = parseHtml((await request({ method: `GET`, url: `/support/ticket/${code}/` })).responseText);
     if (responseHtml.getElementsByClassName(`table__column--width-fill`)[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
-      obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+      const authorElement = responseHtml.querySelector(`.comment__username`);
+      const closeElement = responseHtml.querySelector(`.notification [href*="/user/"]`);
+      if (authorElement && closeElement && authorElement.textContent.trim() !== closeElement.textContent.trim()) {
+        obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName(`sidebar`)[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+      }
     }
   }
 
