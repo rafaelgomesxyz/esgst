@@ -489,7 +489,7 @@ class Settings {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sg`];
-            if ((typeof setting === `object` && setting.enabled) || setting) {
+            if (typeof setting === `object` ? setting.enabled : setting) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -549,7 +549,7 @@ class Settings {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_st`];
-            if ((typeof setting === `object` && setting.enabled) || setting) {
+            if (typeof setting === `object` ? setting.enabled : setting) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -609,7 +609,7 @@ class Settings {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sgtools`];
-            if ((typeof setting === `object` && setting.enabled) || setting) {
+            if (typeof setting === `object` ? setting.enabled : setting) {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1354,7 +1354,7 @@ class Settings {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sg`];
-            if ((typeof setting === `object` && setting.enabled) || setting) {
+            if (typeof setting === `object` ? setting.enabled : setting) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1420,7 +1420,7 @@ class Settings {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_st`];
-            if ((typeof setting === `object` && setting.enabled) || setting) {
+            if (typeof setting === `object` ? setting.enabled : setting) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1486,7 +1486,7 @@ class Settings {
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
             const setting = gSettings.full[`${conflictId}_sgtools`];
-            if ((typeof setting === `object` && setting.enabled) || setting) {
+            if (typeof setting === `object` ? setting.enabled : setting) {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
