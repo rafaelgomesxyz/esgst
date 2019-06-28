@@ -4409,9 +4409,11 @@ class Common extends Module {
       if (typeof a[key] === `string` && typeof b[key] === `string`) {
         return (a[key].toLowerCase().localeCompare(b[key].toLowerCase()) * after);
       } else {
-        if (a[key] < b[key]) {
+        const aValue = a[key] || 0;
+        const bValue = b[key] || 0;
+        if (aValue < bValue) {
           return before;
-        } else if (a[key] > b[key]) {
+        } else if (aValue > bValue) {
           return after;
         } else {
           return 0;
