@@ -1,5 +1,31 @@
 [
   {
+    "date": "June 28, 2019",
+    "version": "8.3.16",
+    "changelog": {
+      "1265": "User Suspension Tracker: fix bug that does not retrieve the suspensions correctly",
+      "1272": "Filters: fix bug that applies filters from the main page to popups",
+      "1276": "Endless Scrolling: fix bug that does not sort giveaways across multiple pages",
+      "1296": "Created / Entered / Won Giveaway Details: update cache every 7 days",
+      "1363": "Settings: add \"Collapse All\" and \"Expand All\" buttons to menu",
+      "1381": "Content Loader: fix bug that stops loading all items if one item failed to be loaded",
+      "1384": "Comment History: fix bug that stops loading comments if one comment is unreachable",
+      "1386": "Unsent Gift Sender: do not send to profiles that couldn't be checked if the option to check the rules is enabled",
+      "1394": "Multi-Manager: add \"[groups]\", \"[winners]\" and \"[winners-status]\" variables for giveaways",
+      "1396": "Cake Day Reminder: add option to be notified of other users' cake days",
+      "1397": "Giveaway Extractor: fix bug that does not display cache for trains with less than 50 giveaways",
+      "1398": "Update whitelist / blacklist when removing a user from the whitelist / blacklist pages",
+      "1399": "Content Loader: load user info for Group Library / Wishlist Checker pages",
+      "1400": "Settings: improve menu design",
+      "1403": "Cloud Storage: fix bug that happens when backing up",
+      "1404": "User Giveaway Data: improve design",
+      "1405": "Add option to notify about console logs",
+      "1406": "Custom Header / Footer Links: fix links",
+      "1408": "Comment History: fix bug that loads the feature on SteamTrades",
+      "1409": "Settings: fix bug that wrongly detects conflicting settings as enabled"
+    }
+  },
+  {
     "date": "May 27, 2019",
     "version": "8.3.15",
     "changelog": {
