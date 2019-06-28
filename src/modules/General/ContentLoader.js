@@ -147,7 +147,7 @@ class GeneralContentLoader extends Module {
         targetObjs = items.filter(x => x.regionRestricted);
         if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
-            this.setTrigger(id, targetObj, targetObj.regionRestricted);
+            this.setTrigger(main, id, targetObj, targetObj.regionRestricted);
           }
         }
         break;
@@ -155,7 +155,7 @@ class GeneralContentLoader extends Module {
         targetObjs = items.filter(x => x.entriesLink);
         if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
-            this.setTrigger(id, targetObj, targetObj.entriesLink);
+            this.setTrigger(main, id, targetObj, targetObj.entriesLink);
           }
         }
         break;
@@ -165,7 +165,7 @@ class GeneralContentLoader extends Module {
           this.load(main, id, targetObjs);
         } else if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
-            this.setTrigger(id, targetObj, targetObj.group);
+            this.setTrigger(main, id, targetObj, targetObj.group);
           }
         }
         break;
@@ -174,7 +174,7 @@ class GeneralContentLoader extends Module {
         if (Array.isArray(items)) {
           targetObjs = items.filter(x => x.oldElement && !x.oldElement.classList.contains(`esgst-ap-avatar`));
           for (const targetObj of targetObjs) {
-            this.setTrigger(id, {}, targetObj.oldElement);
+            this.setTrigger(main, id, {}, targetObj.oldElement);
           }
         } else {
           const selectors = shared.common.getSelectors(endless, [
@@ -187,14 +187,14 @@ class GeneralContentLoader extends Module {
           targetObjs = items.querySelectorAll(selectors);
           for (const targetObj of targetObjs) {
             if (!targetObj.classList.contains(`esgst-ap-avatar`)) {
-              this.setTrigger(id, {}, targetObj);
+              this.setTrigger(main, id, {}, targetObj);
             }
           }
         }
     }
   }
 
-  setTrigger(id, targetObj, target) {
+  setTrigger(main, id, targetObj, target) {
     let context;
     let delay;
     let enterTimeout;
