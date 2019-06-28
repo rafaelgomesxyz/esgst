@@ -205,7 +205,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     if ((this.created || this.won) && shouldUpdateWinners) {
       await this.fetchWinners(giveaway, now);
-    } else if (now - (details.lastUpdate || 0) <= 604800000 && (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== gSettings.username)))) {
+    } else if (now - ((details && details.lastUpdate) || 0) <= 604800000 && (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== gSettings.username)))) {
       this.addDetails(giveaway, details);
     } else {
       await this.fetchDetails(giveaway, now);
