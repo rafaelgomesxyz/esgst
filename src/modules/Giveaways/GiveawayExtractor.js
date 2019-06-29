@@ -122,7 +122,11 @@ class GiveawaysGiveawayExtractor extends Module {
         ignoreDiscussionComments: !!parameters.noDiscCmt,
         ignoreGiveawayComments: !!parameters.noGaCmt
       };
-      this.ge_openPopup(ge);
+
+      shared.esgst.customPages.ge = {
+        check: true,
+        load: this.ge_openPopup.bind(this, ge)
+      };
     }
   }
 
