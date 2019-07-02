@@ -1270,6 +1270,11 @@ class CommentsCommentFormattingHelper extends Module {
     }
     start = this.esgst.cfh.textArea.selectionStart;
     end = this.esgst.cfh.textArea.selectionEnd;
+    url = url
+      .replace(/\[/g, `%5B`)
+      .replace(/\]/g, `%5D`)
+      .replace(/\(/g, `%28`)
+      .replace(/\)/g, `%29`);
     value = isImage ? `![${title}](${url})` : `[${title}](${url})`;
     this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
     if (title) {
