@@ -133,7 +133,7 @@ class UsersUsernameHistory extends Module {
           type: `span`
         }]
       }]);
-      createElements(list, `inner`, (await this.getUserNames(profile.steamId, profile.username)).Usernames.map(x => {
+      createElements(list, `inner`, (await this.getUserNames(profile.steamId, profile.username)).usernames.map(x => {
         return {
           text: x,
           type: `li`
@@ -155,7 +155,7 @@ class UsersUsernameHistory extends Module {
   async getUserNames(steamId, username) {
     return JSON.parse((await request({
       method: `GET`,
-      url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=1&SteamID64=${steamId}&Username=${username}`
+      url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=uh&code=0&steamId=${steamId}&username=${username}`
     })).responseText);
   }
 }
