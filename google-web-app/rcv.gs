@@ -3,7 +3,7 @@ var rcvSubsSheet;
 
 function loadRcvSheets() {
   if (!rcvAppsSheet || !rcvSubsSheet) {
-    var sheets = SpreadsheetApp.openById('1hdANpkPL_eKZHxJuvcmsVKbjtzN_2MXV2ZBMSJMkO-s').getSheets();
+    var sheets = SpreadsheetApp.openById(RCV_SHEET).getSheets();
     rcvAppsSheet = sheets[0];
     rcvSubsSheet = sheets[1];
   }

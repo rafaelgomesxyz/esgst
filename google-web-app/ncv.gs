@@ -3,7 +3,7 @@ var ncvSubsSheet;
 
 function loadNcvSheets() {
   if (!ncvAppsSheet || !ncvSubsSheet) {
-    var sheets = SpreadsheetApp.openById('1wqUDyl_qZF0a6DkRiq-VfDQTiAfIt5WC_ikIp1iD7c4').getSheets();
+    var sheets = SpreadsheetApp.openById(NCV_SHEET).getSheets();
     ncvAppsSheet = sheets[0];
     ncvSubsSheet = sheets[1];
   }

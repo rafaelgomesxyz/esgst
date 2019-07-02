@@ -3290,11 +3290,11 @@ class Common extends Module {
   async getRecentChanges() {
     const response = JSON.parse((await this.request({
       method: `GET`,
-      url: `https://script.google.com/macros/s/AKfycbzvOuHG913mRIXOsqHIeAuQUkLYyxTHOZim5n8iP-k80iza6g0/exec?Action=2`
+      url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=uh&code=1`
     })).responseText);
 
-    /** @property {Object} response.RecentChanges */
-    return response.RecentChanges;
+    /** @property {Object} response.recent */
+    return response.recent;
   }
 
   updateWhitelistBlacklist(key, profile, event) {
