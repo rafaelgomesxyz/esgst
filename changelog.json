@@ -1,5 +1,17 @@
 [
   {
+    "date": "July 2, 2019",
+    "version": "8.3.17",
+    "changelog": {
+      "1393": "Google Web App: fix bug that removes entries from the no CV list if PHPSESSID is invalid",
+      "1410": "Content Loader: fix bug that prevents User Info from working",
+      "1411": "Created / Entered / Won Giveaway Details: fix bug that does not display chance / ratio in the entered page",
+      "1412": "Giveaway Extractor: fix bug that does not load all endless features in new tabs",
+      "1414": "Comment Formatting Helper: fix bug that does not format images when the file extension is in caps",
+      "1416": "Comment Formatting Helper: fix bug that does not format URLs containing parenthesis correctly"
+    }
+  },
+  {
     "date": "June 28, 2019",
     "version": "8.3.16",
     "changelog": {
