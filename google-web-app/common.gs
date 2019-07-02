@@ -36,14 +36,16 @@ function removeNewLines(text) {
   return text.replace(/\r|\r?\n/g, '');
 }
 
-function fetch(url, options) {
+function fetch(url, options, doNotIncludeSessionId) {
   if (!options) {
     options = {};
   }
   if (!options.headers) {
     options.headers = {};
   }
-  options.headers['Cookie'] = 'PHPSESSID=' + SESSION_ID + ';';
+  if (!doNotIncludeSessionId) {
+    options.headers['Cookie'] = 'PHPSESSID=' + SESSION_ID + ';';
+  }
   options.headers['Esgst-Version'] = 'GoogleAppsScriptv16';
   options.headers['From'] = 'esgst.extension@gmail.com';
   return UrlFetchApp.fetch(url, options);

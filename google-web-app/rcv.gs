@@ -268,7 +268,7 @@ function getRcvSgToolsGames() {
     
     var url = 'http://www.sgtools.info/api/lastBundled?apiKey=' + SGTOOLS_API_KEY;
     
-    var response = fetch(url);
+    var response = fetch(url, null, true);
     var text = response.getContentText();
     var json = JSON.parse(text);
     

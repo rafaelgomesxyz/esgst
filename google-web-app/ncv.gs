@@ -131,14 +131,14 @@ function doNcvPost(postData) {
       for (var i = appValues.length - 1; i > -1 && appValues[i][0] != id; i--);
       var result = validateNcvGame('app', id);
       if (i > -1) {
-        if (result) {
+        if (result.ok) {
           if (result.effectiveDate !== appValues[i][2]) {
             ncvAppsSheet.getRange(i + START_ROW, 3).setValue(result.effectiveDate);
           }
-        } else {
+        } else if (!result.noResponse) {
           ncvAppsSheet.deleteRow(i + START_ROW);
         }
-      } else if (result) {
+      } else if (result.ok) {
         appendSheetRow(ncvAppsSheet, [id, result.name, result.effectiveDate, addedDate]);
       }
     }
@@ -148,14 +148,14 @@ function doNcvPost(postData) {
       for (var i = subValues.length - 1; i > -1 && subValues[i][0] != id; i--);
       var result = validateNcvGame('sub', id);
       if (i > -1) {
-        if (result) {
+        if (result.ok) {
           if (result.effectiveDate !== subValues[i][2]) {
             ncvSubsSheet.getRange(i + START_ROW, 3).setValue(result.effectiveDate);
           }
-        } else {
+        } else if (!result.noResponse) {
           ncvSubsSheet.deleteRow(i + START_ROW);
         }
-      } else if (result) {
+      } else if (result.ok) {
         appendSheetRow(ncvSubsSheet, [id, result.name, result.effectiveDate, addedDate]);
       }
     }
@@ -170,18 +170,25 @@ function doNcvPost(postData) {
 }
 
 function validateNcvGame(type, id) {
-  try {
-    var url = 'https://www.steamgifts.com/ajax.php';
+  var url = 'https://www.steamgifts.com/ajax.php';
+  
+  var response = fetch(url, {
+    method: 'POST',
+    payload: {
+      'do': 'autocomplete_giveaway_game',
+      'page_number': 1,
+      'search_query': id
+    }
+  });
+  var text = response.getContentText();
+  if (!text) {
+    return {
+      ok: false,
+      noResponse: true
+    };
+  }
 
-    var response = fetch(url, {
-      method: 'POST',
-      payload: {
-        'do': 'autocomplete_giveaway_game',
-        'page_number': 1,
-        'search_query': id
-      }
-    });
-    var text = response.getContentText();
+  try {
     var json = JSON.parse(text);
     var html = removeNewLines(json.html);
 
@@ -197,6 +204,7 @@ function validateNcvGame(type, id) {
           var name = element.match(/^(.+?)\s<span/)[1];
           var effectiveDate = dateMatch[1];
           return {
+            ok: true,
             name: name,
             effectiveDate: effectiveDate
           };
@@ -206,5 +214,7 @@ function validateNcvGame(type, id) {
   } catch (e) {
     Logger.log(e);
   }
-  return null;
+  return {
+    ok: false
+  };
 }
