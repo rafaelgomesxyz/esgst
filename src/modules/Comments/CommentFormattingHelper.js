@@ -1189,7 +1189,7 @@ class CommentsCommentFormattingHelper extends Module {
           event.preventDefault();
           value = textArea.value;
           this.cfh_undo(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-          await this.cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/), true);
+          await this.cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/i), true);
         }
       }
     };
