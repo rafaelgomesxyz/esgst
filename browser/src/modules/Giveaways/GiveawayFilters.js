@@ -1054,17 +1054,17 @@ class GiveawaysGiveawayFilters extends Filters {
         type: `boolean`
       },
       received: {
-        check: this.esgst.createdPath,
+        check: this.esgst.createdPath || this.esgst.wonPath,
         name: `Received`,
         type: `boolean`
       },
       notReceived: {
-        check: this.esgst.createdPath,
+        check: this.esgst.createdPath || this.esgst.wonPath,
         name: `Not Received`,
         type: `boolean`
       },
       awaitingFeedback: {
-        check: this.esgst.createdPath,
+        check: this.esgst.createdPath || this.esgst.wonPath,
         name: `Awaiting Feedback`,
         type: `boolean`
       },
