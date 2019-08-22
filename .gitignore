@@ -1,6 +1,6 @@
 /build/*
 !/build/.gitignoregit 
-/node_modules
+node_modules/
 *.zip
 *.xpi
 README.txt

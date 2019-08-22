@@ -5775,21 +5775,21 @@ class Common extends Module {
       [`div`, { class: `esgst-header-menu`, id: `esgst`, title: this.getFeatureTooltip() }, [
         [`div`, { class: `esgst-header-menu-relative-dropdown esgst-hidden` }, [
           [`div`, { class: `esgst-header-menu-absolute-dropdown` }, [
-            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/gsrafael01/ESGST`, target: `_blank` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/rafaelgssa/esgst`, target: `_blank` }, [
               [`i`, { class: `fa fa-fw fa-github grey` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `GitHub`],
                 [`p`, { class: `esgst-header-menu-description` }, `Visit the GitHub page.`]
               ]]
             ]],
-            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/gsrafael01/ESGST/issues`, target: `_blank` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/rafaelgssa/esgst/issues`, target: `_blank` }, [
               [`i`, { class: `fa fa-fw fa-bug red` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `Bugs / Suggestions`],
                 [`p`, { class: `esgst-header-menu-description` }, `Report bugs and / or make suggestions.`]
               ]]
             ]],
-            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/gsrafael01/ESGST/milestones`, target: `_blank` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/rafaelgssa/esgst/milestones`, target: `_blank` }, [
               [`i`, { class: `fa fa-fw fa-map-signs blue` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `Milestones`],
@@ -5824,7 +5824,7 @@ class Common extends Module {
                 [`p`, { class: `esgst-header-menu-description` }, [
                   [`br`],
                   [`div`, [
-                    [`a`, { class: `table__column__secondary-link`, href: `https://www.patreon.com/gsrafael01`, target: `_blank` }, [
+                    [`a`, { class: `table__column__secondary-link`, href: `https://www.patreon.com/rafaelgssa`, target: `_blank` }, [
                       [`strong`, `Patreon`]
                     ]]
                   ]],
@@ -5835,8 +5835,8 @@ class Common extends Module {
                   ]],
                   [`div`, [
                     [`strong`, `Paypal: `],
-                    `gsrafael01@gmail.com `,
-                    this.getCopyIcon(`gsrafael01@gmail.com`)
+                    `rafael.gssa@gmail.com `,
+                    this.getCopyIcon(`rafael.gssa@gmail.com`)
                   ]],
                   [`div`, [
                     [`strong`, `Bitcoin: `],

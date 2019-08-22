@@ -10,7 +10,7 @@ async function loadChangelog(version) {
 
   const changelog = JSON.parse((await shared.common.request({
     method: `GET`,
-    url: `https://raw.githubusercontent.com/gsrafael01/ESGST/master/changelog.json`
+    url: `https://raw.githubusercontent.com/rafaelgssa/esgst/master/changelog.json`
   })).responseText);
   let index;
   if (version) {
@@ -42,7 +42,7 @@ async function loadChangelog(version) {
         } else {
           item.children.push({
             attributes: {
-              href: `https://github.com/gsrafael01/ESGST/issues/${key}`
+              href: `https://github.com/rafaelgssa/esgst/issues/${key}`
             },
             text: `#${key}`,
             type: `a`
