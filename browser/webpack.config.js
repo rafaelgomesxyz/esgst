@@ -154,7 +154,7 @@ function getWebExtensionManifest(browserName, env) {
       `*://*.files.1drv.com/*`,
       `*://*.googleapis.com/*`,
       `*://*.graph.microsoft.com/*`,
-      `*://*.gsrafael01.me/*`,
+      `*://*.rafaelgssa.com/*`,
       `*://*.isthereanydeal.com/*`,
       `*://*.raw.githubusercontent.com/*`,
       `*://*.revadike.ga/*`,

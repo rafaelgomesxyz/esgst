@@ -55,7 +55,7 @@
     "webpack-cli": "^3.1.0",
     "webpack-shell-plugin": "0.5.0"
   },
-  "devVersion": "8.3.18-dev.2",
+  "devVersion": "8.3.18-dev.3",
   "homepage": "https://github.com/rafaelgssa/esgst",
   "keywords": [
     "esgst",

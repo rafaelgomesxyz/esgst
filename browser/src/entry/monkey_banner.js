@@ -21,7 +21,7 @@
 // @connect files.1drv.com
 // @connect googleapis.com
 // @connect graph.microsoft.com
-// @connect gsrafael01.me
+// @connect rafaelgssa.com
 // @connect isthereanydeal.com
 // @connect raw.githubusercontent.com
 // @connect revadike.ga

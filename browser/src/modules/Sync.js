@@ -1013,7 +1013,7 @@ async function syncReducedCvGames() {
   try {
     result = JSON.parse((await shared.common.request({
       method: `GET`,
-      url: `https://gsrafael01.me/esgst/games/rcv`
+      url: `https://rafaelgssa.com/esgst/games/rcv`
     })).responseText);
   } catch (e) {
     result = {
