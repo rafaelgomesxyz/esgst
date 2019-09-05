@@ -1,15 +1,24 @@
 name: CI
 
-on:
-  push
+on: push
 
 jobs:
-  release:
+  build:
+    name: 'Build'
     runs-on: ubuntu-latest
     steps:
-      - run: cd browser
-        run: npm install
-        run: npm build
+    - name: 'Enter directory'
+      run: cd browser
+    - name: 'Install dependencies'
+      run: npm install
+    - name: 'Run build'
+      run: npm build
+
+  release:
+    name: 'Release'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: 'extension-chrome.zip,extension-firefox.zip,extension-palemoon.zip'
