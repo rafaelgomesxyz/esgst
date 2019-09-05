@@ -7,20 +7,22 @@ jobs:
     name: 'Build'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: 'Checkout master'
+      uses: actions/checkout@v1
     #- name: 'Enter directory'
     #  run: cd browser
     - name: 'Install dependencies'
       run: npm install
     - name: 'Run build'
-      run: npm build
+      run: npm run build
 
   release:
     name: 'Release'
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: ncipollo/release-action@v1
+      - name: 'Create release'
+        uses: ncipollo/release-action@v1
         with:
           artifacts: 'extension-chrome.zip,extension-firefox.zip,extension-palemoon.zip'
           bodyFile: 'body.md'
