@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  push
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd browser
+        run: npm install
+        run: npm build
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'extension-chrome.zip,extension-firefox.zip,extension-palemoon.zip'
+          bodyFile: 'body.md'
+          tag: 'TEST'
+          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
