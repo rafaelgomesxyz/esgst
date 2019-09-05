@@ -1,0 +1,33 @@
+name: Development
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout master'
+      uses: actions/checkout@v1
+    #- name: 'Enter directory'
+    #  run: cd browser
+    - name: 'Install dependencies'
+      run: npm install
+    - name: 'Run build'
+      run: npm run build-dev
+
+  release:
+    name: 'Release'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Create release'
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: 'extension-chrome.zip,extension-firefox.zip,extension-palemoon.zip'
+          bodyFile: 'body.md'
+          tag: 'TEST'
+          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
