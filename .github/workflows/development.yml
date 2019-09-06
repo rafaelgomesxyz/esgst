@@ -26,12 +26,13 @@ jobs:
         uses: meeDamian/github-release@1.0
         with:
           token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          tag: 'TEST'
-          body: 'body'
+          tag: 'Dev'
+          body: 'This pre-release is automatically updated when a new dev version is available, and therefore always contains the latest dev version.'
           prerelease: true
           files: >
-            ./dist/chrome.zip
-            ./dist/firefox.zip
-            ./dist/palemoon.xpi
-            ./dist/userscript.meta.js
-            ./dist/userscript.user.js
+            ./browser/dist/chrome.zip
+            ./browser/dist/firefox.zip
+            ./browser/dist/palemoon.xpi
+            ./browser/dist/userscript.meta.js
+            ./browser/dist/userscript.user.js
+          allow_override: true
