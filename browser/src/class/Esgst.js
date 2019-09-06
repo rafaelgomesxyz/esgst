@@ -1321,7 +1321,7 @@ class Esgst {
     this.mainPath = window.location.pathname.match(/^\/$/);
     this.winnersPath = window.location.pathname.match(/^\/giveaway\/.+\/winners/);
     this.giveawaysPath = this.locationHref.match(/steamgifts.com($|\/$|\/giveaways(?!.*\/(new|wishlist|created|entered|won)))/);
-    this.giveawayCommentsPath = window.location.pathname.match(/^\/giveaway\/(?!.+\/(entries|winners|groups))/);
+    this.giveawayCommentsPath = window.location.pathname.match(/^\/giveaway\/(?!.+\/(entries|winners|groups|region-restrictions))/);
     this.discussionsTicketsPath = window.location.pathname.match(/^\/(discussions|support\/tickets)/);
     this.ticketsPath = window.location.pathname.match(/^\/support\/tickets/);
     this.tradesPath = this.locationHref.match(/steamtrades.com($|\/$|\/trades(?!\/(new|edit)))/);
@@ -1345,7 +1345,7 @@ class Esgst {
     this.createdPath = window.location.pathname.match(/^\/giveaways\/created/);
     this.wonPath = window.location.pathname.match(/^\/giveaways\/won/);
     this.enteredPath = window.location.pathname.match(/^\/giveaways\/entered/);
-    this.commentsPath = window.location.pathname.match(/^\/(giveaway\/(?!.*\/(entries|winners|groups))|discussion\/|support\/ticket\/|trade\/)/);
+    this.commentsPath = window.location.pathname.match(/^\/(giveaway\/(?!.*\/(entries|winners|groups|region-restrictions))|discussion\/|support\/ticket\/|trade\/)/);
     this.aboutPath = window.location.pathname.match(/^\/(about|legal)/);
     this.whitelistPath = window.location.pathname.match(/^\/account\/manage\/whitelist/);
     this.blacklistPath = window.location.pathname.match(/^\/account\/manage\/blacklist/);
