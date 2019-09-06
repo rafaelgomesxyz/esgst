@@ -56,7 +56,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         gb_h: {
           description: [
             [`ul`, [
-              [`li`, `Giveaways that have not started yet will not appear in the list of bookmarked giveaways. Instead, they will stay in a sort of hidden state until they start. When they start, the button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.`],
+              [`li`, `When giveaways that hadn't started start, the button will turn green, indicating that you must open the list of bookmarked giveaways so that the started giveaways can be updated with their end times.`],
               [`li`, `When giveaways are about to end (based on the number of hours specified below), the button will turn red.`],
               [`li`, `If there are both started and ending giveaways, the button will be colored with a brown-ish color, as a mixture of the green and red colors.`],
               [`li`, `If you hover over the button, it shows more details about how many giveaways have started and/or are ending.`]
@@ -168,8 +168,8 @@ class GiveawaysGiveawayBookmarks extends Module {
               }
             }
           } else {
+            bookmarked.push(giveaway);
             if (giveaway.started) {
-              bookmarked.push(giveaway);
               endingSoon = giveaway.endTime - Date.now() - (gSettings.gb_hours * 3600000);
               if (endingSoon <= 0) {
                 ++ending;
