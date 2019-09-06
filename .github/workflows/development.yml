@@ -12,12 +12,10 @@ jobs:
     steps:
     - name: 'Checkout dev'
       uses: actions/checkout@v1
-    - name: 'Enter directory'
-      run: cd ./browser
     - name: 'Install dependencies'
-      run: npm install
+      run: cd ./browser && npm install
     - name: 'Run dev build'
-      run: npm run build-dev
+      run: cd ./browser && npm run build-dev
 
   release:
     name: 'Release'
