@@ -3,11 +3,11 @@ define({
   "version": "1.0.0",
   "description": "An API for ESGST.",
   "title": "ESGST API",
-  "url": "https://gsrafael01.me/esgst",
-  "sampleUrl": "https://gsrafael01.me/esgst",
+  "url": "https://rafaelgssa.com/esgst",
+  "sampleUrl": "https://rafaelgssa.com/esgst",
   "header": {
     "title": "",
-    "content": "<p>The requests must be made to the following endpoint:</p>\n<pre><code>https://gsrafael01.me/esgst\n</code></pre>\n"
+    "content": "<p>The requests must be made to the following endpoint:</p>\n<pre><code>https://rafaelgssa.com/esgst\n</code></pre>\n"
   },
   "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",

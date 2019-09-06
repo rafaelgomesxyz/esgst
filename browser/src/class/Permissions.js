@@ -72,7 +72,7 @@ class Permissions {
           gc: `Required by Game Categories to retrieve categories that need to be retrieved from Steam.`,
           sync: `Required to sync reduced CV games.`
         },
-        values: [`*://*.gsrafael01.me/*`]
+        values: [`*://*.rafaelgssa.com/*`]
       },
       revadike: {
         isOrigin: true,

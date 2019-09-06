@@ -99,7 +99,7 @@
     "groupTitle": "Games",
     "sampleRequest": [
       {
-        "url": "https://gsrafael01.me/esgst/game/{type}/{id}[?filters=...]"
+        "url": "https://rafaelgssa.com/esgst/game/{type}/{id}[?filters=...]"
       }
     ]
   },
@@ -238,7 +238,7 @@
     "groupTitle": "Games",
     "sampleRequest": [
       {
-        "url": "https://gsrafael01.me/esgst/games[?join_all=...&format_array=...&show_id=...&app_ids=...&sub_ids=...&bundle_ids=...&app_filters=...&sub_filters=...&bundle_filters=...]"
+        "url": "https://rafaelgssa.com/esgst/games[?join_all=...&format_array=...&show_id=...&app_ids=...&sub_ids=...&bundle_ids=...&app_filters=...&sub_filters=...&bundle_filters=...]"
       }
     ]
   },
@@ -384,7 +384,7 @@
     "groupTitle": "Games",
     "sampleRequest": [
       {
-        "url": "https://gsrafael01.me/esgst/games/rcv[?format_array=...&show_id=...&show_name=...&app_ids=...&sub_ids=...&date_after=...&date_after_or_equal=...&date_before=...&date_before_or_equal=...&date_equal=...]"
+        "url": "https://rafaelgssa.com/esgst/games/rcv[?format_array=...&show_id=...&show_name=...&app_ids=...&sub_ids=...&date_after=...&date_after_or_equal=...&date_before=...&date_before_or_equal=...&date_equal=...]"
       }
     ]
   },

@@ -719,8 +719,8 @@ class Filters extends Module {
               </div>
             {{?}}
             </div>
-            <div class=rules-group-body>
-              <div class=rules-list></div>
+            <div class="rules-group-body">
+              <div class="rules-list"></div>
             </div>
           </div>
         `,

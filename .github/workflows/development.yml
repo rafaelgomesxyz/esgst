@@ -12,28 +12,9 @@ jobs:
     steps:
     - name: 'Checkout dev'
       uses: actions/checkout@v1
-    - name: 'Enter directory'
-      run: cd ./browser
     - name: 'Install dependencies'
-      run: npm install
+      run: cd ./browser && npm install
     - name: 'Run dev build'
-      run: npm run build-dev
-
-  release:
-    name: 'Release'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Create release'
-        uses: meeDamian/github-release@1.0
-        with:
-          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          tag: 'TEST'
-          body: 'body'
-          prerelease: true
-          files: >
-            ./dist/chrome.zip
-            ./dist/firefox.zip
-            ./dist/palemoon.xpi
-            ./dist/userscript.meta.js
-            ./dist/userscript.user.js
+      run: cd ./browser && npm run build-dev
+    - name: 'Generate pre-release'
+      run: cd ./browser && npm run generate-release dev token=${{ secrets.GITHUB_ACCESS_TOKEN }}

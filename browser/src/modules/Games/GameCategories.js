@@ -1332,7 +1332,7 @@ class GamesGameCategories extends Module {
         }
 
         try {
-          const json = JSON.parse((await request({ method: `GET`, url: `https://gsrafael01.me/esgst/games?app_ids=${params.apps.join(`,`)}&sub_ids=${params.subs.join(`,`)}&bundle_ids=${params.bundles.join(`,`)}` })).responseText);
+          const json = JSON.parse((await request({ method: `GET`, url: `https://rafaelgssa.com/esgst/games?app_ids=${params.apps.join(`,`)}&sub_ids=${params.subs.join(`,`)}&bundle_ids=${params.bundles.join(`,`)}` })).responseText);
           for (let i = 0; i < to_fetch.length; i++) {
             const item = to_fetch[i];
             const data = json.result.found[item.realType][item.realId];
@@ -1637,7 +1637,7 @@ class GamesGameCategories extends Module {
       }
       const json = JSON.parse((await request({
         method: `GET`,
-        url: `https://gsrafael01.me/esgst/game/${real_type.slice(0, -1)}/${real_id}`
+        url: `https://rafaelgssa.com/esgst/game/${real_type.slice(0, -1)}/${real_id}`
       })).responseText);
       if (json.result) {
         if (json.result.learning === null) {
