@@ -10,13 +10,13 @@ jobs:
     name: 'Build'
     runs-on: ubuntu-latest
     steps:
-    - name: 'Checkout master'
+    - name: 'Checkout dev'
       uses: actions/checkout@v1
-    #- name: 'Enter directory'
-    #  run: cd browser
+    - name: 'Enter directory'
+      run: cd ./browser
     - name: 'Install dependencies'
       run: npm install
-    - name: 'Run build'
+    - name: 'Run dev build'
       run: npm run build-dev
 
   release:
@@ -25,9 +25,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Create release'
-        uses: ncipollo/release-action@v1
+        uses: meeDamian/github-release@1.0
         with:
-          artifacts: 'extension-chrome.zip,extension-firefox.zip,extension-palemoon.zip'
-          bodyFile: 'body.md'
-          tag: 'TEST'
           token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
+          tag: 'TEST'
+          body: 'body'
+          prerelease: true
+          files: >
+            ./dist/chrome.zip
+            ./dist/firefox.zip
+            ./dist/palemoon.xpi
+            ./dist/userscript.meta.js
+            ./dist/userscript.user.js
