@@ -12,7 +12,6 @@ import { Scope } from '../class/Scope';
 import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
-import { loadChangelog } from './Changelog';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
@@ -1205,9 +1204,14 @@ class Common extends Module {
       popup.close();
       this.createConfirmation(`All done, ${gSettings.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
     } else if (isUpdate && gSettings.showChangelog) {
-      const manifest = await browser.runtime.getManifest();
-      const version = manifest.version_name || manifest.version;
-      loadChangelog(version);
+      new Popup({
+        icon: 'fa-star',
+        isTemp: true,
+        title: [
+          'ESGST has updated, to view the changelog go to ',
+          ['a', { href: 'https://github.com/rafaelgssa/esgst/releases' }, 'https://github.com/rafaelgssa/esgst/releases']
+        ]
+      }).open();
     }
   }
 
@@ -5818,7 +5822,7 @@ class Common extends Module {
                 [`p`, { class: `esgst-header-menu-description` }, `Visit / join the Steam group.`]
               ]]
             ]],
-            [`div`, { class: `esgst-header-menu-row`, id: `esgst-changelog` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: 'https://github.com/rafaelgssa/esgst/releases', target: '_blank' }, [
               [`i`, { class: `fa fa-fw fa-file-text-o yellow` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `Changelog`],
@@ -5888,7 +5892,6 @@ class Common extends Module {
     });
     arrow.addEventListener(`click`, this.toggleHeaderMenu.bind(this, arrow, dropdown));
     document.addEventListener(`click`, this.closeHeaderMenu.bind(this, arrow, dropdown, menu), true);
-    document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog());
   }
 
   getSelectors(endless, selectors) {

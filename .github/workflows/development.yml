@@ -16,25 +16,5 @@ jobs:
       run: cd ./browser && npm install
     - name: 'Run dev build'
       run: cd ./browser && npm run build-dev
-
-  release:
-    name: 'Release'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - run: pwd
-      - run: ls
-      - name: 'Create release'
-        uses: meeDamian/github-release@1.0
-        with:
-          token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-          tag: 'Dev'
-          body: 'This pre-release is automatically updated when a new dev version is available, and therefore always contains the latest dev version.'
-          prerelease: true
-          files: >
-            ./browser/dist/chrome.zip
-            ./browser/dist/firefox.zip
-            ./browser/dist/palemoon.xpi
-            ./browser/dist/userscript.meta.js
-            ./browser/dist/userscript.user.js
-          allow_override: true
+    - name: 'Generate pre-release'
+      run: cd ./browser && npm run generate-release dev token=${{ secrets.GITHUB_ACCESS_TOKEN }}

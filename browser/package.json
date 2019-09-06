@@ -1,7 +1,7 @@
 {
   "name": "esgst",
   "version": "8.3.17",
-  "devVersion": "8.3.18-dev.3",
+  "devVersion": "8.3.18-dev.4",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
@@ -18,7 +18,10 @@
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
     "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
-    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch"
+    "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
+    "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
+    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
+    "update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
   },
   "dependencies": {
     "awesome-bootstrap-checkbox": "^0.3.7",
@@ -38,6 +41,7 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/runtime": "",
+    "@octokit/rest": "^16.28.9",
     "apidoc": "^0.17.7",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
