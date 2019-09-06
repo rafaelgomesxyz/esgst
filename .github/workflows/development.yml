@@ -18,3 +18,10 @@ jobs:
       run: cd ./browser && npm run build-dev
     - name: 'Generate pre-release'
       run: cd ./browser && npm run generate-release dev token=${{ secrets.GITHUB_ACCESS_TOKEN }}
+    - name: '[TEST] Upload to Pale Moon store'
+      uses: rafaelgssa/palemoon-addon@releases/v1
+      with:
+        slug: ${{ secrets.PALEMOON_EXTENSION_SLUG }}
+        xpi: ./dist/palemoon.xpi
+        username: ${{ secrets.PALEMOON_USERNAME }}
+        password: ${{ secrets.PALEMOON_PASSWORD }}

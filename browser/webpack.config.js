@@ -14,10 +14,12 @@ const JSZip = require('jszip');
 const path = require('path');
 const webpack = require('webpack');
 
+const BASE_PATH = process.cwd();
+
 // @ts-ignore
-const configJson = require('./config.json');
+const configJson = require(path.resolve(BASE_PATH, 'config.json'));
 // @ts-ignore
-const packageJson = require('./package.json');
+const packageJson = require(path.resolve(BASE_PATH, 'package.json'));
 
 const loaders = {
   css: {
@@ -196,11 +198,12 @@ function getLegacyExtensionManifest(env, browserName) {
  */
 function packageWebExtension(env, browserName) {
   return new Promise((resolve, reject) => {
-    const extensionPath = `./build/${browserName}`;
-    const libPath = `${extensionPath}/lib`;
+    const extensionPath = path.resolve(BASE_PATH, 'build', browserName);
+    const libPath = path.resolve(extensionPath, 'lib');
+    const manifestPath = path.resolve(extensionPath, 'manifest.json');
 
     // @ts-ignore
-    const manifestJson = JSON.parse(fs.readFileSync(`${extensionPath}/manifest.json`));
+    const manifestJson = JSON.parse(fs.readFileSync(manifestPath));
 
     manifestJson.version = packageJson.version;
 
@@ -210,19 +213,19 @@ function packageWebExtension(env, browserName) {
 
     const manifestStr = JSON.stringify(manifestJson, null, 2);
 
-    fs.writeFileSync(`${extensionPath}/manifest.json`, manifestStr);
+    fs.writeFileSync(manifestPath, manifestStr);
 
     const zip = new JSZip();
 
     zip.file('manifest.json', manifestStr);
     zip.folder('lib')
-      .file('browser-polyfill.js', fs.readFileSync(`${libPath}/browser-polyfill.js`));
-    zip.file('eventPage.js', fs.readFileSync(`${extensionPath}/eventPage.js`));
-    zip.file('esgst.js', fs.readFileSync(`${extensionPath}/esgst.js`));
-    zip.file('esgst_sgtools.js', fs.readFileSync(`${extensionPath}/esgst_sgtools.js`));
-    zip.file('icon.png', fs.readFileSync(`${extensionPath}/icon.png`));
-    zip.file('permissions.html', fs.readFileSync(`${extensionPath}/permissions.html`));
-    zip.file('permissions.js', fs.readFileSync(`${extensionPath}/permissions.js`));
+      .file('browser-polyfill.js', fs.readFileSync(path.resolve(libPath, 'browser-polyfill.js')));
+    zip.file('eventPage.js', fs.readFileSync(path.resolve(extensionPath, 'eventPage.js')));
+    zip.file('esgst.js', fs.readFileSync(path.resolve(extensionPath, 'esgst.js')));
+    zip.file('esgst_sgtools.js', fs.readFileSync(path.resolve(extensionPath, 'esgst_sgtools.js')));
+    zip.file('icon.png', fs.readFileSync(path.resolve(extensionPath, 'icon.png')));
+    zip.file('permissions.html', fs.readFileSync(path.resolve(extensionPath, 'permissions.html')));
+    zip.file('permissions.js', fs.readFileSync(path.resolve(extensionPath, 'permissions.js')));
 
     zip.generateNodeStream({
       compression: 'DEFLATE',
@@ -232,7 +235,7 @@ function packageWebExtension(env, browserName) {
       streamFiles: true,
       type: 'nodebuffer'
     })
-      .pipe(fs.createWriteStream(`./dist/${browserName}.zip`))
+      .pipe(fs.createWriteStream(path.resolve(BASE_PATH, 'dist', `${browserName}.zip`)))
       .on('finish', () => resolve())
       .on('error', error => reject(error));
   });
@@ -243,10 +246,11 @@ function packageWebExtension(env, browserName) {
  * @param {string} browserName 
  */
 async function packageLegacyExtension(env, browserName) {
-  const extensionPath = `./build/${browserName}`;
+  const extensionPath = path.resolve(BASE_PATH, 'build', browserName);
+  const manifestPath = path.resolve(extensionPath, 'package.json');
 
   // @ts-ignore
-  const manifestJson = JSON.parse(fs.readFileSync(`${extensionPath}/package.json`));
+  const manifestJson = JSON.parse(fs.readFileSync(manifestPath));
 
   manifestJson.version = packageJson.version;
 
@@ -256,11 +260,11 @@ async function packageLegacyExtension(env, browserName) {
 
   const manifestStr = JSON.stringify(manifestJson, null, 2);
 
-  fs.writeFileSync(`${extensionPath}/package.json`, manifestStr);
+  fs.writeFileSync(manifestPath, manifestStr);
 
   await jpm(manifestJson, {
     addonDir: extensionPath,
-    xpiPath: './dist'
+    xpiPath: path.resolve(BASE_PATH, 'dist')
   });
 }
 
@@ -268,9 +272,17 @@ async function packageLegacyExtension(env, browserName) {
  * @param {Environment} env 
  */
 async function runFinalSteps(env) {
-  fs.mkdirSync('./build/chrome/lib');
-  fs.mkdirSync('./build/firefox/lib');
-  fs.mkdirSync('./dist');
+  if (!fs.existsSync('./build/chrome/lib')) {
+    fs.mkdirSync('./build/chrome/lib');
+  }
+
+  if (!fs.existsSync('./build/firefox/lib')) {
+    fs.mkdirSync('./build/firefox/lib');
+  }
+
+  if (!fs.existsSync('./dist')) {
+    fs.mkdirSync('./dist');
+  }
 
   const filesToCopy = [        
     { from: './src/assets/images/icon.png', to: './build/chrome/icon.png' },
@@ -387,7 +399,7 @@ async function getWebpackConfig(env) {
     },
     output: {
       filename: '[name].js',
-      path: path.resolve(__dirname, 'build')
+      path: path.resolve(BASE_PATH, 'build')
     },
     plugins: [
       new plugins.banner({
@@ -419,7 +431,10 @@ async function getWebpackConfig(env) {
         failOnError: true
       }),
       new plugins.clean({
-        cleanAfterEveryBuildPatterns: ['./build/**/*', './dist/**/*']
+        cleanOnceBeforeBuildPatterns: [
+          path.join(process.cwd(), './build/**/*'),
+          path.join(process.cwd(), './dist/*')
+        ]
       }),
       // @ts-ignore
       new plugins.progressBar(),
