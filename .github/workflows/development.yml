@@ -22,6 +22,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - run: pwd
+      - run: ls
       - name: 'Create release'
         uses: meeDamian/github-release@1.0
         with:
