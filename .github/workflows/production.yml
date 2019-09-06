@@ -22,7 +22,7 @@ jobs:
       uses: trmcnvn/chrome-addon@v1
       with:
         extension: ${{ secrets.CHROME_EXTENSION_ID }}
-        zip: ./dist/chrome.zip
+        zip: ./browser/dist/chrome.zip
         client-id: ${{ secrets.CHROME_CLIENT_ID }}
         client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
         refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
@@ -30,14 +30,14 @@ jobs:
       uses: trmcnvn/firefox-addon@v1
       with:
         uuid: ${{ secrets.FIREFOX_EXTENSION_ID }}
-        xpi: ./dist/firefox.zip
-        manifest: ./build/firefox/manifest.json
+        xpi: ./browser/dist/firefox.zip
+        manifest: ./browser/build/firefox/manifest.json
         api-key: ${{ secrets.FIREFOX_CLIENT_ID }}
         api-secret: ${{ secrets.FIREFOX_CLIENT_SECRET }}
     - name: 'Upload to Pale Moon store'
-      uses: rafaelgssa/palemoon-addon@releases/v1
+      uses: rafaelgssa/palemoon-addon@v1
       with:
         slug: ${{ secrets.PALEMOON_EXTENSION_SLUG }}
-        xpi: ./dist/palemoon.xpi
+        xpi: ./browser/dist/palemoon.xpi
         username: ${{ secrets.PALEMOON_USERNAME }}
         password: ${{ secrets.PALEMOON_PASSWORD }}
