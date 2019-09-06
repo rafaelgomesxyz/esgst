@@ -270,6 +270,7 @@ async function packageLegacyExtension(env, browserName) {
 async function runFinalSteps(env) {
   fs.mkdirSync('./build/chrome/lib');
   fs.mkdirSync('./build/firefox/lib');
+  fs.mkdirSync('./dist');
 
   const filesToCopy = [        
     { from: './src/assets/images/icon.png', to: './build/chrome/icon.png' },
