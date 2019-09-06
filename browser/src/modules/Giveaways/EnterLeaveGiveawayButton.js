@@ -625,7 +625,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${this.esgst.gf.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
       }
-      if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
+      if ((!main || this.esgst.parameters.esgst) && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && gSettings[`gf_enable${this.esgst.gfPopup.type}`]) {
         this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
       }
       if (callback) {

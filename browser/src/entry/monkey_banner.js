@@ -3,11 +3,12 @@
 // @name Enhanced SteamGifts & SteamTrades (ESGST)
 // @namespace ESGST
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
-// @icon https://github.com/gsrafael01/ESGST/raw/master/src/assets/images/icon.png
+// @icon https://github.com/rafaelgssa/esgst/raw/master/src/assets/images/icon.png
 // @version <% package.version %>
 // @author <% package.author %>
 // @contributor Royalgamer06
-// @updateURL https://github.com/gsrafael01/ESGST/raw/master/ESGST.meta.js
+// @updateURL https://github.com/rafaelgssa/esgst/releases/latest/download/userscript.meta.js
+// @downloadURL https://github.com/rafaelgssa/esgst/releases/latest/download/userscript.user.js
 // @match https://www.steamgifts.com/*
 // @match https://www.steamtrades.com/*
 // @match https://www.sgtools.info/*
@@ -21,7 +22,7 @@
 // @connect files.1drv.com
 // @connect googleapis.com
 // @connect graph.microsoft.com
-// @connect gsrafael01.me
+// @connect rafaelgssa.com
 // @connect isthereanydeal.com
 // @connect raw.githubusercontent.com
 // @connect revadike.ga

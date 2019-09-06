@@ -12,7 +12,6 @@ import { Scope } from '../class/Scope';
 import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { utils } from '../lib/jsUtils';
-import { loadChangelog } from './Changelog';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
@@ -1205,9 +1204,14 @@ class Common extends Module {
       popup.close();
       this.createConfirmation(`All done, ${gSettings.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
     } else if (isUpdate && gSettings.showChangelog) {
-      const manifest = await browser.runtime.getManifest();
-      const version = manifest.version_name || manifest.version;
-      loadChangelog(version);
+      new Popup({
+        icon: 'fa-star',
+        isTemp: true,
+        title: [
+          'ESGST has updated, to view the changelog go to ',
+          ['a', { href: 'https://github.com/rafaelgssa/esgst/releases' }, 'https://github.com/rafaelgssa/esgst/releases']
+        ]
+      }).open();
     }
   }
 
@@ -5154,6 +5158,14 @@ class Common extends Module {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
                 element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+              } else if (key === 'dataset') {
+                for (const datasetKey in item[1][key]) {
+                  element.dataset[datasetKey] = item[1][key][datasetKey];
+                }
+              } else if (key === 'style' && typeof item[1][key] === 'object') {
+                for (const styleKey in item[1][key]) {
+                  element.dataset[styleKey] = item[1][key][styleKey];
+                }
               } else {
                 element.setAttribute(key, item[1][key]);
               }
@@ -5775,21 +5787,21 @@ class Common extends Module {
       [`div`, { class: `esgst-header-menu`, id: `esgst`, title: this.getFeatureTooltip() }, [
         [`div`, { class: `esgst-header-menu-relative-dropdown esgst-hidden` }, [
           [`div`, { class: `esgst-header-menu-absolute-dropdown` }, [
-            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/gsrafael01/ESGST`, target: `_blank` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/rafaelgssa/esgst`, target: `_blank` }, [
               [`i`, { class: `fa fa-fw fa-github grey` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `GitHub`],
                 [`p`, { class: `esgst-header-menu-description` }, `Visit the GitHub page.`]
               ]]
             ]],
-            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/gsrafael01/ESGST/issues`, target: `_blank` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/rafaelgssa/esgst/issues`, target: `_blank` }, [
               [`i`, { class: `fa fa-fw fa-bug red` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `Bugs / Suggestions`],
                 [`p`, { class: `esgst-header-menu-description` }, `Report bugs and / or make suggestions.`]
               ]]
             ]],
-            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/gsrafael01/ESGST/milestones`, target: `_blank` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: `https://github.com/rafaelgssa/esgst/milestones`, target: `_blank` }, [
               [`i`, { class: `fa fa-fw fa-map-signs blue` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `Milestones`],
@@ -5810,7 +5822,7 @@ class Common extends Module {
                 [`p`, { class: `esgst-header-menu-description` }, `Visit / join the Steam group.`]
               ]]
             ]],
-            [`div`, { class: `esgst-header-menu-row`, id: `esgst-changelog` }, [
+            [`a`, { class: `esgst-header-menu-row`, href: 'https://github.com/rafaelgssa/esgst/releases', target: '_blank' }, [
               [`i`, { class: `fa fa-fw fa-file-text-o yellow` }],
               [`div`, [
                 [`p`, { class: `esgst-header-menu-name` }, `Changelog`],
@@ -5824,7 +5836,7 @@ class Common extends Module {
                 [`p`, { class: `esgst-header-menu-description` }, [
                   [`br`],
                   [`div`, [
-                    [`a`, { class: `table__column__secondary-link`, href: `https://www.patreon.com/gsrafael01`, target: `_blank` }, [
+                    [`a`, { class: `table__column__secondary-link`, href: `https://www.patreon.com/rafaelgssa`, target: `_blank` }, [
                       [`strong`, `Patreon`]
                     ]]
                   ]],
@@ -5835,8 +5847,8 @@ class Common extends Module {
                   ]],
                   [`div`, [
                     [`strong`, `Paypal: `],
-                    `gsrafael01@gmail.com `,
-                    this.getCopyIcon(`gsrafael01@gmail.com`)
+                    `rafael.gssa@gmail.com `,
+                    this.getCopyIcon(`rafael.gssa@gmail.com`)
                   ]],
                   [`div`, [
                     [`strong`, `Bitcoin: `],
@@ -5880,7 +5892,6 @@ class Common extends Module {
     });
     arrow.addEventListener(`click`, this.toggleHeaderMenu.bind(this, arrow, dropdown));
     document.addEventListener(`click`, this.closeHeaderMenu.bind(this, arrow, dropdown, menu), true);
-    document.getElementById(`esgst-changelog`).addEventListener(`click`, () => loadChangelog());
   }
 
   getSelectors(endless, selectors) {

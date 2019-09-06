@@ -1,0 +1,68 @@
+{
+  "name": "esgst",
+  "version": "8.4.0",
+  "devVersion": "8.4.0",
+  "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
+  "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
+  "author": "rafaelgssa",
+  "homepage": "https://github.com/rafaelgssa/esgst",
+  "bugs": {
+    "url": "https://github.com/rafaelgssa/esgst/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelgssa/esgst.git"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --env.production",
+    "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
+    "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
+    "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
+    "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
+    "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
+    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
+    "update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
+  },
+  "dependencies": {
+    "awesome-bootstrap-checkbox": "^0.3.7",
+    "bootstrap": "^3.4.1",
+    "date-fns": "^2.0.1",
+    "interactjs": "^1.6.1",
+    "intersection-observer-polyfill": "^0.1.0",
+    "jQuery-QueryBuilder": "^2.5.2",
+    "jquery": "^3.4.1",
+    "jquery-ui": "^1.12.1",
+    "jszip": "^3.2.2",
+    "simple-vdf": "^1.1.1",
+    "webextension-polyfill": "^0.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/runtime": "",
+    "@octokit/rest": "^16.28.9",
+    "apidoc": "^0.17.7",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "babel-minify": "^0.5.1",
+    "calfinated": "^1.4.1",
+    "circular-dependency-plugin": "^5.2.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.3.0",
+    "jpm": "^1.3.1",
+    "node": "^12.9.1",
+    "node-fetch": "^2.6.0",
+    "progress-bar-webpack-plugin": "^1.12.1",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
+  },
+  "keywords": [
+    "esgst",
+    "steamgifts",
+    "steamtrades"
+  ],
+  "license": "SEE LICENSE IN LICENSE"
+}
