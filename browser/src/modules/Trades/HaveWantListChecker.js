@@ -68,7 +68,14 @@ class TradesHaveWantListChecker extends Module {
     });
     this.hwlc_addPanel(obj);
     obj.popup.open();
-    window.setTimeout(() => this.hwlc_getGames(obj), 1000);
+    window.setTimeout(async () => {
+      await this.hwlc_getGames();
+      obj.games = {};
+      // noinspection JSIgnoredPromiseFromCall
+      this.hwlc_addGames(obj, `have`, shared.esgst.appList);
+      // noinspection JSIgnoredPromiseFromCall
+      this.hwlc_addGames(obj, `want`, shared.esgst.appList);
+    }, 1000);
   }
 
   hwlc_addPanel(obj) {
@@ -166,30 +173,35 @@ class TradesHaveWantListChecker extends Module {
     obj.sections[key].textArea.addEventListener(`input`, this.hwlc_filter.bind(this, obj, key, null));
   }
 
-  async hwlc_getGames(obj) {
-    const currentTime = Date.now();
-    let cache = JSON.parse(getLocalValue(`hwlcCache`, `{"lastUpdate": 0}`));
-    if (currentTime - cache.lastUpdate > 604800000) {
-      try {
-        const response = await request({
-          method: `GET`,
-          url: `https://api.steampowered.com/ISteamApps/GetAppList/v2/`
-        });
-        cache = {
-          data: response.responseText,
-          lastUpdate: currentTime
-        };
-        setLocalValue(`hwlcCache`, JSON.stringify(cache));
-      } catch (error) {
-        window.alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
-      }
+  async hwlc_getGames(convertToObj) {
+    if (shared.esgst.appList) {
+      return;
     }
-    const json = JSON.parse(cache.data);
-    obj.games = {};
-    // noinspection JSIgnoredPromiseFromCall
-    this.hwlc_addGames(obj, `have`, json);
-    // noinspection JSIgnoredPromiseFromCall
-    this.hwlc_addGames(obj, `want`, json);
+
+    try {
+      const response = await request({
+        method: `GET`,
+        url: `https://api.steampowered.com/ISteamApps/GetAppList/v2/`
+      });
+
+      const appList = JSON.parse(response.responseText);
+
+      if (convertToObj) {
+        // eslint-disable-next-line require-atomic-updates
+        shared.esgst.appList = {};
+
+        for (const app of appList.applist.apps) {
+          shared.esgst.appList[app.appid] = app.name;
+        }
+      } else {
+        // eslint-disable-next-line require-atomic-updates
+        shared.esgst.appList = appList;
+      }
+    } catch (error) {
+      console.log(error);
+
+      window.alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
+    }
   }
 
   /**

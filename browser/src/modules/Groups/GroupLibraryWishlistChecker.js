@@ -43,7 +43,18 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       id: `glwc`,
       name: `Group Library/Wishlist Checker`,
       sg: true,
-      type: `groups`
+      type: `groups`,
+      features: {
+        glwc_gn: {
+          description: [
+            ['ul', [
+              ['li', 'The new Steam wishlist page does not offer the game names in its source code, so ESGST cannot know the names of the games. However, by enabling this option, ESGST will fetch the list of all games on Steam, so that it can show you the names of the games properly. The only problem is that this list is huge, so it can slow down the feature execution a bit. This list is shared with Have / Want List Checker, if you also use that feature.']
+            ]]
+          ],
+          name: 'Display game names.',
+          sg: true
+        }
+      }
     };
   }
 
@@ -184,6 +195,11 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
       glwc.memberCount = 0;
       // noinspection JSIgnoredPromiseFromCall
+
+      if (gSettings.glwc_gn) {
+        await shared.esgst.modules.tradesHaveWantListChecker.hwlc_getGames(true);
+      }
+
       this.glwc_getGames(glwc, 0, glwc.users.length);
     }
   }
@@ -214,6 +230,15 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
                 name: `${element.appid}`
               };
+
+              if (shared.esgst.appList) {
+                const name = shared.esgst.appList[element.appid];
+
+                if (name) {
+                  game.name = name;
+                }
+              }
+
               if (!glwc.games[game.id]) {
                 game.libraries = [];
                 game.wishlists = [];
@@ -242,7 +267,18 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               game.name = games[id].name;
             } else {
               game.logo = `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`;
-              game.name = `${id}`;
+
+              if (shared.esgst.appList) {
+                const name = shared.esgst.appList[item.appid];
+
+                if (name) {
+                  game.name = name;
+                }
+              }
+
+              if (!game.name) {
+                game.name = `${id}`;
+              }
             }
             if (glwc.games[id]) {
               if (game.logo && game.name) {

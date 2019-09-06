@@ -1349,6 +1349,7 @@ class Esgst {
     this.aboutPath = window.location.pathname.match(/^\/(about|legal)/);
     this.whitelistPath = window.location.pathname.match(/^\/account\/manage\/whitelist/);
     this.blacklistPath = window.location.pathname.match(/^\/account\/manage\/blacklist/);
+    this.appList = undefined;
   }
 
   async triggerFunction(key, ...args) {
