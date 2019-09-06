@@ -22,6 +22,6 @@ jobs:
       uses: rafaelgssa/palemoon-addon@releases/v1
       with:
         slug: ${{ secrets.PALEMOON_EXTENSION_SLUG }}
-        xpi: ./dist/palemoon.xpi
+        xpi: ./browser/dist/palemoon.xpi
         username: ${{ secrets.PALEMOON_USERNAME }}
         password: ${{ secrets.PALEMOON_PASSWORD }}
