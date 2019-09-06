@@ -5154,6 +5154,14 @@ class Common extends Module {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
                 element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+              } else if (key === 'dataset') {
+                for (const datasetKey in item[1][key]) {
+                  element.dataset[datasetKey] = item[1][key][datasetKey];
+                }
+              } else if (key === 'style' && typeof item[1][key] === 'object') {
+                for (const styleKey in item[1][key]) {
+                  element.dataset[styleKey] = item[1][key][styleKey];
+                }
               } else {
                 element.setAttribute(key, item[1][key]);
               }

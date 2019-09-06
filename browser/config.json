@@ -1,0 +1,9 @@
+{
+  "chrome": {
+    "extensionId": "ibedmjbicclcdfmghnkfldnplocgihna",
+    "extensionKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAih1koCChvaohyeTSrBrUcANi8zBmZT+4JWjI92p4kEeaVvno8mdUnOLwA5nwZEYLfQ6CdCmStWLR3SUeoj/PhIHJkuBYYsyv2fcUh3kALAnqJMHJ61epNhrD93l2xf4BV9/2bKb3o3NTA/u9UosQqljhYkPwkIed+yzRMwYCoOn+vMpbOdaAwfycncG0/eXO5NIIqC+Ov8xR2vGX7rwXvnUIgG84TvZvOcCtmn6PsijDm6/xFgNwW0xvUhHIa50rTwMxedItEhxFslGlCGhYNG2HzvVJpcLEE9qq2OHL/3SyidU5xCyMW+BV8ieZ03EBwMYnhGxV68UKSa+tmJEoKQIDAQAB"
+  },
+  "firefox": {
+    "extensionId": "{71de700c-ca62-4e31-9de6-93e3c30633d6}"
+  }
+}
