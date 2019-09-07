@@ -84,8 +84,8 @@ class GiveawaysHiddenGamesManager extends Module {
     new ToggleSwitch(obj.popup.scrollable, `hgm_removeFollowed`, false, `Only remove followed games.`, false, false, null, gSettings.hgm_removeFollowed);
     new ToggleSwitch(obj.popup.scrollable, `hgm_removeTagged`, false, [
       'Only remove games tagged with: ',
-      ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'text', value: gSettings.hgm_tags.join(', '), onchange: event => { gSettings.hgm_tags = event.target.value.toLowerCase().split(/,\s*/); shared.common.setSetting('hgm_tags', gSettings.hgm_tags); } }]
-    ], false, false, null, gSettings.hgm_removeTagged);
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: gSettings.hgm_tags.join(', '), onchange: event => { gSettings.hgm_tags = Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/))); shared.common.setSetting('hgm_tags', gSettings.hgm_tags); } }]
+    ], false, false, 'Enter the tags for the games that you want to remove, separated by a comma.', gSettings.hgm_removeTagged);
     new ToggleSwitch(obj.popup.scrollable, `hgm_removeBanned`, false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_removeBanned);
     obj.popup.description.appendChild(new ButtonSet({
       color1: `green`,
