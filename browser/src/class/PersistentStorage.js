@@ -13,7 +13,9 @@ class PersistentStorage {
       return;
     }
 
-    if ((version || 1) < 2) {
+    version = version || 1;
+
+    if (version < 2) {
       if (utils.isSet(settings.chfl_discussions_sg)) {
         settings.chfl_discussions_sg = settings.chfl_discussions_sg.filter(x => ((typeof x === `string` && x) || x.id) !== `categorize-discussions`);
       }
@@ -31,6 +33,20 @@ class PersistentStorage {
           settings.chfl_footer_sg.push(`advertising`);
         }
       }
+      if (!isRestoring) {
+        shared.esgst.settingsChanged = true;
+      }
+    } else if (version < 3) {
+      if (utils.isSet(settings.chfl_discussions_sg)) {
+        const index = settings.chfl_discussions_sg.indexOf('created');
+
+        if (index > -1) {
+          settings.chfl_discussions_sg.splice(index + 1, 0, 'bookmarked');
+        } else {
+          settings.chfl_discussions_sg.push('bookmarked');
+        }
+      }
+
       if (!isRestoring) {
         shared.esgst.settingsChanged = true;
       }

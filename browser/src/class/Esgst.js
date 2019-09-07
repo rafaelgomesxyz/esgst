@@ -4,7 +4,7 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
-    this.CURRENT_STORAGE_VERSION = 2;
+    this.CURRENT_STORAGE_VERSION = 3;
     this.CURRENT_GIVEAWAY_VERSION = 2;
 
     this.es_loadNext = undefined;
@@ -480,6 +480,7 @@ class Esgst {
       chfl_discussions_sg: [
         `new`,
         `created`,
+        'bookmarked',
         {id: `announcements`, name: `Browse Announcements`, url: `/discussions/announcements`},
         {id: `bugs-suggestions`, name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
         {id: `deals`, name: `Browse Deals`, url: `/discussions/deals`},
