@@ -1072,8 +1072,8 @@ class UsersWhitelistBlacklistChecker extends Module {
         Callback();
       }
     } else if (!WBC.Canceled) {
-      if (!gSettings.wbc_checkPages || NextPage <= gSettings.wbc_maxPage) {
-        NextPage += 1;
+      NextPage += 1;
+      if (!gSettings.wbc_checkPages || (NextPage <= gSettings.wbc_maxPage)) {
         if (CurrentPage !== NextPage) {
           window.setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({
             method: 'GET',
