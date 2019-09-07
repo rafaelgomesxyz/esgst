@@ -976,6 +976,8 @@ class Esgst {
       wbc_returnWhitelists: false,
       wbc_returnBlacklists: false,
       wbc_checkSelected: false,
+      wbc_checkFromList: false,
+      wbc_userList: [],
       wbc_pages: 0,
       wbc_skipUsers: false,
       wbm_clearTags: false,

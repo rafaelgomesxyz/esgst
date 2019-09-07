@@ -163,6 +163,10 @@ class UsersWhitelistBlacklistChecker extends Module {
     }
     let feat = getFeatureNumber(`mm`);
     let checkSelectedSwitch = new ToggleSwitch(popup.Options, `wbc_checkSelected`, false, `Only check selected.`, false, false, `Use ${feat.number} ${feat.name} to select the users that you want to check. Then click the button 'Check WL/BL' in the Multi-Manager popout and you will be redirected here.`, gSettings.wbc_checkSelected);
+    let checkFromListSwitch = new ToggleSwitch(popup.Options, 'wbc_checkFromList', false, [
+      'Only check these users: ',
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'user1, user2, user3, ...', type: 'text', value: gSettings.wbc_userList.join(', '), onchange: event => { gSettings.wbc_userList = Array.from(new Set(event.target.value.split(/,\s*/))); shared.common.setSetting('wbc_userList', gSettings.wbc_userList); } }]
+    ], false, false, 'Enter the usernames of the users that you want to check, separated by a comma.', gSettings.wbc_checkFromList);
     if (WBC.B) {
       new ToggleSwitch(popup.Options, `wbc_checkBlacklist`, false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, gSettings.wbc_checkBlacklist);
     }
@@ -204,7 +208,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           checkSingleSwitch.exclusions.push(checkPagesSwitch.container);
         }
         checkSingleSwitch.exclusions.push(checkSelectedSwitch.container);
+        checkSingleSwitch.exclusions.push(checkFromListSwitch.container);
         checkSelectedSwitch.exclusions.push(checkSingleSwitch.container);
+        checkFromListSwitch.exclusions.push(checkSingleSwitch.container);
         if (gSettings.wbc_checkSingle) {
           if (checkAllSwitch) {
             checkAllSwitch.container.classList.add(`esgst-hidden`);
@@ -213,7 +219,8 @@ class UsersWhitelistBlacklistChecker extends Module {
             checkPagesSwitch.container.classList.add(`esgst-hidden`);
           }
           checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-        } else if (gSettings.wbc_checkSelected) {
+          checkFromListSwitch.container.classList.add(`esgst-hidden`);
+        } else if (gSettings.wbc_checkSelected || gSettings.wbc_checkFromList) {
           checkSingleSwitch.container.classList.add(`esgst-hidden`);
         }
       }
@@ -225,7 +232,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           checkAllSwitch.exclusions.push(checkPagesSwitch.container);
         }
         checkSelectedSwitch.exclusions.push(checkAllSwitch.container);
+        checkFromListSwitch.exclusions.push(checkAllSwitch.container);
         checkAllSwitch.exclusions.push(checkSelectedSwitch.container);
+        checkAllSwitch.exclusions.push(checkFromListSwitch.container);
         if (gSettings.wbc_checkAll) {
           if (checkSingleSwitch) {
             checkSingleSwitch.container.classList.add(`esgst-hidden`);
@@ -234,7 +243,8 @@ class UsersWhitelistBlacklistChecker extends Module {
             checkPagesSwitch.container.classList.add(`esgst-hidden`);
           }
           checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-        } else if (gSettings.wbc_checkSelected) {
+          checkFromListSwitch.container.classList.add(`esgst-hidden`);
+        } else if (gSettings.wbc_checkSelected || gSettings.wbc_checkFromList) {
           checkAllSwitch.container.classList.add(`esgst-hidden`);
         }
       }
@@ -246,7 +256,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           checkPagesSwitch.exclusions.push(checkAllSwitch.container);
         }
         checkSelectedSwitch.exclusions.push(checkPagesSwitch.container);
+        checkFromListSwitch.exclusions.push(checkPagesSwitch.container);
         checkPagesSwitch.exclusions.push(checkSelectedSwitch.container);
+        checkPagesSwitch.exclusions.push(checkFromListSwitch.container);
         if (gSettings.wbc_checkPages) {
           if (checkSingleSwitch) {
             checkSingleSwitch.container.classList.add(`esgst-hidden`);
@@ -255,11 +267,14 @@ class UsersWhitelistBlacklistChecker extends Module {
             checkAllSwitch.container.classList.add(`esgst-hidden`);
           }
           checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-        } else if (gSettings.wbc_checkSelected) {
+          checkFromListSwitch.container.classList.add(`esgst-hidden`);
+        } else if (gSettings.wbc_checkSelected || gSettings.wbc_checkFromList) {
           checkPagesSwitch.container.classList.add(`esgst-hidden`);
         }
       }
     }
+    checkSelectedSwitch.exclusions.push(checkFromListSwitch.container);
+    checkFromListSwitch.exclusions.push(checkSelectedSwitch.container);
     createElements(popup.Options, `afterEnd`, [{
       attributes: {
         class: `esgst-description`
@@ -322,6 +337,10 @@ class UsersWhitelistBlacklistChecker extends Module {
       Icon: `fa fa-question-circle`,
       Description: `There is not enough information to know if you are whitelisted${WBC.B ? ` or blacklisted` : ``} by`,
       Key: `unknown`
+    }, {
+      Icon: 'fa fa-times-circle',
+      Description: 'Could not find these users (they might not exist or have changed their username)',
+      Key: 'nonexistent'
     }]);
     WBCButton.addEventListener(`click`, () => {
       if (WBCButton.getAttribute(`data-mm`)) {
@@ -391,12 +410,14 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.none.classList.add(`esgst-hidden`);
     WBC.notBlacklisted.classList.add(`esgst-hidden`);
     WBC.unknown.classList.add(`esgst-hidden`);
-    WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = `0`;
+    WBC.nonexistent.classList.add(`esgst-hidden`);
+    WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = WBC.nonexistentCount.textContent = `0`;
     WBC.whitelistedUsers.innerHTML = ``;
     WBC.blacklistedUsers.innerHTML = ``;
     WBC.noneUsers.innerHTML = ``;
     WBC.notBlacklistedUsers.innerHTML = ``;
     WBC.unknownUsers.innerHTML = ``;
+    WBC.nonexistentUsers.innerHTML = ``;
     WBC.Users = [];
     WBC.Canceled = false;
     if (WBC.Update) {
@@ -445,7 +466,9 @@ class UsersWhitelistBlacklistChecker extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.wbc_checkUsers(WBC, 0, 1, Callback);
     } else {
-      if (gSettings.wbc_checkSelected) {
+      if (gSettings.wbc_checkFromList) {
+        WBC.Users = gSettings.wbc_userList;
+      } else if (gSettings.wbc_checkSelected) {
         WBC.Users = Array.from(shared.esgst.mmWbcUsers);
       } else if (!gSettings.wbc_checkPages) {
         let elements = shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
@@ -945,7 +968,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 
     if (isStopped || (!data.ga && !data.wl_ga && !data.g_wl_ga)) {
       data.lastCheck = Date.now();
-      data.result = `unknown`;
+      data.result = isStopped ? 'nonexistent' : 'unknown';
       data.timestamp = obj.Timestamp;
     }
   }
