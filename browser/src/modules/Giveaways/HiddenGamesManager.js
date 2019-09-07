@@ -81,6 +81,7 @@ class GiveawaysHiddenGamesManager extends Module {
     new ToggleSwitch(obj.popup.description, `hgm_removeTextArea`, false, `Only remove games from text area.`, false, false, null, gSettings.hgm_removeTextArea);
     new ToggleSwitch(obj.popup.description, `hgm_removeOwned`, false, `Only remove owned games.`, false, false, null, gSettings.hgm_removeOwned);
     new ToggleSwitch(obj.popup.description, `hgm_removeWishlisted`, false, `Only remove wishlisted games.`, false, false, null, gSettings.hgm_removeWishlisted);
+    new ToggleSwitch(obj.popup.description, `hgm_removeFollowed`, false, `Only remove followed games.`, false, false, null, gSettings.hgm_removeFollowed);
     new ToggleSwitch(obj.popup.description, `hgm_removeBanned`, false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_removeBanned);
     obj.popup.description.appendChild(new ButtonSet({
       color1: `green`,
@@ -269,7 +270,7 @@ class GiveawaysHiddenGamesManager extends Module {
           continue;
         }
         let game = this.esgst.games[info.type][info.id];
-        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeBanned || shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!gSettings.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeBanned || gSettings.hgm_removeTextArea)) {
+        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeFollowed || !game || !game.followed) && (!gSettings.hgm_removeBanned || shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!gSettings.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeFollowed ||  gSettings.hgm_removeBanned || gSettings.hgm_removeTextArea)) {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };
