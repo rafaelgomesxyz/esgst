@@ -259,6 +259,7 @@ class Esgst {
     this.parameters = {};
 
     this.defaultValues = {
+      tds_minutes: 10,
       ch_perLoad: 5,
       df_perLoad: 5,
       dh_perLoad: 5,

@@ -140,6 +140,16 @@ class TradesTradeFilters extends Filters {
               name: `Visited`,
               st: true
             },
+            tf_subscribed: {
+              dependencies: ['tds'],
+              description: [
+                ['ul', [
+                  ['li', 'Allows you to filter trades that you have subscribed.']
+                ]]
+              ],
+              name: 'Subscribed',
+              st: true
+            },
             tf_unread: {
               dependencies: [`ct`],
               description: [
@@ -411,6 +421,11 @@ class TradesTradeFilters extends Filters {
         check: gSettings.gdttt,
         name: `Visited`,
         type: `boolean`
+      },
+      subscribed: {
+        check: gSettings.tds,
+        name: 'Subscribed',
+        type: 'boolean'
       },
       unread: {
         check: gSettings.ct,

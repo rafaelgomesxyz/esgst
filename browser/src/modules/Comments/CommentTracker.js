@@ -211,7 +211,7 @@ class CommentsCommentTracker extends Module {
    * @returns {Promise<void>}
    */
   async ct_addDiscussionPanels(context, main, source, endless, dh) {
-    let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, read, url, key;
+    let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, name, read, url, key;
     matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);
     if (!matches.length) return;
     if (this.esgst.discussionsPath || dh) {
@@ -230,6 +230,7 @@ class CommentsCommentTracker extends Module {
       if (countLink) {
         count = parseInt(countLink.textContent.replace(/,/g, ``));
         heading = match.querySelector(`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`);
+        name = heading.textContent.trim();
         url = heading.getAttribute(`href`);
         if (url) {
           code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
@@ -267,7 +268,7 @@ class CommentsCommentTracker extends Module {
               if (key === `discussions` && diff > 0 && discussion) {
                 discussion.unread = true;
               }
-              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh, discussion);
+              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh, discussion, name);
             }
           }
         }
@@ -484,11 +485,11 @@ class CommentsCommentTracker extends Module {
         if (this.esgst.sg) {
           await Promise.all([
             shared.common.lock_and_save_giveaways(saved.giveaways),
-            shared.common.lock_and_save_discussions(saved.discussions),
-            shared.common.lock_and_save_tickets(saved.tickets)
+            shared.common.lockAndSaveDiscussions(saved.discussions),
+            shared.common.lockAndSaveTickets(saved.tickets)
           ]);
         } else {
-          await shared.common.lock_and_save_trades(saved.trades);
+          await shared.common.lockAndSaveTrades(saved.trades);
         }
       }
     } else {
@@ -866,7 +867,7 @@ class CommentsCommentTracker extends Module {
     }]);
   }
 
-  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion) {
+  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion, name) {
     const obj = {
       code,
       count,
@@ -956,6 +957,16 @@ class CommentsCommentTracker extends Module {
         discussion.gdtttButton = button;
         discussion.count = count;
       }
+    }
+    if (gSettings.tds) {
+      new Button(obj.panel, 'beforeEnd', {
+        callbacks: [shared.esgst.modules.generalThreadSubscription.subscribe.bind(shared.esgst.modules.generalThreadSubscription, code, count, name, type), null, shared.esgst.modules.generalThreadSubscription.unsubscribe.bind(shared.esgst.modules.generalThreadSubscription, code, type), null],
+        className: 'esgst-tds-button',
+        icons: ['fa-bell-o esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-bell esgst-clickable', 'fa-circle-o-notch fa-spin'],
+        id: 'tds',
+        index: !comments[code] || typeof comments[code].subscribed === 'undefined' ? 0 : 2,
+        titles: ['Subscribe', 'Subscribing...', 'Unsubscribe', 'Unsubscribing...']
+      });
     }
     if (gSettings.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath || dh)) {
       if (gSettings.ct_s) {

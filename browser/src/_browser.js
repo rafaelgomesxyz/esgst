@@ -9,6 +9,8 @@ if (typeof browser !== `undefined`) {
   _browser = browser;
 // @ts-ignore
 } else if (typeof GM !== `undefined` || typeof GM_info !== `undefined`) {
+  let tdsData = [];
+
   _browser = {
     gm: null,
     runtime: {
@@ -19,7 +21,22 @@ if (typeof browser !== `undefined`) {
       getManifest: () => Promise.resolve(_browser.gm.info.script),
       sendMessage: obj => {
         return new Promise(async resolve => {
-          switch (obj.action) {            
+          switch (obj.action) {
+            case 'get-tds':
+              resolve(JSON.stringify(tdsData));
+
+              break;
+            case 'notify-tds':
+              tdsData = JSON.parse(obj.data);
+
+              _browser.gm.listener(JSON.stringify({
+                action: 'notify-tds',
+                values: tdsData
+              }));
+
+              resolve();
+
+              break;
             case `permissions_contains`:
               resolve(true);
               break;
@@ -36,8 +53,9 @@ if (typeof browser !== `undefined`) {
             }
             case `do_lock`: {
               const lock = JSON.parse(obj.lock);
-              await _browser.gm.doLock(lock);
-              resolve();
+
+              resolve(await _browser.gm.doLock(lock));
+
               break;
             }
             case `update_lock`: {
@@ -202,7 +220,7 @@ if (typeof browser !== `undefined`) {
   });
   _browser.gm.doLock = async (lock) => {
     let locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
-    if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + 15000)) {
+    if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + (lock.timeout || 15000))) {
       await _browser.gm.setValue(lock.key, JSON.stringify({
         timestamp: Date.now(),
         uuid: lock.uuid
@@ -210,12 +228,22 @@ if (typeof browser !== `undefined`) {
       await shared.common.timeout(lock.threshold / 2);
       locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
       if (!locked || locked.uuid !== lock.uuid) {
-        return _browser.gm.doLock(lock);
+        if (!lock.lockOrDie) {
+          return _browser.gm.doLock(lock);
+        }
+
+        return 'false';
       }
-    } else {
+
+      return 'true';
+    }
+    
+    if (!lock.lockOrDie) {
       await shared.common.timeout(lock.threshold / 3);
       return _browser.gm.doLock(lock);
     }
+
+    return 'false';
   };
 } else if (typeof self !== `undefined`) {
   _browser = {

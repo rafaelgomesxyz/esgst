@@ -40,6 +40,7 @@ import { giveawaysCustomGiveawayBackground } from './Giveaways/CustomGiveawayBac
 import { giveawaysCustomGiveawayCalendar } from './Giveaways/CustomGiveawayCalendar';
 import { giveawaysEnteredGiveawaysStats } from './Giveaways/EnteredGiveawaysStats';
 import { generalGiveawayDiscussionTicketTradeTracker } from './General/GiveawayDiscussionTicketTradeTracker';
+import { generalThreadSubscription } from './General/ThreadSubscription';
 import { giveawaysGiveawayExtractor } from './Giveaways/GiveawayExtractor';
 import { giveawaysGiveawayEncrypterDecrypter } from './Giveaways/GiveawayEncrypterDecrypter';
 import { giveawaysGiveawayErrorSearchLinks } from './Giveaways/GiveawayErrorSearchLinks';
@@ -202,6 +203,7 @@ const modules = {
   giveawaysCustomGiveawayBackground,
   giveawaysCustomGiveawayCalendar,
   generalGiveawayDiscussionTicketTradeTracker,
+  generalThreadSubscription,
   giveawaysGiveawayExtractor,
   giveawaysGiveawayEncrypterDecrypter,
   giveawaysGiveawayErrorSearchLinks,

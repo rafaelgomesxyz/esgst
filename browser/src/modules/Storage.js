@@ -279,6 +279,10 @@ function loadDataManagement(type, isPopup, callback) {
           name: `Giveaway/Discussion/Ticket/Trade Tracker`
         },
         {
+          key: `discussions_tds`,
+          name: `Thread Subscription`
+        },
+        {
           key: `discussions_pm`,
           name: `Puzzle Marker`
         }
@@ -450,6 +454,10 @@ function loadDataManagement(type, isPopup, callback) {
         {
           key: `trades_gdttt`,
           name: `Giveaway/Discussion/Ticket/Trade Tracker`
+        },
+        {
+          key: `trades_tds`,
+          name: `Thread Subscription`
         }
       ]
     },
@@ -888,6 +896,10 @@ function loadDataCleaner(isPopup) {
               name: `Giveaway/Discussion/Ticket/Trade Tracker`
             },
             {
+              key: `discussions_tds`,
+              name: `Thread Subscription`
+            },
+            {
               key: `discussions_pm`,
               name: `Puzzle Marker`
             }
@@ -1054,6 +1066,10 @@ function loadDataCleaner(isPopup) {
             {
               key: `trades_gdttt`,
               name: `Giveaway/Discussion/Ticket/Trade Tracker`
+            },
+            {
+              key: `trades_tds`,
+              name: `Thread Subscription`
             }
           ]
         },
@@ -1287,6 +1303,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             dh: [`highlighted`],
             dt: [`tags`],
             gdttt: [`visited`],
+            tds: ['name', 'subscribed'],
             pm: [`status`]
           };
         }
@@ -1316,7 +1333,8 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             main: [`lastUsed`],
             ct: [`count`, `readComments`],
             tf: [`hidden`],
-            gdttt: [`visited`]
+            gdttt: [`visited`],
+            tds: ['name', 'subscribed']
           };
         }
         data[optionKey] = {};
@@ -1328,6 +1346,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           dt: 0,
           gb: 0,
           gdttt: 0,
+          tds: 0,
           gf: 0,
           tf: 0,
           ggl: 0,

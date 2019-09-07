@@ -240,6 +240,16 @@ class DiscussionsDiscussionFilters extends Filters {
               name: `Visited`,
               sg: true
             },
+            df_subscribed: {
+              dependencies: ['tds'],
+              description: [
+                ['ul', [
+                  ['li', 'Allows you to filter discussions that you have subcribed.']
+                ]]
+              ],
+              name: 'Subscribed',
+              sg: true
+            },
             df_unread: {
               dependencies: [`ct`],
               description: [
@@ -550,6 +560,11 @@ class DiscussionsDiscussionFilters extends Filters {
       visited: {
         check: gSettings.gdttt,
         name: `Visited`,
+        type: `boolean`
+      },
+      subscribed: {
+        check: gSettings.tds,
+        name: `Subscribed`,
         type: `boolean`
       },
       unread: {

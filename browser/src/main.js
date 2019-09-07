@@ -65,6 +65,10 @@ window.interact = interact;
     browser.runtime.onMessage.addListener(message => {
       message = JSON.parse(message);
       switch (message.action) {
+        case 'notify-tds':
+          shared.esgst.modules.generalThreadSubscription.updateItems(message.values);
+
+          break;
         case `isFirstRun`:
           if (esgst.bodyLoaded) {
             shared.common.checkNewVersion(true);
@@ -170,13 +174,6 @@ window.interact = interact;
         toSet.decryptedGiveaways = `{}`;
         esgst.decryptedGiveaways = {};
       }
-      if (utils.isSet(esgst.storage.discussions)) {
-        esgst.discussions = JSON.parse(esgst.storage.discussions);
-      } else {
-        toSet.discussions = common.getLocalValue(`discussions`, `{}`);
-        esgst.discussions = JSON.parse(toSet.discussions);
-        common.delLocalValue(`discussions`);
-      }
       if (utils.isSet(esgst.storage.tickets)) {
         esgst.tickets = JSON.parse(esgst.storage.tickets);
       } else {
@@ -185,7 +182,6 @@ window.interact = interact;
         common.delLocalValue(`tickets`);
       }
       common.delLocalValue(`gFix`);
-      common.delLocalValue(`dFix`);
       common.delLocalValue(`tFix`);
       if (utils.isSet(esgst.storage.groups)) {
         esgst.groups = JSON.parse(esgst.storage.groups);
@@ -213,15 +209,12 @@ window.interact = interact;
         esgst.winners = JSON.parse(toSet.winners);
         common.delLocalValue(`winners`);
       }
-    } else {
-      if (utils.isSet(esgst.storage.trades)) {
-        esgst.trades = JSON.parse(esgst.storage.trades);
-      } else {
-        toSet.trades = common.getLocalValue(`trades`, `{}`);
-        esgst.trades = JSON.parse(toSet.trades);
-        common.delLocalValue(`trades`);
-      }
-      common.delLocalValue(`tFix`);
+    }
+    if (utils.isSet(esgst.storage.discussions)) {
+      esgst.discussions = JSON.parse(esgst.storage.discussions);
+    }
+    if (utils.isSet(esgst.storage.trades)) {
+      esgst.trades = JSON.parse(esgst.storage.trades);
     }
     let cache = JSON.parse(common.getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
     for (let type in cache) {

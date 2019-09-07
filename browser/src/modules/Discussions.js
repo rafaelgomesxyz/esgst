@@ -192,6 +192,7 @@ class Discussions extends Module {
     if (discussion.saved) {
       discussion.highlighted = discussion.saved.highlighted;
       discussion.visited = discussion.saved.visited;
+      discussion.subscribed = typeof discussion.saved.subscribed !== 'undefined';
     }
     if (discussion.createdContainer) {
       discussion.createdTime = discussion.createdContainer.textContent;

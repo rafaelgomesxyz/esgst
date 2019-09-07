@@ -1357,7 +1357,7 @@ class GamesGameCategories extends Module {
           logger.warning(error.stack);
         }
 
-        const lockObj = await shared.common.createLock(`gc`, 100, true);
+        const lockObj = await shared.common.createLock(`gc`, 100, {});
 
         for (const item of to_fetch) {
           if (item.found) {

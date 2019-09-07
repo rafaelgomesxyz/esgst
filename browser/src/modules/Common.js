@@ -2332,10 +2332,6 @@ class Common extends Module {
     }
   }
 
-  async lock_and_save_discussions(discussions) {
-    return this.lockAndSaveDiscussions(discussions);
-  }
-
   async lockAndSaveDiscussions(discussions) {
     let deleteLock = await this.createLock(`discussionLock`, 300),
       savedDiscussions = JSON.parse(this.getValue(`discussions`, `{}`));
@@ -2344,7 +2340,11 @@ class Common extends Module {
         if (savedDiscussions[key]) {
           for (let subKey in discussions[key]) {
             if (discussions[key].hasOwnProperty(subKey)) {
-              savedDiscussions[key][subKey] = discussions[key][subKey];
+              if (discussions[key][subKey] === null) {
+                delete savedDiscussions[key][subKey];
+              } else {
+                savedDiscussions[key][subKey] = discussions[key][subKey];
+              }
             }
           }
         } else {
@@ -2359,7 +2359,7 @@ class Common extends Module {
     deleteLock();
   }
 
-  async lock_and_save_tickets(items) {
+  async lockAndSaveTickets(items) {
     const deleteLock = await this.createLock(`ticketLock`, 300);
     const saved = JSON.parse(this.getValue(`tickets`, `{}`));
     for (const key in items) {
@@ -2367,7 +2367,7 @@ class Common extends Module {
         if (saved[key]) {
           for (const subKey in items[key]) {
             if (items[key].hasOwnProperty(subKey)) {
-              if (subKey === null) {
+              if (items[key][subKey] === null) {
                 delete saved[key][subKey];
               } else {
                 saved[key][subKey] = items[key][subKey];
@@ -2386,7 +2386,7 @@ class Common extends Module {
     deleteLock();
   }
 
-  async lock_and_save_trades(items) {
+  async lockAndSaveTrades(items) {
     const deleteLock = await this.createLock(`tradeLock`, 300);
     const saved = JSON.parse(this.getValue(`trades`, `{}`));
     for (const key in items) {
@@ -2394,7 +2394,7 @@ class Common extends Module {
         if (saved[key]) {
           for (const subKey in items[key]) {
             if (items[key].hasOwnProperty(subKey)) {
-              if (subKey === null) {
+              if (items[key][subKey] === null) {
                 delete saved[key][subKey];
               } else {
                 saved[key][subKey] = items[key][subKey];
@@ -3396,16 +3396,17 @@ class Common extends Module {
     window.URL.revokeObjectURL(url);
   }
 
-  async createLock(key, threshold, v2) {
+  async createLock(key, threshold, v2Obj) {
     const lock = {
       key,
       threshold,
-      uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, utils.createUuid.bind(utils))
+      uuid: `xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx`.replace(/[xy]/g, utils.createUuid.bind(utils)),
+      ...v2Obj
     };
-    await this.do_lock(lock);
+    const wasLocked = await this.do_lock(lock);
     const deleteLock = this.do_unlock.bind(this, lock);
-    if (v2) {
-      return { deleteLock, lock };
+    if (v2Obj) {
+      return { deleteLock, lock, wasLocked };
     }
     return deleteLock;
   }
@@ -5622,11 +5623,24 @@ class Common extends Module {
     }).then(result => resolve(JSON.parse(result))));
   }
 
+  getTds() {
+    return new Promise(resolve => browser.runtime.sendMessage({
+      action: 'get-tds',
+    }).then(data => resolve(JSON.parse(data))));
+  }
+
+  notifyTds(data) {
+    return new Promise(resolve => browser.runtime.sendMessage({
+      action: 'notify-tds',
+      data: JSON.stringify(data)
+    }).then(() => resolve()));
+  }
+
   do_lock(lock) {
     return new Promise(resolve => browser.runtime.sendMessage({
       action: `do_lock`,
       lock: JSON.stringify(lock)
-    }).then(() => resolve()));
+    }).then(result => resolve(JSON.parse(result))));
   }
 
   updateLock(lock) {

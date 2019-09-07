@@ -64,7 +64,7 @@ browser.storage.local.get(`settings`).then(async result => {
   }
 });
 
-async function sendMessage(action, sender, values) {
+async function sendMessage(action, sender, values, sendToAll) {
   const tabs = await browser.tabs.query({ url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`] });
   for (const tab of tabs) {
     if (sender && tab.id === sender.tab.id) {
@@ -74,7 +74,7 @@ async function sendMessage(action, sender, values) {
       action: action,
       values: values
     }));
-    if (!sender) {
+    if (!sender && !sendToAll) {
       return;
     }
   }
@@ -304,7 +304,7 @@ function do_lock(lock) {
 function _do_lock(lock, resolve) {
   const now = Date.now();
   let locked = locks[lock.key];
-  if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + 15000)) {
+  if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + (lock.timeout || 15000))) {
     locks[lock.key] = {
       timestamp: now,
       uuid: lock.uuid
@@ -312,13 +312,19 @@ function _do_lock(lock, resolve) {
     setTimeout(() => {
       locked = locks[lock.key];
       if (!locked || locked.uuid !== lock.uuid) {
-        setTimeout(() => _do_lock(lock, resolve), 0);
+        if (!lock.lockOrDie) {
+          setTimeout(() => _do_lock(lock, resolve), 0);
+        } else {
+          resolve('false');
+        }
       } else {
-        resolve();
+        resolve('true');
       }
     }, lock.threshold / 2);
-  } else {
+  } else if (!lock.lockOrDie) {
     setTimeout(() => _do_lock(lock, resolve), lock.threshold / 3);
+  } else {
+    resolve('false');
   }
 }
 
@@ -336,11 +342,24 @@ function do_unlock(lock) {
 }
 
 let permissionRequests = {};
+let tdsData = [];
 
 browser.runtime.onMessage.addListener((request, sender) => {
   return new Promise(async resolve => {
     let parameters;
     switch (request.action) {
+      case 'get-tds':
+        resolve(JSON.stringify(tdsData));
+
+        break;
+      case 'notify-tds':
+        tdsData = JSON.parse(request.data);
+
+        sendMessage('notify-tds', null, tdsData, true);
+
+        resolve();
+
+        break;
       case `permissions_contains`:
         resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
         break;
