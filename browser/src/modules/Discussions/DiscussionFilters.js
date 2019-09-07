@@ -220,14 +220,13 @@ class DiscussionsDiscussionFilters extends Filters {
               name: `Poll`,
               sg: true
             },
-            df_highlighted: {
-              dependencies: [`dh`],
+            df_bookmarked: {
               description: [
                 [`ul`, [
-                  [`li`, `Allows you to filter discussions that you have highlighted.`]
+                  [`li`, `Allows you to filter discussions that you have bookmarked.`]
                 ]]
               ],
-              name: `Highlighted`,
+              name: `Bookmarked`,
               sg: true
             },
             df_visited: {
@@ -552,9 +551,9 @@ class DiscussionsDiscussionFilters extends Filters {
         name: `Poll`,
         type: `boolean`
       },
-      highlighted: {
-        check: gSettings.dh,
-        name: `Highlighted`,
+      bookmarked: {
+        check: true,
+        name: `Bookmarked`,
         type: `boolean`
       },
       visited: {

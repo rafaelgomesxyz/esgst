@@ -262,7 +262,6 @@ class Esgst {
       tds_minutes: 10,
       ch_perLoad: 5,
       df_perLoad: 5,
-      dh_perLoad: 5,
       tf_perLoad: 5,
       gs_sent_sg: true,
       gs_received_sg: true,
@@ -481,7 +480,6 @@ class Esgst {
       chfl_discussions_sg: [
         `new`,
         `created`,
-        `dh`,
         {id: `announcements`, name: `Browse Announcements`, url: `/discussions/announcements`},
         {id: `bugs-suggestions`, name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
         {id: `deals`, name: `Browse Deals`, url: `/discussions/deals`},

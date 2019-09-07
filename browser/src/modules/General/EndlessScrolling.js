@@ -70,10 +70,6 @@ class GeneralEndlessScrolling extends Module {
           name: `Enable for Trade Filters.`,
           st: true
         },
-        es_dh: {
-          name: `Enable for Discussion Highlighter.`,
-          sg: true
-        },
         es_gb: {
           name: `Enable for Giveaway Bookmarks.`,
           sg: true

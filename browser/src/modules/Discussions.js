@@ -132,6 +132,7 @@ class Discussions extends Module {
     if (!discussion.headingContainer) {
       return;
     }
+    discussion.bookmarkNode = discussion.headingColumn.querySelector('.icon-heading.fa.fa-bookmark, .icon-heading.fa.fa-bookmark-o');
     discussion.closed = discussion.headingContainer.querySelector(`.fa-lock`);
     discussion.heading = discussion.headingContainer.lastElementChild;
     discussion.info = discussion.headingContainer.nextElementSibling;
@@ -189,8 +190,8 @@ class Discussions extends Module {
         discussion.negativeReputation = parseInt(discussion.negativeReputationElement.textContent.replace(/[^\d]/g, ``));
         break;
     }
+    discussion.bookmarked = !!discussion.bookmarkNode;
     if (discussion.saved) {
-      discussion.highlighted = discussion.saved.highlighted;
       discussion.visited = discussion.saved.visited;
       discussion.subscribed = typeof discussion.saved.subscribed !== 'undefined';
     }

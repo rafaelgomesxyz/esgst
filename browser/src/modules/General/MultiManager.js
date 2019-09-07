@@ -47,7 +47,6 @@ class GeneralMultiManager extends Module {
             [`li`, `Calculate how much time you have to wait until you have enough points to enter the selected giveaways, if [id=ttec] is enabled.`],
             [`li`, `Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.`],
             [`li`, `Hide the selected discussions, if [id=df_s] is enabled.`],
-            [`li`, `Highlight/unhighlight the selected discussions, if [id=dh] is enabled.`],
             [`li`, `Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.`],
             [`li`, `Tag the selected users with the same tags, if [id=ut], is enabled.`],
             [`li`, `Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.`],
@@ -404,20 +403,6 @@ class GeneralMultiManager extends Module {
             title1: `Hide`, title2: ``,
             tooltip: `Add selected discussions to ESGST's single filter list`,
             callback1: this.mm_hideDiscussions.bind(this, obj, items)
-          },
-          {
-            check: gSettings.dh,
-            color1: `green`, color2: `grey`,
-            icon1: `fa-star`, icon2: `fa-circle-o-notch fa-spin`,
-            title1: `Highlight`, title2: ``,
-            callback1: this.mm_highlightDiscussions.bind(this, obj, items)
-          },
-          {
-            check: gSettings.dh,
-            color1: `green`, color2: `grey`,
-            icon1: `fa-star-o`, icon2: `fa-circle-o-notch fa-spin`,
-            title1: `Unhighlight`, title2: ``,
-            callback1: this.mm_unhighlightDiscussions.bind(this, obj, items)
           },
           {
             check: gSettings.gdttt,
@@ -1027,34 +1012,6 @@ class GeneralMultiManager extends Module {
       if (obj.source !== `main` || !this.esgst.discussionPath) {
         item.outerWrap.remove();
       }
-    });
-    await lockAndSaveDiscussions(newItems);
-  }
-
-  async mm_highlightDiscussions(obj, items) {
-    let newItems = {};
-    items.forEach(item => {
-      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.dhButton || item.dhButton.index !== 1) return;
-      newItems[item.code] = {
-        highlighted: true,
-        lastUsed: Date.now()
-      };
-      // noinspection JSIgnoredPromiseFromCall
-      item.dhButton.change(null, 2);
-    });
-    await lockAndSaveDiscussions(newItems);
-  }
-
-  async mm_unhighlightDiscussions(obj, items) {
-    let newItems = {};
-    items.forEach(item => {
-      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.dhButton || item.dhButton.index !== 3) return;
-      newItems[item.code] = {
-        highlighted: false,
-        lastUsed: Date.now()
-      };
-      // noinspection JSIgnoredPromiseFromCall
-      item.dhButton.change(null, 0);
     });
     await lockAndSaveDiscussions(newItems);
   }

@@ -207,14 +207,13 @@ class CommentsCommentTracker extends Module {
    * @param [main]
    * @param [source]
    * @param [endless]
-   * @param [dh]
    * @returns {Promise<void>}
    */
-  async ct_addDiscussionPanels(context, main, source, endless, dh) {
+  async ct_addDiscussionPanels(context, main, source, endless) {
     let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, name, read, url, key;
     matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);
     if (!matches.length) return;
-    if (this.esgst.discussionsPath || dh) {
+    if (this.esgst.discussionsPath) {
       key = `discussions`;
     } else if (this.esgst.ticketsPath) {
       key = `tickets`;
@@ -268,7 +267,7 @@ class CommentsCommentTracker extends Module {
               if (key === `discussions` && diff > 0 && discussion) {
                 discussion.unread = true;
               }
-              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, dh, discussion, name);
+              this.ct_addDiscussionPanel(code, comments, match, countLink, count, diff, url, key, discussion, name);
             }
           }
         }
@@ -867,7 +866,7 @@ class CommentsCommentTracker extends Module {
     }]);
   }
 
-  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, dh, discussion, name) {
+  ct_addDiscussionPanel(code, comments, container, context, count, diff, url, type, discussion, name) {
     const obj = {
       code,
       count,
@@ -968,7 +967,7 @@ class CommentsCommentTracker extends Module {
         titles: ['Subscribe', 'Subscribing...', 'Unsubscribe', 'Unsubscribing...']
       });
     }
-    if (gSettings.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath || dh)) {
+    if (gSettings.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) {
       if (gSettings.ct_s) {
         if (diff > 0) {
           obj.diffContainer.classList.remove(`esgst-hidden`);
