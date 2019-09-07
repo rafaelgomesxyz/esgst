@@ -18,7 +18,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
             ['i', { class: 'fa fa-clock-o' }],
             ` [Time]) below the start time of a giveaway that you do not have enough points to enter(in any page) that shows how much time you have to wait until you have enough points to enter the giveaway.`
           ]],
-          ['li', `The time is calculated by rounding up the result (which is in milliseconds) of the following formula: next_refresh_in_milliseconds + (15 * (⌈(number_of_points_to_enter - number_of_points_you_have) / 6⌉) - 1), where next_refresh_in_milliseconds = the time that the next point refresh will happen (you get 6 points every 15 minutes of the hour on SteamGifts, so if it is currently 12:10pm, the next refresh will be at 12:15pm)`],
+          ['li', `The time is calculated by rounding up the result (which is in milliseconds) of the following formula: next_refresh_in_milliseconds + (15 * (⌈(number_of_points_to_enter - number_of_points_you_have) / 6⌉ - 1), where next_refresh_in_milliseconds = the time that the next point refresh will happen (you get 6 points every 15 minutes of the hour on SteamGifts, so if it is currently 12:10pm, the next refresh will be at 12:15pm)`],
           ['li', 'You can move the element around by dragging and dropping it.']
         ]]
       ],
