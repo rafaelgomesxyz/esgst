@@ -39,8 +39,8 @@ class GiveawaysGiveawayPopup extends Module {
           color2: 'grey',
           icon1: 'fa-external-link',
           icon2: 'fa-circle-o-notch fa-spin',
-          title1: ``,
-          title2: ``,
+          title1: '',
+          title2: '',
           callback1: () => {
             return new Promise(resolve => {
               // noinspection JSIgnoredPromiseFromCall
@@ -52,7 +52,7 @@ class GiveawaysGiveawayPopup extends Module {
                 } else if (buttonSet.firstElementChild.classList.contains('sidebar__error')) {
                   buttonSet.firstElementChild.classList.remove('sidebar__error', 'red');
                   buttonSet.firstElementChild.classList.add('form__saving-button', 'grey');
-                  buttonSet.title = getFeatureTooltip('gp', `View giveaway description/add a comment`);
+                  buttonSet.title = getFeatureTooltip('gp', 'View giveaway description/add a comment');
                 }
                 resolve();
               });
@@ -61,7 +61,7 @@ class GiveawaysGiveawayPopup extends Module {
         }).set;
         buttonSet.classList.add('esgst-gp-button');
         buttonSet.setAttribute('data-draggable-id', 'gp');
-        buttonSet.title = getFeatureTooltip('gp', `View giveaway description/add a comment`);
+        buttonSet.title = getFeatureTooltip('gp', 'View giveaway description/add a comment');
         giveaway.panel.appendChild(buttonSet);
       }
     });

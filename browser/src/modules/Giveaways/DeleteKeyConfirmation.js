@@ -44,7 +44,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
         type: 'span'
       }]);
       element.remove();
-      newElement.addEventListener('click', createConfirmation.bind(common, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(createConfirmation, newElement), null));
+      newElement.addEventListener('click', createConfirmation.bind(common, 'Are you sure you want to delete this key?', this.dkc_deleteKey.bind(createConfirmation, newElement), null));
     }
   }
 
@@ -52,12 +52,12 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     let row = link.closest('.table__row-inner-wrap');
     row.getElementsByClassName('form__key-read')[0].classList.add('is-hidden');
     row.getElementsByClassName('form__key-loading')[0].classList.remove('is-hidden');
-    row.querySelector(`[name="key_value"]`).value = ``;
-    row.getElementsByClassName('form__key-value')[0].textContent = ``;
+    row.querySelector(`[name="key_value"]`).value = '';
+    row.getElementsByClassName('form__key-value')[0].textContent = '';
     await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     });
     row.getElementsByClassName('form__key-loading')[0].classList.add('is-hidden');
     row.getElementsByClassName('form__key-insert')[0].classList.remove('is-hidden');

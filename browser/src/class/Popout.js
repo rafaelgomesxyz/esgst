@@ -2,7 +2,7 @@ import { shared } from './Shared';
 import { gSettings } from './Globals';
 
 class Popout {
-  constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
+  constructor(className = '', context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
     this.custom = {};
     if (className === 'esgst-hidden-buttons') {
       this.isDynamicHeight = true;
@@ -82,7 +82,7 @@ class Popout {
 
   open(context = null, isFixed = false) {
     this.context = context || this.context;
-    this.ancestor = this.context.closest('.esgst-popout');;
+    this.ancestor = this.context.closest('.esgst-popout');
     this.isFixed = isFixed;
     this.popout.classList.remove('esgst-hidden');
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
@@ -120,7 +120,7 @@ class Popout {
   reposition(context = null) {
     let contextLeft, contextRect, contextTop, popoutHeight, popoutWidth, popupRect;
     if (!this.isDynamicHeight) {
-      this.popout.style.height = ``;
+      this.popout.style.height = '';
     }
     this.popout.style.left = '0';
     this.popout.style.top = '0';

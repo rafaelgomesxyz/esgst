@@ -4,10 +4,10 @@ import { gSettings } from './Globals';
 import { utils } from '../lib/jsUtils';
 
 const DEFAULT_HEADERS = {
-  'Content-Type': `application/x-www-form-urlencoded`
+  'Content-Type': 'application/x-www-form-urlencoded'
 };
 const REQUIRED_HEADERS = {
-  'From': `esgst.extension@gmail.com`
+  'From': 'esgst.extension@gmail.com'
 };
 
 (async () => {
@@ -46,7 +46,7 @@ class FetchRequest {
 
     url = url
       .replace(/^\//, `https://${window.location.hostname}/`)
-      .replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? `http:` : `https:`);
+      .replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? 'http:' : 'https:');
     if (options.pathParams) {
       url = FetchRequest.addPathParams(url, options.pathParams);
     }
@@ -98,52 +98,44 @@ class FetchRequest {
   }
 
   static async sendInternal(url, options) {
-    try {
-      const { fetchObj, fetchOptions } = await FetchRequest.getFetchObj(options);
-      const response = await fetchObj(url, fetchOptions);
-      const text = await response.text();
+    const { fetchObj, fetchOptions } = await FetchRequest.getFetchObj(options);
+    const response = await fetchObj(url, fetchOptions);
+    const text = await response.text();
 
-      if (!response.ok) {
-        throw new Error(text);
-      }
-
-      return {
-        redirected: response.redirected,
-        text,
-        url: response.url
-      };
-    } catch (error) {
-      throw error;
+    if (!response.ok) {
+      throw new Error(text);
     }
+
+    return {
+      redirected: response.redirected,
+      text,
+      url: response.url
+    };
   }
 
   static async sendExternal(url, options) {
-    try {
-      const messageOptions = {
-        action: 'fetch',
-        blob: options.blob,
-        fileName: options.fileName,
-        manipulateCookies: (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
-        parameters: JSON.stringify(FetchRequest.getFetchOptions(options)),
-        url
-      };
-      let response = await browser.runtime.sendMessage(messageOptions);
-      if (typeof response === 'string') {
-        response = JSON.parse(response);
-      }
-
-      if (utils.isSet(response.error)) {
-        throw new Error(response.error);
-      }
-
-      return {
-        redirected: response.redirected,
-        text: response.responseText,
-        url: response.finalUrl
-      };
-    } catch (error) {
-      throw error;
+    const messageOptions = {
+      action: 'fetch',
+      blob: options.blob,
+      fileName: options.fileName,
+      manipulateCookies: (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
+      parameters: JSON.stringify(FetchRequest.getFetchOptions(options)),
+      url
+    };
+    let response = await browser.runtime.sendMessage(messageOptions);
+    if (typeof response === 'string') {
+      response = JSON.parse(response);
     }
+
+    if (utils.isSet(response.error)) {
+      throw new Error(response.error);
+    }
+
+    return {
+      redirected: response.redirected,
+      text: response.responseText,
+      url: response.finalUrl
+    };
   }
 
   static async getFetchObj(options) {
@@ -197,7 +189,7 @@ class FetchRequest {
     for (const key in params) {
       queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
     }
-    return `${url}?${queryParams.join(`&`)}`;
+    return `${url}?${queryParams.join('&')}`;
   }
 }
 

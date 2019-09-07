@@ -60,7 +60,7 @@ class GiveawaysGiveawayPointsToWin extends Module {
       if (giveaway.started) {
         giveaway.gptwContext = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
           attributes: {
-            class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-gptw`,
+            class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-gptw`,
             ['data-draggable-id']: 'gptw',
             title: getFeatureTooltip('gptw', 'Giveaway Points To Win')
           },

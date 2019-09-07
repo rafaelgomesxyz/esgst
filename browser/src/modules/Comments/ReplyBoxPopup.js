@@ -44,8 +44,8 @@ class CommentsReplyBoxPopup extends Module {
       title1: 'Save',
       title2: 'Saving...',
       callback1: async () => {
-        popup.progress.innerHTML = ``;
-        await shared.common.saveComment(null, shared.esgst.sg ? `` : document.querySelector(`[name="trade_code"]`).value, ``, popup.textArea.value, shared.esgst.sg ? shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : `/ajax.php`, popup.progress, true);
+        popup.progress.innerHTML = '';
+        await shared.common.saveComment(null, shared.esgst.sg ? '' : document.querySelector(`[name="trade_code"]`).value, '', popup.textArea.value, shared.esgst.sg ? shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php', popup.progress, true);
 
       }
     }).set);

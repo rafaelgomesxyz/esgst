@@ -100,7 +100,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       url: `https://isthereanydeal.com/game/${plain}/info/`
     });
     const html = parseHtml(response.responseText);
-    const deals = html.querySelectorAll(`#gh-po tr`);
+    const deals = html.querySelectorAll('#gh-po tr');
     for (const deal of deals) {
       const match = deal.firstElementChild.textContent.trim().match(/(Current\sBest|Historical\sLow)/);
       if (!match) {
@@ -220,14 +220,14 @@ class GiveawaysIsThereAnyDealInfo extends Module {
 
   itadi_getPlain(name) {
     return name.toLowerCase()
-      .replace(/\sthe|the\s/g, ``)
-      .replace(/\s/g, ``)
+      .replace(/\sthe|the\s/g, '')
+      .replace(/\s/g, '')
       .replace(/\d/g, m => {
         return ['0', 'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix'][m];
       })
       .replace(/&/g, 'and')
       .replace(/\+/g, 'plus')
-      .replace(/[^\d\w]/g, ``);
+      .replace(/[^\d\w]/g, '');
   }
 }
 

@@ -25,7 +25,7 @@ class DiscussionsMainPostSkipper extends Module {
     if (!window.location.hash && this.esgst.discussionPath && this.esgst.pagination && document.referrer.match(new RegExp(`/discussion/${[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]]}/`))) {
       const context = this.esgst.pagination.previousElementSibling;
       if (context.classList.contains('comments')) {
-        goToComment(``, context.firstElementChild.firstElementChild, true);
+        goToComment('', context.firstElementChild.firstElementChild, true);
       }
     }
   }

@@ -75,7 +75,7 @@ class GiveawaysUnsentGiftSender extends Module {
   ugs_openPopup(ugs) {
     if (!ugs.popup) {
       ugs.popup = new Popup({ addScrollable: true, icon: 'fa-gift', title: `Send unsent gifts:` });
-      new ToggleSwitch(ugs.popup.description, 'ugs_checkRules', false, `Do not send if the winner has any not activated/multiple wins.`, false, false, 'The winners will be checked in real time.', gSettings.ugs_checkRules);
+      new ToggleSwitch(ugs.popup.description, 'ugs_checkRules', false, 'Do not send if the winner has any not activated/multiple wins.', false, false, 'The winners will be checked in real time.', gSettings.ugs_checkRules);
       const checkMemberSwitch = new ToggleSwitch(ugs.popup.description, 'ugs_checkMember', false, 'Do not send if the winner is no longer a member of at least one of the groups for group giveaways.', false, false, 'The winners will be checked in real time.', gSettings.ugs_checkMember);
       const checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, 'ugs_checkDifference', false, [
         'Do not send if the winner has a gift difference lower than ',
@@ -218,12 +218,12 @@ class GiveawaysUnsentGiftSender extends Module {
     ugs.sent.classList.add('esgst-hidden');
     ugs.unsent.classList.add('esgst-hidden');
     ugs.leftover.classList.add('esgst-hidden');
-    ugs.sentGifts.innerHTML = ``;
-    ugs.unsentGifts.innerHTML = ``;
-    ugs.leftoverGifts.innerHTML = ``;
+    ugs.sentGifts.innerHTML = '';
+    ugs.unsentGifts.innerHTML = '';
+    ugs.leftoverGifts.innerHTML = '';
     ugs.sentCount.textContent = ugs.unsentCount.textContent = ugs.leftoverCount.textContent = '0';
-    ugs.progress.innerHTML = ``;
-    ugs.overallProgress.textContent = ``;
+    ugs.progress.innerHTML = '';
+    ugs.overallProgress.textContent = '';
 
     let unsent = this.esgst.createdButton.getElementsByClassName('nav__notification')[0];
     if (!unsent) {
@@ -259,7 +259,7 @@ class GiveawaysUnsentGiftSender extends Module {
       }
       if (nextPage === 1) {
         ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document);
-        ugs.lastPage = ugs.lastPage === 999999999 ? `` : ` of ${ugs.lastPage}`;
+        ugs.lastPage = ugs.lastPage === 999999999 ? '' : ` of ${ugs.lastPage}`;
       }
       createElements(ugs.progress, 'inner', [{
         attributes: {
@@ -316,7 +316,7 @@ class GiveawaysUnsentGiftSender extends Module {
         })).responseText);
         if (nextPage === 1) {
           ugs.lastWinnersPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-          ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? `` : ` of ${ugs.lastWinnersPage}`;
+          ugs.lastWinnersPage = ugs.lastWinnersPage === 999999999 ? '' : ` of ${ugs.lastWinnersPage}`;
         }
         createElements(ugs.progress, 'inner', [{
           attributes: {
@@ -330,7 +330,7 @@ class GiveawaysUnsentGiftSender extends Module {
         if (!ugs.giveaways[giveaway.code].copies) {
           const elements = context.querySelectorAll('.featured__heading__small');
           if (elements && elements.length === 2) {
-            ugs.giveaways[giveaway.code].copies = parseInt(elements[0].textContent.replace(/,|\(|\)|Copies/g, ``).trim());
+            ugs.giveaways[giveaway.code].copies = parseInt(elements[0].textContent.replace(/,|\(|\)|Copies/g, '').trim());
           }
         }
         let elements = context.getElementsByClassName('table__row-outer-wrap');
@@ -390,7 +390,7 @@ class GiveawaysUnsentGiftSender extends Module {
           })).responseText);
           if (nextPage === 1) {
             ugs.lastGroupsPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-            ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? `` : ` of ${ugs.lastGroupsPage}`;
+            ugs.lastGroupsPage = ugs.lastGroupsPage === 999999999 ? '' : ` of ${ugs.lastGroupsPage}`;
           }
           createElements(ugs.progress, 'inner', [{
             attributes: {
@@ -654,7 +654,7 @@ class GiveawaysUnsentGiftSender extends Module {
               await request({
                 data: `xsrf_token=${this.esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`,
                 method: 'POST',
-                url: `/ajax.php`
+                url: '/ajax.php'
               });
               if (!ugs.sentWinners[giveaway.code]) {
                 ugs.sentWinners[giveaway.code] = [];
@@ -727,7 +727,7 @@ class GiveawaysUnsentGiftSender extends Module {
       }
 
       // finalize process
-      let winners = JSON.parse(getValue('winners', `{}`));
+      let winners = JSON.parse(getValue('winners', '{}'));
       for (let key in ugs.sentWinners) {
         if (ugs.sentWinners.hasOwnProperty(key)) {
           if (!winners[key]) {
@@ -755,14 +755,14 @@ class GiveawaysUnsentGiftSender extends Module {
         text: 'Saving data...',
         type: 'span'
       }]);
-      ugs.overallProgress.textContent = ``;
+      ugs.overallProgress.textContent = '';
       await Promise.all([
         setValue('winners', JSON.stringify(winners)),
         saveUsers(savedUsers),
         setValue('groups', JSON.stringify(this.esgst.groups))
       ]);
       ugs.button.classList.remove('esgst-busy');
-      ugs.progress.innerHTML = ``;
+      ugs.progress.innerHTML = '';
     } else {
       // there are no unsent gifts
       ugs.button.classList.remove('esgst-busy');
@@ -776,8 +776,8 @@ class GiveawaysUnsentGiftSender extends Module {
   ugs_cancel(ugs) {
     ugs.isCanceled = true;
     ugs.button.classList.remove('esgst-busy');
-    ugs.progress.innerHTML = ``;
-    ugs.overallProgress.textContent = ``;
+    ugs.progress.innerHTML = '';
+    ugs.overallProgress.textContent = '';
   }
 }
 

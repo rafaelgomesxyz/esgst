@@ -108,7 +108,7 @@ class Games extends Module {
         }
         const steamGiftCard = game.name.match(/^\$(.+?)\sSteam\sGift\sCard$/);
         if (steamGiftCard) {
-          game.points = parseInt(steamGiftCard[1].replace(/,/g, ``));
+          game.points = parseInt(steamGiftCard[1].replace(/,/g, ''));
           info = {
             id: `SteamGiftCard${game.points}`,
             type: 'apps'
@@ -117,7 +117,7 @@ class Games extends Module {
         const humbleBundle = game.name.match(/^Humble.+?Bundle/);
         if (humbleBundle) {
           info = {
-            id: game.name.replace(/\s/g, ``),
+            id: game.name.replace(/\s/g, ''),
             type: 'apps'
           };
         }

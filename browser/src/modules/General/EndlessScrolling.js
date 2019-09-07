@@ -54,7 +54,7 @@ class GeneralEndlessScrolling extends Module {
           ['li', `You can choose whether or not to show page divisors (page headings separating each loaded page).`],
           ['li', `As you scroll through the page, the pagination navigation of the page changes according to the page currently visible in the window.`],
           ['li', `If you use the pagination navigation of the page to try to go to a page that has been loaded, it scrolls to the page instead of opening it.`],
-          ['li', `There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.`]
+          ['li', 'There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.']
         ]]
       ],
       features: {
@@ -75,7 +75,7 @@ class GeneralEndlessScrolling extends Module {
           sg: true
         },
         es_ged: {
-          name: `Enable for Giveaway Encrypter/Decrypter.`,
+          name: 'Enable for Giveaway Encrypter/Decrypter.',
           sg: true
         },
         es_ge: {
@@ -105,14 +105,14 @@ class GeneralEndlessScrolling extends Module {
           description: [
             ['ul', [
               ['li', 'Loads the pages of a discussion in descending order.'],
-              ['li', `Loads the last page instead of the first one when visiting a discussion from the main/inbox page.`]
+              ['li', 'Loads the last page instead of the first one when visiting a discussion from the main/inbox page.']
             ]]
           ],
           name: 'Enable reverse scrolling.',
           sg: true
         },
         es_rd: {
-          name: `Refresh active discussions/deals when refreshing the main page.`,
+          name: 'Refresh active discussions/deals when refreshing the main page.',
           sg: true
         },
         es_pd: {
@@ -143,7 +143,7 @@ class GeneralEndlessScrolling extends Module {
     if (this.esgst.pagination.classList.contains('pagination--no-results')) {
       this.esgst.itemsPerPage = 50;
     } else {
-      this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, ``)) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, ``)) + 1;
+      this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, '')) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, '')) + 1;
     }
     let es = {};
     this.esgst.es = es;
@@ -158,7 +158,7 @@ class GeneralEndlessScrolling extends Module {
     if (rows) {
       es.mainContext = rows;
     }
-    es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ``];
+    es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ''];
     es.reverseScrolling = gSettings.es_r && this.esgst.discussionPath;
     if (es.reverseScrolling) {
       if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !this.esgst.parameters.page) {
@@ -400,7 +400,7 @@ class GeneralEndlessScrolling extends Module {
         es.pageBase = es.currentPage + 1;
         es.pageIndex = es.currentPage;
       }
-      this.esgst.pagination.firstElementChild.firstElementChild.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(/,/g, ``)) + 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+      this.esgst.pagination.firstElementChild.firstElementChild.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(/,/g, '')) + 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
       this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent;
     } else if (refresh) {
       pagination = es.paginations[(es.reverseScrolling ? es.pageBase - (refreshAll || es.pageIndex) : (refreshAll || es.pageIndex) - es.pageBase) - 1];
@@ -537,7 +537,7 @@ class GeneralEndlessScrolling extends Module {
         ['strong', n],
         ' of ',
         ['strong', n],
-        ` result${n > 1 ? 's' : ``}`
+        ` result${n > 1 ? 's' : ''}`
       ]);
     } else {
       if (es.reverseScrolling && !refresh) {
@@ -545,7 +545,7 @@ class GeneralEndlessScrolling extends Module {
       } else {
         paginationCount = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling;
       }
-      paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, ``)) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+      paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, '')) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
     }
   }
 
@@ -719,7 +719,7 @@ class GeneralEndlessScrolling extends Module {
     if (!gSettings.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
         method: 'GET',
-        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`
+        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
       })).responseText));
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
@@ -747,7 +747,7 @@ class GeneralEndlessScrolling extends Module {
     if (!gSettings.hr) {
       await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
         method: 'GET',
-        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : `/`
+        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
       })).responseText));
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
@@ -822,18 +822,18 @@ class GeneralEndlessScrolling extends Module {
         Default.classList.toggle('is-hidden');
         Loading.classList.toggle('is-hidden');
         Values = Context.getElementsByTagName('input');
-        Data = ``;
+        Data = '';
         for (I = 0, N = Values.length; I < N; ++I) {
-          Data += `${Values[I].getAttribute('name')}=${Values[I].value}${I < (N - 1) ? `&` : ``}`;
+          Data += `${Values[I].getAttribute('name')}=${Values[I].value}${I < (N - 1) ? '&' : ''}`;
         }
         Loading.classList.toggle('is-hidden');
-        let responseJson = JSON.parse((await request({ data: Data, method: 'POST', url: `/ajax.php` })).responseText);
+        let responseJson = JSON.parse((await request({ data: Data, method: 'POST', url: '/ajax.php' })).responseText);
         if (responseJson.type === 'success') {
           Context.classList.add('is-faded');
           Complete.classList.toggle('is-hidden');
           if (responseJson.points) {
             this.esgst.pointsContainer.textContent = responseJson.points;
-            this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+            this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, '').match(/\d+/)[0]);
           }
         } else {
           Default.classList.toggle('is-hidden');

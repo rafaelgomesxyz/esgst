@@ -63,7 +63,7 @@ class DiscussionsDiscussionFilters extends Filters {
                 ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any `,
                 ['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-                ` page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
+                ' page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.'
               ]],
               ['li', `Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:`],
               ['ul', [
@@ -124,7 +124,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_announcements: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Announcements".`]
+                  ['li', 'Allows you to filter discussions categorized as "Announcements".']
                 ]]
               ],
               name: 'Announcements',
@@ -133,16 +133,16 @@ class DiscussionsDiscussionFilters extends Filters {
             df_bugsSuggestions: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Bugs / Suggestions".`]
+                  ['li', 'Allows you to filter discussions categorized as "Bugs / Suggestions".']
                 ]]
               ],
-              name: `Bugs / Suggestions`,
+              name: 'Bugs / Suggestions',
               sg: true
             },
             df_deals: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Deals".`]
+                  ['li', 'Allows you to filter discussions categorized as "Deals".']
                 ]]
               ],
               name: 'Deals',
@@ -151,7 +151,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_general: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "General".`]
+                  ['li', 'Allows you to filter discussions categorized as "General".']
                 ]]
               ],
               name: 'General',
@@ -160,7 +160,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_groupRecruitment: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Group Recruitment".`]
+                  ['li', 'Allows you to filter discussions categorized as "Group Recruitment".']
                 ]]
               ],
               name: 'Group Recruitment',
@@ -169,16 +169,16 @@ class DiscussionsDiscussionFilters extends Filters {
             df_letsPlayTogether: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Let's Play Together".`]
+                  ['li', 'Allows you to filter discussions categorized as "Let\'s Play Together".']
                 ]]
               ],
-              name: `Let's Play Together`,
+              name: 'Let\'s Play Together',
               sg: true
             },
             df_offTopic: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Off-Topic".`]
+                  ['li', 'Allows you to filter discussions categorized as "Off-Topic".']
                 ]]
               ],
               name: 'Off-Topic',
@@ -187,7 +187,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_puzzles: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Puzzles".`]
+                  ['li', 'Allows you to filter discussions categorized as "Puzzles".']
                 ]]
               ],
               name: 'Puzzles',
@@ -196,7 +196,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_uncategorized: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions categorized as "Uncategorized".`]
+                  ['li', 'Allows you to filter discussions categorized as "Uncategorized".']
                 ]]
               ],
               name: 'Uncategorized',
@@ -460,7 +460,7 @@ class DiscussionsDiscussionFilters extends Filters {
 
   async df_hideDiscussion(discussion, main) {
     let deleteLock = await createLock('discussionLock', 300);
-    let discussions = JSON.parse(getValue('discussions', `{}`));
+    let discussions = JSON.parse(getValue('discussions', '{}'));
     if (!discussions[discussion.code]) {
       discussions[discussion.code] = {};
     }
@@ -475,7 +475,7 @@ class DiscussionsDiscussionFilters extends Filters {
 
   async df_unhideDiscussion(discussion, main) {
     let deleteLock = await createLock('discussionLock', 300);
-    let discussions = JSON.parse(getValue('discussions', `{}`));
+    let discussions = JSON.parse(getValue('discussions', '{}'));
     if (discussions[discussion.code]) {
       delete discussions[discussion.code].hidden;
       discussions[discussion.code].lastUsed = Date.now();
@@ -503,7 +503,7 @@ class DiscussionsDiscussionFilters extends Filters {
       },
       bugsSuggestion: {
         check: true,
-        name: `Bugs / Suggestion`,
+        name: 'Bugs / Suggestion',
         type: 'boolean'
       },
       deals: {
@@ -523,7 +523,7 @@ class DiscussionsDiscussionFilters extends Filters {
       },
       letsPlayTogether: {
         check: true,
-        name: `Let's Play Together`,
+        name: 'Let\'s Play Together',
         type: 'boolean'
       },
       offTopic: {

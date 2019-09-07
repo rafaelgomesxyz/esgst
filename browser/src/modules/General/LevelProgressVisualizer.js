@@ -59,7 +59,7 @@ class GeneralLevelProgressVisualizer extends Module {
       cache.level = currentLevel;
       const response = await FetchRequest.get(`/user/${gSettings.username}`);
       const element = response.html.querySelectorAll('.featured__table__row__right')[6];
-      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, ``)));
+      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
       shared.common.setLocalValue('lpvCache', JSON.stringify(cache));
     }
     return cache;
@@ -204,9 +204,9 @@ class GeneralLevelProgressVisualizer extends Module {
             }, {
               name: 'background-size',
               values: [
-                `auto 50%`,
+                'auto 50%',
                 '0',
-                `auto 50%`,
+                'auto 50%',
                 'auto'
               ]
             });
@@ -218,13 +218,13 @@ class GeneralLevelProgressVisualizer extends Module {
     if (!style || !Array.isArray(style)) {
       return;
     }
-    let styleString = ``;
+    let styleString = '';
     for (const item of style) {
       styleString += `${item.selector} {\n`;
       for (const rule of item.rules) {
         styleString += `  ${rule.name}: ${rule.values.join(`, `)} !important;\n`;
       }
-      styleString += `}\n\n`;
+      styleString += '}\n\n';
     }
     if (!this.esgst.lpvStyle) {
       this.esgst.lpvStyle = createElements(this.esgst.style, 'afterEnd', [{
@@ -306,14 +306,14 @@ class GeneralLevelProgressVisualizer extends Module {
             }
             if (realValue > 0) {
               cv += realValue;
-              logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
               logger.info(`Total CV: ${cv}`);
             }
           } else if (open > 0) {
             value *= open;
             if (value > 0) {
               cv += value;
-              logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
               logger.info(`Total CV: ${cv}`);
             }
           }

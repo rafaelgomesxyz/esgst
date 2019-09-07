@@ -21,7 +21,7 @@ class UsersSentWonRatio extends Module {
         ]]
       ],
       id: 'swr',
-      name: `Sent/Won Ratio`,
+      name: 'Sent/Won Ratio',
       sg: true,
       type: 'users',
       featureMap: {
@@ -46,25 +46,25 @@ class UsersSentWonRatio extends Module {
               name: 'Ratio'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: ratio
             }
           ],
           icon: [
             {
               class: 'fa-pie-chart',
-              color: `#77899a`
+              color: '#77899a'
             }
           ]
         },
         {
           columns: [
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: 'Full Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: fullRatio
             }
           ],
@@ -73,11 +73,11 @@ class UsersSentWonRatio extends Module {
         {
           columns: [
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: 'Reduced Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: reducedRatio
             }
           ],
@@ -86,15 +86,15 @@ class UsersSentWonRatio extends Module {
         {
           columns: [
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: 'No Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: zeroRatio
             }
           ],
-          indent: `80px;`
+          indent: '80px;'
         }
       ]
     };
@@ -106,14 +106,14 @@ class UsersSentWonRatio extends Module {
               name: 'Real Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: `${realCVRatio}`
             }
           ],
           icon: [
             {
               class: 'fa-dollar',
-              color: `#84cfda`
+              color: '#84cfda'
             }
           ]
         }

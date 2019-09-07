@@ -49,7 +49,7 @@ class GoogleDriveStorage extends ICloudStorage {
     const metadataRequestOptions = {
       data: gSettings.backupZip ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const metadataResponse = await FetchRequest.post(GoogleDriveStorage.UPLOAD_METADATA_URL, metadataRequestOptions);
@@ -60,7 +60,7 @@ class GoogleDriveStorage extends ICloudStorage {
       data,
       fileName: gSettings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': gSettings.backupZip ? `application/zip` : `text/plain`
+        'Content-Type': gSettings.backupZip ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
         fileId: metadataResponse.json.id
@@ -125,13 +125,13 @@ class GoogleDriveStorage extends ICloudStorage {
         formData.push(
           '--ESGST',
           `Content-Type: application/http`,
-          ``,
+          '',
           `DELETE ${FetchRequest.addPathParams(GoogleDriveStorage.DELETE_URL, { fileId })}`,
-          ``,
-          ``
+          '',
+          ''
         );
       }
-      const data = formData.join(`\n`);
+      const data = formData.join('\n');
       formData.push('--ESGST--');
       const requestOptions = {
         data,
@@ -145,8 +145,8 @@ class GoogleDriveStorage extends ICloudStorage {
         throw new Error(response.text);
       }
       const parts = response.text
-        .replace(/\r?\n|\r/g, `\n`)
-        .replace(/\n\n+/g, `\n\n`)
+        .replace(/\r?\n|\r/g, '\n')
+        .replace(/\n\n+/g, '\n\n')
         .split(/--batch.*\n/)
         .filter(x => x)
         .map(x => x.split(/\n\n/)[2]);

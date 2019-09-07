@@ -26,7 +26,7 @@ class GeneralSearchClearButton extends Module {
     for (const input of inputs) {
       input.parentElement.classList.add('esgst-scb');
       common.createElements_v2(input.parentElement, 'beforeEnd', [
-        ['i', { class: 'fa fa-times', title: 'Clear search', onclick: () => { input.value = ``; input.dispatchEvent(new Event('change')); input.focus(); } }]
+        ['i', { class: 'fa fa-times', title: 'Clear search', onclick: () => { input.value = ''; input.dispatchEvent(new Event('change')); input.focus(); } }]
       ]);
     }
   }

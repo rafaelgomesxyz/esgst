@@ -18,7 +18,7 @@ class UsersUserStats extends Module {
           ['li', [
             `Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your `,
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
             ` pages and the popup from [id=wbs] that show some stats about each user.`
           ]]
@@ -116,14 +116,14 @@ class UsersUserStats extends Module {
           profile.wonRowLeft = element;
           profile.wonRowRight = element.nextElementSibling;
           rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
-          profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
-          profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
-          profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
-          profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
+          profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ''));
+          profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ''));
+          profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ''));
+          profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ''));
           cvrow = profile.wonRowRight.firstElementChild.lastElementChild;
           rows = JSON.parse(cvrow.getAttribute('data-ui-tooltip')).rows;
-          profile.wonCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
-          profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
+          profile.wonCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ''));
+          profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ''));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute('style');
           html.push({
             attributes: {
@@ -142,15 +142,15 @@ class UsersUserStats extends Module {
           profile.sentRowLeft = element;
           profile.sentRowRight = element.nextElementSibling;
           rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
-          profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
-          profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
-          profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
-          profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
-          profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
+          profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ''));
+          profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ''));
+          profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ''));
+          profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ''));
+          profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ''));
           cvrow = profile.sentRowRight.firstElementChild.lastElementChild;
           rows = JSON.parse(cvrow.getAttribute('data-ui-tooltip')).rows;
-          profile.sentCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
-          profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
+          profile.sentCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ''));
+          profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ''));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute('style');
           html.push({
             attributes: {

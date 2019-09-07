@@ -210,7 +210,7 @@ class CloudStorage {
       checkbox.onEnabled = () => selectedFiles[file.id] = { item };
       checkbox.onDisabled = () => delete selectedFiles[file.id];
       item.firstElementChild.nextElementSibling.addEventListener('click', () => {
-        shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
+        shared.common.createConfirmation('Are you sure you want to restore the selected data?', async () => {
           isCanceled = false;
 
           popup.close();
@@ -263,7 +263,7 @@ class CloudStorage {
             }
 
             tempPopup.setIcon('fa-check');
-            tempPopup.setTitle(`File deleted with success!`);
+            tempPopup.setTitle('File deleted with success!');
           } catch (error) {
             tempPopup.setIcon('fa-times');
             tempPopup.setTitle(`An error occurred when deleting the file.\n\n${error.message}`);

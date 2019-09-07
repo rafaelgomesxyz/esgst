@@ -58,7 +58,7 @@ function getDataMenu(option, switches, type) {
         icon1: 'fa-square',
         icon2: 'fa-circle-o-notch fa-spin',
         title1: 'All',
-        title2: ``,
+        title2: '',
         callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'enable', group)
       }).set);
       group.appendChild(new ButtonSet({
@@ -67,7 +67,7 @@ function getDataMenu(option, switches, type) {
         icon1: 'fa-square-o',
         icon2: 'fa-circle-o-notch fa-spin',
         title1: 'None',
-        title2: ``,
+        title2: '',
         callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'disable', group)
       }).set);
       group.appendChild(new ButtonSet({
@@ -76,7 +76,7 @@ function getDataMenu(option, switches, type) {
         icon1: 'fa-plus-square-o',
         icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Inverse',
-        title2: ``,
+        title2: '',
         callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'toggle', group)
       }).set);
     }
@@ -132,7 +132,7 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
         dm.reader.readAsText(file);
       }
     } else {
-      shared.common.createFadeMessage(dm.warning, `No file was loaded!`);
+      shared.common.createFadeMessage(dm.warning, 'No file was loaded!');
       callback();
     }
   }
@@ -146,15 +146,15 @@ async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, 
         : dm.reader.result
       );
     }
-    shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+    shared.common.createConfirmation('Are you sure you want to restore the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
   } catch (error) {
-    shared.common.createFadeMessage(dm.warning, `Cannot parse file!`);
+    shared.common.createFadeMessage(dm.warning, 'Cannot parse file!');
     callback();
   }
 }
 
 function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
-  shared.common.createConfirmation(`Are you sure you want to delete the selected data?`, manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+  shared.common.createConfirmation('Are you sure you want to delete the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
 }
 
 function loadDataManagement(type, isPopup, callback) {
@@ -200,7 +200,7 @@ function loadDataManagement(type, isPopup, callback) {
     } else {
       context = containerr = shared.esgst.sidebar.nextElementSibling;
       context.setAttribute('data-esgst-popup', 'true');
-      context.innerHTML = ``;
+      context.innerHTML = '';
     }
     containerr.classList.add('esgst-text-left');
     const heading = new elementBuilder[shared.esgst.name].pageHeading({
@@ -233,7 +233,7 @@ function loadDataManagement(type, isPopup, callback) {
       }, {
         attributes: {
           class: 'esgst-clickable fa fa-refresh',
-          title: `Calculate/refresh data sizes`
+          title: 'Calculate/refresh data sizes'
         },
         type: 'i'
       }]
@@ -276,7 +276,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'discussions_gdttt',
-          name: `Giveaway/Discussion/Ticket/Trade Tracker`
+          name: 'Giveaway/Discussion/Ticket/Trade Tracker'
         },
         {
           key: 'discussions_tds',
@@ -340,7 +340,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'giveaways_gdttt',
-          name: `Giveaway/Discussion/Ticket/Trade Tracker`
+          name: 'Giveaway/Discussion/Ticket/Trade Tracker'
         },
         {
           key: 'giveaways_gf',
@@ -426,7 +426,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'tickets_gdttt',
-          name: `Giveaway/Discussion/Ticket/Trade Tracker`
+          name: 'Giveaway/Discussion/Ticket/Trade Tracker'
         },
         {
           key: 'tickets_ust',
@@ -453,7 +453,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'trades_gdttt',
-          name: `Giveaway/Discussion/Ticket/Trade Tracker`
+          name: 'Giveaway/Discussion/Ticket/Trade Tracker'
         },
         {
           key: 'trades_tds',
@@ -476,7 +476,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'users_namwc',
-          name: `Not Activated/Multiple Win  Checker`
+          name: 'Not Activated/Multiple Win  Checker'
         },
         {
           key: 'users_nrf',
@@ -500,7 +500,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'users_wbc',
-          name: `Whitelist/Blacklist Checker`
+          name: 'Whitelist/Blacklist Checker'
         }
       ]
     },
@@ -568,18 +568,18 @@ function loadDataManagement(type, isPopup, callback) {
         'Delete backups older than ',
         ['input', { class: 'esgst-switch-input', type: 'number', value: gSettings.deleteOldBackups_days }],
         ' days when backing up to the cloud.'
-      ], false, false, ``, gSettings.deleteOldBackups).name.firstElementChild;
+      ], false, false, '', gSettings.deleteOldBackups).name.firstElementChild;
       shared.common.observeNumChange(input, 'deleteOldBackups_days', true);
     }
     if (type === 'import' || type === 'export') {
       shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredGoogle', false, [
         `Use preferred Google account: `,
-        ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: `example@gmail.com`, type: 'text' }],
+        ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'example@gmail.com', type: 'text' }],
         ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(gSettings.preferredGoogle || 'No email address defined') }, 'Reveal']
       ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredGoogle).name.firstElementChild, 'preferredGoogle', true);
       shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredMicrosoft', false, [
         `Use preferred Microsoft account: `,
-        ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: `example@outlook.com`, type: 'text' }],
+        ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'example@outlook.com', type: 'text' }],
         ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(gSettings.preferredMicrosoft || 'No email address defined') }, 'Reveal']
       ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredMicrosoft).name.firstElementChild, 'preferredMicrosoft', true);
     }
@@ -611,7 +611,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon1: 'fa-square',
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'All',
-      title2: ``,
+      title2: '',
       callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'enable', group1)
     }).set);
     group1.appendChild(new ButtonSet({
@@ -620,7 +620,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon1: 'fa-square-o',
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'None',
-      title2: ``,
+      title2: '',
       callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'disable', group1)
     }).set);
     group1.appendChild(new ButtonSet({
@@ -629,7 +629,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon1: 'fa-plus-square-o',
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Inverse',
-      title2: ``,
+      title2: '',
       callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'toggle', group1)
     }).set);
     group2 = shared.common.createElements(containerr, 'beforeEnd', [{
@@ -795,7 +795,7 @@ function loadDataCleaner(isPopup) {
     popup.open();
   } else {
     containerr = shared.esgst.sidebar.nextElementSibling;
-    containerr.innerHTML = ``;
+    containerr.innerHTML = '';
     context = containerr;
     context.setAttribute('data-esgst-popup', 'true');
   }
@@ -829,7 +829,7 @@ function loadDataCleaner(isPopup) {
     'Entries data older than ',
     ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanEntries_days }],
     ' days.'
-  ], false, false, ``, gSettings.cleanEntries).name.firstElementChild, 'cleanEntries_days', true);
+  ], false, false, '', gSettings.cleanEntries).name.firstElementChild, 'cleanEntries_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanGiveaways', false, [
     'Giveaways data older than ',
     ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanGiveaways_days }],
@@ -839,7 +839,7 @@ function loadDataCleaner(isPopup) {
     'SteamGifts comment history data older than ',
     ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanSgCommentHistory_days }],
     ' days.'
-  ], false, false, ``, gSettings.cleanSgCommentHistory).name.firstElementChild, 'cleanSgCommentHistory_days', true);
+  ], false, false, '', gSettings.cleanSgCommentHistory).name.firstElementChild, 'cleanSgCommentHistory_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTickets', false, [
     'Tickets data older than ',
     ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanTickets_days }],
@@ -893,7 +893,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'discussions_gdttt',
-              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+              name: 'Giveaway/Discussion/Ticket/Trade Tracker'
             },
             {
               key: 'discussions_tds',
@@ -957,7 +957,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'giveaways_gdttt',
-              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+              name: 'Giveaway/Discussion/Ticket/Trade Tracker'
             },
             {
               key: 'giveaways_gf',
@@ -1038,7 +1038,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'tickets_gdttt',
-              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+              name: 'Giveaway/Discussion/Ticket/Trade Tracker'
             },
             {
               key: 'tickets_ust',
@@ -1065,7 +1065,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'trades_gdttt',
-              name: `Giveaway/Discussion/Ticket/Trade Tracker`
+              name: 'Giveaway/Discussion/Ticket/Trade Tracker'
             },
             {
               key: 'trades_tds',
@@ -1088,7 +1088,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'users_namwc',
-              name: `Not Activated/Multiple Win  Checker`
+              name: 'Not Activated/Multiple Win  Checker'
             },
             {
               key: 'users_nrf',
@@ -1112,7 +1112,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'users_wbc',
-              name: `Whitelist/Blacklist Checker`
+              name: 'Whitelist/Blacklist Checker'
             }
           ]
         },
@@ -1127,7 +1127,7 @@ function loadDataCleaner(isPopup) {
       let toSave = {};
       if (gSettings.cleanDiscussions) {
         let days = gSettings.cleanDiscussions_days * 86400000;
-        toSave.discussions = JSON.parse(shared.common.getValue('discussions', `{}`));
+        toSave.discussions = JSON.parse(shared.common.getValue('discussions', '{}'));
         for (let code in toSave.discussions) {
           if (toSave.discussions.hasOwnProperty(code)) {
             let item = toSave.discussions[code];
@@ -1139,7 +1139,7 @@ function loadDataCleaner(isPopup) {
       }
       if (gSettings.cleanEntries) {
         let days = gSettings.cleanEntries_days * 86400000;
-        let items = JSON.parse(shared.common.getValue('entries', `[]`));
+        let items = JSON.parse(shared.common.getValue('entries', '[]'));
         toSave.entries = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1149,7 +1149,7 @@ function loadDataCleaner(isPopup) {
       }
       if (gSettings.cleanGiveaways) {
         let days = gSettings.cleanGiveaways_days * 86400000;
-        toSave.giveaways = JSON.parse(shared.common.getValue('giveaways', `{}`));
+        toSave.giveaways = JSON.parse(shared.common.getValue('giveaways', '{}'));
         for (let code in toSave.giveaways) {
           if (toSave.giveaways.hasOwnProperty(code)) {
             let item = toSave.giveaways[code];
@@ -1161,7 +1161,7 @@ function loadDataCleaner(isPopup) {
       }
       if (gSettings.cleanSgCommentHistory) {
         let days = gSettings.cleanSgCommentHistory_days * 86400000;
-        let items = JSON.parse(shared.common.getValue('sgCommentHistory', `[]`));
+        let items = JSON.parse(shared.common.getValue('sgCommentHistory', '[]'));
         toSave.sgCommentHistory = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1171,7 +1171,7 @@ function loadDataCleaner(isPopup) {
       }
       if (gSettings.cleanTickets) {
         let days = gSettings.cleanTickets_days * 86400000;
-        toSave.tickets = JSON.parse(shared.common.getValue('tickets', `{}`));
+        toSave.tickets = JSON.parse(shared.common.getValue('tickets', '{}'));
         for (let code in toSave.tickets) {
           if (toSave.tickets.hasOwnProperty(code)) {
             let item = toSave.tickets[code];
@@ -1183,7 +1183,7 @@ function loadDataCleaner(isPopup) {
       }
       if (gSettings.cleanTrades) {
         let days = gSettings.cleanTrades_days * 86400000;
-        toSave.trades = JSON.parse(shared.common.getValue('trades', `{}`));
+        toSave.trades = JSON.parse(shared.common.getValue('trades', '{}'));
         for (let code in toSave.trades) {
           if (toSave.trades.hasOwnProperty(code)) {
             let item = toSave.trades[code];
@@ -1222,7 +1222,7 @@ function loadDataCleaner(isPopup) {
       const successPopup = new Popup({
         icon: 'fa-check',
         title: [
-          `Success! The selected data was cleaned.`,
+          'Success! The selected data was cleaned.',
           ['br'],
           ['br'],
           `Size before cleaning: `,
@@ -1265,7 +1265,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     switch (optionKey) {
       case 'decryptedGiveaways':
       case 'settings':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `{}`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '{}'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -1287,7 +1287,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `{}`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '{}')}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
@@ -1338,7 +1338,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           };
         }
         data[optionKey] = {};
-        mergedData = JSON.parse(shared.common.getValue(optionKey, `{}`));
+        mergedData = JSON.parse(shared.common.getValue(optionKey, '{}'));
         sizes = {
           ct: 0,
           df: 0,
@@ -1534,7 +1534,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         }
         break;
       case 'emojis':
-        data.emojis = JSON.parse(shared.common.getValue('emojis', `[]`));
+        data.emojis = JSON.parse(shared.common.getValue('emojis', '[]'));
         if (!space) {
           if (dm.import) {
             let newData = JSON.stringify(dm.data.emojis);
@@ -1569,7 +1569,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case 'templates':
       case 'savedReplies':
       case 'savedReplies_st':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '[]'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -1601,7 +1601,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `[]`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '[]')}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
@@ -1884,7 +1884,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           gpt: ['tags'],
           sgg: ['stickied']
         };
-        mergedData = JSON.parse(shared.common.getValue(optionKey, `[]`));
+        mergedData = JSON.parse(shared.common.getValue(optionKey, '[]'));
         if (!Array.isArray(mergedData)) {
           let temp = [];
           for (let key in mergedData) {
@@ -2037,7 +2037,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         break;
       case 'rerolls':
       case 'stickiedCountries':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '[]'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -2060,7 +2060,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `[]`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '[]')}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
@@ -2068,7 +2068,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         }
         break;
       case 'sgCommentHistory':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, `[]`));
+        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '[]'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
@@ -2124,7 +2124,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `[]`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '[]')}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
@@ -2346,7 +2346,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
         }
         break;
       case 'winners':
-        data.winners = JSON.parse(shared.common.getValue('winners', `{}`));
+        data.winners = JSON.parse(shared.common.getValue('winners', '{}'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data.winners;
@@ -2376,7 +2376,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `{}`)}}`.length;
+          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '{}')}}`.length;
           totalSize += size;
           if (dm.switches) {
             dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);

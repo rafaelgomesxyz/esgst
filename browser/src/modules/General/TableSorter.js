@@ -61,7 +61,7 @@ class GeneralTableSorter extends Module {
     heading = table.querySelector(`.table__heading, .header, thead`);
     if (!heading) return;
     tsTable = {
-      columnName: ``,
+      columnName: '',
       key: 'sortIndex',
       name: 'asc',
       outerWrap: table,
@@ -188,14 +188,14 @@ class GeneralTableSorter extends Module {
               break;
             default:
               if (value.match(/\d+\.\d+/)) {
-                element.value = parseFloat(value.replace(/[,$]/g, ``));
+                element.value = parseFloat(value.replace(/[,$]/g, ''));
                 if (isNaN(element.value)) {
                   element.value = value;
                 } else {
                   isNumeric = true;
                 }
               } else {
-                match = value.replace(/,/g, ``).match(/\d+/);
+                match = value.replace(/,/g, '').match(/\d+/);
                 if (match) {
                   element.value = parseFloat(match[0]);
                   isNumeric = true;

@@ -35,7 +35,7 @@ class Table {
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
     const row = shared.common.createElements_v2(this.rows, 'beforeEnd', [
-      ['div', { class: `table__row-outer-wrap ${name && isCollapsible ? 'esgst-hidden' : ``}` }, [
+      ['div', { class: `table__row-outer-wrap ${name && isCollapsible ? 'esgst-hidden' : ''}` }, [
         ['div', { class: 'table__row-inner-wrap' },
           name && isCollapsible
           ? [
@@ -67,7 +67,7 @@ class Table {
     }
     let isBold = false;
     for (let i = 0; i < this.numColumns; i++) {
-      let cell = columns ? columns[i] : ``;
+      let cell = columns ? columns[i] : '';
       let additionalClasses = [];
       let additionalAttributes = null;
       let alignment = 'center';

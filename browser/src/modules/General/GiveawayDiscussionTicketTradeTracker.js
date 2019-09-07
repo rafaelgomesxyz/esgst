@@ -25,13 +25,13 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
             ['i', { class: 'fa fa-check' }],
             ` if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any `,
             ['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/support/tickets` }, 'tickets'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
-            ` pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.`
+            ' pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.'
           ]],
-          ['li', `Giveaways/threads marked as visited are faded out in the page.`]
+          ['li', 'Giveaways/threads marked as visited are faded out in the page.']
         ]]
       ],
       features: {
@@ -57,7 +57,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         }
       },
       id: 'gdttt',
-      name: `Giveaway/Discussion/Ticket/Trade Tracker`,
+      name: 'Giveaway/Discussion/Ticket/Trade Tracker',
       sg: true,
       st: true,
       type: 'general',
@@ -116,7 +116,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       }
       if (gSettings.ct_s) {
         comments[code].count = count;
-        diffContainer.textContent = ``;
+        diffContainer.textContent = '';
       }
       comments[code].visited = true;
       comments[code].lastUsed = Date.now();
@@ -159,10 +159,10 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : '.homepage_table_column_heading'}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : '.table__column__heading'}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : '.giveaway__heading__name'}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : '.column_flex h3 a'}`);
     if (!matches.length) return;
     let values = getValues({
-      giveaways: `{}`,
-      discussions: `{}`,
-      tickets: `{}`,
-      trades: `{}`
+      giveaways: '{}',
+      discussions: '{}',
+      tickets: '{}',
+      trades: '{}'
     });
     for (let key in values) {
       if (values.hasOwnProperty(key)) {

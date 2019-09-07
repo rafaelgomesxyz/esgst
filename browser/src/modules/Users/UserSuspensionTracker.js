@@ -46,10 +46,10 @@ class UsersUserSuspensionTracker extends Module {
           ]],
           ['li', `You can only send tickets that belong to one of the accepted categories to the database:`],
           ['ul', [
-            ['li', `Request New Winner > Did Not Activate Previous Wins This Month`],
-            ['li', `Request New Winner > Other`],
-            ['li', `User Report > Multiple Wins for the Same Game`],
-            ['li', `User Report > Not Activating Won Gift`]
+            ['li', 'Request New Winner > Did Not Activate Previous Wins This Month'],
+            ['li', 'Request New Winner > Other'],
+            ['li', 'User Report > Multiple Wins for the Same Game'],
+            ['li', 'User Report > Not Activating Won Gift']
           ]],
           ['li', `When you send a ticket, the HTML containing all of the ticket's information (including any comments) is sent to the database, and the ticket is requested before being sent, which prevents users from tampering with the HTML.`],
           ['li', `After you send a ticket you will no longer have the option to send it again, to prevent duplicate entries.`]
@@ -114,7 +114,7 @@ class UsersUserSuspensionTracker extends Module {
     let numError = 0;
     let promises = [];
     let obj = {
-      data: ``
+      data: ''
     };
     for (let code in this.checkboxes) {
       if (this.checkboxes.hasOwnProperty(code)) {
@@ -159,9 +159,9 @@ class UsersUserSuspensionTracker extends Module {
     }
     new Popup({
       addScrollable: true,
-      icon: ``,
+      icon: '',
       isTemp: true,
-      title: `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ' Try sending the tickets that failed again later.' : ``}`
+      title: `${n - numError} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${numError > 0 ? ' Try sending the tickets that failed again later.' : ''}`
     }).open();
   }
 
@@ -171,7 +171,7 @@ class UsersUserSuspensionTracker extends Module {
       const authorElement = responseHtml.querySelector('.comment__username');
       const closeElement = responseHtml.querySelector(`.notification [href*="/user/"]`);
       if (authorElement && closeElement && authorElement.textContent.trim() !== closeElement.textContent.trim()) {
-        obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName('sidebar')[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}&`;
+        obj.data += `${code}=${encodeURIComponent(responseHtml.getElementsByClassName('sidebar')[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, '').trim())}&`;
       }
     }
   }
@@ -193,7 +193,7 @@ class UsersUserSuspensionTracker extends Module {
       (await request({
         data: `${code}=${encodeURIComponent(parseHtml(
           (await request({ method: 'GET', url: shared.esgst.locationHref })).responseText
-        ).getElementsByClassName('sidebar')[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, ``).trim())}`,
+        ).getElementsByClassName('sidebar')[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, '').trim())}`,
         method: 'POST',
         url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
       })
@@ -210,7 +210,7 @@ class UsersUserSuspensionTracker extends Module {
       shared.esgst.ustButton.remove();
       new Popup({
         addScrollable: true,
-        icon: ``,
+        icon: '',
         isTemp: true,
         title: `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`
       }).open();
@@ -224,7 +224,7 @@ class UsersUserSuspensionTracker extends Module {
       shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
       new Popup({
         addScrollable: true,
-        icon: ``,
+        icon: '',
         isTemp: true,
         title: 'An error occurred. Please try again later.'
       }).open();

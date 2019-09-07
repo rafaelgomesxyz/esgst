@@ -46,10 +46,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           ['li', [
             'The icon ',
             ['i', { class: 'fa fa-question-circle' }],
-            `  next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.`
+            '  next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.'
           ]],
           ['li', `When you add a giveaway to the queue, a small numbered box appears at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.`],
-          ['li', `You can re-order/remove a giveaway by dragging and dropping the box.`],
+          ['li', 'You can re-order/remove a giveaway by dragging and dropping the box.'],
           ['li', `The giveaways will be created without reviewing or validating, so make sure that all of the fields were filled correctly or the creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next one instead).`]
         ]]
       ],
@@ -101,7 +101,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           addScrollable: true,
           icon: 'fa-check',
           isTemp: true,
-          title: `Train created with success! You can close this now.`
+          title: 'Train created with success! You can close this now.'
         }).open();
       }
     }
@@ -231,7 +231,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }
       this.esgst.mgc_createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, 'mgc_createTrain', false, 'Create train.', false, false, null, gSettings.mgc_createTrain);
       this.esgst.mgc_createTrainSwitch.dependencies.push(createTrainDescription);
-      this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, 'mgc_removeLinks', false, `Remove previous/next links from the first/last wagons.`, false, false, 'Disabling this keeps the links as plain text.', gSettings.mgc_removeLinks);
+      this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, 'mgc_removeLinks', false, 'Remove previous/next links from the first/last wagons.', false, false, 'Disabling this keeps the links as plain text.', gSettings.mgc_removeLinks);
       let generateButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
@@ -397,7 +397,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }]).firstElementChild;
       removeIcon = mgc.giveaways.nextElementSibling;
       removeIcon.addEventListener('dragenter', this.mgc_removeGiveaway.bind(this, mgc));
-      JSON.parse(getLocalValue('mgcCache', `[]`)).forEach(values => {
+      JSON.parse(getLocalValue('mgcCache', '[]')).forEach(values => {
         this.mgc_addGiveaway(false, mgc, values);
       });
     }
@@ -430,13 +430,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       attributes: {
         class: 'esgst-bold'
       },
-      text: `Next/previous links`,
+      text: 'Next/previous links',
       type: 'div'
     }]);
     inputs.previousPrefix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'esgst-mgc-input',
-        placeholder: `← `,
+        placeholder: '← ',
         type: 'text'
       },
       type: 'input'
@@ -452,7 +452,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     inputs.previousSuffix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'esgst-mgc-input',
-        placeholder: ` ←`,
+        placeholder: ' ←',
         type: 'text'
       },
       type: 'input'
@@ -460,7 +460,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     inputs.separator = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'esgst-mgc-input',
-        placeholder: ` | `,
+        placeholder: ' | ',
         type: 'text'
       },
       type: 'input'
@@ -468,7 +468,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     inputs.nextPrefix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'esgst-mgc-input',
-        placeholder: `→ `,
+        placeholder: '→ ',
         type: 'text'
       },
       type: 'input'
@@ -484,7 +484,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     inputs.nextSuffix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'esgst-mgc-input',
-        placeholder: ` →`,
+        placeholder: ' →',
         type: 'text'
       },
       type: 'input'
@@ -499,25 +499,25 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         children: [{
           type: 'p',
           children: [{
-            text: `← `,
+            text: '← ',
             type: 'node'
           }, {
             attributes: {
-              href: `#`
+              href: '#'
             },
             text: 'Previous',
             type: 'a'
           }, {
-            text: ` ← | → `,
+            text: ' ← | → ',
             type: 'node'
           }, {
             attributes: {
-              href: `#`
+              href: '#'
             },
             text: 'Next',
             type: 'a'
           }, {
-            text: ` →`,
+            text: ' →',
             type: 'node'
           }]
         }]
@@ -615,7 +615,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           type: 'p',
           children: [{
             attributes: {
-              href: `#`
+              href: '#'
             },
             text: 'Bump',
             type: 'a'
@@ -649,7 +649,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     inputs.train = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'esgst-mgc-input',
-        placeholder: `Choo choo!`,
+        placeholder: 'Choo choo!',
         type: 'text'
       },
       type: 'input'
@@ -665,9 +665,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           type: 'p',
           children: [{
             attributes: {
-              href: `#`
+              href: '#'
             },
-            text: `Choo choo!`,
+            text: 'Choo choo!',
             type: 'a'
           }]
         }]
@@ -706,8 +706,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
             shared.common.createElements_v2(trainOutputPreview, 'inner', await parseMarkdown(null, `[${input.value}](#)`));
           } else {
-            let markdown = ``;
-            let text = ``;
+            let markdown = '';
+            let text = '';
             if (inputs.previousPrefix.value || inputs.previousSuffix.value) {
               text += `[ESGST-P]${inputs.previousPrefix.value}[P]${inputs.previous.value}[/P]${inputs.previousSuffix.value}[/ESGST-P]`;
               markdown += `${inputs.previousPrefix.value}[${inputs.previous.value}](#)${inputs.previousSuffix.value}`;
@@ -770,12 +770,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           this.mgc_addGiveaway(edit, mgc, values);
           this.mgc_updateCache(mgc);
           mgc.copies.value = '1';
-          mgc.keys.value = ``;
+          mgc.keys.value = '';
         } else {
           createAlert('The bump link format is missing from the description.');
         }
       } else {
-        createAlert(`The next/previous links format is missing from the description.`);
+        createAlert('The next/previous links format is missing from the description.');
       }
     } else {
       createAlert('You must first fill the details of the giveaway.');
@@ -784,7 +784,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_addGiveaway(edit, mgc, values) {
     let data, details;
-    details = `${values.gameName.replace(/"/g, `&quot;`)}\n`;
+    details = `${values.gameName.replace(/"/g, '&quot;')}\n`;
     if (values.gameType === 'gift') {
       details += `Gift\n${values.copies} Copies\n`;
     } else {
@@ -792,18 +792,18 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
     details += `\n${values.startTime} - ${values.endTime}\n`;
     if (values.region === '1') {
-      details += `Region Restricted\n`;
+      details += 'Region Restricted\n';
     }
     if (values.whoCanEnter === 'everyone') {
-      details += `Public\n`;
+      details += 'Public\n';
     } else if (values.whoCanEnter === 'invite_only') {
-      details += `Invite Only\n`;
+      details += 'Invite Only\n';
     } else {
       if (values.whitelist === '1') {
-        details += `Whitelist\n`;
+        details += 'Whitelist\n';
       }
       if (values.groups.trim()) {
-        details += `Groups\n`;
+        details += 'Groups\n';
       }
     }
     values.description = values.description
@@ -848,7 +848,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     mgc.gameId.value = values.gameId;
     mgc.gameType.value = values.gameType;
     mgc.copies.value = values.copies;
-    mgc.keys.value = values.keys || ``;
+    mgc.keys.value = values.keys || '';
     mgc.gameName.value = values.gameName;
     mgc.startTime.value = values.startTime;
     mgc.endTime.value = values.endTime;
@@ -866,7 +866,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_setSource(giveaway, mgc, event) {
     mgc.source = giveaway;
-    event.dataTransfer.setData(`text/plain`, ``);
+    event.dataTransfer.setData('text/plain', '');
   }
 
   mgc_getSource(giveaway, mgc) {
@@ -982,8 +982,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       <div>Imported giveaways will not be automatically created, you still have to review them by clicking on the 'Create' button.</div>
       <br>
     `);
-    let groupKeys = new ToggleSwitch(popup.description, 'mgc_groupKeys', false, 'Group adjacent keys for the same game.', false, false, ``, gSettings.mgc_groupKeys);
-    let groupAllKeys = new ToggleSwitch(popup.description, 'mgc_groupAllKeys', false, 'Group all keys for the same game.', false, false, ``, gSettings.mgc_groupAllKeys);
+    let groupKeys = new ToggleSwitch(popup.description, 'mgc_groupKeys', false, 'Group adjacent keys for the same game.', false, false, '', gSettings.mgc_groupKeys);
+    let groupAllKeys = new ToggleSwitch(popup.description, 'mgc_groupAllKeys', false, 'Group all keys for the same game.', false, false, '', gSettings.mgc_groupAllKeys);
     groupKeys.exclusions.push(groupAllKeys.container);
     groupAllKeys.exclusions.push(groupKeys.container);
     if (gSettings.mgc_groupKeys) {
@@ -1066,7 +1066,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         giveaways.push(line);
       }
     }
-    textArea.value = `${giveaways.join(`\n`)}\n`;
+    textArea.value = `${giveaways.join('\n')}\n`;
     n = giveaways.length;
     if (window.$(progress.bar).progressbar('instance')) {
       max = window.$(progress.bar).progressbar('option', 'max');
@@ -1101,22 +1101,22 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       let groups = giveaways[i].match(/\[groups="(.+?)"]/);
       let level = giveaways[i].match(/\[level="(.+?)"]/);
       let description = giveaways[i].match(/\[description="(.+?)"]/);
-      if (gSettings.mgc_createTrain && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-P]|\[ESGST-N]/)) {
-        createAlert(`The next/previous links format is missing from the description.`);
+      if (gSettings.mgc_createTrain && !((description && description[1]) || mgc.description.value || '').match(/\[ESGST-P]|\[ESGST-N]/)) {
+        createAlert('The next/previous links format is missing from the description.');
         callback();
         return;
       }
-      if (mgc.discussion && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-B]/)) {
+      if (mgc.discussion && !((description && description[1]) || mgc.description.value || '').match(/\[ESGST-B]/)) {
         createAlert('The bump link format is missing from the description.');
         callback();
         return;
       }
       if (countries) {
-        if (countries[1] === `*`) {
-          countries = `*`;
+        if (countries[1] === '*') {
+          countries = '*';
         } else {
           let ids = countries[1].split(/,\s/);
-          countries = ``;
+          countries = '';
           ids.forEach(id => {
             let element = document.querySelector(`[data-input="country_item_string"]`).querySelector(`[data-name$="${id}"]`);
             if (element) {
@@ -1125,10 +1125,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           });
         }
       }
-      let whitelist = ``;
+      let whitelist = '';
       if (groups) {
         let ids = groups[1].split(/,\s/);
-        groups = ``;
+        groups = '';
         ids.forEach(id => {
           if (id === 'My Whitelist') {
             whitelist = '1';
@@ -1148,7 +1148,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           type: `${steamLink[1]}s`
         };
       }
-      giveaways[i] = giveaways[i].replace(/\[(.+?)="(.+?)"]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
+      giveaways[i] = giveaways[i].replace(/\[(.+?)="(.+?)"]/g, '').replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
       match = giveaways[i].match(/^(([\d\w]{5}(-[\d\w]{5}){2,}\s?|https?:\/\/.+?\s?)+)\s(.+)$/);
       if (match) {
         key = true;
@@ -1169,24 +1169,24 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }
       }
       if (match) {
-        name = match[namePos].replace(/\[ESGST]/, ``).trim().toLowerCase();
+        name = match[namePos].replace(/\[ESGST]/, '').trim().toLowerCase();
         values = {
-          countries: (countries === `*` ? `` : (countries || mgc.countries.value || ``)).trim(),
-          startTime: (startTime && startTime[1]) || mgc.startTime.value || ``,
-          endTime: (endTime && endTime[1]) || mgc.endTime.value || ``,
-          region: countries === `*` ? '0' : (countries ? '1' : (mgc.region.value || '0')),
+          countries: (countries === '*' ? '' : (countries || mgc.countries.value || '')).trim(),
+          startTime: (startTime && startTime[1]) || mgc.startTime.value || '',
+          endTime: (endTime && endTime[1]) || mgc.endTime.value || '',
+          region: countries === '*' ? '0' : (countries ? '1' : (mgc.region.value || '0')),
           whoCanEnter: (whoCanEnter && whoCanEnter[1]) || mgc.whoCanEnter.value || 'everyone',
           whitelist: whitelist || mgc.whitelist.value || '0',
-          groups: (groups || mgc.groups.value || ``).trim(),
+          groups: (groups || mgc.groups.value || '').trim(),
           level: (level && level[1]) || mgc.level.value || '0',
-          description: description ? description[1].replace(/\\n/g, `\n`) : (mgc.description.value || ``),
+          description: description ? description[1].replace(/\\n/g, '\n') : (mgc.description.value || ''),
           gameType: undefined,
           keys: undefined,
           copies: undefined
         };
         if (key) {
           values.gameType = 'key';
-          values.keys = match[keyPos].replace(/\s/g, `\n`);
+          values.keys = match[keyPos].replace(/\s/g, '\n');
         } else {
           values.gameType = 'gift';
           copies = match[3];
@@ -1211,7 +1211,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
                   type: `${nextSteamLink[1]}s`
                 };
               }
-              giveaway = giveaway.replace(/\[(.+?)="(.+?)"]/g, ``).replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
+              giveaway = giveaway.replace(/\[(.+?)="(.+?)"]/g, '').replace(/https?:\/\/.*?store\.steampowered\.com(.*?\s|.*)/, `[ESGST] `).trim();
               match = giveaway.match(/^(([\d\w]{5}(-[\d\w]{5}){2,}\s?|https?:\/\/.+?\s?)+)\s(.+)$/);
               if (match) {
                 key = true;
@@ -1227,9 +1227,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
                   key = false;
                 }
               }
-              if (match && key && ((name && match[namePos].replace(/\[ESGST]/, ``).trim().toLowerCase() === name) || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
+              if (match && key && ((name && match[namePos].replace(/\[ESGST]/, '').trim().toLowerCase() === name) || (nextSteamInfo && steamInfo && nextSteamInfo.type === steamInfo.type && nextSteamInfo.id === steamInfo.id))) {
                 found = true;
-                values.keys += `\n${match[keyPos].replace(/\s/g, `\n`)}`;
+                values.keys += `\n${match[keyPos].replace(/\s/g, '\n')}`;
                 toRemove.push(giveaways.splice(k + 1, 1)[0]);
                 k--;
                 n--;
@@ -1242,10 +1242,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({
           data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent((steamInfo && steamInfo.id) || name)}`,
           method: 'POST',
-          url: `/ajax.php`
+          url: '/ajax.php'
         }));
       } else {
-        createAlert(`The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.`);
+        createAlert('The next giveaway is not in the right format. Please correct it and click on "Import" again to continue importing.');
         callback();
       }
     } else {
@@ -1290,7 +1290,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       window.$(progress.bar).progressbar('option', 'value', value);
       progress.current.textContent = value;
       toRemove.forEach(line => {
-        textArea.value = textArea.value.replace(`${line}\n`, ``);
+        textArea.value = textArea.value.replace(`${line}\n`, '');
       });
       window.setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
     } else if (matches.length > 0) {
@@ -1308,11 +1308,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         element.classList.remove('is-clickable');
         button = new ButtonSet({
           color1: 'green',
-          color2: ``,
+          color2: '',
           icon1: 'fa-arrow-circle-right',
-          icon2: ``,
+          icon2: '',
           title1: 'Select',
-          title2: ``,
+          title2: '',
           callback1: async () => {
             conflictPopup.close();
             values.gameName = element.getAttribute('data-autocomplete-name');
@@ -1323,7 +1323,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             window.$(progress.bar).progressbar('option', 'value', value);
             progress.current.textContent = value;
             toRemove.forEach(line => {
-              textArea.value = textArea.value.replace(`${line}\n`, ``);
+              textArea.value = textArea.value.replace(`${line}\n`, '');
             });
             window.setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
           }
@@ -1347,16 +1347,16 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_exportGiveaways(mgc) {
     let file, i, j, n, popup, values;
     popup = new Popup({ addScrollable: true, icon: 'fa-arrow-down', title: 'Export' });
-    new ToggleSwitch(popup.description, 'mgc_reversePosition', false, `Export keys in reverse position (before the name of the game).`, false, false, ``, gSettings.mgc_reversePosition);
+    new ToggleSwitch(popup.description, 'mgc_reversePosition', false, `Export keys in reverse position (before the name of the game).`, false, false, '', gSettings.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
-      color2: ``,
+      color2: '',
       icon1: 'fa-arrow-down',
-      icon2: ``,
+      icon2: '',
       title1: 'Export',
-      title2: ``,
+      title2: '',
       callback1: () => {
-        file = ``;
+        file = '';
         for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
           values = mgc.giveaways.children[i].title.split(/\n/);
           if (values[1] === 'Gift') {
@@ -1382,28 +1382,28 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_emptyGiveaways(mgc) {
-    if (window.confirm(`Are you sure you want to empty the creator?`)) {
+    if (window.confirm('Are you sure you want to empty the creator?')) {
       delLocalValue('mgcCache');
       this.esgst.busy = false;
       mgc.datas = [];
       mgc.values = [];
       mgc.created = [];
-      mgc.giveaways.innerHTML = ``;
+      mgc.giveaways.innerHTML = '';
       mgc.copies.value = '1';
-      mgc.keys.value = ``;
+      mgc.keys.value = '';
     }
   }
 
   mgc_createGiveaways(mgc, viewButton, callback) {
     if (!mgc.datas.length) {
-      createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
+      createAlert('There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.');
       callback();
       return;
     }
     let popup = new Popup({
       addScrollable: true,
       icon: 'fa-arrow-circle-right',
-      title: `ESGST will create the giveaways below. Are you sure you want to continue?`
+      title: 'ESGST will create the giveaways below. Are you sure you want to continue?'
     });
     let rows = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
@@ -1431,7 +1431,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           attributes: {
             class: 'table__column--width-small'
           },
-          text: `Copies/Keys`,
+          text: 'Copies/Keys',
           type: 'div'
         }, {
           attributes: {
@@ -1589,7 +1589,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           }, {
             attributes: {
               class: 'table__column--width-small',
-              title: values.description.replace(/"/g, `&quot;`)
+              title: values.description.replace(/"/g, '&quot;')
             },
             text: values.description.length > 100 ? `${values.description.slice(0, 100)}...` : values.description,
             type: 'div'
@@ -1599,20 +1599,20 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
-      color2: ``,
+      color2: '',
       icon1: 'fa-check',
-      icon2: ``,
+      icon2: '',
       title1: 'Yes',
-      title2: ``,
+      title2: '',
       callback1: this.mgc_createGiveaways_2.bind(this, mgc, viewButton, popup, callback)
     }).set);
     popup.description.appendChild(new ButtonSet({
       color1: 'red',
-      color2: ``,
+      color2: '',
       icon1: 'fa-times',
-      icon2: ``,
+      icon2: '',
       title1: 'No',
-      title2: ``,
+      title2: '',
       callback1: popup.close.bind(popup)
     }).set);
     popup.onClose = () => {
@@ -1627,7 +1627,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.onClose = null;
     popup.close();
     mgc.copies.value = '1';
-    mgc.keys.value = ``;
+    mgc.keys.value = '';
     viewButton.set.classList.add('esgst-hidden');
     mgc.saveGiveaways = {};
     // noinspection JSIgnoredPromiseFromCall
@@ -1642,7 +1642,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         this.mgc_checkCreation(i, mgc, n, callback, await request({
           data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
           method: 'POST',
-          url: `/giveaways/new`
+          url: '/giveaways/new'
         }));
       } else {
         window.setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
@@ -1683,7 +1683,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           window.setTimeout(async () => this.mgc_checkCreation(i, mgc, n, callback, await request({
             data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
             method: 'POST',
-            url: `/giveaways/new`
+            url: '/giveaways/new'
           })), 0);
         });
       } else {
@@ -1693,7 +1693,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         for (j = 0, numErrors = errors.length; j < numErrors; ++j) {
           errorsTitle += `${errors[j].textContent}\n`;
         }
-        errorsTitle += `\n`;
+        errorsTitle += '\n';
         giveaway.title = `${errorsTitle}${giveaway.title}`;
         window.setTimeout(() => this.mgc_createGiveaway(++i, mgc, n, callback), 0);
       }
@@ -1830,12 +1830,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (mgc.discussion && (!gSettings.mgc_bumpLast || i === n - 1)) {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, `[$1](/discussion/${mgc.discussion}/)`);
       } else {
-        description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, ``);
+        description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, '');
       }
       await request({
         data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`,
         method: 'POST',
-        url: `/ajax.php`
+        url: '/ajax.php'
       });
       mgc.created[i].giveaway.classList.add('connected');
       window.setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);
@@ -1851,9 +1851,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         next = match[2];
         nextSuf = match[3];
       } else {
-        nextPref = ``;
+        nextPref = '';
         next = single ? match2 : match3;
-        nextSuf = ``;
+        nextSuf = '';
       }
       if (gSettings.mgc_removeLinks || single) {
         return `${nextPref}[${next}](${mgc.created[i + 1].url})${nextSuf}`;
@@ -1861,7 +1861,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         return `${match1}${match2}${nextPref}[${next}](${mgc.created[i + 1].url})${nextSuf}`;
       }
     } else {
-      return ``;
+      return '';
     }
   }
 
@@ -1874,9 +1874,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         prev = match[2];
         prevSuf = match[3];
       } else {
-        prevPref = ``;
+        prevPref = '';
         prev = match1;
-        prevSuf = ``;
+        prevSuf = '';
       }
       if (gSettings.mgc_removeLinks || single) {
         return `${prevPref}[${prev}](${mgc.created[i - 1].url})${prevSuf}`;
@@ -1884,7 +1884,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         return `${prevPref}[${prev}](${mgc.created[i - 1].url})${prevSuf}${match2}${match3}`;
       }
     } else {
-      return ``;
+      return '';
     }
   }
 
@@ -1903,9 +1903,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         prev = match[2];
         prevSuf = match[3];
       } else {
-        prevPref = ``;
+        prevPref = '';
         prev = match1;
-        prevSuf = ``;
+        prevSuf = '';
       }
       match = match3.match(/(.*?)\[N](.+?)\[\/N](.*?)$/);
       if (match) {
@@ -1913,9 +1913,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         next = match[2];
         nextSuf = match[3];
       } else {
-        nextPref = ``;
+        nextPref = '';
         next = match3;
-        nextSuf = ``;
+        nextSuf = '';
       }
       return `${prevPref}[${prev}](${mgc.created[i - 1].url})${prevSuf}${match2}${nextPref}[${next}](${mgc.created[i + 1].url})${nextSuf}`;
     }
@@ -1945,7 +1945,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_shuffleGiveaways(mgc) {
     if (!mgc.datas.length) {
-      createAlert(`There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.`);
+      createAlert('There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.');
       return;
     }
     let i;
@@ -2035,7 +2035,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_attachNewDiscussion(mgc, popup, callback) {
     let win;
     setLocalValue('mgcAttach_step1', true);
-    win = window.open(`/discussions/new`);
+    win = window.open('/discussions/new');
     window.setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
   }
 
@@ -2061,8 +2061,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       color2: 'grey',
       icon1: 'fa-check',
       icon2: 'fa-circle-o-notch fa-spin',
-      title1: `Create & Attach`,
-      title2: `Creating & attaching...`,
+      title1: 'Create & Attach',
+      title2: 'Creating & attaching...',
       callback1: this.mgc_createAndAttachDiscussion.bind(this, rows)
     }).set);
   }
@@ -2112,7 +2112,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_removeGiveaway(mgc) {
-    if (window.confirm(`Are you sure you want to remove this giveaway?`)) {
+    if (window.confirm('Are you sure you want to remove this giveaway?')) {
       mgc.source.remove();
       mgc.source = null;
       this.mgc_updateCache(mgc);

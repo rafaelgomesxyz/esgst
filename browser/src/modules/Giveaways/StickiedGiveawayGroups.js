@@ -21,7 +21,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
             ['i', { class: 'fa fa-thumb-stack esgst-faded' }],
             ` if it is not) next to each group in the `,
             ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
             ' pages that allows you to sticky the group so that it appears at the top of the group list for quick use.'
           ]]
@@ -89,7 +89,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
   async sgg_setGroups(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : '.table__row-inner-wrap'}`);
     if (!elements.length) return;
-    const savedGroups = JSON.parse(getValue('groups', `[]`));
+    const savedGroups = JSON.parse(getValue('groups', '[]'));
     for (let i = 0, n = elements.length; i < n; i++) {
       let element = elements[i];
       let avatar = element.getElementsByClassName('table_image_avatar')[0].style.backgroundImage;

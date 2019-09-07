@@ -8,7 +8,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Allows you to customize the calendar for selecting the start/end times of giveaways in the `,
+            'Allows you to customize the calendar for selecting the start/end times of giveaways in the ',
             ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
             ' page.'
           ]],
@@ -57,10 +57,10 @@ class GiveawaysCustomGiveawayCalendar extends Module {
 
       function esgst_cgc() {
         const actualStartInput = document.querySelector(\`input[name=start_time]\`);
-        actualStartInput.setAttribute(\`type\`, \`hidden\`);
-        const startInput = document.createElement(\`input\`);
-        startInput.className = \`form__input-small\`;
-        startInput.setAttribute(\`type\`, \`text\`);
+        actualStartInput.setAttribute(\'type\', \'hidden\');
+        const startInput = document.createElement(\'input\');
+        startInput.className = \'form__input-small\';
+        startInput.setAttribute(\'type\', \'text\');
         actualStartInput.parentElement.insertBefore(startInput, actualStartInput);
         $(actualStartInput).datetimepicker("destroy");
         $(startInput).datetimepicker({
@@ -91,10 +91,10 @@ class GiveawaysCustomGiveawayCalendar extends Module {
         }
 
         const actualEndInput = document.querySelector(\`input[name=end_time]\`);
-        actualEndInput.setAttribute(\`type\`, \`hidden\`);
-        const endInput = document.createElement(\`input\`);
-        endInput.className = \`form__input-small\`;
-        endInput.setAttribute(\`type\`, \`text\`);
+        actualEndInput.setAttribute(\'type\', \'hidden\');
+        const endInput = document.createElement(\'input\');
+        endInput.className = \'form__input-small\';
+        endInput.setAttribute(\'type\', \'text\');
         actualEndInput.parentElement.insertBefore(endInput, actualEndInput);
         $(actualEndInput).datetimepicker("destroy");
         $(endInput).datetimepicker({

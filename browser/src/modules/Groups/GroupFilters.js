@@ -17,7 +17,7 @@ class GroupsGroupFilters extends Filters {
             ['i', { class: 'fa fa-sliders' }],
             `) to the main page heading of the `,
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
-            ` page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
+            ' page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.'
           ]],
           ['li', `Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:`],
           ['ul', [

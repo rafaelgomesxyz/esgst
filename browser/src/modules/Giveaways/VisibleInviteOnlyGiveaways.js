@@ -64,7 +64,7 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
         giveaway.image.classList.add('giveaway_image_thumbnail');
         giveaway.image.setAttribute('href', giveaway.url);
         giveaway.image.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/${giveaway.type}/${giveaway.id}/capsule_184x69.jpg")`;
-        giveaway.image.innerHTML = ``;
+        giveaway.image.innerHTML = '';
         common.createElements_v2(giveaway.heading, 'beforeEnd', [
           ['span', { class: 'giveaway__heading__thin', 'data-draggable-id': 'points', ref: ref => giveaway.pointsContainer = ref }, `(${giveaway.points}P)`],
           giveaway.copies > 1

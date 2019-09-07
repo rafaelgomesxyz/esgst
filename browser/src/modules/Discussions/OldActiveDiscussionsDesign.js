@@ -31,7 +31,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
               ['li', `With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`]
             ]]
           ],
-          name: `Show deals in the "Discussions" section.`,
+          name: 'Show deals in the "Discussions" section.',
           sg: true
         }
       },
@@ -50,8 +50,8 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
   async oadd_load(refresh, callback) {
     let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html,
       response2Html, revisedElements;
-    response1Html = parseHtml((await request({ method: 'GET', url: `/discussions` })).responseText);
-    response2Html = parseHtml((await request({ method: 'GET', url: `/discussions/deals` })).responseText);
+    response1Html = parseHtml((await request({ method: 'GET', url: '/discussions' })).responseText);
+    response2Html = parseHtml((await request({ method: 'GET', url: '/discussions/deals' })).responseText);
     this.esgst.activeDiscussions.classList.add('esgst-oadd');
     createElements(this.esgst.activeDiscussions, 'inner', [{
       type: 'div',
@@ -79,7 +79,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
           type: 'div',
           children: [{
             attributes: {
-              href: `/discussions`
+              href: '/discussions'
             },
             text: 'Active Discussions',
             type: 'a'
@@ -87,7 +87,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         }, {
           attributes: {
             class: 'page__heading__button page__heading__button--green',
-            href: `/discussions`
+            href: '/discussions'
           },
           type: 'a',
           children: [{
@@ -165,7 +165,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
           type: 'div',
           children: [{
             attributes: {
-              href: `/discussions/deals`
+              href: '/discussions/deals'
             },
             text: 'Active Deals',
             type: 'a'
@@ -173,7 +173,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         }, {
           attributes: {
             class: 'page__heading__button page__heading__button--green',
-            href: `/discussions/deals`
+            href: '/discussions/deals'
           },
           type: 'a',
           children: [{

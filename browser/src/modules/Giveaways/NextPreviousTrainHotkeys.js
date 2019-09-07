@@ -14,12 +14,12 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
         ['ul', [
           ['li', 'Allows you to navigate through a train using hotkeys.'],
           ['li', `This feature is not 100% accurate, because the feature looks for a link with any variation of "previous"/"next" in the giveaway's description to make sure that it is going backward/forward, so if it does not find such a link, it will not work.`],
-          ['li', `It also does not work if you press the hotkey inside of an input/text area.`],
+          ['li', 'It also does not work if you press the hotkey inside of an input/text area.'],
           ['li', `If you press Ctrl together with the hotkey, the giveaway is open in a new tab.`]
         ]]
       ],
       id: 'npth',
-      name: `Next/Previous Train Hotkeys`,
+      name: 'Next/Previous Train Hotkeys',
       inputItems: [
         {
           event: 'keydown',

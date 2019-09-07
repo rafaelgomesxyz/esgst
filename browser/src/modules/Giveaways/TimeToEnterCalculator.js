@@ -44,7 +44,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
           if (!giveaway.ttec) {
             giveaway.ttec = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'beforeEnd' : 'afterBegin', [{
               attributes: {
-                class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-ttec`,
+                class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-ttec`,
                 ['data-draggable-id']: 'ttec',
                 title: getFeatureTooltip('ttec', 'Time to wait until you have enough points to enter this giveaway')
               },

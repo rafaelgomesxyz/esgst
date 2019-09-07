@@ -45,7 +45,7 @@ class Comments extends Module {
       } else {
         count = context.getElementsByClassName('page__heading__breadcrumbs')[1];
         if (count) {
-          count = parseInt(count.firstElementChild.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+          count = parseInt(count.firstElementChild.textContent.replace(/,/g, '').match(/\d+/)[0]);
         } else {
           count = 0;
         }
@@ -93,8 +93,8 @@ class Comments extends Module {
     comment.author = author.textContent.trim();
     comment.summary = comment.comment.querySelector('.comment__summary', '.comment_inner');
     comment.displayState = comment.comment.querySelector(`.comment__display-state, .comment_body_default`);
-    comment.text = comment.displayState ? comment.displayState.textContent.trim().replace(/View\sattached\simage\./, ``) : ``;
-    comment.bump = comment.text.replace(/[^A-Za-z]/g, ``).match(/^(havea|takea|thanksand|thankyou)?bump(ing|ity|o)?$/i);
+    comment.text = comment.displayState ? comment.displayState.textContent.trim().replace(/View\sattached\simage\./, '') : '';
+    comment.bump = comment.text.replace(/[^A-Za-z]/g, '').match(/^(havea|takea|thanksand|thankyou)?bump(ing|ity|o)?$/i);
     comment.length = comment.text.length;
     comment.words = Array.from(new Set(comment.text.split(/\s/)));
     comment.actions = comment.comment.querySelector(`.comment__actions, .action_list`);
@@ -103,7 +103,7 @@ class Comments extends Module {
     if (n > 0) {
       comment.permalink = matches[n - 1];
     }
-    comment.id = comment.permalink ? comment.permalink.getAttribute('href').match(/\/comment\/(.+)/)[1] : ``;
+    comment.id = comment.permalink ? comment.permalink.getAttribute('href').match(/\/comment\/(.+)/)[1] : '';
     comment.timestamp = parseInt(comment.actions.querySelector(`[data-timestamp]`).getAttribute('data-timestamp'));
     if (!main || shared.common.isCurrentPath('Messages')) {
       if (this.esgst.sg) {

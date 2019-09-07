@@ -23,7 +23,7 @@ class CommentsReplyFromInbox extends Module {
           description: [
             ['ul', [
               ['li', 'Caches any replies you submit for 1 week so that they are still in your inbox page when you refresh it.'],
-              ['li', `If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.`]
+              ['li', 'If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.']
             ]]
           ],
           name: 'Cache replies.',
@@ -61,7 +61,7 @@ class CommentsReplyFromInbox extends Module {
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
     }
-    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, '{}'));
     if (edit) {
       for (const key in saved) {
         if (saved.hasOwnProperty(key)) {
@@ -88,7 +88,7 @@ class CommentsReplyFromInbox extends Module {
 
   async rfi_getReplies(comments, endless) {
     let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
-    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, `{}`));
+    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, '{}'));
     for (i = 0, n = comments.length; i < n; ++i) {
       comment = comments[i];
       id = comment.id;

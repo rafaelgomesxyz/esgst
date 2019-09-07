@@ -168,7 +168,7 @@ class Process {
       details.nextPage = 1;
     }
     let backup = details.nextPage;
-    details.lastPage = ``;
+    details.lastPage = '';
     let pagination = null;
     let stop = false;
     do {
@@ -176,7 +176,7 @@ class Process {
       let responseHtml = utils.parseHtml(response.responseText);
       if (details.nextPage === backup) {
         details.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
-        details.lastPage = details.lastPage === 999999999 ? `` : ` of ${details.lastPage}`;
+        details.lastPage = details.lastPage === 999999999 ? '' : ` of ${details.lastPage}`;
       }
       stop = await details.request(this, details, response, responseHtml);
       details.nextPage += 1;

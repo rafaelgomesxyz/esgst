@@ -14,11 +14,11 @@ class CommentsCommentTracker extends Module {
           ['li', 'Comments made by yourself are automatically marked as read.'],
           ['li', `The comments are tracked by saving the date when they were made. If a comment is edited then the date when it was last edited is saved instead, so if you had previously marked a comment as read and that comment was edited, it will now appear as unread.`],
           ['li', [
-            `Adds a panel to the "Comments" column of any `,
+            'Adds a panel to the "Comments" column of any ',
             ['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/support/tickets` }, 'tickets'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
             ` pages and to the main page heading of any page containing:`
           ]],
@@ -78,7 +78,7 @@ class CommentsCommentTracker extends Module {
       ],
       features: {
         ct_a: {
-          name: `Automatically mark comments as read in the inbox page when clicking on the "Mark as Read" button.`,
+          name: 'Automatically mark comments as read in the inbox page when clicking on the "Mark as Read" button.',
           sg: true,
           st: true
         },
@@ -169,7 +169,7 @@ class CommentsCommentTracker extends Module {
         type = `${match[1]}s`;
         code = match[2];
         comments = JSON.parse(shared.common.getValue(type));
-        count = parseInt(element.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+        count = parseInt(element.textContent.replace(/,/g, '').match(/\d+/)[0]);
         if (comments[code]) {
           let id, read;
           if (gSettings.ct_s) {
@@ -222,12 +222,12 @@ class CommentsCommentTracker extends Module {
     } else {
       key = 'discussions';
     }
-    comments = JSON.parse(shared.common.getValue(key, `{}`));
+    comments = JSON.parse(shared.common.getValue(key, '{}'));
     for (i = 0, n = matches.length; i < n; ++i) {
       match = matches[i];
       countLink = match.querySelector(`.table__column__secondary-link[href*="/discussion/"], .table__column--width-small.text-center, .column_small.text_center`);
       if (countLink) {
-        count = parseInt(countLink.textContent.replace(/,/g, ``));
+        count = parseInt(countLink.textContent.replace(/,/g, ''));
         heading = match.querySelector(`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`);
         name = heading.textContent.trim();
         url = heading.getAttribute('href');
@@ -320,10 +320,10 @@ class CommentsCommentTracker extends Module {
       }
     } else {
       values = shared.common.getValues({
-        giveaways: `{}`,
-        discussions: `{}`,
-        tickets: `{}`,
-        trades: `{}`
+        giveaways: '{}',
+        discussions: '{}',
+        tickets: '{}',
+        trades: '{}'
       });
       if (this.esgst.sg) {
         saved = {
@@ -700,7 +700,7 @@ class CommentsCommentTracker extends Module {
       type: 'i'
     }]);
     await this.ct_markCommentRead(comment, null, true);
-    button.innerHTML = ``;
+    button.innerHTML = '';
     this.ct_addUnreadCommentButton(button, comment);
   }
 
@@ -712,7 +712,7 @@ class CommentsCommentTracker extends Module {
       type: 'i'
     }]);
     await this.ct_markCommentRead(comment, null, true);
-    button.innerHTML = ``;
+    button.innerHTML = '';
     this.ct_addUnreadCommentButton(button, comment);
     // noinspection JSIgnoredPromiseFromCall
     this.ct_getComments(0, this.esgst.scopes.main.comments, null, true);
@@ -745,7 +745,7 @@ class CommentsCommentTracker extends Module {
       type: 'i'
     }]);
     await this.ct_markCommentUnread(comment, null, true);
-    button.innerHTML = ``;
+    button.innerHTML = '';
     this.ct_addReadCommentButton(button, comment);
   }
 
@@ -774,7 +774,7 @@ class CommentsCommentTracker extends Module {
             }]
           }]);
           key = 'read_messages';
-          url = `/messages`;
+          url = '/messages';
         } else {
           newButton = shared.common.createElements(button, 'afterEnd', [{
             attributes: {
@@ -792,7 +792,7 @@ class CommentsCommentTracker extends Module {
             }]
           }]);
           key = 'mark_as_read';
-          url = `/ajax.php`;
+          url = '/ajax.php';
         }
         button.remove();
         newButton.addEventListener('click', this.ct_markMessagesRead.bind(this, key, markRead, url));

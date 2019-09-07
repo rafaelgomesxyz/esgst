@@ -48,7 +48,7 @@ class GiveawaysGiveawayExtractor extends Module {
           sg: true
         },
         ge_j: {
-          name: `Convert all Jigidi links to the "jigidi.com/jigsaw-puzzle" format.`,
+          name: 'Convert all Jigidi links to the "jigidi.com/jigsaw-puzzle" format.',
           sg: true
         },
         ge_sgt: {
@@ -115,7 +115,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
       const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ``}` })).responseText),
+        context: parseHtml((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ''}` })).responseText),
         extractOnward: !!parameters.extractOnward,
         flushCache: !!parameters.flush,
         flushCacheHours: parameters.flushHrs,
@@ -161,7 +161,7 @@ class GiveawaysGiveawayExtractor extends Module {
                 ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
                 ge.ignoreGiveawayComments = gSettings.ge_ignoreGiveawayComments;
                 if (gSettings.ge_t) {
-                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ``}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ``}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ``}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ``}url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
+                  window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ''}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ''}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ''}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ''}url=${window.location.pathname.replace(/\/search.*/, '')}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`);
                 } else {
                   this.ge_openPopup(ge);
                 }
@@ -175,7 +175,7 @@ class GiveawaysGiveawayExtractor extends Module {
     } else {
       ge.button.addEventListener('click', () => {
         if (gSettings.ge_t) {
-          window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
+          window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, '')}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`);
         } else {
           this.ge_openPopup(ge);
         }
@@ -203,7 +203,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     const now = Date.now();
     let changed = false;
-    ge.cache = JSON.parse(common.getValue('geCache', `{}`));
+    ge.cache = JSON.parse(common.getValue('geCache', '{}'));
     for (const id in ge.cache) {
       if (dateFns_differenceInDays(now, ge.cache[id].timestamp) > 7) {
         changed = true;
@@ -218,7 +218,7 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.endless = 0;
     ge.total = 0;
     ge.extracted = [];
-    ge.bumpLink = ``;
+    ge.bumpLink = '';
     ge.points = 0;
     ge.sgToolsCount = 0;
     ge.isDivided = gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
@@ -228,7 +228,7 @@ class GiveawaysGiveawayExtractor extends Module {
         this.esgst.sidebar.remove();
       }
       context.setAttribute('data-esgst-popup', 'true');
-      context.innerHTML = ``;
+      context.innerHTML = '';
       new elementBuilder[shared.esgst.name].pageHeading({
         context: context,
         position: 'beforeEnd',
@@ -303,7 +303,7 @@ class GiveawaysGiveawayExtractor extends Module {
               ge.endless = 0;
               ge.total = 0;
               ge.extracted = [];
-              ge.bumpLink = ``;
+              ge.bumpLink = '';
               ge.points = 0;
               ge.sgToolsCount = 0;
             }
@@ -314,11 +314,11 @@ class GiveawaysGiveawayExtractor extends Module {
               ge.cacheWarning.remove();
             }
             ge.cacheWarning = null;
-            ge.results.innerHTML = ``;
+            ge.results.innerHTML = '';
             ge.cache[ge.cacheId] = {
               codes: [],
               giveaways: {},
-              bumpLink: ``,
+              bumpLink: '',
               ithLinks: new Set(),
               jigidiLinks: new Set(),
               timestamp: now
@@ -371,12 +371,12 @@ class GiveawaysGiveawayExtractor extends Module {
         ['div', `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
 
-      let html = ``;
+      let html = '';
       let points = 0;
       let total = 0;
       for (const code of ge.cache[ge.cacheId].codes) {
         if (total % 50 === 0) {
-          html = ``;
+          html = '';
         }
 
         const giveaway = ge.cache[ge.cacheId].giveaways[code];
@@ -452,7 +452,7 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.cache[ge.cacheId] = {
         codes: [],
         giveaways: {},
-        bumpLink: ``,
+        bumpLink: '',
         ithLinks: new Set(),
         jigidiLinks: new Set(),
         timestamp: now

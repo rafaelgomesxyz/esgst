@@ -160,7 +160,7 @@ class UsersUserSuspensionChecker extends Module {
       callback2: () => {
         uscObj.canceled = true;
         window.setTimeout(() => {
-          uscObj.progress.innerHTML = ``;
+          uscObj.progress.innerHTML = '';
         }, 500);
         button.classList.remove('esgst-busy');
       }
@@ -188,7 +188,7 @@ class UsersUserSuspensionChecker extends Module {
               attributes: {
                 class: 'esgst-bold esgst-red'
               },
-              text: `Disable this -->`,
+              text: 'Disable this -->',
               type: 'span'
             }]);
             window.setTimeout(() => element.remove(), 5000);
@@ -197,7 +197,7 @@ class UsersUserSuspensionChecker extends Module {
               attributes: {
                 class: 'esgst-bold esgst-red'
               },
-              text: `Disable this -->`,
+              text: 'Disable this -->',
               type: 'span'
             }]);
             window.setTimeout(() => element.remove(), 5000);
@@ -206,7 +206,7 @@ class UsersUserSuspensionChecker extends Module {
               attributes: {
                 class: 'esgst-bold esgst-red'
               },
-              text: `Disable this -->`,
+              text: 'Disable this -->',
               type: 'span'
             }]);
             window.setTimeout(() => element.remove(), 5000);
@@ -215,7 +215,7 @@ class UsersUserSuspensionChecker extends Module {
             attributes: {
               class: 'esgst-bold esgst-red'
             },
-            text: `Enable this -->`,
+            text: 'Enable this -->',
             type: 'span'
           }]);
           window.setTimeout(() => element.remove(), 5000);
@@ -227,14 +227,14 @@ class UsersUserSuspensionChecker extends Module {
   }
 
   async setCheck(uscObj) {
-    uscObj.progress.innerHTML = ``;
+    uscObj.progress.innerHTML = '';
     uscObj.suspended.classList.add('esgst-hidden');
     uscObj.banned.classList.add('esgst-hidden');
     uscObj.none.classList.add('esgst-hidden');
     uscObj.suspendedCount.textContent = uscObj.bannedCount.textContent = uscObj.noneCount.textContent = '0';
-    uscObj.suspendedUsers.innerHTML = ``;
-    uscObj.bannedUsers.innerHTML = ``;
-    uscObj.noneUsers.innerHTML = ``;
+    uscObj.suspendedUsers.innerHTML = '';
+    uscObj.bannedUsers.innerHTML = '';
+    uscObj.noneUsers.innerHTML = '';
     uscObj.users = [];
     uscObj.canceled = false;
     if (uscObj.username && gSettings.usc_checkSingle) {
@@ -280,8 +280,8 @@ class UsersUserSuspensionChecker extends Module {
       if (uscObj.canceled) {
         return;
       }
-      let key = ``;
-      let text = ``;
+      let key = '';
+      let text = '';
       const suspension = html.querySelector('.sidebar__suspension');
       if (suspension) {
         if (suspension.textContent.match(/Suspended/)) {
@@ -317,7 +317,7 @@ class UsersUserSuspensionChecker extends Module {
       uscObj.lastPage = `of ${gSettings.usc_maxPage}`;
     } else {
       nextPage = 1;
-      uscObj.lastPage = ``;
+      uscObj.lastPage = '';
     }
     do {
       let html;
@@ -334,7 +334,7 @@ class UsersUserSuspensionChecker extends Module {
       }
       if (!uscObj.lastPage) {
         uscObj.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(html, true);
-        uscObj.lastPage = uscObj.lastPage === 999999999 ? `` : ` of ${uscObj.lastPage}`;
+        uscObj.lastPage = uscObj.lastPage === 999999999 ? '' : ` of ${uscObj.lastPage}`;
       }
       shared.common.createElements_v2(uscObj.progress, 'inner', [
         ['i', { class: 'fa fa-circle-o-notch fa-spin' }],

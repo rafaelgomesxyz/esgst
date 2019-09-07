@@ -22,7 +22,7 @@ class GiveawaysEntryTracker extends Module {
             ['i', { class: 'fa fa-ticket esgst-red' }],
             ` My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).`
           ]],
-          ['li', `An entry only appears in the history if you entered/left the giveaway after this feature was enabled.`]
+          ['li', 'An entry only appears in the history if you entered/left the giveaway after this feature was enabled.']
         ]]
       ],
       id: 'et',
@@ -78,7 +78,7 @@ class GiveawaysEntryTracker extends Module {
 
   async et_menu() {
     let dates = {};
-    let entries = JSON.parse(getValue('entries', `[]`));
+    let entries = JSON.parse(getValue('entries', '[]'));
     const items = [];
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
@@ -327,7 +327,7 @@ class GiveawaysEntryTracker extends Module {
       },
       type: 'i'
     }]);
-    let entries = JSON.parse(getValue('entries', `[]`));
+    let entries = JSON.parse(getValue('entries', '[]'));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
       if (!dateFns_isSameDay(date, entry.timestamp)) continue;
@@ -356,7 +356,7 @@ class GiveawaysEntryTracker extends Module {
   }
 
   async et_setEntry(code, entry, name) {
-    let entries = JSON.parse(getValue('entries', `[]`));
+    let entries = JSON.parse(getValue('entries', '[]'));
     entries.push({
       code: code,
       entry: entry,

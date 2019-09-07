@@ -40,7 +40,7 @@ class GiveawaysCommentEntryChecker extends Module {
         }
       },
       id: 'cec',
-      name: `Comment/Entry Checker`,
+      name: 'Comment/Entry Checker',
       sg: true,
       sgPaths: /^Giveaway($|\s-\s.+?)$/,
       type: 'giveaways'
@@ -57,7 +57,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     common.createElements_v2(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
       ['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
-        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, ``)}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
+        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
           ['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
           ['div', { class: 'sidebar__navigation__item__underline' }]
         ]]
@@ -79,7 +79,7 @@ class GiveawaysCommentEntryChecker extends Module {
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
       context.setAttribute('data-esgst-popup', 'true');
-      context.innerHTML = ``;
+      context.innerHTML = '';
     }
     if (!isPopup) {
       common.setSidebarActive('cec');
@@ -93,7 +93,7 @@ class GiveawaysCommentEntryChecker extends Module {
           url: this.esgst.settingsUrl
         },
         {
-          name: `Comment / Entry Checker`,
+          name: 'Comment / Entry Checker',
           url: `?esgst=cec`
         }
       ]
@@ -164,7 +164,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     if (obj.isCanceled) return;
 
-    obj.progress.innerHTML = ``;
+    obj.progress.innerHTML = '';
 
     // calculate data
     comments = sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
@@ -240,7 +240,7 @@ class GiveawaysCommentEntryChecker extends Module {
   }
 
   cec_stop(obj) {
-    obj.progress.innerHTML = ``
+    obj.progress.innerHTML = ''
     obj.isCanceled = true;
   }
 }

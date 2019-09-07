@@ -50,17 +50,17 @@ class Profile extends Module {
       if (input) {
         profile.id = input.value;
       } else {
-        profile.id = ``;
+        profile.id = '';
       }
-      profile.username = profile.heading.querySelector('.featured__heading__medium').textContent.replace(/\s[\s\S]*/, ``);
+      profile.username = profile.heading.querySelector('.featured__heading__medium').textContent.replace(/\s[\s\S]*/, '');
       profile.steamButtonContainer = context.getElementsByClassName('sidebar__shortcut-outer-wrap')[0];
       profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
       profile.steamId = profile.steamButton.getAttribute('href').match(/\d+/)[0];
       profile.name = profile.username;
     } else {
       profile.heading = this.esgst.mainPageHeading;
-      profile.id = ``;
-      profile.username = ``;
+      profile.id = '';
+      profile.username = '';
       profile.steamButtonContainer = context.getElementsByClassName('profile_links')[0];
       profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
       profile.steamId = profile.steamButton.getAttribute('href').match(/\d+/)[0];
@@ -78,32 +78,32 @@ class Profile extends Module {
             profile.wonRowLeft = element;
             profile.wonRowRight = element.nextElementSibling;
             rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
-            profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
-            profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
-            profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
-            profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
-            profile.notWon = parseInt(rows[4].columns[1].name.replace(/,/g, ``));
+            profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ''));
+            profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ''));
+            profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ''));
+            profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ''));
+            profile.notWon = parseInt(rows[4].columns[1].name.replace(/,/g, ''));
             profile.wonNotReceived = profile.notWon;
             profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
             rows = JSON.parse(profile.wonCvContainer.getAttribute('data-ui-tooltip')).rows;
-            profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/[$,]/g, ``));
-            profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
+            profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/[$,]/g, ''));
+            profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ''));
           } else if (key === 'Sent') {
             profile.sentRow = element.parentElement;
             profile.sentRowLeft = element;
             profile.sentRowRight = element.nextElementSibling;
             rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
-            profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
-            profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
-            profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
-            profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
-            profile.sentAwaiting = parseInt(rows[4].columns[1].name.replace(/,/g, ``));
-            profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
+            profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ''));
+            profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ''));
+            profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ''));
+            profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ''));
+            profile.sentAwaiting = parseInt(rows[4].columns[1].name.replace(/,/g, ''));
+            profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ''));
             profile.sentNotReceived = profile.notSent;
             profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
             rows = JSON.parse(profile.sentCvContainer.getAttribute('data-ui-tooltip')).rows;
-            profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/[$,]/g, ``));
-            profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
+            profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/[$,]/g, ''));
+            profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ''));
           }
         } else if (match[1] === 'Comments') {
           profile.commentsRow = element.parentElement;

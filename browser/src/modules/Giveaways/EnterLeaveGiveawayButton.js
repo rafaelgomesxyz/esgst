@@ -26,7 +26,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           ['li', [
             `Adds a button ("`,
             ['i', { class: 'fa fa-plus-circle' }],
-            ` Enter" to enter and "`,
+            ' Enter" to enter and "',
             ['i', { class: 'fa fa-minus-circle' }],
             ` Leave" to leave) below a giveaway's start time (in any page) that allows you to enter/leave the giveaway without having to access it.`
           ]],
@@ -79,7 +79,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
       },
       id: 'elgb',
-      name: `Enter / Leave Giveaway Button`,
+      name: 'Enter / Leave Giveaway Button',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -219,7 +219,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       let responseJson = JSON.parse((await request({
         data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
         method: 'POST',
-        url: `/ajax.php`
+        url: '/ajax.php'
       })).responseText);
       if (responseJson.type === 'success') {
         removeButton.classList.remove('esgst-hidden');
@@ -250,7 +250,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       let responseJson = JSON.parse((await request({
         data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
         method: 'POST',
-        url: `/ajax.php`
+        url: '/ajax.php'
       })).responseText);
       if (responseJson.type === 'success') {
         addButton.classList.remove('esgst-hidden');
@@ -271,7 +271,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
   }
 
   elgb_addButton(giveaway, main, source) {
-    let style = ``;
+    let style = '';
     if (giveaway.elgbButton) {
       style = giveaway.elgbButton.firstElementChild.getAttribute('style');
     }
@@ -448,14 +448,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           this.esgst.elgbCache.descriptions[giveaway.creator].push(html);
           setLocalValue('elgbCache', JSON.stringify(this.esgst.elgbCache));
           if (gSettings.elgb_f) {
-            let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+            let text = description.textContent.replace(/[^a-zA-Z]/g, '').toLowerCase();
             if (text.match(new RegExp(`^(${this.processFilters(gSettings.elgb_filters)})$`))) {
               description = null;
             }
           }
         }
       } else if (gSettings.elgb_f) {
-        let text = description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase();
+        let text = description.textContent.replace(/[^a-zA-Z]/g, '').toLowerCase();
         if (text.match(new RegExp(`^(${this.processFilters(gSettings.elgb_filters)})$`))) {
           description = null;
         }
@@ -503,7 +503,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         title1: 'Add Description To Filters',
         title2: 'Filtering...',
         callback1: async () => {
-          await setSetting('elgb_filters', `${gSettings.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, ``).toLowerCase()}`);
+          await setSetting('elgb_filters', `${gSettings.elgb_filters}|${description.textContent.replace(/[^a-zA-Z]/g, '').toLowerCase()}`);
           set.remove();
         }
       }).set;
@@ -543,11 +543,11 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       } else {
         const commentButton = new ButtonSet({
           color1: 'grey',
-          color2: ``,
+          color2: '',
           icon1: 'fa-comments',
-          icon2: ``,
+          icon2: '',
           title1: 'Show First Page Comments',
-          title2: ``,
+          title2: '',
           callback1: () => {
             commentButton.remove();
             commentsContainer.classList.remove('esgst-hidden');
@@ -571,15 +571,15 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   processFilters(filters) {
     return filters
-      .replace(/(^|\|)\.*(\*|\+)\.*($|\|)/g, ``)
-      .replace(/\|$/, ``);
+      .replace(/(^|\|)\.*(\*|\+)\.*($|\|)/g, '')
+      .replace(/\|$/, '');
   }
 
   async elgb_enterGiveaway(giveaway, main, popup, source, callback) {
     const responseText = (await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     })).responseText;
     let responseJson = null;
     try {
@@ -653,7 +653,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     const responseText = (await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     })).responseText;
     let responseJson = null;
     try {

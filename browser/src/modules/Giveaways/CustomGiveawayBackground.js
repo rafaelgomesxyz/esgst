@@ -74,7 +74,7 @@ class GiveawaysCustomGiveawayBackground extends Module {
       } else if (gSettings.cgb_p && giveaway.public) {
         giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_p_bgColor} !important`);
       } else {
-        giveaway.outerWrap.style.backgroundColor = ``;
+        giveaway.outerWrap.style.backgroundColor = '';
       }
       if (giveaway.outerWrap.style.backgroundColor) {
         giveaway.outerWrap.style.backgroundImage = 'none';

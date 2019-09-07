@@ -83,7 +83,7 @@ function handle_storage(operation, values) {
           }
           statements.push(select_stmt);
         } else {
-          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst`);
+          const select_stmt = dbConn.createStatement('SELECT * FROM esgst');
           statements.push(select_stmt);
         }
         break;
@@ -123,7 +123,7 @@ function handle_storage(operation, values) {
 }
 
 (async () => {
-  const settings = JSON.parse((await handle_storage(TYPE_GET, { settings: `{}` })).settings);
+  const settings = JSON.parse((await handle_storage(TYPE_GET, { settings: '{}' })).settings);
   if (!settings.activateTab_sg && !settings.activateTab_st) {
     return;
   }
@@ -309,7 +309,7 @@ let tdsData = [];
 
 // @ts-ignore
 PageMod({
-  include: [`*.steamgifts.com`, `*.steamtrades.com`],
+  include: ['*.steamgifts.com', '*.steamtrades.com'],
   // @ts-ignore
   contentScriptFile: data.url('esgst.js'),
   contentScriptWhen: 'start',
@@ -420,7 +420,7 @@ PageMod({
 
 // @ts-ignore
 PageMod({
-  include: [`*.sgtools.info`],
+  include: ['*.sgtools.info'],
   // @ts-ignore
   contentScriptFile: data.url('esgst_sgtools.js'),
   contentScriptWhen: 'start',

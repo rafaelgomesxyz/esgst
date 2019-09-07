@@ -109,7 +109,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         }
       },
       id: 'namwc',
-      name: `Not Activated/Multiple Win Checker`,
+      name: 'Not Activated/Multiple Win Checker',
       sg: true,
       type: 'users',
       featureMap: {
@@ -129,7 +129,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       button: createHeadingButton({
         id: 'namwc',
         icons: ['fa-trophy', 'fa-question-circle'],
-        title: `Check for not activated/multiple wins`
+        title: 'Check for not activated/multiple wins'
       })
     });
   }
@@ -151,7 +151,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
           icon = 'fa-thumbs-down';
         }
         if (((highlight === 'positive' || highlight === 'unknown') && !gSettings.namwc_h_f) || highlight === 'negative') {
-          let title = `${user.username} has ${results.unknown ? `?` : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
+          let title = `${user.username} has ${results.unknown ? '?' : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
           if (gSettings.namwc_h_i || (gSettings.wbh && (gSettings.wbh_w || gSettings.wbh_b))) {
             createElements(user.context, 'beforeBegin', [{
               attributes: {
@@ -185,7 +185,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         children: [{
           attributes: {
             class: 'fa fa-question-circle',
-            title: getFeatureTooltip('namwc', `Check for not activated/multiple wins`)
+            title: getFeatureTooltip('namwc', 'Check for not activated/multiple wins')
           },
           type: 'i'
         }]
@@ -203,7 +203,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     obj.popup = new Popup({
       addScrollable: true,
       icon: obj.isMenu ? 'fa-cog' : 'fa-question',
-      title: obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ``} not activated / multiple wins:`
+      title: obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ''} not activated / multiple wins:`
     });
     if (!obj.isMenu) {
       createElements(obj.popup.scrollable, 'beforeBegin', [{
@@ -284,19 +284,19 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
     obj.isCanceled = false;
     obj.button.classList.add('esgst-busy');
-    obj.popup.progress.innerHTML = ``;
-    obj.popup.overallProgress.innerHTML = ``;
+    obj.popup.progress.innerHTML = '';
+    obj.popup.overallProgress.innerHTML = '';
     obj.popup.activated.classList.add('esgst-hidden');
     obj.popup.notMultiple.classList.add('esgst-hidden');
     obj.popup.notActivated.classList.add('esgst-hidden');
     obj.popup.multiple.classList.add('esgst-hidden');
     obj.popup.unknown.classList.add('esgst-hidden');
     obj.popup.activatedCount.textContent = obj.popup.notMultipleCount.textContent = obj.popup.notActivatedCount.textContent = obj.popup.multipleCount.textContent = obj.popup.unknownCount.textContent = '0';
-    obj.popup.activatedUsers.innerHTML = ``;
-    obj.popup.notMultipleUsers.textContent = ``;
-    obj.popup.notActivatedUsers.innerHTML = ``;
-    obj.popup.multipleUsers.innerHTML = ``;
-    obj.popup.unknownUsers.innerHTML = ``;
+    obj.popup.activatedUsers.innerHTML = '';
+    obj.popup.notMultipleUsers.textContent = '';
+    obj.popup.notActivatedUsers.innerHTML = '';
+    obj.popup.multipleUsers.innerHTML = '';
+    obj.popup.unknownUsers.innerHTML = '';
 
     // get users
     let users = [];
@@ -339,7 +339,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       unknown: {}
     };
     for (let i = 0, n = users.length; !obj.isCanceled && i < n; i++) {
-      obj.popup.progress.innerHTML = ``;
+      obj.popup.progress.innerHTML = '';
       obj.popup.overallProgress.textContent = `${i} of ${n} users checked...`;
       let user = obj.user || { username: users[i] };
       let savedUser = await getUser(null, user);
@@ -397,7 +397,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
           }
           elements[key] = createElements(obj.popup[`${key}Users`], 'beforeEnd', [{
             attributes,
-            text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ``}`,
+            text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ''}`,
             type: 'a'
           }]);
         }
@@ -417,7 +417,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
     if (!gSettings.ust || obj.isMenu) {
       obj.button.classList.remove('esgst-busy');
-      obj.popup.progress.innerHTML = ``;
+      obj.popup.progress.innerHTML = '';
       obj.popup.setDone();
       return;
     }
@@ -482,13 +482,13 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     }
     await saveUsers(users);
     obj.button.classList.remove('esgst-busy');
-    obj.popup.progress.innerHTML = ``;
+    obj.popup.progress.innerHTML = '';
     obj.popup.setDone();
   }
 
   namwc_stop(obj) {
     obj.button.classList.remove('esgst-busy');
-    obj.popup.progress.innerHTML = ``;
+    obj.popup.progress.innerHTML = '';
     obj.isCanceled = true;
   }
 

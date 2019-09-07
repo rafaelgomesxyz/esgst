@@ -15,7 +15,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
         ]]
       ],
       id: 'hgebd',
-      name: `Hidden Game's Enter Button Disabler`,
+      name: 'Hidden Game\'s Enter Button Disabler',
       sg: true,
       sync: 'Hidden Games',
       syncKeys: ['HiddenGames'],

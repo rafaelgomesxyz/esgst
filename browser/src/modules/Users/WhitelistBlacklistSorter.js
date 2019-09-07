@@ -29,14 +29,14 @@ class UsersWhitelistBlacklistSorter extends Module {
             ['i', { class: 'fa fa-sort-amount-desc' }],
             ` to sort in descending order) to the main page heading of your `,
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-            ` pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.`
+            ' pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.'
           ]]
         ]]
       ],
       id: 'wbs',
-      name: `Whitelist/Blacklist Sorter`,
+      name: 'Whitelist/Blacklist Sorter',
       sg: true,
       sync: `Blacklist, Whitelist`,
       syncKeys: ['Blacklist', 'Whitelist'],
@@ -238,7 +238,7 @@ class UsersWhitelistBlacklistSorter extends Module {
     await request({
       data: `xsrf_token=${shared.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     });
     let deleteLock = await createLock('userLock', 300);
     let savedUsers = JSON.parse(getValue('users'));

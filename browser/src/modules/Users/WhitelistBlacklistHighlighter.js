@@ -51,10 +51,10 @@ class UsersWhitelistBlacklistHighlighter extends Module {
         }
       },
       id: 'wbh',
-      name: `Whitelist/Blacklist Highlighter`,
+      name: 'Whitelist/Blacklist Highlighter',
       sg: {
-        include: [{ enabled: 1, pattern: `.*` }],
-        exclude: [{ enabled: 1, pattern: `^/account/manage/whitelist` }, { enabled: 1, pattern: `^/account/manage/blacklist` }]
+        include: [{ enabled: 1, pattern: '.*' }],
+        exclude: [{ enabled: 1, pattern: '^/account/manage/whitelist' }, { enabled: 1, pattern: '^/account/manage/blacklist' }]
       },
       st: true,
       sync: `Blacklist, Whitelist`,

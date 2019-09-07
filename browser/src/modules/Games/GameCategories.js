@@ -51,7 +51,7 @@ class GamesGameCategories extends Module {
       description: [
         ['ul', [
           ['li', `Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's name (in any page) that can display a lot of useful information about the game (depending on which categories you have enabled).`],
-          ['li', `The categories can be reordered by dragging and dropping them. You can also drag and drop them between a giveaway's columns (where the end/start times and the creator's username are).`]
+          ['li', `The categories can be reordered by dragging and dropping them. You can also drag and drop them between a giveaway\'s columns (where the end/start times and the creator's username are).`]
         ]]
       ],
       features: {
@@ -73,7 +73,7 @@ class GamesGameCategories extends Module {
           description: [
             ['ul', [
               ['li', [
-                `"Achievements" links to the `,
+                '"Achievements" links to the ',
                 ['a', { href: `https://steamcommunity.com/stats` }, `https://steamcommunity.com/stats`],
                 ' page of the game.'
               ]],
@@ -82,29 +82,29 @@ class GamesGameCategories extends Module {
                 ['a', { href: `https://www.steamgifts.com/bundle-games` }, `https://www.steamgifts.com/bundle-games`],
                 ' page of the game.'
               ]],
-              ['li', `"Giveaway Info" links to your profile page.`],
+              ['li', '"Giveaway Info" links to your profile page.'],
               ['li', [
-                `"Hidden" links to the `,
+                '"Hidden" links to the ',
                 ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `https://www.steamgifts.com/account/settings/giveaways/filters`],
                 ' page of the game.'
               ]],
               ['li', [
-                `"Owned" links to the `,
+                '"Owned" links to the ',
                 ['a', { href: `https://www.steamgifts.com/account/steam/games` }, `https://www.steamgifts.com/account/steam/games`],
                 ' page of the game.'
               ]],
               ['li', [
-                `"Removed" links to the `,
+                '"Removed" links to the ',
                 ['a', { href: `https://steamdb.info` }, `https://steamdb.info`],
                 ' page of the game.'
               ]],
               ['li', [
-                `"Trading Cards" links to the `,
+                '"Trading Cards" links to the ',
                 ['a', { href: `https://www.steamcardexchange.net/index.php` }, `https://www.steamcardexchange.net/index.php`],
                 ' page of the game.'
               ]],
               ['li', [
-                `"Wishlist" links to the `,
+                '"Wishlist" links to the ',
                 ['a', { href: `https://www.steamgifts.com/account/steam/wishlist` }, `https://www.steamgifts.com/account/steam/wishlist`],
                 ' page of the game.'
               ]],
@@ -379,7 +379,7 @@ class GamesGameCategories extends Module {
                   ['li', 'This option allows each separate category to be colored individually.']
                 ]]
               ],
-              name: `Show each genre/user-defined tag as a separate category.`,
+              name: 'Show each genre/user-defined tag as a separate category.',
               sg: true
             },
             gc_g_udt: {
@@ -443,7 +443,7 @@ class GamesGameCategories extends Module {
           ],
           options: [{
             title: `For singleplayer games, show:`,
-            values: ['Main Story', `Main + Extra`, 'Completionist']
+            values: ['Main Story', 'Main + Extra', 'Completionist']
           }, {
             title: `For multiplayer games, show:`,
             values: ['Co-Op', 'Vs.']
@@ -632,7 +632,7 @@ class GamesGameCategories extends Module {
               sg: true
             },
             gc_ncv_o: {
-              name: `Only display "No CV" if the game also has "Reduced CV".`,
+              name: 'Only display "No CV" if the game also has "Reduced CV".',
               sg: true
             }
           },
@@ -831,7 +831,7 @@ class GamesGameCategories extends Module {
           },
           input: true,
           name: 'Reduced CV',
-          sg: { include: [{ enabled: 1, pattern: `.*` }], exclude: [{ enabled: 1, pattern: `^/bundle-games` }] }
+          sg: { include: [{ enabled: 1, pattern: '.*' }], exclude: [{ enabled: 1, pattern: '^/bundle-games' }] }
         },
         gc_rd: {
           description: [
@@ -1322,7 +1322,7 @@ class GamesGameCategories extends Module {
         };
         for (const item of to_fetch) {
           if (typeof item.id === 'string' && item.id.match(/^SteamBundle/)) {
-            item.realId = item.id.replace(/^SteamBundle/, ``);
+            item.realId = item.id.replace(/^SteamBundle/, '');
             item.realType = 'bundles';
           } else {
             item.realId = item.id;
@@ -1395,7 +1395,7 @@ class GamesGameCategories extends Module {
           if (category) {
             if (id === 'releaseDate') {
               giveaway.releaseDate = category.getAttribute('data-timestamp');
-              if (giveaway.releaseDate === `?`) {
+              if (giveaway.releaseDate === '?') {
                 giveaway.releaseDate = -1;
               } else {
                 giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
@@ -1405,7 +1405,7 @@ class GamesGameCategories extends Module {
             } else if (id === 'rating') {
               giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
             } else if (id === 'reviews') {
-              giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ``));
+              giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ''));
             } else {
               giveaway[id] = true;
             }
@@ -1437,7 +1437,7 @@ class GamesGameCategories extends Module {
     }
     let borders = giveaway.outerWrap.getElementsByClassName('esgst-gc-border')[0];
     if (borders) {
-      borders.innerHTML = ``;
+      borders.innerHTML = '';
     } else {
       borders = createElements(giveaway.outerWrap, 'beforeEnd', [{
         attributes: {
@@ -1486,7 +1486,7 @@ class GamesGameCategories extends Module {
   }
 
   async gc_fakeBundle(id) {
-    const bundleId = id.replace(/^SteamBundle/, ``);
+    const bundleId = id.replace(/^SteamBundle/, '');
     const response = await request({
       headers: { ['Cookie']: `birthtime=0; mature_content=1` },
       method: 'GET',
@@ -1513,7 +1513,7 @@ class GamesGameCategories extends Module {
       dlcs: data.dlcs,
       earlyAccess: data.genres && data.genres.indexOf('Early Access') >= 0 ? 1 : 0,
       free: data.price === 0,
-      genres: ``,
+      genres: '',
       lastCheck: last_update,
       learning: data.learning ? 1 : 0,
       linux: data.linux ? 1 : 0,
@@ -1521,13 +1521,13 @@ class GamesGameCategories extends Module {
       multiplayer: data.multiplayer ? 1 : 0,
       name: data.name,
       price: Math.ceil(data.price / 100),
-      rating: data.rating ? `${data.rating.percentage}% (${data.rating.count})` : ``,
-      ratingType: ``,
-      releaseDate: data.release_date ? new Date(data.release_date).getTime() : `?`,
+      rating: data.rating ? `${data.rating.percentage}% (${data.rating.count})` : '',
+      ratingType: '',
+      releaseDate: data.release_date ? new Date(data.release_date).getTime() : '?',
       removed: data.removed ? 1 : 0,
       singleplayer: data.singleplayer ? 1 : 0,
       steamCloud: data.steam_cloud ? 1 : 0,
-      tags: ``,
+      tags: '',
       tradingCards: data.trading_cards ? 1 : 0
     };
     if (data.alias) {
@@ -1587,7 +1587,7 @@ class GamesGameCategories extends Module {
         categories.ratingType = 'Positive';
       }
     } else {
-      categories.ratingType = `?`;
+      categories.ratingType = '?';
     }
     if (type === 'apps' && !categories.removed && shared.esgst.delistedGames.removed.indexOf(parseInt(id)) >= 0) {
       categories.removed = 1;
@@ -1621,7 +1621,7 @@ class GamesGameCategories extends Module {
             loading.title = 'Fetching game categories...';
             loading.firstElementChild.classList.remove('fa-hourglass');
             loading.firstElementChild.classList.add('fa-circle-o-notch');
-            loading.lastElementChild.textContent = ``;
+            loading.lastElementChild.textContent = '';
           }
         }
       }
@@ -1629,7 +1629,7 @@ class GamesGameCategories extends Module {
     try {
       let real_id, real_type;
       if (typeof id === 'string' && id.match(/^SteamBundle/)) {
-        real_id = id.replace(/^SteamBundle/, ``);
+        real_id = id.replace(/^SteamBundle/, '');
         real_type = 'bundles';
       } else {
         real_id = id;
@@ -1655,21 +1655,21 @@ class GamesGameCategories extends Module {
           achievements: 0,
           dlc: 0,
           earlyAccess: 0,
-          genres: ``,
+          genres: '',
           lastCheck: currentTime,
           learning: 0,
           linux: 0,
           mac: 0,
           multiplayer: 0,
-          name: ``,
+          name: '',
           price: -1,
-          rating: ``,
-          ratingType: ``,
-          releaseDate: `?`,
+          rating: '',
+          ratingType: '',
+          releaseDate: '?',
           removed: -1,
           singleplayer: 0,
           steamCloud: 0,
-          tags: ``,
+          tags: '',
           tradingCards: 0
         };
         let responseJson = typeof id === 'string' && id.match(/^SteamBundle/) ? (await this.gc_fakeBundle(id)) : JSON.parse((await request({
@@ -1719,7 +1719,7 @@ class GamesGameCategories extends Module {
                   case 'co-op':
                   case 'local co-op':
                   case 'online co-op':
-                  case `shared/split screen`:
+                  case 'shared/split screen':
                     categories.multiplayer = 1;
                     break;
                   case 'steam cloud':
@@ -1782,7 +1782,7 @@ class GamesGameCategories extends Module {
               let elements = responseHtml.getElementsByClassName('user_reviews_summary_row');
               let n = elements.length;
               if (n > 0) {
-                let rating = elements[n - 1].getAttribute('data-tooltip-html').replace(/[,.]/g, ``);
+                let rating = elements[n - 1].getAttribute('data-tooltip-html').replace(/[,.]/g, '');
                 let match = rating.match(/(\d+)%.+?(\d+)/);
                 let percentageIndex = 1;
                 let countIndex = 2;
@@ -1803,7 +1803,7 @@ class GamesGameCategories extends Module {
                       categories.ratingType = 'Positive';
                     }
                   } else {
-                    categories.ratingType = `?`;
+                    categories.ratingType = '?';
                   }
                 }
               }
@@ -1948,12 +1948,12 @@ class GamesGameCategories extends Module {
       }
     }
     singularType = type.slice(0, -1);
-    const realId = typeof id === 'string' ? id.replace(/^SteamBundle/, ``) : id;
+    const realId = typeof id === 'string' ? id.replace(/^SteamBundle/, '') : id;
     if (typeof id === 'string' && id.match(/^SteamBundle/)) {
       singularType = 'bundle';
     }
     name = cache ? cache.name : games[0].name;
-    encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ``));
+    encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ''));
     elements = [];
     let categories = shared.esgst.gc_categories_ids;
     for (i = 0, n = categories.length; i < n; ++i) {
@@ -1969,7 +1969,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_fcv', 'Full CV')
                 },
-                text: gSettings.gc_fcv_s ? (gSettings.gc_fcv_s_i ? `` : 'FCV') : gSettings.gc_fcvLabel,
+                text: gSettings.gc_fcv_s ? (gSettings.gc_fcv_s_i ? '' : 'FCV') : gSettings.gc_fcvLabel,
                 type: 'a',
                 children: gSettings.gc_fcv_s && gSettings.gc_fcv_s_i ? [{
                   attributes: {
@@ -1989,7 +1989,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_rcv', `Reduced CV since ${savedGame.reducedCV}`)
                 },
-                text: gSettings.gc_rcv_s ? (gSettings.gc_rcv_s_i ? `` : 'RCV') : gSettings.gc_rcvLabel,
+                text: gSettings.gc_rcv_s ? (gSettings.gc_rcv_s_i ? '' : 'RCV') : gSettings.gc_rcvLabel,
                 type: 'a',
                 children: gSettings.gc_rcv_s && gSettings.gc_rcv_s_i ? [{
                   attributes: {
@@ -2009,7 +2009,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_ncv', `No CV since ${savedGame.noCV}`)
                 },
-                text: gSettings.gc_ncv_s ? (gSettings.gc_ncv_s_i ? `` : 'NCV') : gSettings.gc_ncvLabel,
+                text: gSettings.gc_ncv_s ? (gSettings.gc_ncv_s_i ? '' : 'NCV') : gSettings.gc_ncvLabel,
                 type: 'a',
                 children: gSettings.gc_ncv_s && gSettings.gc_ncv_s_i ? [{
                   attributes: {
@@ -2056,7 +2056,7 @@ class GamesGameCategories extends Module {
               hltbTimes = hltb && hltb[id];
             }
             if (hltbTimes) {
-              let time = ``;
+              let time = '';
               if (hltbTimes.mainStory && hltbTimes.mainExtra && hltbTimes.completionist) {
                 // singleplayer
                 switch (gSettings.gc_hltb_index_0) {
@@ -2146,7 +2146,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/account/settings/giveaways/filters/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_h', 'Hidden')
                 },
-                text: gSettings.gc_h_s ? (gSettings.gc_h_s_i ? `` : 'H') : gSettings.gc_hLabel,
+                text: gSettings.gc_h_s ? (gSettings.gc_h_s_i ? '' : 'H') : gSettings.gc_hLabel,
                 type: 'a',
                 children: gSettings.gc_h_s && gSettings.gc_h_s_i ? [{
                   attributes: {
@@ -2166,7 +2166,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((savedGame && savedGame.ignored) || count) {
               elements.push({
                 attributes: {
@@ -2175,7 +2175,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_i', `Ignored${count}`)
                 },
-                text: gSettings.gc_i_s ? (gSettings.gc_i_s_i ? `` : `I${count}`) : `${gSettings.gc_iLabel}${count}`,
+                text: gSettings.gc_i_s ? (gSettings.gc_i_s_i ? '' : `I${count}`) : `${gSettings.gc_iLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_i_s && gSettings.gc_i_s_i ? [{
                   attributes: {
@@ -2212,7 +2212,7 @@ class GamesGameCategories extends Module {
                       style: `background-color: ${account.bgColor}; color: ${account.color};`,
                       title: getFeatureTooltip('gc_o', `Owned by ${account.name}`)
                     },
-                    text: gSettings.gc_o_s ? (gSettings.gc_o_s_i ? `` : 'O') : account.label,
+                    text: gSettings.gc_o_s ? (gSettings.gc_o_s_i ? '' : 'O') : account.label,
                     type: 'a',
                     children: gSettings.gc_o_s && gSettings.gc_o_s_i ? [{
                       attributes: {
@@ -2240,7 +2240,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/account/steam/games/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_o', 'Owned')
                 },
-                text: gSettings.gc_o_s ? (gSettings.gc_o_s_i ? `` : 'O') : gSettings.gc_oLabel,
+                text: gSettings.gc_o_s ? (gSettings.gc_o_s_i ? '' : 'O') : gSettings.gc_oLabel,
                 type: 'a',
                 children: gSettings.gc_o_s && gSettings.gc_o_s_i ? [{
                   attributes: {
@@ -2266,9 +2266,9 @@ class GamesGameCategories extends Module {
                   class: 'esgst-gc esgst-gc-wishlisted',
                   ['data-draggable-id']: 'gc_w',
                   href: `https://www.steamgifts.com/account/steam/wishlist/search?q=${encodedName}`,
-                  title: getFeatureTooltip('gc_w', `Wishlisted${typeof savedGame.wishlisted === 'number' ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ``}`)
+                  title: getFeatureTooltip('gc_w', `Wishlisted${typeof savedGame.wishlisted === 'number' ? ` since ${this.gc_formatDate(savedGame.wishlisted * 1e3)}` : ''}`)
                 },
-                text: gSettings.gc_w_s ? (gSettings.gc_w_s_i ? `` : 'W') : gSettings.gc_wLabel,
+                text: gSettings.gc_w_s ? (gSettings.gc_w_s_i ? '' : 'W') : gSettings.gc_wLabel,
                 type: 'a',
                 children: gSettings.gc_w_s && gSettings.gc_w_s_i ? [{
                   attributes: {
@@ -2296,7 +2296,7 @@ class GamesGameCategories extends Module {
                   href: `https://steamcommunity.com/my/followedgames/`,
                   title: getFeatureTooltip('gc_f', 'Followed')
                 },
-                text: gSettings.gc_f_s ? (gSettings.gc_f_s_i ? `` : 'F') : gSettings.gc_fLabel,
+                text: gSettings.gc_f_s ? (gSettings.gc_f_s_i ? '' : 'F') : gSettings.gc_fLabel,
                 type: 'a',
                 children: gSettings.gc_f_s && gSettings.gc_f_s_i ? [{
                   attributes: {
@@ -2316,7 +2316,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/user/${gSettings.username}/giveaways/won/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_pw', savedGame.won > 1 ? `You previously won this game on ${shared.common.getTimestamp(savedGame.won)}` : 'Previously Won'),
                 },
-                text: gSettings.gc_pw_s ? (gSettings.gc_pw_s_i ? `` : 'PW') : gSettings.gc_pwLabel,
+                text: gSettings.gc_pw_s ? (gSettings.gc_pw_s_i ? '' : 'PW') : gSettings.gc_pwLabel,
                 type: 'a',
                 children: gSettings.gc_pw_s && gSettings.gc_pw_s_i ? [{
                   attributes: {
@@ -2403,7 +2403,7 @@ class GamesGameCategories extends Module {
                       class: 'esgst-gc esgst-gc-giveawayInfo',
                       ['data-draggable-id']: 'gc_gi',
                       href: `https://www.steamgifts.com/user/${gSettings.username}`,
-                      title: getFeatureTooltip('gc_gi', `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ``}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
+                      title: getFeatureTooltip('gc_gi', `You have sent ${count} copies of this game (${sent} of which added to your CV)${active ? `\nYou currently have ${active} open giveaways for this game` : ''}\n\n${price !== -1 ? `You should get $${cv} real CV for sending a new copy of this game\nA giveaway for this game is worth ${Math.min(Math.ceil(price), 50)}P` : `ESGST was unable to retrieve the price of this game (most likely because the game was removed from the Steam store)`}`)
                     },
                     type: 'a',
                     children: [{
@@ -2420,7 +2420,7 @@ class GamesGameCategories extends Module {
                       },
                       type: 'i'
                     }, {
-                      text: ` ${price !== -1 ? cv : `?`}`,
+                      text: ` ${price !== -1 ? cv : '?'}`,
                       type: 'node'
                     }]
                   });
@@ -2440,8 +2440,8 @@ class GamesGameCategories extends Module {
               }
               if (!colors) {
                 colors = {
-                  bgColor: `#7f8c8d`,
-                  color: `#ffffff`,
+                  bgColor: '#7f8c8d',
+                  color: '#ffffff',
                   icon: 'fa-question-circle'
                 };
               }
@@ -2473,7 +2473,7 @@ class GamesGameCategories extends Module {
                     text: colors.icon,
                     type: 'span'
                   }, {
-                  text: gSettings.gc_r_s ? ` ${cache.rating}` : ``,
+                  text: gSettings.gc_r_s ? ` ${cache.rating}` : '',
                   type: 'node'
                 }]
               });
@@ -2488,7 +2488,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.achievements) || count) {
               elements.push({
                 attributes: {
@@ -2497,7 +2497,7 @@ class GamesGameCategories extends Module {
                   href: `https://steamcommunity.com/stats/${realId}/achievements`,
                   title: getFeatureTooltip('gc_a', `Achievements${count || ` (${cache.achievements})`}`)
                 },
-                text: gSettings.gc_a_s ? (gSettings.gc_a_s_i ? `` : `A${count}`) : `${gSettings.gc_aLabel}${count}`,
+                text: gSettings.gc_a_s ? (gSettings.gc_a_s_i ? '' : `A${count}`) : `${gSettings.gc_aLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_a_s && gSettings.gc_a_s_i ? [{
                   attributes: {
@@ -2520,7 +2520,7 @@ class GamesGameCategories extends Module {
                   href: `https://steamdb.info/app/${realId}`,
                   title: getFeatureTooltip('gc_bd', 'Banned')
                 },
-                text: gSettings.gc_bd_s ? (gSettings.gc_bd_s_i ? `` : 'BD') : gSettings.gc_bdLabel,
+                text: gSettings.gc_bd_s ? (gSettings.gc_bd_s_i ? '' : 'BD') : gSettings.gc_bdLabel,
                 type: 'a',
                 children: gSettings.gc_bd_s && gSettings.gc_bd_s_i ? [{
                   attributes: {
@@ -2540,7 +2540,7 @@ class GamesGameCategories extends Module {
                 target: '_blank',
                 title: getFeatureTooltip('gc_bvg', 'Barter.vg')
               },
-              text: gSettings.gc_bvg_s ? (gSettings.gc_bvg_s_i ? `` : 'BVG') : gSettings.gc_bvgLabel,
+              text: gSettings.gc_bvg_s ? (gSettings.gc_bvg_s_i ? '' : 'BVG') : gSettings.gc_bvgLabel,
               type: 'a',
               children: gSettings.gc_bvg_s && gSettings.gc_bvg_s_i ? [{
                 attributes: {
@@ -2559,7 +2559,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.multiplayer) || count) {
               elements.push({
                 attributes: {
@@ -2568,7 +2568,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_mp', `Multiplayer${count}`)
                 },
-                text: gSettings.gc_mp_s ? (gSettings.gc_mp_s_i ? `` : `MP${count}`) : `${gSettings.gc_mpLabel}${count}`,
+                text: gSettings.gc_mp_s ? (gSettings.gc_mp_s_i ? '' : `MP${count}`) : `${gSettings.gc_mpLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_mp_s && gSettings.gc_mp_s_i ? [{
                   attributes: {
@@ -2591,7 +2591,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.singleplayer) || count) {
               elements.push({
                 attributes: {
@@ -2600,7 +2600,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_sp', `Singleplayer${count}`)
                 },
-                text: gSettings.gc_sp_s ? (gSettings.gc_sp_s_i ? `` : `SP${count}`) : `${gSettings.gc_spLabel}${count}`,
+                text: gSettings.gc_sp_s ? (gSettings.gc_sp_s_i ? '' : `SP${count}`) : `${gSettings.gc_spLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_sp_s && gSettings.gc_sp_s_i ? [{
                   attributes: {
@@ -2623,7 +2623,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.steamCloud) || count) {
               elements.push({
                 attributes: {
@@ -2632,7 +2632,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_sc', `Steam Cloud${count}`)
                 },
-                text: gSettings.gc_sc_s ? (gSettings.gc_sc_s_i ? `` : `SC${count}`) : `${gSettings.gc_scLabel}${count}`,
+                text: gSettings.gc_sc_s ? (gSettings.gc_sc_s_i ? '' : `SC${count}`) : `${gSettings.gc_scLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_sc_s && gSettings.gc_sc_s_i ? [{
                   attributes: {
@@ -2655,7 +2655,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.tradingCards) || count) {
               elements.push({
                 attributes: {
@@ -2664,7 +2664,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamcardexchange.net/index.php?gamepage-${singularType}id-${realId}`,
                   title: getFeatureTooltip('gc_tc', `Trading Cards${count}`)
                 },
-                text: gSettings.gc_tc_s ? (gSettings.gc_tc_s_i ? `` : `TC${count}`) : `${gSettings.gc_tcLabel}${count}`,
+                text: gSettings.gc_tc_s ? (gSettings.gc_tc_s_i ? '' : `TC${count}`) : `${gSettings.gc_tcLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_tc_s && gSettings.gc_tc_s_i ? [{
                   attributes: {
@@ -2687,7 +2687,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.linux) || count) {
               elements.push({
                 attributes: {
@@ -2696,7 +2696,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_l', `Linux${count}`)
                 },
-                text: gSettings.gc_l_s ? (gSettings.gc_l_s_i ? `` : `L${count}`) : `${gSettings.gc_lLabel}${count}`,
+                text: gSettings.gc_l_s ? (gSettings.gc_l_s_i ? '' : `L${count}`) : `${gSettings.gc_lLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_l_s && gSettings.gc_l_s_i ? [{
                   attributes: {
@@ -2719,7 +2719,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.mac) || count) {
               elements.push({
                 attributes: {
@@ -2728,7 +2728,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_m', `Mac${count}`)
                 },
-                text: gSettings.gc_m_s ? (gSettings.gc_m_s_i ? `` : `M${count}`) : `${gSettings.gc_mLabel}${count}`,
+                text: gSettings.gc_m_s ? (gSettings.gc_m_s_i ? '' : `M${count}`) : `${gSettings.gc_mLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_m_s && gSettings.gc_m_s_i ? [{
                   attributes: {
@@ -2857,7 +2857,7 @@ class GamesGameCategories extends Module {
                   class: 'esgst-gc esgst-gc-dlc',
                   ['data-draggable-id']: 'gc_dlc',
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
-                  title: getFeatureTooltip('gc_dlc', `DLC${gSettings.gc_dlc_b && typeof cache.freeBase !== 'undefined' ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ``}`)
+                  title: getFeatureTooltip('gc_dlc', `DLC${gSettings.gc_dlc_b && typeof cache.freeBase !== 'undefined' ? (cache.freeBase ? ` (the base game of this DLC is free)` : ` (the base game of this DLC is not free)`) : ''}`)
                 },
                 type: 'a',
                 children
@@ -2898,7 +2898,7 @@ class GamesGameCategories extends Module {
                   class: 'esgst-gc esgst-gc-package',
                   ['data-draggable-id']: 'gc_p',
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
-                  title: getFeatureTooltip('gc_p', `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ``} ${packageCount ? ` (${packageCount.num} owned)` : ``} `)
+                  title: getFeatureTooltip('gc_p', `Package${savedGame && savedGame.apps ? ` (${savedGame.apps.length})` : ''} ${packageCount ? ` (${packageCount.num} owned)` : ''} `)
                 },
                 type: 'a',
                 children
@@ -2931,7 +2931,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.earlyAccess) || count) {
               elements.push({
                 attributes: {
@@ -2940,7 +2940,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_ea', `Early Access${count}`)
                 },
-                text: gSettings.gc_ea_s ? (gSettings.gc_ea_s_i ? `` : `EA${count}`) : `${gSettings.gc_eaLabel}${count}`,
+                text: gSettings.gc_ea_s ? (gSettings.gc_ea_s_i ? '' : `EA${count}`) : `${gSettings.gc_eaLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_ea_s && gSettings.gc_ea_s_i ? [{
                   attributes: {
@@ -2963,7 +2963,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.learning === 1) || count) {
               elements.push({
                 attributes: {
@@ -2972,7 +2972,7 @@ class GamesGameCategories extends Module {
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_lg', `Learning${count}`)
                 },
-                text: gSettings.gc_lg_s ? (gSettings.gc_lg_s_i ? `` : `LG${count}`) : `${gSettings.gc_lgLabel}${count}`,
+                text: gSettings.gc_lg_s ? (gSettings.gc_lg_s_i ? '' : `LG${count}`) : `${gSettings.gc_lgLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_lg_s && gSettings.gc_lg_s_i ? [{
                   attributes: {
@@ -2995,7 +2995,7 @@ class GamesGameCategories extends Module {
                 }
               }
             }
-            count = count ? ` (${count})` : ``;
+            count = count ? ` (${count})` : '';
             if ((cache && cache.removed === 1) || count) {
               elements.push({
                 attributes: {
@@ -3004,7 +3004,7 @@ class GamesGameCategories extends Module {
                   href: `https://steamdb.info/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_rm', `Removed${count}`)
                 },
-                text: gSettings.gc_rm_s ? (gSettings.gc_rm_s_i ? `` : `RM${count}`) : `${gSettings.gc_rmLabel}${count}`,
+                text: gSettings.gc_rm_s ? (gSettings.gc_rm_s_i ? '' : `RM${count}`) : `${gSettings.gc_rmLabel}${count}`,
                 type: 'a',
                 children: gSettings.gc_rm_s && gSettings.gc_rm_s_i ? [{
                   attributes: {
@@ -3024,7 +3024,7 @@ class GamesGameCategories extends Module {
                 attributes: {
                   class: 'esgst-gc esgst-gc-releaseDate',
                   ['data-draggable-id']: 'gc_rd',
-                  ['data-timestamp']: cache.releaseDate === ` ? ` ? cache.releaseDate : cache.releaseDate / 1e3,
+                  ['data-timestamp']: cache.releaseDate === ' ? ' ? cache.releaseDate : cache.releaseDate / 1e3,
                   href: `https://store.steampowered.com/${singularType}/${realId}`,
                   title: getFeatureTooltip('gc_rd', 'Release Date')
                 },
@@ -3042,7 +3042,7 @@ class GamesGameCategories extends Module {
             }
             break;
           case 'gc_g':
-            genres = ``;
+            genres = '';
             if (savedGame && savedGame.apps) {
               for (const id of savedGame.apps) {
                 if (gc.cache.apps[id] && gc.cache.apps[id].genres) {
@@ -3204,7 +3204,7 @@ class GamesGameCategories extends Module {
           const reducedCV = (savedGame && savedGame.reducedCV && new Date(savedGame.reducedCV).getTime()) || 0;
           const noCV = (savedGame && savedGame.noCV && new Date(savedGame.noCV).getTime()) || 0;
           if (reducedCV || noCV) {
-            let original = ``;
+            let original = '';
             if (reducedCV && noCV) {
               if (games[i].startTime < reducedCV) {
                 original = 'fcv';
@@ -3222,7 +3222,7 @@ class GamesGameCategories extends Module {
                   href: `https://www.steamgifts.com/bundle-games/search?q=${encodedName}`,
                   title: getFeatureTooltip('gc_ocv', `Was ${gSettings[`gc_${original}Label`]} when it was given away`)
                 },
-                text: gSettings.gc_ocv_s ? (gSettings.gc_ocv_s_i ? `` : `W${original.toUpperCase()}`) : `${gSettings.gc_ocvLabel}${gSettings[`gc_${original}Label`]}`,
+                text: gSettings.gc_ocv_s ? (gSettings.gc_ocv_s_i ? '' : `W${original.toUpperCase()}`) : `${gSettings.gc_ocvLabel}${gSettings[`gc_${original}Label`]}`,
                 type: 'a',
                 children: gSettings.gc_ocv_s && gSettings.gc_ocv_s_i ? [{
                   attributes: {
@@ -3255,7 +3255,7 @@ class GamesGameCategories extends Module {
   }
 
   gc_formatDate(timestamp) {
-    if (timestamp === `?`) return timestamp;
+    if (timestamp === '?') return timestamp;
     let date = new Date(timestamp);
     return gSettings.gc_rdLabel
       .replace(/DD/, date.getDate())

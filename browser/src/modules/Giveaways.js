@@ -150,14 +150,14 @@ class Giveaways extends Module {
     giveaway.name = giveaway.headingName.textContent;
     match = giveaway.name.match(/\s\((.+) Copies\)/);
     if (match) {
-      giveaway.name = giveaway.name.replace(match[0], ``);
-      giveaway.copies = parseInt(match[1].replace(/,/g, ``).match(/\d+/)[0]);
+      giveaway.name = giveaway.name.replace(match[0], '');
+      giveaway.copies = parseInt(match[1].replace(/,/g, '').match(/\d+/)[0]);
     } else {
       giveaway.copies = 1;
     }
     giveaway.url = giveawayPath && main && !ugd ? ((mainUrl && common.getPath(mainUrl)) || window.location.pathname) : (mainUrl || giveaway.headingName.getAttribute('href'));
     if (giveaway.url) {
-      giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, ``);
+      giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, '');
       match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
       if (match) {
         giveaway.code = match[1];
@@ -179,7 +179,7 @@ class Giveaways extends Module {
     if (n > 0) {
       if (n > 1) {
         giveaway.copiesContainer = thinHeadings[0];
-        giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
+        giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, '').match(/\d+/)[0]);
         giveaway.pointsContainer = thinHeadings[1];
         giveaway.points = parseInt(thinHeadings[1].textContent.match(/\d+/)[0]);
       } else {
@@ -293,8 +293,8 @@ class Giveaways extends Module {
     if (giveaway.entriesLink && giveaway.commentsLink) {
       giveaway.entriesLink.setAttribute('data-draggable-id', 'entries');
       giveaway.commentsLink.setAttribute('data-draggable-id', 'comments');
-      giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
-      giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+      giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
+      giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
     }
     giveaway.extraPanel = common.createElements_v2(giveaway.summary, 'beforeEnd', [['div']]);
     giveaway.panel = giveaway.innerWrap.getElementsByClassName('esgst-giveaway-panel')[0];
@@ -358,7 +358,7 @@ class Giveaways extends Module {
     if (!giveaway.entriesLink) {
       let ct = giveaway.panel || (gSettings.gm_enable && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
-        giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
+        giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ''));
       }
     }
     giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
@@ -489,8 +489,8 @@ class Giveaways extends Module {
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
       while (column && column !== giveaway.startTimeColumn) {
-        let key = ``;
-        let status = ``;
+        let key = '';
+        let status = '';
         if (column.classList.contains('giveaway__column--positive')) {
           [key, status] = ['received', 'Received'];
         } else if (column.classList.contains('giveaway__column--negative')) {
@@ -498,7 +498,7 @@ class Giveaways extends Module {
         } else if (column.textContent.trim().match(/Awaiting\sfeedback/)) {
           [key, status] = ['awaitingFeedback', 'Awaiting Feedback'];
         } else if (column.textContent.trim().match(/No\swinners/)) {
-          [key, status] = ['noWinners', ``];
+          [key, status] = ['noWinners', ''];
         } else {
           continue;
         }
@@ -596,8 +596,8 @@ class Giveaways extends Module {
           element.classList.add(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
           if (element.getAttribute('data-color')) {
             element.firstElementChild.style.color = element.getAttribute('data-bgColor');
-            element.style.color = ``;
-            element.style.backgroundColor = ``;
+            element.style.color = '';
+            element.style.backgroundColor = '';
           }
         }
       }

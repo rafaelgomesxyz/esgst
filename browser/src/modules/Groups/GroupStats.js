@@ -187,13 +187,13 @@ class GroupsGroupStats extends Module {
         }
         append = true;
       } else if (text === 'Average Entries' && gSettings.gs_averageEntries) {
-        group.averageEntries = parseInt(element.textContent.replace(/,/g, ``));
+        group.averageEntries = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
       } else if (text === 'Contributors' && gSettings.gs_contributors) {
-        group.averageEntries = parseInt(element.textContent.replace(/,/g, ``));
+        group.averageEntries = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
       } else if (text === 'Winners' && gSettings.gs_winners) {
-        group.averageEntries = parseInt(element.textContent.replace(/,/g, ``));
+        group.averageEntries = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
       } else if (text === 'Gifts Sent' && gSettings.gs_giftsSent) {
         append = true;
@@ -211,10 +211,10 @@ class GroupsGroupStats extends Module {
       const element = item.nextElementSibling.nextElementSibling;
       let append = false;
       if (text === 'Giveaways' && gSettings.gs_giveaways) {
-        group.giveaways = parseInt(element.textContent.replace(/,/g, ``));
+        group.giveaways = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
       } else if (text === 'Users' && gSettings.gs_users) {
-        group.users = parseInt(element.textContent.replace(/,/g, ``));
+        group.users = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
       }
       if (append) {
@@ -235,7 +235,7 @@ class GroupsGroupStats extends Module {
       const response = await FetchRequest.get(`https://steamcommunity.com/gid/${group.steamId}?cc=us&l=english`, { anon: true });
 
       if (gSettings.gs_creationDate) {
-        const groupStatLabels = response.html.querySelectorAll(`.groupstat > .label`);
+        const groupStatLabels = response.html.querySelectorAll('.groupstat > .label');
         let date = '-';
         for (const label of groupStatLabels) {
           if (label.textContent.match(/founded/i)) {

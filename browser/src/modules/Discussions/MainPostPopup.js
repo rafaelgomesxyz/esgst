@@ -54,7 +54,7 @@ class DiscussionsMainPostPopup extends Module {
     if (gSettings.mpp_r) {
       let discussion = JSON.parse(this.esgst.storage.discussions)[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
       if (discussion) {
-        if (discussion.readComments && discussion.readComments[``]) {
+        if (discussion.readComments && discussion.readComments['']) {
           Hidden = true;
           window.scrollTo(0, 0);
         } else {
@@ -73,7 +73,7 @@ class DiscussionsMainPostPopup extends Module {
         MPPPost.classList.remove('esgst-mpp-visible');
         MPPPost.classList.add('esgst-mpp-hidden');
       }
-      let popup = new Popup({ icon: ``, title: ``, popup: MPPPost });
+      let popup = new Popup({ icon: '', title: '', popup: MPPPost });
       MPPPost.classList.add('esgst-mpp-popup');
       popup.open();
       popup.onClose = () => {

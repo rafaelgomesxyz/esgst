@@ -71,7 +71,7 @@ console.log(CONVERT([{
           type: 'i'
         }]
       }, {
-        text: ` - Allows you reorder/move rules/groups. The order of the rules does not alter the result.`,
+        text: ' - Allows you reorder/move rules/groups. The order of the rules does not alter the result.',
         type: 'node'
       }]
     }, {
@@ -260,7 +260,7 @@ console.log(CONVERT([{
 
 function CONVERT(items) {
   const result = convert(items);
-  return JSON.stringify(result).replace(/"/g, `\``).replace(/\\`/g, `"`).replace(/{`(.+?)`:/g, `{$1:`);
+  return JSON.stringify(result).replace(/"/g, '`').replace(/\\`/g, '"').replace(/{`(.+?)`:/g, `{$1:`);
 }
 
 function convert(items) {

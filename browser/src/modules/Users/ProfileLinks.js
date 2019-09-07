@@ -17,13 +17,13 @@ class UsersProfileLinks extends Module {
           ['li', [
             'Allows you to add links to your ',
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/steam/games` }, 'games'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/steam/wishlist` }, 'wishlist'],
             ' pages to the sidebar of your ',
             ['a', { href: `https://www.steamgifts.com/user/your-username` }, 'profile'],
@@ -78,13 +78,13 @@ class UsersProfileLinks extends Module {
             count: 0,
             id: 'pl_w',
             name: 'Whitelist',
-            url: `/account/manage/whitelist`
+            url: '/account/manage/whitelist'
           },
           {
             count: 0,
             id: 'pl_b',
             name: 'Blacklist',
-            url: `/account/manage/blacklist`
+            url: '/account/manage/blacklist'
           }
         ],
         name: 'Manage'
@@ -95,19 +95,19 @@ class UsersProfileLinks extends Module {
             count: 0,
             id: 'pl_g',
             name: 'Games',
-            url: `/account/steam/games`
+            url: '/account/steam/games'
           },
           {
             count: 0,
             id: 'pl_gs',
             name: 'Groups',
-            url: `/account/steam/groups`
+            url: '/account/steam/groups'
           },
           {
             count: 0,
             id: 'pl_wl',
             name: 'Wishlist',
-            url: `/account/steam/wishlist`
+            url: '/account/steam/wishlist'
           }
         ],
         name: 'Steam'

@@ -49,7 +49,7 @@ class OneDriveStorage extends ICloudStorage {
       data,
       fileName: gSettings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': gSettings.backupZip ? `application/zip` : `text/plain`
+        'Content-Type': gSettings.backupZip ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
         fileName: `${fileName}.${gSettings.backupZip ? 'zip' : 'json'}`
@@ -111,7 +111,7 @@ class OneDriveStorage extends ICloudStorage {
       anon: true,
       data: `{ "requests": ${batchRequests} }`,
       headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const response = await FetchRequest.post(OneDriveStorage.DELETE_BATCH_URL, requestOptions);

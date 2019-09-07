@@ -28,13 +28,13 @@ class UsersUserNotes extends Module {
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page) that allows you to save notes for them (only visible to you).`
           ]],
-          ['li', `You can press Ctrl + Enter to save the notes.`],
+          ['li', 'You can press Ctrl + Enter to save the notes.'],
           ['li', `This feature is recommended for cases where you want to associate a long text with a user, since the notes are not displayed in the page.For a short text, check [id=ut].`]
         ]]
       ],
       features: {
         un_p: {
-          name: `Pop up when whitelisting/blacklisting a user.`,
+          name: 'Pop up when whitelisting/blacklisting a user.',
           sg: true
         }
       },

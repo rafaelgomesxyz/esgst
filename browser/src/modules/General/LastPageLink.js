@@ -43,23 +43,23 @@ class GeneralLastPageLink extends Module {
         lastPage = parseInt(element.getAttribute('data-page-number'));
       } else if ((main && this.esgst.discussionPath) || discussion) {
         if (pagination) {
-          lastPage = Math.ceil(parseInt(pagination.firstElementChild.lastElementChild.textContent.replace(/,/g, ``)) / 25);
+          lastPage = Math.ceil(parseInt(pagination.firstElementChild.lastElementChild.textContent.replace(/,/g, '')) / 25);
         } else {
           lastPage = 999999999;
         }
       } else if ((main && this.esgst.userPath) || user) {
         if ((main && window.location.pathname.match(/\/giveaways\/won/)) || userWon) {
-          lastPage = Math.ceil(parseInt(context.querySelector(`.featured__table__row__right a[href*="/giveaways/won"]`).textContent.replace(/,/g, ``)) / 25);
+          lastPage = Math.ceil(parseInt(context.querySelector(`.featured__table__row__right a[href*="/giveaways/won"]`).textContent.replace(/,/g, '')) / 25);
         } else {
-          lastPage = Math.ceil(parseInt(context.getElementsByClassName('sidebar__navigation__item__count')[0].textContent.replace(/,/g, ``)) / 25);
+          lastPage = Math.ceil(parseInt(context.getElementsByClassName('sidebar__navigation__item__count')[0].textContent.replace(/,/g, '')) / 25);
         }
       } else if ((main && this.esgst.groupPath) || group) {
         if ((main && window.location.pathname.match(/\/users/)) || groupUsers) {
-          lastPage = Math.ceil(parseInt(context.getElementsByClassName('sidebar__navigation__item__count')[1].textContent.replace(/,/g, ``)) / 25);
+          lastPage = Math.ceil(parseInt(context.getElementsByClassName('sidebar__navigation__item__count')[1].textContent.replace(/,/g, '')) / 25);
         } else if ((main && this.esgst.groupWishlistPath) || groupWishlist) {
           lastPage = 999999999;
         } else {
-          lastPage = Math.ceil(parseInt(context.getElementsByClassName('sidebar__navigation__item__count')[0].textContent.replace(/,/g, ``)) / 25);
+          lastPage = Math.ceil(parseInt(context.getElementsByClassName('sidebar__navigation__item__count')[0].textContent.replace(/,/g, '')) / 25);
         }
       } else {
         lastPage = 999999999;
@@ -74,7 +74,7 @@ class GeneralLastPageLink extends Module {
         if (second) {
           third = second.nextElementSibling;
           if (third && !third.textContent.match(/Giveaway\sFilters/)) {
-            lastPage = Math.ceil(parseInt(third.textContent.replace(/,/g, ``)) / ((main && this.esgst.itemsPerPage) || (parseInt(second.textContent.replace(/,/g, ``)) - parseInt(first.textContent.replace(/,/g, ``)) + 1)));
+            lastPage = Math.ceil(parseInt(third.textContent.replace(/,/g, '')) / ((main && this.esgst.itemsPerPage) || (parseInt(second.textContent.replace(/,/g, '')) - parseInt(first.textContent.replace(/,/g, '')) + 1)));
           }
         }
       }
@@ -84,7 +84,7 @@ class GeneralLastPageLink extends Module {
 
   lpl_addDiscussionLink() {
     let lastLink, url;
-    url = `${window.location.pathname.replace(`/search`, ``)}/search?page=${this.esgst.lastPage}`;
+    url = `${window.location.pathname.replace('/search', '')}/search?page=${this.esgst.lastPage}`;
     this.esgst.lastPageLink = [{
       attributes: {
         ['data-page-number']: this.esgst.lastPage,

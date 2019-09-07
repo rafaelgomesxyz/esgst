@@ -399,7 +399,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async init() {
-    this.savedRepliesId = `savedReplies${gSettings.cfh_sr_s ? '_st' : ``}`;
+    this.savedRepliesId = `savedReplies${gSettings.cfh_sr_s ? '_st' : ''}`;
     this.esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
     this.esgst.cfh = {
       backup: [],
@@ -413,56 +413,56 @@ class CommentsCommentFormattingHelper extends Module {
         id: 'cfh_i',
         icons: ['fa-italic'],
         name: 'Italic',
-        prefix: `*`,
-        suffix: `*`
+        prefix: '*',
+        suffix: '*'
       },
       {
         id: 'cfh_b',
         icons: ['fa-bold'],
         name: 'Bold',
-        prefix: `**`,
-        suffix: `**`
+        prefix: '**',
+        suffix: '**'
       },
       {
         id: 'cfh_s',
         icons: ['fa-eye-slash'],
         name: 'Spoiler',
-        prefix: `~`,
-        suffix: `~`
+        prefix: '~',
+        suffix: '~'
       },
       {
         id: 'cfh_st',
         icons: ['fa-strikethrough'],
         name: 'Strikethrough',
-        prefix: `~~`,
-        suffix: `~~`
+        prefix: '~~',
+        suffix: '~~'
       },
       {
         id: 'cfh_h1',
         icons: ['fa-header'],
         name: 'Heading 1',
-        prefix: `# `,
+        prefix: '# ',
         text: '1'
       },
       {
         id: 'cfh_h2',
         icons: ['fa-header'],
         name: 'Heading 2',
-        prefix: `## `,
+        prefix: '## ',
         text: '2'
       },
       {
         id: 'cfh_h3',
         icons: ['fa-header'],
         name: 'Heading 3',
-        prefix: `### `,
+        prefix: '### ',
         text: '3'
       },
       {
         id: 'cfh_bq',
         icons: ['fa-quote-left'],
         name: 'Blockquote',
-        prefix: `> `
+        prefix: '> '
       },
       {
         id: 'cfh_lb',
@@ -482,14 +482,14 @@ class CommentsCommentFormattingHelper extends Module {
         icons: ['fa-list-ul'],
         multiline: true,
         name: 'Unordered List',
-        prefix: `* `
+        prefix: '* '
       },
       {
         id: 'cfh_ic',
         icons: ['fa-code'],
         name: 'Inline Code',
-        prefix: `\``,
-        suffix: `\``
+        prefix: '`',
+        suffix: '`'
       },
       {
         id: 'cfh_lc',
@@ -501,8 +501,8 @@ class CommentsCommentFormattingHelper extends Module {
         id: 'cfh_pc',
         icons: ['fa-code', 'fa-paragraph'],
         name: 'Paragraph Code',
-        prefix: `\`\`\`\n`,
-        suffix: `\n\`\`\``
+        prefix: '```\n',
+        suffix: '\n```'
       },
       {
         id: 'cfh_l',
@@ -545,8 +545,8 @@ class CommentsCommentFormattingHelper extends Module {
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           popout.popout.lastElementChild.addEventListener('click', async () => {
             await this.cfh_formatLink(title.value, url.value);
-            url.value = ``;
-            title.value = ``;
+            url.value = '';
+            title.value = '';
             popout.close();
           });
         },
@@ -614,7 +614,7 @@ class CommentsCommentFormattingHelper extends Module {
               return;
             }
 
-            shared.common.multiChoice('grey', 'fa-user-secret', 'Anonymously', 'grey', 'fa-user', 'Through Account', `How would you like to upload?`, this.cfh_uploadImage.bind(this, 'Client-ID e25283ef48ab9aa', popout, url), async () => {
+            shared.common.multiChoice('grey', 'fa-user-secret', 'Anonymously', 'grey', 'fa-user', 'Through Account', 'How would you like to upload?', this.cfh_uploadImage.bind(this, 'Client-ID e25283ef48ab9aa', popout, url), async () => {
               await shared.common.delValue('imgurToken');
               shared.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);
               // noinspection JSIgnoredPromiseFromCall
@@ -623,8 +623,8 @@ class CommentsCommentFormattingHelper extends Module {
           });
           popout.popout.lastElementChild.addEventListener('click', async () => {
             await this.cfh_formatLink(title.value, url.value, true);
-            url.value = ``;
-            title.value = ``;
+            url.value = '';
+            title.value = '';
             popout.close();
           });
         },
@@ -692,15 +692,15 @@ class CommentsCommentFormattingHelper extends Module {
                 }
               }
             }
-            if (i <= numRows || (i > numRows && window.confirm(`Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?`))) {
-              value = ``;
+            if (i <= numRows || (i > numRows && window.confirm('Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?'))) {
+              value = '';
               for (i = 1; i < numRows; ++i) {
-                value += `\n`;
+                value += '\n';
                 for (j = 1; j < numColumns; ++j) {
-                  value += `${rows[i].cells[j].firstElementChild.value}${j < numColumns - 1 ? ` | ` : ``}`;
+                  value += `${rows[i].cells[j].firstElementChild.value}${j < numColumns - 1 ? ' | ' : ''}`;
                 }
               }
-              value = value.replace(/^\n/, ``);
+              value = value.replace(/^\n/, '');
               start = this.esgst.cfh.textArea.selectionStart;
               end = this.esgst.cfh.textArea.selectionEnd;
               this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
@@ -767,7 +767,7 @@ class CommentsCommentFormattingHelper extends Module {
               }
               await shared.common.setValue('emojis', JSON.stringify(emojiArray));
             } catch (error) {
-              window.alert(`Invalid emoji!`);
+              window.alert('Invalid emoji!');
               logger.warning(error.stack);
             }
           });
@@ -882,8 +882,8 @@ class CommentsCommentFormattingHelper extends Module {
           code.nextElementSibling.addEventListener('click', async () => {
             if (code.value.match(/^[\d\w]{5}$/)) {
               let encodedCode = this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(code.value);
-              await this.cfh_formatLink(``, `ESGST-${encodedCode}`);
-              code.value = ``;
+              await this.cfh_formatLink('', `ESGST-${encodedCode}`);
+              code.value = '';
               popout.close();
             } else {
               window.alert('Wrong format. The right format is XXXXX.');
@@ -903,7 +903,7 @@ class CommentsCommentFormattingHelper extends Module {
         setPopout: async popout => {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
-          savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+          savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, '[]'));
           shared.common.createElements(popout.popout, 'inner', [{
             type: 'div',
             children: [{
@@ -988,10 +988,10 @@ class CommentsCommentFormattingHelper extends Module {
           }]);
           url = popout.popout.firstElementChild.firstElementChild;
           popout.popout.lastElementChild.addEventListener('click', async () => {
-            const ghwsgiLink = `wiki-gh/${url.value.replace(/https?:\/\/(www\.)?github\.com\//, ``)}`;
+            const ghwsgiLink = `wiki-gh/${url.value.replace(/https?:\/\/(www\.)?github\.com\//, '')}`;
             await this.cfh_formatItem(`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`);
-            await this.cfh_formatLink(``, ghwsgiLink);
-            url.value = ``;
+            await this.cfh_formatLink('', ghwsgiLink);
+            url.value = '';
             popout.close();
           });
         },
@@ -1105,7 +1105,7 @@ class CommentsCommentFormattingHelper extends Module {
     if (gSettings.cfh_cf) {
       shared.common.createElements(this.esgst.cfh.panel, 'beforeEnd', [{
         attributes: {
-          href: `/about/comment-formatting`,
+          href: '/about/comment-formatting',
           title: shared.common.getFeatureTooltip('cfh_cf', 'Comment Formatting')
         },
         type: 'a',
@@ -1137,7 +1137,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_getEmojis() {
-    let emojis = JSON.parse(shared.common.getValue('emojis', `[]`));
+    let emojis = JSON.parse(shared.common.getValue('emojis', '[]'));
     return emojis
       .map(emoji => {
         const emojiData = EMOJIS.filter(x => x.emoji === emoji || x.entity === emoji)[0];
@@ -1145,7 +1145,7 @@ class CommentsCommentFormattingHelper extends Module {
         return {
           attributes: {
             ['data-draggable-id']: emoji,
-            title: emojiData ? emojiData.name : ``
+            title: emojiData ? emojiData.name : ''
           },
           text: emoji,
           type: 'span'
@@ -1184,12 +1184,12 @@ class CommentsCommentFormattingHelper extends Module {
     textArea.onpaste = async event => {
       if (gSettings.cfh_pasteFormatting) {
         let clipboard, value;
-        clipboard = event.clipboardData.getData(`text/plain`);
+        clipboard = event.clipboardData.getData('text/plain');
         if (clipboard.match(/^https?:/)) {
           event.preventDefault();
           value = textArea.value;
           this.cfh_undo(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-          await this.cfh_formatLink(``, clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/i), true);
+          await this.cfh_formatLink('', clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/i), true);
         }
       }
     };
@@ -1212,7 +1212,7 @@ class CommentsCommentFormattingHelper extends Module {
       }
     };
     if (gSettings.cfh_p) {
-      this.esgst.cfh.preview.innerHTML = ``;
+      this.esgst.cfh.preview.innerHTML = '';
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
       if (gSettings.cfh_p_a) {
         textArea.oninput = async () => {
@@ -1234,7 +1234,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.redo.classList.remove('esgst-faded');
   }
 
-  async cfh_formatItem(prefix = ``, suffix = ``, multiline) {
+  async cfh_formatItem(prefix = '', suffix = '', multiline) {
     let end, n, range, start, text, value;
     value = this.esgst.cfh.textArea.value;
     this.cfh_undo(this.esgst.cfh.textArea, value);
@@ -1271,10 +1271,10 @@ class CommentsCommentFormattingHelper extends Module {
     start = this.esgst.cfh.textArea.selectionStart;
     end = this.esgst.cfh.textArea.selectionEnd;
     url = url
-      .replace(/\[/g, `%5B`)
-      .replace(/\]/g, `%5D`)
-      .replace(/\(/g, `%28`)
-      .replace(/\)/g, `%29`);
+      .replace(/\[/g, '%5B')
+      .replace(/\]/g, '%5D')
+      .replace(/\(/g, '%28')
+      .replace(/\)/g, '%29');
     value = isImage ? `![${title}](${url})` : `[${title}](${url})`;
     this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
     if (title) {
@@ -1330,15 +1330,15 @@ class CommentsCommentFormattingHelper extends Module {
                 reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, resolve);
                 reader.readAsDataURL(file);
               } else {
-                shared.common.createFadeMessage(warning, `Image is larger than 10 MB!`);
+                shared.common.createFadeMessage(warning, 'Image is larger than 10 MB!');
                 resolve();
               }
             } else {
-              shared.common.createFadeMessage(warning, `File is not an image!`);
+              shared.common.createFadeMessage(warning, 'File is not an image!');
               resolve();
             }
           } else {
-            shared.common.createFadeMessage(warning, `No file was loaded!`);
+            shared.common.createFadeMessage(warning, 'No file was loaded!');
             resolve();
           }
         });
@@ -1374,7 +1374,7 @@ class CommentsCommentFormattingHelper extends Module {
       url.value = responseJson.data.link;
       popout.open();
     } else {
-      shared.common.createFadeMessage(warning, `Could not upload image!`);
+      shared.common.createFadeMessage(warning, 'Could not upload image!');
       callback();
     }
   }
@@ -1500,7 +1500,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   cfh_setEmoji(emoji) {
-    emoji.addEventListener('click', this.cfh_formatItem.bind(this, emoji.textContent, ``));
+    emoji.addEventListener('click', this.cfh_formatItem.bind(this, emoji.textContent, ''));
   }
 
   cfh_setReply(replies, savedReply) {
@@ -1588,7 +1588,7 @@ class CommentsCommentFormattingHelper extends Module {
     editButton.addEventListener('click', this.cfh_openReplyPopup.bind(this, savedReply.description, savedReply.name, replies, summary));
     replaceButton.addEventListener('click', () => this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary));
     editButton.nextElementSibling.addEventListener('click', async () => {
-      let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+      let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, '[]'));
       let i;
       for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--) {
       }
@@ -1607,9 +1607,9 @@ class CommentsCommentFormattingHelper extends Module {
 
   async cfh_setSource(description, name, reply, event) {
     let i, savedReplies;
-    event.dataTransfer.setData(`text/plain`, ``);
+    event.dataTransfer.setData('text/plain', '');
     this.esgst.cfh.source = reply;
-    savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+    savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, '[]'));
     for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i) {
     }
     if (i > -1) {
@@ -1635,7 +1635,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async cfh_saveSource() {
-    let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+    let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, '[]'));
     savedReplies.splice(this.esgst.cfh.sourceNewIndex, 0, savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]);
     shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
   }
@@ -1701,7 +1701,7 @@ class CommentsCommentFormattingHelper extends Module {
         }, {
           attributes: {
             type: 'text',
-            value: name || ``
+            value: name || ''
           },
           type: 'input'
         }]
@@ -1711,7 +1711,7 @@ class CommentsCommentFormattingHelper extends Module {
           text: `Description:`,
           type: 'div'
         }, {
-          text: description || ``,
+          text: description || '',
           type: 'textarea'
         }]
       }]
@@ -1738,7 +1738,7 @@ class CommentsCommentFormattingHelper extends Module {
   async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
     let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
     if (descVal && nameVal) {
-      let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+      let savedReplies = JSON.parse(shared.common.getValue(this.savedRepliesId, '[]'));
       let savedReply = {
         description: descVal,
         name: nameVal
@@ -1783,7 +1783,7 @@ class CommentsCommentFormattingHelper extends Module {
     deleted = this.esgst.cfh.deletedReplies.pop();
     deleted.reply.classList.remove('esgst-hidden');
     deleted.reply.parentElement.appendChild(deleted.reply);
-    saved = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
+    saved = JSON.parse(shared.common.getValue(this.savedRepliesId, '[]'));
     saved.push(deleted.savedReply);
     shared.common.setValue(this.savedRepliesId, JSON.stringify(saved));
     if (this.esgst.cfh.deletedReplies.length === 0) {

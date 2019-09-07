@@ -53,7 +53,7 @@ class GeneralCakeDayReminder extends Module {
     shared.esgst.profileFeatures.push(this.addButton.bind(this));
 
     const cdrObj = {
-      cache: JSON.parse(shared.common.getLocalValue('cdrCache', `{}`)),
+      cache: JSON.parse(shared.common.getLocalValue('cdrCache', '{}')),
       currentDate: new Date(),
       elements: [
         [{ size: 'fill', value: 'User' }, { size: 'fill', value: 'When' }]
@@ -103,7 +103,7 @@ class GeneralCakeDayReminder extends Module {
       return;
     }
 
-    const className = steamId === gSettings.steamId ? 'esgst-cdr-highlight' : ``;
+    const className = steamId === gSettings.steamId ? 'esgst-cdr-highlight' : '';
 
     const registrationDate = new Date(user.registrationDate * 1e3);
     registrationDate.setFullYear(cdrObj.currentYear);
@@ -142,7 +142,7 @@ class GeneralCakeDayReminder extends Module {
             : ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
         ]},
         { size: 'fill', value: [
-          ['span', { class: className }, `Today! Happy cake day!`]
+          ['span', { class: className }, 'Today! Happy cake day!']
         ]}
       ]);
     } else if (user.cdr.a && aYear !== cdrObj.currentYear && cdrObj.currentTime >= registrationTime + 86400000 && (cdrObj.currentTime - registrationTime) <= (user.cdr.aDays * 86400000)) {

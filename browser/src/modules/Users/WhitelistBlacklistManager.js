@@ -34,14 +34,14 @@ class UsersWhitelistBlacklistManager extends Module {
             ['i', { class: 'fa fa-trash' }],
             `) to the main page heading of your `,
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-            ` pages that allows you to import/export/clear your whitelist/blacklist.`
+            ' pages that allows you to import/export/clear your whitelist/blacklist.'
           ]]
         ]]
       ],
       id: 'wbm',
-      name: `Whitelist/Blacklist Manager`,
+      name: 'Whitelist/Blacklist Manager',
       sg: true,
       type: 'users'
     };
@@ -139,11 +139,11 @@ class UsersWhitelistBlacklistManager extends Module {
   }
 
   wbm_start(wbm, callback, mainCallback) {
-    createConfirmation(`Are you sure you want to do this?`, () => {
+    createConfirmation('Are you sure you want to do this?', () => {
       wbm.isCanceled = false;
       wbm.button.classList.add('esgst-busy');
       wbm.usernames = [];
-      wbm.results.innerHTML = ``;
+      wbm.results.innerHTML = '';
       callback(this.wbm_complete.bind(this, wbm, mainCallback));
     }, mainCallback);
   }
@@ -169,13 +169,13 @@ class UsersWhitelistBlacklistManager extends Module {
           // noinspection JSIgnoredPromiseFromCall
           this.wbm_insertUsers(wbm, list, 0, list.length, callback);
         } catch (error) {
-          createFadeMessage(wbm.warning, `Cannot parse file!`);
+          createFadeMessage(wbm.warning, 'Cannot parse file!');
           callback();
         }
       };
       reader.readAsText(file);
     } else {
-      createFadeMessage(wbm.warning, `No file was loaded!`);
+      createFadeMessage(wbm.warning, 'No file was loaded!');
       callback();
     }
   }
@@ -195,11 +195,11 @@ class UsersWhitelistBlacklistManager extends Module {
       await request({
         data: `xsrf_token=${shared.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
         method: 'POST',
-        url: `/ajax.php`
+        url: '/ajax.php'
       });
       window.setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
     } else {
-      createFadeMessage(wbm.message, `List imported with success!`);
+      createFadeMessage(wbm.message, 'List imported with success!');
       callback();
     }
   }
@@ -216,7 +216,7 @@ class UsersWhitelistBlacklistManager extends Module {
         }
       }
       downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
-      createFadeMessage(wbm.message, `List exported with success!`);
+      createFadeMessage(wbm.message, 'List exported with success!');
       callback();
     } else {
       createElements(wbm.message, 'inner', [{
@@ -242,7 +242,7 @@ class UsersWhitelistBlacklistManager extends Module {
         window.setTimeout(() => this.wbm_exportList(wbm, list, ++nextPage, callback), 0);
       } else {
         downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
-        createFadeMessage(wbm.message, `List exported with success!`);
+        createFadeMessage(wbm.message, 'List exported with success!');
         callback();
       }
     }
@@ -337,11 +337,11 @@ class UsersWhitelistBlacklistManager extends Module {
       await request({
         data: `xsrf_token=${shared.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
         method: 'POST',
-        url: `/ajax.php`
+        url: '/ajax.php'
       });
       window.setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
     } else {
-      createFadeMessage(wbm.message, `List cleared with success!`);
+      createFadeMessage(wbm.message, 'List cleared with success!');
       createElements(wbm.results, 'inner', [{
         attributes: {
           class: 'esgst-bold'

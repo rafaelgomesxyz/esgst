@@ -64,7 +64,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }
       },
       id: 'ged',
-      name: `Giveaway Encrypter/Decrypter`,
+      name: 'Giveaway Encrypter/Decrypter',
       sg: true,
       type: 'giveaways'
     };
@@ -124,7 +124,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       if (gSettings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
-      ged.popup.innerHTML = ``;
+      ged.popup.innerHTML = '';
       ged.container = ged.context = createElements(ged.popup, 'beforeEnd', [{ type: 'div' }]);
       ged.context.setAttribute('data-esgst-popup', true);
     }
@@ -152,7 +152,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       type: 'node'
     }]);
     await this.ged_getGiveaways(ged);
-    ged.context.innerHTML = ``;
+    ged.context.innerHTML = '';
     if (gSettings.gas || (gSettings.gf && gSettings.gf_m) || gSettings.mm) {
       let heading = createElements(ged.context, 'afterBegin', [{
         attributes: {
@@ -344,7 +344,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         }
         createElements(comment.actions, 'beforeEnd', [{
           attributes: {
-            class: `esgst-ged-icon${isEnded ? ' esgst-red' : (isStarted ? (isNew ? ' esgst-green' : ``) : ' esgst-yellow')}`,
+            class: `esgst-ged-icon${isEnded ? ' esgst-red' : (isStarted ? (isNew ? ' esgst-green' : '') : ' esgst-yellow')}`,
             href: `/giveaway/${code}/`,
             title: getFeatureTooltip('ged', 'ESGST Decrypted Giveaway')
           },
@@ -377,14 +377,14 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     switch (Math.floor(Math.random() * 4)) {
       case 0:
         rotated = rot(code, 13);
-        encrypted = ``;
+        encrypted = '';
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
         }
         return encrypted;
       case 1:
         rotated = rot(code, 13);
-        encrypted = ``;
+        encrypted = '';
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
         }
@@ -395,7 +395,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       case 2:
         rotation = Math.ceil(Math.random() * 25);
         rotated = rot(code, rotation);
-        encrypted = ``;
+        encrypted = '';
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
         }
@@ -404,7 +404,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       case 3:
         rotation = Math.ceil(Math.random() * 25);
         rotated = rot(code, rotation);
-        encrypted = ``;
+        encrypted = '';
         for (i = 0, n = rotated.length; i < n; ++i) {
           encrypted += rotated.charCodeAt(i).toString(16);
         }
@@ -419,7 +419,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
   ged_decryptCode(encrypted) {
     let alphabet, code, rotation;
     alphabet = 'NOPQRSTUVWXYZABCDEFGHIJKLM';
-    encrypted = encrypted.replace(/-/g, ``).replace(/[A-Z]/g, n => {
+    encrypted = encrypted.replace(/-/g, '').replace(/[A-Z]/g, n => {
       return `${alphabet.indexOf(n)}`;
     });
     rotation = encrypted.slice(10);
@@ -428,7 +428,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     } else {
       rotation = 13;
     }
-    code = ``;
+    code = '';
     encrypted.slice(0, 10).match(/../g).forEach(n => {
       code += String.fromCharCode(parseInt(n, 16));
     });

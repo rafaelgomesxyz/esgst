@@ -26,7 +26,7 @@ class CommentsCollapseExpandReplyButton extends Module {
         }
       },
       id: 'cerb',
-      name: `Collapse/Expand Reply Button`,
+      name: 'Collapse/Expand Reply Button',
       sg: true,
       sgPaths: /^(Giveaway\s-\sComments|Discussion|Ticket|Trade)$/,
       st: true,
@@ -81,7 +81,7 @@ class CommentsCollapseExpandReplyButton extends Module {
   }
 
   cerb_getReplies(collapse, expand, context, main, source, endless) {
-    let id = context === document && main ? window.location.hash.replace(/#/, ``) : null,
+    let id = context === document && main ? window.location.hash.replace(/#/, '') : null,
       permalink = id ? document.getElementById(id) : null,
       elements = context.querySelectorAll(shared.common.getSelectors(endless, [
         `:not(.esgst-popup) .comments > X.comment`,

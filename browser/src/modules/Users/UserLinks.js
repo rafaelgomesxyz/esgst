@@ -8,7 +8,7 @@ class UsersUserLinks extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to add custom links next to a user's username in their profile page.`],
+          ['li', 'Allows you to add custom links next to a user\'s username in their profile page.'],
           ['li', `Can be used in other pages through [id=cl_ui].`],
           ['li', `Comes by default with 5 links to BLAEO, Playing Appreciated, Touhou Giveaways, AStats and SteamRep.`]
         ]]
@@ -34,7 +34,7 @@ class UsersUserLinks extends Module {
       while (label) {
         const icon = label.match(iconRegex);
         if (icon) {
-          label = label.replace(iconRegex, ``);
+          label = label.replace(iconRegex, '');
           children.push(
             ['i', { class: `fa ${icon[1]}` }]
           );
@@ -42,7 +42,7 @@ class UsersUserLinks extends Module {
         }
         const image = label.match(imageRegex);
         if (image) {
-          label = label.replace(imageRegex, ``);
+          label = label.replace(imageRegex, '');
           children.push(
             ['img', { height: '16', src: image[1], style: `vertical-align: middle;`, width: '16' }]
           );

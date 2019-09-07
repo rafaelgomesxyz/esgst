@@ -31,7 +31,7 @@ class Giveaway {
         this.data.points = parseInt(match[1]);
         continue;
       }
-      match = headingThin.textContent.replace(/,/g, ``).match(/\((\d+)\sCopies\)/);
+      match = headingThin.textContent.replace(/,/g, '').match(/\((\d+)\sCopies\)/);
       if (match) {
         this.elements.copies = headingThin;
         this.data.copies = parseInt(match[1]);
@@ -96,12 +96,12 @@ class Giveaway {
     }
     this.elements.links = this.elements.summary.querySelector('div.giveaway__links');
     for (const child of this.elements.links.children) {
-      let match = child.textContent.replace(/,/g, ``).match(/(\d+)\sentr(y|ies)/);
+      let match = child.textContent.replace(/,/g, '').match(/(\d+)\sentr(y|ies)/);
       if (match) {
         this.elements.entries = child;
         this.data.entries = parseInt(match[1]);
       }
-      match = child.textContent.replace(/,/g, ``).match(/(\d+)\scomments?/);
+      match = child.textContent.replace(/,/g, '').match(/(\d+)\scomments?/);
       if (match) {
         this.elements.comments = child;
         this.data.comments = parseInt(match[1]);

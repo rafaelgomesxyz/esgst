@@ -122,11 +122,11 @@ class DiscussionsDiscussionsSorter extends Module {
     options.addEventListener('change', callback);
     obj.popout.popout.appendChild(new ButtonSet({
       color1: 'green',
-      color2: ``,
+      color2: '',
       icon1: 'fa-arrow-circle-right',
-      icon2: ``,
+      icon2: '',
       title1: 'Sort',
-      title2: ``,
+      title2: '',
       callback1: callback
     }).set);
     obj.popout.open();

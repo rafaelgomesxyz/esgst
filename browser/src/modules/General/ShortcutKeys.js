@@ -64,12 +64,12 @@ class GeneralShortcutKeys extends Module {
         },
         sk_ge: {
           inputItems: 'sk_giveawayEntry',
-          name: `Enter/leave the giveaway when inside of a giveaway.`,
+          name: 'Enter/leave the giveaway when inside of a giveaway.',
           sg: true
         },
         sk_c: {
           inputItems: 'sk_creator',
-          name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
+          name: 'Insert the username of the creator of the giveaway/discussion/trade to the current reply box.',
           sg: true,
           st: true
         },
@@ -260,13 +260,13 @@ class GeneralShortcutKeys extends Module {
     }
     if (Object.keys(methods).length > 0) {
       this.esgst.documentEvents.keydown.add(event => {
-        let value = ``;
+        let value = '';
         if (event.ctrlKey) {
-          value += `ctrlKey + `;
+          value += 'ctrlKey + ';
         } else if (event.shiftKey) {
-          value += `shiftKey + `;
+          value += 'shiftKey + ';
         } else if (event.altKey) {
-          value += `altKey + `;
+          value += 'altKey + ';
         }
         value += event.key.toLowerCase();
         if (methods[value]) {

@@ -74,7 +74,7 @@ class Discussions extends Module {
         tagContext: element,
         tagPosition: 'afterEnd',
         sortIndex: 0,
-        type: ``
+        type: ''
       });
     }
     elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.table__row-outer-wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.table__row-outer-wrap, .row_outer_wrap`}`);
@@ -90,7 +90,7 @@ class Discussions extends Module {
         headingContainer: document.getElementsByClassName('page__heading')[0],
         menu: false,
         sortIndex: 0,
-        type: ``
+        type: ''
       };
       discussion.id = discussion.code;
       discussion.container = discussion.headingContainer;
@@ -164,11 +164,11 @@ class Discussions extends Module {
         discussion.categoryContainer = discussion.info.firstElementChild;
         if (discussion.headingColumn.nextElementSibling) {
           discussion.category = discussion.categoryContainer.textContent;
-          discussion[discussion.category.replace(/\W/g, ``).replace(/^(.)/, (m, p1) => {
+          discussion[discussion.category.replace(/\W/g, '').replace(/^(.)/, (m, p1) => {
             return p1.toLowerCase();
           })] = true;
         } else {
-          discussion.category = ``;
+          discussion.category = '';
         }
         discussion.createdContainer = discussion.categoryContainer.nextElementSibling;
         break;
@@ -186,8 +186,8 @@ class Discussions extends Module {
         discussion.reputationElement = discussion.info.querySelector('.reputation');
         discussion.positiveReputationElement = discussion.reputationElement.querySelector('.is_positive');
         discussion.negativeReputationElement = discussion.reputationElement.querySelector('.is_negative');
-        discussion.positiveReputation = parseInt(discussion.positiveReputationElement.textContent.replace(/[^\d]/g, ``));
-        discussion.negativeReputation = parseInt(discussion.negativeReputationElement.textContent.replace(/[^\d]/g, ``));
+        discussion.positiveReputation = parseInt(discussion.positiveReputationElement.textContent.replace(/[^\d]/g, ''));
+        discussion.negativeReputation = parseInt(discussion.negativeReputationElement.textContent.replace(/[^\d]/g, ''));
         break;
     }
     discussion.bookmarked = !!discussion.bookmarkNode;
@@ -212,9 +212,9 @@ class Discussions extends Module {
     discussion.poll = discussion.outerWrap.querySelector('.fa-align-left');
     discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
     if (discussion.commentsColumn) {
-      discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
+      discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ''));
       if (this.esgst.giveawaysPath && gSettings.adots && gSettings.adots_index === 1 && gSettings.ns) {
-        discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, ``);
+        discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, '');
       }
     }
     discussion.lastPost = discussion.outerWrap.querySelector(`.table__column--last-comment, .column_last_update`);

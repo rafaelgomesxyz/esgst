@@ -54,7 +54,7 @@ class GiveawaysGiveawayWinningChance extends Module {
           ],
           description: [
             ['ul', [
-              ['li', `Changes the color of the giveaway's title to the same color as the chance and adds a border of same color to the giveaway's game image.`]
+              ['li', 'Changes the color of the giveaway\'s title to the same color as the chance and adds a border of same color to the giveaway\'s game image.']
             ]]
           ],
           inputItems: [
@@ -89,7 +89,7 @@ class GiveawaysGiveawayWinningChance extends Module {
         if (giveaway.started) {
           giveaway.gwcContext = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
             attributes: {
-              class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-gwc`,
+              class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-gwc`,
               ['data-draggable-id']: 'gwc',
               title: getFeatureTooltip('gwc', 'Giveaway Winning Chance')
             },
@@ -205,7 +205,7 @@ class GiveawaysGiveawayWinningChance extends Module {
     });
     if ((this.esgst.enteredPath || this.esgst.wonPath) && gSettings.gwr) {
       items.push({
-        text: ` / `,
+        text: ' / ',
         type: 'node'
       });
     }
@@ -216,15 +216,15 @@ class GiveawaysGiveawayWinningChance extends Module {
     if (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || !main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : '.table__heading'}`);
     if (!table || table.getElementsByClassName('esgst-gwcr-heading')[0]) return;
-    let title = ``;
+    let title = '';
     if (gSettings.gwc) {
-      title += `Chance / `;
+      title += 'Chance / ';
     }
     if (gSettings.gwr) {
-      title += `Ratio / `;
+      title += 'Ratio / ';
     }
     if (gSettings.gptw) {
-      title += `Points To Win / `;
+      title += 'Points To Win / ';
     }
     title = title.slice(0, -3);
     createElements(table.firstElementChild, 'afterEnd', [{

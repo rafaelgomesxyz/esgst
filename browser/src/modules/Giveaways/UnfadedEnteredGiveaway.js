@@ -6,7 +6,7 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Removes SteamGifts' default fade for entered giveaways.`]
+          ['li', 'Removes SteamGifts\' default fade for entered giveaways.']
         ]]
       ],
       id: 'ueg',

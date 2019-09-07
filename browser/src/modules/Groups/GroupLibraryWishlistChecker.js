@@ -28,20 +28,20 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             ['i', { class: 'fa fa-star' }],
             ` ) to your `,
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
             ' pages and any ',
             ['a', { href: `https://www.steamgifts.com/group/SJ7Bu/` }, 'group'],
-            ` page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.`
+            ' page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.'
           ]],
           ['li', `The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).`],
           ['li', `Only the first 100 results are shown for each section, but you can use the search fields to find games that are outside of the top 100. If you are searching in the "Libraries" section, it is more accurate to search for games using their app id instead of their name, because the games in that section only have a name if they can also be found in the "Wishlists" section, as game names are not available in the libraries data and retrieving them would generate more requests to Steam, which is not good.`],
-          ['li', `If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.`],
+          ['li', 'If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.'],
           ['li', `A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.`]
         ]]
       ],
       id: 'glwc',
-      name: `Group Library/Wishlist Checker`,
+      name: 'Group Library/Wishlist Checker',
       sg: true,
       type: 'groups',
       features: {
@@ -71,7 +71,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       createHeadingButton({
         id: 'glwc',
         icons: ['fa-folder', 'fa-star'],
-        title: `Check libraries/wishlists`
+        title: 'Check libraries/wishlists'
       }).addEventListener('click', () => {
         window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
@@ -85,7 +85,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       if (gSettings.removeSidebarInFeaturePages) {
         shared.esgst.sidebar.remove();
       }
-      glwc.container.innerHTML = ``;
+      glwc.container.innerHTML = '';
       glwc.container.setAttribute('data-esgst-popup', true);
       new elementBuilder[shared.esgst.name].pageHeading({
         context: glwc.container,
@@ -96,7 +96,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             url: shared.esgst.settingsUrl
           },
           {
-            name: `Group Library/Wishlist Checker`,
+            name: 'Group Library/Wishlist Checker',
             url: `https://www.steamgifts.com/account/settings/profile?esgst=glwc`
           }
         ]
@@ -300,8 +300,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       }
     } else {
-      glwc.progress.innerHTML = ``;
-      glwc.overallProgress.innerHTML = ``;
+      glwc.progress.innerHTML = '';
+      glwc.overallProgress.innerHTML = '';
       this.glwc_showResults(glwc);
     }
   }
@@ -718,7 +718,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             }]);
           }
         } else {
-          librarySearch.innerHTML = ``;
+          librarySearch.innerHTML = '';
           for (i = 0, j = 0, n = library.length; j < 100 && i < n; ++i) {
             game = library[i];
             if (game.name.toLowerCase().match(value)) {
@@ -905,7 +905,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             }]);
           }
         } else {
-          wishlistSearch.innerHTML = ``;
+          wishlistSearch.innerHTML = '';
           for (i = 0, j = 0, n = wishlist.length; j < 100 && i < n; ++i) {
             game = wishlist[i];
             if (game.name.toLowerCase().match(value)) {

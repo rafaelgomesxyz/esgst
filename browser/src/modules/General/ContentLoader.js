@@ -61,9 +61,9 @@ class GeneralContentLoader extends Module {
                 ['i', { class: 'fa fa-user' }],
                 `) or automatically when loading the page (extends to your `,
                 ['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-                ` / `,
+                ' / ',
                 ['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
-                ` / `,
+                ' / ',
                 ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
                 ` pages if [id=cewgd] is enabled).`
               ]],
@@ -708,7 +708,7 @@ class GeneralContentLoader extends Module {
           } else if (gSettings.ggl_m) {
             className = 'esgst-hidden';
           } else {
-            className = ``;
+            className = '';
             numGroups += 1;
           }
 
@@ -771,7 +771,7 @@ class GeneralContentLoader extends Module {
         } else if (gSettings.ggl_m) {
           className = 'esgst-hidden';
         } else {
-          className = ``;
+          className = '';
           numGroups += 1;
         }
 
@@ -813,7 +813,7 @@ class GeneralContentLoader extends Module {
   async fetchInfo(targetObj, triggerObj, context) {
     const response = await FetchRequest.get(targetObj.url);
 
-    context.innerHTML = ``;
+    context.innerHTML = '';
 
     context.appendChild(response.html.querySelector('.featured__outer-wrap'));
 

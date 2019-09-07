@@ -45,7 +45,7 @@ class GeneralEmbeddedVideos extends Module {
             if (url !== text) {
               title = `<div>${text}</div>`;
             } else {
-              title = ``;
+              title = '';
             }
             createElements(video, 'outer', [{
               type: 'div',

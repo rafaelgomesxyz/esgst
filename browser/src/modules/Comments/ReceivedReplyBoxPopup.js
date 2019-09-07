@@ -55,8 +55,8 @@ class CommentsReceivedReplyBoxPopup extends Module {
       title1: 'Save',
       title2: 'Saving...',
       callback1: async () => {
-        progress.innerHTML = ``;
-        await shared.common.saveComment(null, ``, ``, textArea.value, giveaway.url, progress);
+        progress.innerHTML = '';
+        await shared.common.saveComment(null, '', '', textArea.value, giveaway.url, progress);
         popup.close();
       }
     }).set);

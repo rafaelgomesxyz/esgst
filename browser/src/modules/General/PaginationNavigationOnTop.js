@@ -47,7 +47,7 @@ class GeneralPaginationNavigationOnTop extends Module {
       // @ts-ignore
       for (const element of elements) {
         if (element.textContent.match(/[A-Za-z]+/)) {
-          element.textContent = element.textContent.replace(/[A-Za-z]+/g, ``);
+          element.textContent = element.textContent.replace(/[A-Za-z]+/g, '');
           if (element.previousElementSibling) {
             element.appendChild(element.previousElementSibling);
           }

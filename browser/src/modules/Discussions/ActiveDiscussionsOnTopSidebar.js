@@ -19,7 +19,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
         ]]
       ],
       id: 'adots',
-      name: `Active Discussions On Top/Sidebar`,
+      name: 'Active Discussions On Top/Sidebar',
       options: {
         title: `Move to:`,
         values: ['Top', 'Sidebar']
@@ -101,7 +101,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
             }, {
               attributes: {
                 class: 'esgst-float-right sidebar__navigation__item__name',
-                href: `/discussions`
+                href: '/discussions'
               },
               text: 'More',
               type: 'a'
@@ -113,7 +113,7 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
             shared.common.createElements(tabHeading2.nextElementSibling, 'beforeBegin', [{
               attributes: {
                 class: 'esgst-radb-button',
-                title: `${shared.common.getFeatureTooltip('radb', `Refresh active discussions/deals`)}`
+                title: `${shared.common.getFeatureTooltip('radb', 'Refresh active discussions/deals')}`
               },
               type: 'div',
               children: [{

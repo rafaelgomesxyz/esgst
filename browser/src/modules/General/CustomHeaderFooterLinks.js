@@ -19,7 +19,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to add custom links to the header dropdowns/footer of any page.`],
+          ['li', 'Allows you to add custom links to the header dropdowns/footer of any page.'],
           ['li', `Already comes with some predefined links:`],
           ['ul', [
             ['li', `Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New`],
@@ -31,7 +31,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           ['li', [
             `If you press the Ctrl key with a dropdown open, the feature adds two buttons ("`,
             ['i', { class: 'fa fa-plus-circle' }],
-            ` Add Custom Link" and "`,
+            ' Add Custom Link" and "',
             ['i', { class: 'fa fa-undo' }],
             ` Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (`,
             ['i', { class: 'fa fa-edit' }],
@@ -45,7 +45,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       ],
       inputItems: 'chfl_key',
       id: 'chfl',
-      name: `Custom Header/Footer Links`,
+      name: 'Custom Header/Footer Links',
       sg: true,
       st: true,
       type: 'general'
@@ -137,13 +137,13 @@ class GeneralCustomHeaderFooterLinks extends Module {
   }
 
   chfl_checkKey(chfl, event) {
-    let value = ``;
+    let value = '';
     if (event.ctrlKey) {
-      value += `ctrlKey + `;
+      value += 'ctrlKey + ';
     } else if (event.shiftKey) {
-      value += `shiftKey + `;
+      value += 'shiftKey + ';
     } else if (event.altKey) {
-      value += `altKey + `;
+      value += 'altKey + ';
     }
     value += event.key.toLowerCase();
 
@@ -233,7 +233,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
   }
 
   chfl_startDrag(chfl, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
+    event.dataTransfer.setData('text/plain', '');
     chfl.source = event.currentTarget;
   }
 
@@ -298,7 +298,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
             type: 'i'
           }, {
             attributes: {
-              href: `#`
+              href: '#'
             },
             text: 'Add Custom Link',
             type: 'a'
@@ -323,7 +323,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
             type: 'i'
           }, {
             attributes: {
-              href: `#`
+              href: '#'
             },
             text: 'Reset Links',
             type: 'a'
@@ -335,7 +335,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           name: 'Reset Links',
           description: 'Click here to reset the custom links.'
         }));
-        resetButton.addEventListener('click', createConfirmation.bind(common, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this,  chfl, key), null));
+        resetButton.addEventListener('click', createConfirmation.bind(common, 'Are you sure you want to reset the links? Any custom links you added will be deleted.', this.chfl_resetLinks.bind(this,  chfl, key), null));
         for (const subKey in source.elements) {
           if (source.elements.hasOwnProperty(subKey)) {
             const element = source.elements[subKey],
@@ -486,7 +486,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     let icon = name.previousElementSibling;
     let color = icon.previousElementSibling;
     let url = color.previousElementSibling.lastElementChild;
-    let compactSwitch = new ToggleSwitch(popup.description, null, null, 'Use compact size.', false, false, `The bottom/top padding of the link will be reduced to 8px.`, false);
+    let compactSwitch = new ToggleSwitch(popup.description, null, null, 'Use compact size.', false, false, 'The bottom/top padding of the link will be reduced to 8px.', false);
     description = description.lastElementChild;
     name = name.lastElementChild;
     icon = icon.lastElementChild;
@@ -504,11 +504,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
         let item = gSettings[`chfl_${key}`][i];
         if (item !== editId && (!item.id || item.id !== editId)) continue;
         if (item.id) {
-          description.value = item.description || ``;
-          name.value = item.name || ``;
-          icon.value = item.icon || ``;
-          color.value = item.color || ``;
-          url.value = item.url || ``;
+          description.value = item.description || '';
+          name.value = item.name || '';
+          icon.value = item.icon || '';
+          color.value = item.color || '';
+          url.value = item.url || '';
           if (item.compact) {
             compactSwitch.enable();
           }

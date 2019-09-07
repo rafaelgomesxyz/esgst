@@ -24,7 +24,7 @@ class ToggleSwitch {
     this.st = st;
     this.value = value;
     this.container = shared.common.createElements_v2(context, 'beforeEnd', [
-      ['div', { class: `esgst-toggle-switch-container ${inline ? 'inline' : ``}` }, [
+      ['div', { class: `esgst-toggle-switch-container ${inline ? 'inline' : ''}` }, [
         ['label', { class: 'esgst-toggle-switch' }, [
           ['input', { type: 'checkbox' }],
           ['div', { class: 'esgst-toggle-switch-slider' }]
@@ -80,7 +80,7 @@ class ToggleSwitch {
         shared.common.createElements(message, 'inner', [{
           attributes: {
             class: 'fa fa-check',
-            title: `Saved!`
+            title: 'Saved!'
           },
           type: 'i'
         }]);

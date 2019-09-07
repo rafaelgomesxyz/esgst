@@ -27,7 +27,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
         ]]
       ],
       id: 'codb',
-      name: `Close/Open Discussion Button`,
+      name: 'Close/Open Discussion Button',
       sg: true,
       type: 'discussions',
       featureMap: {

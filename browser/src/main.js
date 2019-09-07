@@ -132,7 +132,7 @@ window.interact = interact;
       toSet.users = JSON.stringify(esgst.users);
     }
     if (!utils.isSet(esgst.storage[`${esgst.name}RfiCache`])) {
-      toSet[`${esgst.name}RfiCache`] = common.getLocalValue('replies', `{}`);
+      toSet[`${esgst.name}RfiCache`] = common.getLocalValue('replies', '{}');
       common.delLocalValue('replies');
     }
     if (utils.isSet(esgst.storage.emojis)) {
@@ -140,26 +140,26 @@ window.interact = interact;
       if (esgst.storage.emojis !== fixed) {
         toSet.emojis = fixed;
       } else if (!esgst.storage.emojis) {
-        toSet.emojis = `[]`;
+        toSet.emojis = '[]';
       }
     } else {
-      toSet.emojis = utils.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : `[]`;
+      toSet.emojis = utils.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : '[]';
       toDelete.push('Emojis');
     }
     esgst.emojis = JSON.parse(toSet.emojis || esgst.storage.emojis);
     if (esgst.sg) {
       if (!utils.isSet(esgst.storage.templates)) {
-        toSet.templates = common.getLocalValue('templates', `[]`);
+        toSet.templates = common.getLocalValue('templates', '[]');
         common.delLocalValue('templates');
       }
       if (!utils.isSet(esgst.storage.stickiedCountries)) {
-        toSet.stickiedCountries = common.getLocalValue('stickiedCountries', `[]`);
+        toSet.stickiedCountries = common.getLocalValue('stickiedCountries', '[]');
         common.delLocalValue('stickiedCountries');
       }
       if (utils.isSet(esgst.storage.giveaways)) {
         esgst.giveaways = JSON.parse(esgst.storage.giveaways);
       } else {
-        toSet.giveaways = common.getLocalValue('giveaways', `{}`);
+        toSet.giveaways = common.getLocalValue('giveaways', '{}');
         esgst.giveaways = JSON.parse(toSet.giveaways);
         common.delLocalValue('giveaways');
       }
@@ -171,13 +171,13 @@ window.interact = interact;
           toSet.decryptedGiveaways = JSON.stringify(esgst.decryptedGiveaways);
         }
       } else {
-        toSet.decryptedGiveaways = `{}`;
+        toSet.decryptedGiveaways = '{}';
         esgst.decryptedGiveaways = {};
       }
       if (utils.isSet(esgst.storage.tickets)) {
         esgst.tickets = JSON.parse(esgst.storage.tickets);
       } else {
-        toSet.tickets = common.getLocalValue('tickets', `{}`);
+        toSet.tickets = common.getLocalValue('tickets', '{}');
         esgst.tickets = JSON.parse(toSet.tickets);
         common.delLocalValue('tickets');
       }
@@ -186,26 +186,26 @@ window.interact = interact;
       if (utils.isSet(esgst.storage.groups)) {
         esgst.groups = JSON.parse(esgst.storage.groups);
       } else {
-        toSet.groups = common.getLocalValue('groups', `[]`);
+        toSet.groups = common.getLocalValue('groups', '[]');
         esgst.groups = JSON.parse(toSet.groups);
         common.delLocalValue('groups');
       }
       logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === '103582791454597143')[0]);
       if (!utils.isSet(esgst.storage.entries)) {
-        toSet.entries = common.getLocalValue('entries', `[]`);
+        toSet.entries = common.getLocalValue('entries', '[]');
         common.delLocalValue('entries');
       }
       if (utils.isSet(esgst.storage.rerolls)) {
         esgst.rerolls = JSON.parse(esgst.storage.rerolls);
       } else {
-        toSet.rerolls = common.getLocalValue('rerolls', `[]`);
+        toSet.rerolls = common.getLocalValue('rerolls', '[]');
         esgst.rerolls = JSON.parse(toSet.rerolls);
         common.delLocalValue('rerolls');
       }
       if (utils.isSet(esgst.storage.winners)) {
         esgst.winners = JSON.parse(esgst.storage.winners);
       } else {
-        toSet.winners = common.getLocalValue('winners', `{}`);
+        toSet.winners = common.getLocalValue('winners', '{}');
         esgst.winners = JSON.parse(toSet.winners);
         common.delLocalValue('winners');
       }

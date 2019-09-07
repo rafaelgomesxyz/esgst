@@ -30,11 +30,11 @@ class GeneralHiddenBlacklistStats extends Module {
     heading.lastElementChild.remove();
     heading.lastElementChild.remove();
     let subHeading = heading.nextElementSibling;
-    subHeading.textContent = subHeading.textContent.replace(/and\sblacklists\s/, ``);
+    subHeading.textContent = subHeading.textContent.replace(/and\sblacklists\s/, '');
 
     // create a new graph without the blacklist points
     let script = document.createElement('script');
-    script.textContent = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, ``);
+    script.textContent = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, '');
     document.body.appendChild(script);
     script.remove();
   }

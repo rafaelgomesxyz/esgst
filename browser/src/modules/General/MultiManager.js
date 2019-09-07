@@ -52,7 +52,7 @@ class GeneralMultiManager extends Module {
             ['li', `Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.`],
             ['li', `Check the selected users for suspensions, if [id=usc] is enabled.`],
             ['li', `Tag the selected games with the same tags, if [id=gt], is enabled.`],
-            ['li', `Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.`],
+            ['li', 'Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.'],
             ['li', `Tag the selected groups with the same tags, if [id=gpt], is enabled.`]
           ]],
           ['li', 'On SteamTrades you can only manage users.']
@@ -146,7 +146,7 @@ class GeneralMultiManager extends Module {
         }]
       }]);
       obj.counterElements[key] = heading.lastElementChild;
-      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, ``, false, false, null, gSettings[`mm_enable${key}`]);
+      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, '', false, false, null, gSettings[`mm_enable${key}`]);
       toggleSwitch.onEnabled = this.mm_enable.bind(this, obj, itemsKey === key ? items : null, key);
       toggleSwitch.onDisabled = this.mm_disable.bind(this, obj, itemsKey === key ? items : null, key);
       this.mm_setSection(obj, createElements(obj.sections, 'beforeEnd', [{
@@ -299,21 +299,21 @@ class GeneralMultiManager extends Module {
               check: true,
               color1: 'grey', color2: 'grey',
               icon1: 'fa-square', icon2: 'fa-circle-o-notch fa-spin',
-              title1: 'All', title2: ``,
+              title1: 'All', title2: '',
               callback1: selectSwitches.bind(common, obj.checkboxes[key], 'check', null)
             },
             {
               check: true,
               color1: 'grey', color2: 'grey',
               icon1: 'fa-square-o', icon2: 'fa-circle-o-notch fa-spin',
-              title1: 'None', title2: ``,
+              title1: 'None', title2: '',
               callback1: selectSwitches.bind(common, obj.checkboxes[key], 'uncheck', null)
             },
             {
               check: true,
               color1: 'grey', color2: 'grey',
               icon1: 'fa-plus-square-o', icon2: 'fa-circle-o-notch fa-spin',
-              title1: 'Inverse', title2: ``,
+              title1: 'Inverse', title2: '',
               callback1: selectSwitches.bind(common, obj.checkboxes[key], 'toggle', null)
             }
           ],
@@ -321,7 +321,7 @@ class GeneralMultiManager extends Module {
         },
         {
           buttons: [],
-          name: ``
+          name: ''
         },
         {
           buttons: [
@@ -329,14 +329,14 @@ class GeneralMultiManager extends Module {
               check: true,
               color1: 'green', color2: 'grey',
               icon1: 'fa-globe', icon2: 'fa-circle-o-notch fa-spin',
-              title1: 'Links', title2: ``,
+              title1: 'Links', title2: '',
               callback1: this.mm_exportLinks.bind(this, obj, items, key)
             },
             {
               check: true,
               color1: 'green', color2: 'grey',
               icon1: 'fa-pencil', icon2: 'fa-circle-o-notch fa-spin',
-              title1: 'Custom', title2: ``,
+              title1: 'Custom', title2: '',
               callback1: this.mm_exportCustom.bind(this, obj, items, key)
             }
           ],
@@ -348,38 +348,38 @@ class GeneralMultiManager extends Module {
         [
           {
             check: true,
-            color1: 'green', color2: ``,
-            icon1: 'fa-search', icon2: ``,
+            color1: 'green', color2: '',
+            icon1: 'fa-search', icon2: '',
             key: 'searchReplace',
-            title1: 'Replace', title2: ``
+            title1: 'Replace', title2: ''
           },
           {
             check: gSettings.gf && gSettings.gf_s,
             color1: 'green', color2: 'grey',
             icon1: 'fa-eye-slash', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Hide', title2: ``,
-            tooltip: `Add selected giveaways to ESGST's single filter list`,
+            title1: 'Hide', title2: '',
+            tooltip: 'Add selected giveaways to ESGST\'s single filter list',
             callback1: this.mm_hideGiveaways.bind(this, obj, items)
           },
           {
             check: gSettings.gb,
             color1: 'green', color2: 'grey',
             icon1: 'fa-bookmark', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Bookmark', title2: ``,
+            title1: 'Bookmark', title2: '',
             callback1: this.mm_bookmarkGiveaways.bind(this, obj, items)
           },
           {
             check: gSettings.gb,
             color1: 'green', color2: 'grey',
             icon1: 'fa-bookmark-o', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Unbookmark', title2: ``,
+            title1: 'Unbookmark', title2: '',
             callback1: this.mm_unbookmarkGiveaways.bind(this, obj, items)
           },
           {
             check: gSettings.ttec,
             color1: 'green', color2: 'grey',
             icon1: 'fa-clock-o', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Calculate', title2: ``,
+            title1: 'Calculate', title2: '',
             callback1: this.mm_calculateGiveaways.bind(this, obj, items)
           }
         ],
@@ -388,7 +388,7 @@ class GeneralMultiManager extends Module {
             check: gSettings.ged,
             color1: 'green', color2: 'grey',
             icon1: 'fa-puzzle-piece', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Encrypted', title2: ``,
+            title1: 'Encrypted', title2: '',
             callback1: this.mm_exportEncryptedGiveaways.bind(this, obj, items)
           }
         ]
@@ -400,22 +400,22 @@ class GeneralMultiManager extends Module {
             check: gSettings.df && gSettings.df_s,
             color1: 'green', color2: 'grey',
             icon1: 'fa-eye-slash', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Hide', title2: ``,
-            tooltip: `Add selected discussions to ESGST's single filter list`,
+            title1: 'Hide', title2: '',
+            tooltip: 'Add selected discussions to ESGST\'s single filter list',
             callback1: this.mm_hideDiscussions.bind(this, obj, items)
           },
           {
             check: gSettings.gdttt,
             color1: 'green', color2: 'grey',
             icon1: 'fa-check', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Visit', title2: ``,
+            title1: 'Visit', title2: '',
             callback1: this.mm_visitDiscussions.bind(this, obj, items)
           },
           {
             check: gSettings.gdttt,
             color1: 'green', color2: 'grey',
             icon1: 'fa-times', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Unvisit', title2: ``,
+            title1: 'Unvisit', title2: '',
             callback1: this.mm_unvisitDiscussions.bind(this, obj, items)
           }
         ],
@@ -428,22 +428,22 @@ class GeneralMultiManager extends Module {
             check: gSettings.ut,
             color1: 'green', color2: 'grey',
             icon1: 'fa-tags', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Tag', title2: ``,
+            title1: 'Tag', title2: '',
             callback1: this.esgst.modules.usersUserTags.tags_openMmPopup.bind(this.esgst.modules.usersUserTags, obj, items)
           },
           {
             check: gSettings.wbc,
             color1: 'green', color2: 'grey',
             icon1: 'fa-question-circle', icon2: 'fa-circle-o-notch fa-spin',
-            title1: `Check WL/BL`, title2: ``,
-            tooltip: `Check selected users for whitelists / blacklists`,
+            title1: 'Check WL/BL', title2: '',
+            tooltip: 'Check selected users for whitelists / blacklists',
             callback1: this.mm_selectWbcUsers.bind(this, obj, items, 'wbc')
           },
           {
             check: gSettings.usc,
             color1: 'green', color2: 'grey',
             icon1: 'fa-question-circle', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Check Susp.', title2: ``,
+            title1: 'Check Susp.', title2: '',
             tooltip: 'Check selected users for suspensions',
             callback1: this.mm_selectWbcUsers.bind(this, obj, items, 'usc')
           }
@@ -457,22 +457,22 @@ class GeneralMultiManager extends Module {
             check: gSettings.gt,
             color1: 'green', color2: 'grey',
             icon1: 'fa-tags', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Tag', title2: ``,
+            title1: 'Tag', title2: '',
             callback1: this.esgst.modules.gamesGameTags.tags_openMmPopup.bind(this.esgst.modules.gamesGameTags, obj, items)
           },
           {
             check: true,
             color1: 'green', color2: 'grey',
             icon1: 'fa-eye-slash', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Hide', title2: ``,
-            tooltip: `Add selected games to SteamGifts' filter list`,
+            title1: 'Hide', title2: '',
+            tooltip: 'Add selected games to SteamGifts\' filter list',
             callback1: this.mm_hideGames.bind(this, obj, items)
           },
           {
             check: true,
             color1: 'green', color2: 'grey',
             icon1: 'fa-clone', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Categorize', title2: ``,
+            title1: 'Categorize', title2: '',
             callback1: this.mm_categorizeGames.bind(this, obj, items)
           }
         ],
@@ -485,7 +485,7 @@ class GeneralMultiManager extends Module {
             check: gSettings.gpt,
             color1: 'green', color2: 'grey',
             icon1: 'fa-tags', icon2: 'fa-circle-o-notch fa-spin',
-            title1: 'Tag', title2: ``,
+            title1: 'Tag', title2: '',
             callback1: this.esgst.modules.groupsGroupTags.tags_openMmPopup.bind(this.esgst.modules.groupsGroupTags, obj, items)
           }
         ],
@@ -530,7 +530,7 @@ class GeneralMultiManager extends Module {
             ],
             popup: {
               icon: 'fa-search',
-              title: `Search & Replace`,
+              title: 'Search & Replace',
               options: [
                 {
                   check: true,
@@ -696,7 +696,7 @@ class GeneralMultiManager extends Module {
       if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
       links.push(`[${escapeMarkdown(item.name || item.title || item.code)}](https://${key === 'Games' ? `store.steampowered.com/${item.type.slice(0, -1)}/${item.code}` : `${window.location.hostname}/${key.toLowerCase().slice(0, -1)}/${item.code}/`})`);
     });
-    obj[`textArea${key}`].value = links.join(`\n`);
+    obj[`textArea${key}`].value = links.join('\n');
   }
 
   mm_exportCustom(obj, items, key) {
@@ -709,7 +709,7 @@ class GeneralMultiManager extends Module {
       case 'Giveaways':
         items.forEach(item => {
           if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
-          let type = ``;
+          let type = '';
           if (item.public) {
             type += 'Public';
           } else if (item.inviteOnly) {
@@ -818,7 +818,7 @@ class GeneralMultiManager extends Module {
     if (sorting) {
       links = sortArray(links, sorting === '-desc');
     }
-    obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?].+\[\/LINE]/i, links.join(`\n`));
+    obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?].+\[\/LINE]/i, links.join('\n'));
   }
 
   mm_formatDate(timestamp, match, p1) {
@@ -844,7 +844,7 @@ class GeneralMultiManager extends Module {
         searchValue = new RegExp(parts[1], parts[2]);
         replaceValue = obj.popup.getTextInputValue(1);
       } catch (error) {
-        obj.popup.setError(`Invalid regular expression!`);
+        obj.popup.setError('Invalid regular expression!');
         return;
       }
     } else {
@@ -861,7 +861,7 @@ class GeneralMultiManager extends Module {
         let responseJson = JSON.parse((await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`,
           method: 'POST',
-          url: `/ajax.php`
+          url: '/ajax.php'
         })).responseText);
         if (responseJson.type === 'success') {
           createElements(obj.context.firstElementChild.firstElementChild, 'beforeEnd', [{
@@ -979,7 +979,7 @@ class GeneralMultiManager extends Module {
     let nextRefresh = 60 - new Date().getMinutes();
     while (nextRefresh > 15) nextRefresh -= 15;
     if (points > this.esgst.points) {
-      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ``}`;
+      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ''}`;
     } else {
       obj.textAreaGiveaways.value = 'You have enough points to enter all giveaways right now.';
     }
@@ -997,7 +997,7 @@ class GeneralMultiManager extends Module {
   mm_copyOutput(obj, key) {
     obj[`textArea${key}`].select();
     document.execCommand('copy');
-    createFadeMessage(obj[`message${key}`], `Copied!`);
+    createFadeMessage(obj[`message${key}`], 'Copied!');
   }
 
   async mm_hideDiscussions(obj, items) {
@@ -1097,7 +1097,7 @@ class GeneralMultiManager extends Module {
 
     const result = await common.hideGames({ appIds, subIds, update: message => obj.progressGames.textContent = message });
     
-    let message = ``;
+    let message = '';
     if (result.apps.length) {
       message += `The following apps were not found and therefore not hidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
     }
@@ -1165,12 +1165,12 @@ class GeneralMultiManager extends Module {
     return new Promise(resolve => {
       const file = obj.categorizeInput.files[0];
       if (!file) {
-        window.alert(`No file selected!`);
+        window.alert('No file selected!');
         resolve();
         return;
       }
       if (file.name !== 'sharedconfig.vdf') {
-        window.alert(`File invalid!`);
+        window.alert('File invalid!');
         resolve();
         return;
       }
@@ -1182,7 +1182,7 @@ class GeneralMultiManager extends Module {
 
   mm_readFile(obj, items, reader, resolve) {
     if (!reader) {
-      window.alert(`An error occurred!`);
+      window.alert('An error occurred!');
       resolve();
       return;
     }

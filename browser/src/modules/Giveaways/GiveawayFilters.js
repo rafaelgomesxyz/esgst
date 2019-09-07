@@ -25,7 +25,7 @@ class GiveawaysGiveawayFilters extends Filters {
             [`#esgst .esgst-header-menu-button:not(.arrow)`, 'Click here to open the ESGST menu.', { reflex: true,reflexOnly: true }],
             [`.page__heading__button[title="Manage hidden giveaways"]`, 'Click here to view your hidden giveaways.', { reflex: true, reflexOnly: true }],
             [`.esgst-popup-layer:not(.esgst-hidden) .esgst-gf-unhide-button:first()`, 'Click here to unhide the giveaway.', { reflex: true, reflexOnly: true, waitForElement: 10 }],
-            [``, `And that's it!`]
+            ['', 'And that\'s it!']
           ],
           name: 'Single Filters',
           sg: true,
@@ -45,15 +45,15 @@ class GiveawaysGiveawayFilters extends Filters {
                 ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any `,
                 ['a', { href: `https://www.steamgifts.com/giveaways` }, 'giveaways'],
-                `/`,
+                '/',
                 ['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-                `/`,
+                '/',
                 ['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
-                `/`,
+                '/',
                 ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-                `/`,
+                '/',
                 ['a', { href: `https://www.steamgifts.com/user/cg` }, 'user'],
-                `/`,
+                '/',
                 ['a', { href: `https://www.steamgifts.com/group/SJ7Bu/` }, 'group'],
                 ` page and some popups ([id=gb], [id=ged], [id=ge], etc...). The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
               ]],
@@ -729,7 +729,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_os: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to quickly enable/disable SteamGifts' "Filter by OS" filter.`]
+                  ['li', 'Allows you to quickly enable/disable SteamGifts\' "Filter by OS" filter.']
                 ]]
               ],
               name: `OS (SteamGifts)`,
@@ -738,7 +738,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_alreadyOwned: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to quickly enable/disable SteamGifts' "Hide games you already own" filter.`]
+                  ['li', 'Allows you to quickly enable/disable SteamGifts\' "Hide games you already own" filter.']
                 ]]
               ],
               name: `Already Owned (SteamGifts)`,
@@ -747,7 +747,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_dlcMissingBase: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to quickly enable/disable SteamGifts' "Hide DLC if you're missing the base game" filter.`]
+                  ['li', 'Allows you to quickly enable/disable SteamGifts\' "Hide DLC if you\'re missing the base game" filter.']
                 ]]
               ],
               name: `DLC Missing Base (SteamGifts)`,
@@ -756,7 +756,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_aboveLevel: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to quickly enable/disable SteamGifts' "Hide giveaways above your level" filter.`]
+                  ['li', 'Allows you to quickly enable/disable SteamGifts\' "Hide giveaways above your level" filter.']
                 ]]
               ],
               name: `Above Level (SteamGifts)`,
@@ -765,7 +765,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_manuallyFiltered: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to quickly enable/disable SteamGifts' "Hide games you manually filtered" filter.`]
+                  ['li', 'Allows you to quickly enable/disable SteamGifts\' "Hide games you manually filtered" filter.']
                 ]]
               ],
               name: `Manually Filtered (SteamGifts)`,
@@ -861,7 +861,7 @@ class GiveawaysGiveawayFilters extends Filters {
 
   async gf_hideGiveaway(giveaway, main) {
     let deleteLock = await createLock('giveawayLock', 300);
-    let giveaways = JSON.parse(getValue('giveaways', `{}`));
+    let giveaways = JSON.parse(getValue('giveaways', '{}'));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
     }
@@ -878,7 +878,7 @@ class GiveawaysGiveawayFilters extends Filters {
 
   async gf_unhideGiveaway(giveaway, main) {
     let deleteLock = await createLock('giveawayLock', 300);
-    let giveaways = JSON.parse(getValue('giveaways', `{}`));
+    let giveaways = JSON.parse(getValue('giveaways', '{}'));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].hidden;
     }

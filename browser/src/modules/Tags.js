@@ -360,7 +360,7 @@ class Tags extends Module {
   async tags_saveTags(obj) {
     let tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
     if (tags.length === 1 && !tags[0].trim()) {
-      tags = ``;
+      tags = '';
     }
     switch (obj.key) {
       case 'dt': {
@@ -504,7 +504,7 @@ class Tags extends Module {
       return;
     }
     const elements = tags.length && tags[0] ? tags.map(x => this.tags_template(x)) : [{
-      text: ``,
+      text: '',
       type: 'node'
     }];
     for (const subItem of items) {
@@ -561,7 +561,7 @@ class Tags extends Module {
   }
 
   tags_createTags(obj) {
-    obj.tags.innerHTML = ``;
+    obj.tags.innerHTML = '';
     const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
     if (tags.length) {
       if (gSettings[`${obj.key}_s`]) {
@@ -682,7 +682,7 @@ class Tags extends Module {
   }
 
   tags_startDrag(container, obj, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
+    event.dataTransfer.setData('text/plain', '');
     obj.dragged = container;
   }
 
@@ -727,8 +727,8 @@ class Tags extends Module {
     const tag = tagBox.textContent;
     if (!obj.colorSetting[tag]) {
       obj.colorSetting[tag] = {
-        bgColor: ``,
-        color: ``
+        bgColor: '',
+        color: ''
       };
     }
     obj.colorSetting[tag][saveKey] = tagBox.style[key] = input.value;
@@ -747,10 +747,10 @@ class Tags extends Module {
   }
 
   tags_resetColor(bgColorInput, colorInput, obj, tagBox) {
-    bgColorInput.value = ``;
-    colorInput.value = ``;
-    tagBox.style.backgroundColor = ``;
-    tagBox.style.color = ``;
+    bgColorInput.value = '';
+    colorInput.value = '';
+    tagBox.style.backgroundColor = '';
+    tagBox.style.color = '';
     delete obj.colorSetting[tagBox.textContent];
   }
 
@@ -759,11 +759,11 @@ class Tags extends Module {
       addScrollable: true,
       buttons: [{
         color1: 'green',
-        color2: ``,
+        color2: '',
         icon1: 'fa-check',
-        icon2: ``,
+        icon2: '',
         title1: 'Add Tags',
-        title2: ``,
+        title2: '',
         callback1: this.tags_addTagsFromList.bind(this, obj)
       }],
       icon: 'fa-list',
@@ -821,7 +821,7 @@ class Tags extends Module {
    * @param event
    */
   tags_addSuggestion(obj, event) {
-    obj.tags.innerHTML = ``;
+    obj.tags.innerHTML = '';
     const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `);
     const value = event.currentTarget.textContent;
     tags.pop();
@@ -882,7 +882,7 @@ class Tags extends Module {
     if (!item || !item.tags) {
       return;
     }
-    obj.tags.innerHTML = ``;
+    obj.tags.innerHTML = '';
     for (const tag of item.tags) {
       this.tags_createTag(obj, tag);
     }

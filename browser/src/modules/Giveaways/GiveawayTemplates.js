@@ -50,7 +50,7 @@ class GiveawaysGiveawayTemplates extends Module {
     this.gts_addButtonSection(createHeadingButton({
       id: 'gts',
       icons: ['fa-file'],
-      title: `View/apply templates`
+      title: 'View/apply templates'
     }), rows);
   }
 
@@ -93,7 +93,7 @@ class GiveawaysGiveawayTemplates extends Module {
           const response = await request({
             data: data.replace(/start_time=(.+?)&/, this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime.bind(this.esgst.modules.giveawaysMultipleGiveawayCreator)),
             method: 'POST',
-            url: `/giveaways/new`
+            url: '/giveaways/new'
           });
           if (response.finalUrl.match(/\/giveaways\/new/)) {
             resolve();
@@ -203,7 +203,7 @@ class GiveawaysGiveawayTemplates extends Module {
           attributes: {
             class: 'esgst-description esgst-hidden'
           },
-          text: `Saved!`,
+          text: 'Saved!',
           type: 'span'
         }, {
           attributes: {
@@ -310,7 +310,7 @@ class GiveawaysGiveawayTemplates extends Module {
             };
           }
           let deleteLock = await createLock('templateLock', 300);
-          savedTemplates = JSON.parse(getValue('templates', `[]`));
+          savedTemplates = JSON.parse(getValue('templates', '[]'));
           for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== template.name; ++i) {
           }
           if (i < n) {
@@ -320,7 +320,7 @@ class GiveawaysGiveawayTemplates extends Module {
               window.setTimeout(() => {
                 message.classList.add('esgst-hidden');
               }, 2000);
-            } else if (window.confirm(`There already exists a template with this name. Do you want to overwrite it?`)) {
+            } else if (window.confirm('There already exists a template with this name. Do you want to overwrite it?')) {
               savedTemplates[i] = template;
               message.classList.remove('esgst-hidden');
               window.setTimeout(() => {
@@ -363,7 +363,7 @@ class GiveawaysGiveawayTemplates extends Module {
       } else if (!last) {
         rows.appendChild(reviewButton);
         rows.appendChild(createGiveawayButton.set);
-        reviewButton.style.margin = ``;
+        reviewButton.style.margin = '';
         createGiveawayButton.set.style.margin = '0 5px';
         last = true;
         first = false;
@@ -402,7 +402,7 @@ class GiveawaysGiveawayTemplates extends Module {
       },
       type: 'div'
     }]);
-    let savedTemplates = JSON.parse(getValue('templates', `[]`));
+    let savedTemplates = JSON.parse(getValue('templates', '[]'));
     for (let i = 0, n = savedTemplates.length; i < n; ++i) {
       let savedTemplate = savedTemplates[i];
       if (!savedTemplate.gameType) {
@@ -420,7 +420,7 @@ class GiveawaysGiveawayTemplates extends Module {
           }
           details += `${`0${time.getHours()}`.slice(-2)}:${`0${time.getMinutes()}`.slice(-2)} to`;
         } else {
-          details += `? to`;
+          details += '? to';
         }
         if (savedTemplate.endTime) {
           let time = new Date(savedTemplate.endTime);
@@ -429,19 +429,19 @@ class GiveawaysGiveawayTemplates extends Module {
           }
           details += ` ${`0${time.getHours()}`.slice(-2)}:${`0${time.getMinutes()}`.slice(-2)}`;
         } else {
-          details += ` ?`;
+          details += ' ?';
         }
         details += `, `;
       } else if (savedTemplate.startDate || savedTemplate.endDate) {
         if (savedTemplate.startDate) {
           details += `${savedTemplate.startDate.year}-${savedTemplate.startDate.month + 1}-${savedTemplate.startDate.day} to`;
         } else {
-          details += `? to`;
+          details += '? to';
         }
         if (savedTemplate.endDate) {
           details += ` ${savedTemplate.endDate.year}-${savedTemplate.endDate.month + 1}-${savedTemplate.endDate.day}`;
         } else {
-          details = ` ?`;
+          details = ' ?';
         }
         details += `, `;
       }
@@ -550,7 +550,7 @@ class GiveawaysGiveawayTemplates extends Module {
         type: 'i'
       }]);
       let deleteLock = await createLock('templateLock', 300),
-        savedTemplates = JSON.parse(getValue('templates', `[]`)),
+        savedTemplates = JSON.parse(getValue('templates', '[]')),
         i = 0;
       for (const n = savedTemplates.length; i < n && savedTemplates[i].name !== savedTemplate.name; ++i) {
       }
@@ -577,7 +577,7 @@ class GiveawaysGiveawayTemplates extends Module {
     let deletedTemplate = gts.deletedTemplates.pop();
     deletedTemplate.template.classList.remove('esgst-hidden');
     deletedTemplate.template.parentElement.appendChild(deletedTemplate.template);
-    let savedTemplates = JSON.parse(getValue('templates', `[]`));
+    let savedTemplates = JSON.parse(getValue('templates', '[]'));
     savedTemplates.push(deletedTemplate.savedTemplate);
     await setValue('templates', JSON.stringify(savedTemplates));
     if (gts.deletedTemplates.length === 0) {
@@ -718,7 +718,7 @@ class GiveawaysGiveawayTemplates extends Module {
       document.getElementsByClassName('form__input-description--no-level')[0].classList.add('is-hidden');
       document.getElementsByClassName('form__input-description--level')[0].classList.remove('is-hidden');
     } else {
-      document.getElementsByClassName('ui-slider-range')[0].style.width = `0%`;
+      document.getElementsByClassName('ui-slider-range')[0].style.width = '0%';
       document.getElementsByClassName('form__input-description--level')[0].classList.add('is-hidden');
       document.getElementsByClassName('form__input-description--no-level')[0].classList.remove('is-hidden');
     }
@@ -743,9 +743,9 @@ class GiveawaysGiveawayTemplates extends Module {
 
   async gts_setSource(gts, name, template, event) {
     let i, n, savedTemplates;
-    event.dataTransfer.setData(`text/plain`, ``);
+    event.dataTransfer.setData('text/plain', '');
     gts.source = template;
-    savedTemplates = JSON.parse(getValue('templates', `[]`));
+    savedTemplates = JSON.parse(getValue('templates', '[]'));
     for (i = 0, n = savedTemplates.length; i < n && savedTemplates[i].name !== name; ++i) {
     }
     if (i < n) {
@@ -771,7 +771,7 @@ class GiveawaysGiveawayTemplates extends Module {
   }
 
   async gts_saveSource(gts) {
-    let savedTemplates = JSON.parse(getValue('templates', `[]`));
+    let savedTemplates = JSON.parse(getValue('templates', '[]'));
     savedTemplates.splice(gts.sourceNewIndex, 0, savedTemplates.splice(gts.sourceIndex, 1)[0]);
     setValue('templates', JSON.stringify(savedTemplates));
   }

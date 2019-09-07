@@ -34,8 +34,8 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
     for (i = elements.length - 1; i > -1; --i) {
       createElements(elements[i], 'beforeBegin', [{
         attributes: {
-          class: `esgst-radb-button${gSettings.oadd ? `` : ' homepage_heading'}`,
-          title: getFeatureTooltip('radb', `Refresh active discussions/deals`)
+          class: `esgst-radb-button${gSettings.oadd ? '' : ' homepage_heading'}`,
+          title: getFeatureTooltip('radb', 'Refresh active discussions/deals')
         },
         type: 'div',
         children: [{

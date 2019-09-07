@@ -25,9 +25,9 @@ class UsersNotReceivedFinder extends Module {
             ['i', { class: 'fa fa-times-circle' }],
             `) to the "Gifts Won" and "Gifts Sent" rows of a user's `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-            ` page that allows you to find all of their won/created giveaways that were marked as not received.`
+            ' page that allows you to find all of their won/created giveaways that were marked as not received.'
           ]],
-          ['li', `Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator's profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.`],
+          ['li', `Giveaways for more than 3 copies that were marked as not received can only be found if the winner(s) that marked it as not received is(are) visible in the creator\'s profile page or if you can access the giveaway and the option to search inside of giveaways is enabled. If they are not found, a list with all of the creator's giveaways for more than 3 copies will be shown.`],
           ['li', `Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.`]
         ]]
       ],
@@ -107,14 +107,14 @@ class UsersNotReceivedFinder extends Module {
     };
     const savedUser = await getUser(null, obj.nrfUser);
     if (savedUser) {
-      obj.nrfData = savedUser[`nrf${key === 'sent' ? `` : 'Won'}`];
+      obj.nrfData = savedUser[`nrf${key === 'sent' ? '' : 'Won'}`];
     }
     if (gSettings.nrf_clearCache || !obj.nrfData) {
       obj.nrfData = {
         lastCheck: 0,
         found: 0,
         total: 0,
-        results: ``
+        results: ''
       };
     }
     obj.nrfResults = obj.popup.getScrollable();
@@ -122,7 +122,7 @@ class UsersNotReceivedFinder extends Module {
       obj.nrfFound = 0;
       obj.nrfKey = key;
       obj.nrfMultiple = 0;
-      obj.nrfResultsRaw = ``;
+      obj.nrfResultsRaw = '';
       obj.nrfUsername = obj.nrfUser.username;
       obj.nrfTotal = profile[`${key}NotReceived`];
       obj.onDone = this.nrf_onDone;
@@ -217,7 +217,7 @@ class UsersNotReceivedFinder extends Module {
     obj.nrfData.total = obj.nrfTotal;
     obj.nrfData.results = obj.nrfResultsRaw;
     obj.nrfUser.values = {
-      [`nrf${obj.nrfKey === 'sent' ? `` : 'Won'}`]: obj.nrfData
+      [`nrf${obj.nrfKey === 'sent' ? '' : 'Won'}`]: obj.nrfData
     };
     await saveUser(null, null, obj.nrfUser);
     await endless_load(obj.nrfResults);

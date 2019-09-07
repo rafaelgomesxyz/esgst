@@ -40,18 +40,18 @@ class UsersUserGiveawayData extends Module {
           ]],
           ['ul', [
             ['li', `The won data contains a table with the number and percentage of won giveaways per type/level, a list with the creators that the user has most won from and (optionally) 2 other tables with the user's playtime/achievement stats for the games (DLCs cannot be counted, but packages will be listed with playtime > 0 and achievements > 0 if one or more of the games in the package have playtime/achievements).`],
-            ['li', `The sent data contains a table with the number and percentage of sent giveaways per type/level and a list with the games that the user has most given away.`]
+            ['li', 'The sent data contains a table with the number and percentage of sent giveaways per type/level and a list with the games that the user has most given away.']
           ]],
           ['li', `Results are cached forever, so every time you check the same user again the feature will only retrieve the giveaways that they have created/won since the last check, unless you check them with the option to clear the cache enabled, in which case all of their giveaways will be retrieved again as if they were being checked for the first time.`]
         ]]
       ],
       features: {
         ugd_s: {
-          name: `Display playtime/achievement stats in the user's profile page.`,
+          name: 'Display playtime/achievement stats in the user\'s profile page.',
           sg: true
         },
         ugd_g: {
-          name: `Display how many gifts you have won from / sent to the user to their profile page.`,
+          name: 'Display how many gifts you have won from / sent to the user to their profile page.',
           sg: true,
           sync: 'Won Giveaways',
           syncKeys: ['WonGiveaways']
@@ -100,7 +100,7 @@ class UsersUserGiveawayData extends Module {
     const context = common.createElements_v2(profile.commentsRow, 'afterEnd', [
       ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
-          `Won Games Playtime > `,
+          'Won Games Playtime > ',
           ['input', { class: 'esgst-ugd-input', min: '0', step: '0.1', type: 'number', value: gSettings.ugd_playtime }],
           ' hours'
         ]],
@@ -108,9 +108,9 @@ class UsersUserGiveawayData extends Module {
       ]],
       ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
-          `Won Games Achievements > `,
+          'Won Games Achievements > ',
           ['input', { class: 'esgst-ugd-input', max: '100', min: '0', step: '0.1', type: 'number', value: gSettings.ugd_achievements }],
-          ` %`
+          ' %'
         ]],
         ['div', { class: 'featured__table__row__right' }]
       ]],
@@ -264,7 +264,7 @@ class UsersUserGiveawayData extends Module {
             tooltip: `Get achievements stats for each won game by this user (slower - does not check DLCs/packages).`
           }, {
             check: key === 'won',
-            description: `Force-update playtime/achievements stats.`,
+            description: 'Force-update playtime/achievements stats.',
             id: 'ugd_forceUpdate',
             tooltip: `Playtime/achievements stats are updated automatically if you re-check the user after a week. With this option enabled, they are force-updated.`
           }, {
@@ -288,7 +288,7 @@ class UsersUserGiveawayData extends Module {
       init: this.ugd_init.bind(this, key, user),
       requests: [
         {
-          url: `/user/${user.username}${key === 'won' ? `/giveaways/won` : ``}/search?page=`,
+          url: `/user/${user.username}${key === 'won' ? '/giveaways/won' : ''}/search?page=`,
           request: this.ugd_requestGiveaways.bind(this)
         },
         this.ugd_requestGiveawaysDone.bind(this)
@@ -570,7 +570,7 @@ class UsersUserGiveawayData extends Module {
           'Winners',
           obj.user.username === gSettings.username
             ? null
-            : ['i', { class: 'fa fa-question-circle', title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.` }]
+            : ['i', { class: 'fa fa-question-circle', title: 'This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.' }]
         ],
         values: []
       };
@@ -633,7 +633,7 @@ class UsersUserGiveawayData extends Module {
     for (const key in obj.perType) {
       if (obj.perType.hasOwnProperty(key)) {
         const item = obj.perType[key];
-        const columns = [key.replace(/_/g, ` + `)];
+        const columns = [key.replace(/_/g, ' + ')];
         for (let i = 0; i < 11; i++) {
           const value = item[i];
           columns.push(value);
@@ -845,7 +845,7 @@ class UsersUserGiveawayData extends Module {
     let time2Weeks = '0';
     let timeForever = '0';
     let achievementsAttributes = null;
-    let achievements = `?`;
+    let achievements = '?';
     if (gSettings.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
       if (obj.isUpdating) {
         const game = obj.playtimes[i];
@@ -886,7 +886,7 @@ class UsersUserGiveawayData extends Module {
           logger.warning(error.stack);
         }
       }
-      achievements = `0/0`;
+      achievements = '0/0';
       if (achievementsData) {
         if (obj.isUpdating) {
           for (const achievement of achievementsData) {
@@ -999,7 +999,7 @@ class UsersUserGiveawayData extends Module {
             logger.info(`[UGD] Giveaway not found:`, item);
             continue;
           }
-          let selector = ``;
+          let selector = '';
           for (const key in types) {
             if (types.hasOwnProperty(key)) {
               const type = types[key];

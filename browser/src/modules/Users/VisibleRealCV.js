@@ -7,7 +7,7 @@ class UsersVisibleRealCV extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Displays the real sent/won CV next to the raw value in a user's `,
+            'Displays the real sent/won CV next to the raw value in a user\'s ',
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ' page.'
           ]],

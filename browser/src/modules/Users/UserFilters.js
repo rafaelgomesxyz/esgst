@@ -132,10 +132,10 @@ class UsersUserFilters extends Filters {
     profile.ufOptions = createElements(profile.ufPopup.description, 'beforeEnd', [{
       type: 'div'
     }]);
-    profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
-    profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
-    profile.ufGiveawayPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaway posts.`, false, false, `Hides the user's posts made on giveaways.`, profile.ufValues.giveawayPosts);
-    profile.ufDiscussionPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussion posts.`, false, false, `Hides the user's posts made on discussions.`, profile.ufValues.discussionPosts);
+    profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, 'Filter this user\'s giveaways.', false, false, 'Hides the user\'s giveaways from the main pages.', profile.ufValues.giveaways);
+    profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, 'Filter this user\'s discussions.', false, false, 'Hides the user\'s discussions from the main pages.', profile.ufValues.discussions);
+    profile.ufGiveawayPostsOption = new ToggleSwitch(profile.ufOptions, null, false, 'Filter this user\'s giveaway posts.', false, false, 'Hides the user\'s posts made on giveaways.', profile.ufValues.giveawayPosts);
+    profile.ufDiscussionPostsOption = new ToggleSwitch(profile.ufOptions, null, false, 'Filter this user\'s discussion posts.', false, false, 'Hides the user\'s posts made on discussions.', profile.ufValues.discussionPosts);
     saveSet = new ButtonSet({
       color1: 'green',
       color2: 'grey',

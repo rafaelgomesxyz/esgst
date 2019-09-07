@@ -58,7 +58,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
         attributes: {
           class: 'esgst-red'
         },
-        text: `This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.`,
+        text: 'This is a group/whitelist giveaway and therefore cannot be loaded by Blacklist Giveaway Loader.',
         type: 'span'
       }]);
     } else {

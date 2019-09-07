@@ -24,7 +24,7 @@ class ElementBuilder {
         context = null;
       }
       if (position && position === 'inner') {
-        context.innerHTML = ``;
+        context.innerHTML = '';
       }
       if (!items || !items.length) {
         return;
@@ -96,7 +96,7 @@ class ElementBuilder {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
                 if (utils.isSet(item[1][key])) {
-                  element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+                  element.addEventListener(key.replace(/^on/, ''), item[1][key]);
                 }
               } else {
                 element.setAttribute(key, item[1][key]);
@@ -135,7 +135,7 @@ class SgNotification extends ElementBuilder {
       position: null,
       type: 'warning',
       icons: [],
-      message: ``
+      message: ''
     }, options);
     this.createElements(options.context, options.position, [
       ['div', { ref: ref => this.notification = ref }, [
@@ -224,13 +224,13 @@ class SgPageHeading extends PageHeading {
   constructor(options) {
     super(options, 'sg');
   }
-};
+}
 
 class StPageHeading extends PageHeading {
   constructor(options) {
     super(options, 'st');
   }
-};
+}
 
 const elementBuilder = {
   sg: {

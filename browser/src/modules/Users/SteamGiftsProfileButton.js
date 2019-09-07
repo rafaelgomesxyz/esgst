@@ -14,7 +14,7 @@ class UsersSteamGiftsProfileButton extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds a button next to the "Visit Steam Profile" button of a user's `,
+            'Adds a button next to the "Visit Steam Profile" button of a user\'s ',
             ['a', { href: `https://www.steamtrades.com/user/76561198020696458` }, 'profile'],
             ' page that allows you to go to their SteamGifts profile page.'
           ]]

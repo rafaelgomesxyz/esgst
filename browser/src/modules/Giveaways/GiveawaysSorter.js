@@ -23,11 +23,11 @@ class GiveawaysGiveawaysSorter extends Module {
             ['i', { class: 'fa fa-sort' }],
             `) to the main page heading of any `,
             ['a', { href: `https://www.steamgifts.com/giveaways` }, 'giveaways'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/entered` }, 'entered'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/group/SJ7Bu/` }, 'group'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'user'],
             ` page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).`
           ]],
@@ -45,7 +45,7 @@ class GiveawaysGiveawaysSorter extends Module {
     if (!popup && !this.esgst.giveawaysPath && !this.esgst.enteredPath && !this.esgst.groupPath && !this.esgst.userPath) return;
 
     const typeMatch = window.location.search.match(/type=(wishlist|recommended|group|new)/);
-    let type = ``;
+    let type = '';
     if (typeMatch) {
       type = capitalizeFirstLetter(typeMatch[1]);
     } else if (this.esgst.enteredPath) {
@@ -57,7 +57,7 @@ class GiveawaysGiveawaysSorter extends Module {
     } else if (popup) {
       type = 'Popup'
     } else {
-      type = ``;
+      type = '';
     }
     this.esgst.gas = {
       autoKey: `gas_auto${type}`,
@@ -310,11 +310,11 @@ class GiveawaysGiveawaysSorter extends Module {
     options.addEventListener('change', callback);
     obj.popout.popout.appendChild(new ButtonSet({
       color1: 'green',
-      color2: ``,
+      color2: '',
       icon1: 'fa-arrow-circle-right',
-      icon2: ``,
+      icon2: '',
       title1: 'Sort',
-      title2: ``,
+      title2: '',
       callback1: callback
     }).set);
     obj.popout.open();

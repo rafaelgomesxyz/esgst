@@ -240,7 +240,7 @@ class GeneralQuickInboxView extends Module {
         }]
       }]);
       key = 'read_messages';
-      url = `/messages`;
+      url = '/messages';
     } else {
       this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [{
         attributes: {
@@ -258,7 +258,7 @@ class GeneralQuickInboxView extends Module {
         }]
       }]);
       key = 'mark_as_read';
-      url = `/ajax.php`;
+      url = '/ajax.php';
     }
     this.esgst.qiv.markReadButton.addEventListener('click', async () => {
       await request({ data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: 'POST', url });

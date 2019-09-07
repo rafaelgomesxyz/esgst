@@ -78,7 +78,7 @@ class CommentsCommentSearcher extends Module {
     let match = window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
     obj.code = match[2];
     obj.type = match[1];
-    obj.title = shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, ``);
+    obj.title = shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, '');
     obj.results = 0;
     if (gSettings.cs_limitPages) {
       obj.requests[0].nextPage = gSettings.cs_minPage;
@@ -87,7 +87,7 @@ class CommentsCommentSearcher extends Module {
   }
 
   cs_format(match, p1, offset, string) {
-    return (((offset === 0) || (offset === (string.length - match.length))) ? `` : `, `);
+    return (((offset === 0) || (offset === (string.length - match.length))) ? '' : `, `);
   }
 
   async cs_request(obj, details, response, responseHtml) {
@@ -104,7 +104,7 @@ class CommentsCommentSearcher extends Module {
       }
       let parent = element.parentElement.closest(`.comment, .comment_outer`);
       element = element.cloneNode(true);
-      element.lastElementChild.innerHTML = ``;
+      element.lastElementChild.innerHTML = '';
       const items = [{
         attributes: {
           class: 'comment comments comment_outer'

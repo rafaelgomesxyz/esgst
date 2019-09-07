@@ -62,7 +62,7 @@ class GiveawaysSentKeySearcher extends Module {
     }, {
       type: 'textarea'
     }]);
-    new ToggleSwitch(sks.popup.description, 'sks_exportKeys', false, 'Export all keys ever sent.', false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, gSettings.sks_exportKeys);
+    new ToggleSwitch(sks.popup.description, 'sks_exportKeys', false, 'Export all keys ever sent.', false, false, 'This will search all your giveaways and export a file with all keys ever sent. You don\'t need to enter any keys if this option is enabled.', gSettings.sks_exportKeys);
     let searchCurrent = new ToggleSwitch(sks.popup.description, 'sks_searchCurrent', false, 'Only search the current page.', false, false, null, gSettings.sks_searchCurrent);
     let minDate = new ToggleSwitch(sks.popup.description, 'sks_limitDate', false, [
       `Limit search by date, from `,
@@ -124,9 +124,9 @@ class GiveawaysSentKeySearcher extends Module {
     sks.giveaways = {};
     sks.allKeys = [];
     sks.keys = [];
-    sks.progress.innerHTML = ``;
-    sks.overallProgress.innerHTML = ``;
-    sks.results.innerHTML = ``;
+    sks.progress.innerHTML = '';
+    sks.overallProgress.innerHTML = '';
+    sks.results.innerHTML = '';
     let keys = sks.textArea.value.trim().split(/\n/);
     let n = keys.length;
     if (!gSettings.sks_exportKeys && n < 1) {
@@ -139,7 +139,7 @@ class GiveawaysSentKeySearcher extends Module {
         sks.count += 1;
       }
     }
-    sks.textArea.value = sks.keys.join(`\n`);
+    sks.textArea.value = sks.keys.join('\n');
 
     // search keys
     let [nextPage, maxPage] = gSettings.sks_limitPages ? [gSettings.sks_minPage, gSettings.sks_maxPage + 1] : (gSettings.sks_searchCurrent ? [this.esgst.currentPage, this.esgst.currentPage + 1] : [this.esgst.currentPage, null]);
@@ -153,7 +153,7 @@ class GiveawaysSentKeySearcher extends Module {
       if (nextPage === this.esgst.currentPage) {
         context = document;
         sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, true);
-        sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
+        sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? '' : ` of ${sks.lastPage}`);
       } else if (document.getElementsByClassName(`esgst-es-page-${nextPage}`)[0]) {
         skipped = true;
         continue;
@@ -164,7 +164,7 @@ class GiveawaysSentKeySearcher extends Module {
         })).responseText);
         if (!sks.lastPage) {
           sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
-          sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
+          sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? '' : ` of ${sks.lastPage}`);
         }
       }
       createElements(sks.overallProgress, 'inner', [{
@@ -207,7 +207,7 @@ class GiveawaysSentKeySearcher extends Module {
         let heading = parseHtml(JSON.parse((await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
           method: 'POST',
-          url: `/ajax.php`
+          url: '/ajax.php'
         })).responseText).html).getElementsByClassName('popup__keys__heading')[0];
         if (!heading || (heading.textContent !== 'Assigned' && !giveaway.active)) {
           continue;
@@ -220,7 +220,7 @@ class GiveawaysSentKeySearcher extends Module {
             sks.count -= 1;
           }
           if (gSettings.sks_exportKeys) {
-            sks.allKeys.push(`${giveaway.active ? 'UNASSIGNED ' : 'ASSIGNED'},"${key.replace(/"/g, `""`)}","${giveaway.name.replace(/"/g, `""`)}",https://www.steamgifts.com/giveaway/${giveaway.code}/`);
+            sks.allKeys.push(`${giveaway.active ? 'UNASSIGNED ' : 'ASSIGNED'},"${key.replace(/"/g, '""')}","${giveaway.name.replace(/"/g, '""')}",https://www.steamgifts.com/giveaway/${giveaway.code}/`);
           }
         }
       }
@@ -243,7 +243,7 @@ class GiveawaysSentKeySearcher extends Module {
         found.push({
           type: 'li',
           children: [{
-            text: `${giveaway.active ? `[UNASSIGNED] ` : ``}${key} (`,
+            text: `${giveaway.active ? `[UNASSIGNED] ` : ''}${key} (`,
             type: 'node'
           }, {
             attributes: {
@@ -293,18 +293,18 @@ class GiveawaysSentKeySearcher extends Module {
       }]);
     }
     if (gSettings.sks_exportKeys) {
-      downloadFile(sks.allKeys.join(`\r\n`), `esgst_sks_keys_${new Date().toISOString()}.csv`);
+      downloadFile(sks.allKeys.join('\r\n'), `esgst_sks_keys_${new Date().toISOString()}.csv`);
     }
-    sks.progress.innerHTML = ``;
-    sks.overallProgress.innerHTML = ``;
+    sks.progress.innerHTML = '';
+    sks.overallProgress.innerHTML = '';
     sks.button.classList.remove('esgst-busy');
   }
 
   sks_cancelSearch(sks) {
     sks.canceled = true;
     sks.button.classList.remove('esgst-busy');
-    sks.progress.innerHTML = ``;
-    sks.overallProgress.innerHTML = ``;
+    sks.progress.innerHTML = '';
+    sks.overallProgress.innerHTML = '';
   }
 }
 

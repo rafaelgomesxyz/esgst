@@ -61,7 +61,7 @@ class CommentsMultiReply extends Module {
           }]);
         }
         if (shared.esgst.sg) {
-          MR.TradeCode = ``;
+          MR.TradeCode = '';
         } else {
           if (main && !shared.common.isCurrentPath('Messages')) {
             MR.TradeCode = window.location.pathname.match(/^\/trade\/(.+?)\//)[1];
@@ -229,7 +229,7 @@ class CommentsMultiReply extends Module {
             },
             type: 'i'
           }, {
-            text: `Failed!`,
+            text: 'Failed!',
             type: 'span'
           }]);
         }
@@ -254,7 +254,7 @@ class CommentsMultiReply extends Module {
             },
             type: 'i'
           }, {
-            text: `Failed!`,
+            text: 'Failed!',
             type: 'span'
           }]);
         }
@@ -300,7 +300,7 @@ class CommentsMultiReply extends Module {
       EditSave = EditSave.nextElementSibling;
       EditSave.previousElementSibling.remove();
       ID = EditState.querySelector(`[name="comment_id"]`).value;
-      AllowReplies = shared.esgst.sg ? EditState.querySelector(`[name="allow_replies"]`).value : ``;
+      AllowReplies = shared.esgst.sg ? EditState.querySelector(`[name="allow_replies"]`).value : '';
       Description = EditState.querySelector(`[name="description"]`);
       MR.Edit.addEventListener('click', () => {
         let Temp;
@@ -313,7 +313,7 @@ class CommentsMultiReply extends Module {
         EditState.classList.remove(shared.esgst.sg ? 'is-hidden' : 'is_hidden');
         Temp = Description.value;
         Description.focus();
-        Description.value = ``;
+        Description.value = '';
         Description.value = Temp;
       });
       EditSave.addEventListener('click', async () => {
@@ -321,7 +321,7 @@ class CommentsMultiReply extends Module {
         ResponseJSON = JSON.parse((await shared.common.request({
           data: `xsrf_token=${shared.esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`,
           method: 'POST',
-          url: `/ajax.php`
+          url: '/ajax.php'
         })).responseText);
         if (ResponseJSON.type === 'success' || ResponseJSON.success) {
           ResponseHTML = utils.parseHtml(ResponseJSON[shared.esgst.sg ? 'comment' : 'html']);
@@ -413,7 +413,7 @@ class CommentsMultiReply extends Module {
       mr.delete.previousElementSibling.remove();
       mr.delete.addEventListener('click', async () => {
         // noinspection JSIgnoredPromiseFromCall
-        this.mr_editReply(mr, await shared.common.request({ data, method: 'POST', url: `/ajax.php` }));
+        this.mr_editReply(mr, await shared.common.request({ data, method: 'POST', url: '/ajax.php' }));
       });
     }
   }
@@ -440,7 +440,7 @@ class CommentsMultiReply extends Module {
       mr.undelete.previousElementSibling.remove();
       mr.undelete.addEventListener('click', async () => {
         // noinspection JSIgnoredPromiseFromCall
-        this.mr_editReply(mr, await shared.common.request({ data, method: 'POST', url: `/ajax.php` }));
+        this.mr_editReply(mr, await shared.common.request({ data, method: 'POST', url: '/ajax.php' }));
       });
     }
   }

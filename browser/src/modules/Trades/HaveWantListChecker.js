@@ -32,7 +32,7 @@ class TradesHaveWantListChecker extends Module {
         ]]
       ],
       id: 'hwlc',
-      name: `Have/Want List Checker`,
+      name: 'Have/Want List Checker',
       st: true,
       type: 'trades'
     };
@@ -63,7 +63,7 @@ class TradesHaveWantListChecker extends Module {
     }
     obj.popup = new Popup({
       icon: 'fa-list',
-      title: `Have/Want List Checker`,
+      title: 'Have/Want List Checker',
       addScrollable: 'left'
     });
     this.hwlc_addPanel(obj);
@@ -296,7 +296,7 @@ class TradesHaveWantListChecker extends Module {
     }
     for (const section in obj.sections[key]) {
       if (obj.sections[key].hasOwnProperty(section)) {
-        obj.sections[key][section].innerHTML = ``;
+        obj.sections[key][section].innerHTML = '';
       }
     }
     obj.games[key].apps = obj.games[key].apps.map(game => {
@@ -425,7 +425,7 @@ class TradesHaveWantListChecker extends Module {
   }
 
   hwlc_filter(obj, key) {
-    obj.sections[key].matches.innerHTML = ``;
+    obj.sections[key].matches.innerHTML = '';
     const query = obj.sections[key].textArea.value;
     setLocalValue(`hwlc_${key}`, query);
     let found = [];
@@ -497,14 +497,14 @@ class TradesHaveWantListChecker extends Module {
 
   hwlc_tidyName(name) {
     return name
-      .replace(/[^\w]/g, ``).toLowerCase()
-      .replace(/steamkeys/, ``);
+      .replace(/[^\w]/g, '').toLowerCase()
+      .replace(/steamkeys/, '');
   }
 
   hwlc_formatName(name) {
     name = name
-      .replace(/[^\w]/g, ``).toLowerCase()
-      .replace(/windowsedition/, ``);
+      .replace(/[^\w]/g, '').toLowerCase()
+      .replace(/windowsedition/, '');
     return WHITELIST[name] || name;
   }
 

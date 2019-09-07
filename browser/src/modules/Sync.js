@@ -43,7 +43,7 @@ const SYNC_KEYS = {
   syncGames: {
     dependencies: [],
     key: 'Games',
-    name: `Owned/Wishlisted/Ignored Games`
+    name: 'Owned/Wishlisted/Ignored Games'
   },
   syncFollowedGames: {
     dependencies: [],
@@ -89,7 +89,7 @@ const SYNC_KEYS = {
 
 async function runSilentSync(parameters) {
   const button = shared.common.addHeaderButton('fa-refresh fa-spin', 'active', 'ESGST is syncing your data... Please do not close this window.');
-  shared.esgst.parameters = Object.assign(shared.esgst.parameters, shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, ``)}`));
+  shared.esgst.parameters = Object.assign(shared.esgst.parameters, shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, '')}`));
   const syncer = await setSync(false, true);
   button.button.addEventListener('click', () => syncer.popup.open());
   shared.esgst.isSyncing = true;
@@ -138,7 +138,7 @@ async function setSync(isPopup = false, isSilent = false) {
     }
   } else {
     containerr = context = shared.esgst.sidebar.nextElementSibling;
-    containerr.innerHTML = ``;
+    containerr.innerHTML = '';
     context.setAttribute('data-esgst-popup', 'true');
   }
   const heading = new elementBuilder[shared.esgst.name].pageHeading({
@@ -170,8 +170,8 @@ async function setSync(isPopup = false, isSilent = false) {
     context.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: ``,
-      icon2: ``,
+      icon1: '',
+      icon2: '',
       title1: 'Save Changes',
       title2: 'Saving...',
       callback1: async () => {
@@ -215,7 +215,7 @@ async function setSync(isPopup = false, isSilent = false) {
         syncer.switches[id] = checkbox;
         syncer.manual.content.push(
           ['div', [
-            ['i', { class: 'fa fa-question-circle', title: `This is required for the following features:\n\n${info.dependencies.map(x => shared.common.getFeatureName(null, x)).join(`\n`)}` }],
+            ['i', { class: 'fa fa-question-circle', title: `This is required for the following features:\n\n${info.dependencies.map(x => shared.common.getFeatureName(null, x)).join('\n')}` }],
             ' ',
             checkbox.checkbox,
             ' ',
@@ -249,7 +249,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon1: 'fa-square',
           icon2: 'fa-circle-o-notch fa-spin',
           title1: 'All',
-          title2: ``,
+          title2: '',
           callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, 'check', null)
         }).set,
         new ButtonSet({
@@ -258,7 +258,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon1: 'fa-square-o',
           icon2: 'fa-circle-o-notch fa-spin',
           title1: 'None',
-          title2: ``,
+          title2: '',
           callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, 'uncheck', null)
         }).set,
         new ButtonSet({
@@ -267,7 +267,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon1: 'fa-plus-square-o',
           icon2: 'fa-circle-o-notch fa-spin',
           title1: 'Inverse',
-          title2: ``,
+          title2: '',
           callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, 'toggle', null)
         }).set
       ]],
@@ -297,7 +297,7 @@ async function setSync(isPopup = false, isSilent = false) {
 }
 
 function updateSyncDates(syncer) {
-  syncer.notificationArea.innerHTML = ``;
+  syncer.notificationArea.innerHTML = '';
   for (let id in syncer.switchesKeys) {
     if (syncer.switchesKeys.hasOwnProperty(id)) {
       const info = syncer.switchesKeys[id];
@@ -362,7 +362,7 @@ async function sync(syncer) {
 
   if (!shared.esgst.firstInstall) {
     await shared.common.setSetting('lastSync', Date.now());
-    syncer.results.innerHTML = ``;
+    syncer.results.innerHTML = '';
     syncer.progress.classList.remove('esgst-hidden');
     shared.common.createElements(syncer.progress, 'inner', [{
       attributes: {
@@ -537,7 +537,7 @@ async function sync(syncer) {
     syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
     await shared.common.saveUsers(syncer.users);
     shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-      ['div', `Whitelist/blacklist synced.`]
+      ['div', 'Whitelist/blacklist synced.']
     ]);
   }
 
@@ -666,7 +666,7 @@ async function sync(syncer) {
       if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf('revadike') < 0) {
         await permissions.requestUi(['revadike'], 'sync', true, true);
       }
-      syncer.progress.lastElementChild.textContent = `Syncing your wishlisted/owned/ignored games...`;
+      syncer.progress.lastElementChild.textContent = 'Syncing your wishlisted/owned/ignored games...';
       syncer.html = [];
       let apiResponse = null;
       if (gSettings.steamApiKey) {
@@ -692,7 +692,7 @@ async function sync(syncer) {
         await shared.common.setSetting('gc_o_altAccounts', gSettings.gc_o_altAccounts);
       }
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-        ['div', `Owned/wishlisted/ignored games synced.`],
+        ['div', 'Owned/wishlisted/ignored games synced.'],
         ...syncer.html
       ]);
       if (gSettings.getSyncGameNames) {
@@ -939,7 +939,7 @@ async function sync(syncer) {
     const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
     result.apps = result.apps.concat(tmpResult.apps);
     result.subs = result.subs.concat(tmpResult.subs);
-    let message = ``;
+    let message = '';
     if (result.apps.length) {
       message += `The following apps were not found and therefore not hidden / unhidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
     }
@@ -1000,7 +1000,7 @@ async function sync(syncer) {
     }
     await shared.common.lockAndSaveSettings(toSave);
     toSave = {};
-    shared.common.createElements_v2(syncer.progress, 'inner', [`Synced!`]);
+    shared.common.createElements_v2(syncer.progress, 'inner', ['Synced!']);
     shared.common.delLocalValue('isSyncing');
   }
   if (!syncer.isSilent) {

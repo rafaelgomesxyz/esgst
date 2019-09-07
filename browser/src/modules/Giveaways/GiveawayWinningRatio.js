@@ -54,7 +54,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
           ],
           description: [
             ['ul', [
-              ['li', `Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.`]
+              ['li', 'Changes the color of the giveaway\'s title to the same color as the ratio and adds a border of same color to the giveaway\'s game image.']
             ]]
           ],
           inputItems: [
@@ -88,7 +88,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
       if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName('esgst-gwr')[0]) {
         let context = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
           attributes: {
-            class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-gwr`,
+            class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-gwr`,
             ['data-draggable-id']: 'gwr',
             title: getFeatureTooltip('gwr', 'Giveaway Winning Ratio')
           },
@@ -191,7 +191,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
     });
     if ((this.esgst.enteredPath || this.esgst.wonPath) && gSettings.gptw) {
       items.push({
-        text: ` / `,
+        text: ' / ',
         type: 'node'
       });
     }

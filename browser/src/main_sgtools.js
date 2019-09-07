@@ -50,7 +50,7 @@ async function setTheme(settings) {
       themeElement = createElements(document.head, 'beforeEnd', [
         ['style', { id: 'esgst-theme' }, css]
       ]);
-      const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
+      const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
       if (revisedCss !== getLocalValue('theme')) {
         setLocalValue('theme', revisedCss);
       }
@@ -64,7 +64,7 @@ async function setTheme(settings) {
     customThemeElement = createElements(document.head, 'beforeEnd', [
       ['style', { id: 'esgst-custom-theme' }, css]
     ]);
-    const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
+    const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
     if (revisedCss !== getLocalValue('customTheme')) {
       setLocalValue('customTheme', revisedCss);
     }
@@ -131,9 +131,9 @@ function getThemeCss(theme) {
       open = 1;
     do {
       let character = theme[index];
-      if (character === `{`) {
+      if (character === '{') {
         open++;
-      } else if (character === `}`) {
+      } else if (character === '}') {
         open--;
       }
       css.push(character);
@@ -141,7 +141,7 @@ function getThemeCss(theme) {
     } while (open > 0);
     css.pop();
   });
-  return css.join(``);
+  return css.join('');
 }
 
 function createElements(context, position, items) {
@@ -150,7 +150,7 @@ function createElements(context, position, items) {
     context = null;
   }
   if (position && position === 'inner') {
-    context.innerHTML = ``;
+    context.innerHTML = '';
   }
   if (!items || !items.length) {
     return;
@@ -216,7 +216,7 @@ function buildElements(context, items) {
             } if (key === 'extend') {
               item[1].extend = item[1].extend.bind(null, element);
             } else if (key.match(/^on/)) {
-              element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+              element.addEventListener(key.replace(/^on/, ''), item[1][key]);
             } else {
               element.setAttribute(key, item[1][key]);
             }

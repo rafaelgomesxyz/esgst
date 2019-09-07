@@ -14,8 +14,8 @@ class Checkbox {
       ['span', {class: 'esgst-checkbox'}, [
         ['input', {class: 'esgst-hidden', type: 'checkbox'}],
         ['i', {class: 'fa fa-square-o'}],
-        ['i', {class: 'fa fa-square', type: messages.select || ``}],
-        ['i', {class: 'fa fa-check-square', type: messages.unselect || ``}]
+        ['i', {class: 'fa fa-square', type: messages.select || ''}],
+        ['i', {class: 'fa fa-check-square', type: messages.unselect || ''}]
       ]]
     ];
     if (context) {

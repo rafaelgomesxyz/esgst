@@ -29,7 +29,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
       if (!color || !bgColor) {
         continue;
       }
-      giveaway.levelColumn.setAttribute('style', `${color ? `color: ${color} !important;` : ``}${bgColor ? `background-color: ${bgColor};` : ``}`);
+      giveaway.levelColumn.setAttribute('style', `${color ? `color: ${color} !important;` : ''}${bgColor ? `background-color: ${bgColor};` : ''}`);
       giveaway.levelColumn.classList.add('esgst-glh-highlight');
     }
   }

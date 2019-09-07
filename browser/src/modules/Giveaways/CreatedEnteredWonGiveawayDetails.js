@@ -20,22 +20,22 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           ['li', [
             'Adds more details to each giveaway in your ',
             ['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
-            `/`,
+            '/',
             ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
             ` pages:`
           ]],
           ['ul', [
-            ['li', `How many points the giveaway is worth next to the game's name.`],
+            ['li', 'How many points the giveaway is worth next to the game\'s name.'],
             ['li', [
               `An icon (`,
               ['i', { class: 'fa fa-steam' }],
               `) next to the game's name that links to the game's Steam store page.`
             ]],
-            ['li', `For the entered/won pages only, the creator's username next to the giveaway's end time.`],
+            ['li', `For the entered/won pages only, the creator\'s username next to the giveaway's end time.`],
             ['li', `A column "Type" containing the giveaway's type (public, invite only, group, whitelist or region restricted).`],
-            ['li', `A column "Level" containing the giveaway's level.`],
+            ['li', 'A column "Level" containing the giveaway\'s level.'],
             ['li', `For the created page only, a column "Winner(s)" containing the giveaway's winner(s) and how many of them have marked it as received/not received.`]
           ]]
         ]]
@@ -117,7 +117,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         }
       },
       id: 'cewgd',
-      name: `Created/Entered/Won Giveaway Details`,
+      name: 'Created/Entered/Won Giveaway Details',
       sg: true,
       type: 'giveaways'
     };
@@ -269,13 +269,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (!giveaway.id) {
       const steamGiftCard = giveaway.name.match(/^\$(.+?)\sSteam\sGift\sCard$/);
       if (steamGiftCard) {
-        giveaway.points = parseInt(steamGiftCard[1].replace(/,/g, ``));
+        giveaway.points = parseInt(steamGiftCard[1].replace(/,/g, ''));
         giveaway.id = `SteamGiftCard${giveaway.points}`;
         giveaway.type = 'apps';
       } else {
         const humbleBundle = giveaway.name.match(/^Humble.+?Bundle/);
         if (humbleBundle) {
-          giveaway.id = giveaway.name.replace(/\s/g, ``);
+          giveaway.id = giveaway.name.replace(/\s/g, '');
           giveaway.type = 'apps';
         } else if (details && details.gameSteamId && details.gameType) {
           giveaway.id = details.gameSteamId;
@@ -299,7 +299,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       if (details) {
         giveaway.points = details.points;
       } else if (giveaway.id) {
-        const gcCache = JSON.parse(shared.common.getLocalValue('gcCache', `{}`));
+        const gcCache = JSON.parse(shared.common.getLocalValue('gcCache', '{}'));
         const data = gcCache && gcCache[giveaway.type] && gcCache[giveaway.type][giveaway.id];
         if (data && data.price > -1) {
           giveaway.points = data.price;
@@ -310,7 +310,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     const headingItems = [];
     if (gSettings[`${this.currentId}_p`]) {
       headingItems.push(
-        ['span', ` (${details ? giveaway.points || 0 : `?`}P)`]
+        ['span', ` (${details ? giveaway.points || 0 : '?'}P)`]
       );
     }
     if (giveaway.id && gSettings[`${this.currentId}_sl`]) {
@@ -372,7 +372,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         ' by ',
         details
           ? ['a', { class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` }, giveaway.creator]
-          : `?`
+          : '?'
       ]);
     }
 
@@ -385,25 +385,25 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         type = 'Blacklist';
       } else if (giveaway.inviteOnly) {
         if (giveaway.regionRestricted) {
-          type = `Invite + Region`;
+          type = 'Invite + Region';
         } else {
           type = 'Invite';
         }
       } else if (giveaway.group) {
         if (giveaway.whitelist) {
           if (giveaway.regionRestricted) {
-            type = `Group + Whitelist + Region`;
+            type = 'Group + Whitelist + Region';
           } else {
-            type = `Group + Whitelist`;
+            type = 'Group + Whitelist';
           }
         } else if (giveaway.regionRestricted) {
-          type = `Group + Region`;
+          type = 'Group + Region';
         } else {
           type = 'Group';
         }
       } else if (giveaway.whitelist) {
         if (giveaway.regionRestricted) {
-          type = `Whitelist + Region`;
+          type = 'Whitelist + Region';
         } else {
           type = 'Whitelist';
         }
@@ -488,7 +488,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       ['div', { class: 'table__rows' }, []]
     ];
     for (const winner of details.winners) {
-      let className = ``;
+      let className = '';
       switch (winner.status) {
         case 'Received':
           className = 'fa fa-check-circle esgst-green';

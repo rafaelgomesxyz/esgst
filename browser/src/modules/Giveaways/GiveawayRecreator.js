@@ -76,10 +76,10 @@ class GiveawaysGiveawayRecreator extends Module {
     let context, elements, giveaways, i, keys, n,
       template = {
         delay: 0,
-        description: ``,
+        description: '',
         duration: giveaway.endTime - giveaway.startTime,
         gameName: giveaway.name,
-        groups: ``,
+        groups: '',
         level: giveaway.level,
         region: '0'
       };
@@ -96,7 +96,7 @@ class GiveawaysGiveawayRecreator extends Module {
     elements = parseHtml(JSON.parse((await request({
       data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     })).responseText).html).getElementsByClassName('table__row-outer-wrap');
     for (i = 0, n = elements.length; i < n && elements[i].getAttribute('data-autocomplete-name') !== giveaway.name; ++i) {
     }
@@ -108,7 +108,7 @@ class GiveawaysGiveawayRecreator extends Module {
       context = parseHtml(JSON.parse((await request({
         data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
         method: 'POST',
-        url: `/ajax.php`
+        url: '/ajax.php'
       })).responseText).html).getElementsByClassName('popup__keys__heading');
       if (context) {
         context = context[context.length - 1];
@@ -120,7 +120,7 @@ class GiveawaysGiveawayRecreator extends Module {
     }
     if (keys.length > 0) {
       template.gameType = 'key';
-      template.keys = keys.join(`\n`);
+      template.keys = keys.join('\n');
     } else {
       template.gameType = 'gift';
       template.copies = giveaway.copies;
@@ -133,7 +133,7 @@ class GiveawaysGiveawayRecreator extends Module {
     giveaways[giveaway.code].recreated = true;
     await setValue('giveaways', JSON.stringify(giveaways));
     button.remove();
-    window.open(`/giveaways/new`);
+    window.open('/giveaways/new');
   }
 }
 

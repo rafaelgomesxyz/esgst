@@ -16,7 +16,7 @@ class Permissions {
       dropbox: {
         isOrigin: true,
         messages: {
-          storage: `Required to back up / restore data to / from Dropbox.`
+          storage: 'Required to back up / restore data to / from Dropbox.'
         },
         values: [`*://*.api.dropboxapi.com/*`, `*://*.content.dropboxapi.com/*`]
       },
@@ -30,17 +30,17 @@ class Permissions {
       googleDrive: {
         isOrigin: true,
         messages: {
-          storage: `Required to back up / restore data to / from Google Drive.`
+          storage: 'Required to back up / restore data to / from Google Drive.'
         },
         values: [`*://*.googleapis.com/*`]
       },
       googleWebApp: {
         isOrigin: true,
         messages: {
-          namwc: `Required by Not Activated / Multiple Wins Checker to retrieve the user's suspensions from the database.`,
+          namwc: 'Required by Not Activated / Multiple Wins Checker to retrieve the user\'s suspensions from the database.',
           ncv: 'Required to update the no CV games database when creating a new giveaway.',
-          sync: `Required to sync reduced / no CV games and HLTB times.`,
-          uh: `Required by Username History to retrieve the user's username history and the list of recent changes from the database.`,
+          sync: 'Required to sync reduced / no CV games and HLTB times.',
+          uh: 'Required by Username History to retrieve the user\'s username history and the list of recent changes from the database.',
           ust: 'Required by User Suspension Tracker to send tickets to the database.'
         },
         values: [`*://*.script.google.com/*`, `*://*.script.googleusercontent.com/*`]
@@ -62,7 +62,7 @@ class Permissions {
       oneDrive: {
         isOrigin: true,
         messages: {
-          storage: `Required to back up / restore data to / from OneDrive.`
+          storage: 'Required to back up / restore data to / from OneDrive.'
         },
         values: [`*://*.files.1drv.com/*`, `*://*.graph.microsoft.com/*`]
       },
@@ -86,10 +86,10 @@ class Permissions {
       steamApi: {
         isOrigin: true,
         messages: {
-          glwc: `Required by Group Libraries / Wishlists Checker to retrieve the users' owned games.`,
-          hwlc: `Required by Have / Want List Checker to retrieve the user's owned games.`,
-          sync: `Required to sync owned / wishlisted / ignored games.`,
-          ugd: `Required by User Giveaway Data to retrieve the user's playtimes / achievement stats.`
+          glwc: 'Required by Group Libraries / Wishlists Checker to retrieve the users\' owned games.',
+          hwlc: 'Required by Have / Want List Checker to retrieve the user\'s owned games.',
+          sync: 'Required to sync owned / wishlisted / ignored games.',
+          ugd: 'Required by User Giveaway Data to retrieve the user\'s playtimes / achievement stats.'
         },
         values: [`*://*.api.steampowered.com/*`]
       },
@@ -97,9 +97,9 @@ class Permissions {
         isOrigin: true,
         messages: {
           as: 'Required by Archive Searcher to retrieve the title of a game when searching by app id.',
-          glwc: `Required by Group Libraries / Wishlists Checker to retrieve the group's members.`,
-          gs: `Required by Groups Stats to retrieve the group's type.`,
-          sgc: `Required by Shared Groups Checker to retrieve the user's groups.`,
+          glwc: 'Required by Group Libraries / Wishlists Checker to retrieve the group\'s members.',
+          gs: 'Required by Groups Stats to retrieve the group\'s type.',
+          sgc: 'Required by Shared Groups Checker to retrieve the user\'s groups.',
           sync: 'Required to sync followed games.',
           ugs: 'Required by Unsent Gifts Sender if the option to check group members is enabled.'
         },
@@ -109,10 +109,10 @@ class Permissions {
         isOrigin: true,
         messages: {
           gc: 'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
-          glwc: `Required by Group Libraries / Wishlists Checker to retrieve the users' wishlists.`,
-          hwlc: `Required by Have / Want List Checker to retrieve the user's wishlist.`,
-          rcvc: `Required by Real CV Calculator to retrieve the game's price.`,
-          sync: `Required to sync owned / wishlisted / ignored games.`,
+          glwc: 'Required by Group Libraries / Wishlists Checker to retrieve the users\' wishlists.',
+          hwlc: 'Required by Have / Want List Checker to retrieve the user\'s wishlist.',
+          rcvc: 'Required by Real CV Calculator to retrieve the game\'s price.',
+          sync: 'Required to sync owned / wishlisted / ignored games.',
           ugd: 'Required by User Giveaway Data to get list of games in packages.'
         },
         values: [`*://*.store.steampowered.com/*`]
@@ -222,11 +222,11 @@ class Permissions {
       }
       popup.description.appendChild(new ButtonSet({
         color1: 'grey',
-        color2: ``,
+        color2: '',
         icon1: 'fa-arrow-circle-right',
-        icon2: ``,
+        icon2: '',
         title1: 'Proceed',
-        title2: ``,
+        title2: '',
         callback1: async () => {
           popup.close();
           resolve(await this.request(keys));
@@ -239,7 +239,7 @@ class Permissions {
 
   getMessage(keys, messageKey, isOptional) {
     const { permissions, origins } = this.getValues(keys);
-    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ``} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant the optional permissions: ${permissions.concat(origins).join(`, `)}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant the required permissions: ${permissions.concat(origins).join(`, `)}`}`;
+    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant the optional permissions: ${permissions.concat(origins).join(`, `)}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant the required permissions: ${permissions.concat(origins).join(`, `)}`}`;
   }
 }
 

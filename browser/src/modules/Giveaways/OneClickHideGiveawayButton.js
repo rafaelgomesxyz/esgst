@@ -54,7 +54,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
       giveaway.unfade = this.ochgb_unfadeGiveaway.bind(this, giveaway, main);
       giveaway.ochgbButton = new Button(button, 'afterEnd', {
         callbacks: [this.ochgb_hideGiveaway.bind(this, giveaway, main), null, this.ochgb_unhideGiveaway.bind(this, giveaway, main), null],
-        className: `esgst-ochgb ${this.esgst.giveawayPath && main ? `` : 'giveaway__icon'}`,
+        className: `esgst-ochgb ${this.esgst.giveawayPath && main ? '' : 'giveaway__icon'}`,
         icons: ['fa-eye-slash esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-eye esgst-clickable', 'fa-circle-o-notch fa-spin'],
         id: 'ochgb',
         index: unhide ? 2 : 0,
@@ -81,7 +81,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
     await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     });
     this.ochgb_completeProcess(giveaway, 'fade', main);
     await updateHiddenGames(giveaway.id, giveaway.type);
@@ -92,7 +92,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
     await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`,
       method: 'POST',
-      url: `/ajax.php`
+      url: '/ajax.php'
     });
     this.ochgb_completeProcess(giveaway, 'unfade', main);
     await updateHiddenGames(giveaway.id, giveaway.type, true);

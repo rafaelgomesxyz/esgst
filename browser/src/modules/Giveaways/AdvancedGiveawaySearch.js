@@ -19,7 +19,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' `,
+            'Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts\' ',
             ['a', { href: `https://www.steamgifts.com/discussion/8SzdT/` }, 'search parameters'],
             '.'
           ]]
@@ -33,7 +33,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
   }
 
   init() {
-    let query = ``;
+    let query = '';
     if (this.esgst.giveawaysPath) {
       query += `.sidebar__search-container, `;
     }
@@ -88,7 +88,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         options: [
           {
             name: 'All',
-            value: ``
+            value: ''
           },
           {
             name: 'Wishlist',

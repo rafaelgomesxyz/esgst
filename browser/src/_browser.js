@@ -60,7 +60,7 @@ if (typeof browser !== 'undefined') {
             }
             case 'update_lock': {
               const lock = JSON.parse(obj.lock);
-              const locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
+              const locked = JSON.parse(await _browser.gm.getValue(lock.key, '{}'));
               if (locked.uuid === lock.uuid) {
                 locked.timestamp = Date.now();
                 await _browser.gm.setValue(lock.key, JSON.stringify(locked));
@@ -70,14 +70,14 @@ if (typeof browser !== 'undefined') {
             }
             case 'do_unlock': {
               const lock = JSON.parse(obj.lock);
-              await _browser.gm.setValue(lock.key, `{}`);
+              await _browser.gm.setValue(lock.key, '{}');
               resolve();
               break;
             }
             case 'fetch': {
               const parameters = JSON.parse(obj.parameters);
               if (parameters.credentials === 'omit') {
-                parameters.headers.Cookie = ``;
+                parameters.headers.Cookie = '';
               }
               _browser.gm.xmlHttpRequest({
                 binary: !!obj.fileName,
@@ -86,7 +86,7 @@ if (typeof browser !== 'undefined') {
                   : parameters.body,
                 headers: parameters.headers,
                 method: parameters.method,
-                overrideMimeType: obj.blob ? `text/plain; charset=x-user-defined` : ``,
+                overrideMimeType: obj.blob ? `text/plain; charset=x-user-defined` : '',
                 url: obj.url,
                 onload: async response => {
                   if (obj.blob) {
@@ -219,14 +219,14 @@ if (typeof browser !== 'undefined') {
     }
   });
   _browser.gm.doLock = async (lock) => {
-    let locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
+    let locked = JSON.parse(await _browser.gm.getValue(lock.key, '{}'));
     if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + (lock.timeout || 15000))) {
       await _browser.gm.setValue(lock.key, JSON.stringify({
         timestamp: Date.now(),
         uuid: lock.uuid
       }));
       await shared.common.timeout(lock.threshold / 2);
-      locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
+      locked = JSON.parse(await _browser.gm.getValue(lock.key, '{}'));
       if (!locked || locked.uuid !== lock.uuid) {
         if (!lock.lockOrDie) {
           return _browser.gm.doLock(lock);
@@ -310,7 +310,7 @@ if (typeof browser !== 'undefined') {
 }
 
 if (typeof _browser.runtime.getBrowserInfo === 'undefined') {
-  _browser.runtime.getBrowserInfo = () => Promise.resolve({ name: `?` });
+  _browser.runtime.getBrowserInfo = () => Promise.resolve({ name: '?' });
 }
 
 export { _browser };

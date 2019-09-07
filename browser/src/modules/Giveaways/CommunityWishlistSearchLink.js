@@ -12,7 +12,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Turns the numbers in the "Giveaways" column of any `,
+            'Turns the numbers in the "Giveaways" column of any ',
             ['a', { href: `https://www.steamgifts.com/giveaways/wishlist` }, 'community wishlist'],
             ` page into links that allow you to search for all of the active giveaways for the game (that are visible to you).<`
           ]]

@@ -31,10 +31,10 @@ class GiveawaysHiddenGamesManager extends Module {
             ['i', { class: 'fa fa-times-circle' }],
             `) to your `,
             ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, 'giveaway filters'],
-            ` page that allows you to add / remove games to / from your hidden list.`
+            ' page that allows you to add / remove games to / from your hidden list.'
           ]],
-          ['li', `You can add all your owned / ignored games with a single click.`],
-          ['li', `You can remove all your owned / wishlisted games with a single click.`]
+          ['li', 'You can add all your owned / ignored games with a single click.'],
+          ['li', 'You can remove all your owned / wishlisted games with a single click.']
         ]]
       ],
       id: 'hgm',
@@ -55,7 +55,7 @@ class GiveawaysHiddenGamesManager extends Module {
     let button = createHeadingButton({
       id: 'hgm',
       icons: ['fa-eye-slash', 'fa-plus-circle', 'fa-times-circle'],
-      title: `Add / remove games to / from the list`
+      title: 'Add / remove games to / from the list'
     });
     button.addEventListener('click', this.openPopup.bind(this, { button }));
   }
@@ -144,7 +144,7 @@ class GiveawaysHiddenGamesManager extends Module {
       text: 'Adding games...',
       type: 'span'
     }]);
-    obj.result.innerHTML = ``;
+    obj.result.innerHTML = '';
     
     const appIds = [];
     const subIds = [];
@@ -176,7 +176,7 @@ class GiveawaysHiddenGamesManager extends Module {
 
     const result = await common.hideGames(obj.hideObj);
 
-    let message = ``;
+    let message = '';
     if (result.apps.length) {
       message += `The following apps were not found and therefore not hidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
     }
@@ -188,7 +188,7 @@ class GiveawaysHiddenGamesManager extends Module {
     }
     
     obj.button.classList.remove('esgst-busy');
-    obj.progress.innerHTML = ``;
+    obj.progress.innerHTML = '';
     obj.running = false;
   }
 
@@ -202,7 +202,7 @@ class GiveawaysHiddenGamesManager extends Module {
     }
     obj.running = true;
     obj.canceled = false;
-    obj.lastPage = ``;
+    obj.lastPage = '';
     obj.button.classList.add('esgst-busy');
     createElements(obj.progress, 'inner', [{
       attributes: {
@@ -253,7 +253,7 @@ class GiveawaysHiddenGamesManager extends Module {
       }
       if (!obj.lastPage) {
         obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document);
-        obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
+        obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
       }
       createElements(obj.progress, 'inner', [{
         attributes: {
@@ -285,7 +285,7 @@ class GiveawaysHiddenGamesManager extends Module {
           await request({
             data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
             method: 'POST',
-            url: `/ajax.php`
+            url: '/ajax.php'
           });
         }
         createElements(obj.result, 'beforeEnd', [{
@@ -304,7 +304,7 @@ class GiveawaysHiddenGamesManager extends Module {
       const file = [].concat(
         ...appIds.map(id => `https://store.steampowered.com/app/${id}`),
         ...subIds.map(id => `https://store.steampowered.com/sub/${id}`)
-      ).join(`\n`);
+      ).join('\n');
       common.downloadFile(file, 'steamgifts-hidden-games.txt');
     } else {
       await common.lockAndSaveGames(newGames);
@@ -320,7 +320,7 @@ class GiveawaysHiddenGamesManager extends Module {
       }
     }
     obj.button.classList.remove('esgst-busy');
-    obj.progress.innerHTML = ``;
+    obj.progress.innerHTML = '';
     obj.running = false;
   }
 
@@ -330,7 +330,7 @@ class GiveawaysHiddenGamesManager extends Module {
       obj.hideObj.canceled = true;
     }
     obj.button.classList.remove('esgst-busy');
-    obj.progress.innerHTML = ``;
+    obj.progress.innerHTML = '';
   }
 }
 

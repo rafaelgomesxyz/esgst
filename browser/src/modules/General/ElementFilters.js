@@ -12,7 +12,7 @@ class GeneralElementFilters extends Module {
           ['li', `Here are some quick examples:`],
           ['ul', [
             ['li', [
-              `To hide the "Redeem" button in your `,
+              'To hide the "Redeem" button in your ',
               ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
               ` page, use: `,
               ['code', '.table__column__key__redeem']
@@ -58,7 +58,7 @@ class GeneralElementFilters extends Module {
         const property = filter.match(/\[esgst\.(.+)]/);
         if (property) {
           if (!this.esgst[property[1]]) return;
-          filter = filter.replace(/\[esgst\..+]/, ``);
+          filter = filter.replace(/\[esgst\..+]/, '');
         }
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} ${filter}, .esgst-es-page-${endless}${filter}` : `${filter}`}`);
         for (let i = elements.length - 1; i > -1; i--) {

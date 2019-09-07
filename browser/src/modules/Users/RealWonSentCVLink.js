@@ -14,9 +14,9 @@ class UsersRealWonSentCVLink extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Turns "Gifts Won" and "Gifts Sent" in a user's `,
+            'Turns "Gifts Won" and "Gifts Sent" in a user\'s ',
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-            ` page into links that take you to their real won/sent CV pages on `,
+            ' page into links that take you to their real won/sent CV pages on ',
             ['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
             '.'
           ]]
@@ -29,7 +29,7 @@ class UsersRealWonSentCVLink extends Module {
         }
       },
       id: 'rwscvl',
-      name: `Real Won/Sent CV Link`,
+      name: 'Real Won/Sent CV Link',
       sg: true,
       type: 'users',
       featureMap: {
@@ -43,8 +43,8 @@ class UsersRealWonSentCVLink extends Module {
     wonUrl = `http://www.sgtools.info/won/${profile.username}`;
     sentUrl = `http://www.sgtools.info/sent/${profile.username}`;
     if (gSettings.rwscvl_r) {
-      wonUrl += `/newestfirst`;
-      sentUrl += `/newestfirst`;
+      wonUrl += '/newestfirst';
+      sentUrl += '/newestfirst';
     }
     createElements(profile.wonRowLeft, 'inner', [{
       attributes: {

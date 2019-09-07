@@ -160,9 +160,9 @@ function addStyle() {
     color = gSettings[`${colors[i].id}_color`];
     backgroundColor = gSettings[`${colors[i].id}_bgColor`];
     style += `
-    ${colors[i].key === 'genres' ? 'a' : ``}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
+    ${colors[i].key === 'genres' ? 'a' : ''}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
       background-color: ${backgroundColor};
-      ${color ? `color: ${color};` : ``}
+      ${color ? `color: ${color};` : ''}
     }
     .${colors[i].mainKey}-${colors[i].key}.giveaway__column, .${colors[i].mainKey}-${colors[i].key}.featured__column {
       color: ${backgroundColor};
@@ -187,7 +187,7 @@ function addStyle() {
     style += `
     .${colors[i].mainKey}-${colors[i].key} {
       background-color: ${backgroundColor} !important;
-      ${color ? `color: ${color} !important;` : ``}
+      ${color ? `color: ${color} !important;` : ''}
     }
   `;
   }

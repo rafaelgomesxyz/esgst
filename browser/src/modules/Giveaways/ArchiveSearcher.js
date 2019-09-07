@@ -63,7 +63,7 @@ class GiveawaysArchiveSearcher extends Module {
 
   as_openPage(input) {
     const match = input.value.match(/"(.+?)"|id:(.+)/);
-    let query = ``;
+    let query = '';
     let isAppId = false;
     if (match[1]) {
       query = match[1];
@@ -72,7 +72,7 @@ class GiveawaysArchiveSearcher extends Module {
       isAppId = true;
     }
     if (gSettings.as_t) {
-      window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ``}`;
+      window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ''}`;
     } else {
       this.as_init({query, isAppId, isPopup: true});
     }
@@ -103,7 +103,7 @@ class GiveawaysArchiveSearcher extends Module {
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
       context.setAttribute('data-esgst-popup', 'true');
-      context.innerHTML = ``;
+      context.innerHTML = '';
     }
     new elementBuilder[shared.esgst.name].pageHeading({
       context: container,
@@ -138,7 +138,7 @@ class GiveawaysArchiveSearcher extends Module {
       }
     }
 
-    progress.innerHTML = ``;
+    progress.innerHTML = '';
 
     obj.query = ((obj.query.length >= 50) ? obj.query.slice(0, 50) : obj.query).toLowerCase();
     obj.page = 1;
@@ -147,8 +147,8 @@ class GiveawaysArchiveSearcher extends Module {
     const set = new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: ``,
-      icon2: ``,
+      icon1: '',
+      icon2: '',
       title1: 'Load More',
       title2: 'Loading...',
       callback1: async () => await this.as_request(obj)

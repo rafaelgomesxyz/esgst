@@ -17,11 +17,11 @@ class Popup {
         ]  : [
           ['div', { class: 'esgst-popup' }, [
             ['div', { class: 'esgst-popup-heading' }, [
-              ['i', { class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ' esgst-hidden'}` }],
-              ['div', { class: `esgst-popup-title${details.title ? `` : ' esgst-hidden'}` }, details.title]
+              ['i', { class: `fa ${details.icon} esgst-popup-icon${details.icon ? '' : ' esgst-hidden'}` }],
+              ['div', { class: `esgst-popup-title${details.title ? '' : ' esgst-hidden'}` }, details.title]
             ]],
             ['div', { class: 'esgst-popup-description' }],
-            ['div', { class: `esgst-popup-scrollable ${details.addScrollable === 'left' ? 'esgst-text-left' : ``}` }, details.scrollableContent],
+            ['div', { class: `esgst-popup-scrollable ${details.addScrollable === 'left' ? 'esgst-text-left' : ''}` }, details.scrollableContent],
             ['div', { class: 'esgst-popup-actions' }, [
               ['a', { class: 'esgst-hidden', href: shared.esgst.settingsUrl }, 'Settings'],
               ['a', { class: 'esgst-popup-close' }, 'Close']
@@ -76,7 +76,7 @@ class Popup {
         }
         items.push({
           attributes: {
-            placeholder: textInput.placeholder || ``,
+            placeholder: textInput.placeholder || '',
             type: 'text'
           },
           type: 'input'
@@ -226,7 +226,7 @@ class Popup {
   }
 
   clearProgress() {
-    this.progress.innerHTML = ``;
+    this.progress.innerHTML = '';
     this.progressMessage = null;
   }
 
@@ -235,10 +235,10 @@ class Popup {
   }
 
   clear() {
-    this.progress.innerHTML = ``;
+    this.progress.innerHTML = '';
     this.progressMessage = null;
-    this.overallProgress.textContent = ``;
-    this.scrollable.innerHTML = ``;
+    this.overallProgress.textContent = '';
+    this.scrollable.innerHTML = '';
   }
 
   setIcon(icon) {

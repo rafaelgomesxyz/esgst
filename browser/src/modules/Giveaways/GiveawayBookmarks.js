@@ -69,7 +69,7 @@ class GiveawaysGiveawayBookmarks extends Module {
               suffix: ' hours'
             }
           ],
-          name: `Highlight the header button when giveaways have started and/or are about to end.`,
+          name: 'Highlight the header button when giveaways have started and/or are about to end.',
           sg: true
         },
         gb_t: {
@@ -192,7 +192,7 @@ class GiveawaysGiveawayBookmarks extends Module {
         title = `(${ending} ending)`;
       }
     } else {
-      title = ``;
+      title = '';
     }
     if (button) {
       button.title = getFeatureTooltip('gb', `View your bookmarked giveaways ${title}`);
@@ -226,7 +226,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       if (gSettings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
-      context.innerHTML = ``;
+      context.innerHTML = '';
       context.setAttribute('data-esgst-popup', 'true');
       new elementBuilder[shared.esgst.name].pageHeading({
         context: context,
@@ -309,11 +309,11 @@ class GiveawaysGiveawayBookmarks extends Module {
     });
     container.appendChild(new ButtonSet({
       color1: 'grey',
-      color2: ``,
+      color2: '',
       icon1: 'fa-list',
-      icon2: ``,
+      icon2: '',
       title1: 'View Raw List',
-      title2: ``,
+      title2: '',
       callback1: this.gb_openList.bind(this, { bookmarked })
     }).set);
     container.appendChild(set.set);
@@ -621,7 +621,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 
   async gb_bookmarkGiveaway(giveaway) {
     let deleteLock = await createLock('giveawayLock', 300);
-    let giveaways = JSON.parse(getValue('giveaways', `{}`));
+    let giveaways = JSON.parse(getValue('giveaways', '{}'));
     if (!giveaways[giveaway.code]) {
       giveaways[giveaway.code] = {};
     }
@@ -637,7 +637,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 
   async gb_unbookmarkGiveaway(giveaway) {
     let deleteLock = await createLock('giveawayLock', 300);
-    let giveaways = JSON.parse(getValue('giveaways', `{}`));
+    let giveaways = JSON.parse(getValue('giveaways', '{}'));
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].bookmarked;
     }

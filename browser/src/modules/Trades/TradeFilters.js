@@ -63,7 +63,7 @@ class TradesTradeFilters extends Filters {
                 ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any `,
                 ['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
-                ` page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
+                ' page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.'
               ]],
               ['li', `Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:`],
               ['ul', [
@@ -376,7 +376,7 @@ class TradesTradeFilters extends Filters {
 
   async tf_hideTrade(trade, main) {
     let deleteLock = await createLock('tradeLock', 300);
-    let trades = JSON.parse(getValue('trades', `{}`));
+    let trades = JSON.parse(getValue('trades', '{}'));
     if (!trades[trade.code]) {
       trades[trade.code] = {};
     }
@@ -391,7 +391,7 @@ class TradesTradeFilters extends Filters {
 
   async tf_unhideTrade(trade, main) {
     let deleteLock = await createLock('tradeLock', 300);
-    let trades = JSON.parse(getValue('trades', `{}`));
+    let trades = JSON.parse(getValue('trades', '{}'));
     if (trades[trade.code]) {
       delete trades[trade.code].hidden;
       trades[trade.code].lastUsed = Date.now();

@@ -29,10 +29,10 @@ class Filters extends Module {
   getFilters(popup) {}
 
   addSingleButton(icon) {
-    this.singleButton = shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: `Hide / unhide items filtered by single filters temporarily` });
+    this.singleButton = shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: 'Hide / unhide items filtered by single filters temporarily' });
     this.singleButton.classList.add('esgst-hidden');
     shared.common.createElements_v2(this.singleButton, 'afterBegin', [['span']]);
-    this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, ``, false, false, null, true);
+    this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, '', false, false, null, true);
     this.singleSwitch.onChange = () => this.toggleFilteredItems();
     this.singleCounter = shared.common.createElements_v2(this.singleButton, 'beforeEnd', [['span', '0']]);
   }    
@@ -70,7 +70,7 @@ class Filters extends Module {
         recommended: 'Recommended',
         group: 'Group',
         new: 'New'
-      }[window.location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? 'Created' : (this.esgst.enteredPath ? 'Entered' : (this.esgst.wonPath ? 'Won' : (this.esgst.userPath ? 'User' : ``))))))
+      }[window.location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? 'Created' : (this.esgst.enteredPath ? 'Entered' : (this.esgst.wonPath ? 'Won' : (this.esgst.userPath ? 'User' : ''))))))
     };
     obj.filters = this.getFilters(popup);
     if (popup) {
@@ -99,7 +99,7 @@ class Filters extends Module {
       headingButton.firstElementChild,
       `${obj.id}_enable${obj.type}`,
       true,
-      ``,
+      '',
       false,
       false,
       null,
@@ -946,7 +946,7 @@ class Filters extends Module {
             await request({
               data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: 'POST',
-              url: `/account/settings/giveaways`
+              url: '/account/settings/giveaways'
             });
             spinning.classList.add('esgst-hidden');
             check.classList.remove('esgst-hidden');
@@ -960,7 +960,7 @@ class Filters extends Module {
             await request({
               data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: 'POST',
-              url: `/account/settings/giveaways`
+              url: '/account/settings/giveaways'
             });
             spinning.classList.add('esgst-hidden');
             check.classList.remove('esgst-hidden');
@@ -1060,7 +1060,7 @@ class Filters extends Module {
             ['span', { class: 'esgst-bold' }, [
               ['i', { class: 'fa fa-arrows' }]
             ]],
-            ` - Allows you reorder/move rules/groups. The order of the rules does not alter the result.`
+            ' - Allows you reorder/move rules/groups. The order of the rules does not alter the result.'
           ]],
           ['li', [
             ['span', { class: 'esgst-bold' }, [
@@ -1178,7 +1178,7 @@ class Filters extends Module {
           const isMax = key.match(/^max/);
           const isMin = key.match(/^min/);
           const value = preset[key];
-          key = key.replace(/(^(max|min))|List$/, ``);
+          key = key.replace(/(^(max|min))|List$/, '');
           key = `${key[0].toLowerCase()}${key.slice(1)}`;
           if (isMax) {
             if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
@@ -1267,7 +1267,7 @@ class Filters extends Module {
               const isMax = key.match(/^max/);
               const isMin = key.match(/^min/);
               const value = preset[key];
-              key = key.replace(/(^(max|min))|List$/, ``);
+              key = key.replace(/(^(max|min))|List$/, '');
               key = `${key[0].toLowerCase()}${key.slice(1)}`;
               if (isMax) {
                 if (value !== maxValues[key] && !value.toString().match(/^9+$/)) {
@@ -1611,12 +1611,12 @@ class Filters extends Module {
             filter.checkbox.change(false, 'enabled');
             break;
           case 'number':
-            filter.maxInput.value = ``;
-            filter.minInput.value = ``;
+            filter.maxInput.value = '';
+            filter.minInput.value = '';
             break;
           case 'string':
             filter.checkbox.change(false, 'enabled');
-            filter.textInput.value = ``;
+            filter.textInput.value = '';
             break;
         }
       }
@@ -1655,7 +1655,7 @@ class Filters extends Module {
         value: presets
       }
     ]);
-    createFadeMessage(obj.presetMessage, `Saved!`);
+    createFadeMessage(obj.presetMessage, 'Saved!');
   }
 
   async filters_openPresetPopup(obj) {
@@ -1765,7 +1765,7 @@ class Filters extends Module {
   }
 
   async filters_setSource(obj, preset, row, event) {
-    event.dataTransfer.setData(`text/plain`, ``);
+    event.dataTransfer.setData('text/plain', '');
     obj.source = row;
     let i;
     const presets = gSettings[obj.key];
@@ -1828,7 +1828,7 @@ class Filters extends Module {
     heading.classList.add('esgst-hidden');
     renameInput.classList.remove('esgst-hidden');
     const value = renameInput.value;
-    renameInput.value = ``;
+    renameInput.value = '';
     renameInput.focus();
     renameInput.value = value;
   }
@@ -1851,7 +1851,7 @@ class Filters extends Module {
     if (obj.presetInput.value === oldName) {
       obj.presetDisplay.textContent = obj.presetInput.value = newName;
     }
-    const types = [``, 'Wishlist', 'Recommended', 'Group', 'New', 'Created', 'Entered', 'Won', 'Groups', 'User', 'Gb', 'Ge', 'Ged'];
+    const types = ['', 'Wishlist', 'Recommended', 'Group', 'New', 'Created', 'Entered', 'Won', 'Groups', 'User', 'Gb', 'Ge', 'Ged'];
     for (const type of types) {
       if (gSettings[`${obj.id}_preset${type}`] === oldName) {
         values.push({

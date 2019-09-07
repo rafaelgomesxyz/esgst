@@ -48,12 +48,12 @@ class Utils {
   }
 
   parseHtml(string) {
-    return this.parser.parseFromString(string, `text/html`);
+    return this.parser.parseFromString(string, 'text/html');
   }
 
   sortArray(array, desc, key) {
     if (!this.isSet(array) || !Array.isArray(array)) {
-      throw `The "array" argument is not an array`;
+      throw 'The "array" argument is not an array';
     }
 
     const modifier = desc ? -1 : 1;
@@ -115,7 +115,7 @@ class Utils {
     }
     const match = hex.match(/[\dA-Fa-f]{2}/g);
     if (!match) {
-      return ``;
+      return '';
     }
     const red = parseInt(match[0], 16);
     const green = parseInt(match[1], 16);
