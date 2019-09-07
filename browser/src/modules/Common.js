@@ -5592,10 +5592,19 @@ class Common extends Module {
     }
   }
 
-  setDatePickerDate(target, date) {    
+  setDatePickerDate(target, date) {
     const script = document.createElement('script');
     script.textContent = `
-      $("input[name=${target}]").datetimepicker("setDate", new Date(${date.getTime()}));
+      function setDatePickerDate() {
+        const input = document.querySelector('input[name="${target}"]');
+        const actualInput = input.previousElementSibling;
+
+        const datepicker = actualInput && actualInput.classList.contains('hasDatepicker') ? actualInput : input;
+
+        $(datepicker).datetimepicker("setDate", new Date(${date.getTime()}));
+      }
+
+      setDatePickerDate();
     `;
     document.body.appendChild(script);
     script.remove();

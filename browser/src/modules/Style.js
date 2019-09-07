@@ -192,6 +192,10 @@ function addStyle() {
   `;
   }
   style += `
+  .ui-datepicker:not([style]) {
+    display: none;
+  }
+
   .esgst-tds-popout {
     max-height: 600px;
     max-width: 300px;
