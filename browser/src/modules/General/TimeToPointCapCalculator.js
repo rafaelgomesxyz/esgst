@@ -7,8 +7,8 @@ class GeneralTimeToPointCapCalculator extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `If you have less than 400P and you hover over the number of points at the header of any page, it shows how much time you have to wait until you have 400P.`]
+        ['ul', [
+          ['li', `If you have less than 400P and you hover over the number of points at the header of any page, it shows how much time you have to wait until you have 400P.`]
         ]]
       ],
       features: {
@@ -17,10 +17,10 @@ class GeneralTimeToPointCapCalculator extends Module {
           sg: true
         }
       },
-      id: `ttpcc`,
+      id: 'ttpcc',
       name: `Time To Point Cap Calculator`,
       sg: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -38,7 +38,7 @@ class GeneralTimeToPointCapCalculator extends Module {
       nextRefresh -= 15;
     }
     const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100);
-    this.esgst.pointsContainer.title = common.getFeatureTooltip(`ttpcc`, `${time} to 400P`);
+    this.esgst.pointsContainer.title = common.getFeatureTooltip('ttpcc', `${time} to 400P`);
     if (gSettings.ttpcc_a) {
       this.esgst.pointsContainer.textContent = `${this.esgst.points}P / ${time} to 400`;
     }

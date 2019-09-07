@@ -4,7 +4,7 @@
 
 function rtrim(string, charList) {
   charList = !charList ? ` \\s\u00A0` : `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `\\$1`);
-  return `${string}`.replace(new RegExp(`[` + charList + `]+$`, `g`), ``);
+  return `${string}`.replace(new RegExp(`[` + charList + `]+$`, 'g'), ``);
 }
 
 function trim(string, charList) {
@@ -84,72 +84,72 @@ function strpbrk(string, charList) {
 let methods, variables;
 variables = {
   blockTypes: {
-    [`#`]: [`Header`],
-    [`*`]: [`Rule`, `List`],
-    [`+`]: [`List`],
-    [`-`]: [`SetextHeader`, `Table`, `Rule`, `List`],
-    [`0`]: [`List`],
-    [`1`]: [`List`],
-    [`2`]: [`List`],
-    [`3`]: [`List`],
-    [`4`]: [`List`],
-    [`5`]: [`List`],
-    [`6`]: [`List`],
-    [`7`]: [`List`],
-    [`8`]: [`List`],
-    [`9`]: [`List`],
-    [`:`]: [`Table`],
-    [`<`]: [`Comment`, `Markup`],
-    [`=`]: [`SetextHeader`],
-    [`>`]: [`Quote`],
-    [`[`]: [`Reference`],
-    [`_`]: [`Rule`],
-    [`\``]: [`FencedCode`],
-    [`|`]: [`Table`],
-    [`~`]: [`FencedCode`]
+    [`#`]: ['Header'],
+    [`*`]: ['Rule', 'List'],
+    [`+`]: ['List'],
+    [`-`]: ['SetextHeader', 'Table', 'Rule', 'List'],
+    ['0']: ['List'],
+    ['1']: ['List'],
+    ['2']: ['List'],
+    ['3']: ['List'],
+    ['4']: ['List'],
+    ['5']: ['List'],
+    ['6']: ['List'],
+    ['7']: ['List'],
+    ['8']: ['List'],
+    ['9']: ['List'],
+    [`:`]: ['Table'],
+    [`<`]: ['Comment', 'Markup'],
+    [`=`]: ['SetextHeader'],
+    [`>`]: ['Quote'],
+    [`[`]: ['Reference'],
+    ['_']: ['Rule'],
+    [`\``]: ['FencedCode'],
+    [`|`]: ['Table'],
+    [`~`]: ['FencedCode']
   },
   breaksEnabled: false,
   definitionData: {},
   emRegex: {
     [`*`]: /^[*]((?:\\\\\*|[^*]|[*][*][^*]+?[*][*])+?)[*](?![*])/,
-    [`_`]: /^_((?:\\\\_|[^_]|__[^_]*__)+?)_(?!_)\b/u
+    ['_']: /^_((?:\\\\_|[^_]|__[^_]*__)+?)_(?!_)\b/u
   },
   inlineMarkerList: `!"*_&[:<>\`~\\`,
   inlineTypes: {
-    [`"`]: [`SpecialCharacter`],
-    [`!`]: [`Image`],
-    [`&`]: [`SpecialCharacter`],
-    [`*`]: [`Emphasis`],
-    [`:`]: [`Url`],
-    [`<`]: [`UrlTag`, `EmailTag`, `Markup`, `SpecialCharacter`],
-    [`>`]: [`SpecialCharacter`],
-    [`[`]: [`Link`],
-    [`_`]: [`Emphasis`],
-    [`\``]: [`Code`],
-    [`~`]: [`Strikethrough`],
-    [`\\`]: [`EscapeSequence`],
+    [`"`]: ['SpecialCharacter'],
+    [`!`]: ['Image'],
+    [`&`]: ['SpecialCharacter'],
+    [`*`]: ['Emphasis'],
+    [`:`]: ['Url'],
+    [`<`]: ['UrlTag', 'EmailTag', 'Markup', 'SpecialCharacter'],
+    [`>`]: ['SpecialCharacter'],
+    [`[`]: ['Link'],
+    ['_']: ['Emphasis'],
+    [`\``]: ['Code'],
+    [`~`]: ['Strikethrough'],
+    [`\\`]: ['EscapeSequence'],
   },
   markupEscaped: false,
   regexHtmlAttribute: `[a-zA-Z_:][:.-\\w]*(?:\\s*=\\s*(?:[^"'=<>\`\\s]+|"[^"]*"|'[^']*'))?`,
-  specialCharacters: [`\\`, `\``, `*`, `_`, `{`, `}`, `[`, `]`, `(`, `)`, `>`, `#`, `+`, `-`, `.`, `!`, `|`],
+  specialCharacters: [`\\`, `\``, `*`, '_', `{`, `}`, `[`, `]`, `(`, `)`, `>`, `#`, `+`, `-`, `.`, `!`, `|`],
   strongRegex: {
     [`*`]: /^[*]{2}((?:\\\\\*|[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/,
-    [`_`]: /^__((?:\\\\_|[^_]|_[^_]*_)+?)__(?!_)/u
+    ['_']: /^__((?:\\\\_|[^_]|_[^_]*_)+?)__(?!_)/u
   },
   textLevelElements: [
-    `a`, `br`, `bdo`, `abbr`, `blink`, `nextid`, `acronym`, `basefont`,
-    `b`, `em`, `big`, `cite`, `small`, `spacer`, `listing`,
-    `i`, `rp`, `del`, `code`, `strike`, `marquee`,
-    `q`, `rt`, `ins`, `font`, `strong`,
-    `s`, `tt`, `kbd`, `mark`,
-    `u`, `xm`, `sub`, `nobr`,
-    `sup`, `ruby`,
-    `var`, `span`,
-    `wbr`, `time`
+    'a', 'br', 'bdo', 'abbr', 'blink', 'nextid', 'acronym', 'basefont',
+    'b', 'em', 'big', 'cite', 'small', 'spacer', 'listing',
+    'i', 'rp', 'del', 'code', 'strike', 'marquee',
+    'q', 'rt', 'ins', 'font', 'strong',
+    's', 'tt', 'kbd', 'mark',
+    'u', 'xm', 'sub', 'nobr',
+    'sup', 'ruby',
+    'var', 'span',
+    'wbr', 'time'
   ],
-  unmarkedBlockTypes: [`Code`],
+  unmarkedBlockTypes: ['Code'],
   urlsLinked: true,
-  voidElements: [`area`, `base`, `br`, `col`, `command`, `embed`, `hr`, `img`, `input`, `link`, `meta`, `param`, `source`]
+  voidElements: ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source']
 };
 // noinspection JSUnusedGlobalSymbols
 methods = {
@@ -237,9 +237,9 @@ methods = {
     markup += `\n`;
     return markup;
   },
-  isBlockContinuable: type => typeof methods[`block${type}Continue`] !== `undefined`,
-  isBlockCompletable: type => typeof methods[`block${type}Complete`] !== `undefined`,
-  isSet: element => typeof element !== `undefined` && element !== null,
+  isBlockContinuable: type => typeof methods[`block${type}Continue`] !== 'undefined',
+  isBlockCompletable: type => typeof methods[`block${type}Complete`] !== 'undefined',
+  isSet: element => typeof element !== 'undefined' && element !== null,
   blockCode: (line, block = null) => {
     if (methods.isSet(block) && !methods.isSet(block.type) && !methods.isSet(block.interrupted)) {
       return;
@@ -247,10 +247,10 @@ methods = {
     if (line.indent >= 4) {
       return {
         element: {
-          handler: `element`,
-          name: `pre`,
+          handler: 'element',
+          name: 'pre',
           text: {
-            name: `code`,
+            name: 'code',
             text: line.body.slice(4)
           }
         }
@@ -301,7 +301,7 @@ methods = {
     let matches = line.text.match(new RegExp(`^[` + line.text[0] + `]{3,}[ ]*([\\w-]+)?[ ]*$`));
     if (matches) {
       let element = {
-        name: `code`,
+        name: 'code',
         text: ``
       };
       if (methods.isSet(matches[1])) {
@@ -312,8 +312,8 @@ methods = {
       return {
         char: line.text[0],
         element: {
-          handler: `element`,
-          name: `pre`,
+          handler: 'element',
+          name: 'pre',
           text: element
         }
       };
@@ -350,7 +350,7 @@ methods = {
       }
       return {
         element: {
-          handler: `line`,
+          handler: 'line',
           name: `h${Math.min(6, level)}`,
           text: trim(line.text, `# `)
         }
@@ -359,28 +359,28 @@ methods = {
   },
   blockList: line => {
     let matches, name, pattern;
-    [name, pattern] = line.text[0] <= `-` ? [`ul`, `[*+-]`] : [`ol`, `[0-9]+[.]`];
+    [name, pattern] = line.text[0] <= `-` ? ['ul', `[*+-]`] : ['ol', `[0-9]+[.]`];
     matches = line.text.match(new RegExp(`^(${pattern}[ ]+)(.*)`));
     if (matches) {
       let block = {
         element: {
-          handler: `elements`,
+          handler: 'elements',
           name
         },
         indent: line.indent,
         pattern
       };
-      if (name === `ol`) {
+      if (name === 'ol') {
         let listStart = matches[0].slice(0, matches[0].indexOf(`.`));
-        if (listStart !== `1`) {
+        if (listStart !== '1') {
           block.element.attributes = {
             start: listStart
           };
         }
       }
       block.li = {
-        handler: `li`,
-        name: `li`,
+        handler: 'li',
+        name: 'li',
         text: [matches[2]]
       };
       block.element.text = [block.li]; // original attribution: []= &
@@ -396,8 +396,8 @@ methods = {
       }
       delete block.li;
       block.li = {
-        handler: `li`,
-        name: `li`,
+        handler: 'li',
+        name: 'li',
         text: [methods.isSet(matches[1]) ? matches[1] : ``]
       };
       block.element.text.push(block.li);
@@ -422,8 +422,8 @@ methods = {
     if (matches) {
       return {
         element: {
-          handler: `lines`,
-          name: `blockquote`,
+          handler: 'lines',
+          name: 'blockquote',
           text: [matches[1]]
         }
       };
@@ -448,7 +448,7 @@ methods = {
     if (line.text.match(new RegExp(`^([` + line.text[0] + `])([ ]*\\1){2,}[ ]*$`))) {
       return {
         element: {
-          name: `hr`
+          name: 'hr'
         }
       };
     }
@@ -458,7 +458,7 @@ methods = {
       return;
     }
     if (rtrim(line.text, line.text[0]) === ``) {
-      block.element.name = line.text[0] === `=` ? `h1` : `h2`;
+      block.element.name = line.text[0] === `=` ? 'h1' : 'h2';
       return block;
     }
   },
@@ -489,7 +489,7 @@ methods = {
         if (methods.isSet(matches[2]) || variables.voidElements.indexOf(matches[1]) > -1) {
           return;
         }
-        if (remainder.match(new RegExp(`</${matches[1]}>[ ]*$`, `i`))) {
+        if (remainder.match(new RegExp(`</${matches[1]}>[ ]*$`, 'i'))) {
           block.closed = true;
         }
       }
@@ -500,10 +500,10 @@ methods = {
     if (methods.isSet(block.closed)) {
       return;
     }
-    if (line.text.match(new RegExp(`^<${block.name}(?:[ ]*${variables.regexHtmlAttribute})*[ ]*>`, `i`))) {
+    if (line.text.match(new RegExp(`^<${block.name}(?:[ ]*${variables.regexHtmlAttribute})*[ ]*>`, 'i'))) {
       block.depth += 1;
     }
-    let matches = line.text.match(new RegExp(`(.*?)</${block.name}>[ ]*$`, `i`));
+    let matches = line.text.match(new RegExp(`(.*?)</${block.name}>[ ]*$`, 'i'));
     if (matches) {
       if (block.depth > 0) {
         block.depth -= 1;
@@ -550,10 +550,10 @@ methods = {
         }
         alignment = null;
         if (dividerCell[0] === `:`) {
-          alignment = `left`;
+          alignment = 'left';
         }
         if (dividerCell.slice(-1) === `:`) {
-          alignment = alignment === `left` ? `center` : `right`;
+          alignment = alignment === 'left' ? 'center' : 'right';
         }
         alignments.push(alignment);
       }
@@ -562,8 +562,8 @@ methods = {
       for (i = 0, n = headerCells.length; i < n; ++i) {
         headerCell = trim(headerCells[i]);
         headerElement = {
-          handler: `line`,
-          name: `th`,
+          handler: 'line',
+          name: 'th',
           text: headerCell,
           attributes: {}
         };
@@ -578,25 +578,25 @@ methods = {
       block = {
         alignments,
         element: {
-          handler: `elements`,
-          name: `table`,
+          handler: 'elements',
+          name: 'table',
           text: []
         },
         identified: true
       };
       block.element.text.push({
-        handler: `elements`,
-        name: `thead`,
+        handler: 'elements',
+        name: 'thead',
         text: []
       });
       block.element.text.push({
-        handler: `elements`,
-        name: `tbody`,
+        handler: 'elements',
+        name: 'tbody',
         text: []
       });
       block.element.text[0].text.push({
-        handler: `elements`,
-        name: `tr`,
+        handler: 'elements',
+        name: 'tr',
         text: headerElements,
       });
       return block;
@@ -612,8 +612,8 @@ methods = {
       matches = trim(trim(line.text), `|`).match(/(?:(\\\\[|])|[^|`]|`[^`]+`|`)+/g);
       for (i = 0, n = matches.length; i < n; ++i) {
         element = {
-          handler: `line`,
-          name: `td`,
+          handler: 'line',
+          name: 'td',
           text: trim(matches[i]),
           attributes: {}
         };
@@ -625,8 +625,8 @@ methods = {
         elements.push(element);
       }
       element = {
-        handler: `elements`,
-        name: `tr`,
+        handler: 'elements',
+        name: 'tr',
         text: elements,
       };
       block.element.text[1].text.push(element);
@@ -635,8 +635,8 @@ methods = {
   },
   paragraph: line => ({
     element: {
-      handler: `line`,
-      name: `p`,
+      handler: 'line',
+      name: 'p',
       text: line.text
     }
   }),
@@ -679,7 +679,7 @@ methods = {
     if (matches && !matches[3]) {
       return {
         element: {
-          name: `code`,
+          name: 'code',
           text: matches[2].replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/[ ]*\n/, ``)
         },
         extent: strlen(matches[0])
@@ -695,7 +695,7 @@ methods = {
       }
       return {
         element: {
-          name: `a`,
+          name: 'a',
           text: matches[1],
           attributes: {
             href: url
@@ -712,15 +712,15 @@ methods = {
     let emphasis, marker, matches;
     marker = excerpt.text[0];
     if (excerpt.text[1] === marker && (matches = excerpt.text.match(variables.strongRegex[marker]))) {
-      emphasis = `strong`;
+      emphasis = 'strong';
     } else if (matches = excerpt.text.match(variables.emRegex[marker])) { // eslint-disable-line
-      emphasis = `em`;
+      emphasis = 'em';
     } else {
       return;
     }
     return {
       element: {
-        handler: `line`,
+        handler: 'line',
         name: emphasis,
         text: matches[1]
       },
@@ -752,7 +752,7 @@ methods = {
           alt: link.element.text,
           title: link.element.text
         },
-        name: `img`
+        name: 'img'
       },
       extent: link.extent + 1
     };
@@ -772,8 +772,8 @@ methods = {
         href: null,
         title: null
       },
-      handler: `line`,
-      name: `a`,
+      handler: 'line',
+      name: 'a',
       text: null
     };
     extent = 0;
@@ -854,9 +854,9 @@ methods = {
       };
     }
     let specialCharacter = {
-      [`>`]: `gt`,
-      [`<`]: `lt`,
-      [`"`]: `quot`
+      [`>`]: 'gt',
+      [`<`]: 'lt',
+      [`"`]: 'quot'
     };
     if (methods.isSet(specialCharacter[excerpt.text[0]])) {
       return {
@@ -871,19 +871,19 @@ methods = {
     }
     let matches, name, text;
     if ((matches = excerpt.text.match(/^~([^~]+?)(~+)/)) && matches[2].length === 1) {
-      name = `span`;
+      name = 'span';
       text = matches[1];
     } else if ((matches = excerpt.text.match(/^~~([^~]+?)(~+)/)) && matches[2].length === 2) {
-      name = `del`;
+      name = 'del';
       text = matches[1];
     } else if (matches = excerpt.text.match(/^~~~([^~]+?)(~+)/)) { // eslint-disable-line
       switch (matches[2].length) {
         case 3:
-          name = `span`;
+          name = 'span';
           text = `~~${matches[1]}~~`;
           break;
         case 4:
-          name = `del`;
+          name = 'del';
           text = `~${matches[1]}~~`;
           break;
         default:
@@ -892,23 +892,23 @@ methods = {
     }
     if (name) {
       switch (name) {
-        case `del`:
+        case 'del':
           return {
             element: {
-              handler: `line`,
-              name: `del`,
+              handler: 'line',
+              name: 'del',
               text
             },
             extent: strlen(matches[0])
           };
-        case `span`:
+        case 'span':
           return {
             element: {
               attributes: {
-                class: `spoiler`
+                class: 'spoiler'
               },
-              handler: `line`,
-              name: `span`,
+              handler: 'line',
+              name: 'span',
               text
             },
             extent: strlen(matches[0])
@@ -929,7 +929,7 @@ methods = {
           attributes: {
             href: match[0]
           },
-          name: `a`,
+          name: 'a',
           text: match[0]
         },
         extent: strlen(match[0]),
@@ -943,7 +943,7 @@ methods = {
       let url = matches[1].replace(/&/g, `&amp;`).replace(/</g, `&lt;`);
       return {
         element: {
-          name: `a`,
+          name: 'a',
           text: url,
           attributes: {
             href: url

@@ -5,15 +5,15 @@ class GeneralSameTabOpener extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Opens any link in the page in the same tab.`]
+        ['ul', [
+          ['li', `Opens any link in the page in the same tab.`]
         ]]
       ],
-      id: `sto`,
+      id: 'sto',
       name: `Same Tab Opener`,
       sg: true,
       st: true,
-      type: `general`,
+      type: 'general',
       featureMap: {
         endless: this.sto_setLinks.bind(this)
       }
@@ -23,7 +23,7 @@ class GeneralSameTabOpener extends Module {
   sto_setLinks(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [target="_blank"], .esgst-es-page-${endless}[target="_blank"]` : `[target="_blank"]`}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
-      elements[i].removeAttribute(`target`);
+      elements[i].removeAttribute('target');
     }
   }
 }

@@ -7,7 +7,7 @@ class Users extends Module {
     super();
     this.info = {
       endless: true,
-      id: `users`,
+      id: 'users',
       featureMap: {
         endless: this.users_load.bind(this)
       }
@@ -28,9 +28,9 @@ class Users extends Module {
       let element = elements[i];
       const sg = (this.esgst.sg && !element.getAttribute(`data-st`)) || element.getAttribute(`data-sg`);
       let isSteamLink = false;
-      let match = element.getAttribute(`href`).match(/\/user\/(.+)/);
+      let match = element.getAttribute('href').match(/\/user\/(.+)/);
       if (!match) {
-        match = element.getAttribute(`href`).match(/\/profiles\/(.+)/);
+        match = element.getAttribute('href').match(/\/profiles\/(.+)/);
         isSteamLink = true;
       }
       if (!match) {
@@ -62,11 +62,11 @@ class Users extends Module {
       const savedUser = this.esgst.currentUsers[id].savedUser;
       const container = element.parentElement;
       const oldElement = element;
-      if (this.esgst.userPath && container.classList.contains(`page__heading__breadcrumbs`)) {
-        element = document.getElementsByClassName(`featured__heading__medium`)[0];
+      if (this.esgst.userPath && container.classList.contains('page__heading__breadcrumbs')) {
+        element = document.getElementsByClassName('featured__heading__medium')[0];
       }
       this.esgst.currentUsers[id].elements.push(element);
-      const context = container.classList.contains(`comment__username`) ? container : element;
+      const context = container.classList.contains('comment__username') ? container : element;
 
       const userObj = {
         code: id,
@@ -97,10 +97,10 @@ class Users extends Module {
       if (!found) {
         found = true;
       }
-      const isHeading = context.classList.contains(`featured__heading__medium`);
+      const isHeading = context.classList.contains('featured__heading__medium');
       const tagContainer = context.parentElement;
       let tagContext = context;
-      if (tagContainer.classList.contains(`comment__username`)) {
+      if (tagContainer.classList.contains('comment__username')) {
         tagContext = tagContainer;
       }
       users.push({
@@ -112,7 +112,7 @@ class Users extends Module {
         saved: savedUser,
         steamId: sg ? savedUser && savedUser.steamId : id,
         tagContext: isHeading ? tagContainer : tagContext,
-        tagPosition: isHeading ? `beforeEnd` : `afterEnd`,
+        tagPosition: isHeading ? 'beforeEnd' : 'afterEnd',
         username: sg ? id : savedUser && savedUser.username
       });
     }
@@ -129,7 +129,7 @@ class Users extends Module {
         this.esgst.uscButton.parentElement.classList.remove(`esgst-hidden`);
       }
       if (gSettings.mm_enableUsers && this.esgst.mm_enable) {
-        this.esgst.mm_enable(this.esgst.currentScope.users, `Users`);
+        this.esgst.mm_enable(this.esgst.currentScope.users, 'Users');
       }
     }
   }

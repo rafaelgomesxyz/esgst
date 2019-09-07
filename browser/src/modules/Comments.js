@@ -13,7 +13,7 @@ class Comments extends Module {
     super();
     this.info = {
       endless: true,
-      id: `comments`,
+      id: 'comments',
       featureMap: {
         endless: this.comments_load.bind(this)
       }
@@ -31,7 +31,7 @@ class Comments extends Module {
     for (const feature of shared.esgst.commentFeatures) {
       await feature(comments, main);
     }
-    if (!main || this.esgst.commentsPath || shared.common.isCurrentPath(`Messages`)) {
+    if (!main || this.esgst.commentsPath || shared.common.isCurrentPath('Messages')) {
       if (main && shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
@@ -40,10 +40,10 @@ class Comments extends Module {
       }
     }
     if (gSettings.ct) {
-      if (!main || shared.common.isCurrentPath(`Messages`)) {
+      if (!main || shared.common.isCurrentPath('Messages')) {
         count = 0;
       } else {
-        count = context.getElementsByClassName(`page__heading__breadcrumbs`)[1];
+        count = context.getElementsByClassName('page__heading__breadcrumbs')[1];
         if (count) {
           count = parseInt(count.firstElementChild.textContent.replace(/,/g, ``).match(/\d+/)[0]);
         } else {
@@ -54,7 +54,7 @@ class Comments extends Module {
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
     if (gSettings.rfi) {
-      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath(`Messages`)) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
+      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
@@ -73,7 +73,7 @@ class Comments extends Module {
     ]));
     sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
     for (i = matches.length - 1; i >= 0; --i) {
-      comment = await this.comments_getInfo(matches[i], shared.esgst.currentScope.sourceLink || sourceLink, endless ? this.esgst.users : JSON.parse(getValue(`users`)), main);
+      comment = await this.comments_getInfo(matches[i], shared.esgst.currentScope.sourceLink || sourceLink, endless ? this.esgst.users : JSON.parse(getValue('users')), main);
       if (comment) {
         comments.push(comment);
       }
@@ -103,20 +103,20 @@ class Comments extends Module {
     if (n > 0) {
       comment.permalink = matches[n - 1];
     }
-    comment.id = comment.permalink ? comment.permalink.getAttribute(`href`).match(/\/comment\/(.+)/)[1] : ``;
+    comment.id = comment.permalink ? comment.permalink.getAttribute('href').match(/\/comment\/(.+)/)[1] : ``;
     comment.timestamp = parseInt(comment.actions.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
-    if (!main || shared.common.isCurrentPath(`Messages`)) {
+    if (!main || shared.common.isCurrentPath('Messages')) {
       if (this.esgst.sg) {
         try {
-          source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute(`href`);
+          source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute('href');
         } catch (e) { /**/
         }
       } else {
-        source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute(`href`);
+        source = comment.actions.querySelector(`[href*="/trade/"]`).getAttribute('href');
       }
     }
     if (!source && sourceLink) {
-      source = sourceLink.getAttribute(`href`);
+      source = sourceLink.getAttribute('href');
     }
     if (source) {
       source = source.match(/(giveaway|discussion|ticket|trade)\/(.+?)(\/.*)?$/);

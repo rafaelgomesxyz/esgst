@@ -77,8 +77,8 @@ class Esgst {
 
     this.paths = {
       sg: [
-        { name: `Everywhere`, pattern: `.*` },
-        { name: `Giveaways`, pattern: `^/($|giveaways)` },
+        { name: 'Everywhere', pattern: `.*` },
+        { name: 'Giveaways', pattern: `^/($|giveaways)` },
         { name: `Browse Giveaways`, pattern: `^/($|giveaways($|/search))` },
         { name: `Browse Giveaways - All`, pattern: `^/($|giveaways($|/search\\?(?!type)))` },
         { name: `Browse Giveaways - Wishlist`, pattern: `^/giveaways/search\\?type=wishlist` },
@@ -90,25 +90,25 @@ class Esgst {
         { name: `My Giveaways - Created`, pattern: `^/giveaways/created` },
         { name: `My Giveaways - Entered`, pattern: `^/giveaways/entered` },
         { name: `My Giveaways - Won`, pattern: `^/giveaways/won` },
-        { name: `Archive`, pattern: `^/archive` },
+        { name: 'Archive', pattern: `^/archive` },
         { name: `Archive - All`, pattern: `^/archive($|/search)` },
         { name: `Archive - Coming Soon`, pattern: `^/archive/coming-soon` },
         { name: `Archive - Open`, pattern: `^/archive/open` },
         { name: `Archive - Closed`, pattern: `^/archive/closed` },
         { name: `Archive - Deleted`, pattern: `^/archive/deleted` },
         { name: `Bundle Games`, pattern: `^/bundle-games` },
-        { name: `Giveaway`, pattern: `^/giveaway/` },
+        { name: 'Giveaway', pattern: `^/giveaway/` },
         { name: `Giveaway - Comments`, pattern: `^/giveaway/.+?/[^/]+($|/search)` },
         { name: `Giveaway - Entries`, pattern: `^/giveaway/.+?/[^/]+/entries` },
         { name: `Giveaway - Winners`, pattern: `^/giveaway/.+?/[^/]+/winners` },
         { name: `Giveaway - Groups`, pattern: `^/giveaway/.+?/[^/]+/groups` },
         { name: `Giveaway - Region Restrictions`, pattern: `^/giveaway/.{5}/[A-Za-z0-9-]+/region-restrictions` },
-        { name: `Group`, pattern: `^/group/` },
+        { name: 'Group', pattern: `^/group/` },
         { name: `Group - Giveaways`, pattern: `^/group/.+?/[^/]+($|/search)` },
         { name: `Group - Users`, pattern: `^/group/.+?/[^/]+/users` },
         { name: `Group - Stats`, pattern: `^/group/.+?/[^/]+/stats` },
         { name: `Group - Wishlist`, pattern: `^/group/.+?/[^/]+/wishlist` },
-        { name: `Discussions`, pattern: `^/discussions` },
+        { name: 'Discussions', pattern: `^/discussions` },
         { name: `Discussions - All`, pattern: `^/discussions($|/search)` },
         { name: `Discussions - Announcements`, pattern: `^/discussions/announcements` },
         { name: `Discussions - Bugs / Suggestions`, pattern: `^/discussions/bugs-suggestions` },
@@ -122,8 +122,8 @@ class Esgst {
         { name: `My Discussions - New`, pattern: `^/discussions/new` },
         { name: `My Discussions - Edit`, pattern: `^/discussions/edit` },
         { name: `My Discussions - Created`, pattern: `^/discussions/created` },
-        { name: `Discussion`, pattern: `^/discussion/` },
-        { name: `Tickets`, pattern: `^/support/tickets` },
+        { name: 'Discussion', pattern: `^/discussion/` },
+        { name: 'Tickets', pattern: `^/support/tickets` },
         { name: `Tickets - All`, pattern: `^/support/tickets($|/search)` },
         { name: `Tickets - Change Giveaway Game`, pattern: `^/support/tickets/change-giveaway-game` },
         { name: `Tickets - Delete Giveaway`, pattern: `^/support/tickets/delete-giveaway` },
@@ -131,11 +131,11 @@ class Esgst {
         { name: `Tickets - Request New Winner`, pattern: `^/support/tickets/request-new-winner` },
         { name: `Tickets - Unsuspend Request`, pattern: `^/support/tickets/unsuspend-request` },
         { name: `Tickets - User Report`, pattern: `^/support/tickets/user-report` },
-        { name: `Ticket`, pattern: `^/support/ticket/` },
-        { name: `User`, pattern: `^/user` },
+        { name: 'Ticket', pattern: `^/support/ticket/` },
+        { name: 'User', pattern: `^/user` },
         { name: `User - Giveaways - Sent`, pattern: `^/user($|/search)` },
         { name: `User - Giveaways - Won`, pattern: `^/user/giveaways/won` },
-        { name: `Messages`, pattern: `^/messages` },
+        { name: 'Messages', pattern: `^/messages` },
         { name: `Messages - All`, pattern: `^/messages($|/search)` },
         { name: `Messages - Giveaways`, pattern: `^/messages/giveaways` },
         { name: `Messages - Discussions`, pattern: `^/messages/discussions` },
@@ -152,7 +152,7 @@ class Esgst {
         { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy` },
         { name: `Legal - Cookie Policy`, pattern: `^/legal/cookie-policy` },
         { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service` },
-        { name: `Account`, pattern: `^/account` },
+        { name: 'Account', pattern: `^/account` },
         { name: `Settings - Profile`, pattern: `^/account/settings/profile` },
         { name: `Settings - Patreon`, pattern: `^/account/settings/patreon` },
         { name: `Settings - Giveaways`, pattern: `^/account/settings/giveaways` },
@@ -183,18 +183,18 @@ class Esgst {
         { name: `ESGST - Group Library / Wishlist Checker`, pattern: `^/account/settings/profile\\?esgst=glwc` }
       ],
       st: [
-        { name: `Everywhere`, pattern: `.*` },
-        { name: `Trades`, pattern: `^/($|trades)` },
+        { name: 'Everywhere', pattern: `.*` },
+        { name: 'Trades', pattern: `^/($|trades)` },
         { name: `Browse Trades`, pattern: `^/($|trades($|/search))` },
         { name: `My Trades - New`, pattern: `^/trades/new` },
         { name: `My Trades - Created`, pattern: `^/trades/search\\?user=%steamId%` },
-        { name: `Trade`, pattern: `^/trade/` },
-        { name: `Vote`, pattern: `^/vote/` },
-        { name: `Messages`, pattern: `^/messages` },
-        { name: `User`, pattern: `^/user` },
-        { name: `Reviews`, pattern: `^/reviews` },
-        { name: `Comments`, pattern: `^/comments` },
-        { name: `Settings`, pattern: `^/settings` },
+        { name: 'Trade', pattern: `^/trade/` },
+        { name: 'Vote', pattern: `^/vote/` },
+        { name: 'Messages', pattern: `^/messages` },
+        { name: 'User', pattern: `^/user` },
+        { name: 'Reviews', pattern: `^/reviews` },
+        { name: 'Comments', pattern: `^/comments` },
+        { name: 'Settings', pattern: `^/settings` },
         { name: `About - Comment Formatting`, pattern: `^/about/comment-formatting` },
         { name: `About - Guidelines`, pattern: `^/about/guidelines` },
         { name: `Legal - Privacy Policy`, pattern: `^/legal/privacy-policy` },
@@ -202,23 +202,23 @@ class Esgst {
         { name: `Legal - Terms Of Service`, pattern: `^/legal/terms-of-service` }
       ],
       sgtools: [
-        { name: `Everywhere`, pattern: `.*` }
+        { name: 'Everywhere', pattern: `.*` }
       ]
     };
     this.formatDistanceLocale = {
       formatDistance: (token, count) => {
         switch (token) {
-          case `xSeconds`:
+          case 'xSeconds':
             return `${count}s`;
-          case `xMinutes`:
+          case 'xMinutes':
             return `${count}m`;
-          case `xHours`:
+          case 'xHours':
             return `${count}h`;
-          case `xDays`:
+          case 'xDays':
             return `${count}d`;
-          case `xMonths`:
+          case 'xMonths':
             return `${count}mo`;
-          case `xYears`:
+          case 'xYears':
             return `${count}y`;
         }
       }
@@ -271,7 +271,7 @@ class Esgst {
       gs_users_sg: true,
       deleteOldBackups: false,
       deleteOldBackups_days: 90,
-      sfi_icon: `user`,
+      sfi_icon: 'user',
       npth_previousRegex: `back|last|less|prev|<|←`,
       npth_nextRegex: `forw|more|next|onwards|►|>|→`,
       permissionsDenied: [],
@@ -352,7 +352,7 @@ class Esgst {
           url: `https://barter.vg/steam/%steamid%`
         },
         {
-          label: `SteamRep`,
+          label: 'SteamRep',
           url: `https://steamrep.com/profiles/%steamid%`
         }
       ],
@@ -373,12 +373,12 @@ class Esgst {
       pv_barColor: `#609f60`,
       pv_barColorHover: `#6dac6d`,
       pv_barColorSelected: `#7ab97a`,
-      giveawayLinks: [`entries`, `winners_count`, `comments`],
-      giveawayLinks_gv: [`entries`, `winners_count`, `comments`],
-      giveawayExtraPanel: [`ggl`],
-      giveawayExtraPanel_gv: [`ggl`],
-      giveawayHeading: [`gr`, `gb`, `gf`, `egh`, `name`, `points`, `copies`, `steam`, `search`, `hideGame`, `gt`],
-      giveawayHeading_gv: [`gr`, `gb`, `gf`, `egh`, `name`, `points`, `copies`, `steam`, `search`, `hideGame`, `gt`],
+      giveawayLinks: ['entries', 'winners_count', 'comments'],
+      giveawayLinks_gv: ['entries', 'winners_count', 'comments'],
+      giveawayExtraPanel: ['ggl'],
+      giveawayExtraPanel_gv: ['ggl'],
+      giveawayHeading: ['gr', 'gb', 'gf', 'egh', 'name', 'points', 'copies', 'steam', 'search', 'hideGame', 'gt'],
+      giveawayHeading_gv: ['gr', 'gb', 'gf', 'egh', 'name', 'points', 'copies', 'steam', 'search', 'hideGame', 'gt'],
       nrf_clearCache: false,
       dt_s_sg: true,
       gt_s_sg: true,
@@ -448,24 +448,24 @@ class Esgst {
       hr_w_format: `(#❤)`,
       hr_p_format: `(#P)`,
       ef_filters: ``,
-      gwc_h_width: `3px`,
-      gwr_h_width: `3px`,
+      gwc_h_width: '3px',
+      gwr_h_width: '3px',
       chfl_giveaways_sg: [
-        `new`,
-        `wishlist`,
-        `created`,
-        `entered`,
-        `won`,
+        'new',
+        'wishlist',
+        'created',
+        'entered',
+        'won',
         {
-          color: `grey`,
+          color: 'grey',
           description: `View your hidden games.`,
           icon: `fa-eye`,
-          id: `filters`,
+          id: 'filters',
           name: `Hidden Games`,
           url: `/account/settings/giveaways/filters`
         },
         {
-          color: `grey`,
+          color: 'grey',
           description: `Check if a game receives reduced CV.`,
           icon: `fa-calendar-minus-o`,
           id: `bundle-games`,
@@ -478,23 +478,23 @@ class Esgst {
         {id: `type=new`, name: `Browse New Giveaways`, url: `/giveaways/search?type=new`}
       ],
       chfl_discussions_sg: [
-        `new`,
-        `created`,
+        'new',
+        'created',
         'bookmarked',
-        {id: `announcements`, name: `Browse Announcements`, url: `/discussions/announcements`},
+        {id: 'announcements', name: `Browse Announcements`, url: `/discussions/announcements`},
         {id: `bugs-suggestions`, name: `Browse Bugs / Suggestions`, url: `/discussions/bugs-suggestions`},
-        {id: `deals`, name: `Browse Deals`, url: `/discussions/deals`},
-        {id: `general`, name: `Browse General`, url: `/discussions/general`},
+        {id: 'deals', name: `Browse Deals`, url: `/discussions/deals`},
+        {id: 'general', name: `Browse General`, url: `/discussions/general`},
         {id: `group-recruitment`, name: `Browse Group Recruitment`, url: `/discussions/group-recruitment`},
         {id: `lets-play-together`, name: "Browse Let`s Play Together", url: `/discussions/lets-play-together`},
         {id: `off-topic`, name: `Browse Off-Topic`, url: `/discussions/off-topic`},
-        {id: `puzzles`, name: `Browse Puzzles`, url: `/discussions/puzzles`},
-        {id: `uncategorized`, name: `Browse Uncategorized`, url: `/discussions/uncategorized`}
+        {id: 'puzzles', name: `Browse Puzzles`, url: `/discussions/puzzles`},
+        {id: 'uncategorized', name: `Browse Uncategorized`, url: `/discussions/uncategorized`}
       ],
       chfl_support_sg: [
-        `new`,
+        'new',
         {
-          color: `grey`,
+          color: 'grey',
           description: "Check a user`s real CV.",
           icon: `fa-dollar`,
           id: `real-cv`,
@@ -502,15 +502,15 @@ class Esgst {
           url: `https://www.sgtools.info/real-cv`
         },
         {
-          color: `red`,
+          color: 'red',
           description: `Check if a user has not activated wins.`,
           icon: `fa-exchange`,
-          id: `activation`,
+          id: 'activation',
           name: `Not Activated Wins`,
           url: `https://www.sgtools.info/activation`
         },
         {
-          color: `red`,
+          color: 'red',
           description: `Check if a user has multiple wins.`,
           icon: `fa-clone`,
           id: `multiple-wins`,
@@ -518,59 +518,59 @@ class Esgst {
           url: `https://www.sgtools.info/multiple-wins`
         },
         {
-          color: `grey`,
+          color: 'grey',
           description: `Check the last bundled games.`,
           icon: `fa-percent`,
-          id: `lastbundled`,
+          id: 'lastbundled',
           name: `Last Bundled`,
           url: `https://www.sgtools.info/lastbundled`
         }
       ],
       chfl_help_sg: [
         `comment-formatting`,
-        `faq`,
-        `guidelines`,
+        'faq',
+        'guidelines',
         {
-          color: `grey`,
+          color: 'grey',
           description: "View SteamGifts` change log.",
           icon: `fa-file-text-o`,
-          id: `e9zDo`,
+          id: 'e9zDo',
           name: `Change Log`,
           url: `/discussion/e9zDo/`
         }
       ],
       chfl_account_sg: [
-        `profile`,
-        `stats`,
-        `et`,
-        `ch`,
-        {color: `blue`, icon: `fa-heart`, id: `whitelist`, name: `Whitelist`, url: `/account/manage/whitelist`},
-        {color: `red`, icon: `fa-ban`, id: `blacklist`, name: `Blacklist`, url: `/account/manage/blacklist`},
-        {color: `grey`, icon: `fa-folder`, id: `games`, name: `Games`, url: `/account/steam/games`},
-        {color: `grey`, icon: `fa-user`, id: `groups`, name: `Groups`, url: `/account/steam/groups`},
-        {color: `grey`, icon: `fa-star`, id: `wishlist`, name: `Wishlist`, url: `/account/steam/wishlist`},
+        'profile',
+        'stats',
+        'et',
+        'ch',
+        {color: 'blue', icon: `fa-heart`, id: 'whitelist', name: 'Whitelist', url: `/account/manage/whitelist`},
+        {color: 'red', icon: `fa-ban`, id: 'blacklist', name: 'Blacklist', url: `/account/manage/blacklist`},
+        {color: 'grey', icon: `fa-folder`, id: 'games', name: 'Games', url: `/account/steam/games`},
+        {color: 'grey', icon: `fa-user`, id: 'groups', name: 'Groups', url: `/account/steam/groups`},
+        {color: 'grey', icon: `fa-star`, id: 'wishlist', name: 'Wishlist', url: `/account/steam/wishlist`},
       ],
       chfl_footer_sg: [
-        `archive`,
-        `stats`,
-        `roles`,
-        `users`,
-        `steamgifts`,
-        `103582791432125620`,
+        'archive',
+        'stats',
+        'roles',
+        'users',
+        'steamgifts',
+        '103582791432125620',
         `privacy-policy`,
         `cookie-policy`,
         `terms-of-service`,
-        `advertising`
+        'advertising'
       ],
       chfl_trades_st: [
-        `new`,
+        'new',
         `user=[steamId]`
       ],
       chfl_account_st: [
         `user=[steamId]`
       ],
       chfl_footer_st: [
-        `guidelines`,
+        'guidelines',
         `comment-formatting`,
         `privacy-policy`,
         `terms-of-service`
@@ -588,10 +588,10 @@ class Esgst {
       hgm_removeTagged: false,
       hgm_tags: [],
       hgm_removeBanned: false,
-      giveawayColumns: [`ged`, `endTime`, `winners`, `startTime`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
-      giveawayPanel: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`, `sgTools`],
-      giveawayColumns_gv: [`sgTools`, `ged`, `time`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
-      giveawayPanel_gv: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`],
+      giveawayColumns: ['ged', 'endTime', 'winners', 'startTime', 'touhou', 'inviteOnly', 'whitelist', 'group', 'regionRestricted', 'level'],
+      giveawayPanel: ['ttec', 'gwc', 'gwr', 'gptw', 'gp', 'elgb', 'sgTools'],
+      giveawayColumns_gv: ['sgTools', 'ged', 'time', 'touhou', 'inviteOnly', 'whitelist', 'group', 'regionRestricted', 'level'],
+      giveawayPanel_gv: ['ttec', 'gwc', 'gwr', 'gptw', 'gp', 'elgb'],
       enableByDefault_sg: false,
       enableByDefault_st: false,
       cf_m_sg: true,
@@ -688,31 +688,31 @@ class Esgst {
       gpf_enable: true,
       gpf_preset: null,
       ds_auto: false,
-      ds_option: `sortIndex_asc`,
+      ds_option: 'sortIndex_asc',
       elgb_filters: `.|(bestof|(g(ood)?)?)(l(uck)?)?(h(ave)?)?(f(un)?)?|enjoy|(h(umble)?)?(b(undle)?)?(g(ift)?)?(l(ink)?)?`,
       exportBackup: true,
       exportBackupIndex: 0,
       gas_auto: false,
-      gas_option: `sortIndex_asc`,
+      gas_option: 'sortIndex_asc',
       gas_autoWishlist: false,
-      gas_optionWishlist: `sortIndex_asc`,
+      gas_optionWishlist: 'sortIndex_asc',
       gas_autoRecommended: false,
-      gas_optionRecommended: `sortIndex_asc`,
+      gas_optionRecommended: 'sortIndex_asc',
       gas_autoGroup: false,
-      gas_optionGroup: `sortIndex_asc`,
+      gas_optionGroup: 'sortIndex_asc',
       gas_autoNew: false,
-      gas_optionNew: `sortIndex_asc`,
+      gas_optionNew: 'sortIndex_asc',
       gas_autoEntered: false,
-      gas_optionEntered: `sortIndex_asc`,
+      gas_optionEntered: 'sortIndex_asc',
       gas_autoUser: false,
-      gas_optionUser: `sortIndex_asc`,
+      gas_optionUser: 'sortIndex_asc',
       gas_autoGroups: false,
-      gas_optionGroups: `sortIndex_asc`,
+      gas_optionGroups: 'sortIndex_asc',
       gas_autoPopup: false,
-      gas_optionPopup: `sortIndex_asc`,
+      gas_optionPopup: 'sortIndex_asc',
       gb_hours: 1,
-      gc_categories: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_ocv`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
-      gc_categories_gv: [`gc_gi`, `gc_r`, `gc_hltb`, `gc_ocv`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`],
+      gc_categories: ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'],
+      gc_categories_gv: ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'],
       gc_o_altAccounts: [],
       gc_g_colors: [],
       gc_g_filters: ``,
@@ -721,55 +721,55 @@ class Esgst {
         {bgColor: `#b9a074`, color: `#ffffff`, icon: `minus-circle`, lower: 40, upper: 69},
         {bgColor: `#66c0f4`, color: `#ffffff`, icon: `thumbs-up`, lower: 70, upper: 100}
       ],
-      gc_ocvIcon: `history`,
-      gc_fcvIcon: `calendar`,
+      gc_ocvIcon: 'history',
+      gc_fcvIcon: 'calendar',
       gc_rcvIcon: `calendar-minus-o`,
       gc_ncvIcon: `calendar-times-o`,
       gc_hIcon: `eye-slash`,
-      gc_iIcon: `ban`,
-      gc_oIcon: `folder`,
-      gc_wIcon: `heart`,
-      gc_fIcon: `plus`,
-      gc_pwIcon: `gift`,
-      gc_aIcon: `trophy`,
-      gc_bdIcon: `times`,
-      gc_bvgIcon: `retweet`,
-      gc_spIcon: `user`,
-      gc_mpIcon: `users`,
-      gc_scIcon: `cloud`,
-      gc_tcIcon: `clone`,
-      gc_lIcon: `linux`,
-      gc_mIcon: `apple`,
-      gc_eaIcon: `unlock`,
-      gc_lgIcon: `spinner`,
-      gc_rmIcon: `trash`,
-      gc_dlcIcon: `download`,
-      gc_pIcon: `suitcase`,
+      gc_iIcon: 'ban',
+      gc_oIcon: 'folder',
+      gc_wIcon: 'heart',
+      gc_fIcon: 'plus',
+      gc_pwIcon: 'gift',
+      gc_aIcon: 'trophy',
+      gc_bdIcon: 'times',
+      gc_bvgIcon: 'retweet',
+      gc_spIcon: 'user',
+      gc_mpIcon: 'users',
+      gc_scIcon: 'cloud',
+      gc_tcIcon: 'clone',
+      gc_lIcon: 'linux',
+      gc_mIcon: 'apple',
+      gc_eaIcon: 'unlock',
+      gc_lgIcon: 'spinner',
+      gc_rmIcon: 'trash',
+      gc_dlcIcon: 'download',
+      gc_pIcon: 'suitcase',
       gc_rdIcon: `clock-o`,
       gc_ocvLabel: `Was `,
       gc_fcvLabel: `Full CV`,
       gc_rcvLabel: `Reduced CV`,
       gc_ncvLabel: `No CV`,
-      gc_hLabel: `Hidden`,
-      gc_iLabel: `Ignored`,
-      gc_oLabel: `Owned`,
-      gc_wLabel: `Wishlisted`,
-      gc_fLabel: `Followed`,
+      gc_hLabel: 'Hidden',
+      gc_iLabel: 'Ignored',
+      gc_oLabel: 'Owned',
+      gc_wLabel: 'Wishlisted',
+      gc_fLabel: 'Followed',
       gc_pwLabel: `Previously Won`,
-      gc_aLabel: `Achievements`,
-      gc_bdLabel: `Banned`,
+      gc_aLabel: 'Achievements',
+      gc_bdLabel: 'Banned',
       gc_bvgLabel: `Barter.vg`,
-      gc_spLabel: `Singleplayer`,
-      gc_mpLabel: `Multiplayer`,
+      gc_spLabel: 'Singleplayer',
+      gc_mpLabel: 'Multiplayer',
       gc_scLabel: `Steam Cloud`,
       gc_tcLabel: `Trading Cards`,
-      gc_lLabel: `Linux`,
-      gc_mLabel: `Mac`,
+      gc_lLabel: 'Linux',
+      gc_mLabel: 'Mac',
       gc_eaLabel: `Early Access`,
-      gc_lgLabel: `Learning`,
-      gc_rmLabel: `Removed`,
-      gc_dlcLabel: `DLC`,
-      gc_pLabel: `Package`,
+      gc_lgLabel: 'Learning',
+      gc_rmLabel: 'Removed',
+      gc_dlcLabel: 'DLC',
+      gc_pLabel: 'Package',
       gc_rdLabel: `Mon DD, YYYY`,
       gc_h_color: `#ffffff`,
       gc_hltb_color: `#ffffff`,
@@ -896,7 +896,7 @@ class Esgst {
       lastSyncDelistedGames: 0,
       lastSyncGiveaways: 0,
       lastSyncWonGiveaways: 0,
-      leftMainPageHeadingIds: [`wbsDesc`, `wbsAsc`, `wbm`, `wbc`, `ust`, `usc`, `ugs`, `uf_s_s`, `tf_s_s`, `tf`, `tb`, `sks`, `rbp`, `namwc`, `mpp`, `hgm`, `gv`, `gts`, `glwc`, `gf_s_s`, `gf`, `ge`, `gas`, `ds`, `df_s_s`, `df`, `ctUnread`, `ctRead`, `ctGo`, `cs`, `cf`, `cec`, `as`, `aic`],
+      leftMainPageHeadingIds: ['wbsDesc', 'wbsAsc', 'wbm', 'wbc', 'ust', 'usc', 'ugs', 'uf_s_s', 'tf_s_s', 'tf', 'tb', 'sks', 'rbp', 'namwc', 'mpp', 'hgm', 'gv', 'gts', 'glwc', 'gf_s_s', 'gf', 'ge', 'gas', 'ds', 'df_s_s', 'df', 'ctUnread', 'ctRead', 'ctGo', 'cs', 'cf', 'cec', 'as', 'aic'],
       leftButtonIds: [],
       mgc_createTrain: true,
       mgc_bumpLast: true,
@@ -906,13 +906,13 @@ class Esgst {
       mgc_removeLinks: true,
       namwc_checkNotActivated: false,
       namwc_checkMultiple: false,
-      npth_previousKey: `ArrowLeft`,
-      npth_nextKey: `ArrowRight`,
+      npth_previousKey: 'ArrowLeft',
+      npth_nextKey: 'ArrowRight',
       nrf_searchMultiple: false,
-      rightMainPageHeadingIds: [`esResume`, `esPause`, `esContinuous`, `esNext`, `esRefresh`, `esRefreshAll`, `stbb`, `sttb`, `mm`],
+      rightMainPageHeadingIds: ['esResume', 'esPause', 'esContinuous', 'esNext', 'esRefresh', 'esRefreshAll', 'stbb', 'sttb', 'mm'],
       rightButtonIds: [],
       sal_index: 2,
-      sk_closePopups: `escape`,
+      sk_closePopups: 'escape',
       sk_searchBox: `ctrlKey + q`,
       sk_firstPage: `ctrlKey + arrowup`,
       sk_previousPage: `ctrlKey + arrowleft`,
@@ -995,43 +995,43 @@ class Esgst {
       cl_gc_index: () => (this.settings.gcl_index || 0) + 1,
       cl_gi_index: () => (this.settings.ap_index || 0) + 1,
       cl_ui_index: () => (this.settings.ap_index || 0) + 1,
-      cl_gc_sg: `gcl_sg`,
-      cl_gi_sg: `ap_sg`,
-      cl_ui_sg: `ap_sg`,
-      gs_type_sg: `gs_t_sg`,
-      uf_gp_sg: `uf_p_sg`,
-      uf_dp_sg: `uf_p_sg`,
-      makeSectionsCollapsible_sg: `makeSecionsCollapsible_sg`,
-      makeSectionsCollapsible_st: `makeSecionsCollapsible_st`,
-      collapse_general: `collapseSections_sg`,
-      collapse_giveaways: `collapseSections_sg`,
-      collapse_discussions: `collapseSections_sg`,
-      collapse_trades: `collapseSections_sg`,
-      collapse_comments: `collapseSections_sg`,
-      collapse_users: `collapseSections_sg`,
-      collapse_groups: `collapseSections_sg`,
-      collapse_games: `collapseSections_sg`,
-      collapse_others: `collapseSections_sg`,
-      collapse_themes: `collapseSections_sg`,
-      collapse_element_ordering: `collapseSections_sg`,
-      collapse_steam_api_key: `collapseSections_sg`,
-      hgm_sg: `hgr_sg`,
-      hgm_removeOwned: `hgr_removeOwned`,
-      hgm_removeWishlisted: `hgr_removeWishlisted`,
-      mm_useRegExp: `gm_useRegExp`,
-      mm_enableGiveaways: `gm_enable`,
-      mm_enableDiscussions: `gm_enable`,
-      mm_enableUsers: `gm_enable`,
-      mm_enableGames: `gm_enable`,
-      pl_sg: `wbl_sg`,
-      pl_w_sg: `wbl_sg`,
-      pl_b_sg: `wbl_sg`,
-      gdttt_vg_sg: `gdttt_v_sg`,
-      gdttt_vd_sg: `gdttt_v_sg`,
-      gdttt_vt_sg: `gdttt_v_sg`,
-      gdttt_vts_st: `gdttt_v_st`,
-      wbc_hb_sg: `wbc_b_sg`,
-      wbc_checkBlacklist: `wbc_checkWhitelist`
+      cl_gc_sg: 'gcl_sg',
+      cl_gi_sg: 'ap_sg',
+      cl_ui_sg: 'ap_sg',
+      gs_type_sg: 'gs_t_sg',
+      uf_gp_sg: 'uf_p_sg',
+      uf_dp_sg: 'uf_p_sg',
+      makeSectionsCollapsible_sg: 'makeSecionsCollapsible_sg',
+      makeSectionsCollapsible_st: 'makeSecionsCollapsible_st',
+      collapse_general: 'collapseSections_sg',
+      collapse_giveaways: 'collapseSections_sg',
+      collapse_discussions: 'collapseSections_sg',
+      collapse_trades: 'collapseSections_sg',
+      collapse_comments: 'collapseSections_sg',
+      collapse_users: 'collapseSections_sg',
+      collapse_groups: 'collapseSections_sg',
+      collapse_games: 'collapseSections_sg',
+      collapse_others: 'collapseSections_sg',
+      collapse_themes: 'collapseSections_sg',
+      collapse_element_ordering: 'collapseSections_sg',
+      collapse_steam_api_key: 'collapseSections_sg',
+      hgm_sg: 'hgr_sg',
+      hgm_removeOwned: 'hgr_removeOwned',
+      hgm_removeWishlisted: 'hgr_removeWishlisted',
+      mm_useRegExp: 'gm_useRegExp',
+      mm_enableGiveaways: 'gm_enable',
+      mm_enableDiscussions: 'gm_enable',
+      mm_enableUsers: 'gm_enable',
+      mm_enableGames: 'gm_enable',
+      pl_sg: 'wbl_sg',
+      pl_w_sg: 'wbl_sg',
+      pl_b_sg: 'wbl_sg',
+      gdttt_vg_sg: 'gdttt_v_sg',
+      gdttt_vd_sg: 'gdttt_v_sg',
+      gdttt_vt_sg: 'gdttt_v_sg',
+      gdttt_vts_st: 'gdttt_v_st',
+      wbc_hb_sg: 'wbc_b_sg',
+      wbc_checkBlacklist: 'wbc_checkWhitelist'
     };
 
     /**
@@ -1241,7 +1241,7 @@ class Esgst {
 
     this.cfPopup = null;
 
-    this.gc_categories_ids = [`gc_gi`, `gc_r`, `gc_hltb`, `gc_ocv`, `gc_fcv`, `gc_rcv`, `gc_ncv`, `gc_h`, `gc_i`, `gc_o`, `gc_w`, `gc_f`, `gc_pw`, `gc_a`, `gc_bd`, `gc_bvg`, `gc_sp`, `gc_mp`, `gc_sc`, `gc_tc`, `gc_l`, `gc_m`, `gc_ea`, `gc_lg`, `gc_rm`, `gc_dlc`, `gc_p`, `gc_rd`, `gc_g`];
+    this.gc_categories_ids = ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'];
 
     this.pointsPlayer = null;
 
@@ -1302,12 +1302,12 @@ class Esgst {
     this.scopes = {};
     this.currentScope = null;
     this.scopeHistory = [];
-    this.modules.common.addScope(`main`, document);
-    this.modules.common.setCurrentScope(`main`);
+    this.modules.common.addScope('main', document);
+    this.modules.common.setCurrentScope('main');
 
     this.parameters = this.modules.common.getParameters();
 
-    if (this.parameters.esgst === `guide`) {
+    if (this.parameters.esgst === 'guide') {
       this.locationHref = window.location.href.replace(/\?.+/, ``);
     } else {
       this.locationHref = window.location.href;
@@ -1316,7 +1316,7 @@ class Esgst {
     this.markdownParser = new Parsedown;
     this.sg = window.location.hostname.match(/www.steamgifts.com/);
     this.st = window.location.hostname.match(/www.steamtrades.com/);
-    this.elgbCache = JSON.parse(this.modules.common.getLocalValue(`elgbCache`, `{"descriptions": {}, "timestamp": ${Date.now()}}`));
+    this.elgbCache = JSON.parse(this.modules.common.getLocalValue('elgbCache', `{"descriptions": {}, "timestamp": ${Date.now()}}`));
 
     this.userPath = window.location.pathname.match(/^\/user\//);
     this.userWonPath = this.userPath && window.location.pathname.match(/\/giveaways\/won/);

@@ -16,27 +16,27 @@ const REQUIRED_HEADERS = {
 
 class FetchRequest {
   static delete(url, options = {}) {
-    options = Object.assign(options, { method: `DELETE` });
+    options = Object.assign(options, { method: 'DELETE' });
     return FetchRequest.send(url, options);
   }
 
   static get(url, options = {}) {
-    options = Object.assign(options, { method: `GET` });
+    options = Object.assign(options, { method: 'GET' });
     return FetchRequest.send(url, options);
   }
 
   static patch(url, options = {}) {
-    options = Object.assign(options, { method: `PATCH` });
+    options = Object.assign(options, { method: 'PATCH' });
     return FetchRequest.send(url, options);
   }
 
   static post(url, options = {}) {
-    options = Object.assign(options, { method: `POST` });
+    options = Object.assign(options, { method: 'POST' });
     return FetchRequest.send(url, options);
   }
 
   static put(url, options = {}) {
-    options = Object.assign(options, { method: `PUT` });
+    options = Object.assign(options, { method: 'PUT' });
     return FetchRequest.send(url, options);
   }
 
@@ -56,9 +56,9 @@ class FetchRequest {
     options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
     try {
       if (options.queue) {
-        deleteLock = await shared.common.createLock(`requestLock`, 1000);
+        deleteLock = await shared.common.createLock('requestLock', 1000);
       } else if (url.match(/^https?:\/\/store.steampowered.com/)) {
-        deleteLock = await shared.common.createLock(`steamStore`, 200);
+        deleteLock = await shared.common.createLock('steamStore', 200);
       }
 
       const isInternal = url.match(new RegExp(window.location.hostname));
@@ -120,15 +120,15 @@ class FetchRequest {
   static async sendExternal(url, options) {
     try {
       const messageOptions = {
-        action: `fetch`,
+        action: 'fetch',
         blob: options.blob,
         fileName: options.fileName,
-        manipulateCookies: (await shared.common.getBrowserInfo()).name === `Firefox` && gSettings.manipulateCookies,
+        manipulateCookies: (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
         parameters: JSON.stringify(FetchRequest.getFetchOptions(options)),
         url
       };
       let response = await browser.runtime.sendMessage(messageOptions);
-      if (typeof response === `string`) {
+      if (typeof response === 'string') {
         response = JSON.parse(response);
       }
 
@@ -151,7 +151,7 @@ class FetchRequest {
     let fetchOptions = FetchRequest.getFetchOptions(options);
 
     // @ts-ignore
-    if ((await shared.common.getBrowserInfo()).name === `Firefox` && utils.isSet(window.wrappedJSObject)) {
+    if ((await shared.common.getBrowserInfo()).name === 'Firefox' && utils.isSet(window.wrappedJSObject)) {
       // @ts-ignore
       // eslint-disable-next-line no-undef
       fetchObj = XPCNativeWrapper(window.wrappedJSObject.fetch);
@@ -170,10 +170,10 @@ class FetchRequest {
   static getFetchOptions(options) {
     return {
       body: options.data,
-      credentials: options.anon ? `omit` : `include`,
+      credentials: options.anon ? 'omit' : 'include',
       headers: options.headers,
       method: options.method,
-      redirect: `follow`
+      redirect: 'follow'
     };
   }
 

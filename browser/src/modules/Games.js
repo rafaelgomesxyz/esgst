@@ -13,7 +13,7 @@ const
 ;
 
 const WHITELIST = {
-  25657: { id: 3970, type: `apps` } // Prey (2006)
+  25657: { id: 3970, type: 'apps' } // Prey (2006)
 };
 
 class Games extends Module {
@@ -21,7 +21,7 @@ class Games extends Module {
     super();
     this.info = {
       endless: true,
-      id: `games`,
+      id: 'games',
       featureMap: {
         endless: this.games_load.bind(this)
       }
@@ -29,9 +29,9 @@ class Games extends Module {
   }
 
   async games_load(context, main, source, endless) {
-    let games = await this.games_get(context, main, endless ? this.esgst.games : JSON.parse(getValue(`games`)), endless);
+    let games = await this.games_get(context, main, endless ? this.esgst.games : JSON.parse(getValue('games')), endless);
     if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
-    [`apps`, `subs`].forEach(type => {
+    ['apps', 'subs'].forEach(type => {
       for (let id in games[type]) {
         if (games[type].hasOwnProperty(id)) {
           games[type][id].forEach(game => {
@@ -48,7 +48,7 @@ class Games extends Module {
       }
     });
     for (const feature of this.esgst.gameFeatures) {
-      await feature(games, main, source, endless, `apps`);
+      await feature(games, main, source, endless, 'apps');
     }
     for (const id in games.apps) {
       if (games.apps.hasOwnProperty(id)) {
@@ -86,7 +86,7 @@ class Games extends Module {
       }
       game.container = game.outerWrap;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
-      game.table = !!game.container.closest(`table`);
+      game.table = !!game.container.closest('table');
       game.grid = game.container.closest(`.esgst-gv-view`);
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
@@ -95,7 +95,7 @@ class Games extends Module {
       info = await this.games_getInfo(game.container, main);
       game.headingName = game.container.querySelector(headingNameQuery);
       if (game.headingName) {
-        if (game.headingName.getAttribute(`href`) && game.headingName.getAttribute(`href`).match(/\/(discussion|\/support\/ticket|trade)\//)) {
+        if (game.headingName.getAttribute('href') && game.headingName.getAttribute('href').match(/\/(discussion|\/support\/ticket|trade)\//)) {
           continue;
         }
         if (game.table || this.esgst.wishlistPath) {
@@ -111,14 +111,14 @@ class Games extends Module {
           game.points = parseInt(steamGiftCard[1].replace(/,/g, ``));
           info = {
             id: `SteamGiftCard${game.points}`,
-            type: `apps`
+            type: 'apps'
           };
         }
         const humbleBundle = game.name.match(/^Humble.+?Bundle/);
         if (humbleBundle) {
           info = {
             id: game.name.replace(/\s/g, ``),
-            type: `apps`
+            type: 'apps'
           };
         }
         if (info) {
@@ -129,14 +129,14 @@ class Games extends Module {
           if (gSettings.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
             const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
             if (removeButton) {
-              removeButton.addEventListener(`click`, updateHiddenGames.bind(common, id, type, true));
+              removeButton.addEventListener('click', updateHiddenGames.bind(common, id, type, true));
             }
           }
           if (!games[type][id]) {
             games[type][id] = [];
           }
-          game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName(`table__column__heading`)[0]) || game.headingName;
-          game.tagPosition = `afterEnd`;
+          game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName('table__column__heading')[0]) || game.headingName;
+          game.tagPosition = 'afterEnd';
           game.saved = this.esgst.games[type][id];
           games[type][id].push(game);
           games.all.push(game);
@@ -153,15 +153,15 @@ class Games extends Module {
     const link = context.querySelector(`[href*="/app/"], [href*="/sub/"], [href*="/bundle/"]`);
     const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"], [style*="/bundles/"]`);
     if (link || image) {
-      const url = (link && link.getAttribute(`href`)) || (image && image.getAttribute(`style`));
+      const url = (link && link.getAttribute('href')) || (image && image.getAttribute('style'));
       if (!url) {
         return null;
       }
       const info = url.match(/\/(app|sub|bundle)s?\/(\d+)/);
-      if (info[1] === `bundle`) {
+      if (info[1] === 'bundle') {
         return {
           id: `SteamBundle${info[2]}`,
-          type: `subs`
+          type: 'subs'
         };
       }
       return {
@@ -182,7 +182,7 @@ class Games extends Module {
       return null;
     }
     const name = heading.textContent.trim();
-    for (const type of [`apps`, `subs`]) {
+    for (const type of ['apps', 'subs']) {
       for (const id in this.esgst.games[type]) {
         if (!this.esgst.games[type].hasOwnProperty(id)) {
           continue;
@@ -192,12 +192,12 @@ class Games extends Module {
         }
       }
     }
-    if (!heading.getAttribute(`href`)) {
+    if (!heading.getAttribute('href')) {
       return null;
     }
     const response = await request({
-      method: `GET`,
-      url: heading.getAttribute(`href`)
+      method: 'GET',
+      url: heading.getAttribute('href')
     });
     const html = parseHtml(response.responseText);
     const giveaway = (await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl))[0];
@@ -216,13 +216,13 @@ class Games extends Module {
       x.id = giveaway.gameSteamId;
       x.type = giveaway.gameType;
       if (this.esgst.games && this.esgst.games[x.type][x.id]) {
-        const keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`, `banned`, `removed`];
+        const keys = ['owned', 'wishlisted', 'followed', 'hidden', 'ignored', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'noCV', 'banned', 'removed'];
         for (const key of keys) {
-          if (key === `banned` && shared.esgst.delistedGames.banned.indexOf(parseInt(x.id)) > -1) {
+          if (key === 'banned' && shared.esgst.delistedGames.banned.indexOf(parseInt(x.id)) > -1) {
             x[key] = true;
-          } else if (key === `removed` && (shared.esgst.delistedGames.removed.indexOf(parseInt(x.id)) > -1 || shared.esgst.games[x.type][x.id].removed)) {
+          } else if (key === 'removed' && (shared.esgst.delistedGames.removed.indexOf(parseInt(x.id)) > -1 || shared.esgst.games[x.type][x.id].removed)) {
             x[key] = true;
-          } else if (shared.esgst.games[x.type][x.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+          } else if (shared.esgst.games[x.type][x.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
             x[key] = true;
           }
         }

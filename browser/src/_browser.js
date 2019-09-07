@@ -4,11 +4,11 @@ import { utils } from './lib/jsUtils';
 let _browser = null;
 
 // @ts-ignore
-if (typeof browser !== `undefined`) {
+if (typeof browser !== 'undefined') {
   // @ts-ignore
   _browser = browser;
 // @ts-ignore
-} else if (typeof GM !== `undefined` || typeof GM_info !== `undefined`) {
+} else if (typeof GM !== 'undefined' || typeof GM_info !== 'undefined') {
   let tdsData = [];
 
   _browser = {
@@ -17,7 +17,7 @@ if (typeof browser !== `undefined`) {
       onMessage: {
         addListener: callback => _browser.gm.listener = callback
       },
-      getBrowserInfo: () => Promise.resolve({ name: `userscript` }),
+      getBrowserInfo: () => Promise.resolve({ name: 'userscript' }),
       getManifest: () => Promise.resolve(_browser.gm.info.script),
       sendMessage: obj => {
         return new Promise(async resolve => {
@@ -37,28 +37,28 @@ if (typeof browser !== `undefined`) {
               resolve();
 
               break;
-            case `permissions_contains`:
+            case 'permissions_contains':
               resolve(true);
               break;
-            case `permissions_request`:
+            case 'permissions_request':
               resolve(true);
               break;
-            case `permissions_remove`:
+            case 'permissions_remove':
               resolve();
               break;
-            case `getBrowserInfo`: {
+            case 'getBrowserInfo': {
               const browserInfo = await _browser.runtime.getBrowserInfo();
               resolve(JSON.stringify(browserInfo));
               break;
             }
-            case `do_lock`: {
+            case 'do_lock': {
               const lock = JSON.parse(obj.lock);
 
               resolve(await _browser.gm.doLock(lock));
 
               break;
             }
-            case `update_lock`: {
+            case 'update_lock': {
               const lock = JSON.parse(obj.lock);
               const locked = JSON.parse(await _browser.gm.getValue(lock.key, `{}`));
               if (locked.uuid === lock.uuid) {
@@ -68,21 +68,21 @@ if (typeof browser !== `undefined`) {
               resolve();
               break;
             }
-            case `do_unlock`: {
+            case 'do_unlock': {
               const lock = JSON.parse(obj.lock);
               await _browser.gm.setValue(lock.key, `{}`);
               resolve();
               break;
             }
-            case `fetch`: {
+            case 'fetch': {
               const parameters = JSON.parse(obj.parameters);
-              if (parameters.credentials === `omit`) {
+              if (parameters.credentials === 'omit') {
                 parameters.headers.Cookie = ``;
               }
               _browser.gm.xmlHttpRequest({
                 binary: !!obj.fileName,
                 data: obj.fileName
-                  ? await shared.common.getZip(parameters.body, obj.fileName, `binarystring`)
+                  ? await shared.common.getZip(parameters.body, obj.fileName, 'binarystring')
                   : parameters.body,
                 headers: parameters.headers,
                 method: parameters.method,
@@ -117,7 +117,7 @@ if (typeof browser !== `undefined`) {
 
           if (!storage.settings) {
             _browser.gm.listener(JSON.stringify({
-              action: `isFirstRun`
+              action: 'isFirstRun'
             }));
           }
 
@@ -129,7 +129,7 @@ if (typeof browser !== `undefined`) {
             promises.push(_browser.gm.deleteValue(key));
           }
           await Promise.all(promises);
-          await _browser.gm.setValue(`storageChanged`, JSON.stringify(Date.now()));
+          await _browser.gm.setValue('storageChanged', JSON.stringify(Date.now()));
         },
         set: async values => {
           const promises = [];
@@ -139,7 +139,7 @@ if (typeof browser !== `undefined`) {
             }
           }
           await Promise.all(promises);
-          await _browser.gm.setValue(`storageChanged`, JSON.stringify(Date.now()));
+          await _browser.gm.setValue('storageChanged', JSON.stringify(Date.now()));
         }
       },
       onChanged: {
@@ -148,7 +148,7 @@ if (typeof browser !== `undefined`) {
     }
   };
   // @ts-ignore
-  if (typeof GM === `undefined`) {
+  if (typeof GM === 'undefined') {
     // polyfill for userscript managers that do not support the gm-dot api
     _browser.gm = {
       // @ts-ignore
@@ -197,8 +197,8 @@ if (typeof browser !== `undefined`) {
       _browser.gm.hasValueChanged(key, oldValue, callback);
     };
   }
-  _browser.gm.addValueChangeListener(`storageChanged`, async (name, oldValue, newValue, remote) => {
-    if (!remote || !newValue || newValue === `undefined`) {
+  _browser.gm.addValueChangeListener('storageChanged', async (name, oldValue, newValue, remote) => {
+    if (!remote || !newValue || newValue === 'undefined') {
       return;
     }
     const lastUpdate = JSON.parse(newValue);
@@ -213,8 +213,8 @@ if (typeof browser !== `undefined`) {
         };
       }
       _browser.gm.listener(JSON.stringify({
-        action: `storageChanged`,
-        values: { changes, areaName: `local` }
+        action: 'storageChanged',
+        values: { changes, areaName: 'local' }
       }));
     }
   });
@@ -245,20 +245,20 @@ if (typeof browser !== `undefined`) {
 
     return 'false';
   };
-} else if (typeof self !== `undefined`) {
+} else if (typeof self !== 'undefined') {
   _browser = {
     gm: null,
     runtime: {
       onMessage: {
         addListener: callback => {
           // @ts-ignore
-          self.port.on(`esgstMessage`, obj => callback(obj));
+          self.port.on('esgstMessage', obj => callback(obj));
         }
       },
       getManifest: () => {
         return new Promise(resolve => {
           _browser.runtime.sendMessage({
-            action: `getPackageJson`
+            action: 'getPackageJson'
           }).then(result => {
             resolve(JSON.parse(result));
           });
@@ -272,7 +272,7 @@ if (typeof browser !== `undefined`) {
           // @ts-ignore
           self.port.on(`${obj.action}_${obj.uuid}_response`, function onResponse(result) {
             // @ts-ignore
-            self.port.removeListener(`${obj.action}_${obj.uuid}_response`, `onResponse`);
+            self.port.removeListener(`${obj.action}_${obj.uuid}_response`, 'onResponse');
             resolve(result);
           });
         });
@@ -282,18 +282,18 @@ if (typeof browser !== `undefined`) {
       local: {
         get: async () => {
           return JSON.parse(await _browser.runtime.sendMessage({
-            action: `getStorage`
+            action: 'getStorage'
           }));
         },
         remove: async keys => {
           await _browser.runtime.sendMessage({
-            action: `delValues`,
+            action: 'delValues',
             values: JSON.stringify(keys)
           });
         },
         set: async values => {
           await _browser.runtime.sendMessage({
-            action: `setValues`,
+            action: 'setValues',
             values: JSON.stringify(values)
           });
         }
@@ -309,7 +309,7 @@ if (typeof browser !== `undefined`) {
   };
 }
 
-if (typeof _browser.runtime.getBrowserInfo === `undefined`) {
+if (typeof _browser.runtime.getBrowserInfo === 'undefined') {
   _browser.runtime.getBrowserInfo = () => Promise.resolve({ name: `?` });
 }
 

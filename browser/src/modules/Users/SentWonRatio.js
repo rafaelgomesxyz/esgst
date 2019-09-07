@@ -12,18 +12,18 @@ class UsersSentWonRatio extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their `,
-            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page.`
           ]]
         ]]
       ],
-      id: `swr`,
+      id: 'swr',
       name: `Sent/Won Ratio`,
       sg: true,
-      type: `users`,
+      type: 'users',
       featureMap: {
         profile: this.swr_add.bind(this)
       }
@@ -43,7 +43,7 @@ class UsersSentWonRatio extends Module {
         {
           columns: [
             {
-              name: `Ratio`
+              name: 'Ratio'
             },
             {
               color: `#8f96a6`,
@@ -68,7 +68,7 @@ class UsersSentWonRatio extends Module {
               name: fullRatio
             }
           ],
-          indent: `80px`
+          indent: '80px'
         },
         {
           columns: [
@@ -81,7 +81,7 @@ class UsersSentWonRatio extends Module {
               name: reducedRatio
             }
           ],
-          indent: `80px`
+          indent: '80px'
         },
         {
           columns: [
@@ -119,41 +119,41 @@ class UsersSentWonRatio extends Module {
         }
       ]
     };
-    createElements(profile.sentRow, `afterEnd`, [{
+    createElements(profile.sentRow, 'afterEnd', [{
       attributes: {
         class: `esgst-swr-ratio featured__table__row`,
-        title: getFeatureTooltip(`swr`)
+        title: getFeatureTooltip('swr')
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
-          class: `featured__table__row__left`
+          class: 'featured__table__row__left'
         },
-        text: `Ratio`,
-        type: `div`
+        text: 'Ratio',
+        type: 'div'
       }, {
         attributes: {
-          class: `featured__table__row__right`
+          class: 'featured__table__row__right'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
             [`data-ui-tooltip`]: JSON.stringify(ratioTooltip)
           },
           text: ratio,
-          type: `span`
+          type: 'span'
         }, {
           text: ` (`,
-          type: `node`
+          type: 'node'
         }, {
           attributes: {
             [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
           },
-          text: gSettings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString(`en`)}` : cvRatio,
-          type: `span`
+          text: gSettings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString('en')}` : cvRatio,
+          type: 'span'
         }, {
           text: `)`,
-          type: `node`
+          type: 'node'
         }]
       }]
     }]);

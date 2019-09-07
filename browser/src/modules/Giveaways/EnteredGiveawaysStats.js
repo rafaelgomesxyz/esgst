@@ -7,8 +7,8 @@ class GiveawaysEnteredGiveawaysStats extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Allows you to see stats for your entered giveaways in the sidebar of the entered page.`]
+        ['ul', [
+          ['li', `Allows you to see stats for your entered giveaways in the sidebar of the entered page.`]
         ]]
       ],
       features: {
@@ -18,11 +18,11 @@ class GiveawaysEnteredGiveawaysStats extends Module {
           sg: true
         }
       },
-      id: `egs`,
+      id: 'egs',
       name: `Entered Giveaways Stats`,
       sg: true,
       sgPaths: `My Giveaways - Entered`,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -30,31 +30,31 @@ class GiveawaysEnteredGiveawaysStats extends Module {
     if (!this.esgst.enteredPath) {
       return;
     }
-    common.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
+    common.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
       name: `Entered Giveaways Stats`,
       items: [
         {
-          id: `egs_chance`,
+          id: 'egs_chance',
           name: `Average Chance`,
           count: 0
         },
         {
-          id: `egs_level`,
+          id: 'egs_level',
           name: `Average Level`,
           count: 0
         },
         {
-          id: `egs_entries`,
+          id: 'egs_entries',
           name: `Average Entries`,
           count: 0
         },
         {
-          id: `egs_points`,
+          id: 'egs_points',
           name: `Average Points Spent`,
           count: 0
         },
         {
-          id: `egs_simple_points`,
+          id: 'egs_simple_points',
           name: `Total Points Spent`,
           count: 0
         }

@@ -3,27 +3,27 @@ import { shared } from '../../class/Shared';
 
 class GamesGameTags extends Tags {
   constructor() {
-    super(`gt`);
+    super('gt');
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-tag` }],
+            ['i', { class: `fa fa-tag` }],
             `) next to a game's name (in any page) that allows you to save tags for the game (only visible to you).`
           ]],
-          [`li`, `You can press Enter to save the tags.`],
-          [`li`, `Each tag can be colored individually.`],
-          [`li`, [
+          ['li', `You can press Enter to save the tags.`],
+          ['li', `Each tag can be colored individually.`],
+          ['li', [
             `There is a button (`,
-            [`i`, { class: `fa fa-list` }],
+            ['i', { class: `fa fa-list` }],
             `) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.`
           ]],
-          [`li`, [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-gamepad` }],
+            ['i', { class: `fa fa-gamepad` }],
             ` `,
-            [`i`, { class: `fa fa-tags` }],
+            ['i', { class: `fa fa-tags` }],
             `) to the page heading of this menu that allows you to manage all of the tags that have been saved.`
           ]]
         ]]
@@ -35,10 +35,10 @@ class GamesGameTags extends Tags {
           st: true
         }
       },
-      id: `gt`,
+      id: 'gt',
       name: `Game Tags`,
       sg: true,
-      type: `games`
+      type: 'games'
     };
   }
 

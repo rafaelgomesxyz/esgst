@@ -25,24 +25,24 @@ class GiveawaysGiveawayExtractor extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-gift` }],
+            ['i', { class: `fa fa-gift` }],
             ` `,
-            [`i`, { class: `fa fa-search` }],
+            ['i', { class: `fa fa-search` }],
             `) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.`
           ]],
-          [`li`, `The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.`],
-          [`li`, `The feature keeps extracting giveaways until it no longer finds a giveaway link in the page. To prevent a loop (and consequently duplicate results), it keeps track of which giveaways it has already extracted so that they are not extracted again.`],
-          [`li`, `If you use the feature in a giveaway page, it will add a "Bump" link to the results (when available).`],
-          [`li`, `This feature is useful for extracting trains (multiple giveaways linked to each other).`]
+          ['li', `The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.`],
+          ['li', `The feature keeps extracting giveaways until it no longer finds a giveaway link in the page. To prevent a loop (and consequently duplicate results), it keeps track of which giveaways it has already extracted so that they are not extracted again.`],
+          ['li', `If you use the feature in a giveaway page, it will add a "Bump" link to the results (when available).`],
+          ['li', `This feature is useful for extracting trains (multiple giveaways linked to each other).`]
         ]]
       ],
       features: {
         ge_p: {
           description: [
-            [`li`, `With this option enabled, a second button is added that allows you to specify certain parameters before beginning the extraction.`]
+            ['li', `With this option enabled, a second button is added that allows you to specify certain parameters before beginning the extraction.`]
           ],
           name: `Add button to specify parameters.`,
           sg: true
@@ -53,13 +53,13 @@ class GiveawaysGiveawayExtractor extends Module {
         },
         ge_sgt: {
           conflicts: [
-            `ge_sgtga`
+            'ge_sgtga'
           ],
           features: {
             ge_sgt_l: {
               inputItems: [
                 {
-                  id: `ge_sgt_limit`,
+                  id: 'ge_sgt_limit',
                   prefix: `Limit: `
                 }
               ],
@@ -72,7 +72,7 @@ class GiveawaysGiveawayExtractor extends Module {
         },
         ge_sgtga: {
           conflicts: [
-            `ge_sgt`
+            'ge_sgt'
           ],
           features: {
             ge_sgtga_u: {
@@ -90,14 +90,14 @@ class GiveawaysGiveawayExtractor extends Module {
       },
       inputItems: [
         {
-          id: `npth_nextRegex`,
+          id: 'npth_nextRegex',
           prefix: `Enter the regex you want to use to detect next links when extracting onwards: `
         }
       ],
-      id: `ge`,
+      id: 'ge',
       name: `Giveaway Extractor`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -110,12 +110,12 @@ class GiveawaysGiveawayExtractor extends Module {
       if (gSettings.ge_p) {
         this.ge_addButton(`Extract all giveaways (specify parameters)`, [`fa-gear`], true);
       }
-    } else if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
+    } else if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       this.nextRegex = new RegExp(gSettings.npth_nextRegex);
 
       const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({ method: `GET`, url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ``}` })).responseText),
+        context: parseHtml((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ``}` })).responseText),
         extractOnward: !!parameters.extractOnward,
         flushCache: !!parameters.flush,
         flushCacheHours: parameters.flushHrs,
@@ -132,10 +132,10 @@ class GiveawaysGiveawayExtractor extends Module {
 
   ge_addButton(title, extraIcons = [], specifyParams) {
     let ge = {
-      button: createHeadingButton({ id: `ge`, icons: [`fa-gift`, `fa-search`].concat(extraIcons), title })
+      button: createHeadingButton({ id: 'ge', icons: [`fa-gift`, `fa-search`].concat(extraIcons), title })
     };
     if (specifyParams) {
-      ge.button.addEventListener(`click`, () => {
+      ge.button.addEventListener('click', () => {
         ge.extractOnward = gSettings.ge_extractOnward;
         ge.flushCache = gSettings.ge_flushCache;
         ge.flushCacheHours = gSettings.ge_flushCacheHours;
@@ -147,8 +147,8 @@ class GiveawaysGiveawayExtractor extends Module {
           addScrollable: true,
           buttons: [
             {
-              color1: `green`,
-              color2: `grey`,
+              color1: 'green',
+              color2: 'grey',
               icon1: `fa-arrow-circle-right`,
               icon2: `fa-circle-o-notch fa-spin`,
               title1: `Open Extractor`,
@@ -173,7 +173,7 @@ class GiveawaysGiveawayExtractor extends Module {
         popup.open();
       });
     } else {
-      ge.button.addEventListener(`click`, () => {
+      ge.button.addEventListener('click', () => {
         if (gSettings.ge_t) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, ``)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ``}`);
         } else {
@@ -184,16 +184,16 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_showOptions(ge, context, reExtract) {
-    new ToggleSwitch(context, `ge_extractOnward`, null, `Only extract from the current giveaway onward.`, false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, ge.extractOnward);
+    new ToggleSwitch(context, 'ge_extractOnward', null, `Only extract from the current giveaway onward.`, false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, ge.extractOnward);
     if (!reExtract) {
-      common.observeNumChange(new ToggleSwitch(context, `ge_flushCache`, null, [
+      common.observeNumChange(new ToggleSwitch(context, 'ge_flushCache', null, [
         `Flush the cache if it is older than `,
-        [`input`, { class: `esgst-switch-input`, step: `0.1`, type: `number`, value: ge.flushCacheHours }],
+        ['input', { class: `esgst-switch-input`, step: `0.1`, type: 'number', value: ge.flushCacheHours }],
         ` hours.`
-      ], false, false, null, ge.flushCache).name.firstElementChild, `ge_flushCacheHours`, true);
+      ], false, false, null, ge.flushCache).name.firstElementChild, 'ge_flushCacheHours', true);
     }
-    new ToggleSwitch(context, `ge_ignoreDiscussionComments`, null, `Ignore discussion comments when extracting giveaways.`, false, false, null, ge.ignoreDiscussionComments);
-    new ToggleSwitch(context, `ge_ignoreGiveawayComments`, null, `Ignore giveaway comments when extracting giveaways.`, false, false, null, ge.ignoreGiveawayComments);
+    new ToggleSwitch(context, 'ge_ignoreDiscussionComments', null, `Ignore discussion comments when extracting giveaways.`, false, false, null, ge.ignoreDiscussionComments);
+    new ToggleSwitch(context, 'ge_ignoreGiveawayComments', null, `Ignore giveaway comments when extracting giveaways.`, false, false, null, ge.ignoreGiveawayComments);
   }
 
   async ge_openPopup(ge) {
@@ -203,7 +203,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     const now = Date.now();
     let changed = false;
-    ge.cache = JSON.parse(common.getValue(`geCache`, `{}`));
+    ge.cache = JSON.parse(common.getValue('geCache', `{}`));
     for (const id in ge.cache) {
       if (dateFns_differenceInDays(now, ge.cache[id].timestamp) > 7) {
         changed = true;
@@ -211,7 +211,7 @@ class GiveawaysGiveawayExtractor extends Module {
       }
     }
     if (changed) {
-      await common.setValue(`geCache`, JSON.stringify(ge.cache));
+      await common.setValue('geCache', JSON.stringify(ge.cache));
     }
     ge.cacheId = (this.esgst.parameters.url && this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//)[0]) || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
     ge.count = 0;
@@ -222,19 +222,19 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.points = 0;
     ge.sgToolsCount = 0;
     ge.isDivided = gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
-    if (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge`) {
+    if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       const context = this.esgst.sidebar.nextElementSibling;
       if (gSettings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
-      context.setAttribute(`data-esgst-popup`, `true`);
+      context.setAttribute(`data-esgst-popup`, 'true');
       context.innerHTML = ``;
       new elementBuilder[shared.esgst.name].pageHeading({
         context: context,
-        position: `beforeEnd`,
+        position: 'beforeEnd',
         breadcrumbs: [
           {
-            name: `ESGST`,
+            name: 'ESGST',
             url: this.esgst.settingsUrl
           },
           {
@@ -243,8 +243,8 @@ class GiveawaysGiveawayExtractor extends Module {
           }
         ]
       });
-      const container = createElements(context, `beforeEnd`, [{ type: `div` }]);
-      const scrollable = createElements(context, `beforeEnd`, [{ type: `div` }]);
+      const container = createElements(context, 'beforeEnd', [{ type: 'div' }]);
+      const scrollable = createElements(context, 'beforeEnd', [{ type: 'div' }]);
       ge.popup = {
         description: container,
         scrollable: scrollable,
@@ -256,24 +256,24 @@ class GiveawaysGiveawayExtractor extends Module {
     } else {
       ge.popup = new Popup({ addScrollable: true, icon: `fa-gift`, title: `Extracted giveaways:` });
     }
-    ge.results = createElements(ge.popup.scrollable, `beforeEnd`, [{
+    ge.results = createElements(ge.popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: `esgst-text-left`
       },
-      type: `div`
+      type: 'div'
     }]);
     if (gSettings.gas || (gSettings.gf && gSettings.gf_m) || gSettings.mm) {
-      let heading = createElements(ge.popup.scrollable, `afterBegin`, [{
+      let heading = createElements(ge.popup.scrollable, 'afterBegin', [{
         attributes: {
-          class: `page__heading`
+          class: 'page__heading'
         },
-        type: `div`
+        type: 'div'
       }]);
       if (gSettings.gas) {
         this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
       if (gSettings.gf && gSettings.gf_m) {
-        heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, `Ge`));
+        heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Ge'));
       }
       if (gSettings.mm) {
         this.esgst.modules.generalMultiManager.mm(heading);
@@ -281,12 +281,12 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     ge.cacheWarning = null;
     ge.set = new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: `fa-search`,
       icon2: `fa-times`,
-      title1: `Extract`,
-      title2: `Cancel`,
+      title1: 'Extract',
+      title2: 'Cancel',
       callback1: (hasScrolled) => {
         return new Promise(resolve => {
           if (hasScrolled && ge.isComplete) {
@@ -332,19 +332,19 @@ class GiveawaysGiveawayExtractor extends Module {
             if (ge.button) {
               ge.button.classList.add(`esgst-busy`);
             }
-            this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+            this.esgst.modules.common.createElements(ge.progress, 'inner', [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
-              type: `i`
+              type: 'i'
             }, {
               text: ge.total,
-              type: `span`
+              type: 'span'
             }, {
               text: ` giveaways extracted.`,
-              type: `node`
+              type: 'node'
             }]);
-            let giveaways = this.ge_getGiveaways(ge, shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge` ? ge.context : this.esgst.pageOuterWrap);
+            let giveaways = this.ge_getGiveaways(ge, shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge' ? ge.context : this.esgst.pageOuterWrap);
             this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge));
           }
         });
@@ -357,8 +357,8 @@ class GiveawaysGiveawayExtractor extends Module {
       }
     });
     ge.popup.description.appendChild(ge.set.set);
-    ge.progress = createElements(ge.popup.description, `beforeEnd`, [{
-      type: `div`
+    ge.progress = createElements(ge.popup.description, 'beforeEnd', [{
+      type: 'div'
     }]);
     ge.popup.open();
     if (ge.flushCache && ge.cache[ge.cacheId] && now - ge.cache[ge.cacheId].timestamp > parseInt(ge.flushCacheHours) * 3600000) {
@@ -367,8 +367,8 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
       ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
-      ge.cacheWarning = common.createElements_v2(ge.popup.description, `beforeEnd`, [
-        [`div`, `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
+      ge.cacheWarning = common.createElements_v2(ge.popup.description, 'beforeEnd', [
+        ['div', `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
 
       let html = ``;
@@ -389,45 +389,45 @@ class GiveawaysGiveawayExtractor extends Module {
         }
 
         if (total % 50 === 0) {
-          ge.results.insertAdjacentHTML(`beforeEnd`, html);
+          ge.results.insertAdjacentHTML('beforeEnd', html);
           ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
           await shared.common.timeout(100);
         }
       }
       if (total % 50 !== 0) {
-        ge.results.insertAdjacentHTML(`beforeEnd`, html);
+        ge.results.insertAdjacentHTML('beforeEnd', html);
         ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
       }
-      this.esgst.modules.common.createElements(ge.progress, `inner`, [{
+      this.esgst.modules.common.createElements(ge.progress, 'inner', [{
         text: total,
-        type: `span`
+        type: 'span'
       }, {
         text: ` giveaways extracted.`,
-        type: `node`
+        type: 'node'
       }]);
-      await endless_load(ge.results, false, `ge`, ge.endless);
+      await endless_load(ge.results, false, 'ge', ge.endless);
       const items = [{
         attributes: {
           class: `markdown esgst-text-center`
         },
-        type: `div`,
+        type: 'div',
         children: []
       }];
       if (ge.cache[ge.cacheId].bumpLink && !this.esgst.discussionPath) {
         items[0].children.push({
-          type: `h2`,
+          type: 'h2',
           children: [{
             attributes: {
               href: ge.cache[ge.cacheId].bumpLink
             },
-            text: `Bump`,
-            type: `a`
+            text: 'Bump',
+            type: 'a'
           }]
         });
       }
       items[0].children.push({
         text: `${points}P required to enter all giveaways.`,
-        type: `node`
+        type: 'node'
       });
       for (let link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
         if (gSettings.ge_j) {
@@ -437,17 +437,17 @@ class GiveawaysGiveawayExtractor extends Module {
           }
         }
         items[0].children.push({
-          type: `br`
+          type: 'br'
         }, {
             attributes: {
               href: link
             },
             text: link,
-            type: `a`
+            type: 'a'
           });
       }
-      createElements(ge.results, `afterBegin`, items);
-      createElements(ge.results, `beforeEnd`, items);
+      createElements(ge.results, 'afterBegin', items);
+      createElements(ge.results, 'beforeEnd', items);
     } else {
       ge.cache[ge.cacheId] = {
         codes: [],
@@ -460,7 +460,7 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.set.trigger();
     }
     if (gSettings.es_ge) {
-      ge.popup.scrollable.addEventListener(`scroll`, this.checkScroll.bind(this, ge));
+      ge.popup.scrollable.addEventListener('scroll', this.checkScroll.bind(this, ge));
     }
   }
 
@@ -488,7 +488,7 @@ class GiveawaysGiveawayExtractor extends Module {
         ge.mainCallback();
         ge.mainCallback = null;
         ge.count = 0;
-        await endless_load(ge.results, false, `ge`, ge.endless);
+        await endless_load(ge.results, false, 'ge', ge.endless);
         ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
         ge.progress.firstElementChild.remove();
         ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
@@ -517,13 +517,13 @@ class GiveawaysGiveawayExtractor extends Module {
               try {
                 if (gSettings.ge_sgtga_u) {
                   await request({
-                    method: `GET`,
+                    method: 'GET',
                     queue: true,
                     url: `https://www.sgtools.info/giveaways/${code}/check`
                   });
                 }
                 const response = await request({
-                  method: `GET`,
+                  method: 'GET',
                   queue: true,
                   url: `https://www.sgtools.info/giveaways/${code}/getLink`
                 });
@@ -540,18 +540,18 @@ class GiveawaysGiveawayExtractor extends Module {
           let bumpLink, button, giveaway, giveaways, n, responseHtml;
           try {
             let response = await request({
-              method: `GET`,
+              method: 'GET',
               url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
             });
             responseHtml = parseHtml(response.responseText);
-            button = responseHtml.getElementsByClassName(`sidebar__error`)[0];
+            button = responseHtml.getElementsByClassName('sidebar__error')[0];
             giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           } catch (error) {}
           if (ge.isCanceled) {
             return;
           }
           if (giveaway) {
-            createElements(ge.results, `beforeEnd`, giveaway.html);
+            createElements(ge.results, 'beforeEnd', giveaway.html);
             ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
             giveaway.html = ge.results.lastElementChild.outerHTML;
             ge.cache[ge.cacheId].codes.push(code);
@@ -559,17 +559,17 @@ class GiveawaysGiveawayExtractor extends Module {
             ge.points += giveaway.points;
             ge.count += 1;
             ge.total += 1;
-            createElements(ge.progress, `inner`, [{
+            createElements(ge.progress, 'inner', [{
               attributes: {
                 class: `fa fa-circle-o-notch fa-spin`
               },
-              type: `i`
+              type: 'i'
             }, {
               text: ge.total,
-              type: `span`
+              type: 'span'
             }, {
               text: ` giveaways extracted.`,
-              type: `node`
+              type: 'node'
             }]);
             ge.extracted.push(code);
             if (sgTools) {
@@ -578,7 +578,7 @@ class GiveawaysGiveawayExtractor extends Module {
               if (!ge.bumpLink) {
                 bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
                 if (bumpLink) {
-                  ge.bumpLink = bumpLink.getAttribute(`href`);
+                  ge.bumpLink = bumpLink.getAttribute('href');
                   ge.cache[ge.cacheId].bumpLink = ge.bumpLink;
                 }
               }
@@ -593,12 +593,12 @@ class GiveawaysGiveawayExtractor extends Module {
           } else if (!sgTools) {
             let bumpLink, giveaway, giveaways, n, responseHtml;
             try {
-              let response = await request({ anon: true, method: `GET`, url: `/giveaway/${code}/` });
+              let response = await request({ anon: true, method: 'GET', url: `/giveaway/${code}/` });
               responseHtml = parseHtml(response.responseText);
               giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
             } catch (error) {}
             if (giveaway) {
-              createElements(ge.results, `beforeEnd`, giveaway.html);
+              createElements(ge.results, 'beforeEnd', giveaway.html);
               ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
               giveaway.html = ge.results.lastElementChild.outerHTML;
               ge.cache[ge.cacheId].codes.push(code);
@@ -606,23 +606,23 @@ class GiveawaysGiveawayExtractor extends Module {
               ge.points += giveaway.points;
               ge.count += 1;
               ge.total += 1;
-              createElements(ge.progress, `inner`, [{
+              createElements(ge.progress, 'inner', [{
                 attributes: {
                   class: `fa fa-circle-o-notch fa-spin`
                 },
-                type: `i`
+                type: 'i'
               }, {
                 text: ge.total,
-                type: `span`
+                type: 'span'
               }, {
                 text: ` giveaways extracted.`,
-                type: `node`
+                type: 'node'
               }]);
               ge.extracted.push(code);
               if (!ge.bumpLink) {
                 bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
                 if (bumpLink) {
-                  ge.bumpLink = bumpLink.getAttribute(`href`);
+                  ge.bumpLink = bumpLink.getAttribute('href');
                   ge.cache[ge.cacheId].bumpLink = ge.bumpLink;
                 }
               }
@@ -679,8 +679,8 @@ class GiveawaysGiveawayExtractor extends Module {
       count: 0
     };
     for (let element of elements) {
-      if (element.matches(`img`)) {
-        const title = element.getAttribute(`title`);
+      if (element.matches('img')) {
+        const title = element.getAttribute('title');
         if (title.length === 5) {
           if (ge.extracted.indexOf(title) < 0 && giveaways.indexOf(title) < 0) {
             giveaways.push(title);
@@ -688,7 +688,7 @@ class GiveawaysGiveawayExtractor extends Module {
         }
         continue;
       }
-      let url = element.getAttribute(`href`);
+      let url = element.getAttribute('href');
       let match = url.match(/\/(\w{5})\b/);
       if (!match) {
         match = url.match(/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/);
@@ -725,7 +725,7 @@ class GiveawaysGiveawayExtractor extends Module {
       ithLinks = context.querySelectorAll(ithSelectors.map(x => `.markdown ${x}`).join(`, `));
     }
     for (const link of ithLinks) {
-      const url = link.getAttribute(`href`);
+      const url = link.getAttribute('href');
       ge.cache[ge.cacheId].ithLinks.add(url);
     }
     const jigidiSelectors = [
@@ -741,7 +741,7 @@ class GiveawaysGiveawayExtractor extends Module {
       jigidiLinks = context.querySelectorAll(jigidiSelectors.map(x => `.markdown ${x}`).join(`, `));
     }
     for (const link of jigidiLinks) {
-      let url = link.getAttribute(`href`);
+      let url = link.getAttribute('href');
       if (gSettings.ge_j) {
         const match = url.match(/id=(.+)/);
         if (match) {
@@ -757,8 +757,8 @@ class GiveawaysGiveawayExtractor extends Module {
     let isFound = false;
     const elements = document.querySelectorAll(`.markdown img[title], .markdown [href*="/giveaway/"], .markdown [href*="sgtools.info/giveaways"]`);
     for (const element of elements) {
-      if (element.matches(`img`)) {
-        if (element.getAttribute(`title`).length === 5) {
+      if (element.matches('img')) {
+        if (element.getAttribute('title').length === 5) {
           isFound = true;
         }
       } else {
@@ -777,43 +777,43 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.mainCallback();
       ge.mainCallback = null;
     }
-    await endless_load(ge.results, false, `ge`, ge.endless);
+    await endless_load(ge.results, false, 'ge', ge.endless);
     const items = [{
       attributes: {
         class: `markdown esgst-text-center`
       },
-      type: `div`,
+      type: 'div',
       children: []
     }];
     if (ge.bumpLink && !this.esgst.discussionPath) {
       items[0].children.push({
-        type: `h2`,
+        type: 'h2',
         children: [{
           attributes: {
             href: ge.bumpLink
           },
-          text: `Bump`,
-          type: `a`
+          text: 'Bump',
+          type: 'a'
         }]
       });
     }
     items[0].children.push({
       text: `${ge.points}P required to enter all giveaways.`,
-      type: `node`
+      type: 'node'
     });
     for (const link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
       items[0].children.push({
-        type: `br`
+        type: 'br'
       }, {
           attributes: {
             href: link
           },
           text: link,
-          type: `a`
+          type: 'a'
         });
     }
-    createElements(ge.results, `afterBegin`, items);
-    createElements(ge.results, `beforeEnd`, items);
+    createElements(ge.results, 'afterBegin', items);
+    createElements(ge.results, 'beforeEnd', items);
     ge.set.set.firstElementChild.lastElementChild.textContent = `Re-Extract`;
     ge.reExtract = true;
     ge.isComplete = true;
@@ -824,7 +824,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.isCanceled && !ge.extractOnward) {
       ge.cache[ge.cacheId].ithLinks = Array.from(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = Array.from(ge.cache[ge.cacheId].jigidiLinks);
-      await common.setValue(`geCache`, JSON.stringify(ge.cache));
+      await common.setValue('geCache', JSON.stringify(ge.cache));
     }
   }
 }

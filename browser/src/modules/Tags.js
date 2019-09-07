@@ -30,8 +30,8 @@ class Tags extends Module {
   async tags_getTags() {
     const allTags = [];
     switch (this.id) {
-      case `dt`: {
-        const savedDiscussions = JSON.parse(getValue(`discussions`));
+      case 'dt': {
+        const savedDiscussions = JSON.parse(getValue('discussions'));
         for (const id in savedDiscussions) {
           if (savedDiscussions.hasOwnProperty(id)) {
             const tags = savedDiscussions[id].tags;
@@ -42,8 +42,8 @@ class Tags extends Module {
         }
         break;
       }
-      case `gpt`: {
-        const savedGroups = JSON.parse(getValue(`groups`));
+      case 'gpt': {
+        const savedGroups = JSON.parse(getValue('groups'));
         for (const group of savedGroups) {
           const tags = group.tags;
           if (tags && Array.isArray(tags)) {
@@ -52,8 +52,8 @@ class Tags extends Module {
         }
         break;
       }
-      case `gt`: {
-        const savedGames = JSON.parse(getValue(`games`));
+      case 'gt': {
+        const savedGames = JSON.parse(getValue('games'));
         for (const id in savedGames.apps) {
           if (savedGames.apps.hasOwnProperty(id)) {
             const tags = savedGames.apps[id].tags;
@@ -72,8 +72,8 @@ class Tags extends Module {
         }
         break;
       }
-      case `ut`: {
-        const savedUsers = JSON.parse(getValue(`users`));
+      case 'ut': {
+        const savedUsers = JSON.parse(getValue('users'));
         for (const id in savedUsers.users) {
           if (savedUsers.users.hasOwnProperty(id)) {
             const tags = savedUsers.users[id].tags;
@@ -101,7 +101,7 @@ class Tags extends Module {
         });
       }
     }
-    this.esgst[`${this.id}Tags`] = sortArray(this.esgst[`${this.id}Tags`], true, `count`).map(x => x.tag);
+    this.esgst[`${this.id}Tags`] = sortArray(this.esgst[`${this.id}Tags`], true, 'count').map(x => x.tag);
     if (gSettings[`${this.id}_s`]) {
       this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
       this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));
@@ -115,17 +115,17 @@ class Tags extends Module {
     const selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
     let element = null;
     if (selected) {
-      if (event.key === `ArrowDown`) {
+      if (event.key === 'ArrowDown') {
         element = selected.nextElementSibling;
         while (element && element.classList.contains(`esgst-hidden`)) {
           element = element.nextElementSibling;
         }
-      } else if (event.key === `ArrowUp`) {
+      } else if (event.key === 'ArrowUp') {
         element = selected.previousElementSibling;
         while (element && element.classList.contains(`esgst-hidden`)) {
           element = element.previousElementSibling;
         }
-      } else if (event.key === `Enter`) {
+      } else if (event.key === 'Enter') {
         event.stopPropagation();
         selected.click();
       }
@@ -133,7 +133,7 @@ class Tags extends Module {
       if (element) {
         element.classList.add(`esgst-selected`);
       }
-    } else if (event.key !== `Enter`) {
+    } else if (event.key !== 'Enter') {
       element = document.querySelector(`.esgst-tag-suggestion:not(.esgst-hidden)`);
       if (element) {
         element.classList.add(`esgst-selected`);
@@ -143,7 +143,7 @@ class Tags extends Module {
 
   tags_closeSuggestions(event) {
     const suggestions = document.querySelector(`.esgst-tag-suggestions:not(.esgst-hidden)`);
-    if (suggestions && !suggestions.contains(event.target) && event.target.tagName !== `INPUT`) {
+    if (suggestions && !suggestions.contains(event.target) && event.target.tagName !== 'INPUT') {
       this.tags_hideSuggestions(suggestions);
     }
   }
@@ -166,19 +166,19 @@ class Tags extends Module {
             [`data-draggable-id`]: this.id,
             title: getFeatureTooltip(this.id, `Edit tags`)
           },
-          type: `a`,
+          type: 'a',
           children: [{
             attributes: {
               class: `fa fa-tag`
             },
-            type: `i`
+            type: 'i'
           }, {
             attributes: {
               class: `esgst-tags`
             },
-            type: `span`
+            type: 'span'
           }]
-        }]).addEventListener(`click`, this.tags_openPopup.bind(this, obj), true);
+        }]).addEventListener('click', this.tags_openPopup.bind(this, obj), true);
       }
       if (item.saved && item.saved.tags) {
         item.tags = item.saved.tags.map(tag => tag.toLowerCase());
@@ -189,43 +189,43 @@ class Tags extends Module {
 
   async tags_openMmPopup(mmObj, items) {
     const key = {
-      Discussions: `dt`,
-      Games: `gt`,
-      Groups: `gpt`,
-      Users: `ut`
+      Discussions: 'dt',
+      Games: 'gt',
+      Groups: 'gpt',
+      Users: 'ut'
     }[this.id];
     const obj = {items: [], key};
-    obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, `code`);
-    const savedDiscussions = JSON.parse(getValue(`discussions`));
-    const savedGames = JSON.parse(getValue(`games`));
-    const savedGroups = JSON.parse(getValue(`groups`));
-    const savedUsers = JSON.parse(getValue(`users`));
+    obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, 'code');
+    const savedDiscussions = JSON.parse(getValue('discussions'));
+    const savedGames = JSON.parse(getValue('games'));
+    const savedGroups = JSON.parse(getValue('groups'));
+    const savedUsers = JSON.parse(getValue('users'));
     for (const item of obj.items) {
       item.tags = [];
       item.uniqueTags = [];
       switch (key) {
-        case `dt`: {
+        case 'dt': {
           const discussion = savedDiscussions[item.code];
           if (discussion && discussion.tags && Array.isArray(discussion.tags)) {
             item.tags = discussion.tags;
           }
           break;
         }
-        case `gpt`: {
+        case 'gpt': {
           const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
           if (group && group.tags && Array.isArray(group.tags)) {
             item.tags = group.tags;
           }
           break;
         }
-        case `gt`: {
+        case 'gt': {
           const game = savedGames[item.type][item.code];
           if (game && game.tags && Array.isArray(game.tags)) {
             item.tags = game.tags;
           }
           break;
         }
-        case `ut`: {
+        case 'ut': {
           const user = await getUser(savedUsers, {username: item.code});
           if (user && user.tags && Array.isArray(user.tags)) {
             item.tags = user.tags;
@@ -262,11 +262,11 @@ class Tags extends Module {
     obj.popup = new Popup({
       addScrollable: true,
       buttons: [{
-        color1: `green`,
-        color2: `grey`,
+        color1: 'green',
+        color2: 'grey',
         icon1: `fa-check`,
         icon2: `fa-circle-o-notch fa-spin`,
-        title1: `Save`,
+        title1: 'Save',
         title2: `Saving...`,
         callback1: this.tags_saveTags.bind(this, obj)
       }],
@@ -274,61 +274,61 @@ class Tags extends Module {
       isTemp: true,
       title: [
         `Edit tags for `,
-        [`span`, (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id],
+        ['span', (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id],
         `:`
       ]
     });
-    createElements(obj.popup.description, `beforeEnd`, [{
+    createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
         class: `esgst-description`
       },
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Drag the tags to move them.`,
-        type: `p`
+        type: 'p'
       }, {
-        type: `br`
+        type: 'br'
       }, {
         text: `When editing a tag color, it will also alter the color for all items with that tag (you have to refresh the page for it to take effect).`,
-        type: `p`
+        type: 'p'
       }, ...(obj.hasUnique ? [{
-        type: `br`
+        type: 'br'
       }, {
         text: `[*] means that there are tags that are not shared between all items. If you delete the [*] tag, those unique tags will be deleted.`,
-        type: `p`
+        type: 'p'
       }] : [])]
     }]);
-    obj.tags = createElements(obj.popup.description, `beforeEnd`, [{
+    obj.tags = createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
         class: `esgst-tags`
       },
-      type: `div`
+      type: 'div'
     }]);
-    obj.input = createElements(obj.popup.description, `beforeEnd`, [{
+    obj.input = createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
-        type: `text`
+        type: 'text'
       },
       events: {
         focus: this.tags_createTags.bind(this, obj),
         input: this.tags_createTags.bind(this, obj),
         keydown: triggerSetOnEnter.bind(this, obj.popup.buttons[0])
       },
-      type: `input`
+      type: 'input'
     }]);
-    createElements(obj.popup.description, `beforeEnd`, [{
+    createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
         class: `esgst-tag-list-button esgst-clickable fa fa-list`,
         title: `Select from existing tags`
       },
-      type: `i`
-    }]).addEventListener(`click`, this.tags_showTagList.bind(this, obj));
+      type: 'i'
+    }]).addEventListener('click', this.tags_showTagList.bind(this, obj));
     const children = [];
     if (gSettings[`${obj.key}_s`]) {
-      obj.suggestions = createElements(obj.popup.description, `beforeEnd`, [{
+      obj.suggestions = createElements(obj.popup.description, 'beforeEnd', [{
         attributes: {
           class: `esgst-tag-suggestions esgst-hidden`
         },
-        type: `div`
+        type: 'div'
       }]);
       for (const tag of this.esgst[`${obj.key}Tags`]) {
         children.push({
@@ -341,17 +341,17 @@ class Tags extends Module {
             mouseleave: this.tags_unselectSuggestion
           },
           text: tag,
-          type: `div`
+          type: 'div'
         });
       }
-      createElements(obj.suggestions, `inner`, children);
+      createElements(obj.suggestions, 'inner', children);
     }
-    createElements(obj.popup.description, `beforeEnd`, [{
+    createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
         class: `esgst-description`
       },
       text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-      type: `div`
+      type: 'div'
     }]);
     obj.popup.description.appendChild(obj.popup.buttons[0].set);
     obj.popup.open(this.tags_loadTags.bind(this, obj));
@@ -363,7 +363,7 @@ class Tags extends Module {
       tags = ``;
     }
     switch (obj.key) {
-      case `dt`: {
+      case 'dt': {
         const discussions = {};
         if (obj.items) {
           for (const item of obj.items) {
@@ -389,7 +389,7 @@ class Tags extends Module {
         await lockAndSaveDiscussions(discussions);
         break;
       }
-      case `gpt`: {
+      case 'gpt': {
         const groups = {};
         if (obj.items) {
           for (const item of obj.items) {
@@ -417,7 +417,7 @@ class Tags extends Module {
         await lockAndSaveGroups(groups);
         break;
       }
-      case `gt`: {
+      case 'gt': {
         const games = {apps: {}, subs: {}};
         if (obj.items) {
           for (const item of obj.items) {
@@ -437,7 +437,7 @@ class Tags extends Module {
         await lockAndSaveGames(games);
         break;
       }
-      case `ut`: {
+      case 'ut': {
         if (obj.items) {
           const users = [];
           for (const item of obj.items) {
@@ -483,20 +483,20 @@ class Tags extends Module {
   async tags_addTags(item, obj, tags) {
     let items = null;
     switch (obj.key) {
-      case `dt`:
+      case 'dt':
         items = [];
         for (const scopeKey in this.esgst.scopes) {
           const scope = this.esgst.scopes[scopeKey];
           items = items.concat(scope.discussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
         }
         break;
-      case `gpt`:
+      case 'gpt':
         items = this.esgst.currentGroups[item.code || item.id].elements;
         break;
-      case `gt`:
+      case 'gt':
         items = (await this.esgst.modules.games.games_get(document, true, this.esgst.games))[item.type][item.id || item.code];
         break;
-      case `ut`:
+      case 'ut':
         items = this.esgst.currentUsers[item.code || item.id].elements;
         break;
     }
@@ -505,26 +505,26 @@ class Tags extends Module {
     }
     const elements = tags.length && tags[0] ? tags.map(x => this.tags_template(x)) : [{
       text: ``,
-      type: `node`
+      type: 'node'
     }];
     for (const subItem of items) {
       let context = null;
       switch (obj.key) {
-        case `dt`:
+        case 'dt':
           context = subItem.container;
           break;
-        case `gpt`:
+        case 'gpt':
           context = subItem.parentElement;
           break;
-        case `gt`:
+        case 'gt':
           context = subItem.container;
           break;
-        case `ut`: {
+        case 'ut': {
           const container = subItem.parentElement;
           if (!container) {
             break;
           }
-          context = container.classList.contains(`comment__username`) ? container : subItem;
+          context = container.classList.contains('comment__username') ? container : subItem;
           context = context.parentElement;
           break;
         }
@@ -536,9 +536,9 @@ class Tags extends Module {
       if (!button) {
         continue;
       }
-      button.classList[elements ? `remove` : `add`](`esgst-faded`);
+      button.classList[elements ? 'remove' : 'add'](`esgst-faded`);
       const tagsContainer = button.lastElementChild;
-      createElements(tagsContainer, `inner`, elements);
+      createElements(tagsContainer, 'inner', elements);
       for (const tagsBox of tagsContainer.children) {
         const colors = obj.colorSetting[tagsBox.textContent];
         if (!colors) {
@@ -556,7 +556,7 @@ class Tags extends Module {
         class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
       },
       text,
-      type: `span`
+      type: 'span'
     };
   }
 
@@ -601,60 +601,60 @@ class Tags extends Module {
   }
 
   tags_createTag(obj, tag) {
-    const container = createElements(obj.tags, `beforeEnd`, [{
+    const container = createElements(obj.tags, 'beforeEnd', [{
       attributes: {
         class: `esgst-tag-preview`,
         draggable: true
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
           class: `esgst-tags`
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
             class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
           },
           text: tag,
-          type: `span`
+          type: 'span'
         }]
       }, {
         attributes: {
           class: `esgst-hidden`,
-          type: `text`
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }, {
         attributes: {
           title: `Set text color for this tag`,
-          type: `color`
+          type: 'color'
         },
-        type: `input`
+        type: 'input'
       }, {
         attributes: {
           title: `Set background color for this tag`,
-          type: `color`
+          type: 'color'
         },
-        type: `input`
+        type: 'input'
       }, {
         attributes: {
           class: `esgst-clickable fa fa-edit`,
           title: `Edit tag`
         },
-        type: `i`
+        type: 'i'
       }, {
         attributes: {
           class: `esgst-clickable fa fa-trash`,
           title: `Delete tag`
         },
-        type: `i`
+        type: 'i'
       }, {
         attributes: {
           class: `esgst-clickable fa fa-rotate-left`,
           title: `Reset tag color`
         },
-        type: `i`
+        type: 'i'
       }]
     }]);
     const tagContainer = container.firstElementChild;
@@ -670,15 +670,15 @@ class Tags extends Module {
       colorInput.value = tagBox.style.color = colors.color;
       bgColorInput.value = tagBox.style.backgroundColor = colors.bgColor;
     }
-    container.addEventListener(`dragstart`, this.tags_startDrag.bind(this, container, obj));
-    container.addEventListener(`dragenter`, this.tags_continueDrag.bind(this, container, obj));
-    container.addEventListener(`dragend`, this.tags_endDrag.bind(this, obj));
-    input.addEventListener(`keydown`, this.tags_editTag.bind(this, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
-    colorInput.addEventListener(`change`, this.tags_saveColor.bind(this, colorInput, `color`, obj, `color`, tagBox));
-    bgColorInput.addEventListener(`change`, this.tags_saveColor.bind(this, bgColorInput, `backgroundColor`, obj, `bgColor`, tagBox));
-    editButton.addEventListener(`click`, this.tags_showEdit.bind(this, input, tagBox, tagContainer));
-    deleteButton.addEventListener(`click`, this.tags_deleteTag.bind(this, container, obj));
-    resetButton.addEventListener(`click`, this.tags_resetColor.bind(this, bgColorInput, colorInput, obj, tagBox));
+    container.addEventListener('dragstart', this.tags_startDrag.bind(this, container, obj));
+    container.addEventListener('dragenter', this.tags_continueDrag.bind(this, container, obj));
+    container.addEventListener('dragend', this.tags_endDrag.bind(this, obj));
+    input.addEventListener('keydown', this.tags_editTag.bind(this, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
+    colorInput.addEventListener('change', this.tags_saveColor.bind(this, colorInput, 'color', obj, 'color', tagBox));
+    bgColorInput.addEventListener('change', this.tags_saveColor.bind(this, bgColorInput, 'backgroundColor', obj, 'bgColor', tagBox));
+    editButton.addEventListener('click', this.tags_showEdit.bind(this, input, tagBox, tagContainer));
+    deleteButton.addEventListener('click', this.tags_deleteTag.bind(this, container, obj));
+    resetButton.addEventListener('click', this.tags_resetColor.bind(this, bgColorInput, colorInput, obj, tagBox));
   }
 
   tags_startDrag(container, obj, event) {
@@ -708,7 +708,7 @@ class Tags extends Module {
   }
 
   tags_editTag(bgColorInput, colorInput, input, obj, tagBox, tagContainer, event) {
-    if (event.key !== `Enter`) {
+    if (event.key !== 'Enter') {
       return;
     }
     tagContainer.classList.remove(`esgst-hidden`);
@@ -758,7 +758,7 @@ class Tags extends Module {
     obj.listPopup = new Popup({
       addScrollable: true,
       buttons: [{
-        color1: `green`,
+        color1: 'green',
         color2: ``,
         icon1: `fa-check`,
         icon2: ``,
@@ -770,21 +770,21 @@ class Tags extends Module {
       isTemp: true,
       title: `Select from existing tags:`
     });
-    const list = createElements(obj.listPopup.scrollable, `beforeEnd`, [{
+    const list = createElements(obj.listPopup.scrollable, 'beforeEnd', [{
       attributes: {
         class: `esgst-tag-list popup__keys__list`
       },
-      type: `div`
+      type: 'div'
     }]);
     obj.selectedTags = [];
     for (const tag of this.esgst[`${obj.key}Tags`]) {
-      const item = createElements(list, `beforeEnd`, [{
-        type: `div`,
+      const item = createElements(list, 'beforeEnd', [{
+        type: 'div',
         children: [{
-          type: `span`
+          type: 'span'
         }, {
           text: ` ${tag}`,
-          type: `node`
+          type: 'node'
         }]
       }]);
       if (obj.colorSetting[tag]) {
@@ -854,22 +854,22 @@ class Tags extends Module {
       item = {tags: obj.sharedTags};
     } else {
       switch (obj.key) {
-        case `dt`: {
-          const savedDiscussions = JSON.parse(getValue(`discussions`));
+        case 'dt': {
+          const savedDiscussions = JSON.parse(getValue('discussions'));
           item = savedDiscussions[obj.item.id];
           break;
         }
-        case `gpt`: {
-          const savedGroups = JSON.parse(getValue(`groups`));
+        case 'gpt': {
+          const savedGroups = JSON.parse(getValue('groups'));
           item = savedGroups.filter(group => group.code === obj.item.id)[0];
           break;
         }
-        case `gt`: {
-          const savedGames = JSON.parse(getValue(`games`));
+        case 'gt': {
+          const savedGames = JSON.parse(getValue('games'));
           item = savedGames[obj.item.type][obj.item.id];
           break;
         }
-        case `ut`: {
+        case 'ut': {
           item = await getUser(null, {
             steamId: obj.item.steamId,
             username: obj.item.username

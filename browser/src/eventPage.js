@@ -4,11 +4,11 @@ import { browser } from './browser';
 let browserInfo = null;
 
 browser.runtime.onInstalled.addListener(async details => {
-  if (details.reason === `install`) {
-    sendMessage(`isFirstRun`);
-  } else if (details.reason === `update`) {
+  if (details.reason === 'install') {
+    sendMessage('isFirstRun');
+  } else if (details.reason === 'update') {
     if ((await browser.runtime.getManifest()).version !== details.previousVersion) {
-      sendMessage(`isUpdate`);
+      sendMessage('isUpdate');
     }
   }
 });
@@ -16,7 +16,7 @@ browser.runtime.onInstalled.addListener(async details => {
 // getBrowserInfo must be removed from webextension-polyfill/browser-polyfill.min.js for this to work on Chrome
 browser.runtime.getBrowserInfo().then(result => browserInfo = result);
 
-browser.storage.local.get(`settings`).then(async result => {
+browser.storage.local.get('settings').then(async result => {
   /**
    *
    * @type {object}
@@ -29,11 +29,11 @@ browser.storage.local.get(`settings`).then(async result => {
     const currentTab = (await queryTabs({active: true}))[0];
     if (settings.activateTab_sg) {
       // Set the SG tab as active.
-      await activateTab(`steamgifts`);
+      await activateTab('steamgifts');
     }
     if (settings.activateTab_st) {
       // Set the ST tab as active.
-      await activateTab(`steamtrades`);
+      await activateTab('steamtrades');
     }
     // Go back to the previously active tab.  
     if (currentTab && currentTab.id) {
@@ -53,7 +53,7 @@ browser.storage.local.get(`settings`).then(async result => {
         const tab = tabs[0];
         if (tab) {
           browser.tabs.sendMessage(tab.id, JSON.stringify({
-            action: `update`,
+            action: 'update',
             values: details
           })).then(() => {});
         } else {
@@ -84,11 +84,11 @@ async function getZip(data, fileName) {
   const zip = new JSZip();
   zip.file(fileName, data);
   return (await zip.generateAsync({
-    compression: `DEFLATE`,
+    compression: 'DEFLATE',
     compressionOptions: {
       level: 9
     },
-    type: `blob`
+    type: 'blob'
   }));
 }
 
@@ -101,7 +101,7 @@ async function readZip(data) {
   for (const key of keys) {
     output.push({
       name: key,
-      value: await zip.file(key).async(`text`)
+      value: await zip.file(key).async('text')
     });
   }
   return output;
@@ -117,13 +117,13 @@ async function doFetch(parameters, request, sender, callback) {
 
   let cookies = [];
   let setCookies = [];
-  if (await browser.permissions.contains({ permissions: [`cookies`] })) {
+  if (await browser.permissions.contains({ permissions: ['cookies'] })) {
     // get no-container cookies
     cookies = await getCookies({
       domain: domain
     });
 
-    const cookieHeader = parameters.headers.get(`Cookie`);
+    const cookieHeader = parameters.headers.get('Cookie');
     if (cookieHeader) {
       setCookies = cookieHeader
         .split(/;\s/)
@@ -171,7 +171,7 @@ async function doFetch(parameters, request, sender, callback) {
     return;
   }
 
-  if (!(await browser.permissions.contains({ permissions: [`cookies`] }))) {
+  if (!(await browser.permissions.contains({ permissions: ['cookies'] }))) {
     return;
   }
 
@@ -360,10 +360,10 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve();
 
         break;
-      case `permissions_contains`:
+      case 'permissions_contains':
         resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
         break;
-      case `permissions_request`:
+      case 'permissions_request':
         try {        
           resolve(await browser.permissions.request(JSON.parse(request.permissions)));
         } catch (e) {
@@ -373,44 +373,44 @@ browser.runtime.onMessage.addListener((request, sender) => {
           permissionRequests[tab.id] = { originId: sender.tab.id, permissions: request.permissions, resolve };
         }
         break;
-      case `permissions_request_firefox`:
+      case 'permissions_request_firefox':
         resolve(permissionRequests[sender.tab.id].permissions);
         break;
-      case `permissions_request_firefox_resolve`:
+      case 'permissions_request_firefox_resolve':
         await browser.tabs.remove(sender.tab.id);
         await browser.tabs.update(permissionRequests[sender.tab.id].originId, { active: true });
         permissionRequests[sender.tab.id].resolve(request.granted);
         delete permissionRequests[sender.tab.id];
         resolve();
         break;
-      case `permissions_remove`:
+      case 'permissions_remove':
         resolve(await browser.permissions.remove(JSON.parse(request.permissions)));
         break;
-      case `getBrowserInfo`:
+      case 'getBrowserInfo':
         resolve(JSON.stringify(browserInfo));
         break;
-      case `do_lock`:
+      case 'do_lock':
         do_lock(JSON.parse(request.lock)).then(resolve);
         break;
-      case `update_lock`:
+      case 'update_lock':
         update_lock(JSON.parse(request.lock));
         resolve();
         break;
-      case `do_unlock`:
+      case 'do_unlock':
         do_unlock(JSON.parse(request.lock));
         resolve();
         break;
-      case `fetch`:
+      case 'fetch':
         parameters = JSON.parse(request.parameters);
         parameters.headers = new Headers(parameters.headers);
         // noinspection JSIgnoredPromiseFromCall
         doFetch(parameters, request, sender, resolve);
         break;
-      case `reload`:
+      case 'reload':
         browser.runtime.reload();
         resolve();
         break;
-      case `tabs`:
+      case 'tabs':
         // noinspection JSIgnoredPromiseFromCall
         getTabs(request);
         break;
@@ -420,14 +420,14 @@ browser.runtime.onMessage.addListener((request, sender) => {
 
 async function getTabs(request) {
   let items = [
-    {id: `inbox_sg`, pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
-    {id: `inbox_st`, pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
+    {id: 'inbox_sg', pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
+    {id: 'inbox_st', pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
     {
-      id: `wishlist`,
+      id: 'wishlist',
       pattern: `*://*.steamgifts.com/giveaways/search?*type=wishlist*`,
       url: `https://www.steamgifts.com/giveaways/search?type=wishlist`
     },
-    {id: `won`, pattern: `*://*.steamgifts.com/giveaways/won*`, url: `https://www.steamgifts.com/giveaways/won`},
+    {id: 'won', pattern: `*://*.steamgifts.com/giveaways/won*`, url: `https://www.steamgifts.com/giveaways/won`},
   ];
   let any = false;
   for (let i = 0, n = items.length; i < n; i++) {

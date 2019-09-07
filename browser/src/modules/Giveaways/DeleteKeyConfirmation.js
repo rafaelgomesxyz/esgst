@@ -12,18 +12,18 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Shows a confirmation popup if you try to delete a giveaway's key(s) (in any `,
-            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, `winners`],
+            ['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, 'winners'],
             ` page).`
           ]]
         ]]
       ],
-      id: `dkc`,
+      id: 'dkc',
       name: `Delete Key Confirmation`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -36,15 +36,15 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .form__key-btn-delete, .esgst-es-page-${endless}.form__key-btn-delete` : `.form__key-btn-delete`}`);
     for (let i = elements.length - 1; i > -1; --i) {
       const element = elements[i];
-      const newElement = createElements(element, `afterEnd`, [{
+      const newElement = createElements(element, 'afterEnd', [{
         attributes: {
           class: `table__column__secondary-link esgst-clickable`
         },
-        text: `Delete`,
-        type: `span`
+        text: 'Delete',
+        type: 'span'
       }]);
       element.remove();
-      newElement.addEventListener(`click`, createConfirmation.bind(common, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(createConfirmation, newElement), null));
+      newElement.addEventListener('click', createConfirmation.bind(common, `Are you sure you want to delete this key?`, this.dkc_deleteKey.bind(createConfirmation, newElement), null));
     }
   }
 
@@ -56,7 +56,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     row.getElementsByClassName(`form__key-value`)[0].textContent = ``;
     await request({
       data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`,
-      method: `POST`,
+      method: 'POST',
       url: `/ajax.php`
     });
     row.getElementsByClassName(`form__key-loading`)[0].classList.add(`is-hidden`);

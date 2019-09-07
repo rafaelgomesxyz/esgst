@@ -6,15 +6,15 @@ class CommentsReplyBoxOnTop extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.`]
+        ['ul', [
+          ['li', `Moves the reply box over the comments (in any page) so that you do not need to scroll down to the bottom of the page to add a comment.`]
         ]]
       ],
-      id: `rbot`,
+      id: 'rbot',
       name: `Reply Box On Top`,
       sg: true,
       st: true,
-      type: `comments`
+      type: 'comments'
     };
   }
 
@@ -28,16 +28,16 @@ class CommentsReplyBoxOnTop extends Module {
       }
       return;
     }
-    let box = shared.common.createElements(element, `afterEnd`, [{
+    let box = shared.common.createElements(element, 'afterEnd', [{
       attributes: {
         class: `esgst-rbot`
       },
-      type: `div`
+      type: 'div'
     }]);
     box.appendChild(shared.esgst.replyBox);
     let button = box.getElementsByClassName(shared.esgst.cancelButtonClass)[0];
     if (!button) return;
-    button.addEventListener(`click`, () => window.setTimeout(box.appendChild.bind(box, shared.esgst.replyBox), 0));
+    button.addEventListener('click', () => window.setTimeout(box.appendChild.bind(box, shared.esgst.replyBox), 0));
   }
 }
 

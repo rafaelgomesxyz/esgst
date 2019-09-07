@@ -23,16 +23,16 @@ class OneDriveStorage extends ICloudStorage {
   }
 
   static async authenticate() {
-    const key = `oneDriveToken`;
+    const key = 'oneDriveToken';
     const params = {
       client_id: OneDriveStorage.CLIENT_ID,
       redirect_uri: OneDriveStorage.REDIRECT_URL,
-      response_type: `token`,
+      response_type: 'token',
       scope: `files.readwrite`,
-      state: `onedrive`
+      state: 'onedrive'
     };
     if (gSettings.usePreferredMicrosoft) {
-      params[`login_hint`] = gSettings.preferredMicrosoft;
+      params['login_hint'] = gSettings.preferredMicrosoft;
     }
     const url = FetchRequest.addQueryParams(OneDriveStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -52,7 +52,7 @@ class OneDriveStorage extends ICloudStorage {
         'Content-Type': gSettings.backupZip ? `application/zip` : `text/plain`
       }),
       pathParams: {
-        fileName: `${fileName}.${gSettings.backupZip ? `zip` : `json`}`
+        fileName: `${fileName}.${gSettings.backupZip ? 'zip' : 'json'}`
       }
     };
     const response = await FetchRequest.put(OneDriveStorage.UPLOAD_URL, requestOptions);
@@ -104,7 +104,7 @@ class OneDriveStorage extends ICloudStorage {
     };
     const batchRequests = JSON.stringify(fileIds.map(x => ({
       id: x,
-      method: `DELETE`,
+      method: 'DELETE',
       url: `/me/drive/items/${x}`
     })));
     const requestOptions = {

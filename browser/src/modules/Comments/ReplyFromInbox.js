@@ -9,21 +9,21 @@ class CommentsReplyFromInbox extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a "Reply" link next to a comment's "Permalink" (in your `,
-            [`a`, { href: `https://www.steamgifts.com/messages` }, `inbox`],
+            ['a', { href: `https://www.steamgifts.com/messages` }, 'inbox'],
             ` page) that allows you to reply to the comment directly from your inbox.`
           ]],
-          [`li`, `It is essentially[id=mr] for the inbox page.`]
+          ['li', `It is essentially[id=mr] for the inbox page.`]
         ]]
       ],
       features: {
         rfi_s: {
           description: [
-            [`ul`, [
-              [`li`, `Caches any replies you submit for 1 week so that they are still in your inbox page when you refresh it.`],
-              [`li`, `If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.`]
+            ['ul', [
+              ['li', `Caches any replies you submit for 1 week so that they are still in your inbox page when you refresh it.`],
+              ['li', `If you edit/delete/undelete a saved reply its cache is updated and lasts 1 week longer.`]
             ]]
           ],
           name: `Cache replies.`,
@@ -32,9 +32,9 @@ class CommentsReplyFromInbox extends Module {
         },
         rfi_c: {
           description: [
-            [`ul`, [
-              [`li`, `Whenever you try to submit a reply to a comment, the feature will check if there are other replies to that comment and show them to you so that you can review your reply before sending it.`],
-              [`li`, `This option is useful if you want to avoid repeating something that another user already said or discard your reply if someone else already said everything that you were going to say.`]
+            ['ul', [
+              ['li', `Whenever you try to submit a reply to a comment, the feature will check if there are other replies to that comment and show them to you so that you can review your reply before sending it.`],
+              ['li', `This option is useful if you want to avoid repeating something that another user already said or discard your reply if someone else already said everything that you were going to say.`]
             ]]
           ],
           name: `Check if there are other replies to a comment before submitting a reply.`,
@@ -42,11 +42,11 @@ class CommentsReplyFromInbox extends Module {
           st: true
         }
       },
-      id: `rfi`,
+      id: 'rfi',
       name: `Reply From Inbox`,
       sg: true,
       st: true,
-      type: `comments`
+      type: 'comments'
     };
   }
 
@@ -95,7 +95,7 @@ class CommentsReplyFromInbox extends Module {
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          const dateElement = shared.common.createElements(children, `beforeEnd`, [{
+          const dateElement = shared.common.createElements(children, 'beforeEnd', [{
             context: utils.parseHtml(saved[id][j].reply).body.firstElementChild
           }]).querySelector(`[data-timestamp]`);
           if (dateElement) {

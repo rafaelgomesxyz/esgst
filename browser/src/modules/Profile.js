@@ -15,13 +15,13 @@ class Profile extends Module {
     super();
     this.info = {
       endless: true,
-      id: `profile`
+      id: 'profile'
     };
   }
 
   async init() {
     if (gSettings.updateWhitelistBlacklist && (shared.esgst.whitelistPath || shared.esgst.blacklistPath)) {
-      const key = shared.esgst.whitelistPath ? `whitelisted` : `blacklisted`;
+      const key = shared.esgst.whitelistPath ? 'whitelisted' : 'blacklisted';
       shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
     }
     if (this.esgst.userPath) {
@@ -37,7 +37,7 @@ class Profile extends Module {
       const container = element.closest(`.table__row-inner-wrap`);
       const heading = container.querySelector(`.table__column__heading`);
       const username = heading.textContent.trim();
-      element.addEventListener(`click`, () => shared.common.updateWhitelistBlacklist(key, { username }, null));
+      element.addEventListener('click', () => shared.common.updateWhitelistBlacklist(key, { username }, null));
     }
   }
 
@@ -45,7 +45,7 @@ class Profile extends Module {
     let element, elements, i, input, key, match, rows;
     const profile = {};
     if (this.esgst.sg) {
-      profile.heading = context.getElementsByClassName(`featured__heading`)[0];
+      profile.heading = context.getElementsByClassName('featured__heading')[0];
       input = context.querySelector(`[name="child_user_id"]`);
       if (input) {
         profile.id = input.value;
@@ -55,25 +55,25 @@ class Profile extends Module {
       profile.username = profile.heading.querySelector(`.featured__heading__medium`).textContent.replace(/\s[\s\S]*/, ``);
       profile.steamButtonContainer = context.getElementsByClassName(`sidebar__shortcut-outer-wrap`)[0];
       profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
-      profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
+      profile.steamId = profile.steamButton.getAttribute('href').match(/\d+/)[0];
       profile.name = profile.username;
     } else {
       profile.heading = this.esgst.mainPageHeading;
       profile.id = ``;
       profile.username = ``;
-      profile.steamButtonContainer = context.getElementsByClassName(`profile_links`)[0];
+      profile.steamButtonContainer = context.getElementsByClassName('profile_links')[0];
       profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
-      profile.steamId = profile.steamButton.getAttribute(`href`).match(/\d+/)[0];
+      profile.steamId = profile.steamButton.getAttribute('href').match(/\d+/)[0];
       profile.name = profile.steamId;
     }
-    elements = context.getElementsByClassName(`featured__table__row__left`);
+    elements = context.getElementsByClassName('featured__table__row__left');
     for (i = elements.length - 1; i >= 0; --i) {
       element = elements[i];
       match = element.textContent.match(/(Comments|Gifts\s(Won|Sent)|Contributor\sLevel|Registered)/);
       if (match) {
         key = match[2];
         if (key) {
-          if (key === `Won`) {
+          if (key === 'Won') {
             profile.wonRow = element.parentElement;
             profile.wonRowLeft = element;
             profile.wonRowRight = element.nextElementSibling;
@@ -88,7 +88,7 @@ class Profile extends Module {
             rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
             profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/[$,]/g, ``));
             profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
-          } else if (key === `Sent`) {
+          } else if (key === 'Sent') {
             profile.sentRow = element.parentElement;
             profile.sentRowLeft = element;
             profile.sentRowRight = element.nextElementSibling;
@@ -105,7 +105,7 @@ class Profile extends Module {
             profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/[$,]/g, ``));
             profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           }
-        } else if (match[1] === `Comments`) {
+        } else if (match[1] === 'Comments') {
           profile.commentsRow = element.parentElement;
         } else if (match[1] === `Contributor Level`) {
           profile.levelRow = element.parentElement;
@@ -113,21 +113,21 @@ class Profile extends Module {
           profile.levelRowRight = element.nextElementSibling;
           rows = JSON.parse(profile.levelRowRight.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
           profile.level = parseFloat(rows[0].columns[1].name);
-        } else if (match[1] === `Registered`) {
+        } else if (match[1] === 'Registered') {
           profile.registrationDate = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
         }
       }
     }
-    profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__whitelist`)[0];
-    profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName(`sidebar__shortcut__blacklist`)[0];
+    profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
+    profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__blacklist')[0];
     if (profile.whitelistButton) {
       if (gSettings.updateWhitelistBlacklist) {
-        profile.whitelistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(common, `whitelisted`, profile));
+        profile.whitelistButton.addEventListener('click', updateWhitelistBlacklist.bind(common, 'whitelisted', profile));
       }
     }
     if (profile.blacklistButton) {
       if (gSettings.updateWhitelistBlacklist) {
-        profile.blacklistButton.addEventListener(`click`, updateWhitelistBlacklist.bind(common, `blacklisted`, profile));
+        profile.blacklistButton.addEventListener('click', updateWhitelistBlacklist.bind(common, 'blacklisted', profile));
       }
     }
     let savedUser = this.esgst.users.users[profile.steamId];

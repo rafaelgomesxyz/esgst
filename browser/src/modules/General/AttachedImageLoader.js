@@ -6,18 +6,18 @@ class GeneralAttachedImageLoader extends Module {
     super();
     this.info = {
       conflicts: [
-        `vai`
+        'vai'
       ],
       description: [
-        [`ul`, [
-          [`li`, `Only loads an attached image (in any page) when you click on its "View attached image" button, instead of loading it on page load, which should speed up page loads.`]
+        ['ul', [
+          ['li', `Only loads an attached image (in any page) when you click on its "View attached image" button, instead of loading it on page load, which should speed up page loads.`]
         ]]
       ],
-      id: `ail`,
+      id: 'ail',
       name: `Attached Image Loader`,
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -31,9 +31,9 @@ class GeneralAttachedImageLoader extends Module {
     for (let i = 0, n = buttons.length; i < n; i++) {
       const button = buttons[i],
         image = button.nextElementSibling.firstElementChild,
-        url = image.getAttribute(`src`);
-      image.removeAttribute(`src`);
-      button.addEventListener(`click`, image.setAttribute.bind(image, `src`, url));
+        url = image.getAttribute('src');
+      image.removeAttribute('src');
+      button.addEventListener('click', image.setAttribute.bind(image, 'src', url));
     }
   }
 }

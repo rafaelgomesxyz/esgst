@@ -6,15 +6,15 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `When you click on "Review Giveaway" in the new giveaway page (also extends to the "Create Giveaway" button from [id=gts] and the "Add" button from [id=mgc]), this feature checks if there are possible Steam keys / Humble Bundle gift links in the description and warns you about it, in case you pasted them there by mistake.`],
-          [`li`, `This feature replaces the native "Review Giveaway" button, so that ESGST can intercept the click.`]
+        ['ul', [
+          ['li', `When you click on "Review Giveaway" in the new giveaway page (also extends to the "Create Giveaway" button from [id=gts] and the "Add" button from [id=mgc]), this feature checks if there are possible Steam keys / Humble Bundle gift links in the description and warns you about it, in case you pasted them there by mistake.`],
+          ['li', `This feature replaces the native "Review Giveaway" button, so that ESGST can intercept the click.`]
         ]]
       ],
-      id: `ngdc`,
+      id: 'ngdc',
       name: `New Giveaway Description Checker`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -35,14 +35,14 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
     const newReviewButton = reviewButton.cloneNode(true);
     reviewButton.parentElement.insertBefore(newReviewButton, reviewButton);
     reviewButton.remove();
-    newReviewButton.setAttribute(`data-esgst`, `reviewButton`);
+    newReviewButton.setAttribute(`data-esgst`, 'reviewButton');
 
-    newReviewButton.addEventListener(`click`, async () => {
+    newReviewButton.addEventListener('click', async () => {
       if (await this.check(textArea.value)) {
         return;
       }
 
-      const form = newReviewButton.closest(`form`);
+      const form = newReviewButton.closest('form');
       if (newReviewButton.classList.contains(`js__edit-giveaway`)) {
         form.querySelector(`[name=next_step]`).value = 1;
       }

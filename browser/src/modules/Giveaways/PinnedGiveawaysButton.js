@@ -10,14 +10,14 @@ class GiveawaysPinnedGiveawaysButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.`]
+        ['ul', [
+          ['li', `Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.`]
         ]]
       ],
-      id: `pgb`,
+      id: 'pgb',
       name: `Pinned Giveaways Button`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -27,20 +27,20 @@ class GiveawaysPinnedGiveawaysButton extends Module {
     const container = button.previousElementSibling;
     container.classList.add(`esgst-pgb-container`);
     button.remove();
-    button = createElements(container, `afterEnd`, [{
+    button = createElements(container, 'afterEnd', [{
       attributes: {
         class: `esgst-pgb-button`
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
           class: `esgst-pgb-icon fa fa-angle-down`
         },
-        type: `i`
+        type: 'i'
       }]
     }]);
     const icon = button.firstElementChild;
-    button.addEventListener(`click`, this.pgb_toggle.bind(this, container, icon));
+    button.addEventListener('click', this.pgb_toggle.bind(this, container, icon));
   }
 
   pgb_toggle(container, icon) {

@@ -5,11 +5,11 @@ class Table {
    * @param {Array[]} [values] A matrix containing the values of the table.
    */
   constructor(values) {
-    this.table = document.createElement(`div`);
+    this.table = document.createElement('div');
     this.table.className = `table esgst-ugd-table`;
-    shared.common.createElements_v2(this.table, `inner`, [
-      [`div`, { class: `table__heading` }],
-      [`div`, { class: `table__rows` }]
+    shared.common.createElements_v2(this.table, 'inner', [
+      ['div', { class: 'table__heading' }],
+      ['div', { class: 'table__rows' }]
     ]);
     this.heading = this.table.firstElementChild;
     this.rows = this.heading.nextElementSibling;
@@ -34,12 +34,12 @@ class Table {
   }
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-    const row = shared.common.createElements_v2(this.rows, `beforeEnd`, [
-      [`div`, { class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}` }, [
-        [`div`, { class: `table__row-inner-wrap` },
+    const row = shared.common.createElements_v2(this.rows, 'beforeEnd', [
+      ['div', { class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}` }, [
+        ['div', { class: `table__row-inner-wrap` },
           name && isCollapsible
           ? [
-              [`i`, { class: `fa fa-chevron-right` }]
+              ['i', { class: `fa fa-chevron-right` }]
             ]
           : null
         ]
@@ -54,13 +54,13 @@ class Table {
           isCollapsible: true,
           row: row
         };
-        const expand = shared.common.createElements_v2(row, `afterBegin`, [
-          [`i`, { class: `fa fa-plus-square esgst-clickable`, title: expandMessage }],
-          [`i`, { class: `fa fa-minus-square esgst-clickable esgst-hidden`, title: collapseMessage }]
+        const expand = shared.common.createElements_v2(row, 'afterBegin', [
+          ['i', { class: `fa fa-plus-square esgst-clickable`, title: expandMessage }],
+          ['i', { class: `fa fa-minus-square esgst-clickable esgst-hidden`, title: collapseMessage }]
         ]);
         const collapse = expand.nextElementSibling;
-        collapse.addEventListener(`click`, this.collapseRows.bind(this, collapse, expand, name));
-        expand.addEventListener(`click`, this.expandRows.bind(this, collapse, expand, name));
+        collapse.addEventListener('click', this.collapseRows.bind(this, collapse, expand, name));
+        expand.addEventListener('click', this.expandRows.bind(this, collapse, expand, name));
       } else if (isCollapsible) {
         this.rowGroups[name].collapsibles.push(row);
       }
@@ -70,9 +70,9 @@ class Table {
       let cell = columns ? columns[i] : ``;
       let additionalClasses = [];
       let additionalAttributes = null;
-      let alignment = `center`;
-      let size = `small`;
-      if (cell && typeof cell === `object` && !Array.isArray(cell)) {
+      let alignment = 'center';
+      let size = 'small';
+      if (cell && typeof cell === 'object' && !Array.isArray(cell)) {
         additionalClasses = additionalClasses.concat(cell.additionalClasses);
         additionalAttributes = cell.additionalAttributes;
         alignment = cell.alignment || alignment;
@@ -82,7 +82,7 @@ class Table {
       if (this.hiddenColumns.indexOf(i) > -1) {
         additionalClasses.push(`esgst-hidden`);
       }
-      if (i === 0 && cell && cell === `Total`) {
+      if (i === 0 && cell && cell === 'Total') {
         isBold = true;
       }
       if (!cell || cell === `0 (0%)`) {
@@ -100,8 +100,8 @@ class Table {
           attributes[parts[1]] = attributes[parts[2]];
         }
       }
-      const column = shared.common.createElements_v2(row, `beforeEnd`, [
-        [`div`, attributes, cell]
+      const column = shared.common.createElements_v2(row, 'beforeEnd', [
+        ['div', attributes, cell]
       ]);
       if (group) {
         group.columns.push(column);
@@ -119,10 +119,10 @@ class Table {
    * @property {string} column.value
    */
   addColumn(column) {
-    const cell = typeof column === `string` ? column : column.value;
+    const cell = typeof column === 'string' ? column : column.value;
     const additionalClasses = [].concat(column.additionalClasses);
-    const alignment = column.alignment || `center`;
-    const size = column.size || `small`;
+    const alignment = column.alignment || 'center';
+    const size = column.size || 'small';
     const attributes = {
       class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
     };
@@ -132,16 +132,16 @@ class Table {
         attributes[parts[1]] = attributes[parts[2]];
       }
     }
-    shared.common.createElements_v2(this.heading, `beforeEnd`, [
-      [`div`, attributes, cell]
+    shared.common.createElements_v2(this.heading, 'beforeEnd', [
+      ['div', attributes, cell]
     ]);
-    if (cell === `Total`) {
+    if (cell === 'Total') {
       attributes.class += ` esgst-bold`;
     }
     for (let i = 0; i < this.numRows; i++) {
       const row = this.rows.children[i];
-      shared.common.createElements_v2(row, `beforeEnd`, [
-        [`div`, attributes]
+      shared.common.createElements_v2(row, 'beforeEnd', [
+        ['div', attributes]
       ]);
     }
     this.numColumns += 1;

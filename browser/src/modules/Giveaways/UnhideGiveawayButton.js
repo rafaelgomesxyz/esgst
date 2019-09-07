@@ -12,20 +12,20 @@ class GiveawaysUnhideGiveawayButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-eye` }],
+            ['i', { class: `fa fa-eye` }],
             `) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your `,
-            [`a`, { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
+            ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
             ` page.`
           ]]
         ]]
       ],
-      id: `ugb`,
+      id: 'ugb',
       name: `Unhide Giveaway Button`,
       sg: true,
-      type: `giveaways`,
+      type: 'giveaways',
       featureMap: {
         giveaway: this.ugb_add.bind(this)
       }
@@ -37,26 +37,26 @@ class GiveawaysUnhideGiveawayButton extends Module {
       let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
       if (!hideButton && (!main || this.esgst.giveawaysPath || this.esgst.giveawayPath)) {
         if (this.esgst.giveawayPath && main) {
-          hideButton = createElements(giveaway.headingName, `afterEnd`, [{
-            type: `a`,
+          hideButton = createElements(giveaway.headingName, 'afterEnd', [{
+            type: 'a',
             children: [{
               attributes: {
                 class: `fa fa-eye giveaway__hide`,
-                title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
+                title: getFeatureTooltip('ugb', `Unhide all giveaways for this game`)
               },
-              type: `i`
+              type: 'i'
             }]
           }]);
         } else {
-          hideButton = createElements(giveaway.headingName, `afterEnd`, [{
+          hideButton = createElements(giveaway.headingName, 'afterEnd', [{
             attributes: {
               class: `fa fa-eye giveaway__hide giveaway__icon`,
-              title: getFeatureTooltip(`ugb`, `Unhide all giveaways for this game`)
+              title: getFeatureTooltip('ugb', `Unhide all giveaways for this game`)
             },
-            type: `i`
+            type: 'i'
           }]);
         }
-        hideButton.addEventListener(`click`, unhideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+        hideButton.addEventListener('click', unhideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       }
     });
   }

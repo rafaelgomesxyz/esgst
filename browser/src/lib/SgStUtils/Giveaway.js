@@ -20,7 +20,7 @@ class Giveaway {
     this.elements.summary = this.elements.innerWrap.querySelector(`div.giveaway__summary`);
     this.elements.heading = this.elements.summary.querySelector(`h2.giveaway__heading`);
     this.elements.headingName = this.elements.heading.querySelector(`a.giveaway__heading__name`);
-    this.data.url = this.elements.headingName.getAttribute(`href`);
+    this.data.url = this.elements.headingName.getAttribute('href');
     this.data.code = this.data.url.match(/\/giveaway\/(.{5})/)[1];
     this.data.name = this.elements.headingName.textContent.trim();
     const headingThins = this.elements.heading.querySelectorAll(`.giveaway__heading__thin`);
@@ -39,7 +39,7 @@ class Giveaway {
     }
     const icons = this.elements.heading.querySelectorAll(`.giveaway__icon`);
     for (const icon of icons) {
-      const url = icon.getAttribute(`href`);
+      const url = icon.getAttribute('href');
       if (!url) {
         continue;
       }
@@ -62,7 +62,7 @@ class Giveaway {
         this.elements.endTime = child;
         this.elements.endTimeTimestamp = this.elements.endTime.querySelector(`span[data-timestamp]`);
         this.data.endTime = parseInt(this.elements.endTimeTimestamp.getAttribute(`data-timestamp`)) * 1e3;
-        if (match[1] === `begins`) {
+        if (match[1] === 'begins') {
           this.data.started = false;
           this.data.ended = false;
         } else {
@@ -108,10 +108,10 @@ class Giveaway {
       }
     }
     this.elements.avatar = this.elements.innerWrap.querySelector(`a.giveaway_image_avatar`);
-    this.data.avatar = this.elements.avatar.getAttribute(`style`).match(/url\((.+?)\);/)[1];
+    this.data.avatar = this.elements.avatar.getAttribute('style').match(/url\((.+?)\);/)[1];
     this.elements.thumbnail = this.elements.innerWrap.querySelector(`a.giveaway_image_thumbnail`);
     if (this.elements.thumbnail) {
-      this.data.thumbnail = this.elements.thumbnail.getAttribute(`style`).match(/url\((.+?)\);/)[1];
+      this.data.thumbnail = this.elements.thumbnail.getAttribute('style').match(/url\((.+?)\);/)[1];
     } else {
       this.elements.thumbnail = this.elements.innerWrap.querySelector(`a.giveaway_image_thumbnail_missing`);
       this.data.thumbnail = null;

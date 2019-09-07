@@ -11,16 +11,16 @@ class GeneralCakeDayReminder extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Shows a popup reminding you of your cake day on SteamGifts.`],
-          [`li`, `You can set it to remind you a specified number of days before your cake day.`]
+        ['ul', [
+          ['li', `Shows a popup reminding you of your cake day on SteamGifts.`],
+          ['li', `You can set it to remind you a specified number of days before your cake day.`]
         ]]
       ],
       features: {
         cdr_b: {
           inputItems: [
             {
-              id: `cdr_days`,
+              id: 'cdr_days',
               prefix: `Days: `
             }
           ],
@@ -34,7 +34,7 @@ class GeneralCakeDayReminder extends Module {
         cdr_a: {
           inputItems: [
             {
-              id: `cdr_aDays`,
+              id: 'cdr_aDays',
               prefix: `Days: `
             }
           ],
@@ -42,10 +42,10 @@ class GeneralCakeDayReminder extends Module {
           sg: true
         },
       },
-      id: `cdr`,
+      id: 'cdr',
       name: `Cake Day Reminder`,
       sg: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -53,10 +53,10 @@ class GeneralCakeDayReminder extends Module {
     shared.esgst.profileFeatures.push(this.addButton.bind(this));
 
     const cdrObj = {
-      cache: JSON.parse(shared.common.getLocalValue(`cdrCache`, `{}`)),
+      cache: JSON.parse(shared.common.getLocalValue('cdrCache', `{}`)),
       currentDate: new Date(),
       elements: [
-        [{ size: `fill`, value: `User` }, { size: `fill`, value: `When` }]
+        [{ size: 'fill', value: 'User' }, { size: 'fill', value: 'When' }]
       ]
     };
     cdrObj.currentYear = cdrObj.currentDate.getFullYear();
@@ -84,7 +84,7 @@ class GeneralCakeDayReminder extends Module {
     }
     
     if (cdrObj.elements.length > 1) {
-      shared.common.setLocalValue(`cdrCache`, JSON.stringify(cdrObj.cache));
+      shared.common.setLocalValue('cdrCache', JSON.stringify(cdrObj.cache));
 
       const popup = new Popup({
         addScrollable: true,
@@ -120,13 +120,13 @@ class GeneralCakeDayReminder extends Module {
       cdrObj.cache[steamId].bYear = cdrObj.currentYear;
 
       cdrObj.elements.push([
-        { size: `fill`, value: [
+        { size: 'fill', value: [
           className
-            ? [`span`, { class: className }, `YOU`]
-            : [`a`, { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
+            ? ['span', { class: className }, 'YOU']
+            : ['a', { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
         ]},
-        { size: `fill`, value: [
-          [`span`, { class: className }, `In ${Math.floor((registrationTime - cdrObj.currentTime) / 86400000)} days`]
+        { size: 'fill', value: [
+          ['span', { class: className }, `In ${Math.floor((registrationTime - cdrObj.currentTime) / 86400000)} days`]
         ]}
       ]);
     } else if (user.cdr.d && dYear !== cdrObj.currentYear && cdrObj.currentTime >= registrationTime && cdrObj.currentTime < registrationTime + 86400000) {
@@ -136,13 +136,13 @@ class GeneralCakeDayReminder extends Module {
       cdrObj.cache[steamId].dYear = cdrObj.currentYear;
 
       cdrObj.elements.push([
-        { size: `fill`, value: [
+        { size: 'fill', value: [
           className
-            ? [`span`, { class: className }, `YOU`]
-            : [`a`, { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
+            ? ['span', { class: className }, 'YOU']
+            : ['a', { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
         ]},
-        { size: `fill`, value: [
-          [`span`, { class: className }, `Today! Happy cake day!`]
+        { size: 'fill', value: [
+          ['span', { class: className }, `Today! Happy cake day!`]
         ]}
       ]);
     } else if (user.cdr.a && aYear !== cdrObj.currentYear && cdrObj.currentTime >= registrationTime + 86400000 && (cdrObj.currentTime - registrationTime) <= (user.cdr.aDays * 86400000)) {
@@ -152,13 +152,13 @@ class GeneralCakeDayReminder extends Module {
       cdrObj.cache[steamId].aYear = cdrObj.currentYear;
 
       cdrObj.elements.push([
-        { size: `fill`, value: [
+        { size: 'fill', value: [
           className
-            ? [`span`, { class: className }, `YOU`]
-            : [`a`, { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
+            ? ['span', { class: className }, 'YOU']
+            : ['a', { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
         ]},
-        { size: `fill`, value: [
-          [`span`, { class: className }, `${Math.floor((cdrObj.currentTime - registrationTime) / 86400000)} days ago`]
+        { size: 'fill', value: [
+          ['span', { class: className }, `${Math.floor((cdrObj.currentTime - registrationTime) / 86400000)} days ago`]
         ]}
       ]);
     }
@@ -169,13 +169,13 @@ class GeneralCakeDayReminder extends Module {
       return;
     }
 
-    const button = shared.common.createElements_v2(profile.heading, `beforeEnd`, [
-      [`a`, { title: shared.common.getFeatureTooltip(`cdr`, `Get notified about ${profile.username}'s cake day`) }, [
-        [`i`, { class: `fa fa-gift` }]
+    const button = shared.common.createElements_v2(profile.heading, 'beforeEnd', [
+      ['a', { title: shared.common.getFeatureTooltip('cdr', `Get notified about ${profile.username}'s cake day`) }, [
+        ['i', { class: `fa fa-gift` }]
       ]]
     ]);
 
-    button.addEventListener(`click`, async () => {
+    button.addEventListener('click', async () => {
       const popup = new Popup({
         addScrollable: true,
         icon: `fa-gift`,
@@ -204,13 +204,13 @@ class GeneralCakeDayReminder extends Module {
 
       const bSwitch = new ToggleSwitch(null, null, false, [
         `Notify `,
-        [`input`, { class: `esgst-switch-input`, onchange: event => user.values.cdr.bDays = parseFloat(event.currentTarget.value), type: `number`, value: user.values.cdr.bDays }],
+        ['input', { class: `esgst-switch-input`, onchange: event => user.values.cdr.bDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.bDays }],
         ` days before their cake day.`
       ], false, false, null, user.values.cdr.b);
       const dSwitch = new ToggleSwitch(null, null, false, `Notify on their cake day.`, false, false, null, user.values.cdr_d);
       const aSwitch = new ToggleSwitch(null, null, false, [
         `Notify `,
-        [`input`, { class: `esgst-switch-input`, onchange: event => user.values.cdr.aDays = parseFloat(event.currentTarget.value), type: `number`, value: user.values.cdr.aDays }],
+        ['input', { class: `esgst-switch-input`, onchange: event => user.values.cdr.aDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.aDays }],
         ` days after their cake day.`
       ], false, false, null, user.values.cdr.b);
 
@@ -223,11 +223,11 @@ class GeneralCakeDayReminder extends Module {
       popup.scrollable.appendChild(aSwitch.container);
 
       popup.description.appendChild(new ButtonSet({
-        color1: `green`,
-        color2: `grey`,
+        color1: 'green',
+        color2: 'grey',
         icon1: `fa-check`,
         icon2: `fa-circle-o-notch fa-spin`,
-        title1: `Save`,
+        title1: 'Save',
         title2: `Saving...`,
         callback1: async () => {
           if (user.values.cdr.b || user.values.cdr.d || user.values.cdr.a) {

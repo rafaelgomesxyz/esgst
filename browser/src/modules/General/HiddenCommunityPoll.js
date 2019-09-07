@@ -6,8 +6,8 @@ class GeneralHiddenCommunityPoll extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Hides the community poll (if there is one) of the main page.`]
+        ['ul', [
+          ['li', `Hides the community poll (if there is one) of the main page.`]
         ]]
       ],
       features: {
@@ -16,10 +16,10 @@ class GeneralHiddenCommunityPoll extends Module {
           sg: true
         }
       },
-      id: `hcp`,
+      id: 'hcp',
       name: `Hidden Community Poll`,
       sg: true,
-      type: `general`
+      type: 'general'
     };
   }
 

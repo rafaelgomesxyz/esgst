@@ -16,19 +16,19 @@ class GiveawaysEntryTracker extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-ticket esgst-red` }],
+            ['i', { class: `fa fa-ticket esgst-red` }],
             ` My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).`
           ]],
-          [`li`, `An entry only appears in the history if you entered/left the giveaway after this feature was enabled.`]
+          ['li', `An entry only appears in the history if you entered/left the giveaway after this feature was enabled.`]
         ]]
       ],
-      id: `et`,
+      id: 'et',
       name: `Entry Tracker`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -37,65 +37,65 @@ class GiveawaysEntryTracker extends Module {
       this.esgst.endlessFeatures.push(this.et_getEntries.bind(this));
     }
     if (!this.esgst.sg) return;
-    createElements(this.esgst.sg ? this.esgst.accountDropdown.firstElementChild.lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName(`dropdown`)[0].firstElementChild.lastElementChild, `beforeBegin`, [{
+    createElements(this.esgst.sg ? this.esgst.accountDropdown.firstElementChild.lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName('dropdown')[0].firstElementChild.lastElementChild, 'beforeBegin', [{
       attributes: {
         class: `esgst-header-menu-row`,
-        [`data-link-id`]: `et`,
-        [`data-link-key`]: `account`,
-        title: getFeatureTooltip(`et`)
+        [`data-link-id`]: 'et',
+        [`data-link-key`]: 'account',
+        title: getFeatureTooltip('et')
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
           class: `fa fa-fw fa-ticket red`
         },
-        type: `i`
+        type: 'i'
       }, {
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
             class: `esgst-header-menu-name`
           },
           text: `My Entry History`,
-          type: `p`
+          type: 'p'
         }, {
           attributes: {
             class: `esgst-header-menu-description`
           },
           text: `View your entry history.`,
-          type: `p`
+          type: 'p'
         }]
       }]
-    }]).addEventListener(`click`, this.et_menu.bind(this));
+    }]).addEventListener('click', this.et_menu.bind(this));
     if (this.esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && this.esgst.enterGiveawayButton) {
       let code, name;
       code = window.location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
-      name = document.getElementsByClassName(`featured__heading__medium`)[0].textContent;
-      this.esgst.enterGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(this, code, true, name));
-      this.esgst.leaveGiveawayButton.addEventListener(`click`, this.et_setEntry.bind(this, code, false, name));
+      name = document.getElementsByClassName('featured__heading__medium')[0].textContent;
+      this.esgst.enterGiveawayButton.addEventListener('click', this.et_setEntry.bind(this, code, true, name));
+      this.esgst.leaveGiveawayButton.addEventListener('click', this.et_setEntry.bind(this, code, false, name));
     }
   }
 
   async et_menu() {
     let dates = {};
-    let entries = JSON.parse(getValue(`entries`, `[]`));
+    let entries = JSON.parse(getValue('entries', `[]`));
     const items = [];
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
       items.push({
-        type: `li`,
+        type: 'li',
         children: [{
-          text: `${entry.entry ? `Entered` : `Left`} `,
-          type: `node`
+          text: `${entry.entry ? 'Entered' : 'Left'} `,
+          type: 'node'
         }, {
           attributes: {
             href: `/giveaway/${entry.code}/`
           },
           text: entry.name,
-          type: `a`
+          type: 'a'
         }, {
           text: `on ${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(entry.timestamp)}`,
-          type: `node`
+          type: 'node'
         }]
       });
       let date = dateFns_format(entry.timestamp, `MMM d, yyyy`);
@@ -129,48 +129,48 @@ class GiveawaysEntryTracker extends Module {
       }
     }
     let popup = new Popup({ addScrollable: true, icon: `fa-history`, isTemp: true, title: `Entry Tracker` });
-    popup.scrollable.style.display = `flex`;
-    let rows = createElements(popup.scrollable, `beforeEnd`, [{
+    popup.scrollable.style.display = 'flex';
+    let rows = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: `esgst-text-left table`,
         style: `padding-left: 5px;`
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
-          class: `table__heading`
+          class: 'table__heading'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
             class: `table__column--width-small`
           },
-          text: `Delete`,
-          type: `div`
+          text: 'Delete',
+          type: 'div'
         }, {
           attributes: {
             class: `table__column--width-small`
           },
-          text: `Date`,
-          type: `div`
+          text: 'Date',
+          type: 'div'
         }, {
           attributes: {
             class: `table__column--width-small`
           },
-          text: `Entered`,
-          type: `div`
+          text: 'Entered',
+          type: 'div'
         }, {
           attributes: {
             class: `table__column--width-small`
           },
-          text: `Left`,
-          type: `div`
+          text: 'Left',
+          type: 'div'
         }]
       }, {
         attributes: {
-          class: `table__rows`
+          class: 'table__rows'
         },
-        type: `div`
+        type: 'div'
       }]
     }]).lastElementChild;
     let keys = Object.keys(dates);
@@ -186,50 +186,50 @@ class GiveawaysEntryTracker extends Module {
     let total = 0;
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
-      let button = createElements(rows, `beforeEnd`, [{
+      let button = createElements(rows, 'beforeEnd', [{
         attributes: {
           class: `table__row-outer-wrap`,
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
             class: `table__row-inner-wrap`
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
               class: `table__column--width-small esgst-text-center`
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
                 class: `fa fa-times esgst-clickable`,
-                title: `Delete`
+                title: 'Delete'
               },
-              type: `i`
+              type: 'i'
             }]
           }, {
             attributes: {
               class: `table__column--width-small`
             },
             text: dates[key].date,
-            type: `div`
+            type: 'div'
           }, {
             attributes: {
               class: `table__column--width-small`
             },
             text: dates[key].entered,
-            type: `div`
+            type: 'div'
           }, {
             attributes: {
               class: `table__column--width-small`
             },
             text: dates[key].left,
-            type: `div`
+            type: 'div'
           }]
         }]
       }]).firstElementChild.firstElementChild;
-      button.firstElementChild.addEventListener(`click`, this.et_deleteEntry.bind(this, button, dates[key].date, popup));
+      button.firstElementChild.addEventListener('click', this.et_deleteEntry.bind(this, button, dates[key].date, popup));
       if (dates[key].entered < lowest.count) {
         lowest.count = dates[key].entered;
         lowest.date = dates[key].date;
@@ -241,78 +241,78 @@ class GiveawaysEntryTracker extends Module {
       total += dates[key].entered;
     }
     let average = Math.round(total / keys.length * 100) / 100;
-    createElements(popup.description, `afterBegin`, [{
-      type: `div`,
+    createElements(popup.description, 'afterBegin', [{
+      type: 'div',
       children: [{
         text: `You enter on average `,
-        type: `node`
+        type: 'node'
       }, {
         attributes: {
           class: `esgst-bold`
         },
         text: average,
-        type: `span`
+        type: 'span'
       }, {
         text: ` giveaways per day.`,
-        type: `node`
+        type: 'node'
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Your highest entry count was on `,
-        type: `node`
+        type: 'node'
       }, {
         attributes: {
           class: `esgst-italic`
         },
         text: highest.date,
-        type: `span`
+        type: 'span'
       }, {
         text: ` with `,
-        type: `node`
+        type: 'node'
       }, {
         attributes: {
           class: `esgst-bold`
         },
         text: highest.count,
-        type: `span`
+        type: 'span'
       }, {
         text: ` entries.`,
-        type: `node`
+        type: 'node'
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Your lowest entry count was on `,
-        type: `node`
+        type: 'node'
       }, {
         attributes: {
           class: `esgst-italic`
         },
         text: lowest.date,
-        type: `span`
+        type: 'span'
       }, {
         text: ` with `,
-        type: `node`
+        type: 'node'
       }, {
         attributes: {
           class: `esgst-bold`
         },
         text: lowest.count,
-        type: `span`
+        type: 'span'
       }, {
         text: ` entries.`,
-        type: `node`
+        type: 'node'
       }]
     }]);
-    createElements(popup.scrollable, `afterBegin`, [{
+    createElements(popup.scrollable, 'afterBegin', [{
       attributes: {
         class: `esgst-text-left markdown`,
         style: `border-right: 1px solid #ccc; padding-right: 5px;`
       },
-      type: `div`,
+      type: 'div',
       children: [{
-        type: `ul`,
+        type: 'ul',
         children: items
       }]
     }]);
@@ -321,19 +321,19 @@ class GiveawaysEntryTracker extends Module {
 
   async et_deleteEntry(button, date, popup) {
     if (!window.confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
-    createElements(button, `inner`, [{
+    createElements(button, 'inner', [{
       attributes: {
         class: `fa fa-circle-o-notch fa-spin`
       },
-      type: `i`
+      type: 'i'
     }]);
-    let entries = JSON.parse(getValue(`entries`, `[]`));
+    let entries = JSON.parse(getValue('entries', `[]`));
     for (let i = entries.length - 1; i > -1; i--) {
       let entry = entries[i];
       if (!dateFns_isSameDay(date, entry.timestamp)) continue;
       entries.splice(i, 1);
     }
-    await setValue(`entries`, JSON.stringify(entries));
+    await setValue('entries', JSON.stringify(entries));
     popup.close();
     // noinspection JSIgnoredPromiseFromCall
     this.et_menu();
@@ -349,21 +349,21 @@ class GiveawaysEntryTracker extends Module {
   et_setObserver(element) {
     let code, container, heading, name;
     container = element.closest(`.table__row-inner-wrap`);
-    heading = container.getElementsByClassName(`table__column__heading`)[0];
-    code = heading.getAttribute(`href`).match(/\/giveaway\/(.+?)\//)[1];
+    heading = container.getElementsByClassName('table__column__heading')[0];
+    code = heading.getAttribute('href').match(/\/giveaway\/(.+?)\//)[1];
     name = heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1];
-    element.addEventListener(`click`, this.et_setEntry.bind(this, code, false, name));
+    element.addEventListener('click', this.et_setEntry.bind(this, code, false, name));
   }
 
   async et_setEntry(code, entry, name) {
-    let entries = JSON.parse(getValue(`entries`, `[]`));
+    let entries = JSON.parse(getValue('entries', `[]`));
     entries.push({
       code: code,
       entry: entry,
       name: name,
       timestamp: Date.now()
     });
-    setValue(`entries`, JSON.stringify(entries));
+    setValue('entries', JSON.stringify(entries));
   }
 }
 

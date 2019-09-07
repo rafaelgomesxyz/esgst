@@ -17,27 +17,27 @@ class GiveawaysGiveawaysSorter extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-sort` }],
+            ['i', { class: `fa fa-sort` }],
             `) to the main page heading of any `,
-            [`a`, { href: `https://www.steamgifts.com/giveaways` }, `giveaways`],
+            ['a', { href: `https://www.steamgifts.com/giveaways` }, 'giveaways'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/entered` }, `entered`],
+            ['a', { href: `https://www.steamgifts.com/entered` }, 'entered'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/group/SJ7Bu/` }, `group`],
+            ['a', { href: `https://www.steamgifts.com/group/SJ7Bu/` }, 'group'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `user`],
+            ['a', { href: `https://www.steamgifts.com/user/cg` }, 'user'],
             ` page that allows you to sort the giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time, start time, creator, comments, entries, chance/chance per point (if [id=gwc] is enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).`
           ]],
-          [`li`, `There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.`]
+          ['li', `There is also an option to automatically sort the giveaways so that every time you open the page the giveaways are already sorted by whatever option you prefer.`]
         ]]
       ],
-      id: `gas`,
+      id: 'gas',
       name: `Giveaways Sorter`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -49,13 +49,13 @@ class GiveawaysGiveawaysSorter extends Module {
     if (typeMatch) {
       type = capitalizeFirstLetter(typeMatch[1]);
     } else if (this.esgst.enteredPath) {
-      type = `Entered`;
+      type = 'Entered';
     } else if (this.esgst.userPath) {
-      type = `User`;
+      type = 'User';
     } else if (this.esgst.groupPath) {
-      type = `Groups`;
+      type = 'Groups';
     } else if (popup) {
-      type = `Popup`
+      type = 'Popup'
     } else {
       type = ``;
     }
@@ -65,9 +65,9 @@ class GiveawaysGiveawaysSorter extends Module {
     };
 
     let object = {
-      button: createHeadingButton({ context: popup, id: `gas`, icons: [`fa-sort`], title: `Sort giveaways` })
+      button: createHeadingButton({ context: popup, id: 'gas', icons: [`fa-sort`], title: `Sort giveaways` })
     };
-    object.button.addEventListener(`click`, this.gas_openPopout.bind(this, object));
+    object.button.addEventListener('click', this.gas_openPopout.bind(this, object));
   }
 
   gas_openPopout(obj) {
@@ -77,243 +77,243 @@ class GiveawaysGiveawaysSorter extends Module {
     new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, `Auto Sort`, false, false, `Automatically sorts the giveaways by the selected option when loading the page.`, gSettings[this.esgst.gas.autoKey]);
     const children = [{
       attributes: {
-        value: `sortIndex_asc`
+        value: 'sortIndex_asc'
       },
-      text: `Default`,
-      type: `option`
+      text: 'Default',
+      type: 'option'
     }, {
       attributes: {
-        value: `name_asc`
+        value: 'name_asc'
       },
       text: `Game Name - Ascending`,
-      type: `option`
+      type: 'option'
     }, {
       attributes: {
-        value: `name_desc`
+        value: 'name_desc'
       },
       text: `Game Name - Descending`,
-      type: `option`
+      type: 'option'
     }];
     children.push({
       attributes: {
-        value: `level_asc`
+        value: 'level_asc'
       },
       text: `Level - Ascending`,
-      type: `option`
+      type: 'option'
     }, {
       attributes: {
-        value: `level_desc`
+        value: 'level_desc'
       },
       text: `Level - Descending`,
-      type: `option`
+      type: 'option'
     });
     if (!this.esgst.enteredPath) {
       children.push({
         attributes: {
-          value: `points_asc`
+          value: 'points_asc'
         },
         text: `Points - Ascending`,
-        type: `option`
+        type: 'option'
       }, {
           attributes: {
-            value: `points_desc`
+            value: 'points_desc'
           },
           text: `Points - Descending`,
-          type: `option`
+          type: 'option'
         });
     }
     if (gSettings.gc && gSettings.gc_r && !this.esgst.enteredPath) {
       children.push({
         attributes: {
-          value: `rating_asc`
+          value: 'rating_asc'
         },
         text: `Rating - Ascending`,
-        type: `option`
+        type: 'option'
       }, {
           attributes: {
-            value: `rating_desc`
+            value: 'rating_desc'
           },
           text: `Rating - Descending`,
-          type: `option`
+          type: 'option'
         });
     }
     children.push({
       attributes: {
-        value: `endTime_asc`
+        value: 'endTime_asc'
       },
       text: `End Time - Ascending`,
-      type: `option`
+      type: 'option'
     }, {
         attributes: {
-          value: `endTime_desc`
+          value: 'endTime_desc'
         },
         text: `End Time - Descending`,
-        type: `option`
+        type: 'option'
       });
     if (!this.esgst.enteredPath) {
       children.push({
         attributes: {
-          value: `startTime_asc`
+          value: 'startTime_asc'
         },
         text: `Start Time - Ascending`,
-        type: `option`
+        type: 'option'
       }, {
           attributes: {
-            value: `startTime_desc`
+            value: 'startTime_desc'
           },
           text: `Start Time - Descending`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `creator_asc`
+            value: 'creator_asc'
           },
           text: `Creator - Ascending`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `creator_desc`
+            value: 'creator_desc'
           },
           text: `Creator - Descending`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `comments_asc`
+            value: 'comments_asc'
           },
           text: `Comments - Ascending`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `comments_desc`
+            value: 'comments_desc'
           },
           text: `Comments - Descending`,
-          type: `option`
+          type: 'option'
         });
     }
     children.push({
       attributes: {
-        value: `entries_asc`
+        value: 'entries_asc'
       },
       text: `Entries - Ascending`,
-      type: `option`
+      type: 'option'
     }, {
         attributes: {
-          value: `entries_desc`
+          value: 'entries_desc'
         },
         text: `Entries - Descending`,
-        type: `option`
+        type: 'option'
       });
     if (gSettings.gwc) {
       children.push({
         attributes: {
-          value: `chance_asc`
+          value: 'chance_asc'
         },
         text: `Chance - Ascending`,
-        type: `option`
+        type: 'option'
       }, {
           attributes: {
-            value: `chance_desc`
+            value: 'chance_desc'
           },
           text: `Chance - Descending`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `chancePerPoint_asc`
+            value: 'chancePerPoint_asc'
           },
           text: `Chance Per Point - Ascending`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `chancePerPoint_desc`
+            value: 'chancePerPoint_desc'
           },
           text: `Chance Per Point - Descending`,
-          type: `option`
+          type: 'option'
         });
       if (gSettings.gwc_a) {
         children.push({
           attributes: {
-            value: `projectedChance_asc`
+            value: 'projectedChance_asc'
           },
           text: `Projected Chance - Ascending`,
-          type: `option`
+          type: 'option'
         }, {
             attributes: {
-              value: `projectedChance_desc`
+              value: 'projectedChance_desc'
             },
             text: `Projected Chance - Descending`,
-            type: `option`
+            type: 'option'
           }, {
             attributes: {
-              value: `projectedChancePerPoint_asc`
+              value: 'projectedChancePerPoint_asc'
             },
             text: `Projected Chance Per Point - Ascending`,
-            type: `option`
+            type: 'option'
           }, {
             attributes: {
-              value: `projectedChancePerPoint_desc`
+              value: 'projectedChancePerPoint_desc'
             },
             text: `Projected Chance Per Point - Descending`,
-            type: `option`
+            type: 'option'
           });
       }
     }
     if (gSettings.gwr) {
       children.push({
         attributes: {
-          value: `ratio_asc`
+          value: 'ratio_asc'
         },
         text: `Ratio - Ascending`,
-        type: `option`
+        type: 'option'
       }, {
           attributes: {
-            value: `ratio_desc`
+            value: 'ratio_desc'
           },
           text: `Ratio - Descending`,
-          type: `option`
+          type: 'option'
         });
       if (gSettings.gwr_a) {
         children.push({
           attributes: {
-            value: `projectedRatio_asc`
+            value: 'projectedRatio_asc'
           },
           text: `Projected Ratio - Ascending`,
-          type: `option`
+          type: 'option'
         }, {
             attributes: {
-              value: `projectedRatio_desc`
+              value: 'projectedRatio_desc'
             },
             text: `Projected Ratio - Descending`,
-            type: `option`
+            type: 'option'
           });
       }
     }
     if (gSettings.gptw) {
       children.push({
         attributes: {
-          value: `pointsToWin_asc`
+          value: 'pointsToWin_asc'
         },
         text: `Points To Win - Ascending`,
-        type: `option`
+        type: 'option'
       }, {
           attributes: {
-            value: `pointsToWin_desc`
+            value: 'pointsToWin_desc'
           },
           text: `Points To Win - Descending`,
-          type: `option`
+          type: 'option'
         });
     }
-    let options = createElements(obj.popout.popout, `beforeEnd`, [{
-      type: `select`,
+    let options = createElements(obj.popout.popout, 'beforeEnd', [{
+      type: 'select',
       children
     }]);
     options.value = gSettings[this.esgst.gas.optionKey];
     let callback = () => saveAndSortContent(this.esgst.currentScope.giveaways, this.esgst.gas.optionKey, options);
-    options.addEventListener(`change`, callback);
+    options.addEventListener('change', callback);
     obj.popout.popout.appendChild(new ButtonSet({
-      color1: `green`,
+      color1: 'green',
       color2: ``,
       icon1: `fa-arrow-circle-right`,
       icon2: ``,
-      title1: `Sort`,
+      title1: 'Sort',
       title2: ``,
       callback1: callback
     }).set);

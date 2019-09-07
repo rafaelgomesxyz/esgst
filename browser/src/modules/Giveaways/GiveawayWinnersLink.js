@@ -10,18 +10,18 @@ class GiveawaysGiveawayWinnersLink extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a link next to an ended giveaway's "Entries" link (in any page) that shows how many winners the giveaway has and takes you to the giveaway's `,
-            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, `winners`],
+            ['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, 'winners'],
             ` page.`
           ]]
         ]]
       ],
-      id: `gwl`,
+      id: 'gwl',
       name: `Giveaway Winners Link`,
       sg: true,
-      type: `giveaways`,
+      type: 'giveaways',
       featureMap: {
         giveaway: this.gwl_addLinks.bind(this)
       }
@@ -34,22 +34,22 @@ class GiveawaysGiveawayWinnersLink extends Module {
       if (giveaway.innerWrap.getElementsByClassName(`esgst-gwl`)[0] || !giveaway.ended) return;
       const attributes = {
         class: `esgst-gwl`,
-        [`data-draggable-id`]: `winners_count`
+        [`data-draggable-id`]: 'winners_count'
       };
       if (giveaway.url) {
         attributes.href = `${giveaway.url}/winners`;
       }
-      createElements(giveaway.entriesLink, `afterEnd`, [{
+      createElements(giveaway.entriesLink, 'afterEnd', [{
         attributes,
-        type: `a`,
+        type: 'a',
         children: [{
           attributes: {
             class: `fa fa-trophy`
           },
-          type: `i`
+          type: 'i'
         }, {
           text: `${giveaway.numWinners} winners`,
-          type: `span`
+          type: 'span'
         }]
       }]);
     });

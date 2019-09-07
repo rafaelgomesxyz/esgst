@@ -6,8 +6,8 @@ class GiveawaysCustomGiveawayBackground extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Allows you to color the background of giveaways based on their type (public, invite only, region restricted, group or whitelist).`]
+        ['ul', [
+          ['li', `Allows you to color the background of giveaways based on their type (public, invite only, region restricted, group or whitelist).`]
         ]]
       ],
       features: {
@@ -50,34 +50,34 @@ class GiveawaysCustomGiveawayBackground extends Module {
       featureMap: {
         giveaway: this.color.bind(this)
       },
-      id: `cgb`,
+      id: 'cgb',
       name: `Custom Giveaway Background`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
   color(giveaways) {
     for (const giveaway of giveaways) {
       if (gSettings.cgb_b && giveaway.outerWrap.getAttribute(`data-blacklist`)) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_b_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_b_bgColor} !important`);
       } else if (gSettings.cgb_sgt && giveaway.sgTools) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_sgt_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_sgt_bgColor} !important`);
       } else if (gSettings.cgb_w && giveaway.whitelist) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_w_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_w_bgColor} !important`);
       } else if (gSettings.cgb_g && giveaway.group) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_g_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_g_bgColor} !important`);
       } else if (gSettings.cgb_rr && giveaway.regionRestricted) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_rr_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_rr_bgColor} !important`);
       } else if (gSettings.cgb_io && giveaway.inviteOnly) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_io_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_io_bgColor} !important`);
       } else if (gSettings.cgb_p && giveaway.public) {
-        giveaway.outerWrap.setAttribute(`style`, `background-color: ${gSettings.cgb_p_bgColor} !important`);
+        giveaway.outerWrap.setAttribute('style', `background-color: ${gSettings.cgb_p_bgColor} !important`);
       } else {
         giveaway.outerWrap.style.backgroundColor = ``;
       }
       if (giveaway.outerWrap.style.backgroundColor) {
-        giveaway.outerWrap.style.backgroundImage = `none`;
+        giveaway.outerWrap.style.backgroundImage = 'none';
       }
     }
   }

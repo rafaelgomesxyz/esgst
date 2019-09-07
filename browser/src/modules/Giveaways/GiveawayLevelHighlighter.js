@@ -6,17 +6,17 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Highlights the level of a giveaway (in any page) by coloring it with the specified colors.`]
+        ['ul', [
+          ['li', `Highlights the level of a giveaway (in any page) by coloring it with the specified colors.`]
         ]]
       ],
       featureMap: {
         giveaway: this.highlight.bind(this)
       },
-      id: `glh`,
+      id: 'glh',
       name: `Giveaway Level Highlighter`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -29,7 +29,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
       if (!color || !bgColor) {
         continue;
       }
-      giveaway.levelColumn.setAttribute(`style`, `${color ? `color: ${color} !important;` : ``}${bgColor ? `background-color: ${bgColor};` : ``}`);
+      giveaway.levelColumn.setAttribute('style', `${color ? `color: ${color} !important;` : ``}${bgColor ? `background-color: ${bgColor};` : ``}`);
       giveaway.levelColumn.classList.add(`esgst-glh-highlight`);
     }
   }

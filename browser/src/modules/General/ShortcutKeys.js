@@ -6,97 +6,97 @@ class GeneralShortcutKeys extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Allows you to perform many different tasks by pressing certain keys.`]
+        ['ul', [
+          ['li', `Allows you to perform many different tasks by pressing certain keys.`]
         ]]
       ],
       features: {
         sk_cp: {
-          inputItems: `sk_closePopups`,
+          inputItems: 'sk_closePopups',
           name: `Close all currently opened popups.`,
           sg: true,
           st: true
         },
         sk_sb: {
-          inputItems: `sk_searchBox`,
+          inputItems: 'sk_searchBox',
           name: `Focus on the search box.`,
           sg: true,
           st: true
         },
         sk_fp: {
-          inputItems: `sk_firstPage`,
+          inputItems: 'sk_firstPage',
           name: `Go to the first page.`,
           sg: true,
           st: true
         },
         sk_pp: {
-          inputItems: `sk_previousPage`,
+          inputItems: 'sk_previousPage',
           name: `Go to the previous page.`,
           sg: true,
           st: true
         },
         sk_np: {
-          inputItems: `sk_nextPage`,
+          inputItems: 'sk_nextPage',
           name: `Go to the next page.`,
           sg: true,
           st: true
         },
         sk_lp: {
-          inputItems: `sk_lastPage`,
+          inputItems: 'sk_lastPage',
           name: `Go to the last page.`,
           sg: true,
           st: true
         },
         sk_tf: {
-          inputItems: `sk_toggleFilters`,
+          inputItems: 'sk_toggleFilters',
           name: `Toggle the giveaway filters.`,
           sg: true
         },
         sk_hg: {
-          inputItems: `sk_hideGame`,
+          inputItems: 'sk_hideGame',
           name: `Hide the game when inside of a giveaway.`,
           sg: true
         },
         sk_hga: {
-          inputItems: `sk_hideGiveaway`,
+          inputItems: 'sk_hideGiveaway',
           name: `Hide the giveaway when inside of a giveaway.`,
           sg: true
         },
         sk_ge: {
-          inputItems: `sk_giveawayEntry`,
+          inputItems: 'sk_giveawayEntry',
           name: `Enter/leave the giveaway when inside of a giveaway.`,
           sg: true
         },
         sk_c: {
-          inputItems: `sk_creator`,
+          inputItems: 'sk_creator',
           name: `Insert the username of the creator of the giveaway/discussion/trade to the current reply box.`,
           sg: true,
           st: true
         },
         sk_rb: {
-          inputItems: `sk_replyBox`,
+          inputItems: 'sk_replyBox',
           name: `Focus on the reply box.`,
           sg: true,
           st: true
         },
         sk_ru: {
-          inputItems: `sk_replyUser`,
+          inputItems: 'sk_replyUser',
           name: `Insert the username of the user to whom you are replying to the current reply box.`,
           sg: true,
           st: true
         },
         sk_sr: {
-          inputItems: `sk_submitReply`,
+          inputItems: 'sk_submitReply',
           name: `Submit the current reply.`,
           sg: true,
           st: true
         }
       },
-      id: `sk`,
+      id: 'sk',
       name: `Shortcut Keys`,
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -170,7 +170,7 @@ class GeneralShortcutKeys extends Module {
     if (gSettings.sk_hg) {
       methods[gSettings.sk_hideGame] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
-          let button = (document.getElementsByClassName(`popup--hide-games`)[0].style.display && document.getElementsByClassName(`popup--hide-games`)[0].style.display !== `none` && document.getElementsByClassName(`js__submit-hide-games`)[0]) || document.querySelector(`.esgst-ochgb, .giveaway__hide, .featured__giveaway__hide`);
+          let button = (document.getElementsByClassName(`popup--hide-games`)[0].style.display && document.getElementsByClassName(`popup--hide-games`)[0].style.display !== 'none' && document.getElementsByClassName(`js__submit-hide-games`)[0]) || document.querySelector(`.esgst-ochgb, .giveaway__hide, .featured__giveaway__hide`);
           if (button) {
             (button.classList.contains(`esgst-ochgb`) ? button.firstElementChild : button).click();
             event.preventDefault();
@@ -183,7 +183,7 @@ class GeneralShortcutKeys extends Module {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
           let button = document.querySelector(`.esgst-gf-hide-button, .esgst-gf-unhide-button`);
           if (button) {
-            button.firstElementChild.dispatchEvent(new Event(`click`));
+            button.firstElementChild.dispatchEvent(new Event('click'));
             event.preventDefault();
           }
         }
@@ -221,14 +221,14 @@ class GeneralShortcutKeys extends Module {
     if (gSettings.sk_rb) {
       methods[gSettings.sk_replyBox] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.replyBox) {
-          this.esgst.replyBox.getElementsByTagName(`textarea`)[0].focus();
+          this.esgst.replyBox.getElementsByTagName('textarea')[0].focus();
           event.preventDefault();
         }
       };
     }
     if (gSettings.sk_ru) {
       methods[gSettings.sk_replyUser] = event => {
-        if (event.target.tagName === `TEXTAREA`) {
+        if (event.target.tagName === 'TEXTAREA') {
           let text = event.target.value;
           let end = event.target.selectionEnd;
           let user = event.target.closest(`.comment__children, .comment_children`);
@@ -246,7 +246,7 @@ class GeneralShortcutKeys extends Module {
     }
     if (gSettings.sk_sr) {
       methods[gSettings.sk_submitReply] = event => {
-        if (event.target.tagName === `TEXTAREA`) {
+        if (event.target.tagName === 'TEXTAREA') {
           let reply = event.target.closest(`.comment, .reply_form, .esgst-popup`);
           if (reply) {
             let button = reply.querySelector(`.esgst-button-set >:first-child, .js__submit-form, .js_submit`);

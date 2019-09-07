@@ -8,40 +8,40 @@ class CommentsReplyBoxPopup extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-comment` }],
+            ['i', { class: `fa fa-comment` }],
             `) to the main page heading of any page that allows you to add comments to the page through a popup.`
           ]],
-          [`li`, `This feature is useful if you have [id=fmph] enabled, which allows you to add comments to the page from any scrolling position.`]
+          ['li', `This feature is useful if you have [id=fmph] enabled, which allows you to add comments to the page from any scrolling position.`]
         ]]
       ],
-      id: `rbp`,
+      id: 'rbp',
       name: `Reply Box Popup`,
       sg: true,
       st: true,
-      type: `comments`
+      type: 'comments'
     };
   }
 
   init() {
     if (!shared.esgst.replyBox) return;
 
-    let button = shared.common.createHeadingButton({ id: `rbp`, icons: [`fa-comment`], title: `Add a comment` });
+    let button = shared.common.createHeadingButton({ id: 'rbp', icons: [`fa-comment`], title: `Add a comment` });
     let popup = new Popup({ addScrollable: true, icon: `fa-comment`, title: `Add a comment:` });
-    popup.textArea = shared.common.createElements(popup.scrollable, `beforeEnd`, [{
+    popup.textArea = shared.common.createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        name: `description`
+        name: 'description'
       },
-      type: `textarea`
+      type: 'textarea'
     }]);
     popup.description.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: `fa-check`,
       icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Save`,
+      title1: 'Save',
       title2: `Saving...`,
       callback1: async () => {
         popup.progress.innerHTML = ``;
@@ -49,8 +49,8 @@ class CommentsReplyBoxPopup extends Module {
 
       }
     }).set);
-    popup.progress = shared.common.createElements(popup.description, `beforeEnd`, [{ type: `div` }]);
-    button.addEventListener(`click`, popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
+    popup.progress = shared.common.createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
+    button.addEventListener('click', popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
   }
 }
 

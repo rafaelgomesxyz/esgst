@@ -7,7 +7,7 @@ import { FetchRequest } from './FetchRequest';
  * @see https://www.dropbox.com/developers/documentation/http/documentation
  */
 class DropboxStorage extends ICloudStorage {
-  static get CLIENT_ID() { return `nix7kvchwa8wdvj`; }
+  static get CLIENT_ID() { return 'nix7kvchwa8wdvj'; }
   static get AUTH_URL() { return `https://www.dropbox.com/oauth2/authorize`; }
   static get API_BASE_URL() { return `https://api.dropboxapi.com/2`; }
   static get CONTENT_BASE_URL() { return `https://content.dropboxapi.com/2`; }
@@ -25,12 +25,12 @@ class DropboxStorage extends ICloudStorage {
   }
 
   static async authenticate() {
-    const key = `dropboxToken`;
+    const key = 'dropboxToken';
     const params = {
       client_id: DropboxStorage.CLIENT_ID,
       redirect_uri: DropboxStorage.REDIRECT_URL,
-      response_type: `token`,
-      state: `dropbox`
+      response_type: 'token',
+      state: 'dropbox'
     };
     const url = FetchRequest.addQueryParams(DropboxStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -106,11 +106,11 @@ class DropboxStorage extends ICloudStorage {
     if (!response.json) {
       throw new Error(response.text);
     }
-    if (response.json[`.tag`] !== `complete`) {
+    if (response.json[`.tag`] !== 'complete') {
       response.json = await DropboxStorage.waitDeleteBatch(token, response.json.async_job_id);
     }
     for (const file of response.json.entries) {
-      if (file[`.tag`] === `success`) {
+      if (file[`.tag`] === 'success') {
         output.success.push(file.metadata.name);
       } else {
         output.error.push(file.metadata.name);
@@ -133,7 +133,7 @@ class DropboxStorage extends ICloudStorage {
       })
     };
     const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_CHECK_URL, requestOptions);
-    if (response.json && response.json[`.tag`] === `complete`) {
+    if (response.json && response.json[`.tag`] === 'complete') {
       resolve(response.json);
     } else {
       window.setTimeout(DropboxStorage.checkDeleteBatch, 1000, token, jobId, resolve);

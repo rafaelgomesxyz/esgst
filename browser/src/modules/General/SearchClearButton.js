@@ -6,14 +6,14 @@ class GeneralSearchClearButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Adds a clear button to each search input in the page.`]
+        ['ul', [
+          ['li', `Adds a clear button to each search input in the page.`]
         ]]
       ],
-      id: `scb`,
+      id: 'scb',
       name: `Search Clear Button`,
       sg: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -25,8 +25,8 @@ class GeneralSearchClearButton extends Module {
     const inputs = context.querySelectorAll(`.sidebar__search-input`);
     for (const input of inputs) {
       input.parentElement.classList.add(`esgst-scb`);
-      common.createElements_v2(input.parentElement, `beforeEnd`, [
-        [`i`, { class: `fa fa-times`, title: `Clear search`, onclick: () => { input.value = ``; input.dispatchEvent(new Event(`change`)); input.focus(); } }]
+      common.createElements_v2(input.parentElement, 'beforeEnd', [
+        ['i', { class: `fa fa-times`, title: `Clear search`, onclick: () => { input.value = ``; input.dispatchEvent(new Event('change')); input.focus(); } }]
       ]);
     }
   }

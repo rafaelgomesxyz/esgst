@@ -4,10 +4,10 @@ class Scope {
   constructor(name, context) {
     this.name = name;
     this.context = context;
-    if (name === `main`) {
+    if (name === 'main') {
       this.id = name;
     } else {
-      this.id = new Array(16).fill(`x`).map(x => utils.createUuid(x)).join(``);
+      this.id = new Array(16).fill('x').map(x => utils.createUuid(x)).join(``);
     }
 
     this.data = {

@@ -6,11 +6,11 @@ class GeneralVisibleAttachedImages extends Module {
     super();
     this.info = {
       conflicts: [
-        `ail`
+        'ail'
       ],
       description: [
-        [`ul`, [
-          [`li`, `Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.`]
+        ['ul', [
+          ['li', `Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.`]
         ]]
       ],
       features: {
@@ -20,11 +20,11 @@ class GeneralVisibleAttachedImages extends Module {
           st: true
         }
       },
-      id: `vai`,
+      id: 'vai',
       name: `Visible Attached Images`,
       sg: true,
       st: true,
-      type: `general`,
+      type: 'general',
       featureMap: {
         endless: this.vai_getImages.bind(this)
       }
@@ -36,12 +36,12 @@ class GeneralVisibleAttachedImages extends Module {
     for (let i = 0, n = buttons.length; i < n; i++) {
       let button = buttons[i];
       let image = button.nextElementSibling.firstElementChild;
-      let url = image.getAttribute(`src`);
+      let url = image.getAttribute('src');
       if (url && gSettings.vai_gifv) {
         url = url.replace(/\.gifv/, `.gif`);
-        image.setAttribute(`src`, url);
+        image.setAttribute('src', url);
       }
-      image.classList.remove(`is_hidden`, `is-hidden`);
+      image.classList.remove('is_hidden', `is-hidden`);
     }
   }
 }

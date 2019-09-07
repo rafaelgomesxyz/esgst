@@ -2,27 +2,27 @@ import { Tags } from '../Tags';
 
 class DiscussionsDiscussionTags extends Tags {
   constructor() {
-    super(`dt`);
+    super('dt');
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-tag` }],
+            ['i', { class: `fa fa-tag` }],
             ` ) next a discussion's title (in any page) that allows you to save tags for the discussion (only visible to you).`
           ]],
-          [`li`, `You can press Enter to save the tags.`],
-          [`li`, `Each tag can be colored individually.`],
-          [`li`, [
+          ['li', `You can press Enter to save the tags.`],
+          ['li', `Each tag can be colored individually.`],
+          ['li', [
             `There is a button (`,
-            [`i`, { class: `fa fa-list` }],
+            ['i', { class: `fa fa-list` }],
             ` ) in the tags popup that allows you to view a list with all of the tags that you have used ordered from most used to least used.`
           ]],
-          [`li`, [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-comments` }],
+            ['i', { class: `fa fa-comments` }],
             ` `,
-            [`i`, { class: `fa fa-tags` }],
+            ['i', { class: `fa fa-tags` }],
             `) to the page heading of this menu that allows you to manage all of the tags that have been saved.`
           ]]
         ]]
@@ -33,10 +33,10 @@ class DiscussionsDiscussionTags extends Tags {
           sg: true
         }
       },
-      id: `dt`,
+      id: 'dt',
       name: `Discussion Tags`,
       sg: true,
-      type: `discussions`
+      type: 'discussions'
     };
   }
 

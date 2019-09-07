@@ -10,24 +10,24 @@ class Popup {
     this.Results = undefined;
     this.textArea = undefined;
     this.temp = details.isTemp;
-    this.layer = shared.common.createElements_v2(document.body, `beforeEnd`, [
-      [`div`, { class: `esgst-hidden esgst-popup-layer` }, [
+    this.layer = shared.common.createElements_v2(document.body, 'beforeEnd', [
+      ['div', { class: `esgst-hidden esgst-popup-layer` }, [
         ...(details.popup ? [
           details.popup
         ]  : [
-          [`div`, { class: `esgst-popup` }, [
-            [`div`, { class: `esgst-popup-heading` }, [
-              [`i`, { class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}` }],
-              [`div`, { class: `esgst-popup-title${details.title ? `` : ` esgst-hidden`}` }, details.title]
+          ['div', { class: `esgst-popup` }, [
+            ['div', { class: `esgst-popup-heading` }, [
+              ['i', { class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}` }],
+              ['div', { class: `esgst-popup-title${details.title ? `` : ` esgst-hidden`}` }, details.title]
             ]],
-            [`div`, { class: `esgst-popup-description` }],
-            [`div`, { class: `esgst-popup-scrollable ${details.addScrollable === `left` ? `esgst-text-left` : ``}` }, details.scrollableContent],
-            [`div`, { class: `esgst-popup-actions` }, [
-              [`a`, { class: `esgst-hidden`, href: shared.esgst.settingsUrl }, `Settings`],
-              [`a`, { class: `esgst-popup-close` }, `Close`]
+            ['div', { class: `esgst-popup-description` }],
+            ['div', { class: `esgst-popup-scrollable ${details.addScrollable === 'left' ? `esgst-text-left` : ``}` }, details.scrollableContent],
+            ['div', { class: `esgst-popup-actions` }, [
+              ['a', { class: `esgst-hidden`, href: shared.esgst.settingsUrl }, 'Settings'],
+              ['a', { class: `esgst-popup-close` }, 'Close']
             ]]
           ]],
-          [`div`, { class: `esgst-popup-modal`, title: `Click to close the modal` }]
+          ['div', { class: `esgst-popup-modal`, title: `Click to close the modal` }]
         ])
       ]]
     ]);
@@ -37,7 +37,7 @@ class Popup {
     this.modal = this.layer.lastElementChild;
     if (details.popup) {
       this.popup.classList.add(`esgst-popup`);
-      this.popup.style.display = `block`;
+      this.popup.style.display = 'block';
       this.popup.style.maxHeight = `calc(100% - 150px)`;
       this.popup.style.maxWidth = `calc(100% - 150px)`;
     } else {
@@ -51,7 +51,7 @@ class Popup {
       let settings = this.actions.firstElementChild;
       if (!details.settings) {
         settings.classList.remove(`esgst-hidden`);
-        settings.addEventListener(`click`, event => {
+        settings.addEventListener('click', event => {
           if (!gSettings.openSettingsInTab) {
             event.preventDefault();
             shared.esgst.modules.settingsModule.loadMenu(true);
@@ -61,9 +61,9 @@ class Popup {
     }
     let closeButton = this.popup.querySelector(`.esgst-popup-close, .b-close`);
     if (closeButton) {
-      closeButton.addEventListener(`click`, () => this.close(true));
+      closeButton.addEventListener('click', () => this.close(true));
     }
-    this.modal.addEventListener(`click`, () => this.close(true));
+    this.modal.addEventListener('click', () => this.close(true));
     if (details.textInputs) {
       this.textInputs = [];
       details.textInputs.forEach(textInput => {
@@ -71,31 +71,31 @@ class Popup {
         if (textInput.title) {
           items.push({
             text: textInput.title,
-            type: `node`
+            type: 'node'
           });
         }
         items.push({
           attributes: {
             placeholder: textInput.placeholder || ``,
-            type: `text`
+            type: 'text'
           },
-          type: `input`
+          type: 'input'
         });
-        let input = shared.common.createElements(this.description, `beforeEnd`, items);
-        input.addEventListener(`keydown`, this.triggerButton.bind(this, 0));
+        let input = shared.common.createElements(this.description, 'beforeEnd', items);
+        input.addEventListener('keydown', this.triggerButton.bind(this, 0));
         this.textInputs.push(input);
       });
     }
     if (details.options) {
       this.description.appendChild(shared.common.createOptions(details.options));
-      let inputs = this.description.lastElementChild.getElementsByTagName(`input`);
+      let inputs = this.description.lastElementChild.getElementsByTagName('input');
       for (let input of inputs) {
-        switch (input.getAttribute(`type`)) {
-          case `number`:
-            shared.common.observeNumChange(input, input.getAttribute(`name`), true);
+        switch (input.getAttribute('type')) {
+          case 'number':
+            shared.common.observeNumChange(input, input.getAttribute('name'), true);
             break;
-          case `text`:
-            shared.common.observeChange(input, input.getAttribute(`name`), true);
+          case 'text':
+            shared.common.observeChange(input, input.getAttribute('name'), true);
             break;
           default:
             break;
@@ -111,11 +111,11 @@ class Popup {
       });
     }
     if (details.addProgress) {
-      this.progress = shared.common.createElements(this.description, `beforeEnd`, [{
-        type: `div`
+      this.progress = shared.common.createElements(this.description, 'beforeEnd', [{
+        type: 'div'
       }]);
-      this.overallProgress = shared.common.createElements(this.description, `beforeEnd`, [{
-        type: `div`
+      this.overallProgress = shared.common.createElements(this.description, 'beforeEnd', [{
+        type: 'div'
       }]);
     }
     this.id = shared.common.addScope(details.name, this.popup);
@@ -170,7 +170,7 @@ class Popup {
   }
 
   triggerButton(index, event) {
-    if (event && (event.key !== `Enter` || this.buttons[index].busy)) return;
+    if (event && (event.key !== 'Enter' || this.buttons[index].busy)) return;
     this.buttons[index].trigger();
   }
 
@@ -184,27 +184,27 @@ class Popup {
   }
 
   setScrollable(html) {
-    shared.common.createElements(this.scrollable, `beforeEnd`, [{
-      type: `div`,
+    shared.common.createElements(this.scrollable, 'beforeEnd', [{
+      type: 'div',
       children: html
     }]);
   }
 
   getScrollable(html) {
-    return shared.common.createElements_v2(this.scrollable, `beforeEnd`, [
-      [`div`, html]
+    return shared.common.createElements_v2(this.scrollable, 'beforeEnd', [
+      ['div', html]
     ]);
   }
 
   setError(message) {
-    shared.common.createElements(this.progress, `inner`, [{
+    shared.common.createElements(this.progress, 'inner', [{
       attributes: {
         class: `fa fa-times-circle`
       },
-      type: `i`
+      type: 'i'
     }, {
       text: `${message}`,
-      type: `span`
+      type: 'span'
     }]);
   }
 
@@ -212,14 +212,14 @@ class Popup {
     if (this.progressMessage) {
       this.progressMessage.textContent = message;
     } else {
-      shared.common.createElements(this.progress, `inner`, [{
+      shared.common.createElements(this.progress, 'inner', [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
-        type: `i`
+        type: 'i'
       }, {
         text: `${message}`,
-        type: `span`
+        type: 'span'
       }]);
       this.progressMessage = this.progress.lastElementChild;
     }

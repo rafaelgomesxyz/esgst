@@ -7,15 +7,15 @@ class CommentsCollapseExpandReplyButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-plus-square` }],
+            ['i', { class: `fa fa-plus-square` }],
             ` if all of the replies in the page are collapsed and `,
-            [`i`, { class: `fa fa-minus-square` }],
+            ['i', { class: `fa fa-minus-square` }],
             ` if they are expanded) above the comments (in any page) that allows you to collapse/expand all of the replies (comments nested 2 or more levels deep) in the page.`
           ]],
-          [`li`, `Also adds the same button in front of each comment nested 1 level deep in the page, which allows you to collapse/expand the replies of the comment individually.`]
+          ['li', `Also adds the same button in front of each comment nested 1 level deep in the page, which allows you to collapse/expand the replies of the comment individually.`]
         ]]
       ],
       features: {
@@ -25,57 +25,57 @@ class CommentsCollapseExpandReplyButton extends Module {
           st: true
         }
       },
-      id: `cerb`,
+      id: 'cerb',
       name: `Collapse/Expand Reply Button`,
       sg: true,
       sgPaths: /^(Giveaway\s-\sComments|Discussion|Ticket|Trade)$/,
       st: true,
-      type: `comments`
+      type: 'comments'
     };
   }
 
   init() {
     if (!shared.esgst.commentsPath) return;
     let button, collapse, comments, expand;
-    comments = document.getElementsByClassName(`comments`)[0];
+    comments = document.getElementsByClassName('comments')[0];
     if (comments && comments.children.length) {
       this.buttons = [];
-      button = shared.common.createElements(shared.esgst.mainPageHeading, `afterEnd`, [{
+      button = shared.common.createElements(shared.esgst.mainPageHeading, 'afterEnd', [{
         attributes: {
           class: `esgst-cerb-button esgst-clickable`
         },
-        type: `div`,
+        type: 'div',
         children: [{
-          type: `span`,
+          type: 'span',
           children: [{
             attributes: {
               class: `fa fa-minus-square`
             },
-            type: `i`
+            type: 'i'
           }, {
             text: ` Collapse all replies`,
-            type: `node`
+            type: 'node'
           }]
         }, {
           attributes: {
             class: `esgst-hidden`
           },
-          type: `span`,
+          type: 'span',
           children: [{
             attributes: {
               class: `fa fa-plus-square`
             },
-            type: `i`
+            type: 'i'
           }, {
             text: ` Expand all replies`,
-            type: `node`
+            type: 'node'
           }]
         }]
       }]);
       collapse = button.firstElementChild;
       expand = collapse.nextElementSibling;
-      collapse.addEventListener(`click`, this.cerb_collapseAllReplies.bind(this, collapse, expand));
-      expand.addEventListener(`click`, this.cerb_expandAllReplies.bind(this, collapse, expand));
+      collapse.addEventListener('click', this.cerb_collapseAllReplies.bind(this, collapse, expand));
+      expand.addEventListener('click', this.cerb_expandAllReplies.bind(this, collapse, expand));
       shared.esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
     }
   }
@@ -91,33 +91,33 @@ class CommentsCollapseExpandReplyButton extends Module {
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);
       if (replies && replies.children.length) {
-        this.cerb_setButton(shared.common.createElements(reply.firstElementChild, `afterBegin`, [{
+        this.cerb_setButton(shared.common.createElements(reply.firstElementChild, 'afterBegin', [{
           attributes: {
             class: `esgst-cerb-reply-button esgst-clickable`
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              title: shared.common.getFeatureTooltip(`cerb`, `Collapse all replies`)
+              title: shared.common.getFeatureTooltip('cerb', `Collapse all replies`)
             },
-            type: `span`,
+            type: 'span',
             children: [{
               attributes: {
                 class: `fa fa-minus-square`
               },
-              type: `i`
+              type: 'i'
             }]
           }, {
             attributes: {
               class: `esgst-hidden`,
-              title: shared.common.getFeatureTooltip(`cerb`, `Expand all replies`)
+              title: shared.common.getFeatureTooltip('cerb', `Expand all replies`)
             },
-            type: `span`,
+            type: 'span',
             children: [{
               attributes: {
                 class: `fa fa-plus-square`
               },
-              type: `i`
+              type: 'i'
             }]
           }]
         }]), permalink && reply.contains(permalink), reply, replies.children);
@@ -137,8 +137,8 @@ class CommentsCollapseExpandReplyButton extends Module {
       expand: this.cerb_expandReplies.bind(this, collapse, expand, replies),
       permalink: permalink
     });
-    collapse.addEventListener(`click`, this.cerb_collapseReplies.bind(this, collapse, expand, replies));
-    expand.addEventListener(`click`, this.cerb_expandReplies.bind(this, collapse, expand, replies));
+    collapse.addEventListener('click', this.cerb_collapseReplies.bind(this, collapse, expand, replies));
+    expand.addEventListener('click', this.cerb_expandReplies.bind(this, collapse, expand, replies));
     if (gSettings.cerb_a && !permalink) {
       collapse.classList.toggle(`esgst-hidden`);
       expand.classList.toggle(`esgst-hidden`);

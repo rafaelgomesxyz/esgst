@@ -5,14 +5,14 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Removes SteamGifts' default fade for entered giveaways.`]
+        ['ul', [
+          ['li', `Removes SteamGifts' default fade for entered giveaways.`]
         ]]
       ],
-      id: `ueg`,
+      id: 'ueg',
       name: `Unfaded Entered Giveaway`,
       sg: true,
-      type: `giveaways`,
+      type: 'giveaways',
       featureMap: {
         endless: this.ueg_remove.bind(this)
       }

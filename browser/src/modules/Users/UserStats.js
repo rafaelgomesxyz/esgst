@@ -14,20 +14,20 @@ class UsersUserStats extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your `,
-            [`a`, { href: `https://www.steamgifts.com/account/manage/whitelist` }, `whitelist`],
+            ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/account/manage/blacklist` }, `blacklist`],
+            ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
             ` pages and the popup from [id=wbs] that show some stats about each user.`
           ]]
         ]]
       ],
-      id: `us`,
+      id: 'us',
       name: `User Stats`,
       sg: true,
-      type: `users`
+      type: 'users'
     };
   }
 
@@ -41,48 +41,48 @@ class UsersUserStats extends Module {
       return;
     }
     if (context === document || !main) {
-      createElements(context.getElementsByClassName(`table__heading`)[0].firstElementChild, `afterEnd`, [{
+      createElements(context.getElementsByClassName('table__heading')[0].firstElementChild, 'afterEnd', [{
         attributes: {
           class: `table__column--width-small text-center`
         },
         text: `Last Online`,
-        type: `div`
+        type: 'div'
       }, {
         attributes: {
           class: `table__column--width-small text-center`
         },
         text: `Gifts Won`,
-        type: `div`
+        type: 'div'
       }, {
         attributes: {
           class: `table__column--width-small text-center`
         },
         text: `Gifts Sent`,
-        type: `div`
+        type: 'div'
       }, {
         attributes: {
           class: `table__column--width-small text-center`
         },
-        text: `Ratio`,
-        type: `div`
+        text: 'Ratio',
+        type: 'div'
       }, {
         attributes: {
           class: `table__column--width-small text-center`
         },
         text: `Contributor Level`,
-        type: `div`
+        type: 'div'
       }]);
     }
     let users = {};
     let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
       let element = elements[i];
-      users[element.getElementsByClassName(`table__column__heading`)[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
+      users[element.getElementsByClassName('table__column__heading')[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
     }
     let promises = [];
     for (let username in users) {
       if (users.hasOwnProperty(username)) {
-        let promise = request({ method: `GET`, url: `/user/${username}` });
+        let promise = request({ method: 'GET', url: `/user/${username}` });
         promise.then(this.us_load.bind(this, users[username], username));
         promises.push(promise);
       }
@@ -94,7 +94,7 @@ class UsersUserStats extends Module {
     let element, elements, html, i, n, cvrow, rows;
     html = [];
     const profile = {};
-    elements = parseHtml(response.responseText).getElementsByClassName(`featured__table__row__left`);
+    elements = parseHtml(response.responseText).getElementsByClassName('featured__table__row__left');
     for (i = 0, n = elements.length; i < n; ++i) {
       element = elements[i];
       switch (element.textContent) {
@@ -103,7 +103,7 @@ class UsersUserStats extends Module {
             attributes: {
               class: `table__column--width-small text-center`
             },
-            type: `div`,
+            type: 'div',
             children: Array.from(element.nextElementSibling.childNodes).map(x => {
               return {
                 context: x
@@ -124,12 +124,12 @@ class UsersUserStats extends Module {
           rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
           profile.wonCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
           profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
-          element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute(`style`);
+          element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute('style');
           html.push({
             attributes: {
               class: `table__column--width-small text-center`
             },
-            type: `div`,
+            type: 'div',
             children: Array.from(element.nextElementSibling.childNodes).map(x => {
               return {
                 context: x
@@ -151,12 +151,12 @@ class UsersUserStats extends Module {
           rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
           profile.sentCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
           profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
-          element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute(`style`);
+          element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute('style');
           html.push({
             attributes: {
               class: `table__column--width-small text-center`
             },
-            type: `div`,
+            type: 'div',
             children: Array.from(element.nextElementSibling.childNodes).map(x => {
               return {
                 context: x
@@ -170,7 +170,7 @@ class UsersUserStats extends Module {
             attributes: {
               class: `table__column--width-small text-center`
             },
-            type: `div`,
+            type: 'div',
             children: Array.from(profile.sentRow.nextElementSibling.lastElementChild.childNodes).map(x => {
               return {
                 context: x
@@ -181,12 +181,12 @@ class UsersUserStats extends Module {
                 class: `table__column--width-small text-center`
               },
               text: parseFloat(JSON.parse(element.nextElementSibling.firstElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name),
-              type: `div`
+              type: 'div'
             });
           break;
       }
     }
-    createElements(context, `afterEnd`, html);
+    createElements(context, 'afterEnd', html);
   }
 }
 

@@ -6,7 +6,7 @@ class Groups extends Module {
     super();
     this.info = {
       endless: true,
-      id: `groups`,
+      id: 'groups',
       featureMap: {
         endless: this.groups_load.bind(this)
       }
@@ -25,7 +25,7 @@ class Groups extends Module {
       }
       const group = {
         saved: null,
-        url: element.getAttribute(`href`)
+        url: element.getAttribute('href')
       };
       if (group.url) {
         const match = group.url.match(/\/group\/(.+?)\//);
@@ -56,8 +56,8 @@ class Groups extends Module {
       group.name = element.textContent.trim();
       const container = element.parentElement;
       group.oldElement = element;
-      if (this.esgst.groupPath && container.classList.contains(`page__heading__breadcrumbs`)) {
-        group.element = document.getElementsByClassName(`featured__heading__medium`)[0];
+      if (this.esgst.groupPath && container.classList.contains('page__heading__breadcrumbs')) {
+        group.element = document.getElementsByClassName('featured__heading__medium')[0];
         group.container = group.element.parentElement;
       } else {
         group.element = element;
@@ -67,13 +67,13 @@ class Groups extends Module {
       this.esgst.currentGroups[group.id].elements.push(group.element);
       group.innerWrap = element.closest(`.table__row-inner-wrap`) || group.container;
       group.outerWrap = element.closest(`.table__row-outer-wrap`) || group.container;
-      const isHeading = group.context.classList.contains(`featured__heading__medium`);
+      const isHeading = group.context.classList.contains('featured__heading__medium');
       if (isHeading) {
         group.tagContext = group.container;
-        group.tagPosition = `beforeEnd`;
+        group.tagPosition = 'beforeEnd';
       } else {
         group.tagContext = group.context;
-        group.tagPosition = `afterEnd`;
+        group.tagPosition = 'afterEnd';
       }
       this.esgst.currentScope.groups.push(group);
       groups.push(group);

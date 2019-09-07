@@ -15,24 +15,24 @@ const
 
 class UsersUserFilters extends Filters {
   constructor() {
-    super(`uf`);
+    super('uf');
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-eye-slash` }],
+            ['i', { class: `fa fa-eye-slash` }],
             ` if the user is being filtered and `,
-            [`i`, { class: `fa fa-eye` }],
+            ['i', { class: `fa fa-eye` }],
             ` if they are not) next to a user's username (in their `,
-            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).`
           ]],
-          [`li`, [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-user` }],
+            ['i', { class: `fa fa-user` }],
             ` `,
-            [`i`, { class: `fa fa-eye-slash` }],
+            ['i', { class: `fa fa-eye-slash` }],
             `) to the page heading of this menu that allows you to view all of the users that have been filtered.`
           ]]
         ]]
@@ -59,10 +59,10 @@ class UsersUserFilters extends Filters {
           sg: true
         }
       },
-      id: `uf`,
+      id: 'uf',
       name: `User Filters`,
       sg: true,
-      type: `users`,
+      type: 'users',
       featureMap: {
         profile: this.uf_add.bind(this),
         comment: this.filterComments.bind(this),
@@ -80,17 +80,17 @@ class UsersUserFilters extends Filters {
 
   uf_add(profile, savedUser) {
     if (profile.username !== gSettings.username) {
-      profile.ufButton = createElements(profile.heading, `beforeEnd`, [{
+      profile.ufButton = createElements(profile.heading, 'beforeEnd', [{
         attributes: {
           class: `esgst-uf-button`,
-          title: getFeatureTooltip(`uf`, `Edit user filters`)
+          title: getFeatureTooltip('uf', `Edit user filters`)
         },
-        type: `a`,
+        type: 'a',
         children: [{
           attributes: {
-            class: `fa`
+            class: 'fa'
           },
-          type: `i`
+          type: 'i'
         }]
       }]);
       profile.ufIcon = profile.ufButton.firstElementChild;
@@ -116,7 +116,7 @@ class UsersUserFilters extends Filters {
           discussionPosts: false
         };
       }
-      profile.ufButton.addEventListener(`click`, this.uf_open.bind(this, profile));
+      profile.ufButton.addEventListener('click', this.uf_open.bind(this, profile));
     }
   }
 
@@ -125,20 +125,20 @@ class UsersUserFilters extends Filters {
     profile.ufPopup = new Popup({
       addScrollable: true, icon: `fa-eye`, isTemp: true, title: [
         `Apply user filters for `,
-        [`span`, profile.name],
+        ['span', profile.name],
         `:`
       ]
     });
-    profile.ufOptions = createElements(profile.ufPopup.description, `beforeEnd`, [{
-      type: `div`
+    profile.ufOptions = createElements(profile.ufPopup.description, 'beforeEnd', [{
+      type: 'div'
     }]);
     profile.ufGiveawaysOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaways.`, false, false, `Hides the user's giveaways from the main pages.`, profile.ufValues.giveaways);
     profile.ufDiscussionsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussions.`, false, false, `Hides the user's discussions from the main pages.`, profile.ufValues.discussions);
     profile.ufGiveawayPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's giveaway posts.`, false, false, `Hides the user's posts made on giveaways.`, profile.ufValues.giveawayPosts);
     profile.ufDiscussionPostsOption = new ToggleSwitch(profile.ufOptions, null, false, `Filter this user's discussion posts.`, false, false, `Hides the user's posts made on discussions.`, profile.ufValues.discussionPosts);
     saveSet = new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: `fa-check`,
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Save Settings`,
@@ -146,8 +146,8 @@ class UsersUserFilters extends Filters {
       callback1: this.uf_save.bind(this, profile, false)
     });
     resetSet = new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: `fa-rotate-left`,
       icon2: `fa-circle-o-notch fa-spin`,
       title1: `Reset Settings`,
@@ -224,7 +224,7 @@ class UsersUserFilters extends Filters {
       const uf = this.fixData(savedUser.uf);
       if ((gSettings.uf_d && savedUser.blacklisted && !uf) || (uf && uf.discussions)) {
         discussion.outerWrap.classList.add(`esgst-hidden`);
-        discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, `uf`);
+        discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, 'uf');
         if (gSettings.uf_s_s) {
           this.updateSingleCounter();
         }
@@ -246,7 +246,7 @@ class UsersUserFilters extends Filters {
       const uf = this.fixData(savedUser.uf);
       if ((gSettings.uf_g && savedUser.blacklisted && !uf) || (uf && uf.giveaways)) {
         giveaway.outerWrap.classList.add(`esgst-hidden`);
-        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `uf`);
+        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, 'uf');
         if (gSettings.uf_s_s) {
           this.updateSingleCounter();
         }
@@ -263,7 +263,7 @@ class UsersUserFilters extends Filters {
         continue;
       }
       const uf = this.fixData(savedUser.uf);
-      if ((((comment.type === `giveaways` && gSettings.uf_gp) || (comment.type !== `giveaways` && gSettings.uf_dp)) && savedUser.blacklisted && !uf) || (uf && ((comment.type === `giveaways` && uf.giveawayPosts) || (comment.type !== `giveaways` && uf.discussionPosts)))) {
+      if ((((comment.type === 'giveaways' && gSettings.uf_gp) || (comment.type !== 'giveaways' && gSettings.uf_dp)) && savedUser.blacklisted && !uf) || (uf && ((comment.type === 'giveaways' && uf.giveawayPosts) || (comment.type !== 'giveaways' && uf.discussionPosts)))) {
         let numDescendants;
         if (comment.comment.nextElementSibling) {
           numDescendants = comment.comment.nextElementSibling.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`).length;
@@ -271,17 +271,17 @@ class UsersUserFilters extends Filters {
           numDescendants = 0;
         }
         comment.comment.parentElement.classList.add(`esgst-hidden`);
-        comment.comment.parentElement.setAttribute(`data-esgst-not-filterable`, `uf`);
+        comment.comment.parentElement.setAttribute(`data-esgst-not-filterable`, 'uf');
         if (gSettings.uf_s_s) {
           this.updateSingleCounter(numDescendants + 1);
         }
-        if (!main || shared.common.isCurrentPath(`Messages`)) {
+        if (!main || shared.common.isCurrentPath('Messages')) {
           const commentsContainer = comment.comment.closest(`.comments`);
           if (!commentsContainer.querySelectorAll(`.comment:not([data-esgst-not-filterable])`).length) {
             commentsContainer.previousElementSibling.classList.add(`esgst-hidden`);
-            commentsContainer.previousElementSibling.setAttribute(`data-esgst-not-filterable`, `uf`);
+            commentsContainer.previousElementSibling.setAttribute(`data-esgst-not-filterable`, 'uf');
             commentsContainer.classList.add(`esgst-hidden`);
-            commentsContainer.setAttribute(`data-esgst-not-filterable`, `uf`);
+            commentsContainer.setAttribute(`data-esgst-not-filterable`, 'uf');
           }
         }
       }

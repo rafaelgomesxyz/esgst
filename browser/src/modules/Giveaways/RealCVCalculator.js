@@ -17,42 +17,42 @@ class GiveawaysRealCVCalculator extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).`]
+        ['ul', [
+          ['li', `Adds a "Real CV" row containing how much real CV you should get for a giveaway to the table of the review giveaway page (the page where you can confirm the creation of a giveaway).`]
         ]]
       ],
-      id: `rcvc`,
+      id: 'rcvc',
       name: `Real CV Calculator`,
       sg: true,
       sync: `Giveaways, No CV Games, Reduced CV Games`,
-      syncKeys: [`Giveaways`, `NoCvGames`, `ReducedCvGames`],
-      type: `giveaways`
+      syncKeys: ['Giveaways', 'NoCvGames', 'ReducedCvGames'],
+      type: 'giveaways'
     };
   }
 
   async init() {
     if (this.esgst.newGiveawayPath) {
-      if (!(await permissions.requestUi([`steamStore`], `rcvc`, true))) {
+      if (!(await permissions.requestUi(['steamStore'], 'rcvc', true))) {
         return;
       }
 
       let table = document.getElementsByClassName(`table--summary`)[0], button;
       if (table) {
-        let game = getValue(`rcvcGame`);
+        let game = getValue('rcvcGame');
         if (game) {
           let type = game.type;
           let id = game.id;
           let i, n;
-          let headings = document.getElementsByClassName(`featured__heading__small`);
+          let headings = document.getElementsByClassName('featured__heading__small');
           let copies = headings.length > 1 ? parseInt(headings[0].textContent.match(/\d+/)[0]) : 1;
           try {
             let responseJson = JSON.parse((await request({
-              method: `GET`,
-              url: `http://store.steampowered.com/api/${type === `apps` ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`
+              method: 'GET',
+              url: `http://store.steampowered.com/api/${type === 'apps' ? `appdetails?appids` : `packagedetails?packageids`}=${id}&cc=us&filters=price,price_overview`
             })).responseText)[id].data;
             let value = Math.ceil((responseJson.price_overview || responseJson.price).initial / 100);
             let games, user;
-            games = JSON.parse(getValue(`games`));
+            games = JSON.parse(getValue('games'));
             if (games[type][id]) {
               if (games[type][id].noCV) {
                 value = 0;
@@ -64,7 +64,7 @@ class GiveawaysRealCVCalculator extends Module {
               Username: gSettings.username,
               SteamID64: gSettings.steamId
             };
-            let users = JSON.parse(getValue(`users`));
+            let users = JSON.parse(getValue('users'));
             let savedUser = users.users[user.SteamID64];
             let sent = 0;
             let currentDate = Date.now();
@@ -77,7 +77,7 @@ class GiveawaysRealCVCalculator extends Module {
                     if (Array.isArray(giveaway.winners)) {
                       if (giveaway.winners.length > 0) {
                         giveaway.winners.forEach(winner => {
-                          if (winner.status === `Received`) {
+                          if (winner.status === 'Received') {
                             sent += 1;
                           }
                         });
@@ -117,34 +117,34 @@ class GiveawaysRealCVCalculator extends Module {
               cv = value;
             }
             cv = Math.round(cv * 100) / 100;
-            createElements(table, `beforeEnd`, [{
+            createElements(table, 'beforeEnd', [{
               attributes: {
                 class: `table__row-outer-wrap`
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
                   class: `table__row-inner-wrap`
                 },
-                type: `div`,
+                type: 'div',
                 children: [{
                   attributes: {
                     class: `table__column--width-medium table__column--align-top`
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
                       class: `esgst-bold`
                     },
                     text: `Real CV`,
-                    type: `span`
+                    type: 'span'
                   }]
                 }, {
                   attributes: {
                     class: `table__column--width-fill`
                   },
                   text: `You should get ~$${cv} real CV for this giveaway.`,
-                  type: `div`
+                  type: 'div'
                 }]
               }]
             }]);
@@ -152,18 +152,18 @@ class GiveawaysRealCVCalculator extends Module {
             logger.warning(e.stack);
           }
           button = document.getElementsByClassName(`js__submit-form`)[0];
-          button.addEventListener(`click`, () => {
-            delValue(`rcvcGame`);
+          button.addEventListener('click', () => {
+            delValue('rcvcGame');
           });
         }
       } else {
         button = document.querySelector(`.js__submit-form, [data-esgst=reviewButton]`);
         let input = document.querySelector(`[name="game_id"]`);
-        button.addEventListener(`click`, async () => {
+        button.addEventListener('click', async () => {
           let selectedId = input.value;
           let selected = document.querySelector(`[data-autocomplete-id="${selectedId}"]`);
           let info = await this.esgst.modules.games.games_getInfo(selected);
-          setValue(`rcvcGame`, {
+          setValue('rcvcGame', {
             type: info.type,
             id: info.id
           });

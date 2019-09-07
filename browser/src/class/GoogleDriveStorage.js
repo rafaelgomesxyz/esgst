@@ -25,16 +25,16 @@ class GoogleDriveStorage extends ICloudStorage {
   }
 
   static async authenticate() {
-    const key = `googleDriveToken`;
+    const key = 'googleDriveToken';
     const params = {
       client_id: GoogleDriveStorage.CLIENT_ID,
       redirect_uri: GoogleDriveStorage.REDIRECT_URL,
-      response_type: `token`,
+      response_type: 'token',
       scope: `https://www.googleapis.com/auth/drive.appdata`,
       state: `google-drive`
     };
     if (gSettings.usePreferredGoogle) {
-      params[`login_hint`] = gSettings.preferredGoogle;
+      params['login_hint'] = gSettings.preferredGoogle;
     }
     const url = FetchRequest.addQueryParams(GoogleDriveStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -66,7 +66,7 @@ class GoogleDriveStorage extends ICloudStorage {
         fileId: metadataResponse.json.id
       },
       queryParams: {
-        uploadType: `media`
+        uploadType: 'media'
       }
     };
     const response = await FetchRequest.patch(GoogleDriveStorage.UPLOAD_URL, requestOptions);
@@ -86,7 +86,7 @@ class GoogleDriveStorage extends ICloudStorage {
         fileId: fileInfo.id
       },
       queryParams: {
-        alt: `media`
+        alt: 'media'
       }
     };
     const response = await FetchRequest.get(GoogleDriveStorage.DOWNLOAD_URL, requestOptions);
@@ -169,7 +169,7 @@ class GoogleDriveStorage extends ICloudStorage {
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {}),
       queryParams: {
         fields: `files(kind,id,name,mimeType,size,modifiedTime)`,
-        spaces: `appDataFolder`
+        spaces: 'appDataFolder'
       }
     };
     const response = await FetchRequest.get(GoogleDriveStorage.LIST_URL, requestOptions);

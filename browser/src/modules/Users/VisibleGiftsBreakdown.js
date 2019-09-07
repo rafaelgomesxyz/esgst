@@ -7,28 +7,28 @@ class UsersVisibleGiftsBreakdown extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Shows the gifts breakdown of a user in their profile page, with the following initials:`
           ]],
-          [`ul`, [
-            [`li`, `FCV - Full CV`],
-            [`li`, `RCV - Reduced CV`],
-            [`li`, `NCV - No CV`],
-            [`li`, `A - Awaiting Feedback`],
-            [`li`, `NR - Not Received`]
+          ['ul', [
+            ['li', `FCV - Full CV`],
+            ['li', `RCV - Reduced CV`],
+            ['li', `NCV - No CV`],
+            ['li', `A - Awaiting Feedback`],
+            ['li', `NR - Not Received`]
           ]]
         ]]
       ],
-      id: `vgb`,
+      id: 'vgb',
       inputItems: [
         {
-          id: `vgb_wonFormat`,
+          id: 'vgb_wonFormat',
           prefix: `Won Format: `,
           tooltip: `[FCV], [RCV], [NCV] and [NR] will be replaced with their respective values.`
         },
         {
-          id: `vgb_sentFormat`,
+          id: 'vgb_sentFormat',
           prefix: `Sent Format: `,
           tooltip: `[FCV], [RCV], [NCV], [A] and [NR] will be replaced with their respective values.`
         }
@@ -36,10 +36,10 @@ class UsersVisibleGiftsBreakdown extends Module {
       name: `Visible Gifts Breakdown`,
       options: {
         title: `Position: `,
-        values: [`Left`, `Right`]
+        values: ['Left', 'Right']
       },
       sg: true,
-      type: `users`,
+      type: 'users',
       featureMap: {
         profile: this.vgb_add.bind(this)
       }
@@ -47,7 +47,7 @@ class UsersVisibleGiftsBreakdown extends Module {
   }
 
   vgb_add(profile) {
-    const position = gSettings.vgb_index === 0 ? `afterBegin` : `beforeEnd`;
+    const position = gSettings.vgb_index === 0 ? 'afterBegin' : 'beforeEnd';
     common.createElements_v2(profile.wonRowRight.firstElementChild.firstElementChild, position, [
       ` ${
         gSettings.vgb_wonFormat

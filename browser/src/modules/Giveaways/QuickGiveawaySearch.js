@@ -12,9 +12,9 @@ class GiveawaysQuickGiveawaySearch extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.`],
-          [`li`, `Has[id=ags] built-in.`]
+        ['ul', [
+          ['li', `Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.`],
+          ['li', `Has[id=ags] built-in.`]
         ]]
       ],
       features: {
@@ -23,41 +23,41 @@ class GiveawaysQuickGiveawaySearch extends Module {
           sg: true
         }
       },
-      id: `qgs`,
+      id: 'qgs',
       name: `Quick Giveaway Search`,
       options: {
         title: `Position:`,
-        values: [`Left`, `Right`]
+        values: ['Left', 'Right']
       },
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
   init() {
-    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], gSettings.qgs_index === 0 ? `afterBegin` : `beforeEnd`, [{
+    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], gSettings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
       attributes: {
         class: `esgst-qgs-container`,
-        title: getFeatureTooltip(`qgs`)
+        title: getFeatureTooltip('qgs')
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
           class: `esgst-qgs-input`,
           placeholder: `Search...`,
-          type: `text`
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }, {
         attributes: {
           class: `fa fa-search`
         },
-        type: `i`
+        type: 'i'
       }]
     }]);
-    container.addEventListener(`mouseenter`, this.qgs_expand.bind(this));
-    container.addEventListener(`mouseleave`, this.qgs_collapse.bind(this));
-    container.firstElementChild.addEventListener(`keypress`, this.qgs_trigger.bind(this));
+    container.addEventListener('mouseenter', this.qgs_expand.bind(this));
+    container.addEventListener('mouseleave', this.qgs_collapse.bind(this));
+    container.firstElementChild.addEventListener('keypress', this.qgs_trigger.bind(this));
     if (gSettings.qgs_h && this.esgst.giveawaysPath) {
       document.getElementsByClassName(`sidebar__search-container`)[0].remove();
     }
@@ -73,7 +73,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
   }
 
   qgs_trigger(event) {
-    if (event.key !== `Enter`) return;
+    if (event.key !== 'Enter') return;
     event.preventDefault();
     window.location.href = `/giveaways/search?q=${encodeURIComponent(event.currentTarget.value)}`;
   }

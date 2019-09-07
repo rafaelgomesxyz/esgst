@@ -23,7 +23,7 @@ class Process {
       } else {
         this.button = shared.common.createHeadingButton(details.headingButton);
       }
-      this.button.addEventListener(`click`, async () => {
+      this.button.addEventListener('click', async () => {
         if (this.permissions) {
           const permissionKeys = [];
           for (const key in this.permissions) {
@@ -48,21 +48,21 @@ class Process {
     }
     this.popupDetails.buttons = [
       {
-        color1: `green`,
-        color2: `red`,
+        color1: 'green',
+        color2: 'red',
         icon1: `fa-arrow-circle-right`,
         icon2: `fa-times-circle`,
-        title1: `Start`,
-        title2: `Stop`,
+        title1: 'Start',
+        title2: 'Stop',
         callback1: this.start.bind(this),
         callback2: this.stop.bind(this)
       }
     ];
     this.popup = new Popup(this.popupDetails);
     if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
-      shared.common.createElements_v2(this.popup.description, `afterBegin`, [
+      shared.common.createElements_v2(this.popup.description, 'afterBegin', [
         `Items per load: `,
-        [`input`, { class: `esgst-switch-input`, type: `number`, value: gSettings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
+        ['input', { class: `esgst-switch-input`, type: 'number', value: gSettings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
       ]);
     }
     this.popup.open();
@@ -76,7 +76,7 @@ class Process {
         this.popup.triggerButton(0);
       }
       if (gSettings[`es_${this.urls.id}`]) {
-        this.popup.scrollable.addEventListener(`scroll`, () => {
+        this.popup.scrollable.addEventListener('scroll', () => {
           if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
             this.popup.triggerButton(0);
           }
@@ -107,7 +107,7 @@ class Process {
     } else {
       for (let i = 0; !this.isCanceled && i < this.requests.length; i++) {
         const request = this.requests[i];
-        if (typeof request === `object`) {
+        if (typeof request === 'object') {
           await this.request(request);
           if (request.onDone) {
             await request.onDone(this, request);
@@ -137,14 +137,14 @@ class Process {
     }
     this.popup.setProgress(`Loading more...`);
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-    this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, `beforeEnd`, this.contextHtml) : this.popup.getScrollable(this.contextHtml);
+    this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, 'beforeEnd', this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
     while (!this.isCanceled && (i < (this.urls.lockPerLoad ? this.urls.perLoad : gSettings[`${this.urls.id}_perLoad`]) || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;
       try {
-        const response = await shared.common.request({method: `GET`, queue: details.queue, url: url});
+        const response = await shared.common.request({method: 'GET', queue: details.queue, url: url});
         const responseHtml = utils.parseHtml(response.responseText);
         await details.request(this, details, response, responseHtml);
         i += 1;
@@ -172,7 +172,7 @@ class Process {
     let pagination = null;
     let stop = false;
     do {
-      let response = await shared.common.request({method: `GET`, queue: details.queue, url: `${details.url}${details.nextPage}`});
+      let response = await shared.common.request({method: 'GET', queue: details.queue, url: `${details.url}${details.nextPage}`});
       let responseHtml = utils.parseHtml(response.responseText);
       if (details.nextPage === backup) {
         details.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
@@ -180,7 +180,7 @@ class Process {
       }
       stop = await details.request(this, details, response, responseHtml);
       details.nextPage += 1;
-      pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+      pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
     } while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(shared.esgst.selectedClass));
     details.nextPage = backup;
   }

@@ -6,7 +6,7 @@ class DiscussionPanels extends Module {
     super();
     this.info = {
       endless: true,
-      id: `discussionPanels`
+      id: 'discussionPanels'
     };
   }
 

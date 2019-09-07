@@ -21,30 +21,30 @@ class GiveawaysSentKeySearcher extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-key` }],
+            ['i', { class: `fa fa-key` }],
             ` `,
-            [`i`, { class: `fa fa-search` }],
+            ['i', { class: `fa fa-search` }],
             `) to the main page heading of your `,
-            [`a`, { href: `https://www.steamgifts.com/giveaways/created` }, `created`],
+            ['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
             ` page that allows you to search for a key or a set of keys in all of keys that you have ever sent.`
           ]],
-          [`li`, `There is also an option to export all of the keys that you have ever sent to a text file.`]
+          ['li', `There is also an option to export all of the keys that you have ever sent to a text file.`]
         ]]
       ],
-      id: `sks`,
+      id: 'sks',
       name: `Sent Key Searcher`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
   init() {
     if (!this.esgst.createdPath) return;
-    let button = createHeadingButton({ id: `sks`, icons: [`fa-key`, `fa-search`], title: `Search keys` });
-    button.addEventListener(`click`, this.sks_openPopup.bind(this, { button }));
+    let button = createHeadingButton({ id: 'sks', icons: [`fa-key`, `fa-search`], title: `Search keys` });
+    button.addEventListener('click', this.sks_openPopup.bind(this, { button }));
   }
 
   sks_openPopup(sks) {
@@ -53,31 +53,31 @@ class GiveawaysSentKeySearcher extends Module {
       return;
     }
     sks.popup = new Popup({ addScrollable: true, icon: `fa-key`, title: `Search for keys:` });
-    sks.textArea = createElements(sks.popup.scrollable, `beforeEnd`, [{
+    sks.textArea = createElements(sks.popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: `esgst-description`
       },
       text: `Insert the keys below, one per line.`,
-      type: `div`
+      type: 'div'
     }, {
-      type: `textarea`
+      type: 'textarea'
     }]);
-    new ToggleSwitch(sks.popup.description, `sks_exportKeys`, false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, gSettings.sks_exportKeys);
-    let searchCurrent = new ToggleSwitch(sks.popup.description, `sks_searchCurrent`, false, `Only search the current page.`, false, false, null, gSettings.sks_searchCurrent);
-    let minDate = new ToggleSwitch(sks.popup.description, `sks_limitDate`, false, [
+    new ToggleSwitch(sks.popup.description, 'sks_exportKeys', false, `Export all keys ever sent.`, false, false, `This will search all your giveaways and export a file with all keys ever sent. You don't need to enter any keys if this option is enabled.`, gSettings.sks_exportKeys);
+    let searchCurrent = new ToggleSwitch(sks.popup.description, 'sks_searchCurrent', false, `Only search the current page.`, false, false, null, gSettings.sks_searchCurrent);
+    let minDate = new ToggleSwitch(sks.popup.description, 'sks_limitDate', false, [
       `Limit search by date, from `,
-      [`input`, { class: `esgst-switch-input esgst-switch-input-large`, type: `date`, value: gSettings.sks_minDate }],
+      ['input', { class: `esgst-switch-input esgst-switch-input-large`, type: 'date', value: gSettings.sks_minDate }],
       ` to `,
-      [`input`, { class: `esgst-switch-input esgst-switch-input-large`, type: `date`, value: gSettings.sks_maxDate
+      ['input', { class: `esgst-switch-input esgst-switch-input-large`, type: 'date', value: gSettings.sks_maxDate
       }],
       `.`
     ], false, false, null, gSettings.sks_limitDate).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
-    let limitPages = new ToggleSwitch(sks.popup.description, `sks_limitPages`, false, [
+    let limitPages = new ToggleSwitch(sks.popup.description, 'sks_limitPages', false, [
       `Limit search by pages, from `,
-      [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.sks_minPage }],
+      ['input', { class: `esgst-switch-input`, min: '1', type: 'number', value: gSettings.sks_minPage }],
       ` to `,
-      [`input`, { class: `esgst-switch-input`, min: `1`, type: `number`, value: gSettings.sks_maxPage
+      ['input', { class: `esgst-switch-input`, min: '1', type: 'number', value: gSettings.sks_maxPage
       }],
       `.`
     ], false, false, null, gSettings.sks_limitPages);
@@ -90,28 +90,28 @@ class GiveawaysSentKeySearcher extends Module {
     } else if (gSettings.sks_limitPages) {
       searchCurrent.container.classList.add(`esgst-hidden`);
     }
-    observeChange(minDate, `sks_minDate`, true);
-    observeChange(maxDate, `sks_maxDate`, true);
-    observeNumChange(minPage, `sks_minPage`, true);
-    observeNumChange(maxPage, `sks_maxPage`, true);
-    sks.results = createElements(sks.popup.scrollable, `beforeEnd`, [{
-      type: `div`
+    observeChange(minDate, 'sks_minDate', true);
+    observeChange(maxDate, 'sks_maxDate', true);
+    observeNumChange(minPage, 'sks_minPage', true);
+    observeNumChange(maxPage, 'sks_maxPage', true);
+    sks.results = createElements(sks.popup.scrollable, 'beforeEnd', [{
+      type: 'div'
     }]);
     sks.popup.description.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: `fa-search`,
       icon2: `fa-times`,
-      title1: `Search`,
-      title2: `Cancel`,
+      title1: 'Search',
+      title2: 'Cancel',
       callback1: this.sks_searchGiveaways.bind(this, sks),
       callback2: this.sks_cancelSearch.bind(this, sks)
     }).set);
-    sks.progress = createElements(sks.popup.description, `beforeEnd`, [{
-      type: `div`
+    sks.progress = createElements(sks.popup.description, 'beforeEnd', [{
+      type: 'div'
     }]);
-    sks.overallProgress = createElements(sks.popup.description, `beforeEnd`, [{
-      type: `div`
+    sks.overallProgress = createElements(sks.popup.description, 'beforeEnd', [{
+      type: 'div'
     }]);
     sks.popup.open();
   }
@@ -159,7 +159,7 @@ class GiveawaysSentKeySearcher extends Module {
         continue;
       } else {
         context = parseHtml((await request({
-          method: `GET`,
+          method: 'GET',
           url: `/giveaways/created/search?page=${nextPage}`
         })).responseText);
         if (!sks.lastPage) {
@@ -167,25 +167,25 @@ class GiveawaysSentKeySearcher extends Module {
           sks.lastPage = maxPage ? ` of ${maxPage - 1}` : (sks.lastPage === 999999999 ? `` : ` of ${sks.lastPage}`);
         }
       }
-      createElements(sks.overallProgress, `inner`, [{
+      createElements(sks.overallProgress, 'inner', [{
         attributes: {
           class: `fa fa-circle-o-notch fa-spin`
         },
-        type: `i`
+        type: 'i'
       }, {
         text: `Searching for ${sks.count} keys (page ${nextPage}${sks.lastPage})...`,
-        type: `span`
+        type: 'span'
       }]);
       let elements = context.getElementsByClassName(`trigger-popup--keys`);
       for (let i = 0, n = elements.length; !sks.canceled && i < n; i++) {
-        createElements(sks.progress, `inner`, [{
+        createElements(sks.progress, 'inner', [{
           attributes: {
             class: `fa fa-circle-o-notch fa-spin`
           },
-          type: `i`
+          type: 'i'
         }, {
           text: `Retrieving keys (${i + 1} of ${n})...`,
-          type: `span`
+          type: 'span'
         }]);
         let element = elements[i];
         let endDate = parseInt(element.closest(`.table__row-inner-wrap`).querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
@@ -206,10 +206,10 @@ class GiveawaysSentKeySearcher extends Module {
         };
         let heading = parseHtml(JSON.parse((await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
-          method: `POST`,
+          method: 'POST',
           url: `/ajax.php`
-        })).responseText).html).getElementsByClassName(`popup__keys__heading`)[0];
-        if (!heading || (heading.textContent !== `Assigned` && !giveaway.active)) {
+        })).responseText).html).getElementsByClassName('popup__keys__heading')[0];
+        if (!heading || (heading.textContent !== 'Assigned' && !giveaway.active)) {
           continue;
         }
         let keys = heading.nextElementSibling.nextElementSibling.children;
@@ -220,12 +220,12 @@ class GiveawaysSentKeySearcher extends Module {
             sks.count -= 1;
           }
           if (gSettings.sks_exportKeys) {
-            sks.allKeys.push(`${giveaway.active ? `UNASSIGNED ` : `ASSIGNED`},"${key.replace(/"/g, `""`)}","${giveaway.name.replace(/"/g, `""`)}",https://www.steamgifts.com/giveaway/${giveaway.code}/`);
+            sks.allKeys.push(`${giveaway.active ? `UNASSIGNED ` : 'ASSIGNED'},"${key.replace(/"/g, `""`)}","${giveaway.name.replace(/"/g, `""`)}",https://www.steamgifts.com/giveaway/${giveaway.code}/`);
           }
         }
       }
       nextPage += 1;
-      pagination = (sks.count > 0 || gSettings.sks_exportKeys) ? context.getElementsByClassName(`pagination__navigation`)[0] : null;
+      pagination = (sks.count > 0 || gSettings.sks_exportKeys) ? context.getElementsByClassName('pagination__navigation')[0] : null;
     } while (!sks.canceled && !stopped && (!maxPage || nextPage < maxPage) && (skipped || (pagination && !pagination.lastElementChild.classList.contains(`is-selected`))));
 
     if (sks.canceled) {
@@ -241,30 +241,30 @@ class GiveawaysSentKeySearcher extends Module {
       let giveaway = sks.giveaways[key];
       if (giveaway) {
         found.push({
-          type: `li`,
+          type: 'li',
           children: [{
             text: `${giveaway.active ? `[UNASSIGNED] ` : ``}${key} (`,
-            type: `node`
+            type: 'node'
           }, {
             attributes: {
               href: `/giveaway/${giveaway.code}/`
             },
             text: giveaway.name,
-            type: `a`
+            type: 'a'
           }, {
             text: `)`,
-            type: `node`
+            type: 'node'
           }]
         });
       } else {
         notFound.push({
           text: key,
-          type: `li`
+          type: 'li'
         });
       }
     }
     const items = [
-      { array: found, name: `Found` },
+      { array: found, name: 'Found' },
       { array: notFound, name: `Did not find` }
     ];
     for (const item of items) {
@@ -272,22 +272,22 @@ class GiveawaysSentKeySearcher extends Module {
       if (n < 1) {
         continue;
       }
-      createElements(sks.results, `beforeEnd`, [{
+      createElements(sks.results, 'beforeEnd', [{
         attributes: {
-          class: `markdown`
+          class: 'markdown'
         },
-        type: `div`,
+        type: 'div',
         children: [{
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
               class: `esgst-bold`
             },
             text: `${item.name} ${n} keys:`,
-            type: `span`
+            type: 'span'
           }]
         }, {
-          type: `ul`,
+          type: 'ul',
           children: item.array
         }]
       }]);

@@ -5,14 +5,14 @@ class GeneralImageBorders extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Brings back image borders to SteamGifts.`]
+        ['ul', [
+          ['li', `Brings back image borders to SteamGifts.`]
         ]]
       ],
-      id: `ib`,
+      id: 'ib',
       name: `Image Borders`,
       sg: true,
-      type: `general`,
+      type: 'general',
       featureMap: {
         endless: this.ib_addBorders.bind(this)
       }

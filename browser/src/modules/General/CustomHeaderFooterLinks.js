@@ -18,37 +18,37 @@ class GeneralCustomHeaderFooterLinks extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Allows you to add custom links to the header dropdowns/footer of any page.`],
-          [`li`, `Already comes with some predefined links:`],
-          [`ul`, [
-            [`li`, `Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New`],
-            [`li`, `Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let's Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized`],
-            [`li`, `Support: Real CV, Not Activated Wins, Multiple Wins`],
-            [`li`, `Help: Change Log`],
-            [`li`, `Account: Whitelist, Blacklist, Games, Groups, Wishlist`]
+        ['ul', [
+          ['li', `Allows you to add custom links to the header dropdowns/footer of any page.`],
+          ['li', `Already comes with some predefined links:`],
+          ['ul', [
+            ['li', `Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New`],
+            ['li', `Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let's Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized`],
+            ['li', `Support: Real CV, Not Activated Wins, Multiple Wins`],
+            ['li', `Help: Change Log`],
+            ['li', `Account: Whitelist, Blacklist, Games, Groups, Wishlist`]
           ]],
-          [`li`, [
+          ['li', [
             `If you press the Ctrl key with a dropdown open, the feature adds two buttons ("`,
-            [`i`, { class: `fa fa-plus-circle` }],
+            ['i', { class: `fa fa-plus-circle` }],
             ` Add Custom Link" and "`,
-            [`i`, { class: `fa fa-undo` }],
+            ['i', { class: `fa fa-undo` }],
             ` Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (`,
-            [`i`, { class: `fa fa-edit` }],
+            ['i', { class: `fa fa-edit` }],
             ` to edit and `,
-            [`i`, { class: `fa fa-trash` }],
+            ['i', { class: `fa fa-trash` }],
             ` to remove) to each custom link in the dropdown that allow you to edit/remove the custom link.`
           ]],
-          [`li`, `If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.`],
-          [`li`, `You can move the custom links by dragging and dropping them.`]
+          ['li', `If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.`],
+          ['li', `You can move the custom links by dragging and dropping them.`]
         ]]
       ],
-      inputItems: `chfl_key`,
-      id: `chfl`,
+      inputItems: 'chfl_key',
+      id: 'chfl',
       name: `Custom Header/Footer Links`,
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -90,7 +90,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         }
       };
     } else {
-      let elements = document.getElementsByClassName(`dropdown`);
+      let elements = document.getElementsByClassName('dropdown');
       chfl = {
         sources: {
           trades: {
@@ -123,8 +123,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
             }
             continue;
           }
-          if ((!element.getAttribute(`href`) || element.getAttribute(`href`).match(/^javascript/)) && (key !== `footer` || !element.lastElementChild.getAttribute(`href`))) continue;
-          id = (key === `footer` ? element.lastElementChild : element).getAttribute(`href`).match(/.*([/?:])(.+?)(@|$)/)[2];
+          if ((!element.getAttribute('href') || element.getAttribute('href').match(/^javascript/)) && (key !== 'footer' || !element.lastElementChild.getAttribute('href'))) continue;
+          id = (key === 'footer' ? element.lastElementChild : element).getAttribute('href').match(/.*([/?:])(.+?)(@|$)/)[2];
           id = id.replace(/\[steamId]/, gSettings.steamId);
           element.setAttribute(`data-link-id`, id);
           element.setAttribute(`data-link-key`, key);
@@ -169,30 +169,30 @@ class GeneralCustomHeaderFooterLinks extends Module {
           if (element) {
             element.remove();
           }
-          if (key === `footer`) {
-            source.elements[item.id] = createElements(source.context, `afterBegin`, [{
+          if (key === 'footer') {
+            source.elements[item.id] = createElements(source.context, 'afterBegin', [{
               attributes: {
                 [`data-link-id`]: item.id,
-                [`data-link-key`]: `footer`,
-                title: getFeatureTooltip(`chfl`)
+                [`data-link-key`]: 'footer',
+                title: getFeatureTooltip('chfl')
               },
-              type: this.esgst.sg ? `div` : `li`,
+              type: this.esgst.sg ? 'div' : 'li',
               children: [{
                 attributes: {
                   class: `fa ${item.icon}`
                 },
-                type: `i`
+                type: 'i'
               }, {
                 attributes: {
                   href: item.url
                 },
                 text: item.name,
-                type: `a`
+                type: 'a'
               }]
             }]);
           } else {
-            source.elements[item.id] = createElements(source.context, `afterBegin`, generateHeaderMenuItem(item, key));
-            source.elements[item.id].title = getFeatureTooltip(`chfl`);
+            source.elements[item.id] = createElements(source.context, 'afterBegin', generateHeaderMenuItem(item, key));
+            source.elements[item.id].title = getFeatureTooltip('chfl');
             if (!item.description) {
               source.elements[item.id].classList.add(`esgst-chfl-small`);
             }
@@ -226,10 +226,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
   }
 
   chfl_makeDraggable(chfl, element) {
-    element.setAttribute(`draggable`, true);
-    element.addEventListener(`dragstart`, this.chfl_startDrag.bind(this, chfl));
-    element.addEventListener(`dragenter`, this.chfl_enterDrag.bind(this, chfl));
-    element.addEventListener(`dragend`, this.chfl_saveOrder.bind(this, chfl));
+    element.setAttribute('draggable', true);
+    element.addEventListener('dragstart', this.chfl_startDrag.bind(this, chfl));
+    element.addEventListener('dragenter', this.chfl_enterDrag.bind(this, chfl));
+    element.addEventListener('dragend', this.chfl_saveOrder.bind(this, chfl));
   }
 
   chfl_startDrag(chfl, event) {
@@ -284,80 +284,80 @@ class GeneralCustomHeaderFooterLinks extends Module {
         if (key === removedKey) return;
 
         const source = chfl.sources[key];
-        if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
+        if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains('is_hidden'))) continue;
 
-        const button = createElements(source.context, `beforeEnd`, key === `footer` ? [{
+        const button = createElements(source.context, 'beforeEnd', key === 'footer' ? [{
           attributes: {
             class: `esgst-chfl-button`
           },
-          type: this.esgst.sg ? `div` : `li`,
+          type: this.esgst.sg ? 'div' : 'li',
           children: [{
             attributes: {
               class: `fa fa-plus`
             },
-            type: `i`
+            type: 'i'
           }, {
             attributes: {
               href: `#`
             },
             text: `Add Custom Link`,
-            type: `a`
+            type: 'a'
           }]
         }] : generateHeaderMenuItem({
           className: ` esgst-chfl-button`,
-          color: `grey`,
+          color: 'grey',
           icon: `fa-plus-circle`,
           name: `Add Custom Link`,
           description: `Click here to add a custom link.`
         }));
-        button.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, null, key));
-        const resetButton = createElements(source.context, `beforeEnd`, key === `footer` ? [{
+        button.addEventListener('click', this.chfl_openPopup.bind(this, chfl, null, key));
+        const resetButton = createElements(source.context, 'beforeEnd', key === 'footer' ? [{
           attributes: {
             class: `esgst-chfl-button`
           },
-          type: this.esgst.sg ? `div` : `li`,
+          type: this.esgst.sg ? 'div' : 'li',
           children: [{
             attributes: {
               class: `fa fa-undo`
             },
-            type: `i`
+            type: 'i'
           }, {
             attributes: {
               href: `#`
             },
             text: `Reset Links`,
-            type: `a`
+            type: 'a'
           }]
         }] : generateHeaderMenuItem({
           className: ` esgst-chfl-button`,
-          color: `grey`,
+          color: 'grey',
           icon: `fa-undo`,
           name: `Reset Links`,
           description: `Click here to reset the custom links.`
         }));
-        resetButton.addEventListener(`click`, createConfirmation.bind(common, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this,  chfl, key), null));
+        resetButton.addEventListener('click', createConfirmation.bind(common, `Are you sure you want to reset the links? Any custom links you added will be deleted.`, this.chfl_resetLinks.bind(this,  chfl, key), null));
         for (const subKey in source.elements) {
           if (source.elements.hasOwnProperty(subKey)) {
             const element = source.elements[subKey],
-              panel = createElements(element, `beforeEnd`, [{
+              panel = createElements(element, 'beforeEnd', [{
                 attributes: {
                   class: `esgst-chfl-panel`
                 },
-                type: `div`,
+                type: 'div',
                 children: [{
                   attributes: {
                     class: `esgst-chfl-edit-button fa fa-edit icon-grey`,
                   },
-                  type: `i`
+                  type: 'i'
                 }, {
                   attributes: {
                     class: `esgst-chfl-remove-button fa fa-trash icon-grey`,
                   },
-                  type: `i`
+                  type: 'i'
                 }]
               }]);
-            panel.firstElementChild.addEventListener(`click`, this.chfl_openPopup.bind(this, chfl, subKey, key));
-            panel.lastElementChild.addEventListener(`click`, this.chfl_removeLink.bind(this, chfl, subKey, key));
+            panel.firstElementChild.addEventListener('click', this.chfl_openPopup.bind(this, chfl, subKey, key));
+            panel.lastElementChild.addEventListener('click', this.chfl_removeLink.bind(this, chfl, subKey, key));
           }
         }
         return;
@@ -371,115 +371,115 @@ class GeneralCustomHeaderFooterLinks extends Module {
       addScrollable: true,
       icon: editId ? `fa-edit` : `fa-plus`,
       isTemp: true,
-      title: `${editId ? `Edit` : `Add`} Custom Link`
+      title: `${editId ? 'Edit' : 'Add'} Custom Link`
     });
-    let description = createElements(popup.description, `beforeEnd`, [{
-      type: `div`,
+    let description = createElements(popup.description, 'beforeEnd', [{
+      type: 'div',
       children: [{
         text: `URL:`,
-        type: `span`
+        type: 'span'
       }, {
         attributes: {
           class: `fa fa-question-circle`,
           title: `Instead of entering 'https://www.steamgifts.com/url', you can simply enter '/url'.`
         },
-        type: `i`
+        type: 'i'
       }, {
         attributes: {
           class: `esgst-switch-input esgst-switch-input-large`,
-          type: `text`
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Color:`,
-        type: `span`
+        type: 'span'
       }, {
         attributes: {
           class: `esgst-switch-input esgst-switch-input-large`
         },
-        type: `select`,
+        type: 'select',
         children: [{
           attributes: {
-            value: `grey`
+            value: 'grey'
           },
           text: `Grey (Default)`,
-          type: `option`
+          type: 'option'
         }, {
           attributes: {
-            value: `blue`
+            value: 'blue'
           },
-          text: `Blue`,
-          type: `option`
+          text: 'Blue',
+          type: 'option'
         }, {
           attributes: {
-            value: `green`
+            value: 'green'
           },
-          text: `Green`,
-          type: `option`
+          text: 'Green',
+          type: 'option'
         }, {
           attributes: {
-            value: `red`
+            value: 'red'
           },
-          text: `Red`,
-          type: `option`
+          text: 'Red',
+          type: 'option'
         }, {
           attributes: {
-            value: `yellow`
+            value: 'yellow'
           },
-          text: `Yellow`,
-          type: `option`
+          text: 'Yellow',
+          type: 'option'
         }]
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Icon:`,
-        type: `span`
+        type: 'span'
       }, {
         attributes: {
           href: `https://fontawesome.com/v4.7.0/icons/`
         },
-        type: `a`,
+        type: 'a',
         children: [{
           attributes: {
             class: `fa fa-question-circle`,
             title: `You must use an icon from FontAwesome (click on this icon to go to the FontAwesome page). The icon must be in the format 'fa-icon', without the quotes.`
           },
-          type: `i`
+          type: 'i'
         }]
       }, {
         attributes: {
           class: `esgst-switch-input esgst-switch-input-large`,
-          type: `text`
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Name:`,
-        type: `span`
+        type: 'span'
       }, {
         attributes: {
           class: `esgst-switch-input esgst-switch-input-large`,
-          type: `text`
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         text: `Description:`,
-        type: `span`
+        type: 'span'
       }, {
         attributes: {
           class: `esgst-switch-input esgst-switch-input-large`,
-          type: `text`
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }]
     }]);
     let name = description.previousElementSibling;
@@ -491,7 +491,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     name = name.lastElementChild;
     icon = icon.lastElementChild;
     color = color.lastElementChild;
-    if (key === `footer`) {
+    if (key === 'footer') {
       color.parentElement.classList.add(`esgst-hidden`);
       description.parentElement.classList.add(`esgst-hidden`);
       compactSwitch.container.classList.add(`esgst-hidden`);
@@ -516,27 +516,27 @@ class GeneralCustomHeaderFooterLinks extends Module {
           let element = chfl.sources[key].elements[item];
           let context = element.firstElementChild;
           if (this.esgst.sg) {
-            if (key === `footer`) {
+            if (key === 'footer') {
               name.value = context.nextElementSibling.textContent.trim();
               icon.value = context.className.match(/.+(fa-.+)$/)[1];
-              url.value = context.nextElementSibling.getAttribute(`href`);
+              url.value = context.nextElementSibling.getAttribute('href');
             } else {
               description.value = context.nextElementSibling.lastElementChild.textContent.trim();
               name.value = context.nextElementSibling.firstElementChild.textContent.trim();
               icon.value = context.className.match(/.+(fa-.+)$/)[1];
               color.value = context.className.match(/icon-(.+?)\s/)[1];
-              url.value = element.getAttribute(`href`);
+              url.value = element.getAttribute('href');
             }
           } else {
-            if (key === `footer`) {
+            if (key === 'footer') {
               name.value = context.nextElementSibling.textContent.trim();
               icon.value = context.className.match(/.+(fa-.+)$/)[1];
-              url.value = context.nextElementSibling.getAttribute(`href`);
+              url.value = context.nextElementSibling.getAttribute('href');
             } else {
               name.value = context.nextElementSibling.textContent.trim();
               icon.value = context.className.match(/.+(fa-.+)$/)[1];
               color.value = context.className.match(/^(.+?)\s/)[1];
-              url.value = element.getAttribute(`href`);
+              url.value = element.getAttribute('href');
             }
           }
         }
@@ -544,11 +544,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
       }
     }
     popup.description.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: editId ? `fa-edit` : `fa-plus-circle`,
       icon2: `fa-circle-o-notch fa-spin`,
-      title1: editId ? `Edit` : `Add`,
+      title1: editId ? 'Edit' : 'Add',
       title2: editId ? `Editing...` : `Adding...`,
       callback1: this.chfl_addLink.bind(this, chfl, color, compactSwitch, description, editId, icon, key, name, popup, url)
     }).set);
@@ -586,23 +586,23 @@ class GeneralCustomHeaderFooterLinks extends Module {
       setting.push(item);
     }
     await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, setting);
-    chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, `beforeEnd`, key === `footer` ? [{
+    chfl.sources[key].elements[item.id] = createElements(chfl.sources[key].context, 'beforeEnd', key === 'footer' ? [{
       attributes: {
         [`data-link-id`]: item.id,
-        [`data-link-key`]: `footer`
+        [`data-link-key`]: 'footer'
       },
-      type: this.esgst.sg ? `div` : `li`,
+      type: this.esgst.sg ? 'div' : 'li',
       children: [{
         attributes: {
           class: `fa ${item.icon}`
         },
-        type: `i`
+        type: 'i'
       }, {
         attributes: {
           href: item.url
         },
         text: item.name,
-        type: `a`
+        type: 'a'
       }]
     }] : generateHeaderMenuItem(item, key));
     if (!item.description) {
@@ -647,7 +647,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     for (const key in chfl.sources) {
       if (chfl.sources.hasOwnProperty(key)) {
         const source = chfl.sources[key];
-        if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains(`is_hidden`))) continue;
+        if (key !== forceKey && (source.container.classList.contains(`is-hidden`) || source.container.classList.contains('is_hidden'))) continue;
 
         const buttons = source.context.getElementsByClassName(`esgst-chfl-button`);
         let found = false;

@@ -6,40 +6,40 @@ class GeneralElementFilters extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Allows you to hide elements in any page using CSS selectors.`],
-          [`li`, `If you do not know how to use CSS selectors or you are having trouble hiding an element, leave a comment in the ESGST thread with a description/image of the element that you want to hide and I will give you the selector that you have to use.`],
-          [`li`, `Here are some quick examples:`],
-          [`ul`, [
-            [`li`, [
+        ['ul', [
+          ['li', `Allows you to hide elements in any page using CSS selectors.`],
+          ['li', `If you do not know how to use CSS selectors or you are having trouble hiding an element, leave a comment in the ESGST thread with a description/image of the element that you want to hide and I will give you the selector that you have to use.`],
+          ['li', `Here are some quick examples:`],
+          ['ul', [
+            ['li', [
               `To hide the "Redeem" button in your `,
-              [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
+              ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
               ` page, use: `,
-              [`code`, `.table__column__key__redeem`]
+              ['code', `.table__column__key__redeem`]
             ]],
-            [`li`, [
+            ['li', [
               `To hide the featured giveaway container (the big giveaway) in the main page, use: `,
-              [`code`, `[esgst.giveawaysPath].featured__container`]
+              ['code', `[esgst.giveawaysPath].featured__container`]
             ]],
-            [`li`, [
+            ['li', [
               `To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: `,
-              [`code`, `[esgst.giveawaysPath].pinned-giveaways__outer-wrap`]
+              ['code', `[esgst.giveawaysPath].pinned-giveaways__outer-wrap`]
             ]]
           ]]
         ]]
       ],
       inputItems: [
         {
-          id: `ef_filters`,
+          id: 'ef_filters',
           prefix: `Filters: `,
           tooltip: `Separate each selector by a comma followed by a space, for example: .class_1, .class_2, #id`
         }
       ],
-      id: `ef`,
+      id: 'ef',
       name: `Element Filters`,
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 

@@ -6,26 +6,26 @@ class CommentsCommentReverser extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Reverses the comments of any `,
-            [`a`, { href: `https://www.steamgifts.com/discussion/e9zDo/` }, `discussion`],
+            ['a', { href: `https://www.steamgifts.com/discussion/e9zDo/` }, 'discussion'],
             ` page so that they are ordered from newest to oldest.`
           ]]
         ]]
       ],
-      id: `cr`,
+      id: 'cr',
       name: `Comment Reverser`,
       sg: true,
       st: true,
-      type: `comments`
+      type: 'comments'
     };
   }
 
   init() {
     if (!shared.esgst.discussionPath || !shared.esgst.pagination) return;
     const context = shared.esgst.pagination.previousElementSibling;
-    if (context.classList.contains(`comments`)) {
+    if (context.classList.contains('comments')) {
       shared.common.reverseComments(context);
     }
   }

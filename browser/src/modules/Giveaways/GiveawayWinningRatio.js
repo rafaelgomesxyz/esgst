@@ -12,22 +12,22 @@ class GiveawaysGiveawayWinningRatio extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds an element (`,
-            [`i`, { class: `fa fa-pie-chart` }],
+            ['i', { class: `fa fa-pie-chart` }],
             ` [Ratio]: 1) below a giveaway's start time (in any page) that shows the ratio (number of entries per copy) of the giveaway.`
           ]],
-          [`li`, `The ratio is calculated by rounding up the result of the following formula: number_of_entries / number_of_copies`],
-          [`li`, `You can move the element around by dragging and dropping it.`]
+          ['li', `The ratio is calculated by rounding up the result of the following formula: number_of_entries / number_of_copies`],
+          ['li', `You can move the element around by dragging and dropping it.`]
         ]]
       ],
       features: {
         gwr_e: {
           description: [
-            [`ul`, [
-              [`li`, `The formula changes to: (number_of_entries + 1) / number_of_copies`],
-              [`li`, `For example, if a giveaway has 2 copies and 6 entries, the current ratio is 3:1, but after you enter it, it will have 7 entries, so the ratio will increase to 4:1.`]
+            ['ul', [
+              ['li', `The formula changes to: (number_of_entries + 1) / number_of_copies`],
+              ['li', `For example, if a giveaway has 2 copies and 6 entries, the current ratio is 3:1, but after you enter it, it will have 7 entries, so the ratio will increase to 4:1.`]
             ]]
           ],
           name: `Show what the ratio will be when you enter the giveaway instead of the current ratio.`,
@@ -35,8 +35,8 @@ class GiveawaysGiveawayWinningRatio extends Module {
         },
         gwr_a: {
           description: [
-            [`ul`, [
-              [`li`, `Uses an advanced formula ((number_of_entries / time_open_in_milliseconds * duration_in_milliseconds) / number_of_copies) to calculate the ratio based on how much time the giveaway has been open and the duration of the giveaway. This gives you an estimate of what the ratio will be when the giveaway ends.`]
+            ['ul', [
+              ['li', `Uses an advanced formula ((number_of_entries / time_open_in_milliseconds * duration_in_milliseconds) / number_of_copies) to calculate the ratio based on how much time the giveaway has been open and the duration of the giveaway. This gives you an estimate of what the ratio will be when the giveaway ends.`]
             ]]
           ],
           features: {
@@ -50,16 +50,16 @@ class GiveawaysGiveawayWinningRatio extends Module {
         },
         gwr_h: {
           conflicts: [
-            `gwc_h`
+            'gwc_h'
           ],
           description: [
-            [`ul`, [
-              [`li`, `Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.`]
+            ['ul', [
+              ['li', `Changes the color of the giveaway's title to the same color as the ratio and adds a border of same color to the giveaway's game image.`]
             ]]
           ],
           inputItems: [
             {
-              id: `gwr_h_width`,
+              id: 'gwr_h_width',
               prefix: `Image Border Width: `
             }
           ],
@@ -67,10 +67,10 @@ class GiveawaysGiveawayWinningRatio extends Module {
           sg: true
         }
       },
-      id: `gwr`,
+      id: 'gwr',
       name: `Giveaway Winning Ratio`,
       sg: true,
-      type: `giveaways`,
+      type: 'giveaways',
       featureMap: {
         giveaway: this.gwr_addRatios.bind(this)
       }
@@ -86,13 +86,13 @@ class GiveawaysGiveawayWinningRatio extends Module {
     giveaways.forEach(giveaway => {
       if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
       if (giveaway.started && ((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwr`)[0]) {
-        let context = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === `gb` && gSettings.gv_gb) || (source === `ged` && gSettings.gv_ged) || (source === `ge` && gSettings.gv_ge))) ? `afterBegin` : `beforeEnd`, [{
+        let context = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
           attributes: {
-            class: `${this.esgst.giveawayPath ? `featured__column` : ``} esgst-gwr`,
-            [`data-draggable-id`]: `gwr`,
-            title: getFeatureTooltip(`gwr`, `Giveaway Winning Ratio`)
+            class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-gwr`,
+            [`data-draggable-id`]: 'gwr',
+            title: getFeatureTooltip('gwr', `Giveaway Winning Ratio`)
           },
-          type: `div`
+          type: 'div'
         }]);
         this.gwr_addRatio(context, giveaway);
       }
@@ -142,7 +142,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
         attributes: {
           class: `fa fa-pie-chart`
         },
-        type: `i`
+        type: 'i'
       });
     }
     const children = [];
@@ -159,43 +159,43 @@ class GiveawaysGiveawayWinningRatio extends Module {
         children.push({
           attributes: basicAttributes,
           text: `${basicRatio}:1`,
-          type: `span`
+          type: 'span'
         }, {
             text: ` (`,
-            type: `node`
+            type: 'node'
           }, {
             attributes: advancedAttributes,
             text: `${advancedRatio}:1`,
-            type: `span`
+            type: 'span'
           }, {
             text: `)`,
-            type: `node`
+            type: 'node'
           });
       } else {
         children.push({
           attributes: advancedAttributes,
           text: `${advancedRatio}:1`,
-          type: `span`
+          type: 'span'
         });
       }
     } else {
       children.push({
         attributes: basicAttributes,
         text: `${basicRatio}:1`,
-        type: `span`
+        type: 'span'
       });
     }
     items.push({
-      type: `span`,
+      type: 'span',
       children
     });
     if ((this.esgst.enteredPath || this.esgst.wonPath) && gSettings.gptw) {
       items.push({
         text: ` / `,
-        type: `node`
+        type: 'node'
       });
     }
-    createElements(context, `inner`, items);
+    createElements(context, 'inner', items);
   }
 }
 

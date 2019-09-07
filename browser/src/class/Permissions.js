@@ -11,7 +11,7 @@ class Permissions {
         messages: {
           manipulateCookies: `Required if the option to manipulate cookies is enabled.`
         },
-        values: [`cookies`]
+        values: ['cookies']
       },
       dropbox: {
         isOrigin: true,
@@ -137,7 +137,7 @@ class Permissions {
   async contains(keys) {
     const { permissions, origins } = this.getValues(keys);
     const result = await browser.runtime.sendMessage({
-      action: `permissions_contains`,
+      action: 'permissions_contains',
       permissions: JSON.stringify({ permissions, origins })
     });
     return result;
@@ -150,7 +150,7 @@ class Permissions {
     }
     const { permissions, origins } = this.getValues(keys);
     result = await browser.runtime.sendMessage({
-      action: `permissions_request`,
+      action: 'permissions_request',
       permissions: JSON.stringify({ permissions, origins })
     });
     if (!result) {
@@ -162,7 +162,7 @@ class Permissions {
         }
       }
       if (hasChanged) {
-        await shared.common.setSetting(`permissionsDenied`, gSettings.permissionsDenied);
+        await shared.common.setSetting('permissionsDenied', gSettings.permissionsDenied);
       }
     }
     return result;
@@ -171,7 +171,7 @@ class Permissions {
   remove(keys) {
     const { permissions, origins } = this.getValues(keys);
     return browser.runtime.sendMessage({
-      action: `permissions_remove`,
+      action: 'permissions_remove',
       permissions: JSON.stringify({ permissions, origins })
     });
   }
@@ -213,19 +213,19 @@ class Permissions {
       });
       for (const key of keys) {
         const permission = this.permissions[key];
-        shared.common.createElements_v2(popup.scrollable, `beforeEnd`, [
-          [`div`, [
-            [`strong`, `${permission.values.join(`, `)}: `],
+        shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+          ['div', [
+            ['strong', `${permission.values.join(`, `)}: `],
             permission.messages[messageKey]
           ]]
         ]);
       }
       popup.description.appendChild(new ButtonSet({
-        color1: `grey`,
+        color1: 'grey',
         color2: ``,
         icon1: `fa-arrow-circle-right`,
         icon2: ``,
-        title1: `Proceed`,
+        title1: 'Proceed',
         title2: ``,
         callback1: async () => {
           popup.close();

@@ -19,10 +19,10 @@ class GiveawaysArchiveSearcher extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`,`Allows you to search the archive by exact title or app id.`],
-          [`li`, `To search by exact title, wrap the title in double quotes, for example: "Dream"`],
-          [`li`, `To search by app id, use the "id:[id]" format, for example: id:229580`]
+        ['ul', [
+          ['li',`Allows you to search the archive by exact title or app id.`],
+          ['li', `To search by exact title, wrap the title in double quotes, for example: "Dream"`],
+          ['li', `To search by app id, use the "id:[id]" format, for example: id:229580`]
         ]]
       ],
       features: {
@@ -31,10 +31,10 @@ class GiveawaysArchiveSearcher extends Module {
           sg: true
         }
       },
-      id: `as`,
+      id: 'as',
       name: `Archive Searcher`,
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -50,8 +50,8 @@ class GiveawaysArchiveSearcher extends Module {
     const temp = input.parentElement;
     input.outerHTML = `${input.outerHTML}`;
     input = temp.firstElementChild;
-    input.addEventListener(`keypress`, event => {
-      if (event.key === `Enter`) {
+    input.addEventListener('keypress', event => {
+      if (event.key === 'Enter') {
         if (input.value.match(/"|id:/)) {
           this.as_openPage(input);
         } else {
@@ -86,7 +86,7 @@ class GiveawaysArchiveSearcher extends Module {
       return;
     }
 
-    if (!(await permissions.requestUi([`steamCommunity`], `as`, !obj.isPopup))) {
+    if (!(await permissions.requestUi(['steamCommunity'], 'as', !obj.isPopup))) {
       return;
     }
 
@@ -94,7 +94,7 @@ class GiveawaysArchiveSearcher extends Module {
     let context = null;
     if (obj.isPopup) {
       const popup = new Popup({
-        addScrollable: `left`,
+        addScrollable: 'left',
         isTemp: true
       });
       container = popup.description;
@@ -102,15 +102,15 @@ class GiveawaysArchiveSearcher extends Module {
       popup.open();
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
-      context.setAttribute(`data-esgst-popup`, `true`);
+      context.setAttribute(`data-esgst-popup`, 'true');
       context.innerHTML = ``;
     }
     new elementBuilder[shared.esgst.name].pageHeading({
       context: container,
-      position: `afterBegin`,
+      position: 'afterBegin',
       breadcrumbs: [
         {
-          name: `ESGST`,
+          name: 'ESGST',
           url: this.esgst.settingsUrl
         },
         {
@@ -121,15 +121,15 @@ class GiveawaysArchiveSearcher extends Module {
     });
     obj.context = context;
 
-    const progress = common.createElements_v2(container, `beforeEnd`, [[`div`]]);
+    const progress = common.createElements_v2(container, 'beforeEnd', [['div']]);
     progress.innerHTML = `Retrieving game title...`;
 
     // retrieve the game title from Steam
     if (this.esgst.parameters.isAppId) {
       let title = parseHtml((await request({
-        method: `GET`,
+        method: 'GET',
         url: `https://steamcommunity.com/app/${obj.query}`
-      })).responseText).getElementsByClassName(`apphub_AppName`)[0];
+      })).responseText).getElementsByClassName('apphub_AppName')[0];
       if (title) {
         obj.query = title.textContent;
       } else {
@@ -145,22 +145,22 @@ class GiveawaysArchiveSearcher extends Module {
     obj.url = `${this.esgst.path}/search?q=${encodeURIComponent(obj.query)}&page=`;
     obj.leftovers = [];
     const set = new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
+      color1: 'green',
+      color2: 'grey',
       icon1: ``,
       icon2: ``,
       title1: `Load More`,
       title2: `Loading...`,
       callback1: async () => await this.as_request(obj)
     });
-    obj.container = common.createElements_v2(obj.context, `beforeEnd`, [[`div`]]);
+    obj.container = common.createElements_v2(obj.context, 'beforeEnd', [['div']]);
     obj.context.appendChild(set.set);
     set.trigger();
   }
 
   async as_request(obj) {
     obj.count = 0;
-    const context = common.createElements_v2(obj.container, `beforeEnd`, [[`div`]]);
+    const context = common.createElements_v2(obj.container, 'beforeEnd', [['div']]);
     while (obj.leftovers.length && obj.count < 25) {
       const leftover = obj.leftovers.splice(0, 1)[0];
       context.appendChild(leftover);
@@ -169,7 +169,7 @@ class GiveawaysArchiveSearcher extends Module {
     let pagination = null;
     do {
       const response = await request({
-        method: `GET`,
+        method: 'GET',
         url: `${obj.url}${obj.page}`
       });
       const responseHtml = parseHtml(response.responseText);

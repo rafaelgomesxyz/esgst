@@ -12,11 +12,11 @@ class Popout {
     this.onFirstOpen = null;
     this.hasOpened = false;
     this.context = context;
-    this.popout = popout || shared.common.createElements(document.body, `beforeEnd`, [{
+    this.popout = popout || shared.common.createElements(document.body, 'beforeEnd', [{
       attributes: {
         class: className
       },
-      type: `div`
+      type: 'div'
     }]);
     this.popout.classList.add(`esgst-popout`, `esgst-hidden`);
     this.popup = this.popout.closest(`.esgst-popup`);
@@ -24,12 +24,12 @@ class Popout {
     if (!onClick) {
       if (this.context) {
         let timeout = null;
-        this.context.addEventListener(`mouseenter`, () => {
+        this.context.addEventListener('mouseenter', () => {
           timeout = window.setTimeout(() => {
             this.open();
           }, this.hoverSpeed);
         });
-        this.context.addEventListener(`mouseleave`, event => {
+        this.context.addEventListener('mouseleave', event => {
           if (timeout) {
             window.clearTimeout(timeout);
             timeout = null;
@@ -40,13 +40,13 @@ class Popout {
         });
       }
       let timeout = null;
-      this.popout.addEventListener(`mouseenter`, () => {
+      this.popout.addEventListener('mouseenter', () => {
         if (timeout) {
           window.clearTimeout(timeout);
           timeout = null;
         }
       });
-      this.popout.addEventListener(`mouseleave`, event => {
+      this.popout.addEventListener('mouseleave', event => {
         timeout = window.setTimeout(() => {
           if (event.relatedTarget && !this.context.contains(event.relatedTarget) && ((this.ancestor && this.ancestor.contains(event.relatedTarget)) || !event.relatedTarget.closest(`.esgst-popout`))) {
             this.context.classList.remove(`esgst-qgs-container-expanded`);
@@ -54,7 +54,7 @@ class Popout {
           }
         }, this.hoverSpeed);
       });
-      document.addEventListener(`click`, event => {
+      document.addEventListener('click', event => {
         const element = /** @type {Node} */ event.target;
         if (this.context && !this.context.contains(element) && !this.popout.contains(element) && ((this.ancestor && this.ancestor.contains(element)) || !element.closest(`.esgst-popout`))) {
           this.close();
@@ -62,7 +62,7 @@ class Popout {
       }, true);
     } else {
       if (this.context) {
-        this.context.addEventListener(`click`, () => {
+        this.context.addEventListener('click', () => {
           if (this.isOpen) {
             this.close();
           } else {
@@ -70,7 +70,7 @@ class Popout {
           }
         });
       }
-      document.addEventListener(`click`, event => {
+      document.addEventListener('click', event => {
         const element = /** @type {Node} */ event.target;
         if (this.context && !this.context.contains(element) && !this.popout.contains(element)) {
           this.close();
@@ -122,8 +122,8 @@ class Popout {
     if (!this.isDynamicHeight) {
       this.popout.style.height = ``;
     }
-    this.popout.style.left = `0`;
-    this.popout.style.top = `0`;
+    this.popout.style.left = '0';
+    this.popout.style.top = '0';
     this.context = context || this.context;
     contextRect = this.context.getBoundingClientRect();
     contextLeft = contextRect.left;
@@ -133,7 +133,7 @@ class Popout {
     } else {
       this.popout.style.maxHeight = `${window.innerHeight - (contextTop + contextRect.height)}px`;
     }
-    const oldHeight = parseFloat(window.getComputedStyle(this.popout).getPropertyValue(`height`));
+    const oldHeight = parseFloat(window.getComputedStyle(this.popout).getPropertyValue('height'));
     const oldRealHeight = this.popout.offsetHeight;
     const difference = (oldRealHeight - oldHeight) + 10;
     const newHeight = Math.max(

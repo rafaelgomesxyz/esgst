@@ -13,23 +13,23 @@ class UsersProfileLinks extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Allows you to add links to your `,
-            [`a`, { href: `https://www.steamgifts.com/account/manage/whitelist` }, `whitelist`],
+            ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/account/manage/blacklist` }, `blacklist`],
+            ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/account/steam/games` }, `games`],
+            ['a', { href: `https://www.steamgifts.com/account/steam/games` }, 'games'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/account/steam/groups` }, `groups`],
+            ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
             `/`,
-            [`a`, { href: `https://www.steamgifts.com/account/steam/wishlist` }, `wishlist`],
+            ['a', { href: `https://www.steamgifts.com/account/steam/wishlist` }, 'wishlist'],
             ` pages to the sidebar of your `,
-            [`a`, { href: `https://www.steamgifts.com/user/your-username` }, `profile`],
+            ['a', { href: `https://www.steamgifts.com/user/your-username` }, 'profile'],
             ` page.`
           ]],
-          [`li`, `The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.`]
+          ['li', `The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.`]
         ]]
       ],
       features: {
@@ -54,10 +54,10 @@ class UsersProfileLinks extends Module {
           sg: true
         }
       },
-      id: `pl`,
+      id: 'pl',
       name: `Profile Links`,
       sg: true,
-      type: `users`
+      type: 'users'
     };
   }
 
@@ -76,41 +76,41 @@ class UsersProfileLinks extends Module {
         items: [
           {
             count: 0,
-            id: `pl_w`,
-            name: `Whitelist`,
+            id: 'pl_w',
+            name: 'Whitelist',
             url: `/account/manage/whitelist`
           },
           {
             count: 0,
-            id: `pl_b`,
-            name: `Blacklist`,
+            id: 'pl_b',
+            name: 'Blacklist',
             url: `/account/manage/blacklist`
           }
         ],
-        name: `Manage`
+        name: 'Manage'
       },
       {
         items: [
           {
             count: 0,
-            id: `pl_g`,
-            name: `Games`,
+            id: 'pl_g',
+            name: 'Games',
             url: `/account/steam/games`
           },
           {
             count: 0,
-            id: `pl_gs`,
-            name: `Groups`,
+            id: 'pl_gs',
+            name: 'Groups',
             url: `/account/steam/groups`
           },
           {
             count: 0,
-            id: `pl_wl`,
-            name: `Wishlist`,
+            id: 'pl_wl',
+            name: 'Wishlist',
             url: `/account/steam/wishlist`
           }
         ],
-        name: `Steam`
+        name: 'Steam'
       }
     ];
     for (const id in shared.esgst.users.users) {
@@ -147,32 +147,32 @@ class UsersProfileLinks extends Module {
         }
         list.push({
           attributes: {
-            class: `sidebar__navigation__item`
+            class: 'sidebar__navigation__item'
           },
-          type: `li`,
+          type: 'li',
           children: [{
             attributes: {
-              class: `sidebar__navigation__item__link`,
+              class: 'sidebar__navigation__item__link',
               href: item.url
             },
-            type: `a`,
+            type: 'a',
             children: [{
               attributes: {
-                class: `sidebar__navigation__item__name`
+                class: 'sidebar__navigation__item__name'
               },
               text: item.name,
-              type: `div`
+              type: 'div'
             }, {
               attributes: {
-                class: `sidebar__navigation__item__underline`
+                class: 'sidebar__navigation__item__underline'
               },
-              type: `div`
+              type: 'div'
             }, {
               attributes: {
-                class: `sidebar__navigation__item__count`
+                class: 'sidebar__navigation__item__count'
               },
               text: item.count,
-              type: `div`
+              type: 'div'
             }]
           }]
         });
@@ -183,20 +183,20 @@ class UsersProfileLinks extends Module {
       }
       items.push({
         attributes: {
-          class: `sidebar__heading`
+          class: 'sidebar__heading'
         },
         text: section.name,
-        type: `h3`
+        type: 'h3'
       }, {
           attributes: {
-            class: `sidebar__navigation`,
-            title: getFeatureTooltip(`pl`)
+            class: 'sidebar__navigation',
+            title: getFeatureTooltip('pl')
           },
-          type: `ul`,
+          type: 'ul',
           children: list
         });
     }
-    createElements(shared.esgst.sidebar.getElementsByClassName(`sidebar__navigation`)[0], `afterEnd`, items);
+    createElements(shared.esgst.sidebar.getElementsByClassName('sidebar__navigation')[0], 'afterEnd', items);
   }
 }
 
