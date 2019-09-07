@@ -199,7 +199,7 @@ class Discussions extends Module {
       discussion.createdTime = discussion.createdContainer.textContent;
       discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute('data-timestamp')) * 1e3;
       if (this.esgst.giveawaysPath) {
-        discussion.author = discussion.avatar.getAttribute('href').match(/\/user\/(.+)/)[1];
+        discussion.author = (discussion.avatar.getAttribute('href') || discussion.avatar.dataset.href).match(/\/user\/(.+)/)[1];
       } else {
         discussion.author = discussion.createdContainer.nextElementSibling.textContent;
       }

@@ -212,7 +212,7 @@ class GeneralContentLoader extends Module {
       targetObj.url = url.match(/\/profiles\//) ? `/user/${target.textContent}` : url;
 
       const match = targetObj.url.match(/\/(user|group)\/(.+?)(\/.*)?$/);
-      if (!match) {
+      if (!match || (match[1] === 'user' && id !== 'cl_ui') || (match[1] === 'group' && id != 'cl_gi')) {
         return;
       }
 
@@ -254,6 +254,7 @@ class GeneralContentLoader extends Module {
         onClick = true;
 
         if (target.getAttribute('href')) {
+          target.dataset.href = target.getAttribute('href');
           target.removeAttribute('href');
         }
         target.classList.add('esgst-clickable');
