@@ -585,6 +585,8 @@ class Esgst {
       hgm_removeOwned: false,
       hgm_removeWishlisted: false,
       hgm_removeFollowed: false,
+      hgm_removeTagged: false,
+      hgm_tags: [],
       hgm_removeBanned: false,
       giveawayColumns: [`ged`, `endTime`, `winners`, `startTime`, `touhou`, `inviteOnly`, `whitelist`, `group`, `regionRestricted`, `level`],
       giveawayPanel: [`ttec`, `gwc`, `gwr`, `gptw`, `gp`, `elgb`, `sgTools`],
