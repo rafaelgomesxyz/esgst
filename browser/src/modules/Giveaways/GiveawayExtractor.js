@@ -215,6 +215,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     ge.cacheId = (this.esgst.parameters.url && this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//)[0]) || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
     ge.count = 0;
+    ge.endless = 0;
     ge.total = 0;
     ge.extracted = [];
     ge.bumpLink = ``;
@@ -299,6 +300,7 @@ class GiveawaysGiveawayExtractor extends Module {
               ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
               ge.ignoreGiveawayComments = gSettings.ge_ignoreGiveawayComments;
               ge.count = 0;
+              ge.endless = 0;
               ge.total = 0;
               ge.extracted = [];
               ge.bumpLink = ``;
@@ -324,9 +326,6 @@ class GiveawaysGiveawayExtractor extends Module {
           }
           ge.mainCallback = resolve;
           if (ge.callback) {
-            createElements(ge.results, `beforeEnd`, [{
-              type: `div`
-            }]);
             ge.callback();
           } else {
             ge.isCanceled = false;
@@ -344,9 +343,6 @@ class GiveawaysGiveawayExtractor extends Module {
             }, {
               text: ` giveaways extracted.`,
               type: `node`
-            }]);
-            createElements(ge.results, `beforeEnd`, [{
-              type: `div`
             }]);
             let giveaways = this.ge_getGiveaways(ge, shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst === `ge` ? ge.context : this.esgst.pageOuterWrap);
             this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge));
@@ -375,10 +371,6 @@ class GiveawaysGiveawayExtractor extends Module {
         [`div`, `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
 
-      createElements(ge.results, `beforeEnd`, [{
-        type: `div`
-      }]);
-
       let html = ``;
       let points = 0;
       let total = 0;
@@ -397,12 +389,14 @@ class GiveawaysGiveawayExtractor extends Module {
         }
 
         if (total % 50 === 0) {
-          ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
+          ge.results.insertAdjacentHTML(`beforeEnd`, html);
+          ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
           await shared.common.timeout(100);
         }
       }
       if (total % 50 !== 0) {
-        ge.results.lastElementChild.insertAdjacentHTML(`beforeEnd`, html);
+        ge.results.insertAdjacentHTML(`beforeEnd`, html);
+        ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
       }
       this.esgst.modules.common.createElements(ge.progress, `inner`, [{
         text: total,
@@ -411,7 +405,7 @@ class GiveawaysGiveawayExtractor extends Module {
         text: ` giveaways extracted.`,
         type: `node`
       }]);
-      await endless_load(ge.results.lastElementChild, false, `ge`);
+      await endless_load(ge.results, false, `ge`, ge.endless);
       const items = [{
         attributes: {
           class: `markdown esgst-text-center`
@@ -494,17 +488,18 @@ class GiveawaysGiveawayExtractor extends Module {
         ge.mainCallback();
         ge.mainCallback = null;
         ge.count = 0;
-        await endless_load(ge.results.lastElementChild, false, `ge`);
+        await endless_load(ge.results, false, `ge`, ge.endless);
         ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
         ge.progress.firstElementChild.remove();
         ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
         filtered = false;
-        children = ge.results.lastElementChild.children;
+        children = ge.results.querySelectorAll(`:scope > .esgst-es-page-${ge.endless}`);
         for (i = children.length - 1; i > -1 && !filtered; --i) {
           if (children[i].firstElementChild.classList.contains(`esgst-hidden`)) {
             filtered = true;
           }
         }
+        ge.endless++;
         this.checkScroll(ge, filtered);
       } else {
         if (ge.extracted.indexOf(code) < 0) {
@@ -556,8 +551,9 @@ class GiveawaysGiveawayExtractor extends Module {
             return;
           }
           if (giveaway) {
-            createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
-            giveaway.html = ge.results.lastElementChild.lastElementChild.outerHTML;
+            createElements(ge.results, `beforeEnd`, giveaway.html);
+            ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
+            giveaway.html = ge.results.lastElementChild.outerHTML;
             ge.cache[ge.cacheId].codes.push(code);
             ge.cache[ge.cacheId].giveaways[code] = giveaway;
             ge.points += giveaway.points;
@@ -602,8 +598,9 @@ class GiveawaysGiveawayExtractor extends Module {
               giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
             } catch (error) {}
             if (giveaway) {
-              createElements(ge.results.lastElementChild, `beforeEnd`, giveaway.html);
-              giveaway.html = ge.results.lastElementChild.lastElementChild.outerHTML;
+              createElements(ge.results, `beforeEnd`, giveaway.html);
+              ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
+              giveaway.html = ge.results.lastElementChild.outerHTML;
               ge.cache[ge.cacheId].codes.push(code);
               ge.cache[ge.cacheId].giveaways[code] = giveaway;
               ge.points += giveaway.points;
@@ -780,7 +777,7 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.mainCallback();
       ge.mainCallback = null;
     }
-    await endless_load(ge.results.lastElementChild, false, `ge`);
+    await endless_load(ge.results, false, `ge`, ge.endless);
     const items = [{
       attributes: {
         class: `markdown esgst-text-center`
