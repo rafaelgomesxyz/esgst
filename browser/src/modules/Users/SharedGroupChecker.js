@@ -65,7 +65,7 @@ class UsersSharedGroupChecker extends Module {
     if (profile.sgcPopup) {
       profile.sgcPopup.open();
     } else {
-      if (!(await permissions.requestUi(['steamCommunity'], 'sgc'))) {
+      if (!(await permissions.requestUi([['steamCommunity']], 'sgc'))) {
         return;
       }
 

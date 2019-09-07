@@ -99,7 +99,7 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_sendAll() {
-    if (!(await permissions.requestUi(['googleWebApp'], 'ust'))) {
+    if (!(await permissions.requestUi([['googleWebApp']], 'ust'))) {
       return;
     }
 
@@ -177,7 +177,7 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_send() {
-    if (!(await permissions.requestUi(['googleWebApp'], 'ust'))) {
+    if (!(await permissions.requestUi([['googleWebApp']], 'ust'))) {
       return;
     }
 

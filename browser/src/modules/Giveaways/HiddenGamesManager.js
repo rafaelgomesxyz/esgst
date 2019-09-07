@@ -129,7 +129,7 @@ class GiveawaysHiddenGamesManager extends Module {
     }
 
     if (gSettings.permissionsDenied.indexOf('revadike') < 0) {
-      await permissions.requestUi(['revadike'], 'hgm', false, true);
+      await permissions.requestUi([['revadike']], 'hgm', false, true);
     }
 
     obj.running = true;

@@ -1063,7 +1063,7 @@ class GeneralMultiManager extends Module {
 
   async mm_hideGames(obj, items) {
     if (gSettings.permissionsDenied.indexOf('revadike') < 0) {
-      await permissions.requestUi(['revadike'], 'mm', false, true);
+      await permissions.requestUi([['revadike']], 'mm', false, true);
     }
 
     const values = obj.textAreaGames.value

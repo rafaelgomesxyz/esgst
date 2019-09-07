@@ -205,7 +205,7 @@ class GiveawaysUnsentGiftSender extends Module {
   }
 
   async ugs_start(ugs) {
-    if (gSettings.ugs_checkMember && !(await permissions.requestUi(['steamCommunity'], 'ugs'))) {
+    if (gSettings.ugs_checkMember && !(await permissions.requestUi([['steamCommunity']], 'ugs'))) {
       return;
     }
 

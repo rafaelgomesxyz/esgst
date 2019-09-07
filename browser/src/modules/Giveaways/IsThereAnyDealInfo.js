@@ -40,7 +40,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       return;
     }
 
-    if (!(await permissions.requestUi(['isThereAnyDeal'], 'itadi', true))) {
+    if (!(await permissions.requestUi([['isThereAnyDeal']], 'itadi', true))) {
       return;
     }
 

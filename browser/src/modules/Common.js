@@ -641,7 +641,7 @@ class Common extends Module {
   }
 
   async addNoCvGames(games, event) {
-    if (!(await permissions.requestUi(['googleWebApp'], 'ncv', !event))) {
+    if (!(await permissions.requestUi([['googleWebApp']], 'ncv', !event))) {
       return;
     }
 
@@ -3241,7 +3241,7 @@ class Common extends Module {
   }
 
   async setSMRecentUsernameChanges() {
-    if (!(await permissions.requestUi(['googleWebApp'], 'uh'))) {
+    if (!(await permissions.requestUi([['googleWebApp']], 'uh'))) {
       return;
     }
 
@@ -5458,7 +5458,7 @@ class Common extends Module {
   }
 
   async hideGames(obj, unhide) {
-    const isUsingRevadike = await permissions.contains(['revadike']);
+    const isUsingRevadike = await permissions.contains([['revadike']]);
     let hasCacheChanged = false;
     let api = JSON.parse(this.getValue('sgdbCache', `{ "lastUpdate": 0 }`));
     if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {

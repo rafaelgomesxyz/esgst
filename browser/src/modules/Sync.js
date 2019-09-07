@@ -335,31 +335,6 @@ function cancelSync(syncer) {
 
 //use: syncer.results, syncer.progress, syncer.parameters
 async function sync(syncer) {
-  if (!syncer.isSilent) {
-    const permissionKeys = [];
-    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames) || (syncer.parameters && syncer.parameters.SteamFriends) || (!syncer.parameters && gSettings.syncSteamFriends)) {
-      permissionKeys.push('steamApi');
-    }
-    if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
-      permissionKeys.push('steamStore');
-    }
-    if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && gSettings.syncFollowedGames)) {
-      permissionKeys.push('steamCommunity');
-    }
-    if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames)) {
-      permissionKeys.push('server');
-    }
-    if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames) || (syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames) || (syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes) || (syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes)) {
-      permissionKeys.push('googleWebApp');
-    }
-    if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && gSettings.syncDelistedGames)) {
-      permissionKeys.push('steamTracker');
-    }
-    if (!(await permissions.contains(permissionKeys))) {
-      await permissions.requestUi(permissionKeys, 'sync');
-    }
-  }
-
   if (!shared.esgst.firstInstall) {
     await shared.common.setSetting('lastSync', Date.now());
     syncer.results.innerHTML = '';
@@ -548,7 +523,7 @@ async function sync(syncer) {
 
   // sync steam friends
   if ((syncer.parameters && syncer.parameters.SteamFriends) || (!syncer.parameters && gSettings.syncSteamFriends)) {
-    const isPermitted = await permissions.contains(['steamApi']);
+    const isPermitted = await permissions.contains([['steamApi']]);
     if (isPermitted) {
       try {
         const users = [];
@@ -581,7 +556,7 @@ async function sync(syncer) {
     } else {
       syncer.failed.SteamFriends = true;
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-        ['div', permissions.getMessage(['steamApi'])]
+        ['div', permissions.getMessage([['steamApi']])]
       ]);
     }
   }
@@ -661,10 +636,10 @@ async function sync(syncer) {
 
   // sync wishlisted/owned/ignored games
   if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
-    const isPermitted = await permissions.contains(['steamApi', 'steamStore']);
+    const isPermitted = await permissions.contains([['steamApi'], ['steamStore']]);
     if (isPermitted) {
       if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf('revadike') < 0) {
-        await permissions.requestUi(['revadike'], 'sync', true, true);
+        await permissions.requestUi([['revadike']], 'sync', true, true);
       }
       syncer.progress.lastElementChild.textContent = 'Syncing your wishlisted/owned/ignored games...';
       syncer.html = [];
@@ -702,7 +677,7 @@ async function sync(syncer) {
     } else {
       syncer.failed.Games = true;
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-        ['div', permissions.getMessage(['steamApi', 'steamStore'])]
+        ['div', permissions.getMessage([['steamApi'], ['steamStore']])]
       ]);
     }
   }
@@ -714,7 +689,7 @@ async function sync(syncer) {
 
   // sync followed games
   if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && gSettings.syncFollowedGames)) {
-    const isPermitted = await permissions.contains(['steamCommunity']);
+    const isPermitted = await permissions.contains([['steamCommunity']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing your followed games...';
       const response = await shared.common.request({
@@ -743,7 +718,7 @@ async function sync(syncer) {
     } else {
       syncer.failed.FollowedGames = true;
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-        ['div', permissions.getMessage(['steamCommunity'])]
+        ['div', permissions.getMessage([['steamCommunity']])]
       ]);
     }
   }
@@ -769,7 +744,7 @@ async function sync(syncer) {
 
   // sync reduced cv games
   if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames)) {
-    const isPermitted = await permissions.contains(['server', 'googleWebApp']);
+    const isPermitted = await permissions.contains([['server'], ['googleWebApp']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing reduced CV games...';
       try {
@@ -794,7 +769,7 @@ async function sync(syncer) {
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
         ['div', [
           ['i', { class: 'fa fa-times' }],
-          permissions.getMessage(['server', 'googleWebApp'])
+          permissions.getMessage([['server'], ['googleWebApp']])
         ]]
       ]);
     }
@@ -807,7 +782,7 @@ async function sync(syncer) {
 
   // sync no cv games
   if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames)) {
-    const isPermitted = await permissions.contains(['googleWebApp']);
+    const isPermitted = await permissions.contains([['googleWebApp']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing no CV games...';
       try {
@@ -832,7 +807,7 @@ async function sync(syncer) {
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
         ['div', [
           ['i', { class: 'fa fa-times' }],
-          permissions.getMessage(['googleWebApp'])
+          permissions.getMessage([['googleWebApp']])
         ]]
       ]);
     }
@@ -840,7 +815,7 @@ async function sync(syncer) {
 
   // sync hltb times
   if ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes)) {
-    const isPermitted = await permissions.contains(['googleWebApp']);
+    const isPermitted = await permissions.contains([['googleWebApp']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing HLTB times...';
       try {
@@ -876,7 +851,7 @@ async function sync(syncer) {
     } else {
       syncer.failed.HltbTimes = true;
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-        ['div', permissions.getMessage(['googleWebApp'])]
+        ['div', permissions.getMessage([['googleWebApp']])]
       ]);
     }
   }
@@ -888,10 +863,10 @@ async function sync(syncer) {
 
   // sync delisted games
   if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && gSettings.syncDelistedGames)) {
-    const isPermitted = await permissions.contains(['steamTracker']);
+    const isPermitted = await permissions.contains([['steamTracker']]);
     if (isPermitted) {
       if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf('revadike') < 0) {
-        await permissions.requestUi(['revadike'], 'sync', true, true);
+        await permissions.requestUi([['revadike']], 'sync', true, true);
       }
       syncer.progress.lastElementChild.textContent = 'Syncing delisted games...';
       const response = await shared.common.request({ method: 'GET', url: `https://steam-tracker.com/api?action=GetAppListV3` });
@@ -925,7 +900,7 @@ async function sync(syncer) {
     } else {     
       syncer.failed.DelistedGames = true; 
       shared.common.createElements_v2(syncer.results, 'beforeEnd', [
-        ['div', permissions.getMessage(['steamTracker'])]
+        ['div', permissions.getMessage([['steamTracker']])]
       ]);
     }
   }

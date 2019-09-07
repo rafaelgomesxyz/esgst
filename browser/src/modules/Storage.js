@@ -658,13 +658,13 @@ function loadDataManagement(type, isPopup, callback) {
                 result = true;
                 break;
               case 1:
-                result = await permissions.requestUi(['dropbox'], 'storage');
+                result = await permissions.requestUi([['dropbox']], 'storage');
                 break;
               case 2:
-                result = await permissions.requestUi(['googleDrive'], 'storage');
+                result = await permissions.requestUi([['googleDrive']], 'storage');
                 break;
               case 3:
-                result = await permissions.requestUi(['oneDrive'], 'storage');
+                result = await permissions.requestUi([['oneDrive']], 'storage');
                 break;
             }
             if (!result) {
@@ -695,7 +695,7 @@ function loadDataManagement(type, isPopup, callback) {
         title2: title2,
         callback1: () => {
           return new Promise(async resolve => {
-            if (!(await permissions.requestUi(['dropbox'], 'storage'))) {
+            if (!(await permissions.requestUi([['dropbox']], 'storage'))) {
               resolve();
               return;
             }
@@ -717,7 +717,7 @@ function loadDataManagement(type, isPopup, callback) {
         title2: title2,
         callback1: () => {
           return new Promise(async resolve => {
-            if (!(await permissions.requestUi(['googleDrive'], 'storage'))) {
+            if (!(await permissions.requestUi([['googleDrive']], 'storage'))) {
               resolve();
               return;
             }
@@ -739,7 +739,7 @@ function loadDataManagement(type, isPopup, callback) {
         title2: title2,
         callback1: () => {
           return new Promise(async resolve => {
-            if (!(await permissions.requestUi(['oneDrive'], 'storage'))) {
+            if (!(await permissions.requestUi([['oneDrive']], 'storage'))) {
               resolve();
               return;
             }

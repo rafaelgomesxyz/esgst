@@ -134,17 +134,27 @@ class Permissions {
     };
   }
 
-  async contains(keys) {
-    const { permissions, origins } = this.getValues(keys);
-    const result = await browser.runtime.sendMessage({
-      action: 'permissions_contains',
-      permissions: JSON.stringify({ permissions, origins })
-    });
+  async contains(keyArrays) {
+    let result = false;
+
+    for (const keys of keyArrays) {
+      const { permissions, origins } = this.getValues(keys);
+
+      result = result || await browser.runtime.sendMessage({
+        action: 'permissions_contains',
+        permissions: JSON.stringify({ permissions, origins })
+      });
+
+      if (result) {
+        break;
+      }
+    }
+
     return result;
   }
 
   async request(keys) {
-    let result = await this.contains(keys);
+    let result = await this.contains([keys]);
     if (result) {
       return result;
     }
@@ -190,9 +200,9 @@ class Permissions {
     return { permissions, origins };
   }
 
-  requestUi(keys, messageKey, isProgrammatic, isOptional) {
+  requestUi(keyArrays, messageKey, isProgrammatic, isOptional) {
     return new Promise(async resolve => {
-      const result = await this.contains(keys);
+      const result = await this.contains(keyArrays);
       if (result) {
         resolve(result);
         return;
@@ -201,7 +211,7 @@ class Permissions {
         new Popup({
           icon: 'fa-lock',
           isTemp: true,
-          title: this.getMessage(keys, messageKey, isOptional)
+          title: this.getMessage(keyArrays, messageKey, isOptional)
         }).open();
         resolve(false);
         return;
@@ -209,37 +219,47 @@ class Permissions {
       const popup = new Popup({
         icon: 'fa-lock',
         isTemp: true,
-        title: isOptional ? `In order to perform this action faster, ESGST requires the optional permissions below. Click "Proceed" to decide if you want to grant them or not. If you decide to deny them, the action will still be performed, but may take longer.` : `In order to perform this action, ESGST requires the permissions below. Click "Proceed" to decide if you want to grant them or not.`
+        title: isOptional ? `In order to perform this action faster, ESGST recommends one of the optional permission combos below. Click the lock icon next to a combo to grant all of the permissions for that combo. If you decide not to grant permissions for any combo, the action will still be performed, but may take longer.` : `In order to perform this action, ESGST requires one of the permission combos below. Click the lock icon next to a combo to grant all of the permissions for that combo.`
       });
-      for (const key of keys) {
-        const permission = this.permissions[key];
+
+      for (const keys of keyArrays) {
+        const items = [];
+
+        for (const key of keys) {
+          const permission = this.permissions[key];
+          
+          items.push(
+            ['div', [
+              ['strong', `${permission.values.join(`, `)}: `],
+              permission.messages[messageKey]
+            ]]
+          );
+        }
+
         shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
-          ['div', [
-            ['strong', `${permission.values.join(`, `)}: `],
-            permission.messages[messageKey]
+          ['br'],
+          ['div', { style: 'align-items: center; border: 1px solid #ccc; display: flex; justify-content: center; padding: 5px;' }, [
+            ['div', { style: 'margin-right: 5px;' }, items],
+            ['i', { class: 'fa fa-lock', style: 'border-left: 5px solid #ccc; cursor: pointer; font-size: 24px; padding-left: 5px;', onclick: async event => { await this.request(keys); event.target.remove(); } }]
           ]]
         ]);
       }
-      popup.description.appendChild(new ButtonSet({
-        color1: 'grey',
-        color2: '',
-        icon1: 'fa-arrow-circle-right',
-        icon2: '',
-        title1: 'Proceed',
-        title2: '',
-        callback1: async () => {
-          popup.close();
-          resolve(await this.request(keys));
-        }
-      }).set);
+
       popup.onCloseByUser = () => resolve(false);
       popup.open();
     });
   }
 
-  getMessage(keys, messageKey, isOptional) {
-    const { permissions, origins } = this.getValues(keys);
-    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant the optional permissions: ${permissions.concat(origins).join(`, `)}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant the required permissions: ${permissions.concat(origins).join(`, `)}`}`;
+  getMessage(keyArrays, messageKey, isOptional) {
+    const combos = [];
+
+    for (const keys of keyArrays) {
+      const { permissions, origins } = this.getValues(keys);
+
+      combos.push(permissions.concat(origins).join(` + `));
+    }
+
+    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}`}`;
   }
 }
 

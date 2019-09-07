@@ -86,7 +86,7 @@ class GiveawaysArchiveSearcher extends Module {
       return;
     }
 
-    if (!(await permissions.requestUi(['steamCommunity'], 'as', !obj.isPopup))) {
+    if (!(await permissions.requestUi([['steamCommunity']], 'as', !obj.isPopup))) {
       return;
     }
 

@@ -32,7 +32,7 @@ class GiveawaysRealCVCalculator extends Module {
 
   async init() {
     if (this.esgst.newGiveawayPath) {
-      if (!(await permissions.requestUi(['steamStore'], 'rcvc', true))) {
+      if (!(await permissions.requestUi([['steamStore']], 'rcvc', true))) {
         return;
       }
 

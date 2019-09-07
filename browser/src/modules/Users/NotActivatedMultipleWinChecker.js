@@ -278,7 +278,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   async namwc_start(obj) {
-    if (gSettings.ust && !(await permissions.requestUi(['googleWebApp'], 'namwc'))) {
+    if (gSettings.ust && !(await permissions.requestUi([['googleWebApp']], 'namwc'))) {
       return;
     }
 

@@ -53,7 +53,7 @@ class TradesHaveWantListChecker extends Module {
   }
 
   async hwlc_openPopup(obj) {
-    if (!(await permissions.requestUi(['steamApi', 'steamStore'], 'hwlc'))) {
+    if (!(await permissions.requestUi([['steamApi'], ['steamStore']], 'hwlc'))) {
       return;
     }
 

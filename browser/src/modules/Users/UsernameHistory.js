@@ -115,7 +115,7 @@ class UsersUsernameHistory extends Module {
   }
 
   async uh_toggle(box, profile, list) {
-    if (!(await permissions.requestUi(['googleWebApp'], 'uh'))) {
+    if (!(await permissions.requestUi([['googleWebApp']], 'uh'))) {
       return;
     }
 

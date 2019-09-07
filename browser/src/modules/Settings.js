@@ -1099,7 +1099,7 @@ class Settings {
     context.appendChild(table.table);
     for (const key in permissions.permissions) {
       const permission = permissions.permissions[key];
-      const toggleSwitch = new ToggleSwitch(null, null, true, '', false, false, '', await permissions.contains([key]));
+      const toggleSwitch = new ToggleSwitch(null, null, true, '', false, false, '', await permissions.contains([[key]]));
       toggleSwitch.onEnabled = () => {
         this.grantedPermissions.add(key);
         this.deniedPermissions.delete(key);
@@ -1879,7 +1879,7 @@ class Settings {
         // noinspection JSIgnoredPromiseFromCall
         shared.common.setThemeVersion(ID, version);
         button.addEventListener('click', async () => {
-          if (!(await permissions.requestUi(['userStyles'], 'settings'))) {
+          if (!(await permissions.requestUi([['userStyles']], 'settings'))) {
             return;
           }
 

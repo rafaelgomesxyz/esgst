@@ -610,7 +610,7 @@ class CommentsCommentFormattingHelper extends Module {
           let imgur = url.nextElementSibling;
           title = popout.popout.firstElementChild.nextElementSibling.firstElementChild;
           imgur.addEventListener('click', async () => {
-            if (!(await permissions.requestUi(['imgur'], 'cfh'))) {
+            if (!(await permissions.requestUi([['imgur']], 'cfh'))) {
               return;
             }
 
