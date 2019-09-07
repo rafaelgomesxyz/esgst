@@ -287,12 +287,13 @@ class GiveawaysGiveawayExtractor extends Module {
       icon2: 'fa-times',
       title1: 'Extract',
       title2: 'Cancel',
-      callback1: (hasScrolled) => {
+      callback1: () => {
         return new Promise(resolve => {
-          if (hasScrolled && ge.isComplete) {
+          if (ge.hasScrolled && ge.isComplete) {
             resolve();
             return;
           }
+          ge.hasScrolled = false;
           ge.isComplete = false;
           if (ge.cacheWarning || ge.reExtract) {
             if (ge.reExtract) {
@@ -466,7 +467,8 @@ class GiveawaysGiveawayExtractor extends Module {
 
   checkScroll(ge, filtered) {
     if (!ge.cacheWarning && !ge.isCanceled && ge.set && !ge.set.busy && (ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >= ge.popup.scrollable.scrollHeight || filtered)) {
-      ge.set.trigger(true);
+      ge.hasScrolled = true;
+      ge.set.trigger();
     }
   }
 
